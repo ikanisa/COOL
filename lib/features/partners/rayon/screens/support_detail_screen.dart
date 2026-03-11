@@ -90,7 +90,7 @@ class SupportDetailScreen extends StatelessWidget {
         final initiativeAsync = ref.watch(
           supportDetailInitiativeProvider(initiativeId),
         );
-        final membership = ref.watch(rayonMembershipProvider).valueOrNull;
+        final membership = ref.watch(rayonUserMembershipProvider).valueOrNull;
         final selectedAmount = ref.watch(
           supportDetailAmountProvider(initiativeId),
         );

@@ -25,7 +25,7 @@ class SupportScreen extends StatelessWidget {
       builder: (context, ref, _) {
         final initiativesAsync = ref.watch(rayonInitiativesProvider);
         final summaryAsync = ref.watch(rayonInitiativesSummaryProvider);
-        final membershipAsync = ref.watch(rayonMembershipProvider);
+        final membershipAsync = ref.watch(rayonUserMembershipProvider);
         final notifier = ref.read(rayonSportsProvider.notifier);
 
         return Scaffold(

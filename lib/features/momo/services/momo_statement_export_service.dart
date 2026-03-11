@@ -54,6 +54,8 @@ class MomoStatementExportService {
 
   static const String _brandName = 'COOL APP';
   static const String _logoAssetPath = 'assets/images/cool_logo_mark.png';
+  static const String _baseFontAssetPath = 'assets/fonts/Lato-Regular.ttf';
+  static const String _boldFontAssetPath = 'assets/fonts/Lato-Bold.ttf';
   static final DateFormat _fileStampFormat = DateFormat('yyyyMMdd_HHmm');
   static final DateFormat _dateTimeFormat = DateFormat('dd MMM yyyy, HH:mm');
   static final NumberFormat _moneyFormat = NumberFormat.decimalPattern('en_US');
@@ -94,6 +96,7 @@ class MomoStatementExportService {
   }) async {
     final document = pw.Document();
     final logo = await _loadPdfLogo();
+    final fonts = await _loadPdfFonts();
     final incomingTotal = entries
         .where((entry) => entry.isCredit)
         .fold<int>(0, (sum, entry) => sum + entry.amount);
@@ -105,6 +108,7 @@ class MomoStatementExportService {
       pw.MultiPage(
         pageFormat: PdfPageFormat.a4.landscape,
         margin: const pw.EdgeInsets.all(26),
+        theme: _pdfTheme(fonts),
         footer: (context) => _pdfFooter(context),
         build: (context) => <pw.Widget>[
           _pdfHeader(metadata: metadata, logo: logo),
@@ -203,6 +207,7 @@ class MomoStatementExportService {
   }) async {
     final document = pw.Document();
     final logo = await _loadPdfLogo();
+    final fonts = await _loadPdfFonts();
     final confirmedTotal = entries
         .where((entry) => entry.isConfirmed)
         .fold<int>(0, (sum, entry) => sum + entry.amount);
@@ -216,6 +221,7 @@ class MomoStatementExportService {
       pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
         margin: const pw.EdgeInsets.all(26),
+        theme: _pdfTheme(fonts),
         footer: (context) => _pdfFooter(context),
         build: (context) => <pw.Widget>[
           _pdfHeader(metadata: metadata, logo: logo),
@@ -825,6 +831,24 @@ class MomoStatementExportService {
     return pw.MemoryImage(logoBytes);
   }
 
+  Future<_PdfFontBundle?> _loadPdfFonts() async {
+    try {
+      final base = await _assets.load(_baseFontAssetPath);
+      final bold = await _assets.load(_boldFontAssetPath);
+      return _PdfFontBundle(base: pw.Font.ttf(base), bold: pw.Font.ttf(bold));
+    } catch (_) {
+      return null;
+    }
+  }
+
+  pw.ThemeData? _pdfTheme(_PdfFontBundle? fonts) {
+    if (fonts == null) {
+      return null;
+    }
+
+    return pw.ThemeData.withFont(base: fonts.base, bold: fonts.bold);
+  }
+
   Future<Uint8List?> _loadLogoBytes() async {
     try {
       final asset = await _assets.load(_logoAssetPath);
@@ -860,4 +884,11 @@ class MomoStatementExportService {
         .map((part) => '${part[0].toUpperCase()}${part.substring(1)}')
         .join(' ');
   }
+}
+
+class _PdfFontBundle {
+  const _PdfFontBundle({required this.base, required this.bold});
+
+  final pw.Font base;
+  final pw.Font bold;
 }

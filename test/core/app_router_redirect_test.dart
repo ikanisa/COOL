@@ -27,7 +27,7 @@ void main() {
       );
     });
 
-    test('requires incomplete profiles to finish registration first', () {
+    test('allows incomplete profiles to access protected routes', () {
       expect(
         resolveAppRedirect(
           location: AppRoutes.rayonTickets,
@@ -35,10 +35,7 @@ void main() {
           hasProfile: false,
           sessionPhone: '+250788123456',
         ),
-        AppRoutes.registerLocation(
-          phone: '+250788123456',
-          redirect: AppRoutes.rayonTickets,
-        ),
+        isNull,
       );
     });
 

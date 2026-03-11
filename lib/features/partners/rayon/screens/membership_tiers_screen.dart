@@ -23,7 +23,7 @@ class MembershipTiersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, _) {
-        final membershipAsync = ref.watch(rayonMembershipProvider);
+        final membershipAsync = ref.watch(rayonUserMembershipProvider);
 
         return Scaffold(
           backgroundColor: AppColors.bg,
@@ -40,14 +40,12 @@ class MembershipTiersScreen extends StatelessWidget {
                   elevation: 0,
                   scrolledUnderElevation: 0,
                   leading: IconButton(
-                    onPressed: () =>
-                        context.go('/partners/rayon-sports'),
+                    onPressed: () => context.go('/partners/rayon-sports'),
                     icon: const Icon(Icons.arrow_back_rounded),
                   ),
                   title: Text(
                     'Membership Plans',
-                    style:
-                        RsTextStyles.sectionTitle(color: RsColors.rsWhite),
+                    style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
                   ),
                 ),
                 SliverPadding(

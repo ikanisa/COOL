@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../core/config/deep_link_config.dart';
 import '../../../core/providers/referral_providers.dart';
@@ -14,6 +15,7 @@ import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/member_row.dart';
 import '../../../shared/widgets/qr_share_sheet.dart';
+import '../../../shared/widgets/contact_picker_sheet.dart';
 import '../../../shared/widgets/section_title.dart';
 import '../../../shared/widgets/status_badge.dart';
 import '../models/group_contribution.dart';
@@ -110,6 +112,49 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
       shareText: 'Join ${group.name} on Cool: ${shareUri.toString()}',
       analyticsTargetType: 'group_invite',
     );
+  }
+
+  Future<void> _inviteFromContacts(GroupDetail detail) async {
+    final contacts = await ContactPickerSheet.show(
+      context,
+      multiSelect: true,
+      title: 'Invite to ${detail.group.name}',
+      subtitle: 'Select contacts to send the invite link',
+    );
+
+    if (contacts.isEmpty || !mounted) return;
+
+    // Resolve the invite URL
+    final group = detail.group;
+    final baseUri = group.inviteCode != null && group.inviteCode!.isNotEmpty
+        ? DeepLinkConfig.inviteUri(group.inviteCode!)
+        : ((group.id?.isNotEmpty ?? false)
+              ? DeepLinkConfig.groupDetailUri(group.id!)
+              : Uri.https(DeepLinkConfig.host, '/groups'));
+
+    var shareUri = baseUri;
+    try {
+      final inviteCode = group.inviteCode?.trim().isNotEmpty == true
+          ? group.inviteCode!.trim().toUpperCase()
+          : 'GROUP-${group.id ?? 'DETAIL'}';
+      final referralLink = await ref
+          .read(referralRepositoryProvider)
+          .createInviteLink(
+            inviteCode: inviteCode,
+            baseUri: baseUri,
+            shareChannel: 'contacts',
+            campaignId: 'group_captain',
+          );
+      shareUri = referralLink.uri;
+    } catch (_) {
+      // Fall back to plain URL.
+    }
+
+    if (!mounted) return;
+
+    final shareText =
+        'Join ${group.name} on Cool! 🎉\n${shareUri.toString()}';
+    await SharePlus.instance.share(ShareParams(text: shareText));
   }
 
   Widget _buildErrorState(String error) {
@@ -340,6 +385,12 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
                 ),
               ),
             ],
+          ),
+          const SizedBox(height: 10),
+          CoolButton(
+            label: '👥 Invite from Contacts',
+            variant: CoolButtonVariant.secondary,
+            onTap: () => _inviteFromContacts(detail),
           ),
           const SizedBox(height: 28),
 

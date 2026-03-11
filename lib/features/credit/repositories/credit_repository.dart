@@ -21,6 +21,7 @@ class CreditRepository {
     }
 
     final latest = scoreRows.first;
+    final factorPayload = _asMapOrEmpty(latest['factor_payload']);
     final lastUpdated =
         _parseDateTime(latest['generated_at']) ??
         _parseDateTime(latest['recorded_at']);
@@ -52,6 +53,7 @@ class CreditRepository {
       groupContributionCount: _asInt(latest['group_contribution_count']),
       activeMonthCount: _asInt(latest['active_month_count']),
       score: _asInt(latest['score']),
+      scoreVersion: _stringOrNull(latest['score_version']),
       scoreBand: _stringOrNull(latest['score_band']),
       summary:
           _stringOrNull(latest['score_summary']) ??
@@ -64,6 +66,15 @@ class CreditRepository {
           lastUpdated,
       lastUpdated: lastUpdated,
       reasonCodes: _asStringList(latest['reason_codes']),
+      creditEntryCount: _asInt(factorPayload['credit_entry_count']),
+      debitEntryCount: _asInt(factorPayload['debit_entry_count']),
+      creditTotal: _asInt(factorPayload['credit_total']),
+      debitTotal: _asInt(factorPayload['debit_total']),
+      groupTotal: _asInt(factorPayload['group_total']),
+      averageGroupContribution: _asInt(
+        factorPayload['average_group_contribution'],
+      ),
+      kycStatus: _stringOrNull(factorPayload['kyc_status']),
       factors: factors,
       history: scoreRows
           .map(
@@ -83,6 +94,10 @@ class CreditRepository {
           .reversed
           .toList(growable: false),
     );
+  }
+
+  Future<void> refreshMyScore() async {
+    await _client.rpc('refresh_my_credit_score');
   }
 
   String _historyLabel(DateTime? value) {
@@ -137,11 +152,11 @@ class CreditRepository {
         await _client
             .from('credit_score_runs')
             .select(
-              'score, score_band, score_summary, statement_count, '
+              'score, score_version, score_band, score_summary, statement_count, '
               'group_contribution_count, active_month_count, '
               'cashflow_stability, savings_discipline, group_reliability, '
-              'profile_strength, reason_codes, scoring_window_start, '
-              'scoring_window_end, generated_at',
+              'profile_strength, reason_codes, factor_payload, '
+              'scoring_window_start, scoring_window_end, generated_at',
             )
             .eq('user_id', userId)
             .order('generated_at', ascending: false)
@@ -181,6 +196,7 @@ class CreditRepository {
             'group_reliability': _asInt(row['group_participation']),
             'profile_strength': _asInt(row['community_activity']),
             'reason_codes': _legacyReasonCodes(row),
+            'factor_payload': const <String, dynamic>{},
             'scoring_window_start': row['recorded_at'],
             'scoring_window_end': row['recorded_at'],
             'generated_at': row['recorded_at'],
@@ -230,6 +246,13 @@ List<Map<String, dynamic>> _asListOfMaps(dynamic value) {
       .whereType<Map>()
       .map((row) => Map<String, dynamic>.from(row))
       .toList(growable: false);
+}
+
+Map<String, dynamic> _asMapOrEmpty(dynamic value) {
+  if (value is Map) {
+    return Map<String, dynamic>.from(value);
+  }
+  return const <String, dynamic>{};
 }
 
 int _asInt(dynamic value) => _tryAsInt(value) ?? 0;

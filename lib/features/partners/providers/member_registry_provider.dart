@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../rayon/models/rs_models.dart';
+import 'rayon_sports_provider.dart';
 import '../repositories/rayon_sports_repository.dart';
 
 const _registryPageSize = 20;
@@ -11,9 +12,7 @@ final memberRegistryProvider =
       MemberRegistryNotifier,
       MemberRegistryState
     >((ref) {
-      final repository = ref.watch(
-        Provider<RayonSportsRepository>((ref) => RayonSportsRepository()),
-      );
+      final repository = ref.watch(rayonSportsRepositoryProvider);
       return MemberRegistryNotifier(repository: repository);
     });
 

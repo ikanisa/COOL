@@ -72,6 +72,7 @@ dependencies:
   crypto: ^3.0.7
   pdf: ^3.11.3
   syncfusion_flutter_xlsio: ^32.2.9
+  flutter_contacts: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -86,6 +87,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/fonts/
 
 flutter_launcher_icons:
   android: true

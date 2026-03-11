@@ -2,12 +2,86 @@ class MomoStatementBundle {
   const MomoStatementBundle({
     this.walletEntries = const <MomoWalletEntry>[],
     this.savingsEntries = const <SavingsStatementEntry>[],
+    this.walletTotalCount = 0,
+    this.savingsTotalCount = 0,
   });
 
   final List<MomoWalletEntry> walletEntries;
   final List<SavingsStatementEntry> savingsEntries;
+  final int walletTotalCount;
+  final int savingsTotalCount;
 
   bool get isEmpty => walletEntries.isEmpty && savingsEntries.isEmpty;
+  bool get hasMoreWallet => walletEntries.length < walletTotalCount;
+  bool get hasMoreSavings => savingsEntries.length < savingsTotalCount;
+
+  MomoStatementBundle copyWith({
+    List<MomoWalletEntry>? walletEntries,
+    List<SavingsStatementEntry>? savingsEntries,
+    int? walletTotalCount,
+    int? savingsTotalCount,
+  }) {
+    return MomoStatementBundle(
+      walletEntries: walletEntries ?? this.walletEntries,
+      savingsEntries: savingsEntries ?? this.savingsEntries,
+      walletTotalCount: walletTotalCount ?? this.walletTotalCount,
+      savingsTotalCount: savingsTotalCount ?? this.savingsTotalCount,
+    );
+  }
+}
+
+class MomoStatementPage<T> {
+  const MomoStatementPage({this.entries = const [], this.totalCount = 0});
+
+  final List<T> entries;
+  final int totalCount;
+
+  bool hasMore({required int offset}) => offset + entries.length < totalCount;
+}
+
+class MomoStatementQuery {
+  const MomoStatementQuery({
+    this.startDate,
+    this.endDate,
+    this.limit = 1000,
+    this.offset = 0,
+  });
+
+  final DateTime? startDate;
+  final DateTime? endDate;
+  final int limit;
+  final int offset;
+
+  DateTime? get startAtUtc {
+    final value = startDate;
+    if (value == null) {
+      return null;
+    }
+    return DateTime(value.year, value.month, value.day).toUtc();
+  }
+
+  DateTime? get endBeforeUtc {
+    final value = endDate;
+    if (value == null) {
+      return null;
+    }
+    return DateTime(value.year, value.month, value.day + 1).toUtc();
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    return other is MomoStatementQuery &&
+        other.startDate == startDate &&
+        other.endDate == endDate &&
+        other.limit == limit &&
+        other.offset == offset;
+  }
+
+  @override
+  int get hashCode => Object.hash(startDate, endDate, limit, offset);
 }
 
 class MomoWalletEntry {

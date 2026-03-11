@@ -22,7 +22,7 @@ import '../../features/mobility/screens/driver_profile_screen.dart';
 import '../../features/mobility/screens/mobility_home_screen.dart';
 import '../../features/mobility/screens/schedule_trip_screen.dart';
 import '../../features/mobility/screens/trip_board_screen.dart';
-import '../../features/momo/screens/momo_sms_history_screen.dart';
+
 import '../../features/momo/screens/momo_screen.dart';
 import '../../features/partners/screens/bank_partner_screen.dart';
 import '../../features/partners/screens/fans_screen.dart';
@@ -115,7 +115,7 @@ abstract final class AppRoutes {
   static const credit = '/credit';
   static const missions = '/missions';
   static const profile = '/profile';
-  static const profileMomoSms = '/profile/momo-sms';
+
   static const scanner = '/scanner';
 
   // Admin routes
@@ -483,12 +483,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 path: AppRoutes.profile,
                 pageBuilder: (context, state) =>
                     const NoTransitionPage(child: ProfileScreen()),
-                routes: [
-                  GoRoute(
-                    path: 'momo-sms',
-                    builder: (context, state) => const MomoSmsHistoryScreen(),
-                  ),
-                ],
               ),
             ],
           ),

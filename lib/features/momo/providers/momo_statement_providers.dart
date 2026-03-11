@@ -10,13 +10,13 @@ final momoStatementRepositoryProvider = Provider<MomoStatementRepository>((
   return MomoStatementRepository();
 });
 
-final momoStatementBundleProvider =
-    FutureProvider.autoDispose<MomoStatementBundle>((ref) async {
+final momoStatementBundleProvider = FutureProvider.autoDispose
+    .family<MomoStatementBundle, MomoStatementQuery>((ref, query) async {
       final userId = ref.watch(authProvider).user?.id;
       if (userId == null || userId.isEmpty) {
         return const MomoStatementBundle();
       }
 
       final repository = ref.watch(momoStatementRepositoryProvider);
-      return repository.loadStatementBundle(userId);
+      return repository.loadStatementBundle(userId, query: query);
     });

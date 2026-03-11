@@ -119,8 +119,7 @@ class _TicketConfirmationScreenState
 
   @override
   Widget build(BuildContext context) {
-    final ticketAsync = ref.watch(rayonTicketByIdProvider(widget.ticketId));
-    final notifier = ref.read(rayonSportsProvider.notifier);
+    final ticketAsync = ref.watch(rayonUserTicketByIdProvider(widget.ticketId));
 
     return RayonScreenScaffold(
       title: 'Ticket Status',
@@ -130,7 +129,7 @@ class _TicketConfirmationScreenState
           if (ticket == null) {
             return RayonErrorView(
               message: 'Ticket not found.',
-              onRetry: notifier.load,
+              onRetry: () => ref.invalidate(rayonUserTicketsProvider),
             );
           }
 
@@ -247,8 +246,10 @@ class _TicketConfirmationScreenState
           );
         },
         loading: RayonLoadingView.new,
-        error: (error, _) =>
-            RayonErrorView(message: error.toString(), onRetry: notifier.load),
+        error: (error, _) => RayonErrorView(
+          message: error.toString(),
+          onRetry: () => ref.invalidate(rayonUserTicketsProvider),
+        ),
       ),
     );
   }

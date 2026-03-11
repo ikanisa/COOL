@@ -13,7 +13,7 @@ import '../../../core/config/country_catalog.dart';
 import '../../../core/l10n/locale_provider.dart';
 import '../../../core/providers/notification_settings_provider.dart';
 import '../../../core/providers/supported_countries_provider.dart';
-import '../../../core/services/momo_sms_policy_service.dart';
+
 import '../../../core/status/providers/cool_status_provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/phone_validator.dart';
@@ -312,8 +312,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         CoolCountryCatalog.all;
     final creditDashboard = ref.watch(creditDashboardProvider).valueOrNull;
     final driverState = ref.watch(driverProvider);
-    final smsPolicy = MomoSmsPolicyService.instance;
-    final isSmsVerificationAvailable = smsPolicy.isFeatureAvailable;
+
     final profile = _buildProfileData(
       authState: authState,
       locale: locale,
@@ -431,13 +430,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           value: 'Active',
                           valueColor: AppColors.accent,
                         ),
-                        if (isSmsVerificationAvailable)
-                          _SettingsRow(
-                            emoji: '📨',
-                            label: 'M-Money Statements',
-                            value: 'Ledger, filters & export',
-                            onTap: () => context.push('/profile/momo-sms'),
-                          ),
+
                       ],
                     ),
                     const SizedBox(height: 14),

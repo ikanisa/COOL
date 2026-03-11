@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,7 +11,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   late MomoStatementExportService service;
-  const metadata = StatementExportMetadata(
+  final metadata = StatementExportMetadata(
     statementTitle: 'Wallet Statement',
     fileStem: 'cool_wallet_statement',
     userName: 'Jean Bosco',
@@ -28,9 +27,17 @@ void main() {
     final logoBytes = Uint8List.fromList(
       File('assets/images/cool_logo_mark.png').readAsBytesSync(),
     );
+    final regularFontBytes = Uint8List.fromList(
+      File('assets/fonts/Lato-Regular.ttf').readAsBytesSync(),
+    );
+    final boldFontBytes = Uint8List.fromList(
+      File('assets/fonts/Lato-Bold.ttf').readAsBytesSync(),
+    );
     service = MomoStatementExportService(
       assets: _TestAssetBundle(<String, Uint8List>{
         'assets/images/cool_logo_mark.png': logoBytes,
+        'assets/fonts/Lato-Regular.ttf': regularFontBytes,
+        'assets/fonts/Lato-Bold.ttf': boldFontBytes,
       }),
     );
   });
@@ -38,7 +45,7 @@ void main() {
   test('wallet PDF export returns a branded PDF file', () async {
     final export = await service.buildWalletExport(
       format: StatementExportFormat.pdf,
-      entries: const <MomoWalletEntry>[
+      entries: <MomoWalletEntry>[
         MomoWalletEntry(
           id: 'wallet-1',
           entryType: 'credit',
@@ -68,7 +75,7 @@ void main() {
   test('wallet Excel export returns an xlsx workbook', () async {
     final export = await service.buildWalletExport(
       format: StatementExportFormat.excel,
-      entries: const <MomoWalletEntry>[
+      entries: <MomoWalletEntry>[
         MomoWalletEntry(
           id: 'wallet-2',
           entryType: 'debit',
@@ -98,7 +105,7 @@ void main() {
   test('savings CSV export includes branded statement metadata', () async {
     final export = await service.buildSavingsExport(
       format: StatementExportFormat.csv,
-      entries: const <SavingsStatementEntry>[
+      entries: <SavingsStatementEntry>[
         SavingsStatementEntry(
           id: 'savings-1',
           groupId: 'group-1',
@@ -109,7 +116,7 @@ void main() {
           reference: 'MOMO-7788',
         ),
       ],
-      metadata: const StatementExportMetadata(
+      metadata: StatementExportMetadata(
         statementTitle: 'Group Savings Statement',
         fileStem: 'cool_group_savings_statement',
         userName: 'Jean Bosco',
@@ -141,7 +148,7 @@ class _TestAssetBundle extends CachingAssetBundle {
   Future<ByteData> load(String key) async {
     final bytes = _assets[key];
     if (bytes == null) {
-      throw FlutterError('Missing asset for test bundle: $key');
+      throw StateError('Missing asset for test bundle: $key');
     }
     return ByteData.view(bytes.buffer);
   }

@@ -38,6 +38,8 @@
 		<string>Cool lets you choose and share images from your photo library.</string>
 		<key>NFCReaderUsageDescription</key>
 		<string>Cool uses NFC for phone-to-phone sharing and MoMo tap experiences.</string>
+		<key>NSContactsUsageDescription</key>
+		<string>Cool uses contacts to help you invite friends to groups and share content.</string>
 		<key>UIBackgroundModes</key>
 		<array>
 			<string>remote-notification</string>

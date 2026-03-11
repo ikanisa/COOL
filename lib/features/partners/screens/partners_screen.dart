@@ -11,6 +11,7 @@ import '../../../features/partners/providers/partner_provider.dart';
 import '../../../features/partners/rayon/models/rs_models.dart';
 import '../../../features/partners/providers/rayon_sports_provider.dart';
 import '../../../features/partners/rayon/widgets/rs_membership_card.dart';
+import '../../../features/partners/widgets/partner_brand_mark.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
@@ -605,86 +606,84 @@ class _BankPartnerCard extends StatelessWidget {
       onTap: () => context.push('/partners/${partner.slug}'),
       child: CoolCard(
         gradient: AppColors.accentGradient,
-        child: Stack(
-          children: [
-            Positioned(
-              right: -5,
-              bottom: 5,
-              child: Text(
-                partner.emoji,
-                style: TextStyle(
-                  fontSize: 50,
-                  color: Colors.white.withValues(alpha: 0.08),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.accent.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: AppColors.accent.withValues(alpha: 0.3),
+                        ),
+                      ),
+                      child: Text(
+                        'Banking Partner',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.accent,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  PartnerBrandMark(
+                    partner: partner,
+                    width: 122,
+                    height: 58,
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 5,
+                      horizontal: 12,
+                      vertical: 10,
                     ),
-                    decoration: BoxDecoration(
-                      color: AppColors.accent.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: AppColors.accent.withValues(alpha: 0.3),
-                      ),
-                    ),
-                    child: Text(
-                      '${partner.emoji} Banking Partner',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.accent,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    partner.name,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.text,
-                    ),
-                  ),
-                  Text(
-                    partner.subtitle ?? '',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.text2,
-                    ),
-                  ),
-                  const SizedBox(height: 14),
-                  Row(
-                    children: [
-                      _bankStat(
-                        partner.fanCount > 0
-                            ? partner.fanCount.toString()
-                            : '—',
-                        'Active Groups',
-                        AppColors.accent,
-                      ),
-                      const SizedBox(width: 20),
-                      _bankStat(
-                        partner.clubCount > 0
-                            ? _formatRwf(partner.clubCount)
-                            : '—',
-                        'RWF Held',
-                        AppColors.accent,
-                      ),
-                    ],
                   ),
                 ],
               ),
-            ),
-          ],
+              const SizedBox(height: 12),
+              Text(
+                partner.name,
+                style: GoogleFonts.dmSans(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.text,
+                ),
+              ),
+              Text(
+                partner.subtitle ?? '',
+                style: GoogleFonts.dmSans(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.text2,
+                ),
+              ),
+              const SizedBox(height: 14),
+              Row(
+                children: [
+                  _bankStat(
+                    partner.fanCount > 0 ? partner.fanCount.toString() : '—',
+                    'Active Groups',
+                    AppColors.accent,
+                  ),
+                  const SizedBox(width: 20),
+                  _bankStat(
+                    partner.clubCount > 0 ? _formatRwf(partner.clubCount) : '—',
+                    'RWF Held',
+                    AppColors.accent,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

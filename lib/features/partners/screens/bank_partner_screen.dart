@@ -14,6 +14,7 @@ import '../models/partner.dart';
 import '../models/partner_service.dart';
 import '../providers/partner_provider.dart';
 import '../providers/partner_service_provider.dart';
+import '../widgets/partner_brand_mark.dart';
 
 const _urwegoProductsUrl = 'https://www.urwegofinance.com/productsandservices/';
 const _urwegoInternetBankingUrl = 'https://internetbanking.urwegofinance.com/';
@@ -580,88 +581,90 @@ class _BankHero extends StatelessWidget {
 
     return CoolCard(
       gradient: AppColors.accentGradient,
-      child: Stack(
-        children: [
-          Positioned(
-            right: -8,
-            top: -6,
-            child: Text(
-              partner.emoji,
-              style: TextStyle(
-                fontSize: 82,
-                color: Colors.white.withValues(alpha: 0.08),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(6),
-            child: Column(
+      child: Padding(
+        padding: const EdgeInsets.all(6),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.accent.withValues(alpha: 0.14),
+                      borderRadius: BorderRadius.circular(999),
+                      border: Border.all(
+                        color: AppColors.accent.withValues(alpha: 0.25),
+                      ),
+                    ),
+                    child: Text(
+                      'Official partner content',
+                      style: GoogleFonts.dmSans(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.accent,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                PartnerBrandMark(
+                  partner: partner,
+                  width: 138,
+                  height: 72,
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 5,
+                    horizontal: 14,
+                    vertical: 12,
                   ),
-                  decoration: BoxDecoration(
-                    color: AppColors.accent.withValues(alpha: 0.14),
-                    borderRadius: BorderRadius.circular(999),
-                    border: Border.all(
-                      color: AppColors.accent.withValues(alpha: 0.25),
-                    ),
-                  ),
-                  child: Text(
-                    '${partner.emoji} Official partner content',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.accent,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 14),
-                Text(
-                  partner.name,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.text,
-                  ),
-                ),
-                if (partner.subtitle != null) ...[
-                  const SizedBox(height: 4),
-                  Text(
-                    partner.subtitle!,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.text2,
-                    ),
-                  ),
-                ],
-                const SizedBox(height: 12),
-                Text(
-                  description,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
-                    height: 1.5,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: [
-                    for (final tag in config.heroTags)
-                      _HeroTag(icon: tag.icon, label: tag.label),
-                  ],
                 ),
               ],
             ),
-          ),
-        ],
+            const SizedBox(height: 14),
+            Text(
+              partner.name,
+              style: GoogleFonts.dmSans(
+                fontSize: 24,
+                fontWeight: FontWeight.w800,
+                color: AppColors.text,
+              ),
+            ),
+            if (partner.subtitle != null) ...[
+              const SizedBox(height: 4),
+              Text(
+                partner.subtitle!,
+                style: GoogleFonts.dmSans(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.text2,
+                ),
+              ),
+            ],
+            const SizedBox(height: 12),
+            Text(
+              description,
+              style: GoogleFonts.dmSans(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: AppColors.text2,
+                height: 1.5,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: [
+                for (final tag in config.heroTags)
+                  _HeroTag(icon: tag.icon, label: tag.label),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

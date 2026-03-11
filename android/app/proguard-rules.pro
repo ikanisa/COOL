@@ -49,6 +49,9 @@
 -keep class im.nfc.flutter_nfc_kit.** { *; }
 -dontwarn im.nfc.flutter_nfc_kit.**
 
+# ── flutter_contacts ──
+-keep class co.nicola.flutter_contacts.** { *; }
+
 # ── Google Maps ──────────────────────────────────────────────
 -keep class com.google.android.gms.maps.** { *; }
 -dontwarn com.google.android.gms.maps.**

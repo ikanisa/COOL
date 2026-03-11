@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../core/theme/app_colors.dart';
+import 'contact_picker_sheet.dart';
 import 'qr_share_sheet.dart';
 
 /// A reusable share card that provides WhatsApp + native share + QR code.
@@ -76,6 +77,21 @@ class ShareCard extends StatelessWidget {
     await SharePlus.instance.share(ShareParams(text: '$text\n$resolvedUrl'));
   }
 
+  Future<void> _shareViaContacts(BuildContext context) async {
+    final contacts = await ContactPickerSheet.show(
+      context,
+      multiSelect: false,
+      title: 'Share via Contact',
+      subtitle: 'Select a contact to share with',
+    );
+
+    if (contacts.isEmpty) return;
+
+    final resolvedUrl = await _resolvedShareUrl();
+    final text = shareText ?? title;
+    await SharePlus.instance.share(ShareParams(text: '$text\n$resolvedUrl'));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -133,15 +149,24 @@ class ShareCard extends StatelessWidget {
                   },
                 ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 8),
               // Native share
               Expanded(
                 child: _ShareButton(
                   icon: Icons.share_rounded,
-                  label: 'Share Link',
+                  label: 'Share',
                   onTap: () {
                     _shareLink();
                   },
+                ),
+              ),
+              const SizedBox(width: 8),
+              // Contacts share
+              Expanded(
+                child: _ShareButton(
+                  icon: Icons.contacts_rounded,
+                  label: 'Contacts',
+                  onTap: () => _shareViaContacts(context),
                 ),
               ),
             ],

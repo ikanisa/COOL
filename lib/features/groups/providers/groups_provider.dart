@@ -298,10 +298,7 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
       return;
     }
 
-    state = state.copyWith(
-      isCreatingGroup: false,
-      createGroupError: null,
-    );
+    state = state.copyWith(isCreatingGroup: false, createGroupError: null);
   }
 
   Future<GroupContribution?> contribute(String groupId, int amount) async {

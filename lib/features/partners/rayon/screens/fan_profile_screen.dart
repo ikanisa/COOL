@@ -20,142 +20,171 @@ import '../models/rs_models.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../widgets/rs_tier_badge.dart';
 
-class FanProfileScreen extends StatelessWidget {
+class FanProfileScreen extends ConsumerStatefulWidget {
   const FanProfileScreen({super.key});
 
   @override
+  ConsumerState<FanProfileScreen> createState() => _FanProfileScreenState();
+}
+
+class _FanProfileScreenState extends ConsumerState<FanProfileScreen> {
+  bool _isRecoveringMembership = false;
+
+  Future<void> _ensureMembership(BuildContext context) async {
+    if (_isRecoveringMembership) {
+      return;
+    }
+
+    setState(() => _isRecoveringMembership = true);
+    final notifier = ref.read(rayonSportsProvider.notifier);
+
+    try {
+      final result = await notifier.ensureMembership();
+      ref.invalidate(rayonUserMembershipProvider);
+      ref.invalidate(rayonUserAchievementsProvider);
+
+      if (!context.mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(result.message)));
+    } catch (error) {
+      if (!context.mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(error.toString())));
+    } finally {
+      if (mounted) {
+        setState(() => _isRecoveringMembership = false);
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Consumer(
-      builder: (context, ref, _) {
-        final membershipAsync = ref.watch(rayonMembershipProvider);
-        final achievementsAsync = ref.watch(rayonAchievementsProvider);
-        final ticketsAsync = ref.watch(rayonTicketsProvider);
-        final ordersAsync = ref.watch(rayonShopOrdersProvider);
-        final user = ref.watch(currentUserProvider);
-        final isRecoveringMembership = ref.watch(rayonActionLoadingProvider);
+    final membershipAsync = ref.watch(rayonUserMembershipProvider);
+    final achievementsAsync = ref.watch(rayonUserAchievementsProvider);
+    final ticketsAsync = ref.watch(rayonUserTicketsProvider);
+    final ordersAsync = ref.watch(rayonShopOrdersProvider);
+    final user = ref.watch(currentUserProvider);
 
-        final tickets = ticketsAsync.valueOrNull ?? const <RsTicket>[];
+    final tickets = ticketsAsync.valueOrNull ?? const <RsTicket>[];
 
-        return Scaffold(
-          backgroundColor: AppColors.bg,
-          body: CoolScreenBackground(
-            primaryColor: RsColors.rsBlue,
-            secondaryColor: RsColors.rsGold,
-            child: CustomScrollView(
-              slivers: [
-                SliverAppBar(
-                  pinned: true,
-                  expandedHeight: 0,
-                  backgroundColor: Colors.transparent,
-                  surfaceTintColor: Colors.transparent,
-                  elevation: 0,
-                  scrolledUnderElevation: 0,
-                  leading: IconButton(
-                    onPressed: () => context.go('/partners/rayon-sports'),
-                    icon: const Icon(Icons.arrow_back_rounded),
+    return Scaffold(
+      backgroundColor: AppColors.bg,
+      body: CoolScreenBackground(
+        primaryColor: RsColors.rsBlue,
+        secondaryColor: RsColors.rsGold,
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              pinned: true,
+              expandedHeight: 0,
+              backgroundColor: Colors.transparent,
+              surfaceTintColor: Colors.transparent,
+              elevation: 0,
+              scrolledUnderElevation: 0,
+              leading: IconButton(
+                onPressed: () => context.go('/partners/rayon-sports'),
+                icon: const Icon(Icons.arrow_back_rounded),
+              ),
+              title: Text(
+                'Fan Profile',
+                style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(18, 12, 18, 96),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  membershipAsync.when(
+                    data: (membership) => _ProfileHero(
+                      membership: membership,
+                      user: user,
+                      matchesAttended: _matchesAttended(tickets),
+                      isRecoveringMembership: _isRecoveringMembership,
+                      onRecoverMembership: () => _ensureMembership(context),
+                    ),
+                    loading: () => const CoolSkeleton.card(),
+                    error: (error, stackTrace) => _ProfileHero(
+                      membership: null,
+                      user: user,
+                      matchesAttended: _matchesAttended(tickets),
+                      isRecoveringMembership: _isRecoveringMembership,
+                      onRecoverMembership: () => _ensureMembership(context),
+                    ),
                   ),
-                  title: Text(
-                    'Fan Profile',
+                  const SizedBox(height: 24),
+                  Text(
+                    'Achievements',
                     style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
                   ),
-                ),
-                SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(18, 12, 18, 96),
-                  sliver: SliverList(
-                    delegate: SliverChildListDelegate([
-                      membershipAsync.when(
-                        data: (membership) => _ProfileHero(
-                          membership: membership,
-                          user: user,
-                          matchesAttended: _matchesAttended(tickets),
-                          isRecoveringMembership: isRecoveringMembership,
-                          onRecoverMembership: () =>
-                              _ensureMembership(context, ref),
-                        ),
-                        loading: () => const CoolSkeleton.card(),
-                        error: (error, stackTrace) => _ProfileHero(
-                          membership: null,
-                          user: user,
-                          matchesAttended: _matchesAttended(tickets),
-                          isRecoveringMembership: isRecoveringMembership,
-                          onRecoverMembership: () =>
-                              _ensureMembership(context, ref),
-                        ),
+                  const SizedBox(height: 12),
+                  achievementsAsync.when(
+                    data: (achievements) => SizedBox(
+                      height: 106,
+                      child: achievements.isEmpty
+                          ? const _EmptyStrip(
+                              message: 'No achievements unlocked yet.',
+                            )
+                          : ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: achievements.length,
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(width: 14),
+                              itemBuilder: (context, index) =>
+                                  RsAchievementBadge(
+                                    achievement: achievements[index],
+                                  ),
+                            ),
+                    ),
+                    loading: () => const SizedBox(
+                      height: 106,
+                      child: _AchievementSkeletonRow(),
+                    ),
+                    error: (error, stackTrace) => const SizedBox(
+                      height: 106,
+                      child: _EmptyStrip(
+                        message: 'Achievements unavailable.',
                       ),
-                      const SizedBox(height: 24),
-                      Text(
-                        'Achievements',
-                        style: RsTextStyles.sectionTitle(
-                          color: RsColors.rsWhite,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      achievementsAsync.when(
-                        data: (achievements) => SizedBox(
-                          height: 106,
-                          child: achievements.isEmpty
-                              ? const _EmptyStrip(
-                                  message: 'No achievements unlocked yet.',
-                                )
-                              : ListView.separated(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: achievements.length,
-                                  separatorBuilder: (context, index) =>
-                                      const SizedBox(width: 14),
-                                  itemBuilder: (context, index) =>
-                                      RsAchievementBadge(
-                                        achievement: achievements[index],
-                                      ),
-                                ),
-                        ),
-                        loading: () => const SizedBox(
-                          height: 106,
-                          child: _AchievementSkeletonRow(),
-                        ),
-                        error: (error, stackTrace) => const SizedBox(
-                          height: 106,
-                          child: _EmptyStrip(
-                            message: 'Achievements unavailable.',
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      Text(
-                        'Recent Orders',
-                        style: RsTextStyles.sectionTitle(
-                          color: RsColors.rsWhite,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      _RecentOrdersSection(ordersAsync: ordersAsync),
-                      const SizedBox(height: 24),
-                      membershipAsync.when(
-                        data: (membership) => _BenefitsSection(
-                          tier: membership?.tier ?? FanTier.blue,
-                        ),
-                        loading: () => const CoolSkeleton.card(),
-                        error: (error, stackTrace) =>
-                            const _BenefitsSection(tier: FanTier.blue),
-                      ),
-                      const SizedBox(height: 24),
-                      membershipAsync.when(
-                        data: (membership) => membership == null
-                            ? const _PendingQrCard()
-                            : _QrAccessCard(
-                                fanId: _displayId(user, membership),
-                                tier: membership.tier,
-                              ),
-                        loading: () => const CoolSkeleton.card(),
-                        error: (error, stackTrace) => const _PendingQrCard(),
-                      ),
-                    ]),
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 24),
+                  Text(
+                    'Recent Orders',
+                    style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
+                  ),
+                  const SizedBox(height: 12),
+                  _RecentOrdersSection(ordersAsync: ordersAsync),
+                  const SizedBox(height: 24),
+                  membershipAsync.when(
+                    data: (membership) => _BenefitsSection(
+                      tier: membership?.tier ?? FanTier.blue,
+                    ),
+                    loading: () => const CoolSkeleton.card(),
+                    error: (error, stackTrace) =>
+                        const _BenefitsSection(tier: FanTier.blue),
+                  ),
+                  const SizedBox(height: 24),
+                  membershipAsync.when(
+                    data: (membership) => membership == null
+                        ? const _PendingQrCard()
+                        : _QrAccessCard(
+                            fanId: _displayId(user, membership),
+                            tier: membership.tier,
+                          ),
+                    loading: () => const CoolSkeleton.card(),
+                    error: (error, stackTrace) => const _PendingQrCard(),
+                  ),
+                ]),
+              ),
             ),
-          ),
-        );
-      },
+          ],
+        ),
+      ),
     );
   }
 }
@@ -989,25 +1018,4 @@ String _orderStatusCopy(OrderStatus status) {
     OrderStatus.delivered => 'Order marked as delivered.',
     OrderStatus.cancelled => 'Order was cancelled before completion.',
   };
-}
-
-Future<void> _ensureMembership(BuildContext context, WidgetRef ref) async {
-  final notifier = ref.read(rayonSportsProvider.notifier);
-
-  try {
-    final result = await notifier.ensureMembership();
-    if (!context.mounted) {
-      return;
-    }
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(result.message)));
-  } catch (error) {
-    if (!context.mounted) {
-      return;
-    }
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(error.toString())));
-  }
 }

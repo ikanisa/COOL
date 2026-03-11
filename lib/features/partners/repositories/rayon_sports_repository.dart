@@ -300,6 +300,20 @@ class RayonSportsRepository {
     });
   }
 
+  Future<List<RsAchievement>> getAchievements({
+    required String userId,
+    required String partnerId,
+  }) async {
+    return _asListOfMaps(
+      await _client
+          .from('rs_achievements')
+          .select()
+          .eq('partner_id', partnerId)
+          .eq('user_id', userId)
+          .order('earned_at', ascending: false),
+    ).map(RsAchievement.fromJson).toList(growable: false);
+  }
+
   /// Create a new fan membership (tier: blue, points: 0).
   Future<RsFanMembership> createFanMembership(
     String userId, {
@@ -377,52 +391,25 @@ class RayonSportsRepository {
     int limit = 20,
     int offset = 0,
   }) async {
-    var query = _client
-        .from('rs_fan_memberships')
-        .select()
-        .eq('partner_id', partnerId);
-
-    if (filterTier != null) {
-      query = query.eq('tier', filterTier.name);
-    }
-    if (region != null && region.isNotEmpty) {
-      query = query.ilike('chapter', '%$region%');
+    if (partnerId.isEmpty) {
+      return const <RsRegistryMember>[];
     }
 
     final rows = _asListOfMaps(
-      await query
-          .order('points', ascending: false)
-          .range(offset, offset + limit - 1),
+      await _client.rpc(
+        'get_rayon_member_registry',
+        params: <String, dynamic>{
+          'p_partner_id': partnerId,
+          'p_search_query': _nullIfBlank(searchQuery),
+          'p_filter_tier': filterTier?.name,
+          'p_region': _nullIfBlank(region),
+          'p_limit': limit,
+          'p_offset': offset,
+        },
+      ),
     );
 
-    final userIds = rows
-        .map((r) => r['user_id']?.toString() ?? '')
-        .where((id) => id.isNotEmpty)
-        .toSet();
-    final names = await _loadUserNames(userIds);
-
-    var members = rows
-        .map(
-          (row) => RsRegistryMember.fromJson(<String, dynamic>{
-            ...row,
-            'display_name': names[row['user_id']?.toString()] ?? 'Rayon Fan',
-          }),
-        )
-        .toList(growable: false);
-
-    // Client-side name filter (user names come from a separate table)
-    if (searchQuery != null && searchQuery.isNotEmpty) {
-      final lower = searchQuery.toLowerCase();
-      members = members
-          .where(
-            (m) =>
-                m.displayName.toLowerCase().contains(lower) ||
-                m.membershipNumber.toLowerCase().contains(lower),
-          )
-          .toList(growable: false);
-    }
-
-    return members;
+    return rows.map(RsRegistryMember.fromJson).toList(growable: false);
   }
 
   // ── Fan Clubs ──────────────────────────────────────────────────────
@@ -877,4 +864,12 @@ Map<String, dynamic> _asMap(dynamic value) {
     return value.map((key, val) => MapEntry('$key', val));
   }
   return const <String, dynamic>{};
+}
+
+String? _nullIfBlank(String? value) {
+  final trimmed = value?.trim();
+  if (trimmed == null || trimmed.isEmpty) {
+    return null;
+  }
+  return trimmed;
 }

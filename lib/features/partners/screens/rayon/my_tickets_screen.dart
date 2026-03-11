@@ -17,8 +17,7 @@ class MyTicketsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ticketsAsync = ref.watch(rayonTicketsProvider);
-    final notifier = ref.read(rayonSportsProvider.notifier);
+    final ticketsAsync = ref.watch(rayonUserTicketsProvider);
 
     return RayonScreenScaffold(
       title: 'My Tickets',
@@ -192,8 +191,10 @@ class MyTicketsScreen extends ConsumerWidget {
           );
         },
         loading: RayonLoadingView.new,
-        error: (error, _) =>
-            RayonErrorView(message: error.toString(), onRetry: notifier.load),
+        error: (error, _) => RayonErrorView(
+          message: error.toString(),
+          onRetry: () => ref.invalidate(rayonUserTicketsProvider),
+        ),
       ),
     );
   }

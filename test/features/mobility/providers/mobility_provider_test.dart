@@ -7,6 +7,7 @@ import 'package:cool_app/core/services/engagement_tracker.dart';
 import 'package:cool_app/core/services/feature_flags_service.dart';
 import 'package:cool_app/core/services/firebase_bootstrap_service.dart';
 import 'package:cool_app/core/services/performance_service.dart';
+import 'package:cool_app/core/models/engagement_feature_flags.dart';
 import 'package:cool_app/features/auth/models/user_profile.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart';
 import 'package:cool_app/features/mobility/models/trip_post_request.dart';
@@ -34,6 +35,8 @@ final _fallbackTripRequest = TripPostRequest(
 void main() {
   late MockMobilityRepository mobilityRepository;
   late MockTripRepository tripRepository;
+  late MockFirebaseBootstrapService mockBootstrap;
+  late MockFeatureFlagsService mockFeatureFlags;
   late MobilityNotifier notifier;
 
   setUpAll(() {
@@ -43,6 +46,14 @@ void main() {
   setUp(() {
     mobilityRepository = MockMobilityRepository();
     tripRepository = MockTripRepository();
+    mockBootstrap = MockFirebaseBootstrapService();
+    mockFeatureFlags = MockFeatureFlagsService();
+
+    when(() => mockBootstrap.initialize()).thenAnswer((_) async => false);
+    when(() => mockFeatureFlags.current).thenReturn(
+      EngagementFeatureFlags.defaults(),
+    );
+
     notifier = MobilityNotifier(
       repository: mobilityRepository,
       tripRepository: tripRepository,
@@ -61,8 +72,8 @@ void main() {
       ),
       crashlytics: CrashlyticsService(),
       engagement: EngagementTracker(
-        bootstrapService: MockFirebaseBootstrapService(),
-        featureFlagsService: MockFeatureFlagsService(),
+        bootstrapService: mockBootstrap,
+        featureFlagsService: mockFeatureFlags,
       ),
       performance: PerformanceService(),
     );

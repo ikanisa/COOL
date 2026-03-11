@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cool_app/core/config/country_catalog.dart';
 import 'package:cool_app/core/providers/supported_countries_provider.dart';
 import 'package:cool_app/core/repositories/supported_countries_repository.dart';
@@ -12,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -61,6 +64,20 @@ Session _fakeSession() {
 }
 
 void main() {
+  late Directory hiveDir;
+
+  setUpAll(() {
+    hiveDir = Directory.systemTemp.createTempSync('hive_auth_test_');
+    Hive.init(hiveDir.path);
+  });
+
+  tearDownAll(() async {
+    await Hive.close();
+    if (hiveDir.existsSync()) {
+      hiveDir.deleteSync(recursive: true);
+    }
+  });
+
   Future<({GoRouter router, MockAuthRepository repository})> pumpRouterApp(
     WidgetTester tester, {
     String initialLocation = AppRoutes.splash,

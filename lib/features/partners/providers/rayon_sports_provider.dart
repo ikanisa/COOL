@@ -51,6 +51,63 @@ final rayonCartCountProvider = Provider<int>((ref) {
   return cart.values.fold<int>(0, (sum, quantity) => sum + quantity);
 });
 
+final rayonUserMembershipProvider =
+    FutureProvider.autoDispose<RsFanMembership?>((ref) async {
+      final userId = ref.watch(rayonCurrentUserIdProvider);
+      if (userId == null || userId.isEmpty) {
+        return null;
+      }
+
+      final partnerId = await ref.watch(rayonPartnerIdProvider.future);
+      if (partnerId.isEmpty) {
+        return null;
+      }
+
+      final repository = ref.watch(rayonSportsRepositoryProvider);
+      return repository.getFanMembership(userId, partnerId);
+    });
+
+final rayonUserAchievementsProvider =
+    FutureProvider.autoDispose<List<RsAchievement>>((ref) async {
+      final userId = ref.watch(rayonCurrentUserIdProvider);
+      if (userId == null || userId.isEmpty) {
+        return const <RsAchievement>[];
+      }
+
+      final partnerId = await ref.watch(rayonPartnerIdProvider.future);
+      if (partnerId.isEmpty) {
+        return const <RsAchievement>[];
+      }
+
+      final repository = ref.watch(rayonSportsRepositoryProvider);
+      return repository.getAchievements(userId: userId, partnerId: partnerId);
+    });
+
+final rayonUserTicketsProvider = FutureProvider.autoDispose<List<RsTicket>>((
+  ref,
+) async {
+  final userId = ref.watch(rayonCurrentUserIdProvider);
+  if (userId == null || userId.isEmpty) {
+    return const <RsTicket>[];
+  }
+
+  final repository = ref.watch(rayonSportsRepositoryProvider);
+  return repository.getMyTickets(userId);
+});
+
+final rayonUserTicketByIdProvider =
+    Provider.family<AsyncValue<RsTicket?>, String>((ref, ticketId) {
+      final tickets = ref.watch(rayonUserTicketsProvider);
+      return tickets.whenData((items) {
+        for (final ticket in items) {
+          if (ticket.id == ticketId) {
+            return ticket;
+          }
+        }
+        return null;
+      });
+    });
+
 final rayonMembershipProvider = Provider<AsyncValue<RsFanMembership?>>((ref) {
   final data = ref.watch(rayonSportsDataProvider);
   return data.whenData((value) => value.membership);

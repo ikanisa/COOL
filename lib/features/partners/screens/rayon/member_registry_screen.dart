@@ -21,7 +21,7 @@ class MemberRegistryScreen extends ConsumerStatefulWidget {
 
 class _MemberRegistryScreenState extends ConsumerState<MemberRegistryScreen> {
   late final TextEditingController _searchController;
-  bool _initialized = false;
+  String? _initializedPartnerId;
 
   @override
   void initState() {
@@ -37,10 +37,9 @@ class _MemberRegistryScreenState extends ConsumerState<MemberRegistryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final partnerIdAsync = ref.watch(rayonLoadedPartnerIdProvider);
+    final partnerIdAsync = ref.watch(rayonPartnerIdProvider);
     final registryState = ref.watch(memberRegistryProvider);
     final registryNotifier = ref.read(memberRegistryProvider.notifier);
-    final rayonNotifier = ref.read(rayonSportsProvider.notifier);
 
     return Scaffold(
       backgroundColor: AppColors.bg,
@@ -53,13 +52,13 @@ class _MemberRegistryScreenState extends ConsumerState<MemberRegistryScreen> {
               if (partnerId.isEmpty) {
                 return RayonErrorView(
                   message: 'Rayon Sports partner not found.',
-                  onRetry: rayonNotifier.load,
+                  onRetry: _retryPartnerLookup,
                 );
               }
 
               // Initialize pagination with the partner ID on first build.
-              if (!_initialized) {
-                _initialized = true;
+              if (_initializedPartnerId != partnerId) {
+                _initializedPartnerId = partnerId;
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   registryNotifier.init(partnerId);
                 });
@@ -204,12 +203,20 @@ class _MemberRegistryScreenState extends ConsumerState<MemberRegistryScreen> {
             loading: RayonLoadingView.new,
             error: (error, _) => RayonErrorView(
               message: error.toString(),
-              onRetry: rayonNotifier.load,
+              onRetry: _retryPartnerLookup,
             ),
           ),
         ),
       ),
     );
+  }
+
+  void _retryPartnerLookup() {
+    setState(() {
+      _initializedPartnerId = null;
+    });
+    ref.invalidate(rayonPartnerIdProvider);
+    ref.invalidate(memberRegistryProvider);
   }
 
   int _listItemCount(
