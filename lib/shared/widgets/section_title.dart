@@ -1,0 +1,59 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../../core/theme/app_colors.dart';
+
+/// A section header row with a bold title and an optional trailing action.
+///
+/// ```dart
+/// SectionTitle(
+///   title: 'My Groups',
+///   actionLabel: 'See all',
+///   onAction: () => context.push('/groups'),
+/// )
+/// ```
+class SectionTitle extends StatelessWidget {
+  const SectionTitle({
+    required this.title,
+    this.actionLabel,
+    this.onAction,
+    super.key,
+  });
+
+  final String title;
+  final String? actionLabel;
+  final VoidCallback? onAction;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: GoogleFonts.dmSans(
+            fontSize: 17,
+            fontWeight: FontWeight.w700,
+            color: AppColors.text,
+          ),
+        ),
+        if (actionLabel != null)
+          GestureDetector(
+            onTap: onAction,
+            behavior: HitTestBehavior.opaque,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: Text(
+                actionLabel!,
+                style: GoogleFonts.dmSans(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.accent,
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}

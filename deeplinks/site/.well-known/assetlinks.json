@@ -1,0 +1,27 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.cool.mobile",
+      "sha256_cert_fingerprints": [
+        "00:AC:EE:17:05:8A:42:64:30:A6:E7:24:E9:A3:1A:01:D5:DA:A7:3F:B4:A7:06:3A:BB:4F:D2:DA:E5:A5:24:03"
+      ]
+    }
+  },
+  {
+    "_comment": "IMPORTANT: After enrolling in Google Play App Signing, add the Play signing key SHA-256 here. Find it at: Play Console → Release → Setup → App signing → App signing key certificate → SHA-256 fingerprint.",
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.cool.mobile",
+      "sha256_cert_fingerprints": [
+        "REPLACE_WITH_PLAY_APP_SIGNING_SHA256"
+      ]
+    }
+  }
+]

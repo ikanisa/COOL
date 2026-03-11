@@ -1,0 +1,488 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../../../core/theme/app_colors.dart';
+import '../../../shared/widgets/cool_skeleton.dart';
+import '../providers/admin_providers.dart';
+
+/// Read-only admin screen for inspecting user profiles and demo seed markers.
+class ManageUsersScreen extends ConsumerWidget {
+  const ManageUsersScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final usersAsync = ref.watch(adminUsersProvider);
+
+    return Scaffold(
+      backgroundColor: AppColors.bg,
+      appBar: AppBar(
+        backgroundColor: AppColors.surface,
+        elevation: 0,
+        title: Text(
+          'Manage Users',
+          style: GoogleFonts.dmSans(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: AppColors.text,
+          ),
+        ),
+        iconTheme: const IconThemeData(color: AppColors.text),
+      ),
+      body: usersAsync.when(
+        loading: () => const Padding(
+          padding: EdgeInsets.all(16),
+          child: CoolSkeletonList(),
+        ),
+        error: (error, _) => Center(
+          child: Text(
+            'Error: $error',
+            style: const TextStyle(color: AppColors.text3),
+          ),
+        ),
+        data: (users) {
+          if (users.isEmpty) {
+            return const Center(
+              child: Text(
+                'No users found',
+                style: TextStyle(color: AppColors.text3),
+              ),
+            );
+          }
+
+          final mockCount = users
+              .where((user) => user['is_mock'] == true)
+              .length;
+          final adminCount = users
+              .where((user) => user['is_admin'] == true)
+              .length;
+          final driverCount = users
+              .where((user) => user['is_driver'] == true)
+              .length;
+          final mockBatches =
+              users
+                  .map((user) => user['mock_batch']?.toString().trim() ?? '')
+                  .where((batch) => batch.isNotEmpty)
+                  .toSet()
+                  .toList(growable: false)
+                ..sort();
+
+          return ListView.separated(
+            padding: const EdgeInsets.all(16),
+            itemCount: users.length + 1,
+            separatorBuilder: (_, index) => index == 0
+                ? const SizedBox(height: 16)
+                : const SizedBox(height: 10),
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return _SummaryCard(
+                  totalUsers: users.length,
+                  mockUsers: mockCount,
+                  adminUsers: adminCount,
+                  driverUsers: driverCount,
+                  mockBatches: mockBatches,
+                );
+              }
+
+              return _UserTile(user: users[index - 1]);
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _SummaryCard extends StatelessWidget {
+  const _SummaryCard({
+    required this.totalUsers,
+    required this.mockUsers,
+    required this.adminUsers,
+    required this.driverUsers,
+    required this.mockBatches,
+  });
+
+  final int totalUsers;
+  final int mockUsers;
+  final int adminUsers;
+  final int driverUsers;
+  final List<String> mockBatches;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'User Inventory',
+            style: GoogleFonts.dmSans(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: AppColors.text,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Demo users are tagged here for cleanup later. Customer-facing screens do not show these markers.',
+            style: GoogleFonts.dmSans(
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+              color: AppColors.text3,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              _MetricChip(label: 'Total', value: totalUsers.toString()),
+              _MetricChip(label: 'Mock', value: mockUsers.toString()),
+              _MetricChip(label: 'Admins', value: adminUsers.toString()),
+              _MetricChip(label: 'Drivers', value: driverUsers.toString()),
+            ],
+          ),
+          if (mockBatches.isNotEmpty) ...[
+            const SizedBox(height: 14),
+            Text(
+              'Cleanup',
+              style: GoogleFonts.dmSans(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: AppColors.text,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (final batch in mockBatches)
+                  _BatchCleanupButton(batch: batch),
+              ],
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _MetricChip extends StatelessWidget {
+  const _MetricChip({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: AppColors.bg,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: RichText(
+        text: TextSpan(
+          style: GoogleFonts.dmSans(color: AppColors.text),
+          children: [
+            TextSpan(
+              text: '$value ',
+              style: const TextStyle(fontWeight: FontWeight.w700),
+            ),
+            TextSpan(
+              text: label,
+              style: const TextStyle(
+                color: AppColors.text3,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _UserTile extends StatelessWidget {
+  const _UserTile({required this.user});
+
+  final Map<String, dynamic> user;
+
+  @override
+  Widget build(BuildContext context) {
+    final fullName = user['full_name']?.toString().trim();
+    final phone = user['phone']?.toString().trim() ?? '';
+    final country = user['country']?.toString().trim() ?? '';
+    final languageCode = user['language_code']?.toString().trim() ?? 'en';
+    final momoProvider = user['momo_provider']?.toString().trim() ?? '';
+    final vehicleType = user['vehicle_type']?.toString().trim() ?? '';
+    final createdAt = user['created_at']?.toString().trim() ?? '';
+    final isMock = user['is_mock'] == true;
+    final isAdmin = user['is_admin'] == true;
+    final isDriver = user['is_driver'] == true;
+    final mockBatch = user['mock_batch']?.toString().trim() ?? '';
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      fullName?.isNotEmpty == true ? fullName! : phone,
+                      style: GoogleFonts.dmSans(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.text,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      phone,
+                      style: GoogleFonts.dmSans(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.text3,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Wrap(
+                spacing: 6,
+                runSpacing: 6,
+                alignment: WrapAlignment.end,
+                children: [
+                  if (isMock)
+                    const _MarkerChip(label: 'Mock', color: Colors.orange),
+                  if (isAdmin)
+                    const _MarkerChip(label: 'Admin', color: Colors.green),
+                  if (isDriver)
+                    const _MarkerChip(label: 'Driver', color: AppColors.blue),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            '$country · ${languageCode.toUpperCase()} · ${momoProvider.isEmpty ? 'momo' : momoProvider}',
+            style: GoogleFonts.dmSans(
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+              color: AppColors.text3,
+            ),
+          ),
+          if (vehicleType.isNotEmpty) ...[
+            const SizedBox(height: 4),
+            Text(
+              'Vehicle: $vehicleType',
+              style: GoogleFonts.dmSans(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: AppColors.text3,
+              ),
+            ),
+          ],
+          if (isMock && mockBatch.isNotEmpty) ...[
+            const SizedBox(height: 6),
+            Text(
+              'Batch: $mockBatch',
+              style: GoogleFonts.dmSans(
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                color: Colors.orange,
+              ),
+            ),
+          ],
+          if (createdAt.isNotEmpty) ...[
+            const SizedBox(height: 6),
+            Text(
+              'Created: $createdAt',
+              style: GoogleFonts.dmSans(
+                fontSize: 11,
+                fontWeight: FontWeight.w400,
+                color: AppColors.text3,
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _MarkerChip extends StatelessWidget {
+  const _MarkerChip({required this.label, required this.color});
+
+  final String label;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.15),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w600,
+          color: color,
+        ),
+      ),
+    );
+  }
+}
+
+class _BatchCleanupButton extends ConsumerStatefulWidget {
+  const _BatchCleanupButton({required this.batch});
+
+  final String batch;
+
+  @override
+  ConsumerState<_BatchCleanupButton> createState() =>
+      _BatchCleanupButtonState();
+}
+
+class _BatchCleanupButtonState extends ConsumerState<_BatchCleanupButton> {
+  bool _isLoading = false;
+
+  Future<void> _purgeBatch() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: AppColors.surface,
+          title: Text(
+            'Remove Mock Batch?',
+            style: GoogleFonts.dmSans(
+              fontSize: 17,
+              fontWeight: FontWeight.w700,
+              color: AppColors.text,
+            ),
+          ),
+          content: Text(
+            'This deletes all rows tagged ${widget.batch} from the database. '
+            'If your current admin account belongs to this batch, you may lose access immediately after cleanup.',
+            style: GoogleFonts.dmSans(
+              fontSize: 13,
+              fontWeight: FontWeight.w400,
+              color: AppColors.text3,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
+              ),
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('Delete Batch'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmed != true || !mounted) {
+      return;
+    }
+
+    setState(() => _isLoading = true);
+    try {
+      final result = await ref
+          .read(adminRepositoryProvider)
+          .purgeMockBatch(widget.batch);
+
+      ref.invalidate(adminUsersProvider);
+      ref.invalidate(adminPartnersProvider);
+      ref.invalidate(adminPartnerServicesProvider(null));
+
+      if (!mounted) {
+        return;
+      }
+
+      final deleted = result['deleted'];
+      final summary = deleted is Map
+          ? deleted.entries
+                .where((entry) {
+                  final value = entry.value;
+                  return value is num && value > 0;
+                })
+                .map((entry) => '${entry.key}: ${entry.value}')
+                .take(4)
+                .join(', ')
+          : '';
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            summary.isEmpty
+                ? 'Removed mock batch ${widget.batch}.'
+                : 'Removed ${widget.batch}. $summary',
+          ),
+        ),
+      );
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Cleanup failed: $error')));
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton.icon(
+      onPressed: _isLoading ? null : _purgeBatch,
+      icon: _isLoading
+          ? const SizedBox(
+              width: 14,
+              height: 14,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
+          : const Icon(Icons.delete_outline_rounded, size: 16),
+      style: OutlinedButton.styleFrom(
+        foregroundColor: Colors.orange,
+        side: const BorderSide(color: Colors.orange),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      ),
+      label: Text(
+        widget.batch,
+        style: GoogleFonts.dmSans(fontSize: 12, fontWeight: FontWeight.w600),
+      ),
+    );
+  }
+}

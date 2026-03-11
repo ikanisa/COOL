@@ -1,0 +1,136 @@
+class MomoStatementBundle {
+  const MomoStatementBundle({
+    this.walletEntries = const <MomoWalletEntry>[],
+    this.savingsEntries = const <SavingsStatementEntry>[],
+  });
+
+  final List<MomoWalletEntry> walletEntries;
+  final List<SavingsStatementEntry> savingsEntries;
+
+  bool get isEmpty => walletEntries.isEmpty && savingsEntries.isEmpty;
+}
+
+class MomoWalletEntry {
+  const MomoWalletEntry({
+    required this.id,
+    required this.entryType,
+    required this.ledgerStatus,
+    required this.amount,
+    required this.currency,
+    required this.occurredAt,
+    required this.txCategory,
+    required this.cashflowBucket,
+    required this.label,
+    this.counterpartyName,
+    this.reference,
+    this.description,
+  });
+
+  final String id;
+  final String entryType;
+  final String ledgerStatus;
+  final int amount;
+  final String currency;
+  final DateTime occurredAt;
+  final String txCategory;
+  final String cashflowBucket;
+  final String label;
+  final String? counterpartyName;
+  final String? reference;
+  final String? description;
+
+  bool get isCredit => entryType == 'credit';
+  bool get isDebit => entryType == 'debit';
+
+  factory MomoWalletEntry.fromJson(Map<String, dynamic> json) {
+    return MomoWalletEntry(
+      id: json['id']?.toString() ?? '',
+      entryType: json['entry_type']?.toString() ?? 'debit',
+      ledgerStatus: json['ledger_status']?.toString() ?? 'draft',
+      amount: _asInt(json['amount']),
+      currency: json['currency']?.toString() ?? 'RWF',
+      occurredAt:
+          _parseDateTime(json['tx_datetime']) ??
+          _parseDateTime(json['created_at']) ??
+          DateTime.now(),
+      txCategory: json['tx_category']?.toString() ?? 'uncategorized',
+      cashflowBucket: json['cashflow_bucket']?.toString() ?? 'unknown',
+      label:
+          json['statement_label']?.toString() ??
+          json['description']?.toString() ??
+          _titleize(json['tx_category']?.toString() ?? json['entry_type']),
+      counterpartyName: _nonEmpty(json['counterparty_name']),
+      reference: _nonEmpty(json['external_reference']),
+      description: _nonEmpty(json['description']),
+    );
+  }
+}
+
+class SavingsStatementEntry {
+  const SavingsStatementEntry({
+    required this.id,
+    required this.groupId,
+    required this.groupName,
+    required this.amount,
+    required this.status,
+    required this.createdAt,
+    this.reference,
+  });
+
+  final String id;
+  final String groupId;
+  final String groupName;
+  final int amount;
+  final String status;
+  final DateTime createdAt;
+  final String? reference;
+
+  bool get isConfirmed => status == 'confirmed';
+
+  factory SavingsStatementEntry.fromJson(Map<String, dynamic> json) {
+    return SavingsStatementEntry(
+      id: json['id']?.toString() ?? '',
+      groupId: json['group_id']?.toString() ?? '',
+      groupName: json['group_name']?.toString() ?? 'Savings group',
+      amount: _asInt(json['amount']),
+      status: json['status']?.toString() ?? 'pending',
+      createdAt: _parseDateTime(json['created_at']) ?? DateTime.now(),
+      reference: _nonEmpty(json['momo_reference']),
+    );
+  }
+}
+
+int _asInt(dynamic value) {
+  if (value is int) {
+    return value;
+  }
+  if (value is num) {
+    return value.toInt();
+  }
+  return int.tryParse(value?.toString() ?? '') ?? 0;
+}
+
+DateTime? _parseDateTime(dynamic value) {
+  if (value == null) {
+    return null;
+  }
+  return DateTime.tryParse(value.toString());
+}
+
+String? _nonEmpty(dynamic value) {
+  final text = value?.toString().trim() ?? '';
+  return text.isEmpty ? null : text;
+}
+
+String _titleize(String? raw) {
+  final normalized = raw?.trim() ?? '';
+  if (normalized.isEmpty) {
+    return 'Wallet transaction';
+  }
+
+  return normalized
+      .split('_')
+      .where((part) => part.isNotEmpty)
+      .map((part) => '${part[0].toUpperCase()}${part.substring(1)}')
+      .join(' ');
+}

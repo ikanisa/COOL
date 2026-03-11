@@ -1,0 +1,169 @@
+import '../models/cool_status.dart';
+import '../../../features/partners/rayon/models/rs_models.dart';
+
+/// A suggested "next best action" for the user.
+class CoolQuest {
+  const CoolQuest({
+    required this.id,
+    required this.emoji,
+    required this.title,
+    required this.subtitle,
+    required this.route,
+    this.priority = 0,
+  });
+
+  final String id;
+  final String emoji;
+  final String title;
+  final String subtitle;
+
+  /// GoRouter route to navigate when CTA is tapped.
+  final String route;
+
+  /// Higher = more important (shown first).
+  final int priority;
+}
+
+/// Pure-Dart client-side engine that reads user state and generates
+/// ranked quest suggestions.
+///
+/// This engine does NOT call any API. It operates entirely on
+/// local state already available to the app.
+class QuestEngine {
+  const QuestEngine._();
+
+  /// Generate quests from current user state. Returns at most [maxQuests].
+  static List<CoolQuest> generate({
+    required CoolStatus status,
+    FanMembership? membership,
+    int groupCount = 0,
+    int activeGroupGoalPercent = 0,
+    int matchTicketsThisMonth = 0,
+    int tripStreakCount = 0,
+    int pendingMomoCount = 0,
+    bool hasPostedTrip = false,
+    int maxQuests = 3,
+  }) {
+    final quests = <CoolQuest>[];
+
+    // ─── 1. Near next tier ──────────────────────────────────
+    if (status.tier != FanTier.platinum && status.pointsToNextTier <= 50) {
+      final nextTier = _nextTierLabel(status.tier);
+      quests.add(CoolQuest(
+        id: 'near_tier',
+        emoji: '📈',
+        title: 'Almost $nextTier!',
+        subtitle: '${status.pointsToNextTier} points to unlock $nextTier tier',
+        route: '/profile',
+        priority: 90,
+      ));
+    }
+
+    // ─── 2. Group at high progress ──────────────────────────
+    if (activeGroupGoalPercent >= 70 && activeGroupGoalPercent < 100) {
+      quests.add(CoolQuest(
+        id: 'group_push',
+        emoji: '🎯',
+        title: 'Your group is close!',
+        subtitle: '$activeGroupGoalPercent% of goal — contribute to finish',
+        route: '/groups',
+        priority: 85,
+      ));
+    }
+
+    // ─── 3. No match tickets this month ─────────────────────
+    if (matchTicketsThisMonth == 0) {
+      quests.add(CoolQuest(
+        id: 'match_attend',
+        emoji: '⚽',
+        title: 'Attend a match',
+        subtitle: 'Earn 10 pts for match attendance',
+        route: '/partners/rayon-sports/tickets',
+        priority: 70,
+      ));
+    }
+
+    // ─── 4. Trip streak close to milestone ──────────────────
+    if (tripStreakCount > 0 && tripStreakCount % 5 == 4) {
+      quests.add(CoolQuest(
+        id: 'trip_streak',
+        emoji: '🚗',
+        title: 'One more trip!',
+        subtitle: '${tripStreakCount + 1} trips for a streak bonus',
+        route: '/mobility',
+        priority: 75,
+      ));
+    }
+
+    // ─── 5. Post a trip (driver) ────────────────────────────
+    if (!hasPostedTrip) {
+      quests.add(CoolQuest(
+        id: 'post_trip',
+        emoji: '📍',
+        title: 'Post your route',
+        subtitle: 'Help others find a ride & earn 10 pts',
+        route: '/mobility/schedule',
+        priority: 40,
+      ));
+    }
+
+    // ─── 6. Pending MoMo confirmations ──────────────────────
+    if (pendingMomoCount > 0) {
+      quests.add(CoolQuest(
+        id: 'pending_momo',
+        emoji: '📱',
+        title: 'Confirm transaction',
+        subtitle: '$pendingMomoCount pending MoMo confirmation${pendingMomoCount > 1 ? "s" : ""}',
+        route: '/momo',
+        priority: 80,
+      ));
+    }
+
+    // ─── 7. Join a group ────────────────────────────────────
+    if (groupCount == 0) {
+      quests.add(CoolQuest(
+        id: 'join_group',
+        emoji: '👥',
+        title: 'Join a savings group',
+        subtitle: 'Earn 10 pts per contribution',
+        route: '/groups',
+        priority: 60,
+      ));
+    }
+
+    // ─── 8. No fan club ─────────────────────────────────────
+    if (membership == null) {
+      quests.add(CoolQuest(
+        id: 'join_club',
+        emoji: '🏟️',
+        title: 'Become a Rayon fan',
+        subtitle: 'Join the club and earn 10 pts',
+        route: '/partners/rayon-sports',
+        priority: 50,
+      ));
+    }
+
+    // ─── 9. Streak maintenance ──────────────────────────────
+    if (status.currentStreak > 0 && status.streakGraceRemaining == 0) {
+      quests.add(CoolQuest(
+        id: 'streak_risk',
+        emoji: '🔥',
+        title: 'Streak at risk!',
+        subtitle: 'Do an action today to keep your ${status.currentStreak}-day streak',
+        route: '/home',
+        priority: 95,
+      ));
+    }
+
+    // Sort by priority descending, take top N
+    quests.sort((a, b) => b.priority.compareTo(a.priority));
+    return quests.take(maxQuests).toList(growable: false);
+  }
+
+  static String _nextTierLabel(FanTier tier) => switch (tier) {
+    FanTier.blue => 'Silver',
+    FanTier.silver => 'Gold',
+    FanTier.gold => 'Platinum',
+    FanTier.platinum => 'Max',
+  };
+}

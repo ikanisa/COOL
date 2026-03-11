@@ -1,0 +1,806 @@
+import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+
+import '../../../core/theme/app_colors.dart';
+import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
+import '../../../shared/widgets/cool_skeleton.dart';
+import '../../../shared/widgets/section_title.dart';
+import '../models/credit_dashboard.dart';
+import '../providers/credit_provider.dart';
+
+const _creditScoreMin = 300;
+const _creditScoreMax = 850;
+
+class CreditScoreScreen extends ConsumerStatefulWidget {
+  const CreditScoreScreen({super.key});
+
+  @override
+  ConsumerState<CreditScoreScreen> createState() => _CreditScoreScreenState();
+}
+
+class _CreditScoreScreenState extends ConsumerState<CreditScoreScreen>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _ringController;
+  late final Animation<double> _ringAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _ringController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
+    _ringAnimation = CurvedAnimation(
+      parent: _ringController,
+      curve: Curves.easeOutCubic,
+    );
+    _ringController.forward();
+  }
+
+  @override
+  void dispose() {
+    _ringController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final dashboardAsync = ref.watch(creditDashboardProvider);
+
+    return Scaffold(
+      backgroundColor: AppColors.bg,
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => context.pop(),
+          icon: const Icon(Icons.arrow_back_rounded),
+        ),
+        title: Text(
+          'Credit Score',
+          style: GoogleFonts.dmSans(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: AppColors.text,
+          ),
+        ),
+      ),
+      body: CoolScreenBackground(
+        primaryColor: AppColors.purple,
+        secondaryColor: AppColors.yellow,
+        child: dashboardAsync.when(
+          data: (dashboard) => _CreditScoreBody(
+            dashboard: dashboard,
+            ringAnimation: _ringAnimation,
+          ),
+          loading: () => const _CreditScoreLoadingState(),
+          error: (error, _) => _CreditScoreErrorState(error: error.toString()),
+        ),
+      ),
+    );
+  }
+}
+
+class _CreditScoreBody extends StatelessWidget {
+  const _CreditScoreBody({
+    required this.dashboard,
+    required this.ringAnimation,
+  });
+
+  final CreditDashboard? dashboard;
+  final Animation<double> ringAnimation;
+
+  @override
+  Widget build(BuildContext context) {
+    final data = dashboard;
+    final hasReport = data?.hasReport == true;
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(18, 8, 18, 96),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 8),
+          if (!hasReport)
+            _InfoBanner(
+              emoji: '🧾',
+              message:
+                  'No credit report is available yet. Connect your M-Money history and continue using savings groups to generate your first score.',
+            )
+          else if (data?.lastUpdated != null)
+            _InfoBanner(
+              emoji: '✅',
+              message:
+                  'Latest report updated ${DateFormat('d MMM yyyy').format(data!.lastUpdated!.toLocal())}.',
+            ),
+          const SizedBox(height: 12),
+          _ScoreHeroCard(dashboard: data, animation: ringAnimation),
+          const SizedBox(height: 22),
+          const SectionTitle(title: 'Score Factors'),
+          const SizedBox(height: 10),
+          _ScoreFactors(factors: data?.factors ?? const []),
+          const SizedBox(height: 22),
+          _HowToImproveCard(dashboard: data),
+          const SizedBox(height: 22),
+          const SectionTitle(title: 'Score History'),
+          const SizedBox(height: 10),
+          _ScoreHistoryChart(history: data?.history ?? const []),
+        ],
+      ),
+    );
+  }
+}
+
+class _CreditScoreLoadingState extends StatelessWidget {
+  const _CreditScoreLoadingState();
+
+  @override
+  Widget build(BuildContext context) {
+    return const SingleChildScrollView(
+      padding: EdgeInsets.fromLTRB(18, 8, 18, 96),
+      child: Column(
+        children: [
+          CoolSkeleton.card(),
+          SizedBox(height: 18),
+          CoolSkeleton.card(),
+          SizedBox(height: 18),
+          CoolSkeleton.card(),
+        ],
+      ),
+    );
+  }
+}
+
+class _CreditScoreErrorState extends StatelessWidget {
+  const _CreditScoreErrorState({required this.error});
+
+  final String error;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: CoolCard(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text('⚠️', style: TextStyle(fontSize: 42)),
+              const SizedBox(height: 12),
+              Text(
+                'Could not load your credit report.',
+                style: GoogleFonts.dmSans(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.text,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                error,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.dmSans(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.text2,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _InfoBanner extends StatelessWidget {
+  const _InfoBanner({required this.emoji, required this.message});
+
+  final String emoji;
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: AppColors.yellow.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: AppColors.yellow.withValues(alpha: 0.3)),
+      ),
+      child: Row(
+        children: [
+          Text(emoji, style: const TextStyle(fontSize: 14)),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              message,
+              style: GoogleFonts.dmSans(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: AppColors.yellow,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ScoreHeroCard extends StatelessWidget {
+  const _ScoreHeroCard({required this.dashboard, required this.animation});
+
+  final CreditDashboard? dashboard;
+  final Animation<double> animation;
+
+  String get _grade {
+    final score = dashboard?.score;
+    if (score == null) {
+      return 'Report Pending';
+    }
+
+    switch (dashboard?.scoreBand) {
+      case 'excellent':
+        return 'Excellent';
+      case 'good':
+        return 'Good Standing';
+      case 'building':
+        return 'Building';
+      default:
+        return 'Limited History';
+    }
+  }
+
+  String get _description {
+    if (dashboard?.score == null) {
+      return 'We need verified M-Money and savings activity before a report can be generated.';
+    }
+
+    final summary = dashboard?.summary?.trim();
+    if (summary != null && summary.isNotEmpty) {
+      return summary;
+    }
+
+    final score = dashboard!.score!;
+    if (score >= 720) {
+      return 'Your verified wallet and savings activity looks strong and consistent.';
+    }
+    if (score >= 640) {
+      return 'You are building a reliable financial track record.';
+    }
+    if (score >= 560) {
+      return 'Steady activity will help improve your next report.';
+    }
+    return 'More verified activity is needed before your score can improve.';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final score = dashboard?.score ?? 0;
+    final hasReport = dashboard?.score != null;
+
+    return CoolCard(
+      gradient: AppColors.purpleGradient,
+      child: Stack(
+        children: [
+          Positioned(
+            top: -30,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 120,
+              decoration: BoxDecoration(
+                gradient: RadialGradient(
+                  center: Alignment.topCenter,
+                  radius: 0.8,
+                  colors: [
+                    AppColors.purple.withValues(alpha: 0.2),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 22),
+            child: Column(
+              children: [
+                AnimatedBuilder(
+                  animation: animation,
+                  builder: (context, child) {
+                    return SizedBox(
+                      width: 120,
+                      height: 120,
+                      child: CustomPaint(
+                        painter: _ScoreRingPainter(
+                          progress: hasReport
+                              ? _creditScoreProgress(score) * animation.value
+                              : 0,
+                        ),
+                        child: Center(
+                          child: Text(
+                            hasReport
+                                ? '${(score * animation.value).round()}'
+                                : '--',
+                            style: GoogleFonts.dmMono(
+                              fontSize: 30,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.text,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 14),
+                Text(
+                  'COOL CREDIT SCORE',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.text2,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  _grade,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.purple,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                SizedBox(
+                  width: 260,
+                  child: Text(
+                    _description,
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.text2,
+                      height: 1.4,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  dashboard == null
+                      ? 'Sign in to view your report.'
+                      : _analysisFootnote(dashboard!),
+                  style: GoogleFonts.dmSans(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.text3,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ScoreRingPainter extends CustomPainter {
+  _ScoreRingPainter({required this.progress});
+
+  final double progress;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final center = Offset(size.width / 2, size.height / 2);
+    final radius = size.width / 2 - 6;
+    const strokeWidth = 10.0;
+
+    final bgPaint = Paint()
+      ..color = AppColors.surface3
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = strokeWidth
+      ..strokeCap = StrokeCap.round;
+
+    canvas.drawArc(
+      Rect.fromCircle(center: center, radius: radius),
+      -math.pi / 2,
+      2 * math.pi,
+      false,
+      bgPaint,
+    );
+
+    final scorePaint = Paint()
+      ..color = AppColors.purple
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = strokeWidth
+      ..strokeCap = StrokeCap.round;
+
+    canvas.drawArc(
+      Rect.fromCircle(center: center, radius: radius),
+      -math.pi / 2,
+      2 * math.pi * progress,
+      false,
+      scorePaint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _ScoreRingPainter oldDelegate) {
+    return oldDelegate.progress != progress;
+  }
+}
+
+class _ScoreFactors extends StatelessWidget {
+  const _ScoreFactors({required this.factors});
+
+  final List<CreditFactor> factors;
+
+  @override
+  Widget build(BuildContext context) {
+    if (factors.isEmpty) {
+      return CoolCard(
+        child: Padding(
+          padding: const EdgeInsets.all(18),
+          child: Text(
+            'Factor breakdown will appear here after your first credit report is generated.',
+            style: GoogleFonts.dmSans(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: AppColors.text2,
+              height: 1.5,
+            ),
+          ),
+        ),
+      );
+    }
+
+    return Column(
+      children: factors.map((factor) {
+        final color = _factorColor(factor.score);
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: CoolCard(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Text(factor.emoji, style: const TextStyle(fontSize: 18)),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          factor.label,
+                          style: GoogleFonts.dmSans(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.text,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        '${factor.score}/100',
+                        style: GoogleFonts.dmMono(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: color,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(3),
+                    child: LinearProgressIndicator(
+                      value: factor.score / 100,
+                      minHeight: 6,
+                      backgroundColor: AppColors.surface3,
+                      color: color,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  Color _factorColor(int score) {
+    if (score >= 75) return AppColors.accent;
+    if (score >= 60) return AppColors.blue;
+    if (score >= 45) return AppColors.yellow;
+    return AppColors.orange;
+  }
+}
+
+class _HowToImproveCard extends StatelessWidget {
+  const _HowToImproveCard({required this.dashboard});
+
+  final CreditDashboard? dashboard;
+
+  @override
+  Widget build(BuildContext context) {
+    final items = _buildItems(dashboard);
+
+    return CoolCard(
+      child: Padding(
+        padding: const EdgeInsets.all(18),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '💡 How to Improve',
+              style: GoogleFonts.dmSans(
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+                color: AppColors.text,
+              ),
+            ),
+            const SizedBox(height: 12),
+            ...items.map((item) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      item.completed ? '✅' : '⬜',
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        item.text,
+                        style: GoogleFonts.dmSans(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: item.completed
+                              ? AppColors.text
+                              : AppColors.text2,
+                          height: 1.4,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }),
+          ],
+        ),
+      ),
+    );
+  }
+
+  List<_ImprovementItem> _buildItems(CreditDashboard? data) {
+    if (data == null) {
+      return const [
+        _ImprovementItem('Sign in to view and build your credit report', false),
+      ];
+    }
+
+    if (!data.hasReport) {
+      return [
+        _ImprovementItem(
+          'Keep your posted mobile-money activity flowing so the score engine has enough wallet evidence',
+          data.statementCount > 0,
+        ),
+        _ImprovementItem(
+          'Keep contributing through active groups so savings reliability can be measured',
+          data.groupContributionCount > 0,
+        ),
+        _ImprovementItem(
+          'Build at least two active months of history before expecting a stronger first report',
+          data.activeMonthCount >= 2,
+        ),
+      ];
+    }
+
+    final lowFactors = data.factors
+        .where((factor) => factor.score < 65)
+        .toList();
+    if (lowFactors.isEmpty) {
+      return const [
+        _ImprovementItem('Maintain your current savings consistency', true),
+        _ImprovementItem('Keep your verified M-Money history active', true),
+        _ImprovementItem('Stay active in your savings groups', true),
+      ];
+    }
+
+    return lowFactors
+        .map(
+          (factor) => _ImprovementItem(
+            'Improve ${factor.label.toLowerCase()} before the next report.',
+            false,
+          ),
+        )
+        .toList(growable: false);
+  }
+}
+
+class _ScoreHistoryChart extends StatelessWidget {
+  const _ScoreHistoryChart({required this.history});
+
+  final List<CreditHistoryPoint> history;
+
+  @override
+  Widget build(BuildContext context) {
+    if (history.isEmpty) {
+      return CoolCard(
+        child: Padding(
+          padding: const EdgeInsets.all(18),
+          child: Text(
+            'Score history will appear here after multiple reports have been generated.',
+            style: GoogleFonts.dmSans(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: AppColors.text2,
+            ),
+          ),
+        ),
+      );
+    }
+
+    final labels = history.map((point) => point.label).toList(growable: false);
+    final values = history
+        .map((point) => point.score.toDouble())
+        .toList(growable: false);
+
+    return CoolCard(
+      child: Padding(
+        padding: const EdgeInsets.all(18),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 140,
+              child: CustomPaint(
+                size: const Size(double.infinity, 140),
+                painter: _LineChartPainter(values: values),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: labels.map((label) {
+                return Text(
+                  label,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.text3,
+                  ),
+                );
+              }).toList(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _LineChartPainter extends CustomPainter {
+  _LineChartPainter({required this.values});
+
+  final List<double> values;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (values.isEmpty) {
+      return;
+    }
+
+    final minVal = math.max(
+      _creditScoreMin.toDouble(),
+      values.reduce(math.min) - 25,
+    );
+    final maxVal = math.min(
+      _creditScoreMax.toDouble(),
+      values.reduce(math.max) + 25,
+    );
+    final range = math.max(1, maxVal - minVal);
+
+    final gridPaint = Paint()
+      ..color = AppColors.surface3
+      ..strokeWidth = 1;
+
+    for (var i = 0; i < 4; i++) {
+      final y = size.height * i / 3;
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), gridPaint);
+    }
+
+    final points = <Offset>[];
+    for (var i = 0; i < values.length; i++) {
+      final x = values.length == 1
+          ? size.width / 2
+          : (i / (values.length - 1)) * size.width;
+      final y = size.height - ((values[i] - minVal) / range) * size.height;
+      points.add(Offset(x, y));
+    }
+
+    final fillPath = Path()
+      ..moveTo(points.first.dx, size.height)
+      ..lineTo(points.first.dx, points.first.dy);
+
+    for (var i = 1; i < points.length; i++) {
+      fillPath.lineTo(points[i].dx, points[i].dy);
+    }
+
+    fillPath
+      ..lineTo(points.last.dx, size.height)
+      ..close();
+
+    final fillPaint = Paint()
+      ..shader = LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          AppColors.accent.withValues(alpha: 0.15),
+          AppColors.accent.withValues(alpha: 0),
+        ],
+      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
+
+    canvas.drawPath(fillPath, fillPaint);
+
+    final linePaint = Paint()
+      ..color = AppColors.accent
+      ..strokeWidth = 2.5
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round;
+
+    final linePath = Path()..moveTo(points.first.dx, points.first.dy);
+    for (var i = 1; i < points.length; i++) {
+      linePath.lineTo(points[i].dx, points[i].dy);
+    }
+    canvas.drawPath(linePath, linePaint);
+
+    final dotPaint = Paint()..color = AppColors.accent;
+    final dotBgPaint = Paint()..color = AppColors.surface2;
+
+    for (final point in points) {
+      canvas.drawCircle(point, 5, dotBgPaint);
+      canvas.drawCircle(point, 3, dotPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _LineChartPainter oldDelegate) {
+    return oldDelegate.values != values;
+  }
+}
+
+class _ImprovementItem {
+  const _ImprovementItem(this.text, this.completed);
+
+  final String text;
+  final bool completed;
+}
+
+double _creditScoreProgress(int score) {
+  final normalized =
+      (score - _creditScoreMin) / (_creditScoreMax - _creditScoreMin);
+  return normalized.clamp(0, 1).toDouble();
+}
+
+String _analysisFootnote(CreditDashboard dashboard) {
+  final parts = <String>['${dashboard.statementCount} wallet entries analyzed'];
+  if (dashboard.groupContributionCount > 0) {
+    parts.add(
+      '${dashboard.groupContributionCount} confirmed savings contributions',
+    );
+  }
+  if (dashboard.activeMonthCount > 0) {
+    parts.add('${dashboard.activeMonthCount} active months');
+  }
+  return parts.join(' • ');
+}

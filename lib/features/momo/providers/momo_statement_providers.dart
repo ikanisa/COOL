@@ -1,0 +1,22 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../auth/providers/auth_provider.dart';
+import '../models/momo_statement.dart';
+import '../repositories/momo_statement_repository.dart';
+
+final momoStatementRepositoryProvider = Provider<MomoStatementRepository>((
+  ref,
+) {
+  return MomoStatementRepository();
+});
+
+final momoStatementBundleProvider =
+    FutureProvider.autoDispose<MomoStatementBundle>((ref) async {
+      final userId = ref.watch(authProvider).user?.id;
+      if (userId == null || userId.isEmpty) {
+        return const MomoStatementBundle();
+      }
+
+      final repository = ref.watch(momoStatementRepositoryProvider);
+      return repository.loadStatementBundle(userId);
+    });
