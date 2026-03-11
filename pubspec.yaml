@@ -70,6 +70,8 @@ dependencies:
   # Formatting
   intl: ^0.20.2
   crypto: ^3.0.7
+  pdf: ^3.11.3
+  syncfusion_flutter_xlsio: ^32.2.9
 
 dev_dependencies:
   flutter_test:

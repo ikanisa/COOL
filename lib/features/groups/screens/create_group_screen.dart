@@ -33,8 +33,6 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
   String _frequency = 'monthly';
   String _bankPartner = 'BK Rwanda';
   String _communityRouteType = 'phone_number';
-  bool _isLoading = false;
-  String? _error;
 
   bool get _isSaving => _type == 'saving';
 
@@ -58,6 +56,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
           ? user!.momoNumber
           : user?.phone ?? '',
     );
+    ref.read(groupsProvider.notifier).clearCreateGroupState();
   }
 
   @override
@@ -72,11 +71,6 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
 
   Future<void> _createGroup() async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
-
-    setState(() {
-      _isLoading = true;
-      _error = null;
-    });
 
     final routeType = _effectiveCommunityRouteType();
     final data = GroupCreateData(
@@ -105,18 +99,13 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
 
     if (created != null && created.id != null) {
       context.go('/groups/${created.id}');
-    } else {
-      final providerError = ref.read(groupsProvider).error;
-      setState(() {
-        _isLoading = false;
-        _error = providerError ?? 'Failed to create group. Try again.';
-      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final groupsState = ref.watch(groupsProvider);
+    final isCreating = ref.watch(groupsCreateLoadingProvider);
+    final createError = ref.watch(groupsCreateErrorProvider);
     final user = ref.watch(authProvider).user;
     final countries =
         ref.watch(supportedCountriesProvider).valueOrNull ??
@@ -149,40 +138,36 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
       ),
       body: Form(
         key: _formKey,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 18),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 12),
+        child: CustomScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          slivers: [
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(18, 12, 18, 80),
+              sliver: SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
 
               // ═════════════════════════════════════════════════════
               // TYPE SELECTOR
               // ═════════════════════════════════════════════════════
               _label('Group Type'),
               const SizedBox(height: 8),
-              Row(
-                children: [
-                  Expanded(
-                    child: _TypeCard(
-                      emoji: '🏦',
-                      title: 'Group Saving',
-                      subtitle: 'Bank custodian',
-                      isSelected: _isSaving,
-                      onTap: () => setState(() => _type = 'saving'),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _TypeCard(
-                      emoji: '❤️',
-                      title: 'Community Fund',
-                      subtitle: 'MOMO to creator',
-                      isSelected: !_isSaving,
-                      onTap: () => setState(() => _type = 'community'),
-                    ),
-                  ),
-                ],
+              _AdaptiveCardPair(
+                first: _TypeCard(
+                  emoji: '🏦',
+                  title: 'Group Saving',
+                  subtitle: 'Bank custodian',
+                  isSelected: _isSaving,
+                  onTap: () => setState(() => _type = 'saving'),
+                ),
+                second: _TypeCard(
+                  emoji: '❤️',
+                  title: 'Community Fund',
+                  subtitle: 'MOMO to creator',
+                  isSelected: !_isSaving,
+                  onTap: () => setState(() => _type = 'community'),
+                ),
               ),
               const SizedBox(height: 16),
 
@@ -271,18 +256,16 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
 
               _label('Contribution Frequency'),
               const SizedBox(height: 8),
-              Row(
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
                 children: [
-                  for (final option in _frequencies) ...[
-                    Expanded(
-                      child: _BankChip(
-                        label: option.label,
-                        isSelected: _frequency == option.value,
-                        onTap: () => setState(() => _frequency = option.value),
-                      ),
+                  for (final option in _frequencies)
+                    _BankChip(
+                      label: option.label,
+                      isSelected: _frequency == option.value,
+                      onTap: () => setState(() => _frequency = option.value),
                     ),
-                    if (option != _frequencies.last) const SizedBox(width: 8),
-                  ],
                 ],
               ),
               const SizedBox(height: 24),
@@ -292,28 +275,21 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
               // ═════════════════════════════════════════════════════
               _label('Visibility'),
               const SizedBox(height: 8),
-              Row(
-                children: [
-                  Expanded(
-                    child: _TypeCard(
-                      emoji: '🔒',
-                      title: 'Private',
-                      subtitle: 'Invite only',
-                      isSelected: _visibility == 'private',
-                      onTap: () => setState(() => _visibility = 'private'),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _TypeCard(
-                      emoji: '🌐',
-                      title: 'Public',
-                      subtitle: 'Anyone can join',
-                      isSelected: _visibility == 'public',
-                      onTap: () => setState(() => _visibility = 'public'),
-                    ),
-                  ),
-                ],
+              _AdaptiveCardPair(
+                first: _TypeCard(
+                  emoji: '🔒',
+                  title: 'Private',
+                  subtitle: 'Invite only',
+                  isSelected: _visibility == 'private',
+                  onTap: () => setState(() => _visibility = 'private'),
+                ),
+                second: _TypeCard(
+                  emoji: '🌐',
+                  title: 'Public',
+                  subtitle: 'Anyone can join',
+                  isSelected: _visibility == 'public',
+                  onTap: () => setState(() => _visibility = 'public'),
+                ),
               ),
               const SizedBox(height: 24),
 
@@ -323,18 +299,16 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
               if (_isSaving) ...[
                 _label('Bank Partner (auto-matched)'),
                 const SizedBox(height: 8),
-                Row(
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
                   children: [
-                    for (var i = 0; i < _banks.length; i++) ...[
-                      Expanded(
-                        child: _BankChip(
-                          label: _banks[i],
-                          isSelected: _bankPartner == _banks[i],
-                          onTap: () => setState(() => _bankPartner = _banks[i]),
-                        ),
+                    for (final bank in _banks)
+                      _BankChip(
+                        label: bank,
+                        isSelected: _bankPartner == bank,
+                        onTap: () => setState(() => _bankPartner = bank),
                       ),
-                      if (i != _banks.length - 1) const SizedBox(width: 8),
-                    ],
                   ],
                 ),
                 const SizedBox(height: 6),
@@ -355,34 +329,30 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
               if (!_isSaving) ...[
                 _label('Collection Route'),
                 const SizedBox(height: 8),
-                Row(
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
                   children: [
-                    Expanded(
-                      child: _BankChip(
-                        label: 'Phone Number',
-                        isSelected: activeRouteType == 'phone_number',
+                    _BankChip(
+                      label: 'Phone Number',
+                      isSelected: activeRouteType == 'phone_number',
+                      onTap: () => setState(() {
+                        _communityRouteType = 'phone_number';
+                        _momoController.text =
+                            user?.momoNumber.isNotEmpty == true
+                            ? user!.momoNumber
+                            : user?.phone ?? _momoController.text;
+                      }),
+                    ),
+                    if (communityCountry.supportsMomoCode)
+                      _BankChip(
+                        label: 'Merchant Code',
+                        isSelected: activeRouteType == 'code',
                         onTap: () => setState(() {
-                          _communityRouteType = 'phone_number';
-                          _momoController.text =
-                              user?.momoNumber.isNotEmpty == true
-                              ? user!.momoNumber
-                              : user?.phone ?? _momoController.text;
+                          _communityRouteType = 'code';
+                          _momoController.text = user?.momoCode?.trim() ?? '';
                         }),
                       ),
-                    ),
-                    if (communityCountry.supportsMomoCode) ...[
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: _BankChip(
-                          label: 'Merchant Code',
-                          isSelected: activeRouteType == 'code',
-                          onTap: () => setState(() {
-                            _communityRouteType = 'code';
-                            _momoController.text = user?.momoCode?.trim() ?? '';
-                          }),
-                        ),
-                      ),
-                    ],
                   ],
                 ),
                 const SizedBox(height: 12),
@@ -438,10 +408,10 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
               ],
 
               // Error message
-              if (_error != null) ...[
+              if (createError != null) ...[
                 const SizedBox(height: 12),
                 Text(
-                  _error!,
+                  createError,
                   style: GoogleFonts.dmSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
@@ -454,10 +424,13 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
               CoolButton(
                 label: 'Create Group',
                 onTap: _createGroup,
-                isLoading: _isLoading || groupsState.isLoading,
+                isLoading: isCreating,
               ),
               const SizedBox(height: 80),
-            ],
+                  ],
+                ),
+              ),
+            ),
           ),
         ),
       ),
@@ -570,6 +543,38 @@ class _TypeCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _AdaptiveCardPair extends StatelessWidget {
+  const _AdaptiveCardPair({required this.first, required this.second});
+
+  final Widget first;
+  final Widget second;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth < 520) {
+          return Column(
+            children: [
+              first,
+              const SizedBox(height: 12),
+              second,
+            ],
+          );
+        }
+
+        return Row(
+          children: [
+            Expanded(child: first),
+            const SizedBox(width: 12),
+            Expanded(child: second),
+          ],
+        );
+      },
     );
   }
 }

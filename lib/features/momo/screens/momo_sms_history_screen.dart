@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,6 +20,7 @@ import '../../auth/providers/auth_provider.dart';
 import '../models/momo_statement.dart';
 import '../providers/momo_sms_providers.dart';
 import '../providers/momo_statement_providers.dart';
+import '../services/momo_statement_export_service.dart';
 
 enum _StatementTab { wallet, savings }
 
@@ -41,11 +40,14 @@ class MomoSmsHistoryScreen extends ConsumerStatefulWidget {
 
 class _MomoSmsHistoryScreenState extends ConsumerState<MomoSmsHistoryScreen> {
   late final TextEditingController _searchController;
+  final MomoStatementExportService _exportService =
+      MomoStatementExportService();
 
   _StatementTab _activeTab = _StatementTab.wallet;
   _WalletFilter _walletFilter = _WalletFilter.all;
   _SavingsFilter _savingsFilter = _SavingsFilter.all;
   _StatementSort _sort = _StatementSort.newest;
+  DateTimeRange? _statementRange;
 
   @override
   void initState() {
@@ -138,6 +140,7 @@ class _MomoSmsHistoryScreenState extends ConsumerState<MomoSmsHistoryScreen> {
                             activeTab: _activeTab,
                             walletEntries: visibleWallet,
                             savingsEntries: visibleSavings,
+                            periodLabel: _periodLabel,
                           ),
                           const SizedBox(height: 14),
                           _StatementTabSelector(
@@ -181,6 +184,15 @@ class _MomoSmsHistoryScreenState extends ConsumerState<MomoSmsHistoryScreen> {
                                         ? user!.officialPhone!.trim()
                                         : (user?.phone ?? ''),
                                   ),
+                          ),
+                          const SizedBox(height: 12),
+                          _StatementRangeBar(
+                            label: _periodLabel,
+                            hasCustomRange: _statementRange != null,
+                            onPickRange: () => _pickDateRange(context),
+                            onClearRange: _statementRange == null
+                                ? null
+                                : () => setState(() => _statementRange = null),
                           ),
                           const SizedBox(height: 12),
                           if (_activeTab == _StatementTab.wallet)
@@ -259,6 +271,8 @@ class _MomoSmsHistoryScreenState extends ConsumerState<MomoSmsHistoryScreen> {
   List<MomoWalletEntry> _filterWalletEntries(List<MomoWalletEntry> entries) {
     Iterable<MomoWalletEntry> visible = entries;
 
+    visible = visible.where((entry) => _matchesSelectedRange(entry.occurredAt));
+
     switch (_walletFilter) {
       case _WalletFilter.all:
         break;
@@ -314,6 +328,8 @@ class _MomoSmsHistoryScreenState extends ConsumerState<MomoSmsHistoryScreen> {
   ) {
     Iterable<SavingsStatementEntry> visible = entries;
 
+    visible = visible.where((entry) => _matchesSelectedRange(entry.createdAt));
+
     switch (_savingsFilter) {
       case _SavingsFilter.all:
         break;
@@ -357,39 +373,51 @@ class _MomoSmsHistoryScreenState extends ConsumerState<MomoSmsHistoryScreen> {
     required String userName,
     required String officialPhone,
   }) async {
+    final format = await _showExportFormatSheet(context);
+    if (!context.mounted || format == null) {
+      return;
+    }
+
     final timestamp = DateTime.now();
-    final fileName = _activeTab == _StatementTab.wallet
-        ? 'cool_wallet_statement_${DateFormat('yyyyMMdd_HHmm').format(timestamp)}.csv'
-        : 'cool_group_savings_statement_${DateFormat('yyyyMMdd_HHmm').format(timestamp)}.csv';
-
-    final csv = _activeTab == _StatementTab.wallet
-        ? _buildWalletCsv(
-            entries: _filterWalletEntries(bundle.walletEntries),
-            userName: userName,
-            officialPhone: officialPhone,
-            generatedAt: timestamp,
-          )
-        : _buildSavingsCsv(
-            entries: _filterSavingsEntries(bundle.savingsEntries),
-            userName: userName,
-            officialPhone: officialPhone,
-            generatedAt: timestamp,
-          );
-
     final box = context.findRenderObject() as RenderBox?;
     final messenger = ScaffoldMessenger.maybeOf(context);
+    final metadata = StatementExportMetadata(
+      statementTitle: _activeTab == _StatementTab.wallet
+          ? 'Wallet Statement'
+          : 'Group Savings Statement',
+      fileStem: _activeTab == _StatementTab.wallet
+          ? 'cool_wallet_statement'
+          : 'cool_group_savings_statement',
+      userName: userName,
+      officialPhone: officialPhone,
+      generatedAt: timestamp,
+      periodLabel: _periodLabel,
+      filterLabel: _activeTab == _StatementTab.wallet
+          ? _walletFilterLabel(_walletFilter)
+          : _savingsFilterLabel(_savingsFilter),
+      sortLabel: _sortLabel(_sort),
+      searchQuery: _searchController.text.trim(),
+    );
+
     try {
+      final export = _activeTab == _StatementTab.wallet
+          ? await _exportService.buildWalletExport(
+              format: format,
+              entries: _filterWalletEntries(bundle.walletEntries),
+              metadata: metadata,
+            )
+          : await _exportService.buildSavingsExport(
+              format: format,
+              entries: _filterSavingsEntries(bundle.savingsEntries),
+              metadata: metadata,
+            );
+
       await SharePlus.instance.share(
         ShareParams(
           title: 'COOL Statement Export',
           subject: 'COOL statement export',
-          files: [
-            XFile.fromData(
-              Uint8List.fromList(utf8.encode(csv)),
-              mimeType: 'text/csv',
-            ),
-          ],
-          fileNameOverrides: [fileName],
+          files: [XFile.fromData(export.bytes, mimeType: export.mimeType)],
+          fileNameOverrides: [export.fileName],
           downloadFallbackEnabled: true,
           sharePositionOrigin: box == null
               ? null
@@ -403,97 +431,129 @@ class _MomoSmsHistoryScreenState extends ConsumerState<MomoSmsHistoryScreen> {
     }
   }
 
-  String _buildWalletCsv({
-    required List<MomoWalletEntry> entries,
-    required String userName,
-    required String officialPhone,
-    required DateTime generatedAt,
-  }) {
-    final rows = <List<String>>[
-      <String>['COOL APP'],
-      <String>['Wallet Statement'],
-      <String>['Official Holder', userName],
-      <String>['Official Phone', officialPhone],
-      <String>['Generated At', generatedAt.toIso8601String()],
-      <String>['Search Query', _searchController.text.trim()],
-      <String>['Filter', _walletFilterLabel(_walletFilter)],
-      <String>['Sort', _sortLabel(_sort)],
-      const <String>[],
-      <String>[
-        'Date',
-        'Direction',
-        'Category',
-        'Cashflow Bucket',
-        'Counterparty',
-        'Summary',
-        'Amount',
-        'Currency',
-        'Status',
-        'Reference',
-      ],
-      for (final entry in entries)
-        <String>[
-          DateFormat('yyyy-MM-dd HH:mm').format(entry.occurredAt),
-          entry.isCredit ? 'Incoming' : 'Outgoing',
-          entry.txCategory,
-          entry.cashflowBucket,
-          entry.counterpartyName ?? '',
-          entry.label,
-          entry.amount.toString(),
-          entry.currency,
-          entry.ledgerStatus,
-          entry.reference ?? '',
-        ],
-    ];
+  Future<void> _pickDateRange(BuildContext context) async {
+    final now = DateTime.now();
+    final range = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime(now.year - 5),
+      lastDate: now,
+      initialDateRange: _statementRange,
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.dark(
+              primary: AppColors.accent,
+              onPrimary: AppColors.bg,
+              surface: AppColors.surface2,
+              onSurface: AppColors.text,
+            ),
+            dialogTheme: const DialogThemeData(
+              backgroundColor: AppColors.surface,
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
 
-    return rows.map(_csvRow).join('\n');
+    if (!mounted || range == null) {
+      return;
+    }
+
+    setState(() => _statementRange = range);
   }
 
-  String _buildSavingsCsv({
-    required List<SavingsStatementEntry> entries,
-    required String userName,
-    required String officialPhone,
-    required DateTime generatedAt,
-  }) {
-    final rows = <List<String>>[
-      <String>['COOL APP'],
-      <String>['Group Savings Statement'],
-      <String>['Official Holder', userName],
-      <String>['Official Phone', officialPhone],
-      <String>['Generated At', generatedAt.toIso8601String()],
-      <String>['Search Query', _searchController.text.trim()],
-      <String>['Filter', _savingsFilterLabel(_savingsFilter)],
-      <String>['Sort', _sortLabel(_sort)],
-      const <String>[],
-      <String>[
-        'Date',
-        'Group Name',
-        'Amount',
-        'Currency',
-        'Status',
-        'MOMO Reference',
-      ],
-      for (final entry in entries)
-        <String>[
-          DateFormat('yyyy-MM-dd HH:mm').format(entry.createdAt),
-          entry.groupName,
-          entry.amount.toString(),
-          'RWF',
-          entry.status,
-          entry.reference ?? '',
-        ],
-    ];
-
-    return rows.map(_csvRow).join('\n');
+  Future<StatementExportFormat?> _showExportFormatSheet(
+    BuildContext context,
+  ) async {
+    return showModalBottomSheet<StatementExportFormat>(
+      context: context,
+      backgroundColor: AppColors.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (context) {
+        return SafeArea(
+          top: false,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(18, 18, 18, 24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Export statement',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.text,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  'Export the currently filtered statement window as a branded file.',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.text2,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                _ExportOptionTile(
+                  icon: Icons.picture_as_pdf_outlined,
+                  title: 'PDF statement',
+                  subtitle:
+                      'Branded layout with logo, holder profile, and summary.',
+                  onTap: () =>
+                      Navigator.of(context).pop(StatementExportFormat.pdf),
+                ),
+                const SizedBox(height: 10),
+                _ExportOptionTile(
+                  icon: Icons.grid_on_rounded,
+                  title: 'Excel workbook',
+                  subtitle:
+                      'Structured .xlsx ledger for sorting, formulas, and review.',
+                  onTap: () =>
+                      Navigator.of(context).pop(StatementExportFormat.excel),
+                ),
+                const SizedBox(height: 10),
+                _ExportOptionTile(
+                  icon: Icons.table_chart_outlined,
+                  title: 'CSV data',
+                  subtitle:
+                      'Lightweight export for spreadsheet import or reconciliation.',
+                  onTap: () =>
+                      Navigator.of(context).pop(StatementExportFormat.csv),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
-  String _csvRow(List<String> values) {
-    return values
-        .map(
-          (value) =>
-              '"${value.replaceAll('"', '""').replaceAll('\n', ' ').trim()}"',
-        )
-        .join(',');
+  bool _matchesSelectedRange(DateTime dateTime) {
+    final range = _statementRange;
+    if (range == null) {
+      return true;
+    }
+
+    final start = DateUtils.dateOnly(range.start);
+    final endExclusive = DateUtils.dateOnly(
+      range.end,
+    ).add(const Duration(days: 1));
+    return !dateTime.isBefore(start) && dateTime.isBefore(endExclusive);
+  }
+
+  String get _periodLabel {
+    final range = _statementRange;
+    if (range == null) {
+      return 'All recorded activity';
+    }
+
+    final formatter = DateFormat('dd MMM yyyy');
+    return '${formatter.format(range.start)} - ${formatter.format(range.end)}';
   }
 }
 
@@ -504,6 +564,7 @@ class _StatementHeroCard extends StatelessWidget {
     required this.activeTab,
     required this.walletEntries,
     required this.savingsEntries,
+    required this.periodLabel,
   });
 
   final String userName;
@@ -511,6 +572,7 @@ class _StatementHeroCard extends StatelessWidget {
   final _StatementTab activeTab;
   final List<MomoWalletEntry> walletEntries;
   final List<SavingsStatementEntry> savingsEntries;
+  final String periodLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -572,6 +634,27 @@ class _StatementHeroCard extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                           color: AppColors.text2,
                         ),
+                      ),
+                      const SizedBox(height: 6),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.calendar_today_rounded,
+                            size: 12,
+                            color: AppColors.text3,
+                          ),
+                          const SizedBox(width: 6),
+                          Expanded(
+                            child: Text(
+                              periodLabel,
+                              style: GoogleFonts.dmSans(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.text3,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -924,6 +1007,94 @@ class _StatementToolbar extends StatelessWidget {
   }
 }
 
+class _StatementRangeBar extends StatelessWidget {
+  const _StatementRangeBar({
+    required this.label,
+    required this.hasCustomRange,
+    required this.onPickRange,
+    this.onClearRange,
+  });
+
+  final String label;
+  final bool hasCustomRange;
+  final VoidCallback onPickRange;
+  final VoidCallback? onClearRange;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: onPickRange,
+              borderRadius: BorderRadius.circular(14),
+              child: Ink(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 13,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.surface2,
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(
+                    color: hasCustomRange
+                        ? AppColors.accent
+                        : AppColors.border2,
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.date_range_rounded,
+                      size: 18,
+                      color: hasCustomRange
+                          ? AppColors.accent
+                          : AppColors.text2,
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        label,
+                        style: GoogleFonts.dmSans(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.text,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        if (onClearRange != null) ...[
+          const SizedBox(width: 10),
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: onClearRange,
+              borderRadius: BorderRadius.circular(14),
+              child: Ink(
+                width: 54,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: AppColors.surface3,
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: AppColors.border2),
+                ),
+                child: const Icon(Icons.close_rounded, color: AppColors.text2),
+              ),
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
 class _WalletFilterChips extends StatelessWidget {
   const _WalletFilterChips({required this.value, required this.onChanged});
 
@@ -966,6 +1137,80 @@ class _SavingsFilterChips extends StatelessWidget {
             onTap: () => onChanged(filter),
           ),
       ],
+    );
+  }
+}
+
+class _ExportOptionTile extends StatelessWidget {
+  const _ExportOptionTile({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        child: Ink(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: AppColors.surface2,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppColors.border2),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 42,
+                height: 42,
+                decoration: BoxDecoration(
+                  color: AppColors.accentGlow,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: AppColors.border2),
+                ),
+                alignment: Alignment.center,
+                child: Icon(icon, color: AppColors.accent),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: GoogleFonts.dmSans(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.text,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      subtitle,
+                      style: GoogleFonts.dmSans(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.text2,
+                        height: 1.35,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

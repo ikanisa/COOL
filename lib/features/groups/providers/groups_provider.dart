@@ -28,11 +28,21 @@ final groupsProvider = StateNotifierProvider<GroupsNotifier, GroupsState>((
   return GroupsNotifier(repository: repository, authState: authState);
 });
 
+final groupsCreateLoadingProvider = Provider<bool>((ref) {
+  return ref.watch(groupsProvider.select((state) => state.isCreatingGroup));
+});
+
+final groupsCreateErrorProvider = Provider<String?>((ref) {
+  return ref.watch(groupsProvider.select((state) => state.createGroupError));
+});
+
 class GroupsState {
   const GroupsState({
     this.groups = const <Group>[],
     this.selectedGroup,
     this.invitePreview,
+    this.isCreatingGroup = false,
+    this.createGroupError,
     this.isLoading = false,
     this.error,
   });
@@ -42,6 +52,8 @@ class GroupsState {
   final List<Group> groups;
   final GroupDetail? selectedGroup;
   final GroupDetail? invitePreview;
+  final bool isCreatingGroup;
+  final String? createGroupError;
   final bool isLoading;
   final String? error;
 
@@ -49,6 +61,8 @@ class GroupsState {
     List<Group>? groups,
     Object? selectedGroup = _sentinel,
     Object? invitePreview = _sentinel,
+    bool? isCreatingGroup,
+    Object? createGroupError = _sentinel,
     bool? isLoading,
     Object? error = _sentinel,
   }) {
@@ -60,6 +74,10 @@ class GroupsState {
       invitePreview: invitePreview == _sentinel
           ? this.invitePreview
           : invitePreview as GroupDetail?,
+      isCreatingGroup: isCreatingGroup ?? this.isCreatingGroup,
+      createGroupError: createGroupError == _sentinel
+          ? this.createGroupError
+          : createGroupError as String?,
       isLoading: isLoading ?? this.isLoading,
       error: error == _sentinel ? this.error : error as String?,
     );
@@ -222,11 +240,14 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
   Future<Group?> createGroup(GroupCreateData data) async {
     final userId = _currentUserId;
     if (userId == null) {
-      state = state.copyWith(error: 'You must be signed in to create a group.');
+      state = state.copyWith(
+        isCreatingGroup: false,
+        createGroupError: 'You must be signed in to create a group.',
+      );
       return null;
     }
 
-    state = state.copyWith(isLoading: true, error: null);
+    state = state.copyWith(isCreatingGroup: true, createGroupError: null);
 
     final result = await AsyncValue.guard(
       () => _repository.createGroup(
@@ -256,17 +277,31 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
         _allGroups = <Group>[group, ..._allGroups];
         state = state.copyWith(
           groups: <Group>[group, ...state.groups],
-          isLoading: false,
-          error: null,
+          isCreatingGroup: false,
+          createGroupError: null,
         );
       },
       error: (error, _) {
-        state = state.copyWith(isLoading: false, error: error.toString());
+        state = state.copyWith(
+          isCreatingGroup: false,
+          createGroupError: error.toString(),
+        );
       },
       loading: () {},
     );
 
     return createdGroup;
+  }
+
+  void clearCreateGroupState() {
+    if (!state.isCreatingGroup && state.createGroupError == null) {
+      return;
+    }
+
+    state = state.copyWith(
+      isCreatingGroup: false,
+      createGroupError: null,
+    );
   }
 
   Future<GroupContribution?> contribute(String groupId, int amount) async {
