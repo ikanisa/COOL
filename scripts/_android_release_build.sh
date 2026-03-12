@@ -16,7 +16,6 @@ build_android_release() {
     --release
     "--dart-define=SUPABASE_URL=${SUPABASE_URL}"
     "--dart-define=SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}"
-    "--dart-define=COOL_APP_MOMO_NUMBER=${COOL_APP_MOMO_NUMBER:-}"
     "--dart-define=ENABLE_ANDROID_MOMO_SMS_AUTOREAD=${ENABLE_ANDROID_MOMO_SMS_AUTOREAD:-false}"
     "--dart-define=COOL_DEEP_LINK_HOST=${COOL_DEEP_LINK_HOST:-cool.app}"
     "--dart-define=COOL_PRIVACY_POLICY_URL=${COOL_PRIVACY_POLICY_URL:-$BUILD_PRIVACY_POLICY_URL_DEFAULT}"
@@ -45,11 +44,6 @@ build_android_release() {
 _require_build_env() {
   : "${SUPABASE_URL:?Set SUPABASE_URL before building an Android release artifact.}"
   : "${SUPABASE_ANON_KEY:?Set SUPABASE_ANON_KEY before building an Android release artifact.}"
-
-  if [[ -z "${COOL_APP_MOMO_NUMBER:-}" ]]; then
-    echo "WARN: COOL_APP_MOMO_NUMBER is not set. Mobility subscription payments" >&2
-    echo "will fail and missing-recipient fallbacks will be unavailable." >&2
-  fi
 }
 
 _assert_pinned_flutter_version() {

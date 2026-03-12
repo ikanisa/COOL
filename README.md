@@ -36,9 +36,10 @@ Payment initiation happens on-device. The app opens the dialer with a generated
 USSD string, then listens for confirmation SMS on Android and reconciles
 against Supabase records.
 
-Release builds should inject `COOL_APP_MOMO_NUMBER` for mobility subscription
-payments and as a defensive fallback if a group recipient has not been
-configured yet. Group, community, and partner payment flows are otherwise
+Mobility subscription payments do not use a build-time recipient number.
+Admins configure the receiving MoMo code in the admin panel via
+`app_config.mobility_subscription_momo_code`, with optional country-specific
+overrides. Group, community, and partner payment flows remain
 recipient-driven and do not route through a single Cool collector account.
 
 ## MoMo Routing Model
@@ -78,7 +79,7 @@ Current recipient sources in this repo:
 
 - Community groups use `public.groups.receiving_momo_code` /
   `public.groups.momo_number`
-- Mobility subscriptions use `COOL_APP_MOMO_NUMBER`
+- Mobility subscriptions use `public.app_config.key = mobility_subscription_momo_code`
 - Rayon Sports currently uses a hardcoded MTN MoMo code: `008000`
 - Saving groups store a `bank_partner` label, but partner-specific MoMo routing
   is not yet modeled in `public.partners`
@@ -307,8 +308,6 @@ Expected client-safe values:
 
 - `SUPABASE_URL`
 - `SUPABASE_ANON_KEY`
-- `COOL_APP_MOMO_NUMBER` for mobility subscriptions and missing-recipient
-  fallback paths
 - `ENABLE_ANDROID_MOMO_SMS_AUTOREAD`
 - `COOL_PRIVACY_POLICY_URL`
 - `COOL_TERMS_OF_SERVICE_URL`
@@ -325,12 +324,14 @@ Example:
 flutter run \
   --dart-define=SUPABASE_URL=https://your-project.supabase.co \
   --dart-define=SUPABASE_ANON_KEY=your-anon-key \
-  --dart-define=COOL_APP_MOMO_NUMBER=0788000000 \
   --dart-define=ENABLE_ANDROID_MOMO_SMS_AUTOREAD=true \
   --dart-define=COOL_PRIVACY_POLICY_URL=https://gen-lang-client-0172279957.web.app/privacy \
   --dart-define=COOL_TERMS_OF_SERVICE_URL=https://gen-lang-client-0172279957.web.app/terms \
   --dart-define=COOL_ACCOUNT_DELETION_URL=https://gen-lang-client-0172279957.web.app/account-deletion
 ```
+
+Mobility subscription recipient codes are managed in Admin > App Config, not
+through `--dart-define`.
 
 ### Supabase Edge Function Secrets
 
@@ -379,7 +380,6 @@ With explicit configuration:
 flutter run \
   --dart-define=SUPABASE_URL=https://your-project.supabase.co \
   --dart-define=SUPABASE_ANON_KEY=your-anon-key \
-  --dart-define=COOL_APP_MOMO_NUMBER=0788000000 \
   --dart-define=ENABLE_ANDROID_MOMO_SMS_AUTOREAD=true
 ```
 

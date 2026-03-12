@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../auth/auth_user_contact.dart';
+import '../config/app_config_repository.dart';
 import '../config/country_catalog.dart';
 import '../repositories/supported_countries_repository.dart';
 import '../sync/sync_engine.dart';
@@ -36,9 +37,9 @@ extension SubscriptionPlanX on SubscriptionPlan {
 
 /// Mobile Money USSD gateway for bridge-style payments.
 ///
-/// Most flows provide the destination recipient explicitly. The
-/// `COOL_APP_MOMO_NUMBER` environment value is only used for mobility
-/// subscriptions and missing-recipient fallback paths.
+/// Most flows provide the destination recipient explicitly. Mobility
+/// subscription payments read their recipient code from admin-managed
+/// `app_config` instead of build-time env vars.
 ///
 /// Pending transactions are written to Supabase when possible and cached in
 /// Hive when the app is offline or Supabase is unavailable.
@@ -46,16 +47,26 @@ class MomoService {
   MomoService({
     SupabaseClient? client,
     SyncEngine? syncEngine,
+    AppConfigRepository? appConfigRepository,
+    SupportedCountriesRepository? supportedCountriesRepository,
   }) : _client = client ?? Supabase.instance.client,
-       _syncEngine = syncEngine;
+       _syncEngine = syncEngine,
+       _appConfigRepository =
+           appConfigRepository ??
+           AppConfigRepository(client: client ?? Supabase.instance.client),
+       _supportedCountriesRepository =
+           supportedCountriesRepository ??
+           SupportedCountriesRepository(
+             client: client ?? Supabase.instance.client,
+           );
 
   /// Legacy singleton for backward compatibility.
   static final MomoService instance = MomoService();
 
   final SupabaseClient _client;
   final SyncEngine? _syncEngine;
-
-  static const appMomoNumber = String.fromEnvironment('COOL_APP_MOMO_NUMBER');
+  final AppConfigRepository _appConfigRepository;
+  final SupportedCountriesRepository _supportedCountriesRepository;
 
   static const motoTaxiPlan = SubscriptionPlan.moto;
   static const cabOtherPlan = SubscriptionPlan.cabOther;
@@ -63,8 +74,6 @@ class MomoService {
   static const _pendingTransactionsTable = 'pending_transactions';
   static const _pendingTransactionsCacheBox = 'pending_transactions_cache';
   static const _syncDomain = 'momo_pending';
-  final SupportedCountriesRepository _supportedCountriesRepository =
-      SupportedCountriesRepository();
 
   // Firebase services for observability (late-bound, no-op if unavailable).
   CrashlyticsService? _crashlytics;
@@ -140,7 +149,10 @@ class MomoService {
 
     if (!launched) {
       debugPrint('[MoMo] ❌ Failed to launch USSD dialer for ref=$reference');
-      _performance?.stopTrace('momo_ussd_payment', attributes: {'error': 'dialer_failed'});
+      _performance?.stopTrace(
+        'momo_ussd_payment',
+        attributes: {'error': 'dialer_failed'},
+      );
       _crashlytics?.recordError(
         const MomoDialerException(),
         reason: 'momo_dialer_launch_failed',
@@ -148,10 +160,10 @@ class MomoService {
       throw const MomoDialerException();
     }
 
-    _performance?.stopTrace('momo_ussd_payment', attributes: {
-      'country': country.isoCode,
-      'provider': country.providerId,
-    });
+    _performance?.stopTrace(
+      'momo_ussd_payment',
+      attributes: {'country': country.isoCode, 'provider': country.providerId},
+    );
     _crashlytics?.log('momo: USSD launched for ref=$reference');
     debugPrint('[MoMo] ✅ USSD launched for ref=$reference');
   }
@@ -162,25 +174,36 @@ class MomoService {
     String? countryCode,
     String? providerId,
   }) async {
-    if (appMomoNumber.trim().isEmpty) {
-      throw const MomoConfigurationException('COOL_APP_MOMO_NUMBER');
+    final country = await _resolveCountry(
+      countryCode: countryCode,
+      providerId: providerId,
+    );
+    final recipientMomo = await _appConfigRepository
+        .getMobilitySubscriptionMomoCode(
+          country: country.isoCode,
+          forceRefresh: true,
+        );
+    if (recipientMomo == null) {
+      throw const MomoConfigurationException(
+        AppConfigKeys.mobilitySubscriptionMomoCode,
+      );
     }
-
     final timestamp = DateTime.now().millisecondsSinceEpoch;
     final reference = 'SUB-$driverId-$timestamp';
 
     await initiatePayment(
-      recipientMomo: appMomoNumber,
+      recipientMomo: recipientMomo,
       amount: plan.amountRwf,
       reference: reference,
-      countryCode: countryCode,
-      providerId: providerId,
+      recipientType: MomoRecipientType.code,
+      countryCode: country.isoCode,
+      providerId: country.providerId,
     );
   }
 
   Future<void> initiatePaymentUSSD(
     int amount, {
-    String recipientMomo = appMomoNumber,
+    required String recipientMomo,
     String? reference,
     MomoRecipientType recipientType = MomoRecipientType.phoneNumber,
     String? countryCode,
@@ -201,7 +224,7 @@ class MomoService {
 
   Future<void> initiateUSSD({
     required int amount,
-    String recipientMomo = appMomoNumber,
+    required String recipientMomo,
     String? reference,
     MomoRecipientType recipientType = MomoRecipientType.phoneNumber,
     String? countryCode,
@@ -259,9 +282,7 @@ class MomoService {
         'ref=${payload['reference']}',
       );
     } catch (e) {
-      debugPrint(
-        '[MoMo] ⚠️ Supabase insert failed ($e), caching locally',
-      );
+      debugPrint('[MoMo] ⚠️ Supabase insert failed ($e), caching locally');
       if (_syncEngine != null) {
         await _syncEngine.enqueue(_syncDomain, payload);
       } else {

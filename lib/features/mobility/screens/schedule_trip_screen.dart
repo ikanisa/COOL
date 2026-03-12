@@ -18,12 +18,9 @@ import '../../../core/theme/app_colors.dart';
 import '../providers/mobility_location_provider.dart';
 import '../providers/mobility_provider.dart';
 import '../services/place_search_service.dart';
-import '../widgets/schedule_trip_map_preview.dart';
 import '../widgets/schedule_trip_place_search_sheet.dart';
-import '../widgets/schedule_trip_review_card.dart';
-import '../widgets/schedule_trip_route_widgets.dart';
 import '../widgets/schedule_trip_shared.dart';
-import '../../../shared/widgets/cool_card.dart';
+import '../widgets/schedule_trip_step_widgets.dart';
 import '../../../shared/widgets/cool_toast.dart';
 
 class ScheduleTripScreen extends ConsumerStatefulWidget {
@@ -81,6 +78,8 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
     super.dispose();
   }
 
+  // ── Sync & route preview ────────────────────────────────────────
+
   void _syncResolvedLocations() {
     final fromText = _fromController.text.trim();
     final toText = _toController.text.trim();
@@ -116,9 +115,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
     final requestId = ++_routePreviewRequestId;
 
     if (origin == null || destination == null) {
-      if (!mounted) {
-        return;
-      }
+      if (!mounted) return;
       setState(() {
         _routePreview = null;
         _routePreviewError = null;
@@ -141,9 +138,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
             languageTag: Localizations.localeOf(context).toLanguageTag(),
             travelMode: _selectedTravelMode(),
           );
-      if (!mounted || requestId != _routePreviewRequestId) {
-        return;
-      }
+      if (!mounted || requestId != _routePreviewRequestId) return;
 
       setState(() {
         _routePreview = preview;
@@ -153,9 +148,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
             : null;
       });
     } catch (_) {
-      if (!mounted || requestId != _routePreviewRequestId) {
-        return;
-      }
+      if (!mounted || requestId != _routePreviewRequestId) return;
 
       setState(() {
         _loadingRoutePreview = false;
@@ -165,6 +158,8 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
       });
     }
   }
+
+  // ── Pickers ─────────────────────────────────────────────────────
 
   Future<void> _pickDate({bool isReturn = false}) async {
     final initialDate = isReturn ? _returnDate : _selectedDate;
@@ -238,6 +233,8 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
     });
   }
 
+  // ── Formatting helpers ──────────────────────────────────────────
+
   DateTime _combineDateAndTime(DateTime date, TimeOfDay time) {
     return DateTime(date.year, date.month, date.day, time.hour, time.minute);
   }
@@ -251,30 +248,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
     return MaterialLocalizations.of(context).formatTimeOfDay(time);
   }
 
-  List<_VehicleOption> _vehicleOptions(BuildContext context) {
-    final l10n = context.l10n;
-    return <_VehicleOption>[
-      _VehicleOption(
-        value: TripVehiclePreference.moto,
-        label: l10n.vehicleMoto,
-      ),
-      _VehicleOption(value: TripVehiclePreference.cab, label: l10n.vehicleCab),
-      _VehicleOption(value: TripVehiclePreference.any, label: l10n.vehicleAny),
-    ];
-  }
-
-  List<_DayOption> _dayOptions(BuildContext context) {
-    final l10n = context.l10n;
-    return <_DayOption>[
-      _DayOption(day: TripWeekday.mon, label: l10n.weekdayMonShort),
-      _DayOption(day: TripWeekday.tue, label: l10n.weekdayTueShort),
-      _DayOption(day: TripWeekday.wed, label: l10n.weekdayWedShort),
-      _DayOption(day: TripWeekday.thu, label: l10n.weekdayThuShort),
-      _DayOption(day: TripWeekday.fri, label: l10n.weekdayFriShort),
-      _DayOption(day: TripWeekday.sat, label: l10n.weekdaySatShort),
-      _DayOption(day: TripWeekday.sun, label: l10n.weekdaySunShort),
-    ];
-  }
+  // ── Toast helper ────────────────────────────────────────────────
 
   void _showSnackBar({
     required String message,
@@ -289,6 +263,8 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
       CoolToast.info(context, message);
     }
   }
+
+  // ── Location helpers ────────────────────────────────────────────
 
   int get _activeStepIndex => ScheduleTripStep.values.indexOf(_activeStep);
 
@@ -307,6 +283,8 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
     };
   }
 
+  // ── Validation ──────────────────────────────────────────────────
+
   bool _validateRouteStep() {
     final l10n = context.l10n;
     final from = _fromController.text.trim();
@@ -321,9 +299,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
       message = l10n.scheduleTripRouteSameError;
     }
 
-    if (message == null) {
-      return true;
-    }
+    if (message == null) return true;
 
     _showSnackBar(
       message: message,
@@ -361,10 +337,10 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
     return true;
   }
 
+  // ── Step navigation ─────────────────────────────────────────────
+
   void _goToPreviousStep() {
-    if (_activeStepIndex == 0) {
-      return;
-    }
+    if (_activeStepIndex == 0) return;
     setState(() {
       _activeStep = ScheduleTripStep.values[_activeStepIndex - 1];
     });
@@ -373,20 +349,18 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
   void _goToNextStep() {
     if (_activeStep == ScheduleTripStep.route) {
       final isValid = _formKey.currentState?.validate() ?? false;
-      if (!_validateRouteStep() || !isValid) {
-        return;
-      }
+      if (!_validateRouteStep() || !isValid) return;
     }
     if (_activeStep == ScheduleTripStep.timing && !_validateTimingStep()) {
       return;
     }
-    if (_activeStepIndex >= ScheduleTripStep.values.length - 1) {
-      return;
-    }
+    if (_activeStepIndex >= ScheduleTripStep.values.length - 1) return;
     setState(() {
       _activeStep = ScheduleTripStep.values[_activeStepIndex + 1];
     });
   }
+
+  // ── Place search & location ─────────────────────────────────────
 
   Future<void> _openPlaceSearch({required bool isOrigin}) async {
     final result = await showModalBottomSheet<PlaceSearchResult>(
@@ -406,9 +380,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
       },
     );
 
-    if (!mounted || result == null) {
-      return;
-    }
+    if (!mounted || result == null) return;
 
     setState(() {
       if (isOrigin) {
@@ -423,9 +395,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
   }
 
   Future<void> _useCurrentLocationForPickup() async {
-    if (_resolvingCurrentLocation) {
-      return;
-    }
+    if (_resolvingCurrentLocation) return;
 
     final languageTag = Localizations.localeOf(context).toLanguageTag();
     final locationNotifier = ref.read(mobilityLocationProvider.notifier);
@@ -456,9 +426,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
             longitude: position.longitude,
             languageTag: languageTag,
           );
-      if (!mounted) {
-        return;
-      }
+      if (!mounted) return;
 
       final resolved =
           result ??
@@ -474,9 +442,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
       });
       unawaited(_refreshRoutePreview());
     } catch (_) {
-      if (!mounted) {
-        return;
-      }
+      if (!mounted) return;
       final fallback = PlaceSearchResult(
         label: _fallbackCoordinateLabel(position),
         position: position,
@@ -505,6 +471,8 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
     final lng = position.longitude.toStringAsFixed(5);
     return 'Current location ($lat, $lng)';
   }
+
+  // ── Submit ──────────────────────────────────────────────────────
 
   Future<void> _submit() async {
     FocusScope.of(context).unfocus();
@@ -579,9 +547,6 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
         backgroundColor: AppColors.accent,
         textColor: Colors.black,
       );
-      // Only navigate to the trip board if the trip was confirmed by the
-      // server. Offline-stored trips won't appear there yet, so navigating
-      // would show an empty list — a false-success UX.
       if (!result.storedOffline) {
         context.go('/mobility/trips');
       }
@@ -598,11 +563,15 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
     }
   }
 
+  // ── Build ───────────────────────────────────────────────────────
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final isSubmitting = ref.watch(mobilitySubmissionLoadingProvider);
     final locationState = ref.watch(mobilityLocationProvider);
+    final vehicleOptions = buildVehicleOptions(context);
+    final dayOptions = buildDayOptions(context);
 
     return Scaffold(
       backgroundColor: AppColors.bg,
@@ -635,544 +604,137 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
                     children: [
                       ScheduleTripStepper(activeStep: _activeStep),
                       const SizedBox(height: 18),
-                      if (_activeStep == ScheduleTripStep.route) ...[
-                        CoolCard(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Pickup and destination',
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.text,
-                                ),
-                              ),
-                              const SizedBox(height: 6),
-                              Text(
-                                'Enter both stops. Search or use your current location only if you need it.',
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.text2,
-                                  height: 1.4,
-                                ),
-                              ),
-                              const SizedBox(height: 16),
-                              ScheduleTripRouteEditor(
-                                fromController: _fromController,
-                                toController: _toController,
-                                fromHint: l10n.scheduleTripFromHint,
-                                toHint: l10n.scheduleTripToHint,
-                                fromResolved: _fromSelection != null,
-                                toResolved: _toSelection != null,
-                                isResolvingCurrentLocation:
-                                    _resolvingCurrentLocation,
-                                onFromSearchTap: () {
-                                  _openPlaceSearch(isOrigin: true);
-                                },
-                                onToSearchTap: () {
-                                  _openPlaceSearch(isOrigin: false);
-                                },
-                                onUseCurrentLocationTap:
-                                    _useCurrentLocationForPickup,
-                                fromValidator: (value) {
-                                  if ((value ?? '').trim().isEmpty) {
-                                    return l10n.scheduleTripFromRequired;
-                                  }
-                                  if ((value ?? '').trim() ==
-                                      _toController.text.trim()) {
-                                    return l10n.scheduleTripRouteSameError;
-                                  }
-                                  return null;
-                                },
-                                toValidator: (value) {
-                                  if ((value ?? '').trim().isEmpty) {
-                                    return l10n.scheduleTripToRequired;
-                                  }
-                                  if ((value ?? '').trim() ==
-                                      _fromController.text.trim()) {
-                                    return l10n.scheduleTripRouteSameError;
-                                  }
-                                  return null;
-                                },
-                                fromHintText: _fromSelection != null
-                                    ? 'Pickup coordinates attached.'
-                                    : 'Search or use current location.',
-                                toHintText: _toSelection != null
-                                    ? 'Destination coordinates attached.'
-                                    : 'Search for a destination.',
-                              ),
-                            ],
+                      if (_activeStep == ScheduleTripStep.route)
+                        ScheduleTripRouteStep(
+                          fromController: _fromController,
+                          toController: _toController,
+                          fromSelection: _fromSelection,
+                          toSelection: _toSelection,
+                          isResolvingCurrentLocation:
+                              _resolvingCurrentLocation,
+                          routePreview: _routePreview,
+                          loadingRoutePreview: _loadingRoutePreview,
+                          routePreviewError: _routePreviewError,
+                          locationState: locationState,
+                          shouldShowLocationCard:
+                              _shouldShowLocationAttachmentCard(
+                            locationState,
                           ),
+                          onFromSearchTap: () =>
+                              _openPlaceSearch(isOrigin: true),
+                          onToSearchTap: () =>
+                              _openPlaceSearch(isOrigin: false),
+                          onUseCurrentLocationTap:
+                              _useCurrentLocationForPickup,
+                          onEnableLocation: () {
+                            ref
+                                .read(mobilityLocationProvider.notifier)
+                                .requestForegroundAccess();
+                          },
+                          onOpenAppSettings: () {
+                            ref
+                                .read(mobilityLocationProvider.notifier)
+                                .openAppSettings();
+                          },
+                          onOpenLocationSettings: () {
+                            ref
+                                .read(mobilityLocationProvider.notifier)
+                                .openLocationSettings();
+                          },
+                          onContinue: _goToNextStep,
+                          fromValidator: (value) {
+                            if ((value ?? '').trim().isEmpty) {
+                              return l10n.scheduleTripFromRequired;
+                            }
+                            if ((value ?? '').trim() ==
+                                _toController.text.trim()) {
+                              return l10n.scheduleTripRouteSameError;
+                            }
+                            return null;
+                          },
+                          toValidator: (value) {
+                            if ((value ?? '').trim().isEmpty) {
+                              return l10n.scheduleTripToRequired;
+                            }
+                            if ((value ?? '').trim() ==
+                                _fromController.text.trim()) {
+                              return l10n.scheduleTripRouteSameError;
+                            }
+                            return null;
+                          },
                         ),
-                        AnimatedSize(
-                          duration: const Duration(milliseconds: 280),
-                          curve: Curves.easeOut,
-                          alignment: Alignment.topCenter,
-                          child:
-                              _fromSelection == null &&
-                                  _toSelection == null &&
-                                  !_loadingRoutePreview &&
-                                  (_routePreviewError?.trim().isEmpty ?? true)
-                              ? const SizedBox.shrink()
-                              : Padding(
-                                  padding: const EdgeInsets.only(top: 12),
-                                  child: ScheduleTripMapPreview(
-                                    originLabel:
-                                        _fromSelection?.primaryText ??
-                                        _fromController.text.trim(),
-                                    destinationLabel:
-                                        _toSelection?.primaryText ??
-                                        _toController.text.trim(),
-                                    origin: _fromSelection?.position,
-                                    destination: _toSelection?.position,
-                                    preview: _routePreview,
-                                    isLoading: _loadingRoutePreview,
-                                    error: _routePreviewError,
-                                  ),
-                                ),
-                        ),
-                        if (_shouldShowLocationAttachmentCard(
-                          locationState,
-                        )) ...[
-                          const SizedBox(height: 12),
-                          ScheduleTripLocationAttachmentCard(
-                            locationState: locationState,
-                            onEnableLocation: () {
-                              ref
-                                  .read(mobilityLocationProvider.notifier)
-                                  .requestForegroundAccess();
-                            },
-                            onOpenAppSettings: () {
-                              ref
-                                  .read(mobilityLocationProvider.notifier)
-                                  .openAppSettings();
-                            },
-                            onOpenLocationSettings: () {
-                              ref
-                                  .read(mobilityLocationProvider.notifier)
-                                  .openLocationSettings();
-                            },
-                          ),
-                        ],
-                        const SizedBox(height: 20),
-                        ScheduleTripStepActionBar(
-                          primaryLabel: 'Continue',
-                          onPrimary: _goToNextStep,
-                        ),
-                      ],
-                      if (_activeStep == ScheduleTripStep.timing) ...[
-                        CoolCard(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'When',
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.text,
-                                ),
-                              ),
-                              const SizedBox(height: 6),
-                              Text(
-                                'Set departure first. Add a return or repeat only if needed.',
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.text2,
-                                  height: 1.4,
-                                ),
-                              ),
-                              const SizedBox(height: 16),
-                              ScheduleTripFieldLabel(
-                                label: l10n.scheduleTripDateTimeLabel,
-                              ),
-                              const SizedBox(height: 8),
-                              ScheduleTripAdaptiveFieldPair(
-                                first: ScheduleTripPickerField(
-                                  prefix: l10n.scheduleTripDateFieldPrefix,
-                                  value: _formatDate(_selectedDate),
-                                  onTap: _pickDate,
-                                ),
-                                second: ScheduleTripPickerField(
-                                  prefix: l10n.scheduleTripTimeFieldPrefix,
-                                  value: _formatTime(_selectedTime),
-                                  onTap: _pickTime,
-                                ),
-                              ),
-                              const SizedBox(height: 18),
-                              Text(
-                                'Return or repeat',
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.text,
-                                ),
-                              ),
-                              const SizedBox(height: 12),
-                              ScheduleTripToggleCard(
-                                icon: Icons.repeat_rounded,
-                                title: l10n.scheduleTripReturnTitle,
-                                subtitle: l10n.scheduleTripReturnSubtitle,
-                                value: _returnTrip,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _returnTrip = value;
-                                    if (value) {
-                                      _returnDate = _selectedDate;
-                                    }
-                                  });
-                                },
-                              ),
-                              AnimatedSize(
-                                duration: const Duration(milliseconds: 180),
-                                curve: Curves.easeOut,
-                                child: !_returnTrip
-                                    ? const SizedBox.shrink()
-                                    : Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            ScheduleTripFieldLabel(
-                                              label: l10n
-                                                  .scheduleTripReturnFieldsLabel,
-                                            ),
-                                            const SizedBox(height: 8),
-                                            ScheduleTripAdaptiveFieldPair(
-                                              first: ScheduleTripPickerField(
-                                                prefix: l10n
-                                                    .scheduleTripDateFieldPrefix,
-                                                value: _formatDate(_returnDate),
-                                                onTap: () =>
-                                                    _pickDate(isReturn: true),
-                                              ),
-                                              second: ScheduleTripPickerField(
-                                                prefix: l10n
-                                                    .scheduleTripTimeFieldPrefix,
-                                                value: _formatTime(_returnTime),
-                                                onTap: () =>
-                                                    _pickTime(isReturn: true),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                              ),
-                              const SizedBox(height: 12),
-                              ScheduleTripToggleCard(
-                                icon: Icons.sync_rounded,
-                                title: l10n.scheduleTripRecurringTitle,
-                                subtitle: l10n.scheduleTripRecurringSubtitle,
-                                value: _recurringTrip,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _recurringTrip = value;
-                                    if (!value) {
-                                      _recurringDays.clear();
-                                    }
-                                  });
-                                },
-                              ),
-                              AnimatedSize(
-                                duration: const Duration(milliseconds: 180),
-                                curve: Curves.easeOut,
-                                child: !_recurringTrip
-                                    ? const SizedBox.shrink()
-                                    : Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            ScheduleTripFieldLabel(
-                                              label: l10n
-                                                  .scheduleTripRecurringDaysLabel,
-                                            ),
-                                            const SizedBox(height: 8),
-                                            Wrap(
-                                              spacing: 8,
-                                              runSpacing: 8,
-                                              children: [
-                                                for (final option
-                                                    in _dayOptions(context))
-                                                  ScheduleTripDayChip(
-                                                    label: option.label,
-                                                    selected: _recurringDays
-                                                        .contains(option.day),
-                                                    onTap: () {
-                                                      setState(() {
-                                                        if (_recurringDays
-                                                            .contains(
-                                                              option.day,
-                                                            )) {
-                                                          _recurringDays.remove(
-                                                            option.day,
-                                                          );
-                                                        } else {
-                                                          _recurringDays.add(
-                                                            option.day,
-                                                          );
-                                                        }
-                                                      });
-                                                    },
-                                                  ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        ScheduleTripStepActionBar(
-                          showBack: true,
+                      if (_activeStep == ScheduleTripStep.timing)
+                        ScheduleTripTimingStep(
+                          selectedDate: _selectedDate,
+                          selectedTime: _selectedTime,
+                          returnTrip: _returnTrip,
+                          returnDate: _returnDate,
+                          returnTime: _returnTime,
+                          recurringTrip: _recurringTrip,
+                          recurringDays: _recurringDays,
+                          formatDate: _formatDate,
+                          formatTime: _formatTime,
+                          onPickDate: _pickDate,
+                          onPickTime: _pickTime,
+                          onPickReturnDate: () => _pickDate(isReturn: true),
+                          onPickReturnTime: () => _pickTime(isReturn: true),
+                          onReturnTripToggled: (value) {
+                            setState(() {
+                              _returnTrip = value;
+                              if (value) _returnDate = _selectedDate;
+                            });
+                          },
+                          onRecurringTripToggled: (value) {
+                            setState(() {
+                              _recurringTrip = value;
+                              if (!value) _recurringDays.clear();
+                            });
+                          },
+                          onRecurringDayToggled: (day) {
+                            setState(() {
+                              if (_recurringDays.contains(day)) {
+                                _recurringDays.remove(day);
+                              } else {
+                                _recurringDays.add(day);
+                              }
+                            });
+                          },
                           onBack: _goToPreviousStep,
-                          primaryLabel: 'Continue',
-                          onPrimary: _goToNextStep,
+                          onContinue: _goToNextStep,
                         ),
-                      ],
-                      if (_activeStep == ScheduleTripStep.options) ...[
-                        CoolCard(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Trip setup',
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.text,
-                                ),
-                              ),
-                              const SizedBox(height: 6),
-                              Text(
-                                'Choose the ride, seats, and any optional note.',
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.text2,
-                                  height: 1.4,
-                                ),
-                              ),
-                              const SizedBox(height: 16),
-                              ScheduleTripFieldLabel(
-                                label: l10n.scheduleTripVehicleLabel,
-                              ),
-                              const SizedBox(height: 8),
-                              Wrap(
-                                spacing: 8,
-                                runSpacing: 8,
-                                children: [
-                                  for (final option in _vehicleOptions(context))
-                                    ScheduleTripSelectionChip(
-                                      label: option.label,
-                                      selected:
-                                          _vehiclePreference == option.value,
-                                      onTap: () {
-                                        setState(
-                                          () =>
-                                              _vehiclePreference = option.value,
-                                        );
-                                        unawaited(_refreshRoutePreview());
-                                      },
-                                    ),
-                                ],
-                              ),
-                              const SizedBox(height: 18),
-                              ScheduleTripFieldLabel(
-                                label: l10n.scheduleTripSeatsLabel,
-                              ),
-                              const SizedBox(height: 8),
-                              Wrap(
-                                spacing: 8,
-                                runSpacing: 8,
-                                children: [
-                                  for (final seat in _seatOptions)
-                                    ScheduleTripSeatChip(
-                                      label: seat >= 3 ? '3+' : '$seat',
-                                      selected: _seats == seat,
-                                      onTap: () =>
-                                          setState(() => _seats = seat),
-                                    ),
-                                ],
-                              ),
-                              const SizedBox(height: 18),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      'Add details',
-                                      style: GoogleFonts.dmSans(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
-                                        color: AppColors.text,
-                                      ),
-                                    ),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _showAdditionalDetails =
-                                            !_showAdditionalDetails;
-                                      });
-                                    },
-                                    child: Text(
-                                      _showAdditionalDetails ? 'Hide' : 'Show',
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                'Price notes and expiry are optional.',
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.text2,
-                                  height: 1.4,
-                                ),
-                              ),
-                              AnimatedCrossFade(
-                                duration: const Duration(milliseconds: 220),
-                                crossFadeState: _showAdditionalDetails
-                                    ? CrossFadeState.showSecond
-                                    : CrossFadeState.showFirst,
-                                firstChild: const SizedBox(height: 12),
-                                secondChild: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const SizedBox(height: 14),
-                                    Container(
-                                      width: double.infinity,
-                                      padding: const EdgeInsets.all(12),
-                                      decoration: BoxDecoration(
-                                        color: AppColors.surface2,
-                                        borderRadius: BorderRadius.circular(14),
-                                        border: Border.all(
-                                          color: AppColors.border2,
-                                        ),
-                                      ),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const Icon(
-                                            Icons.schedule_rounded,
-                                            size: 18,
-                                            color: AppColors.text2,
-                                          ),
-                                          const SizedBox(width: 10),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  l10n.scheduleTripExpiryTitle,
-                                                  style: GoogleFonts.dmSans(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: AppColors.text,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 4),
-                                                Text(
-                                                  l10n.scheduleTripExpirySubtitle,
-                                                  style: GoogleFonts.dmSans(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: AppColors.text2,
-                                                    height: 1.4,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(height: 14),
-                                    ScheduleTripFieldLabel(
-                                      label: 'Price note (optional)',
-                                    ),
-                                    const SizedBox(height: 8),
-                                    TextFormField(
-                                      controller: _priceNoteController,
-                                      style: GoogleFonts.dmSans(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        color: AppColors.text,
-                                      ),
-                                      maxLength: 60,
-                                      decoration: InputDecoration(
-                                        hintText: 'e.g. 500 RWF · Negotiable',
-                                        hintStyle: GoogleFonts.dmSans(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: AppColors.text3,
-                                        ),
-                                        counterStyle: GoogleFonts.dmSans(
-                                          fontSize: 11,
-                                          color: AppColors.text3,
-                                        ),
-                                        filled: true,
-                                        fillColor: AppColors.surface3,
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(
-                                            12,
-                                          ),
-                                          borderSide: const BorderSide(
-                                            color: AppColors.border,
-                                          ),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(
-                                            12,
-                                          ),
-                                          borderSide: const BorderSide(
-                                            color: AppColors.border,
-                                          ),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(
-                                            12,
-                                          ),
-                                          borderSide: const BorderSide(
-                                            color: AppColors.accent,
-                                            width: 1.2,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        ScheduleTripStepActionBar(
-                          showBack: true,
+                      if (_activeStep == ScheduleTripStep.options)
+                        ScheduleTripOptionsStep(
+                          vehiclePreference: _vehiclePreference,
+                          seats: _seats,
+                          showAdditionalDetails: _showAdditionalDetails,
+                          priceNoteController: _priceNoteController,
+                          onVehicleChanged: (value) {
+                            setState(
+                              () => _vehiclePreference = value,
+                            );
+                            unawaited(_refreshRoutePreview());
+                          },
+                          onSeatChanged: (value) =>
+                              setState(() => _seats = value),
+                          onToggleDetails: () {
+                            setState(() {
+                              _showAdditionalDetails =
+                                  !_showAdditionalDetails;
+                            });
+                          },
                           onBack: _goToPreviousStep,
-                          primaryLabel: 'Review',
-                          onPrimary: _goToNextStep,
+                          onContinue: _goToNextStep,
                         ),
-                      ],
-                      if (_activeStep == ScheduleTripStep.review) ...[
-                        ScheduleTripReviewCard(
-                          routeLabel:
-                              '${_fromController.text.trim()} → ${_toController.text.trim()}',
+                      if (_activeStep == ScheduleTripStep.review)
+                        ScheduleTripReviewStep(
+                          fromText: _fromController.text.trim(),
+                          toText: _toController.text.trim(),
                           departureLabel:
                               '${_formatDate(_selectedDate)} · ${_formatTime(_selectedTime)}',
-                          vehicleLabel: _vehicleOptions(context)
+                          vehicleLabel: vehicleOptions
                               .firstWhere(
-                                (option) => option.value == _vehiclePreference,
+                                (option) =>
+                                    option.value == _vehiclePreference,
                               )
                               .label,
                           seatsLabel: _seats >= 3 ? '3+' : '$_seats',
@@ -1180,30 +742,26 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
                               ? '${_formatDate(_returnDate)} · ${_formatTime(_returnTime)}'
                               : 'No return trip',
                           recurringLabel: _recurringTrip
-                              ? _dayOptions(context)
+                              ? dayOptions
                                     .where(
-                                      (option) =>
-                                          _recurringDays.contains(option.day),
+                                      (option) => _recurringDays
+                                          .contains(option.day),
                                     )
                                     .map((option) => option.label)
                                     .join(', ')
                               : 'One-time trip',
-                          detailsLabel: _priceNoteController.text.trim().isEmpty
-                              ? 'No extra note'
-                              : _priceNoteController.text.trim(),
+                          detailsLabel:
+                              _priceNoteController.text.trim().isEmpty
+                                  ? 'No extra note'
+                                  : _priceNoteController.text.trim(),
                           previewLabel: _routePreview == null
                               ? 'No live route preview'
                               : '${_routePreview!.distanceLabel} · ${_routePreview!.durationLabel}',
-                        ),
-                        const SizedBox(height: 20),
-                        ScheduleTripStepActionBar(
-                          showBack: true,
+                          isSubmitting: isSubmitting,
+                          submitLabel: l10n.scheduleTripPostCta,
                           onBack: _goToPreviousStep,
-                          primaryLabel: l10n.scheduleTripPostCta,
-                          onPrimary: _submit,
-                          isPrimaryLoading: isSubmitting,
+                          onSubmit: _submit,
                         ),
-                      ],
                     ],
                   ),
                 ),
@@ -1215,21 +773,3 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
     );
   }
 }
-
-// ── Data helpers ─────────────────────────────────────────────────
-
-class _VehicleOption {
-  const _VehicleOption({required this.value, required this.label});
-
-  final TripVehiclePreference value;
-  final String label;
-}
-
-class _DayOption {
-  const _DayOption({required this.day, required this.label});
-
-  final TripWeekday day;
-  final String label;
-}
-
-const _seatOptions = <int>[1, 2, 3];

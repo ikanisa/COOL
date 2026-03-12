@@ -267,23 +267,18 @@ class GroupRepository {
     final rawRecipientMomo =
         groupRow['receiving_momo_code']?.toString() ??
         groupRow['momo_number']?.toString();
-    final recipientMomo =
-        rawRecipientMomo == null || rawRecipientMomo.trim().isEmpty
-        ? MomoService.appMomoNumber
-        : rawRecipientMomo.trim();
-    if (recipientMomo.trim().isEmpty) {
+    if (rawRecipientMomo == null || rawRecipientMomo.trim().isEmpty) {
       throw const MomoConfigurationException('recipient_momo');
     }
+    final recipientMomo = rawRecipientMomo.trim();
 
     final recipientType =
-        rawRecipientMomo == null || rawRecipientMomo.trim().isEmpty
-        ? MomoRecipientType.phoneNumber
-        : _parseRecipientType(
-                groupRow['receiving_momo_route_type']?.toString(),
-              ) ??
-              (groupRow['momo_number']?.toString().trim().isNotEmpty == true
-                  ? MomoRecipientType.phoneNumber
-                  : _inferRecipientType(country, rawRecipientMomo));
+        _parseRecipientType(
+          groupRow['receiving_momo_route_type']?.toString(),
+        ) ??
+        (groupRow['momo_number']?.toString().trim().isNotEmpty == true
+            ? MomoRecipientType.phoneNumber
+            : _inferRecipientType(country, rawRecipientMomo));
 
     await _client.from('group_contributions').insert(<String, dynamic>{
       'group_id': groupId,

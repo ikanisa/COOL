@@ -10,7 +10,6 @@
 #   SUPABASE_ANON_KEY     — project anon key
 #
 # Optional (defaults apply):
-#   COOL_APP_MOMO_NUMBER  — MoMo recipient number (subscription payments)
 #   COOL_DEEP_LINK_HOST   — Deep link host (defaults to cool.app)
 #   COOL_PRIVACY_POLICY_URL
 #   COOL_TERMS_OF_SERVICE_URL

@@ -1,0 +1,692 @@
+
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../../../core/l10n/l10n.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../shared/widgets/cool_card.dart';
+import '../models/mobility_route_preview.dart';
+import '../models/trip_post_request.dart';
+import '../providers/mobility_location_provider.dart';
+import '../services/place_search_service.dart';
+import 'schedule_trip_map_preview.dart';
+import 'schedule_trip_review_card.dart';
+import 'schedule_trip_route_widgets.dart';
+import 'schedule_trip_shared.dart';
+
+// ── Data helpers ────────────────────────────────────────────────────
+
+class VehicleOption {
+  const VehicleOption({required this.value, required this.label});
+
+  final TripVehiclePreference value;
+  final String label;
+}
+
+class DayOption {
+  const DayOption({required this.day, required this.label});
+
+  final TripWeekday day;
+  final String label;
+}
+
+const seatOptions = <int>[1, 2, 3];
+
+List<VehicleOption> buildVehicleOptions(BuildContext context) {
+  final l10n = context.l10n;
+  return <VehicleOption>[
+    VehicleOption(
+      value: TripVehiclePreference.moto,
+      label: l10n.vehicleMoto,
+    ),
+    VehicleOption(value: TripVehiclePreference.cab, label: l10n.vehicleCab),
+    VehicleOption(value: TripVehiclePreference.any, label: l10n.vehicleAny),
+  ];
+}
+
+List<DayOption> buildDayOptions(BuildContext context) {
+  final l10n = context.l10n;
+  return <DayOption>[
+    DayOption(day: TripWeekday.mon, label: l10n.weekdayMonShort),
+    DayOption(day: TripWeekday.tue, label: l10n.weekdayTueShort),
+    DayOption(day: TripWeekday.wed, label: l10n.weekdayWedShort),
+    DayOption(day: TripWeekday.thu, label: l10n.weekdayThuShort),
+    DayOption(day: TripWeekday.fri, label: l10n.weekdayFriShort),
+    DayOption(day: TripWeekday.sat, label: l10n.weekdaySatShort),
+    DayOption(day: TripWeekday.sun, label: l10n.weekdaySunShort),
+  ];
+}
+
+// ── Route step ────────────────────────────────────────────────────
+
+/// Step 1: Route – pickup and destination input.
+class ScheduleTripRouteStep extends StatelessWidget {
+  const ScheduleTripRouteStep({
+    required this.fromController,
+    required this.toController,
+    required this.fromSelection,
+    required this.toSelection,
+    required this.isResolvingCurrentLocation,
+    required this.routePreview,
+    required this.loadingRoutePreview,
+    required this.routePreviewError,
+    required this.locationState,
+    required this.shouldShowLocationCard,
+    required this.onFromSearchTap,
+    required this.onToSearchTap,
+    required this.onUseCurrentLocationTap,
+    required this.onEnableLocation,
+    required this.onOpenAppSettings,
+    required this.onOpenLocationSettings,
+    required this.onContinue,
+    required this.fromValidator,
+    required this.toValidator,
+    super.key,
+  });
+
+  final TextEditingController fromController;
+  final TextEditingController toController;
+  final PlaceSearchResult? fromSelection;
+  final PlaceSearchResult? toSelection;
+  final bool isResolvingCurrentLocation;
+  final MobilityRoutePreview? routePreview;
+  final bool loadingRoutePreview;
+  final String? routePreviewError;
+  final MobilityLocationState locationState;
+  final bool shouldShowLocationCard;
+  final VoidCallback onFromSearchTap;
+  final VoidCallback onToSearchTap;
+  final VoidCallback onUseCurrentLocationTap;
+  final VoidCallback onEnableLocation;
+  final VoidCallback onOpenAppSettings;
+  final VoidCallback onOpenLocationSettings;
+  final VoidCallback onContinue;
+  final String? Function(String?) fromValidator;
+  final String? Function(String?) toValidator;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CoolCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Pickup and destination',
+                style: GoogleFonts.dmSans(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.text,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'Enter both stops. Search or use your current location only if you need it.',
+                style: GoogleFonts.dmSans(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.text2,
+                  height: 1.4,
+                ),
+              ),
+              const SizedBox(height: 16),
+              ScheduleTripRouteEditor(
+                fromController: fromController,
+                toController: toController,
+                fromHint: l10n.scheduleTripFromHint,
+                toHint: l10n.scheduleTripToHint,
+                fromResolved: fromSelection != null,
+                toResolved: toSelection != null,
+                isResolvingCurrentLocation: isResolvingCurrentLocation,
+                onFromSearchTap: onFromSearchTap,
+                onToSearchTap: onToSearchTap,
+                onUseCurrentLocationTap: onUseCurrentLocationTap,
+                fromValidator: fromValidator,
+                toValidator: toValidator,
+                fromHintText: fromSelection != null
+                    ? 'Pickup coordinates attached.'
+                    : 'Search or use current location.',
+                toHintText: toSelection != null
+                    ? 'Destination coordinates attached.'
+                    : 'Search for a destination.',
+              ),
+            ],
+          ),
+        ),
+        AnimatedSize(
+          duration: const Duration(milliseconds: 280),
+          curve: Curves.easeOut,
+          alignment: Alignment.topCenter,
+          child: fromSelection == null &&
+                  toSelection == null &&
+                  !loadingRoutePreview &&
+                  (routePreviewError?.trim().isEmpty ?? true)
+              ? const SizedBox.shrink()
+              : Padding(
+                  padding: const EdgeInsets.only(top: 12),
+                  child: ScheduleTripMapPreview(
+                    originLabel: fromSelection?.primaryText ??
+                        fromController.text.trim(),
+                    destinationLabel: toSelection?.primaryText ??
+                        toController.text.trim(),
+                    origin: fromSelection?.position,
+                    destination: toSelection?.position,
+                    preview: routePreview,
+                    isLoading: loadingRoutePreview,
+                    error: routePreviewError,
+                  ),
+                ),
+        ),
+        if (shouldShowLocationCard) ...[
+          const SizedBox(height: 12),
+          ScheduleTripLocationAttachmentCard(
+            locationState: locationState,
+            onEnableLocation: onEnableLocation,
+            onOpenAppSettings: onOpenAppSettings,
+            onOpenLocationSettings: onOpenLocationSettings,
+          ),
+        ],
+        const SizedBox(height: 20),
+        ScheduleTripStepActionBar(
+          primaryLabel: 'Continue',
+          onPrimary: onContinue,
+        ),
+      ],
+    );
+  }
+}
+
+// ── Timing step ───────────────────────────────────────────────────
+
+/// Step 2: Timing – date/time, return trip, recurring.
+class ScheduleTripTimingStep extends StatelessWidget {
+  const ScheduleTripTimingStep({
+    required this.selectedDate,
+    required this.selectedTime,
+    required this.returnTrip,
+    required this.returnDate,
+    required this.returnTime,
+    required this.recurringTrip,
+    required this.recurringDays,
+    required this.formatDate,
+    required this.formatTime,
+    required this.onPickDate,
+    required this.onPickTime,
+    required this.onPickReturnDate,
+    required this.onPickReturnTime,
+    required this.onReturnTripToggled,
+    required this.onRecurringTripToggled,
+    required this.onRecurringDayToggled,
+    required this.onBack,
+    required this.onContinue,
+    super.key,
+  });
+
+  final DateTime selectedDate;
+  final TimeOfDay selectedTime;
+  final bool returnTrip;
+  final DateTime returnDate;
+  final TimeOfDay returnTime;
+  final bool recurringTrip;
+  final Set<TripWeekday> recurringDays;
+  final String Function(DateTime) formatDate;
+  final String Function(TimeOfDay) formatTime;
+  final VoidCallback onPickDate;
+  final VoidCallback onPickTime;
+  final VoidCallback onPickReturnDate;
+  final VoidCallback onPickReturnTime;
+  final ValueChanged<bool> onReturnTripToggled;
+  final ValueChanged<bool> onRecurringTripToggled;
+  final void Function(TripWeekday) onRecurringDayToggled;
+  final VoidCallback onBack;
+  final VoidCallback onContinue;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final dayOptions = buildDayOptions(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CoolCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'When',
+                style: GoogleFonts.dmSans(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.text,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'Set departure first. Add a return or repeat only if needed.',
+                style: GoogleFonts.dmSans(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.text2,
+                  height: 1.4,
+                ),
+              ),
+              const SizedBox(height: 16),
+              ScheduleTripFieldLabel(label: l10n.scheduleTripDateTimeLabel),
+              const SizedBox(height: 8),
+              ScheduleTripAdaptiveFieldPair(
+                first: ScheduleTripPickerField(
+                  prefix: l10n.scheduleTripDateFieldPrefix,
+                  value: formatDate(selectedDate),
+                  onTap: onPickDate,
+                ),
+                second: ScheduleTripPickerField(
+                  prefix: l10n.scheduleTripTimeFieldPrefix,
+                  value: formatTime(selectedTime),
+                  onTap: onPickTime,
+                ),
+              ),
+              const SizedBox(height: 18),
+              Text(
+                'Return or repeat',
+                style: GoogleFonts.dmSans(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.text,
+                ),
+              ),
+              const SizedBox(height: 12),
+              ScheduleTripToggleCard(
+                icon: Icons.repeat_rounded,
+                title: l10n.scheduleTripReturnTitle,
+                subtitle: l10n.scheduleTripReturnSubtitle,
+                value: returnTrip,
+                onChanged: onReturnTripToggled,
+              ),
+              AnimatedSize(
+                duration: const Duration(milliseconds: 180),
+                curve: Curves.easeOut,
+                child: !returnTrip
+                    ? const SizedBox.shrink()
+                    : Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ScheduleTripFieldLabel(
+                              label: l10n.scheduleTripReturnFieldsLabel,
+                            ),
+                            const SizedBox(height: 8),
+                            ScheduleTripAdaptiveFieldPair(
+                              first: ScheduleTripPickerField(
+                                prefix: l10n.scheduleTripDateFieldPrefix,
+                                value: formatDate(returnDate),
+                                onTap: onPickReturnDate,
+                              ),
+                              second: ScheduleTripPickerField(
+                                prefix: l10n.scheduleTripTimeFieldPrefix,
+                                value: formatTime(returnTime),
+                                onTap: onPickReturnTime,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+              ),
+              const SizedBox(height: 12),
+              ScheduleTripToggleCard(
+                icon: Icons.sync_rounded,
+                title: l10n.scheduleTripRecurringTitle,
+                subtitle: l10n.scheduleTripRecurringSubtitle,
+                value: recurringTrip,
+                onChanged: onRecurringTripToggled,
+              ),
+              AnimatedSize(
+                duration: const Duration(milliseconds: 180),
+                curve: Curves.easeOut,
+                child: !recurringTrip
+                    ? const SizedBox.shrink()
+                    : Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ScheduleTripFieldLabel(
+                              label: l10n.scheduleTripRecurringDaysLabel,
+                            ),
+                            const SizedBox(height: 8),
+                            Wrap(
+                              spacing: 8,
+                              runSpacing: 8,
+                              children: [
+                                for (final option in dayOptions)
+                                  ScheduleTripDayChip(
+                                    label: option.label,
+                                    selected:
+                                        recurringDays.contains(option.day),
+                                    onTap: () =>
+                                        onRecurringDayToggled(option.day),
+                                  ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 20),
+        ScheduleTripStepActionBar(
+          showBack: true,
+          onBack: onBack,
+          primaryLabel: 'Continue',
+          onPrimary: onContinue,
+        ),
+      ],
+    );
+  }
+}
+
+// ── Options step ──────────────────────────────────────────────────
+
+/// Step 3: Options – vehicle, seats, price note.
+class ScheduleTripOptionsStep extends StatelessWidget {
+  const ScheduleTripOptionsStep({
+    required this.vehiclePreference,
+    required this.seats,
+    required this.showAdditionalDetails,
+    required this.priceNoteController,
+    required this.onVehicleChanged,
+    required this.onSeatChanged,
+    required this.onToggleDetails,
+    required this.onBack,
+    required this.onContinue,
+    super.key,
+  });
+
+  final TripVehiclePreference vehiclePreference;
+  final int seats;
+  final bool showAdditionalDetails;
+  final TextEditingController priceNoteController;
+  final void Function(TripVehiclePreference) onVehicleChanged;
+  final ValueChanged<int> onSeatChanged;
+  final VoidCallback onToggleDetails;
+  final VoidCallback onBack;
+  final VoidCallback onContinue;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final vehicleOptions = buildVehicleOptions(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CoolCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Trip setup',
+                style: GoogleFonts.dmSans(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.text,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'Choose the ride, seats, and any optional note.',
+                style: GoogleFonts.dmSans(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.text2,
+                  height: 1.4,
+                ),
+              ),
+              const SizedBox(height: 16),
+              ScheduleTripFieldLabel(label: l10n.scheduleTripVehicleLabel),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  for (final option in vehicleOptions)
+                    ScheduleTripSelectionChip(
+                      label: option.label,
+                      selected: vehiclePreference == option.value,
+                      onTap: () => onVehicleChanged(option.value),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 18),
+              ScheduleTripFieldLabel(label: l10n.scheduleTripSeatsLabel),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  for (final seat in seatOptions)
+                    ScheduleTripSeatChip(
+                      label: seat >= 3 ? '3+' : '$seat',
+                      selected: seats == seat,
+                      onTap: () => onSeatChanged(seat),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 18),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Add details',
+                      style: GoogleFonts.dmSans(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.text,
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: onToggleDetails,
+                    child: Text(showAdditionalDetails ? 'Hide' : 'Show'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'Price notes and expiry are optional.',
+                style: GoogleFonts.dmSans(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.text2,
+                  height: 1.4,
+                ),
+              ),
+              AnimatedCrossFade(
+                duration: const Duration(milliseconds: 220),
+                crossFadeState: showAdditionalDetails
+                    ? CrossFadeState.showSecond
+                    : CrossFadeState.showFirst,
+                firstChild: const SizedBox(height: 12),
+                secondChild: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 14),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: AppColors.surface2,
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(color: AppColors.border2),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Icon(
+                            Icons.schedule_rounded,
+                            size: 18,
+                            color: AppColors.text2,
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  l10n.scheduleTripExpiryTitle,
+                                  style: GoogleFonts.dmSans(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.text,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  l10n.scheduleTripExpirySubtitle,
+                                  style: GoogleFonts.dmSans(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.text2,
+                                    height: 1.4,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+                    const ScheduleTripFieldLabel(
+                      label: 'Price note (optional)',
+                    ),
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: priceNoteController,
+                      style: GoogleFonts.dmSans(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.text,
+                      ),
+                      maxLength: 60,
+                      decoration: InputDecoration(
+                        hintText: 'e.g. 500 RWF · Negotiable',
+                        hintStyle: GoogleFonts.dmSans(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.text3,
+                        ),
+                        counterStyle: GoogleFonts.dmSans(
+                          fontSize: 11,
+                          color: AppColors.text3,
+                        ),
+                        filled: true,
+                        fillColor: AppColors.surface3,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(
+                            color: AppColors.border,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(
+                            color: AppColors.border,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(
+                            color: AppColors.accent,
+                            width: 1.2,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 20),
+        ScheduleTripStepActionBar(
+          showBack: true,
+          onBack: onBack,
+          primaryLabel: 'Review',
+          onPrimary: onContinue,
+        ),
+      ],
+    );
+  }
+}
+
+// ── Review step ──────────────────────────────────────────────────
+
+/// Step 4: Review – trip summary and submit.
+class ScheduleTripReviewStep extends StatelessWidget {
+  const ScheduleTripReviewStep({
+    required this.fromText,
+    required this.toText,
+    required this.departureLabel,
+    required this.vehicleLabel,
+    required this.seatsLabel,
+    required this.returnLabel,
+    required this.recurringLabel,
+    required this.detailsLabel,
+    required this.previewLabel,
+    required this.isSubmitting,
+    required this.submitLabel,
+    required this.onBack,
+    required this.onSubmit,
+    super.key,
+  });
+
+  final String fromText;
+  final String toText;
+  final String departureLabel;
+  final String vehicleLabel;
+  final String seatsLabel;
+  final String returnLabel;
+  final String recurringLabel;
+  final String detailsLabel;
+  final String previewLabel;
+  final bool isSubmitting;
+  final String submitLabel;
+  final VoidCallback onBack;
+  final VoidCallback onSubmit;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ScheduleTripReviewCard(
+          routeLabel: '$fromText → $toText',
+          departureLabel: departureLabel,
+          vehicleLabel: vehicleLabel,
+          seatsLabel: seatsLabel,
+          returnLabel: returnLabel,
+          recurringLabel: recurringLabel,
+          detailsLabel: detailsLabel,
+          previewLabel: previewLabel,
+        ),
+        const SizedBox(height: 20),
+        ScheduleTripStepActionBar(
+          showBack: true,
+          onBack: onBack,
+          primaryLabel: submitLabel,
+          onPrimary: onSubmit,
+          isPrimaryLoading: isSubmitting,
+        ),
+      ],
+    );
+  }
+}

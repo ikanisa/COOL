@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/providers/engagement_providers.dart';
+import '../../core/services/screen_security_service.dart';
 
 /// A wrapper that enables FLAG_SECURE (screenshot protection)
 /// for the duration that its child is visible.
@@ -21,17 +22,20 @@ class SecureScreenWrapper extends ConsumerStatefulWidget {
 }
 
 class _SecureScreenWrapperState extends ConsumerState<SecureScreenWrapper> {
+  late final ScreenSecurityService _screenSecurityService;
+
   @override
   void initState() {
     super.initState();
+    _screenSecurityService = ref.read(screenSecurityServiceProvider);
     // Enable screenshot protection when this screen is shown.
-    ref.read(screenSecurityServiceProvider).enableSecureMode();
+    _screenSecurityService.enableSecureMode();
   }
 
   @override
   void dispose() {
     // Disable screenshot protection when navigating away.
-    ref.read(screenSecurityServiceProvider).disableSecureMode();
+    _screenSecurityService.disableSecureMode();
     super.dispose();
   }
 

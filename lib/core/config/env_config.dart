@@ -10,7 +10,10 @@ class EnvConfig {
 
   /// Build flavor: 'staging' or 'production'.
   /// Set via --dart-define=FLAVOR=production (defaults to staging).
-  static const flavor = String.fromEnvironment('FLAVOR', defaultValue: 'staging');
+  static const flavor = String.fromEnvironment(
+    'FLAVOR',
+    defaultValue: 'staging',
+  );
 
   /// Whether running in production flavor.
   static bool get isProduction => flavor == 'production';
@@ -21,8 +24,6 @@ class EnvConfig {
   static const supabaseUrl = String.fromEnvironment('SUPABASE_URL');
 
   static const supabaseAnonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
-
-  static const appMomoNumber = String.fromEnvironment('COOL_APP_MOMO_NUMBER');
 
   static const googleMapsAndroidMapId = String.fromEnvironment(
     'GOOGLE_MAPS_ANDROID_MAP_ID',
@@ -77,12 +78,6 @@ class EnvConfig {
       warnings.add(
         '${kReleaseMode ? "ERROR" : "WARN"}: SUPABASE_ANON_KEY is not set. '
         'Provide via --dart-define=SUPABASE_ANON_KEY=...',
-      );
-    }
-    if (appMomoNumber.isEmpty) {
-      warnings.add(
-        'WARN: COOL_APP_MOMO_NUMBER is not set — subscription USSD '
-        'payments will fail. Set via --dart-define=COOL_APP_MOMO_NUMBER=250...',
       );
     }
     if (deepLinkHost == 'cool.app') {

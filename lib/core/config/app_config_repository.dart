@@ -4,6 +4,10 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../config/country_catalog.dart';
 
+abstract final class AppConfigKeys {
+  static const mobilitySubscriptionMomoCode = 'mobility_subscription_momo_code';
+}
+
 /// Fetches key-value config from the `app_config` Supabase table.
 class AppConfigRepository {
   AppConfigRepository({SupabaseClient? client})
@@ -16,13 +20,20 @@ class AppConfigRepository {
 
   /// Fetch a single config value by key and optional country.
   /// Returns the country-specific value if it exists, otherwise the global one.
-  Future<String?> getValue(String key, {String? country}) async {
+  Future<String?> getValue(
+    String key, {
+    String? country,
+    bool forceRefresh = false,
+  }) async {
     final normalizedCountry = country == null || country.trim().isEmpty
         ? null
         : CoolCountryCatalog.normalizeCountryCode(country);
     final cacheKey = '${key}_${normalizedCountry ?? 'global'}';
-    if (_cache.containsKey(cacheKey)) {
+    if (!forceRefresh && _cache.containsKey(cacheKey)) {
       return _cache[cacheKey];
+    }
+    if (forceRefresh) {
+      _cache.remove(cacheKey);
     }
 
     // Try country-specific first
@@ -60,6 +71,19 @@ class AppConfigRepository {
     }
 
     return null;
+  }
+
+  Future<String?> getMobilitySubscriptionMomoCode({
+    String? country,
+    bool forceRefresh = false,
+  }) async {
+    final value = await getValue(
+      AppConfigKeys.mobilitySubscriptionMomoCode,
+      country: country,
+      forceRefresh: forceRefresh,
+    );
+    final trimmed = value?.trim();
+    return trimmed == null || trimmed.isEmpty ? null : trimmed;
   }
 
   /// Fetch all config entries, optionally filtered by country.

@@ -1,0 +1,184 @@
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import '../../../core/services/momo_service.dart';
+import '../../../core/theme/app_colors.dart';
+import '../models/trip.dart';
+
+/// Local display model for the driver profile screen.
+class DriverProfileData {
+  const DriverProfileData({
+    required this.name,
+    required this.driverId,
+    required this.rating,
+    required this.tripsDone,
+    required this.freeTripsRemaining,
+    required this.tripsUsedThisMonth,
+    required this.isOnline,
+    required this.vehicle,
+    required this.scheduledTrips,
+    this.subscription,
+  });
+
+  final String name;
+  final String driverId;
+  final double rating;
+  final int tripsDone;
+  final int freeTripsRemaining;
+  final int tripsUsedThisMonth;
+  final bool isOnline;
+  final VehicleData vehicle;
+  final List<ScheduledTripData> scheduledTrips;
+  final DriverSubscription? subscription;
+
+  String get initials {
+    final parts = name.split(' ').where((part) => part.isNotEmpty).toList();
+    if (parts.length == 1) return parts.first.characters.take(2).toString();
+    return '${parts.first.characters.first}${parts.last.characters.first}'
+        .toUpperCase();
+  }
+
+  DriverSubscription? activeSubscription(DateTime now) {
+    if (subscription == null) return null;
+    if (subscription!.expiresAt.isAfter(now)) return subscription;
+    return null;
+  }
+
+  bool shouldShowUpgradeBanner(DateTime now) {
+    final hasExpiredSubscription =
+        subscription != null && !subscription!.expiresAt.isAfter(now);
+    return hasExpiredSubscription || freeTripsRemaining < 5;
+  }
+
+  DriverProfileData copyWith({VehicleData? vehicle, bool? isOnline}) {
+    return DriverProfileData(
+      name: name,
+      driverId: driverId,
+      rating: rating,
+      tripsDone: tripsDone,
+      freeTripsRemaining: freeTripsRemaining,
+      tripsUsedThisMonth: tripsUsedThisMonth,
+      isOnline: isOnline ?? this.isOnline,
+      vehicle: vehicle ?? this.vehicle,
+      scheduledTrips: scheduledTrips,
+      subscription: subscription,
+    );
+  }
+}
+
+class VehicleData {
+  const VehicleData({
+    required this.type,
+    required this.plateNumber,
+    required this.baseLocation,
+    required this.status,
+  });
+
+  final String type;
+  final String plateNumber;
+  final String baseLocation;
+  final String status;
+
+  String get emoji {
+    final normalized = type.toLowerCase();
+    if (normalized.contains('moto')) return '🛺';
+    if (normalized.contains('cab')) return '🚗';
+    if (normalized.contains('truck')) return '🚛';
+    if (normalized.contains('liffan') || normalized.contains('van')) {
+      return '🚐';
+    }
+    return '🚘';
+  }
+
+  Color get statusColor {
+    final normalized = status.toLowerCase();
+    if (normalized.contains('online') ||
+        normalized.contains('verified') ||
+        normalized.contains('active')) {
+      return AppColors.accent;
+    }
+    if (normalized.contains('offline')) {
+      return AppColors.text3;
+    }
+    if (normalized.contains('pending')) return AppColors.yellow;
+    if (normalized.contains('maintenance')) return AppColors.orange;
+    return AppColors.text;
+  }
+}
+
+class ScheduledTripData {
+  const ScheduledTripData({
+    required this.fromLocation,
+    required this.toLocation,
+    required this.departureTime,
+    required this.vehicleLabel,
+    this.isReturnTrip = false,
+    this.isRecurring = false,
+  });
+
+  final String fromLocation;
+  final String toLocation;
+  final DateTime departureTime;
+  final String vehicleLabel;
+  final bool isReturnTrip;
+  final bool isRecurring;
+
+  factory ScheduledTripData.fromTrip(Trip trip) {
+    return ScheduledTripData(
+      fromLocation: trip.fromLocation,
+      toLocation: trip.toLocation,
+      departureTime: trip.departureTime,
+      vehicleLabel: trip.vehicleType,
+      isReturnTrip: trip.isReturn || trip.isDriverReturnTrip,
+      isRecurring: trip.isRecurring,
+    );
+  }
+}
+
+class DriverSubscription {
+  const DriverSubscription({
+    required this.plan,
+    required this.startedAt,
+    required this.expiresAt,
+  });
+
+  final SubscriptionPlan plan;
+  final DateTime startedAt;
+  final DateTime expiresAt;
+}
+
+// ── Formatting helpers ────────────────────────────────────────────────
+
+String formatAmount(int amount) {
+  return NumberFormat.decimalPattern('en_US').format(amount);
+}
+
+String formatDate(DateTime date) {
+  return DateFormat('d MMM yyyy').format(date);
+}
+
+String formatTripDate(DateTime date) {
+  return DateFormat('EEE d MMM · HH:mm').format(date);
+}
+
+String shortDriverId(String? value) {
+  final raw = value?.trim() ?? '';
+  if (raw.isEmpty) return '------';
+  return raw.length <= 6 ? raw : raw.substring(0, 6);
+}
+
+String displayValue(String? value) {
+  final trimmed = value?.trim() ?? '';
+  return trimmed.isEmpty ? '--' : trimmed;
+}
+
+IconData tripVehicleIcon(String vehicleType) {
+  final normalized = vehicleType.trim().toLowerCase();
+  if (normalized.contains('moto')) return Icons.two_wheeler_rounded;
+  if (normalized.contains('cab')) return Icons.directions_car_rounded;
+  if (normalized.contains('truck')) return Icons.local_shipping_rounded;
+  if (normalized.contains('liffan') || normalized.contains('van')) {
+    return Icons.airport_shuttle_rounded;
+  }
+  return Icons.directions_car_filled_rounded;
+}

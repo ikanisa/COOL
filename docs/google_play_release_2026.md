@@ -27,8 +27,9 @@ the remaining Google Play and Firebase work.
   so a fresh signed AAB must be rebuilt before upload.
 - Cool is implemented as a USSD/SMS reconciliation bridge, not as the general
   recipient of group or partner funds.
-- `COOL_APP_MOMO_NUMBER` is only used in the current repo for mobility
-  subscriptions and as a defensive fallback when a group recipient is missing.
+- Mobility subscription payments now read their recipient MoMo code from
+  `public.app_config` using the admin-managed
+  `mobility_subscription_momo_code` key.
 - Community-group collections already route to recipient data stored on
   `public.groups`:
   - `receiving_momo_code`
@@ -196,13 +197,11 @@ the remaining Google Play and Firebase work.
 ```bash
 SUPABASE_URL="https://..." \
 SUPABASE_ANON_KEY="..." \
-COOL_APP_MOMO_NUMBER="250..." \
 bash scripts/build_play_release.sh
 ```
 
-`COOL_APP_MOMO_NUMBER` in the current codebase is not the general group or
-partner collection account. It is only used for mobility subscriptions and a
-missing-recipient fallback path.
+Mobility subscription recipient codes are configured in Admin > App Config,
+not via build-time `--dart-define`.
 
 ## Official Sources
 

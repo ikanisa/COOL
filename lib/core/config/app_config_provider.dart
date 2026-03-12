@@ -59,6 +59,18 @@ final currentCountrySupportWhatsAppProvider = FutureProvider<String>((ref) {
   return repo.getSupportWhatsApp(country: country);
 });
 
+final mobilitySubscriptionMomoCodeProvider =
+    FutureProvider.family<String?, String?>((ref, country) {
+      final repo = ref.read(appConfigRepositoryProvider);
+      return repo.getMobilitySubscriptionMomoCode(country: country);
+    });
+
+final currentCountryMobilitySubscriptionMomoCodeProvider =
+    FutureProvider<String?>((ref) {
+      final country = ref.watch(currentUserCountryCodeProvider);
+      return ref.watch(mobilitySubscriptionMomoCodeProvider(country).future);
+    });
+
 /// Fetches credit grade thresholds from app config.
 final creditGradesProvider =
     FutureProvider<({int excellent, int good, int building})>((ref) {
