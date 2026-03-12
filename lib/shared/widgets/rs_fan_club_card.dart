@@ -45,7 +45,12 @@ class RsFanClubCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CoolCard(
+    return Semantics(
+      label: '${club.name}. ${club.region}. '
+          '${isJoined ? 'Joined' : 'Not joined'}. '
+          '${club.memberCount} members.',
+      excludeSemantics: true,
+      child: CoolCard(
       gradient: AppColors.cardGradient,
       borderColor: isJoined
           ? RsColors.rsGold.withValues(alpha: 0.5)
@@ -82,7 +87,7 @@ class RsFanClubCard extends StatelessWidget {
                     ),
                   ),
                   alignment: Alignment.center,
-                  child: const Text('🥁', style: TextStyle(fontSize: 18)),
+                  child: const Icon(Icons.music_note_rounded, size: 18, color: AppColors.accent),
                 ),
                 const SizedBox(width: 12),
 
@@ -157,6 +162,7 @@ class RsFanClubCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
       ),
     );
   }

@@ -58,6 +58,11 @@ Future<void> main() async {
     ),
   );
 
+  // Intentional: portrait-only for mobile-first finance app.
+  // This is a product decision — financial flows (MoMo, credit, wallet)
+  // are designed for single-column portrait layout. Landscape would require
+  // significant adaptive layout work with minimal user value.
+  // Decision documented in docs/PERFORMANCE_BUDGETS.md § Portrait Lock.
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
@@ -75,10 +80,63 @@ Future<void> main() async {
     await coldStartTrace?.stop();
   } catch (_) {}
 
-  // ── Run app ───────────────────────────────────────────────────────
-  runApp(
-    const ProviderScope(
-      child: CoolApp(),
-    ),
+  // ── Branded error widget (replaces red screen in release) ──────────
+  if (!kDebugMode) {
+    ErrorWidget.builder = (FlutterErrorDetails details) {
+      return const Material(
+        color: Color(0xFF0A0A0F),
+        child: Center(
+          child: Padding(
+            padding: EdgeInsets.all(32),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.warning_amber_rounded,
+                  size: 48,
+                  color: Color(0xFFFF4D6A),
+                ),
+                SizedBox(height: 16),
+                Text(
+                  'Something went wrong',
+                  style: TextStyle(
+                    color: Color(0xFFF0F0F5),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    decoration: TextDecoration.none,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'Please restart the app.',
+                  style: TextStyle(
+                    color: Color(0xFF8888A0),
+                    fontSize: 14,
+                    decoration: TextDecoration.none,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    };
+  }
+
+  // ── Run app (with async error catching) ───────────────────────────
+  runZonedGuarded(
+    () {
+      runApp(
+        const ProviderScope(
+          child: CoolApp(),
+        ),
+      );
+    },
+    (error, stack) {
+      debugPrint('[Uncaught] $error\n$stack');
+      if (Firebase.apps.isNotEmpty) {
+        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      }
+    },
   );
 }

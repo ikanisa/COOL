@@ -11,7 +11,10 @@ class RsTierBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Semantics(
+      label: '${tier.label} tier',
+      excludeSemantics: true,
+      child: Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
       decoration: BoxDecoration(
         color: tier.glowColor,
@@ -26,6 +29,7 @@ class RsTierBadge extends StatelessWidget {
           letterSpacing: 1.1,
           color: tier == FanTier.silver ? AppColors.text : tier.color,
         ),
+      ),
       ),
     );
   }

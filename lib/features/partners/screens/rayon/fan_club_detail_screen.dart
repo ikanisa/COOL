@@ -7,6 +7,7 @@ import '../../../../core/providers/referral_providers.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../shared/widgets/cool_button.dart';
+import '../../../../shared/widgets/cool_toast.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/rs_achievement_badge.dart';
 import '../../../../shared/widgets/share_card.dart';
@@ -54,7 +55,6 @@ class FanClubDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final clubDetail = ref.watch(rayonClubDetailProvider(clubId));
-    final notifier = ref.read(rayonSportsProvider.notifier);
 
     return RayonScreenScaffold(
       title: 'Fan Club',
@@ -65,7 +65,7 @@ class FanClubDetailScreen extends ConsumerWidget {
           if (club == null) {
             return RayonErrorView(
               message: 'Club not found.',
-              onRetry: notifier.load,
+              onRetry: () => ref.invalidate(rayonClubDetailProvider(clubId)),
             );
           }
 
@@ -140,13 +140,12 @@ class FanClubDetailScreen extends ConsumerWidget {
                           joined: joined,
                           onTap: joined
                               ? () {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Leave club coming soon.'),
-                                    ),
+                                  CoolToast.info(
+                                    context,
+                                    'Leave club coming soon.',
                                   );
                                 }
-                              : () => _join(context, ref, notifier, club.id),
+                              : () => _join(context, ref, club.id),
                         ),
                       ],
                     ),
@@ -235,7 +234,7 @@ class FanClubDetailScreen extends ConsumerWidget {
                     ],
                     ShareCard(
                       title: 'Invite supporters',
-                      emoji: '📣',
+                      icon: Icons.campaign_rounded,
                       subtitle: 'Bring more fans into ${club.name}.',
                       shareUrl: DeepLinkConfig.clubUri(club.id).toString(),
                       shareText: 'Join ${club.name} on Cool.',
@@ -249,7 +248,7 @@ class FanClubDetailScreen extends ConsumerWidget {
                       label: joined ? 'Already Joined' : 'Join This Club',
                       onTap: joined
                           ? () {}
-                          : () => _join(context, ref, notifier, club.id),
+                          : () => _join(context, ref, club.id),
                       icon: Icons.groups_2_outlined,
                     ),
                   ]),
@@ -259,21 +258,29 @@ class FanClubDetailScreen extends ConsumerWidget {
           );
         },
         loading: RayonLoadingView.new,
-        error: (error, _) =>
-            RayonErrorView(message: error.toString(), onRetry: notifier.load),
+        error: (error, _) => RayonErrorView(
+          message: error.toString(),
+          onRetry: () {
+            ref.invalidate(rayonFanClubsProvider);
+            ref.invalidate(rayonJoinedClubIdsProvider);
+            ref.invalidate(rayonUserAchievementsProvider);
+            ref.invalidate(rayonClubDetailProvider(clubId));
+          },
+        ),
       ),
     );
   }
 
-  Future<void> _join(
-    BuildContext context,
-    WidgetRef ref,
-    RayonSportsNotifier notifier,
-    String id,
-  ) async {
+  Future<void> _join(BuildContext context, WidgetRef ref, String id) async {
+    final notifier = ref.read(rayonSportsProvider.notifier);
+
     try {
       final referralInviteId = _resolveReferralInviteId(ref);
       final message = await notifier.joinClub(id);
+      ref.invalidate(rayonFanClubsProvider);
+      ref.invalidate(rayonJoinedClubIdsProvider);
+      ref.invalidate(rayonClubDirectoryProvider);
+      ref.invalidate(rayonClubDetailProvider(clubId));
       if (referralInviteId != null && referralInviteId.isNotEmpty) {
         try {
           await ref
@@ -293,14 +300,10 @@ class FanClubDetailScreen extends ConsumerWidget {
         }
       }
       if (!context.mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(message)));
+      CoolToast.info(context, message);
     } catch (error) {
       if (!context.mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(error.toString())));
+      CoolToast.error(context, error.toString());
     }
   }
 

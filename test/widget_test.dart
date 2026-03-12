@@ -6,12 +6,14 @@ import 'package:cool_app/core/router/app_router.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart';
 import 'package:cool_app/features/auth/repositories/auth_repository.dart';
 
+import 'helpers/test_bootstrap.dart';
+
 class MockAuthRepository extends Mock implements AuthRepository {}
 
 ProviderContainer _createContainer() {
   final repository = MockAuthRepository();
   when(() => repository.currentSession).thenReturn(null);
-  return ProviderContainer(
+  return createTestContainer(
     overrides: [authRepositoryProvider.overrideWithValue(repository)],
   );
 }
@@ -19,7 +21,6 @@ ProviderContainer _createContainer() {
 void main() {
   test('router boots at splash and preserves register phone query', () {
     final container = _createContainer();
-    addTearDown(container.dispose);
 
     final router = container.read(appRouterProvider);
     addTearDown(router.dispose);
@@ -35,7 +36,6 @@ void main() {
 
   test('router preserves invite code routes', () {
     final container = _createContainer();
-    addTearDown(container.dispose);
 
     final router = container.read(appRouterProvider);
     addTearDown(router.dispose);

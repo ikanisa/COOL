@@ -12,6 +12,7 @@ import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/phone_validator.dart';
 import '../../../shared/widgets/cool_button.dart';
+import '../../../shared/widgets/cool_toast.dart';
 import '../providers/auth_provider.dart';
 
 /// Screen for entering a phone number to receive a WhatsApp OTP.
@@ -56,9 +57,8 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
     }
 
     // Validate phone number format per selected country.
-    final selectedCountry = CoolCountryCatalog.byIsoCode(
-          _selectedCountryCode,
-        ) ??
+    final selectedCountry =
+        CoolCountryCatalog.byIsoCode(_selectedCountryCode) ??
         CoolCountryCatalog.defaultCountry;
     final validationError = PhoneValidator.validateOtpPhone(
       phone,
@@ -108,9 +108,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
       return;
     }
 
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Could not open link')));
+    CoolToast.error(context, 'Could not open link');
   }
 
   @override
@@ -150,37 +148,25 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
 
                     // ── Title ─────────────────────────────────────────
                     Text(
-                      'Enter your\nWhatsApp number',
+                      'Use your WhatsApp number',
                       style: GoogleFonts.dmSans(
-                        fontSize: 32,
-                        fontWeight: FontWeight.w800,
+                        fontSize: 30,
+                        fontWeight: FontWeight.w700,
                         color: AppColors.text,
-                        height: 1.15,
+                        height: 1.2,
                       ),
                     ),
-                    const SizedBox(height: 14),
+                    const SizedBox(height: 10),
                     Text(
-                      'Enter your WhatsApp number to receive a verification code via WhatsApp.',
+                      'We will send a 6-digit code to your WhatsApp.',
                       style: GoogleFonts.dmSans(
-                        fontSize: 15,
-                        color: AppColors.text3,
+                        fontSize: 14,
+                        color: AppColors.text2,
                         height: 1.45,
                       ),
                     ),
 
-                    const SizedBox(height: 36),
-
-                    // ── Label ─────────────────────────────────────────
-                    Text(
-                      'PHONE NUMBER',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.accent,
-                        letterSpacing: 1.2,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 28),
 
                     // ── Combined country + phone input ────────────────
                     Container(
@@ -248,9 +234,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                                 hintText: '000 000 000',
                                 hintStyle: GoogleFonts.dmSans(
                                   fontSize: 16,
-                                  color: AppColors.text3.withValues(
-                                    alpha: 0.5,
-                                  ),
+                                  color: AppColors.text3.withValues(alpha: 0.5),
                                   letterSpacing: 0.5,
                                 ),
                                 contentPadding: const EdgeInsets.symmetric(
@@ -276,37 +260,6 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                       ),
                     ],
 
-                    const SizedBox(height: 16),
-
-                    // ── Terms ─────────────────────────────────────────
-                    Text.rich(
-                      TextSpan(
-                        style: GoogleFonts.dmSans(
-                          fontSize: 13,
-                          color: AppColors.text3,
-                          height: 1.4,
-                        ),
-                        children: [
-                          const TextSpan(
-                            text: 'By continuing, you agree to our ',
-                          ),
-                          TextSpan(
-                            text: 'Terms of Service',
-                            style: TextStyle(color: AppColors.accent),
-                            recognizer: _termsRecognizer,
-                          ),
-                          const TextSpan(text: ' and '),
-                          TextSpan(
-                            text: 'Privacy Policy',
-                            style: TextStyle(color: AppColors.accent),
-                            recognizer: _privacyRecognizer,
-                          ),
-                          const TextSpan(text: '.'),
-                        ],
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-
                     const Spacer(),
 
                     // ── CTA ───────────────────────────────────────────
@@ -314,6 +267,34 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                       label: 'Continue',
                       onTap: _sendOtp,
                       isLoading: authState.isLoading,
+                    ),
+                    const SizedBox(height: 14),
+                    Text.rich(
+                      TextSpan(
+                        style: GoogleFonts.dmSans(
+                          fontSize: 12,
+                          color: AppColors.text3,
+                          height: 1.4,
+                        ),
+                        children: [
+                          const TextSpan(
+                            text: 'By continuing, you accept the ',
+                          ),
+                          TextSpan(
+                            text: 'Terms',
+                            style: const TextStyle(color: AppColors.accent),
+                            recognizer: _termsRecognizer,
+                          ),
+                          const TextSpan(text: ' and '),
+                          TextSpan(
+                            text: 'Privacy Policy',
+                            style: const TextStyle(color: AppColors.accent),
+                            recognizer: _privacyRecognizer,
+                          ),
+                          const TextSpan(text: '.'),
+                        ],
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 24),
                   ],
@@ -330,47 +311,59 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: AppColors.surface2,
+      isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       builder: (_) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox(height: 12),
-            Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: AppColors.text3.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const SizedBox(height: 16),
-            ...countries.map(
-              (country) => ListTile(
-                leading: Text(
-                  country.flagEmoji,
-                  style: const TextStyle(fontSize: 22),
+        child: FractionallySizedBox(
+          heightFactor: 0.8,
+          child: Column(
+            children: [
+              const SizedBox(height: 12),
+              Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: AppColors.text3.withValues(alpha: 0.3),
+                  borderRadius: BorderRadius.circular(2),
                 ),
-                title: Text(
-                  '${country.name}  ${country.dialCode}',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 15,
-                    color: AppColors.text,
-                  ),
-                ),
-                trailing: _selectedCountryCode == country.isoCode
-                    ? const Icon(Icons.check_rounded, color: AppColors.accent)
-                    : null,
-                onTap: () {
-                  setState(() => _selectedCountryCode = country.isoCode);
-                  Navigator.pop(context);
-                },
               ),
-            ),
-            const SizedBox(height: 8),
-          ],
+              const SizedBox(height: 16),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: countries.length,
+                  itemBuilder: (context, index) {
+                    final country = countries[index];
+                    return ListTile(
+                      leading: Text(
+                        country.flagEmoji,
+                        style: const TextStyle(fontSize: 22),
+                      ),
+                      title: Text(
+                        '${country.name}  ${country.dialCode}',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 15,
+                          color: AppColors.text,
+                        ),
+                      ),
+                      trailing: _selectedCountryCode == country.isoCode
+                          ? const Icon(
+                              Icons.check_rounded,
+                              color: AppColors.accent,
+                            )
+                          : null,
+                      onTap: () {
+                        setState(() => _selectedCountryCode = country.isoCode);
+                        Navigator.pop(context);
+                      },
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 8),
+            ],
+          ),
         ),
       ),
     );

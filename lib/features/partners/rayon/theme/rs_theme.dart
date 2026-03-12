@@ -31,12 +31,12 @@ abstract final class RsTheme {
   static Color tierBackground(FanTier tier) =>
       tierColor(tier).withValues(alpha: 0.12);
 
-  /// Returns a display label for [tier], e.g. "★ PLATINUM".
+  /// Returns a display label for [tier], e.g. "PLATINUM".
   static String tierLabel(FanTier tier) => switch (tier) {
-    FanTier.platinum => '★ PLATINUM',
-    FanTier.gold     => '★ GOLD',
-    FanTier.silver   => '★ SILVER',
-    FanTier.blue     => '★ BLUE',
+    FanTier.platinum => 'PLATINUM',
+    FanTier.gold     => 'GOLD',
+    FanTier.silver   => 'SILVER',
+    FanTier.blue     => 'BLUE',
   };
 
   // ── Initiative category → colour ───────────────────────────────────

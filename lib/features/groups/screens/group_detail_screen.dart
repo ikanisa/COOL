@@ -13,6 +13,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
+import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/member_row.dart';
 import '../../../shared/widgets/qr_share_sheet.dart';
 import '../../../shared/widgets/contact_picker_sheet.dart';
@@ -41,9 +42,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
   @override
   Widget build(BuildContext context) {
     final detailAsync = ref.watch(groupDetailProvider(widget.groupId));
-    final isActionLoading = ref.watch(
-      groupsProvider.select((state) => state.isLoading),
-    );
+    final isJoiningGroup = ref.watch(groupJoinLoadingProvider);
 
     return Scaffold(
       backgroundColor: AppColors.bg,
@@ -69,7 +68,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
           error: (error, _) => _buildErrorState(error.toString()),
           data: (detail) => detail == null
               ? _buildErrorState('Group not found.')
-              : _buildContent(detail, isActionLoading),
+              : _buildContent(detail, isJoiningGroup),
         ),
       ),
     );
@@ -152,8 +151,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
 
     if (!mounted) return;
 
-    final shareText =
-        'Join ${group.name} on Cool! 🎉\n${shareUri.toString()}';
+    final shareText = 'Join ${group.name} on Cool! 🎉\n${shareUri.toString()}';
     await SharePlus.instance.share(ShareParams(text: shareText));
   }
 
@@ -164,7 +162,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('⚠️', style: TextStyle(fontSize: 48)),
+            const Icon(Icons.warning_amber_rounded, size: 40, color: AppColors.orange),
             const SizedBox(height: 16),
             Text(
               'Something went wrong',
@@ -310,7 +308,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
                     const SizedBox(height: 10),
                     if (group.frequency != null && group.frequency!.isNotEmpty)
                       Text(
-                        'Contribution cadence: ${_formatFrequency(group.frequency!)}',
+                        '${_formatFrequency(group.frequency!)} contributions',
                         style: GoogleFonts.dmSans(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
@@ -344,7 +342,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
-                        '📱 Community fund — MOMO destination',
+                        'MOMO fund',
                         style: GoogleFonts.dmSans(
                           fontSize: 11,
                           fontWeight: FontWeight.w500,
@@ -459,6 +457,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
   }
 
   void _showContributeSheet(BuildContext context, GroupDetail detail) {
+    ref.read(groupsProvider.notifier).clearContributionState();
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
@@ -468,7 +467,6 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
         groupName: detail.group.name,
         monthlyAmount: detail.group.monthlyContribution ?? 5000,
         frequency: detail.group.frequency ?? 'monthly',
-        groupsNotifier: ref.read(groupsProvider.notifier),
         onSuccess: (groupId) {
           ref.invalidate(groupDetailProvider(widget.groupId));
           awardCoolPoints(
@@ -485,14 +483,9 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
   Future<void> _joinGroup(GroupDetail detail) async {
     final inviteCode = detail.group.inviteCode;
     if (inviteCode == null || inviteCode.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'This group does not have a shareable invite code yet.',
-            style: GoogleFonts.dmSans(color: AppColors.text),
-          ),
-          backgroundColor: AppColors.surface2,
-        ),
+      CoolToast.info(
+        context,
+        'This group does not have a shareable invite code yet.',
       );
       return;
     }
@@ -506,16 +499,8 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
     }
 
     if (result == null) {
-      final error = ref.read(groupsProvider).error ?? 'Could not join group.';
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            error,
-            style: GoogleFonts.dmSans(color: AppColors.text),
-          ),
-          backgroundColor: AppColors.surface2,
-        ),
-      );
+      final error = ref.read(groupJoinErrorProvider) ?? 'Could not join group.';
+      CoolToast.error(context, error);
       return;
     }
 
@@ -523,15 +508,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
         ? 'You joined ${result.detail.group.name}.'
         : 'You are already a member of ${result.detail.group.name}.';
     ref.invalidate(groupDetailProvider(widget.groupId));
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          style: GoogleFonts.dmSans(color: AppColors.text),
-        ),
-        backgroundColor: AppColors.surface2,
-      ),
-    );
+    CoolToast.success(context, message);
   }
 
   static String _formatAmount(int value) {
@@ -590,7 +567,7 @@ class _ContributionRow extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
             ),
             alignment: Alignment.center,
-            child: const Text('📥', style: TextStyle(fontSize: 18)),
+            child: const Icon(Icons.download_rounded, size: 18, color: AppColors.text2),
           ),
           const SizedBox(width: 12),
 
@@ -639,13 +616,12 @@ class _ContributionRow extends StatelessWidget {
 // Contribute bottom sheet
 // ═════════════════════════════════════════════════════════════════════════
 
-class _ContributeSheet extends StatefulWidget {
+class _ContributeSheet extends ConsumerStatefulWidget {
   const _ContributeSheet({
     required this.groupId,
     required this.groupName,
     required this.monthlyAmount,
     required this.frequency,
-    required this.groupsNotifier,
     this.onSuccess,
   });
 
@@ -653,22 +629,20 @@ class _ContributeSheet extends StatefulWidget {
   final String groupName;
   final int monthlyAmount;
   final String frequency;
-  final GroupsNotifier groupsNotifier;
   final void Function(String groupId)? onSuccess;
 
   @override
-  State<_ContributeSheet> createState() => _ContributeSheetState();
+  ConsumerState<_ContributeSheet> createState() => _ContributeSheetState();
 }
 
-class _ContributeSheetState extends State<_ContributeSheet> {
+class _ContributeSheetState extends ConsumerState<_ContributeSheet> {
   late final TextEditingController _amountController;
   int? _selectedMultiplier; // 0=half, 1=full, 2=double
-  bool _isLoading = false;
-  String? _error;
 
   @override
   void initState() {
     super.initState();
+    ref.read(groupsProvider.notifier).clearContributionState();
     _amountController = TextEditingController(
       text: widget.monthlyAmount.toString(),
     );
@@ -698,19 +672,13 @@ class _ContributeSheetState extends State<_ContributeSheet> {
       _amountController.text.replaceAll(',', '').trim(),
     );
     if (amount == null || amount <= 0) {
-      setState(() => _error = 'Enter a valid contribution amount.');
+      CoolToast.error(context, 'Enter a valid contribution amount.');
       return;
     }
 
-    setState(() {
-      _isLoading = true;
-      _error = null;
-    });
-
-    final contribution = await widget.groupsNotifier.contribute(
-      widget.groupId,
-      amount,
-    );
+    final contribution = await ref
+        .read(groupsProvider.notifier)
+        .contribute(widget.groupId, amount);
 
     if (!mounted) return;
 
@@ -719,15 +687,12 @@ class _ContributeSheetState extends State<_ContributeSheet> {
       Navigator.of(context).pop();
       return;
     }
-
-    setState(() {
-      _isLoading = false;
-      _error = widget.groupsNotifier.currentError ?? 'Payment could not start.';
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = ref.watch(groupContributionLoadingProvider);
+    final error = ref.watch(groupContributionErrorProvider);
     final half = widget.monthlyAmount ~/ 2;
     final full = widget.monthlyAmount;
     final double = widget.monthlyAmount * 2;
@@ -830,20 +795,20 @@ class _ContributeSheetState extends State<_ContributeSheet> {
               const SizedBox(height: 12),
 
               // Quick-select chips
-              Row(
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
                 children: [
                   _AmountChip(
                     label: 'Half (${_formatK(half)})',
                     isSelected: _selectedMultiplier == 0,
                     onTap: () => _selectAmount(0),
                   ),
-                  const SizedBox(width: 8),
                   _AmountChip(
                     label: 'Full (${_formatK(full)})',
                     isSelected: _selectedMultiplier == 1,
                     onTap: () => _selectAmount(1),
                   ),
-                  const SizedBox(width: 8),
                   _AmountChip(
                     label: 'Double (${_formatK(double)})',
                     isSelected: _selectedMultiplier == 2,
@@ -857,13 +822,13 @@ class _ContributeSheetState extends State<_ContributeSheet> {
               CoolButton(
                 label: 'Pay via MOMO',
                 icon: Icons.phone_android_rounded,
-                isLoading: _isLoading,
+                isLoading: isLoading,
                 onTap: _payViaMomo,
               ),
-              if (_error != null) ...[
+              if (error != null) ...[
                 const SizedBox(height: 12),
                 Text(
-                  _error!,
+                  error,
                   style: GoogleFonts.dmSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
@@ -885,7 +850,7 @@ class _ContributeSheetState extends State<_ContributeSheet> {
                 ),
                 child: Row(
                   children: [
-                    const Text('📞', style: TextStyle(fontSize: 16)),
+                    const Icon(Icons.phone_rounded, size: 16, color: AppColors.text2),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(

@@ -73,7 +73,7 @@ export type RayonPaymentConfirmationResult = {
 };
 
 export type RayonPaymentConfirmationContext = {
-  source: "parse-momo-sms" | "rs-momo-webhook";
+  source: "parse-momo-sms";
   timestamp: string;
   provider: string | null;
   amount: number | null;

@@ -10,6 +10,7 @@ import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/status_badge.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../models/group_detail.dart';
@@ -41,6 +42,8 @@ class _GroupInviteScreenState extends ConsumerState<GroupInviteScreen> {
   void initState() {
     super.initState();
     Future.microtask(() async {
+      ref.read(groupsProvider.notifier).clearInvitePreviewState();
+      ref.read(groupsProvider.notifier).clearJoinGroupState();
       await ref
           .read(groupsProvider.notifier)
           .loadInvitePreview(widget.inviteCode);
@@ -82,7 +85,14 @@ class _GroupInviteScreenState extends ConsumerState<GroupInviteScreen> {
         .read(groupsProvider.notifier)
         .joinGroupByInviteCode(widget.inviteCode);
 
-    if (!mounted || result == null) {
+    if (!mounted) {
+      return;
+    }
+
+    if (result == null) {
+      final error =
+          ref.read(groupJoinErrorProvider) ?? 'Could not join this group.';
+      CoolToast.error(context, error);
       return;
     }
 
@@ -127,22 +137,16 @@ class _GroupInviteScreenState extends ConsumerState<GroupInviteScreen> {
     final message = result.didJoin
         ? 'You joined ${result.detail.group.name}.'
         : 'You are already a member of ${result.detail.group.name}.';
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          style: GoogleFonts.dmSans(color: AppColors.text),
-        ),
-        backgroundColor: AppColors.surface2,
-      ),
-    );
+    CoolToast.success(context, message);
     context.go('/groups/$groupId');
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(groupsProvider);
-    final detail = state.invitePreview;
+    final detail = ref.watch(groupInvitePreviewProvider);
+    final isPreviewLoading = ref.watch(groupInvitePreviewLoadingProvider);
+    final previewError = ref.watch(groupInvitePreviewErrorProvider);
+    final isJoining = ref.watch(groupJoinLoadingProvider);
 
     return Scaffold(
       backgroundColor: AppColors.bg,
@@ -160,11 +164,11 @@ class _GroupInviteScreenState extends ConsumerState<GroupInviteScreen> {
           ),
         ),
       ),
-      body: state.isLoading && detail == null
+      body: isPreviewLoading && detail == null
           ? const Center(child: CircularProgressIndicator())
-          : state.error != null && detail == null
+          : previewError != null && detail == null
           ? _InviteErrorState(
-              error: state.error!,
+              error: previewError,
               onRetry: () => ref
                   .read(groupsProvider.notifier)
                   .loadInvitePreview(widget.inviteCode),
@@ -176,69 +180,73 @@ class _GroupInviteScreenState extends ConsumerState<GroupInviteScreen> {
                   .read(groupsProvider.notifier)
                   .loadInvitePreview(widget.inviteCode),
             )
-          : SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 12),
-                  Text(
-                    'Invite code ${widget.inviteCode.toUpperCase()}',
-                    style: GoogleFonts.dmMono(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.accent,
+          : CustomScrollView(
+              slivers: [
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(18, 12, 18, 80),
+                  sliver: SliverToBoxAdapter(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Invite code ${widget.inviteCode.toUpperCase()}',
+                          style: GoogleFonts.dmMono(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.accent,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        _InviteHeroCard(detail: detail),
+                        const SizedBox(height: 20),
+                        if (!detail.isMember)
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(14),
+                            decoration: BoxDecoration(
+                              color: AppColors.accentGlow,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: AppColors.accent),
+                            ),
+                            child: Text(
+                              'You\'ll join this group immediately.',
+                              style: GoogleFonts.dmSans(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.text,
+                                height: 1.45,
+                              ),
+                            ),
+                          )
+                        else
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(14),
+                            decoration: BoxDecoration(
+                              color: AppColors.surface2,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: AppColors.border),
+                            ),
+                            child: Text(
+                              'You\'re already a member.',
+                              style: GoogleFonts.dmSans(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.text2,
+                              ),
+                            ),
+                          ),
+                        const SizedBox(height: 20),
+                        CoolButton(
+                          label: detail.isMember ? 'Open Group' : 'Join Group',
+                          isLoading: isJoining,
+                          onTap: () => _handlePrimaryAction(detail),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  _InviteHeroCard(detail: detail),
-                  const SizedBox(height: 20),
-                  if (!detail.isMember)
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                        color: AppColors.accentGlow,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: AppColors.accent),
-                      ),
-                      child: Text(
-                        'Joining will add your current account to this group immediately.',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.text,
-                          height: 1.45,
-                        ),
-                      ),
-                    )
-                  else
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                        color: AppColors.surface2,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: AppColors.border),
-                      ),
-                      child: Text(
-                        'You already belong to this group. Open it directly.',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.text2,
-                        ),
-                      ),
-                    ),
-                  const SizedBox(height: 20),
-                  CoolButton(
-                    label: detail.isMember ? 'Open Group' : 'Join Group',
-                    isLoading: state.isLoading,
-                    onTap: () => _handlePrimaryAction(detail),
-                  ),
-                  const SizedBox(height: 80),
-                ],
-              ),
+                ),
+              ],
             ),
     );
   }
@@ -365,7 +373,7 @@ class _InviteErrorState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('🔗', style: TextStyle(fontSize: 44)),
+            const Icon(Icons.link_rounded, size: 40, color: AppColors.accent),
             const SizedBox(height: 16),
             Text(
               'Invite unavailable',

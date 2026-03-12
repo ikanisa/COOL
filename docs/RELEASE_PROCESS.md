@@ -1,0 +1,114 @@
+# Release Process
+
+> Last updated: March 2026
+
+## Release Cadence
+
+| Channel | Cadence | Audience | Purpose |
+|---|---|---|---|
+| Internal (Staff) | On-demand | Team members | Feature validation, QA |
+| Beta | Weekly | Beta testers | Stability validation |
+| Production | Bi-weekly | All users | Stable release |
+
+## Release Flow
+
+```
+feature branch → main → tag v*.*.* → CI release → Firebase App Distribution → Play Store
+```
+
+### Step-by-step
+
+1. **Merge to `main`**: All PRs must pass CI (analyze, test, size gate)
+   - Route changes must also update `docs/ROUTE_INVENTORY.md`
+   - New routes must satisfy `docs/SCREEN_BUDGETS.md`
+2. **Tag a release**: `git tag v1.2.3 && git push origin v1.2.3`
+3. **CI builds automatically**: `release.yml` triggers on `v*` tags
+4. **CI pipeline**:
+   - Reads Flutter version from `.fvmrc`
+   - Runs `flutter analyze --fatal-infos`
+   - Runs `flutter test`
+   - Decodes signing keystore from secrets
+   - Builds signed release APK
+   - Uploads to Firebase App Distribution (staff group)
+   - Archives APK as build artifact
+5. **Play Store**: Manual upload from Firebase App Distribution or CI artifact
+
+## Versioning
+
+Format: `MAJOR.MINOR.PATCH`
+
+- **MAJOR**: Breaking changes, major feature launches
+- **MINOR**: New features, significant improvements
+- **PATCH**: Bug fixes, performance improvements
+
+Version is set in `pubspec.yaml` → `version` field.
+
+## Rollback Playbook
+
+### Severity 1 (Crash loop, data loss)
+1. **Immediate**: Activate kill-switch in Firebase Remote Config
+2. **Within 1h**: Revert to last known-good tag, push hotfix
+3. **Within 4h**: Ship hotfix via Firebase App Distribution
+
+### Severity 2 (Feature broken, UX regression)
+1. **Within 4h**: Evaluate kill-switch vs hotfix
+2. **Within 24h**: Ship fix via normal release flow
+
+### Severity 3 (Minor issue, cosmetic)
+1. Include fix in next scheduled release
+
+## Kill-Switch Emergency Procedure
+
+If a shipped feature is causing issues:
+
+1. Go to Firebase Console → Remote Config
+2. Set the relevant kill-switch to `true`:
+   - `kill_momo_payments` — disables MoMo payment flows
+   - `kill_credit_features` — disables credit/loan features
+   - `kill_ticket_purchase` — disables ticket purchasing
+   - `kill_mobility` — disables mobility/ride features
+3. Publish changes (takes effect within 4 hours or on next app restart)
+4. Verify: force-close app → reopen → feature shows "temporarily unavailable"
+
+## Rollout Governance
+
+Remote Config no longer serves only kill-switches. Each governed surface can
+carry:
+
+- a kill-switch
+- a rollout stage (`live`, `pilot`, `internal`, `disabled`)
+- an optional allowed-country list
+- an optional admin-only restriction
+
+Current governed Flutter surfaces:
+
+- MoMo
+- Credit
+- Ticket purchase
+- Mobility
+
+When introducing a new governed surface, update both:
+
+- `lib/core/models/engagement_feature_flags.dart`
+- `docs/ROUTE_INVENTORY.md` and `docs/SCREEN_BUDGETS.md` if user-facing
+
+## Beta Ring Progression
+
+```
+Staff (internal) → Beta (1-2 weeks soak) → Production
+```
+
+- Staff build goes out immediately on tag
+- Beta promotion: manual decision after 3+ days of staff testing with no P0/P1 bugs
+- Production promotion: after 1 week of beta with crash-free rate > 99.5%
+
+## Required Secrets (GitHub Actions)
+
+| Secret | Purpose |
+|---|---|
+| `KEYSTORE_BASE64` | Base64-encoded signing keystore |
+| `KEY_ALIAS` | Keystore alias |
+| `KEY_PASSWORD` | Key password |
+| `STORE_PASSWORD` | Store password |
+| `FIREBASE_APP_ID` | Firebase Android app ID |
+| `FIREBASE_SERVICE_ACCOUNT` | Firebase service account JSON |

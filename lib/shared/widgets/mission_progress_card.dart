@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/status/models/cool_mission.dart';
+import '../../../core/utils/icon_mapper.dart';
 
 /// A compact card showing mission progress, countdown, and reward.
 ///
@@ -43,7 +44,7 @@ class MissionProgressCard extends StatelessWidget {
             // ─── Header: emoji + title + countdown ─────────
             Row(
               children: [
-                Text(mission.emoji, style: const TextStyle(fontSize: 24)),
+                Icon(IconMapper.from(mission.emoji), size: 24, color: AppColors.text2),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Column(
@@ -101,7 +102,7 @@ class MissionProgressCard extends StatelessWidget {
               children: [
                 Text(
                   isCompleted
-                      ? '✅ Completed'
+                      ? 'Completed'
                       : '${(progress * 100).toStringAsFixed(0)}% complete',
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
@@ -120,13 +121,20 @@ class MissionProgressCard extends StatelessWidget {
                       color: AppColors.yellow.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: Text(
-                      '🏆 ${mission.rewardPoints} pts',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.yellow,
-                      ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.emoji_events_rounded, size: 12, color: AppColors.yellow),
+                        const SizedBox(width: 4),
+                        Text(
+                          '${mission.rewardPoints} pts',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.yellow,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
               ],

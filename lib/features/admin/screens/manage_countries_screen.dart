@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/app_colors.dart';
-import '../../../shared/widgets/cool_skeleton.dart';
+import '../../../shared/widgets/cool_async_view.dart';
+import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_providers.dart';
 
 /// Admin screen for managing supported countries (toggle active, view details).
@@ -76,27 +77,15 @@ class ManageCountriesScreen extends ConsumerWidget {
         ),
         body: TabBarView(
           children: [
-            countriesAsync.when(
-              loading: () => const Padding(
-                padding: EdgeInsets.all(16),
-                child: CoolSkeletonList(),
-              ),
-              error: (e, _) => Center(
-                child: Text(
-                  'Error: $e',
-                  style: const TextStyle(color: AppColors.text3),
-                ),
-              ),
-              data: (countries) {
-                if (countries.isEmpty) {
-                  return const Center(
-                    child: Text(
-                      'No countries',
-                      style: TextStyle(color: AppColors.text3),
-                    ),
-                  );
-                }
-
+            CoolAsyncView<List<Map<String, dynamic>>>(
+              value: countriesAsync,
+              onRetry: () {
+                ref.invalidate(adminCountriesProvider);
+                ref.invalidate(adminMomoValidationIssuesProvider);
+              },
+              emptyCheck: (c) => c.isEmpty,
+              emptyMessage: 'No countries',
+              builder: (countries) {
                 final activeCount = countries.where(_isCountryActive).length;
                 final codeEnabledCount = countries
                     .where(_supportsMomoCode)
@@ -138,35 +127,13 @@ class ManageCountriesScreen extends ConsumerWidget {
                 );
               },
             ),
-            issuesAsync.when(
-              loading: () => const Padding(
-                padding: EdgeInsets.all(16),
-                child: CoolSkeletonList(),
-              ),
-              error: (e, _) => Center(
-                child: Text(
-                  'Error: $e',
-                  style: const TextStyle(color: AppColors.text3),
-                ),
-              ),
-              data: (issues) {
-                if (issues.isEmpty) {
-                  return Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: Text(
-                        'No validation issues detected. Existing users and groups match the current MoMo country rules.',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.text3,
-                        ),
-                      ),
-                    ),
-                  );
-                }
-
+            CoolAsyncView<List<Map<String, dynamic>>>(
+              value: issuesAsync,
+              onRetry: () => ref.invalidate(adminMomoValidationIssuesProvider),
+              emptyCheck: (i) => i.isEmpty,
+              emptyMessage:
+                  'No validation issues detected. Existing users and groups match the current MoMo country rules.',
+              builder: (issues) {
                 return ListView.separated(
                   padding: const EdgeInsets.all(16),
                   itemCount: issues.length + 1,
@@ -569,16 +536,12 @@ class _IssueActionRowState extends ConsumerState<_IssueActionRow> {
 
       final message =
           _trimmed(result['message']) ?? 'Repair attempt completed.';
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(message)));
+      CoolToast.success(context, message);
     } catch (error) {
       if (!mounted) {
         return;
       }
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Repair failed: $error')));
+      CoolToast.error(context, 'Repair failed: $error');
     } finally {
       if (mounted) {
         setState(() => _isRepairing = false);
@@ -773,6 +736,10 @@ String _humanizeIssueCode(String code) {
 }
 
 bool _isRepairable(Map<String, dynamic> issue) {
+  if (issue['repair_supported'] == false) {
+    return false;
+  }
+
   final recordType = _trimmed(issue['record_type']);
   final issueCode = _trimmed(issue['issue_code']);
 

@@ -23,9 +23,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   late final AnimationController _logoController;
   late final Animation<double> _logoFade;
 
-  late final AnimationController _taglineController;
-  late final Animation<double> _taglineFade;
-
   @override
   void initState() {
     super.initState();
@@ -37,27 +34,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     );
     _logoFade = CurvedAnimation(parent: _logoController, curve: Curves.easeOut);
 
-    // Tagline fade-in: 500ms, delayed 800ms
-    _taglineController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 500),
-    );
-    _taglineFade = CurvedAnimation(
-      parent: _taglineController,
-      curve: Curves.easeOut,
-    );
-
-    // Start animations
     _logoController.forward();
-    Future.delayed(const Duration(milliseconds: 800), () {
-      if (mounted) _taglineController.forward();
-    });
   }
 
   @override
   void dispose() {
     _logoController.dispose();
-    _taglineController.dispose();
     super.dispose();
   }
 
@@ -84,28 +66,21 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                   child: Column(
                     children: [
                       Container(
-                        width: 168,
-                        height: 168,
+                        width: 132,
+                        height: 132,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(40),
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              AppColors.blueGlow.withValues(alpha: 0.28),
-                              AppColors.accentGlow.withValues(alpha: 0.4),
-                            ],
-                          ),
-                          border: Border.all(color: AppColors.border2),
+                          color: AppColors.surface2,
+                          borderRadius: BorderRadius.circular(32),
+                          border: Border.all(color: AppColors.border),
                         ),
                         alignment: Alignment.center,
-                        child: const CoolBrandMark(size: 124),
+                        child: const CoolBrandMark(size: 92),
                       ),
-                      const SizedBox(height: 18),
+                      const SizedBox(height: 16),
                       Text(
                         'Cool',
                         style: GoogleFonts.dmSans(
-                          fontSize: 32,
+                          fontSize: 28,
                           fontWeight: FontWeight.w700,
                           color: AppColors.text,
                           letterSpacing: -0.8,
@@ -114,24 +89,19 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                     ],
                   ),
                 ),
-                const SizedBox(height: 12),
-
-                // ── Tagline ───────────────────────────────────────────
-                FadeTransition(
-                  opacity: _taglineFade,
-                  child: Text(
-                    'Save together. Move together.',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.text2,
-                    ),
+                const SizedBox(height: 20),
+                const SizedBox(
+                  width: 22,
+                  height: 22,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.2,
+                    color: AppColors.accent,
                   ),
                 ),
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 220),
                   child: !showRestoreFailure
-                      ? const SizedBox(height: 0)
+                      ? const SizedBox.shrink()
                       : Padding(
                           padding: const EdgeInsets.only(top: 28),
                           child: Container(
@@ -147,7 +117,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
-                                  'We could not restore your profile.',
+                                  'We could not restore your profile',
                                   style: GoogleFonts.dmSans(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
@@ -159,7 +129,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                                   authState.error ??
                                       'Check your connection and try again.',
                                   style: GoogleFonts.dmSans(
-                                    fontSize: 14,
+                                    fontSize: 13,
                                     height: 1.45,
                                     color: AppColors.text2,
                                   ),

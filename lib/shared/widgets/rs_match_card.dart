@@ -87,7 +87,12 @@ class _RsMatchCardState extends State<RsMatchCard> {
         !match.isSoldOut &&
         match.remainingCapacity < (match.capacity * 0.2);
 
-    return DecoratedBox(
+    return Semantics(
+      label: '${match.homeTeam} vs ${match.awayTeam}. '
+          '${DateFormat('d MMM').format(match.matchDate)} at ${match.kickoffTime}. '
+          '${match.venue}. $buttonLabel.',
+      excludeSemantics: true,
+      child: DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: cardRadius,
         boxShadow: [
@@ -258,6 +263,7 @@ class _RsMatchCardState extends State<RsMatchCard> {
             ],
           ),
         ),
+      ),
       ),
     );
   }

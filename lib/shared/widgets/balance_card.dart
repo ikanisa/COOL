@@ -65,13 +65,16 @@ class BalanceCard extends StatelessWidget {
                 const SizedBox(height: 6),
 
                 // Amount
-                Text(
-                  '${_formatAmount(amount)} $currency',
-                  style: GoogleFonts.dmMono(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.text,
-                    height: 1.2,
+                Semantics(
+                  label: 'Total balance: ${_formatAmount(amount)} $currency',
+                  child: Text(
+                    '${_formatAmount(amount)} $currency',
+                    style: GoogleFonts.dmMono(
+                      fontSize: 32,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.text,
+                      height: 1.2,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 6),
@@ -118,10 +121,10 @@ class BalanceCard extends StatelessWidget {
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _ActionButton(emoji: '📤', label: 'Send'),
-                    _ActionButton(emoji: '📥', label: 'Request'),
-                    _ActionButton(emoji: '📱', label: 'MOMO'),
-                    _ActionButton(emoji: '💰', label: 'Top Up'),
+                    _ActionButton(icon: Icons.upload_rounded, label: 'Send'),
+                    _ActionButton(icon: Icons.download_rounded, label: 'Request'),
+                    _ActionButton(icon: Icons.phone_android_rounded, label: 'MOMO'),
+                    _ActionButton(icon: Icons.account_balance_wallet_rounded, label: 'Top Up'),
                   ],
                 ),
               ],
@@ -147,35 +150,44 @@ class BalanceCard extends StatelessWidget {
 // ── Action button ───────────────────────────────────────────────────────
 
 class _ActionButton extends StatelessWidget {
-  const _ActionButton({required this.emoji, required this.label});
-  final String emoji;
+  const _ActionButton({required this.icon, required this.label});
+  final IconData icon;
   final String label;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: 48,
-          height: 48,
-          decoration: BoxDecoration(
-            color: AppColors.surface3,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.border),
-          ),
-          alignment: Alignment.center,
-          child: Text(emoji, style: const TextStyle(fontSize: 20)),
+    return Tooltip(
+      message: label,
+      child: Semantics(
+        label: label,
+        button: true,
+        child: Column(
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: AppColors.surface3,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.border),
+              ),
+              alignment: Alignment.center,
+              child: ExcludeSemantics(
+                child: Icon(icon, size: 20, color: AppColors.text2),
+              ),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              label,
+              style: GoogleFonts.dmSans(
+                fontSize: 11,
+                fontWeight: FontWeight.w500,
+                color: AppColors.text2,
+              ),
+            ),
+          ],
         ),
-        const SizedBox(height: 6),
-        Text(
-          label,
-          style: GoogleFonts.dmSans(
-            fontSize: 11,
-            fontWeight: FontWeight.w500,
-            color: AppColors.text2,
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

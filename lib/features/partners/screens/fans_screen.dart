@@ -61,7 +61,7 @@ class FansScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                'Cool is keeping this route reachable, but the generic fan module for $_clubName is not connected to live membership, clubs, or directory data yet.',
+                'The fan module for $_clubName is not live yet.',
                 style: GoogleFonts.dmSans(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
@@ -75,7 +75,7 @@ class FansScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'What is intentionally disabled here',
+                      'Currently unavailable',
                       style: GoogleFonts.dmSans(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
@@ -86,20 +86,20 @@ class FansScreen extends StatelessWidget {
                     const _FansExpectationRow(
                       icon: Icons.badge_outlined,
                       text:
-                          'No fake fan membership card or supporter stats are shown on this route.',
+                          'Membership card and stats not available.',
                     ),
                     const SizedBox(height: 10),
                     const _FansExpectationRow(
                       icon: Icons.groups_outlined,
                       text:
-                          'Fan clubs and directory actions stay disabled until backend support exists.',
+                          'Fan clubs and directory disabled.',
                     ),
                     const SizedBox(height: 10),
                     _FansExpectationRow(
                       icon: Icons.route_outlined,
                       text: hasDedicatedHub
-                          ? 'Rayon Sports has its own dedicated hub and should be accessed from the Rayon route.'
-                          : 'This route remains available so partner links do not break while the hub is unfinished.',
+                          ? 'Rayon Sports has a dedicated hub.'
+                          : 'Route kept reachable for partner links.',
                     ),
                   ],
                 ),

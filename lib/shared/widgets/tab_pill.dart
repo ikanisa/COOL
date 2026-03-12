@@ -21,25 +21,30 @@ class TabPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeOut,
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
-        decoration: BoxDecoration(
-          color: isActive ? AppColors.accentGlow : AppColors.surface2,
-          borderRadius: BorderRadius.circular(30),
-          border: Border.all(
-            color: isActive ? AppColors.accent : AppColors.border,
+    return Semantics(
+      label: label,
+      button: true,
+      selected: isActive,
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOut,
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
+          decoration: BoxDecoration(
+            color: isActive ? AppColors.accentGlow : AppColors.surface2,
+            borderRadius: BorderRadius.circular(30),
+            border: Border.all(
+              color: isActive ? AppColors.accent : AppColors.border,
+            ),
           ),
-        ),
-        child: Text(
-          label,
-          style: GoogleFonts.dmSans(
-            fontSize: 13,
-            fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
-            color: isActive ? AppColors.accent : AppColors.text2,
+          child: Text(
+            label,
+            style: GoogleFonts.dmSans(
+              fontSize: 13,
+              fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
+              color: isActive ? AppColors.accent : AppColors.text2,
+            ),
           ),
         ),
       ),

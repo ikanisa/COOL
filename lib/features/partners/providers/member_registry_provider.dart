@@ -21,7 +21,7 @@ enum MemberRegistryFilter { all, platinum, gold, silver, blue, kigali }
 extension MemberRegistryFilterX on MemberRegistryFilter {
   String get label => switch (this) {
     MemberRegistryFilter.all => 'All Members',
-    MemberRegistryFilter.platinum => '★ Platinum',
+    MemberRegistryFilter.platinum => 'Platinum',
     MemberRegistryFilter.gold => 'Gold',
     MemberRegistryFilter.silver => 'Silver',
     MemberRegistryFilter.blue => 'Blue',

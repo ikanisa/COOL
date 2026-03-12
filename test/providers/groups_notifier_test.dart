@@ -64,7 +64,9 @@ void main() {
       expect(notifier.state.groups, isEmpty);
       expect(notifier.state.isLoading, false);
       expect(notifier.state.error, isNull);
-      expect(notifier.state.selectedGroup, isNull);
+      expect(notifier.state.invitePreview, isNull);
+      expect(notifier.state.isJoiningGroup, isFalse);
+      expect(notifier.state.isContributing, isFalse);
     });
   });
 
@@ -76,28 +78,25 @@ void main() {
     });
 
     test('clears error with explicit null', () {
-      final withError = const GroupsState()
-          .copyWith(error: 'some error');
+      final withError = const GroupsState().copyWith(error: 'some error');
       expect(withError.error, 'some error');
 
       final cleared = withError.copyWith(error: null);
       expect(cleared.error, isNull);
     });
 
-    test('preserves selectedGroup with sentinel', () {
-      final state = const GroupsState().copyWith(
-        groups: sampleGroups,
-      );
-      // selectedGroup should remain null since we didn't set it
-      expect(state.selectedGroup, isNull);
+    test('preserves invitePreview with sentinel', () {
+      final state = const GroupsState().copyWith(groups: sampleGroups);
+      expect(state.invitePreview, isNull);
     });
   });
 
   group('GroupsNotifier.filterGroups', () {
     setUp(() {
       // Pre-load groups into state
-      when(() => mockRepo.getMyGroups(any()))
-          .thenAnswer((_) async => sampleGroups);
+      when(
+        () => mockRepo.getMyGroups(any(), country: any(named: 'country')),
+      ).thenAnswer((_) async => sampleGroups);
     });
 
     test('filters by type "saving"', () async {
@@ -139,8 +138,9 @@ void main() {
 
   group('GroupsNotifier.loadMyGroups', () {
     test('sets loading and populates groups on success', () async {
-      when(() => mockRepo.getMyGroups(any()))
-          .thenAnswer((_) async => sampleGroups);
+      when(
+        () => mockRepo.getMyGroups(any(), country: any(named: 'country')),
+      ).thenAnswer((_) async => sampleGroups);
 
       // Set up a notifier with a fake user ID
       final notifierWithUser = GroupsNotifier(
@@ -160,8 +160,9 @@ void main() {
     });
 
     test('sets error on repository failure', () async {
-      when(() => mockRepo.getMyGroups(any()))
-          .thenThrow(Exception('DB connection failed'));
+      when(
+        () => mockRepo.getMyGroups(any(), country: any(named: 'country')),
+      ).thenThrow(Exception('DB connection failed'));
 
       final notifierWithAuth = GroupsNotifier(
         repository: mockRepo,

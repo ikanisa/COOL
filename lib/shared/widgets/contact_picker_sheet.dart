@@ -184,7 +184,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet> {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    const Text('📇', style: TextStyle(fontSize: 22)),
+                    const Icon(Icons.contacts_rounded, size: 22, color: AppColors.text2),
                     const SizedBox(width: 10),
                     Expanded(
                       child: Column(
@@ -286,7 +286,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet> {
     // Permanently denied
     if (_permanentlyDenied) {
       return _PermissionState(
-        emoji: '🔒',
+        icon: Icons.lock_rounded,
         title: 'Contacts access denied',
         message:
             'You\'ve permanently denied contacts access. Open Settings to allow Cool to read your contacts.',
@@ -298,7 +298,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet> {
     // Denied
     if (_permissionDenied) {
       return _PermissionState(
-        emoji: '📇',
+        icon: Icons.contacts_rounded,
         title: 'Contacts access needed',
         message:
             'Cool needs access to your contacts to invite friends or share content.',
@@ -310,7 +310,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet> {
     // Error
     if (_error != null) {
       return _PermissionState(
-        emoji: '⚠️',
+        icon: Icons.warning_amber_rounded,
         title: 'Something went wrong',
         message: _error!,
         actionLabel: 'Retry',
@@ -474,14 +474,14 @@ class _ContactTile extends StatelessWidget {
 
 class _PermissionState extends StatelessWidget {
   const _PermissionState({
-    required this.emoji,
+    required this.icon,
     required this.title,
     required this.message,
     required this.actionLabel,
     required this.onAction,
   });
 
-  final String emoji;
+  final IconData icon;
   final String title;
   final String message;
   final String actionLabel;
@@ -494,7 +494,7 @@ class _PermissionState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(emoji, style: const TextStyle(fontSize: 44)),
+          Icon(icon, size: 44, color: AppColors.text2),
           const SizedBox(height: 14),
           Text(
             title,

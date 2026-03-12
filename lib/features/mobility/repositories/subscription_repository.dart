@@ -11,16 +11,27 @@ class SubscriptionRepository {
   static const _monthlyFreeTripQuota = 15;
 
   Future<SubscriptionStatus> getSubscriptionStatus(String userId) async {
-    final tripsUsed = await _countTripsUsed(userId);
-    final credits = await _loadFreeTripsRemaining(userId, tripsUsed: tripsUsed);
-    final row = await _client
-        .from('driver_subscriptions')
-        .select()
-        .eq('driver_id', userId)
-        .order('expires_at', ascending: false)
-        .order('created_at', ascending: false)
-        .limit(1)
-        .maybeSingle();
+    final tripsUsed = await _safeCountTripsUsed(userId);
+    final credits = await _safeLoadFreeTripsRemaining(
+      userId,
+      tripsUsed: tripsUsed,
+    );
+
+    dynamic row;
+    try {
+      row = await _client
+          .from('driver_subscriptions')
+          .select()
+          .eq('driver_id', userId)
+          .order('expires_at', ascending: false)
+          .order('created_at', ascending: false)
+          .limit(1)
+          .maybeSingle();
+    } on PostgrestException catch (error) {
+      if (!_isRecoverableSchemaMismatch(error)) {
+        rethrow;
+      }
+    }
 
     if (row == null) {
       return SubscriptionStatus.freeTier(
@@ -50,6 +61,17 @@ class SubscriptionRepository {
     return status.isSubscribed ? -1 : status.tripsRemaining;
   }
 
+  Future<int> _safeCountTripsUsed(String userId) async {
+    try {
+      return await _countTripsUsed(userId);
+    } on PostgrestException catch (error) {
+      if (!_isRecoverableSchemaMismatch(error)) {
+        rethrow;
+      }
+      return 0;
+    }
+  }
+
   Future<int> _countTripsUsed(String userId) async {
     final now = DateTime.now();
     final periodStart = DateTime(now.year, now.month);
@@ -63,6 +85,21 @@ class SubscriptionRepository {
         .lt('created_at', nextPeriodStart.toIso8601String());
 
     return rows.length;
+  }
+
+  Future<int> _safeLoadFreeTripsRemaining(
+    String userId, {
+    required int tripsUsed,
+  }) async {
+    try {
+      return await _loadFreeTripsRemaining(userId, tripsUsed: tripsUsed);
+    } on PostgrestException catch (error) {
+      if (!_isRecoverableSchemaMismatch(error)) {
+        rethrow;
+      }
+      final remaining = _monthlyFreeTripQuota - tripsUsed;
+      return remaining > 0 ? remaining : 0;
+    }
   }
 
   Future<int> _loadFreeTripsRemaining(
@@ -117,6 +154,24 @@ int _asInt(dynamic value) {
     return int.tryParse(value) ?? 0;
   }
   return 0;
+}
+
+bool _isRecoverableSchemaMismatch(PostgrestException error) {
+  final normalized = [
+    error.code,
+    error.message,
+    error.details,
+    error.hint,
+  ].whereType<String>().join(' ').toLowerCase();
+
+  return error.code == 'PGRST202' ||
+      error.code == 'PGRST205' ||
+      error.code == '42703' ||
+      error.code == '42P01' ||
+      normalized.contains('does not exist') ||
+      normalized.contains('could not find') ||
+      normalized.contains('column') ||
+      normalized.contains('relation');
 }
 
 Map<String, dynamic> _asMap(dynamic value) {

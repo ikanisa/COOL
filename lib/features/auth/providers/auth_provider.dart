@@ -2,14 +2,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/auth/auth_user_contact.dart';
+import '../../../core/config/country_catalog.dart';
 import '../../../core/providers/engagement_providers.dart';
+import '../../../core/providers/supabase_client_provider.dart';
 import '../../../core/services/crashlytics_service.dart';
+import '../../../core/services/momo_service.dart';
 import '../../../core/services/performance_service.dart';
 import '../models/user_profile.dart';
 import '../repositories/auth_repository.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  return AuthRepository();
+  return AuthRepository(client: ref.read(supabaseClientProvider));
 });
 
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
@@ -26,6 +29,35 @@ final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
 final currentUserProvider = Provider<UserProfile?>((ref) {
   return ref.watch(authProvider).user;
 });
+
+final currentUserCountryCodeProvider = Provider<String>((ref) {
+  final authState = ref.watch(authProvider);
+  return resolveAuthStateCountryCode(authState);
+});
+
+String resolveAuthStateCountryCode(AuthState authState) {
+  final profileCountry = authState.user?.country;
+  if (profileCountry != null && profileCountry.trim().isNotEmpty) {
+    return CoolCountryCatalog.normalizeCountryCode(profileCountry);
+  }
+
+  final sessionCountry = authState.session?.user.userMetadata?['country']
+      ?.toString();
+  if (sessionCountry != null && sessionCountry.trim().isNotEmpty) {
+    return CoolCountryCatalog.normalizeCountryCode(sessionCountry);
+  }
+
+  final providerId = authState.user?.momoProvider;
+  final phone = authState.user?.momoNumber.isNotEmpty == true
+      ? authState.user!.momoNumber
+      : authState.user?.phone ?? authSessionPhone(authState.session);
+
+  return CoolCountryCatalog.resolve(
+    country: sessionCountry,
+    phone: phone,
+    providerId: providerId,
+  ).isoCode;
+}
 
 enum AuthProfileRestoreState { available, missing, pending, failed }
 
@@ -267,6 +299,25 @@ class AuthNotifier extends StateNotifier<AuthState> {
       return null;
     }
 
+    ({String momoNumber, String? momoCode, String momoProvider, String country})
+    normalizedIdentity;
+    try {
+      normalizedIdentity = await _normalizeMomoIdentity(
+        momoNumber: data.momoNumber,
+        momoCode: data.momoCode,
+        fallbackCountry: data.country,
+        fallbackProviderId: data.momoProvider,
+      );
+    } catch (error, stack) {
+      _crashlytics.recordError(
+        error,
+        stackTrace: stack,
+        reason: 'auth_normalize_momo_identity',
+      );
+      state = state.copyWith(error: _errorMessage(error));
+      return null;
+    }
+
     state = state.copyWith(isLoading: true, error: null);
     _performance.startTrace('auth_create_profile');
     _crashlytics.log('auth: creating profile for user');
@@ -277,10 +328,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
           id: userId,
           phone: phone!,
           fullName: data.fullName,
-          momoNumber: data.momoNumber,
-          momoCode: data.momoCode,
-          momoProvider: data.momoProvider,
-          country: data.country,
+          momoNumber: normalizedIdentity.momoNumber,
+          momoCode: normalizedIdentity.momoCode,
+          momoProvider: normalizedIdentity.momoProvider,
+          country: normalizedIdentity.country,
           languageCode: data.languageCode,
           isDriver: data.isDriver,
           vehicleType: data.vehicleType,
@@ -325,10 +376,30 @@ class AuthNotifier extends StateNotifier<AuthState> {
     required String momoNumber,
     String? momoCode,
     String? momoProvider,
+    String? country,
   }) async {
     final user = state.user;
     if (user == null) {
       state = state.copyWith(error: 'No user profile loaded.');
+      return false;
+    }
+
+    ({String momoNumber, String? momoCode, String momoProvider, String country})
+    normalizedIdentity;
+    try {
+      normalizedIdentity = await _normalizeMomoIdentity(
+        momoNumber: momoNumber,
+        momoCode: momoCode,
+        fallbackCountry: country ?? resolveAuthStateCountryCode(state),
+        fallbackProviderId: momoProvider ?? user.momoProvider,
+      );
+    } catch (error, stack) {
+      _crashlytics.recordError(
+        error,
+        stackTrace: stack,
+        reason: 'normalize_update_momo_info',
+      );
+      state = state.copyWith(error: _errorMessage(error));
       return false;
     }
 
@@ -337,9 +408,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
     final result = await AsyncValue.guard(
       () => _repository.updateMomoInfo(
         user.id,
-        momoNumber: momoNumber,
-        momoCode: momoCode,
-        momoProvider: momoProvider ?? user.momoProvider,
+        momoNumber: normalizedIdentity.momoNumber,
+        momoCode: normalizedIdentity.momoCode,
+        momoProvider: normalizedIdentity.momoProvider,
+        country: normalizedIdentity.country,
       ),
     );
 
@@ -361,6 +433,37 @@ class AuthNotifier extends StateNotifier<AuthState> {
     );
 
     return success;
+  }
+
+  Future<
+    ({String momoNumber, String? momoCode, String momoProvider, String country})
+  >
+  _normalizeMomoIdentity({
+    required String momoNumber,
+    String? momoCode,
+    String? fallbackCountry,
+    String? fallbackProviderId,
+  }) async {
+    final seedCountry = await MomoService.instance.resolveCountry(
+      countryCode: fallbackCountry,
+      phone: momoNumber,
+      providerId: fallbackProviderId,
+    );
+    final normalizedMomoNumber = seedCountry.buildE164Phone(momoNumber);
+    final resolvedCountry = await MomoService.instance.resolveCountry(
+      countryCode: seedCountry.isoCode,
+      phone: normalizedMomoNumber,
+      providerId: fallbackProviderId ?? seedCountry.providerId,
+    );
+
+    return (
+      momoNumber: normalizedMomoNumber,
+      momoCode: momoCode == null || momoCode.trim().isEmpty
+          ? null
+          : resolvedCountry.normalizeMerchantCode(momoCode),
+      momoProvider: resolvedCountry.providerId,
+      country: resolvedCountry.isoCode,
+    );
   }
 
   Future<void> signOut() async {

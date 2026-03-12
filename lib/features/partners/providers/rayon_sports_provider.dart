@@ -4,12 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../auth/providers/auth_provider.dart';
+import '../../../core/providers/supabase_client_provider.dart';
 import '../rayon/models/rs_models.dart';
 import '../rayon/rayon_payment.dart';
 import '../repositories/rayon_sports_repository.dart';
 
 final rayonSportsRepositoryProvider = Provider<RayonSportsRepository>((ref) {
-  return RayonSportsRepository();
+  return RayonSportsRepository(client: ref.read(supabaseClientProvider));
 });
 
 final rayonCurrentUserIdProvider = Provider<String?>((ref) {
@@ -42,8 +43,13 @@ final rayonActionLoadingProvider = Provider<bool>((ref) {
   );
 });
 
+final rayonCartControllerProvider =
+    StateNotifierProvider<RayonCartController, Map<String, int>>((ref) {
+      return RayonCartController();
+    });
+
 final rayonCartProvider = Provider<Map<String, int>>((ref) {
-  return ref.watch(rayonSportsProvider.select((state) => state.cart));
+  return ref.watch(rayonCartControllerProvider);
 });
 
 final rayonCartCountProvider = Provider<int>((ref) {
@@ -109,20 +115,25 @@ final rayonUserTicketByIdProvider =
     });
 
 final rayonMembershipProvider = Provider<AsyncValue<RsFanMembership?>>((ref) {
-  final data = ref.watch(rayonSportsDataProvider);
-  return data.whenData((value) => value.membership);
+  return ref.watch(rayonUserMembershipProvider);
 });
 
 final rayonAchievementsProvider = Provider<AsyncValue<List<RsAchievement>>>((
   ref,
 ) {
-  final data = ref.watch(rayonSportsDataProvider);
-  return data.whenData((value) => value.achievements);
+  return ref.watch(rayonUserAchievementsProvider);
 });
 
-final rayonMatchesProvider = Provider<AsyncValue<List<RsMatch>>>((ref) {
-  final data = ref.watch(rayonSportsDataProvider);
-  return data.whenData((value) => value.matches);
+final rayonMatchesProvider = FutureProvider.autoDispose<List<RsMatch>>((
+  ref,
+) async {
+  final partnerId = await ref.watch(rayonPartnerIdProvider.future);
+  if (partnerId.isEmpty) {
+    return const <RsMatch>[];
+  }
+
+  final repository = ref.watch(rayonSportsRepositoryProvider);
+  return repository.getMatches(partnerId, false);
 });
 
 final rayonNextMatchProvider = Provider<AsyncValue<RsMatch?>>((ref) {
@@ -130,25 +141,24 @@ final rayonNextMatchProvider = Provider<AsyncValue<RsMatch?>>((ref) {
   return matches.whenData((items) => items.isEmpty ? null : items.first);
 });
 
-final rayonInitiativesProvider = Provider<AsyncValue<List<RsInitiative>>>((
-  ref,
-) {
-  final data = ref.watch(rayonSportsDataProvider);
-  return data.whenData(
-    (value) => value.initiatives
-        .where((initiative) => initiative.isActive)
-        .toList(growable: false),
-  );
-});
+final rayonInitiativesProvider = FutureProvider.autoDispose<List<RsInitiative>>(
+  (ref) async {
+    final partnerId = await ref.watch(rayonPartnerIdProvider.future);
+    if (partnerId.isEmpty) {
+      return const <RsInitiative>[];
+    }
+
+    final repository = ref.watch(rayonSportsRepositoryProvider);
+    return repository.getInitiatives(partnerId);
+  },
+);
 
 final rayonTicketsProvider = Provider<AsyncValue<List<RsTicket>>>((ref) {
-  final data = ref.watch(rayonSportsDataProvider);
-  return data.whenData((value) => value.tickets);
+  return ref.watch(rayonUserTicketsProvider);
 });
 
 final rayonLoadedPartnerIdProvider = Provider<AsyncValue<String>>((ref) {
-  final data = ref.watch(rayonSportsDataProvider);
-  return data.whenData((value) => value.partnerId);
+  return ref.watch(rayonPartnerIdProvider);
 });
 
 final rayonTicketByIdProvider = Provider.family<AsyncValue<RsTicket?>, String>((
@@ -258,13 +268,126 @@ class RayonTicketHubData {
       matches.where((match) => !match.isOnSale).toList(growable: false);
 }
 
+class RayonCartController extends StateNotifier<Map<String, int>> {
+  RayonCartController() : super(const <String, int>{});
+
+  void addToCart(String productId) {
+    final cart = Map<String, int>.from(state);
+    cart[productId] = (cart[productId] ?? 0) + 1;
+    state = cart;
+  }
+
+  void removeFromCart(String productId) {
+    final cart = Map<String, int>.from(state);
+    final current = cart[productId] ?? 0;
+    if (current <= 1) {
+      cart.remove(productId);
+    } else {
+      cart[productId] = current - 1;
+    }
+    state = cart;
+  }
+
+  void clearCart() {
+    state = const <String, int>{};
+  }
+}
+
+AsyncValue<T> _combineAsync2<A, B, T>(
+  AsyncValue<A> first,
+  AsyncValue<B> second,
+  T Function(A firstValue, B secondValue) builder,
+) {
+  if (first.hasError) {
+    return AsyncError<T>(first.error!, first.stackTrace ?? StackTrace.current);
+  }
+  if (second.hasError) {
+    return AsyncError<T>(
+      second.error!,
+      second.stackTrace ?? StackTrace.current,
+    );
+  }
+  if (first.isLoading || second.isLoading) {
+    return AsyncLoading<T>();
+  }
+
+  return AsyncData<T>(builder(first.requireValue, second.requireValue));
+}
+
+AsyncValue<T> _combineAsync3<A, B, C, T>(
+  AsyncValue<A> first,
+  AsyncValue<B> second,
+  AsyncValue<C> third,
+  T Function(A firstValue, B secondValue, C thirdValue) builder,
+) {
+  if (first.hasError) {
+    return AsyncError<T>(first.error!, first.stackTrace ?? StackTrace.current);
+  }
+  if (second.hasError) {
+    return AsyncError<T>(
+      second.error!,
+      second.stackTrace ?? StackTrace.current,
+    );
+  }
+  if (third.hasError) {
+    return AsyncError<T>(third.error!, third.stackTrace ?? StackTrace.current);
+  }
+  if (first.isLoading || second.isLoading || third.isLoading) {
+    return AsyncLoading<T>();
+  }
+
+  return AsyncData<T>(
+    builder(first.requireValue, second.requireValue, third.requireValue),
+  );
+}
+
+final rayonFanClubsProvider = FutureProvider.autoDispose<List<RsFanClub>>((
+  ref,
+) async {
+  final partnerId = await ref.watch(rayonPartnerIdProvider.future);
+  if (partnerId.isEmpty) {
+    return const <RsFanClub>[];
+  }
+
+  final repository = ref.watch(rayonSportsRepositoryProvider);
+  return repository.getFanClubs(partnerId, null);
+});
+
+final rayonJoinedClubIdsProvider = FutureProvider.autoDispose<Set<String>>((
+  ref,
+) async {
+  final userId = ref.watch(rayonCurrentUserIdProvider);
+  if (userId == null || userId.isEmpty) {
+    return const <String>{};
+  }
+
+  final repository = ref.watch(rayonSportsRepositoryProvider);
+  final clubs = await repository.getUserClubs(userId);
+  return clubs.map((club) => club.id).toSet();
+});
+
+final rayonShopProductsProvider = FutureProvider.autoDispose<List<RsProduct>>((
+  ref,
+) async {
+  final partnerId = await ref.watch(rayonPartnerIdProvider.future);
+  if (partnerId.isEmpty) {
+    return const <RsProduct>[];
+  }
+
+  final repository = ref.watch(rayonSportsRepositoryProvider);
+  return repository.getProducts(partnerId, null);
+});
+
 final rayonClubDirectoryProvider = Provider<AsyncValue<RayonClubDirectoryData>>(
   (ref) {
-    final data = ref.watch(rayonSportsDataProvider);
-    return data.whenData(
-      (value) => RayonClubDirectoryData(
-        clubs: value.clubs,
-        joinedClubIds: value.joinedClubIds,
+    final clubs = ref.watch(rayonFanClubsProvider);
+    final joinedClubIds = ref.watch(rayonJoinedClubIdsProvider);
+    return _combineAsync2(
+      clubs,
+      joinedClubIds,
+      (clubsValue, joinedClubIdsValue) => RayonClubDirectoryData(
+        clubs: clubsValue,
+        joinedClubIds: joinedClubIdsValue,
       ),
     );
   },
@@ -272,12 +395,15 @@ final rayonClubDirectoryProvider = Provider<AsyncValue<RayonClubDirectoryData>>(
 
 final rayonClubDetailProvider =
     Provider.family<AsyncValue<RayonClubDetailData>, String>((ref, clubId) {
-      final data = ref.watch(rayonSportsDataProvider);
-      return data.whenData(
-        (value) => RayonClubDetailData(
-          club: value.clubById(clubId),
-          joined: value.joinedClubIds.contains(clubId),
-          achievements: value.achievements,
+      final directory = ref.watch(rayonClubDirectoryProvider);
+      final achievements = ref.watch(rayonUserAchievementsProvider);
+      return _combineAsync2(
+        directory,
+        achievements,
+        (directoryValue, achievementsValue) => RayonClubDetailData(
+          club: directoryValue.clubById(clubId),
+          joined: directoryValue.joinedClubIds.contains(clubId),
+          achievements: achievementsValue,
         ),
       );
     });
@@ -285,24 +411,32 @@ final rayonClubDetailProvider =
 final rayonShopCatalogProvider = Provider<AsyncValue<RayonShopCatalogData>>((
   ref,
 ) {
-  final data = ref.watch(rayonSportsDataProvider);
+  final products = ref.watch(rayonShopProductsProvider);
+  final membership = ref.watch(rayonUserMembershipProvider);
   final cart = ref.watch(rayonCartProvider);
-  return data.whenData(
-    (value) => RayonShopCatalogData(
-      products: value.products,
-      membership: value.membership,
+  return _combineAsync2(
+    products,
+    membership,
+    (productsValue, membershipValue) => RayonShopCatalogData(
+      products: productsValue,
+      membership: membershipValue,
       cart: cart,
     ),
   );
 });
 
 final rayonTicketHubProvider = Provider<AsyncValue<RayonTicketHubData>>((ref) {
-  final data = ref.watch(rayonSportsDataProvider);
-  return data.whenData(
-    (value) => RayonTicketHubData(
-      membership: value.membership,
-      matches: value.matches,
-      tickets: value.tickets,
+  final membership = ref.watch(rayonUserMembershipProvider);
+  final matches = ref.watch(rayonMatchesProvider);
+  final tickets = ref.watch(rayonUserTicketsProvider);
+  return _combineAsync3(
+    membership,
+    matches,
+    tickets,
+    (membershipValue, matchesValue, ticketsValue) => RayonTicketHubData(
+      membership: membershipValue,
+      matches: matchesValue,
+      tickets: ticketsValue,
     ),
   );
 });

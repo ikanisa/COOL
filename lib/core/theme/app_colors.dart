@@ -22,11 +22,11 @@ abstract final class AppColors {
   // Accent and brand colors.
   static const accent = Color(0xFF00E5A0);
   static const accent2 = Color(0xFF00B87A);
-  static const accentGlow = Color(0x2600E5A0);
+  static const accentGlow = Color(0x1400E5A0);
 
   // Semantic colors.
   static const blue = Color(0xFF4D8EFF);
-  static const blueGlow = Color(0x264D8EFF);
+  static const blueGlow = Color(0x144D8EFF);
   static const orange = Color(0xFFFF6B35);
   static const purple = Color(0xFF9B6DFF);
   static const yellow = Color(0xFFFFD166);
@@ -43,7 +43,7 @@ abstract final class AppColors {
   static const rsWhite = Color(0xFFF4F6FA);
   static const rsGold = Color(0xFFC9A84C);
   static const rsGoldLight = Color(0xFFE8C96A);
-  static const rsBlueGlow = Color(0x400047AB);
+  static const rsBlueGlow = Color(0x200047AB);
   static const rsBlueBorder = Color(0x590055CC);
 
   // Gradient helpers.
@@ -57,7 +57,7 @@ abstract final class AppColors {
   static final cardGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: const [Color(0xFF161622), Color(0xFF1E1E30)],
+    colors: const [Color(0xFF151520), Color(0xFF1A1A28)],
     transform: const GradientRotation(135 * math.pi / 180),
   );
 

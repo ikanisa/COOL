@@ -7,22 +7,22 @@ import '../../features/partners/rayon/models/rs_models.dart';
 
 /// Metadata derived from [RsAchievement.badgeType].
 class _BadgeMeta {
-  const _BadgeMeta(this.emoji, this.name, this.description, this.isMilestone);
+  const _BadgeMeta(this.icon, this.name, this.description, this.isMilestone);
 
-  final String emoji;
+  final IconData icon;
   final String name;
   final String description;
   final bool isMilestone; // milestone → gold border, activity → blue border
 
   static _BadgeMeta from(String type) => switch (type) {
-    'ticket-buyer'      => const _BadgeMeta('🎫', 'Ticket Buyer', 'Purchased your first match ticket.', false),
-    'monthly-active'    => const _BadgeMeta('📅', 'Monthly Active', 'Active for a full calendar month.', false),
-    'top-recruiter'     => const _BadgeMeta('📣', 'Top Recruiter', 'Recruited 5+ new fans to the club.', true),
-    'match-attendance'  => const _BadgeMeta('🏟️', 'Matchday Loyalist', 'Attended 10+ matches this season.', true),
-    'first-purchase'    => const _BadgeMeta('🛍️', 'First Purchase', 'Made your first shop purchase.', false),
-    'supporter'         => const _BadgeMeta('🤝', 'Club Supporter', 'Backed a community initiative.', false),
-    'season-holder'     => const _BadgeMeta('🏅', 'Season Holder', 'Held a full-season membership.', true),
-    _                   => const _BadgeMeta('⭐', 'Club Star', 'A loyal Gikundiro supporter.', false),
+    'ticket-buyer'      => const _BadgeMeta(Icons.confirmation_number_rounded, 'Ticket Buyer', 'Purchased your first match ticket.', false),
+    'monthly-active'    => const _BadgeMeta(Icons.calendar_month_rounded, 'Monthly Active', 'Active for a full calendar month.', false),
+    'top-recruiter'     => const _BadgeMeta(Icons.campaign_rounded, 'Top Recruiter', 'Recruited 5+ new fans to the club.', true),
+    'match-attendance'  => const _BadgeMeta(Icons.stadium_rounded, 'Matchday Loyalist', 'Attended 10+ matches this season.', true),
+    'first-purchase'    => const _BadgeMeta(Icons.shopping_bag_rounded, 'First Purchase', 'Made your first shop purchase.', false),
+    'supporter'         => const _BadgeMeta(Icons.handshake_rounded, 'Club Supporter', 'Backed a community initiative.', false),
+    'season-holder'     => const _BadgeMeta(Icons.military_tech_rounded, 'Season Holder', 'Held a full-season membership.', true),
+    _                   => const _BadgeMeta(Icons.star_rounded, 'Club Star', 'A loyal Gikundiro supporter.', false),
   };
 }
 
@@ -48,7 +48,10 @@ class RsAchievementBadge extends StatelessWidget {
         ? RsColors.rsGold.withValues(alpha: 0.12)
         : RsColors.rsBlueGlow;
 
-    return Tooltip(
+    return Semantics(
+      label: '${meta.name} achievement. ${meta.description}',
+      excludeSemantics: true,
+      child: Tooltip(
       message: meta.description,
       preferBelow: true,
       child: Column(
@@ -64,9 +67,10 @@ class RsAchievementBadge extends StatelessWidget {
               border: Border.all(color: borderColor, width: 1.6),
             ),
             alignment: Alignment.center,
-            child: Text(
-              meta.emoji,
-              style: const TextStyle(fontSize: 24),
+            child: Icon(
+              meta.icon,
+              size: 24,
+              color: Colors.white,
             ),
           ),
           const SizedBox(height: 6),
@@ -86,6 +90,7 @@ class RsAchievementBadge extends StatelessWidget {
             ),
           ),
         ],
+      ),
       ),
     );
   }

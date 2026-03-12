@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/providers/supabase_client_provider.dart';
+
 /// Polls a Supabase table for status changes on a specific record.
 ///
 /// Used after USSD payment launch to detect when `parse-momo-sms`
@@ -67,18 +69,26 @@ class PaymentPollState {
 final paymentStatusProvider = StateNotifierProvider.autoDispose
     .family<PaymentStatusNotifier, PaymentPollState, PaymentPollArgs>(
   (ref, args) {
-    final notifier = PaymentStatusNotifier(args);
+    final notifier = PaymentStatusNotifier(
+      args,
+      client: ref.read(supabaseClientProvider),
+    );
     ref.onDispose(notifier.dispose);
     return notifier;
   },
 );
 
 class PaymentStatusNotifier extends StateNotifier<PaymentPollState> {
-  PaymentStatusNotifier(this._args) : super(const PaymentPollState()) {
+  PaymentStatusNotifier(
+    this._args, {
+    required SupabaseClient client,
+  }) : _client = client,
+       super(const PaymentPollState()) {
     _startPolling();
   }
 
   final PaymentPollArgs _args;
+  final SupabaseClient _client;
   Timer? _timer;
   DateTime? _startedAt;
   bool _disposed = false;
@@ -116,8 +126,7 @@ class PaymentStatusNotifier extends StateNotifier<PaymentPollState> {
     }
 
     try {
-      final client = Supabase.instance.client;
-      final response = await client
+      final response = await _client
           .from(_args.table)
           .select(_args.statusColumn)
           .eq('id', _args.recordId)

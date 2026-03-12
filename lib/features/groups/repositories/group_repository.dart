@@ -14,7 +14,7 @@ class GroupRepository {
 
   final SupabaseClient _client;
 
-  Future<List<Group>> getMyGroups(String userId) async {
+  Future<List<Group>> getMyGroups(String userId, {String? country}) async {
     final membershipRowsFuture = _client
         .from('group_members')
         .select('group_id')
@@ -34,10 +34,13 @@ class GroupRepository {
         if ((row['id']?.toString() ?? '').isNotEmpty) row['id'].toString(),
     };
 
-    return _fetchGroupsByIds(groupIds.toList(growable: false));
+    return _fetchGroupsByIds(
+      groupIds.toList(growable: false),
+      country: country,
+    );
   }
 
-  Future<GroupDetail?> getGroupById(String id) async {
+  Future<GroupDetail?> getGroupById(String id, {String? country}) async {
     final groupRow = await _client
         .from('groups')
         .select()
@@ -46,6 +49,12 @@ class GroupRepository {
     if (groupRow == null) {
       return null;
     }
+
+    _assertCountryAccess(
+      viewerCountry: country,
+      resourceCountry: groupRow['country']?.toString(),
+      resourceLabel: 'This group',
+    );
 
     final rawMemberRowsFuture = _client
         .from('group_members')
@@ -107,7 +116,10 @@ class GroupRepository {
     );
   }
 
-  Future<GroupDetail?> getGroupByInviteCode(String inviteCode) async {
+  Future<GroupDetail?> getGroupByInviteCode(
+    String inviteCode, {
+    String? country,
+  }) async {
     final normalizedCode = _normalizeInviteCode(inviteCode);
     if (normalizedCode.isEmpty) {
       return null;
@@ -122,10 +134,16 @@ class GroupRepository {
       return null;
     }
 
+    _assertCountryAccess(
+      viewerCountry: country,
+      resourceCountry: preview['country']?.toString(),
+      resourceLabel: 'This group invite',
+    );
+
     final groupId = preview['id']?.toString();
     final isMember = _asBool(preview['is_member']);
     if (isMember && groupId != null && groupId.isNotEmpty) {
-      return getGroupById(groupId);
+      return getGroupById(groupId, country: country);
     }
 
     return GroupDetail(
@@ -225,6 +243,12 @@ class GroupRepository {
       throw StateError('Group not found.');
     }
 
+    _assertCountryAccess(
+      viewerCountry: await _currentUserCountry(),
+      resourceCountry: groupRow['country']?.toString(),
+      resourceLabel: 'This group',
+    );
+
     final membershipRow = await _client
         .from('group_members')
         .select('id')
@@ -289,7 +313,10 @@ class GroupRepository {
     }
   }
 
-  Future<GroupJoinResult> joinGroupByInviteCode(String inviteCode) async {
+  Future<GroupJoinResult> joinGroupByInviteCode(
+    String inviteCode, {
+    String? country,
+  }) async {
     final currentUser = _client.auth.currentUser;
     if (currentUser == null) {
       throw StateError('You must be signed in to join a group.');
@@ -298,6 +325,17 @@ class GroupRepository {
     final normalizedCode = _normalizeInviteCode(inviteCode);
     if (normalizedCode.isEmpty) {
       throw StateError('Enter a valid invite code.');
+    }
+
+    final preview = await getGroupByInviteCode(
+      normalizedCode,
+      country: country ?? await _currentUserCountry(),
+    );
+    if (preview == null) {
+      throw StateError('Invite code not found.');
+    }
+    if (preview.isMember) {
+      return GroupJoinResult(detail: preview, status: 'already_member');
     }
 
     final response = await _client.rpc(
@@ -314,8 +352,8 @@ class GroupRepository {
 
     final groupId = data['group_id']?.toString();
     final detail = groupId == null || groupId.isEmpty
-        ? await getGroupByInviteCode(normalizedCode)
-        : await getGroupById(groupId);
+        ? await getGroupByInviteCode(normalizedCode, country: country)
+        : await getGroupById(groupId, country: country);
     if (detail == null) {
       throw StateError('Joined group could not be loaded.');
     }
@@ -339,16 +377,21 @@ class GroupRepository {
     ).map((row) => Group.fromJson(row)).toList(growable: false);
   }
 
-  Future<List<Group>> _fetchGroupsByIds(List<String> groupIds) async {
+  Future<List<Group>> _fetchGroupsByIds(
+    List<String> groupIds, {
+    String? country,
+  }) async {
     if (groupIds.isEmpty) {
       return const <Group>[];
     }
 
-    final response = await _client
-        .from('groups')
-        .select()
-        .inFilter('id', groupIds)
-        .order('created_at', ascending: false);
+    var query = _client.from('groups').select().inFilter('id', groupIds);
+    final normalizedCountry = _normalizeCountryOrNull(country);
+    if (normalizedCountry != null) {
+      query = query.eq('country', normalizedCountry);
+    }
+
+    final response = await query.order('created_at', ascending: false);
 
     return _asListOfMaps(
       response,
@@ -368,6 +411,61 @@ class GroupRepository {
 
   String _normalizeInviteCode(String inviteCode) {
     return inviteCode.trim().toUpperCase();
+  }
+
+  Future<String?> _currentUserCountry() async {
+    final currentUser = _client.auth.currentUser;
+    if (currentUser == null) {
+      return null;
+    }
+
+    final metadataCountry = _normalizeCountryOrNull(
+      currentUser.userMetadata?['country']?.toString(),
+    );
+    if (metadataCountry != null) {
+      return metadataCountry;
+    }
+
+    final userRow = await _client
+        .from('users')
+        .select('country')
+        .eq('id', currentUser.id)
+        .maybeSingle();
+
+    return _normalizeCountryOrNull(userRow?['country']?.toString());
+  }
+
+  void _assertCountryAccess({
+    required String? viewerCountry,
+    required String? resourceCountry,
+    required String resourceLabel,
+  }) {
+    final normalizedViewerCountry = _normalizeCountryOrNull(viewerCountry);
+    final normalizedResourceCountry = _normalizeCountryOrNull(resourceCountry);
+
+    if (normalizedViewerCountry == null || normalizedResourceCountry == null) {
+      return;
+    }
+
+    if (normalizedViewerCountry == normalizedResourceCountry) {
+      return;
+    }
+
+    final countryName = CoolCountryCatalog.resolve(
+      country: normalizedResourceCountry,
+    ).displayName;
+    throw StateError(
+      '$resourceLabel is only available to users in $countryName. '
+      'Update your MoMo country if you recently changed markets.',
+    );
+  }
+
+  String? _normalizeCountryOrNull(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return null;
+    }
+
+    return CoolCountryCatalog.normalizeCountryCode(value);
   }
 
   Future<Map<String, String>> _loadContributorNames(

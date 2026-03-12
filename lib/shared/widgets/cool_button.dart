@@ -9,9 +9,8 @@ enum CoolButtonVariant { primary, secondary }
 
 /// A styled button used throughout the Cool app.
 ///
-/// Supports two visual variants ([CoolButtonVariant.primary] and
-/// [CoolButtonVariant.secondary]), an optional leading [icon], and a
-/// built-in loading state that swaps the label for a spinner.
+/// Buttons stay visually simple so the label carries the action instead of the
+/// decoration.
 class CoolButton extends StatelessWidget {
   const CoolButton({
     required this.label,
@@ -20,6 +19,7 @@ class CoolButton extends StatelessWidget {
     this.isLoading = false,
     this.fullWidth = true,
     this.icon,
+    this.semanticsLabel,
     super.key,
   });
 
@@ -30,9 +30,12 @@ class CoolButton extends StatelessWidget {
   final bool fullWidth;
   final IconData? icon;
 
+  /// Custom accessibility label. Falls back to [label] if null.
+  final String? semanticsLabel;
+
   // ── Constants ───────────────────────────────────────────────────────
   static const _height = 52.0;
-  static const _radius = 12.0;
+  static const _radius = 14.0;
   static const _fontSize = 15.0;
 
   bool get _isPrimary => variant == CoolButtonVariant.primary;
@@ -41,65 +44,59 @@ class CoolButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final enabled = !isLoading;
     final backgroundDecoration = BoxDecoration(
-      gradient: _isPrimary && enabled
-          ? LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [AppColors.accent, AppColors.accent2],
-            )
-          : !_isPrimary
-          ? AppColors.cardGradient
-          : null,
       color: _isPrimary
-          ? (enabled ? null : AppColors.surface3)
-          : AppColors.surface2,
+          ? (enabled ? AppColors.accent : AppColors.surface3)
+          : (enabled ? AppColors.surface2 : AppColors.surface3),
       borderRadius: BorderRadius.circular(_radius),
       border: Border.all(
         color: _isPrimary
-            ? (enabled
-                  ? AppColors.accent2.withValues(alpha: 0.45)
-                  : AppColors.border)
+            ? (enabled ? AppColors.accent : AppColors.border)
             : (enabled ? AppColors.border2 : AppColors.border),
       ),
-      boxShadow: [
-        if (_isPrimary && enabled)
-          BoxShadow(
-            color: AppColors.accentGlow,
-            blurRadius: 20,
-            offset: const Offset(0, 10),
-          ),
-        BoxShadow(
-          color: Colors.black.withValues(alpha: enabled ? 0.2 : 0.1),
-          blurRadius: enabled ? 18 : 10,
-          offset: const Offset(0, 10),
-        ),
-      ],
+      boxShadow: enabled
+          ? [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.06),
+                blurRadius: 4,
+                offset: const Offset(0, 2),
+              ),
+            ]
+          : null,
     );
 
-    return SizedBox(
-      width: fullWidth ? double.infinity : null,
-      height: _height,
-      child: Material(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(_radius),
-        child: Ink(
-          decoration: backgroundDecoration,
-          child: InkWell(
-            onTap: enabled
-                ? () {
-                    HapticFeedback.lightImpact();
-                    onTap();
-                  }
-                : null,
+    return Semantics(
+      label: semanticsLabel ?? label,
+      button: true,
+      enabled: enabled,
+      hint: isLoading ? 'Loading' : null,
+      child: Tooltip(
+        message: semanticsLabel ?? label,
+        child: SizedBox(
+          width: fullWidth ? double.infinity : null,
+          height: _height,
+          child: Material(
+            color: Colors.transparent,
             borderRadius: BorderRadius.circular(_radius),
-            splashColor: _isPrimary
-                ? Colors.black.withValues(alpha: 0.08)
-                : AppColors.accentGlow,
-            highlightColor: Colors.transparent,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              alignment: Alignment.center,
-              child: _buildChild(enabled),
+            child: Ink(
+              decoration: backgroundDecoration,
+              child: InkWell(
+                onTap: enabled
+                    ? () {
+                        HapticFeedback.lightImpact();
+                        onTap();
+                      }
+                    : null,
+                borderRadius: BorderRadius.circular(_radius),
+                splashColor: _isPrimary
+                    ? Colors.black.withValues(alpha: 0.06)
+                    : Colors.white.withValues(alpha: 0.04),
+                highlightColor: Colors.transparent,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  alignment: Alignment.center,
+                  child: _buildChild(enabled),
+                ),
+              ),
             ),
           ),
         ),
@@ -109,12 +106,12 @@ class CoolButton extends StatelessWidget {
 
   Widget _buildChild(bool enabled) {
     if (isLoading) {
-      return const SizedBox(
+      return SizedBox(
         width: 22,
         height: 22,
         child: CircularProgressIndicator(
           strokeWidth: 2.5,
-          color: AppColors.accent,
+          color: _isPrimary ? Colors.black : AppColors.accent,
         ),
       );
     }

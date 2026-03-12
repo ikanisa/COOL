@@ -119,6 +119,7 @@ class FakeMobilityRepository extends MobilityRepository {
     double lng,
     String? vehicleType,
     TripType type,
+    String? country,
   ) async {
     return _scheduledTrips
         .where((trip) => trip.tripType == type)
@@ -131,7 +132,7 @@ class FakeMobilityRepository extends MobilityRepository {
   }
 
   @override
-  Future<List<Trip>> getMyTrips(String userId) async {
+  Future<List<Trip>> getMyTrips(String userId, {String? country}) async {
     return _scheduledTrips
         .where((trip) => trip.userId == userId)
         .toList(growable: false);

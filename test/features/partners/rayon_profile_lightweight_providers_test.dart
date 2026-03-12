@@ -15,6 +15,9 @@ void main() {
   late RsAchievement achievement;
   late RsTicket ticket;
   late RsMatch match;
+  late RsFanClub club;
+  late RsProduct product;
+  late RsInitiative initiative;
 
   ProviderContainer createContainer() {
     final container = ProviderContainer(
@@ -77,6 +80,41 @@ void main() {
       status: TicketStatus.valid,
       purchasedAt: DateTime(2026, 3, 25),
     );
+    club = const RsFanClub(
+      id: 'club-1',
+      partnerId: 'partner-1',
+      name: 'Kigali Blue',
+      region: 'Kigali',
+      description: 'Main chapter',
+      memberCount: 150,
+      eventCount: 8,
+      rating: 4.9,
+      bannerEmoji: '🥁',
+    );
+    product = RsProduct(
+      id: 'product-1',
+      partnerId: 'partner-1',
+      name: 'Replica Jersey',
+      category: ProductCategory.kits,
+      price: 5000,
+      imageEmoji: '👕',
+      bgColor: Colors.blue,
+      stock: 24,
+      isActive: true,
+      isNew: false,
+    );
+    initiative = const RsInitiative(
+      id: 'initiative-1',
+      partnerId: 'partner-1',
+      title: 'Youth Academy',
+      description: 'Back the academy pipeline.',
+      category: InitiativeCategory.youth,
+      targetAmount: 1000000,
+      raisedAmount: 125000,
+      supporterCount: 42,
+      isActive: true,
+      endsAt: null,
+    );
   });
 
   test('lightweight profile providers use discrete repository calls', () async {
@@ -84,10 +122,8 @@ void main() {
       () => repository.getFanMembership('user-1', 'partner-1'),
     ).thenAnswer((_) async => membership);
     when(
-      () => repository.getAchievements(
-        userId: 'user-1',
-        partnerId: 'partner-1',
-      ),
+      () =>
+          repository.getAchievements(userId: 'user-1', partnerId: 'partner-1'),
     ).thenAnswer((_) async => <RsAchievement>[achievement]);
     when(
       () => repository.getMyTickets('user-1'),
@@ -95,7 +131,10 @@ void main() {
 
     final container = createContainer();
 
-    expect(await container.read(rayonUserMembershipProvider.future), membership);
+    expect(
+      await container.read(rayonUserMembershipProvider.future),
+      membership,
+    );
     expect(
       await container.read(rayonUserAchievementsProvider.future),
       <RsAchievement>[achievement],
@@ -106,10 +145,8 @@ void main() {
 
     verify(() => repository.getFanMembership('user-1', 'partner-1')).called(1);
     verify(
-      () => repository.getAchievements(
-        userId: 'user-1',
-        partnerId: 'partner-1',
-      ),
+      () =>
+          repository.getAchievements(userId: 'user-1', partnerId: 'partner-1'),
     ).called(1);
     verify(() => repository.getMyTickets('user-1')).called(1);
     verifyNever(() => repository.loadData(userId: any(named: 'userId')));
@@ -129,5 +166,102 @@ void main() {
       'ticket-1',
     );
     verify(() => repository.getMyTickets('user-1')).called(1);
+  });
+
+  test(
+    'clubs, shop, tickets, and support providers avoid aggregate loadData',
+    () async {
+      when(
+        () => repository.getFanMembership('user-1', 'partner-1'),
+      ).thenAnswer((_) async => membership);
+      when(
+        () => repository.getUserClubs('user-1'),
+      ).thenAnswer((_) async => <RsFanClub>[club]);
+      when(
+        () => repository.getFanClubs('partner-1', null),
+      ).thenAnswer((_) async => <RsFanClub>[club]);
+      when(
+        () => repository.getProducts('partner-1', null),
+      ).thenAnswer((_) async => <RsProduct>[product]);
+      when(
+        () => repository.getMatches('partner-1', false),
+      ).thenAnswer((_) async => <RsMatch>[match]);
+      when(
+        () => repository.getMyTickets('user-1'),
+      ).thenAnswer((_) async => <RsTicket>[ticket]);
+      when(
+        () => repository.getInitiatives('partner-1'),
+      ).thenAnswer((_) async => <RsInitiative>[initiative]);
+      when(
+        () => repository.getAchievements(
+          userId: 'user-1',
+          partnerId: 'partner-1',
+        ),
+      ).thenAnswer((_) async => <RsAchievement>[achievement]);
+
+      final container = createContainer();
+
+      await container.read(rayonFanClubsProvider.future);
+      await container.read(rayonJoinedClubIdsProvider.future);
+      await container.read(rayonShopProductsProvider.future);
+      await container.read(rayonMatchesProvider.future);
+      await container.read(rayonInitiativesProvider.future);
+      await container.read(rayonUserMembershipProvider.future);
+      await container.read(rayonUserTicketsProvider.future);
+      await container.read(rayonUserAchievementsProvider.future);
+
+      expect(
+        container.read(rayonClubDirectoryProvider).valueOrNull?.joinedClubIds,
+        <String>{'club-1'},
+      );
+      expect(
+        container.read(rayonClubDetailProvider('club-1')).valueOrNull?.club?.id,
+        'club-1',
+      );
+      expect(
+        container.read(rayonShopCatalogProvider).valueOrNull?.products,
+        <RsProduct>[product],
+      );
+      expect(
+        container.read(rayonTicketHubProvider).valueOrNull?.tickets,
+        <RsTicket>[ticket],
+      );
+      expect(
+        container
+            .read(rayonInitiativesSummaryProvider)
+            .valueOrNull
+            ?.activeCauses,
+        1,
+      );
+
+      verify(() => repository.getUserClubs('user-1')).called(1);
+      verify(() => repository.getFanClubs('partner-1', null)).called(1);
+      verify(() => repository.getProducts('partner-1', null)).called(1);
+      verify(() => repository.getMatches('partner-1', false)).called(1);
+      verify(() => repository.getInitiatives('partner-1')).called(1);
+      verify(
+        () => repository.getFanMembership('user-1', 'partner-1'),
+      ).called(1);
+      verify(
+        () => repository.getAchievements(
+          userId: 'user-1',
+          partnerId: 'partner-1',
+        ),
+      ).called(1);
+      verify(() => repository.getMyTickets('user-1')).called(1);
+      verifyNever(() => repository.loadData(userId: any(named: 'userId')));
+    },
+  );
+
+  test('cart controller updates without touching aggregate Rayon state', () {
+    final container = createContainer();
+    final controller = container.read(rayonCartControllerProvider.notifier);
+
+    controller.addToCart('product-1');
+    controller.addToCart('product-1');
+    controller.removeFromCart('product-1');
+
+    expect(container.read(rayonCartProvider), <String, int>{'product-1': 1});
+    verifyNever(() => repository.loadData(userId: any(named: 'userId')));
   });
 }

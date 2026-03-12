@@ -6,10 +6,13 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
+import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/section_title.dart';
 import '../models/credit_dashboard.dart';
 import '../providers/credit_provider.dart';
@@ -75,7 +78,7 @@ class _CreditScoreScreenState extends ConsumerState<CreditScoreScreen>
           ),
         ],
         title: Text(
-          'Credit Score',
+          'Credit',
           style: GoogleFonts.dmSans(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -103,18 +106,17 @@ class _CreditScoreScreenState extends ConsumerState<CreditScoreScreen>
       return;
     }
 
-    final messenger = ScaffoldMessenger.maybeOf(context);
     setState(() => _isRefreshing = true);
     try {
       await ref.read(creditRepositoryProvider).refreshMyScore();
       ref.invalidate(creditDashboardProvider);
-      messenger?.showSnackBar(
-        const SnackBar(content: Text('Credit report refreshed.')),
-      );
+      if (mounted) {
+        CoolToast.success(context, 'Credit report refreshed.');
+      }
     } catch (error) {
-      messenger?.showSnackBar(
-        SnackBar(content: Text('Could not refresh report: $error')),
-      );
+      if (mounted) {
+        CoolToast.error(context, 'Could not refresh report: $error');
+      }
     } finally {
       if (mounted) {
         setState(() => _isRefreshing = false);
@@ -145,32 +147,44 @@ class _CreditScoreBody extends StatelessWidget {
           const SizedBox(height: 8),
           if (!hasReport)
             _InfoBanner(
-              emoji: '🧾',
+              icon: Icons.credit_score_outlined,
               message:
-                  'No credit report is available yet. Connect your M-Money history and continue using savings groups to generate your first score.',
+                  'Score available after verified activity.',
             )
           else if (data?.lastUpdated != null)
             _InfoBanner(
-              emoji: '✅',
+              icon: Icons.check_circle_outline_rounded,
               message:
-                  'Latest report updated ${DateFormat('d MMM yyyy').format(data!.lastUpdated!.toLocal())}.',
+                  'Updated ${DateFormat('d MMM yyyy').format(data!.lastUpdated!.toLocal())}.',
             ),
           const SizedBox(height: 12),
           _ScoreHeroCard(dashboard: data, animation: ringAnimation),
           const SizedBox(height: 22),
-          const SectionTitle(title: 'Score Factors'),
-          const SizedBox(height: 10),
-          _ScoreFactors(factors: data?.factors ?? const []),
-          const SizedBox(height: 22),
-          const SectionTitle(title: 'Why This Score'),
-          const SizedBox(height: 10),
-          _ScoreExplanationCard(dashboard: data),
-          const SizedBox(height: 22),
           _HowToImproveCard(dashboard: data),
           const SizedBox(height: 22),
-          const SectionTitle(title: 'Score History'),
+          if (hasReport) ...[
+            const SectionTitle(title: 'Top factors'),
+            const SizedBox(height: 10),
+            _ScoreFactors(
+              factors: (data?.factors ?? const [])
+                  .take(3)
+                  .toList(growable: false),
+            ),
+            const SizedBox(height: 22),
+            const SectionTitle(title: 'Report details'),
+            const SizedBox(height: 10),
+            _ScoreExplanationCard(dashboard: data),
+            const SizedBox(height: 22),
+          ],
+          const SectionTitle(title: 'Readiness'),
           const SizedBox(height: 10),
-          _ScoreHistoryChart(history: data?.history ?? const []),
+          _ApplicationReadinessEntryCard(dashboard: data),
+          if (hasReport && (data?.history.isNotEmpty ?? false)) ...[
+            const SizedBox(height: 22),
+            const SectionTitle(title: 'History'),
+            const SizedBox(height: 10),
+            _ScoreHistoryChart(history: data?.history ?? const []),
+          ],
         ],
       ),
     );
@@ -211,7 +225,11 @@ class _CreditScoreErrorState extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('⚠️', style: TextStyle(fontSize: 42)),
+              const Icon(
+                Icons.error_outline_rounded,
+                size: 40,
+                color: AppColors.orange,
+              ),
               const SizedBox(height: 12),
               Text(
                 'Could not load your credit report.',
@@ -240,9 +258,9 @@ class _CreditScoreErrorState extends StatelessWidget {
 }
 
 class _InfoBanner extends StatelessWidget {
-  const _InfoBanner({required this.emoji, required this.message});
+  const _InfoBanner({required this.icon, required this.message});
 
-  final String emoji;
+  final IconData icon;
   final String message;
 
   @override
@@ -257,7 +275,7 @@ class _InfoBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Text(emoji, style: const TextStyle(fontSize: 14)),
+          Icon(icon, size: 16, color: AppColors.yellow),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
@@ -301,7 +319,7 @@ class _ScoreHeroCard extends StatelessWidget {
 
   String get _description {
     if (dashboard?.score == null) {
-      return 'We need verified M-Money and savings activity before a report can be generated.';
+      return 'Verified M-Money and savings activity needed.';
     }
 
     final summary = dashboard?.summary?.trim();
@@ -311,7 +329,7 @@ class _ScoreHeroCard extends StatelessWidget {
 
     final score = dashboard!.score!;
     if (score >= 720) {
-      return 'Your verified wallet and savings activity looks strong and consistent.';
+      return 'Wallet and savings activity looks strong.';
     }
     if (score >= 640) {
       return 'You are building a reliable financial track record.';
@@ -328,67 +346,49 @@ class _ScoreHeroCard extends StatelessWidget {
     final hasReport = dashboard?.score != null;
 
     return CoolCard(
-      gradient: AppColors.purpleGradient,
-      child: Stack(
+      backgroundColor: AppColors.surface,
+      borderColor: AppColors.purple.withValues(alpha: 0.24),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Positioned(
-            top: -30,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 120,
-              decoration: BoxDecoration(
-                gradient: RadialGradient(
-                  center: Alignment.topCenter,
-                  radius: 0.8,
-                  colors: [
-                    AppColors.purple.withValues(alpha: 0.2),
-                    Colors.transparent,
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 22),
-            child: Column(
-              children: [
-                AnimatedBuilder(
-                  animation: animation,
-                  builder: (context, child) {
-                    return SizedBox(
-                      width: 120,
-                      height: 120,
-                      child: CustomPaint(
-                        painter: _ScoreRingPainter(
-                          progress: hasReport
-                              ? _creditScoreProgress(score) * animation.value
-                              : 0,
-                        ),
-                        child: Center(
-                          child: Text(
-                            hasReport
-                                ? '${(score * animation.value).round()}'
-                                : '--',
-                            style: GoogleFonts.dmMono(
-                              fontSize: 30,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.text,
-                            ),
-                          ),
-                        ),
+          AnimatedBuilder(
+            animation: animation,
+            builder: (context, child) {
+              return SizedBox(
+                width: 108,
+                height: 108,
+                child: CustomPaint(
+                  painter: _ScoreRingPainter(
+                    progress: hasReport
+                        ? _creditScoreProgress(score) * animation.value
+                        : 0,
+                  ),
+                  child: Center(
+                    child: Text(
+                      hasReport ? '${(score * animation.value).round()}' : '--',
+                      style: GoogleFonts.dmMono(
+                        fontSize: 28,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.text,
                       ),
-                    );
-                  },
+                    ),
+                  ),
                 ),
-                const SizedBox(height: 14),
+              );
+            },
+          ),
+          const SizedBox(width: 18),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 Text(
-                  'COOL CREDIT SCORE',
+                  'Credit score',
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.text2,
-                    letterSpacing: 1.2,
+                    color: AppColors.text3,
+                    letterSpacing: 0.4,
                   ),
                 ),
                 const SizedBox(height: 6),
@@ -400,21 +400,17 @@ class _ScoreHeroCard extends StatelessWidget {
                     color: AppColors.purple,
                   ),
                 ),
-                const SizedBox(height: 4),
-                SizedBox(
-                  width: 260,
-                  child: Text(
-                    _description,
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.text2,
-                      height: 1.4,
-                    ),
+                const SizedBox(height: 6),
+                Text(
+                  _description,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.text2,
+                    height: 1.45,
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 10),
                 Text(
                   dashboard == null
                       ? 'Sign in to view your report.'
@@ -492,7 +488,7 @@ class _ScoreFactors extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(18),
           child: Text(
-            'Factor breakdown will appear here after your first credit report is generated.',
+            'Factors appear after your first report.',
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,
@@ -516,7 +512,7 @@ class _ScoreFactors extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text(factor.emoji, style: const TextStyle(fontSize: 18)),
+                      Icon(factor.icon, size: 18, color: AppColors.text2),
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
@@ -575,50 +571,50 @@ class _HowToImproveCard extends StatelessWidget {
     final items = _buildItems(dashboard);
 
     return CoolCard(
-      child: Padding(
-        padding: const EdgeInsets.all(18),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '💡 How to Improve',
-              style: GoogleFonts.dmSans(
-                fontSize: 15,
-                fontWeight: FontWeight.w700,
-                color: AppColors.text,
-              ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Next steps',
+            style: GoogleFonts.dmSans(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: AppColors.text,
             ),
-            const SizedBox(height: 12),
-            ...items.map((item) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      item.completed ? '✅' : '⬜',
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        item.text,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: item.completed
-                              ? AppColors.text
-                              : AppColors.text2,
-                          height: 1.4,
-                        ),
+          ),
+          const SizedBox(height: 12),
+          ...items.map((item) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    item.completed
+                        ? Icons.check_circle_rounded
+                        : Icons.radio_button_unchecked_rounded,
+                    size: 18,
+                    color: item.completed ? AppColors.accent : AppColors.text3,
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      item.text,
+                      style: GoogleFonts.dmSans(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: item.completed
+                            ? AppColors.text
+                            : AppColors.text2,
+                        height: 1.4,
                       ),
                     ),
-                  ],
-                ),
-              );
-            }),
-          ],
-        ),
+                  ),
+                ],
+              ),
+            );
+          }),
+        ],
       ),
     );
   }
@@ -626,22 +622,22 @@ class _HowToImproveCard extends StatelessWidget {
   List<_ImprovementItem> _buildItems(CreditDashboard? data) {
     if (data == null) {
       return const [
-        _ImprovementItem('Sign in to view and build your credit report', false),
+        _ImprovementItem('Sign in to view your report', false),
       ];
     }
 
     if (!data.hasReport) {
       return [
         _ImprovementItem(
-          'Keep your posted mobile-money activity flowing so the score engine has enough wallet evidence',
+          'Keep mobile-money activity flowing',
           data.statementCount > 0,
         ),
         _ImprovementItem(
-          'Keep contributing through active groups so savings reliability can be measured',
+          'Stay active in savings groups',
           data.groupContributionCount > 0,
         ),
         _ImprovementItem(
-          'Build at least two active months of history before expecting a stronger first report',
+          'Build 2+ active months of history',
           data.activeMonthCount >= 2,
         ),
       ];
@@ -673,6 +669,55 @@ class _HowToImproveCard extends StatelessWidget {
   }
 }
 
+class _ApplicationReadinessEntryCard extends StatelessWidget {
+  const _ApplicationReadinessEntryCard({required this.dashboard});
+
+  final CreditDashboard? dashboard;
+
+  @override
+  Widget build(BuildContext context) {
+    final title = dashboard?.hasReport == true
+        ? 'Ready for a formal handoff'
+        : 'Build readiness first';
+    final detail = dashboard?.hasReport == true
+        ? 'Prepare for your next finance conversation.'
+        : 'See what still needs to be completed.';
+
+    return CoolCard(
+      borderColor: AppColors.blue.withValues(alpha: 0.24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: GoogleFonts.dmSans(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: AppColors.text,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            detail,
+            style: GoogleFonts.dmSans(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: AppColors.text2,
+              height: 1.45,
+            ),
+          ),
+          const SizedBox(height: 14),
+          CoolButton(
+            label: 'Open readiness',
+            icon: Icons.assignment_turned_in_outlined,
+            onTap: () => context.push(AppRoutes.creditReadiness),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _ScoreExplanationCard extends StatelessWidget {
   const _ScoreExplanationCard({required this.dashboard});
 
@@ -686,7 +731,7 @@ class _ScoreExplanationCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(18),
           child: Text(
-            'Sign in to see the evidence and explanations behind your credit score.',
+            'Sign in to view details.',
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,
@@ -703,7 +748,7 @@ class _ScoreExplanationCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(18),
           child: Text(
-            'Once a report is generated, this section will explain which wallet, savings, and profile signals most affected the score.',
+            'Details appear after your first report.',
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,
@@ -802,7 +847,7 @@ class _ScoreHistoryChart extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(18),
           child: Text(
-            'Score history will appear here after multiple reports have been generated.',
+            'History appears after multiple reports.',
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,

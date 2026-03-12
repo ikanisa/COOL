@@ -32,7 +32,12 @@ class RsShopItem extends StatelessWidget {
         ? (product.price * (1 - discountPct / 100)).round()
         : product.price;
 
-    return Container(
+    return Semantics(
+      label: '${product.name}. '
+          '${NumberFormat.decimalPattern('en').format(discountedPrice)} RWF. '
+          '${quantity > 0 ? '$quantity in cart.' : ''}',
+      excludeSemantics: true,
+      child: Container(
       decoration: BoxDecoration(
         color: AppColors.surface2,
         borderRadius: BorderRadius.circular(18),
@@ -195,6 +200,7 @@ class RsShopItem extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

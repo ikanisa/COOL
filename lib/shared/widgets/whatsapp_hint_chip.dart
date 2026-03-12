@@ -10,7 +10,10 @@ class WhatsAppHintChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
+    return Semantics(
+      label: label,
+      excludeSemantics: true,
+      child: DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.whatsapp.withValues(alpha: 0.10),
         borderRadius: BorderRadius.circular(999),
@@ -21,7 +24,7 @@ class WhatsAppHintChip extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('💬', style: TextStyle(fontSize: 13)),
+            const Icon(Icons.chat_bubble_rounded, size: 13, color: AppColors.text2),
             const SizedBox(width: 6),
             Text(
               label,
@@ -33,6 +36,7 @@ class WhatsAppHintChip extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

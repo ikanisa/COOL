@@ -2,12 +2,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/cool_mission.dart';
 import '../repositories/cool_missions_repository.dart';
-import '../repositories/cool_status_repository.dart';
+import '../../providers/supabase_client_provider.dart';
+import 'cool_status_provider.dart';
 
 // ─── Repository provider ──────────────────────────────────────────
 
 final coolMissionsRepositoryProvider = Provider<CoolMissionsRepository>((ref) {
-  return CoolMissionsRepository();
+  return CoolMissionsRepository(client: ref.read(supabaseClientProvider));
 });
 
 // ─── Active missions ──────────────────────────────────────────────
@@ -44,7 +45,7 @@ class MissionContributeAction {
     required int amount,
   }) async {
     final repo = _ref.read(coolMissionsRepositoryProvider);
-    final statusRepo = CoolStatusRepository();
+    final statusRepo = _ref.read(coolStatusRepositoryProvider);
 
     return repo.contribute(
       missionId: missionId,

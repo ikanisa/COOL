@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../shared/widgets/cool_toast.dart';
+
 
 
 class WhatsAppContactService {
@@ -25,15 +27,11 @@ class WhatsAppContactService {
         mode: LaunchMode.externalApplication,
       );
       if (!launched && context.mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(unavailableMessage)));
+        CoolToast.error(context, unavailableMessage);
       }
     } catch (_) {
       if (context.mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(failureMessage)));
+        CoolToast.error(context, failureMessage);
       }
     }
   }

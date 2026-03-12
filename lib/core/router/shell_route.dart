@@ -91,25 +91,41 @@ class _AppShellState extends ConsumerState<AppShell> {
 
       // ── FAB ──────────────────────────────────────────────────────
       floatingActionButton: SizedBox(
-        width: 56,
-        height: 56,
+        width: 54,
+        height: 54,
         child: FloatingActionButton(
           onPressed: _onFabPressed,
+          tooltip: 'MoMo',
           elevation: 0,
           backgroundColor: AppColors.accent,
-          shape: const CircleBorder(),
-          child: const Icon(Icons.add_rounded, color: Colors.black, size: 28),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+            side: const BorderSide(color: AppColors.border2),
+          ),
+          child: const Icon(
+            Icons.account_balance_wallet_rounded,
+            color: Colors.black,
+            size: 24,
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
       // ── Bottom nav ───────────────────────────────────────────────
       bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          border: Border(top: BorderSide(color: AppColors.border, width: 1)),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          border: const Border(top: BorderSide(color: AppColors.border)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.06),
+              blurRadius: 4,
+              offset: const Offset(0, -1),
+            ),
+          ],
         ),
         child: SizedBox(
-          height: 76,
+          height: 72,
           child: BottomNavigationBar(
             currentIndex: index,
             onTap: _onItemTapped,
@@ -118,9 +134,9 @@ class _AppShellState extends ConsumerState<AppShell> {
             type: BottomNavigationBarType.fixed,
             selectedItemColor: AppColors.accent,
             unselectedItemColor: AppColors.text3,
-            selectedFontSize: 11,
-            unselectedFontSize: 11,
-            selectedLabelStyle: GoogleFonts.dmSans(fontWeight: FontWeight.w500),
+            selectedFontSize: 10,
+            unselectedFontSize: 10,
+            selectedLabelStyle: GoogleFonts.dmSans(fontWeight: FontWeight.w600),
             unselectedLabelStyle: GoogleFonts.dmSans(
               fontWeight: FontWeight.w400,
             ),
@@ -135,7 +151,7 @@ class _AppShellState extends ConsumerState<AppShell> {
               ),
               BottomNavigationBarItem(
                 icon: const ExcludeSemantics(child: SizedBox.shrink()),
-                label: context.l10n.sendAction,
+                label: '',
               ),
               BottomNavigationBarItem(
                 icon: const Icon(Icons.directions_car_rounded),

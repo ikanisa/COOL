@@ -31,7 +31,12 @@ class RsInitiativeCard extends StatelessWidget {
       initiative.supporterCount - visibleAvatars.length,
     );
 
-    return Material(
+    return Semantics(
+      label: '${initiative.title}. '
+          '${(initiative.progress * 100).round()}% funded. '
+          '${initiative.supporterCount} supporters.',
+      excludeSemantics: true,
+      child: Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
@@ -200,6 +205,7 @@ class RsInitiativeCard extends StatelessWidget {
             ),
           ),
         ),
+      ),
       ),
     );
   }

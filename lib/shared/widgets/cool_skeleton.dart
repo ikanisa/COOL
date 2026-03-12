@@ -58,37 +58,41 @@ class _CoolSkeletonState extends State<CoolSkeleton>
     final reduceMotion = MediaQuery.disableAnimationsOf(context);
 
     if (reduceMotion) {
-      return Container(
-        width: widget.width,
-        height: widget.height,
-        decoration: BoxDecoration(
-          color: AppColors.surface2,
-          borderRadius: BorderRadius.circular(widget.borderRadius),
+      return ExcludeSemantics(
+        child: Container(
+          width: widget.width,
+          height: widget.height,
+          decoration: BoxDecoration(
+            color: AppColors.surface2,
+            borderRadius: BorderRadius.circular(widget.borderRadius),
+          ),
         ),
       );
     }
 
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        return Container(
-          width: widget.width,
-          height: widget.height,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(widget.borderRadius),
-            gradient: LinearGradient(
-              begin: Alignment(-1.0 + 2.0 * _controller.value, 0),
-              end: Alignment(1.0 + 2.0 * _controller.value, 0),
-              colors: const [
-                AppColors.surface2,
-                AppColors.surface3,
-                AppColors.surface2,
-              ],
-              stops: const [0.0, 0.5, 1.0],
+    return ExcludeSemantics(
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return Container(
+            width: widget.width,
+            height: widget.height,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(widget.borderRadius),
+              gradient: LinearGradient(
+                begin: Alignment(-1.0 + 2.0 * _controller.value, 0),
+                end: Alignment(1.0 + 2.0 * _controller.value, 0),
+                colors: const [
+                  AppColors.surface2,
+                  AppColors.surface3,
+                  AppColors.surface2,
+                ],
+                stops: const [0.0, 0.5, 1.0],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

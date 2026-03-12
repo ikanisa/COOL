@@ -1,13 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../auth/providers/auth_provider.dart';
+import '../../../core/providers/supabase_client_provider.dart';
 import '../models/momo_statement.dart';
 import '../repositories/momo_statement_repository.dart';
 
 final momoStatementRepositoryProvider = Provider<MomoStatementRepository>((
   ref,
 ) {
-  return MomoStatementRepository();
+  return MomoStatementRepository(client: ref.read(supabaseClientProvider));
 });
 
 final momoStatementBundleProvider = FutureProvider.autoDispose

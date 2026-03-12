@@ -145,6 +145,7 @@ class TripBoardNotifier extends StateNotifier<TripBoardState> {
 
   String? get _currentUserId =>
       _authState.user?.id ?? _authState.session?.user.id;
+  String get _currentCountry => resolveAuthStateCountryCode(_authState);
 
   void updateLocation(GeoPoint? location) {
     state = state.copyWith(
@@ -183,6 +184,7 @@ class TripBoardNotifier extends StateNotifier<TripBoardState> {
         state.activeTab == TripBoardTab.driverReturnTrips
             ? TripType.driverReturn
             : TripType.passenger,
+        _currentCountry,
       ),
     );
 
@@ -221,7 +223,9 @@ class TripBoardNotifier extends StateNotifier<TripBoardState> {
 
     state = state.copyWith(isLoadingMyTrips: true, myTripsError: null);
 
-    final result = await AsyncValue.guard(() => _repository.getMyTrips(userId));
+    final result = await AsyncValue.guard(
+      () => _repository.getMyTrips(userId),
+    );
 
     result.when(
       data: (trips) {

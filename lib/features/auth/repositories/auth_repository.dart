@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cool_app/core/utils/json_helpers.dart' as jh;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/user_profile.dart';
@@ -19,7 +20,7 @@ class AuthRepository {
       body: <String, dynamic>{'phone': phone, 'language': language},
     );
 
-    final data = _asMap(response.data);
+    final data = jh.asMap(response.data);
     if (data['success'] == false) {
       throw StateError(data['message']?.toString() ?? 'Failed to send OTP.');
     }
@@ -31,7 +32,7 @@ class AuthRepository {
       body: <String, dynamic>{'phone': phone, 'code': code},
     );
 
-    final data = _asMap(response.data);
+    final data = jh.asMap(response.data);
     if (data['success'] == false) {
       throw StateError(data['message']?.toString() ?? 'Failed to verify OTP.');
     }
@@ -55,7 +56,7 @@ class AuthRepository {
         .select()
         .single();
 
-    final created = UserProfile.fromJson(_asMap(inserted));
+    final created = UserProfile.fromJson(jh.asMap(inserted));
     await _persistProfileMetadata(created);
     return created;
   }
@@ -72,7 +73,7 @@ class AuthRepository {
         .select()
         .single();
 
-    final result = UserProfile.fromJson(_asMap(updated));
+    final result = UserProfile.fromJson(jh.asMap(updated));
     await _persistProfileMetadata(result);
     return result;
   }
@@ -85,11 +86,13 @@ class AuthRepository {
     required String momoNumber,
     String? momoCode,
     required String momoProvider,
+    required String country,
   }) async {
     final patch = <String, dynamic>{
       'momo_number': momoNumber,
       'momo_code': momoCode,
       'momo_provider': momoProvider,
+      'country': country,
     };
     patch.removeWhere((_, v) => v == null);
 
@@ -100,7 +103,7 @@ class AuthRepository {
         .select()
         .single();
 
-    final result = UserProfile.fromJson(_asMap(updated));
+    final result = UserProfile.fromJson(jh.asMap(updated));
     await _persistProfileMetadata(result);
     return result;
   }
@@ -112,7 +115,7 @@ class AuthRepository {
         .eq('id', userId)
         .maybeSingle();
     if (data != null) {
-      return UserProfile.fromJson(_asMap(data));
+      return UserProfile.fromJson(jh.asMap(data));
     }
 
     return _profileFromMetadata(userId);
@@ -136,7 +139,7 @@ class AuthRepository {
       body: <String, dynamic>{'confirm': true},
     );
 
-    final data = _asMap(response.data);
+    final data = jh.asMap(response.data);
     if (data['success'] != true) {
       throw StateError(
         data['message']?.toString() ?? 'Failed to delete account.',
@@ -208,7 +211,7 @@ class AuthRepository {
       'momo_provider': metadata['momo_provider']?.toString() ?? '',
       'country': metadata['country']?.toString() ?? '',
       'language_code': metadata['language_code']?.toString() ?? 'en',
-      'is_driver': _asBool(metadata['is_driver']),
+      'is_driver': jh.asBool(metadata['is_driver']),
       'vehicle_type': metadata['vehicle_type']?.toString(),
       'official_name': metadata['official_name']?.toString(),
       'official_phone': metadata['official_phone']?.toString(),
@@ -262,19 +265,9 @@ Map<String, dynamic> normalizeAuthSessionPayload(
       'last_sign_in_at': _stringOrNull(rawUser['last_sign_in_at']),
       'role': _stringOrNull(rawUser['role']),
       'updated_at': _stringOrNull(rawUser['updated_at']),
-      'is_anonymous': _asBool(rawUser['is_anonymous']),
+      'is_anonymous': jh.asBool(rawUser['is_anonymous']),
     }..removeWhere((_, value) => value == null),
   }..removeWhere((_, value) => value == null);
-}
-
-Map<String, dynamic> _asMap(dynamic value) {
-  if (value is Map<String, dynamic>) {
-    return value;
-  }
-  if (value is Map) {
-    return Map<String, dynamic>.from(value);
-  }
-  throw StateError('Expected a JSON object but received ${value.runtimeType}.');
 }
 
 Map<String, dynamic>? _nestedMap(Map<String, dynamic> root, String key) {
@@ -286,20 +279,6 @@ Map<String, dynamic>? _nestedMap(Map<String, dynamic> root, String key) {
     return Map<String, dynamic>.from(value);
   }
   return null;
-}
-
-bool _asBool(dynamic value) {
-  if (value is bool) {
-    return value;
-  }
-  if (value is num) {
-    return value != 0;
-  }
-  if (value is String) {
-    final normalized = value.toLowerCase().trim();
-    return normalized == 'true' || normalized == '1';
-  }
-  return false;
 }
 
 String? _stringOrNull(dynamic value) {

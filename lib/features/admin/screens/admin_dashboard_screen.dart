@@ -13,45 +13,51 @@ class AdminDashboardScreen extends ConsumerWidget {
   static const _sections = [
     _AdminSection(
       'Users',
-      '👤',
+      Icons.person_rounded,
       '/admin/users',
       'Inspect profiles and demo batches',
     ),
     _AdminSection(
       'Partners',
-      '🤝',
+      Icons.handshake_rounded,
       '/admin/partners',
       'Manage partner profiles',
     ),
     _AdminSection(
       'Services',
-      '📋',
+      Icons.assignment_rounded,
       '/admin/services',
       'Partner service offerings',
     ),
     _AdminSection(
       'Quick Actions',
-      '⚡',
+      Icons.bolt_rounded,
       '/admin/quick-actions',
       'Home screen cards',
     ),
     _AdminSection(
       'Vehicle Types',
-      '🚘',
+      Icons.directions_car_filled_rounded,
       '/admin/vehicle-types',
       'Mobility filter chips',
     ),
     _AdminSection(
       'Countries',
-      '🌍',
+      Icons.public_rounded,
       '/admin/countries',
       'Supported country catalog',
     ),
     _AdminSection(
       'App Config',
-      '⚙️',
+      Icons.settings_rounded,
       '/admin/app-config',
       'Key-value settings',
+    ),
+    _AdminSection(
+      'Rayon Sports',
+      Icons.sports_soccer_rounded,
+      '/admin/rayon',
+      'Matches, tickets, shop, members',
     ),
   ];
 
@@ -98,9 +104,9 @@ class AdminDashboardScreen extends ConsumerWidget {
 }
 
 class _AdminSection {
-  const _AdminSection(this.title, this.emoji, this.route, this.subtitle);
+  const _AdminSection(this.title, this.icon, this.route, this.subtitle);
   final String title;
-  final String emoji;
+  final IconData icon;
   final String route;
   final String subtitle;
 }
@@ -127,7 +133,7 @@ class _AdminCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(section.emoji, style: const TextStyle(fontSize: 28)),
+            Icon(section.icon, size: 28, color: AppColors.text2),
             const SizedBox(height: 8),
             Text(
               section.title,

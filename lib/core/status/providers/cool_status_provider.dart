@@ -3,11 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/cool_event.dart';
 import '../models/cool_status.dart';
 import '../repositories/cool_status_repository.dart';
+import '../../providers/supabase_client_provider.dart';
 
 // ─── Repository provider ──────────────────────────────────────────
 
 final coolStatusRepositoryProvider = Provider<CoolStatusRepository>((ref) {
-  return CoolStatusRepository();
+  return CoolStatusRepository(client: ref.read(supabaseClientProvider));
 });
 
 // ─── Status state ─────────────────────────────────────────────────

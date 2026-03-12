@@ -3,12 +3,24 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
+readonly FLUTTER_BIN="${FLUTTER_BIN:-$ROOT_DIR/scripts/flutterw}"
 
 echo "==> flutter analyze"
-flutter analyze
+"$FLUTTER_BIN" analyze --fatal-infos
 
 echo "==> flutter test"
-flutter test
+"$FLUTTER_BIN" test
+
+echo "==> flutter test (integration smoke)"
+"$FLUTTER_BIN" test test/integration_smoke
+
+if [[ "${SKIP_ANDROID_FLAVOR_BUILDS:-0}" == "1" ]]; then
+  echo "==> skipping android flavor builds (set SKIP_ANDROID_FLAVOR_BUILDS=0 to enable)"
+else
+  bash "$ROOT_DIR/scripts/verify_android_flavors.sh"
+fi
+
+bash "$ROOT_DIR/scripts/verify_ios_flavors.sh"
 
 echo "==> deno test (edge functions)"
 deno test \

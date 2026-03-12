@@ -20,12 +20,30 @@ void main() {
       expect(
         resolveAppRedirect(
           location: AppRoutes.inviteLocation('abcd1234'),
+          requestedLocation: AppRoutes.inviteLocation('abcd1234'),
           hasSession: false,
           hasProfile: false,
         ),
         '/onboarding?redirect=%2Finvite%2FABCD1234',
       );
     });
+
+    test(
+      'preserves query parameters when redirecting signed-out deep links',
+      () {
+        expect(
+          resolveAppRedirect(
+            location: AppRoutes.register,
+            requestedLocation: AppRoutes.registerLocation(
+              phone: '+250788123456',
+            ),
+            hasSession: false,
+            hasProfile: false,
+          ),
+          '/onboarding?redirect=%2Fregister%3Fphone%3D%252B250788123456',
+        );
+      },
+    );
 
     test('allows incomplete profiles to access protected routes', () {
       expect(

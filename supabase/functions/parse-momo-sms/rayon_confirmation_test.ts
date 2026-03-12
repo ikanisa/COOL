@@ -19,35 +19,38 @@ function assertEquals<T>(actual: T, expected: T, message: string): void {
   }
 }
 
-Deno.test("ticket confirmation becomes idempotent after the first callback", () => {
+Deno.test("ticket confirmation becomes idempotent after the first SMS confirmation", () => {
   const first = planRayonTicketConfirmation("pending");
   const replay = planRayonTicketConfirmation(first.nextStatus);
 
   assertEquals(
     first.nextStatus,
     "valid",
-    "first callback should validate ticket",
+    "first confirmation should validate ticket",
   );
   assertEquals(
     first.pointsToAward,
     ticketPoints(),
-    "first callback should award ticket points",
+    "first confirmation should award ticket points",
   );
-  assert(first.shouldSendWhatsApp, "first callback should send confirmation");
+  assert(
+    first.shouldSendWhatsApp,
+    "first confirmation should send confirmation",
+  );
 
   assertEquals(
     replay.nextStatus,
     "valid",
-    "replayed callback keeps valid status",
+    "replayed confirmation keeps valid status",
   );
   assertEquals(
     replay.pointsToAward,
     0,
-    "replayed callback must not re-award points",
+    "replayed confirmation must not re-award points",
   );
   assert(
     !replay.shouldSendWhatsApp,
-    "replayed callback must not resend confirmation",
+    "replayed confirmation must not resend confirmation",
   );
 });
 
@@ -70,42 +73,42 @@ Deno.test("used tickets stay used on duplicate confirmations", () => {
   );
 });
 
-Deno.test("shop order confirmation becomes idempotent after the first callback", () => {
+Deno.test("shop order confirmation becomes idempotent after the first SMS confirmation", () => {
   const first = planRayonShopOrderConfirmation("pending", 12500);
   const replay = planRayonShopOrderConfirmation(first.nextStatus, 12500);
 
   assertEquals(
     first.nextStatus,
     "paid",
-    "first callback should mark order as paid",
+    "first confirmation should mark order as paid",
   );
   assertEquals(
     first.pointsToAward,
     shopPoints(12500),
-    "first callback should award shop points",
+    "first confirmation should award shop points",
   );
   assert(
     first.shouldSendWhatsApp,
-    "first callback should send order confirmation",
+    "first confirmation should send order confirmation",
   );
 
   assertEquals(
     replay.nextStatus,
     "paid",
-    "replayed callback keeps paid status",
+    "replayed confirmation keeps paid status",
   );
   assertEquals(
     replay.pointsToAward,
     0,
-    "replayed callback must not re-award shop points",
+    "replayed confirmation must not re-award shop points",
   );
   assert(
     !replay.shouldSendWhatsApp,
-    "replayed callback must not resend shop confirmation",
+    "replayed confirmation must not resend shop confirmation",
   );
 });
 
-Deno.test("paid and fulfilled shop orders do not regress on duplicate callbacks", () => {
+Deno.test("paid and fulfilled shop orders do not regress on duplicate confirmations", () => {
   const paidReplay = planRayonShopOrderConfirmation("paid", 9200);
   const fulfilledReplay = planRayonShopOrderConfirmation("fulfilled", 9200);
 
@@ -133,29 +136,29 @@ Deno.test("initiative contribution confirmation increments totals only once", ()
 
   assert(
     first.shouldIncrementInitiativeTotals,
-    "first callback should update initiative totals",
+    "first confirmation should update initiative totals",
   );
   assertEquals(
     first.pointsToAward,
     supportPoints(3000),
-    "first callback should award support points",
+    "first confirmation should award support points",
   );
   assert(
     first.shouldSendWhatsApp,
-    "first callback should send support confirmation",
+    "first confirmation should send support confirmation",
   );
 
   assert(
     !replay.shouldIncrementInitiativeTotals,
-    "replayed callback must not increment initiative totals again",
+    "replayed confirmation must not increment initiative totals again",
   );
   assertEquals(
     replay.pointsToAward,
     0,
-    "replayed callback must not re-award support points",
+    "replayed confirmation must not re-award support points",
   );
   assert(
     !replay.shouldSendWhatsApp,
-    "replayed callback must not resend support confirmation",
+    "replayed confirmation must not resend support confirmation",
   );
 });

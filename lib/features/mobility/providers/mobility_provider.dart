@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/auth/auth_user_contact.dart';
 import '../../../core/providers/engagement_providers.dart';
+import '../../../core/providers/supabase_client_provider.dart';
 import '../../../core/services/crashlytics_service.dart';
 import '../../../core/services/engagement_tracker.dart';
 import '../../../core/services/performance_service.dart';
@@ -15,11 +16,11 @@ import '../repositories/mobility_repository.dart';
 import '../repositories/trip_repository.dart';
 
 final mobilityRepositoryProvider = Provider<MobilityRepository>((ref) {
-  return MobilityRepository();
+  return MobilityRepository(client: ref.read(supabaseClientProvider));
 });
 
 final mobilityTripRepositoryProvider = Provider<TripRepository>((ref) {
-  return const TripRepository();
+  return TripRepository(client: ref.read(supabaseClientProvider));
 });
 
 final mobilityProvider = StateNotifierProvider<MobilityNotifier, MobilityState>(
@@ -182,6 +183,7 @@ class MobilityNotifier extends StateNotifier<MobilityState> {
 
   String? get _currentUserId =>
       _authState.user?.id ?? _authState.session?.user.id;
+  String get _currentCountry => resolveAuthStateCountryCode(_authState);
 
   Future<void> loadNearbyDrivers() async {
     final location = state.userLocation;
@@ -203,6 +205,7 @@ class MobilityNotifier extends StateNotifier<MobilityState> {
         location.latitude,
         location.longitude,
         _vehicleQueryValue(state.selectedVehicle),
+        _currentCountry,
       ),
     );
 
@@ -257,6 +260,7 @@ class MobilityNotifier extends StateNotifier<MobilityState> {
         location.longitude,
         _vehicleQueryValue(state.selectedVehicle),
         state.activeTab == 1 ? TripType.driverReturn : TripType.passenger,
+        _currentCountry,
       ),
     );
 

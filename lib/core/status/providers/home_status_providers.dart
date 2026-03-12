@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../providers/supabase_client_provider.dart';
 
 import '../models/cool_season.dart';
 import '../services/quest_engine.dart';
@@ -11,7 +12,7 @@ final activeSeasonProvider = FutureProvider.autoDispose<CoolSeason?>((
   ref,
 ) async {
   try {
-    final data = await Supabase.instance.client
+    final data = await ref.read(supabaseClientProvider)
         .from('cool_seasons')
         .select()
         .eq('is_active', true)

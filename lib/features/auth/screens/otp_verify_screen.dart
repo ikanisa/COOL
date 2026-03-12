@@ -148,9 +148,8 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          onPressed: () => context.go(
-            AppRoutes.otpLocation(redirect: widget.redirectPath),
-          ),
+          onPressed: () =>
+              context.go(AppRoutes.otpLocation(redirect: widget.redirectPath)),
           icon: const Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
       ),
@@ -160,9 +159,7 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
             return SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight,
-                ),
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
                 child: IntrinsicHeight(
                   child: Column(
                     children: [
@@ -170,7 +167,7 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
 
                       // ── Title ─────────────────────────────────────────
                       Text(
-                        'Verify',
+                        'Enter your code',
                         style: GoogleFonts.dmSans(
                           fontSize: 28,
                           fontWeight: FontWeight.w700,
@@ -181,12 +178,22 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
                       Text(
                         widget.phoneNumber,
                         style: GoogleFonts.dmSans(
-                          fontSize: 16,
+                          fontSize: 15,
                           fontWeight: FontWeight.w500,
                           color: AppColors.accent,
                         ),
                       ),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Use the 6-digit code we sent on WhatsApp.',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.dmSans(
+                          fontSize: 13,
+                          color: AppColors.text2,
+                          height: 1.4,
+                        ),
+                      ),
+                      const SizedBox(height: 36),
 
                       // ── OTP boxes ─────────────────────────────────────
                       AnimatedBuilder(
@@ -216,6 +223,7 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
                             fontSize: 13,
                             color: AppColors.red,
                           ),
+                          textAlign: TextAlign.center,
                         ),
                       ],
 
@@ -226,7 +234,7 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
                           ? Text(
                               'Resend in ${_resendSeconds}s',
                               style: GoogleFonts.dmSans(
-                                fontSize: 13,
+                                fontSize: 12,
                                 color: AppColors.text3,
                               ),
                             )

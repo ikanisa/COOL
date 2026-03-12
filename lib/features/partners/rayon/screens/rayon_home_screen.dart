@@ -9,6 +9,7 @@ import '../../../../core/theme/rs_text_styles.dart';
 import '../../../../features/auth/models/user_profile.dart';
 import '../../../../features/auth/providers/auth_provider.dart';
 import '../../../../shared/widgets/cool_button.dart';
+import '../../../../shared/widgets/cool_toast.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_screen_background.dart';
 import '../../../../shared/widgets/cool_skeleton.dart';
@@ -174,7 +175,7 @@ class RayonHomeScreen extends StatelessWidget {
                               onTap: () => _ensureMembership(context, ref),
                               title: 'Restore official membership',
                               message:
-                                  'This profile could not confirm your Rayon membership right now. Retry from here instead of going back through Partners.',
+                                  'Could not confirm membership. Tap to retry.',
                             ),
                           ],
                         ),
@@ -189,7 +190,7 @@ class RayonHomeScreen extends StatelessWidget {
                               children: [
                                 Expanded(
                                   child: RsServiceCard(
-                                    emoji: '🙌',
+                                    icon: Icons.people_rounded,
                                     name: 'Member Registry',
                                     description: 'View all registered fans',
                                     count:
@@ -203,7 +204,7 @@ class RayonHomeScreen extends StatelessWidget {
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: RsServiceCard(
-                                    emoji: '🏟️',
+                                    icon: Icons.groups_rounded,
                                     name: 'Fan Clubs',
                                     description: 'Join a chapter or local club',
                                     count: '${data.clubs.length} active clubs',
@@ -220,7 +221,7 @@ class RayonHomeScreen extends StatelessWidget {
                               children: [
                                 Expanded(
                                   child: RsServiceCard(
-                                    emoji: '🛍️',
+                                    icon: Icons.shopping_bag_rounded,
                                     name: 'Club Shop',
                                     description: 'Kits, merch & official gear',
                                     count: '${data.products.length} items',
@@ -233,7 +234,7 @@ class RayonHomeScreen extends StatelessWidget {
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: RsServiceCard(
-                                    emoji: '🤝',
+                                    icon: Icons.handshake_rounded,
                                     name: 'Support Club',
                                     description: 'Fund projects & initiatives',
                                     count:
@@ -248,7 +249,7 @@ class RayonHomeScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 12),
                             RsServiceCard(
-                              emoji: '🎫',
+                              icon: Icons.confirmation_number_rounded,
                               name: 'Tickets',
                               description:
                                   'Buy match tickets · Member benefits',
@@ -402,7 +403,7 @@ class _PendingMembershipRecoveryCard extends StatelessWidget {
     required this.isLoading,
     this.title = 'Create official membership',
     this.message =
-        'Create or restore your official Rayon fan membership from here so your fan ID, chapter, and member perks can load without going back through Partners.',
+        'Create or restore your fan membership here.',
   });
 
   final Future<void> Function() onTap;
@@ -494,15 +495,11 @@ Future<void> _ensureMembership(BuildContext context, WidgetRef ref) async {
     if (!context.mounted) {
       return;
     }
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(result.message)));
+    CoolToast.info(context, result.message);
   } catch (error) {
     if (!context.mounted) {
       return;
     }
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(error.toString())));
+    CoolToast.error(context, error.toString());
   }
 }

@@ -10,6 +10,7 @@ import '../../../../core/models/engagement_event.dart';
 import '../../../../core/providers/engagement_providers.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/cool_button.dart';
+import '../../../../shared/widgets/cool_toast.dart';
 import '../../../../shared/widgets/rs_digital_ticket.dart';
 import '../../../../shared/widgets/share_card.dart';
 import '../../rayon/models/rs_models.dart';
@@ -100,14 +101,11 @@ class _TicketConfirmationScreenState
       );
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              error is StateError
-                  ? error.message.toString()
-                  : 'Unable to open Google Wallet right now.',
-            ),
-          ),
+        CoolToast.error(
+          context,
+          error is StateError
+              ? error.message.toString()
+              : 'Unable to open Google Wallet right now.',
         );
       }
     } finally {
@@ -230,7 +228,7 @@ class _TicketConfirmationScreenState
                         const SizedBox(height: 20),
                         ShareCard(
                           title: 'Share this match',
-                          emoji: '⚽',
+                          icon: Icons.sports_soccer_rounded,
                           subtitle: ticket.matchTitle,
                           shareUrl: DeepLinkConfig.matchUri(
                             ticket.matchId,

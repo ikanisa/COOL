@@ -4,26 +4,32 @@ import '../../core/theme/app_colors.dart';
 
 /// A reusable dark-surface card used throughout the Cool app.
 ///
-/// Defaults to [AppColors.surface2] background with a 1 px border and
-/// 20 px corner radius. Supports an optional [gradient] overlay and
-/// custom tap handling with an accent-glow splash.
+/// Cards default to a flatter surface so screens can carry more content
+/// without feeling overly decorative.
 class CoolCard extends StatelessWidget {
   const CoolCard({
     required this.child,
     this.padding,
     this.onTap,
+    this.backgroundColor,
     this.borderColor,
     this.borderRadius,
     this.gradient,
+    this.semanticsLabel,
     super.key,
   });
 
   final Widget child;
   final EdgeInsets? padding;
   final VoidCallback? onTap;
+  final Color? backgroundColor;
   final Color? borderColor;
   final double? borderRadius;
   final Gradient? gradient;
+
+  /// Accessibility label for screen readers. If null and [onTap] is set,
+  /// screen readers will still announce this as a tappable element.
+  final String? semanticsLabel;
 
   static const _defaultRadius = 20.0;
 
@@ -36,17 +42,13 @@ class CoolCard extends StatelessWidget {
     );
     final decoration = ShapeDecoration(
       shape: shape,
-      gradient: gradient ?? AppColors.cardGradient,
+      color: gradient == null ? (backgroundColor ?? AppColors.surface2) : null,
+      gradient: gradient,
       shadows: [
         BoxShadow(
-          color: Colors.black.withValues(alpha: 0.2),
-          blurRadius: 28,
-          offset: const Offset(0, 16),
-        ),
-        BoxShadow(
-          color: (borderColor ?? AppColors.border2).withValues(alpha: 0.16),
-          blurRadius: 0,
-          offset: const Offset(0, 0),
+          color: Colors.black.withValues(alpha: 0.06),
+          blurRadius: 6,
+          offset: const Offset(0, 2),
         ),
       ],
     );
@@ -57,17 +59,21 @@ class CoolCard extends StatelessWidget {
     );
 
     if (onTap != null) {
-      return Material(
-        color: Colors.transparent,
-        shape: shape,
-        clipBehavior: Clip.antiAlias,
-        child: Ink(
-          decoration: decoration,
-          child: InkWell(
-            onTap: onTap,
-            splashColor: AppColors.accentGlow,
-            highlightColor: Colors.transparent,
-            child: content,
+      return Semantics(
+        label: semanticsLabel,
+        button: true,
+        child: Material(
+          color: Colors.transparent,
+          shape: shape,
+          clipBehavior: Clip.antiAlias,
+          child: Ink(
+            decoration: decoration,
+            child: InkWell(
+              onTap: onTap,
+              splashColor: AppColors.accent.withValues(alpha: 0.08),
+              highlightColor: Colors.transparent,
+              child: content,
+            ),
           ),
         ),
       );

@@ -56,6 +56,20 @@ android {
         manifestPlaceholders["GOOGLE_MAPS_ANDROID_API_KEY"] = googleMapsAndroidApiKey
     }
 
+    flavorDimensions += "environment"
+
+    productFlavors {
+        create("staging") {
+            dimension = "environment"
+            applicationIdSuffix = ".staging"
+            resValue("string", "app_name", "Cool [STG]")
+        }
+        create("production") {
+            dimension = "environment"
+            resValue("string", "app_name", "Cool")
+        }
+    }
+
     signingConfigs {
         create("release") {
             if (keystoreFile.exists()) {

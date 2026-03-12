@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/status/models/cool_season.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/utils/icon_mapper.dart';
 
 /// Home screen banner showing the active season: theme, countdown, and reward preview.
 class SeasonBanner extends StatelessWidget {
@@ -37,7 +38,7 @@ class SeasonBanner extends StatelessWidget {
           // ─── Header ────────────────────────────────────
           Row(
             children: [
-              Text(season.emoji, style: const TextStyle(fontSize: 22)),
+              Icon(IconMapper.from(season.emoji), size: 22, color: AppColors.text2),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
@@ -87,13 +88,20 @@ class SeasonBanner extends StatelessWidget {
           // ─── Footer: season points + reward preview ────
           Row(
             children: [
-              Text(
-                '⭐ $seasonPoints season pts',
-                style: GoogleFonts.dmSans(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.text2,
-                ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.star_rounded, size: 14, color: AppColors.text2),
+                  const SizedBox(width: 4),
+                  Text(
+                    '$seasonPoints season pts',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.text2,
+                    ),
+                  ),
+                ],
               ),
               const Spacer(),
               if (season.rewardsDescription != null)

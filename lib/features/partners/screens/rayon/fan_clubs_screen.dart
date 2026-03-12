@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../shared/widgets/cool_button.dart';
+import '../../../../shared/widgets/cool_toast.dart';
 import '../../../../shared/widgets/cool_text_field.dart';
 import '../../../../shared/widgets/rs_fan_club_card.dart';
 import '../../providers/rayon_sports_provider.dart';
@@ -27,14 +28,13 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
   @override
   Widget build(BuildContext context) {
     final clubDirectory = ref.watch(rayonClubDirectoryProvider);
-    final notifier = ref.read(rayonSportsProvider.notifier);
 
     return RayonScreenScaffold(
       title: 'Fan Clubs',
       scrollable: false,
       actions: [
         TextButton.icon(
-          onPressed: () => _showCreateSheet(context, notifier),
+          onPressed: () => _showCreateSheet(context),
           icon: const Icon(Icons.add, size: 18, color: AppColors.rsGoldLight),
           label: Text(
             'Create',
@@ -215,7 +215,7 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
                           isJoined: isJoined,
                           onJoinTap: isJoined
                               ? () {}
-                              : () => _joinClub(context, notifier, club.id),
+                              : () => _joinClub(context, club.id),
                         ),
                       ),
                     );
@@ -226,32 +226,34 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
           );
         },
         loading: RayonLoadingView.new,
-        error: (error, _) =>
-            RayonErrorView(message: error.toString(), onRetry: notifier.load),
+        error: (error, _) => RayonErrorView(
+          message: error.toString(),
+          onRetry: () {
+            ref.invalidate(rayonFanClubsProvider);
+            ref.invalidate(rayonJoinedClubIdsProvider);
+          },
+        ),
       ),
     );
   }
 
-  Future<void> _joinClub(
-    BuildContext context,
-    RayonSportsNotifier notifier,
-    String clubId,
-  ) async {
+  Future<void> _joinClub(BuildContext context, String clubId) async {
+    final notifier = ref.read(rayonSportsProvider.notifier);
+
     try {
       final message = await notifier.joinClub(clubId);
+      ref.invalidate(rayonFanClubsProvider);
+      ref.invalidate(rayonJoinedClubIdsProvider);
+      ref.invalidate(rayonClubDirectoryProvider);
       if (!context.mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(message)));
+      CoolToast.info(context, message);
     } catch (error) {
       if (!context.mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(error.toString())));
+      CoolToast.error(context, error.toString());
     }
   }
 
-  void _showCreateSheet(BuildContext context, RayonSportsNotifier notifier) {
+  void _showCreateSheet(BuildContext context) {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -262,9 +264,7 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
       builder: (modalCtx) => _CreateClubSheet(
         onSubmit: (name, region, description) {
           Navigator.of(modalCtx).pop();
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Club creation request submitted.')),
-          );
+          CoolToast.success(context, 'Club creation request submitted.');
         },
       ),
     );

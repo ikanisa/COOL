@@ -8,7 +8,7 @@ readonly ROOT_DIR
 readonly BUILD_PRIVACY_POLICY_URL_DEFAULT="https://gen-lang-client-0172279957.web.app/privacy"
 readonly BUILD_TERMS_OF_SERVICE_URL_DEFAULT="https://gen-lang-client-0172279957.web.app/terms"
 readonly BUILD_ACCOUNT_DELETION_URL_DEFAULT="https://gen-lang-client-0172279957.web.app/account-deletion"
-readonly BUILD_FLUTTER_BIN="${FLUTTER_BIN:-flutter}"
+readonly BUILD_FLUTTER_BIN="${FLUTTER_BIN:-$ROOT_DIR/scripts/flutterw}"
 
 build_android_release() {
   local artifact_type="${1:?Pass apk or appbundle.}"

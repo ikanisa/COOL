@@ -404,6 +404,9 @@ create trigger trg_enforce_group_momo_fields
 
 -- Best-effort cleanup for existing rows. Values are only rewritten when they
 -- can be normalized safely under the new country rules.
+-- Temporarily disable the trigger so it doesn't reject invalid existing data.
+alter table public.users disable trigger trg_enforce_user_momo_fields;
+
 update public.users u
 set
   country = public.normalize_country_code(u.country),
@@ -433,6 +436,10 @@ set
     )
   end
 where true;
+
+alter table public.users enable trigger trg_enforce_user_momo_fields;
+
+alter table public.groups disable trigger trg_enforce_group_momo_fields;
 
 update public.groups g
 set
@@ -528,3 +535,5 @@ set
     else g.momo_number
   end
 where true;
+
+alter table public.groups enable trigger trg_enforce_group_momo_fields;

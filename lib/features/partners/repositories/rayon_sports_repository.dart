@@ -847,6 +847,455 @@ class RayonSportsRepository {
       recipientType: MomoRecipientType.code,
     );
   }
+
+  // ══════════════════════════════════════════════════════════════════════
+  // ADMIN — Match CRUD
+  // ══════════════════════════════════════════════════════════════════════
+
+  /// Get ALL matches (including off-sale), for admin listing.
+  Future<List<RsMatch>> adminGetAllMatches() async {
+    final partnerId = await _resolvePartnerId();
+    if (partnerId == null) return const <RsMatch>[];
+    return _asListOfMaps(
+      await _client
+          .from('rs_matches')
+          .select()
+          .eq('partner_id', partnerId)
+          .order('match_date', ascending: false),
+    ).map(RsMatch.fromJson).toList(growable: false);
+  }
+
+  /// Create a new match.
+  Future<RsMatch> createMatch({
+    required String homeTeam,
+    required String awayTeam,
+    required String competition,
+    required String venue,
+    required DateTime matchDate,
+    required String kickoffTime,
+    required int ticketGeneralPrice,
+    required int ticketVipPrice,
+    required int capacity,
+    required DateTime saleStartsAt,
+    bool isOnSale = false,
+  }) async {
+    final partnerId = await _resolvePartnerId();
+    if (partnerId == null) throw StateError('Rayon Sports partner not found.');
+    final row = _asListOfMaps(
+      await _client.from('rs_matches').insert(<String, dynamic>{
+        'partner_id': partnerId,
+        'home_team': homeTeam,
+        'away_team': awayTeam,
+        'competition': competition,
+        'venue': venue,
+        'match_date': matchDate.toIso8601String(),
+        'kickoff_time': kickoffTime,
+        'ticket_general_price': ticketGeneralPrice,
+        'ticket_vip_price': ticketVipPrice,
+        'capacity': capacity,
+        'sale_starts_at': saleStartsAt.toIso8601String(),
+        'is_on_sale': isOnSale,
+        'sold_count': 0,
+      }).select(),
+    ).first;
+    return RsMatch.fromJson(row);
+  }
+
+  /// Update an existing match.
+  Future<RsMatch> updateMatch(String matchId, Map<String, dynamic> fields) async {
+    final row = _asListOfMaps(
+      await _client
+          .from('rs_matches')
+          .update(fields)
+          .eq('id', matchId)
+          .select(),
+    ).first;
+    return RsMatch.fromJson(row);
+  }
+
+  /// Delete a match.
+  Future<void> deleteMatch(String matchId) async {
+    await _client.from('rs_matches').delete().eq('id', matchId);
+  }
+
+  /// Toggle match sale status.
+  Future<RsMatch> toggleMatchSale(String matchId, {required bool isOnSale}) {
+    return updateMatch(matchId, <String, dynamic>{'is_on_sale': isOnSale});
+  }
+
+  // ══════════════════════════════════════════════════════════════════════
+  // ADMIN — Product CRUD
+  // ══════════════════════════════════════════════════════════════════════
+
+  /// Get ALL products (including inactive), for admin listing.
+  Future<List<RsProduct>> adminGetAllProducts() async {
+    final partnerId = await _resolvePartnerId();
+    if (partnerId == null) return const <RsProduct>[];
+    return _asListOfMaps(
+      await _client
+          .from('rs_shop_products')
+          .select()
+          .eq('partner_id', partnerId)
+          .order('name'),
+    ).map(RsProduct.fromJson).toList(growable: false);
+  }
+
+  /// Create a new product.
+  Future<RsProduct> createProduct({
+    required String name,
+    required String category,
+    required int price,
+    required int stock,
+    String imageEmoji = '👕',
+    bool isActive = true,
+    bool isNew = true,
+  }) async {
+    final partnerId = await _resolvePartnerId();
+    if (partnerId == null) throw StateError('Rayon Sports partner not found.');
+    final row = _asListOfMaps(
+      await _client.from('rs_shop_products').insert(<String, dynamic>{
+        'partner_id': partnerId,
+        'name': name,
+        'category': category,
+        'price': price,
+        'stock': stock,
+        'image_emoji': imageEmoji,
+        'is_active': isActive,
+        'is_new': isNew,
+      }).select(),
+    ).first;
+    return RsProduct.fromJson(row);
+  }
+
+  /// Update an existing product.
+  Future<RsProduct> updateProduct(
+    String productId,
+    Map<String, dynamic> fields,
+  ) async {
+    final row = _asListOfMaps(
+      await _client
+          .from('rs_shop_products')
+          .update(fields)
+          .eq('id', productId)
+          .select(),
+    ).first;
+    return RsProduct.fromJson(row);
+  }
+
+  /// Delete a product.
+  Future<void> deleteProduct(String productId) async {
+    await _client.from('rs_shop_products').delete().eq('id', productId);
+  }
+
+  /// Toggle product active status.
+  Future<RsProduct> toggleProductActive(
+    String productId, {
+    required bool isActive,
+  }) {
+    return updateProduct(productId, <String, dynamic>{'is_active': isActive});
+  }
+
+  // ══════════════════════════════════════════════════════════════════════
+  // ADMIN — Shop Order Management
+  // ══════════════════════════════════════════════════════════════════════
+
+  /// Get all shop orders (admin view, across all users).
+  Future<List<RsShopOrder>> adminGetAllOrders() async {
+    return _asListOfMaps(
+      await _client
+          .from('rs_shop_orders')
+          .select()
+          .order('created_at', ascending: false),
+    ).map(RsShopOrder.fromJson).toList(growable: false);
+  }
+
+  /// Update order status (e.g. pending → confirmed → shipped → delivered).
+  Future<RsShopOrder> updateOrderStatus(
+    String orderId, {
+    required String status,
+  }) async {
+    final row = _asListOfMaps(
+      await _client
+          .from('rs_shop_orders')
+          .update(<String, dynamic>{'status': status})
+          .eq('id', orderId)
+          .select(),
+    ).first;
+    return RsShopOrder.fromJson(row);
+  }
+
+  // ══════════════════════════════════════════════════════════════════════
+  // ADMIN — Ticket Management
+  // ══════════════════════════════════════════════════════════════════════
+
+  /// Get all tickets (optionally filtered by match), for admin listing.
+  Future<List<RsTicket>> adminGetAllTickets({String? matchId}) async {
+    var query = _client
+        .from('rs_tickets')
+        .select('*, rs_matches(*)');
+    if (matchId != null && matchId.isNotEmpty) {
+      query = query.eq('match_id', matchId);
+    }
+    final rows = _asListOfMaps(
+      await query.order('purchased_at', ascending: false),
+    );
+    return rows.map(RsTicket.fromJson).toList(growable: false);
+  }
+
+  /// Update a ticket's status (e.g. pending → valid → used).
+  Future<void> updateTicketStatus(
+    String ticketId, {
+    required String status,
+  }) async {
+    await _client
+        .from('rs_tickets')
+        .update(<String, dynamic>{'status': status})
+        .eq('id', ticketId);
+  }
+
+  /// Get ticket stats for a match (total sold, revenue, status breakdown).
+  Future<Map<String, dynamic>> getMatchTicketStats(String matchId) async {
+    final rows = _asListOfMaps(
+      await _client
+          .from('rs_tickets')
+          .select('status, seat_type, amount_paid')
+          .eq('match_id', matchId),
+    );
+    var totalSold = 0;
+    var totalRevenue = 0;
+    var generalCount = 0;
+    var vipCount = 0;
+    final statusCounts = <String, int>{};
+    for (final row in rows) {
+      totalSold++;
+      totalRevenue += (row['amount_paid'] as num?)?.toInt() ?? 0;
+      final seatType = (row['seat_type']?.toString() ?? '').toLowerCase();
+      if (seatType == 'vip') {
+        vipCount++;
+      } else {
+        generalCount++;
+      }
+      final status = row['status']?.toString() ?? 'pending';
+      statusCounts[status] = (statusCounts[status] ?? 0) + 1;
+    }
+    return <String, dynamic>{
+      'total_sold': totalSold,
+      'total_revenue': totalRevenue,
+      'general_count': generalCount,
+      'vip_count': vipCount,
+      'status_counts': statusCounts,
+    };
+  }
+
+  // ══════════════════════════════════════════════════════════════════════
+  // ADMIN — Fan Club CRUD
+  // ══════════════════════════════════════════════════════════════════════
+
+  /// Get all fan clubs for admin (no region filter).
+  Future<List<RsFanClub>> adminGetAllFanClubs() async {
+    final partnerId = await _resolvePartnerId();
+    if (partnerId == null) return const <RsFanClub>[];
+    return _asListOfMaps(
+      await _client
+          .from('rs_fan_clubs')
+          .select()
+          .eq('partner_id', partnerId)
+          .order('name'),
+    ).map(RsFanClub.fromJson).toList(growable: false);
+  }
+
+  /// Create a fan club.
+  Future<RsFanClub> createFanClub({
+    required String name,
+    required String region,
+    required String description,
+    String bannerEmoji = '🥁',
+  }) async {
+    final partnerId = await _resolvePartnerId();
+    if (partnerId == null) throw StateError('Rayon Sports partner not found.');
+    final row = _asListOfMaps(
+      await _client.from('rs_fan_clubs').insert(<String, dynamic>{
+        'partner_id': partnerId,
+        'name': name,
+        'region': region,
+        'description': description,
+        'banner_emoji': bannerEmoji,
+        'member_count': 0,
+        'event_count': 0,
+        'rating': 0,
+      }).select(),
+    ).first;
+    return RsFanClub.fromJson(row);
+  }
+
+  /// Update a fan club.
+  Future<RsFanClub> updateFanClub(
+    String clubId,
+    Map<String, dynamic> fields,
+  ) async {
+    final row = _asListOfMaps(
+      await _client
+          .from('rs_fan_clubs')
+          .update(fields)
+          .eq('id', clubId)
+          .select(),
+    ).first;
+    return RsFanClub.fromJson(row);
+  }
+
+  /// Delete a fan club.
+  Future<void> deleteFanClub(String clubId) async {
+    await _client.from('rs_fan_clubs').delete().eq('id', clubId);
+  }
+
+  // ══════════════════════════════════════════════════════════════════════
+  // ADMIN — Initiative CRUD
+  // ══════════════════════════════════════════════════════════════════════
+
+  /// Get ALL initiatives (including inactive), for admin.
+  Future<List<RsInitiative>> adminGetAllInitiatives() async {
+    final partnerId = await _resolvePartnerId();
+    if (partnerId == null) return const <RsInitiative>[];
+    return _asListOfMaps(
+      await _client
+          .from('rs_initiatives')
+          .select()
+          .eq('partner_id', partnerId)
+          .order('ends_at', ascending: false),
+    ).map(RsInitiative.fromJson).toList(growable: false);
+  }
+
+  /// Create an initiative.
+  Future<RsInitiative> createInitiative({
+    required String title,
+    required String description,
+    required String category,
+    required int targetAmount,
+    required DateTime endsAt,
+    bool isActive = true,
+  }) async {
+    final partnerId = await _resolvePartnerId();
+    if (partnerId == null) throw StateError('Rayon Sports partner not found.');
+    final row = _asListOfMaps(
+      await _client.from('rs_initiatives').insert(<String, dynamic>{
+        'partner_id': partnerId,
+        'title': title,
+        'description': description,
+        'category': category,
+        'target_amount': targetAmount,
+        'raised_amount': 0,
+        'supporter_count': 0,
+        'is_active': isActive,
+        'ends_at': endsAt.toIso8601String(),
+      }).select(),
+    ).first;
+    return RsInitiative.fromJson(row);
+  }
+
+  /// Update an initiative.
+  Future<RsInitiative> updateInitiative(
+    String initiativeId,
+    Map<String, dynamic> fields,
+  ) async {
+    final row = _asListOfMaps(
+      await _client
+          .from('rs_initiatives')
+          .update(fields)
+          .eq('id', initiativeId)
+          .select(),
+    ).first;
+    return RsInitiative.fromJson(row);
+  }
+
+  /// Toggle initiative active status.
+  Future<RsInitiative> toggleInitiativeActive(
+    String initiativeId, {
+    required bool isActive,
+  }) {
+    return updateInitiative(
+      initiativeId,
+      <String, dynamic>{'is_active': isActive},
+    );
+  }
+
+  // ══════════════════════════════════════════════════════════════════════
+  // ADMIN — Membership Management
+  // ══════════════════════════════════════════════════════════════════════
+
+  /// Get all memberships for admin view.
+  Future<List<FanMembership>> adminGetAllMembers() async {
+    final partnerId = await _resolvePartnerId();
+    if (partnerId == null) return const <FanMembership>[];
+
+    final rows = _asListOfMaps(
+      await _client
+          .from('rs_fan_memberships')
+          .select()
+          .eq('partner_id', partnerId)
+          .order('points', ascending: false),
+    );
+
+    if (rows.isEmpty) return const <FanMembership>[];
+    final userIds = rows
+        .map((r) => r['user_id']?.toString() ?? '')
+        .where((id) => id.isNotEmpty)
+        .toSet();
+    final names = await _loadUserNames(userIds);
+
+    return rows
+        .map(
+          (row) => FanMembership.fromJson(<String, dynamic>{
+            ...row,
+            'display_name': names[row['user_id']?.toString()] ?? 'Fan',
+          }),
+        )
+        .toList(growable: false);
+  }
+
+  /// Update a member's tier manually.
+  Future<FanMembership> updateMemberTier(
+    String userId,
+    String tier,
+  ) async {
+    final partnerId = await _resolvePartnerId();
+    if (partnerId == null) throw StateError('Rayon Sports partner not found.');
+    final row = _asListOfMaps(
+      await _client
+          .from('rs_fan_memberships')
+          .update(<String, dynamic>{'tier': tier})
+          .eq('partner_id', partnerId)
+          .eq('user_id', userId)
+          .select(),
+    ).first;
+    final names = await _loadUserNames({userId});
+    return FanMembership.fromJson(<String, dynamic>{
+      ...row,
+      'display_name': names[userId] ?? 'Fan',
+    });
+  }
+
+  /// Set a member's points to an absolute value.
+  Future<FanMembership> setMemberPoints(
+    String userId,
+    int points,
+  ) async {
+    final partnerId = await _resolvePartnerId();
+    if (partnerId == null) throw StateError('Rayon Sports partner not found.');
+    final newTier = FanTierX.fromPoints(points);
+    final row = _asListOfMaps(
+      await _client
+          .from('rs_fan_memberships')
+          .update(<String, dynamic>{'points': points, 'tier': newTier.name})
+          .eq('partner_id', partnerId)
+          .eq('user_id', userId)
+          .select(),
+    ).first;
+    final names = await _loadUserNames({userId});
+    return FanMembership.fromJson(<String, dynamic>{
+      ...row,
+      'display_name': names[userId] ?? 'Fan',
+    });
+  }
 }
 
 List<Map<String, dynamic>> _asListOfMaps(dynamic value) {

@@ -10,6 +10,7 @@ import '../../../../core/status/cool_status_awarder.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../shared/widgets/cool_button.dart';
+import '../../../../shared/widgets/cool_toast.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/qr_share_sheet.dart';
 import '../../../../shared/widgets/rs_match_card.dart';
@@ -69,7 +70,6 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
   @override
   Widget build(BuildContext context) {
     final ticketHub = ref.watch(rayonTicketHubProvider);
-    final notifier = ref.read(rayonSportsProvider.notifier);
 
     return ticketHub.when(
       data: (hub) {
@@ -164,7 +164,7 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
                           padding: const EdgeInsets.all(14),
                           child: Row(
                             children: [
-                              const Text('⭐', style: TextStyle(fontSize: 20)),
+                              const Icon(Icons.star_rounded, size: 20, color: AppColors.orange),
                               const SizedBox(width: 10),
                               Expanded(
                                 child: Text(
@@ -223,15 +223,21 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
                   ]),
                 ),
               ),
-              ..._buildTabSlivers(context, hub, notifier, onSale, upcoming),
+              ..._buildTabSlivers(context, hub, onSale, upcoming),
               const SliverToBoxAdapter(child: SizedBox(height: 96)),
             ],
           ),
         );
       },
       loading: RayonLoadingView.new,
-      error: (error, _) =>
-          RayonErrorView(message: error.toString(), onRetry: notifier.load),
+      error: (error, _) => RayonErrorView(
+        message: error.toString(),
+        onRetry: () {
+          ref.invalidate(rayonMatchesProvider);
+          ref.invalidate(rayonUserMembershipProvider);
+          ref.invalidate(rayonUserTicketsProvider);
+        },
+      ),
     );
   }
 
@@ -272,7 +278,6 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
   List<Widget> _buildTabSlivers(
     BuildContext context,
     RayonTicketHubData hub,
-    RayonSportsNotifier notifier,
     List<RsMatch> onSale,
     List<RsMatch> upcoming,
   ) {
@@ -303,8 +308,7 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
                     selectedSeat: _seatForMatch(match),
                     onSelectedSeatChanged: (seat) => _setSeat(match.id, seat),
                     tierAccessible: match.isAccessibleForTier(hub.currentTier),
-                    onBuyTap: () =>
-                        _showPurchaseSheet(context, notifier, match),
+                    onBuyTap: () => _showPurchaseSheet(context, match),
                   ),
                 );
               }, childCount: onSale.length),
@@ -398,11 +402,7 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
     );
   }
 
-  void _showPurchaseSheet(
-    BuildContext context,
-    RayonSportsNotifier notifier,
-    RsMatch match,
-  ) {
+  void _showPurchaseSheet(BuildContext context, RsMatch match) {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -413,6 +413,7 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
       builder: (sheetCtx) => _TicketPurchaseSheet(
         match: match,
         onPay: (seatType, qty) async {
+          final notifier = ref.read(rayonSportsProvider.notifier);
           Navigator.of(sheetCtx).pop();
           try {
             final referralInviteId = _referralInviteId;
@@ -427,16 +428,13 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
                   .read(activeReferralAttributionProvider.notifier)
                   .clearIfMatches(referralInviteId);
             }
+            ref.invalidate(rayonUserTicketsProvider);
             if (!context.mounted) return;
             // Points are awarded server-side after payment confirmation.
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(message)));
+            CoolToast.info(context, message);
           } catch (error) {
             if (!context.mounted) return;
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(error.toString())));
+            CoolToast.error(context, error.toString());
           }
         },
       ),

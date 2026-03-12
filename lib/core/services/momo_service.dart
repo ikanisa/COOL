@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../auth/auth_user_contact.dart';
 import '../config/country_catalog.dart';
 import '../repositories/supported_countries_repository.dart';
+import '../sync/sync_engine.dart';
 import 'crashlytics_service.dart';
 import 'performance_service.dart';
 
@@ -42,9 +43,17 @@ extension SubscriptionPlanX on SubscriptionPlan {
 /// Pending transactions are written to Supabase when possible and cached in
 /// Hive when the app is offline or Supabase is unavailable.
 class MomoService {
-  MomoService._();
+  MomoService({
+    SupabaseClient? client,
+    SyncEngine? syncEngine,
+  }) : _client = client ?? Supabase.instance.client,
+       _syncEngine = syncEngine;
 
-  static final MomoService instance = MomoService._();
+  /// Legacy singleton for backward compatibility.
+  static final MomoService instance = MomoService();
+
+  final SupabaseClient _client;
+  final SyncEngine? _syncEngine;
 
   static const appMomoNumber = String.fromEnvironment('COOL_APP_MOMO_NUMBER');
 
@@ -53,6 +62,7 @@ class MomoService {
 
   static const _pendingTransactionsTable = 'pending_transactions';
   static const _pendingTransactionsCacheBox = 'pending_transactions_cache';
+  static const _syncDomain = 'momo_pending';
   final SupportedCountriesRepository _supportedCountriesRepository =
       SupportedCountriesRepository();
 
@@ -239,9 +249,8 @@ class MomoService {
 
   Future<void> _recordPendingTransaction(Map<String, dynamic> payload) async {
     try {
-      final client = Supabase.instance.client;
-      final userId = client.auth.currentUser?.id;
-      await client.from(_pendingTransactionsTable).insert(<String, dynamic>{
+      final userId = _client.auth.currentUser?.id;
+      await _client.from(_pendingTransactionsTable).insert(<String, dynamic>{
         ...?userId == null ? null : <String, dynamic>{'user_id': userId},
         ...payload,
       });
@@ -253,8 +262,12 @@ class MomoService {
       debugPrint(
         '[MoMo] ⚠️ Supabase insert failed ($e), caching locally',
       );
-      final box = await Hive.openBox<dynamic>(_pendingTransactionsCacheBox);
-      await box.add(payload);
+      if (_syncEngine != null) {
+        await _syncEngine.enqueue(_syncDomain, payload);
+      } else {
+        final box = await Hive.openBox<dynamic>(_pendingTransactionsCacheBox);
+        await box.add(payload);
+      }
     }
   }
 
@@ -263,7 +276,7 @@ class MomoService {
     String? providerId,
     String? phone,
   }) async {
-    final currentUser = Supabase.instance.client.auth.currentUser;
+    final currentUser = _client.auth.currentUser;
     final metadata = Map<String, dynamic>.from(
       currentUser?.userMetadata ?? const <String, dynamic>{},
     );

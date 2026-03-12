@@ -1,3 +1,4 @@
+import 'package:cool_app/core/utils/json_helpers.dart' as jh;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 enum MomoPaymentSyncStatus { processing, confirmed, reviewRequired, unmatched }
@@ -136,7 +137,7 @@ class MomoPaymentSyncRepository {
     final matchStatus =
         reconciliationRow['match_status']?.toString() ?? 'pending_review';
     final targetTable = reconciliationRow['target_table']?.toString();
-    final metadata = _asMapOrEmpty(reconciliationRow['metadata']);
+    final metadata = jh.asMapOrEmpty(reconciliationRow['metadata']);
     final reference = metadata['matched_reference']?.toString();
     final driverId = metadata['driver_id']?.toString() ?? currentUserId;
 
@@ -197,14 +198,4 @@ class MomoPaymentSyncRepository {
 
     return MomoPaymentMatchType.unknown;
   }
-}
-
-Map<String, dynamic> _asMapOrEmpty(dynamic value) {
-  if (value is Map<String, dynamic>) {
-    return value;
-  }
-  if (value is Map) {
-    return Map<String, dynamic>.from(value);
-  }
-  return const <String, dynamic>{};
 }

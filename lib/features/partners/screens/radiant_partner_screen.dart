@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/services/whatsapp_contact_service.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/utils/icon_mapper.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
@@ -105,7 +106,9 @@ class _RadiantBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final servicesAsync = ref.watch(partnerServicesProvider(partner.id));
+    final servicesAsync = ref.watch(
+      currentCountryPartnerServicesProvider(partner.id),
+    );
 
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
@@ -119,12 +122,10 @@ class _RadiantBody extends ConsumerWidget {
                 Positioned(
                   right: -10,
                   bottom: -5,
-                  child: Text(
-                    partner.emoji,
-                    style: TextStyle(
-                      fontSize: 80,
-                      color: Colors.white.withValues(alpha: 0.06),
-                    ),
+                  child: Icon(
+                    IconMapper.from(partner.emoji),
+                    size: 80,
+                    color: Colors.white.withValues(alpha: 0.06),
                   ),
                 ),
                 Padding(
@@ -144,13 +145,24 @@ class _RadiantBody extends ConsumerWidget {
                             color: AppColors.blue.withValues(alpha: 0.3),
                           ),
                         ),
-                        child: Text(
-                          '${partner.emoji} ${partner.subtitle ?? 'Insurance Partner'}',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.blue,
-                          ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              IconMapper.from(partner.emoji),
+                              size: 13,
+                              color: AppColors.blue,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              partner.subtitle ?? 'Insurance Partner',
+                              style: GoogleFonts.dmSans(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.blue,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -234,9 +246,10 @@ class _InsuranceServiceCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 alignment: Alignment.center,
-                child: Text(
-                  service.emoji,
-                  style: const TextStyle(fontSize: 20),
+                child: Icon(
+                  IconMapper.from(service.emoji),
+                  size: 20,
+                  color: AppColors.text2,
                 ),
               ),
               const SizedBox(width: 12),
@@ -309,7 +322,7 @@ class _InfoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(detail.icon, style: const TextStyle(fontSize: 14)),
+        Icon(IconMapper.from(detail.icon), size: 14, color: AppColors.text2),
         const SizedBox(width: 8),
         Text(
           detail.label,

@@ -59,7 +59,11 @@ class _RsProgressBarState extends State<RsProgressBar> {
   Widget build(BuildContext context) {
     final lighterFill = Color.lerp(widget.fillColor, Colors.white, 0.25)!;
 
-    return ClipRRect(
+    return Semantics(
+      label: 'Progress ${(_rendered * 100).round()} percent',
+      value: '${(_rendered * 100).round()}%',
+      excludeSemantics: true,
+      child: ClipRRect(
       borderRadius: BorderRadius.circular(widget.height / 2),
       child: Container(
         height: widget.height,
@@ -89,6 +93,7 @@ class _RsProgressBarState extends State<RsProgressBar> {
             );
           },
         ),
+      ),
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/config/country_catalog.dart';
+import '../../../core/providers/supabase_client_provider.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../models/group.dart';
 import '../models/group_contribution.dart';
@@ -11,21 +12,33 @@ import '../models/group_join_result.dart';
 import '../repositories/group_repository.dart';
 
 final groupRepositoryProvider = Provider<GroupRepository>((ref) {
-  return GroupRepository();
+  return GroupRepository(client: ref.read(supabaseClientProvider));
 });
 
 final groupDetailProvider = FutureProvider.autoDispose
     .family<GroupDetail?, String>((ref, groupId) async {
       final repository = ref.watch(groupRepositoryProvider);
-      return repository.getGroupById(groupId);
+      final viewerCountry = ref.watch(currentUserCountryCodeProvider);
+      return repository.getGroupById(groupId, country: viewerCountry);
     });
 
 final groupsProvider = StateNotifierProvider<GroupsNotifier, GroupsState>((
   ref,
 ) {
-  final repository = ref.watch(groupRepositoryProvider);
   final authState = ref.watch(authProvider);
-  return GroupsNotifier(repository: repository, authState: authState);
+  return GroupsNotifier(ref: ref, authState: authState);
+});
+
+final groupsListProvider = Provider<List<Group>>((ref) {
+  return ref.watch(groupsProvider.select((state) => state.groups));
+});
+
+final groupsListLoadingProvider = Provider<bool>((ref) {
+  return ref.watch(groupsProvider.select((state) => state.isLoading));
+});
+
+final groupsListErrorProvider = Provider<String?>((ref) {
+  return ref.watch(groupsProvider.select((state) => state.error));
 });
 
 final groupsCreateLoadingProvider = Provider<bool>((ref) {
@@ -36,13 +49,48 @@ final groupsCreateErrorProvider = Provider<String?>((ref) {
   return ref.watch(groupsProvider.select((state) => state.createGroupError));
 });
 
+final groupInvitePreviewProvider = Provider<GroupDetail?>((ref) {
+  return ref.watch(groupsProvider.select((state) => state.invitePreview));
+});
+
+final groupInvitePreviewLoadingProvider = Provider<bool>((ref) {
+  return ref.watch(
+    groupsProvider.select((state) => state.isInvitePreviewLoading),
+  );
+});
+
+final groupInvitePreviewErrorProvider = Provider<String?>((ref) {
+  return ref.watch(groupsProvider.select((state) => state.invitePreviewError));
+});
+
+final groupJoinLoadingProvider = Provider<bool>((ref) {
+  return ref.watch(groupsProvider.select((state) => state.isJoiningGroup));
+});
+
+final groupJoinErrorProvider = Provider<String?>((ref) {
+  return ref.watch(groupsProvider.select((state) => state.joinGroupError));
+});
+
+final groupContributionLoadingProvider = Provider<bool>((ref) {
+  return ref.watch(groupsProvider.select((state) => state.isContributing));
+});
+
+final groupContributionErrorProvider = Provider<String?>((ref) {
+  return ref.watch(groupsProvider.select((state) => state.contributionError));
+});
+
 class GroupsState {
   const GroupsState({
     this.groups = const <Group>[],
-    this.selectedGroup,
     this.invitePreview,
     this.isCreatingGroup = false,
     this.createGroupError,
+    this.isInvitePreviewLoading = false,
+    this.invitePreviewError,
+    this.isJoiningGroup = false,
+    this.joinGroupError,
+    this.isContributing = false,
+    this.contributionError,
     this.isLoading = false,
     this.error,
   });
@@ -50,27 +98,34 @@ class GroupsState {
   static const _sentinel = Object();
 
   final List<Group> groups;
-  final GroupDetail? selectedGroup;
   final GroupDetail? invitePreview;
   final bool isCreatingGroup;
   final String? createGroupError;
+  final bool isInvitePreviewLoading;
+  final String? invitePreviewError;
+  final bool isJoiningGroup;
+  final String? joinGroupError;
+  final bool isContributing;
+  final String? contributionError;
   final bool isLoading;
   final String? error;
 
   GroupsState copyWith({
     List<Group>? groups,
-    Object? selectedGroup = _sentinel,
     Object? invitePreview = _sentinel,
     bool? isCreatingGroup,
     Object? createGroupError = _sentinel,
+    bool? isInvitePreviewLoading,
+    Object? invitePreviewError = _sentinel,
+    bool? isJoiningGroup,
+    Object? joinGroupError = _sentinel,
+    bool? isContributing,
+    Object? contributionError = _sentinel,
     bool? isLoading,
     Object? error = _sentinel,
   }) {
     return GroupsState(
       groups: groups ?? this.groups,
-      selectedGroup: selectedGroup == _sentinel
-          ? this.selectedGroup
-          : selectedGroup as GroupDetail?,
       invitePreview: invitePreview == _sentinel
           ? this.invitePreview
           : invitePreview as GroupDetail?,
@@ -78,6 +133,19 @@ class GroupsState {
       createGroupError: createGroupError == _sentinel
           ? this.createGroupError
           : createGroupError as String?,
+      isInvitePreviewLoading:
+          isInvitePreviewLoading ?? this.isInvitePreviewLoading,
+      invitePreviewError: invitePreviewError == _sentinel
+          ? this.invitePreviewError
+          : invitePreviewError as String?,
+      isJoiningGroup: isJoiningGroup ?? this.isJoiningGroup,
+      joinGroupError: joinGroupError == _sentinel
+          ? this.joinGroupError
+          : joinGroupError as String?,
+      isContributing: isContributing ?? this.isContributing,
+      contributionError: contributionError == _sentinel
+          ? this.contributionError
+          : contributionError as String?,
       isLoading: isLoading ?? this.isLoading,
       error: error == _sentinel ? this.error : error as String?,
     );
@@ -116,24 +184,40 @@ class GroupCreateData {
 
 class GroupsNotifier extends StateNotifier<GroupsState> {
   GroupsNotifier({
-    required GroupRepository repository,
+    Ref? ref,
+    GroupRepository? repository,
     required AuthState authState,
-  }) : _repository = repository,
+  }) : assert(ref != null || repository != null),
+       _ref = ref,
+       _repositoryOverride = repository,
        _authState = authState,
        super(const GroupsState());
 
-  final GroupRepository _repository;
+  final Ref? _ref;
+  final GroupRepository? _repositoryOverride;
   final AuthState _authState;
+
+  GroupRepository get _repository =>
+      _repositoryOverride ?? _ref!.read(groupRepositoryProvider);
 
   List<Group> _allGroups = const <Group>[];
 
-  String? get currentError => state.error;
+  String? get currentError =>
+      state.contributionError ??
+      state.joinGroupError ??
+      state.createGroupError ??
+      state.invitePreviewError ??
+      state.error;
 
   String? get _currentUserId =>
       _authState.user?.id ?? _authState.session?.user.id;
 
   String get _defaultCountry =>
-      CoolCountryCatalog.normalizeCountryCode(_authState.user?.country);
+      CoolCountryCatalog.normalizeCountryCode(_viewerCountry);
+
+  String? get _viewerCountry {
+    return resolveAuthStateCountryCode(_authState);
+  }
 
   Future<void> loadMyGroups() async {
     await _loadMyGroupsInternal();
@@ -176,7 +260,7 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
     state = state.copyWith(isLoading: true, error: null);
 
     final result = await AsyncValue.guard(
-      () => _repository.getMyGroups(userId),
+      () => _repository.getMyGroups(userId, country: _viewerCountry),
     );
 
     result.when(
@@ -195,43 +279,33 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
     );
   }
 
-  Future<void> loadGroupDetail(String id) async {
-    state = state.copyWith(selectedGroup: null, isLoading: true, error: null);
-
-    final result = await AsyncValue.guard(() => _repository.getGroupById(id));
-
-    result.when(
-      data: (groupDetail) {
-        state = state.copyWith(
-          selectedGroup: groupDetail,
-          isLoading: false,
-          error: groupDetail == null ? 'Group not found.' : null,
-        );
-      },
-      error: (error, _) {
-        state = state.copyWith(isLoading: false, error: error.toString());
-      },
-      loading: () {},
-    );
-  }
-
   Future<void> loadInvitePreview(String inviteCode) async {
-    state = state.copyWith(invitePreview: null, isLoading: true, error: null);
+    state = state.copyWith(
+      invitePreview: null,
+      isInvitePreviewLoading: true,
+      invitePreviewError: null,
+    );
 
     final result = await AsyncValue.guard(
-      () => _repository.getGroupByInviteCode(inviteCode),
+      () =>
+          _repository.getGroupByInviteCode(inviteCode, country: _viewerCountry),
     );
 
     result.when(
       data: (groupDetail) {
         state = state.copyWith(
           invitePreview: groupDetail,
-          isLoading: false,
-          error: groupDetail == null ? 'Invite code not found.' : null,
+          isInvitePreviewLoading: false,
+          invitePreviewError: groupDetail == null
+              ? 'Invite code not found.'
+              : null,
         );
       },
       error: (error, _) {
-        state = state.copyWith(isLoading: false, error: error.toString());
+        state = state.copyWith(
+          isInvitePreviewLoading: false,
+          invitePreviewError: error.toString(),
+        );
       },
       loading: () {},
     );
@@ -301,16 +375,47 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
     state = state.copyWith(isCreatingGroup: false, createGroupError: null);
   }
 
+  void clearInvitePreviewState() {
+    if (!state.isInvitePreviewLoading &&
+        state.invitePreview == null &&
+        state.invitePreviewError == null) {
+      return;
+    }
+
+    state = state.copyWith(
+      invitePreview: null,
+      isInvitePreviewLoading: false,
+      invitePreviewError: null,
+    );
+  }
+
+  void clearJoinGroupState() {
+    if (!state.isJoiningGroup && state.joinGroupError == null) {
+      return;
+    }
+
+    state = state.copyWith(isJoiningGroup: false, joinGroupError: null);
+  }
+
+  void clearContributionState() {
+    if (!state.isContributing && state.contributionError == null) {
+      return;
+    }
+
+    state = state.copyWith(isContributing: false, contributionError: null);
+  }
+
   Future<GroupContribution?> contribute(String groupId, int amount) async {
     final userId = _currentUserId;
     if (userId == null) {
       state = state.copyWith(
-        error: 'You must be signed in to contribute to a group.',
+        isContributing: false,
+        contributionError: 'You must be signed in to contribute to a group.',
       );
       return null;
     }
 
-    state = state.copyWith(isLoading: true, error: null);
+    state = state.copyWith(isContributing: true, contributionError: null);
 
     final result = await AsyncValue.guard(
       () => _repository.contribute(groupId, amount),
@@ -329,32 +434,14 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
           createdAt: DateTime.now(),
         );
         contribution = value;
-        final selectedGroup = state.selectedGroup;
-        if (selectedGroup != null && selectedGroup.group.id == groupId) {
-          state = state.copyWith(
-            selectedGroup: GroupDetail(
-              group: selectedGroup.group,
-              members: selectedGroup.members,
-              recentContributions: <GroupContribution>[
-                value,
-                ...selectedGroup.recentContributions,
-              ],
-            ),
-            isLoading: false,
-            error: null,
-          );
-        } else {
-          state = state.copyWith(isLoading: false, error: null);
-        }
-
-        // Refresh the canonical backend state after the optimistic insert.
+        state = state.copyWith(isContributing: false, contributionError: null);
         unawaited(loadMyGroups());
-        if (selectedGroup?.group.id == groupId) {
-          unawaited(loadGroupDetail(groupId));
-        }
       },
       error: (error, _) {
-        state = state.copyWith(isLoading: false, error: error.toString());
+        state = state.copyWith(
+          isContributing: false,
+          contributionError: error.toString(),
+        );
       },
       loading: () {},
     );
@@ -365,14 +452,20 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
   Future<GroupJoinResult?> joinGroupByInviteCode(String inviteCode) async {
     final userId = _currentUserId;
     if (userId == null) {
-      state = state.copyWith(error: 'You must be signed in to join a group.');
+      state = state.copyWith(
+        isJoiningGroup: false,
+        joinGroupError: 'You must be signed in to join a group.',
+      );
       return null;
     }
 
-    state = state.copyWith(isLoading: true, error: null);
+    state = state.copyWith(isJoiningGroup: true, joinGroupError: null);
 
     final result = await AsyncValue.guard(
-      () => _repository.joinGroupByInviteCode(inviteCode),
+      () => _repository.joinGroupByInviteCode(
+        inviteCode,
+        country: _viewerCountry,
+      ),
     );
 
     GroupJoinResult? joinResult;
@@ -384,14 +477,16 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
         _allGroups = _upsertGroup(_allGroups, joinedGroup);
         state = state.copyWith(
           groups: _upsertGroup(state.groups, joinedGroup),
-          selectedGroup: value.detail,
           invitePreview: value.detail,
-          isLoading: false,
-          error: null,
+          isJoiningGroup: false,
+          joinGroupError: null,
         );
       },
       error: (error, _) {
-        state = state.copyWith(isLoading: false, error: error.toString());
+        state = state.copyWith(
+          isJoiningGroup: false,
+          joinGroupError: error.toString(),
+        );
       },
       loading: () {},
     );

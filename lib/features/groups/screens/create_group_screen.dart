@@ -8,7 +8,9 @@ import '../../../core/providers/supported_countries_provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_text_field.dart';
+import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/providers/auth_provider.dart';
+import '../../partners/providers/partner_provider.dart';
 import '../providers/groups_provider.dart';
 
 /// Screen for creating a new group — either a Saving group
@@ -33,6 +35,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
   String _frequency = 'monthly';
   String _bankPartner = 'BK Rwanda';
   String _communityRouteType = 'phone_number';
+  bool _showAdvancedOptions = false;
 
   bool get _isSaving => _type == 'saving';
 
@@ -40,8 +43,9 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
   void initState() {
     super.initState();
     final user = ref.read(authProvider).user;
+    final viewerCountry = ref.read(currentUserCountryCodeProvider);
     final country = CoolCountryCatalog.resolve(
-      country: user?.country,
+      country: viewerCountry,
       phone: user?.phone,
       providerId: user?.momoProvider,
     );
@@ -72,6 +76,15 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
   Future<void> _createGroup() async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
 
+    final bankPartner = _isSaving ? _effectiveBankPartner() : null;
+    if (_isSaving && bankPartner == null) {
+      CoolToast.error(
+        context,
+        'No bank custodian is configured for your country yet.',
+      );
+      return;
+    }
+
     final routeType = _effectiveCommunityRouteType();
     final data = GroupCreateData(
       name: _nameController.text.trim(),
@@ -82,7 +95,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
       monthlyContributionRwf: _isSaving
           ? int.tryParse(_monthlyController.text.replaceAll(',', '').trim())
           : null,
-      bankPartner: _isSaving ? _bankPartner : null,
+      bankPartner: bankPartner,
       momoNumber: !_isSaving
           ? _normalizeCommunityRecipient(_momoController.text.trim())
           : null,
@@ -107,18 +120,31 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
     final isCreating = ref.watch(groupsCreateLoadingProvider);
     final createError = ref.watch(groupsCreateErrorProvider);
     final user = ref.watch(authProvider).user;
+    final viewerCountry = ref.watch(currentUserCountryCodeProvider);
     final countries =
         ref.watch(supportedCountriesProvider).valueOrNull ??
         CoolCountryCatalog.all;
     final communityCountry = CoolCountryCatalog.resolve(
-      country: user?.country,
+      country: viewerCountry,
       phone: user?.phone,
       providerId: user?.momoProvider,
       source: countries,
     );
+    final bankPartnersAsync = ref.watch(currentCountryBankPartnersProvider);
+    final bankOptions =
+        bankPartnersAsync.valueOrNull
+            ?.map((partner) => partner.name.trim())
+            .where((name) => name.isNotEmpty)
+            .toSet()
+            .toList(growable: false) ??
+        const <String>[];
+    final selectedBank = bankOptions.contains(_bankPartner)
+        ? _bankPartner
+        : (bankOptions.isNotEmpty ? bankOptions.first : null);
     final activeRouteType = communityCountry.supportsMomoCode
         ? _communityRouteType
         : 'phone_number';
+    final hasSingleBankOption = bankOptions.length == 1 && selectedBank != null;
 
     return Scaffold(
       backgroundColor: AppColors.bg,
@@ -147,21 +173,18 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // ═════════════════════════════════════════════════════
-                    // TYPE SELECTOR
-                    // ═════════════════════════════════════════════════════
                     _label('Group Type'),
                     const SizedBox(height: 8),
                     _AdaptiveCardPair(
                       first: _TypeCard(
-                        emoji: '🏦',
+                        icon: Icons.account_balance_rounded,
                         title: 'Group Saving',
                         subtitle: 'Bank custodian',
                         isSelected: _isSaving,
                         onTap: () => setState(() => _type = 'saving'),
                       ),
                       second: _TypeCard(
-                        emoji: '❤️',
+                        icon: Icons.favorite_rounded,
                         title: 'Community Fund',
                         subtitle: 'MOMO to creator',
                         isSelected: !_isSaving,
@@ -169,36 +192,25 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
                       ),
                     ),
                     const SizedBox(height: 16),
-
-                    // ═════════════════════════════════════════════════════
-                    // INFO BANNER
-                    // ═════════════════════════════════════════════════════
                     AnimatedSwitcher(
                       duration: const Duration(milliseconds: 250),
                       child: _isSaving
                           ? _InfoBanner(
                               key: const ValueKey('saving'),
-                              emoji: '🏦',
-                              text:
-                                  'Funds held by bank partner as custodian. '
-                                  'Secure and insured.',
+                              icon: Icons.account_balance_rounded,
+                              text: 'Bank-held and insured.',
                               color: AppColors.accent,
                             )
                           : _InfoBanner(
                               key: const ValueKey('community'),
-                              emoji: '📲',
+                              icon: Icons.phone_android_rounded,
                               text: communityCountry.supportsMomoCode
-                                  ? 'Funds sent directly to your MOMO route. '
-                                        'Use a phone number or merchant code.'
-                                  : 'Funds sent directly to your MOMO number.',
+                                  ? 'Sent to your MOMO phone or code.'
+                                  : 'Sent to your MOMO number.',
                               color: AppColors.orange,
                             ),
                     ),
                     const SizedBox(height: 24),
-
-                    // ═════════════════════════════════════════════════════
-                    // FORM FIELDS
-                    // ═════════════════════════════════════════════════════
                     CoolTextField(
                       label: 'Group Name',
                       hint: 'e.g. Family Save',
@@ -212,22 +224,12 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
                       },
                     ),
                     const SizedBox(height: 18),
-
-                    CoolTextField(
-                      label: 'Description',
-                      hint: 'What is this group for?',
-                      controller: _descriptionController,
-                      maxLines: 3,
-                      textInputAction: TextInputAction.newline,
-                    ),
-                    const SizedBox(height: 18),
-
                     CoolTextField(
                       label: 'Saving Target (RWF)',
                       hint: '100,000',
                       controller: _targetController,
                       keyboardType: TextInputType.number,
-                      prefixEmoji: '🎯',
+                      prefixIcon: Icons.flag_rounded,
                       textInputAction: TextInputAction.next,
                       validator: (v) {
                         final normalized = v?.replaceAll(',', '').trim() ?? '';
@@ -238,19 +240,6 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
                         return null;
                       },
                     ),
-
-                    // Monthly contribution — saving only
-                    if (_isSaving) ...[
-                      const SizedBox(height: 18),
-                      CoolTextField(
-                        label: 'Monthly Contribution (RWF)',
-                        hint: '5,000',
-                        controller: _monthlyController,
-                        keyboardType: TextInputType.number,
-                        prefixEmoji: '📅',
-                        textInputAction: TextInputAction.done,
-                      ),
-                    ],
                     const SizedBox(height: 24),
 
                     _label('Contribution Frequency'),
@@ -269,63 +258,54 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
                       ],
                     ),
                     const SizedBox(height: 24),
-
-                    // ═════════════════════════════════════════════════════
-                    // VISIBILITY SELECTOR
-                    // ═════════════════════════════════════════════════════
-                    _label('Visibility'),
-                    const SizedBox(height: 8),
-                    _AdaptiveCardPair(
-                      first: _TypeCard(
-                        emoji: '🔒',
-                        title: 'Private',
-                        subtitle: 'Invite only',
-                        isSelected: _visibility == 'private',
-                        onTap: () => setState(() => _visibility = 'private'),
-                      ),
-                      second: _TypeCard(
-                        emoji: '🌐',
-                        title: 'Public',
-                        subtitle: 'Anyone can join',
-                        isSelected: _visibility == 'public',
-                        onTap: () => setState(() => _visibility = 'public'),
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-
-                    // ═════════════════════════════════════════════════════
-                    // BANK PARTNER (saving only)
-                    // ═════════════════════════════════════════════════════
                     if (_isSaving) ...[
-                      _label('Bank Partner (auto-matched)'),
+                      _label(hasSingleBankOption ? 'Custodian' : 'Bank Partner'),
                       const SizedBox(height: 8),
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: [
-                          for (final bank in _banks)
-                            _BankChip(
-                              label: bank,
-                              isSelected: _bankPartner == bank,
-                              onTap: () => setState(() => _bankPartner = bank),
-                            ),
-                        ],
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        'Auto-matched based on your country',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.text3,
+                      if (bankPartnersAsync.isLoading && bankOptions.isEmpty)
+                        const LinearProgressIndicator(minHeight: 2)
+                      else if (bankOptions.isEmpty)
+                        Text(
+                          'No bank custodians are configured for ${communityCountry.name} yet.',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.orange,
+                          ),
+                        )
+                      else if (hasSingleBankOption)
+                        _SummaryCard(
+                          title: selectedBank,
+                          subtitle: 'Matched to ${communityCountry.name}.',
+                          icon: Icons.account_balance_rounded,
+                        )
+                      else
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: [
+                            for (final bank in bankOptions)
+                              _BankChip(
+                                label: bank,
+                                isSelected: selectedBank == bank,
+                                onTap: () =>
+                                    setState(() => _bankPartner = bank),
+                              ),
+                          ],
                         ),
-                      ),
+                      if (!hasSingleBankOption) ...[
+                        const SizedBox(height: 6),
+                        Text(
+                          'Matched to your country.',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.text3,
+                          ),
+                        ),
+                      ],
                       const SizedBox(height: 24),
                     ],
 
-                    // ═════════════════════════════════════════════════════
-                    // COMMUNITY FUND — MOMO route
-                    // ═════════════════════════════════════════════════════
                     if (!_isSaving) ...[
                       _label('Collection Route'),
                       const SizedBox(height: 8),
@@ -359,8 +339,8 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
                       const SizedBox(height: 12),
                       CoolTextField(
                         label: activeRouteType == 'code'
-                            ? 'Merchant Code for receiving funds'
-                            : 'MOMO number for receiving funds',
+                            ? 'Merchant Code'
+                            : 'MOMO Number',
                         hint: activeRouteType == 'code'
                             ? communityCountry.momoCodeExample ?? '123456'
                             : communityCountry.phoneExampleHint(),
@@ -368,7 +348,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
                         keyboardType: activeRouteType == 'code'
                             ? TextInputType.number
                             : TextInputType.phone,
-                        prefixEmoji: activeRouteType == 'code' ? '🏷️' : '📱',
+                        prefixIcon: activeRouteType == 'code' ? Icons.tag_rounded : Icons.phone_rounded,
                         validator: (value) {
                           if (_isSaving) {
                             return null;
@@ -397,8 +377,8 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
                       const SizedBox(height: 8),
                       Text(
                         activeRouteType == 'code'
-                            ? 'Contributors will dial ${communityCountry.momoCodeUssdExample ?? 'the merchant-code USSD route'}.'
-                            : 'Contributors will dial ${communityCountry.momoNumberUssdExample ?? 'the phone-number USSD route'}.',
+                            ? 'Via ${communityCountry.momoCodeUssdExample ?? 'merchant-code USSD'}.'
+                            : 'Via ${communityCountry.momoNumberUssdExample ?? 'phone-number USSD'}.',
                         style: GoogleFonts.dmSans(
                           fontSize: 11,
                           fontWeight: FontWeight.w400,
@@ -407,6 +387,75 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
                       ),
                       const SizedBox(height: 24),
                     ],
+
+                    _SectionToggle(
+                      title: 'More options',
+                      subtitle: _showAdvancedOptions
+                          ? 'Hide description and visibility.'
+                          : 'Add description, visibility, and extra settings.',
+                      isExpanded: _showAdvancedOptions,
+                      onTap: () {
+                        setState(() {
+                          _showAdvancedOptions = !_showAdvancedOptions;
+                        });
+                      },
+                    ),
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 200),
+                      child: _showAdvancedOptions
+                          ? Padding(
+                              key: const ValueKey('advanced-options'),
+                              padding: const EdgeInsets.only(top: 18),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CoolTextField(
+                                    label: 'Description',
+                                    hint: 'What is this group for?',
+                                    controller: _descriptionController,
+                                    maxLines: 3,
+                                    textInputAction: TextInputAction.newline,
+                                  ),
+                                  if (_isSaving) ...[
+                                    const SizedBox(height: 18),
+                                    CoolTextField(
+                                      label: 'Monthly Contribution (RWF)',
+                                      hint: '5,000',
+                                      controller: _monthlyController,
+                                      keyboardType: TextInputType.number,
+                                      prefixIcon:
+                                          Icons.calendar_today_rounded,
+                                      textInputAction: TextInputAction.done,
+                                    ),
+                                  ],
+                                  const SizedBox(height: 18),
+                                  _label('Visibility'),
+                                  const SizedBox(height: 8),
+                                  Wrap(
+                                    spacing: 8,
+                                    runSpacing: 8,
+                                    children: [
+                                      _BankChip(
+                                        label: 'Private',
+                                        isSelected: _visibility == 'private',
+                                        onTap: () => setState(
+                                          () => _visibility = 'private',
+                                        ),
+                                      ),
+                                      _BankChip(
+                                        label: 'Public',
+                                        isSelected: _visibility == 'public',
+                                        onTap: () => setState(
+                                          () => _visibility = 'public',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
+                          : const SizedBox.shrink(),
+                    ),
 
                     // Error message
                     if (createError != null) ...[
@@ -449,7 +498,6 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
     );
   }
 
-  static const _banks = ['BK Rwanda', 'Equity', 'I&M'];
   static const _frequencies = <({String label, String value})>[
     (label: 'Daily', value: 'daily'),
     (label: 'Weekly', value: 'weekly'),
@@ -472,15 +520,34 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
 
   CoolCountry _communityCountry() {
     final user = ref.read(authProvider).user;
+    final viewerCountry = ref.read(currentUserCountryCodeProvider);
     final countries =
         ref.read(supportedCountriesProvider).valueOrNull ??
         CoolCountryCatalog.all;
     return CoolCountryCatalog.resolve(
-      country: user?.country,
+      country: viewerCountry,
       phone: user?.phone,
       providerId: user?.momoProvider,
       source: countries,
     );
+  }
+
+  String? _effectiveBankPartner() {
+    final bankPartners =
+        ref.read(currentCountryBankPartnersProvider).valueOrNull ??
+        const <dynamic>[];
+    final bankOptions = bankPartners
+        .map((partner) => partner.name.trim())
+        .where((name) => name.isNotEmpty)
+        .toSet()
+        .toList(growable: false);
+    if (bankOptions.contains(_bankPartner)) {
+      return _bankPartner;
+    }
+    if (bankOptions.isNotEmpty) {
+      return bankOptions.first;
+    }
+    return null;
   }
 }
 
@@ -490,14 +557,14 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
 
 class _TypeCard extends StatelessWidget {
   const _TypeCard({
-    required this.emoji,
+    required this.icon,
     required this.title,
     required this.subtitle,
     required this.isSelected,
     required this.onTap,
   });
 
-  final String emoji;
+  final IconData icon;
   final String title;
   final String subtitle;
   final bool isSelected;
@@ -520,7 +587,7 @@ class _TypeCard extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Text(emoji, style: const TextStyle(fontSize: 28)),
+            Icon(icon, size: 28, color: isSelected ? AppColors.accent : AppColors.text),
             const SizedBox(height: 8),
             Text(
               title,
@@ -617,19 +684,142 @@ class _BankChip extends StatelessWidget {
   }
 }
 
+class _SummaryCard extends StatelessWidget {
+  const _SummaryCard({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+  });
+
+  final String title;
+  final String subtitle;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+      decoration: BoxDecoration(
+        color: AppColors.surface2,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, size: 20, color: AppColors.accent),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.text,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  subtitle,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.text2,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SectionToggle extends StatelessWidget {
+  const _SectionToggle({
+    required this.title,
+    required this.subtitle,
+    required this.isExpanded,
+    required this.onTap,
+  });
+
+  final String title;
+  final String subtitle;
+  final bool isExpanded;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        child: Ink(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+          decoration: BoxDecoration(
+            color: AppColors.surface2,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppColors.border),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: GoogleFonts.dmSans(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.text,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      subtitle,
+                      style: GoogleFonts.dmSans(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.text2,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 12),
+              Icon(
+                isExpanded
+                    ? Icons.keyboard_arrow_up_rounded
+                    : Icons.keyboard_arrow_down_rounded,
+                color: AppColors.text2,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 // ═════════════════════════════════════════════════════════════════════════
 // Info banner
 // ═════════════════════════════════════════════════════════════════════════
 
 class _InfoBanner extends StatelessWidget {
   const _InfoBanner({
-    required this.emoji,
+    required this.icon,
     required this.text,
     required this.color,
     super.key,
   });
 
-  final String emoji;
+  final IconData icon;
   final String text;
   final Color color;
 
@@ -646,7 +836,7 @@ class _InfoBanner extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(emoji, style: const TextStyle(fontSize: 18)),
+          Icon(icon, size: 18, color: color),
           const SizedBox(width: 10),
           Expanded(
             child: Text(

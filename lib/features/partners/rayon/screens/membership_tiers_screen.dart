@@ -283,9 +283,10 @@ class _TierCard extends StatelessWidget {
                     ),
                   ),
                   alignment: Alignment.center,
-                  child: Text(
-                    meta.emoji,
-                    style: const TextStyle(fontSize: 22),
+                  child: Icon(
+                    meta.icon,
+                    size: 22,
+                    color: isUnlocked ? tier.color : AppColors.text3,
                   ),
                 ),
                 const SizedBox(width: 14),
@@ -345,12 +346,10 @@ class _TierCard extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      benefit.emoji,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: isUnlocked ? null : AppColors.text3,
-                      ),
+                    Icon(
+                      benefit.icon,
+                      size: 16,
+                      color: isUnlocked ? tier.color : AppColors.text3,
                     ),
                     const SizedBox(width: 10),
                     Expanded(
@@ -433,24 +432,24 @@ class _StatusChip extends StatelessWidget {
 
 class _TierMeta {
   const _TierMeta({
-    required this.emoji,
+    required this.icon,
     required this.subtitle,
     required this.benefits,
   });
 
-  final String emoji;
+  final IconData icon;
   final String subtitle;
   final List<_Benefit> benefits;
 }
 
 class _Benefit {
   const _Benefit({
-    required this.emoji,
+    required this.icon,
     required this.title,
     required this.description,
   });
 
-  final String emoji;
+  final IconData icon;
   final String title;
   final String description;
 }
@@ -458,21 +457,21 @@ class _Benefit {
 _TierMeta _tierMeta(FanTier tier) {
   return switch (tier) {
     FanTier.blue => const _TierMeta(
-        emoji: '💙',
+        icon: Icons.favorite_rounded,
         subtitle: 'Free — every fan starts here',
         benefits: [
           _Benefit(
-            emoji: '🎫',
+            icon: Icons.confirmation_number_rounded,
             title: 'Standard Tickets',
             description: 'Buy match tickets at regular pricing.',
           ),
           _Benefit(
-            emoji: '🛍️',
+            icon: Icons.shopping_bag_rounded,
             title: 'Club Shop Access',
             description: 'Browse and purchase official Rayon merch.',
           ),
           _Benefit(
-            emoji: '📊',
+            icon: Icons.bar_chart_rounded,
             title: 'Fan Points',
             description:
                 'Earn points from attendance, purchases, and support.',
@@ -480,42 +479,42 @@ _TierMeta _tierMeta(FanTier tier) {
         ],
       ),
     FanTier.silver => const _TierMeta(
-        emoji: '🥈',
+        icon: Icons.workspace_premium_rounded,
         subtitle: '1,000 pts — dedicated supporter',
         benefits: [
           _Benefit(
-            emoji: '🎫',
+            icon: Icons.confirmation_number_rounded,
             title: '5% Ticket Discount',
             description: 'Save on every match ticket purchase.',
           ),
           _Benefit(
-            emoji: '⭐',
+            icon: Icons.star_rounded,
             title: 'Priority Queue',
             description: 'Jump the queue when tickets open for big matches.',
           ),
           _Benefit(
-            emoji: '🏅',
+            icon: Icons.military_tech_rounded,
             title: 'Silver Badge',
             description: 'Exclusive silver badge on your fan profile.',
           ),
         ],
       ),
     FanTier.gold => const _TierMeta(
-        emoji: '🥇',
+        icon: Icons.emoji_events_rounded,
         subtitle: '2,000 pts — elite supporter',
         benefits: [
           _Benefit(
-            emoji: '🎫',
+            icon: Icons.confirmation_number_rounded,
             title: 'Priority Tickets',
             description: 'Get earlier access to on-sale match entries.',
           ),
           _Benefit(
-            emoji: '🛍️',
+            icon: Icons.shopping_bag_rounded,
             title: '10% Shop Discount',
             description: 'Unlock supporter pricing on official club gear.',
           ),
           _Benefit(
-            emoji: '✨',
+            icon: Icons.auto_awesome_rounded,
             title: 'VIP Events',
             description:
                 'Access select fan sessions and special event queues.',
@@ -523,28 +522,28 @@ _TierMeta _tierMeta(FanTier tier) {
         ],
       ),
     FanTier.platinum => const _TierMeta(
-        emoji: '💎',
+        icon: Icons.diamond_rounded,
         subtitle: '5,000 pts — ultimate fan',
         benefits: [
           _Benefit(
-            emoji: '🎫',
+            icon: Icons.confirmation_number_rounded,
             title: 'Priority Tickets + 15% Off',
             description: 'Best pricing and first access to all matches.',
           ),
           _Benefit(
-            emoji: '🤝',
+            icon: Icons.handshake_rounded,
             title: 'Meet & Greet',
             description:
                 'Join premium player and club meetups when available.',
           ),
           _Benefit(
-            emoji: '👕',
+            icon: Icons.checkroom_rounded,
             title: 'Free Kit',
             description:
                 'Receive one complimentary official kit each season.',
           ),
           _Benefit(
-            emoji: '🏆',
+            icon: Icons.emoji_events_rounded,
             title: 'All Gold Benefits',
             description:
                 'VIP events, shop discounts, and everything from lower tiers.',

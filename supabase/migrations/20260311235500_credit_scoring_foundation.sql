@@ -9,6 +9,10 @@ alter table public.users
   add column if not exists kyc_verified_at timestamptz,
   add column if not exists credit_consent_granted_at timestamptz;
 
+-- Temporarily disable the MoMo validation trigger so the backfill UPDATEs
+-- don't fire it on rows with pre-existing invalid MoMo data.
+alter table public.users disable trigger trg_enforce_user_momo_fields;
+
 update public.users
 set official_name = full_name
 where coalesce(trim(official_name), '') = ''
@@ -18,6 +22,8 @@ update public.users
 set official_phone = phone
 where coalesce(trim(official_phone), '') = ''
   and coalesce(trim(phone), '') <> '';
+
+alter table public.users enable trigger trg_enforce_user_momo_fields;
 
 alter table public.users
   drop constraint if exists users_kyc_status_check;

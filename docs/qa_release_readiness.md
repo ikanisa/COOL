@@ -2,6 +2,19 @@
 
 This checklist tracks the current release gates for the Cool mobile app.
 
+## Required Release Gates
+
+No build is release-candidate quality unless every gate below is green.
+
+| Gate | Requirement | Source of truth |
+|---|---|---|
+| Static analysis | `flutter analyze` passes with zero issues | `scripts/release_readiness.sh` |
+| Flutter tests | `flutter test` passes with zero failures | `scripts/release_readiness.sh` |
+| Edge-function checks | Deno checks for critical Supabase functions pass | `scripts/release_readiness.sh` plus targeted `deno check` / `deno test` |
+| Route governance | Any route change updates `docs/ROUTE_INVENTORY.md` | PR review |
+| Screen governance | New routes stay within `docs/SCREEN_BUDGETS.md` budget | PR review |
+| Smoke coverage | Every new user-facing route has at least one route, widget, or flow smoke test | PR review |
+
 ## Automated Gates
 
 Run the consolidated check:
@@ -16,6 +29,12 @@ That covers:
 - `flutter test`
 - `deno test supabase/functions/parse-momo-sms/rayon_confirmation_test.ts`
 
+Supporting governance docs:
+
+- [`ROUTE_INVENTORY.md`](./ROUTE_INVENTORY.md)
+- [`SCREEN_BUDGETS.md`](./SCREEN_BUDGETS.md)
+- [`RELEASE_PROCESS.md`](./RELEASE_PROCESS.md)
+
 Optional migration apply:
 
 ```bash
@@ -29,7 +48,7 @@ RUN_MIGRATION_APPLY=1 DATABASE_URL="postgresql://..." bash scripts/release_readi
 | QA-01 | Payment confirmation idempotency | Automated | Duplicate Rayon ticket, shop, and support confirmations are covered by `rayon_confirmation_test.ts`. |
 | QA-02 | Auth routing and profile gating | Automated | Redirect rules are covered by `test/core/app_router_redirect_test.dart`. |
 | QA-03 | Rayon flow smoke coverage | Automated + manual | Notifier smoke tests cover membership load, clubs, tickets, shop, and support. Manual UI pass is still required on device. |
-| QA-04 | Release readiness review | Mixed | Automated checks are scripted. Migration apply and final permission review require an environment + human review. |
+| QA-04 | Release readiness review | Mixed | Automated checks are scripted. Route inventory, screen budget, and smoke coverage are PR review gates. |
 
 ## Manual Rayon Smoke Pass
 

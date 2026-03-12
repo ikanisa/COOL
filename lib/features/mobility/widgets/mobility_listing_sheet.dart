@@ -208,7 +208,7 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
           children: [
             _SheetChip(
               label:
-                  '${_tripVehicleEmoji(trip)} ${_displayVehicleType(trip.vehicleType)}',
+                  _displayVehicleType(trip.vehicleType),
             ),
             _SheetChip(label: departure),
             if (trip.seats > 0) _SheetChip(label: 'Seats ${trip.seats}'),
@@ -265,7 +265,7 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
           const SizedBox(height: 14),
           ShareCard(
             title: 'Share this trip',
-            emoji: '🛺',
+            icon: Icons.electric_rickshaw_rounded,
             subtitle: '${trip.fromLocation} → ${trip.toLocation}',
             shareUrl: DeepLinkConfig.tripUri(trip.id!).toString(),
             shareText:
@@ -354,7 +354,7 @@ class _DriverListingSheetBody extends StatelessWidget {
                   ),
                   const SizedBox(height: 3),
                   Text(
-                    '${driver.vehicleEmoji ?? '🚗'} ${driver.vehicleType}',
+                    driver.vehicleType,
                     style: GoogleFonts.dmSans(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
@@ -661,26 +661,6 @@ String _formatLastActive(DateTime? value) {
   return DateFormat('d MMM • HH:mm').format(value);
 }
 
-String _tripVehicleEmoji(Trip trip) {
-  final emoji = trip.vehicleEmoji?.trim();
-  if (emoji != null && emoji.isNotEmpty) {
-    return emoji;
-  }
-
-  switch (trip.vehicleType.trim().toLowerCase()) {
-    case 'moto':
-    case 'moto taxi':
-      return '🛺';
-    case 'cab':
-      return '🚗';
-    case 'truck':
-      return '🚛';
-    case 'liffan':
-      return '🚐';
-    default:
-      return '🚗';
-  }
-}
 
 String _displayVehicleType(String vehicleType) {
   switch (vehicleType.trim().toLowerCase()) {

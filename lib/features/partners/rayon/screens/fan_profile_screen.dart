@@ -11,6 +11,7 @@ import '../../../../core/theme/rs_text_styles.dart';
 import '../../../../features/auth/models/user_profile.dart';
 import '../../../../features/auth/providers/auth_provider.dart';
 import '../../../../shared/widgets/cool_button.dart';
+import '../../../../shared/widgets/cool_toast.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_screen_background.dart';
 import '../../../../shared/widgets/cool_skeleton.dart';
@@ -46,16 +47,12 @@ class _FanProfileScreenState extends ConsumerState<FanProfileScreen> {
       if (!context.mounted) {
         return;
       }
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(result.message)));
+      CoolToast.info(context, result.message);
     } catch (error) {
       if (!context.mounted) {
         return;
       }
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(error.toString())));
+      CoolToast.error(context, error.toString());
     } finally {
       if (mounted) {
         setState(() => _isRecoveringMembership = false);
@@ -344,7 +341,7 @@ class _ProfileHero extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'No official Rayon membership was found for this account yet. Tickets and shop access still work, but member identity and perks stay pending until a real membership row exists.',
+                        'No membership found yet. Tickets and shop still work.',
                         style: GoogleFonts.barlow(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
@@ -508,7 +505,7 @@ class _BenefitsSection extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(benefit.emoji, style: const TextStyle(fontSize: 22)),
+                    Icon(benefit.icon, size: 22, color: AppColors.text2),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Column(
@@ -568,7 +565,7 @@ class _BenefitStatusChip extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         child: Text(
-          active ? 'Active ✓' : 'Upgrade',
+          active ? 'Active' : 'Upgrade',
           style: GoogleFonts.barlow(
             fontSize: 11,
             fontWeight: FontWeight.w700,
@@ -596,7 +593,7 @@ class _QrAccessCard extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              '🎟️ Fan Access QR',
+              'Fan Access QR',
               textAlign: TextAlign.center,
               style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
             ),
@@ -661,13 +658,13 @@ class _PendingQrCard extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              '🎟️ Fan Access QR',
+              'Fan Access QR',
               textAlign: TextAlign.center,
               style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
             ),
             const SizedBox(height: 12),
             Text(
-              'Your access QR will appear here once an official Rayon membership exists for this account.',
+              'QR will appear once membership is created.',
               textAlign: TextAlign.center,
               style: GoogleFonts.barlow(
                 fontSize: 13,
@@ -723,7 +720,7 @@ class _RecentOrdersSection extends StatelessWidget {
         if (orders.isEmpty) {
           return const _EmptyStrip(
             message:
-                'No shop orders yet. Pending and confirmed Rayon orders will appear here.',
+                'No shop orders yet.',
           );
         }
 
@@ -866,13 +863,13 @@ class _ProgressMeta {
 
 class _BenefitItem {
   const _BenefitItem({
-    required this.emoji,
+    required this.icon,
     required this.title,
     required this.subtitle,
     required this.minTierIndex,
   });
 
-  final String emoji;
+  final IconData icon;
   final String title;
   final String subtitle;
   final int minTierIndex;
@@ -954,19 +951,19 @@ String _benefitsTierName(FanTier tier) {
 List<_BenefitItem> _benefitsForDisplay(FanTier tier) {
   final gold = <_BenefitItem>[
     const _BenefitItem(
-      emoji: '🎫',
+      icon: Icons.confirmation_number_rounded,
       title: 'Priority Tickets',
       subtitle: 'Get earlier access to on-sale match entries.',
       minTierIndex: 2,
     ),
     const _BenefitItem(
-      emoji: '🛍️',
+      icon: Icons.shopping_bag_rounded,
       title: '10% Shop',
       subtitle: 'Unlock supporter pricing on official club gear.',
       minTierIndex: 2,
     ),
     const _BenefitItem(
-      emoji: '✨',
+      icon: Icons.auto_awesome_rounded,
       title: 'VIP Events',
       subtitle: 'Access select fan sessions and special event queues.',
       minTierIndex: 2,
@@ -977,13 +974,13 @@ List<_BenefitItem> _benefitsForDisplay(FanTier tier) {
     return <_BenefitItem>[
       ...gold,
       const _BenefitItem(
-        emoji: '🤝',
+        icon: Icons.handshake_rounded,
         title: 'Meet & Greet',
         subtitle: 'Join premium player and club meetups when available.',
         minTierIndex: 3,
       ),
       const _BenefitItem(
-        emoji: '👕',
+        icon: Icons.checkroom_rounded,
         title: 'Free Kit',
         subtitle: 'Receive one complimentary official kit each season.',
         minTierIndex: 3,

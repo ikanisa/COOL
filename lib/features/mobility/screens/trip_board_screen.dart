@@ -12,7 +12,7 @@ import '../../../core/services/whatsapp_contact_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
-import '../../../shared/widgets/section_title.dart';
+import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/status_badge.dart';
 import '../../../shared/widgets/trip_card.dart';
 import '../../../shared/widgets/vehicle_chip.dart';
@@ -21,6 +21,8 @@ import '../providers/mobility_location_provider.dart';
 import '../providers/trip_board_provider.dart';
 import '../services/mobility_whatsapp_service.dart';
 import '../widgets/mobility_listing_sheet.dart';
+
+enum _TripBoardViewMode { explore, myTrips }
 
 class TripBoardScreen extends ConsumerStatefulWidget {
   const TripBoardScreen({super.key});
@@ -31,10 +33,13 @@ class TripBoardScreen extends ConsumerStatefulWidget {
 
 class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
   late final ProviderSubscription<MobilityLocationState> _locationSubscription;
+  late final MobilityLocationNotifier _locationNotifier;
+  _TripBoardViewMode _activeView = _TripBoardViewMode.explore;
 
   @override
   void initState() {
     super.initState();
+    _locationNotifier = ref.read(mobilityLocationProvider.notifier);
     _locationSubscription = ref.listenManual<MobilityLocationState>(
       mobilityLocationProvider,
       (previous, next) {
@@ -56,14 +61,13 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
   @override
   void dispose() {
     _locationSubscription.close();
-    unawaited(ref.read(mobilityLocationProvider.notifier).releaseTracking());
+    unawaited(_locationNotifier.releaseTracking());
     super.dispose();
   }
 
   Future<void> _bootstrap() async {
-    final locationNotifier = ref.read(mobilityLocationProvider.notifier);
-    await locationNotifier.bootstrap();
-    await locationNotifier.acquireTracking();
+    await _locationNotifier.bootstrap();
+    await _locationNotifier.acquireTracking();
 
     ref
         .read(tripBoardProvider.notifier)
@@ -73,7 +77,7 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
   }
 
   Future<void> _refreshTrips() async {
-    await ref.read(mobilityLocationProvider.notifier).refresh();
+    await _locationNotifier.refresh();
     ref
         .read(tripBoardProvider.notifier)
         .updateLocation(ref.read(mobilityLocationProvider).position);
@@ -410,15 +414,7 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
   }
 
   void _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          style: GoogleFonts.dmSans(fontWeight: FontWeight.w600),
-        ),
-        backgroundColor: AppColors.surface3,
-      ),
-    );
+    CoolToast.info(context, message);
   }
 
   @override
@@ -431,19 +427,13 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
           icon: const Icon(Icons.arrow_back_rounded),
         ),
         title: Text(
-          'Trip Board',
+          'Trip board',
           style: GoogleFonts.dmSans(
             fontSize: 18,
             fontWeight: FontWeight.w600,
             color: AppColors.text,
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        heroTag: 'trip-board-post-fab',
-        backgroundColor: AppColors.accent,
-        onPressed: () => context.push('/mobility/schedule'),
-        child: const Icon(Icons.add_rounded, color: Colors.black, size: 28),
       ),
       body: RefreshIndicator(
         color: AppColors.accent,
@@ -452,38 +442,49 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
         child: CustomScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           slivers: [
-            const SliverPadding(
-              padding: EdgeInsets.fromLTRB(18, 8, 18, 0),
-              sliver: SliverToBoxAdapter(child: _TripBoardInfoBanner()),
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(18, 8, 18, 0),
+              sliver: SliverToBoxAdapter(
+                child: _TripBoardModeSwitcher(
+                  activeView: _activeView,
+                  onChanged: (view) {
+                    setState(() => _activeView = view);
+                  },
+                ),
+              ),
             ),
-            const SliverPadding(
-              padding: EdgeInsets.fromLTRB(18, 16, 18, 0),
-              sliver: SliverToBoxAdapter(child: _TripBoardTabSection()),
-            ),
-            const SliverPadding(
-              padding: EdgeInsets.fromLTRB(18, 14, 18, 0),
-              sliver: SliverToBoxAdapter(child: _TripBoardFilterBar()),
-            ),
-            _TripBoardPublicTripsSliver(
-              onPostTrip: () => context.push('/mobility/schedule'),
-              onPreviewTap: (trip) {
-                unawaited(_showTripPreview(trip));
-              },
-              onWhatsAppTap: (trip) {
-                unawaited(_openWhatsApp(trip));
-              },
-            ),
-            _TripBoardMyTripsSliver(
-              onCancelTrip: (trip) {
-                unawaited(_cancelTrip(trip));
-              },
-              onDeleteTrip: (trip) {
-                unawaited(_deleteTrip(trip));
-              },
-              onShowActions: (trip) {
-                unawaited(_showTripActions(trip));
-              },
-            ),
+            if (_activeView == _TripBoardViewMode.explore) ...[
+              SliverPadding(
+                padding: EdgeInsets.fromLTRB(18, 14, 18, 0),
+                sliver: SliverToBoxAdapter(
+                  child: _TripBoardExploreHeaderCard(
+                    onPostTrip: () => context.push('/mobility/schedule'),
+                  ),
+                ),
+              ),
+              _TripBoardPublicTripsSliver(
+                onPreviewTap: (trip) {
+                  unawaited(_showTripPreview(trip));
+                },
+                onWhatsAppTap: (trip) {
+                  unawaited(_openWhatsApp(trip));
+                },
+              ),
+            ] else ...[
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(18, 14, 18, 0),
+                sliver: SliverToBoxAdapter(
+                  child: _TripBoardMyTripsHeaderCard(
+                    onPostTrip: () => context.push('/mobility/schedule'),
+                  ),
+                ),
+              ),
+              _TripBoardMyTripsSliver(
+                onShowActions: (trip) {
+                  unawaited(_showTripActions(trip));
+                },
+              ),
+            ],
             const SliverToBoxAdapter(child: SizedBox(height: 96)),
           ],
         ),
@@ -493,41 +494,167 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
 
   static const _vehicleFilters = [
     _VehicleFilter(label: 'All', value: 'All'),
-    _VehicleFilter(label: '🛺 Moto', value: 'Moto'),
-    _VehicleFilter(label: '🚗 Cab', value: 'Cab'),
-    _VehicleFilter(label: '🚛 Truck', value: 'Truck'),
-    _VehicleFilter(label: '🚐 Liffan', value: 'Liffan'),
+    _VehicleFilter(label: 'Moto', value: 'Moto'),
+    _VehicleFilter(label: 'Cab', value: 'Cab'),
+    _VehicleFilter(label: 'Truck', value: 'Truck'),
+    _VehicleFilter(label: 'Liffan', value: 'Liffan'),
   ];
 }
 
-class _TripBoardInfoBanner extends StatelessWidget {
-  const _TripBoardInfoBanner();
+class _TripBoardHeaderCard extends StatelessWidget {
+  const _TripBoardHeaderCard({
+    required this.title,
+    required this.subtitle,
+    required this.primaryLabel,
+    required this.onPrimaryTap,
+    this.child,
+  });
+
+  final String title;
+  final String subtitle;
+  final String primaryLabel;
+  final VoidCallback onPrimaryTap;
+  final Widget? child;
+
+  @override
+  Widget build(BuildContext context) {
+    return CoolCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: GoogleFonts.dmSans(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: AppColors.text,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            subtitle,
+            style: GoogleFonts.dmSans(
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+              color: AppColors.text2,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 14),
+          SizedBox(
+            width: double.infinity,
+            child: CoolButton(label: primaryLabel, onTap: onPrimaryTap),
+          ),
+          if (child != null) ...[
+            const SizedBox(height: 16),
+            child!,
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _TripBoardExploreHeaderCard extends ConsumerWidget {
+  const _TripBoardExploreHeaderCard({required this.onPostTrip});
+
+  final VoidCallback onPostTrip;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final activeTab = ref.watch(tripBoardActiveTabProvider);
+    final title = activeTab == TripBoardTab.driverReturnTrips
+        ? 'Driver return trips'
+        : 'Explore trips';
+    final subtitle = activeTab == TripBoardTab.driverReturnTrips
+        ? 'Browse return routes from drivers heading back.'
+        : 'Find a nearby ride, then continue on WhatsApp if it fits.';
+
+    return _TripBoardHeaderCard(
+      title: title,
+      subtitle: subtitle,
+      primaryLabel: 'Post trip',
+      onPrimaryTap: onPostTrip,
+      child: const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _TripBoardTabSection(),
+          SizedBox(height: 12),
+          _TripBoardFilterBar(),
+        ],
+      ),
+    );
+  }
+}
+
+class _TripBoardMyTripsHeaderCard extends StatelessWidget {
+  const _TripBoardMyTripsHeaderCard({required this.onPostTrip});
+
+  final VoidCallback onPostTrip;
+
+  @override
+  Widget build(BuildContext context) {
+    return _TripBoardHeaderCard(
+      title: 'Manage your trips',
+      subtitle: 'Pause, repost, or delete what you already posted.',
+      primaryLabel: 'Post trip',
+      onPrimaryTap: onPostTrip,
+    );
+  }
+}
+
+class _TripBoardModeSwitcher extends StatelessWidget {
+  const _TripBoardModeSwitcher({
+    required this.activeView,
+    required this.onChanged,
+  });
+
+  final _TripBoardViewMode activeView;
+  final ValueChanged<_TripBoardViewMode> onChanged;
+
+  static const _items = [
+    (_TripBoardViewMode.explore, 'Explore'),
+    (_TripBoardViewMode.myTrips, 'My trips'),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: AppColors.blueGlow,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.blue.withValues(alpha: 0.3)),
+        color: AppColors.surface2,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: AppColors.border),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('📋', style: TextStyle(fontSize: 18)),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              'Open scheduled trips nearby. Tap a listing to review details, then continue on WhatsApp to agree on price and pickup.',
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: AppColors.blue,
-                height: 1.4,
+          for (final item in _items)
+            Expanded(
+              child: GestureDetector(
+                onTap: () => onChanged(item.$1),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 180),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                    color: activeView == item.$1
+                        ? AppColors.accent
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    item.$2,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: activeView == item.$1
+                          ? Colors.black
+                          : AppColors.text2,
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
         ],
       ),
     );
@@ -544,8 +671,8 @@ class _TripBoardTabSwitcher extends StatelessWidget {
   final ValueChanged<TripBoardTab> onChanged;
 
   static const _tabs = [
-    (TripBoardTab.passengerTrips, 'Passenger Trips'),
-    (TripBoardTab.driverReturnTrips, 'Driver Return Trips'),
+    (TripBoardTab.passengerTrips, 'Passenger'),
+    (TripBoardTab.driverReturnTrips, 'Return trips'),
   ];
 
   @override
@@ -648,12 +775,10 @@ class _TripBoardFilterBar extends ConsumerWidget {
 
 class _TripBoardPublicTripsSliver extends ConsumerWidget {
   const _TripBoardPublicTripsSliver({
-    required this.onPostTrip,
     required this.onPreviewTap,
     required this.onWhatsAppTap,
   });
 
-  final VoidCallback onPostTrip;
   final ValueChanged<Trip> onPreviewTap;
   final ValueChanged<Trip> onWhatsAppTap;
 
@@ -672,7 +797,7 @@ class _TripBoardPublicTripsSliver extends ConsumerWidget {
         sliver: SliverToBoxAdapter(
           child: _TripBoardLoadingState(
             title: 'Loading nearby trips',
-            subtitle: 'Checking currently open scheduled trips around you.',
+            subtitle: 'Searching nearby…',
           ),
         ),
       );
@@ -703,11 +828,9 @@ class _TripBoardPublicTripsSliver extends ConsumerWidget {
         padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
         sliver: SliverToBoxAdapter(
           child: _TripBoardEmptyState(
-            emoji: '⚠️',
+            icon: Icons.warning_amber_rounded,
             title: 'Could not load nearby trips',
             subtitle: error,
-            actionLabel: 'Post Your Trip',
-            onActionTap: onPostTrip,
           ),
         ),
       );
@@ -718,7 +841,6 @@ class _TripBoardPublicTripsSliver extends ConsumerWidget {
         padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
         sliver: _DriverReturnTripsSliver(
           trips: trips,
-          onEmptyActionTap: onPostTrip,
           onPreviewTap: onPreviewTap,
           onWhatsAppTap: onWhatsAppTap,
         ),
@@ -730,8 +852,6 @@ class _TripBoardPublicTripsSliver extends ConsumerWidget {
       sliver: _TripsTabSliver(
         trips: trips,
         emptyTitle: 'No scheduled trips nearby',
-        emptyActionLabel: 'Post Your Trip',
-        onEmptyActionTap: onPostTrip,
         onPreviewTap: onPreviewTap,
         onWhatsAppTap: onWhatsAppTap,
         buttonLabelBuilder: (trip) =>
@@ -742,14 +862,8 @@ class _TripBoardPublicTripsSliver extends ConsumerWidget {
 }
 
 class _TripBoardMyTripsSliver extends ConsumerWidget {
-  const _TripBoardMyTripsSliver({
-    required this.onCancelTrip,
-    required this.onDeleteTrip,
-    required this.onShowActions,
-  });
+  const _TripBoardMyTripsSliver({required this.onShowActions});
 
-  final ValueChanged<Trip> onCancelTrip;
-  final ValueChanged<Trip> onDeleteTrip;
   final ValueChanged<Trip> onShowActions;
 
   @override
@@ -760,24 +874,20 @@ class _TripBoardMyTripsSliver extends ConsumerWidget {
     final error = ref.watch(tripBoardMyTripsErrorProvider);
 
     return SliverPadding(
-      padding: const EdgeInsets.fromLTRB(18, 28, 18, 0),
+      padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
       sliver: SliverMainAxisGroup(
         slivers: [
-          const SliverToBoxAdapter(
-            child: SectionTitle(title: 'My Posted Trips'),
-          ),
-          const SliverToBoxAdapter(child: SizedBox(height: 12)),
           if (isLoading && myTrips.isEmpty)
             const SliverToBoxAdapter(
               child: _TripBoardLoadingState(
                 title: 'Loading your trips',
-                subtitle: 'Fetching the trips you posted from your account.',
+                subtitle: 'Loading your trips…',
               ),
             )
           else if (error != null && myTrips.isEmpty)
             SliverToBoxAdapter(
               child: _TripBoardEmptyState(
-                emoji: '⚠️',
+                icon: Icons.warning_amber_rounded,
                 title: 'Could not load your trips',
                 subtitle: error,
               ),
@@ -785,10 +895,9 @@ class _TripBoardMyTripsSliver extends ConsumerWidget {
           else if (myTrips.isEmpty)
             const SliverToBoxAdapter(
               child: _TripBoardEmptyState(
-                emoji: '🗂️',
+                icon: Icons.folder_open_rounded,
                 title: 'No trips posted yet',
-                subtitle:
-                    'Trips you create from the schedule screen will appear here.',
+                subtitle: 'Post a trip to see it here.',
               ),
             )
           else
@@ -802,11 +911,7 @@ class _TripBoardMyTripsSliver extends ConsumerWidget {
                   child: _MyTripTile(
                     trip: trip,
                     isBusy: actionTripId == trip.id,
-                    onCancel: _isActiveTrip(trip)
-                        ? () => onCancelTrip(trip)
-                        : null,
-                    onDelete: () => onDeleteTrip(trip),
-                    onLongPress: () => onShowActions(trip),
+                    onShowActions: () => onShowActions(trip),
                   ),
                 );
               }, childCount: myTrips.length),
@@ -821,8 +926,6 @@ class _TripsTabSliver extends StatelessWidget {
   const _TripsTabSliver({
     required this.trips,
     required this.emptyTitle,
-    required this.emptyActionLabel,
-    required this.onEmptyActionTap,
     required this.onPreviewTap,
     required this.onWhatsAppTap,
     required this.buttonLabelBuilder,
@@ -830,8 +933,6 @@ class _TripsTabSliver extends StatelessWidget {
 
   final List<Trip> trips;
   final String emptyTitle;
-  final String emptyActionLabel;
-  final VoidCallback onEmptyActionTap;
   final ValueChanged<Trip> onPreviewTap;
   final ValueChanged<Trip> onWhatsAppTap;
   final String Function(Trip trip) buttonLabelBuilder;
@@ -841,10 +942,8 @@ class _TripsTabSliver extends StatelessWidget {
     if (trips.isEmpty) {
       return SliverToBoxAdapter(
         child: _TripBoardEmptyState(
-          emoji: '🔍',
+          icon: Icons.search_rounded,
           title: emptyTitle,
-          actionLabel: emptyActionLabel,
-          onActionTap: onEmptyActionTap,
         ),
       );
     }
@@ -869,13 +968,11 @@ class _TripsTabSliver extends StatelessWidget {
 class _DriverReturnTripsSliver extends StatelessWidget {
   const _DriverReturnTripsSliver({
     required this.trips,
-    required this.onEmptyActionTap,
     required this.onPreviewTap,
     required this.onWhatsAppTap,
   });
 
   final List<Trip> trips;
-  final VoidCallback onEmptyActionTap;
   final ValueChanged<Trip> onPreviewTap;
   final ValueChanged<Trip> onWhatsAppTap;
 
@@ -883,51 +980,12 @@ class _DriverReturnTripsSliver extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverMainAxisGroup(
       slivers: [
-        SliverToBoxAdapter(
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: AppColors.purple.withValues(alpha: 0.08),
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: AppColors.purple.withValues(alpha: 0.3),
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '🔁 Driver Return Trips',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.purple,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  'Drivers sharing return trips so riders can join existing routes.',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.text2,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SliverToBoxAdapter(child: SizedBox(height: 12)),
         if (trips.isEmpty)
           SliverToBoxAdapter(
             child: _TripBoardEmptyState(
-              emoji: '🔁',
+              icon: Icons.repeat_rounded,
               title: 'No return trips available',
-              subtitle:
-                  'Try another vehicle type or post your own trip to start matching.',
-              actionLabel: 'Post Your Trip',
-              onActionTap: onEmptyActionTap,
+              subtitle: 'Try another vehicle type or post a trip.',
             ),
           )
         else
@@ -969,7 +1027,6 @@ class _TripBoardTripTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final contactName = trip.contactName?.trim();
     final hasPinnedPickup = trip.latitude != null && trip.longitude != null;
     final hasRoutePreview =
         hasPinnedPickup &&
@@ -989,39 +1046,13 @@ class _TripBoardTripTile extends StatelessWidget {
           toLocation: trip.toLocation,
           departureTime: trip.departureTime,
           vehicleType: _displayVehicleType(trip.vehicleType),
-          vehicleEmoji: _tripVehicleEmoji(trip),
+
           onTap: onPreviewTap,
           seats: trip.seats,
           isReturn: trip.isReturn,
           isRecurring: trip.isRecurring,
           isDriverReturnTrip: trip.isDriverReturnTrip,
         ),
-        if (contactName != null && contactName.isNotEmpty) ...[
-          const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
-            child: Row(
-              children: [
-                const Icon(
-                  Icons.person_outline_rounded,
-                  size: 14,
-                  color: AppColors.text3,
-                ),
-                const SizedBox(width: 6),
-                Expanded(
-                  child: Text(
-                    'Posted by $contactName',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.text2,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
         const SizedBox(height: 8),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -1045,10 +1076,6 @@ class _TripBoardTripTile extends StatelessWidget {
                     : hasPinnedPickup
                     ? 'Pickup pinned'
                     : 'Text route',
-              ),
-              const _TripMetaLabel(
-                icon: Icons.chat_bubble_outline_rounded,
-                label: 'Agree on WhatsApp',
               ),
             ],
           ),
@@ -1096,14 +1123,14 @@ class _TripMetaLabel extends StatelessWidget {
 
 class _TripBoardEmptyState extends StatelessWidget {
   const _TripBoardEmptyState({
-    required this.emoji,
+    required this.icon,
     required this.title,
     this.subtitle,
     this.actionLabel,
     this.onActionTap,
   });
 
-  final String emoji;
+  final IconData icon;
   final String title;
   final String? subtitle;
   final String? actionLabel;
@@ -1116,7 +1143,7 @@ class _TripBoardEmptyState extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
-            Text(emoji, style: const TextStyle(fontSize: 34)),
+            Icon(icon, size: 34, color: AppColors.text2),
             const SizedBox(height: 12),
             Text(
               title,
@@ -1216,7 +1243,7 @@ class _TripBoardLocationStateCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    late final String emoji;
+    late final IconData icon;
     late final String title;
     late final String subtitle;
     String? actionLabel;
@@ -1226,13 +1253,13 @@ class _TripBoardLocationStateCard extends StatelessWidget {
       case MobilityLocationStatus.checking:
       case MobilityLocationStatus.requesting:
       case MobilityLocationStatus.idle:
-        emoji = '📡';
+        icon = Icons.satellite_alt_rounded;
         title = 'Checking your location';
         subtitle = 'Nearby trip matching needs your current area.';
         break;
       case MobilityLocationStatus.needsPermission:
       case MobilityLocationStatus.denied:
-        emoji = '📍';
+        icon = Icons.pin_drop_rounded;
         title = 'Enable location for nearby trips';
         subtitle =
             'You can still post and manage your own trips, but nearby matching needs location access.';
@@ -1240,7 +1267,7 @@ class _TripBoardLocationStateCard extends StatelessWidget {
         action = onEnableLocation;
         break;
       case MobilityLocationStatus.deniedForever:
-        emoji = '⚙️';
+        icon = Icons.settings_rounded;
         title = 'Location is blocked in settings';
         subtitle =
             'Open app settings to allow location again for nearby trip discovery.';
@@ -1248,7 +1275,7 @@ class _TripBoardLocationStateCard extends StatelessWidget {
         action = onOpenAppSettings;
         break;
       case MobilityLocationStatus.serviceDisabled:
-        emoji = '🛰️';
+        icon = Icons.satellite_alt_rounded;
         title = 'Turn on device location';
         subtitle =
             'Location services are off, so nearby trips cannot be calculated yet.';
@@ -1257,12 +1284,12 @@ class _TripBoardLocationStateCard extends StatelessWidget {
         break;
       case MobilityLocationStatus.ready:
       case MobilityLocationStatus.approximateReady:
-        emoji = '📍';
+        icon = Icons.pin_drop_rounded;
         title = 'Location ready';
         subtitle = 'Nearby trip matching is available.';
         break;
       case MobilityLocationStatus.error:
-        emoji = '⚠️';
+        icon = Icons.warning_amber_rounded;
         title = 'Location could not be resolved';
         subtitle =
             locationState.error ??
@@ -1273,7 +1300,7 @@ class _TripBoardLocationStateCard extends StatelessWidget {
     }
 
     return _TripBoardEmptyState(
-      emoji: emoji,
+      icon: icon,
       title: title,
       subtitle: subtitle,
       actionLabel: actionLabel,
@@ -1285,16 +1312,12 @@ class _TripBoardLocationStateCard extends StatelessWidget {
 class _MyTripTile extends StatelessWidget {
   const _MyTripTile({
     required this.trip,
-    required this.onDelete,
-    required this.onLongPress,
+    required this.onShowActions,
     required this.isBusy,
-    this.onCancel,
   });
 
   final Trip trip;
-  final VoidCallback? onCancel;
-  final VoidCallback onDelete;
-  final VoidCallback onLongPress;
+  final VoidCallback onShowActions;
   final bool isBusy;
 
   bool get _isExpired => trip.status == 'expired';
@@ -1304,153 +1327,139 @@ class _MyTripTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dismissible(
-      key: ValueKey(
-        trip.id ??
-            '${trip.fromLocation}-${trip.departureTime.toIso8601String()}',
-      ),
-      direction: isBusy ? DismissDirection.none : DismissDirection.endToStart,
-      onDismissed: (_) => onDelete(),
-      background: Container(
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.only(right: 20),
-        decoration: BoxDecoration(
-          color: AppColors.red.withValues(alpha: 0.15),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Text(
-          'Delete',
-          style: GoogleFonts.dmSans(
-            fontSize: 14,
-            fontWeight: FontWeight.w700,
-            color: AppColors.red,
-          ),
-        ),
-      ),
-      child: GestureDetector(
-        onLongPress: isBusy ? null : onLongPress,
-        child: Opacity(
-          opacity: _isExpired || _isCancelled || _isPaused ? 0.58 : 1,
-          child: CoolCard(
-            padding: const EdgeInsets.all(16),
-            child: Column(
+    return Opacity(
+      opacity: _isExpired || _isCancelled || _isPaused ? 0.58 : 1,
+      child: CoolCard(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _tripVehicleEmoji(trip),
-                      style: const TextStyle(fontSize: 22),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${trip.fromLocation} → ${trip.toLocation}',
-                            style: GoogleFonts.dmSans(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.text,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            DateFormat(
-                              'EEE d MMM • HH:mm',
-                            ).format(trip.departureTime),
-                            style: GoogleFonts.dmSans(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.text2,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    if (isBusy)
-                      const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2.2,
-                          color: AppColors.accent,
-                        ),
-                      )
-                    else if (_isExpired)
-                      const StatusBadge(
-                        label: 'Expired',
-                        bgColor: AppColors.surface3,
-                        textColor: AppColors.text3,
-                      )
-                    else if (_isCancelled)
-                      const StatusBadge(
-                        label: 'Cancelled',
-                        bgColor: AppColors.surface3,
-                        textColor: AppColors.text3,
-                      )
-                    else if (_isPaused)
-                      StatusBadge(
-                        label: 'Paused',
-                        bgColor: AppColors.orange.withValues(alpha: 0.15),
-                        textColor: AppColors.orange,
-                      )
-                    else if (_isMatched)
-                      const StatusBadge(
-                        label: 'Matched',
-                        bgColor: AppColors.blueGlow,
-                        textColor: AppColors.blue,
-                      )
-                    else
-                      GestureDetector(
-                        onTap: onCancel,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.red.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: AppColors.red.withValues(alpha: 0.3),
-                            ),
-                          ),
-                          child: Text(
-                            'Cancel',
-                            style: GoogleFonts.dmSans(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.red,
-                            ),
-                          ),
-                        ),
-                      ),
-                  ],
+                Icon(
+                  _vehicleIconForType(trip.vehicleType),
+                  size: 22,
+                  color: AppColors.accent,
                 ),
-                const SizedBox(height: 14),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: [
-                    _InfoPill(
-                      label:
-                          '${_tripVehicleEmoji(trip)} ${_displayVehicleType(trip.vehicleType)}',
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${trip.fromLocation} → ${trip.toLocation}',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.text,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        DateFormat(
+                          'EEE d MMM • HH:mm',
+                        ).format(trip.departureTime),
+                        style: GoogleFonts.dmSans(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.text2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (isBusy)
+                  const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.2,
+                      color: AppColors.accent,
                     ),
-                    _InfoPill(
-                      label: _isExpired || _isCancelled
-                          ? 'Swipe or long-press to delete'
-                          : 'Long-press for actions',
+                  )
+                else
+                  IconButton(
+                    onPressed: onShowActions,
+                    tooltip: 'Trip actions',
+                    icon: const Icon(
+                      Icons.more_horiz_rounded,
+                      color: AppColors.text2,
                     ),
-                  ],
+                  ),
+              ],
+            ),
+            const SizedBox(height: 14),
+            Row(
+              children: [
+                Expanded(
+                  child: _InfoPill(
+                    label: _displayVehicleType(trip.vehicleType),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                _MyTripStatusBadge(
+                  isExpired: _isExpired,
+                  isCancelled: _isCancelled,
+                  isPaused: _isPaused,
+                  isMatched: _isMatched,
                 ),
               ],
             ),
-          ),
+          ],
         ),
       ),
+    );
+  }
+}
+
+class _MyTripStatusBadge extends StatelessWidget {
+  const _MyTripStatusBadge({
+    required this.isExpired,
+    required this.isCancelled,
+    required this.isPaused,
+    required this.isMatched,
+  });
+
+  final bool isExpired;
+  final bool isCancelled;
+  final bool isPaused;
+  final bool isMatched;
+
+  @override
+  Widget build(BuildContext context) {
+    if (isExpired) {
+      return const StatusBadge(
+        label: 'Expired',
+        bgColor: AppColors.surface3,
+        textColor: AppColors.text3,
+      );
+    }
+    if (isCancelled) {
+      return const StatusBadge(
+        label: 'Cancelled',
+        bgColor: AppColors.surface3,
+        textColor: AppColors.text3,
+      );
+    }
+    if (isPaused) {
+      return StatusBadge(
+        label: 'Paused',
+        bgColor: AppColors.orange.withValues(alpha: 0.15),
+        textColor: AppColors.orange,
+      );
+    }
+    if (isMatched) {
+      return const StatusBadge(
+        label: 'Matched',
+        bgColor: AppColors.blueGlow,
+        textColor: AppColors.blue,
+      );
+    }
+    return const StatusBadge(
+      label: 'Active',
+      bgColor: AppColors.accentGlow,
+      textColor: AppColors.accent,
     );
   }
 }
@@ -1498,25 +1507,15 @@ bool _hasContactPhone(Trip trip) =>
     (trip.whatsappNumber?.trim().isNotEmpty ?? false) ||
     (trip.contactPhone?.trim().isNotEmpty ?? false);
 
-String _tripVehicleEmoji(Trip trip) {
-  final emoji = trip.vehicleEmoji?.trim();
-  if (emoji != null && emoji.isNotEmpty) {
-    return emoji;
+IconData _vehicleIconForType(String vehicleType) {
+  final normalized = vehicleType.trim().toLowerCase();
+  if (normalized.contains('moto')) return Icons.two_wheeler_rounded;
+  if (normalized.contains('cab')) return Icons.directions_car_rounded;
+  if (normalized.contains('truck')) return Icons.local_shipping_rounded;
+  if (normalized.contains('liffan') || normalized.contains('van')) {
+    return Icons.airport_shuttle_rounded;
   }
-
-  switch (trip.vehicleType.trim().toLowerCase()) {
-    case 'moto':
-    case 'moto taxi':
-      return '🛺';
-    case 'cab':
-      return '🚗';
-    case 'truck':
-      return '🚛';
-    case 'liffan':
-      return '🚐';
-    default:
-      return '🚗';
-  }
+  return Icons.directions_car_filled_rounded;
 }
 
 String _displayVehicleType(String vehicleType) {

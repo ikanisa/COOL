@@ -1,30 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' show SupabaseClient;
 
+import '../../core/providers/supabase_client_provider.dart';
 import '../../core/theme/app_colors.dart';
 import 'cool_button.dart';
+import 'cool_toast.dart';
 
 /// Scan mode for the QR scanner.
 enum QrScanMode { ticket, momo }
 
 /// Full-screen QR scanner using `mobile_scanner`.
-class QrScannerScreen extends StatefulWidget {
+class QrScannerScreen extends ConsumerStatefulWidget {
   const QrScannerScreen({
     required this.mode,
     this.ticketScanningEnabled = true,
+    this.client,
     super.key,
   });
 
   final QrScanMode mode;
+  final SupabaseClient? client;
   final bool ticketScanningEnabled;
 
   @override
-  State<QrScannerScreen> createState() => _QrScannerScreenState();
+  ConsumerState<QrScannerScreen> createState() => _QrScannerScreenState();
 }
 
-class _QrScannerScreenState extends State<QrScannerScreen> {
+class _QrScannerScreenState extends ConsumerState<QrScannerScreen> {
   final MobileScannerController _controller = MobileScannerController(
     detectionSpeed: DetectionSpeed.normal,
     facing: CameraFacing.back,
@@ -76,7 +81,9 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
 
   Future<_TicketScanResult> _verifyTicketWithBackend(String qrData) async {
     try {
-      final response = await Supabase.instance.client.functions.invoke(
+      final SupabaseClient client =
+          widget.client ?? ref.read(supabaseClientProvider);
+      final response = await client.functions.invoke(
         'rs-scan-ticket',
         body: <String, dynamic>{'qrData': qrData},
       );
@@ -107,9 +114,7 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
       final phone = qrData.replaceFirst('momo://', '');
       Navigator.pop(context, phone);
     } else {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Not a valid MoMo QR code')));
+      CoolToast.error(context, 'Not a valid MoMo QR code');
       setState(() => _hasScanned = false);
     }
   }

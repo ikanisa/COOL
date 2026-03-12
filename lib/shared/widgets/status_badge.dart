@@ -104,30 +104,35 @@ class StatusBadge extends StatelessWidget {
     final bg = bgColor ?? AppColors.accentGlow;
     final fg = textColor ?? AppColors.accent;
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(
-        color: bg,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (showPulseDot) ...[_PulseDot(color: fg), const SizedBox(width: 6)],
-          if (emoji != null) ...[
-            Text(emoji!, style: const TextStyle(fontSize: 12)),
-            const SizedBox(width: 4),
-          ],
-          Text(
-            label,
-            style: GoogleFonts.dmSans(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              color: fg,
-              height: 1.3,
+    return Semantics(
+      label: 'Status: $label',
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        decoration: BoxDecoration(
+          color: bg,
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (showPulseDot) ...[_PulseDot(color: fg), const SizedBox(width: 6)],
+            if (emoji != null) ...[
+              ExcludeSemantics(
+                child: Text(emoji!, style: const TextStyle(fontSize: 12)),
+              ),
+              const SizedBox(width: 4),
+            ],
+            Text(
+              label,
+              style: GoogleFonts.dmSans(
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                color: fg,
+                height: 1.3,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

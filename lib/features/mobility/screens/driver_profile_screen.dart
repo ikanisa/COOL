@@ -8,15 +8,19 @@ import 'package:intl/intl.dart';
 
 import '../../../core/services/momo_service.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/utils/icon_mapper.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_scaffold.dart';
 import '../../../shared/widgets/cool_text_field.dart';
+import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/section_title.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../models/trip.dart';
 import '../providers/driver_provider.dart';
 import '../providers/mobility_location_provider.dart';
+
+enum _DriverProfileView { overview, manage }
 
 /// Driver profile for mobility partners.
 ///
@@ -33,6 +37,7 @@ class DriverProfileScreen extends ConsumerStatefulWidget {
 class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
   SubscriptionPlan _selectedPlan = MomoService.motoTaxiPlan;
   bool _isLaunchingSubscription = false;
+  _DriverProfileView _activeView = _DriverProfileView.overview;
 
   @override
   void initState() {
@@ -48,9 +53,7 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
     final currentVehicle = _VehicleData(
       type: profile?.vehicleType ?? 'Moto Taxi',
       plateNumber: profile?.vehicleDescription ?? '',
-      baseLocation: profile?.isRegularDriver == true
-          ? 'Regular'
-          : 'Occasional',
+      baseLocation: profile?.isRegularDriver == true ? 'Regular' : 'Occasional',
       status: profile?.isOnline == true ? 'Online' : 'Offline',
     );
     final updatedVehicle = await showModalBottomSheet<_VehicleData>(
@@ -85,36 +88,13 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
       if (!mounted) return;
       final error = ref.read(driverProvider).error;
       if (error != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: AppColors.surface2,
-            content: Text(
-              error,
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: AppColors.text,
-              ),
-            ),
-          ),
-        );
+        CoolToast.error(context, error);
       }
     } catch (_) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: AppColors.surface2,
-          content: Text(
-            'Unable to open the USSD dialer. Please try again.',
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: AppColors.text,
-            ),
-          ),
-        ),
+      CoolToast.error(
+        context,
+        'Unable to open the USSD dialer. Please try again.',
       );
     } finally {
       if (mounted) {
@@ -128,10 +108,9 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
     final position = locationState.position;
     if (position == null) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Location is required before changing driver mode.'),
-        ),
+      CoolToast.error(
+        context,
+        'Location is required before changing driver mode.',
       );
       return;
     }
@@ -157,7 +136,7 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
     // Show a loading spinner if we have no profile yet.
     if (driverState.isLoading && profile == null) {
       return const CoolScreenScaffold(
-        title: 'Driver Profile',
+        title: 'Driver',
         child: CoolSkeletonList(itemCount: 4),
       );
     }
@@ -165,14 +144,14 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
     // Error state — profile failed to load.
     if (driverState.error != null && profile == null) {
       return CoolScreenScaffold(
-        title: 'Driver Profile',
+        title: 'Driver',
         child: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 24),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('⚠️', style: TextStyle(fontSize: 48)),
+                const Icon(Icons.warning_amber_rounded, size: 40, color: AppColors.orange),
                 const SizedBox(height: 16),
                 Text(
                   driverState.error!,
@@ -217,9 +196,7 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
     final vehicle = _VehicleData(
       type: profile?.vehicleType ?? currentUser?.vehicleType ?? 'Moto Taxi',
       plateNumber: _displayValue(profile?.vehicleDescription),
-      baseLocation: profile?.isRegularDriver == true
-          ? 'Regular'
-          : 'Occasional',
+      baseLocation: profile?.isRegularDriver == true ? 'Regular' : 'Occasional',
       status: profile?.isOnline == true ? 'Online' : 'Offline',
     );
 
@@ -248,58 +225,160 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
 
     final activeSubscription = driver.activeSubscription(now);
     final shouldShowUpgradeBanner = driver.shouldShowUpgradeBanner(now);
+    final todaysTrips = driver.scheduledTrips
+        .where(
+          (trip) =>
+              trip.departureTime.year == now.year &&
+              trip.departureTime.month == now.month &&
+              trip.departureTime.day == now.day,
+        )
+        .toList(growable: false);
+    final visibleTrips =
+        (todaysTrips.isNotEmpty ? todaysTrips : driver.scheduledTrips.take(3))
+            .toList(growable: false);
 
     return CoolScreenScaffold(
-      title: 'Driver Profile',
+      title: 'Driver',
       padding: const EdgeInsets.fromLTRB(18, 8, 18, 80),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _DriverStatsCard(driver: driver),
-          if (activeSubscription != null) ...[
-            const SizedBox(height: 16),
-            _ActiveSubscriptionCard(subscription: activeSubscription, now: now),
-          ] else if (shouldShowUpgradeBanner) ...[
-            const SizedBox(height: 16),
-            _SubscriptionBanner(
-              tripsUsedCount: driver.tripsUsedThisMonth,
-              freeTripsRemaining: driver.freeTripsRemaining,
-              selectedPlan: _selectedPlan,
-              isLoading: _isLaunchingSubscription,
-              onPlanSelected: (plan) {
-                setState(() => _selectedPlan = plan);
-              },
-              onPayTap: _paySubscription,
+          _DriverViewSwitcher(
+            activeView: _activeView,
+            onChanged: (view) {
+              setState(() => _activeView = view);
+            },
+          ),
+          const SizedBox(height: 18),
+          if (_activeView == _DriverProfileView.overview) ...[
+            _DriverAvailabilityCard(
+              vehicleType: driver.vehicle.type,
+              isOnline: driver.isOnline,
+              onChanged: (value) => _toggleOnlineStatus(value),
             ),
+            const SizedBox(height: 16),
+            _DriverStatsCard(driver: driver),
+            const SizedBox(height: 16),
+            if (activeSubscription != null)
+              _ActiveSubscriptionCard(
+                subscription: activeSubscription,
+                now: now,
+              )
+            else
+              _DriverSubscriptionSummaryCard(
+                freeTripsRemaining: driver.freeTripsRemaining,
+                tripsUsedThisMonth: driver.tripsUsedThisMonth,
+                showUpgradeHint: shouldShowUpgradeBanner,
+                onOpenManage: () {
+                  setState(() => _activeView = _DriverProfileView.manage);
+                },
+              ),
+            const SizedBox(height: 18),
+            SectionTitle(
+              title: todaysTrips.isNotEmpty
+                  ? 'Today\'s trips'
+                  : 'Upcoming trips',
+            ),
+            const SizedBox(height: 10),
+            _ScheduledTripsCard(trips: visibleTrips),
+            const SizedBox(height: 12),
+            CoolButton(
+              label: 'Add return trip',
+              variant: CoolButtonVariant.secondary,
+              onTap: () => context.push('/mobility/schedule?role=driver'),
+            ),
+          ] else ...[
+            SectionTitle(
+              title: 'Vehicle',
+              actionLabel: 'Edit',
+              onAction: _openVehicleEditor,
+            ),
+            const SizedBox(height: 10),
+            _VehicleInfoCard(vehicle: driver.vehicle),
+            const SizedBox(height: 18),
+            const SectionTitle(title: 'Subscription'),
+            const SizedBox(height: 10),
+            if (activeSubscription != null)
+              _ActiveSubscriptionCard(
+                subscription: activeSubscription,
+                now: now,
+              )
+            else if (shouldShowUpgradeBanner)
+              _SubscriptionBanner(
+                tripsUsedCount: driver.tripsUsedThisMonth,
+                freeTripsRemaining: driver.freeTripsRemaining,
+                selectedPlan: _selectedPlan,
+                isLoading: _isLaunchingSubscription,
+                onPlanSelected: (plan) {
+                  setState(() => _selectedPlan = plan);
+                },
+                onPayTap: _paySubscription,
+              )
+            else
+              _DriverSubscriptionSummaryCard(
+                freeTripsRemaining: driver.freeTripsRemaining,
+                tripsUsedThisMonth: driver.tripsUsedThisMonth,
+                showUpgradeHint: false,
+              ),
           ],
-          const SizedBox(height: 18),
-          SectionTitle(
-            title: 'My Vehicle',
-            actionLabel: 'Edit',
-            onAction: _openVehicleEditor,
-          ),
-          const SizedBox(height: 10),
-          _VehicleInfoCard(
-            vehicle: driver.vehicle,
-            onEditTap: _openVehicleEditor,
-          ),
-          const SizedBox(height: 18),
-          _DriverAvailabilityCard(
-            vehicleEmoji: driver.vehicle.emoji,
-            vehicleType: driver.vehicle.type,
-            isOnline: driver.isOnline,
-            onChanged: (value) => _toggleOnlineStatus(value),
-          ),
-          const SizedBox(height: 18),
-          const SectionTitle(title: 'My Scheduled Trips'),
-          const SizedBox(height: 10),
-          _ScheduledTripsCard(trips: driver.scheduledTrips),
-          const SizedBox(height: 12),
-          CoolButton(
-            label: 'Add Return Trip',
-            variant: CoolButtonVariant.secondary,
-            onTap: () => context.push('/mobility/schedule?role=driver'),
-          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DriverViewSwitcher extends StatelessWidget {
+  const _DriverViewSwitcher({
+    required this.activeView,
+    required this.onChanged,
+  });
+
+  final _DriverProfileView activeView;
+  final ValueChanged<_DriverProfileView> onChanged;
+
+  static const _items = [
+    (_DriverProfileView.overview, 'Overview'),
+    (_DriverProfileView.manage, 'Manage'),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: AppColors.surface2,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Row(
+        children: [
+          for (final item in _items)
+            Expanded(
+              child: GestureDetector(
+                onTap: () => onChanged(item.$1),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 180),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                    color: activeView == item.$1
+                        ? AppColors.accent
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    item.$2,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: activeView == item.$1
+                          ? Colors.black
+                          : AppColors.text2,
+                    ),
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );
@@ -450,6 +529,77 @@ class _DriverStatsCard extends StatelessWidget {
   }
 }
 
+class _DriverSubscriptionSummaryCard extends StatelessWidget {
+  const _DriverSubscriptionSummaryCard({
+    required this.freeTripsRemaining,
+    required this.tripsUsedThisMonth,
+    required this.showUpgradeHint,
+    this.onOpenManage,
+  });
+
+  final int freeTripsRemaining;
+  final int tripsUsedThisMonth;
+  final bool showUpgradeHint;
+  final VoidCallback? onOpenManage;
+
+  @override
+  Widget build(BuildContext context) {
+    return CoolCard(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 42,
+            height: 42,
+            decoration: BoxDecoration(
+              color: AppColors.surface2,
+              borderRadius: BorderRadius.circular(14),
+            ),
+            alignment: Alignment.center,
+            child: const Icon(
+              Icons.account_balance_wallet_outlined,
+              color: AppColors.text2,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Subscription',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.text,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  '$freeTripsRemaining credits left · $tripsUsedThisMonth posted this month.',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.text2,
+                    height: 1.4,
+                  ),
+                ),
+                if (showUpgradeHint && onOpenManage != null) ...[
+                  const SizedBox(height: 10),
+                  TextButton(
+                    onPressed: onOpenManage,
+                    child: const Text('Open subscription options'),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _StatBox extends StatelessWidget {
   const _StatBox({
     required this.label,
@@ -534,8 +684,7 @@ class _SubscriptionBanner extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            'You have posted $tripsUsedCount trips this month and '
-            'currently have $freeTripsRemaining mobility credits.',
+            '$tripsUsedCount trips posted · $freeTripsRemaining credits remaining.',
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w400,
@@ -616,7 +765,7 @@ class _PlanCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(plan.emoji, style: const TextStyle(fontSize: 24)),
+            Icon(IconMapper.from(plan.emoji), size: 24, color: AppColors.text2),
             const SizedBox(height: 8),
             Text(
               plan.displayName,
@@ -750,10 +899,9 @@ class _ActiveSubscriptionCard extends StatelessWidget {
 }
 
 class _VehicleInfoCard extends StatelessWidget {
-  const _VehicleInfoCard({required this.vehicle, required this.onEditTap});
+  const _VehicleInfoCard({required this.vehicle});
 
   final _VehicleData vehicle;
-  final VoidCallback onEditTap;
 
   @override
   Widget build(BuildContext context) {
@@ -762,7 +910,7 @@ class _VehicleInfoCard extends StatelessWidget {
         children: [
           _VehicleInfoTile(
             label: 'Vehicle Type',
-            value: '${vehicle.emoji} ${vehicle.type}',
+            value: vehicle.type,
           ),
           const Divider(color: AppColors.border, height: 1),
           _VehicleInfoTile(label: 'Description', value: vehicle.plateNumber),
@@ -773,15 +921,6 @@ class _VehicleInfoCard extends StatelessWidget {
             label: 'Availability',
             value: vehicle.status,
             valueColor: vehicle.statusColor,
-          ),
-          const SizedBox(height: 8),
-          SizedBox(
-            width: double.infinity,
-            child: CoolButton(
-              label: 'Edit Vehicle',
-              variant: CoolButtonVariant.secondary,
-              onTap: onEditTap,
-            ),
           ),
         ],
       ),
@@ -833,13 +972,11 @@ class _VehicleInfoTile extends StatelessWidget {
 
 class _DriverAvailabilityCard extends StatelessWidget {
   const _DriverAvailabilityCard({
-    required this.vehicleEmoji,
     required this.vehicleType,
     required this.isOnline,
     required this.onChanged,
   });
 
-  final String vehicleEmoji;
   final String vehicleType;
   final bool isOnline;
   final ValueChanged<bool> onChanged;
@@ -852,7 +989,16 @@ class _DriverAvailabilityCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(vehicleEmoji, style: const TextStyle(fontSize: 28)),
+              Container(
+                width: 42,
+                height: 42,
+                decoration: BoxDecoration(
+                  color: AppColors.surface2,
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                alignment: Alignment.center,
+                child: Icon(_tripVehicleIcon(vehicleType), size: 22, color: AppColors.accent),
+              ),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
@@ -906,8 +1052,8 @@ class _DriverAvailabilityCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     isOnline
-                        ? 'You are online and visible to nearby passengers.'
-                        : 'You are offline. Turn on driver mode to receive trips.',
+                        ? 'Online — visible nearby.'
+                        : 'Offline — toggle to go live.',
                     style: GoogleFonts.dmSans(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
@@ -1023,9 +1169,10 @@ class _ScheduledTripTile extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
             ),
             alignment: Alignment.center,
-            child: Text(
-              trip.vehicleEmoji,
-              style: const TextStyle(fontSize: 21),
+            child: Icon(
+              _tripVehicleIcon(trip.vehicleLabel),
+              size: 21,
+              color: AppColors.accent,
             ),
           ),
           const SizedBox(width: 12),
@@ -1375,7 +1522,6 @@ class _ScheduledTripData {
     required this.fromLocation,
     required this.toLocation,
     required this.departureTime,
-    required this.vehicleEmoji,
     required this.vehicleLabel,
     this.isReturnTrip = false,
     this.isRecurring = false,
@@ -1384,7 +1530,6 @@ class _ScheduledTripData {
   final String fromLocation;
   final String toLocation;
   final DateTime departureTime;
-  final String vehicleEmoji;
   final String vehicleLabel;
   final bool isReturnTrip;
   final bool isRecurring;
@@ -1394,7 +1539,6 @@ class _ScheduledTripData {
       fromLocation: trip.fromLocation,
       toLocation: trip.toLocation,
       departureTime: trip.departureTime,
-      vehicleEmoji: _tripVehicleEmoji(trip.vehicleType),
       vehicleLabel: trip.vehicleType,
       isReturnTrip: trip.isReturn || trip.isDriverReturnTrip,
       isRecurring: trip.isRecurring,
@@ -1439,19 +1583,13 @@ String _displayValue(String? value) {
   return trimmed.isEmpty ? '--' : trimmed;
 }
 
-String _tripVehicleEmoji(String vehicleType) {
+IconData _tripVehicleIcon(String vehicleType) {
   final normalized = vehicleType.trim().toLowerCase();
-  if (normalized.contains('moto')) {
-    return '🛺';
-  }
-  if (normalized.contains('cab')) {
-    return '🚗';
-  }
-  if (normalized.contains('truck')) {
-    return '🚛';
-  }
+  if (normalized.contains('moto')) return Icons.two_wheeler_rounded;
+  if (normalized.contains('cab')) return Icons.directions_car_rounded;
+  if (normalized.contains('truck')) return Icons.local_shipping_rounded;
   if (normalized.contains('liffan') || normalized.contains('van')) {
-    return '🚐';
+    return Icons.airport_shuttle_rounded;
   }
-  return '🚘';
+  return Icons.directions_car_filled_rounded;
 }

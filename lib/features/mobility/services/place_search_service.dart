@@ -4,6 +4,7 @@ import 'package:cool_app/core/config/env_config.dart';
 import 'package:cool_app/core/models/geo_point.dart';
 import 'package:cool_app/core/providers/engagement_providers.dart';
 import 'package:cool_app/core/services/crashlytics_service.dart';
+import 'package:cool_app/core/providers/supabase_client_provider.dart';
 import 'package:cool_app/core/services/performance_dio_interceptor.dart';
 import 'package:cool_app/core/services/performance_service.dart';
 import 'package:cool_app/features/mobility/models/mobility_route_preview.dart';
@@ -27,7 +28,7 @@ final placeSearchServiceProvider = Provider<PlaceSearchService>((ref) {
   dio.interceptors.add(PerformanceDioInterceptor());
 
   return MapsGatewayPlaceSearchService(
-    client: Supabase.instance.client,
+    client: ref.read(supabaseClientProvider),
     fallback: NominatimPlaceSearchService(dio: dio),
     performance: ref.read(performanceServiceProvider),
     crashlytics: ref.read(crashlyticsServiceProvider),

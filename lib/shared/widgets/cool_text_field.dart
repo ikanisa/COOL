@@ -5,7 +5,7 @@ import '../../core/theme/app_colors.dart';
 
 /// A styled text field matching the Cool design system.
 ///
-/// Includes an optional label above the field, a prefix emoji rendered
+/// Includes an optional label above the field, a prefix icon or emoji
 /// inside the field, and validation support.
 class CoolTextField extends StatelessWidget {
   const CoolTextField({
@@ -14,6 +14,7 @@ class CoolTextField extends StatelessWidget {
     this.controller,
     this.keyboardType,
     this.prefixEmoji,
+    this.prefixIcon,
     this.obscureText = false,
     this.validator,
     this.maxLines = 1,
@@ -28,6 +29,7 @@ class CoolTextField extends StatelessWidget {
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final String? prefixEmoji;
+  final IconData? prefixIcon;
   final bool obscureText;
   final String? Function(String?)? validator;
   final int maxLines;
@@ -83,7 +85,12 @@ class CoolTextField extends StatelessWidget {
               horizontal: 18,
               vertical: 16,
             ),
-            prefixIcon: prefixEmoji != null
+            prefixIcon: prefixIcon != null
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 16, right: 8),
+                    child: Icon(prefixIcon, size: 18, color: AppColors.text2),
+                  )
+                : prefixEmoji != null
                 ? Padding(
                     padding: const EdgeInsets.only(left: 16, right: 8),
                     child: Text(
@@ -92,7 +99,7 @@ class CoolTextField extends StatelessWidget {
                     ),
                   )
                 : null,
-            prefixIconConstraints: prefixEmoji != null
+            prefixIconConstraints: (prefixIcon != null || prefixEmoji != null)
                 ? const BoxConstraints(minWidth: 0, minHeight: 0)
                 : null,
             border: OutlineInputBorder(

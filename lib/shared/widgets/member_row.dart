@@ -38,7 +38,14 @@ class MemberRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    final name = isAnonymous ? userId : (displayName ?? userId);
+    final roleLabel = isAdmin ? ' Admin.' : '';
+
+    return Semantics(
+      label: '$name.$roleLabel '
+          '${MemberRow._formatAmount(contributionAmount)} RWF contributed.',
+      excludeSemantics: true,
+      child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
@@ -123,6 +130,7 @@ class MemberRow extends StatelessWidget {
             ),
           ),
         ],
+      ),
       ),
     );
   }

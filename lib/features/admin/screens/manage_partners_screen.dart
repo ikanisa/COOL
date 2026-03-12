@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/config/country_catalog.dart';
+import '../../../core/providers/supported_countries_provider.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../../shared/widgets/cool_skeleton.dart';
+import '../../../shared/widgets/cool_async_view.dart';
+import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_providers.dart';
 
 /// Admin screen for managing partners.
@@ -13,6 +16,9 @@ class ManagePartnersScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final partnersAsync = ref.watch(adminPartnersProvider);
+    final countries =
+        ref.watch(supportedCountriesProvider).valueOrNull ??
+        CoolCountryCatalog.all;
 
     return Scaffold(
       backgroundColor: AppColors.bg,
@@ -31,42 +37,28 @@ class ManagePartnersScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.accent,
-        onPressed: () => _showEditSheet(context, ref, null),
+        onPressed: () => _showEditSheet(context, ref, null, countries),
         child: const Icon(Icons.add_rounded, color: Colors.black),
       ),
-      body: partnersAsync.when(
-        loading: () => const Padding(
-          padding: EdgeInsets.all(16),
-          child: CoolSkeletonList(),
-        ),
-        error: (e, _) => Center(
-          child: Text(
-            'Error: $e',
-            style: const TextStyle(color: AppColors.text3),
-          ),
-        ),
-        data: (partners) {
-          if (partners.isEmpty) {
-            return const Center(
-              child: Text(
-                'No partners yet',
-                style: TextStyle(color: AppColors.text3),
-              ),
-            );
-          }
-          return ListView.separated(
-            padding: const EdgeInsets.all(16),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: CoolAsyncView<List<Map<String, dynamic>>>(
+          value: partnersAsync,
+          onRetry: () => ref.invalidate(adminPartnersProvider),
+          emptyCheck: (p) => p.isEmpty,
+          emptyMessage: 'No partners yet',
+          builder: (partners) => ListView.separated(
             itemCount: partners.length,
             separatorBuilder: (_, _) => const SizedBox(height: 8),
             itemBuilder: (context, index) {
               final p = partners[index];
               return _PartnerTile(
                 partner: p,
-                onEdit: () => _showEditSheet(context, ref, p),
+                onEdit: () => _showEditSheet(context, ref, p, countries),
               );
             },
-          );
-        },
+          ),
+        ),
       ),
     );
   }
@@ -75,12 +67,14 @@ class ManagePartnersScreen extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     Map<String, dynamic>? partner,
+    List<CoolCountry> countries,
   ) {
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (_) => _EditPartnerSheet(partner: partner, ref: ref),
+      builder: (_) =>
+          _EditPartnerSheet(partner: partner, ref: ref, countries: countries),
     );
   }
 }
@@ -183,9 +177,14 @@ class _AdminMarkerChip extends StatelessWidget {
 }
 
 class _EditPartnerSheet extends StatefulWidget {
-  const _EditPartnerSheet({this.partner, required this.ref});
+  const _EditPartnerSheet({
+    this.partner,
+    required this.ref,
+    required this.countries,
+  });
   final Map<String, dynamic>? partner;
   final WidgetRef ref;
+  final List<CoolCountry> countries;
 
   @override
   State<_EditPartnerSheet> createState() => _EditPartnerSheetState();
@@ -197,9 +196,9 @@ class _EditPartnerSheetState extends State<_EditPartnerSheet> {
   late final TextEditingController _emojiCtl;
   late final TextEditingController _subtitleCtl;
   late final TextEditingController _categoryCtl;
-  late final TextEditingController _countryCtl;
   late final TextEditingController _whatsappCtl;
   late bool _isActive;
+  late String _selectedCountryCode;
   bool _saving = false;
 
   @override
@@ -215,11 +214,16 @@ class _EditPartnerSheetState extends State<_EditPartnerSheet> {
     _categoryCtl = TextEditingController(
       text: p?['category']?.toString() ?? '',
     );
-    _countryCtl = TextEditingController(text: p?['country']?.toString() ?? '');
     _whatsappCtl = TextEditingController(
       text: p?['whatsapp_number']?.toString() ?? '',
     );
     _isActive = p?['is_active'] == true || p == null;
+    _selectedCountryCode =
+        CoolCountryCatalog.byIsoCode(
+          p?['country']?.toString(),
+          source: widget.countries,
+        )?.isoCode ??
+        widget.countries.first.isoCode;
   }
 
   @override
@@ -229,7 +233,6 @@ class _EditPartnerSheetState extends State<_EditPartnerSheet> {
     _emojiCtl.dispose();
     _subtitleCtl.dispose();
     _categoryCtl.dispose();
-    _countryCtl.dispose();
     _whatsappCtl.dispose();
     super.dispose();
   }
@@ -242,7 +245,7 @@ class _EditPartnerSheetState extends State<_EditPartnerSheet> {
       'emoji': _emojiCtl.text.trim(),
       'subtitle': _subtitleCtl.text.trim(),
       'category': _categoryCtl.text.trim(),
-      'country': _countryCtl.text.trim(),
+      'country': _selectedCountryCode,
       'whatsapp_number': _whatsappCtl.text.trim(),
       'is_active': _isActive,
     };
@@ -253,9 +256,7 @@ class _EditPartnerSheetState extends State<_EditPartnerSheet> {
       if (mounted) Navigator.of(context).pop();
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error: $e')));
+        CoolToast.error(context, 'Error: $e');
       }
     } finally {
       if (mounted) setState(() => _saving = false);
@@ -305,7 +306,7 @@ class _EditPartnerSheetState extends State<_EditPartnerSheet> {
                 _field('Emoji', _emojiCtl),
                 _field('Subtitle', _subtitleCtl),
                 _field('Category', _categoryCtl),
-                _field('Country (ISO)', _countryCtl),
+                _countryField(),
                 _field('WhatsApp #', _whatsappCtl),
                 SwitchListTile(
                   title: Text(
@@ -368,6 +369,42 @@ class _EditPartnerSheetState extends State<_EditPartnerSheet> {
             borderSide: BorderSide.none,
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _countryField() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: DropdownButtonFormField<String>(
+        initialValue: _selectedCountryCode,
+        dropdownColor: AppColors.surface2,
+        decoration: InputDecoration(
+          labelText: 'Country',
+          labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
+          filled: true,
+          fillColor: AppColors.surface2,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+        ),
+        items: widget.countries
+            .map(
+              (country) => DropdownMenuItem<String>(
+                value: country.isoCode,
+                child: Text(country.pickerLabel),
+              ),
+            )
+            .toList(growable: false),
+        onChanged: _saving
+            ? null
+            : (value) {
+                if (value == null) {
+                  return;
+                }
+                setState(() => _selectedCountryCode = value);
+              },
       ),
     );
   }

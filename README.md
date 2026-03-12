@@ -13,17 +13,24 @@ Cool combines multiple modules in a single app:
 - Mobility matching, nearby drivers, and scheduled trips
 - Partner experiences such as clubs, tickets, and fan programs
 - Credit score and profile visibility
+- Admin and partner-operations consoles
 
 ## Non-Negotiable Payment Rules
 
 Cool does not use payment gateway APIs.
 
+- Critical repository rule: never describe Cool payments or auth as MoMo
+  webhook or MoMo API flows. No MoMo webhook exists in this app, no MoMo API
+  integration exists in this app, and none should be introduced. Payment
+  initiation is payer-owned USSD only. Payment verification is Android SMS
+  access limited to approved M-Money sender IDs, then Supabase reconciliation.
+  Auth is WhatsApp OTP, not MoMo.
 - Uses Mobile Money USSD via `url_launcher`
 - Uses on-device Android SMS verification for M-Money financial transaction confirmation
 - Uploads matching M-Money confirmation SMS to Supabase for parsing and reconciliation
 - Supports WhatsApp OTP for auth
 - Does not use Stripe, Flutterwave, DPO, or card gateways
-- Does not depend on server-side payment webhooks
+- Does not use server-side payment webhooks or server-side MoMo callbacks
 
 Payment initiation happens on-device. The app opens the dialer with a generated
 USSD string, then listens for confirmation SMS on Android and reconciles
@@ -113,7 +120,7 @@ Current recipient sources in this repo:
 
 ### Maps and Device Features
 
-- `flutter_map` with OpenStreetMap tiles
+- `google_maps_flutter`
 - `geolocator`
 - `permission_handler`
 - `flutter_nfc_kit`
@@ -152,6 +159,7 @@ supabase/
   migrations/
 
 assets/
+docs/
 test/
 COOL.html
 ```
@@ -160,9 +168,12 @@ COOL.html
 
 - App bootstrap: [lib/main.dart](/Volumes/PRO-G40/COOL/lib/main.dart)
 - Root app widget: [lib/app.dart](/Volumes/PRO-G40/COOL/lib/app.dart)
+- Lifecycle binding: [lib/core/providers/app_lifecycle_providers.dart](/Volumes/PRO-G40/COOL/lib/core/providers/app_lifecycle_providers.dart)
 - Router: [lib/core/router/app_router.dart](/Volumes/PRO-G40/COOL/lib/core/router/app_router.dart)
 - Theme colors: [lib/core/theme/app_colors.dart](/Volumes/PRO-G40/COOL/lib/core/theme/app_colors.dart)
 - Theme config: [lib/core/theme/app_theme.dart](/Volumes/PRO-G40/COOL/lib/core/theme/app_theme.dart)
+- Route inventory: [docs/ROUTE_INVENTORY.md](/Volumes/PRO-G40/COOL/docs/ROUTE_INVENTORY.md)
+- Screen budgets: [docs/SCREEN_BUDGETS.md](/Volumes/PRO-G40/COOL/docs/SCREEN_BUDGETS.md)
 
 ## Deep Links
 
@@ -230,53 +241,29 @@ Important files:
 Important files:
 
 - [momo_service.dart](/Volumes/PRO-G40/COOL/lib/core/services/momo_service.dart)
-- [momo_sms_listener.dart](/Volumes/PRO-G40/COOL/lib/core/services/momo_sms_listener.dart)
-- [momo_sms_history_screen.dart](/Volumes/PRO-G40/COOL/lib/features/momo/screens/momo_sms_history_screen.dart)
+- [momo_screen.dart](/Volumes/PRO-G40/COOL/lib/features/momo/screens/momo_screen.dart)
+- [momo_statements_screen.dart](/Volumes/PRO-G40/COOL/lib/features/momo/screens/momo_statements_screen.dart)
+- [momo_statement_repository.dart](/Volumes/PRO-G40/COOL/lib/features/momo/repositories/momo_statement_repository.dart)
 
 ### Partners and Credit
 
 - Partner dashboards
 - Fan/ticket/shop surfaces
 - Credit score visualization
+- Partner discovery and service detail routes
+
+### Admin
+
+- Internal CRUD and configuration surfaces
+- Country, partner, service, and quick-action management
+- Rayon Sports partner operations
 
 ## Navigation Map
 
-Configured in [app_router.dart](/Volumes/PRO-G40/COOL/lib/core/router/app_router.dart).
+The full route registry, screen ownership, and guard notes live in
+[docs/ROUTE_INVENTORY.md](/Volumes/PRO-G40/COOL/docs/ROUTE_INVENTORY.md).
 
-Auth:
-
-- `/`
-- `/onboarding`
-- `/language`
-- `/otp`
-- `/otp-verify`
-
-Core:
-
-- `/home`
-- `/register` — voluntary profile setup (not forced by router)
-- `/groups`
-- `/groups/create`
-- `/groups/:id`
-- `/invite/:code`
-- `/basket`
-- `/momo`
-- `/profile`
-- `/profile/momo-sms`
-
-Mobility:
-
-- `/mobility`
-- `/mobility/schedule`
-- `/mobility/trips`
-- `/mobility/driver`
-
-Partners and Credit:
-
-- `/partners`
-- `/partners/:id/fans`
-- `/partners/:id/tickets`
-- `/credit`
+Use that document instead of duplicating route lists in feature PRs.
 
 ## Design System
 
@@ -367,9 +354,10 @@ Important secrets:
 
 ### Prerequisites
 
-- Flutter SDK compatible with Dart `^3.10.8`
+- Flutter SDK pinned in [.fvmrc](/Volumes/PRO-G40/COOL/.fvmrc)
 - Android Studio and Android SDK
 - Xcode and CocoaPods for iOS builds
+- Deno CLI pinned in [.dvmrc](/Volumes/PRO-G40/COOL/.dvmrc)
 - Supabase CLI
 - PostgreSQL client tools if you want direct SQL access
 
@@ -436,6 +424,10 @@ Implemented under [supabase/functions](/Volumes/PRO-G40/COOL/supabase/functions)
 | `verify-otp` | Verify OTP and return session |
 | `parse-momo-sms` | Parse uploaded M-Money confirmation SMS into normalized transaction data |
 | `expire-trips` | Expire mobility trips automatically |
+| `maps-gateway` | Proxy map and geocoding access with auth and usage logging |
+| `rs-scan-ticket` | Verify Rayon Sports ticket QR scans with auth and partner-admin checks |
+| `wallet-issuer` | Issue Google Wallet / pass artifacts for supported journeys |
+| `delete-account` | Account deletion backend flow |
 
 ## SMS and Permissions
 
@@ -470,15 +462,38 @@ dart analyze
 flutter analyze
 ```
 
+Run the full release-readiness gate:
+
+```bash
+bash scripts/release_readiness.sh
+```
+
+GitHub Actions runs the same gate on every push and pull request via
+[.github/workflows/ci.yml](/Volumes/PRO-G40/COOL/.github/workflows/ci.yml), so
+keep `scripts/release_readiness.sh` as the single source of truth for CI checks.
+By default that gate now includes Android staging and production flavor builds.
+Set `SKIP_ANDROID_FLAVOR_BUILDS=1` only when you intentionally need a faster
+local-only run. On macOS it also verifies that the iOS `staging` and
+`production` schemes resolve to the expected bundle IDs and display names.
+
 Current tests include:
 
 - auth routing regression tests (25 tests)
+- host-side integration smoke tests for boot, auth, deep links, MoMo, tickets, and mobility
+- device-backed critical journey tests under `integration_test/`
 - group model tests
 - user profile tests
 - auth provider tests
 - groups notifier/provider tests
 
 Files live under [test](/Volumes/PRO-G40/COOL/test).
+
+Governance references:
+
+- Release gates: [docs/qa_release_readiness.md](/Volumes/PRO-G40/COOL/docs/qa_release_readiness.md)
+- Release process: [docs/RELEASE_PROCESS.md](/Volumes/PRO-G40/COOL/docs/RELEASE_PROCESS.md)
+- Route inventory: [docs/ROUTE_INVENTORY.md](/Volumes/PRO-G40/COOL/docs/ROUTE_INVENTORY.md)
+- Screen budgets: [docs/SCREEN_BUDGETS.md](/Volumes/PRO-G40/COOL/docs/SCREEN_BUDGETS.md)
 
 ## Build Commands
 
@@ -488,11 +503,39 @@ Android debug APK:
 flutter build apk --debug
 ```
 
+Android staging / production scripts:
+
+```bash
+bash scripts/build_staging.sh
+bash scripts/build_production.sh
+bash scripts/verify_android_flavors.sh
+bash scripts/verify_ios_flavors.sh
+```
+
 iOS simulator build:
 
 ```bash
 flutter build ios --simulator --no-codesign
 ```
+
+iOS staging / production scripts:
+
+```bash
+bash scripts/build_ios_staging.sh
+bash scripts/build_ios_production.sh
+```
+
+Run the device-backed critical journey suite on a mobile device or emulator:
+
+```bash
+bash scripts/run_device_integration.sh
+DEVICE=emulator-5554 FLAVOR=production bash scripts/run_device_integration.sh
+```
+
+Android flavor-specific Firebase configs live at
+[android/app/src/staging/google-services.json](/Volumes/PRO-G40/COOL/android/app/src/staging/google-services.json)
+and
+[android/app/src/production/google-services.json](/Volumes/PRO-G40/COOL/android/app/src/production/google-services.json).
 
 ## Offline and Caching Notes
 
@@ -520,4 +563,4 @@ The file [COOL.html](/Volumes/PRO-G40/COOL/COOL.html) contains the original inte
 - Remove client-side fallback secrets from `main.dart` and require `--dart-define` in production
 - Complete ARB coverage for all user-facing strings
 - Expand app-wide multi-currency formatting beyond current core flows
-- Add more integration tests for auth, MoMo, and mobility flows
+- Expand the device-backed integration suite beyond the current critical journeys

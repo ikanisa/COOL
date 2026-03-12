@@ -15,7 +15,7 @@ class ShareCard extends StatelessWidget {
     required this.shareUrl,
     this.subtitle,
     this.shareText,
-    this.emoji = '🔗',
+    this.icon = Icons.link_rounded,
     this.sheetTitle,
     this.sheetSubtitle,
     this.analyticsTargetType,
@@ -35,8 +35,8 @@ class ShareCard extends StatelessWidget {
   /// Pre-formatted share text (URL is appended automatically)
   final String? shareText;
 
-  /// Leading emoji
-  final String emoji;
+  /// Leading icon
+  final IconData icon;
 
   /// Optional custom QR sheet title
   final String? sheetTitle;
@@ -106,7 +106,7 @@ class ShareCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(emoji, style: const TextStyle(fontSize: 20)),
+              Icon(icon, size: 20, color: AppColors.text2),
               const SizedBox(width: 10),
               Expanded(
                 child: Column(
@@ -190,8 +190,12 @@ class _ShareButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
+    return Semantics(
+      button: true,
+      label: label,
+      excludeSemantics: true,
+      child: GestureDetector(
+        onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
@@ -214,6 +218,7 @@ class _ShareButton extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

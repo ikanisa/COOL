@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -37,6 +35,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   late String _selectedCountryCode;
   String? _vehicleType;
   String? _errorText;
+  bool _showOptionalDetails = false;
 
   @override
   void initState() {
@@ -64,16 +63,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     super.dispose();
   }
 
-  String get _initials {
-    final name = _nameController.text.trim();
-    if (name.isEmpty) return '??';
-    final parts = name.split(' ');
-    if (parts.length >= 2) {
-      return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
-    }
-    return parts[0].substring(0, min(2, parts[0].length)).toUpperCase();
-  }
-
   Future<void> _createAccount() async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
 
@@ -81,7 +70,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     final languageCode = Localizations.localeOf(context).languageCode;
     final selectedCountry = await ref
         .read(supportedCountriesRepositoryProvider)
-        .resolveCountry(countryCode: _selectedCountryCode, phone: widget.phone);
+        .resolveCountry(
+          countryCode: _selectedCountryCode,
+          phone: _momoController.text.trim(),
+        );
 
     final profile = await ref
         .read(authProvider.notifier)
@@ -132,7 +124,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         title: Text(
-          'Setup Profile',
+          'Finish profile',
           style: GoogleFonts.dmSans(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -156,10 +148,16 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   _VerifiedPhoneCard(phoneNumber: widget.phone),
                   const SizedBox(height: 16),
                 ],
-
-                // ── Avatar preview ─────────────────────────────────────
-                _AvatarPreview(initials: _initials),
-                const SizedBox(height: 28),
+                Text(
+                  'Finish setup to start using Cool.',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.text2,
+                    height: 1.45,
+                  ),
+                ),
+                const SizedBox(height: 24),
 
                 // ── Full Name ──────────────────────────────────────────
                 CoolTextField(
@@ -167,7 +165,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   hint: 'Jean Baptiste',
                   controller: _nameController,
                   textInputAction: TextInputAction.next,
-                  onChanged: (_) => setState(() {}), // Update initials
                   validator: (v) {
                     if (v == null || v.trim().isEmpty) {
                       return 'Name is required';
@@ -239,54 +236,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ),
                 ),
                 const SizedBox(height: 12),
-                Container(
-                  padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(
-                    color: AppColors.surface2,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColors.border),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '${selectedCountry.displayName} · ${selectedCountry.currencyCode}',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.text,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Number route: ${selectedCountry.momoNumberUssdExample ?? selectedCountry.momoUssdTemplate.replaceAll('{recipient}', '91234567').replaceAll('{amount}', '5000')}',
-                        style: GoogleFonts.dmMono(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.text2,
-                        ),
-                      ),
-                      if (selectedCountry.supportsMomoCode) ...[
-                        const SizedBox(height: 6),
-                        Text(
-                          'Code route: ${selectedCountry.momoCodeUssdExample ?? selectedCountry.momoCodeUssdTemplate!.replaceAll('{recipient}', '123456').replaceAll('{amount}', '5000')}',
-                          style: GoogleFonts.dmMono(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.text2,
-                          ),
-                        ),
-                      ],
-                      const SizedBox(height: 6),
-                      Text(
-                        selectedCountry.currencyName,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.text3,
-                        ),
-                      ),
-                    ],
+                Text(
+                  '${selectedCountry.displayName} · ${selectedCountry.currencyCode}',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.text3,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -297,7 +252,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   hint: selectedCountry.phoneExampleHint(),
                   controller: _momoController,
                   keyboardType: TextInputType.phone,
-                  prefixEmoji: '📱',
+                  prefixIcon: Icons.phone_rounded,
                   textInputAction: TextInputAction.next,
                   validator: (v) {
                     return PhoneValidator.validateMomoNumberForCountry(
@@ -337,104 +292,115 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     );
                   },
                 ),
-                if (selectedCountry.supportsMomoCode) ...[
-                  const SizedBox(height: 16),
-                  CoolTextField(
-                    label: 'MoMo Code (optional)',
-                    hint: selectedCountry.momoCodeExample ?? '123456',
-                    controller: _momoCodeController,
-                    keyboardType: TextInputType.number,
-                    prefixEmoji: '🏷️',
-                    textInputAction: TextInputAction.next,
-                    validator: (v) {
-                      return PhoneValidator.validateMomoCode(
-                        v ?? '',
-                        country: selectedCountry,
-                      );
-                    },
+                const SizedBox(height: 16),
+                GestureDetector(
+                  onTap: () => setState(
+                    () => _showOptionalDetails = !_showOptionalDetails,
                   ),
-                ],
-                const SizedBox(height: 24),
-
-                // ── Driver info banner ─────────────────────────────────
-                Container(
-                  padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(
-                    color: AppColors.blue.withValues(alpha: 0.08),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColors.blue),
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('📌', style: TextStyle(fontSize: 18)),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          'Are you a driver? Add your vehicle type '
-                          'to activate mobility features.',
+                  behavior: HitTestBehavior.opaque,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Optional details',
                           style: GoogleFonts.dmSans(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.blue,
-                            height: 1.4,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.text2,
                           ),
                         ),
+                        const Spacer(),
+                        Icon(
+                          _showOptionalDetails
+                              ? Icons.keyboard_arrow_up_rounded
+                              : Icons.keyboard_arrow_down_rounded,
+                          color: AppColors.text3,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                AnimatedCrossFade(
+                  duration: const Duration(milliseconds: 180),
+                  crossFadeState: _showOptionalDetails
+                      ? CrossFadeState.showFirst
+                      : CrossFadeState.showSecond,
+                  firstChild: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (selectedCountry.supportsMomoCode) ...[
+                        const SizedBox(height: 8),
+                        CoolTextField(
+                          label: 'MoMo Code (optional)',
+                          hint: selectedCountry.momoCodeExample ?? '123456',
+                          controller: _momoCodeController,
+                          keyboardType: TextInputType.number,
+                          prefixIcon: Icons.tag_rounded,
+                          textInputAction: TextInputAction.next,
+                          validator: (v) {
+                            return PhoneValidator.validateMomoCode(
+                              v ?? '',
+                              country: selectedCountry,
+                            );
+                          },
+                        ),
+                      ],
+                      const SizedBox(height: 16),
+                      Text(
+                        'Vehicle Type (optional)',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.text2,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: _vehicleOptions.map((opt) {
+                          final isSelected = _vehicleType == opt.$2;
+                          return GestureDetector(
+                            onTap: () => setState(() {
+                              _vehicleType = _vehicleType == opt.$2
+                                  ? null
+                                  : opt.$2;
+                            }),
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 200),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 14,
+                                vertical: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                color: isSelected
+                                    ? AppColors.accentGlow
+                                    : AppColors.surface2,
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: isSelected
+                                      ? AppColors.accent
+                                      : AppColors.border,
+                                ),
+                              ),
+                              child: Text(
+                                opt.$2,
+                                style: GoogleFonts.dmSans(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  color: isSelected
+                                      ? AppColors.accent
+                                      : AppColors.text2,
+                                ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(height: 16),
-
-                // ── Vehicle type selector ──────────────────────────────
-                Text(
-                  'Vehicle Type (optional)',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: _vehicleOptions.map((opt) {
-                    final isSelected = _vehicleType == opt.$2;
-                    return GestureDetector(
-                      onTap: () => setState(() {
-                        _vehicleType = _vehicleType == opt.$2 ? null : opt.$2;
-                      }),
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 10,
-                        ),
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? AppColors.accentGlow
-                              : AppColors.surface2,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: isSelected
-                                ? AppColors.accent
-                                : AppColors.border,
-                          ),
-                        ),
-                        child: Text(
-                          '${opt.$1} ${opt.$2}',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                            color: isSelected
-                                ? AppColors.accent
-                                : AppColors.text2,
-                          ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
+                  secondChild: const SizedBox.shrink(),
                 ),
                 const SizedBox(height: 24),
 
@@ -466,11 +432,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   }
 
   static const _vehicleOptions = [
-    ('🛺', 'Moto Taxi'),
-    ('🚗', 'Cab'),
-    ('🚛', 'Truck'),
-    ('🚐', 'Liffan'),
-    ('🚙', 'Other'),
+    (Icons.two_wheeler_rounded, 'Moto Taxi'),
+    (Icons.directions_car_rounded, 'Cab'),
+    (Icons.local_shipping_rounded, 'Truck'),
+    (Icons.airport_shuttle_rounded, 'Liffan'),
+    (Icons.directions_car_filled_rounded, 'Other'),
   ];
 }
 
@@ -491,11 +457,11 @@ class _VerifiedPhoneCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('✅', style: TextStyle(fontSize: 18)),
+          const Icon(Icons.check_circle_rounded, size: 18, color: AppColors.accent),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
-              'Verified WhatsApp number: $phoneNumber',
+              'Verified: $phoneNumber',
               style: GoogleFonts.dmSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
@@ -505,36 +471,6 @@ class _VerifiedPhoneCard extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-// ── Avatar preview ──────────────────────────────────────────────────────
-
-class _AvatarPreview extends StatelessWidget {
-  const _AvatarPreview({required this.initials});
-  final String initials;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        width: 64,
-        height: 64,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          gradient: AppColors.accentGradient,
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          initials,
-          style: GoogleFonts.dmSans(
-            fontSize: 22,
-            fontWeight: FontWeight.w700,
-            color: Colors.black,
-          ),
-        ),
       ),
     );
   }

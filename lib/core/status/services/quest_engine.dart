@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../models/cool_status.dart';
 import '../../../features/partners/rayon/models/rs_models.dart';
 
@@ -5,7 +7,7 @@ import '../../../features/partners/rayon/models/rs_models.dart';
 class CoolQuest {
   const CoolQuest({
     required this.id,
-    required this.emoji,
+    required this.icon,
     required this.title,
     required this.subtitle,
     required this.route,
@@ -13,7 +15,7 @@ class CoolQuest {
   });
 
   final String id;
-  final String emoji;
+  final IconData icon;
   final String title;
   final String subtitle;
 
@@ -51,7 +53,7 @@ class QuestEngine {
       final nextTier = _nextTierLabel(status.tier);
       quests.add(CoolQuest(
         id: 'near_tier',
-        emoji: '📈',
+        icon: Icons.trending_up_rounded,
         title: 'Almost $nextTier!',
         subtitle: '${status.pointsToNextTier} points to unlock $nextTier tier',
         route: '/profile',
@@ -63,7 +65,7 @@ class QuestEngine {
     if (activeGroupGoalPercent >= 70 && activeGroupGoalPercent < 100) {
       quests.add(CoolQuest(
         id: 'group_push',
-        emoji: '🎯',
+        icon: Icons.gps_fixed_rounded,
         title: 'Your group is close!',
         subtitle: '$activeGroupGoalPercent% of goal — contribute to finish',
         route: '/groups',
@@ -75,7 +77,7 @@ class QuestEngine {
     if (matchTicketsThisMonth == 0) {
       quests.add(CoolQuest(
         id: 'match_attend',
-        emoji: '⚽',
+        icon: Icons.sports_soccer_rounded,
         title: 'Attend a match',
         subtitle: 'Earn 10 pts for match attendance',
         route: '/partners/rayon-sports/tickets',
@@ -87,7 +89,7 @@ class QuestEngine {
     if (tripStreakCount > 0 && tripStreakCount % 5 == 4) {
       quests.add(CoolQuest(
         id: 'trip_streak',
-        emoji: '🚗',
+        icon: Icons.directions_car_rounded,
         title: 'One more trip!',
         subtitle: '${tripStreakCount + 1} trips for a streak bonus',
         route: '/mobility',
@@ -99,7 +101,7 @@ class QuestEngine {
     if (!hasPostedTrip) {
       quests.add(CoolQuest(
         id: 'post_trip',
-        emoji: '📍',
+        icon: Icons.pin_drop_rounded,
         title: 'Post your route',
         subtitle: 'Help others find a ride & earn 10 pts',
         route: '/mobility/schedule',
@@ -111,7 +113,7 @@ class QuestEngine {
     if (pendingMomoCount > 0) {
       quests.add(CoolQuest(
         id: 'pending_momo',
-        emoji: '📱',
+        icon: Icons.phone_android_rounded,
         title: 'Confirm transaction',
         subtitle: '$pendingMomoCount pending MoMo confirmation${pendingMomoCount > 1 ? "s" : ""}',
         route: '/momo',
@@ -123,7 +125,7 @@ class QuestEngine {
     if (groupCount == 0) {
       quests.add(CoolQuest(
         id: 'join_group',
-        emoji: '👥',
+        icon: Icons.group_rounded,
         title: 'Join a savings group',
         subtitle: 'Earn 10 pts per contribution',
         route: '/groups',
@@ -135,7 +137,7 @@ class QuestEngine {
     if (membership == null) {
       quests.add(CoolQuest(
         id: 'join_club',
-        emoji: '🏟️',
+        icon: Icons.stadium_rounded,
         title: 'Become a Rayon fan',
         subtitle: 'Join the club and earn 10 pts',
         route: '/partners/rayon-sports',
@@ -147,7 +149,7 @@ class QuestEngine {
     if (status.currentStreak > 0 && status.streakGraceRemaining == 0) {
       quests.add(CoolQuest(
         id: 'streak_risk',
-        emoji: '🔥',
+        icon: Icons.local_fire_department_rounded,
         title: 'Streak at risk!',
         subtitle: 'Do an action today to keep your ${status.currentStreak}-day streak',
         route: '/home',

@@ -9,6 +9,7 @@ import '../../../../core/status/cool_status_awarder.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../shared/widgets/cool_button.dart';
+import '../../../../shared/widgets/cool_toast.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_text_field.dart';
 import '../../rayon/models/rs_models.dart';
@@ -54,7 +55,6 @@ class _ShopCheckoutScreenState extends ConsumerState<ShopCheckoutScreen>
   @override
   Widget build(BuildContext context) {
     final shopCatalog = ref.watch(rayonShopCatalogProvider);
-    final notifier = ref.read(rayonSportsProvider.notifier);
     final ordersAsync = _openedOrderId == null
         ? const AsyncData<List<RsShopOrder>>(<RsShopOrder>[])
         : ref.watch(rayonShopOrdersProvider);
@@ -253,6 +253,7 @@ class _ShopCheckoutScreenState extends ConsumerState<ShopCheckoutScreen>
                     CoolButton(
                       label: 'Pay ${_fmtRwf(total)} via MTN MoMo',
                       onTap: () async {
+                        final notifier = ref.read(rayonSportsProvider.notifier);
                         try {
                           final referralInviteId = _referralInviteId;
                           final result = await notifier.checkoutShop(
@@ -273,6 +274,9 @@ class _ShopCheckoutScreenState extends ConsumerState<ShopCheckoutScreen>
                             _openedOrderTotal = result.total;
                             _openedMessage = result.message;
                           });
+                          ref
+                              .read(rayonCartControllerProvider.notifier)
+                              .clearCart();
                           if (referralInviteId != null &&
                               referralInviteId.isNotEmpty) {
                             ref
@@ -281,16 +285,12 @@ class _ShopCheckoutScreenState extends ConsumerState<ShopCheckoutScreen>
                                 )
                                 .clearIfMatches(referralInviteId);
                           }
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(result.message)),
-                          );
+                          CoolToast.info(context, result.message);
                         } catch (error) {
                           if (!context.mounted) {
                             return;
                           }
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(error.toString())),
-                          );
+                          CoolToast.error(context, error.toString());
                         }
                       },
                       icon: Icons.phone_in_talk_outlined,
@@ -302,8 +302,13 @@ class _ShopCheckoutScreenState extends ConsumerState<ShopCheckoutScreen>
           );
         },
         loading: RayonLoadingView.new,
-        error: (error, _) =>
-            RayonErrorView(message: error.toString(), onRetry: notifier.load),
+        error: (error, _) => RayonErrorView(
+          message: error.toString(),
+          onRetry: () {
+            ref.invalidate(rayonShopProductsProvider);
+            ref.invalidate(rayonUserMembershipProvider);
+          },
+        ),
       ),
     );
   }

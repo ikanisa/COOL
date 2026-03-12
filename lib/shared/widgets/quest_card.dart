@@ -29,7 +29,7 @@ class QuestCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(quest.emoji, style: const TextStyle(fontSize: 24)),
+            Icon(quest.icon, size: 24, color: AppColors.text2),
             const SizedBox(height: 8),
             Text(
               quest.title,

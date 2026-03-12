@@ -23,19 +23,19 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
   String _category = 'All';
 
   static const _categories = [
-    ('All', '🛍️'),
-    ('Kits', '🎽'),
-    ('Caps', '🧢'),
-    ('Scarves', '🧣'),
-    ('Footwear', '👟'),
-    ('Bundles', '📦'),
+    ('All', Icons.shopping_bag_rounded),
+    ('Kits', Icons.checkroom_rounded),
+    ('Caps', Icons.dry_cleaning_rounded),
+    ('Scarves', Icons.gesture_rounded),
+    ('Footwear', Icons.directions_walk_rounded),
+    ('Bundles', Icons.inventory_2_rounded),
   ];
 
   @override
   Widget build(BuildContext context) {
     final shopCatalog = ref.watch(rayonShopCatalogProvider);
     final cartItemCount = ref.watch(rayonCartCountProvider);
-    final notifier = ref.read(rayonSportsProvider.notifier);
+    final cartController = ref.read(rayonCartControllerProvider.notifier);
 
     return RayonScreenScaffold(
       title: 'Club Shop',
@@ -141,9 +141,10 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
                                     top: -10,
                                     child: Opacity(
                                       opacity: 0.15,
-                                      child: Text(
-                                        '⚽',
-                                        style: const TextStyle(fontSize: 80),
+                                      child: Icon(
+                                        Icons.sports_soccer_rounded,
+                                        size: 80,
+                                        color: AppColors.rsWhite,
                                       ),
                                     ),
                                   ),
@@ -153,9 +154,10 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
                                     children: [
                                       Row(
                                         children: [
-                                          const Text(
-                                            '🛍️',
-                                            style: TextStyle(fontSize: 22),
+                                          const Icon(
+                                            Icons.shopping_bag_rounded,
+                                            size: 22,
+                                            color: AppColors.text,
                                           ),
                                           const SizedBox(width: 10),
                                           Text(
@@ -170,7 +172,7 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
                                       ),
                                       const SizedBox(height: 6),
                                       Text(
-                                        'Build your matchday fit, then pay Rayon Sports through MTN MoMo code $rayonSportsMomoCode at checkout.',
+                                        'Pay via MTN MoMo code $rayonSportsMomoCode at checkout.',
                                         style: GoogleFonts.barlow(
                                           fontSize: 13,
                                           fontWeight: FontWeight.w500,
@@ -201,7 +203,7 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
                                                 ),
                                               ),
                                               child: Text(
-                                                '⭐ GOLD −10%',
+                                                'GOLD −10%',
                                                 style:
                                                     GoogleFonts.barlowCondensed(
                                                       fontSize: 13,
@@ -254,7 +256,7 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
                                 separatorBuilder: (_, _) =>
                                     const SizedBox(width: 8),
                                 itemBuilder: (context, index) {
-                                  final (cat, emoji) = _categories[index];
+                                  final (cat, icon) = _categories[index];
                                   final selected = cat == _category;
                                   return GestureDetector(
                                     onTap: () =>
@@ -279,7 +281,7 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
                                         ),
                                       ),
                                       child: Text(
-                                        cat == 'All' ? 'All' : '$emoji $cat',
+                                        cat,
                                         style: GoogleFonts.barlow(
                                           fontSize: 13,
                                           fontWeight: FontWeight.w700,
@@ -308,13 +310,16 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
                             final quantity = shop.quantityFor(product.id);
                             return RsShopItem(
                               product: product,
-                              onAddToCart: () => notifier.addToCart(product.id),
+                              onAddToCart: () =>
+                                  cartController.addToCart(product.id),
                               hasMemberDiscount: hasMemberDiscount,
                               discountPct: hasMemberDiscount ? 10 : 0,
                               isNew: index == 0,
                               quantity: quantity,
                               onRemoveFromCart: quantity > 0
-                                  ? () => notifier.removeFromCart(product.id)
+                                  ? () => cartController.removeFromCart(
+                                      product.id,
+                                    )
                                   : null,
                             );
                           }, childCount: filtered.length),
@@ -362,7 +367,7 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
                           child: Row(
                             children: [
                               Text(
-                                '🛒 ${shop.cartItemCount} Items',
+                                '${shop.cartItemCount} Items',
                                 style: GoogleFonts.barlow(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w700,
@@ -398,8 +403,13 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
           );
         },
         loading: RayonLoadingView.new,
-        error: (error, _) =>
-            RayonErrorView(message: error.toString(), onRetry: notifier.load),
+        error: (error, _) => RayonErrorView(
+          message: error.toString(),
+          onRetry: () {
+            ref.invalidate(rayonShopProductsProvider);
+            ref.invalidate(rayonUserMembershipProvider);
+          },
+        ),
       ),
     );
   }

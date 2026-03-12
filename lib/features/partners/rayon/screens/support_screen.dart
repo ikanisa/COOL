@@ -26,7 +26,6 @@ class SupportScreen extends StatelessWidget {
         final initiativesAsync = ref.watch(rayonInitiativesProvider);
         final summaryAsync = ref.watch(rayonInitiativesSummaryProvider);
         final membershipAsync = ref.watch(rayonUserMembershipProvider);
-        final notifier = ref.read(rayonSportsProvider.notifier);
 
         return Scaffold(
           backgroundColor: AppColors.bg,
@@ -83,11 +82,12 @@ class SupportScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         sliver: SliverToBoxAdapter(
                           child: _StateCard(
-                            emoji: '⚠️',
+                            icon: Icons.warning_amber_rounded,
                             title: 'Unable to load initiatives',
                             subtitle: 'Pull to retry or check your connection.',
                             actionLabel: 'Retry',
-                            onTap: notifier.load,
+                            onTap: () =>
+                                ref.invalidate(rayonInitiativesProvider),
                           ),
                         ),
                       ),
@@ -163,12 +163,10 @@ class _SupportIntroCard extends StatelessWidget {
             right: 8,
             top: -8,
             child: IgnorePointer(
-              child: Text(
-                '⚽',
-                style: TextStyle(
-                  fontSize: 120,
-                  color: AppColors.rsWhite.withValues(alpha: 0.12),
-                ),
+              child: Icon(
+                Icons.sports_soccer_rounded,
+                size: 120,
+                color: AppColors.rsWhite.withValues(alpha: 0.12),
               ),
             ),
           ),
@@ -193,7 +191,7 @@ class _SupportIntroCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Back club projects, fan culture, and academy growth with direct MTN MoMo code $rayonSportsMomoCode support.',
+                          'Back club projects and academy growth with MoMo code $rayonSportsMomoCode.',
                           style: GoogleFonts.barlow(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
@@ -314,12 +312,10 @@ class _EmptyInitiativesState extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
-            Text(
-              '🏟️',
-              style: TextStyle(
-                fontSize: 52,
-                color: AppColors.rsWhite.withValues(alpha: 0.8),
-              ),
+            Icon(
+              Icons.stadium_rounded,
+              size: 52,
+              color: AppColors.rsWhite.withValues(alpha: 0.8),
             ),
             const SizedBox(height: 14),
             Text(
@@ -345,14 +341,14 @@ class _EmptyInitiativesState extends StatelessWidget {
 
 class _StateCard extends StatelessWidget {
   const _StateCard({
-    required this.emoji,
+    required this.icon,
     required this.title,
     required this.subtitle,
     required this.actionLabel,
     required this.onTap,
   });
 
-  final String emoji;
+  final IconData icon;
   final String title;
   final String subtitle;
   final String actionLabel;
@@ -366,7 +362,7 @@ class _StateCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Column(
           children: [
-            Text(emoji, style: const TextStyle(fontSize: 42)),
+            Icon(icon, size: 42, color: AppColors.text2),
             const SizedBox(height: 10),
             Text(
               title,

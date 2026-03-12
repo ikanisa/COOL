@@ -16,6 +16,16 @@
           "projectId": "gen-lang-client-0172279957",
           "appId": "1:1074154147498:android:8469cac3e0217113dc4ad3",
           "fileOutput": "android/app/google-services.json"
+        },
+        "staging": {
+          "projectId": "gen-lang-client-0172279957",
+          "appId": "1:1074154147498:android:6402a2d270edd059dc4ad3",
+          "fileOutput": "android/app/src/staging/google-services.json"
+        },
+        "production": {
+          "projectId": "gen-lang-client-0172279957",
+          "appId": "1:1074154147498:android:8469cac3e0217113dc4ad3",
+          "fileOutput": "android/app/src/production/google-services.json"
         }
       }
     }

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class CreditDashboard {
   const CreditDashboard({
     required this.statementCount,
@@ -50,13 +52,13 @@ class CreditFactor {
   const CreditFactor({
     required this.key,
     required this.label,
-    required this.emoji,
+    required this.icon,
     required this.score,
   });
 
   final String key;
   final String label;
-  final String emoji;
+  final IconData icon;
   final int score;
 }
 

@@ -1,4 +1,5 @@
 import 'package:cool_app/core/models/geo_point.dart';
+import 'package:cool_app/core/utils/json_helpers.dart' as jh;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/driver_info.dart';
@@ -21,6 +22,7 @@ class MobilityRepository {
     double lat,
     double lng,
     String? vehicleType,
+    String? country,
   ) async {
     final normalizedVehicleType = _normalizedVehicleType(vehicleType);
     final response = await _client.rpc(
@@ -29,11 +31,12 @@ class MobilityRepository {
         'p_lat': lat,
         'p_lng': lng,
         'p_vehicle_type': normalizedVehicleType,
+        'p_country': country,
         'radius_km': 10,
       },
     );
 
-    final driverRows = _asListOfMaps(response);
+    final driverRows = jh.asListOfMaps(response);
 
     if (driverRows.isEmpty) {
       return const <DriverInfo>[];
@@ -58,11 +61,11 @@ class MobilityRepository {
               final displayName =
                   profile['full_name']?.toString() ??
                   _shortId(userId, fallback: 'Driver');
-              final driverLat = _asDouble(row['latitude']);
-              final driverLng = _asDouble(row['longitude']);
-              final distanceKm = _asDouble(row['distance_km']) ?? 0;
-              final tripCount = _asInt(row['trip_count']) ?? 0;
-              final driverTripsDone = _asInt(driverMeta['trips_done']) ?? 0;
+              final driverLat = jh.asDouble(row['latitude']);
+              final driverLng = jh.asDouble(row['longitude']);
+              final distanceKm = jh.asDouble(row['distance_km']) ?? 0;
+              final tripCount = jh.asInt(row['trip_count']) ?? 0;
+              final driverTripsDone = jh.asInt(driverMeta['trips_done']) ?? 0;
 
               return DriverInfo(
                 driverId: userId,
@@ -70,17 +73,17 @@ class MobilityRepository {
                 vehicleType: _vehicleLabel(vehicleTypeValue),
                 vehicleEmoji: _vehicleEmoji(vehicleTypeValue),
                 distanceKm: distanceKm,
-                isOnline: _asBool(row['is_online']),
+                isOnline: jh.asBool(row['is_online']),
                 tripCount: tripCount,
                 scheduledRoute: row['scheduled_route']?.toString(),
-                hasReturnTrip: _asBool(row['has_return_trip']),
+                hasReturnTrip: jh.asBool(row['has_return_trip']),
                 contactPhone: profile['phone']?.toString(),
                 baseLocation: driverMeta['base_location']?.toString(),
                 vehicleStatus: driverMeta['vehicle_status']?.toString(),
                 isRegularDriver:
                     tripCount >= _regularDriverTripThreshold ||
                     driverTripsDone >= _regularDriverTripThreshold,
-                lastActiveAt: _parseDateTime(driverMeta['updated_at']),
+                lastActiveAt: jh.parseDateTime(driverMeta['updated_at']),
                 latitude: driverLat,
                 longitude: driverLng,
               );
@@ -99,6 +102,7 @@ class MobilityRepository {
     double lng,
     String? vehicleType,
     TripType type,
+    String? country,
   ) async {
     final normalizedVehicleType = _normalizedVehicleType(vehicleType);
     final tripType = type.isDriverReturn ? 'driver_return' : 'passenger';
@@ -110,11 +114,12 @@ class MobilityRepository {
         'p_lng': lng,
         'p_vehicle_type': normalizedVehicleType,
         'p_trip_type': tripType,
+        'p_country': country,
         'radius_km': 10,
       },
     );
 
-    final rows = _asListOfMaps(response);
+    final rows = jh.asListOfMaps(response);
     return _hydrateTrips(rows, originLat: lat, originLng: lng);
   }
 
@@ -125,18 +130,20 @@ class MobilityRepository {
         .select(_tripSelect)
         .single();
 
-    return Trip.fromJson(_asMap(inserted));
+    return Trip.fromJson(jh.asMap(inserted));
   }
 
   Future<List<Trip>> getMyTrips(String userId) async {
-    final response = await _client
+    var query = _client
         .from('mobility_trips')
         .select(_tripSelect)
-        .eq('user_id', userId)
+        .eq('user_id', userId);
+
+    final response = await query
         .order('travel_time', ascending: true)
         .order('created_at', ascending: false);
 
-    final rows = _asListOfMaps(response)
+    final rows = jh.asListOfMaps(response)
         .where((row) => _isVisibleTripStatus(row['status']))
         .toList(growable: false);
     return _hydrateTrips(rows);
@@ -195,11 +202,9 @@ class MobilityRepository {
   }
 
   Future<DriverProfile?> getDriverProfile(String userId) async {
-    final row = await _client
-        .from('driver_profiles')
-        .select()
-        .eq('user_id', userId)
-        .maybeSingle();
+    final query = _client.from('driver_profiles').select().eq('user_id', userId);
+
+    final row = await query.maybeSingle();
 
     if (row == null) {
       return null;
@@ -210,7 +215,7 @@ class MobilityRepository {
     final profile = await profileFuture;
     final tripCount = await tripCountFuture;
     return DriverProfile.fromJson(<String, dynamic>{
-      ..._asMap(row),
+      ...jh.asMap(row),
       'profile': profile,
       'trip_count': tripCount,
     });
@@ -256,8 +261,8 @@ class MobilityRepository {
     final trips =
         rows
             .map((row) {
-              final tripLat = _asDouble(row['from_lat']);
-              final tripLng = _asDouble(row['from_lng']);
+              final tripLat = jh.asDouble(row['from_lat']);
+              final tripLng = jh.asDouble(row['from_lng']);
               final distanceKm =
                   originLat == null ||
                       originLng == null ||
@@ -295,7 +300,7 @@ class MobilityRepository {
           .from('users')
           .select('id, full_name, avatar_url, phone')
           .inFilter('id', userIds);
-      final rows = _asListOfMaps(response);
+      final rows = jh.asListOfMaps(response);
       return {
         for (final row in rows)
           if ((row['id']?.toString() ?? '').isNotEmpty)
@@ -325,7 +330,7 @@ class MobilityRepository {
             'user_id, vehicle_status, base_location, trips_done, updated_at',
           )
           .inFilter('user_id', userIds);
-      final rows = _asListOfMaps(response);
+      final rows = jh.asListOfMaps(response);
       return {
         for (final row in rows)
           if ((row['user_id']?.toString() ?? '').isNotEmpty)
@@ -341,7 +346,7 @@ class MobilityRepository {
         .from('mobility_trips')
         .select('id, status')
         .eq('user_id', userId);
-    return _asListOfMaps(
+    return jh.asListOfMaps(
       response,
     ).where((row) => _isVisibleTripStatus(row['status'])).length;
   }
@@ -418,78 +423,4 @@ bool _isVisibleTripStatus(dynamic value) {
       normalized == 'paused';
 }
 
-DateTime? _parseDateTime(dynamic value) {
-  if (value == null) {
-    return null;
-  }
-  return DateTime.tryParse(value.toString());
-}
 
-Map<String, dynamic> _asMap(dynamic value) {
-  if (value is Map<String, dynamic>) {
-    return value;
-  }
-  if (value is Map) {
-    return Map<String, dynamic>.from(value);
-  }
-  throw StateError('Expected a JSON object but received ${value.runtimeType}.');
-}
-
-List<Map<String, dynamic>> _asListOfMaps(dynamic value) {
-  if (value is! List) {
-    throw StateError(
-      'Expected a JSON array but received ${value.runtimeType}.',
-    );
-  }
-
-  return value
-      .whereType<Map>()
-      .map((item) => Map<String, dynamic>.from(item))
-      .toList(growable: false);
-}
-
-double? _asDouble(dynamic value) {
-  if (value == null) {
-    return null;
-  }
-  if (value is double) {
-    return value;
-  }
-  if (value is num) {
-    return value.toDouble();
-  }
-  if (value is String) {
-    return double.tryParse(value);
-  }
-  return null;
-}
-
-int? _asInt(dynamic value) {
-  if (value == null) {
-    return null;
-  }
-  if (value is int) {
-    return value;
-  }
-  if (value is num) {
-    return value.toInt();
-  }
-  if (value is String) {
-    return int.tryParse(value);
-  }
-  return null;
-}
-
-bool _asBool(dynamic value) {
-  if (value is bool) {
-    return value;
-  }
-  if (value is num) {
-    return value != 0;
-  }
-  if (value is String) {
-    final normalized = value.toLowerCase().trim();
-    return normalized == 'true' || normalized == '1';
-  }
-  return false;
-}

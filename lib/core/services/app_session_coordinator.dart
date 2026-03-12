@@ -1,0 +1,123 @@
+import '../../features/auth/models/user_profile.dart';
+import '../../features/auth/providers/auth_provider.dart';
+import '../models/referral_attribution.dart';
+import '../providers/notification_settings_provider.dart';
+import '../repositories/referral_repository.dart';
+import 'crashlytics_service.dart';
+import 'engagement_tracker.dart';
+import 'trip_sync_coordinator.dart';
+
+class AppSessionCoordinator {
+  AppSessionCoordinator({
+    required NotificationSettingsNotifier notificationSettings,
+    required EngagementTracker engagementTracker,
+    required CrashlyticsService crashlytics,
+    required ReferralRepository referralRepository,
+    required ReferralAttribution? Function() readReferralAttribution,
+    required void Function(String inviteId) markReferralOpened,
+    required TripSyncCoordinator tripSyncCoordinator,
+  }) : _notificationSettings = notificationSettings,
+       _engagementTracker = engagementTracker,
+       _crashlytics = crashlytics,
+       _referralRepository = referralRepository,
+       _readReferralAttribution = readReferralAttribution,
+       _markReferralOpened = markReferralOpened,
+       _tripSyncCoordinator = tripSyncCoordinator;
+
+  final NotificationSettingsNotifier _notificationSettings;
+  final EngagementTracker _engagementTracker;
+  final CrashlyticsService _crashlytics;
+  final ReferralRepository _referralRepository;
+  final ReferralAttribution? Function() _readReferralAttribution;
+  final void Function(String inviteId) _markReferralOpened;
+  final TripSyncCoordinator _tripSyncCoordinator;
+
+  Future<void> bootstrap(AuthState authState) async {
+    await _identifyUserIfAvailable(authState.user);
+
+    if (authState.session == null) {
+      return;
+    }
+
+    await markReferralInviteOpenedIfNeeded();
+    await _notificationSettings.initializeForAuthState(authState);
+    await _engagementTracker.trackSessionStarted(
+      userId: authState.user?.id ?? authState.session!.user.id,
+      isAuthenticated: true,
+      isProfileComplete: authState.user?.isProfileComplete ?? false,
+      source: 'app_launch',
+    );
+  }
+
+  Future<void> handleAuthStateChanged(
+    AuthState? previous,
+    AuthState next,
+  ) async {
+    final hadSession = previous?.session != null;
+    final hasSession = next.session != null;
+    final previousUserId = previous?.user?.id ?? previous?.session?.user.id;
+
+    if (previous?.user?.id != next.user?.id) {
+      if (next.user != null) {
+        await _identifyUserIfAvailable(next.user);
+      } else if (!hasSession) {
+        await _clearIdentifiedUser();
+      }
+    }
+
+    if (!hadSession && hasSession) {
+      await markReferralInviteOpenedIfNeeded();
+      await _notificationSettings.initializeForAuthState(next);
+      _tripSyncCoordinator.scheduleSync(source: 'auth_transition');
+      await _engagementTracker.trackSessionStarted(
+        userId: next.user?.id ?? next.session!.user.id,
+        isAuthenticated: true,
+        isProfileComplete: next.user?.isProfileComplete ?? false,
+        source: 'auth_transition',
+      );
+    }
+
+    final previousCountry = previous == null
+        ? null
+        : resolveAuthStateCountryCode(previous);
+    if (hadSession &&
+        hasSession &&
+        previousCountry != resolveAuthStateCountryCode(next)) {
+      await _notificationSettings.syncTopicsForAuthState(next);
+    }
+
+    if (hadSession && !hasSession) {
+      await _clearIdentifiedUser();
+      if (previousUserId != null && previousUserId.isNotEmpty) {
+        await _notificationSettings.clearSession(userId: previousUserId);
+      }
+    }
+  }
+
+  Future<void> markReferralInviteOpenedIfNeeded() async {
+    final attribution = _readReferralAttribution();
+    if (attribution == null || attribution.openedLogged) {
+      return;
+    }
+
+    try {
+      await _referralRepository.markInviteOpened(attribution.inviteId);
+      _markReferralOpened(attribution.inviteId);
+    } catch (_) {
+      // Referral tracking is best-effort so deep-link routing remains reliable.
+    }
+  }
+
+  Future<void> _identifyUserIfAvailable(UserProfile? user) async {
+    if (user == null) {
+      return;
+    }
+    await _engagementTracker.identifyUser(user);
+    await _crashlytics.identifyUser(user.id);
+  }
+
+  Future<void> _clearIdentifiedUser() async {
+    await _engagementTracker.clearUser();
+    await _crashlytics.clearUser();
+  }
+}

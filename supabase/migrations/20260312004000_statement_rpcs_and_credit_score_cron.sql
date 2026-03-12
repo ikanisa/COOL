@@ -53,8 +53,7 @@ as $$
         public.derive_momo_tx_category(
           ledger.entry_type,
           ledger.ledger_scope,
-          ledger.target_table,
-          ledger.description
+          ledger.target_table
         )
       ) as tx_category,
       coalesce(
@@ -65,8 +64,7 @@ as $$
             public.derive_momo_tx_category(
               ledger.entry_type,
               ledger.ledger_scope,
-              ledger.target_table,
-              ledger.description
+              ledger.target_table
             )
           ),
           ledger.entry_type
@@ -260,10 +258,16 @@ begin
 end;
 $$;
 
-create extension if not exists pg_cron with schema pg_catalog;
-
-grant usage on schema cron to postgres;
-grant all privileges on all tables in schema cron to postgres;
+-- pg_cron setup — idempotent; may already exist on managed Supabase.
+do $$
+begin
+  create extension if not exists pg_cron with schema pg_catalog;
+  grant usage on schema cron to postgres;
+  grant all privileges on all tables in schema cron to postgres;
+exception when others then
+  raise notice 'pg_cron setup skipped: %', sqlerrm;
+end;
+$$;
 
 select cron.unschedule(jobid)
 from cron.job

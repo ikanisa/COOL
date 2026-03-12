@@ -13,7 +13,6 @@ class TripCard extends StatelessWidget {
     required this.toLocation,
     required this.departureTime,
     required this.vehicleType,
-    required this.vehicleEmoji,
     required this.onTap,
     this.seats,
     this.isReturn = false,
@@ -26,7 +25,6 @@ class TripCard extends StatelessWidget {
   final String toLocation;
   final DateTime departureTime;
   final String vehicleType;
-  final String vehicleEmoji;
   final VoidCallback onTap;
   final int? seats;
   final bool isReturn;
@@ -86,8 +84,13 @@ class TripCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
+    return Semantics(
+      button: true,
+      label: 'Trip from $fromLocation to $toLocation. '
+          '$vehicleType. $_formattedDeparture.',
+      excludeSemantics: true,
+      child: GestureDetector(
+        onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
@@ -145,7 +148,7 @@ class TripCard extends StatelessWidget {
               children: [
                 // Vehicle chip
                 _Chip(
-                  label: '$vehicleEmoji $vehicleType',
+                  label: vehicleType,
                   bgColor: AppColors.surface3,
                   textColor: AppColors.text2,
                 ),
@@ -153,7 +156,7 @@ class TripCard extends StatelessWidget {
                 // Seats
                 if (seats != null)
                   _Chip(
-                    label: '🪑 $seats',
+                    label: '$seats seat${seats! > 1 ? 's' : ''}',
                     bgColor: AppColors.surface3,
                     textColor: AppColors.text2,
                   ),
@@ -161,7 +164,7 @@ class TripCard extends StatelessWidget {
                 // Return tag
                 if (isReturn || isDriverReturnTrip)
                   _Chip(
-                    label: '🔁 Return',
+                    label: 'Return',
                     bgColor: AppColors.purple.withValues(alpha: 0.15),
                     textColor: AppColors.purple,
                   ),
@@ -169,7 +172,7 @@ class TripCard extends StatelessWidget {
                 // Recurring tag
                 if (isRecurring)
                   _Chip(
-                    label: '🔄 Daily',
+                    label: 'Daily',
                     bgColor: AppColors.accentGlow,
                     textColor: AppColors.accent,
                   ),
@@ -177,7 +180,7 @@ class TripCard extends StatelessWidget {
                 // Expiring warning
                 if (_isExpiringSoon && !_hasDeparted)
                   _Chip(
-                    label: '⚠ Expires soon',
+                    label: 'Expires soon',
                     bgColor: AppColors.red.withValues(alpha: 0.12),
                     textColor: AppColors.red,
                   ),
@@ -185,6 +188,7 @@ class TripCard extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

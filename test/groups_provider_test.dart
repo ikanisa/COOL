@@ -56,10 +56,13 @@ void main() {
       expect(result, isNotNull);
       expect(result!.didJoin, isTrue);
       expect(repository.lastJoinCode, 'ABCD1234');
-      expect(notifier.state.selectedGroup?.group.id, _inviteDetail.group.id);
       expect(notifier.state.invitePreview?.isMember, isTrue);
+      expect(notifier.state.isJoiningGroup, isFalse);
+      expect(notifier.state.joinGroupError, isNull);
       expect(
-        notifier.state.groups.any((group) => group.id == _inviteDetail.group.id),
+        notifier.state.groups.any(
+          (group) => group.id == _inviteDetail.group.id,
+        ),
         isTrue,
       );
     });
@@ -83,16 +86,21 @@ class FakeGroupRepository implements GroupRepository {
   Future<void> contribute(String groupId, int amount) async {}
 
   @override
-  Future<GroupDetail?> getGroupById(String id) async => groupDetail;
+  Future<GroupDetail?> getGroupById(String id, {String? country}) async =>
+      groupDetail;
 
   @override
-  Future<GroupDetail?> getGroupByInviteCode(String inviteCode) async {
+  Future<GroupDetail?> getGroupByInviteCode(
+    String inviteCode, {
+    String? country,
+  }) async {
     lastInvitePreviewCode = inviteCode;
     return invitePreview;
   }
 
   @override
-  Future<List<Group>> getMyGroups(String userId) async => myGroups;
+  Future<List<Group>> getMyGroups(String userId, {String? country}) async =>
+      myGroups;
 
   @override
   Future<List<Group>> getPublicGroups(String country) async {
@@ -101,7 +109,10 @@ class FakeGroupRepository implements GroupRepository {
   }
 
   @override
-  Future<GroupJoinResult> joinGroupByInviteCode(String inviteCode) async {
+  Future<GroupJoinResult> joinGroupByInviteCode(
+    String inviteCode, {
+    String? country,
+  }) async {
     lastJoinCode = inviteCode;
     if (joinResult == null) {
       throw StateError('joinResult was not configured for this test.');

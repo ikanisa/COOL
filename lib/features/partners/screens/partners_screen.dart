@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/services/whatsapp_contact_service.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/utils/icon_mapper.dart';
+import '../../../core/router/app_router.dart';
 import '../../../features/auth/providers/auth_provider.dart';
 import '../../../features/partners/models/partner.dart';
 import '../../../features/partners/providers/partner_provider.dart';
@@ -15,6 +17,7 @@ import '../../../features/partners/widgets/partner_brand_mark.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
+import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/section_title.dart';
 import '../../../shared/widgets/whatsapp_hint_chip.dart';
 
@@ -32,9 +35,7 @@ class PartnersScreen extends ConsumerStatefulWidget {
 class _PartnersScreenState extends ConsumerState<PartnersScreen> {
   int _activeTab = 0;
 
-  static const _tabs = ['⚽ Football', '🏦 Finance', '🏢 Services'];
-
-  String? get _userCountry => ref.read(authProvider).user?.country;
+  static const _tabs = ['Football', 'Finance', 'Services'];
 
   Future<void> _openRayonSports() async {
     try {
@@ -59,9 +60,7 @@ class _PartnersScreenState extends ConsumerState<PartnersScreen> {
       context.push('/partners/rayon-sports');
     } catch (error) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(error.toString())));
+      CoolToast.error(context, error.toString());
     }
   }
 
@@ -108,7 +107,7 @@ class _PartnersScreenState extends ConsumerState<PartnersScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Your Rayon Sports fan membership is ready. You can now access tickets, clubs, shop, and supporter perks.',
+                    'Your fan membership is ready.',
                     style: GoogleFonts.barlow(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
@@ -141,6 +140,8 @@ class _PartnersScreenState extends ConsumerState<PartnersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final country = ref.watch(currentUserCountryCodeProvider);
+
     return Scaffold(
       backgroundColor: AppColors.bg,
       appBar: AppBar(
@@ -210,11 +211,11 @@ class _PartnersScreenState extends ConsumerState<PartnersScreen> {
                 index: _activeTab,
                 children: [
                   _FootballTab(
-                    country: _userCountry,
+                    country: country,
                     onOpenRayonSports: _openRayonSports,
                   ),
-                  _BanksTab(country: _userCountry),
-                  _OrgsTab(country: _userCountry),
+                  _BanksTab(country: country),
+                  _OrgsTab(country: country),
                 ],
               ),
             ],
@@ -257,12 +258,9 @@ class _FootballTab extends ConsumerWidget {
                 onTap: partners[i].slug == 'rayon-sports'
                     ? onOpenRayonSports
                     : () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              '${partners[i].name} fan experience coming soon.',
-                            ),
-                          ),
+                        CoolToast.info(
+                          context,
+                          '${partners[i].name} fan experience coming soon.',
                         );
                       },
               ),
@@ -274,22 +272,22 @@ class _FootballTab extends ConsumerWidget {
                 _ResponsiveFeatureGrid(
                   items: [
                     _FeatureTileData(
-                      emoji: '🙌',
+                      icon: Icons.people_rounded,
                       title: 'Fan Registry',
                       subtitle: _formatCount(partners[i].fanCount, 'fans'),
                     ),
                     _FeatureTileData(
-                      emoji: '🏟️',
+                      icon: Icons.groups_rounded,
                       title: 'Fan Clubs',
                       subtitle: _formatCount(partners[i].clubCount, 'clubs'),
                     ),
                     _FeatureTileData(
-                      emoji: '🎫',
+                      icon: Icons.confirmation_number_rounded,
                       title: 'Ticketing',
                       subtitle: _formatCount(partners[i].gameCount, 'upcoming'),
                     ),
                     const _FeatureTileData(
-                      emoji: '🛍️',
+                      icon: Icons.shopping_bag_rounded,
                       title: 'Club Shop',
                       subtitle: 'Browse merch',
                     ),
@@ -332,12 +330,10 @@ class _FootballHeroCard extends StatelessWidget {
             Positioned(
               right: -5,
               top: 8,
-              child: Text(
-                partner.emoji,
-                style: TextStyle(
-                  fontSize: 60,
-                  color: Colors.white.withValues(alpha: 0.12),
-                ),
+              child: Icon(
+                IconMapper.from(partner.emoji),
+                size: 60,
+                color: Colors.white.withValues(alpha: 0.12),
               ),
             ),
             Padding(
@@ -362,15 +358,26 @@ class _FootballHeroCard extends StatelessWidget {
                             : AppColors.blue.withValues(alpha: 0.4),
                       ),
                     ),
-                    child: Text(
-                      isRayon
-                          ? '💙 Gikundiro Hub'
-                          : '${partner.emoji} Official Partner',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        color: isRayon ? AppColors.rsGoldLight : AppColors.blue,
-                      ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          IconMapper.from(partner.emoji),
+                          size: 13,
+                          color: isRayon ? AppColors.rsGoldLight : AppColors.blue,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          isRayon
+                              ? 'Gikundiro Hub'
+                              : 'Official Partner',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            color: isRayon ? AppColors.rsGoldLight : AppColors.blue,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -470,12 +477,12 @@ List<String> _membershipPerks(FanTier tier) {
 
 class _FeatureTile extends StatelessWidget {
   const _FeatureTile({
-    required this.emoji,
+    required this.icon,
     required this.title,
     required this.subtitle,
   });
 
-  final String emoji;
+  final IconData icon;
   final String title;
   final String subtitle;
 
@@ -488,7 +495,7 @@ class _FeatureTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(emoji, style: const TextStyle(fontSize: 26)),
+            Icon(icon, size: 26, color: AppColors.text),
             const SizedBox(height: 8),
             Text(
               title,
@@ -536,7 +543,7 @@ class _ResponsiveFeatureGrid extends StatelessWidget {
           itemBuilder: (context, index) {
             final item = items[index];
             return _FeatureTile(
-              emoji: item.emoji,
+              icon: item.icon,
               title: item.title,
               subtitle: item.subtitle,
             );
@@ -549,12 +556,12 @@ class _ResponsiveFeatureGrid extends StatelessWidget {
 
 class _FeatureTileData {
   const _FeatureTileData({
-    required this.emoji,
+    required this.icon,
     required this.title,
     required this.subtitle,
   });
 
-  final String emoji;
+  final IconData icon;
   final String title;
   final String subtitle;
 }
@@ -582,6 +589,39 @@ class _BanksTab extends ConsumerWidget {
 
         return Column(
           children: [
+            CoolCard(
+              borderColor: AppColors.blue.withValues(alpha: 0.24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Before sending the user to a bank',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.text,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    'Check profile, KYC, and score readiness.',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.text2,
+                      height: 1.45,
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  CoolButton(
+                    label: 'Open Readiness Checklist',
+                    icon: Icons.assignment_turned_in_outlined,
+                    onTap: () => context.push(AppRoutes.creditReadiness),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
             for (int i = 0; i < partners.length; i++) ...[
               if (i > 0) const SizedBox(height: 12),
               _BankPartnerCard(partner: partners[i]),
@@ -793,12 +833,10 @@ class _OrgPartnerCard extends StatelessWidget {
           Positioned(
             right: -5,
             bottom: 5,
-            child: Text(
-              partner.emoji,
-              style: TextStyle(
-                fontSize: 50,
-                color: Colors.white.withValues(alpha: 0.08),
-              ),
+            child: Icon(
+              IconMapper.from(partner.emoji),
+              size: 50,
+              color: Colors.white.withValues(alpha: 0.08),
             ),
           ),
           Padding(
@@ -822,13 +860,24 @@ class _OrgPartnerCard extends StatelessWidget {
                           : AppColors.accent.withValues(alpha: 0.3),
                     ),
                   ),
-                  child: Text(
-                    '${partner.emoji} ${_categoryLabel(partner)}',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                      color: isInsurance ? AppColors.blue : AppColors.accent,
-                    ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        IconMapper.from(partner.emoji),
+                        size: 13,
+                        color: isInsurance ? AppColors.blue : AppColors.accent,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        _categoryLabel(partner),
+                        style: GoogleFonts.dmSans(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: isInsurance ? AppColors.blue : AppColors.accent,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -895,7 +944,7 @@ class _ErrorState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('😞', style: TextStyle(fontSize: 32)),
+            const Icon(Icons.error_outline_rounded, size: 32, color: AppColors.orange),
             const SizedBox(height: 8),
             Text(
               'Failed to load partners',
@@ -931,7 +980,7 @@ class _EmptyState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('🤝', style: TextStyle(fontSize: 32)),
+            const Icon(Icons.handshake_outlined, size: 32, color: AppColors.text3),
             const SizedBox(height: 8),
             Text(
               label,

@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/app_colors.dart';
-import '../../../shared/widgets/cool_skeleton.dart';
+import '../../../shared/widgets/cool_async_view.dart';
+import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_providers.dart';
 
 /// Read-only admin screen for inspecting user profiles and demo seed markers.
@@ -29,65 +30,52 @@ class ManageUsersScreen extends ConsumerWidget {
         ),
         iconTheme: const IconThemeData(color: AppColors.text),
       ),
-      body: usersAsync.when(
-        loading: () => const Padding(
-          padding: EdgeInsets.all(16),
-          child: CoolSkeletonList(),
-        ),
-        error: (error, _) => Center(
-          child: Text(
-            'Error: $error',
-            style: const TextStyle(color: AppColors.text3),
-          ),
-        ),
-        data: (users) {
-          if (users.isEmpty) {
-            return const Center(
-              child: Text(
-                'No users found',
-                style: TextStyle(color: AppColors.text3),
-              ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: CoolAsyncView<List<Map<String, dynamic>>>(
+          value: usersAsync,
+          onRetry: () => ref.invalidate(adminUsersProvider),
+          emptyCheck: (u) => u.isEmpty,
+          emptyMessage: 'No users found',
+          builder: (users) {
+            final mockCount = users
+                .where((user) => user['is_mock'] == true)
+                .length;
+            final adminCount = users
+                .where((user) => user['is_admin'] == true)
+                .length;
+            final driverCount = users
+                .where((user) => user['is_driver'] == true)
+                .length;
+            final mockBatches =
+                users
+                    .map((user) => user['mock_batch']?.toString().trim() ?? '')
+                    .where((batch) => batch.isNotEmpty)
+                    .toSet()
+                    .toList(growable: false)
+                  ..sort();
+
+            return ListView.separated(
+              itemCount: users.length + 1,
+              separatorBuilder: (_, index) => index == 0
+                  ? const SizedBox(height: 16)
+                  : const SizedBox(height: 10),
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return _SummaryCard(
+                    totalUsers: users.length,
+                    mockUsers: mockCount,
+                    adminUsers: adminCount,
+                    driverUsers: driverCount,
+                    mockBatches: mockBatches,
+                  );
+                }
+
+                return _UserTile(user: users[index - 1]);
+              },
             );
-          }
-
-          final mockCount = users
-              .where((user) => user['is_mock'] == true)
-              .length;
-          final adminCount = users
-              .where((user) => user['is_admin'] == true)
-              .length;
-          final driverCount = users
-              .where((user) => user['is_driver'] == true)
-              .length;
-          final mockBatches =
-              users
-                  .map((user) => user['mock_batch']?.toString().trim() ?? '')
-                  .where((batch) => batch.isNotEmpty)
-                  .toSet()
-                  .toList(growable: false)
-                ..sort();
-
-          return ListView.separated(
-            padding: const EdgeInsets.all(16),
-            itemCount: users.length + 1,
-            separatorBuilder: (_, index) => index == 0
-                ? const SizedBox(height: 16)
-                : const SizedBox(height: 10),
-            itemBuilder: (context, index) {
-              if (index == 0) {
-                return _SummaryCard(
-                  totalUsers: users.length,
-                  mockUsers: mockCount,
-                  adminUsers: adminCount,
-                  driverUsers: driverCount,
-                  mockBatches: mockBatches,
-                );
-              }
-
-              return _UserTile(user: users[index - 1]);
-            },
-          );
-        },
+          },
+        ),
       ),
     );
   }
@@ -440,22 +428,17 @@ class _BatchCleanupButtonState extends ConsumerState<_BatchCleanupButton> {
                 .join(', ')
           : '';
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            summary.isEmpty
-                ? 'Removed mock batch ${widget.batch}.'
-                : 'Removed ${widget.batch}. $summary',
-          ),
-        ),
+      CoolToast.success(
+        context,
+        summary.isEmpty
+            ? 'Removed mock batch ${widget.batch}.'
+            : 'Removed ${widget.batch}. $summary',
       );
     } catch (error) {
       if (!mounted) {
         return;
       }
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Cleanup failed: $error')));
+      CoolToast.error(context, 'Cleanup failed: $error');
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);

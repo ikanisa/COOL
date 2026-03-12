@@ -4,7 +4,7 @@ import 'package:cool_app/features/partners/providers/payment_status_provider.dar
 
 /// QA-01: Payment Confirmation Idempotency Tests
 ///
-/// Validates that replayed confirmations, duplicate callbacks, and
+/// Validates that replayed confirmations, duplicate SMS-driven reconciliation events, and
 /// edge cases in the payment polling flow never double-award points
 /// or create duplicate records.
 void main() {

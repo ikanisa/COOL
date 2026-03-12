@@ -18,7 +18,12 @@ class RsMembershipCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CoolCard(
+    return Semantics(
+      label: 'Rayon Sports membership. ${membership.displayName}. '
+          '${membership.tier.label} tier. '
+          '${showPoints ? '${membership.points} points.' : ''}',
+      excludeSemantics: true,
+      child: CoolCard(
       gradient: AppColors.rsHeroGradient,
       borderColor: AppColors.rsBlueBorder,
       child: Padding(
@@ -84,6 +89,7 @@ class RsMembershipCard extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

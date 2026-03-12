@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/config/country_catalog.dart';
+import '../../../core/providers/supported_countries_provider.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../../shared/widgets/cool_skeleton.dart';
+import '../../../shared/widgets/cool_async_view.dart';
+import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_providers.dart';
 
 /// Admin screen for managing mobility vehicle types.
@@ -13,6 +16,9 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final typesAsync = ref.watch(adminVehicleTypesProvider);
+    final countries =
+        ref.watch(supportedCountriesProvider).valueOrNull ??
+        CoolCountryCatalog.all;
 
     return Scaffold(
       backgroundColor: AppColors.bg,
@@ -31,31 +37,17 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.accent,
-        onPressed: () => _showEditSheet(context, ref, null),
+        onPressed: () => _showEditSheet(context, ref, null, countries),
         child: const Icon(Icons.add_rounded, color: Colors.black),
       ),
-      body: typesAsync.when(
-        loading: () => const Padding(
-          padding: EdgeInsets.all(16),
-          child: CoolSkeletonList(),
-        ),
-        error: (e, _) => Center(
-          child: Text(
-            'Error: $e',
-            style: const TextStyle(color: AppColors.text3),
-          ),
-        ),
-        data: (types) {
-          if (types.isEmpty) {
-            return const Center(
-              child: Text(
-                'No vehicle types',
-                style: TextStyle(color: AppColors.text3),
-              ),
-            );
-          }
-          return ListView.separated(
-            padding: const EdgeInsets.all(16),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: CoolAsyncView<List<Map<String, dynamic>>>(
+          value: typesAsync,
+          onRetry: () => ref.invalidate(adminVehicleTypesProvider),
+          emptyCheck: (t) => t.isEmpty,
+          emptyMessage: 'No vehicle types',
+          builder: (types) => ListView.separated(
             itemCount: types.length,
             separatorBuilder: (_, _) => const SizedBox(height: 8),
             itemBuilder: (context, index) {
@@ -87,7 +79,7 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
                     ),
                   ),
                   trailing: GestureDetector(
-                    onTap: () => _showEditSheet(context, ref, t),
+                    onTap: () => _showEditSheet(context, ref, t, countries),
                     child: const Icon(
                       Icons.edit_rounded,
                       size: 18,
@@ -97,8 +89,8 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
                 ),
               );
             },
-          );
-        },
+          ),
+        ),
       ),
     );
   }
@@ -107,26 +99,34 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     Map<String, dynamic>? type,
+    List<CoolCountry> countries,
   ) {
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (_) => _EditVehicleTypeSheet(type: type, ref: ref),
+      builder: (_) =>
+          _EditVehicleTypeSheet(type: type, ref: ref, countries: countries),
     );
   }
 }
 
 class _EditVehicleTypeSheet extends StatefulWidget {
-  const _EditVehicleTypeSheet({this.type, required this.ref});
+  const _EditVehicleTypeSheet({
+    this.type,
+    required this.ref,
+    required this.countries,
+  });
   final Map<String, dynamic>? type;
   final WidgetRef ref;
+  final List<CoolCountry> countries;
   @override
   State<_EditVehicleTypeSheet> createState() => _EditVehicleTypeSheetState();
 }
 
 class _EditVehicleTypeSheetState extends State<_EditVehicleTypeSheet> {
-  late final TextEditingController _labelCtl, _valueCtl, _emojiCtl, _countryCtl;
+  late final TextEditingController _labelCtl, _valueCtl, _emojiCtl;
+  String? _selectedCountryCode;
   bool _saving = false;
 
   @override
@@ -136,7 +136,10 @@ class _EditVehicleTypeSheetState extends State<_EditVehicleTypeSheet> {
     _labelCtl = TextEditingController(text: t?['label']?.toString() ?? '');
     _valueCtl = TextEditingController(text: t?['value']?.toString() ?? '');
     _emojiCtl = TextEditingController(text: t?['emoji']?.toString() ?? '');
-    _countryCtl = TextEditingController(text: t?['country']?.toString() ?? '');
+    _selectedCountryCode = CoolCountryCatalog.byIsoCode(
+      t?['country']?.toString(),
+      source: widget.countries,
+    )?.isoCode;
   }
 
   @override
@@ -144,7 +147,6 @@ class _EditVehicleTypeSheetState extends State<_EditVehicleTypeSheet> {
     _labelCtl.dispose();
     _valueCtl.dispose();
     _emojiCtl.dispose();
-    _countryCtl.dispose();
     super.dispose();
   }
 
@@ -154,9 +156,7 @@ class _EditVehicleTypeSheetState extends State<_EditVehicleTypeSheet> {
       'label': _labelCtl.text.trim(),
       'value': _valueCtl.text.trim(),
       'emoji': _emojiCtl.text.trim(),
-      'country': _countryCtl.text.trim().isEmpty
-          ? null
-          : _countryCtl.text.trim(),
+      'country': _selectedCountryCode,
     };
     if (widget.type != null) data['id'] = widget.type!['id'];
     try {
@@ -167,9 +167,7 @@ class _EditVehicleTypeSheetState extends State<_EditVehicleTypeSheet> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error: $e')));
+        CoolToast.error(context, 'Error: $e');
       }
     } finally {
       if (mounted) {
@@ -218,7 +216,7 @@ class _EditVehicleTypeSheetState extends State<_EditVehicleTypeSheet> {
               _field('Label (e.g. 🛺 Moto)', _labelCtl),
               _field('Value (e.g. Moto)', _valueCtl),
               _field('Emoji', _emojiCtl),
-              _field('Country (ISO, blank=global)', _countryCtl),
+              _countryField(),
               const SizedBox(height: 12),
               SizedBox(
                 width: double.infinity,
@@ -269,6 +267,36 @@ class _EditVehicleTypeSheetState extends State<_EditVehicleTypeSheet> {
           borderSide: BorderSide.none,
         ),
       ),
+    ),
+  );
+
+  Widget _countryField() => Padding(
+    padding: const EdgeInsets.only(bottom: 10),
+    child: DropdownButtonFormField<String?>(
+      initialValue: _selectedCountryCode,
+      dropdownColor: AppColors.surface2,
+      decoration: InputDecoration(
+        labelText: 'Country scope',
+        labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
+        filled: true,
+        fillColor: AppColors.surface2,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
+        ),
+      ),
+      items: [
+        const DropdownMenuItem<String?>(value: null, child: Text('Global')),
+        ...widget.countries.map(
+          (country) => DropdownMenuItem<String?>(
+            value: country.isoCode,
+            child: Text(country.pickerLabel),
+          ),
+        ),
+      ],
+      onChanged: _saving
+          ? null
+          : (value) => setState(() => _selectedCountryCode = value),
     ),
   );
 }

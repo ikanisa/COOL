@@ -1,11 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../auth/providers/auth_provider.dart';
+import '../../../core/providers/supabase_client_provider.dart';
 import '../models/home_dashboard_data.dart';
 import '../repositories/home_dashboard_repository.dart';
 
 final homeDashboardRepositoryProvider = Provider<HomeDashboardRepository>((ref) {
-  return HomeDashboardRepository();
+  return HomeDashboardRepository(client: ref.read(supabaseClientProvider));
 });
 
 final homeDashboardProvider = FutureProvider<HomeDashboardData?>((ref) async {

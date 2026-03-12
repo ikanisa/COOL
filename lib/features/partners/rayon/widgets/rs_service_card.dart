@@ -5,7 +5,7 @@ import '../../../../core/theme/app_colors.dart';
 
 class RsServiceCard extends StatelessWidget {
   const RsServiceCard({
-    required this.emoji,
+    required this.icon,
     required this.name,
     required this.description,
     required this.count,
@@ -15,7 +15,7 @@ class RsServiceCard extends StatelessWidget {
     super.key,
   });
 
-  final String emoji;
+  final IconData icon;
   final String name;
   final String description;
   final String count;
@@ -81,7 +81,7 @@ class _TallContent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(card.emoji, style: const TextStyle(fontSize: 24)),
+        Icon(card.icon, size: 24, color: AppColors.text),
         const SizedBox(height: 14),
         Text(
           card.name,
@@ -126,7 +126,7 @@ class _WideContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(card.emoji, style: const TextStyle(fontSize: 26)),
+        Icon(card.icon, size: 26, color: AppColors.text),
         const SizedBox(width: 14),
         Expanded(
           child: Column(

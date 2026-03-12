@@ -43,8 +43,13 @@ class GroupCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
+    return Semantics(
+      button: true,
+      label: '$name. ${_isSaving ? 'Saving' : 'Community'} group. '
+          '${GroupCard._formatAmount(amount)} RWF. $memberCount members.',
+      excludeSemantics: true,
+      child: GestureDetector(
+        onTap: onTap,
       child: Container(
         constraints: const BoxConstraints(minWidth: 200),
         padding: const EdgeInsets.all(18),
@@ -123,6 +128,7 @@ class GroupCard extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

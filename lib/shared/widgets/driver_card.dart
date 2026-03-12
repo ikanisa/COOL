@@ -15,7 +15,6 @@ class DriverCard extends StatelessWidget {
     required this.driverId,
     required this.displayName,
     required this.vehicleType,
-    required this.vehicleEmoji,
     required this.distanceKm,
     required this.isOnline,
     required this.onWhatsAppTap,
@@ -33,7 +32,6 @@ class DriverCard extends StatelessWidget {
   final String driverId;
   final String displayName;
   final String vehicleType;
-  final String vehicleEmoji;
   final double distanceKm;
   final bool isOnline;
   final VoidCallback onWhatsAppTap;
@@ -71,7 +69,12 @@ class DriverCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final content = Container(
+    final name = displayName.trim().isEmpty ? driverId : displayName;
+    final content = Semantics(
+      label: '$name. $vehicleType. $_distanceLabel away. '
+          '${isOnline ? 'Online' : 'Offline'}.',
+      excludeSemantics: true,
+      child: Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: AppColors.surface2,
@@ -112,7 +115,7 @@ class DriverCard extends StatelessWidget {
                     const SizedBox(height: 8),
 
                     // Vehicle chip
-                    _VehicleChip(emoji: vehicleEmoji, type: vehicleType),
+                    _VehicleChip(icon: _vehicleIconFromType(vehicleType), type: vehicleType),
                     const SizedBox(height: 6),
 
                     // Distance + rating row
@@ -207,7 +210,7 @@ class DriverCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: Text(
-                        isRegularDriver ? '✔ Trusted' : '🔁 Return',
+                        isRegularDriver ? 'Trusted' : 'Return',
                         style: GoogleFonts.dmSans(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
@@ -243,6 +246,7 @@ class DriverCard extends StatelessWidget {
           ),
         ],
       ),
+      ),
     );
 
     if (onTap == null) {
@@ -251,6 +255,18 @@ class DriverCard extends StatelessWidget {
 
     return GestureDetector(onTap: onTap, child: content);
   }
+}
+
+/// Maps a vehicle type string to a Material Design icon.
+IconData _vehicleIconFromType(String vehicleType) {
+  final normalized = vehicleType.trim().toLowerCase();
+  if (normalized.contains('moto')) return Icons.two_wheeler_rounded;
+  if (normalized.contains('cab')) return Icons.directions_car_rounded;
+  if (normalized.contains('truck')) return Icons.local_shipping_rounded;
+  if (normalized.contains('liffan') || normalized.contains('van')) {
+    return Icons.airport_shuttle_rounded;
+  }
+  return Icons.directions_car_rounded;
 }
 
 String _vehicleStatusLabel(String? value) {
@@ -324,8 +340,8 @@ class _Avatar extends StatelessWidget {
 // ── Vehicle chip ────────────────────────────────────────────────────────
 
 class _VehicleChip extends StatelessWidget {
-  const _VehicleChip({required this.emoji, required this.type});
-  final String emoji;
+  const _VehicleChip({required this.icon, required this.type});
+  final IconData icon;
   final String type;
 
   @override
@@ -339,7 +355,7 @@ class _VehicleChip extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(emoji, style: const TextStyle(fontSize: 14)),
+          Icon(icon, size: 14, color: AppColors.text2),
           const SizedBox(width: 4),
           Text(
             type,

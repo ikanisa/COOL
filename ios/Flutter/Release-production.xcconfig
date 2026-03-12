@@ -1,0 +1,4 @@
+#include "Release.xcconfig"
+
+APP_BUNDLE_IDENTIFIER=app.cool.mobile
+APP_DISPLAY_NAME=Cool

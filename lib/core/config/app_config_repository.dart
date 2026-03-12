@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../config/country_catalog.dart';
+
 /// Fetches key-value config from the `app_config` Supabase table.
 class AppConfigRepository {
   AppConfigRepository({SupabaseClient? client})
-      : _client = client ?? Supabase.instance.client;
+    : _client = client ?? Supabase.instance.client;
 
   final SupabaseClient _client;
 
@@ -15,18 +17,21 @@ class AppConfigRepository {
   /// Fetch a single config value by key and optional country.
   /// Returns the country-specific value if it exists, otherwise the global one.
   Future<String?> getValue(String key, {String? country}) async {
-    final cacheKey = '${key}_${country ?? 'global'}';
+    final normalizedCountry = country == null || country.trim().isEmpty
+        ? null
+        : CoolCountryCatalog.normalizeCountryCode(country);
+    final cacheKey = '${key}_${normalizedCountry ?? 'global'}';
     if (_cache.containsKey(cacheKey)) {
       return _cache[cacheKey];
     }
 
     // Try country-specific first
-    if (country != null) {
+    if (normalizedCountry != null) {
       final rows = await _client
           .from('app_config')
           .select('value')
           .eq('key', key)
-          .eq('country', country)
+          .eq('country', normalizedCountry)
           .limit(1);
 
       if (rows.isNotEmpty) {
@@ -59,10 +64,13 @@ class AppConfigRepository {
 
   /// Fetch all config entries, optionally filtered by country.
   Future<Map<String, String>> getAll({String? country}) async {
+    final normalizedCountry = country == null || country.trim().isEmpty
+        ? null
+        : CoolCountryCatalog.normalizeCountryCode(country);
     var query = _client.from('app_config').select();
 
-    if (country != null) {
-      query = query.or('country.is.null,country.eq.$country');
+    if (normalizedCountry != null) {
+      query = query.or('country.is.null,country.eq.$normalizedCountry');
     }
 
     final rows = await query;
@@ -104,24 +112,18 @@ class AppConfigRepository {
   }
 
   /// Convenience: get the support WhatsApp number.
-  Future<String> getSupportWhatsApp() async {
-    return await getValue('support_whatsapp') ?? '250795588248';
+  Future<String> getSupportWhatsApp({String? country}) async {
+    return await getValue('support_whatsapp', country: country) ??
+        '250795588248';
   }
 
   /// Convenience: get credit grade thresholds.
   Future<({int excellent, int good, int building})> getCreditGrades() async {
-    final excellent = int.tryParse(
-          await getValue('credit_grade_excellent') ?? '',
-        ) ??
-        80;
-    final good = int.tryParse(
-          await getValue('credit_grade_good') ?? '',
-        ) ??
-        60;
-    final building = int.tryParse(
-          await getValue('credit_grade_building') ?? '',
-        ) ??
-        40;
+    final excellent =
+        int.tryParse(await getValue('credit_grade_excellent') ?? '') ?? 80;
+    final good = int.tryParse(await getValue('credit_grade_good') ?? '') ?? 60;
+    final building =
+        int.tryParse(await getValue('credit_grade_building') ?? '') ?? 40;
 
     return (excellent: excellent, good: good, building: building);
   }

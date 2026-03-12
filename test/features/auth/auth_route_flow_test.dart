@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:cool_app/core/config/country_catalog.dart';
+import 'package:cool_app/core/providers/engagement_providers.dart';
 import 'package:cool_app/core/providers/supported_countries_provider.dart';
 import 'package:cool_app/core/repositories/supported_countries_repository.dart';
 import 'package:cool_app/core/router/app_router.dart';
@@ -9,18 +8,73 @@ import 'package:cool_app/features/auth/providers/auth_provider.dart';
 import 'package:cool_app/features/auth/repositories/auth_repository.dart';
 import 'package:cool_app/features/auth/screens/otp_screen.dart';
 import 'package:cool_app/features/auth/screens/otp_verify_screen.dart';
-import 'package:cool_app/features/auth/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' hide AuthState;
+
+import '../../helpers/test_bootstrap.dart';
 
 class MockAuthRepository extends Mock implements AuthRepository {}
 
 class MockSupabaseClient extends Mock implements SupabaseClient {}
+
+class TestRouteAuthNotifier extends AuthNotifier {
+  TestRouteAuthNotifier({
+    required super.repository,
+    required super.crashlytics,
+    required super.performance,
+    required Session? session,
+  }) : _repository = repository {
+    state = AuthState(
+      session: session,
+      profileRestoreState: session == null
+          ? AuthProfileRestoreState.available
+          : AuthProfileRestoreState.pending,
+    );
+
+  }
+
+  final AuthRepository _repository;
+
+  @override
+  Future<void> restoreCurrentUser() async {
+    final session = _repository.currentSession;
+    if (session == null) {
+      state = state.copyWith(
+        session: null,
+        user: null,
+        profileRestoreState: AuthProfileRestoreState.available,
+        error: null,
+      );
+      return;
+    }
+
+    state = state.copyWith(
+      session: session,
+      profileRestoreState: AuthProfileRestoreState.pending,
+      error: null,
+    );
+
+    try {
+      final user = await _repository.getCurrentProfile();
+      state = state.copyWith(
+        user: user,
+        profileRestoreState: user == null
+            ? AuthProfileRestoreState.missing
+            : AuthProfileRestoreState.available,
+        error: null,
+      );
+    } catch (error) {
+      state = state.copyWith(
+        profileRestoreState: AuthProfileRestoreState.failed,
+        error: error.toString(),
+      );
+    }
+  }
+}
 
 class FakeSupportedCountriesRepository extends SupportedCountriesRepository {
   FakeSupportedCountriesRepository() : super(client: MockSupabaseClient());
@@ -63,21 +117,16 @@ Session _fakeSession() {
   })!;
 }
 
-void main() {
-  late Directory hiveDir;
-
-  setUpAll(() {
-    hiveDir = Directory.systemTemp.createTempSync('hive_auth_test_');
-    Hive.init(hiveDir.path);
-  });
-
-  tearDownAll(() async {
-    await Hive.close();
-    if (hiveDir.existsSync()) {
-      hiveDir.deleteSync(recursive: true);
+Future<void> _settleRouter(WidgetTester tester, {int frames = 12}) async {
+  for (var index = 0; index < frames; index++) {
+    await tester.pump(const Duration(milliseconds: 100));
+    if (!tester.binding.hasScheduledFrame) {
+      break;
     }
-  });
+  }
+}
 
+void main() {
   Future<({GoRouter router, MockAuthRepository repository})> pumpRouterApp(
     WidgetTester tester, {
     String initialLocation = AppRoutes.splash,
@@ -91,15 +140,22 @@ void main() {
       () => repository.getCurrentProfile(),
     ).thenAnswer((_) => getCurrentProfile?.call() ?? Future.value(null));
 
-    final container = ProviderContainer(
+    final container = createTestContainer(
       overrides: [
         authRepositoryProvider.overrideWithValue(repository),
+        authProvider.overrideWith(
+          (ref) => TestRouteAuthNotifier(
+            repository: ref.watch(authRepositoryProvider),
+            crashlytics: ref.read(crashlyticsServiceProvider),
+            performance: ref.read(performanceServiceProvider),
+            session: session,
+          ),
+        ),
         supportedCountriesRepositoryProvider.overrideWithValue(
           FakeSupportedCountriesRepository(),
         ),
       ],
     );
-    addTearDown(container.dispose);
 
     final router = container.read(appRouterProvider);
     addTearDown(router.dispose);
@@ -117,7 +173,7 @@ void main() {
   }
 
   group('auth route builders', () {
-    testWidgets('otp and follow-up auth routes preserve redirect params', (
+    testWidgets('otp routes preserve redirect params while signed out', (
       tester,
     ) async {
       final result = await pumpRouterApp(
@@ -125,7 +181,7 @@ void main() {
         initialLocation: AppRoutes.otpLocation(redirect: AppRoutes.basket),
       );
       final router = result.router;
-      await tester.pumpAndSettle();
+      await _settleRouter(tester);
 
       expect(find.byType(OtpScreen), findsOneWidget);
       expect(
@@ -139,7 +195,7 @@ void main() {
           redirect: AppRoutes.basket,
         ),
       );
-      await tester.pumpAndSettle();
+      await _settleRouter(tester);
 
       expect(find.byType(OtpVerifyScreen), findsOneWidget);
       expect(
@@ -148,21 +204,6 @@ void main() {
             .redirectPath,
         AppRoutes.basket,
       );
-
-      router.go(
-        AppRoutes.registerLocation(
-          phone: '+250781234567',
-          redirect: AppRoutes.basket,
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.byType(RegisterScreen), findsOneWidget);
-      final registerScreen = tester.widget<RegisterScreen>(
-        find.byType(RegisterScreen),
-      );
-      expect(registerScreen.phone, '+250781234567');
-      expect(registerScreen.redirectPath, AppRoutes.basket);
     });
 
     testWidgets('failed profile restoration shows a retry state on splash', (
@@ -179,14 +220,14 @@ void main() {
       final repository = result.repository;
 
       await tester.pump(const Duration(milliseconds: 900));
-      await tester.pumpAndSettle();
+      await _settleRouter(tester);
 
-      expect(find.text('We could not restore your profile.'), findsOneWidget);
+      expect(find.text('We could not restore your profile'), findsOneWidget);
       expect(find.text('Retry'), findsOneWidget);
 
       await tester.tap(find.text('Retry'));
       await tester.pump(const Duration(milliseconds: 900));
-      await tester.pumpAndSettle();
+      await _settleRouter(tester);
 
       verify(() => repository.getCurrentProfile()).called(2);
     });

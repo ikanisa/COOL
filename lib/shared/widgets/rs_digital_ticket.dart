@@ -32,7 +32,11 @@ class RsDigitalTicket extends StatelessWidget {
         'This ticket was cancelled and can no longer be used.',
     };
 
-    return DecoratedBox(
+    return Semantics(
+      label: '${ticket.matchTitle}. ${ticket.seatType.value} seat. '
+          'Status: ${ticket.status.label}. ${ticket.venue}.',
+      excludeSemantics: true,
+      child: DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
@@ -182,6 +186,7 @@ class RsDigitalTicket extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

@@ -8,6 +8,16 @@ import 'package:flutter/foundation.dart';
 class EnvConfig {
   EnvConfig._();
 
+  /// Build flavor: 'staging' or 'production'.
+  /// Set via --dart-define=FLAVOR=production (defaults to staging).
+  static const flavor = String.fromEnvironment('FLAVOR', defaultValue: 'staging');
+
+  /// Whether running in production flavor.
+  static bool get isProduction => flavor == 'production';
+
+  /// Whether running in staging flavor.
+  static bool get isStaging => flavor == 'staging';
+
   static const supabaseUrl = String.fromEnvironment('SUPABASE_URL');
 
   static const supabaseAnonKey = String.fromEnvironment('SUPABASE_ANON_KEY');

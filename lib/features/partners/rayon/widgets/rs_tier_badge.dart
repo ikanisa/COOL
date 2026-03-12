@@ -34,9 +34,18 @@ class RsTierBadge extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-        child: Text(
-          _showStar ? '★ $_label' : _label,
-          style: RsTextStyles.badge(color: color),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (_showStar) ...[
+              Icon(Icons.star_rounded, size: 12, color: color),
+              const SizedBox(width: 4),
+            ],
+            Text(
+              _label,
+              style: RsTextStyles.badge(color: color),
+            ),
+          ],
         ),
       ),
     );

@@ -19,7 +19,13 @@ class RsClubCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CoolCard(
+    return Semantics(
+      button: true,
+      label: '${club.name}. ${club.region}. '
+          '${joined ? 'Joined' : 'Not joined'}. '
+          '${club.memberCount} members.',
+      excludeSemantics: true,
+      child: CoolCard(
       onTap: onTap,
       gradient: AppColors.cardGradient,
       borderColor: joined
@@ -93,6 +99,7 @@ class RsClubCard extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

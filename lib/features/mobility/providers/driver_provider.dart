@@ -3,14 +3,16 @@ import 'package:cool_app/features/mobility/models/driver_profile.dart';
 import 'package:cool_app/features/mobility/models/subscription_status.dart';
 import 'package:cool_app/features/mobility/models/trip.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' show PostgrestException;
 
 import '../../auth/providers/auth_provider.dart';
 import '../repositories/mobility_repository.dart';
 import '../repositories/subscription_repository.dart';
+import '../../../core/providers/supabase_client_provider.dart';
 import 'mobility_provider.dart';
 
 final subscriptionRepositoryProvider = Provider<SubscriptionRepository>((ref) {
-  return SubscriptionRepository();
+  return SubscriptionRepository(client: ref.read(supabaseClientProvider));
 });
 
 final driverProvider = StateNotifierProvider<DriverNotifier, DriverState>((
@@ -101,12 +103,18 @@ class DriverNotifier extends StateNotifier<DriverState> {
     SubscriptionStatus? subscription;
     List<Trip> trips = const <Trip>[];
     String? error;
+    var usedLegacyProfileFallback = false;
 
     await Future.wait([
       () async {
         try {
           profile = await _mobilityRepository.getDriverProfile(userId);
         } catch (err) {
+          if (_isRecoverableBackendContractError(err)) {
+            profile ??= _buildLegacyDriverProfileFallback(userId);
+            usedLegacyProfileFallback = profile != null;
+            return;
+          }
           error ??= err.toString();
         }
       }(),
@@ -116,6 +124,13 @@ class DriverNotifier extends StateNotifier<DriverState> {
             userId,
           );
         } catch (err) {
+          if (_isRecoverableBackendContractError(err)) {
+            subscription ??= SubscriptionStatus.freeTier(
+              driverId: userId,
+              tripsUsed: 0,
+            );
+            return;
+          }
           error ??= err.toString();
         }
       }(),
@@ -123,10 +138,18 @@ class DriverNotifier extends StateNotifier<DriverState> {
         try {
           trips = await _mobilityRepository.getMyTrips(userId);
         } catch (err) {
+          if (_isRecoverableBackendContractError(err)) {
+            trips = const <Trip>[];
+            return;
+          }
           error ??= err.toString();
         }
       }(),
     ]);
+
+    if (usedLegacyProfileFallback && profile != null && subscription != null) {
+      profile = profile!.copyWith(credits: subscription!.tripsRemaining);
+    }
 
     state = state.copyWith(
       profile: profile,
@@ -344,4 +367,45 @@ class DriverNotifier extends StateNotifier<DriverState> {
       loading: () {},
     );
   }
+
+  DriverProfile? _buildLegacyDriverProfileFallback(String userId) {
+    final user = _authState.user;
+    final vehicleType = user?.vehicleType?.trim();
+    final hasDriverContext =
+        user?.isDriver == true || (vehicleType?.isNotEmpty ?? false);
+
+    if (!hasDriverContext) {
+      return null;
+    }
+
+    return DriverProfile(
+      userId: userId,
+      fullName: user?.fullName.isNotEmpty == true ? user!.fullName : 'Driver',
+      vehicleType: vehicleType?.isNotEmpty == true ? vehicleType! : 'Moto Taxi',
+      isOnline: false,
+      credits: 15,
+    );
+  }
+}
+
+bool _isRecoverableBackendContractError(Object error) {
+  if (error is! PostgrestException) {
+    return false;
+  }
+
+  final normalized = [
+    error.code,
+    error.message,
+    error.details,
+    error.hint,
+  ].whereType<String>().join(' ').toLowerCase();
+
+  return error.code == 'PGRST202' ||
+      error.code == 'PGRST205' ||
+      error.code == '42703' ||
+      error.code == '42P01' ||
+      normalized.contains('does not exist') ||
+      normalized.contains('could not find') ||
+      normalized.contains('column') ||
+      normalized.contains('relation');
 }

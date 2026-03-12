@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/app_colors.dart';
-import '../../../shared/widgets/cool_skeleton.dart';
+import '../../../shared/widgets/cool_async_view.dart';
+import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_providers.dart';
 
 /// Admin screen for managing partner services.
@@ -13,6 +14,7 @@ class ManageServicesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final servicesAsync = ref.watch(adminPartnerServicesProvider(null));
+    final partners = ref.watch(adminPartnersProvider).valueOrNull ?? const [];
 
     return Scaffold(
       backgroundColor: AppColors.bg,
@@ -31,31 +33,17 @@ class ManageServicesScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.accent,
-        onPressed: () => _showEditSheet(context, ref, null),
+        onPressed: () => _showEditSheet(context, ref, null, partners),
         child: const Icon(Icons.add_rounded, color: Colors.black),
       ),
-      body: servicesAsync.when(
-        loading: () => const Padding(
-          padding: EdgeInsets.all(16),
-          child: CoolSkeletonList(),
-        ),
-        error: (e, _) => Center(
-          child: Text(
-            'Error: $e',
-            style: const TextStyle(color: AppColors.text3),
-          ),
-        ),
-        data: (services) {
-          if (services.isEmpty) {
-            return const Center(
-              child: Text(
-                'No services yet',
-                style: TextStyle(color: AppColors.text3),
-              ),
-            );
-          }
-          return ListView.separated(
-            padding: const EdgeInsets.all(16),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: CoolAsyncView<List<Map<String, dynamic>>>(
+          value: servicesAsync,
+          onRetry: () => ref.invalidate(adminPartnerServicesProvider(null)),
+          emptyCheck: (s) => s.isEmpty,
+          emptyMessage: 'No services yet',
+          builder: (services) => ListView.separated(
             itemCount: services.length,
             separatorBuilder: (_, _) => const SizedBox(height: 8),
             itemBuilder: (context, index) {
@@ -71,12 +59,12 @@ class ManageServicesScreen extends ConsumerWidget {
                 child: _ServiceTile(
                   service: s,
                   partnerName: partnerName,
-                  onEdit: () => _showEditSheet(context, ref, s),
+                  onEdit: () => _showEditSheet(context, ref, s, partners),
                 ),
               );
             },
-          );
-        },
+          ),
+        ),
       ),
     );
   }
@@ -85,12 +73,14 @@ class ManageServicesScreen extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     Map<String, dynamic>? service,
+    List<Map<String, dynamic>> partners,
   ) {
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (_) => _EditServiceSheet(service: service, ref: ref),
+      builder: (_) =>
+          _EditServiceSheet(service: service, ref: ref, partners: partners),
     );
   }
 }
@@ -151,6 +141,11 @@ class _ServiceTile extends StatelessWidget {
             '$partnerName · ${service['category']}',
             style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
           ),
+          const SizedBox(height: 2),
+          Text(
+            'Country: ${service['country'] ?? 'unassigned'}',
+            style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
+          ),
           if (isMock && mockBatch.isNotEmpty) ...[
             const SizedBox(height: 4),
             Text(
@@ -169,9 +164,14 @@ class _ServiceTile extends StatelessWidget {
 }
 
 class _EditServiceSheet extends StatefulWidget {
-  const _EditServiceSheet({this.service, required this.ref});
+  const _EditServiceSheet({
+    this.service,
+    required this.ref,
+    required this.partners,
+  });
   final Map<String, dynamic>? service;
   final WidgetRef ref;
+  final List<Map<String, dynamic>> partners;
   @override
   State<_EditServiceSheet> createState() => _EditServiceSheetState();
 }
@@ -182,8 +182,8 @@ class _EditServiceSheetState extends State<_EditServiceSheet> {
       _emojiCtl,
       _categoryCtl,
       _ctaLabelCtl,
-      _ctaActionCtl,
-      _partnerIdCtl;
+      _ctaActionCtl;
+  String? _selectedPartnerId;
   bool _saving = false;
 
   @override
@@ -204,9 +204,16 @@ class _EditServiceSheetState extends State<_EditServiceSheet> {
     _ctaActionCtl = TextEditingController(
       text: s?['cta_action']?.toString() ?? '',
     );
-    _partnerIdCtl = TextEditingController(
-      text: s?['partner_id']?.toString() ?? '',
-    );
+    final seededPartnerId = s?['partner_id']?.toString();
+    final availablePartnerIds = widget.partners
+        .map((partner) => partner['id']?.toString())
+        .whereType<String>()
+        .toSet();
+    _selectedPartnerId = availablePartnerIds.contains(seededPartnerId)
+        ? seededPartnerId
+        : (widget.partners.isNotEmpty
+              ? widget.partners.first['id']?.toString()
+              : null);
   }
 
   @override
@@ -217,7 +224,6 @@ class _EditServiceSheetState extends State<_EditServiceSheet> {
     _categoryCtl.dispose();
     _ctaLabelCtl.dispose();
     _ctaActionCtl.dispose();
-    _partnerIdCtl.dispose();
     super.dispose();
   }
 
@@ -230,7 +236,7 @@ class _EditServiceSheetState extends State<_EditServiceSheet> {
       'category': _categoryCtl.text.trim(),
       'cta_label': _ctaLabelCtl.text.trim(),
       'cta_action': _ctaActionCtl.text.trim(),
-      'partner_id': _partnerIdCtl.text.trim(),
+      'partner_id': _selectedPartnerId,
     };
     if (widget.service != null) data['id'] = widget.service!['id'];
     try {
@@ -241,9 +247,7 @@ class _EditServiceSheetState extends State<_EditServiceSheet> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error: $e')));
+        CoolToast.error(context, 'Error: $e');
       }
     } finally {
       if (mounted) {
@@ -254,6 +258,14 @@ class _EditServiceSheetState extends State<_EditServiceSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final selectedPartner = widget.partners
+        .cast<Map<String, dynamic>?>()
+        .firstWhere(
+          (partner) => partner?['id']?.toString() == _selectedPartnerId,
+          orElse: () => null,
+        );
+    final partnerCountry = selectedPartner?['country']?.toString();
+
     return Container(
       decoration: const BoxDecoration(
         color: AppColors.surface,
@@ -290,13 +302,28 @@ class _EditServiceSheetState extends State<_EditServiceSheet> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                _field('Partner ID', _partnerIdCtl),
+                _partnerField(),
                 _field('Title', _titleCtl),
                 _field('Subtitle', _subtitleCtl),
                 _field('Emoji', _emojiCtl),
                 _field('Category', _categoryCtl),
                 _field('CTA Label', _ctaLabelCtl),
                 _field('CTA Action', _ctaActionCtl),
+                if (partnerCountry != null && partnerCountry.trim().isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Country: $partnerCountry',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.text3,
+                        ),
+                      ),
+                    ),
+                  ),
                 const SizedBox(height: 12),
                 SizedBox(
                   width: double.infinity,
@@ -350,4 +377,39 @@ class _EditServiceSheetState extends State<_EditServiceSheet> {
       ),
     ),
   );
+
+  Widget _partnerField() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: DropdownButtonFormField<String>(
+        initialValue: _selectedPartnerId,
+        dropdownColor: AppColors.surface2,
+        decoration: InputDecoration(
+          labelText: 'Partner',
+          labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
+          filled: true,
+          fillColor: AppColors.surface2,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+        ),
+        items: widget.partners
+            .map(
+              (partner) => DropdownMenuItem<String>(
+                value: partner['id']?.toString(),
+                child: Text(
+                  '${partner['name'] ?? 'Partner'} (${partner['country'] ?? '--'})',
+                ),
+              ),
+            )
+            .toList(growable: false),
+        onChanged: _saving
+            ? null
+            : (value) {
+                setState(() => _selectedPartnerId = value);
+              },
+      ),
+    );
+  }
 }

@@ -15,8 +15,12 @@ class WaButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
+    return Semantics(
+      button: true,
+      label: label,
+      excludeSemantics: true,
+      child: GestureDetector(
+        onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
         decoration: BoxDecoration(
@@ -27,7 +31,7 @@ class WaButton extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('💬', style: TextStyle(fontSize: 14)),
+            const Icon(Icons.chat_bubble_rounded, size: 14, color: AppColors.text2),
             const SizedBox(width: 6),
             Text(
               label,
@@ -39,6 +43,7 @@ class WaButton extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

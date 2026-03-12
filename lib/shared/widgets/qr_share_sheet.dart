@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/providers/engagement_providers.dart';
 import '../../core/theme/app_colors.dart';
+import 'cool_toast.dart';
 import 'wa_button.dart';
 
 /// A modal bottom sheet for sharing a group invite via QR code, copy link,
@@ -82,9 +83,7 @@ class QrShareSheet extends ConsumerWidget {
           );
     } else {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('WhatsApp is not available')),
-        );
+        CoolToast.error(context, 'WhatsApp is not available');
       }
     }
     if (context.mounted) Navigator.of(context).pop();
@@ -223,19 +222,7 @@ class QrShareSheet extends ConsumerWidget {
                         if (!context.mounted) {
                           return;
                         }
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Link copied!',
-                              style: GoogleFonts.dmSans(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.text,
-                              ),
-                            ),
-                            duration: const Duration(seconds: 2),
-                          ),
-                        );
+                        CoolToast.success(context, 'Link copied!');
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(

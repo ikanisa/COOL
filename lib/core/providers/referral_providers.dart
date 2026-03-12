@@ -2,9 +2,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/referral_attribution.dart';
 import '../repositories/referral_repository.dart';
+import 'supabase_client_provider.dart';
 
 final referralRepositoryProvider = Provider<ReferralRepository>((ref) {
-  return ReferralRepository();
+  return ReferralRepository(client: ref.read(supabaseClientProvider));
 });
 
 final activeReferralAttributionProvider =

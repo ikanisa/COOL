@@ -1,9 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/providers/supabase_client_provider.dart';
 import '../repositories/admin_repository.dart';
 
 final adminRepositoryProvider = Provider<AdminRepository>((ref) {
-  return AdminRepository();
+  return AdminRepository(client: ref.read(supabaseClientProvider));
 });
 
 final adminUsersProvider = FutureProvider<List<Map<String, dynamic>>>((

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -28,11 +29,11 @@ class CreditRepository {
 
     // Build factors directly from the score row columns
     final factors = <CreditFactor>[];
-    const factorSpecs = <({String key, String label, String emoji})>[
-      (key: 'cashflow_stability', label: 'Wallet Cashflow', emoji: '📲'),
-      (key: 'savings_discipline', label: 'Savings Discipline', emoji: '💰'),
-      (key: 'group_reliability', label: 'Group Reliability', emoji: '👥'),
-      (key: 'profile_strength', label: 'Profile Strength', emoji: '🪪'),
+    final factorSpecs = <({String key, String label, IconData icon})>[
+      (key: 'cashflow_stability', label: 'Wallet Cashflow', icon: Icons.account_balance_wallet_rounded),
+      (key: 'savings_discipline', label: 'Savings Discipline', icon: Icons.savings_rounded),
+      (key: 'group_reliability', label: 'Group Reliability', icon: Icons.group_rounded),
+      (key: 'profile_strength', label: 'Profile Strength', icon: Icons.badge_rounded),
     ];
     for (final spec in factorSpecs) {
       final value = _tryAsInt(latest[spec.key]);
@@ -41,7 +42,7 @@ class CreditRepository {
           CreditFactor(
             key: spec.key,
             label: spec.label,
-            emoji: spec.emoji,
+            icon: spec.icon,
             score: value.clamp(0, 100),
           ),
         );

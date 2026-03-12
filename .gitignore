@@ -51,6 +51,7 @@ app.*.map.json
 supabase/functions/.env
 supabase/functions/.env.*
 !supabase/functions/.env.example
+supabase/.temp/
 
 # Signing credentials
 android/key.properties

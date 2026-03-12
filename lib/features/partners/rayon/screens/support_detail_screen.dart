@@ -12,6 +12,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../core/theme/rs_text_styles.dart';
 import '../../../../shared/widgets/cool_button.dart';
+import '../../../../shared/widgets/cool_toast.dart';
 import '../../../../shared/widgets/share_card.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_screen_background.dart';
@@ -31,6 +32,11 @@ final supportDetailAmountProvider = StateProvider.autoDispose
 final supportDetailPendingContributionIdProvider = StateProvider.autoDispose
     .family<String?, String>((ref, initiativeId) {
       return null;
+    });
+
+final supportDetailSubmittingProvider = StateProvider.autoDispose
+    .family<bool, String>((ref, initiativeId) {
+      return false;
     });
 
 final supportDetailInitiativeProvider =
@@ -100,8 +106,9 @@ class SupportDetailScreen extends StatelessWidget {
         final pendingContributionId = ref.watch(
           supportDetailPendingContributionIdProvider(initiativeId),
         );
-        final isSubmitting = ref.watch(rayonActionLoadingProvider);
-        final notifier = ref.read(rayonSportsProvider.notifier);
+        final isSubmitting = ref.watch(
+          supportDetailSubmittingProvider(initiativeId),
+        );
         final referralInviteId = _resolveReferralInviteId(ref);
 
         return Scaffold(
@@ -125,7 +132,7 @@ class SupportDetailScreen extends StatelessWidget {
             child: initiativeAsync.when(
               loading: () => const _DetailLoadingState(),
               error: (error, stackTrace) => _DetailStateCard(
-                emoji: '⚠️',
+                icon: Icons.warning_amber_rounded,
                 title: 'Unable to load this cause',
                 subtitle: 'Please try again in a moment.',
                 actionLabel: 'Back',
@@ -134,9 +141,9 @@ class SupportDetailScreen extends StatelessWidget {
               data: (initiative) {
                 if (initiative == null) {
                   return _DetailStateCard(
-                    emoji: '🔎',
+                    icon: Icons.search_off_rounded,
                     title: 'Initiative not found',
-                    subtitle: 'This support cause may have expired or moved.',
+                    subtitle: 'This cause may have expired or moved.',
                     actionLabel: 'Back to support',
                     onTap: () => context.go('/partners/rayon-sports/support'),
                   );
@@ -230,6 +237,17 @@ class SupportDetailScreen extends StatelessWidget {
                         icon: Icons.favorite_border_rounded,
                         isLoading: isSubmitting,
                         onTap: () async {
+                          final notifier = ref.read(
+                            rayonSportsProvider.notifier,
+                          );
+                          ref
+                                  .read(
+                                    supportDetailSubmittingProvider(
+                                      initiativeId,
+                                    ).notifier,
+                                  )
+                                  .state =
+                              true;
                           try {
                             final result = await notifier.supportInitiative(
                               initiativeId: initiative.id,
@@ -259,16 +277,21 @@ class SupportDetailScreen extends StatelessWidget {
                             if (!context.mounted) {
                               return;
                             }
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(result.message)),
-                            );
+                            CoolToast.info(context, result.message);
                           } catch (error) {
                             if (!context.mounted) {
                               return;
                             }
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(error.toString())),
-                            );
+                            CoolToast.error(context, error.toString());
+                          } finally {
+                            ref
+                                    .read(
+                                      supportDetailSubmittingProvider(
+                                        initiativeId,
+                                      ).notifier,
+                                    )
+                                    .state =
+                                false;
                           }
                         },
                       ),
@@ -302,7 +325,7 @@ class SupportDetailScreen extends StatelessWidget {
                       // ── Share initiative ──────────────────────
                       ShareCard(
                         title: 'Share this initiative',
-                        emoji: '🤝',
+                        icon: Icons.link_rounded,
                         subtitle: initiative.title,
                         shareUrl: DeepLinkConfig.initiativeUri(
                           initiative.id,
@@ -358,12 +381,10 @@ class _DetailHero extends StatelessWidget {
             Positioned(
               right: 18,
               top: 6,
-              child: Text(
-                _categoryEmoji(initiative.category.value),
-                style: TextStyle(
-                  fontSize: 82,
-                  color: AppColors.rsWhite.withValues(alpha: 0.92),
-                ),
+              child: Icon(
+                _categoryIcon(initiative.category.value),
+                size: 82,
+                color: AppColors.rsWhite.withValues(alpha: 0.92),
               ),
             ),
             Positioned(
@@ -482,7 +503,7 @@ class _PerksCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '★ Supporter Perks',
+            'Supporter Perks',
             style: GoogleFonts.barlowCondensed(
               fontSize: 24,
               fontWeight: FontWeight.w900,
@@ -588,7 +609,7 @@ class _MomoInfoBanner extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  'Rayon Sports uses MTN MoMo code $rayonSportsMomoCode. We launch ${rayonSportsMomoUssd(amount)} for ${_formatRwf(amount)}. ${_tierName(tier)} supporters keep club causes moving.',
+                  'MoMo code $rayonSportsMomoCode · USSD ${rayonSportsMomoUssd(amount)} for ${_formatRwf(amount)}.',
                   style: GoogleFonts.barlow(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
@@ -803,7 +824,7 @@ class _PendingContributionCard extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            'This contribution is recorded on the backend and stays pending until MTN MoMo confirms ${contribution.momoReference}. Confirmed support is what updates cause totals and supporter counts.',
+            'Pending until MoMo confirms ${contribution.momoReference}.',
             style: GoogleFonts.barlow(
               fontSize: 13,
               fontWeight: FontWeight.w500,
@@ -935,14 +956,14 @@ class _CategoryPill extends StatelessWidget {
 
 class _DetailStateCard extends StatelessWidget {
   const _DetailStateCard({
-    required this.emoji,
+    required this.icon,
     required this.title,
     required this.subtitle,
     required this.actionLabel,
     required this.onTap,
   });
 
-  final String emoji;
+  final IconData icon;
   final String title;
   final String subtitle;
   final String actionLabel;
@@ -958,7 +979,7 @@ class _DetailStateCard extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(emoji, style: const TextStyle(fontSize: 44)),
+              Icon(icon, size: 44, color: AppColors.text2),
               const SizedBox(height: 12),
               Text(
                 title,
@@ -1067,31 +1088,22 @@ Color _contributionStatusColor(String status) {
   }
 }
 
-String _tierName(FanTier tier) {
-  return switch (tier) {
-    FanTier.blue => 'Blue',
-    FanTier.silver => 'Silver',
-    FanTier.gold => 'Gold',
-    FanTier.platinum => 'Platinum',
-  };
-}
-
 String _formatRwf(int amount) {
   return 'RWF ${NumberFormat.decimalPattern('en').format(amount)}';
 }
 
-String _categoryEmoji(String category) {
+IconData _categoryIcon(String category) {
   switch (category.toLowerCase()) {
     case 'youth':
-      return '🧒';
+      return Icons.child_care_rounded;
     case 'matchday':
-      return '🏟️';
+      return Icons.stadium_rounded;
     case 'infrastructure':
-      return '🏗️';
+      return Icons.construction_rounded;
     case 'charity':
-      return '❤️';
+      return Icons.favorite_rounded;
     default:
-      return '🤝';
+      return Icons.handshake_rounded;
   }
 }
 

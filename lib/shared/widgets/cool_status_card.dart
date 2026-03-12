@@ -18,7 +18,11 @@ class CoolStatusCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final tier = status.tier;
 
-    return Container(
+    return Semantics(
+      label: '${tier.label} member. ${status.totalPoints} points. '
+          '${status.currentStreak} day streak.',
+      excludeSemantics: true,
+      child: Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -124,24 +128,25 @@ class CoolStatusCard extends StatelessWidget {
           Row(
             children: [
               _StatPill(
-                emoji: '🔥',
+                icon: Icons.local_fire_department_rounded,
                 label: '${status.currentStreak} streak',
               ),
               const SizedBox(width: 8),
               _StatPill(
-                emoji: '🏆',
+                icon: Icons.emoji_events_rounded,
                 label: '${status.longestStreak} best',
               ),
               if (status.streakGraceRemaining > 0) ...[
                 const SizedBox(width: 8),
                 _StatPill(
-                  emoji: '🛡️',
+                  icon: Icons.shield_rounded,
                   label: '${status.streakGraceRemaining} grace',
                 ),
               ],
             ],
           ),
         ],
+      ),
       ),
     );
   }
@@ -179,25 +184,26 @@ class _TierDot extends StatelessWidget {
         ],
       ),
       child: Center(
-        child: Text(
-          _tierEmoji(tier),
-          style: const TextStyle(fontSize: 18),
+        child: Icon(
+          _tierIcon(tier),
+          size: 18,
+          color: Colors.white,
         ),
       ),
     );
   }
 
-  static String _tierEmoji(FanTier tier) => switch (tier) {
-    FanTier.blue => '🔵',
-    FanTier.silver => '⚪',
-    FanTier.gold => '🟡',
-    FanTier.platinum => '💎',
+  static IconData _tierIcon(FanTier tier) => switch (tier) {
+    FanTier.blue => Icons.favorite_rounded,
+    FanTier.silver => Icons.workspace_premium_rounded,
+    FanTier.gold => Icons.emoji_events_rounded,
+    FanTier.platinum => Icons.diamond_rounded,
   };
 }
 
 class _StatPill extends StatelessWidget {
-  const _StatPill({required this.emoji, required this.label});
-  final String emoji;
+  const _StatPill({required this.icon, required this.label});
+  final IconData icon;
   final String label;
 
   @override
@@ -211,7 +217,7 @@ class _StatPill extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(emoji, style: const TextStyle(fontSize: 13)),
+          Icon(icon, size: 13, color: AppColors.text2),
           const SizedBox(width: 4),
           Text(
             label,

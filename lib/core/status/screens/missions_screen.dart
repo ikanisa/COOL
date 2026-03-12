@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/status/models/cool_mission.dart';
 import '../../../core/status/providers/cool_missions_provider.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/utils/icon_mapper.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/mission_progress_card.dart';
 import '../../../features/auth/providers/auth_provider.dart';
@@ -172,7 +173,7 @@ class _UpcomingMissionTile extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Text(mission.emoji, style: const TextStyle(fontSize: 22)),
+          Icon(IconMapper.from(mission.emoji), size: 22, color: AppColors.text2),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -198,13 +199,20 @@ class _UpcomingMissionTile extends StatelessWidget {
             ),
           ),
           if (mission.rewardPoints > 0)
-            Text(
-              '🏆 ${mission.rewardPoints} pts',
-              style: GoogleFonts.dmSans(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: AppColors.yellow,
-              ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.emoji_events_rounded, size: 14, color: AppColors.yellow),
+                const SizedBox(width: 4),
+                Text(
+                  '${mission.rewardPoints} pts',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.yellow,
+                  ),
+                ),
+              ],
             ),
         ],
       ),

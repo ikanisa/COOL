@@ -13,6 +13,7 @@ import '../../features/auth/screens/register_screen.dart';
 import '../../features/auth/screens/splash_screen.dart';
 import '../../features/basket/screens/basket_screen.dart';
 import '../../features/credit/screens/credit_score_screen.dart';
+import '../../features/credit/screens/credit_readiness_screen.dart';
 import '../../features/groups/screens/create_group_screen.dart';
 import '../../features/groups/screens/group_detail_screen.dart';
 import '../../features/groups/screens/group_invite_screen.dart';
@@ -24,6 +25,7 @@ import '../../features/mobility/screens/schedule_trip_screen.dart';
 import '../../features/mobility/screens/trip_board_screen.dart';
 
 import '../../features/momo/screens/momo_screen.dart';
+import '../../features/momo/screens/momo_statements_screen.dart';
 import '../../features/partners/screens/bank_partner_screen.dart';
 import '../../features/partners/screens/fans_screen.dart';
 import '../../features/partners/screens/partners_screen.dart';
@@ -45,6 +47,13 @@ import '../../features/partners/screens/rayon/tickets_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
 import '../../shared/widgets/qr_scanner_screen.dart';
 import '../../features/admin/screens/admin_dashboard_screen.dart';
+import '../../features/partners/rayon/screens/rs_admin_dashboard_screen.dart';
+import '../../features/partners/rayon/screens/rs_admin_matches_screen.dart';
+import '../../features/partners/rayon/screens/rs_admin_tickets_screen.dart';
+import '../../features/partners/rayon/screens/rs_admin_shop_screen.dart';
+import '../../features/partners/rayon/screens/rs_admin_orders_screen.dart';
+import '../../features/partners/rayon/screens/rs_admin_members_screen.dart';
+import '../../features/partners/rayon/screens/rs_admin_initiatives_screen.dart';
 import '../../features/admin/screens/manage_users_screen.dart';
 import '../../features/admin/screens/manage_partners_screen.dart';
 import '../../features/admin/screens/manage_services_screen.dart';
@@ -53,6 +62,9 @@ import '../../features/admin/screens/manage_vehicle_types_screen.dart';
 import '../../features/admin/screens/manage_countries_screen.dart';
 import '../../features/admin/screens/manage_app_config_screen.dart';
 import '../status/screens/missions_screen.dart';
+import '../../shared/widgets/kill_switch_gate.dart';
+import '../../shared/widgets/secure_screen_wrapper.dart';
+import '../providers/engagement_providers.dart';
 import 'shell_route.dart';
 
 // ────────────────────────────────────────────────────────────────────────
@@ -91,6 +103,7 @@ abstract final class AppRoutes {
   static const groupInvite = '/invite/:code';
   static const basket = '/basket';
   static const momo = '/momo';
+  static const momoStatements = '/momo/statements';
   static const mobility = '/mobility';
   static const mobilitySchedule = '/mobility/schedule';
   static const mobilityTrips = '/mobility/trips';
@@ -113,6 +126,7 @@ abstract final class AppRoutes {
       '/partners/rayon-sports/tickets/:ticketId/confirm';
   static const rayonMembership = '/partners/rayon-sports/membership';
   static const credit = '/credit';
+  static const creditReadiness = '/credit/readiness';
   static const missions = '/missions';
   static const profile = '/profile';
 
@@ -127,6 +141,16 @@ abstract final class AppRoutes {
   static const adminVehicleTypes = '/admin/vehicle-types';
   static const adminCountries = '/admin/countries';
   static const adminAppConfig = '/admin/app-config';
+
+  // RS Admin routes
+  static const adminRayon = '/admin/rayon';
+  static const adminRayonMatches = '/admin/rayon/matches';
+  static const adminRayonTickets = '/admin/rayon/tickets';
+  static const adminRayonShop = '/admin/rayon/shop';
+  static const adminRayonOrders = '/admin/rayon/orders';
+  static const adminRayonMembers = '/admin/rayon/members';
+  static const adminRayonFanClubs = '/admin/rayon/fan-clubs';
+  static const adminRayonInitiatives = '/admin/rayon/initiatives';
 
   static String onboardingLocation({String? redirect}) {
     return _location(onboarding, redirect: redirect);
@@ -269,6 +293,7 @@ bool _hasPartnerScannerAccess(User? user) {
 
 String? resolveAppRedirect({
   required String location,
+  String? requestedLocation,
   required bool hasSession,
   required bool hasProfile,
   AuthProfileRestoreState profileRestoreState =
@@ -279,9 +304,9 @@ String? resolveAppRedirect({
 }) {
   final isAuthRoute = _authRoutes.contains(location);
   final isAdminRoute = _isAdminRoute(location);
-  final redirectTarget = _normalizeRedirectTarget(
-    pendingRedirect ?? (isAuthRoute ? null : location),
-  );
+  final redirectSource =
+      pendingRedirect ?? (isAuthRoute ? null : requestedLocation ?? location);
+  final redirectTarget = _normalizeRedirectTarget(redirectSource);
   final isProfileRestoreBlocked =
       profileRestoreState == AuthProfileRestoreState.pending ||
       profileRestoreState == AuthProfileRestoreState.failed;
@@ -300,7 +325,7 @@ String? resolveAppRedirect({
     return isAuthRoute
         ? null
         : AppRoutes.onboardingLocation(
-            redirect: _normalizeRedirectTarget(location),
+            redirect: _normalizeRedirectTarget(requestedLocation ?? location),
           );
   }
 
@@ -326,9 +351,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         hasProfile: state.user?.isProfileComplete ?? false,
         isAdmin: state.user?.isAdmin ?? false,
         profileRestoreState: state.profileRestoreState,
+        countryCode: resolveAuthStateCountryCode(state),
       ),
     ),
   );
+  final featureFlags = ref.watch(featureFlagsStateProvider);
 
   return GoRouter(
     navigatorKey: rootNavigatorKey,
@@ -337,6 +364,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       final location = state.matchedLocation;
       return resolveAppRedirect(
         location: location,
+        requestedLocation: state.uri.toString(),
         hasSession: authSnapshot.session != null,
         hasProfile: authSnapshot.hasProfile,
         profileRestoreState: authSnapshot.profileRestoreState,
@@ -402,11 +430,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) {
           final modeStr = state.uri.queryParameters['mode'] ?? 'ticket';
           final mode = modeStr == 'momo' ? QrScanMode.momo : QrScanMode.ticket;
-          final authState = ref.read(authProvider);
-          final currentUser = Supabase.instance.client.auth.currentUser;
           final ticketScanningEnabled =
-              authState.user?.isAdmin == true ||
-              _hasPartnerScannerAccess(currentUser);
+              authSnapshot.isAdmin ||
+              _hasPartnerScannerAccess(authSnapshot.session?.user);
           return QrScannerScreen(
             mode: mode,
             ticketScanningEnabled: ticketScanningEnabled,
@@ -457,8 +483,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: AppRoutes.mobility,
-                pageBuilder: (context, state) =>
-                    const NoTransitionPage(child: MobilityHomeScreen()),
+                pageBuilder: (context, state) => NoTransitionPage(
+                  child: KillSwitchGate(
+                    enabled: featureFlags.isMobilityEnabled(
+                      countryCode: authSnapshot.countryCode,
+                      isAdmin: authSnapshot.isAdmin,
+                    ),
+                    featureName: 'Mobility',
+                    child: const MobilityHomeScreen(),
+                  ),
+                ),
                 routes: [
                   GoRoute(
                     path: 'schedule',
@@ -496,7 +530,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.momo,
-        builder: (context, state) => const MomoScreen(),
+        builder: (context, state) => KillSwitchGate(
+          enabled: featureFlags.isMomoEnabled(
+            countryCode: authSnapshot.countryCode,
+            isAdmin: authSnapshot.isAdmin,
+          ),
+          featureName: 'Mobile Money',
+          child: const SecureScreenWrapper(child: MomoScreen()),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.momoStatements,
+        builder: (context, state) => const MomoStatementsScreen(),
       ),
       GoRoute(
         path: AppRoutes.partners,
@@ -557,8 +602,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               ),
               GoRoute(
                 path: 'tickets',
-                builder: (context, state) => TicketsScreen(
-                  referralParameters: state.uri.queryParameters,
+                builder: (context, state) => KillSwitchGate(
+                  enabled: featureFlags.isTicketPurchaseEnabled(
+                    countryCode: authSnapshot.countryCode,
+                    isAdmin: authSnapshot.isAdmin,
+                  ),
+                  featureName: 'Ticket Purchase',
+                  child: TicketsScreen(
+                    referralParameters: state.uri.queryParameters,
+                  ),
                 ),
                 routes: [
                   GoRoute(
@@ -610,7 +662,25 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.credit,
-        builder: (context, state) => const CreditScoreScreen(),
+        builder: (context, state) => KillSwitchGate(
+          enabled: featureFlags.isCreditEnabled(
+            countryCode: authSnapshot.countryCode,
+            isAdmin: authSnapshot.isAdmin,
+          ),
+          featureName: 'Credit Score',
+          child: const SecureScreenWrapper(child: CreditScoreScreen()),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.creditReadiness,
+        builder: (context, state) => KillSwitchGate(
+          enabled: featureFlags.isCreditEnabled(
+            countryCode: authSnapshot.countryCode,
+            isAdmin: authSnapshot.isAdmin,
+          ),
+          featureName: 'Credit Readiness',
+          child: const SecureScreenWrapper(child: CreditReadinessScreen()),
+        ),
       ),
       GoRoute(
         path: AppRoutes.missions,
@@ -649,6 +719,42 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.adminAppConfig,
         builder: (context, state) => const ManageAppConfigScreen(),
+      ),
+
+      // ── RS Admin routes ────────────────────────────────────────
+      GoRoute(
+        path: AppRoutes.adminRayon,
+        builder: (context, state) => const RsAdminDashboardScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.adminRayonMatches,
+        builder: (context, state) => const RsAdminMatchesScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.adminRayonTickets,
+        builder: (context, state) => const RsAdminTicketsScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.adminRayonShop,
+        builder: (context, state) => const RsAdminShopScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.adminRayonOrders,
+        builder: (context, state) => const RsAdminOrdersScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.adminRayonMembers,
+        builder: (context, state) => const RsAdminMembersScreen(),
+      ),
+      // TODO(admin): Create dedicated RsAdminFanClubsScreen when fan club
+      // management is needed. Using initiatives screen as the closest match.
+      GoRoute(
+        path: AppRoutes.adminRayonFanClubs,
+        builder: (context, state) => const RsAdminInitiativesScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.adminRayonInitiatives,
+        builder: (context, state) => const RsAdminInitiativesScreen(),
       ),
     ],
   );

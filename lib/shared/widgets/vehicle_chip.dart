@@ -17,8 +17,12 @@ class VehicleChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
+    return Semantics(
+      button: true,
+      selected: isSelected,
+      label: '$label filter',
+      child: GestureDetector(
+        onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
@@ -37,6 +41,7 @@ class VehicleChip extends StatelessWidget {
             color: isSelected ? AppColors.accent : AppColors.text2,
           ),
         ),
+      ),
       ),
     );
   }

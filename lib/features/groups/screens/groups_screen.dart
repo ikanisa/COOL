@@ -109,8 +109,9 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(groupsProvider);
-    final groups = state.groups;
+    final groups = ref.watch(groupsListProvider);
+    final isLoading = ref.watch(groupsListLoadingProvider);
+    final error = ref.watch(groupsListErrorProvider);
 
     return Scaffold(
       backgroundColor: AppColors.bg,
@@ -126,64 +127,75 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
         ),
       ),
       body: CoolScreenBackground(
-        child: state.isLoading && groups.isEmpty
+        child: isLoading && groups.isEmpty
             ? const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 18, vertical: 16),
                 child: CoolSkeletonList(),
               )
-            : state.error != null && groups.isEmpty
-            ? _ErrorState(error: state.error!, onRetry: _refreshActiveTab)
+            : error != null && groups.isEmpty
+            ? _ErrorState(error: error, onRetry: _refreshActiveTab)
             : RefreshIndicator(
                 onRefresh: _refreshActiveTab,
-                child: SingleChildScrollView(
+                child: CustomScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
-                  padding: const EdgeInsets.fromLTRB(18, 8, 18, 96),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 8),
-
-                      // ── Tab pills ─────────────────────────────────
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: _tabs.map((t) {
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 8),
-                              child: TabPill(
-                                label: t,
-                                isActive: _activeTab == t,
-                                onTap: () => unawaited(_onTabChanged(t)),
+                  slivers: [
+                    SliverPadding(
+                      padding: const EdgeInsets.fromLTRB(18, 8, 18, 0),
+                      sliver: SliverToBoxAdapter(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 8),
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: _tabs.map((t) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(right: 8),
+                                    child: TabPill(
+                                      label: t,
+                                      isActive: _activeTab == t,
+                                      onTap: () => unawaited(_onTabChanged(t)),
+                                    ),
+                                  );
+                                }).toList(),
                               ),
-                            );
-                          }).toList(),
+                            ),
+                            const SizedBox(height: 20),
+                            if (!_activeTab.contains('Public')) ...[
+                              const _CreateGroupBanner(),
+                              const SizedBox(height: 20),
+                            ],
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 20),
-
-                      // ── Create group banner ───────────────────────
-                      if (!_activeTab.contains('Public')) ...[
-                        const _CreateGroupBanner(),
-                        const SizedBox(height: 20),
-                      ],
-
-                      // ── Group list / empty state ──────────────────
-                      if (groups.isEmpty)
-                        _EmptyState(
-                          isPublicCatalog: _activeTab.contains('Public'),
-                        )
-                      else
-                        ...groups.map(
-                          (g) => Padding(
-                            padding: const EdgeInsets.only(bottom: 12),
-                            child: _GroupListItem(
-                              group: g,
-                              onShare: () => _openShareSheet(g),
-                            ),
+                    ),
+                    if (groups.isEmpty)
+                      SliverPadding(
+                        padding: const EdgeInsets.fromLTRB(18, 0, 18, 96),
+                        sliver: SliverToBoxAdapter(
+                          child: _EmptyState(
+                            isPublicCatalog: _activeTab.contains('Public'),
                           ),
                         ),
-                    ],
-                  ),
+                      )
+                    else
+                      SliverPadding(
+                        padding: const EdgeInsets.fromLTRB(18, 0, 18, 96),
+                        sliver: SliverList.separated(
+                          itemCount: groups.length,
+                          itemBuilder: (context, index) {
+                            final group = groups[index];
+                            return _GroupListItem(
+                              group: group,
+                              onShare: () => _openShareSheet(group),
+                            );
+                          },
+                          separatorBuilder: (_, _) =>
+                              const SizedBox(height: 12),
+                        ),
+                      ),
+                  ],
                 ),
               ),
       ),
@@ -192,10 +204,10 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
 
   static const _tabs = [
     'All',
-    '💰 Saving',
-    '❤️ Community',
-    '🌐 Public',
-    '🔒 Private',
+    'Saving',
+    'Community',
+    'Public',
+    'Private',
   ];
 }
 
@@ -254,7 +266,7 @@ class _CreateGroupBanner extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                'Saving group (bank custodian) or\nCommunity Fund (MOMO)',
+                'Saving or Community',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
@@ -288,7 +300,7 @@ class _EmptyState extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Text('👥', style: GoogleFonts.dmSans(fontSize: 28)),
+          const Icon(Icons.people_alt_outlined, size: 32, color: AppColors.text3),
           const SizedBox(height: 12),
           Text(
             isPublicCatalog ? 'No public groups found' : 'No groups yet',
@@ -301,8 +313,8 @@ class _EmptyState extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             isPublicCatalog
-                ? 'Try refreshing again later or switch back to your own group circles.'
-                : 'Create a new savings circle or switch tabs to browse public groups.',
+                ? 'Pull to refresh or check your groups.'
+                : 'Create a group or browse public ones.',
             textAlign: TextAlign.center,
             style: GoogleFonts.dmSans(
               fontSize: 13,
@@ -502,7 +514,7 @@ class _GroupListItem extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text('🔗', style: TextStyle(fontSize: 13)),
+                        const Icon(Icons.link_rounded, size: 14, color: AppColors.text2),
                         const SizedBox(width: 5),
                         Text(
                           'Share',
@@ -552,7 +564,7 @@ class _ErrorState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('⚠️', style: TextStyle(fontSize: 48)),
+            const Icon(Icons.warning_amber_rounded, size: 40, color: AppColors.orange),
             const SizedBox(height: 16),
             Text(
               'Something went wrong',

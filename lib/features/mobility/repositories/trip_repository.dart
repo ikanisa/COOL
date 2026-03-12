@@ -1,12 +1,17 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:cool_app/core/sync/network_status.dart';
+import 'package:cool_app/core/utils/json_helpers.dart' as jh;
 import 'package:cool_app/features/mobility/models/trip_post_request.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class TripRepository {
-  const TripRepository();
+  TripRepository({SupabaseClient? client})
+    : _client = client ?? Supabase.instance.client;
+
+  final SupabaseClient _client;
 
   static const _boxName = 'mobility_trip_posts';
   static const _tableName = 'mobility_trips';
@@ -37,7 +42,7 @@ class TripRepository {
       await _deleteCachedTrip(clientRequestId);
       return TripPostResult(id: remoteId, storedOffline: false);
     } catch (error) {
-      if (_shouldStoreOffline(error)) {
+      if (isNetworkError(error)) {
         return TripPostResult(id: clientRequestId, storedOffline: true);
       }
 
@@ -132,7 +137,7 @@ class TripRepository {
 
     for (final payload in payloads) {
       try {
-        final insertedTrip = await Supabase.instance.client
+        final insertedTrip = await _client
             .from(_tableName)
             .insert(payload)
             .select('id')
@@ -183,7 +188,7 @@ class TripRepository {
     Map<String, dynamic> entry,
     Object error,
   ) async {
-    final attempts = _asInt(entry['sync_attempts']) ?? 0;
+    final attempts = jh.asInt(entry['sync_attempts']) ?? 0;
     await box.put(key, <String, dynamic>{
       ...entry,
       'last_sync_attempt_at': DateTime.now().toIso8601String(),
@@ -205,7 +210,7 @@ class TripRepository {
     }
 
     try {
-      final existing = await Supabase.instance.client
+      final existing = await _client
           .from(_tableName)
           .select('id')
           .eq('user_id', userId)
@@ -240,18 +245,7 @@ class TripRepository {
     return sanitized;
   }
 
-  int? _asInt(Object? value) {
-    if (value == null) {
-      return null;
-    }
-    if (value is int) {
-      return value;
-    }
-    if (value is num) {
-      return value.toInt();
-    }
-    return int.tryParse(value.toString());
-  }
+
 
   static String _nextClientRequestId(DateTime now) {
     final randomSuffix = _random
@@ -274,24 +268,4 @@ class TripSyncSummary {
   final int syncedCount;
   final int failedCount;
   final int discardedCount;
-}
-
-bool _shouldStoreOffline(Object error) {
-  if (error is TimeoutException) {
-    return true;
-  }
-
-  if (error is PostgrestException) {
-    return false;
-  }
-
-  final message = error.toString().toLowerCase();
-  return message.contains('socketexception') ||
-      message.contains('failed host lookup') ||
-      message.contains('network is unreachable') ||
-      message.contains('connection refused') ||
-      message.contains('connection reset') ||
-      message.contains('timed out') ||
-      message.contains('xmlhttprequest error') ||
-      message.contains('clientexception');
 }

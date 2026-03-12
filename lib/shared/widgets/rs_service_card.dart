@@ -22,7 +22,11 @@ class RsServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CoolCard(
+    return Semantics(
+      button: true,
+      label: '$name. $desc. $count.',
+      excludeSemantics: true,
+      child: CoolCard(
       onTap: onTap,
       gradient: AppColors.rsBlueGradient,
       borderColor: AppColors.rsBlueBorder,
@@ -63,6 +67,7 @@ class RsServiceCard extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }
