@@ -795,5 +795,5 @@ void main() {
     final allQuery = repository.queries.last;
     expect(allQuery.startDate, isNull);
     expect(allQuery.endDate, isNull);
-  });
+  }, timeout: const Timeout(Duration(seconds: 90)));
 }

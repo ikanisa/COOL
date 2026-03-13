@@ -148,47 +148,49 @@ class _AdminCard extends StatelessWidget {
     return Semantics(
       button: true,
       label: '${section.title}. ${section.subtitle}',
+      hint: 'Double tap to open ${section.title.toLowerCase()} management',
+      excludeSemantics: true,
       child: GestureDetector(
-      onTap: () {
-        HapticFeedback.selectionClick();
-        context.push(section.route);
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: AppColors.rsBlueBorder, width: 1),
-        ),
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(section.icon, size: 28, color: AppColors.text),
-            const SizedBox(height: 8),
-            Text(
-              section.title,
-              style: GoogleFonts.dmSans(
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                color: AppColors.text,
+        onTap: () {
+          HapticFeedback.selectionClick();
+          context.push(section.route);
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppColors.surface,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: AppColors.rsBlueBorder, width: 1),
+          ),
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(section.icon, size: 28, color: AppColors.text),
+              const SizedBox(height: 8),
+              Text(
+                section.title,
+                style: GoogleFonts.dmSans(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.text,
+                ),
               ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              section.subtitle,
-              style: GoogleFonts.dmSans(
-                fontSize: 11,
-                fontWeight: FontWeight.w400,
-                color: AppColors.text3,
+              const SizedBox(height: 4),
+              Text(
+                section.subtitle,
+                style: GoogleFonts.dmSans(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.text3,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    ),
     );
   }
 }
@@ -202,36 +204,41 @@ class _StatChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColors.border, width: 1),
-        ),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(icon, size: 16, color: AppColors.text),
-                const SizedBox(width: 4),
-                Text(
-                  value,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+      child: Semantics(
+        container: true,
+        label: '$label count $value',
+        excludeSemantics: true,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+          decoration: BoxDecoration(
+            color: AppColors.surface,
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: AppColors.border, width: 1),
+          ),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(icon, size: 16, color: AppColors.text),
+                  const SizedBox(width: 4),
+                  Text(
+                    value,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.text,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 2),
-            Text(
-              label,
-              style: GoogleFonts.dmSans(fontSize: 10, color: AppColors.text3),
-            ),
-          ],
+                ],
+              ),
+              const SizedBox(height: 2),
+              Text(
+                label,
+                style: GoogleFonts.dmSans(fontSize: 10, color: AppColors.text3),
+              ),
+            ],
+          ),
         ),
       ),
     );
