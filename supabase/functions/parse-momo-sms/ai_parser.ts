@@ -313,7 +313,6 @@ export async function callGemini(
     ],
     generationConfig: {
       responseMimeType: "application/json",
-      responseSchema: parsedSmsJsonSchema,
     },
   };
 
@@ -361,12 +360,33 @@ export function extractGeminiText(
       if (!part || typeof part !== "object") continue;
       const text = (part as Record<string, unknown>)["text"];
       if (typeof text === "string" && text.trim().length > 0) {
-        return text;
+        return normalizeJsonText(text);
       }
     }
   }
 
   throw new Error("Gemini response did not contain JSON text output");
+}
+
+function normalizeJsonText(value: string): string {
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return trimmed;
+  }
+
+  const unfenced = trimmed
+    .replace(/^```json\s*/i, "")
+    .replace(/^```\s*/i, "")
+    .replace(/\s*```$/i, "")
+    .trim();
+
+  const objectStart = unfenced.indexOf("{");
+  const objectEnd = unfenced.lastIndexOf("}");
+  if (objectStart >= 0 && objectEnd > objectStart) {
+    return unfenced.slice(objectStart, objectEnd + 1);
+  }
+
+  return unfenced;
 }
 
 export function normalizeParsedSms(

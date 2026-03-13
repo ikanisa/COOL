@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/identity/public_user_identity.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_toast.dart';
@@ -206,8 +207,11 @@ class _UserTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fullName = user['full_name']?.toString().trim();
-    final phone = user['phone']?.toString().trim() ?? '';
+    final publicUserId = PublicUserIdentity.resolve(
+      publicUserId: user['public_user_id']?.toString(),
+      userId: user['id']?.toString(),
+      phone: user['phone']?.toString(),
+    );
     final country = user['country']?.toString().trim() ?? '';
     final languageCode = user['language_code']?.toString().trim() ?? 'en';
     final momoProvider = user['momo_provider']?.toString().trim() ?? '';
@@ -236,7 +240,7 @@ class _UserTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      fullName?.isNotEmpty == true ? fullName! : phone,
+                      publicUserId,
                       style: GoogleFonts.dmSans(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
@@ -245,7 +249,7 @@ class _UserTile extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      phone,
+                      'User ID',
                       style: GoogleFonts.dmSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,

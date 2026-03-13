@@ -1,18 +1,35 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 
-function requireEnv(name: string): string {
-  const value = Deno.env.get(name);
-  if (!value) {
-    throw new Error(`Missing environment variable: ${name}`);
+function requireEnv(...names: string[]): string {
+  for (const name of names) {
+    const value = Deno.env.get(name)?.trim();
+    if (value) {
+      return value;
+    }
   }
 
-  return value;
+  throw new Error(`Missing environment variable: ${names.join(" or ")}`);
+}
+
+function getSupabaseUrl() {
+  return requireEnv("SUPABASE_URL", "COOL_PROJECT_SUPABASE_URL");
+}
+
+function getSupabaseAnonKey() {
+  return requireEnv("SUPABASE_ANON_KEY", "COOL_PROJECT_SUPABASE_ANON_KEY");
+}
+
+function getSupabaseServiceRoleKey() {
+  return requireEnv(
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY",
+  );
 }
 
 export function createAdminClient() {
   return createClient(
-    requireEnv("SUPABASE_URL"),
-    requireEnv("SUPABASE_SERVICE_ROLE_KEY"),
+    getSupabaseUrl(),
+    getSupabaseServiceRoleKey(),
     {
       auth: {
         autoRefreshToken: false,
@@ -24,8 +41,8 @@ export function createAdminClient() {
 
 export function createAnonClient() {
   return createClient(
-    requireEnv("SUPABASE_URL"),
-    requireEnv("SUPABASE_ANON_KEY"),
+    getSupabaseUrl(),
+    getSupabaseAnonKey(),
     {
       auth: {
         autoRefreshToken: false,
@@ -37,8 +54,8 @@ export function createAnonClient() {
 
 export function createUserClient(authorization: string) {
   return createClient(
-    requireEnv("SUPABASE_URL"),
-    requireEnv("SUPABASE_ANON_KEY"),
+    getSupabaseUrl(),
+    getSupabaseAnonKey(),
     {
       auth: {
         autoRefreshToken: false,

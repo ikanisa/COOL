@@ -29,6 +29,11 @@ final adminPartnerServicesProvider =
           .fetchPartnerServices(partnerId: partnerId);
     });
 
+final adminPartnerPaymentRoutesProvider =
+    FutureProvider<List<Map<String, dynamic>>>((ref) async {
+      return ref.read(adminRepositoryProvider).fetchPartnerPaymentRoutes();
+    });
+
 final adminQuickActionsProvider = FutureProvider<List<Map<String, dynamic>>>((
   ref,
 ) async {
@@ -57,3 +62,22 @@ final adminAppConfigProvider = FutureProvider<List<Map<String, dynamic>>>((
 ) async {
   return ref.read(adminRepositoryProvider).fetchAppConfig();
 });
+
+final adminOperationalReleaseDashboardProvider =
+    FutureProvider<List<Map<String, dynamic>>>((ref) async {
+      return ref
+          .read(adminRepositoryProvider)
+          .fetchOperationalReleaseDashboard();
+    });
+
+final adminOperationalTriageIssuesProvider =
+    FutureProvider<List<Map<String, dynamic>>>((ref) async {
+      return ref.read(adminRepositoryProvider).fetchOperationalTriageIssues();
+    });
+
+final adminRecentOperationalHealthEventsProvider =
+    FutureProvider<List<Map<String, dynamic>>>((ref) async {
+      return ref
+          .read(adminRepositoryProvider)
+          .fetchRecentOperationalHealthEvents();
+    });

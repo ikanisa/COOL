@@ -54,6 +54,12 @@ class AdminDashboardScreen extends ConsumerWidget {
       'Key-value settings',
     ),
     _AdminSection(
+      'Operations',
+      Icons.monitor_heart_rounded,
+      '/admin/operations',
+      'Release health and triage',
+    ),
+    _AdminSection(
       'Rayon Sports',
       Icons.sports_soccer_rounded,
       '/admin/rayon',

@@ -130,7 +130,8 @@ Deno.test("callOpenAi builds a Responses API request and extracts nested JSON te
 Deno.test("callGemini builds a generateContent request and extracts candidate JSON text", async () => {
   let capturedUrl = "";
   let capturedBody: Record<string, unknown> = {};
-  const responseText = '{"parse_status":"needs_review","tx_type":"received"}';
+  const responseText =
+    '```json\n{"parse_status":"needs_review","tx_type":"received"}\n```';
 
   const result = await callGemini("prompt body", {
     apiKey: "test-gemini-key",
@@ -156,12 +157,21 @@ Deno.test("callGemini builds a generateContent request and extracts candidate JS
     "Gemini URL should embed model and API key",
   );
   assertEquals(result.model, "gemini-test", "model should round-trip");
-  assertEquals(result.text, responseText, "should extract Gemini JSON text");
+  assertEquals(
+    result.text,
+    '{"parse_status":"needs_review","tx_type":"received"}',
+    "should extract Gemini JSON text",
+  );
   assertEquals(
     (capturedBody.generationConfig as Record<string, unknown>)
       .responseMimeType as string,
     "application/json",
     "Gemini request should force JSON output",
+  );
+  assertEquals(
+    (capturedBody.generationConfig as Record<string, unknown>).responseSchema,
+    undefined,
+    "Gemini request should not send the unsupported response schema payload",
   );
 });
 

@@ -7,6 +7,7 @@ import {
   jsonResponse,
   methodNotAllowed,
 } from "../_shared/http.ts";
+import { recordEdgeFunctionFailure } from "../_shared/observability.ts";
 import { createAdminClient, createUserClient } from "../_shared/supabase.ts";
 
 // ── HMAC validation ──────────────────────────────────────────────────────────
@@ -296,8 +297,11 @@ Deno.serve(async (req) => {
     return errorResponse("Authentication required.", 401);
   }
 
+  let callerUserIdForTelemetry: string | null = null;
+
   try {
     const caller = await requireCaller(authorization);
+    callerUserIdForTelemetry = caller.userId;
     const body = (await req.json()) as ScanRequest;
 
     if (!body.qrData || typeof body.qrData !== "string") {
@@ -323,6 +327,12 @@ Deno.serve(async (req) => {
       return errorResponse(err.message, err.status);
     }
     console.error("rs-scan-ticket error:", err);
+    await recordEdgeFunctionFailure(createAdminClient(), {
+      functionName: "rs-scan-ticket",
+      error: err,
+      userId: callerUserIdForTelemetry,
+      subjectType: "ticket_scan",
+    });
     return errorResponse(
       err instanceof Error ? err.message : "Internal server error",
       500,

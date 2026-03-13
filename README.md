@@ -25,6 +25,9 @@ Cool does not use payment gateway APIs.
   initiation is payer-owned USSD only. Payment verification is Android SMS
   access limited to approved M-Money sender IDs, then Supabase reconciliation.
   Auth is WhatsApp OTP, not MoMo.
+- Android SMS read/access is a core payment requirement. If `READ_SMS` /
+  `RECEIVE_SMS` or the MoMo SMS autoread flow are removed, automatic Mobile
+  Money payment verification and transaction recording stop working.
 - Uses Mobile Money USSD via `url_launcher`
 - Uses on-device Android SMS verification for M-Money financial transaction confirmation
 - Uploads matching M-Money confirmation SMS to Supabase for parsing and reconciliation
@@ -313,8 +316,9 @@ Expected client-safe values:
 - `COOL_TERMS_OF_SERVICE_URL`
 - `COOL_ACCOUNT_DELETION_URL`
 
-If Android M-Money SMS reconciliation is part of the production release,
-`ENABLE_ANDROID_MOMO_SMS_AUTOREAD` should stay enabled and the Play submission
+`ENABLE_ANDROID_MOMO_SMS_AUTOREAD` is a core Android payment flag and should
+remain enabled for real app builds. If it is turned off, COOL loses automatic
+M-Money SMS verification and MoMo transaction recording. Any Play submission
 must include the restricted SMS-permission declaration, in-app disclosure, and
 matching Data safety answers.
 
@@ -424,27 +428,39 @@ Implemented under [supabase/functions](/Volumes/PRO-G40/COOL/supabase/functions)
 | `verify-otp` | Verify OTP and return session |
 | `parse-momo-sms` | Parse uploaded M-Money confirmation SMS into normalized transaction data |
 | `expire-trips` | Expire mobility trips automatically |
-| `maps-gateway` | Proxy map and geocoding access with auth and usage logging |
+| `maps-gateway` | Proxy Google Places (New), geocoding, and routes access with auth and usage logging |
 | `rs-scan-ticket` | Verify Rayon Sports ticket QR scans with auth and partner-admin checks |
 | `wallet-issuer` | Issue Google Wallet / pass artifacts for supported journeys |
 | `delete-account` | Account deletion backend flow |
 
+`maps-gateway` uses `GOOGLE_MAPS_SERVER_API_KEY` when present and falls back to
+`GEMINI_API_KEY` for mobility autocomplete, place details, text geocoding,
+reverse geocoding, and route preview if that shared Google credential already
+has the required Maps Platform APIs enabled.
+
 ## SMS and Permissions
 
-Android supports SMS-based M-Money financial transaction verification. iOS does not.
+Android SMS read/access is a core part of COOL. iOS does not support inbox SMS
+reading.
 
 Current app behavior:
 
-- Android can request SMS permission for M-Money transaction verification
-- Only approved sender IDs are scanned for inbox recovery: `M-Money` and `MobileMoney`
-- Matching payment confirmations can be uploaded to Supabase for reconciliation
+- Android requests `READ_SMS` and `RECEIVE_SMS` so COOL can detect approved
+  M-Money confirmation messages after user-initiated USSD payments
+- Only approved sender IDs are scanned for inbox recovery and live listening:
+  `M-Money`, `M Money`, `MobileMoney`, and `Mobile Money`
+- COOL narrows ingestion further to transaction-like payment confirmations and
+  does not treat every message from those senders as a ledger event
+- Matching payment confirmations are uploaded to Supabase for parsing,
+  reconciliation, and ledger recording
 - iOS cannot read inbox SMS due to platform restrictions
 - Location, camera, NFC, and notifications are declared for relevant features
 - The app does not request `SEND_SMS`
 
 This means:
 
-- automatic M-Money SMS verification is Android-only
+- automatic M-Money SMS verification and transaction recording are Android-only
+- disabling Android SMS access makes the Mobile Money payment product incomplete
 - USSD payment initiation still works cross-platform where dialing is supported
 
 ## Testing and Quality Checks

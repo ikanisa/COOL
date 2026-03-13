@@ -6,11 +6,15 @@ import {
   jsonResponse,
   methodNotAllowed,
 } from "../_shared/http.ts";
+import {
+  recordEdgeFunctionFailure,
+  recordOperationalHealthEvent,
+} from "../_shared/observability.ts";
 import { hmacSha256Hex } from "../_shared/security.ts";
 import { createAdminClient, createUserClient } from "../_shared/supabase.ts";
 
 type WalletIssuerRequest = {
-  action?: "rayon_ticket";
+  action?: "health" | "rayon_ticket";
   ticketId?: string;
 };
 
@@ -29,6 +33,14 @@ type WalletConfig = {
   appBaseUrl: string;
   origins: string[];
   serviceAccount: ServiceAccount;
+};
+
+type WalletReadiness = {
+  configured: boolean;
+  missingSecrets: string[];
+  issues: string[];
+  issuerId: string | null;
+  origins: string[];
 };
 
 type RayonTicketRecord = {
@@ -74,12 +86,23 @@ Deno.serve(async (request: Request) => {
     return errorResponse("Authentication required.", 401);
   }
 
+  let ticketIdForTelemetry: string | null = null;
+  let callerUserIdForTelemetry: string | null = null;
+
   try {
     const caller = await requireCaller(authorization);
     const body = await request.json() as WalletIssuerRequest;
     const startedAt = Date.now();
+    ticketIdForTelemetry = body.ticketId?.trim() ?? null;
+    callerUserIdForTelemetry = caller.userId;
 
     switch (body.action) {
+      case "health": {
+        return jsonResponse({
+          success: true,
+          ...inspectWalletConfig(),
+        });
+      }
       case "rayon_ticket": {
         const response = await issueRayonTicketWalletPass({
           caller,
@@ -95,6 +118,25 @@ Deno.serve(async (request: Request) => {
             latency_ms: Date.now() - startedAt,
           }),
         );
+
+        await recordOperationalHealthEvent(createAdminClient(), {
+          service: "wallet_sync",
+          component: "wallet-issuer",
+          status: "ok",
+          severity: "info",
+          message: "Google Wallet pass prepared successfully.",
+          functionName: "wallet-issuer",
+          userId: caller.userId,
+          subjectType: "rs_ticket",
+          subjectId: body.ticketId ?? null,
+          metadata: {
+            action: "rayon_ticket",
+            wallet_pass_id: response.walletPassId,
+            class_id: response.classId,
+            object_id: response.objectId,
+            latency_ms: Date.now() - startedAt,
+          },
+        });
 
         return jsonResponse({ success: true, ...response });
       }
@@ -113,6 +155,30 @@ Deno.serve(async (request: Request) => {
     }
 
     console.error("wallet-issuer failed", error);
+
+    const adminClient = createAdminClient();
+    await recordOperationalHealthEvent(adminClient, {
+      service: "wallet_sync",
+      component: "wallet-issuer",
+      status: "error",
+      severity: "critical",
+      issueCode: "wallet_sync_failed",
+      message: error instanceof Error
+        ? error.message
+        : "Wallet issuance failed.",
+      functionName: "wallet-issuer",
+      userId: callerUserIdForTelemetry,
+      subjectType: "rs_ticket",
+      subjectId: ticketIdForTelemetry,
+    });
+    await recordEdgeFunctionFailure(adminClient, {
+      functionName: "wallet-issuer",
+      error,
+      userId: callerUserIdForTelemetry,
+      subjectType: "rs_ticket",
+      subjectId: ticketIdForTelemetry,
+    });
+
     return errorResponse(
       error instanceof Error ? error.message : "Wallet issuance failed.",
       500,
@@ -458,6 +524,50 @@ function loadWalletConfig(): WalletConfig {
       appBaseUrl,
     ),
     serviceAccount,
+  };
+}
+
+function inspectWalletConfig(): WalletReadiness {
+  const missingSecrets: string[] = [];
+  const issues: string[] = [];
+
+  const issuerId = normalizeNullableString(
+    Deno.env.get("GOOGLE_WALLET_ISSUER_ID"),
+  );
+  if (!issuerId) {
+    missingSecrets.push("GOOGLE_WALLET_ISSUER_ID");
+  }
+
+  const serviceAccountJson = normalizeNullableString(
+    Deno.env.get("GOOGLE_WALLET_SERVICE_ACCOUNT_JSON"),
+  );
+  if (!serviceAccountJson) {
+    missingSecrets.push("GOOGLE_WALLET_SERVICE_ACCOUNT_JSON");
+  } else {
+    try {
+      parseServiceAccount(serviceAccountJson);
+    } catch (error) {
+      issues.push(error instanceof Error ? error.message : `${error}`);
+    }
+  }
+
+  if (!normalizeNullableString(Deno.env.get("TICKET_QR_HMAC_SECRET"))) {
+    missingSecrets.push("TICKET_QR_HMAC_SECRET");
+  }
+
+  const appBaseUrl = normalizeNullableString(
+    Deno.env.get("COOL_PUBLIC_APP_BASE_URL"),
+  ) ?? "https://cool.app";
+
+  return {
+    configured: missingSecrets.length == 0 && issues.length == 0,
+    missingSecrets,
+    issues,
+    issuerId,
+    origins: parseOrigins(
+      Deno.env.get("GOOGLE_WALLET_ALLOWED_ORIGINS"),
+      appBaseUrl,
+    ),
   };
 }
 

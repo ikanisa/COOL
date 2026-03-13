@@ -7,6 +7,7 @@ import {
   jsonResponse,
   methodNotAllowed,
 } from "../_shared/http.ts";
+import { recordEdgeFunctionFailure } from "../_shared/observability.ts";
 import { createAdminClient } from "../_shared/supabase.ts";
 
 class HttpError extends Error {
@@ -83,6 +84,11 @@ Deno.serve(async (request: Request) => {
       return errorResponse(error.message, error.status);
     }
     console.error("expire-trips failed", error);
+    await recordEdgeFunctionFailure(createAdminClient(), {
+      functionName: "expire-trips",
+      error,
+      subjectType: "mobility_trips",
+    });
     return errorResponse(
       error instanceof Error ? error.message : "Failed to expire trips",
       500,

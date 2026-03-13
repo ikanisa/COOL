@@ -1,6 +1,6 @@
 # Play Review Access
 
-Updated: March 11, 2026
+Updated: March 12, 2026
 
 This document describes the safest review-access path currently prepared in the
 Cool repo.
@@ -17,8 +17,8 @@ Cool repo.
   - `OTP_TEST_PHONE`
   - `OTP_TEST_CODE`
 - Those secrets are now set on the linked project for:
-  - test phone `+250700000001`
-  - test code `381274`
+  - test phone `+250788767816`
+  - test code `123456`
 - `verify-otp` now mints sessions through a deterministic internal email
   identity derived from the WhatsApp number, so hosted phone auth is no longer
   required.
@@ -52,8 +52,8 @@ The secrets are already set on the active Supabase project:
 
 ```bash
 supabase secrets set \
-  OTP_TEST_PHONE=+250700000001 \
-  OTP_TEST_CODE=381274 \
+  OTP_TEST_PHONE=+250788767816 \
+  OTP_TEST_CODE=123456 \
   --project-ref mmpbzcdhfvplxplnfucy
 ```
 

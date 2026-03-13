@@ -28,7 +28,7 @@ class AdminRepository {
     final data = await _client
         .from('users')
         .select(
-          'id, full_name, phone, country, language_code, '
+          'id, public_user_id, full_name, phone, country, language_code, '
           'momo_provider, is_driver, vehicle_type, is_admin, '
           'created_at, is_mock, mock_batch',
         )
@@ -108,6 +108,73 @@ class AdminRepository {
 
   Future<void> deletePartnerService(String id) async {
     await _client.from('partner_services').delete().eq('id', id);
+  }
+
+  // ── Partner Payment Routes ───────────────────────────────────────────
+
+  Future<List<Map<String, dynamic>>> fetchPartnerPaymentRoutes({
+    String? partnerId,
+    String? country,
+  }) async {
+    var query = _client
+        .from('partner_payment_routes')
+        .select('*, partners!inner(name, slug, country)');
+    if (partnerId != null && partnerId.trim().isNotEmpty) {
+      query = query.eq('partner_id', partnerId.trim());
+    }
+    final normalizedCountry = _normalizeCountryOrNull(country);
+    if (normalizedCountry != null) {
+      query = query.eq('country', normalizedCountry);
+    }
+    final data = await query
+        .order('country', ascending: true)
+        .order('updated_at', ascending: false);
+    return _asListOfMaps(data)
+        .map((row) {
+          final normalized = Map<String, dynamic>.from(row);
+          final partner = row['partners'];
+          if (partner is Map) {
+            normalized['partner_name'] = partner['name']?.toString().trim();
+            normalized['partner_slug'] = partner['slug']?.toString().trim();
+            normalized['partner_country'] = _normalizeCountryOrNull(
+              partner['country']?.toString(),
+            );
+          }
+          normalized['country'] = _normalizeCountryOrNull(
+            row['country']?.toString(),
+          );
+          normalized['provider'] = _trimmed(row['provider'])?.toLowerCase();
+          normalized['recipient_code'] = _trimmed(row['recipient_code']);
+          normalized['reconciliation_label'] = _trimmed(
+            row['reconciliation_label'],
+          );
+          normalized['status'] = _trimmed(row['status'])?.toLowerCase();
+          return normalized;
+        })
+        .toList(growable: false);
+  }
+
+  Future<void> upsertPartnerPaymentRoute(Map<String, dynamic> route) async {
+    final normalized = Map<String, dynamic>.from(
+      _withNormalizedCountry(route, required: true),
+    );
+    final partnerId = _trimmed(normalized['partner_id']);
+    if (partnerId == null) {
+      throw StateError('Partner selection is required for payment routes.');
+    }
+    normalized['partner_id'] = partnerId;
+    normalized['provider'] = _trimmed(normalized['provider'])?.toLowerCase();
+    normalized['recipient_code'] = _trimmed(normalized['recipient_code']);
+    normalized['reconciliation_label'] = _trimmed(
+      normalized['reconciliation_label'],
+    );
+    normalized['status'] =
+        _trimmed(normalized['status'])?.toLowerCase() ?? 'draft';
+    await _client.from('partner_payment_routes').upsert(normalized);
+  }
+
+  Future<void> deletePartnerPaymentRoute(String id) async {
+    await _client.from('partner_payment_routes').delete().eq('id', id);
   }
 
   // ── Quick Actions ─────────────────────────────────────────────────────
@@ -309,6 +376,26 @@ class AdminRepository {
 
   Future<void> deleteAppConfig(String key) async {
     await _client.from('app_config').delete().eq('key', key);
+  }
+
+  Future<List<Map<String, dynamic>>> fetchOperationalReleaseDashboard() async {
+    final data = await _client.rpc('get_operational_release_dashboard');
+    return _asListOfMaps(data);
+  }
+
+  Future<List<Map<String, dynamic>>> fetchOperationalTriageIssues() async {
+    final data = await _client.rpc('get_operational_triage_issues');
+    return _asListOfMaps(data);
+  }
+
+  Future<List<Map<String, dynamic>>> fetchRecentOperationalHealthEvents({
+    int limit = 40,
+  }) async {
+    final data = await _client.rpc(
+      'get_recent_operational_health_events',
+      params: <String, dynamic>{'p_limit': limit},
+    );
+    return _asListOfMaps(data);
   }
 
   Future<List<Map<String, dynamic>>>

@@ -6,6 +6,10 @@ import {
   jsonResponse,
   methodNotAllowed,
 } from "../_shared/http.ts";
+import {
+  recordEdgeFunctionFailure,
+  recordOperationalHealthEvent,
+} from "../_shared/observability.ts";
 import { createAdminClient, createUserClient } from "../_shared/supabase.ts";
 import {
   buildPrompt,
@@ -14,6 +18,7 @@ import {
   getAiProvider,
   getModel,
   normalizeParsedSms,
+  type AiProvider,
   type RawSmsRecord,
 } from "./ai_parser.ts";
 import {
@@ -87,54 +92,97 @@ Deno.serve(async (request: Request) => {
       });
     }
 
-    const provider = getAiProvider(body.provider);
-    const model = getModel(provider);
     const prompt = buildPrompt(rawSms);
 
     await adminClient
       .from("momo_sms_raw")
       .update({ parse_status: "processing" })
       .eq("id", rawSmsId);
+    const runProviderAttempt = async (provider: AiProvider) => {
+      const model = getModel(provider);
+      const attemptsResult = await adminClient
+        .from("momo_parse_attempts")
+        .select("attempt_number")
+        .eq("raw_sms_id", rawSmsId)
+        .eq("provider", provider);
 
-    const attemptsResult = await adminClient
-      .from("momo_parse_attempts")
-      .select("attempt_number")
-      .eq("raw_sms_id", rawSmsId)
-      .eq("provider", provider);
+      if (attemptsResult.error) {
+        throw attemptsResult.error;
+      }
 
-    if (attemptsResult.error) {
-      throw attemptsResult.error;
-    }
+      const attemptNumber = (attemptsResult.data?.length ?? 0) + 1;
+      const attemptInsert = await adminClient
+        .from("momo_parse_attempts")
+        .insert({
+          raw_sms_id: rawSmsId,
+          user_id: rawSms.user_id,
+          provider,
+          model,
+          attempt_number: attemptNumber,
+          status: "pending",
+          prompt_version: PROMPT_VERSION,
+        })
+        .select("id")
+        .single();
 
-    const attemptNumber = (attemptsResult.data?.length ?? 0) + 1;
-    const attemptInsert = await adminClient
-      .from("momo_parse_attempts")
-      .insert({
-        raw_sms_id: rawSmsId,
-        user_id: rawSms.user_id,
-        provider,
-        model,
-        attempt_number: attemptNumber,
-        status: "pending",
-        prompt_version: PROMPT_VERSION,
-      })
-      .select("id")
-      .single();
+      if (attemptInsert.error) {
+        throw attemptInsert.error;
+      }
 
-    if (attemptInsert.error) {
-      throw attemptInsert.error;
-    }
+      const attemptId = attemptInsert.data.id as string;
 
-    const attemptId = attemptInsert.data.id as string;
+      try {
+        const aiResult = provider === "gemini"
+          ? await callGemini(prompt)
+          : await callOpenAi(prompt);
+
+        return {
+          attemptId,
+          provider,
+          aiResult,
+          parsed: normalizeParsedSms(
+            JSON.parse(aiResult.text) as Record<string, unknown>,
+          ),
+        };
+      } catch (error) {
+        await adminClient
+          .from("momo_parse_attempts")
+          .update({
+            status: "failed",
+            error_message: error instanceof Error
+              ? error.message
+              : "AI parse failed",
+          })
+          .eq("id", attemptId);
+
+        throw error;
+      }
+    };
+
+    let selectedAttemptId: string | null = null;
 
     try {
-      const aiResult = provider === "gemini"
-        ? await callGemini(prompt)
-        : await callOpenAi(prompt);
+      const primaryProvider = getAiProvider(body.provider);
+      const openAiFallbackAvailable = primaryProvider === "gemini" &&
+        (Deno.env.get("OPENAI_API_KEY") ?? "").trim().length > 0;
 
-      const parsed = normalizeParsedSms(
-        JSON.parse(aiResult.text) as Record<string, unknown>,
-      );
+      let selectedAttempt;
+      try {
+        selectedAttempt = await runProviderAttempt(primaryProvider);
+      } catch (primaryError) {
+        if (!openAiFallbackAvailable) {
+          throw primaryError;
+        }
+
+        console.error(
+          "parse-momo-sms gemini attempt failed, retrying with OpenAI",
+          primaryError,
+        );
+        selectedAttempt = await runProviderAttempt("openai");
+      }
+
+      selectedAttemptId = selectedAttempt.attemptId;
+      const { aiResult, parsed, provider } = selectedAttempt;
       const timestamp = new Date().toISOString();
 
       const parsedUpsert = await adminClient
@@ -296,7 +344,7 @@ Deno.serve(async (request: Request) => {
           request_payload: aiResult.requestPayload,
           response_payload: aiResult.responseBody,
         })
-        .eq("id", attemptId);
+        .eq("id", selectedAttemptId);
 
       await adminClient
         .from("momo_sms_raw")
@@ -305,6 +353,34 @@ Deno.serve(async (request: Request) => {
           updated_at: timestamp,
         })
         .eq("id", rawSmsId);
+
+      await recordOperationalHealthEvent(adminClient, {
+        service: "momo_parsing",
+        component: "parse-momo-sms",
+        status: autoReconciliation.matchStatus === "matched" ? "ok" : "warn",
+        severity: autoReconciliation.matchStatus === "matched"
+          ? "info"
+          : "warning",
+        issueCode: autoReconciliation.matchStatus === "matched"
+          ? null
+          : "payment_requires_review",
+        message: autoReconciliation.matchStatus === "matched"
+          ? "MoMo SMS parsed and reconciled successfully."
+          : "MoMo SMS parsed, but reconciliation requires manual review.",
+        functionName: "parse-momo-sms",
+        userId: rawSms.user_id,
+        subjectType: "momo_sms_raw",
+        subjectId: rawSmsId,
+        metadata: {
+          parsed_sms_id: parsedSmsId,
+          parser_provider: provider,
+          parser_model: aiResult.model,
+          parse_status: parsed.parse_status,
+          match_status: autoReconciliation.matchStatus,
+          match_type: autoReconciliation.matchType,
+          matched_reference: autoReconciliation.matchedReference,
+        },
+      });
 
       return jsonResponse({
         success: true,
@@ -324,15 +400,17 @@ Deno.serve(async (request: Request) => {
         },
       });
     } catch (error) {
-      await adminClient
-        .from("momo_parse_attempts")
-        .update({
-          status: "failed",
-          error_message: error instanceof Error
-            ? error.message
-            : "AI parse failed",
-        })
-        .eq("id", attemptId);
+      if (selectedAttemptId != null) {
+        await adminClient
+          .from("momo_parse_attempts")
+          .update({
+            status: "failed",
+            error_message: error instanceof Error
+              ? error.message
+              : "AI parse failed",
+          })
+          .eq("id", selectedAttemptId);
+      }
 
       await adminClient
         .from("momo_sms_raw")
@@ -341,6 +419,35 @@ Deno.serve(async (request: Request) => {
           updated_at: new Date().toISOString(),
         })
         .eq("id", rawSmsId);
+
+      await recordOperationalHealthEvent(adminClient, {
+        service: "momo_parsing",
+        component: "parse-momo-sms",
+        status: "error",
+        severity: "critical",
+        issueCode: "momo_parse_failed",
+        message: error instanceof Error
+          ? error.message
+          : "Failed to parse MoMo SMS.",
+        functionName: "parse-momo-sms",
+        userId: rawSms.user_id,
+        subjectType: "momo_sms_raw",
+        subjectId: rawSmsId,
+        metadata: {
+          selected_attempt_id: selectedAttemptId,
+        },
+      });
+
+      await recordEdgeFunctionFailure(adminClient, {
+        functionName: "parse-momo-sms",
+        error,
+        userId: rawSms.user_id,
+        subjectType: "momo_sms_raw",
+        subjectId: rawSmsId,
+        metadata: {
+          selected_attempt_id: selectedAttemptId,
+        },
+      });
 
       throw error;
     }

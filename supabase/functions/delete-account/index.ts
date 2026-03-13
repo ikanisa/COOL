@@ -6,6 +6,7 @@ import {
   jsonResponse,
   methodNotAllowed,
 } from "../_shared/http.ts";
+import { recordEdgeFunctionFailure } from "../_shared/observability.ts";
 import { createAdminClient, createUserClient } from "../_shared/supabase.ts";
 
 type DeleteAccountRequest = {
@@ -27,6 +28,8 @@ Deno.serve(async (request: Request) => {
     return errorResponse("Authentication required", 401);
   }
 
+  let userIdForTelemetry: string | null = null;
+
   try {
     const body =
       (await request.json().catch(() => ({}))) as DeleteAccountRequest;
@@ -43,6 +46,7 @@ Deno.serve(async (request: Request) => {
     if (userError || !user) {
       return errorResponse("Authentication required", 401);
     }
+    userIdForTelemetry = user.id;
 
     const adminClient = createAdminClient();
     const phone = user.phone ?? user.user_metadata?.phone?.toString();
@@ -67,6 +71,13 @@ Deno.serve(async (request: Request) => {
       return errorResponse("Invalid JSON body", 400);
     }
     console.error("delete-account failed", error);
+    await recordEdgeFunctionFailure(createAdminClient(), {
+      functionName: "delete-account",
+      error,
+      userId: userIdForTelemetry,
+      subjectType: "user",
+      subjectId: userIdForTelemetry,
+    });
     return errorResponse(
       error instanceof Error ? error.message : "Failed to delete account",
       500,

@@ -6,7 +6,8 @@ import {
   jsonResponse,
   methodNotAllowed,
 } from "../_shared/http.ts";
-import { createUserClient } from "../_shared/supabase.ts";
+import { recordEdgeFunctionFailure } from "../_shared/observability.ts";
+import { createAdminClient, createUserClient } from "../_shared/supabase.ts";
 
 type LatLng = {
   latitude: number;
@@ -16,6 +17,7 @@ type LatLng = {
 type MapsGatewayRequest = {
   action?:
     | "autocomplete"
+    | "text_search"
     | "place_details"
     | "reverse_geocode"
     | "compute_route";
@@ -36,11 +38,11 @@ const mapsApiKey = mapsApiKeyConfig.apiKey;
 
 if (!mapsApiKey) {
   console.warn(
-    "maps-gateway loaded without GOOGLE_MAPS_SERVER_API_KEY. Requests will fail until the secret is configured.",
+    "maps-gateway loaded without GOOGLE_MAPS_SERVER_API_KEY or GEMINI_API_KEY. Requests will fail until a Google credential is configured.",
   );
 } else if (mapsApiKeyConfig.source == "GEMINI_API_KEY") {
-  console.warn(
-    "maps-gateway is still reading its API key from GEMINI_API_KEY. Move this secret to GOOGLE_MAPS_SERVER_API_KEY.",
+  console.info(
+    "maps-gateway is using GEMINI_API_KEY as its Google Maps Platform credential.",
   );
 }
 
@@ -59,8 +61,11 @@ Deno.serve(async (request: Request) => {
     return errorResponse("Authentication required", 401);
   }
 
+  let userIdForTelemetry: string | null = null;
+
   try {
     const user = await requireUser(authorization);
+    userIdForTelemetry = user.id;
     const body = await request.json() as MapsGatewayRequest;
     const startedAt = Date.now();
 
@@ -86,6 +91,11 @@ Deno.serve(async (request: Request) => {
     }
 
     console.error("maps-gateway failed", error);
+    await recordEdgeFunctionFailure(createAdminClient(), {
+      functionName: "maps-gateway",
+      error,
+      userId: userIdForTelemetry,
+    });
     return errorResponse(
       error instanceof Error ? error.message : "Maps gateway failed",
       500,
@@ -113,6 +123,8 @@ async function handleAction(
   switch (body.action) {
     case "autocomplete":
       return { suggestions: await autocompletePlaces(body) };
+    case "text_search":
+      return { places: await textSearchPlaces(body) };
     case "place_details":
       return { place: await fetchPlaceDetails(body) };
     case "reverse_geocode":
@@ -201,6 +213,53 @@ async function autocompletePlaces(body: MapsGatewayRequest) {
   return suggestions;
 }
 
+async function textSearchPlaces(body: MapsGatewayRequest) {
+  const query = body.query?.trim() ?? "";
+  if (query.length < 3) {
+    return [];
+  }
+
+  const limit = clampInt(body.limit, 1, 5, 1);
+  const payload: Record<string, unknown> = {
+    textQuery: query,
+    pageSize: limit,
+    rankPreference: "RELEVANCE",
+  };
+
+  const languageCode = normalizeLanguageCode(body.languageCode);
+  if (languageCode) {
+    payload.languageCode = languageCode;
+  }
+
+  const near = parseLatLng(body.near, "near");
+  if (near) {
+    payload.locationBias = {
+      circle: {
+        center: near,
+        radius: 12000.0,
+      },
+    };
+  }
+
+  const response = await googleFetchJson(
+    "https://places.googleapis.com/v1/places:searchText",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Goog-FieldMask":
+          "places.id,places.displayName,places.formattedAddress,places.location",
+      },
+      body: JSON.stringify(payload),
+    },
+  );
+
+  return asArray(response.places)
+    .map((item) => toPlaceResult(asMap(item)))
+    .filter((place) => place.placeId && place.label && place.position)
+    .slice(0, limit);
+}
+
 async function fetchPlaceDetails(body: MapsGatewayRequest) {
   const placeId = body.placeId?.trim();
   if (!placeId) {
@@ -224,25 +283,12 @@ async function fetchPlaceDetails(body: MapsGatewayRequest) {
     },
   });
 
-  const displayName = response.displayName?.text?.toString().trim() ?? "";
-  const formattedAddress = response.formattedAddress?.toString().trim() ?? "";
-  const [primaryText, secondaryText] = splitAddress(
-    displayName,
-    formattedAddress,
-  );
-  const location = parseLatLng(response.location, "location");
-
-  if (!location) {
+  const place = toPlaceResult(asMap(response));
+  if (!place.position) {
     throw new HttpError(502, "Google Place Details did not return coordinates");
   }
 
-  return {
-    placeId,
-    label: secondaryText ? `${primaryText}, ${secondaryText}` : primaryText,
-    primaryText,
-    secondaryText,
-    position: location,
-  };
+  return place;
 }
 
 async function reverseGeocode(body: MapsGatewayRequest) {
@@ -392,7 +438,7 @@ function requireMapsApiKey(): string {
   if (!mapsApiKey) {
     throw new HttpError(
       500,
-      "GOOGLE_MAPS_SERVER_API_KEY is not configured in Supabase secrets",
+      "GOOGLE_MAPS_SERVER_API_KEY or GEMINI_API_KEY is not configured in Supabase secrets",
     );
   }
 
@@ -488,6 +534,27 @@ function normalizeTravelMode(value?: string): string {
     return normalized;
   }
   return "DRIVE";
+}
+
+function toPlaceResult(place: Record<string, any>) {
+  const placeId = place.id?.toString().trim() ||
+    place.name?.toString().replace(/^places\//, "").trim() ||
+    null;
+  const displayName = place.displayName?.text?.toString().trim() ?? "";
+  const formattedAddress = place.formattedAddress?.toString().trim() ?? "";
+  const [primaryText, secondaryText] = splitAddress(
+    displayName,
+    formattedAddress,
+  );
+  const location = parseLatLng(place.location, "location");
+
+  return {
+    placeId,
+    label: secondaryText ? `${primaryText}, ${secondaryText}` : primaryText,
+    primaryText,
+    secondaryText,
+    position: location,
+  };
 }
 
 function splitAddress(

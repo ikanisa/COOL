@@ -7,6 +7,7 @@ import {
   jsonResponse,
   methodNotAllowed,
 } from "../_shared/http.ts";
+import { recordEdgeFunctionFailure } from "../_shared/observability.ts";
 import { normalizePhone, PhoneValidationError } from "../_shared/phone.ts";
 import {
   derivePhoneEmail,
@@ -222,9 +223,12 @@ Deno.serve(async (request: Request) => {
     return methodNotAllowed("POST");
   }
 
+  let normalizedPhoneForTelemetry: string | null = null;
+
   try {
     const body = await request.json() as VerifyOtpRequest;
     const normalizedPhone = normalizePhone(body.phone ?? "");
+    normalizedPhoneForTelemetry = normalizedPhone;
     const code = (body.code ?? "").trim();
 
     if (!/^\d{6}$/.test(code)) {
@@ -357,6 +361,19 @@ Deno.serve(async (request: Request) => {
       return errorResponse(error.message, 400);
     }
     console.error("verify-otp failed", error);
+    await recordEdgeFunctionFailure(createAdminClient(), {
+      functionName: "verify-otp",
+      error,
+      subjectType: "otp_phone",
+      subjectId: normalizedPhoneForTelemetry,
+      metadata: {
+        phone_suffix: normalizedPhoneForTelemetry == null
+          ? null
+          : normalizedPhoneForTelemetry.substring(
+            normalizedPhoneForTelemetry.length - 4,
+          ),
+      },
+    });
     return errorResponse(
       error instanceof Error ? error.message : "Failed to verify OTP",
       500,

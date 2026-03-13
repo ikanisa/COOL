@@ -6,6 +6,7 @@ import {
   jsonResponse,
   methodNotAllowed,
 } from "../_shared/http.ts";
+import { recordEdgeFunctionFailure } from "../_shared/observability.ts";
 import { normalizePhone, PhoneValidationError } from "../_shared/phone.ts";
 import { generateOtpCode, hashOtpCode } from "../_shared/security.ts";
 import { createAdminClient } from "../_shared/supabase.ts";
@@ -180,6 +181,11 @@ Deno.serve(async (request: Request) => {
       return errorResponse(error.message, 400);
     }
     console.error("send-otp failed", error);
+    await recordEdgeFunctionFailure(createAdminClient(), {
+      functionName: "send-otp",
+      error,
+      subjectType: "otp_phone",
+    });
     return errorResponse(
       error instanceof Error ? error.message : "Failed to send OTP",
       500,
