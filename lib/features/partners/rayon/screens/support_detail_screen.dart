@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/config/deep_link_config.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/providers/referral_providers.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/rs_colors.dart';
@@ -20,8 +21,10 @@ import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../../../shared/widgets/rs_amount_selector.dart';
 import '../../../../shared/widgets/rs_progress_bar.dart';
 import '../models/rs_models.dart';
+
 import '../rayon_payment.dart';
 import '../../providers/rayon_sports_provider.dart';
+import '../../widgets/partner_navigation.dart';
 import '../theme/rs_theme.dart';
 
 final supportDetailAmountProvider = StateProvider.autoDispose
@@ -97,6 +100,7 @@ class SupportDetailScreen extends StatelessWidget {
           supportDetailInitiativeProvider(initiativeId),
         );
         final membership = ref.watch(rayonUserMembershipProvider).valueOrNull;
+        final paymentRoute = ref.watch(rayonPaymentRouteProvider).valueOrNull;
         final selectedAmount = ref.watch(
           supportDetailAmountProvider(initiativeId),
         );
@@ -117,14 +121,15 @@ class SupportDetailScreen extends StatelessWidget {
             backgroundColor: Colors.transparent,
             surfaceTintColor: Colors.transparent,
             elevation: 0,
-            leading: IconButton(
-              onPressed: () => context.pop(),
-              icon: const Icon(Icons.arrow_back_rounded),
+            leading: buildPartnerBackButton(
+              context,
+              fallbackLocation: AppRoutes.rayonSupport,
             ),
             title: Text(
               'Support Club',
               style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
             ),
+            actions: buildPartnerAppBarActions(context),
           ),
           body: CoolScreenBackground(
             primaryColor: RsColors.rsBlue,
@@ -136,7 +141,7 @@ class SupportDetailScreen extends StatelessWidget {
                 title: 'Unable to load this cause',
                 subtitle: 'Please try again in a moment.',
                 actionLabel: 'Back',
-                onTap: () => context.pop(),
+                onTap: () => popOrGo(context, AppRoutes.rayonSupport),
               ),
               data: (initiative) {
                 if (initiative == null) {
@@ -145,7 +150,7 @@ class SupportDetailScreen extends StatelessWidget {
                     title: 'Initiative not found',
                     subtitle: 'This cause may have expired or moved.',
                     actionLabel: 'Back to support',
-                    onTap: () => context.go('/partners/rayon-sports/support'),
+                    onTap: () => context.go(AppRoutes.rayonSupport),
                   );
                 }
 
@@ -229,11 +234,13 @@ class SupportDetailScreen extends StatelessWidget {
                       _MomoInfoBanner(
                         amount: selectedAmount,
                         tier: membership?.tier ?? FanTier.blue,
+                        paymentRoute: paymentRoute,
                       ),
                       const SizedBox(height: 16),
                       CoolButton(
-                        label:
-                            'Support ${_formatRwf(selectedAmount)} via MTN MoMo',
+                        label: paymentRoute == null
+                            ? 'Support ${_formatRwf(selectedAmount)}'
+                            : 'Support ${paymentRoute.amountLabel(selectedAmount)} via ${paymentRoute.providerLabel}',
                         icon: Icons.favorite_border_rounded,
                         isLoading: isSubmitting,
                         onTap: () async {
@@ -567,10 +574,15 @@ class _PerkRow extends StatelessWidget {
 }
 
 class _MomoInfoBanner extends StatelessWidget {
-  const _MomoInfoBanner({required this.amount, required this.tier});
+  const _MomoInfoBanner({
+    required this.amount,
+    required this.tier,
+    this.paymentRoute,
+  });
 
   final int amount;
   final FanTier tier;
+  final PartnerPaymentRoute? paymentRoute;
 
   @override
   Widget build(BuildContext context) {
@@ -604,12 +616,14 @@ class _MomoInfoBanner extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'MTN MoMo info',
+                  'Payment info',
                   style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  'MoMo code $rayonSportsMomoCode · USSD ${rayonSportsMomoUssd(amount)} for ${_formatRwf(amount)}.',
+                  paymentRoute == null
+                      ? 'Backend payment routing is not active for this checkout yet.'
+                      : 'Pay to ${paymentRoute!.payToLabel} · Amount ${paymentRoute!.amountLabel(amount)} · Fees ${paymentRoute!.feesLabel()}. Receipt follows after SMS reconciliation for ${paymentRoute!.reconciliationLabel}.',
                   style: GoogleFonts.barlow(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,

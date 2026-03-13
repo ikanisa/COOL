@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/config/deep_link_config.dart';
 import '../../../../core/providers/referral_providers.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/status/cool_status_awarder.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/rs_colors.dart';
@@ -15,6 +16,7 @@ import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/qr_share_sheet.dart';
 import '../../../../shared/widgets/rs_match_card.dart';
 import '../../rayon/models/rs_models.dart';
+
 import '../../rayon/rayon_payment.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/rayon_screen_scaffold.dart';
@@ -70,6 +72,7 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
   @override
   Widget build(BuildContext context) {
     final ticketHub = ref.watch(rayonTicketHubProvider);
+    final paymentRoute = ref.watch(rayonPaymentRouteProvider).valueOrNull;
 
     return ticketHub.when(
       data: (hub) {
@@ -81,6 +84,7 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
         final upcoming = hub.upcomingMatches;
         return RayonScreenScaffold(
           title: 'Tickets',
+          fallbackLocation: AppRoutes.rayonHome,
           scrollable: false,
           actions: [
             IconButton(
@@ -92,8 +96,7 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
               ),
             ),
             IconButton(
-              onPressed: () =>
-                  context.push('/partners/rayon-sports/tickets/my-tickets'),
+              onPressed: () => context.push(AppRoutes.rayonMyTickets),
               icon: const Icon(
                 Icons.confirmation_number_outlined,
                 color: AppColors.rsWhite,
@@ -142,7 +145,9 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'All Rayon Sports ticket payments use MTN MoMo code $rayonSportsMomoCode. Checkout launches $rayonSportsMomoUssdPattern on your phone.',
+                      paymentRoute == null
+                          ? 'Ticket checkout stays hidden until backend payment routing is configured for Rayon Sports.'
+                          : 'All Rayon Sports ticket payments go to ${paymentRoute.payToLabel}. Checkout launches ${paymentRoute.ussdPattern} on your phone.',
                       style: GoogleFonts.barlow(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -164,7 +169,11 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
                           padding: const EdgeInsets.all(14),
                           child: Row(
                             children: [
-                              const Icon(Icons.star_rounded, size: 20, color: AppColors.orange),
+                              const Icon(
+                                Icons.star_rounded,
+                                size: 20,
+                                color: AppColors.orange,
+                              ),
                               const SizedBox(width: 10),
                               Expanded(
                                 child: Text(
@@ -403,6 +412,7 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
   }
 
   void _showPurchaseSheet(BuildContext context, RsMatch match) {
+    final paymentRoute = ref.read(rayonPaymentRouteProvider).valueOrNull;
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -412,6 +422,7 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
       ),
       builder: (sheetCtx) => _TicketPurchaseSheet(
         match: match,
+        paymentRoute: paymentRoute,
         onPay: (seatType, qty) async {
           final notifier = ref.read(rayonSportsProvider.notifier);
           Navigator.of(sheetCtx).pop();
@@ -537,10 +548,15 @@ class _CompactTicketRow extends StatelessWidget {
 // ── Ticket Purchase Sheet ────────────────────────────────────────────
 
 class _TicketPurchaseSheet extends StatefulWidget {
-  const _TicketPurchaseSheet({required this.match, required this.onPay});
+  const _TicketPurchaseSheet({
+    required this.match,
+    required this.onPay,
+    this.paymentRoute,
+  });
 
   final RsMatch match;
   final void Function(SelectedSeatType seatType, int qty) onPay;
+  final PartnerPaymentRoute? paymentRoute;
 
   @override
   State<_TicketPurchaseSheet> createState() => _TicketPurchaseSheetState();
@@ -726,7 +742,9 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Rayon Sports MTN MoMo code $rayonSportsMomoCode',
+                  widget.paymentRoute == null
+                      ? 'Rayon Sports payment routing pending'
+                      : '${widget.paymentRoute!.partnerName} checkout',
                   style: GoogleFonts.barlow(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
@@ -735,7 +753,9 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  rayonSportsMomoUssd(_total),
+                  widget.paymentRoute == null
+                      ? 'No active backend route'
+                      : widget.paymentRoute!.ussdCode(_total),
                   style: GoogleFonts.dmMono(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
@@ -744,7 +764,9 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  'We launch this exact dial string so you can complete your ticket checkout in MTN MoMo.',
+                  widget.paymentRoute == null
+                      ? 'An admin must activate a recipient code before ticket checkout can open.'
+                      : 'Pay to ${widget.paymentRoute!.payToLabel}. Amount ${widget.paymentRoute!.amountLabel(_total)}. Fees ${widget.paymentRoute!.feesLabel()}. Ticket entry unlocks after SMS reconciliation for ${widget.paymentRoute!.reconciliationLabel}.',
                   style: GoogleFonts.barlow(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
@@ -759,8 +781,12 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
 
           // Pay button
           CoolButton(
-            label: 'Pay via MTN MoMo',
-            onTap: () => widget.onPay(_seat, _qty),
+            label: widget.paymentRoute == null
+                ? 'Payment route unavailable'
+                : 'Pay via ${widget.paymentRoute!.providerLabel}',
+            onTap: widget.paymentRoute == null
+                ? () {}
+                : () => widget.onPay(_seat, _qty),
             icon: Icons.phone_in_talk_outlined,
           ),
         ],

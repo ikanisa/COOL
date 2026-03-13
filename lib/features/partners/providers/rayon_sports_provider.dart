@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 import '../../auth/providers/auth_provider.dart';
 import '../../../core/providers/supabase_client_provider.dart';
 import '../rayon/models/rs_models.dart';
+
 import '../rayon/rayon_payment.dart';
 import '../repositories/rayon_sports_repository.dart';
 
@@ -21,6 +21,23 @@ final rayonCurrentUserIdProvider = Provider<String?>((ref) {
 final rayonPartnerIdProvider = FutureProvider.autoDispose<String>((ref) async {
   final repository = ref.watch(rayonSportsRepositoryProvider);
   return await repository.getRayonPartnerId() ?? '';
+});
+
+final rayonPaymentRouteProvider =
+    FutureProvider.autoDispose<PartnerPaymentRoute?>((ref) async {
+      final repository = ref.watch(rayonSportsRepositoryProvider);
+      try {
+        return await repository.getActivePaymentRoute();
+      } catch (_) {
+        return null;
+      }
+    });
+
+final rayonWalletAvailabilityProvider = FutureProvider.autoDispose<bool>((
+  ref,
+) async {
+  final repository = ref.watch(rayonSportsRepositoryProvider);
+  return repository.isGoogleWalletOperationallyReady();
 });
 
 final rayonSportsProvider =
@@ -675,26 +692,23 @@ class RayonSportsNotifier extends StateNotifier<RayonSportsState> {
     String? referralInviteId,
   }) async {
     final userId = _requireUser();
+    final paymentRoute = await _repository.getActivePaymentRoute();
     final normalizedSeat = seatType.toLowerCase() == 'vip' ? 'VIP' : 'General';
     final unitPrice = normalizedSeat == 'VIP'
         ? match.ticketVipPrice
         : match.ticketGeneralPrice;
     final totalAmount = unitPrice * quantity;
 
-    return _runAction(
-      () async {
-        await _repository.purchaseTickets(
-          matchId: match.id,
-          userId: userId,
-          seatType: seatType,
-          quantity: quantity,
-          referralInviteId: referralInviteId,
-        );
-        await _softReload();
-      },
-      successMessage:
-          'Ticket checkout opened in MTN MoMo code $rayonSportsMomoCode for ${_fmtRwf(totalAmount)}. Your tickets stay pending until payment confirmation arrives.',
-    );
+    return _runAction(() async {
+      await _repository.purchaseTickets(
+        matchId: match.id,
+        userId: userId,
+        seatType: seatType,
+        quantity: quantity,
+        referralInviteId: referralInviteId,
+      );
+      await _softReload();
+    }, successMessage: _ticketCheckoutMessage(paymentRoute, totalAmount));
   }
 
   Future<RayonSupportCheckoutResult> supportInitiative({
@@ -703,6 +717,7 @@ class RayonSportsNotifier extends StateNotifier<RayonSportsState> {
     String? referralInviteId,
   }) async {
     final userId = _requireUser();
+    final paymentRoute = await _repository.getActivePaymentRoute();
     state = state.copyWith(action: const AsyncLoading<String?>());
 
     try {
@@ -713,8 +728,7 @@ class RayonSportsNotifier extends StateNotifier<RayonSportsState> {
         referralInviteId: referralInviteId,
       );
       await _softReload();
-      final message =
-          'Support checkout opened in MTN MoMo code $rayonSportsMomoCode for ${_fmtRwf(amount)}.';
+      final message = _supportCheckoutMessage(paymentRoute, amount);
       state = state.copyWith(action: AsyncData<String?>(message));
       return RayonSupportCheckoutResult(
         contributionId: contributionId,
@@ -735,6 +749,7 @@ class RayonSportsNotifier extends StateNotifier<RayonSportsState> {
     String? referralInviteId,
   }) async {
     final userId = _requireUser();
+    final paymentRoute = await _repository.getActivePaymentRoute();
     final subtotal = products.fold<int>(
       0,
       (sum, product) => sum + product.price * (quantities[product.id] ?? 0),
@@ -758,8 +773,7 @@ class RayonSportsNotifier extends StateNotifier<RayonSportsState> {
       );
       clearCart();
       await _softReload();
-      final message =
-          'Shop checkout opened in MTN MoMo code $rayonSportsMomoCode for ${_fmtRwf(total)}.';
+      final message = _shopCheckoutMessage(paymentRoute, total);
       state = state.copyWith(action: AsyncData<String?>(message));
       return RayonShopCheckoutResult(
         orderId: orderId,
@@ -807,7 +821,21 @@ class RayonSportsNotifier extends StateNotifier<RayonSportsState> {
     return result.value ?? successMessage;
   }
 
-  static String _fmtRwf(int amount) {
-    return '${NumberFormat.decimalPattern('en').format(amount)} RWF';
+  static String _ticketCheckoutMessage(
+    PartnerPaymentRoute route,
+    int totalAmount,
+  ) {
+    return 'Ticket checkout opened to ${route.payToLabel} for ${route.amountLabel(totalAmount)}. Fees ${route.feesLabel()}. Your tickets stay pending until SMS confirmation matches ${route.reconciliationLabel}.';
+  }
+
+  static String _supportCheckoutMessage(PartnerPaymentRoute route, int amount) {
+    return 'Support checkout opened to ${route.payToLabel} for ${route.amountLabel(amount)}. Fees ${route.feesLabel()}. We confirm your receipt after SMS reconciliation for ${route.reconciliationLabel}.';
+  }
+
+  static String _shopCheckoutMessage(
+    PartnerPaymentRoute route,
+    int totalAmount,
+  ) {
+    return 'Shop checkout opened to ${route.payToLabel} for ${route.amountLabel(totalAmount)}. Fees ${route.feesLabel()}. Your order receipt appears after SMS reconciliation for ${route.reconciliationLabel}.';
   }
 }

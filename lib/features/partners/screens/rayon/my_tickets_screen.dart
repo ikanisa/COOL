@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../shared/widgets/cool_button.dart';
@@ -18,9 +20,11 @@ class MyTicketsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ticketsAsync = ref.watch(rayonUserTicketsProvider);
+    final paymentRoute = ref.watch(rayonPaymentRouteProvider).valueOrNull;
 
     return RayonScreenScaffold(
       title: 'My Tickets',
+      fallbackLocation: AppRoutes.rayonTickets,
       scrollable: false,
       child: ticketsAsync.when(
         data: (tickets) {
@@ -55,7 +59,7 @@ class MyTicketsScreen extends ConsumerWidget {
                         const SizedBox(height: 18),
                         CoolButton(
                           label: 'Browse Matches',
-                          onTap: () => Navigator.of(context).pop(),
+                          onTap: () => context.go(AppRoutes.rayonTickets),
                         ),
                       ],
                     ),
@@ -93,7 +97,9 @@ class MyTicketsScreen extends ConsumerWidget {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        'These orders are waiting for MTN MoMo confirmation. QR entry unlocks automatically after confirmation.',
+                        paymentRoute == null
+                            ? 'These orders are waiting for payment confirmation. QR entry unlocks automatically after SMS reconciliation.'
+                            : 'These orders are waiting for ${paymentRoute.payToLabel} confirmation. QR entry unlocks after SMS reconciliation for ${paymentRoute.reconciliationLabel}.',
                         style: GoogleFonts.barlow(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,

@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/identity/public_user_identity.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../rayon_ticket_qr.dart';
@@ -137,19 +138,77 @@ extension OrderStatusX on OrderStatus {
   };
 }
 
-enum ProductCategory { kits, caps, scarves, footwear, bundles, other }
+enum ProductCategory {
+  kits,
+  apparel,
+  outerwear,
+  caps,
+  scarves,
+  footwear,
+  accessories,
+  equipment,
+  bundles,
+  other,
+}
 
 extension ProductCategoryX on ProductCategory {
   static ProductCategory fromValue(String? value) {
-    return switch ((value ?? '').toLowerCase()) {
-      'kit' || 'kits' || 'jersey' || 'jerseys' => ProductCategory.kits,
+    final normalized = (value ?? '')
+        .toLowerCase()
+        .replaceAll('&', ' and ')
+        .replaceAll('-', ' ')
+        .trim();
+
+    return switch (normalized) {
+      'replica' ||
+      'replicas' ||
+      'kit' ||
+      'kits' ||
+      'jersey' ||
+      'jerseys' ||
+      'heritage' ||
+      'training' ||
+      'warm up' ||
+      'warmup' ||
+      'matchday' => ProductCategory.kits,
+      'polo' ||
+      'polos' ||
+      't shirt' ||
+      't shirts' ||
+      'tshirt' ||
+      'tshirts' ||
+      'tee' ||
+      'tees' ||
+      'shirt' ||
+      'shirts' ||
+      'lifestyle' => ProductCategory.apparel,
+      'hoodie' ||
+      'hoodies' ||
+      'gilet' ||
+      'gilets' ||
+      'jacket' ||
+      'jackets' ||
+      'outerwear' => ProductCategory.outerwear,
       'cap' || 'caps' || 'hat' || 'hats' => ProductCategory.caps,
       'scarf' || 'scarves' => ProductCategory.scarves,
       'footwear' ||
       'boots' ||
       'shoes' ||
       'shoe' ||
+      'slipper' ||
+      'slippers' ||
+      'sandals' ||
       'sneakers' => ProductCategory.footwear,
+      'watch' ||
+      'watches' ||
+      'bag' ||
+      'bags' ||
+      'valeze' ||
+      'travel' ||
+      'luggage' ||
+      'accessory' ||
+      'accessories' => ProductCategory.accessories,
+      'ball' || 'balls' || 'equipment' || 'gear' => ProductCategory.equipment,
       'bundle' || 'bundles' || 'combo' => ProductCategory.bundles,
       _ => ProductCategory.other,
     };
@@ -157,15 +216,61 @@ extension ProductCategoryX on ProductCategory {
 
   String get value => name;
 
+  String get label => switch (this) {
+    ProductCategory.kits => 'Kits',
+    ProductCategory.apparel => 'Apparel',
+    ProductCategory.outerwear => 'Outerwear',
+    ProductCategory.caps => 'Caps',
+    ProductCategory.scarves => 'Scarves',
+    ProductCategory.footwear => 'Footwear',
+    ProductCategory.accessories => 'Accessories',
+    ProductCategory.equipment => 'Equipment',
+    ProductCategory.bundles => 'Bundles',
+    ProductCategory.other => 'Other',
+  };
+
+  IconData get icon => switch (this) {
+    ProductCategory.kits => Icons.checkroom_rounded,
+    ProductCategory.apparel => Icons.sports_football_rounded,
+    ProductCategory.outerwear => Icons.layers_rounded,
+    ProductCategory.caps => Icons.dry_cleaning_rounded,
+    ProductCategory.scarves => Icons.gesture_rounded,
+    ProductCategory.footwear => Icons.directions_walk_rounded,
+    ProductCategory.accessories => Icons.watch_rounded,
+    ProductCategory.equipment => Icons.sports_soccer_rounded,
+    ProductCategory.bundles => Icons.inventory_2_rounded,
+    ProductCategory.other => Icons.shopping_bag_rounded,
+  };
+
+  String get defaultEmoji => switch (this) {
+    ProductCategory.kits => '👕',
+    ProductCategory.apparel => '🧥',
+    ProductCategory.outerwear => '🧢',
+    ProductCategory.caps => '🧢',
+    ProductCategory.scarves => '🧣',
+    ProductCategory.footwear => '👟',
+    ProductCategory.accessories => '⌚',
+    ProductCategory.equipment => '⚽',
+    ProductCategory.bundles => '🎁',
+    ProductCategory.other => '🛍️',
+  };
+
   Color get defaultBackgroundColor => switch (this) {
     ProductCategory.kits => RsColors.rsBlueLight.withValues(alpha: 0.24),
+    ProductCategory.apparel => const Color(0xFF1D3B7A),
+    ProductCategory.outerwear => const Color(0xFF22325A),
     ProductCategory.caps => RsColors.rsGold.withValues(alpha: 0.22),
     ProductCategory.scarves => RsColors.rsBlue.withValues(alpha: 0.20),
     ProductCategory.footwear => const Color(0xFF182A5A),
+    ProductCategory.accessories => const Color(0xFF2B4C84),
+    ProductCategory.equipment => const Color(0xFF173866),
     ProductCategory.bundles => const Color(0xFF21407D),
     ProductCategory.other => const Color(0xFF1A233E),
   };
 }
+
+String _defaultEmojiForCategory(ProductCategory category) =>
+    category.defaultEmoji;
 
 class FanMembership extends Equatable {
   const FanMembership({
@@ -226,15 +331,18 @@ class FanMembership extends Equatable {
     final tier = json['tier'] == null
         ? FanTierX.fromPoints(points)
         : FanTierX.fromValue(json['tier']?.toString());
+    final userId = _asString(json['user_id'] ?? json['userId']);
 
     return FanMembership(
       id: _asString(json['id']),
-      userId: _asString(json['user_id'] ?? json['userId']),
+      userId: userId,
       partnerId: _asString(json['partner_id'] ?? json['partnerId']),
-      displayName:
-          json['display_name']?.toString() ??
-          json['users']?['full_name']?.toString() ??
-          'Fan',
+      displayName: PublicUserIdentity.resolve(
+        publicUserId:
+            json['display_name']?.toString() ??
+            json['users']?['public_user_id']?.toString(),
+        userId: userId,
+      ),
       tier: tier,
       points: points,
       chapter: _asString(json['chapter'], fallback: 'Kigali Central'),
@@ -826,6 +934,7 @@ class RsProduct extends Equatable {
     required this.id,
     required this.partnerId,
     required this.name,
+    this.description = '',
     required this.category,
     required this.price,
     required this.imageEmoji,
@@ -833,11 +942,17 @@ class RsProduct extends Equatable {
     required this.stock,
     required this.isActive,
     required this.isNew,
+    this.imageUrl,
+    this.availableSizes = const <String>[],
+    this.badgeLabel,
+    this.collection,
+    this.sortOrder = 0,
   });
 
   final String id;
   final String partnerId;
   final String name;
+  final String description;
   final ProductCategory category;
   final int price;
   final String imageEmoji;
@@ -845,6 +960,11 @@ class RsProduct extends Equatable {
   final int stock;
   final bool isActive;
   final bool isNew;
+  final String? imageUrl;
+  final List<String> availableSizes;
+  final String? badgeLabel;
+  final String? collection;
+  final int sortOrder;
 
   int discountedPrice(double discountPct) {
     final normalized = discountPct.clamp(0, 100);
@@ -860,16 +980,38 @@ class RsProduct extends Equatable {
       id: _asString(json['id']),
       partnerId: _asString(json['partner_id'] ?? json['partnerId']),
       name: _asString(json['name'], fallback: 'Shop Item'),
+      description: _asString(json['description'] ?? json['short_description']),
       category: category,
-      price: _asInt(json['price']),
-      imageEmoji: _asString(json['image_emoji'] ?? json['imageEmoji']),
+      price: _asInt(json['price'] ?? json['price_rwf']),
+      imageEmoji: _asString(
+        json['image_emoji'] ?? json['imageEmoji'],
+        fallback: _defaultEmojiForCategory(category),
+      ),
       bgColor: _asColor(
         json['bg_color'] ?? json['bgColor'],
         fallback: category.defaultBackgroundColor,
       ),
-      stock: _asInt(json['stock']),
+      stock: _asInt(
+        json['stock'],
+        fallback: _asBool(json['in_stock'] ?? json['inStock'], fallback: true)
+            ? 99
+            : 0,
+      ),
       isActive: _asBool(json['is_active'] ?? json['isActive'], fallback: true),
       isNew: _asBool(json['is_new'] ?? json['isNew']),
+      imageUrl: _asNullableString(json['image_url'] ?? json['imageUrl']),
+      availableSizes:
+          _asList(
+                json['sizes'] ??
+                    json['available_sizes'] ??
+                    json['availableSizes'],
+              )
+              .map((size) => size.toString().trim())
+              .where((size) => size.isNotEmpty)
+              .toList(growable: false),
+      badgeLabel: _asNullableString(json['badge_label'] ?? json['badgeLabel']),
+      collection: _asNullableString(json['collection']),
+      sortOrder: _asInt(json['sort_order'] ?? json['sortOrder']),
     );
   }
 
@@ -878,6 +1020,7 @@ class RsProduct extends Equatable {
       'id': id,
       'partner_id': partnerId,
       'name': name,
+      'description': description,
       'category': category.value,
       'price': price,
       'image_emoji': imageEmoji,
@@ -885,6 +1028,11 @@ class RsProduct extends Equatable {
       'stock': stock,
       'is_active': isActive,
       'is_new': isNew,
+      'image_url': imageUrl,
+      'sizes': availableSizes,
+      'badge_label': badgeLabel,
+      'collection': collection,
+      'sort_order': sortOrder,
     };
   }
 
@@ -892,6 +1040,7 @@ class RsProduct extends Equatable {
     String? id,
     String? partnerId,
     String? name,
+    String? description,
     ProductCategory? category,
     int? price,
     String? imageEmoji,
@@ -899,11 +1048,17 @@ class RsProduct extends Equatable {
     int? stock,
     bool? isActive,
     bool? isNew,
+    Object? imageUrl = _unset,
+    List<String>? availableSizes,
+    Object? badgeLabel = _unset,
+    Object? collection = _unset,
+    int? sortOrder,
   }) {
     return RsProduct(
       id: id ?? this.id,
       partnerId: partnerId ?? this.partnerId,
       name: name ?? this.name,
+      description: description ?? this.description,
       category: category ?? this.category,
       price: price ?? this.price,
       imageEmoji: imageEmoji ?? this.imageEmoji,
@@ -911,6 +1066,17 @@ class RsProduct extends Equatable {
       stock: stock ?? this.stock,
       isActive: isActive ?? this.isActive,
       isNew: isNew ?? this.isNew,
+      imageUrl: identical(imageUrl, _unset)
+          ? this.imageUrl
+          : imageUrl as String?,
+      availableSizes: availableSizes ?? this.availableSizes,
+      badgeLabel: identical(badgeLabel, _unset)
+          ? this.badgeLabel
+          : badgeLabel as String?,
+      collection: identical(collection, _unset)
+          ? this.collection
+          : collection as String?,
+      sortOrder: sortOrder ?? this.sortOrder,
     );
   }
 
@@ -919,6 +1085,7 @@ class RsProduct extends Equatable {
     id,
     partnerId,
     name,
+    description,
     category,
     price,
     imageEmoji,
@@ -926,6 +1093,11 @@ class RsProduct extends Equatable {
     stock,
     isActive,
     isNew,
+    imageUrl,
+    availableSizes,
+    badgeLabel,
+    collection,
+    sortOrder,
   ];
 }
 
@@ -941,11 +1113,27 @@ class CartItem extends Equatable {
   final String? selectedVariant;
 
   factory CartItem.fromJson(Map<String, dynamic> json) {
+    final rawProduct = _asMap(json['product']);
+    final productJson = rawProduct.isNotEmpty
+        ? rawProduct
+        : <String, dynamic>{
+            'id': json['product_id'],
+            'name': json['name'],
+            'description': json['description'],
+            'category': json['category'],
+            'price': json['unit_price'] ?? json['price'] ?? json['price_rwf'],
+            'image_emoji': json['image_emoji'],
+            'image_url': json['image_url'],
+            'bg_color': json['bg_color'],
+            'sizes': json['sizes'],
+          };
     return CartItem(
-      product: RsProduct.fromJson(_asMap(json['product'])),
+      product: RsProduct.fromJson(productJson),
       quantity: _asInt(json['quantity'], fallback: 1).clamp(1, 9999),
       selectedVariant: _asNullableString(
-        json['selected_variant'] ?? json['selectedVariant'],
+        json['selected_variant'] ??
+            json['selectedVariant'] ??
+            json['selected_size'],
       ),
     );
   }
@@ -1418,12 +1606,15 @@ class RsRegistryMember {
   final DateTime joinedAt;
 
   factory RsRegistryMember.fromJson(Map<String, dynamic> json) {
+    final userId = json['user_id']?.toString() ?? '';
     return RsRegistryMember(
-      userId: json['user_id']?.toString() ?? '',
-      displayName:
-          json['display_name']?.toString() ??
-          json['users']?['full_name']?.toString() ??
-          'Fan',
+      userId: userId,
+      displayName: PublicUserIdentity.resolve(
+        publicUserId:
+            json['display_name']?.toString() ??
+            json['users']?['public_user_id']?.toString(),
+        userId: userId,
+      ),
       membershipNumber: json['membership_number']?.toString() ?? '',
       points: (json['points'] as num?)?.toInt() ?? 0,
       tier: FanTierX.fromValue(json['tier']?.toString()),

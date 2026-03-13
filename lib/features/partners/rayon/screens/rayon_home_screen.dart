@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../core/theme/rs_text_styles.dart';
@@ -16,6 +17,7 @@ import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../../../shared/widgets/rs_match_card.dart';
 import '../models/rs_models.dart';
 import '../../providers/rayon_sports_provider.dart';
+import '../../widgets/partner_navigation.dart';
 import '../widgets/rs_hero_banner.dart';
 import '../widgets/rs_membership_card.dart';
 import '../widgets/rs_service_card.dart';
@@ -47,15 +49,18 @@ class RayonHomeScreen extends StatelessWidget {
                   surfaceTintColor: Colors.transparent,
                   elevation: 0,
                   scrolledUnderElevation: 0,
-                  leading: IconButton(
-                    onPressed: () => context.go('/partners'),
-                    icon: const Icon(Icons.arrow_back_rounded),
+                  leading: buildPartnerBackButton(
+                    context,
+                    fallbackLocation: AppRoutes.partners,
                   ),
                   title: Text(
                     'Rayon Sports',
                     style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
                   ),
-                  actions: const [_NotificationAction(), SizedBox(width: 8)],
+                  actions: buildPartnerAppBarActions(
+                    context,
+                    actions: const [_NotificationAction(), SizedBox(width: 8)],
+                  ),
                 ),
                 SliverPadding(
                   padding: const EdgeInsets.fromLTRB(18, 12, 18, 96),
@@ -101,8 +106,8 @@ class RayonHomeScreen extends StatelessWidget {
                               child: RsMembershipCard(
                                 fanName:
                                     fanMembership?.displayName ??
-                                    user?.fullName ??
-                                    'Rayon Fan',
+                                    user?.displayUserId ??
+                                    '000000',
                                 fanId: _displayId(user, fanMembership),
                                 tier: fanMembership?.tier ?? FanTier.blue,
                                 chapter:
@@ -161,7 +166,7 @@ class RayonHomeScreen extends StatelessWidget {
                                 '/partners/rayon-sports/profile',
                               ),
                               child: RsMembershipCard(
-                                fanName: user?.fullName ?? 'Rayon Fan',
+                                fanName: user?.displayUserId ?? '000000',
                                 fanId: _displayId(user, null),
                                 tier: FanTier.blue,
                                 chapter: 'Membership unavailable',
@@ -402,8 +407,7 @@ class _PendingMembershipRecoveryCard extends StatelessWidget {
     required this.onTap,
     required this.isLoading,
     this.title = 'Create official membership',
-    this.message =
-        'Create or restore your fan membership here.',
+    this.message = 'Create or restore your fan membership here.',
   });
 
   final Future<void> Function() onTap;

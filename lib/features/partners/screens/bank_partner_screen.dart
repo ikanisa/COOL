@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
@@ -11,6 +11,7 @@ import '../providers/partner_provider.dart';
 import '../providers/partner_service_provider.dart';
 import '../widgets/bank_partner_config.dart';
 import '../widgets/bank_partner_widgets.dart';
+import '../widgets/partner_navigation.dart';
 import '../widgets/partner_shared_widgets.dart';
 
 class BankPartnerScreen extends ConsumerWidget {
@@ -29,10 +30,15 @@ class BankPartnerScreen extends ConsumerWidget {
           backgroundColor: Colors.transparent,
           elevation: 0,
           scrolledUnderElevation: 0,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
+          leading: buildPartnerBackButton(
+            context,
+            fallbackLocation: AppRoutes.partners,
+            icon: Icons.arrow_back_ios_new_rounded,
             color: AppColors.text,
-            onPressed: () => context.pop(),
+          ),
+          actions: buildPartnerAppBarActions(
+            context,
+            homeColor: AppColors.text,
           ),
           title: partnerAsync.when(
             data: (partner) => Text(
@@ -125,11 +131,11 @@ class _BankBody extends ConsumerWidget {
                         normalizeCategory: normalizeBankCategory,
                         onCtaTap: (ctx, {required action, topic}) =>
                             launchPartnerAction(
-                          ctx,
-                          partner,
-                          action: action,
-                          topic: topic,
-                        ),
+                              ctx,
+                              partner,
+                              action: action,
+                              topic: topic,
+                            ),
                         gradientWhen: (cat) =>
                             cat == 'digital' ? AppColors.blueGradient : null,
                       ),

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../models/partner.dart';
 import '../providers/partner_provider.dart';
 import '../providers/partner_service_provider.dart';
+import '../widgets/partner_navigation.dart';
 import '../widgets/partner_shared_widgets.dart';
 import '../widgets/prisma_partner_config.dart';
 import '../widgets/prisma_partner_widgets.dart';
@@ -29,10 +30,15 @@ class PrismaPartnerScreen extends ConsumerWidget {
           backgroundColor: Colors.transparent,
           elevation: 0,
           scrolledUnderElevation: 0,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
+          leading: buildPartnerBackButton(
+            context,
+            fallbackLocation: AppRoutes.partners,
+            icon: Icons.arrow_back_ios_new_rounded,
             color: AppColors.text,
-            onPressed: () => context.pop(),
+          ),
+          actions: buildPartnerAppBarActions(
+            context,
+            homeColor: AppColors.text,
           ),
           title: partnerAsync.when(
             data: (partner) => Text(
@@ -53,8 +59,7 @@ class PrismaPartnerScreen extends ConsumerWidget {
             padding: EdgeInsets.all(18),
             child: CoolSkeletonList(),
           ),
-          error: (error, _) =>
-              PartnerErrorBody(message: error.toString()),
+          error: (error, _) => PartnerErrorBody(message: error.toString()),
           data: (partner) {
             if (partner == null) {
               return const PartnerErrorBody(message: 'Partner not found');
@@ -118,16 +123,15 @@ class _PrismaBody extends ConsumerWidget {
                         normalizeCategory: normalizePrismaCategory,
                         onCtaTap: (ctx, {required action, topic}) =>
                             launchPrismaAction(
-                          ctx,
-                          partner,
-                          action: action,
-                          topic: topic,
-                        ),
+                              ctx,
+                              partner,
+                              action: action,
+                              topic: topic,
+                            ),
                         fallbackCategory: 'capability',
-                        gradientWhen: (cat) =>
-                            cat.endsWith('_agent')
-                                ? AppColors.blueGradient
-                                : null,
+                        gradientWhen: (cat) => cat.endsWith('_agent')
+                            ? AppColors.blueGradient
+                            : null,
                       ),
                       const SizedBox(height: 12),
                     ],

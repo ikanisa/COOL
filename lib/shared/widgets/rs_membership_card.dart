@@ -50,6 +50,8 @@ class RsMembershipCard extends StatelessWidget {
                       const SizedBox(height: 6),
                       Text(
                         membership.displayName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.barlow(
                           fontSize: 18,
                           fontWeight: FontWeight.w700,
@@ -59,6 +61,8 @@ class RsMembershipCard extends StatelessWidget {
                       const SizedBox(height: 2),
                       Text(
                         membership.chapter,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.barlow(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../providers/rayon_sports_provider.dart';
+import '../../widgets/partner_navigation.dart';
 import '../models/rs_models.dart';
 import '../providers/rs_admin_provider.dart';
 
@@ -29,9 +30,10 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.rsBlue,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
-          onPressed: () => context.pop(),
+        leading: buildPartnerBackButton(
+          context,
+          fallbackLocation: AppRoutes.adminRayon,
+          color: Colors.white,
         ),
         title: Text(
           'Matches',
@@ -41,6 +43,7 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
             color: Colors.white,
           ),
         ),
+        actions: buildPartnerAppBarActions(context, homeColor: Colors.white),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.rsBlue,
@@ -50,7 +53,10 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
       body: matchesAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(
-          child: Text('Error: $e', style: const TextStyle(color: AppColors.red)),
+          child: Text(
+            'Error: $e',
+            style: const TextStyle(color: AppColors.red),
+          ),
         ),
         data: (matches) {
           if (matches.isEmpty) {
@@ -91,7 +97,10 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: AppColors.surface,
-        title: Text('Delete match?', style: GoogleFonts.dmSans(color: AppColors.text)),
+        title: Text(
+          'Delete match?',
+          style: GoogleFonts.dmSans(color: AppColors.text),
+        ),
         content: Text(
           '${match.homeTeam} vs ${match.awayTeam}',
           style: GoogleFonts.dmSans(color: AppColors.text2),
@@ -116,10 +125,14 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
 
   void _showMatchForm(BuildContext context, {RsMatch? match}) {
     final isEdit = match != null;
-    final homeCtrl = TextEditingController(text: match?.homeTeam ?? 'Rayon Sports');
+    final homeCtrl = TextEditingController(
+      text: match?.homeTeam ?? 'Rayon Sports',
+    );
     final awayCtrl = TextEditingController(text: match?.awayTeam);
     final compCtrl = TextEditingController(text: match?.competition);
-    final venueCtrl = TextEditingController(text: match?.venue ?? 'Amahoro Stadium');
+    final venueCtrl = TextEditingController(
+      text: match?.venue ?? 'Amahoro Stadium',
+    );
     final generalCtrl = TextEditingController(
       text: match?.ticketGeneralPrice.toString() ?? '2000',
     );
@@ -352,10 +365,7 @@ class _TileAction extends StatelessWidget {
         children: [
           Icon(icon, size: 16, color: c),
           const SizedBox(width: 4),
-          Text(
-            label,
-            style: GoogleFonts.dmSans(fontSize: 11, color: c),
-          ),
+          Text(label, style: GoogleFonts.dmSans(fontSize: 11, color: c)),
         ],
       ),
     );

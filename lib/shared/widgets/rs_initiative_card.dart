@@ -81,6 +81,8 @@ class RsInitiativeCard extends StatelessWidget {
                 const SizedBox(height: 10),
                 Text(
                   initiative.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.barlowCondensed(
                     fontSize: 26,
                     fontWeight: FontWeight.w900,

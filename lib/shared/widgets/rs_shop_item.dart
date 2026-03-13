@@ -31,156 +31,209 @@ class RsShopItem extends StatelessWidget {
     final discountedPrice = showDiscount
         ? (product.price * (1 - discountPct / 100)).round()
         : product.price;
+    final heroBadge = product.badgeLabel?.trim().isNotEmpty == true
+        ? product.badgeLabel!.trim().toUpperCase()
+        : (isNew ? 'NEW' : null);
 
     return Semantics(
-      label: '${product.name}. '
+      label:
+          '${product.name}. '
           '${NumberFormat.decimalPattern('en').format(discountedPrice)} RWF. '
           '${quantity > 0 ? '$quantity in cart.' : ''}',
       excludeSemantics: true,
       child: Container(
-      decoration: BoxDecoration(
-        color: AppColors.surface2,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: AppColors.border2),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.16),
-            blurRadius: 20,
-            offset: const Offset(0, 14),
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 90,
-              decoration: BoxDecoration(
-                color: _imageBackgroundFor(product.category.value),
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: Stack(
-                children: [
-                  Center(
-                    child: Text(
-                      product.imageEmoji,
-                      style: const TextStyle(fontSize: 42),
-                    ),
+        decoration: BoxDecoration(
+          color: AppColors.surface2,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: AppColors.border2),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.16),
+              blurRadius: 20,
+              offset: const Offset(0, 14),
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(14),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 88,
+                decoration: BoxDecoration(
+                  color: _imageBackgroundFor(product),
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(14),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      if (product.imageUrl?.trim().isNotEmpty == true)
+                        Image.network(
+                          product.imageUrl!,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, _, _) =>
+                              _EmojiHero(product: product),
+                        )
+                      else
+                        _EmojiHero(product: product),
+                      DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.black.withValues(alpha: 0.04),
+                              Colors.black.withValues(alpha: 0.18),
+                            ],
+                          ),
+                        ),
+                      ),
+                      if (showDiscount)
+                        Positioned(
+                          left: 10,
+                          top: 10,
+                          child: _Badge(
+                            label:
+                                '-${discountPct.toStringAsFixed(discountPct.truncateToDouble() == discountPct ? 0 : 1)}%',
+                            background: AppColors.rsBlue,
+                            foreground: AppColors.rsWhite,
+                          ),
+                        ),
+                      if (heroBadge != null)
+                        Positioned(
+                          right: 10,
+                          top: 10,
+                          child: _Badge(
+                            label: heroBadge,
+                            background: AppColors.rsGold,
+                            foreground: AppColors.bg,
+                          ),
+                        ),
+                    ],
                   ),
-                  if (showDiscount)
-                    Positioned(
-                      left: 10,
-                      top: 10,
-                      child: _Badge(
-                        label:
-                            '-${discountPct.toStringAsFixed(discountPct.truncateToDouble() == discountPct ? 0 : 1)}%',
-                        background: AppColors.rsBlue,
-                        foreground: AppColors.rsWhite,
-                      ),
-                    ),
-                  if (isNew)
-                    const Positioned(
-                      right: 10,
-                      top: 10,
-                      child: _Badge(
-                        label: 'NEW',
-                        background: AppColors.rsGold,
-                        foreground: AppColors.bg,
-                      ),
-                    ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              product.name,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.barlow(
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-                color: AppColors.rsWhite,
-                height: 1.15,
-              ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-               product.category.value.toUpperCase(),
-              style: GoogleFonts.barlow(
-                fontSize: 10,
-                fontWeight: FontWeight.w700,
-                letterSpacing: 0.9,
-                color: AppColors.text3,
-              ),
-            ),
-            const Spacer(),
-            if (showDiscount) ...[
-              Text(
-                _formatRwf(product.price),
-                style: GoogleFonts.dmMono(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.text3,
-                  decoration: TextDecoration.lineThrough,
                 ),
               ),
-              const SizedBox(height: 2),
-            ],
-            Text(
-              _formatRwf(discountedPrice),
-              style: GoogleFonts.dmMono(
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-                color: AppColors.rsGoldLight,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                if (quantity > 0) ...[
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.rsBlueGlow,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(
-                      'x$quantity',
-                      style: GoogleFonts.dmMono(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.rsWhite,
-                      ),
-                    ),
+              const SizedBox(height: 10),
+              if (product.collection?.trim().isNotEmpty == true) ...[
+                Text(
+                  product.collection!.trim().toUpperCase(),
+                  style: GoogleFonts.barlow(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 1,
+                    color: AppColors.text3,
                   ),
-                  const SizedBox(width: 8),
+                ),
+                const SizedBox(height: 4),
+              ],
+              Text(
+                product.name,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.barlow(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.rsWhite,
+                  height: 1.15,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                product.description.isEmpty
+                    ? product.category.label
+                    : product.description,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.barlow(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.text2,
+                  height: 1.3,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Wrap(
+                spacing: 6,
+                runSpacing: 6,
+                children: [
+                  _MetaPill(label: product.category.label),
+                  if (product.availableSizes.isNotEmpty)
+                    _MetaPill(
+                      label:
+                          'Sizes ${product.availableSizes.take(4).join(' · ')}',
+                    ),
                 ],
-                Expanded(
-                  child: SizedBox(
-                    height: 38,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: AppColors.rsBlue,
-                        borderRadius: BorderRadius.circular(12),
+              ),
+              const Spacer(),
+              if (showDiscount) ...[
+                Text(
+                  _formatRwf(product.price),
+                  style: GoogleFonts.dmMono(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.text3,
+                    decoration: TextDecoration.lineThrough,
+                  ),
+                ),
+                const SizedBox(height: 2),
+              ],
+              Text(
+                _formatRwf(discountedPrice),
+                style: GoogleFonts.dmMono(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.rsGoldLight,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  if (quantity > 0) ...[
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 6,
                       ),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: onAddToCart,
+                      decoration: BoxDecoration(
+                        color: AppColors.rsBlueGlow,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text(
+                        'x$quantity',
+                        style: GoogleFonts.dmMono(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.rsWhite,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                  ],
+                  Expanded(
+                    child: SizedBox(
+                      height: 36,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: AppColors.rsBlue,
                           borderRadius: BorderRadius.circular(12),
-                          child: Center(
-                            child: Text(
-                              'ADD TO CART',
-                              style: GoogleFonts.barlowCondensed(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.rsWhite,
-                                letterSpacing: 0.3,
+                        ),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: onAddToCart,
+                            borderRadius: BorderRadius.circular(12),
+                            child: Center(
+                              child: Text(
+                                'ADD TO CART',
+                                style: GoogleFonts.barlowCondensed(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.rsWhite,
+                                  letterSpacing: 0.3,
+                                ),
                               ),
                             ),
                           ),
@@ -188,20 +241,32 @@ class RsShopItem extends StatelessWidget {
                       ),
                     ),
                   ),
-                ),
-                if (quantity > 0 && onRemoveFromCart != null) ...[
-                  const SizedBox(width: 8),
-                  _IconPill(
-                    icon: Icons.remove_rounded,
-                    onTap: onRemoveFromCart!,
-                  ),
+                  if (quantity > 0 && onRemoveFromCart != null) ...[
+                    const SizedBox(width: 8),
+                    _IconPill(
+                      icon: Icons.remove_rounded,
+                      onTap: onRemoveFromCart!,
+                    ),
+                  ],
                 ],
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
-      ),
+    );
+  }
+}
+
+class _EmojiHero extends StatelessWidget {
+  const _EmojiHero({required this.product});
+
+  final RsProduct product;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(product.imageEmoji, style: const TextStyle(fontSize: 42)),
     );
   }
 }
@@ -262,18 +327,37 @@ class _IconPill extends StatelessWidget {
   }
 }
 
-Color _imageBackgroundFor(String category) {
-  final normalized = category.toLowerCase();
-  if (normalized.contains('kit') || normalized.contains('matchwear')) {
-    return AppColors.rsBlue.withValues(alpha: 0.18);
+class _MetaPill extends StatelessWidget {
+  const _MetaPill({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: AppColors.surface3,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Text(
+        label,
+        style: GoogleFonts.barlow(
+          fontSize: 9,
+          fontWeight: FontWeight.w700,
+          color: AppColors.text2,
+        ),
+      ),
+    );
   }
-  if (normalized.contains('access')) {
-    return AppColors.rsGold.withValues(alpha: 0.18);
-  }
-  if (normalized.contains('supporter')) {
-    return AppColors.accentGlow;
-  }
-  return AppColors.surface3;
+}
+
+Color _imageBackgroundFor(RsProduct product) {
+  return Color.alphaBlend(
+    Colors.white.withValues(alpha: 0.04),
+    product.bgColor,
+  );
 }
 
 String _formatRwf(int amount) {

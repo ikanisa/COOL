@@ -41,6 +41,8 @@ class RsClubCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     club.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.barlowCondensed(
                       fontSize: 26,
                       fontWeight: FontWeight.w900,
@@ -81,6 +83,8 @@ class RsClubCard extends StatelessWidget {
             const SizedBox(height: 10),
             Text(
               club.description,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
               style: GoogleFonts.barlow(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,

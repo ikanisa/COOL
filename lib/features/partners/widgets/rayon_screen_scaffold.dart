@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
+import 'partner_navigation.dart';
 
 class RayonScreenScaffold extends StatelessWidget {
   const RayonScreenScaffold({
@@ -11,6 +12,8 @@ class RayonScreenScaffold extends StatelessWidget {
     required this.title,
     this.actions,
     this.showBackButton = true,
+    this.showHomeButton = true,
+    this.fallbackLocation = AppRoutes.rayonHome,
     this.padding = const EdgeInsets.fromLTRB(18, 18, 18, 96),
     this.scrollable = true,
     super.key,
@@ -20,6 +23,8 @@ class RayonScreenScaffold extends StatelessWidget {
   final String title;
   final List<Widget>? actions;
   final bool showBackButton;
+  final bool showHomeButton;
+  final String fallbackLocation;
   final EdgeInsets padding;
   final bool scrollable;
 
@@ -30,9 +35,9 @@ class RayonScreenScaffold extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: showBackButton
-            ? IconButton(
-                onPressed: () => context.pop(),
-                icon: const Icon(Icons.arrow_back_rounded),
+            ? buildPartnerBackButton(
+                context,
+                fallbackLocation: fallbackLocation,
               )
             : null,
         title: Text(
@@ -44,7 +49,11 @@ class RayonScreenScaffold extends StatelessWidget {
             letterSpacing: 0.2,
           ),
         ),
-        actions: actions,
+        actions: buildPartnerAppBarActions(
+          context,
+          actions: actions,
+          showHomeButton: showHomeButton,
+        ),
       ),
       body: CoolScreenBackground(
         primaryColor: AppColors.rsBlue,

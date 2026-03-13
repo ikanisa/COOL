@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../core/theme/rs_text_styles.dart';
@@ -18,7 +18,9 @@ import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../../../shared/widgets/rs_achievement_badge.dart';
 import '../../../../shared/widgets/rs_progress_bar.dart';
 import '../models/rs_models.dart';
+import '../rayon_payment.dart';
 import '../../providers/rayon_sports_provider.dart';
+import '../../widgets/partner_navigation.dart';
 import '../widgets/rs_tier_badge.dart';
 
 class FanProfileScreen extends ConsumerStatefulWidget {
@@ -66,6 +68,7 @@ class _FanProfileScreenState extends ConsumerState<FanProfileScreen> {
     final achievementsAsync = ref.watch(rayonUserAchievementsProvider);
     final ticketsAsync = ref.watch(rayonUserTicketsProvider);
     final ordersAsync = ref.watch(rayonShopOrdersProvider);
+    final paymentRoute = ref.watch(rayonPaymentRouteProvider).valueOrNull;
     final user = ref.watch(currentUserProvider);
 
     final tickets = ticketsAsync.valueOrNull ?? const <RsTicket>[];
@@ -84,14 +87,15 @@ class _FanProfileScreenState extends ConsumerState<FanProfileScreen> {
               surfaceTintColor: Colors.transparent,
               elevation: 0,
               scrolledUnderElevation: 0,
-              leading: IconButton(
-                onPressed: () => context.go('/partners/rayon-sports'),
-                icon: const Icon(Icons.arrow_back_rounded),
+              leading: buildPartnerBackButton(
+                context,
+                fallbackLocation: AppRoutes.rayonHome,
               ),
               title: Text(
                 'Fan Profile',
                 style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
               ),
+              actions: buildPartnerAppBarActions(context),
             ),
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(18, 12, 18, 96),
@@ -144,9 +148,7 @@ class _FanProfileScreenState extends ConsumerState<FanProfileScreen> {
                     ),
                     error: (error, stackTrace) => const SizedBox(
                       height: 106,
-                      child: _EmptyStrip(
-                        message: 'Achievements unavailable.',
-                      ),
+                      child: _EmptyStrip(message: 'Achievements unavailable.'),
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -155,7 +157,10 @@ class _FanProfileScreenState extends ConsumerState<FanProfileScreen> {
                     style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
                   ),
                   const SizedBox(height: 12),
-                  _RecentOrdersSection(ordersAsync: ordersAsync),
+                  _RecentOrdersSection(
+                    ordersAsync: ordersAsync,
+                    paymentRoute: paymentRoute,
+                  ),
                   const SizedBox(height: 24),
                   membershipAsync.when(
                     data: (membership) => _BenefitsSection(
@@ -203,7 +208,7 @@ class _ProfileHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fanName = membership?.displayName ?? user?.fullName ?? 'Rayon Fan';
+    final fanName = membership?.displayName ?? user?.displayUserId ?? '000000';
     final tier = membership?.tier ?? FanTier.blue;
     final chapter = membership?.chapter ?? 'Official membership pending';
     final joinedYear = membership?.joinedAt.year;
@@ -709,19 +714,20 @@ class _EmptyStrip extends StatelessWidget {
 }
 
 class _RecentOrdersSection extends StatelessWidget {
-  const _RecentOrdersSection({required this.ordersAsync});
+  const _RecentOrdersSection({
+    required this.ordersAsync,
+    required this.paymentRoute,
+  });
 
   final AsyncValue<List<RsShopOrder>> ordersAsync;
+  final PartnerPaymentRoute? paymentRoute;
 
   @override
   Widget build(BuildContext context) {
     return ordersAsync.when(
       data: (orders) {
         if (orders.isEmpty) {
-          return const _EmptyStrip(
-            message:
-                'No shop orders yet.',
-          );
+          return const _EmptyStrip(message: 'No shop orders yet.');
         }
 
         final recentOrders = orders.take(3).toList(growable: false);
@@ -730,7 +736,10 @@ class _RecentOrdersSection extends StatelessWidget {
               .map(
                 (order) => Padding(
                   padding: const EdgeInsets.only(bottom: 10),
-                  child: _OrderStatusCard(order: order),
+                  child: _OrderStatusCard(
+                    order: order,
+                    paymentRoute: paymentRoute,
+                  ),
                 ),
               )
               .toList(growable: false),
@@ -745,9 +754,10 @@ class _RecentOrdersSection extends StatelessWidget {
 }
 
 class _OrderStatusCard extends StatelessWidget {
-  const _OrderStatusCard({required this.order});
+  const _OrderStatusCard({required this.order, required this.paymentRoute});
 
   final RsShopOrder order;
+  final PartnerPaymentRoute? paymentRoute;
 
   @override
   Widget build(BuildContext context) {
@@ -813,7 +823,7 @@ class _OrderStatusCard extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            _orderStatusCopy(order.status),
+            _orderStatusCopy(order.status, paymentRoute),
             style: GoogleFonts.barlow(
               fontSize: 12,
               fontWeight: FontWeight.w600,
@@ -919,7 +929,7 @@ String _displayId(UserProfile? user, RsFanMembership? membership) {
   if (membership != null && membership.membershipNumber.isNotEmpty) {
     return membership.membershipNumber;
   }
-  return user == null ? 'Membership pending' : 'Official membership pending';
+  return user?.displayUserId ?? 'Membership pending';
 }
 
 String _initials(String value) {
@@ -1005,10 +1015,12 @@ Color _orderStatusColor(OrderStatus status) {
   };
 }
 
-String _orderStatusCopy(OrderStatus status) {
+String _orderStatusCopy(OrderStatus status, PartnerPaymentRoute? paymentRoute) {
   return switch (status) {
     OrderStatus.pending =>
-      'Waiting for MTN MoMo confirmation before fulfillment starts.',
+      paymentRoute == null
+          ? 'Waiting for payment confirmation before fulfillment starts.'
+          : 'Waiting for SMS reconciliation for ${paymentRoute.reconciliationLabel} before fulfillment starts.',
     OrderStatus.confirmed =>
       'Payment confirmed. Order is queued for processing.',
     OrderStatus.shipped => 'Order has left the shop and is on the way.',

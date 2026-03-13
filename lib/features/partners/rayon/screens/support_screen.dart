@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../core/theme/rs_text_styles.dart';
@@ -12,8 +13,10 @@ import '../../../../shared/widgets/cool_screen_background.dart';
 import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../../../shared/widgets/rs_initiative_card.dart';
 import '../models/rs_models.dart';
+
 import '../rayon_payment.dart';
 import '../../providers/rayon_sports_provider.dart';
+import '../../widgets/partner_navigation.dart';
 import '../widgets/rs_tier_badge.dart';
 
 class SupportScreen extends StatelessWidget {
@@ -26,6 +29,7 @@ class SupportScreen extends StatelessWidget {
         final initiativesAsync = ref.watch(rayonInitiativesProvider);
         final summaryAsync = ref.watch(rayonInitiativesSummaryProvider);
         final membershipAsync = ref.watch(rayonUserMembershipProvider);
+        final paymentRoute = ref.watch(rayonPaymentRouteProvider).valueOrNull;
 
         return Scaffold(
           backgroundColor: AppColors.bg,
@@ -33,14 +37,15 @@ class SupportScreen extends StatelessWidget {
             backgroundColor: Colors.transparent,
             surfaceTintColor: Colors.transparent,
             elevation: 0,
-            leading: IconButton(
-              onPressed: () => context.go('/partners/rayon-sports'),
-              icon: const Icon(Icons.arrow_back_rounded),
+            leading: buildPartnerBackButton(
+              context,
+              fallbackLocation: AppRoutes.rayonHome,
             ),
             title: Text(
               'Support Club',
               style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
             ),
+            actions: buildPartnerAppBarActions(context),
           ),
           body: CoolScreenBackground(
             primaryColor: RsColors.rsBlue,
@@ -58,6 +63,7 @@ class SupportScreen extends StatelessWidget {
                           summary: summaryAsync.valueOrNull,
                           tier:
                               membershipAsync.valueOrNull?.tier ?? FanTier.blue,
+                          paymentRoute: paymentRoute,
                         ),
                         const SizedBox(height: 24),
                         Text(
@@ -147,10 +153,15 @@ class SupportScreen extends StatelessWidget {
 }
 
 class _SupportIntroCard extends StatelessWidget {
-  const _SupportIntroCard({required this.summary, required this.tier});
+  const _SupportIntroCard({
+    required this.summary,
+    required this.tier,
+    this.paymentRoute,
+  });
 
   final RayonInitiativesSummary? summary;
   final FanTier tier;
+  final PartnerPaymentRoute? paymentRoute;
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +202,9 @@ class _SupportIntroCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Back club projects and academy growth with MoMo code $rayonSportsMomoCode.',
+                          paymentRoute == null
+                              ? 'Support checkout appears once backend payment routing is active.'
+                              : 'Back club projects and academy growth by paying ${paymentRoute!.payToLabel}.',
                           style: GoogleFonts.barlow(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,

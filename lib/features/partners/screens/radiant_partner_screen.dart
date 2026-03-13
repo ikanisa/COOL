@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/services/whatsapp_contact_service.dart';
+import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/icon_mapper.dart';
 import '../../../shared/widgets/cool_card.dart';
@@ -15,6 +15,7 @@ import '../models/partner.dart';
 import '../models/partner_service.dart';
 import '../providers/partner_provider.dart';
 import '../providers/partner_service_provider.dart';
+import '../widgets/partner_navigation.dart';
 
 // ═════════════════════════════════════════════════════════════════════════════
 // RADIANT INSURANCE — PARTNER DETAIL SCREEN (now DATA-DRIVEN)
@@ -36,10 +37,15 @@ class RadiantPartnerScreen extends ConsumerWidget {
           backgroundColor: Colors.transparent,
           elevation: 0,
           scrolledUnderElevation: 0,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
+          leading: buildPartnerBackButton(
+            context,
+            fallbackLocation: AppRoutes.partners,
+            icon: Icons.arrow_back_ios_new_rounded,
             color: AppColors.text,
-            onPressed: () => context.pop(),
+          ),
+          actions: buildPartnerAppBarActions(
+            context,
+            homeColor: AppColors.text,
           ),
           title: partnerAsync.when(
             data: (p) => Text(

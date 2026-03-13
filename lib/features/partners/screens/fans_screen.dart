@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
+import '../widgets/partner_navigation.dart';
 
 /// Generic fan hub placeholder for partners that do not have a live module yet.
 class FansScreen extends StatelessWidget {
@@ -30,9 +32,9 @@ class FansScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.bg,
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => context.pop(),
-          icon: const Icon(Icons.arrow_back_rounded),
+        leading: buildPartnerBackButton(
+          context,
+          fallbackLocation: AppRoutes.partners,
         ),
         title: Text(
           _clubName,
@@ -42,6 +44,7 @@ class FansScreen extends StatelessWidget {
             color: AppColors.text,
           ),
         ),
+        actions: buildPartnerAppBarActions(context, homeColor: AppColors.text),
       ),
       body: CoolScreenBackground(
         primaryColor: AppColors.yellow,
@@ -83,16 +86,14 @@ class FansScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 14),
-                    const _FansExpectationRow(
+                    _FansExpectationRow(
                       icon: Icons.badge_outlined,
-                      text:
-                          'Membership card and stats not available.',
+                      text: 'Membership card and stats not available.',
                     ),
                     const SizedBox(height: 10),
-                    const _FansExpectationRow(
+                    _FansExpectationRow(
                       icon: Icons.groups_outlined,
-                      text:
-                          'Fan clubs and directory disabled.',
+                      text: 'Fan clubs and directory disabled.',
                     ),
                     const SizedBox(height: 10),
                     _FansExpectationRow(
@@ -110,7 +111,7 @@ class FansScreen extends StatelessWidget {
                   Expanded(
                     child: CoolButton(
                       label: 'Back to Partners',
-                      onTap: () => context.go('/partners'),
+                      onTap: () => context.go(AppRoutes.partners),
                     ),
                   ),
                   if (hasDedicatedHub) ...[
@@ -119,7 +120,7 @@ class FansScreen extends StatelessWidget {
                       child: CoolButton(
                         label: 'Open Rayon',
                         variant: CoolButtonVariant.secondary,
-                        onTap: () => context.go('/partners/rayon-sports'),
+                        onTap: () => context.go(AppRoutes.rayonHome),
                       ),
                     ),
                   ],

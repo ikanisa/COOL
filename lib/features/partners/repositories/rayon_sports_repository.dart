@@ -2,19 +2,29 @@ import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/config/country_catalog.dart';
+import '../../../core/identity/public_user_identity.dart';
 import '../../../core/services/momo_service.dart';
+import '../../../core/services/operational_health_service.dart';
 import '../rayon/rayon_identity.dart';
 import '../rayon/models/rs_models.dart';
 import '../rayon/rayon_payment.dart';
 import '../rayon/rayon_ticket_qr.dart';
 
 class RayonSportsRepository {
-  RayonSportsRepository({SupabaseClient? client, MomoService? momoService})
-    : _client = client ?? Supabase.instance.client,
-      _momoService = momoService ?? MomoService.instance;
+  RayonSportsRepository({
+    SupabaseClient? client,
+    MomoService? momoService,
+    OperationalHealthService? operationalHealthService,
+  }) : _client = client ?? Supabase.instance.client,
+       _momoService = momoService ?? MomoService.instance,
+       _operationalHealthService =
+           operationalHealthService ??
+           OperationalHealthService(client: client ?? Supabase.instance.client);
 
   final SupabaseClient _client;
   final MomoService _momoService;
+  final OperationalHealthService _operationalHealthService;
+  PartnerPaymentRoute? _cachedPaymentRoute;
 
   Future<RayonSportsData> loadData({String? userId}) async {
     try {
@@ -85,19 +95,9 @@ class RayonSportsRepository {
           .where((id) => id.isNotEmpty)
           .toSet();
 
-      final userNames = await _loadUserNames(
-        membershipRows
-            .map((row) => row['user_id']?.toString() ?? '')
-            .where((id) => id.isNotEmpty)
-            .toSet(),
-      );
       final registry = membershipRows
           .map(
-            (row) => RsRegistryMember.fromJson(<String, dynamic>{
-              ...row,
-              'display_name':
-                  userNames[row['user_id']?.toString()] ?? 'Rayon Fan',
-            }),
+            (row) => RsRegistryMember.fromJson(_withResolvedDisplayName(row)),
           )
           .toList(growable: false);
 
@@ -169,12 +169,9 @@ class RayonSportsRepository {
 
       final membership = currentMembership == null
           ? null
-          : RsFanMembership.fromJson(<String, dynamic>{
-              ...currentMembership,
-              'display_name':
-                  userNames[currentMembership['user_id']?.toString()] ??
-                  'Rayon Fan',
-            });
+          : RsFanMembership.fromJson(
+              _withResolvedDisplayName(currentMembership),
+            );
 
       return RayonSportsData(
         partnerId: partnerId,
@@ -235,7 +232,6 @@ class RayonSportsRepository {
     ).map(RsFanClub.fromJson).toList(growable: false);
   }
 
-
   Future<String> supportInitiative({
     required String userId,
     required String initiativeId,
@@ -246,30 +242,119 @@ class RayonSportsRepository {
       throw StateError('Support amount must be greater than zero.');
     }
 
+    final paymentRoute = await getActivePaymentRoute();
     final reference = 'RS-SUPPORT-${DateTime.now().millisecondsSinceEpoch}';
-    final rows = _asListOfMaps(
-      await _client
-          .from('rs_initiative_contributions')
-          .insert(<String, dynamic>{
-            'initiative_id': initiativeId,
-            'user_id': userId,
-            'amount': amount,
-            'momo_reference': reference,
-            'referral_invite_id': referralInviteId,
-            'status': 'pending',
-          })
-          .select('id'),
-    );
 
-    await _launchRayonMomoPayment(amount: amount, reference: reference);
-    return rows.first['id']?.toString() ?? reference;
+    try {
+      final rows = _asListOfMaps(
+        await _client
+            .from('rs_initiative_contributions')
+            .insert(<String, dynamic>{
+              'initiative_id': initiativeId,
+              'user_id': userId,
+              'amount': amount,
+              'momo_reference': reference,
+              'referral_invite_id': referralInviteId,
+              'status': 'pending',
+            })
+            .select('id'),
+      );
+
+      final contributionId = rows.first['id']?.toString() ?? reference;
+      await _launchRayonMomoPayment(
+        amount: amount,
+        reference: reference,
+        route: paymentRoute,
+      );
+      await _recordPartnerCheckoutEvent(
+        component: 'rayon_support',
+        userId: userId,
+        subjectType: 'rs_initiative_contributions',
+        subjectId: contributionId,
+        reference: reference,
+        message: 'Rayon support checkout opened successfully.',
+        metadata: <String, dynamic>{
+          'initiative_id': initiativeId,
+          'amount': amount,
+        },
+      );
+      return contributionId;
+    } catch (error) {
+      await _recordPartnerCheckoutEvent(
+        component: 'rayon_support',
+        userId: userId,
+        status: OperationalHealthStatus.error,
+        issueCode: 'partner_checkout_failed',
+        reference: reference,
+        message: 'Rayon support checkout failed before payment sync.',
+        metadata: <String, dynamic>{
+          'initiative_id': initiativeId,
+          'amount': amount,
+          'error': error.toString(),
+        },
+      );
+      rethrow;
+    }
   }
-
 
   // ── Fan Membership ─────────────────────────────────────────────────
 
   Future<String?> getRayonPartnerId() {
     return _resolvePartnerId();
+  }
+
+  Future<PartnerPaymentRoute> getActivePaymentRoute({
+    bool forceRefresh = false,
+  }) async {
+    if (!forceRefresh) {
+      final cachedRoute = _cachedPaymentRoute;
+      if (cachedRoute != null && cachedRoute.isActive) {
+        return cachedRoute;
+      }
+    }
+
+    final partner = await _resolvePartnerSummary();
+    final partnerId = partner['id']?.toString().trim() ?? '';
+    if (partnerId.isEmpty) {
+      throw StateError('Rayon Sports partner record was not found.');
+    }
+
+    final routePayload = await _client.rpc(
+      'get_partner_payment_route',
+      params: <String, dynamic>{
+        'p_partner_id': partnerId,
+        'p_country': partner['country']?.toString(),
+      },
+    );
+
+    final routeData = _asMap(routePayload);
+    final paymentRoute = PartnerPaymentRoute.fromJson(routeData);
+    if (!paymentRoute.isActive) {
+      throw StateError(
+        'Rayon Sports payment routing is not active for ${paymentRoute.countryCode}.',
+      );
+    }
+    if (paymentRoute.recipientCode.isEmpty) {
+      throw StateError(
+        'Rayon Sports payment routing is missing a recipient code.',
+      );
+    }
+
+    _cachedPaymentRoute = paymentRoute;
+    return paymentRoute;
+  }
+
+  Future<bool> isGoogleWalletOperationallyReady() async {
+    try {
+      final response = await _client.functions.invoke(
+        'wallet-issuer',
+        body: const <String, dynamic>{'action': 'health'},
+      );
+      final data = _asMap(response.data);
+      return data['success'] == true && data['configured'] == true;
+    } catch (_) {
+      return false;
+    }
   }
 
   Future<RsFanMembership?> getRayonFanMembership(String userId) async {
@@ -293,11 +378,7 @@ class RayonSportsRepository {
         .maybeSingle();
 
     if (row == null) return null;
-    final names = await _loadUserNames({userId});
-    return RsFanMembership.fromJson(<String, dynamic>{
-      ...row,
-      'display_name': names[userId] ?? 'Rayon Fan',
-    });
+    return RsFanMembership.fromJson(_withResolvedDisplayName(_asMap(row)));
   }
 
   Future<List<RsAchievement>> getAchievements({
@@ -331,6 +412,7 @@ class RayonSportsRepository {
       await _client.from('rs_fan_memberships').insert(<String, dynamic>{
         'user_id': userId,
         'partner_id': resolvedPartnerId,
+        'display_name': _displayNameForUser(userId),
         'tier': 'blue',
         'points': 0,
         'membership_number': membershipNumber,
@@ -338,11 +420,7 @@ class RayonSportsRepository {
       }).select(),
     ).first;
 
-    final names = await _loadUserNames({userId});
-    return RsFanMembership.fromJson(<String, dynamic>{
-      ...row,
-      'display_name': names[userId] ?? 'Rayon Fan',
-    });
+    return RsFanMembership.fromJson(_withResolvedDisplayName(row));
   }
 
   /// Add points to a user's membership and re-evaluate tier.
@@ -367,17 +445,17 @@ class RayonSportsRepository {
     final updated = _asListOfMaps(
       await _client
           .from('rs_fan_memberships')
-          .update(<String, dynamic>{'points': newPoints, 'tier': newTier.name})
+          .update(<String, dynamic>{
+            'points': newPoints,
+            'tier': newTier.name,
+            'display_name': _displayNameForUser(userId),
+          })
           .eq('partner_id', partnerId)
           .eq('user_id', userId)
           .select(),
     ).first;
 
-    final names = await _loadUserNames({userId});
-    return RsFanMembership.fromJson(<String, dynamic>{
-      ...updated,
-      'display_name': names[userId] ?? 'Rayon Fan',
-    });
+    return RsFanMembership.fromJson(_withResolvedDisplayName(updated));
   }
 
   // ── Registry ───────────────────────────────────────────────────────
@@ -454,6 +532,7 @@ class RayonSportsRepository {
     required int quantity,
     String? referralInviteId,
   }) async {
+    final paymentRoute = await getActivePaymentRoute();
     final match = _asListOfMaps(
       await _client.from('rs_matches').select().eq('id', matchId),
     ).map(RsMatch.fromJson).first;
@@ -465,43 +544,78 @@ class RayonSportsRepository {
     final paymentReference =
         'RS-TICKET-${DateTime.now().millisecondsSinceEpoch}';
 
-    final inserts = <Map<String, dynamic>>[];
-    for (var i = 0; i < quantity; i++) {
-      inserts.add(<String, dynamic>{
-        'match_id': matchId,
-        'user_id': userId,
-        'seat_type': normalizedSeat,
-        'amount_paid': unitPrice,
-        'qr_code': null,
-        'momo_reference': paymentReference,
-        'referral_invite_id': referralInviteId,
-        'status': 'pending',
-      });
-    }
-
-    final rows = _asListOfMaps(
-      await _client.from('rs_tickets').insert(inserts).select(),
-    );
-
-    // Points are awarded by the backend (parse-momo-sms) after SMS
-    // payment confirmation — do NOT award client-side.
-
-    // Initiate MOMO payment for total
     final totalAmount = unitPrice * quantity;
-    await _launchRayonMomoPayment(
-      amount: totalAmount,
-      reference: paymentReference,
-    );
+    try {
+      final inserts = <Map<String, dynamic>>[];
+      for (var i = 0; i < quantity; i++) {
+        inserts.add(<String, dynamic>{
+          'match_id': matchId,
+          'user_id': userId,
+          'seat_type': normalizedSeat,
+          'amount_paid': unitPrice,
+          'qr_code': null,
+          'momo_reference': paymentReference,
+          'referral_invite_id': referralInviteId,
+          'status': 'pending',
+        });
+      }
 
-    return rows
-        .map((row) {
-          final ticket = RsTicket.fromJson(<String, dynamic>{
-            ...row,
-            'match': match.toJson(),
-          });
-          return ticket.copyWith(qrCode: _ticketQrCodeFor(ticket));
-        })
-        .toList(growable: false);
+      final rows = _asListOfMaps(
+        await _client.from('rs_tickets').insert(inserts).select(),
+      );
+
+      // Points are awarded by the backend (parse-momo-sms) after SMS
+      // payment confirmation — do NOT award client-side.
+      await _launchRayonMomoPayment(
+        amount: totalAmount,
+        reference: paymentReference,
+        route: paymentRoute,
+      );
+
+      final tickets = rows
+          .map((row) {
+            final ticket = RsTicket.fromJson(<String, dynamic>{
+              ...row,
+              'match': match.toJson(),
+            });
+            return ticket.copyWith(qrCode: _ticketQrCodeFor(ticket));
+          })
+          .toList(growable: false);
+
+      await _recordPartnerCheckoutEvent(
+        component: 'rayon_ticket',
+        userId: userId,
+        subjectType: 'rs_tickets',
+        subjectId: tickets.isEmpty ? null : tickets.first.id,
+        reference: paymentReference,
+        message: 'Rayon ticket checkout opened successfully.',
+        metadata: <String, dynamic>{
+          'match_id': matchId,
+          'quantity': quantity,
+          'seat_type': normalizedSeat,
+          'amount': totalAmount,
+        },
+      );
+
+      return tickets;
+    } catch (error) {
+      await _recordPartnerCheckoutEvent(
+        component: 'rayon_ticket',
+        userId: userId,
+        status: OperationalHealthStatus.error,
+        issueCode: 'partner_checkout_failed',
+        reference: paymentReference,
+        message: 'Rayon ticket checkout failed before payment sync.',
+        metadata: <String, dynamic>{
+          'match_id': matchId,
+          'quantity': quantity,
+          'seat_type': normalizedSeat,
+          'amount': totalAmount,
+          'error': error.toString(),
+        },
+      );
+      rethrow;
+    }
   }
 
   /// Get all tickets for a user, enriched with match data.
@@ -589,7 +703,7 @@ class RayonSportsRepository {
     }
 
     return _asListOfMaps(
-      await query.order('price'),
+      await query.order('sort_order').order('price').order('name'),
     ).map(RsShopProduct.fromJson).toList(growable: false);
   }
 
@@ -602,41 +716,89 @@ class RayonSportsRepository {
     String? referralInviteId,
     int discountAmount = 0,
   }) async {
+    final paymentRoute = await getActivePaymentRoute();
     final subtotal = _sumProducts(products, quantities);
     if (subtotal <= 0) throw StateError('Your cart is empty.');
 
     final total = subtotal - discountAmount;
     final reference = 'RS-SHOP-${DateTime.now().millisecondsSinceEpoch}';
 
-    final rows = _asListOfMaps(
-      await _client
-          .from('rs_shop_orders')
-          .insert(<String, dynamic>{
-            'user_id': userId,
-            'items': products
-                .map(
-                  (p) => <String, dynamic>{
-                    'product_id': p.id,
-                    'name': p.name,
-                    'quantity': quantities[p.id] ?? 0,
-                    'unit_price': p.price,
-                  },
-                )
-                .where((item) => (item['quantity'] as int) > 0)
-                .toList(growable: false),
-            'subtotal': subtotal,
-            'discount': discountAmount,
-            'total': total,
-            'delivery_address': deliveryAddress,
-            'momo_reference': reference,
-            'referral_invite_id': referralInviteId,
-            'status': 'pending',
-          })
-          .select('id'),
-    );
+    try {
+      final rows = _asListOfMaps(
+        await _client
+            .from('rs_shop_orders')
+            .insert(<String, dynamic>{
+              'user_id': userId,
+              'items': products
+                  .map(
+                    (p) => <String, dynamic>{
+                      'product': p.toJson(),
+                      'product_id': p.id,
+                      'name': p.name,
+                      'category': p.category.value,
+                      'image_emoji': p.imageEmoji,
+                      'image_url': p.imageUrl,
+                      'bg_color':
+                          '#${p.bgColor.toARGB32().toRadixString(16).padLeft(8, '0').substring(2).toUpperCase()}',
+                      'sizes': p.availableSizes,
+                      'quantity': quantities[p.id] ?? 0,
+                      'unit_price': p.price,
+                    },
+                  )
+                  .where((item) => (item['quantity'] as int) > 0)
+                  .toList(growable: false),
+              'subtotal': subtotal,
+              'discount_amount': discountAmount,
+              'discount': discountAmount,
+              'delivery_fee': 0,
+              'total': total,
+              'delivery_address': deliveryAddress,
+              'momo_reference': reference,
+              'referral_invite_id': referralInviteId,
+              'status': 'pending',
+            })
+            .select('id'),
+      );
 
-    await _launchRayonMomoPayment(amount: total, reference: reference);
-    return rows.first['id']?.toString() ?? reference;
+      final orderId = rows.first['id']?.toString() ?? reference;
+      await _launchRayonMomoPayment(
+        amount: total,
+        reference: reference,
+        route: paymentRoute,
+      );
+      await _recordPartnerCheckoutEvent(
+        component: 'rayon_shop',
+        userId: userId,
+        subjectType: 'rs_shop_orders',
+        subjectId: orderId,
+        reference: reference,
+        message: 'Rayon shop checkout opened successfully.',
+        metadata: <String, dynamic>{
+          'item_count': quantities.values.fold<int>(
+            0,
+            (sum, quantity) => sum + quantity,
+          ),
+          'discount_amount': discountAmount,
+          'total': total,
+        },
+      );
+      return orderId;
+    } catch (error) {
+      await _recordPartnerCheckoutEvent(
+        component: 'rayon_shop',
+        userId: userId,
+        status: OperationalHealthStatus.error,
+        issueCode: 'partner_checkout_failed',
+        reference: reference,
+        message: 'Rayon shop checkout failed before payment sync.',
+        metadata: <String, dynamic>{
+          'discount_amount': discountAmount,
+          'total': total,
+          'error': error.toString(),
+        },
+      );
+      rethrow;
+    }
   }
 
   /// Get all orders for a user.
@@ -694,23 +856,58 @@ class RayonSportsRepository {
       throw StateError('Contribution amount must be greater than zero.');
     }
 
+    final paymentRoute = await getActivePaymentRoute();
     final reference = 'RS-SUPPORT-${DateTime.now().millisecondsSinceEpoch}';
-    final rows = _asListOfMaps(
-      await _client
-          .from('rs_initiative_contributions')
-          .insert(<String, dynamic>{
-            'initiative_id': initiativeId,
-            'user_id': userId,
-            'amount': amount,
-            'momo_reference': reference,
-            'referral_invite_id': referralInviteId,
-            'status': 'pending',
-          })
-          .select('id'),
-    );
+    try {
+      final rows = _asListOfMaps(
+        await _client
+            .from('rs_initiative_contributions')
+            .insert(<String, dynamic>{
+              'initiative_id': initiativeId,
+              'user_id': userId,
+              'amount': amount,
+              'momo_reference': reference,
+              'referral_invite_id': referralInviteId,
+              'status': 'pending',
+            })
+            .select('id'),
+      );
 
-    await _launchRayonMomoPayment(amount: amount, reference: reference);
-    return rows.first['id']?.toString() ?? reference;
+      final contributionId = rows.first['id']?.toString() ?? reference;
+      await _launchRayonMomoPayment(
+        amount: amount,
+        reference: reference,
+        route: paymentRoute,
+      );
+      await _recordPartnerCheckoutEvent(
+        component: 'rayon_support',
+        userId: userId,
+        subjectType: 'rs_initiative_contributions',
+        subjectId: contributionId,
+        reference: reference,
+        message: 'Rayon initiative checkout opened successfully.',
+        metadata: <String, dynamic>{
+          'initiative_id': initiativeId,
+          'amount': amount,
+        },
+      );
+      return contributionId;
+    } catch (error) {
+      await _recordPartnerCheckoutEvent(
+        component: 'rayon_support',
+        userId: userId,
+        status: OperationalHealthStatus.error,
+        issueCode: 'partner_checkout_failed',
+        reference: reference,
+        message: 'Rayon initiative checkout failed before payment sync.',
+        metadata: <String, dynamic>{
+          'initiative_id': initiativeId,
+          'amount': amount,
+          'error': error.toString(),
+        },
+      );
+      rethrow;
+    }
   }
 
   /// Get recent contributors for an initiative.
@@ -740,7 +937,9 @@ class RayonSportsRepository {
     final rows = _asListOfMaps(
       await _client
           .from('rs_initiative_contributions')
-          .select('id, user_id, amount, created_at, status, momo_reference')
+          .select(
+            'id, user_id, amount, created_at, status, momo_reference, supporter_name',
+          )
           .eq('initiative_id', initiativeId)
           .order('created_at', ascending: false)
           .limit(limit),
@@ -748,18 +947,12 @@ class RayonSportsRepository {
 
     if (rows.isEmpty) return const [];
 
-    final userIds = rows
-        .map((r) => r['user_id']?.toString() ?? '')
-        .where((id) => id.isNotEmpty)
-        .toSet();
-    final names = await _loadUserNames(userIds);
-
     return rows
         .map(
           (row) => RsInitiativeContribution.fromJson(<String, dynamic>{
             ...row,
             'initiative_id': initiativeId,
-            'supporter_name': names[row['user_id']?.toString()] ?? 'Supporter',
+            'supporter_name': _supporterNameForRow(row),
           }),
         )
         .toList(growable: false);
@@ -767,56 +960,75 @@ class RayonSportsRepository {
 
   // ── Helpers ────────────────────────────────────────────────────────
 
-  Future<String?> _resolvePartnerId() async {
+  Future<Map<String, dynamic>> _resolvePartnerSummary() async {
+    try {
+      final slugRow = await _client
+          .from('partners')
+          .select('id, slug, name, country')
+          .eq('slug', 'rayon-sports')
+          .limit(1)
+          .maybeSingle();
+      final slugPartner = _asMapOrNull(slugRow);
+      if (slugPartner != null) {
+        final slugId = slugPartner['id']?.toString().trim() ?? '';
+        if (slugId.isNotEmpty) {
+          return slugPartner;
+        }
+      }
+    } on PostgrestException catch (_) {
+      // Older environments may not have the slug column yet.
+    }
+
     final exactMatches = _asListOfMaps(
       await _client
           .from('partners')
-          .select('id, name')
+          .select('id, slug, name, country')
           .inFilter('name', rayonSportsPartnerLookupNames),
     );
-    final preferredMatch = _pickPreferredRayonPartnerId(exactMatches);
+    final preferredMatch = _pickPreferredRayonPartner(exactMatches);
     if (preferredMatch != null) {
       return preferredMatch;
     }
 
-    final row = await _client
+    final fallbackRow = await _client
         .from('partners')
-        .select('id')
+        .select('id, slug, name, country')
         .ilike('name', 'Rayon Sports%')
         .maybeSingle();
-    return row?['id']?.toString();
+    return _asMapOrNull(fallbackRow) ?? const <String, dynamic>{};
   }
 
-  String? _pickPreferredRayonPartnerId(List<Map<String, dynamic>> rows) {
+  Future<String?> _resolvePartnerId() async {
+    final partner = await _resolvePartnerSummary();
+    final partnerId = partner['id']?.toString().trim();
+    if (partnerId == null || partnerId.isEmpty) {
+      return null;
+    }
+    return partnerId;
+  }
+
+  Map<String, dynamic>? _pickPreferredRayonPartner(
+    List<Map<String, dynamic>> rows,
+  ) {
+    for (final row in rows) {
+      final slug = row['slug']?.toString();
+      final id = row['id']?.toString().trim() ?? '';
+      if (slug == 'rayon-sports' && id.isNotEmpty) {
+        return row;
+      }
+    }
+
     for (final partnerName in rayonSportsPartnerLookupNames) {
       for (final row in rows) {
         if (row['name']?.toString() == partnerName) {
-          final id = row['id']?.toString();
-          if (id != null && id.isNotEmpty) {
-            return id;
+          final id = row['id']?.toString().trim() ?? '';
+          if (id.isNotEmpty) {
+            return row;
           }
         }
       }
     }
     return null;
-  }
-
-  Future<Map<String, String>> _loadUserNames(Set<String> userIds) async {
-    if (userIds.isEmpty) {
-      return const <String, String>{};
-    }
-
-    final rows = _asListOfMaps(
-      await _client
-          .from('users')
-          .select('id, full_name')
-          .inFilter('id', userIds.toList()),
-    );
-
-    return <String, String>{
-      for (final row in rows)
-        row['id']?.toString() ?? '': row['full_name']?.toString() ?? 'Fan',
-    }..remove('');
   }
 
   int _sumProducts(List<RsShopProduct> products, Map<String, int> quantities) {
@@ -838,13 +1050,38 @@ class RayonSportsRepository {
   Future<void> _launchRayonMomoPayment({
     required int amount,
     required String reference,
+    required PartnerPaymentRoute route,
   }) {
     return _momoService.initiateUSSD(
       amount: amount,
       reference: reference,
-      countryCode: rayonSportsMomoCountryCode,
-      recipientMomo: rayonSportsMomoCode,
+      countryCode: route.countryCode,
+      recipientMomo: route.recipientCode,
       recipientType: MomoRecipientType.code,
+    );
+  }
+
+  Future<void> _recordPartnerCheckoutEvent({
+    required String component,
+    required String userId,
+    required String message,
+    OperationalHealthStatus status = OperationalHealthStatus.ok,
+    String? issueCode,
+    String? subjectType,
+    String? subjectId,
+    String? reference,
+    Map<String, dynamic> metadata = const <String, dynamic>{},
+  }) {
+    return _operationalHealthService.recordEvent(
+      service: 'partner_checkout',
+      component: component,
+      status: status,
+      issueCode: issueCode,
+      message: message,
+      userId: userId,
+      subjectType: subjectType,
+      subjectId: subjectId,
+      metadata: <String, dynamic>{'reference': reference, ...metadata},
     );
   }
 
@@ -902,7 +1139,10 @@ class RayonSportsRepository {
   }
 
   /// Update an existing match.
-  Future<RsMatch> updateMatch(String matchId, Map<String, dynamic> fields) async {
+  Future<RsMatch> updateMatch(
+    String matchId,
+    Map<String, dynamic> fields,
+  ) async {
     final row = _asListOfMaps(
       await _client
           .from('rs_matches')
@@ -1030,9 +1270,7 @@ class RayonSportsRepository {
 
   /// Get all tickets (optionally filtered by match), for admin listing.
   Future<List<RsTicket>> adminGetAllTickets({String? matchId}) async {
-    var query = _client
-        .from('rs_tickets')
-        .select('*, rs_matches(*)');
+    var query = _client.from('rs_tickets').select('*, rs_matches(*)');
     if (matchId != null && matchId.isNotEmpty) {
       query = query.eq('match_id', matchId);
     }
@@ -1212,10 +1450,9 @@ class RayonSportsRepository {
     String initiativeId, {
     required bool isActive,
   }) {
-    return updateInitiative(
-      initiativeId,
-      <String, dynamic>{'is_active': isActive},
-    );
+    return updateInitiative(initiativeId, <String, dynamic>{
+      'is_active': isActive,
+    });
   }
 
   // ══════════════════════════════════════════════════════════════════════
@@ -1236,65 +1473,95 @@ class RayonSportsRepository {
     );
 
     if (rows.isEmpty) return const <FanMembership>[];
-    final userIds = rows
-        .map((r) => r['user_id']?.toString() ?? '')
-        .where((id) => id.isNotEmpty)
-        .toSet();
-    final names = await _loadUserNames(userIds);
 
     return rows
-        .map(
-          (row) => FanMembership.fromJson(<String, dynamic>{
-            ...row,
-            'display_name': names[row['user_id']?.toString()] ?? 'Fan',
-          }),
-        )
+        .map((row) => FanMembership.fromJson(_withResolvedDisplayName(row)))
         .toList(growable: false);
   }
 
   /// Update a member's tier manually.
-  Future<FanMembership> updateMemberTier(
-    String userId,
-    String tier,
-  ) async {
+  Future<FanMembership> updateMemberTier(String userId, String tier) async {
     final partnerId = await _resolvePartnerId();
     if (partnerId == null) throw StateError('Rayon Sports partner not found.');
     final row = _asListOfMaps(
       await _client
           .from('rs_fan_memberships')
-          .update(<String, dynamic>{'tier': tier})
+          .update(<String, dynamic>{
+            'tier': tier,
+            'display_name': _displayNameForUser(userId),
+          })
           .eq('partner_id', partnerId)
           .eq('user_id', userId)
           .select(),
     ).first;
-    final names = await _loadUserNames({userId});
-    return FanMembership.fromJson(<String, dynamic>{
-      ...row,
-      'display_name': names[userId] ?? 'Fan',
-    });
+    return FanMembership.fromJson(_withResolvedDisplayName(row));
   }
 
   /// Set a member's points to an absolute value.
-  Future<FanMembership> setMemberPoints(
-    String userId,
-    int points,
-  ) async {
+  Future<FanMembership> setMemberPoints(String userId, int points) async {
     final partnerId = await _resolvePartnerId();
     if (partnerId == null) throw StateError('Rayon Sports partner not found.');
     final newTier = FanTierX.fromPoints(points);
     final row = _asListOfMaps(
       await _client
           .from('rs_fan_memberships')
-          .update(<String, dynamic>{'points': points, 'tier': newTier.name})
+          .update(<String, dynamic>{
+            'points': points,
+            'tier': newTier.name,
+            'display_name': _displayNameForUser(userId),
+          })
           .eq('partner_id', partnerId)
           .eq('user_id', userId)
           .select(),
     ).first;
-    final names = await _loadUserNames({userId});
-    return FanMembership.fromJson(<String, dynamic>{
+    return FanMembership.fromJson(_withResolvedDisplayName(row));
+  }
+
+  Map<String, dynamic> _withResolvedDisplayName(Map<String, dynamic> row) {
+    final userId = row['user_id']?.toString();
+    return <String, dynamic>{
       ...row,
-      'display_name': names[userId] ?? 'Fan',
-    });
+      'display_name': _displayNameForUser(
+        userId,
+        seededDisplayName: row['display_name']?.toString(),
+      ),
+    };
+  }
+
+  String _displayNameForUser(
+    String? userId, {
+    String? seededDisplayName,
+    String fallback = '000000',
+  }) {
+    final currentUser = _client.auth.currentUser;
+    final currentMetadata =
+        currentUser?.userMetadata ?? const <String, dynamic>{};
+
+    if (userId != null && currentUser?.id == userId) {
+      return PublicUserIdentity.resolve(
+        publicUserId:
+            currentMetadata['public_user_id']?.toString() ?? seededDisplayName,
+        userId: userId,
+        phone: currentUser?.phone,
+        fallback: fallback,
+      );
+    }
+
+    return PublicUserIdentity.resolve(
+      publicUserId: seededDisplayName,
+      userId: userId,
+      fallback: fallback,
+    );
+  }
+
+  String _supporterNameForRow(Map<String, dynamic> row) {
+    final seededName = row['supporter_name']?.toString();
+    final userId = row['user_id']?.toString();
+    return _displayNameForUser(
+      userId,
+      seededDisplayName: seededName,
+      fallback: 'Supporter',
+    );
   }
 }
 
@@ -1313,6 +1580,13 @@ Map<String, dynamic> _asMap(dynamic value) {
     return value.map((key, val) => MapEntry('$key', val));
   }
   return const <String, dynamic>{};
+}
+
+Map<String, dynamic>? _asMapOrNull(dynamic value) {
+  if (value is Map) {
+    return value.map((key, val) => MapEntry('$key', val));
+  }
+  return null;
 }
 
 String? _nullIfBlank(String? value) {

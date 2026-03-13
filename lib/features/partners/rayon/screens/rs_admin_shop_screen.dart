@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../providers/rayon_sports_provider.dart';
+import '../../widgets/partner_navigation.dart';
 import '../models/rs_models.dart';
 import '../providers/rs_admin_provider.dart';
 
@@ -27,9 +28,10 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.rsBlue,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
-          onPressed: () => context.pop(),
+        leading: buildPartnerBackButton(
+          context,
+          fallbackLocation: AppRoutes.adminRayon,
+          color: Colors.white,
         ),
         title: Text(
           'Shop Products',
@@ -39,6 +41,7 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
             color: Colors.white,
           ),
         ),
+        actions: buildPartnerAppBarActions(context, homeColor: Colors.white),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.rsBlue,
@@ -48,7 +51,10 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
       body: productsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(
-          child: Text('Error: $e', style: const TextStyle(color: AppColors.red)),
+          child: Text(
+            'Error: $e',
+            style: const TextStyle(color: AppColors.red),
+          ),
         ),
         data: (products) {
           if (products.isEmpty) {
@@ -89,8 +95,14 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: AppColors.surface,
-        title: Text('Delete product?', style: GoogleFonts.dmSans(color: AppColors.text)),
-        content: Text(prod.name, style: GoogleFonts.dmSans(color: AppColors.text2)),
+        title: Text(
+          'Delete product?',
+          style: GoogleFonts.dmSans(color: AppColors.text),
+        ),
+        content: Text(
+          prod.name,
+          style: GoogleFonts.dmSans(color: AppColors.text2),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
@@ -121,9 +133,7 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
     final stockCtrl = TextEditingController(
       text: product?.stock.toString() ?? '50',
     );
-    final emojiCtrl = TextEditingController(
-      text: product?.imageEmoji ?? '👕',
-    );
+    final emojiCtrl = TextEditingController(text: product?.imageEmoji ?? '👕');
 
     showModalBottomSheet(
       context: context,
@@ -282,8 +292,10 @@ class _ProductTile extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   '${product.price} RWF · Stock: ${product.stock} · ${product.category.value}',
-                  style:
-                      GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
+                  style: GoogleFonts.dmSans(
+                    fontSize: 11,
+                    color: AppColors.text3,
+                  ),
                 ),
                 const SizedBox(height: 6),
                 Row(

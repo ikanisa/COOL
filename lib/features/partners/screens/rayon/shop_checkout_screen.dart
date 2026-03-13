@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../core/router/app_router.dart';
 import '../../../../core/providers/referral_providers.dart';
 import '../../../../core/status/cool_status_awarder.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -13,6 +14,7 @@ import '../../../../shared/widgets/cool_toast.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_text_field.dart';
 import '../../rayon/models/rs_models.dart';
+
 import '../../rayon/rayon_payment.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/rayon_screen_scaffold.dart';
@@ -55,6 +57,7 @@ class _ShopCheckoutScreenState extends ConsumerState<ShopCheckoutScreen>
   @override
   Widget build(BuildContext context) {
     final shopCatalog = ref.watch(rayonShopCatalogProvider);
+    final paymentRoute = ref.watch(rayonPaymentRouteProvider).valueOrNull;
     final ordersAsync = _openedOrderId == null
         ? const AsyncData<List<RsShopOrder>>(<RsShopOrder>[])
         : ref.watch(rayonShopOrdersProvider);
@@ -64,6 +67,7 @@ class _ShopCheckoutScreenState extends ConsumerState<ShopCheckoutScreen>
       title: _openedOrderId == null
           ? 'Checkout'
           : _checkoutTitle(openedOrder?.status ?? OrderStatus.pending),
+      fallbackLocation: AppRoutes.rayonShop,
       scrollable: false,
       child: shopCatalog.when(
         data: (shop) {
@@ -80,12 +84,11 @@ class _ShopCheckoutScreenState extends ConsumerState<ShopCheckoutScreen>
                       orderAsync: ordersAsync,
                       order: openedOrder,
                       message: _openedMessage ?? 'Shop checkout opened.',
+                      paymentRoute: paymentRoute,
                       onRefreshStatus: () =>
                           ref.invalidate(rayonShopOrdersProvider),
-                      onBackToShop: () =>
-                          context.go('/partners/rayon-sports/shop'),
-                      onViewOrders: () =>
-                          context.go('/partners/rayon-sports/profile'),
+                      onBackToShop: () => context.go(AppRoutes.rayonShop),
+                      onViewOrders: () => context.go(AppRoutes.rayonProfile),
                     ),
                   ),
                 ),
@@ -97,7 +100,7 @@ class _ShopCheckoutScreenState extends ConsumerState<ShopCheckoutScreen>
 
           if (products.isEmpty) {
             return _EmptyCheckout(
-              onBackToShop: () => context.go('/partners/rayon-sports/shop'),
+              onBackToShop: () => context.go(AppRoutes.rayonShop),
             );
           }
 
@@ -251,8 +254,12 @@ class _ShopCheckoutScreenState extends ConsumerState<ShopCheckoutScreen>
                     ),
                     const SizedBox(height: 18),
                     CoolButton(
-                      label: 'Pay ${_fmtRwf(total)} via MTN MoMo',
-                      onTap: () async {
+                      label: paymentRoute == null
+                          ? 'Payment route unavailable'
+                          : 'Pay ${paymentRoute.amountLabel(total)} via ${paymentRoute.providerLabel}',
+                      onTap: paymentRoute == null
+                          ? () {}
+                          : () async {
                         final notifier = ref.read(rayonSportsProvider.notifier);
                         try {
                           final referralInviteId = _referralInviteId;
@@ -365,6 +372,7 @@ class _CheckoutStatusState extends StatelessWidget {
     required this.orderAsync,
     required this.order,
     required this.message,
+    required this.paymentRoute,
     required this.onRefreshStatus,
     required this.onBackToShop,
     required this.onViewOrders,
@@ -375,6 +383,7 @@ class _CheckoutStatusState extends StatelessWidget {
   final AsyncValue<List<RsShopOrder>> orderAsync;
   final RsShopOrder? order;
   final String message;
+  final PartnerPaymentRoute? paymentRoute;
   final VoidCallback onRefreshStatus;
   final VoidCallback onBackToShop;
   final VoidCallback onViewOrders;
@@ -413,7 +422,7 @@ class _CheckoutStatusState extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            _statusBody(status, total, message),
+            _statusBody(status, total, message, paymentRoute),
             textAlign: TextAlign.center,
             style: GoogleFonts.barlow(
               fontSize: 14,
@@ -524,7 +533,7 @@ class _OrderSummary extends StatelessWidget {
         if (orderValue.status == OrderStatus.pending) ...[
           const SizedBox(height: 6),
           Text(
-            'Fulfillment starts only after MTN MoMo confirms this order.',
+            'Fulfillment starts only after SMS reconciliation confirms this order.',
             style: GoogleFonts.barlow(
               fontSize: 12,
               fontWeight: FontWeight.w600,
@@ -741,12 +750,26 @@ String _statusHeadline(OrderStatus status) {
   };
 }
 
-String _statusBody(OrderStatus status, int total, String openedMessage) {
+String _statusBody(
+  OrderStatus status,
+  int total,
+  String openedMessage,
+  PartnerPaymentRoute? paymentRoute,
+) {
+  final paymentDetails = paymentRoute == null
+      ? 'backend payment routing'
+      : paymentRoute.payToLabel;
+  final amountLabel = paymentRoute?.amountLabel(total) ??
+      _ShopCheckoutScreenState._fmtRwf(total);
+  final receiptLogic = paymentRoute == null
+      ? 'SMS reconciliation'
+      : 'SMS reconciliation for ${paymentRoute.reconciliationLabel}';
+
   return switch (status) {
     OrderStatus.pending =>
-      '$openedMessage We launched ${rayonSportsMomoUssd(total)}. Approve the MTN MoMo payment to move this Rayon Sports order from pending to confirmed.',
+      '$openedMessage Approve payment to $paymentDetails for $amountLabel. Fees ${paymentRoute?.feesLabel() ?? '0 RWF'}. We issue the receipt after $receiptLogic.',
     OrderStatus.confirmed =>
-      'MTN MoMo confirmation has arrived. Your Rayon Sports order is now in the fulfillment queue.',
+      'Payment confirmation has arrived. Your Rayon Sports order is now in the fulfillment queue.',
     OrderStatus.shipped =>
       'This order has been confirmed and handed over for delivery.',
     OrderStatus.delivered =>

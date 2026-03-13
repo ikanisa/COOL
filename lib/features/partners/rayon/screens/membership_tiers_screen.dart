@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../core/theme/rs_text_styles.dart';
@@ -11,6 +11,7 @@ import '../../../../shared/widgets/cool_screen_background.dart';
 import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../../../shared/widgets/rs_progress_bar.dart';
 import '../../providers/rayon_sports_provider.dart';
+import '../../widgets/partner_navigation.dart';
 import '../models/rs_models.dart';
 import '../widgets/rs_tier_badge.dart';
 
@@ -39,14 +40,15 @@ class MembershipTiersScreen extends StatelessWidget {
                   surfaceTintColor: Colors.transparent,
                   elevation: 0,
                   scrolledUnderElevation: 0,
-                  leading: IconButton(
-                    onPressed: () => context.go('/partners/rayon-sports'),
-                    icon: const Icon(Icons.arrow_back_rounded),
+                  leading: buildPartnerBackButton(
+                    context,
+                    fallbackLocation: AppRoutes.rayonHome,
                   ),
                   title: Text(
                     'Membership Plans',
                     style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
                   ),
+                  actions: buildPartnerAppBarActions(context),
                 ),
                 SliverPadding(
                   padding: const EdgeInsets.fromLTRB(18, 12, 18, 96),
@@ -64,10 +66,8 @@ class MembershipTiersScreen extends StatelessWidget {
                         childCount: 4,
                       ),
                     ),
-                    error: (error, stack) => _TierList(
-                      currentTier: FanTier.blue,
-                      currentPoints: 0,
-                    ),
+                    error: (error, stack) =>
+                        _TierList(currentTier: FanTier.blue, currentPoints: 0),
                   ),
                 ),
               ],
@@ -82,10 +82,7 @@ class MembershipTiersScreen extends StatelessWidget {
 // ── Tier list ─────────────────────────────────────────────────────
 
 class _TierList extends StatelessWidget {
-  const _TierList({
-    required this.currentTier,
-    required this.currentPoints,
-  });
+  const _TierList({required this.currentTier, required this.currentPoints});
 
   final FanTier currentTier;
   final int currentPoints;
@@ -116,10 +113,7 @@ class _TierList extends StatelessWidget {
 // ── Intro summary card ────────────────────────────────────────────
 
 class _IntroCard extends StatelessWidget {
-  const _IntroCard({
-    required this.currentTier,
-    required this.currentPoints,
-  });
+  const _IntroCard({required this.currentTier, required this.currentPoints});
 
   final FanTier currentTier;
   final int currentPoints;
@@ -205,18 +199,15 @@ class _ProgressToNext extends StatelessWidget {
     final floor = currentTier.minPoints;
     final ceiling = nextTier.minPoints;
     final span = ceiling - floor;
-    final progress =
-        span > 0 ? ((currentPoints - floor) / span).clamp(0.0, 1.0) : 1.0;
+    final progress = span > 0
+        ? ((currentPoints - floor) / span).clamp(0.0, 1.0)
+        : 1.0;
     final remaining = (ceiling - currentPoints).clamp(0, ceiling);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        RsProgressBar(
-          progress: progress,
-          fillColor: nextTier.color,
-          height: 8,
-        ),
+        RsProgressBar(progress: progress, fillColor: nextTier.color, height: 8),
         const SizedBox(height: 8),
         Text(
           '$remaining pts to ${nextTier.label}',
@@ -255,10 +246,7 @@ class _TierCard extends StatelessWidget {
           ? LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [
-                tier.color.withValues(alpha: 0.18),
-                AppColors.surface2,
-              ],
+              colors: [tier.color.withValues(alpha: 0.18), AppColors.surface2],
             )
           : AppColors.cardGradient,
       borderColor: isCurrent
@@ -317,11 +305,7 @@ class _TierCard extends StatelessWidget {
                   ),
                 ),
                 if (isCurrent)
-                  _StatusChip(
-                    label: 'Current',
-                    color: tier.color,
-                    filled: true,
-                  )
+                  _StatusChip(label: 'Current', color: tier.color, filled: true)
                 else if (isUnlocked)
                   _StatusChip(
                     label: 'Unlocked',
@@ -457,98 +441,94 @@ class _Benefit {
 _TierMeta _tierMeta(FanTier tier) {
   return switch (tier) {
     FanTier.blue => const _TierMeta(
-        icon: Icons.favorite_rounded,
-        subtitle: 'Free — every fan starts here',
-        benefits: [
-          _Benefit(
-            icon: Icons.confirmation_number_rounded,
-            title: 'Standard Tickets',
-            description: 'Buy match tickets at regular pricing.',
-          ),
-          _Benefit(
-            icon: Icons.shopping_bag_rounded,
-            title: 'Club Shop Access',
-            description: 'Browse and purchase official Rayon merch.',
-          ),
-          _Benefit(
-            icon: Icons.bar_chart_rounded,
-            title: 'Fan Points',
-            description:
-                'Earn points from attendance, purchases, and support.',
-          ),
-        ],
-      ),
+      icon: Icons.favorite_rounded,
+      subtitle: 'Free — every fan starts here',
+      benefits: [
+        _Benefit(
+          icon: Icons.confirmation_number_rounded,
+          title: 'Standard Tickets',
+          description: 'Buy match tickets at regular pricing.',
+        ),
+        _Benefit(
+          icon: Icons.shopping_bag_rounded,
+          title: 'Club Shop Access',
+          description: 'Browse and purchase official Rayon merch.',
+        ),
+        _Benefit(
+          icon: Icons.bar_chart_rounded,
+          title: 'Fan Points',
+          description: 'Earn points from attendance, purchases, and support.',
+        ),
+      ],
+    ),
     FanTier.silver => const _TierMeta(
-        icon: Icons.workspace_premium_rounded,
-        subtitle: '1,000 pts — dedicated supporter',
-        benefits: [
-          _Benefit(
-            icon: Icons.confirmation_number_rounded,
-            title: '5% Ticket Discount',
-            description: 'Save on every match ticket purchase.',
-          ),
-          _Benefit(
-            icon: Icons.star_rounded,
-            title: 'Priority Queue',
-            description: 'Jump the queue when tickets open for big matches.',
-          ),
-          _Benefit(
-            icon: Icons.military_tech_rounded,
-            title: 'Silver Badge',
-            description: 'Exclusive silver badge on your fan profile.',
-          ),
-        ],
-      ),
+      icon: Icons.workspace_premium_rounded,
+      subtitle: '1,000 pts — dedicated supporter',
+      benefits: [
+        _Benefit(
+          icon: Icons.confirmation_number_rounded,
+          title: '5% Ticket Discount',
+          description: 'Save on every match ticket purchase.',
+        ),
+        _Benefit(
+          icon: Icons.star_rounded,
+          title: 'Priority Queue',
+          description: 'Jump the queue when tickets open for big matches.',
+        ),
+        _Benefit(
+          icon: Icons.military_tech_rounded,
+          title: 'Silver Badge',
+          description: 'Exclusive silver badge on your fan profile.',
+        ),
+      ],
+    ),
     FanTier.gold => const _TierMeta(
-        icon: Icons.emoji_events_rounded,
-        subtitle: '2,000 pts — elite supporter',
-        benefits: [
-          _Benefit(
-            icon: Icons.confirmation_number_rounded,
-            title: 'Priority Tickets',
-            description: 'Get earlier access to on-sale match entries.',
-          ),
-          _Benefit(
-            icon: Icons.shopping_bag_rounded,
-            title: '10% Shop Discount',
-            description: 'Unlock supporter pricing on official club gear.',
-          ),
-          _Benefit(
-            icon: Icons.auto_awesome_rounded,
-            title: 'VIP Events',
-            description:
-                'Access select fan sessions and special event queues.',
-          ),
-        ],
-      ),
+      icon: Icons.emoji_events_rounded,
+      subtitle: '2,000 pts — elite supporter',
+      benefits: [
+        _Benefit(
+          icon: Icons.confirmation_number_rounded,
+          title: 'Priority Tickets',
+          description: 'Get earlier access to on-sale match entries.',
+        ),
+        _Benefit(
+          icon: Icons.shopping_bag_rounded,
+          title: '10% Shop Discount',
+          description: 'Unlock supporter pricing on official club gear.',
+        ),
+        _Benefit(
+          icon: Icons.auto_awesome_rounded,
+          title: 'VIP Events',
+          description: 'Access select fan sessions and special event queues.',
+        ),
+      ],
+    ),
     FanTier.platinum => const _TierMeta(
-        icon: Icons.diamond_rounded,
-        subtitle: '5,000 pts — ultimate fan',
-        benefits: [
-          _Benefit(
-            icon: Icons.confirmation_number_rounded,
-            title: 'Priority Tickets + 15% Off',
-            description: 'Best pricing and first access to all matches.',
-          ),
-          _Benefit(
-            icon: Icons.handshake_rounded,
-            title: 'Meet & Greet',
-            description:
-                'Join premium player and club meetups when available.',
-          ),
-          _Benefit(
-            icon: Icons.checkroom_rounded,
-            title: 'Free Kit',
-            description:
-                'Receive one complimentary official kit each season.',
-          ),
-          _Benefit(
-            icon: Icons.emoji_events_rounded,
-            title: 'All Gold Benefits',
-            description:
-                'VIP events, shop discounts, and everything from lower tiers.',
-          ),
-        ],
-      ),
+      icon: Icons.diamond_rounded,
+      subtitle: '5,000 pts — ultimate fan',
+      benefits: [
+        _Benefit(
+          icon: Icons.confirmation_number_rounded,
+          title: 'Priority Tickets + 15% Off',
+          description: 'Best pricing and first access to all matches.',
+        ),
+        _Benefit(
+          icon: Icons.handshake_rounded,
+          title: 'Meet & Greet',
+          description: 'Join premium player and club meetups when available.',
+        ),
+        _Benefit(
+          icon: Icons.checkroom_rounded,
+          title: 'Free Kit',
+          description: 'Receive one complimentary official kit each season.',
+        ),
+        _Benefit(
+          icon: Icons.emoji_events_rounded,
+          title: 'All Gold Benefits',
+          description:
+              'VIP events, shop discounts, and everything from lower tiers.',
+        ),
+      ],
+    ),
   };
 }

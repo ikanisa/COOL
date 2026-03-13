@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../providers/rayon_sports_provider.dart';
+import '../../widgets/partner_navigation.dart';
 import '../models/rs_models.dart';
 import '../providers/rs_admin_provider.dart';
 
@@ -30,9 +31,10 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.rsBlue,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
-          onPressed: () => context.pop(),
+        leading: buildPartnerBackButton(
+          context,
+          fallbackLocation: AppRoutes.adminRayon,
+          color: Colors.white,
         ),
         title: Text(
           'Members',
@@ -42,6 +44,7 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
             color: Colors.white,
           ),
         ),
+        actions: buildPartnerAppBarActions(context, homeColor: Colors.white),
       ),
       body: Column(
         children: [
@@ -57,8 +60,11 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
                   color: AppColors.text3,
                   fontSize: 14,
                 ),
-                prefixIcon:
-                    const Icon(Icons.search, color: AppColors.text3, size: 20),
+                prefixIcon: const Icon(
+                  Icons.search,
+                  color: AppColors.text3,
+                  size: 20,
+                ),
                 filled: true,
                 fillColor: AppColors.surface,
                 border: OutlineInputBorder(
@@ -72,8 +78,7 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
           // ── Member list ──
           Expanded(
             child: membersAsync.when(
-              loading: () =>
-                  const Center(child: CircularProgressIndicator()),
+              loading: () => const Center(child: CircularProgressIndicator()),
               error: (e, _) => Center(
                 child: Text(
                   'Error: $e',
@@ -87,9 +92,9 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
                           .where(
                             (m) =>
                                 m.displayName.toLowerCase().contains(_search) ||
-                                m.membershipNumber
-                                    .toLowerCase()
-                                    .contains(_search),
+                                m.membershipNumber.toLowerCase().contains(
+                                  _search,
+                                ),
                           )
                           .toList();
                 if (filtered.isEmpty) {
@@ -103,15 +108,14 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
                 return ListView.separated(
                   padding: const EdgeInsets.all(16),
                   itemCount: filtered.length,
-                  separatorBuilder: (context, index) => const SizedBox(height: 8),
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 8),
                   itemBuilder: (context, index) {
                     final member = filtered[index];
                     return _MemberTile(
                       member: member,
-                      onEditTier: () =>
-                          _showTierPicker(member),
-                      onEditPoints: () =>
-                          _showPointsEditor(member),
+                      onEditTier: () => _showTierPicker(member),
+                      onEditPoints: () => _showPointsEditor(member),
                     );
                   },
                 );
@@ -147,17 +151,28 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
             const SizedBox(height: 16),
             ...FanTier.values.map(
               (tier) => ListTile(
-                leading: Icon(_tierIcon(tier), size: 20, color: AppColors.rsGold),
+                leading: Icon(
+                  _tierIcon(tier),
+                  size: 20,
+                  color: AppColors.rsGold,
+                ),
                 title: Text(
                   tier.name.toUpperCase(),
                   style: GoogleFonts.dmSans(
-                    color: member.tier == tier ? AppColors.accent : AppColors.text,
-                    fontWeight:
-                        member.tier == tier ? FontWeight.w700 : FontWeight.w400,
+                    color: member.tier == tier
+                        ? AppColors.accent
+                        : AppColors.text,
+                    fontWeight: member.tier == tier
+                        ? FontWeight.w700
+                        : FontWeight.w400,
                   ),
                 ),
                 trailing: member.tier == tier
-                    ? const Icon(Icons.check_circle, color: AppColors.accent, size: 20)
+                    ? const Icon(
+                        Icons.check_circle,
+                        color: AppColors.accent,
+                        size: 20,
+                      )
                     : null,
                 onTap: () async {
                   final repo = ref.read(rayonSportsRepositoryProvider);
@@ -207,8 +222,10 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
               style: GoogleFonts.dmSans(color: AppColors.text, fontSize: 16),
               decoration: InputDecoration(
                 labelText: 'Points',
-                labelStyle:
-                    GoogleFonts.dmSans(color: AppColors.text3, fontSize: 13),
+                labelStyle: GoogleFonts.dmSans(
+                  color: AppColors.text3,
+                  fontSize: 13,
+                ),
                 filled: true,
                 fillColor: AppColors.surface2,
                 border: OutlineInputBorder(
@@ -295,8 +312,10 @@ class _MemberTile extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   '${member.membershipNumber} · ${member.tier.name.toUpperCase()} · ${member.points} pts',
-                  style:
-                      GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
+                  style: GoogleFonts.dmSans(
+                    fontSize: 11,
+                    color: AppColors.text3,
+                  ),
                 ),
               ],
             ),
@@ -308,7 +327,11 @@ class _MemberTile extends StatelessWidget {
             },
             child: const Padding(
               padding: EdgeInsets.all(4),
-              child: Icon(Icons.military_tech, size: 20, color: AppColors.rsGold),
+              child: Icon(
+                Icons.military_tech,
+                size: 20,
+                color: AppColors.rsGold,
+              ),
             ),
           ),
           const SizedBox(width: 8),

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/cool_screen_background.dart';
 import '../../../../shared/widgets/rs_tier_badge.dart';
 import '../../rayon/models/rs_models.dart';
 import '../../providers/member_registry_provider.dart';
 import '../../providers/rayon_sports_provider.dart';
+import '../../widgets/partner_navigation.dart';
 import '../../widgets/rayon_state_views.dart';
 
 class MemberRegistryScreen extends ConsumerStatefulWidget {
@@ -245,12 +246,10 @@ class _HeaderRow extends StatelessWidget {
             borderRadius: BorderRadius.circular(14),
             border: Border.all(color: AppColors.border2),
           ),
-          child: IconButton(
-            onPressed: () => context.pop(),
-            icon: const Icon(
-              Icons.arrow_back_rounded,
-              color: AppColors.rsWhite,
-            ),
+          child: buildPartnerBackButton(
+            context,
+            fallbackLocation: AppRoutes.rayonHome,
+            color: AppColors.rsWhite,
           ),
         ),
         const SizedBox(width: 14),
@@ -281,6 +280,15 @@ class _HeaderRow extends StatelessWidget {
               color: AppColors.rsBluePale,
             ),
           ),
+        ),
+        const SizedBox(width: 8),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: AppColors.surface2,
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: AppColors.border2),
+          ),
+          child: buildPartnerHomeButton(context, color: AppColors.rsWhite),
         ),
       ],
     );

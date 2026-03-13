@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/config/deep_link_config.dart';
 import '../../../../core/models/engagement_event.dart';
 import '../../../../core/providers/engagement_providers.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/cool_button.dart';
 import '../../../../shared/widgets/cool_toast.dart';
@@ -62,7 +63,7 @@ class _TicketConfirmationScreenState
           .createGoogleWalletSaveUrl(ticketId: ticket.id);
       final uri = Uri.tryParse(saveUrl);
       if (uri == null) {
-        throw StateError('Wallet save link is invalid.');
+        throw StateError('The Google Wallet link is invalid.');
       }
 
       final launched = await launchUrl(
@@ -70,7 +71,7 @@ class _TicketConfirmationScreenState
         mode: LaunchMode.externalApplication,
       );
       if (!launched) {
-        throw StateError('Google Wallet could not be opened on this device.');
+        throw StateError('Google Wallet is not available on this device.');
       }
 
       await performance.stopTrace(
@@ -105,7 +106,7 @@ class _TicketConfirmationScreenState
           context,
           error is StateError
               ? error.message.toString()
-              : 'Unable to open Google Wallet right now.',
+              : 'Unable to open Google Wallet.',
         );
       }
     } finally {
@@ -118,15 +119,17 @@ class _TicketConfirmationScreenState
   @override
   Widget build(BuildContext context) {
     final ticketAsync = ref.watch(rayonUserTicketByIdProvider(widget.ticketId));
+    final walletReady = ref.watch(rayonWalletAvailabilityProvider).valueOrNull;
 
     return RayonScreenScaffold(
-      title: 'Ticket Status',
+      title: 'Ticket Confirmation',
+      fallbackLocation: AppRoutes.rayonTickets,
       scrollable: false,
       child: ticketAsync.when(
         data: (ticket) {
           if (ticket == null) {
             return RayonErrorView(
-              message: 'Ticket not found.',
+              message: 'We could not find this ticket.',
               onRetry: () => ref.invalidate(rayonUserTicketsProvider),
             );
           }
@@ -193,7 +196,8 @@ class _TicketConfirmationScreenState
                         const SizedBox(height: 24),
                         RsDigitalTicket(ticket: ticket),
                         const SizedBox(height: 20),
-                        if (ticket.status == RsTicketStatus.valid) ...[
+                        if (ticket.status == RsTicketStatus.valid &&
+                            walletReady == true) ...[
                           CoolButton(
                             label: 'Add to Google Wallet',
                             onTap: () => _handleAddToWallet(ticket),
@@ -201,12 +205,42 @@ class _TicketConfirmationScreenState
                             icon: Icons.wallet_outlined,
                           ),
                           const SizedBox(height: 10),
+                        ] else if (ticket.status == RsTicketStatus.valid &&
+                            walletReady == false) ...[
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(14),
+                            decoration: BoxDecoration(
+                              color: AppColors.surface,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: AppColors.border),
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.wallet_outlined,
+                                  color: AppColors.text2,
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Text(
+                                    'Google Wallet is not enabled for this environment yet.',
+                                    style: GoogleFonts.barlow(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.text2,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 10),
                         ],
                         TextButton(
-                          onPressed: () =>
-                              context.go('/partners/rayon-sports/tickets'),
+                          onPressed: () => context.go(AppRoutes.rayonTickets),
                           child: Text(
-                            'Back to Tickets',
+                            'Back to tickets',
                             style: GoogleFonts.barlow(
                               fontSize: 14,
                               fontWeight: FontWeight.w700,
@@ -227,13 +261,14 @@ class _TicketConfirmationScreenState
                         ),
                         const SizedBox(height: 20),
                         ShareCard(
-                          title: 'Share this match',
+                          title: 'Share match',
                           icon: Icons.sports_soccer_rounded,
                           subtitle: ticket.matchTitle,
                           shareUrl: DeepLinkConfig.matchUri(
                             ticket.matchId,
                           ).toString(),
-                          shareText: 'Check out ${ticket.matchTitle} on Cool!',
+                          shareText:
+                              'Join me for ${ticket.matchTitle} with COOL.',
                         ),
                       ],
                     ),
@@ -269,34 +304,35 @@ class _TicketStatusMeta {
   final Color color;
 }
 
-_TicketStatusMeta _statusMeta(RsTicketStatus status) => switch (status) {
-  RsTicketStatus.pending => const _TicketStatusMeta(
-    title: 'Payment Pending',
-    subtitle: 'We are waiting for MTN MoMo confirmation before enabling entry.',
-    note: 'Your QR unlocks automatically after the backend confirms payment.',
-    icon: Icons.hourglass_top_rounded,
-    color: AppColors.rsGold,
-  ),
-  RsTicketStatus.valid => const _TicketStatusMeta(
-    title: 'Ticket Confirmed',
-    subtitle: 'Your match entry is ready to use at the gate.',
-    note:
-        'A WhatsApp confirmation will also be sent to your registered number.',
-    icon: Icons.check_rounded,
-    color: AppColors.accent,
-  ),
-  RsTicketStatus.used => const _TicketStatusMeta(
-    title: 'Ticket Used',
-    subtitle: 'This ticket has already been scanned for entry.',
-    note: 'Used tickets stay in your history but cannot be scanned again.',
-    icon: Icons.check_circle_outline_rounded,
-    color: AppColors.text3,
-  ),
-  RsTicketStatus.cancelled => const _TicketStatusMeta(
-    title: 'Ticket Cancelled',
-    subtitle: 'This ticket is no longer valid for gate access.',
-    note: 'Contact support if this cancellation looks incorrect.',
-    icon: Icons.block_rounded,
-    color: AppColors.red,
-  ),
-};
+_TicketStatusMeta _statusMeta(RsTicketStatus status) {
+  return switch (status) {
+    RsTicketStatus.pending => _TicketStatusMeta(
+      title: 'Payment pending',
+      subtitle: 'Your ticket is waiting for payment confirmation.',
+      note: 'Approve the MoMo payment and wait for SMS reconciliation.',
+      icon: Icons.hourglass_top_rounded,
+      color: AppColors.rsGold,
+    ),
+    RsTicketStatus.valid => _TicketStatusMeta(
+      title: 'Ticket ready',
+      subtitle: 'Your ticket is valid and ready for entry.',
+      note: 'Keep this ticket available for scanning at the gate.',
+      icon: Icons.check_rounded,
+      color: AppColors.accent,
+    ),
+    RsTicketStatus.used => _TicketStatusMeta(
+      title: 'Ticket used',
+      subtitle: 'This ticket has already been scanned.',
+      note: 'If this looks wrong, contact Rayon Sports support.',
+      icon: Icons.check_circle_outline_rounded,
+      color: AppColors.text3,
+    ),
+    RsTicketStatus.cancelled => _TicketStatusMeta(
+      title: 'Ticket cancelled',
+      subtitle: 'This ticket is no longer valid.',
+      note: 'Contact support if you expected this ticket to stay active.',
+      icon: Icons.block_rounded,
+      color: AppColors.red,
+    ),
+  };
+}

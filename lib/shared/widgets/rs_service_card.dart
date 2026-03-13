@@ -39,6 +39,8 @@ class RsServiceCard extends StatelessWidget {
             const SizedBox(height: 12),
             Text(
               name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: GoogleFonts.barlowCondensed(
                 fontSize: 22,
                 fontWeight: FontWeight.w900,
@@ -49,6 +51,8 @@ class RsServiceCard extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               desc,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: GoogleFonts.barlow(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,

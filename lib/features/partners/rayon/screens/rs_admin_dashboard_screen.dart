@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../widgets/partner_navigation.dart';
 import '../providers/rs_admin_provider.dart';
 
 /// RS Admin Hub — 7 cards for all RS admin management screens + live stats.
@@ -12,12 +14,42 @@ class RsAdminDashboardScreen extends ConsumerWidget {
   const RsAdminDashboardScreen({super.key});
 
   static const _sections = [
-    _Section('Matches', Icons.sports_soccer_rounded, '/admin/rayon/matches', 'Schedule & sale control'),
-    _Section('Tickets', Icons.confirmation_number_rounded, '/admin/rayon/tickets', 'View & validate tickets'),
-    _Section('Shop', Icons.shopping_bag_rounded, '/admin/rayon/shop', 'Products & stock'),
-    _Section('Orders', Icons.inventory_2_rounded, '/admin/rayon/orders', 'Shop order pipeline'),
-    _Section('Members', Icons.people_rounded, '/admin/rayon/members', 'Tier & points mgmt'),
-    _Section('Fan Clubs', Icons.groups_rounded, '/admin/rayon/fan-clubs', 'Regional fan clubs'),
+    _Section(
+      'Matches',
+      Icons.sports_soccer_rounded,
+      '/admin/rayon/matches',
+      'Schedule & sale control',
+    ),
+    _Section(
+      'Tickets',
+      Icons.confirmation_number_rounded,
+      '/admin/rayon/tickets',
+      'View & validate tickets',
+    ),
+    _Section(
+      'Shop',
+      Icons.shopping_bag_rounded,
+      '/admin/rayon/shop',
+      'Products & stock',
+    ),
+    _Section(
+      'Orders',
+      Icons.inventory_2_rounded,
+      '/admin/rayon/orders',
+      'Shop order pipeline',
+    ),
+    _Section(
+      'Members',
+      Icons.people_rounded,
+      '/admin/rayon/members',
+      'Tier & points mgmt',
+    ),
+    _Section(
+      'Fan Clubs',
+      Icons.groups_rounded,
+      '/admin/rayon/fan-clubs',
+      'Regional fan clubs',
+    ),
     _Section(
       'Initiatives',
       Icons.favorite_rounded,
@@ -37,9 +69,10 @@ class RsAdminDashboardScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: AppColors.rsBlue,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
-          onPressed: () => context.pop(),
+        leading: buildPartnerBackButton(
+          context,
+          fallbackLocation: AppRoutes.admin,
+          color: Colors.white,
         ),
         title: Text(
           'Rayon Sports Admin',
@@ -49,6 +82,7 @@ class RsAdminDashboardScreen extends ConsumerWidget {
             color: Colors.white,
           ),
         ),
+        actions: buildPartnerAppBarActions(context, homeColor: Colors.white),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -184,16 +218,20 @@ class _StatChip extends StatelessWidget {
               children: [
                 Icon(icon, size: 16, color: AppColors.text),
                 const SizedBox(width: 4),
-                Text(value, style: GoogleFonts.dmSans(fontSize: 16, fontWeight: FontWeight.w700, color: AppColors.text)),
+                Text(
+                  value,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.text,
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 2),
             Text(
               label,
-              style: GoogleFonts.dmSans(
-                fontSize: 10,
-                color: AppColors.text3,
-              ),
+              style: GoogleFonts.dmSans(fontSize: 10, color: AppColors.text3),
             ),
           ],
         ),

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../providers/rayon_sports_provider.dart';
+import '../../widgets/partner_navigation.dart';
 import '../models/rs_models.dart';
 import '../providers/rs_admin_provider.dart';
 
@@ -30,9 +31,10 @@ class _RsAdminInitiativesScreenState
       appBar: AppBar(
         backgroundColor: AppColors.rsBlue,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
-          onPressed: () => context.pop(),
+        leading: buildPartnerBackButton(
+          context,
+          fallbackLocation: AppRoutes.adminRayon,
+          color: Colors.white,
         ),
         title: Text(
           'Initiatives',
@@ -42,6 +44,7 @@ class _RsAdminInitiativesScreenState
             color: Colors.white,
           ),
         ),
+        actions: buildPartnerAppBarActions(context, homeColor: Colors.white),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.rsBlue,
@@ -51,7 +54,10 @@ class _RsAdminInitiativesScreenState
       body: initAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(
-          child: Text('Error: $e', style: const TextStyle(color: AppColors.red)),
+          child: Text(
+            'Error: $e',
+            style: const TextStyle(color: AppColors.red),
+          ),
         ),
         data: (initiatives) {
           if (initiatives.isEmpty) {
@@ -146,16 +152,14 @@ class _RsAdminInitiativesScreenState
                 onPressed: () async {
                   final repo = ref.read(rayonSportsRepositoryProvider);
                   if (isEdit) {
-                    await repo.updateInitiative(
-                      initiative.id,
-                      <String, dynamic>{
-                        'title': titleCtrl.text,
-                        'description': descCtrl.text,
-                        'category': categoryCtrl.text,
-                        'target_amount':
-                            int.tryParse(targetCtrl.text) ?? 500000,
-                      },
-                    );
+                    await repo
+                        .updateInitiative(initiative.id, <String, dynamic>{
+                          'title': titleCtrl.text,
+                          'description': descCtrl.text,
+                          'category': categoryCtrl.text,
+                          'target_amount':
+                              int.tryParse(targetCtrl.text) ?? 500000,
+                        });
                   } else {
                     await repo.createInitiative(
                       title: titleCtrl.text,
@@ -222,8 +226,7 @@ class _InitiativeTile extends StatelessWidget {
                 ),
               ),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
                   color: initiative.isActive
                       ? AppColors.accent.withValues(alpha: 0.15)
@@ -235,8 +238,9 @@ class _InitiativeTile extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
-                    color:
-                        initiative.isActive ? AppColors.accent : AppColors.red,
+                    color: initiative.isActive
+                        ? AppColors.accent
+                        : AppColors.red,
                   ),
                 ),
               ),
@@ -258,8 +262,7 @@ class _InitiativeTile extends StatelessWidget {
             child: LinearProgressIndicator(
               value: progress,
               backgroundColor: AppColors.surface2,
-              valueColor:
-                  const AlwaysStoppedAnimation<Color>(AppColors.accent),
+              valueColor: const AlwaysStoppedAnimation<Color>(AppColors.accent),
               minHeight: 6,
             ),
           ),
@@ -287,11 +290,7 @@ class _InitiativeTile extends StatelessWidget {
 }
 
 class _Btn extends StatelessWidget {
-  const _Btn({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-  });
+  const _Btn({required this.icon, required this.label, required this.onTap});
   final IconData icon;
   final String label;
   final VoidCallback onTap;

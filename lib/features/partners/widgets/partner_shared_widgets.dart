@@ -5,6 +5,8 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/icon_mapper.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_empty_view.dart';
+import '../../../shared/widgets/cool_error_view.dart';
 import '../models/partner.dart';
 import '../models/partner_service.dart';
 
@@ -454,33 +456,10 @@ class PartnerErrorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CoolCard(
-      child: Column(
-        children: [
-          const Icon(
-            Icons.warning_amber_rounded,
-            size: 24,
-            color: AppColors.orange,
-          ),
-          const SizedBox(height: 10),
-          Text(
-            'Unable to load services',
-            style: GoogleFonts.dmSans(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: AppColors.text,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            message,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.dmSans(
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              color: AppColors.text2,
-            ),
-          ),
-        ],
+      child: CoolErrorView(
+        message: message,
+        compact: true,
+        icon: Icons.warning_amber_rounded,
       ),
     );
   }
@@ -499,33 +478,12 @@ class PartnerErrorBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(
-              Icons.warning_amber_rounded,
-              size: 40,
-              color: AppColors.orange,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              message,
-              textAlign: TextAlign.center,
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: AppColors.text2,
-              ),
-            ),
-            if (onRetry != null) ...[
-              const SizedBox(height: 20),
-              CoolButton(label: 'Retry', onTap: onRetry!),
-            ],
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.all(24),
+      child: CoolErrorView(
+        message: message,
+        onRetry: onRetry,
+        icon: Icons.warning_amber_rounded,
       ),
     );
   }
@@ -544,34 +502,11 @@ class PartnerEmptyServicesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CoolCard(
-      child: Column(
-        children: [
-          const Icon(
-            Icons.assignment_outlined,
-            size: 24,
-            color: AppColors.text2,
-          ),
-          const SizedBox(height: 10),
-          Text(
-            'No services listed yet',
-            style: GoogleFonts.dmSans(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: AppColors.text,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
+      child: CoolEmptyView(
+        message:
             'Services for $partnerName will appear here once they are configured by an admin.',
-            textAlign: TextAlign.center,
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w400,
-              color: AppColors.text2,
-              height: 1.5,
-            ),
-          ),
-        ],
+        compact: true,
+        icon: Icons.assignment_outlined,
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/config/deep_link_config.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/providers/referral_providers.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/rs_colors.dart';
@@ -58,6 +59,7 @@ class FanClubDetailScreen extends ConsumerWidget {
 
     return RayonScreenScaffold(
       title: 'Fan Club',
+      fallbackLocation: AppRoutes.rayonClubs,
       scrollable: false,
       child: clubDetail.when(
         data: (detail) {

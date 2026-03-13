@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/app_colors.dart';
-import '../../../shared/widgets/cool_button.dart';
+import '../../../shared/widgets/cool_error_view.dart';
+import '../../../shared/widgets/cool_skeleton.dart';
 
 class RayonLoadingView extends StatelessWidget {
   const RayonLoadingView({super.key});
@@ -10,9 +9,48 @@ class RayonLoadingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 120),
-      child: Center(
-        child: CircularProgressIndicator(color: AppColors.rsBlueLight),
+      padding: EdgeInsets.symmetric(vertical: 24),
+      child: CoolSkeletonList(itemCount: 4),
+    );
+  }
+}
+
+class RayonInlineLoadingView extends StatelessWidget {
+  const RayonInlineLoadingView({this.compact = false, super.key});
+
+  final bool compact;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: compact ? 16 : 24),
+      child: CoolSkeletonList(itemCount: compact ? 2 : 3),
+    );
+  }
+}
+
+class RayonInlineBusyIndicator extends StatelessWidget {
+  const RayonInlineBusyIndicator({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const CoolSkeleton(width: 20, height: 20, borderRadius: 10);
+  }
+}
+
+class RayonInlineEmptyView extends StatelessWidget {
+  const RayonInlineEmptyView({required this.message, super.key});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 24),
+      child: CoolErrorView(
+        message: message,
+        compact: true,
+        icon: Icons.inbox_rounded,
       ),
     );
   }
@@ -32,33 +70,10 @@ class RayonErrorView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 8),
-      child: Column(
-        children: [
-          Text(
-            'Rayon data unavailable',
-            style: GoogleFonts.barlowCondensed(
-              fontSize: 30,
-              fontWeight: FontWeight.w900,
-              color: AppColors.rsWhite,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            message,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.barlow(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: AppColors.text2,
-              height: 1.4,
-            ),
-          ),
-          const SizedBox(height: 18),
-          SizedBox(
-            width: 180,
-            child: CoolButton(label: 'Retry', onTap: onRetry),
-          ),
-        ],
+      child: CoolErrorView(
+        message: message,
+        onRetry: onRetry,
+        icon: Icons.sports_soccer_rounded,
       ),
     );
   }
