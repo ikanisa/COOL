@@ -119,39 +119,30 @@ class MomoStatementRepository {
     String userId, {
     required MomoStatementQuery query,
   }) async {
-    try {
-      return _asListOfMaps(
-        await _client.rpc(
-          'get_wallet_statement_entries',
-          params: _statementRpcParams(query),
-        ),
-      );
-    } on PostgrestException {
-      var request = _client
-          .from('momo_ledger_entries')
-          .select(
-            'id, entry_type, ledger_status, amount, currency, tx_datetime, '
-            'external_reference, tx_category, cashflow_bucket, '
-            'counterparty_name, statement_label, description, created_at',
-          )
-          .eq('user_id', userId)
-          .eq('ledger_status', 'posted');
+    var request = _client
+        .from('momo_ledger_entries')
+        .select(
+          'id, entry_type, ledger_status, amount, currency, tx_datetime, '
+          'external_reference, tx_category, cashflow_bucket, '
+          'counterparty_name, statement_label, description, created_at',
+        )
+        .eq('user_id', userId);
 
-      final startAt = query.startAtUtc;
-      final endBefore = query.endBeforeUtc;
-      if (startAt != null) {
-        request = request.gte('tx_datetime', startAt.toIso8601String());
-      }
-      if (endBefore != null) {
-        request = request.lt('tx_datetime', endBefore.toIso8601String());
-      }
-
-      return _asListOfMaps(
-        await request
-            .order('tx_datetime', ascending: false)
-            .range(query.offset, query.offset + query.limit - 1),
-      );
+    final startAt = query.startAtUtc;
+    final endBefore = query.endBeforeUtc;
+    if (startAt != null) {
+      request = request.gte('tx_datetime', startAt.toIso8601String());
     }
+    if (endBefore != null) {
+      request = request.lt('tx_datetime', endBefore.toIso8601String());
+    }
+
+    return _asListOfMaps(
+      await request
+          .order('tx_datetime', ascending: false)
+          .order('created_at', ascending: false)
+          .range(query.offset, query.offset + query.limit - 1),
+    );
   }
 
   Future<List<Map<String, dynamic>>> _loadSavingsRows(

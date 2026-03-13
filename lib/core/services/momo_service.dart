@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../auth/auth_user_contact.dart';
 import '../config/app_config_repository.dart';
 import '../config/country_catalog.dart';
+import '../models/momo_qr_payload.dart';
 import '../repositories/supported_countries_repository.dart';
 import '../sync/sync_engine.dart';
 import 'crashlytics_service.dart';
@@ -254,8 +255,37 @@ class MomoService {
     );
   }
 
-  String generateQrData(String momoPhone) {
-    return 'momo://${momoPhone.replaceAll(RegExp(r'[^0-9+]'), '')}';
+  String generateQrData(
+    String recipientValue, {
+    CoolCountry? country,
+    MomoRecipientType recipientType = MomoRecipientType.phoneNumber,
+    int? amount,
+    String? reference,
+    bool preferDirectDial = true,
+  }) {
+    if (country == null) {
+      return 'momo://${recipientValue.replaceAll(RegExp(r'[^0-9+]'), '')}';
+    }
+
+    final normalizedRecipient = switch (recipientType) {
+      MomoRecipientType.phoneNumber => country.buildE164Phone(recipientValue),
+      MomoRecipientType.code => country.normalizeMerchantCode(recipientValue),
+    };
+    final payload = amount != null && amount > 0
+        ? MomoQrPayload.paymentRequest(
+            recipientValue: normalizedRecipient,
+            recipientType: recipientType,
+            amount: amount,
+            countryCode: country.isoCode,
+            reference: reference,
+          )
+        : MomoQrPayload.profile(
+            recipientValue: normalizedRecipient,
+            recipientType: recipientType,
+            countryCode: country.isoCode,
+            reference: reference,
+          );
+    return payload.toQrData(country, preferDirectDial: preferDirectDial);
   }
 
   Future<CoolCountry> resolveCountry({

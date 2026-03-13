@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/config/country_catalog.dart';
+import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/utils/phone_validator.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 
@@ -24,13 +26,15 @@ class MomoSendMoneyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final displayNumber = PhoneValidator.formatMomoDisplay(momoNumber, country);
     return CoolCard(
       backgroundColor: AppColors.surface,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Send money',
+            l10n.sendMoney,
             style: GoogleFonts.dmSans(
               fontSize: 20,
               fontWeight: FontWeight.w700,
@@ -39,7 +43,7 @@ class MomoSendMoneyCard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            'Opens ${country.name} USSD.',
+            'Launches ${country.name} MoMo USSD to complete the transfer.',
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,
@@ -69,7 +73,7 @@ class MomoSendMoneyCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'From $momoNumber',
+                  'From $displayNumber',
                   style: GoogleFonts.dmMono(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
@@ -80,7 +84,7 @@ class MomoSendMoneyCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          CoolButton(label: 'Send money', onTap: onSendTap),
+          CoolButton(label: l10n.sendMoney, onTap: onSendTap),
         ],
       ),
     );
@@ -93,26 +97,34 @@ class MomoSendMoneyCard extends StatelessWidget {
 
 class MomoToolsCard extends StatelessWidget {
   const MomoToolsCard({
+    required this.country,
     required this.momoNumber,
     required this.onOpenStatements,
     required this.onOpenQrCode,
+    required this.onRequestPayment,
+    required this.onScanQr,
     required this.onOpenNfcTools,
     super.key,
   });
 
+  final CoolCountry country;
   final String momoNumber;
   final VoidCallback onOpenStatements;
   final VoidCallback onOpenQrCode;
+  final VoidCallback onRequestPayment;
+  final VoidCallback onScanQr;
   final VoidCallback onOpenNfcTools;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final displayNumber = PhoneValidator.formatMomoDisplay(momoNumber, country);
     return CoolCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'More tools',
+            l10n.moreToolsSectionTitle,
             style: GoogleFonts.dmSans(
               fontSize: 16,
               fontWeight: FontWeight.w700,
@@ -121,7 +133,7 @@ class MomoToolsCard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            'Statements, QR code, and NFC.',
+            'Statements, QR, and NFC tools for your Mobile Money profile.',
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,
@@ -133,21 +145,35 @@ class MomoToolsCard extends StatelessWidget {
           MomoToolRow(
             icon: Icons.receipt_long_rounded,
             title: 'Statements',
-            subtitle: 'Wallet and savings activity',
+            subtitle: 'Review wallet and savings activity.',
             onTap: onOpenStatements,
           ),
           const Divider(height: 1, color: AppColors.border),
           MomoToolRow(
             icon: Icons.qr_code_2_rounded,
-            title: 'My QR code',
-            subtitle: momoNumber,
+            title: 'MoMo QR',
+            subtitle: displayNumber,
             onTap: onOpenQrCode,
+          ),
+          const Divider(height: 1, color: AppColors.border),
+          MomoToolRow(
+            icon: Icons.request_page_rounded,
+            title: 'Request payment',
+            subtitle: 'Create a MoMo pay link for SMS or WhatsApp.',
+            onTap: onRequestPayment,
+          ),
+          const Divider(height: 1, color: AppColors.border),
+          MomoToolRow(
+            icon: Icons.center_focus_strong_rounded,
+            title: 'Scan QR',
+            subtitle: 'Launch payment-ready QR and prefill recipient QR.',
+            onTap: onScanQr,
           ),
           const Divider(height: 1, color: AppColors.border),
           MomoToolRow(
             icon: Icons.nfc_rounded,
             title: 'NFC tools',
-            subtitle: 'Read or write payment tags',
+            subtitle: 'Share or scan payment-ready NFC details.',
             onTap: onOpenNfcTools,
           ),
         ],

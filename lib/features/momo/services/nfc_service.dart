@@ -4,6 +4,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_nfc_kit/flutter_nfc_kit.dart';
 import 'package:ndef/ndef.dart' as ndef;
 
+import '../../../core/config/country_catalog.dart';
+
+const _coolNfcScheme = 'cool';
+const _coolNfcMomoHost = 'momo';
+const _coolDeepLinkHost = String.fromEnvironment(
+  'COOL_DEEP_LINK_HOST',
+  defaultValue: 'cool.app',
+);
+
 /// NFC availability status.
 enum NfcStatus {
   available,
@@ -11,19 +20,152 @@ enum NfcStatus {
   notSupported,
 }
 
+class NfcPaymentPayload {
+  const NfcPaymentPayload({
+    required this.recipientValue,
+    required this.amount,
+    this.recipientType = MomoRecipientType.phoneNumber,
+    this.countryCode,
+  });
+
+  final String recipientValue;
+  final String amount;
+  final MomoRecipientType recipientType;
+  final String? countryCode;
+
+  String encode() {
+    final country = (countryCode ?? '').trim().toUpperCase();
+    return 'COOL:PAY:${recipientType.name}:$country:$recipientValue:$amount';
+  }
+
+  Uri toDeepLinkUri() {
+    final country = (countryCode ?? '').trim().toUpperCase();
+    return Uri.https(
+      _coolDeepLinkHost,
+      '/momo',
+      <String, String>{
+        'action': 'nfc_pay',
+        'recipient': recipientValue,
+        'amount': amount,
+        'recipient_type': recipientType.name,
+        if (country.isNotEmpty) 'country': country,
+      },
+    );
+  }
+
+  static NfcPaymentPayload? tryParse(String rawText) {
+    final trimmed = rawText.trim();
+    if (!trimmed.startsWith('COOL:')) {
+      return null;
+    }
+
+    final parts = trimmed.split(':');
+    if (parts.length >= 6 && parts[1] == 'PAY') {
+      final recipientType = switch (parts[2]) {
+        'code' => MomoRecipientType.code,
+        _ => MomoRecipientType.phoneNumber,
+      };
+      final countryCode = parts[3].trim().isEmpty ? null : parts[3].trim();
+      final recipientValue = parts[4].trim();
+      final amount = parts.sublist(5).join(':').trim();
+      if (recipientValue.isEmpty || amount.isEmpty) {
+        return null;
+      }
+      return NfcPaymentPayload(
+        recipientType: recipientType,
+        countryCode: countryCode,
+        recipientValue: recipientValue,
+        amount: amount,
+      );
+    }
+
+    // Legacy format: COOL:{phone}:{amount}
+    if (parts.length >= 3) {
+      final recipientValue = parts[1].trim();
+      final amount = parts.sublist(2).join(':').trim();
+      if (recipientValue.isEmpty || amount.isEmpty) {
+        return null;
+      }
+      return NfcPaymentPayload(
+        recipientValue: recipientValue,
+        amount: amount,
+      );
+    }
+
+    return null;
+  }
+
+  static NfcPaymentPayload? tryParseUri(Uri uri) {
+    final segments = uri.pathSegments
+        .where((segment) => segment.isNotEmpty)
+        .toList(growable: false);
+    final isCoolAppLink =
+        (uri.scheme == 'https' || uri.scheme == 'http') &&
+        uri.host.toLowerCase() == _coolDeepLinkHost.toLowerCase() &&
+        segments.isNotEmpty &&
+        segments.first.toLowerCase() == _coolNfcMomoHost;
+    final isCustomScheme =
+        uri.scheme == _coolNfcScheme &&
+        ((uri.host.isNotEmpty && uri.host.toLowerCase() == _coolNfcMomoHost) ||
+            (segments.isNotEmpty &&
+                segments.first.toLowerCase() == _coolNfcMomoHost));
+
+    if (!isCoolAppLink && !isCustomScheme) {
+      return null;
+    }
+
+    final action = uri.queryParameters['action']?.trim().toLowerCase();
+    if (action != 'nfc_pay') {
+      return null;
+    }
+
+    final recipientValue = uri.queryParameters['recipient']?.trim() ?? '';
+    final amount = uri.queryParameters['amount']?.trim() ?? '';
+    if (recipientValue.isEmpty || amount.isEmpty) {
+      return null;
+    }
+
+    final countryCode = uri.queryParameters['country']?.trim();
+    final recipientType = switch (uri.queryParameters['recipient_type']) {
+      'code' => MomoRecipientType.code,
+      _ => MomoRecipientType.phoneNumber,
+    };
+
+    return NfcPaymentPayload(
+      recipientValue: recipientValue,
+      amount: amount,
+      recipientType: recipientType,
+      countryCode: countryCode?.isEmpty == true ? null : countryCode,
+    );
+  }
+}
+
 /// Result of an NFC read operation.
 class NfcReadResult {
-  const NfcReadResult({this.phoneNumber, this.amount, this.rawText});
+  const NfcReadResult({
+    this.recipientValue,
+    this.recipientType = MomoRecipientType.phoneNumber,
+    this.amount,
+    this.rawText,
+    this.countryCode,
+  });
 
-  final String? phoneNumber;
+  final String? recipientValue;
+  final MomoRecipientType recipientType;
   final String? amount;
   final String? rawText;
+  final String? countryCode;
 
-  bool get hasPaymentData => phoneNumber != null && amount != null;
+  String? get phoneNumber =>
+      recipientType == MomoRecipientType.phoneNumber ? recipientValue : null;
+  String? get merchantCode =>
+      recipientType == MomoRecipientType.code ? recipientValue : null;
+
+  bool get hasPaymentData => recipientValue != null && amount != null;
 
   @override
   String toString() =>
-      'NfcReadResult(phone: $phoneNumber, amount: $amount, raw: $rawText)';
+      'NfcReadResult(recipientType: $recipientType, recipient: $recipientValue, amount: $amount, raw: $rawText)';
 }
 
 /// Service for NFC read/write operations.
@@ -67,31 +209,41 @@ class NfcService {
       final records = await FlutterNfcKit.readNDEFRecords();
 
       String? rawText;
-      String? phoneNumber;
-      String? amount;
+      NfcPaymentPayload? parsedPayload;
 
       for (final record in records) {
-        if (record is ndef.TextRecord) {
-          rawText = record.text;
+        if (record is ndef.UriRecord) {
+          rawText = record.uriString;
 
-          // Parse Cool payment format: COOL:{phone}:{amount}
-          if (rawText != null && rawText.startsWith('COOL:')) {
-            final parts = rawText.split(':');
-            if (parts.length >= 3) {
-              phoneNumber = parts[1];
-              amount = parts[2];
+          if (rawText != null) {
+            final uri = Uri.tryParse(rawText);
+            if (uri != null) {
+              parsedPayload = NfcPaymentPayload.tryParseUri(uri);
             }
           }
-          break;
+          if (parsedPayload != null) {
+            break;
+          }
+        } else if (record is ndef.TextRecord) {
+          rawText = record.text;
+
+          if (rawText != null) {
+            parsedPayload = NfcPaymentPayload.tryParse(rawText);
+          }
+          if (parsedPayload != null) {
+            break;
+          }
         }
       }
 
       await FlutterNfcKit.finish(iosAlertMessage: 'Tag read successfully');
 
       return NfcReadResult(
-        phoneNumber: phoneNumber,
-        amount: amount,
+        recipientValue: parsedPayload?.recipientValue,
+        recipientType: parsedPayload?.recipientType ?? MomoRecipientType.phoneNumber,
+        amount: parsedPayload?.amount,
         rawText: rawText,
+        countryCode: parsedPayload?.countryCode,
       );
     } catch (e) {
       try {
@@ -105,8 +257,10 @@ class NfcService {
   ///
   /// Writes an NDEF text record with format `COOL:{phone}:{amount}`.
   static Future<void> writeTag({
-    required String phoneNumber,
+    required String recipientValue,
     required String amount,
+    MomoRecipientType recipientType = MomoRecipientType.phoneNumber,
+    String? countryCode,
   }) async {
     if (!canWrite) {
       throw UnsupportedError('NFC write is only supported on Android');
@@ -124,13 +278,19 @@ class NfcService {
       }
 
       // Build NDEF text record with Cool payment format.
-      final payload = 'COOL:$phoneNumber:$amount';
-      final record = ndef.TextRecord(
-        text: payload,
+      final payload = NfcPaymentPayload(
+        recipientValue: recipientValue,
+        amount: amount,
+        recipientType: recipientType,
+        countryCode: countryCode,
+      );
+      final textRecord = ndef.TextRecord(
+        text: payload.encode(),
         language: 'en',
       );
+      final uriRecord = ndef.UriRecord.fromUri(payload.toDeepLinkUri());
 
-      await FlutterNfcKit.writeNDEFRecords([record]);
+      await FlutterNfcKit.writeNDEFRecords([uriRecord, textRecord]);
       await FlutterNfcKit.finish();
     } catch (e) {
       try {

@@ -3,8 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' show SupabaseClient;
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../core/models/momo_qr_payload.dart';
 import '../../core/providers/supabase_client_provider.dart';
+import '../../core/services/app_access_service.dart';
+import '../../core/services/momo_service.dart';
 import '../../core/theme/app_colors.dart';
 import 'cool_button.dart';
 import 'cool_toast.dart';
@@ -29,18 +33,79 @@ class QrScannerScreen extends ConsumerStatefulWidget {
   ConsumerState<QrScannerScreen> createState() => _QrScannerScreenState();
 }
 
-class _QrScannerScreenState extends ConsumerState<QrScannerScreen> {
+class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
+    with WidgetsBindingObserver {
+  final _appAccessService = AppAccessService.instance;
   final MobileScannerController _controller = MobileScannerController(
-    detectionSpeed: DetectionSpeed.normal,
+    autoZoom: true,
+    cameraResolution: const Size(1920, 1080),
+    detectionSpeed: DetectionSpeed.noDuplicates,
     facing: CameraFacing.back,
+    formats: const [BarcodeFormat.qrCode],
   );
 
   bool _hasScanned = false;
+  AppAccessSnapshot? _cameraAccess;
+  bool _refreshOnResume = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _loadCameraAccess();
+  }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _controller.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state != AppLifecycleState.resumed || !_refreshOnResume) {
+      return;
+    }
+    _refreshOnResume = false;
+    _loadCameraAccess();
+  }
+
+  Future<void> _loadCameraAccess() async {
+    final snapshot = await _appAccessService.getSnapshot(
+      AppAccessPermission.camera,
+    );
+    if (!mounted) {
+      return;
+    }
+    setState(() => _cameraAccess = snapshot);
+  }
+
+  Future<void> _enableCameraAccess() async {
+    final snapshot = await _appAccessService.enableAndRequest(
+      AppAccessPermission.camera,
+    );
+    if (!mounted) {
+      return;
+    }
+    setState(() => _cameraAccess = snapshot);
+  }
+
+  Future<void> _openCameraSettings() async {
+    _refreshOnResume = true;
+    final opened = await _appAccessService.openSystemSettings(
+      AppAccessPermission.camera,
+    );
+    if (!mounted) {
+      return;
+    }
+    if (!opened) {
+      _refreshOnResume = false;
+    }
+    if (!opened) {
+      CoolToast.error(context, 'Could not open camera settings');
+      return;
+    }
   }
 
   void _onDetect(BarcodeCapture capture) {
@@ -109,14 +174,100 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen> {
     }
   }
 
-  void _handleMomoScan(String qrData) {
-    if (qrData.startsWith('momo://')) {
-      final phone = qrData.replaceFirst('momo://', '');
-      Navigator.pop(context, phone);
-    } else {
-      CoolToast.error(context, 'Not a valid MoMo QR code');
+  Future<void> _handleMomoScan(String qrData) async {
+    final trimmed = qrData.trim();
+    final dialerUri = _tryParseDialerUri(trimmed);
+
+    if (dialerUri != null) {
+      await _launchDialerUri(dialerUri);
+      return;
+    }
+
+    final payload = MomoQrPayload.tryParse(trimmed);
+    if (payload == null) {
+      if (mounted) {
+        CoolToast.error(context, 'Not a valid MoMo QR code');
+        setState(() => _hasScanned = false);
+      }
+      return;
+    }
+
+    if (payload.canLaunchImmediately) {
+      await _launchPayloadPayment(payload);
+      return;
+    }
+
+    if (!mounted) {
+      return;
+    }
+    Navigator.pop(context, payload);
+  }
+
+  Uri? _tryParseDialerUri(String rawValue) {
+    if (!rawValue.toLowerCase().startsWith('tel:')) {
+      return null;
+    }
+
+    final uri = Uri.tryParse(rawValue);
+    if (uri == null || uri.scheme != 'tel') {
+      return null;
+    }
+    return uri;
+  }
+
+  Future<void> _launchDialerUri(Uri dialerUri) async {
+    final launched = await launchUrl(
+      dialerUri,
+      mode: LaunchMode.externalApplication,
+    );
+    if (!mounted) {
+      return;
+    }
+
+    if (!launched) {
+      CoolToast.error(context, 'Could not open the USSD dialer.');
+      setState(() => _hasScanned = false);
+      return;
+    }
+
+    CoolToast.success(context, 'Launching MoMo payment USSD.');
+    Navigator.pop(context);
+  }
+
+  Future<void> _launchPayloadPayment(MomoQrPayload payload) async {
+    try {
+      await MomoService.instance.initiatePayment(
+        recipientMomo: payload.recipientValue,
+        amount: payload.amount!,
+        reference:
+            payload.reference ?? 'QR-${DateTime.now().millisecondsSinceEpoch}',
+        recipientType: payload.recipientType,
+        countryCode: payload.countryCode,
+      );
+      if (!mounted) {
+        return;
+      }
+      CoolToast.success(context, 'Launching MoMo payment USSD.');
+      Navigator.pop(context);
+    } catch (_) {
+      if (!mounted) {
+        return;
+      }
+      CoolToast.error(context, 'Could not launch the MoMo payment flow.');
       setState(() => _hasScanned = false);
     }
+  }
+
+  Rect _scanWindowForSize(Size size) {
+    final shortestSide = size.shortestSide;
+    final edgeLength = widget.mode == QrScanMode.ticket
+        ? shortestSide.clamp(250.0, 320.0)
+        : shortestSide.clamp(280.0, 360.0);
+    return Rect.fromCenter(
+      center: size.center(Offset.zero),
+      width: edgeLength,
+      height: edgeLength,
+    );
   }
 
   @override
@@ -161,115 +312,218 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen> {
       );
     }
 
+    final cameraAccess = _cameraAccess;
+    if (cameraAccess == null) {
+      return const Scaffold(
+        backgroundColor: Colors.black,
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    if (!cameraAccess.isReady) {
+      final gate = switch (cameraAccess.kind) {
+        AppAccessStateKind.disabledInApp => (
+          title: 'Camera is off in COOL',
+          message:
+              'Turn camera access back on to scan MoMo QR codes or signed tickets.',
+          actionLabel: 'Enable Camera',
+          onTap: _enableCameraAccess,
+        ),
+        AppAccessStateKind.blockedInSystem => (
+          title: 'Camera is blocked in Android',
+          message: 'Open system settings to allow the scanner again.',
+          actionLabel: 'Open Settings',
+          onTap: _openCameraSettings,
+        ),
+        AppAccessStateKind.notAvailable => (
+          title: 'Camera not available',
+          message:
+              'This device does not expose a usable camera for the scanner.',
+          actionLabel: 'Go Back',
+          onTap: () => Navigator.of(context).pop(),
+        ),
+        _ => (
+          title: 'Allow camera access',
+          message:
+              'COOL needs camera access to scan MoMo QR codes and signed tickets.',
+          actionLabel: 'Allow Camera',
+          onTap: _enableCameraAccess,
+        ),
+      };
+
+      return Scaffold(
+        backgroundColor: AppColors.bg,
+        appBar: AppBar(
+          title: Text(
+            widget.mode == QrScanMode.ticket ? 'Scan Ticket' : 'Scan MoMo QR',
+          ),
+          backgroundColor: AppColors.bg,
+        ),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.camera_alt_outlined,
+                  size: 42,
+                  color: AppColors.text2,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  gate.title,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.text,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  gate.message,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.text2,
+                    height: 1.45,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                CoolButton(label: gate.actionLabel, onTap: gate.onTap),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Stack(
-        children: [
-          MobileScanner(controller: _controller, onDetect: _onDetect),
-          _ScannerOverlay(mode: widget.mode),
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final scanWindow = _scanWindowForSize(constraints.biggest);
+          return Stack(
+            children: [
+              MobileScanner(
+                controller: _controller,
+                onDetect: _onDetect,
+                tapToFocus: true,
+              ),
+              IgnorePointer(
+                child: _ScannerOverlay(
+                  mode: widget.mode,
+                  scanWindow: scanWindow,
                 ),
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () => Navigator.of(context).pop(),
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: Colors.black.withValues(alpha: 0.5),
-                          shape: BoxShape.circle,
-                        ),
-                        alignment: Alignment.center,
-                        child: const Icon(
-                          Icons.close_rounded,
-                          color: Colors.white,
-                          size: 22,
-                        ),
-                      ),
+              ),
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
                     ),
-                    const Spacer(),
-                    Text(
-                      widget.mode == QrScanMode.ticket
-                          ? 'Scan Ticket'
-                          : 'Scan MoMo QR',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const Spacer(),
-                    GestureDetector(
-                      onTap: () => _controller.toggleTorch(),
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: Colors.black.withValues(alpha: 0.5),
-                          shape: BoxShape.circle,
-                        ),
-                        alignment: Alignment.center,
-                        child: ValueListenableBuilder(
-                          valueListenable: _controller,
-                          builder: (_, state, child) {
-                            return Icon(
-                              state.torchState == TorchState.on
-                                  ? Icons.flash_on_rounded
-                                  : Icons.flash_off_rounded,
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () => Navigator.of(context).pop(),
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: Colors.black.withValues(alpha: 0.5),
+                              shape: BoxShape.circle,
+                            ),
+                            alignment: Alignment.center,
+                            child: const Icon(
+                              Icons.close_rounded,
                               color: Colors.white,
                               size: 22,
-                            );
-                          },
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          widget.mode == QrScanMode.ticket
+                              ? 'Scan Ticket'
+                              : 'Scan MoMo QR',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const Spacer(),
+                        GestureDetector(
+                          onTap: () => _controller.toggleTorch(),
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: Colors.black.withValues(alpha: 0.5),
+                              shape: BoxShape.circle,
+                            ),
+                            alignment: Alignment.center,
+                            child: ValueListenableBuilder(
+                              valueListenable: _controller,
+                              builder: (_, state, child) {
+                                return Icon(
+                                  state.torchState == TorchState.on
+                                      ? Icons.flash_on_rounded
+                                      : Icons.flash_off_rounded,
+                                  color: Colors.white,
+                                  size: 22,
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: SafeArea(
+                  top: false,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 18,
+                        vertical: 14,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.66),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Text(
+                        widget.mode == QrScanMode.ticket
+                            ? 'Keep the signed ticket centered inside the frame until verification completes.'
+                            : 'Center the QR inside the frame. Tap the viewfinder to focus, or turn on the torch if glare washes out the code.',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.dmSans(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                          height: 1.4,
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: SafeArea(
-              top: false,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(32, 0, 32, 24),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 18,
-                    vertical: 14,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.6),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Text(
-                    widget.mode == QrScanMode.ticket
-                        ? 'Point camera at the signed ticket QR code to verify it with the backend'
-                        : 'Scan a MoMo QR code to send money',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                    ),
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }
@@ -306,38 +560,145 @@ class _TicketScanResult {
 }
 
 class _ScannerOverlay extends StatelessWidget {
-  const _ScannerOverlay({required this.mode});
+  const _ScannerOverlay({required this.mode, required this.scanWindow});
 
   final QrScanMode mode;
+  final Rect scanWindow;
 
   @override
   Widget build(BuildContext context) {
-    return ColorFiltered(
-      colorFilter: ColorFilter.mode(
-        Colors.black.withValues(alpha: 0.5),
-        BlendMode.srcOut,
-      ),
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.black,
-                backgroundBlendMode: BlendMode.dstOut,
+    final accentColor = mode == QrScanMode.ticket
+        ? Colors.white
+        : AppColors.accent;
+    return Stack(
+      children: [
+        ColorFiltered(
+          colorFilter: ColorFilter.mode(
+            Colors.black.withValues(alpha: 0.56),
+            BlendMode.srcOut,
+          ),
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.black,
+                    backgroundBlendMode: BlendMode.dstOut,
+                  ),
+                ),
+              ),
+              Positioned.fromRect(
+                rect: scanWindow,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(28),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Positioned.fromRect(
+          rect: scanWindow,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(28),
+              border: Border.all(
+                color: Colors.white.withValues(alpha: 0.24),
+                width: 1.4,
               ),
             ),
+            child: Stack(
+              children: [
+                _CornerMarker(alignment: Alignment.topLeft, color: accentColor),
+                _CornerMarker(
+                  alignment: Alignment.topRight,
+                  color: accentColor,
+                ),
+                _CornerMarker(
+                  alignment: Alignment.bottomLeft,
+                  color: accentColor,
+                ),
+                _CornerMarker(
+                  alignment: Alignment.bottomRight,
+                  color: accentColor,
+                ),
+              ],
+            ),
           ),
-          Center(
+        ),
+        Positioned(
+          top: scanWindow.top - 34,
+          left: scanWindow.left,
+          right: scanWindow.right,
+          child: Center(
             child: Container(
-              width: 260,
-              height: 260,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(24),
+                color: Colors.black.withValues(alpha: 0.55),
+                borderRadius: BorderRadius.circular(999),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.14)),
+              ),
+              child: Text(
+                mode == QrScanMode.ticket
+                    ? 'Signed ticket only'
+                    : 'Dialer-ready QR',
+                style: GoogleFonts.dmSans(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                  letterSpacing: 0.2,
+                ),
               ),
             ),
           ),
-        ],
+        ),
+      ],
+    );
+  }
+}
+
+class _CornerMarker extends StatelessWidget {
+  const _CornerMarker({required this.alignment, required this.color});
+
+  final Alignment alignment;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    final isTop = alignment.y < 0;
+    final isLeft = alignment.x < 0;
+
+    return Align(
+      alignment: alignment,
+      child: Container(
+        width: 42,
+        height: 42,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: isTop && isLeft ? const Radius.circular(22) : Radius.zero,
+            topRight: isTop && !isLeft
+                ? const Radius.circular(22)
+                : Radius.zero,
+            bottomLeft: !isTop && isLeft
+                ? const Radius.circular(22)
+                : Radius.zero,
+            bottomRight: !isTop && !isLeft
+                ? const Radius.circular(22)
+                : Radius.zero,
+          ),
+          border: Border(
+            top: isTop ? BorderSide(color: color, width: 4) : BorderSide.none,
+            bottom: !isTop
+                ? BorderSide(color: color, width: 4)
+                : BorderSide.none,
+            left: isLeft ? BorderSide(color: color, width: 4) : BorderSide.none,
+            right: !isLeft
+                ? BorderSide(color: color, width: 4)
+                : BorderSide.none,
+          ),
+        ),
       ),
     );
   }

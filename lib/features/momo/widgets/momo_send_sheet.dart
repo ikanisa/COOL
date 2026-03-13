@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/config/country_catalog.dart';
+import '../../../core/l10n/l10n.dart';
 import '../../../core/services/momo_service.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/utils/phone_validator.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_text_field.dart';
 import '../../../shared/widgets/cool_toast.dart';
@@ -17,12 +19,18 @@ class MomoSendMoneySheet extends StatefulWidget {
     required this.country,
     required this.momoNumber,
     this.momoCode,
+    this.initialRecipient,
+    this.initialAmount,
+    this.initialRecipientType = MomoRecipientType.phoneNumber,
     super.key,
   });
 
   final CoolCountry country;
   final String momoNumber;
   final String? momoCode;
+  final String? initialRecipient;
+  final String? initialAmount;
+  final MomoRecipientType initialRecipientType;
 
   @override
   State<MomoSendMoneySheet> createState() => _MomoSendMoneySheetState();
@@ -37,10 +45,15 @@ class _MomoSendMoneySheetState extends State<MomoSendMoneySheet> {
   @override
   void initState() {
     super.initState();
-    _recipientType = MomoRecipientType.phoneNumber;
+    _recipientType = widget.country.supportsMomoCode
+        ? widget.initialRecipientType
+        : MomoRecipientType.phoneNumber;
+    _recipientController.text = widget.initialRecipient?.trim() ?? '';
+    _amountController.text = widget.initialAmount?.trim() ?? '';
   }
 
   Future<void> _confirmSend() async {
+    final l10n = context.l10n;
     if (_isSubmitting) {
       return;
     }
@@ -51,7 +64,7 @@ class _MomoSendMoneySheetState extends State<MomoSendMoneySheet> {
     );
 
     if (recipient.isEmpty || amount == null || amount <= 0) {
-      CoolToast.error(context, 'Enter a valid recipient and amount.');
+      CoolToast.error(context, l10n.momoSendValidationError);
       return;
     }
 
@@ -74,10 +87,7 @@ class _MomoSendMoneySheetState extends State<MomoSendMoneySheet> {
       if (!mounted) {
         return;
       }
-      CoolToast.error(
-        context,
-        'Unable to open the ${widget.country.name} USSD flow.',
-      );
+      CoolToast.error(context, l10n.momoSendLaunchFailed(widget.country.name));
     } finally {
       if (mounted) {
         setState(() => _isSubmitting = false);
@@ -94,6 +104,11 @@ class _MomoSendMoneySheetState extends State<MomoSendMoneySheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final displayNumber = PhoneValidator.formatMomoDisplay(
+      widget.momoNumber,
+      widget.country,
+    );
     return Container(
       decoration: const BoxDecoration(
         color: AppColors.surface,
@@ -126,7 +141,7 @@ class _MomoSendMoneySheetState extends State<MomoSendMoneySheet> {
               const SizedBox(height: 20),
 
               Text(
-                'Send Money',
+                l10n.sendMoneyTitle,
                 style: GoogleFonts.dmSans(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
@@ -150,14 +165,28 @@ class _MomoSendMoneySheetState extends State<MomoSendMoneySheet> {
                     ),
                     const SizedBox(width: 8),
                     Expanded(
-                      child: Text(
-                        '${widget.country.displayName} · ${widget.country.currencyCode} · ${widget.country.dialCode}\nFrom: ${widget.momoNumber}',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.text2,
-                          height: 1.4,
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${widget.country.displayName} · ${widget.country.currencyCode} · ${widget.country.dialCode}',
+                            style: GoogleFonts.dmSans(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.text,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            'From $displayNumber',
+                            style: GoogleFonts.dmSans(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.text2,
+                              height: 1.4,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -169,7 +198,7 @@ class _MomoSendMoneySheetState extends State<MomoSendMoneySheet> {
                   children: [
                     Expanded(
                       child: MomoRouteTypeChip(
-                        label: 'MoMo Number',
+                        label: 'Phone number',
                         isActive:
                             _recipientType == MomoRecipientType.phoneNumber,
                         onTap: () {
@@ -183,7 +212,7 @@ class _MomoSendMoneySheetState extends State<MomoSendMoneySheet> {
                     const SizedBox(width: 10),
                     Expanded(
                       child: MomoRouteTypeChip(
-                        label: 'MoMo Code',
+                        label: 'MoMo code',
                         isActive: _recipientType == MomoRecipientType.code,
                         onTap: () {
                           setState(
@@ -200,8 +229,8 @@ class _MomoSendMoneySheetState extends State<MomoSendMoneySheet> {
               // Recipient
               CoolTextField(
                 label: _recipientType == MomoRecipientType.code
-                    ? 'Merchant MoMo Code'
-                    : 'Recipient Phone or User ID',
+                    ? 'Recipient MoMo code'
+                    : 'Recipient phone number',
                 hint: _recipientType == MomoRecipientType.code
                     ? (widget.momoCode?.trim().isNotEmpty == true
                           ? widget.momoCode!.trim()
@@ -214,6 +243,7 @@ class _MomoSendMoneySheetState extends State<MomoSendMoneySheet> {
                 prefixIcon: _recipientType == MomoRecipientType.code
                     ? Icons.tag_rounded
                     : Icons.person_rounded,
+                autofocus: _recipientController.text.trim().isEmpty,
                 textInputAction: TextInputAction.next,
               ),
               const SizedBox(height: 14),
@@ -225,12 +255,15 @@ class _MomoSendMoneySheetState extends State<MomoSendMoneySheet> {
                 controller: _amountController,
                 keyboardType: TextInputType.number,
                 prefixIcon: Icons.payments_rounded,
+                autofocus:
+                    _recipientController.text.trim().isNotEmpty &&
+                    _amountController.text.trim().isEmpty,
                 textInputAction: TextInputAction.done,
               ),
               const SizedBox(height: 16),
 
               Text(
-                'Completes via ${widget.country.name} USSD.',
+                'You will complete this payment through the ${widget.country.name} USSD prompt on your phone.',
                 style: GoogleFonts.dmSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
@@ -240,7 +273,7 @@ class _MomoSendMoneySheetState extends State<MomoSendMoneySheet> {
               const SizedBox(height: 18),
 
               CoolButton(
-                label: 'Confirm Send',
+                label: 'Confirm and send',
                 isLoading: _isSubmitting,
                 onTap: _confirmSend,
               ),
@@ -270,10 +303,14 @@ class MomoRouteTypeChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final disableAnimations =
+        MediaQuery.maybeOf(context)?.disableAnimations ?? false;
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
+        duration: disableAnimations
+            ? Duration.zero
+            : const Duration(milliseconds: 180),
         padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
           color: isActive ? AppColors.accentGlow : AppColors.surface2,

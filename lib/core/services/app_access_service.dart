@@ -1,0 +1,309 @@
+import 'dart:io' show Platform;
+
+import 'package:flutter/foundation.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
+
+import '../../features/momo/services/nfc_hce_service.dart';
+import '../../features/momo/services/nfc_service.dart';
+import 'device_settings_service.dart';
+import 'location_service.dart';
+
+enum AppAccessPermission { contacts, camera, location, nfc, sms }
+
+enum AppAccessStateKind {
+  ready,
+  disabledInApp,
+  needsSystemPermission,
+  blockedInSystem,
+  serviceDisabled,
+  notAvailable,
+}
+
+class AppAccessSnapshot {
+  const AppAccessSnapshot({
+    required this.permission,
+    required this.kind,
+    required this.enabledInApp,
+    required this.supportedOnDevice,
+    this.systemGranted = false,
+  });
+
+  final AppAccessPermission permission;
+  final AppAccessStateKind kind;
+  final bool enabledInApp;
+  final bool supportedOnDevice;
+  final bool systemGranted;
+
+  bool get isReady => kind == AppAccessStateKind.ready;
+}
+
+/// User-managed access preferences layered on top of system permissions.
+///
+/// This lets users disable feature access from inside Cool at any time, even
+/// when the underlying OS permission is still granted.
+class AppAccessService {
+  AppAccessService({
+    LocationService? locationService,
+    DeviceSettingsService? deviceSettingsService,
+    NfcHceService? nfcHceService,
+  }) : _locationService = locationService ?? DeviceLocationService.instance,
+       _deviceSettingsService =
+           deviceSettingsService ?? DeviceSettingsService.instance,
+       _nfcHceService = nfcHceService ?? NfcHceService.instance;
+
+  static final AppAccessService instance = AppAccessService();
+
+  static const boxName = 'app_access_preferences';
+
+  final LocationService _locationService;
+  final DeviceSettingsService _deviceSettingsService;
+  final NfcHceService _nfcHceService;
+  final ValueNotifier<int> _changeRevision = ValueNotifier<int>(0);
+
+  ValueListenable<int> get changes => _changeRevision;
+
+  Future<bool> isEnabled(AppAccessPermission permission) async {
+    final box = await _openBox();
+    return box.get(permission.name, defaultValue: true) ?? true;
+  }
+
+  Future<void> setEnabled(AppAccessPermission permission, bool enabled) async {
+    final box = await _openBox();
+    final current = box.get(permission.name, defaultValue: true) ?? true;
+    if (current == enabled) {
+      return;
+    }
+    await box.put(permission.name, enabled);
+    _changeRevision.value++;
+  }
+
+  Future<AppAccessSnapshot> getSnapshot(AppAccessPermission permission) async {
+    final enabledInApp = await isEnabled(permission);
+    if (!enabledInApp) {
+      return AppAccessSnapshot(
+        permission: permission,
+        kind: AppAccessStateKind.disabledInApp,
+        enabledInApp: false,
+        supportedOnDevice: true,
+      );
+    }
+
+    return switch (permission) {
+      AppAccessPermission.contacts => _permissionSnapshot(
+        permission: permission,
+        status: await Permission.contacts.status,
+      ),
+      AppAccessPermission.camera => _permissionSnapshot(
+        permission: permission,
+        status: await Permission.camera.status,
+      ),
+      AppAccessPermission.location => _locationSnapshot(permission),
+      AppAccessPermission.nfc => _nfcSnapshot(permission),
+      AppAccessPermission.sms => _smsSnapshot(permission),
+    };
+  }
+
+  Future<List<AppAccessSnapshot>> getSnapshots(
+    List<AppAccessPermission> permissions,
+  ) async {
+    return Future.wait(permissions.map(getSnapshot));
+  }
+
+  Future<AppAccessSnapshot> enableAndRequest(
+    AppAccessPermission permission,
+  ) async {
+    await setEnabled(permission, true);
+    switch (permission) {
+      case AppAccessPermission.contacts:
+        await Permission.contacts.request();
+        break;
+      case AppAccessPermission.camera:
+        await Permission.camera.request();
+        break;
+      case AppAccessPermission.location:
+        if (await _locationService.isLocationServiceEnabled()) {
+          await _locationService.requestPermission();
+        }
+        break;
+      case AppAccessPermission.nfc:
+        break;
+      case AppAccessPermission.sms:
+        if (_supportsSmsPermission) {
+          await Permission.sms.request();
+        }
+        break;
+    }
+    return getSnapshot(permission);
+  }
+
+  Future<AppAccessSnapshot> disable(AppAccessPermission permission) async {
+    await setEnabled(permission, false);
+    if (permission == AppAccessPermission.nfc) {
+      await _stopActiveNfcReceive();
+    }
+    return getSnapshot(permission);
+  }
+
+  Future<bool> openSystemSettings(AppAccessPermission permission) async {
+    switch (permission) {
+      case AppAccessPermission.location:
+        final snapshot = await getSnapshot(permission);
+        if (snapshot.kind == AppAccessStateKind.serviceDisabled) {
+          return _locationService.openLocationSettings();
+        }
+        return openAppSettings();
+      case AppAccessPermission.nfc:
+        return _deviceSettingsService.openNfcSettings();
+      case AppAccessPermission.contacts:
+      case AppAccessPermission.camera:
+      case AppAccessPermission.sms:
+        return openAppSettings();
+    }
+  }
+
+  Future<Box<bool>> _openBox() async {
+    if (!Hive.isBoxOpen(boxName)) {
+      return Hive.openBox<bool>(boxName);
+    }
+    return Hive.box<bool>(boxName);
+  }
+
+  Future<void> _stopActiveNfcReceive() async {
+    try {
+      if (!await _nfcHceService.isSupported()) {
+        return;
+      }
+      if (!await _nfcHceService.isPaymentRequestActive()) {
+        return;
+      }
+      await _nfcHceService.stopPaymentRequest();
+    } catch (_) {
+      // Access revocation should remain best-effort even if HCE cleanup fails.
+    }
+  }
+
+  AppAccessSnapshot _permissionSnapshot({
+    required AppAccessPermission permission,
+    required PermissionStatus status,
+  }) {
+    if (status.isGranted || status.isLimited || status.isProvisional) {
+      return AppAccessSnapshot(
+        permission: permission,
+        kind: AppAccessStateKind.ready,
+        enabledInApp: true,
+        supportedOnDevice: true,
+        systemGranted: true,
+      );
+    }
+
+    if (status.isPermanentlyDenied || status.isRestricted) {
+      return AppAccessSnapshot(
+        permission: permission,
+        kind: AppAccessStateKind.blockedInSystem,
+        enabledInApp: true,
+        supportedOnDevice: true,
+      );
+    }
+
+    return AppAccessSnapshot(
+      permission: permission,
+      kind: AppAccessStateKind.needsSystemPermission,
+      enabledInApp: true,
+      supportedOnDevice: true,
+    );
+  }
+
+  Future<AppAccessSnapshot> _locationSnapshot(
+    AppAccessPermission permission,
+  ) async {
+    final servicesEnabled = await _locationService.isLocationServiceEnabled();
+    if (!servicesEnabled) {
+      return AppAccessSnapshot(
+        permission: permission,
+        kind: AppAccessStateKind.serviceDisabled,
+        enabledInApp: true,
+        supportedOnDevice: true,
+      );
+    }
+
+    final status = await _locationService.checkPermission();
+    return switch (status) {
+      LocationPermission.always ||
+      LocationPermission.whileInUse => AppAccessSnapshot(
+        permission: permission,
+        kind: AppAccessStateKind.ready,
+        enabledInApp: true,
+        supportedOnDevice: true,
+        systemGranted: true,
+      ),
+      LocationPermission.denied => AppAccessSnapshot(
+        permission: permission,
+        kind: AppAccessStateKind.needsSystemPermission,
+        enabledInApp: true,
+        supportedOnDevice: true,
+      ),
+      LocationPermission.deniedForever => AppAccessSnapshot(
+        permission: permission,
+        kind: AppAccessStateKind.blockedInSystem,
+        enabledInApp: true,
+        supportedOnDevice: true,
+      ),
+      LocationPermission.unableToDetermine => AppAccessSnapshot(
+        permission: permission,
+        kind: AppAccessStateKind.needsSystemPermission,
+        enabledInApp: true,
+        supportedOnDevice: true,
+      ),
+    };
+  }
+
+  Future<AppAccessSnapshot> _nfcSnapshot(AppAccessPermission permission) async {
+    final status = await NfcService.checkAvailability();
+    return switch (status) {
+      NfcStatus.available => AppAccessSnapshot(
+        permission: permission,
+        kind: AppAccessStateKind.ready,
+        enabledInApp: true,
+        supportedOnDevice: true,
+        systemGranted: true,
+      ),
+      NfcStatus.disabled => AppAccessSnapshot(
+        permission: permission,
+        kind: AppAccessStateKind.serviceDisabled,
+        enabledInApp: true,
+        supportedOnDevice: true,
+      ),
+      NfcStatus.notSupported => AppAccessSnapshot(
+        permission: permission,
+        kind: AppAccessStateKind.notAvailable,
+        enabledInApp: true,
+        supportedOnDevice: false,
+      ),
+    };
+  }
+
+  Future<AppAccessSnapshot> _smsSnapshot(AppAccessPermission permission) async {
+    if (!_supportsSmsPermission) {
+      return AppAccessSnapshot(
+        permission: permission,
+        kind: AppAccessStateKind.notAvailable,
+        enabledInApp: true,
+        supportedOnDevice: false,
+      );
+    }
+
+    return _permissionSnapshot(
+      permission: permission,
+      status: await Permission.sms.status,
+    );
+  }
+
+  bool get _supportsSmsPermission {
+    if (kIsWeb) {
+      return false;
+    }
+    return Platform.isAndroid;
+  }
+}
