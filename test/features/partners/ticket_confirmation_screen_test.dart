@@ -1,11 +1,20 @@
 import 'package:cool_app/features/partners/providers/rayon_sports_provider.dart';
 import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
+import 'package:cool_app/features/partners/rayon/rayon_ticket_qr.dart';
 import 'package:cool_app/features/partners/screens/rayon/ticket_confirmation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  setUp(() {
+    debugSetRayonTicketQrSecretOverride('test-ticket-qr-secret');
+  });
+
+  tearDown(() {
+    debugSetRayonTicketQrSecretOverride(null);
+  });
+
   testWidgets(
     'ticket confirmation does not expose deferred Google Wallet actions',
     (tester) async {

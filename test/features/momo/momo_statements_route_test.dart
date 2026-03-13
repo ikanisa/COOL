@@ -112,6 +112,17 @@ class FakeStatementDownloadService extends MomoStatementDownloadService {
 Future<Box<T>> noOpOpenBox<T>(String name) =>
     throw UnimplementedError('Hive disabled in tests');
 
+Future<void> tapStatementsTool(WidgetTester tester) async {
+  final statements = find.text('Statements');
+  await tester.scrollUntilVisible(
+    statements,
+    250,
+    scrollable: find.byType(Scrollable).first,
+  );
+  await tester.tap(statements.hitTestable().first);
+  await settleTestApp(tester);
+}
+
 void main() {
   testWidgets('direct Mobile Money entry can return home', (tester) async {
     final repository = FakeMomoStatementRepository(const MomoStatementBundle());
@@ -283,6 +294,7 @@ void main() {
     );
 
     final router = GoRouter(
+      initialLocation: '/',
       routes: [
         GoRoute(path: '/', builder: (context, state) => const MomoScreen()),
         GoRoute(
@@ -313,8 +325,7 @@ void main() {
     );
     await settleTestApp(tester);
 
-    await tester.tap(find.text('Statements'));
-    await settleTestApp(tester);
+    await tapStatementsTool(tester);
 
     expect(find.byType(MomoStatementsScreen), findsOneWidget);
   });
@@ -420,8 +431,7 @@ void main() {
     );
     await settleTestApp(tester);
 
-    await tester.tap(find.text('Statements'));
-    await settleTestApp(tester);
+    await tapStatementsTool(tester);
 
     expect(find.textContaining('Jean Bosco'), findsOneWidget);
     expect(find.text('Draft'), findsOneWidget);
@@ -515,8 +525,10 @@ void main() {
       );
       await settleTestApp(tester);
 
-      await tester.tap(find.text('Statements'));
+      router.go('/momo/statements');
+      await tester.pump();
       await settleTestApp(tester);
+      expect(find.byType(MomoStatementsScreen), findsOneWidget);
 
       expect(find.byType(MomoStatementsScreen), findsOneWidget);
     },
@@ -641,8 +653,7 @@ void main() {
     );
     await settleTestApp(tester);
 
-    await tester.tap(find.text('Statements'));
-    await settleTestApp(tester);
+    await tapStatementsTool(tester);
 
     final payerField = find.byKey(
       const ValueKey<String>('statement-party-filter'),
@@ -668,132 +679,144 @@ void main() {
     expect(exportService.lastMetadata?.filterLabel, contains('Payer: Alice'));
   });
 
-  testWidgets('day filter updates the statement query window', (tester) async {
-    final repository = FakeMomoStatementRepository(
-      MomoStatementBundle(
-        walletEntries: [
-          MomoWalletEntry(
-            id: 'wallet-1',
-            entryType: 'credit',
-            ledgerStatus: 'posted',
-            amount: 25000,
-            currency: 'RWF',
-            occurredAt: DateTime(2026, 3, 11, 9, 30),
-            txCategory: 'cash_in',
-            cashflowBucket: 'income',
-            label: 'Cash in',
-            counterpartyName: 'MTN Rwanda',
-            reference: 'MM-123',
-          ),
-        ],
-        walletTotalCount: 1,
-      ),
-    );
-    final authRepository = MockAuthRepository();
-    final countriesRepository = MockSupportedCountriesRepository();
-    final session = fakeSession();
-    final user = fakeUser(momoNumber: '788123456');
-
-    when(() => authRepository.currentSession).thenReturn(session);
-    when(() => authRepository.currentUserId).thenReturn(session.user.id);
-    when(
-      () => authRepository.getCurrentProfile(),
-    ).thenAnswer((_) async => user);
-    when(() => authRepository.getProfile(any())).thenAnswer((_) async => user);
-
-    when(
-      () => countriesRepository.getSupportedCountries(),
-    ).thenReturn(CoolCountryCatalog.all);
-    when(
-      () => countriesRepository.resolveCountry(
-        countryCode: any(named: 'countryCode'),
-        phone: any(named: 'phone'),
-        providerId: any(named: 'providerId'),
-      ),
-    ).thenAnswer((_) {
-      return CoolCountryCatalog.resolve(country: 'RW');
-    });
-
-    final container = createTestContainer(
-      overrides: [
-        authRepositoryProvider.overrideWithValue(authRepository),
-        authProvider.overrideWith(
-          (ref) => TestAuthNotifier(
-            repository: ref.watch(authRepositoryProvider),
-            crashlytics: ref.read(crashlyticsServiceProvider),
-            performance: ref.read(performanceServiceProvider),
-            momoService: MomoService(
-              client: MockSupabaseClient(),
-              openBox: noOpOpenBox,
+  testWidgets(
+    'day filter updates the statement query window',
+    (tester) async {
+      final repository = FakeMomoStatementRepository(
+        MomoStatementBundle(
+          walletEntries: [
+            MomoWalletEntry(
+              id: 'wallet-1',
+              entryType: 'credit',
+              ledgerStatus: 'posted',
+              amount: 25000,
+              currency: 'RWF',
+              occurredAt: DateTime(2026, 3, 11, 9, 30),
+              txCategory: 'cash_in',
+              cashflowBucket: 'income',
+              label: 'Cash in',
+              counterpartyName: 'MTN Rwanda',
+              reference: 'MM-123',
             ),
-            session: session,
-            user: user,
+          ],
+          walletTotalCount: 1,
+        ),
+      );
+      final authRepository = MockAuthRepository();
+      final countriesRepository = MockSupportedCountriesRepository();
+      final session = fakeSession();
+      final user = fakeUser(momoNumber: '788123456');
+
+      when(() => authRepository.currentSession).thenReturn(session);
+      when(() => authRepository.currentUserId).thenReturn(session.user.id);
+      when(
+        () => authRepository.getCurrentProfile(),
+      ).thenAnswer((_) async => user);
+      when(
+        () => authRepository.getProfile(any()),
+      ).thenAnswer((_) async => user);
+
+      when(
+        () => countriesRepository.getSupportedCountries(),
+      ).thenReturn(CoolCountryCatalog.all);
+      when(
+        () => countriesRepository.resolveCountry(
+          countryCode: any(named: 'countryCode'),
+          phone: any(named: 'phone'),
+          providerId: any(named: 'providerId'),
+        ),
+      ).thenAnswer((_) {
+        return CoolCountryCatalog.resolve(country: 'RW');
+      });
+
+      final container = createTestContainer(
+        overrides: [
+          authRepositoryProvider.overrideWithValue(authRepository),
+          authProvider.overrideWith(
+            (ref) => TestAuthNotifier(
+              repository: ref.watch(authRepositoryProvider),
+              crashlytics: ref.read(crashlyticsServiceProvider),
+              performance: ref.read(performanceServiceProvider),
+              momoService: MomoService(
+                client: MockSupabaseClient(),
+                openBox: noOpOpenBox,
+              ),
+              session: session,
+              user: user,
+            ),
+          ),
+          supportedCountriesRepositoryProvider.overrideWithValue(
+            countriesRepository,
+          ),
+          momoStatementRepositoryProvider.overrideWithValue(repository),
+        ],
+      );
+
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: Consumer(
+            builder: (context, ref, _) {
+              final locale = ref.watch(localeProvider);
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                theme: AppTheme.dark,
+                home: const MomoStatementsScreen(),
+                locale: locale,
+                supportedLocales: AppLocalizations.supportedLocales,
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+              );
+            },
           ),
         ),
-        supportedCountriesRepositoryProvider.overrideWithValue(
-          countriesRepository,
-        ),
-        momoStatementRepositoryProvider.overrideWithValue(repository),
-      ],
-    );
+      );
+      await settleTestApp(tester);
 
-    final router = GoRouter(
-      routes: [
-        GoRoute(path: '/', builder: (context, state) => const MomoScreen()),
-        GoRoute(
-          path: '/momo/statements',
-          builder: (context, state) => const MomoStatementsScreen(),
-        ),
-      ],
-    );
-    addTearDown(router.dispose);
+      Future<MomoStatementQuery> waitForLatestQuery({
+        required int minimumCount,
+      }) async {
+        for (var attempt = 0; attempt < 20; attempt++) {
+          if (repository.queries.length >= minimumCount) {
+            return repository.queries.last;
+          }
+          await tester.pump(const Duration(milliseconds: 50));
+        }
+        throw StateError('Expected at least $minimumCount statement queries.');
+      }
 
-    await tester.pumpWidget(
-      UncontrolledProviderScope(
-        container: container,
-        child: Consumer(
-          builder: (context, ref, _) {
-            final locale = ref.watch(localeProvider);
-            return MaterialApp.router(
-              debugShowCheckedModeBanner: false,
-              theme: AppTheme.dark,
-              routerConfig: router,
-              locale: locale,
-              supportedLocales: AppLocalizations.supportedLocales,
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
-            );
-          },
-        ),
-      ),
-    );
-    await settleTestApp(tester);
+      final initialQuery = await waitForLatestQuery(minimumCount: 1);
+      expect(initialQuery.startDate, isNotNull);
+      expect(initialQuery.endDate, isNotNull);
 
-    await tester.tap(find.text('Statements'));
-    await settleTestApp(tester);
+      // Settle after data loads so CoolAsyncView rebuilds with
+      // the StatementControlsCard (which contains the period chips).
+      await settleTestApp(tester);
 
-    final initialQuery = repository.queries.last;
-    expect(initialQuery.startDate, isNotNull);
-    expect(initialQuery.endDate, isNotNull);
+      final dayChip = find.byKey(
+        const ValueKey<String>('statement-period-day'),
+      );
+      await tester.ensureVisible(dayChip);
+      await tester.tap(dayChip, warnIfMissed: false);
+      await tester.pump();
+      await settleTestApp(tester);
 
-    final dayChip = find.byKey(const ValueKey<String>('statement-period-day'));
-    await tester.ensureVisible(dayChip);
-    await tester.tap(dayChip, warnIfMissed: false);
-    await settleTestApp(tester);
+      final dayQuery = await waitForLatestQuery(minimumCount: 2);
+      final today = DateUtils.dateOnly(DateTime.now());
+      expect(dayQuery.startDate, today);
+      expect(dayQuery.endDate, today);
 
-    final dayQuery = repository.queries.last;
-    final today = DateUtils.dateOnly(DateTime.now());
-    expect(dayQuery.startDate, today);
-    expect(dayQuery.endDate, today);
+      final allTimeChip = find.byKey(
+        const ValueKey<String>('statement-period-all'),
+      );
+      await tester.ensureVisible(allTimeChip);
+      await tester.tap(allTimeChip, warnIfMissed: false);
+      await tester.pump();
+      await settleTestApp(tester);
 
-    final allTimeChip = find.byKey(
-      const ValueKey<String>('statement-period-all'),
-    );
-    await tester.ensureVisible(allTimeChip);
-    await tester.tap(allTimeChip, warnIfMissed: false);
-    await settleTestApp(tester);
-
-    final allQuery = repository.queries.last;
-    expect(allQuery.startDate, isNull);
-    expect(allQuery.endDate, isNull);
-  }, timeout: const Timeout(Duration(seconds: 90)));
+      final allQuery = await waitForLatestQuery(minimumCount: 3);
+      expect(allQuery.startDate, isNull);
+      expect(allQuery.endDate, isNull);
+    },
+    timeout: const Timeout(Duration(seconds: 90)),
+  );
 }

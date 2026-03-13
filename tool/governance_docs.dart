@@ -95,8 +95,14 @@ Future<void> main(List<String> args) async {
 
 List<RouteEntry> _readRouteEntries(Directory repoRoot) {
   final routerFile = File('${repoRoot.path}/lib/core/router/app_router.dart');
+  final routesFile = File('${repoRoot.path}/lib/core/router/app_routes.dart');
   final source = routerFile.readAsStringSync();
-  final routeConstants = _readRouteConstants(source);
+  final routeConstants = _readRouteConstants(
+    [
+      source,
+      if (routesFile.existsSync()) routesFile.readAsStringSync(),
+    ].join('\n'),
+  );
   final screenPaths = _readScreenClassPaths(repoRoot);
   final shellBranchCount = RegExp(
     r'StatefulShellBranch\(',

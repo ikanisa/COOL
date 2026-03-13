@@ -10,7 +10,7 @@ import '../../../core/config/app_config_provider.dart';
 import '../../../core/config/app_market.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/providers/notification_settings_provider.dart';
-import '../../../core/router/app_router.dart';
+import '../../../core/router/app_routes.dart';
 import '../../../core/status/models/cool_status.dart';
 import '../../../core/status/providers/cool_status_provider.dart';
 import '../../../core/theme/app_colors.dart';

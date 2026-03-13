@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:cool_app/core/models/geo_point.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:hive_flutter/hive_flutter.dart' show Box;
 
 import '../../../core/providers/hive_providers.dart';
 
 import '../../../core/providers/app_access_provider.dart';
 import '../../../core/services/app_access_service.dart';
+import '../../../core/services/hive_runtime.dart';
 import '../../../core/services/location_service.dart';
 
 final locationServiceProvider = Provider<LocationService>((ref) {
@@ -102,7 +102,7 @@ class MobilityLocationState {
 class MobilityLocationNotifier extends StateNotifier<MobilityLocationState> {
   MobilityLocationNotifier({
     required LocationService service,
-    required Future<Box<dynamic>> Function(String name) openBox,
+    required OpenHiveBox<dynamic> openBox,
     required AppAccessService appAccessService,
   }) : _service = service,
        _openBox = openBox,
@@ -113,7 +113,7 @@ class MobilityLocationNotifier extends StateNotifier<MobilityLocationState> {
   static const _cacheKey = 'latest_position';
 
   final LocationService _service;
-  final Future<Box<dynamic>> Function(String name) _openBox;
+  final OpenHiveBox<dynamic> _openBox;
   final AppAccessService _appAccessService;
 
   bool _permissionPromptShownThisSession = false;

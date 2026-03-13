@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+
+import '../../../core/services/hive_runtime.dart';
 
 /// A purchased ticket stored locally.
 class PurchasedTicket {
@@ -96,10 +97,10 @@ class TicketVerifyResult {
 /// QR data format: `COOL-TKT:{ticketId}:{matchId}:{timestamp}:{hmac}`
 class TicketService {
   TicketService({
-    required Future<Box<String>> Function(String name) openBox,
+    required OpenHiveBox<String> openBox,
   }) : _openBox = openBox;
 
-  final Future<Box<String>> Function(String name) _openBox;
+  final OpenHiveBox<String> _openBox;
 
   static const _boxName = 'purchased_tickets';
 

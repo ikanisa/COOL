@@ -121,7 +121,7 @@ abstract final class AppRoutes {
 }
 
 const _partnerDetailSlugs = {'urwego', 'equity', 'radiant', 'prisma'};
-const _shellRootLocations = {
+const appShellRootLocations = {
   AppRoutes.home,
   AppRoutes.groups,
   AppRoutes.mobility,
@@ -146,7 +146,7 @@ bool isShellRootLocation(String location) {
 
   final uri = Uri.tryParse(trimmed);
   final path = uri?.path.isNotEmpty == true ? uri!.path : trimmed;
-  return _shellRootLocations.contains(path);
+  return appShellRootLocations.contains(path);
 }
 
 void openQuickActionRoute(BuildContext context, String location) {

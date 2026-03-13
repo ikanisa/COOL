@@ -7,15 +7,17 @@ import 'package:cool_app/features/mobility/models/trip_post_request.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/services/hive_runtime.dart';
+
 class TripRepository {
   TripRepository({
     required SupabaseClient client,
-    required Future<Box<dynamic>> Function(String name) openBox,
+    required OpenHiveBox<dynamic> openBox,
   }) : _client = client,
        _openBox = openBox;
 
   final SupabaseClient _client;
-  final Future<Box<dynamic>> Function(String name) _openBox;
+  final OpenHiveBox<dynamic> _openBox;
 
   static const _boxName = 'mobility_trip_posts';
   static const _tableName = 'mobility_trips';

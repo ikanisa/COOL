@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:cool_app/core/router/app_router.dart';
+import 'package:cool_app/core/router/app_redirects.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart';
 
 void main() {

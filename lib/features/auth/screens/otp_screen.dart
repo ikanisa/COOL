@@ -8,7 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../core/config/app_market.dart';
 import '../../../core/config/env_config.dart';
 import '../../../core/l10n/l10n.dart';
-import '../../../core/router/app_router.dart';
+import '../../../core/router/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/phone_validator.dart';
 import '../../../shared/widgets/cool_button.dart';

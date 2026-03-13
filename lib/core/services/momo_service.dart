@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:hive_flutter/hive_flutter.dart' show Box;
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -11,6 +10,7 @@ import '../models/momo_qr_payload.dart';
 import '../repositories/supported_countries_repository.dart';
 import '../sync/sync_engine.dart';
 import 'crashlytics_service.dart';
+import 'hive_runtime.dart';
 import 'performance_service.dart';
 
 enum SubscriptionPlan { moto, cabOther }
@@ -48,7 +48,7 @@ extension SubscriptionPlanX on SubscriptionPlan {
 class MomoService {
   MomoService({
     required SupabaseClient client,
-    required Future<Box<dynamic>> Function(String name) openBox,
+    required OpenHiveBox<dynamic> openBox,
     SyncEngine? syncEngine,
     AppConfigRepository? appConfigRepository,
     SupportedCountriesRepository? supportedCountriesRepository,
@@ -61,7 +61,7 @@ class MomoService {
            supportedCountriesRepository ?? SupportedCountriesRepository();
 
   final SupabaseClient _client;
-  final Future<Box<dynamic>> Function(String name) _openBox;
+  final OpenHiveBox<dynamic> _openBox;
   final SyncEngine? _syncEngine;
   final AppConfigRepository _appConfigRepository;
   final SupportedCountriesRepository _supportedCountriesRepository;

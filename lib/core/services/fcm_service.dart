@@ -5,12 +5,13 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' show SupabaseClient;
 
 import '../config/app_market.dart';
 import '../config/deep_link_config.dart';
-import '../router/app_router.dart';
+import '../router/app_routes.dart';
+import '../router/navigation_keys.dart';
+import 'hive_runtime.dart';
 import 'firebase_bootstrap_service.dart';
 
 /// Top-level background message handler (must be a top-level function).
@@ -78,12 +79,12 @@ abstract class FcmPreferenceStore {
 
 class HiveFcmPreferenceStore implements FcmPreferenceStore {
   HiveFcmPreferenceStore({
-    required Future<Box<dynamic>> Function(String name) openBox,
+    required OpenHiveBox<dynamic> openBox,
     this.boxName = FcmService.preferenceBoxName,
     this.enabledKey = FcmService.preferenceKey,
   }) : _openBox = openBox;
 
-  final Future<Box<dynamic>> Function(String name) _openBox;
+  final OpenHiveBox<dynamic> _openBox;
   final String boxName;
   final String enabledKey;
 

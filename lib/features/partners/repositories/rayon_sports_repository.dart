@@ -1,9 +1,9 @@
-import 'package:hive_flutter/hive_flutter.dart' show Box;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/identity/public_user_identity.dart';
 import '../../../core/services/momo_service.dart';
 import '../../../core/services/operational_health_service.dart';
+import '../../../core/services/hive_runtime.dart';
 import '../rayon/models/rs_models.dart';
 import '../rayon/rayon_payment.dart';
 import '../rayon/rayon_ticket_qr.dart';
@@ -19,7 +19,7 @@ part 'rayon_sports_repository_tickets.dart';
 class RayonSportsRepository {
   RayonSportsRepository({
     required SupabaseClient client,
-    required Future<Box<dynamic>> Function(String name) openBox,
+    required OpenHiveBox<dynamic> openBox,
     MomoService? momoService,
     OperationalHealthService? operationalHealthService,
   }) : _client = client,

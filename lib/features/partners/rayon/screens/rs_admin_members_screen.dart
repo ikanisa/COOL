@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/router/app_router.dart';
+import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
@@ -164,6 +164,8 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
                 button: true,
                 label:
                     'Set ${member.displayName} tier to ${tier.name.toUpperCase()}',
+                hint: 'Double tap to update the member tier',
+                excludeSemantics: true,
                 child: ListTile(
                   leading: Icon(
                     _tierIcon(tier),
@@ -349,6 +351,7 @@ class _MemberTile extends StatelessWidget {
               button: true,
               label: 'Edit tier for ${member.displayName}',
               hint: 'Double tap to change the member tier',
+              excludeSemantics: true,
               child: GestureDetector(
                 onTap: () {
                   HapticFeedback.selectionClick();
@@ -369,6 +372,7 @@ class _MemberTile extends StatelessWidget {
               button: true,
               label: 'Edit points for ${member.displayName}',
               hint: 'Double tap to change the member points',
+              excludeSemantics: true,
               child: GestureDetector(
                 onTap: () {
                   HapticFeedback.selectionClick();

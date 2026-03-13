@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/router/app_router.dart';
+import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
@@ -326,6 +326,7 @@ class _Btn extends StatelessWidget {
       button: true,
       label: label,
       hint: 'Double tap to ${label.toLowerCase()} this initiative',
+      excludeSemantics: true,
       child: GestureDetector(
         onTap: () {
           HapticFeedback.selectionClick();

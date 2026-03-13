@@ -9,7 +9,7 @@ import '../../../core/config/country_catalog.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/models/momo_qr_payload.dart';
 import '../../../core/providers/app_access_provider.dart';
-import '../../../core/router/app_router.dart';
+import '../../../core/router/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/cool_screen_background.dart';

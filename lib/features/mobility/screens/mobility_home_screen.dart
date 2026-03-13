@@ -10,7 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../../core/config/env_config.dart';
 import '../../../core/l10n/l10n.dart';
-import '../../../core/router/app_router.dart';
+import '../../../core/router/app_routes.dart';
 import '../../../core/services/whatsapp_contact_service.dart';
 import '../services/mobility_whatsapp_service.dart';
 import '../../../shared/widgets/cool_toast.dart';

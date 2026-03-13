@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/router/app_router.dart';
+import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
@@ -115,28 +115,42 @@ class _MatchFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 44,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-        children: [
-          _FilterChip(
-            label: 'All',
-            isSelected: selected == null,
-            onTap: () => onChanged(null),
-          ),
-          ...matches.map(
-            (m) => Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: _FilterChip(
-                label: '${m.homeTeam} vs ${m.awayTeam}',
-                isSelected: selected == m.id,
-                onTap: () => onChanged(m.id),
+    final activeLabel = selected == null
+        ? 'All matches'
+        : matches
+              .where((match) => match.id == selected)
+              .map((match) => '${match.homeTeam} vs ${match.awayTeam}')
+              .cast<String?>()
+              .firstWhere(
+                (value) => value != null,
+                orElse: () => 'All matches',
+              )!;
+    return Semantics(
+      container: true,
+      label: 'Ticket match filter. Current selection: $activeLabel.',
+      child: SizedBox(
+        height: 44,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+          children: [
+            _FilterChip(
+              label: 'All',
+              isSelected: selected == null,
+              onTap: () => onChanged(null),
+            ),
+            ...matches.map(
+              (m) => Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: _FilterChip(
+                  label: '${m.homeTeam} vs ${m.awayTeam}',
+                  isSelected: selected == m.id,
+                  onTap: () => onChanged(m.id),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -155,29 +169,32 @@ class _FilterChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Semantics(
+      button: true,
       selected: isSelected,
       label: '$label filter',
+      hint: 'Double tap to filter tickets by $label',
+      excludeSemantics: true,
       child: GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.rsBlue : AppColors.surface,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: isSelected ? AppColors.rsBlue : AppColors.border,
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: isSelected ? AppColors.rsBlue : AppColors.surface,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: isSelected ? AppColors.rsBlue : AppColors.border,
+            ),
           ),
-        ),
-        child: Text(
-          label,
-          style: GoogleFonts.dmSans(
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-            color: isSelected ? Colors.white : AppColors.text2,
+          child: Text(
+            label,
+            style: GoogleFonts.dmSans(
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+              color: isSelected ? Colors.white : AppColors.text2,
+            ),
           ),
         ),
       ),
-    ),
     );
   }
 }
@@ -192,72 +209,82 @@ class _TicketTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dateStr = DateFormat('d MMM HH:mm').format(ticket.purchasedAt);
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  ticket.matchTitle.isNotEmpty
-                      ? ticket.matchTitle
-                      : 'Match ${ticket.matchId.substring(0, 8)}',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.text,
+    final matchLabel = ticket.matchTitle.isNotEmpty
+        ? ticket.matchTitle
+        : 'Match ${ticket.matchId.substring(0, 8)}';
+    return Semantics(
+      container: true,
+      label:
+          'Ticket for $matchLabel. Seat ${ticket.seatType}. '
+          '${ticket.amountPaid} Rwandan francs. Purchased $dateStr. '
+          'Status ${ticket.status.name}.',
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: AppColors.border),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    matchLabel,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.text,
+                    ),
                   ),
                 ),
-              ),
-              _StatusBadge(status: ticket.status.name),
-            ],
-          ),
-          const SizedBox(height: 4),
-          Text(
-            '${ticket.seatType} · ${ticket.amountPaid} RWF · $dateStr',
-            style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
-          ),
-          const SizedBox(height: 8),
-          Wrap(
-            spacing: 8,
-            children: _statusFlow
-                .where((s) => s != ticket.status.name)
-                .map(
-                  (s) => Semantics(
-                    button: true,
-                    label: 'Change status to $s',
-                    child: GestureDetector(
-                    onTap: () => onStatusChange(s),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 5,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.surface2,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        '→ $s',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 11,
-                          color: AppColors.accent,
+                _StatusBadge(status: ticket.status.name),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Text(
+              '${ticket.seatType} · ${ticket.amountPaid} RWF · $dateStr',
+              style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
+            ),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              children: _statusFlow
+                  .where((s) => s != ticket.status.name)
+                  .map(
+                    (s) => Semantics(
+                      button: true,
+                      label: 'Change ticket status to $s',
+                      hint: 'Double tap to mark this ticket as $s',
+                      excludeSemantics: true,
+                      child: GestureDetector(
+                        onTap: () => onStatusChange(s),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 5,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.surface2,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            '→ $s',
+                            style: GoogleFonts.dmSans(
+                              fontSize: 11,
+                              color: AppColors.accent,
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  ),
-                )
-                .toList(),
-          ),
-        ],
+                  )
+                  .toList(),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -276,18 +303,23 @@ class _StatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-      decoration: BoxDecoration(
-        color: _color.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Text(
-        status.toUpperCase(),
-        style: GoogleFonts.dmSans(
-          fontSize: 10,
-          fontWeight: FontWeight.w700,
-          color: _color,
+    return Semantics(
+      label: 'Status ${status.toLowerCase()}',
+      child: ExcludeSemantics(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+          decoration: BoxDecoration(
+            color: _color.withValues(alpha: 0.15),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Text(
+            status.toUpperCase(),
+            style: GoogleFonts.dmSans(
+              fontSize: 10,
+              fontWeight: FontWeight.w700,
+              color: _color,
+            ),
+          ),
         ),
       ),
     );

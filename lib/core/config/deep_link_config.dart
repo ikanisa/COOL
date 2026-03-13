@@ -1,4 +1,4 @@
-import '../router/app_router.dart';
+import '../router/app_routes.dart';
 
 abstract final class DeepLinkConfig {
   static const host = String.fromEnvironment(

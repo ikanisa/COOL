@@ -1,4 +1,4 @@
-import 'package:cool_app/core/router/app_router.dart';
+import 'package:cool_app/core/router/app_routes.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

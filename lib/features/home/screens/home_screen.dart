@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../../core/l10n/l10n.dart';
-import '../../../core/router/app_router.dart';
+import '../../../core/router/app_routes.dart';
 import '../../../core/status/providers/home_status_providers.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/intl_locale.dart';

@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/config/deep_link_config.dart';
 import '../../../../core/providers/referral_providers.dart';
-import '../../../../core/router/app_router.dart';
+import '../../../../core/router/app_routes.dart';
 import '../../../../core/status/cool_status_awarder.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/rs_colors.dart';

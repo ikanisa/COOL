@@ -13,6 +13,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import '../services/hive_runtime.dart';
 import 'sync_status.dart';
 
 /// A single pending write stored in the Hive queue.
@@ -87,7 +88,7 @@ class SyncEngine {
     String boxName = _defaultBoxName,
     this.maxAttempts = 10,
     this.staleDuration = const Duration(hours: 48),
-    required Future<Box<dynamic>> Function(String name) openBox,
+    required OpenHiveBox<dynamic> openBox,
   }) : _boxName = boxName,
        _openBox = openBox;
 
@@ -101,7 +102,7 @@ class SyncEngine {
   /// Entries older than this are considered stale and discarded.
   final Duration staleDuration;
 
-  final Future<Box<dynamic>> Function(String name) _openBox;
+  final OpenHiveBox<dynamic> _openBox;
 
   /// Current sync engine status for UI consumption.
   final ValueNotifier<SyncEngineStatus> status =

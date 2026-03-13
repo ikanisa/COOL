@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/router/app_router.dart';
+import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
@@ -92,79 +92,89 @@ class _OrderTile extends StatelessWidget {
     final dateStr = DateFormat('d MMM HH:mm').format(order.createdAt);
     final itemCount = order.items.length;
 
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  '#${order.id.substring(0, 8)} · $itemCount items',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.text,
+    return Semantics(
+      container: true,
+      label:
+          'Order ${order.id.substring(0, 8)}. $itemCount items. '
+          'Total ${order.total} Rwandan francs. Created $dateStr. '
+          'Status ${order.status.value}.'
+          '${order.deliveryAddress.isNotEmpty ? ' Delivery address ${order.deliveryAddress}.' : ''}',
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: AppColors.border),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    '#${order.id.substring(0, 8)} · $itemCount items',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.text,
+                    ),
                   ),
                 ),
-              ),
-              _StatusBadge(status: order.status.value),
-            ],
-          ),
-          const SizedBox(height: 4),
-          Text(
-            '${order.total} RWF · $dateStr',
-            style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
-          ),
-          if (order.deliveryAddress.isNotEmpty) ...[
-            const SizedBox(height: 2),
-            Text(
-              '📍 ${order.deliveryAddress}',
-              style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+                _StatusBadge(status: order.status.value),
+              ],
             ),
-          ],
-          const SizedBox(height: 8),
-          Wrap(
-            spacing: 8,
-            children: RsAdminOrdersScreen._statusFlow
-                .where((s) => s != order.status.value)
-                .map(
-                  (s) => Semantics(
-                    button: true,
-                    label: 'Change status to $s',
-                    child: GestureDetector(
-                    onTap: () => onStatusChange(s),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 5,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.surface2,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        '→ $s',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 11,
-                          color: AppColors.accent,
+            const SizedBox(height: 4),
+            Text(
+              '${order.total} RWF · $dateStr',
+              style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
+            ),
+            if (order.deliveryAddress.isNotEmpty) ...[
+              const SizedBox(height: 2),
+              Text(
+                '📍 ${order.deliveryAddress}',
+                style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              children: RsAdminOrdersScreen._statusFlow
+                  .where((s) => s != order.status.value)
+                  .map(
+                    (s) => Semantics(
+                      button: true,
+                      label: 'Change order status to $s',
+                      hint: 'Double tap to mark this order as $s',
+                      excludeSemantics: true,
+                      child: GestureDetector(
+                        onTap: () => onStatusChange(s),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 5,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.surface2,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            '→ $s',
+                            style: GoogleFonts.dmSans(
+                              fontSize: 11,
+                              color: AppColors.accent,
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  ),
-                )
-                .toList(),
-          ),
-        ],
+                  )
+                  .toList(),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -184,18 +194,23 @@ class _StatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-      decoration: BoxDecoration(
-        color: _color.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Text(
-        status.toUpperCase(),
-        style: GoogleFonts.dmSans(
-          fontSize: 10,
-          fontWeight: FontWeight.w700,
-          color: _color,
+    return Semantics(
+      label: 'Status ${status.toLowerCase()}',
+      child: ExcludeSemantics(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+          decoration: BoxDecoration(
+            color: _color.withValues(alpha: 0.15),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Text(
+            status.toUpperCase(),
+            style: GoogleFonts.dmSans(
+              fontSize: 10,
+              fontWeight: FontWeight.w700,
+              color: _color,
+            ),
+          ),
         ),
       ),
     );

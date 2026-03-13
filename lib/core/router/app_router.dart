@@ -5,6 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../auth/auth_user_contact.dart';
 import '../../features/auth/providers/auth_provider.dart';
+import 'app_redirects.dart';
 
 import '../../features/auth/screens/onboarding_screen.dart';
 import '../../features/auth/screens/otp_screen.dart';
@@ -63,60 +64,12 @@ import '../status/screens/missions_screen.dart';
 import '../../shared/widgets/kill_switch_gate.dart';
 import '../../shared/widgets/secure_screen_wrapper.dart';
 import '../providers/engagement_providers.dart';
+import 'navigation_keys.dart';
 import 'shell_route.dart';
 
-// ────────────────────────────────────────────────────────────────────────
-// Route constants
-// ────────────────────────────────────────────────────────────────────────
+export 'app_redirects.dart';
+export 'app_routes.dart';
 
-/// Slugs that have a dedicated detail screen (not a generic fans page).
-/// As partners become fully data-driven, this set may shrink.
-const _partnerDetailSlugs = {'urwego', 'equity', 'radiant', 'prisma'};
-const _shellRootLocations = {
-  AppRoutes.home,
-  AppRoutes.groups,
-  AppRoutes.mobility,
-  AppRoutes.profile,
-};
-
-String basketCompatibilityRedirectLocation() => AppRoutes.home;
-
-String? resolvePartnerDetailRedirect(String id) {
-  if (id == 'rayon-sports') {
-    return AppRoutes.rayonHome;
-  }
-  if (_partnerDetailSlugs.contains(id)) {
-    return null;
-  }
-  return AppRoutes.partners;
-}
-
-bool isShellRootLocation(String location) {
-  final trimmed = location.trim();
-  if (trimmed.isEmpty) {
-    return false;
-  }
-
-  final uri = Uri.tryParse(trimmed);
-  final path = uri?.path.isNotEmpty == true ? uri!.path : trimmed;
-  return _shellRootLocations.contains(path);
-}
-
-void openQuickActionRoute(BuildContext context, String location) {
-  final trimmed = location.trim();
-  if (trimmed.isEmpty) {
-    return;
-  }
-
-  if (isShellRootLocation(trimmed)) {
-    context.go(trimmed);
-    return;
-  }
-
-  context.push(trimmed);
-}
-
-final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'rootNavigator');
 final _homeNavigatorKey = GlobalKey<NavigatorState>(
   debugLabel: 'homeNavigator',
 );
@@ -129,165 +82,6 @@ final _mobilityNavigatorKey = GlobalKey<NavigatorState>(
 final _profileNavigatorKey = GlobalKey<NavigatorState>(
   debugLabel: 'profileNavigator',
 );
-
-abstract final class AppRoutes {
-  static const splash = '/';
-  static const onboarding = '/onboarding';
-  static const otp = '/otp';
-  static const otpVerify = '/otp-verify';
-  static const register = '/register';
-  static const home = '/home';
-  static const groups = '/groups';
-  static const groupCreate = '/groups/create';
-  static const groupDetail = '/groups/:id';
-  static const groupInvite = '/invite/:code';
-  // /basket removed — was a dead redirect to /home
-  static const momo = '/momo';
-  static const momoStatements = '/momo/statements';
-  static const mobility = '/mobility';
-  static const mobilitySchedule = '/mobility/schedule';
-  static const mobilityTrips = '/mobility/trips';
-  static const mobilityDriver = '/mobility/driver';
-  static const partners = '/partners';
-  static const rayonHome = '/partners/rayon-sports';
-  static const rayonProfile = '/partners/rayon-sports/profile';
-  static const rayonRegistry = '/partners/rayon-sports/registry';
-  static const rayonClubs = '/partners/rayon-sports/clubs';
-  static const rayonClubDetail = '/partners/rayon-sports/clubs/:clubId';
-  static const rayonShop = '/partners/rayon-sports/shop';
-  static const rayonShopCheckout = '/partners/rayon-sports/shop/checkout';
-  static const rayonSupport = '/partners/rayon-sports/support';
-  static const rayonSupportDetail =
-      '/partners/rayon-sports/support/:initiativeId';
-  static const rayonTickets = '/partners/rayon-sports/tickets';
-  static const rayonMyTickets = '/partners/rayon-sports/tickets/my-tickets';
-  static const rayonTicketConfirm =
-      '/partners/rayon-sports/tickets/:ticketId/confirm';
-  static const rayonMembership = '/partners/rayon-sports/membership';
-  static const credit = '/credit';
-  static const creditReadiness = '/credit/readiness'; // nested sub-route
-  static const missions = '/missions';
-  static const profile = '/profile';
-
-  static const scanner = '/scanner';
-
-  // Admin routes
-  static const admin = '/admin';
-  static const adminUsers = '/admin/users';
-  static const adminPartners = '/admin/partners';
-  static const adminServices = '/admin/services';
-  static const adminQuickActions = '/admin/quick-actions';
-  static const adminVehicleTypes = '/admin/vehicle-types';
-  static const adminAppConfig = '/admin/app-config';
-  static const adminOperations = '/admin/operations';
-
-  // RS Admin routes
-  static const adminRayon = '/admin/rayon';
-  static const adminRayonMatches = '/admin/rayon/matches';
-  static const adminRayonTickets = '/admin/rayon/tickets';
-  static const adminRayonShop = '/admin/rayon/shop';
-  static const adminRayonOrders = '/admin/rayon/orders';
-  static const adminRayonMembers = '/admin/rayon/members';
-  static const adminRayonInitiatives = '/admin/rayon/initiatives';
-
-  static String onboardingLocation({String? redirect}) {
-    return _location(onboarding, redirect: redirect);
-  }
-
-  static String splashLocation({String? redirect}) {
-    return _location(splash, redirect: redirect);
-  }
-
-  static String otpLocation({String? redirect}) {
-    return _location(otp, redirect: redirect);
-  }
-
-  static String otpVerifyLocation({required String phone, String? redirect}) {
-    return _location(
-      otpVerify,
-      queryParameters: <String, String>{'phone': phone},
-      redirect: redirect,
-    );
-  }
-
-  static String registerLocation({String? phone, String? redirect}) {
-    final queryParameters = <String, String>{};
-    if (phone != null && phone.trim().isNotEmpty) {
-      queryParameters['phone'] = phone.trim();
-    }
-    return _location(
-      register,
-      queryParameters: queryParameters,
-      redirect: redirect,
-    );
-  }
-
-  static String inviteLocation(String code) {
-    return '/invite/${code.trim().toUpperCase()}';
-  }
-
-  static String rayonClubDetailLocation(String id) {
-    return '/partners/rayon-sports/clubs/$id';
-  }
-
-  static String rayonSupportDetailLocation(String id) {
-    return '/partners/rayon-sports/support/$id';
-  }
-
-  static String _location(
-    String path, {
-    Map<String, String>? queryParameters,
-    String? redirect,
-  }) {
-    final parameters = <String, String>{
-      ...?queryParameters,
-      if (redirect != null && redirect.trim().isNotEmpty)
-        'redirect': redirect.trim(),
-    };
-    if (parameters.isEmpty) {
-      return path;
-    }
-    return Uri(path: path, queryParameters: parameters).toString();
-  }
-}
-
-// ────────────────────────────────────────────────────────────────────────
-// Router provider
-// ────────────────────────────────────────────────────────────────────────
-
-/// Routes that unauthenticated users are allowed to visit.
-const _authRoutes = {
-  '/',
-  AppRoutes.onboarding,
-  AppRoutes.otp,
-  AppRoutes.otpVerify,
-  // Note: /register is NOT an auth route — authenticated users can visit
-  // it voluntarily from the Profile screen to complete their profile.
-};
-
-bool _isAdminRoute(String location) {
-  return location == AppRoutes.admin ||
-      location.startsWith('${AppRoutes.admin}/');
-}
-
-String? _normalizeRedirectTarget(String? target) {
-  if (target == null) {
-    return null;
-  }
-
-  final trimmed = target.trim();
-  if (trimmed.isEmpty) {
-    return null;
-  }
-
-  final uri = Uri.tryParse(trimmed);
-  final path = uri?.path ?? trimmed;
-  if (path.isEmpty || path == AppRoutes.splash || _authRoutes.contains(path)) {
-    return null;
-  }
-
-  return trimmed.startsWith('/') ? trimmed : '/$trimmed';
-}
 
 bool _asMetadataBool(dynamic value) {
   if (value is bool) {
@@ -326,58 +120,6 @@ bool _hasPartnerScannerAccess(User? user) {
   }
 
   return false;
-}
-
-String? resolveAppRedirect({
-  required String location,
-  String? requestedLocation,
-  required bool hasSession,
-  required bool hasProfile,
-  AuthProfileRestoreState profileRestoreState =
-      AuthProfileRestoreState.available,
-  bool isAdmin = false,
-  String? sessionPhone,
-  String? pendingRedirect,
-}) {
-  final isAuthRoute = _authRoutes.contains(location);
-  final isAdminRoute = _isAdminRoute(location);
-  final redirectSource =
-      pendingRedirect ?? (isAuthRoute ? null : requestedLocation ?? location);
-  final redirectTarget = _normalizeRedirectTarget(redirectSource);
-  final isProfileRestoreBlocked =
-      profileRestoreState == AuthProfileRestoreState.pending ||
-      profileRestoreState == AuthProfileRestoreState.failed;
-
-  if (hasSession && isProfileRestoreBlocked) {
-    if (location == AppRoutes.splash) {
-      return null;
-    }
-    return AppRoutes.splashLocation(redirect: redirectTarget);
-  }
-
-  if (!hasSession) {
-    if (location == AppRoutes.splash) {
-      return AppRoutes.onboardingLocation(redirect: redirectTarget);
-    }
-    return isAuthRoute
-        ? null
-        : AppRoutes.onboardingLocation(
-            redirect: _normalizeRedirectTarget(requestedLocation ?? location),
-          );
-  }
-
-  // Profile completion is optional — users reach /register from Profile screen.
-  // No forced redirect for incomplete profiles.
-
-  if (isAdminRoute && !isAdmin) {
-    return AppRoutes.home;
-  }
-
-  if (location == AppRoutes.splash || isAuthRoute) {
-    return redirectTarget ?? AppRoutes.home;
-  }
-
-  return null;
 }
 
 final _appRouterRefreshListenableProvider = Provider<ChangeNotifier>((ref) {
@@ -491,7 +233,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) => AppShell(
           navigationShell: navigationShell,
-          showNavigationChrome: _shellRootLocations.contains(state.uri.path),
+          showNavigationChrome: appShellRootLocations.contains(state.uri.path),
         ),
         branches: [
           StatefulShellBranch(
@@ -589,9 +331,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           final authSnapshot = readAuthSnapshot();
           final featureFlags = ref.read(featureFlagsStateProvider);
           return KillSwitchGate(
-            enabled: featureFlags.isMomoEnabled(
-              isAdmin: authSnapshot.isAdmin,
-            ),
+            enabled: featureFlags.isMomoEnabled(isAdmin: authSnapshot.isAdmin),
             featureName: 'Mobile Money',
             child: SecureScreenWrapper(child: MomoScreen(launchUri: state.uri)),
           );
@@ -603,9 +343,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           final authSnapshot = readAuthSnapshot();
           final featureFlags = ref.read(featureFlagsStateProvider);
           return KillSwitchGate(
-            enabled: featureFlags.isMomoEnabled(
-              isAdmin: authSnapshot.isAdmin,
-            ),
+            enabled: featureFlags.isMomoEnabled(isAdmin: authSnapshot.isAdmin),
             featureName: 'Mobile Money',
             child: const SecureScreenWrapper(child: MomoStatementsScreen()),
           );
@@ -739,7 +477,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                   isAdmin: authSnapshot.isAdmin,
                 ),
                 featureName: 'Credit Readiness',
-                child: const SecureScreenWrapper(child: CreditReadinessScreen()),
+                child: const SecureScreenWrapper(
+                  child: CreditReadinessScreen(),
+                ),
               );
             },
           ),
