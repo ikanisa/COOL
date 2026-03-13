@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 import '../config/app_config_repository.dart';
 import '../models/engagement_feature_flags.dart';
 import '../providers/supabase_client_provider.dart';
 import '../services/crashlytics_service.dart';
 import '../services/engagement_tracker.dart';
+import 'hive_providers.dart';
 import '../services/fcm_service.dart';
 import '../services/feature_flags_service.dart';
 import '../services/firebase_bootstrap_service.dart';
@@ -53,7 +53,7 @@ final fcmServiceProvider = Provider<FcmService>((ref) {
   final client = ref.read(supabaseClientProvider);
   final service = FcmService(
     preferenceStore: HiveFcmPreferenceStore(
-      openBox: Hive.openBox<dynamic>,
+      openBox: ref.read(hiveOpenBoxProvider),
     ),
     tokenRepository: SupabaseFcmTokenRepository(
       clientFactory: () => client,

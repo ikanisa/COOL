@@ -3,8 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/momo_statement.dart';
 
 class MomoStatementRepository {
-  MomoStatementRepository({required SupabaseClient client})
-    : _client = client;
+  MomoStatementRepository({required SupabaseClient client}) : _client = client;
 
   final SupabaseClient _client;
 
@@ -115,6 +114,48 @@ class MomoStatementRepository {
     );
   }
 
+  Future<MomoStatementPage<PayeePaymentLedgerEntry>>
+  loadGroupPaymentLedgerEntriesPage(
+    String groupId, {
+    MomoStatementQuery query = const MomoStatementQuery(),
+    String? payerUserId,
+  }) async {
+    final rows = await _loadPayeeLedgerRows(
+      'get_group_payment_ledger_entries',
+      ownerKey: 'p_group_id',
+      ownerId: groupId,
+      query: query,
+      payerUserId: payerUserId,
+    );
+    return MomoStatementPage<PayeePaymentLedgerEntry>(
+      entries: rows
+          .map(PayeePaymentLedgerEntry.fromJson)
+          .toList(growable: false),
+      totalCount: _extractTotalCount(rows, query: query),
+    );
+  }
+
+  Future<MomoStatementPage<PayeePaymentLedgerEntry>>
+  loadPartnerPaymentLedgerEntriesPage(
+    String partnerId, {
+    MomoStatementQuery query = const MomoStatementQuery(),
+    String? payerUserId,
+  }) async {
+    final rows = await _loadPayeeLedgerRows(
+      'get_partner_payment_ledger_entries',
+      ownerKey: 'p_partner_id',
+      ownerId: partnerId,
+      query: query,
+      payerUserId: payerUserId,
+    );
+    return MomoStatementPage<PayeePaymentLedgerEntry>(
+      entries: rows
+          .map(PayeePaymentLedgerEntry.fromJson)
+          .toList(growable: false),
+      totalCount: _extractTotalCount(rows, query: query),
+    );
+  }
+
   Future<List<Map<String, dynamic>>> _loadWalletRows(
     String userId, {
     required MomoStatementQuery query,
@@ -194,6 +235,29 @@ class MomoStatementRepository {
           row['id'].toString(): row['name']?.toString() ?? 'Savings group',
     };
   }
+
+  Future<List<Map<String, dynamic>>> _loadPayeeLedgerRows(
+    String rpcName, {
+    required String ownerKey,
+    required String ownerId,
+    required MomoStatementQuery query,
+    String? payerUserId,
+  }) async {
+    if (ownerId.trim().isEmpty) {
+      return const <Map<String, dynamic>>[];
+    }
+
+    return _asListOfMaps(
+      await _client.rpc(
+        rpcName,
+        params: <String, dynamic>{
+          ownerKey: ownerId,
+          ..._statementRpcParams(query),
+          'p_payer_user_id': _trimToNull(payerUserId),
+        },
+      ),
+    );
+  }
 }
 
 Map<String, dynamic> _statementRpcParams(MomoStatementQuery query) {
@@ -203,6 +267,11 @@ Map<String, dynamic> _statementRpcParams(MomoStatementQuery query) {
     'p_limit': query.limit,
     'p_offset': query.offset,
   };
+}
+
+String? _trimToNull(String? value) {
+  final trimmed = value?.trim() ?? '';
+  return trimmed.isEmpty ? null : trimmed;
 }
 
 List<Map<String, dynamic>> _asListOfMaps(dynamic value) {

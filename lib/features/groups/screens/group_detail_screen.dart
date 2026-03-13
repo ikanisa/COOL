@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../core/config/deep_link_config.dart';
+import '../../../core/providers/app_access_provider.dart';
 import '../../../core/providers/referral_providers.dart';
 import '../../../core/status/cool_status_awarder.dart';
 import '../../../core/status/models/cool_event.dart';
@@ -127,6 +128,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
   Future<void> _inviteFromContacts(GroupDetail detail) async {
     final contacts = await ContactPickerSheet.show(
       context,
+      appAccessService: ref.read(appAccessServiceProvider),
       multiSelect: true,
       title: 'Invite to ${detail.group.name}',
       subtitle: 'Select contacts to send the invite link',

@@ -1,4 +1,4 @@
-import 'package:hive_flutter/hive_flutter.dart' show Hive;
+import 'package:hive_flutter/hive_flutter.dart' show Box;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/identity/public_user_identity.dart';
@@ -19,12 +19,13 @@ part 'rayon_sports_repository_tickets.dart';
 class RayonSportsRepository {
   RayonSportsRepository({
     required SupabaseClient client,
+    required Future<Box<dynamic>> Function(String name) openBox,
     MomoService? momoService,
     OperationalHealthService? operationalHealthService,
   }) : _client = client,
        _momoService =
            momoService ??
-           MomoService(client: client, openBox: Hive.openBox<dynamic>),
+           MomoService(client: client, openBox: openBox),
        _operationalHealthService =
            operationalHealthService ??
            OperationalHealthService(client: client) {

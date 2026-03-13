@@ -282,6 +282,7 @@ class StatementControlsCard extends StatelessWidget {
       StatementPeriodPreset.day => 'Day',
       StatementPeriodPreset.week => 'Week',
       StatementPeriodPreset.month => 'Month',
+      StatementPeriodPreset.year => 'Year',
       StatementPeriodPreset.custom => 'Custom',
       StatementPeriodPreset.all => 'All time',
     };

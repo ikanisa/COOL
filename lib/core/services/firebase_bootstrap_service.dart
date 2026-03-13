@@ -10,6 +10,9 @@ class FirebaseBootstrapService {
       return DefaultFirebaseOptions.currentPlatformForFlavor(EnvConfig.flavor);
     } on UnsupportedError {
       return null;
+    } on StateError catch (error) {
+      debugPrint('[Firebase] ⚠️ $error');
+      return null;
     }
   }
 

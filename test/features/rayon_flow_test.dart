@@ -11,6 +11,14 @@ import 'package:cool_app/features/partners/rayon/rayon_ticket_qr.dart';
 /// and ticket status lifecycle used across membership, clubs, shop,
 /// support, and ticketing.
 void main() {
+  setUp(() {
+    debugSetRayonTicketQrSecretOverride('test-ticket-qr-secret');
+  });
+
+  tearDown(() {
+    debugSetRayonTicketQrSecretOverride(null);
+  });
+
   // ── Identity & Payment Constants ──────────────────────────────────
 
   group('Rayon identity', () {

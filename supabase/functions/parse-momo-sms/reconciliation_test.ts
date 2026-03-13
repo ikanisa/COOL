@@ -63,7 +63,7 @@ class FakeAdminClient {
 }
 
 class FakeQueryBuilder implements PromiseLike<QueryResult> {
-  private action: "select" | "update" = "select";
+  private action: "select" | "update" | "insert" = "select";
   private filters: Array<
     | { kind: "eq"; column: string; value: unknown }
     | { kind: "in"; column: string; values: unknown[] }
@@ -73,6 +73,8 @@ class FakeQueryBuilder implements PromiseLike<QueryResult> {
   private orderColumn: string | null = null;
   private ascending = true;
   private updatePayload: Record<string, unknown> | null = null;
+  private insertPayload: Record<string, unknown>[] = [];
+  private insertedRows: TableRow[] | null = null;
 
   constructor(
     private readonly tables: TableStore,
@@ -80,13 +82,21 @@ class FakeQueryBuilder implements PromiseLike<QueryResult> {
   ) {}
 
   select(_columns: string): this {
-    this.action = "select";
+    if (this.action !== "insert") {
+      this.action = "select";
+    }
     return this;
   }
 
   update(values: Record<string, unknown>): this {
     this.action = "update";
     this.updatePayload = values;
+    return this;
+  }
+
+  insert(values: Record<string, unknown> | Record<string, unknown>[]): this {
+    this.action = "insert";
+    this.insertPayload = Array.isArray(values) ? values : [values];
     return this;
   }
 
@@ -120,6 +130,10 @@ class FakeQueryBuilder implements PromiseLike<QueryResult> {
     return Promise.resolve(this.execute(true));
   }
 
+  single(): Promise<QueryResult> {
+    return Promise.resolve(this.execute(true));
+  }
+
   then<TResult1 = QueryResult, TResult2 = never>(
     onfulfilled?:
       | ((value: QueryResult) => TResult1 | PromiseLike<TResult1>)
@@ -132,6 +146,26 @@ class FakeQueryBuilder implements PromiseLike<QueryResult> {
   }
 
   private execute(expectSingle: boolean): QueryResult {
+    if (this.action === "insert") {
+      if (this.insertedRows == null) {
+        const target = this.tables[this.table] ??= [];
+        this.insertedRows = this.insertPayload.map((row, index) => {
+          const payload = { ...row };
+          payload["id"] ??= `${this.table}-${target.length + index + 1}`;
+          return payload;
+        });
+        target.push(...this.insertedRows);
+      }
+
+      const limitedInserted = this.limitCount == null
+        ? this.insertedRows
+        : this.insertedRows.slice(0, this.limitCount);
+      return {
+        data: expectSingle ? (limitedInserted[0] ?? null) : limitedInserted,
+        error: null,
+      };
+    }
+
     const rows = [...(this.tables[this.table] ?? [])]
       .filter((row) => this.matches(row));
 
@@ -341,6 +375,60 @@ Deno.test("reconcileParsedSms confirms a matched group contribution", async () =
   );
 });
 
+Deno.test("reconcileParsedSms allocates group payments directly from payee routes", async () => {
+  const tables: TableStore = {
+    pending_transactions: [],
+    groups: [
+      {
+        id: "group-route-1",
+        name: "Abanyamurava Savings",
+        type: "community",
+        receiving_momo_code: "250788111222",
+        momo_number: null,
+        receiving_momo_route_type: "phone_number",
+      },
+    ],
+    group_members: [],
+    group_contributions: [],
+    driver_subscriptions: [],
+  };
+
+  const adminClient = new FakeAdminClient(tables);
+  const result = await reconcileParsedSms(
+    adminClient as unknown as ReturnType<typeof createAdminClient>,
+    sampleRawSms,
+    sampleParsedSms,
+    "parsed-sms-payee-group-1",
+    "2026-03-11T15:05:00.000Z",
+  );
+
+  assertEquals(
+    result.matchType,
+    "payee_route_group",
+    "group payee routes should reconcile without pending app transactions",
+  );
+  assertEquals(
+    result.targetTable,
+    "group_contributions",
+    "payee-route allocations should target group contributions",
+  );
+  assertEquals(
+    result.metadata.group_id,
+    "group-route-1",
+    "matched group id should be surfaced",
+  );
+  assertEquals(
+    tables.group_contributions.length,
+    1,
+    "a confirmed contribution should be created from the payee route",
+  );
+  assertEquals(
+    tables.group_contributions[0]?.status,
+    "confirmed",
+    "created contribution should be confirmed",
+  );
+});
+
 Deno.test("reconcileParsedSms leaves unmatched target records in pending review", async () => {
   const tables: TableStore = {
     pending_transactions: [
@@ -400,6 +488,58 @@ Deno.test("reconcileParsedSms leaves unmatched target records in pending review"
     tables.group_contributions,
     [],
     "no contribution rows should be created",
+  );
+});
+
+Deno.test("reconcileParsedSms allocates partner payments directly from payee routes", async () => {
+  const tables: TableStore = {
+    pending_transactions: [],
+    group_contributions: [],
+    driver_subscriptions: [],
+    groups: [],
+    partner_payment_routes: [
+      {
+        id: "route-1",
+        partner_id: "partner-1",
+        recipient_code: "250788111222",
+        reconciliation_label: "bank_partner",
+        status: "active",
+        partners: {
+          name: "Urwego Bank",
+          slug: "urwego",
+        },
+      },
+    ],
+  };
+
+  const adminClient = new FakeAdminClient(tables);
+  const result = await reconcileParsedSms(
+    adminClient as unknown as ReturnType<typeof createAdminClient>,
+    sampleRawSms,
+    sampleParsedSms,
+    "parsed-sms-payee-partner-1",
+    "2026-03-11T15:05:00.000Z",
+  );
+
+  assertEquals(
+    result.matchType,
+    "payee_route_partner",
+    "partner payee routes should reconcile without pending app transactions",
+  );
+  assertEquals(
+    result.targetTable,
+    "partner_payment_routes",
+    "generic partner allocations should target payment routes",
+  );
+  assertEquals(
+    result.targetRecordId,
+    "route-1",
+    "matched route id should round-trip",
+  );
+  assertEquals(
+    result.metadata.partner_id,
+    "partner-1",
+    "partner id should be captured for downstream ledgers",
   );
 });
 

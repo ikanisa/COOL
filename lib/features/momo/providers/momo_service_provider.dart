@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
+import '../../../core/providers/hive_providers.dart';
 import '../../../core/providers/supabase_client_provider.dart';
 import '../../../core/services/momo_service.dart';
 
@@ -11,6 +11,6 @@ import '../../../core/services/momo_service.dart';
 final momoServiceProvider = Provider<MomoService>((ref) {
   return MomoService(
     client: ref.read(supabaseClientProvider),
-    openBox: Hive.openBox<dynamic>,
+    openBox: ref.read(hiveOpenBoxProvider),
   );
 });

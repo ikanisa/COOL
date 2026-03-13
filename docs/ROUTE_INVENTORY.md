@@ -4,7 +4,7 @@ Generated from [`lib/core/router/app_router.dart`](../lib/core/router/app_router
 
 Current router shape:
 
-- `54` `GoRoute` declarations
+- `51` `GoRoute` declarations
 - `4` shell branches
 - `52` screen files under `lib/features/**/screens/*.dart`
 
@@ -44,7 +44,6 @@ Change policy:
 
 | Path | Target | Shell |
 |---|---|---|
-| `/basket` | Redirect | No |
 | `/credit` | [`CreditScoreScreen`](../lib/features/credit/screens/credit_score_screen.dart) | No |
 | `/credit/readiness` | [`CreditReadinessScreen`](../lib/features/credit/screens/credit_readiness_screen.dart) | No |
 | `/missions` | [`MissionsScreen`](../lib/core/status/screens/missions_screen.dart) | No |
@@ -57,7 +56,6 @@ Change policy:
 |---|---|---|
 | `/partners` | [`PartnersScreen`](../lib/features/partners/screens/partners_screen.dart) | No |
 | `/partners/:id` | [`BankPartnerScreen`](../lib/features/partners/screens/bank_partner_screen.dart), [`PrismaPartnerScreen`](../lib/features/partners/screens/prisma_partner_screen.dart), [`RadiantPartnerScreen`](../lib/features/partners/screens/radiant_partner_screen.dart) | No |
-| `/partners/:id/fans` | Redirect | No |
 | `/partners/rayon-sports` | [`RayonHomeScreen`](../lib/features/partners/rayon/screens/rayon_home_screen.dart) | No |
 | `/partners/rayon-sports/clubs` | [`FanClubsScreen`](../lib/features/partners/screens/rayon/fan_clubs_screen.dart) | No |
 | `/partners/rayon-sports/clubs/:clubId` | [`FanClubDetailScreen`](../lib/features/partners/screens/rayon/fan_club_detail_screen.dart) | No |
@@ -90,7 +88,6 @@ Change policy:
 | Path | Target | Shell |
 |---|---|---|
 | `/admin/rayon` | [`RsAdminDashboardScreen`](../lib/features/partners/rayon/screens/rs_admin_dashboard_screen.dart) | No |
-| `/admin/rayon/fan-clubs` | Redirect | No |
 | `/admin/rayon/initiatives` | [`RsAdminInitiativesScreen`](../lib/features/partners/rayon/screens/rs_admin_initiatives_screen.dart) | No |
 | `/admin/rayon/matches` | [`RsAdminMatchesScreen`](../lib/features/partners/rayon/screens/rs_admin_matches_screen.dart) | No |
 | `/admin/rayon/members` | [`RsAdminMembersScreen`](../lib/features/partners/rayon/screens/rs_admin_members_screen.dart) | No |

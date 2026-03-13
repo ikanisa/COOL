@@ -5,10 +5,10 @@ import 'package:cool_app/core/router/app_router.dart';
 
 void main() {
   group('DeepLinkConfig.routeForUri', () {
-    test('maps https basket links', () {
+    test('maps https basket links to home (legacy fallback)', () {
       expect(
         DeepLinkConfig.routeForUri(Uri.parse('https://cool.app/basket')),
-        AppRoutes.basket,
+        AppRoutes.home,
       );
     });
 
@@ -39,10 +39,10 @@ void main() {
       );
     });
 
-    test('maps custom scheme basket links', () {
+    test('maps custom scheme basket links to home (legacy fallback)', () {
       expect(
         DeepLinkConfig.routeForUri(Uri.parse('cool://basket')),
-        AppRoutes.basket,
+        AppRoutes.home,
       );
     });
 

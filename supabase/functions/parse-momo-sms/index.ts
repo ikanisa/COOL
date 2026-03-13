@@ -35,6 +35,35 @@ type ParseRequest = {
 
 const PROMPT_VERSION = "v1";
 
+function asString(value: unknown): string | null {
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    return trimmed.length > 0 ? trimmed : null;
+  }
+  if (typeof value === "number" || typeof value === "boolean") {
+    return String(value);
+  }
+  return null;
+}
+
+function deriveLedgerScope(
+  targetTable: string | null,
+): "wallet" | "group" | "partner" | "subscription" {
+  switch (targetTable) {
+    case "group_contributions":
+      return "group";
+    case "driver_subscriptions":
+      return "subscription";
+    case "partner_payment_routes":
+    case "rs_tickets":
+    case "rs_shop_orders":
+    case "rs_initiative_contributions":
+      return "partner";
+    default:
+      return "wallet";
+  }
+}
+
 Deno.serve(async (request: Request) => {
   const corsResponse = handleCors(request);
   if (corsResponse) {
@@ -264,13 +293,15 @@ Deno.serve(async (request: Request) => {
       }
 
       if (parsed.amount != null && parsed.amount > 0) {
+        const payeeGroupId = asString(autoReconciliation.metadata.group_id);
+        const payeePartnerId = asString(autoReconciliation.metadata.partner_id);
         const ledgerUpsert = await adminClient
           .from("momo_ledger_entries")
           .upsert({
             parsed_sms_id: parsedSmsId,
             user_id: rawSms.user_id,
             entry_type: ledgerEntryType(parsed),
-            ledger_scope: "wallet",
+            ledger_scope: deriveLedgerScope(autoReconciliation.targetTable),
             ledger_status: autoReconciliation.ledgerStatus,
             amount: parsed.amount,
             currency: parsed.currency,
@@ -285,6 +316,8 @@ Deno.serve(async (request: Request) => {
               autoReconciliation.matchedReference,
             target_table: autoReconciliation.targetTable,
             target_record_id: autoReconciliation.targetRecordId,
+            payee_group_id: payeeGroupId,
+            payee_partner_id: payeePartnerId,
             description: parsed.ai_summary ??
               parsed.narrative ??
               `AI parsed ${parsed.tx_type} from MoMo SMS`,

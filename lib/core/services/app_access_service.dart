@@ -2,11 +2,11 @@ import 'dart:io' show Platform;
 
 import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../features/momo/services/nfc_hce_service.dart';
 import '../../features/momo/services/nfc_service.dart';
+import 'hive_runtime.dart';
 import 'device_settings_service.dart';
 import 'location_service.dart';
 
@@ -45,7 +45,7 @@ class AppAccessSnapshot {
 /// when the underlying OS permission is still granted.
 class AppAccessService {
   AppAccessService({
-    required Future<Box<bool>> Function(String name) openBox,
+    required OpenHiveBox<bool> openBox,
     LocationService? locationService,
     DeviceSettingsService? deviceSettingsService,
     NfcHceService? nfcHceService,
@@ -56,11 +56,8 @@ class AppAccessService {
        _nfcHceService = nfcHceService ?? NfcHceService.instance;
 
   static const boxName = 'app_access_preferences';
-  static final AppAccessService instance = AppAccessService(
-    openBox: Hive.openBox<bool>,
-  );
 
-  final Future<Box<bool>> Function(String name) _openBox;
+  final OpenHiveBox<bool> _openBox;
   final LocationService _locationService;
   final DeviceSettingsService _deviceSettingsService;
   final NfcHceService _nfcHceService;

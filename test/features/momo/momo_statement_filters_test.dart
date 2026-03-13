@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('resolveStatementDateRange', () {
-    test('resolves day, week, month, custom, and all presets', () {
+    test('resolves day, week, month, year, custom, and all presets', () {
       final reference = DateTime(2026, 3, 13, 17, 45);
 
       expect(
@@ -45,6 +45,20 @@ void main() {
               (value) => value.startDate,
               'startDate',
               DateTime(2026, 2, 12),
+            )
+            .having((value) => value.endDate, 'endDate', DateTime(2026, 3, 13)),
+      );
+
+      expect(
+        resolveStatementDateRange(
+          preset: StatementPeriodPreset.year,
+          referenceDate: reference,
+        ),
+        isA<StatementDateRange>()
+            .having(
+              (value) => value.startDate,
+              'startDate',
+              DateTime(2025, 3, 14),
             )
             .having((value) => value.endDate, 'endDate', DateTime(2026, 3, 13)),
       );

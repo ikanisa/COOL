@@ -9,6 +9,7 @@ import 'package:cool_app/core/services/momo_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hive_flutter/hive_flutter.dart' show Box;
 import 'package:mocktail/mocktail.dart';
 import 'package:supabase_flutter/supabase_flutter.dart'
     show FlutterAuthClientOptions, Session, SupabaseClient;
@@ -122,8 +123,12 @@ MomoService _buildTestMomoService() {
       'test-anon-key',
       authOptions: const FlutterAuthClientOptions(autoRefreshToken: false),
     ),
+    openBox: _noOpOpenBox,
   );
 }
+
+Future<Box<T>> _noOpOpenBox<T>(String name) =>
+    throw UnimplementedError('Hive disabled in tests');
 
 Session _fakeSession({
   String userId = 'user-1',

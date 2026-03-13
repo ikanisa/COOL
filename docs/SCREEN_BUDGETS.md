@@ -39,7 +39,7 @@ Why this exists:
 |---|---|---|
 | [`support_detail_screen.dart`](../lib/features/partners/rayon/screens/support_detail_screen.dart) | `1140` | Hotspot |
 | [`fan_profile_screen.dart`](../lib/features/partners/rayon/screens/fan_profile_screen.dart) | `1030` | Hotspot |
-| [`group_detail_screen.dart`](../lib/features/groups/screens/group_detail_screen.dart) | `906` | Debt |
+| [`group_detail_screen.dart`](../lib/features/groups/screens/group_detail_screen.dart) | `908` | Debt |
 | [`create_group_screen.dart`](../lib/features/groups/screens/create_group_screen.dart) | `854` | Debt |
 | [`tickets_screen.dart`](../lib/features/partners/screens/rayon/tickets_screen.dart) | `810` | Debt |
 | [`home_screen.dart`](../lib/features/home/screens/home_screen.dart) | `804` | Debt |
@@ -78,7 +78,7 @@ Why this exists:
 | [`rs_admin_tickets_screen.dart`](../lib/features/partners/rayon/screens/rs_admin_tickets_screen.dart) | `295` | Target |
 | [`momo_statements_screen.dart`](../lib/features/momo/screens/momo_statements_screen.dart) | `281` | Target |
 | [`otp_screen.dart`](../lib/features/auth/screens/otp_screen.dart) | `274` | Target |
-| [`rs_admin_dashboard_screen.dart`](../lib/features/partners/rayon/screens/rs_admin_dashboard_screen.dart) | `245` | Target |
+| [`rs_admin_dashboard_screen.dart`](../lib/features/partners/rayon/screens/rs_admin_dashboard_screen.dart) | `239` | Target |
 | [`rs_admin_orders_screen.dart`](../lib/features/partners/rayon/screens/rs_admin_orders_screen.dart) | `203` | Target |
 | [`ticket_confirmation_screen.dart`](../lib/features/partners/screens/rayon/ticket_confirmation_screen.dart) | `203` | Target |
 | [`credit_score_screen.dart`](../lib/features/credit/screens/credit_score_screen.dart) | `185` | Target |

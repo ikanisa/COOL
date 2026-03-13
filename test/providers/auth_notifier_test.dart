@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hive_flutter/hive_flutter.dart' show Box;
 import 'package:mocktail/mocktail.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -66,7 +67,10 @@ void main() {
       repository: mockRepo,
       crashlytics: crashlytics,
       performance: performance,
-      momoService: MomoService(client: MockSupabaseClient()),
+      momoService: MomoService(
+        client: MockSupabaseClient(),
+        openBox: _noOpOpenBox,
+      ),
     );
   });
 
@@ -297,3 +301,6 @@ void main() {
     });
   });
 }
+
+Future<Box<T>> _noOpOpenBox<T>(String name) =>
+    throw UnimplementedError('Hive disabled in tests');

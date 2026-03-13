@@ -31,6 +31,25 @@ type GroupContributionRecord = {
   status: string | null;
 };
 
+type GroupRouteRecord = {
+  id: string;
+  name: string;
+  type: string | null;
+  receiving_momo_code: string | null;
+  momo_number: string | null;
+  receiving_momo_route_type: string | null;
+};
+
+type PartnerRouteRecord = {
+  id: string;
+  partner_id: string;
+  partner_name: string | null;
+  partner_slug: string | null;
+  recipient_code: string | null;
+  reconciliation_label: string | null;
+  status: string | null;
+};
+
 type DriverSubscriptionRecord = {
   id: string;
   driver_id: string;
@@ -169,6 +188,19 @@ function normalizeDigits(value: string | null | undefined): string | null {
   return digits.length > 0 ? digits : null;
 }
 
+function digitsMatch(left: string | null, right: string | null): boolean {
+  if (!left || !right) {
+    return false;
+  }
+
+  return left === right || left.endsWith(right) || right.endsWith(left);
+}
+
+function payeeRouteDigits(parsed: ParsedSms): string | null {
+  return normalizeDigits(parsed.payee_number_or_code) ??
+    normalizeDigits(parsed.merchant_code);
+}
+
 function parseIsoDate(value: string | null | undefined): Date | null {
   if (!value) {
     return null;
@@ -205,6 +237,32 @@ function asPendingTransactionRecord(
     status: asString(value["status"]),
     created_at: asString(value["created_at"]),
     confirmed_at: asString(value["confirmed_at"]),
+  };
+}
+
+function asGroupRouteRecord(value: Record<string, unknown>): GroupRouteRecord {
+  return {
+    id: asString(value["id"]) ?? "",
+    name: asString(value["name"]) ?? "Savings group",
+    type: asString(value["type"]),
+    receiving_momo_code: asString(value["receiving_momo_code"]),
+    momo_number: asString(value["momo_number"]),
+    receiving_momo_route_type: asString(value["receiving_momo_route_type"]),
+  };
+}
+
+function asPartnerRouteRecord(
+  value: Record<string, unknown>,
+): PartnerRouteRecord {
+  const partner = asRecord(value["partners"]);
+  return {
+    id: asString(value["id"]) ?? "",
+    partner_id: asString(value["partner_id"]) ?? "",
+    partner_name: asString(partner?.["name"]),
+    partner_slug: asString(partner?.["slug"]),
+    recipient_code: asString(value["recipient_code"]),
+    reconciliation_label: asString(value["reconciliation_label"]),
+    status: asString(value["status"]),
   };
 }
 
@@ -416,6 +474,342 @@ async function findPendingTransactionCandidate(
   }
 
   return best;
+}
+
+async function findGroupRouteMatches(
+  adminClient: ReturnType<typeof createAdminClient>,
+  parsed: ParsedSms,
+): Promise<GroupRouteRecord[]> {
+  const payeeDigits = payeeRouteDigits(parsed);
+  if (!payeeDigits) {
+    return [];
+  }
+
+  const result = await adminClient
+    .from("groups")
+    .select(
+      "id, name, type, receiving_momo_code, momo_number, receiving_momo_route_type",
+    );
+
+  if (result.error) {
+    throw result.error;
+  }
+
+  const rows = Array.isArray(result.data) ? result.data : [];
+  return rows
+    .map((row) => asGroupRouteRecord(row as Record<string, unknown>))
+    .filter((group) =>
+      digitsMatch(normalizeDigits(group.receiving_momo_code), payeeDigits) ||
+      digitsMatch(normalizeDigits(group.momo_number), payeeDigits)
+    );
+}
+
+async function findPartnerRouteMatches(
+  adminClient: ReturnType<typeof createAdminClient>,
+  parsed: ParsedSms,
+): Promise<PartnerRouteRecord[]> {
+  const payeeDigits = payeeRouteDigits(parsed);
+  if (!payeeDigits) {
+    return [];
+  }
+
+  const result = await adminClient
+    .from("partner_payment_routes")
+    .select(
+      "id, partner_id, recipient_code, reconciliation_label, status, partners(name, slug)",
+    )
+    .eq("status", "active");
+
+  if (result.error) {
+    throw result.error;
+  }
+
+  const rows = Array.isArray(result.data) ? result.data : [];
+  return rows
+    .map((row) => asPartnerRouteRecord(row as Record<string, unknown>))
+    .filter((route) =>
+      digitsMatch(normalizeDigits(route.recipient_code), payeeDigits)
+    );
+}
+
+async function isGroupMember(
+  adminClient: ReturnType<typeof createAdminClient>,
+  groupId: string,
+  userId: string,
+): Promise<boolean> {
+  const result = await adminClient
+    .from("group_members")
+    .select("id")
+    .eq("group_id", groupId)
+    .eq("user_id", userId)
+    .limit(1)
+    .maybeSingle();
+
+  if (result.error) {
+    throw result.error;
+  }
+
+  return result.data != null;
+}
+
+async function resolveExistingGroupContributionByPayeeRoute(
+  adminClient: ReturnType<typeof createAdminClient>,
+  rawSms: RawSmsRecord,
+  parsed: ParsedSms,
+  group: GroupRouteRecord,
+): Promise<GroupContributionRecord | null> {
+  const sourceReference = parsed.momo_tx_id ?? rawSms.detected_tx_id ??
+    `SMS-${rawSms.id}`;
+
+  const byReference = await adminClient
+    .from("group_contributions")
+    .select("id, group_id, status")
+    .eq("group_id", group.id)
+    .eq("user_id", rawSms.user_id)
+    .eq("momo_reference", sourceReference)
+    .limit(1)
+    .maybeSingle();
+
+  if (byReference.error) {
+    throw byReference.error;
+  }
+
+  if (byReference.data) {
+    return {
+      id: asString(byReference.data.id) ?? "",
+      group_id: asString(byReference.data.group_id),
+      status: asString(byReference.data.status),
+    };
+  }
+
+  const amount = parsed.amount;
+  if (amount == null || amount <= 0) {
+    return null;
+  }
+
+  const result = await adminClient
+    .from("group_contributions")
+    .select("id, group_id, status")
+    .eq("group_id", group.id)
+    .eq("user_id", rawSms.user_id)
+    .eq("amount", amount)
+    .in("status", ["pending", "confirmed"])
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (result.error) {
+    throw result.error;
+  }
+
+  if (!result.data) {
+    return null;
+  }
+
+  return {
+    id: asString(result.data.id) ?? "",
+    group_id: asString(result.data.group_id),
+    status: asString(result.data.status),
+  };
+}
+
+async function ensureGroupContributionByPayeeRoute(
+  adminClient: ReturnType<typeof createAdminClient>,
+  rawSms: RawSmsRecord,
+  parsed: ParsedSms,
+  group: GroupRouteRecord,
+  timestamp: string,
+): Promise<GroupContributionRecord> {
+  const existing = await resolveExistingGroupContributionByPayeeRoute(
+    adminClient,
+    rawSms,
+    parsed,
+    group,
+  );
+
+  if (existing) {
+    const updateResult = await adminClient
+      .from("group_contributions")
+      .update({
+        status: "confirmed",
+      })
+      .eq("id", existing.id);
+
+    if (updateResult.error) {
+      throw updateResult.error;
+    }
+
+    return {
+      id: existing.id,
+      group_id: existing.group_id,
+      status: "confirmed",
+    };
+  }
+
+  const insertReference = parsed.momo_tx_id ?? rawSms.detected_tx_id ??
+    `SMS-${rawSms.id}`;
+  const insertResult = await adminClient
+    .from("group_contributions")
+    .insert({
+      group_id: group.id,
+      user_id: rawSms.user_id,
+      amount: parsed.amount ?? 0,
+      status: "confirmed",
+      momo_reference: insertReference,
+      created_at: parsed.tx_datetime_iso ?? rawSms.sms_received_at ?? timestamp,
+    })
+    .select("id, group_id, status")
+    .single();
+
+  if (insertResult.error) {
+    throw insertResult.error;
+  }
+
+  return {
+    id: asString(insertResult.data.id) ?? "",
+    group_id: asString(insertResult.data.group_id),
+    status: asString(insertResult.data.status) ?? "confirmed",
+  };
+}
+
+async function reconcileByPayeeRoute(
+  adminClient: ReturnType<typeof createAdminClient>,
+  rawSms: RawSmsRecord,
+  parsed: ParsedSms,
+  parsedSmsId: string,
+  timestamp: string,
+  pendingTransaction: PendingTransactionRecord | null,
+  candidateScore: number | null,
+): Promise<AutoReconciliationResult | null> {
+  const payeeDigits = payeeRouteDigits(parsed);
+  if (!payeeDigits) {
+    return null;
+  }
+
+  const groupMatches = await findGroupRouteMatches(adminClient, parsed);
+  const partnerMatches = await findPartnerRouteMatches(adminClient, parsed);
+
+  if (groupMatches.length + partnerMatches.length == 0) {
+    return null;
+  }
+
+  if (groupMatches.length + partnerMatches.length > 1) {
+    return buildManualReviewResult(
+      "Parsed SMS matched multiple payee routes and needs manual review.",
+      {
+        reason: "ambiguous_payee_route",
+        payee_number_or_code: parsed.payee_number_or_code,
+        merchant_code: parsed.merchant_code,
+        matching_group_ids: groupMatches.map((group) => group.id),
+        matching_partner_route_ids: partnerMatches.map((route) => route.id),
+      },
+    );
+  }
+
+  const matchedGroup = groupMatches[0];
+  if (matchedGroup) {
+    const isMember = await isGroupMember(adminClient, matchedGroup.id, rawSms.user_id);
+    const groupType = matchedGroup.type?.trim().toLowerCase() ?? "saving";
+
+    if (!isMember && groupType !== "community") {
+      return buildManualReviewResult(
+        "Parsed SMS matched a group payee route, but the payer is not a member of that savings group.",
+        {
+          reason: "payer_not_group_member",
+          group_id: matchedGroup.id,
+          group_type: groupType,
+          payee_number_or_code: parsed.payee_number_or_code,
+          merchant_code: parsed.merchant_code,
+        },
+      );
+    }
+
+    const contribution = await ensureGroupContributionByPayeeRoute(
+      adminClient,
+      rawSms,
+      parsed,
+      matchedGroup,
+      timestamp,
+    );
+
+    if (
+      pendingTransaction &&
+      digitsMatch(normalizeDigits(pendingTransaction.recipient_momo), payeeDigits)
+    ) {
+      await confirmPendingTransaction(
+        adminClient,
+        pendingTransaction,
+        rawSms,
+        parsed,
+        parsedSmsId,
+        timestamp,
+      );
+    }
+
+    return {
+      matchType: "payee_route_group",
+      matchStatus: "matched",
+      ledgerStatus: "posted",
+      targetTable: "group_contributions",
+      targetRecordId: contribution.id,
+      matchedReference: parsed.momo_tx_id ?? rawSms.detected_tx_id ??
+        pendingTransaction?.reference ?? `SMS-${rawSms.id}`,
+      pendingTransactionId: pendingTransaction?.id ?? null,
+      notes: "Parsed SMS was allocated directly from the group payee MoMo route.",
+      metadata: {
+        auto_match: true,
+        candidate_score: candidateScore,
+        group_id: matchedGroup.id,
+        group_name: matchedGroup.name,
+        group_type: groupType,
+        provider: normalizeProviderId(rawSms.provider),
+        allocation_source: "payee_route",
+        receiver_source_of_truth: payeeDigits,
+      },
+    };
+  }
+
+  const matchedPartner = partnerMatches[0];
+  if (!matchedPartner) {
+    return null;
+  }
+
+  if (
+    pendingTransaction &&
+    digitsMatch(normalizeDigits(pendingTransaction.recipient_momo), payeeDigits)
+  ) {
+    await confirmPendingTransaction(
+      adminClient,
+      pendingTransaction,
+      rawSms,
+      parsed,
+      parsedSmsId,
+      timestamp,
+    );
+  }
+
+  return {
+    matchType: "payee_route_partner",
+    matchStatus: "matched",
+    ledgerStatus: "posted",
+    targetTable: "partner_payment_routes",
+    targetRecordId: matchedPartner.id,
+    matchedReference: parsed.momo_tx_id ?? rawSms.detected_tx_id ??
+      pendingTransaction?.reference ?? `SMS-${rawSms.id}`,
+    pendingTransactionId: pendingTransaction?.id ?? null,
+    notes: "Parsed SMS was allocated directly from the partner payee MoMo route.",
+    metadata: {
+      auto_match: true,
+      candidate_score: candidateScore,
+      partner_id: matchedPartner.partner_id,
+      partner_name: matchedPartner.partner_name,
+      partner_slug: matchedPartner.partner_slug,
+      reconciliation_label: matchedPartner.reconciliation_label,
+      provider: normalizeProviderId(rawSms.provider),
+      allocation_source: "payee_route",
+      receiver_source_of_truth: payeeDigits,
+    },
+  };
 }
 
 async function resolveGroupContribution(
@@ -1094,6 +1488,19 @@ export async function reconcileParsedSms(
     parsed,
   );
   if (!candidate) {
+    const directRouteMatch = await reconcileByPayeeRoute(
+      adminClient,
+      rawSms,
+      parsed,
+      parsedSmsId,
+      timestamp,
+      null,
+      score,
+    );
+    if (directRouteMatch) {
+      return directRouteMatch;
+    }
+
     return buildManualReviewResult(
       "No pending app payment matched the parsed SMS amount and timing.",
       { reason: "no_pending_transaction_match", candidate_score: score },
@@ -1219,6 +1626,19 @@ export async function reconcileParsedSms(
         provider: normalizeProviderId(rawSms.provider),
       },
     };
+  }
+
+  const directRouteMatch = await reconcileByPayeeRoute(
+    adminClient,
+    rawSms,
+    parsed,
+    parsedSmsId,
+    timestamp,
+    candidate,
+    score,
+  );
+  if (directRouteMatch) {
+    return directRouteMatch;
   }
 
   return {

@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:hive_flutter/hive_flutter.dart' show Box;
+
 import 'package:cool_app/core/config/country_catalog.dart';
 import 'package:cool_app/core/l10n/locale_provider.dart';
 import 'package:cool_app/core/providers/engagement_providers.dart';
@@ -106,6 +108,10 @@ class FakeStatementDownloadService extends MomoStatementDownloadService {
   }
 }
 
+/// Test-only open-box that always throws — tests never actually open Hive.
+Future<Box<T>> noOpOpenBox<T>(String name) =>
+    throw UnimplementedError('Hive disabled in tests');
+
 void main() {
   testWidgets('direct Mobile Money entry can return home', (tester) async {
     final repository = FakeMomoStatementRepository(const MomoStatementBundle());
@@ -142,7 +148,10 @@ void main() {
             repository: ref.watch(authRepositoryProvider),
             crashlytics: ref.read(crashlyticsServiceProvider),
             performance: ref.read(performanceServiceProvider),
-            momoService: MomoService(client: MockSupabaseClient()),
+            momoService: MomoService(
+              client: MockSupabaseClient(),
+              openBox: noOpOpenBox,
+            ),
             session: session,
             user: user,
           ),
@@ -258,7 +267,10 @@ void main() {
             repository: ref.watch(authRepositoryProvider),
             crashlytics: ref.read(crashlyticsServiceProvider),
             performance: ref.read(performanceServiceProvider),
-            momoService: MomoService(client: MockSupabaseClient()),
+            momoService: MomoService(
+              client: MockSupabaseClient(),
+              openBox: noOpOpenBox,
+            ),
             session: session,
             user: user,
           ),
@@ -362,7 +374,10 @@ void main() {
             repository: ref.watch(authRepositoryProvider),
             crashlytics: ref.read(crashlyticsServiceProvider),
             performance: ref.read(performanceServiceProvider),
-            momoService: MomoService(client: MockSupabaseClient()),
+            momoService: MomoService(
+              client: MockSupabaseClient(),
+              openBox: noOpOpenBox,
+            ),
             session: session,
             user: user,
           ),
@@ -454,7 +469,10 @@ void main() {
               repository: ref.watch(authRepositoryProvider),
               crashlytics: ref.read(crashlyticsServiceProvider),
               performance: ref.read(performanceServiceProvider),
-              momoService: MomoService(client: MockSupabaseClient()),
+              momoService: MomoService(
+                client: MockSupabaseClient(),
+                openBox: noOpOpenBox,
+              ),
               session: session,
               user: user,
             ),
@@ -575,7 +593,10 @@ void main() {
             repository: ref.watch(authRepositoryProvider),
             crashlytics: ref.read(crashlyticsServiceProvider),
             performance: ref.read(performanceServiceProvider),
-            momoService: MomoService(client: MockSupabaseClient()),
+            momoService: MomoService(
+              client: MockSupabaseClient(),
+              openBox: noOpOpenBox,
+            ),
             session: session,
             user: user,
           ),
@@ -701,7 +722,10 @@ void main() {
             repository: ref.watch(authRepositoryProvider),
             crashlytics: ref.read(crashlyticsServiceProvider),
             performance: ref.read(performanceServiceProvider),
-            momoService: MomoService(client: MockSupabaseClient()),
+            momoService: MomoService(
+              client: MockSupabaseClient(),
+              openBox: noOpOpenBox,
+            ),
             session: session,
             user: user,
           ),

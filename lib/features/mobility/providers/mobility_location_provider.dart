@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:cool_app/core/models/geo_point.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:hive_flutter/hive_flutter.dart' show Box, Hive;
+import 'package:hive_flutter/hive_flutter.dart' show Box;
+
+import '../../../core/providers/hive_providers.dart';
 
 import '../../../core/providers/app_access_provider.dart';
 import '../../../core/services/app_access_service.dart';
@@ -21,7 +23,7 @@ final mobilityLocationProvider =
       final appAccess = ref.watch(appAccessServiceProvider);
       return MobilityLocationNotifier(
         service: service,
-        openBox: Hive.openBox<dynamic>,
+        openBox: ref.read(hiveOpenBoxProvider),
         appAccessService: appAccess,
       );
     });

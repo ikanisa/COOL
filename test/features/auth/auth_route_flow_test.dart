@@ -201,7 +201,7 @@ void main() {
     ) async {
       final result = await pumpRouterApp(
         tester,
-        initialLocation: AppRoutes.otpLocation(redirect: AppRoutes.basket),
+        initialLocation: AppRoutes.otpLocation(redirect: AppRoutes.momo),
       );
       final router = result.router;
       await _settleRouter(tester);
@@ -209,13 +209,13 @@ void main() {
       expect(find.byType(OtpScreen), findsOneWidget);
       expect(
         tester.widget<OtpScreen>(find.byType(OtpScreen)).redirectPath,
-        AppRoutes.basket,
+        AppRoutes.momo,
       );
 
       router.go(
         AppRoutes.otpVerifyLocation(
           phone: '+250781234567',
-          redirect: AppRoutes.basket,
+          redirect: AppRoutes.momo,
         ),
       );
       await _settleRouter(tester);
@@ -225,7 +225,7 @@ void main() {
         tester
             .widget<OtpVerifyScreen>(find.byType(OtpVerifyScreen))
             .redirectPath,
-        AppRoutes.basket,
+        AppRoutes.momo,
       );
     });
 

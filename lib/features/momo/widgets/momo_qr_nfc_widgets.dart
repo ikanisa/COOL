@@ -13,6 +13,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../core/config/country_catalog.dart';
 import '../../../core/services/contacts_service.dart';
 import '../../../core/models/momo_qr_payload.dart';
+import '../../../core/providers/app_access_provider.dart';
 import '../../../core/services/app_access_service.dart';
 import '../../../core/services/momo_service.dart';
 import '../../../core/services/whatsapp_contact_service.dart';
@@ -641,6 +642,7 @@ class _MomoPaymentRequestSheetState extends ConsumerState<MomoPaymentRequestShee
   Future<void> _pickPayerFromContacts() async {
     final contacts = await ContactPickerSheet.show(
       context,
+      appAccessService: ref.read(appAccessServiceProvider),
       multiSelect: false,
       title: 'Choose payer',
       subtitle: 'Pick the MoMo payer to message',

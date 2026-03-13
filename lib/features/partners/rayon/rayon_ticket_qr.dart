@@ -1,18 +1,14 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show visibleForTesting;
 
 const _rayonTicketQrPrefix = 'COOL-TKT:';
 const _rayonTicketQrSecret = String.fromEnvironment(
   'TICKET_QR_HMAC_SECRET',
   defaultValue: '',
 );
-
-/// Fallback secret used only in debug/test mode when the real secret is
-/// not provided via --dart-define. In release mode we always require the
-/// real secret.
-const _debugFallbackSecret = 'debug-ticket-qr-hmac-placeholder';
+String? _debugTicketQrSecretOverride;
 
 bool isSignedRayonTicketQr(String value) {
   return value.trim().startsWith(_rayonTicketQrPrefix);
@@ -22,8 +18,11 @@ String buildRayonTicketQrData({
   required String ticketId,
   required String matchId,
   required DateTime purchasedAt,
+  String? debugSecretOverride,
 }) {
-  final secret = _resolveTicketQrSecret();
+  final secret = _resolveTicketQrSecret(
+    debugSecretOverride: debugSecretOverride,
+  );
   final timestampMs = purchasedAt.millisecondsSinceEpoch.toString();
   final payload = '$ticketId:$matchId:$timestampMs';
   final digest = Hmac(
@@ -34,16 +33,21 @@ String buildRayonTicketQrData({
   return '$_rayonTicketQrPrefix$payload:${digest.toString().substring(0, 12)}';
 }
 
-String _resolveTicketQrSecret() {
+@visibleForTesting
+void debugSetRayonTicketQrSecretOverride(String? secret) {
+  _debugTicketQrSecretOverride = secret;
+}
+
+String _resolveTicketQrSecret({String? debugSecretOverride}) {
   final secret = _rayonTicketQrSecret.trim();
   if (secret.isNotEmpty) {
     return secret;
   }
 
-  if (kDebugMode) {
-    return _debugFallbackSecret;
+  final override = (debugSecretOverride ?? _debugTicketQrSecretOverride)?.trim();
+  if (override != null && override.isNotEmpty) {
+    return override;
   }
 
   throw StateError('TICKET_QR_HMAC_SECRET is not configured.');
 }
-

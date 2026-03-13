@@ -67,17 +67,24 @@ void main() {
         ),
         isNull,
       );
-      expect(
-        MomoSmsIngestionRepository.captureFromDeviceMessage(
+    });
+
+    test(
+      'accepts MoMo transaction receipts from raw numbers and short codes',
+      () {
+        final capture = MomoSmsIngestionRepository.captureFromDeviceMessage(
           sender: '+250788767816',
           body:
               'You have received 50000 RWF from Yvette NYIRAMAHIRWE '
               '(*********235) at 2025-11-19 23:12:44 . Balance:633978 RWF. '
               'FT Id: 24224946460',
-        ),
-        isNull,
-      );
-    });
+        );
+
+        expect(capture, isNotNull);
+        expect(capture!.detectedAmount, equals(50000));
+        expect(capture.detectedTxId, equals('24224946460'));
+      },
+    );
 
     test(
       'rejects raw-number messages that do not look like MoMo transactions',

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
+import '../../../core/providers/hive_providers.dart';
 import '../services/ticket_service.dart';
 
 /// Central [TicketService] provider.
@@ -8,5 +8,5 @@ import '../services/ticket_service.dart';
 /// All call sites that previously used `TicketService.instance` should
 /// instead obtain the service through this provider.
 final ticketServiceProvider = Provider<TicketService>((ref) {
-  return TicketService(openBox: Hive.openBox<String>);
+  return TicketService(openBox: ref.read(hiveStringBoxProvider));
 });

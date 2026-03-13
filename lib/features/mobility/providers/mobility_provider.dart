@@ -2,7 +2,7 @@ import 'package:cool_app/features/mobility/models/trip.dart';
 import 'package:cool_app/features/mobility/models/trip_post_request.dart';
 import 'package:cool_app/core/models/geo_point.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import '../../../core/providers/hive_providers.dart';
 
 import '../../../core/auth/auth_user_contact.dart';
 import '../../../core/config/app_market.dart';
@@ -24,7 +24,7 @@ final mobilityRepositoryProvider = Provider<MobilityRepository>((ref) {
 final mobilityTripRepositoryProvider = Provider<TripRepository>((ref) {
   return TripRepository(
     client: ref.read(supabaseClientProvider),
-    openBox: Hive.openBox<dynamic>,
+    openBox: ref.read(hiveOpenBoxProvider),
   );
 });
 

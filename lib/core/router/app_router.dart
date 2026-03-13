@@ -91,14 +91,6 @@ String? resolvePartnerDetailRedirect(String id) {
   return AppRoutes.partners;
 }
 
-String resolvePartnerFansRedirect(String id) {
-  final detailRedirect = resolvePartnerDetailRedirect(id);
-  if (detailRedirect != null) {
-    return detailRedirect;
-  }
-  return '/partners/$id';
-}
-
 bool isShellRootLocation(String location) {
   final trimmed = location.trim();
   if (trimmed.isEmpty) {
@@ -149,7 +141,7 @@ abstract final class AppRoutes {
   static const groupCreate = '/groups/create';
   static const groupDetail = '/groups/:id';
   static const groupInvite = '/invite/:code';
-  static const basket = '/basket';
+  // /basket removed — was a dead redirect to /home
   static const momo = '/momo';
   static const momoStatements = '/momo/statements';
   static const mobility = '/mobility';
@@ -157,7 +149,6 @@ abstract final class AppRoutes {
   static const mobilityTrips = '/mobility/trips';
   static const mobilityDriver = '/mobility/driver';
   static const partners = '/partners';
-  static const partnerFans = '/partners/:id/fans';
   static const rayonHome = '/partners/rayon-sports';
   static const rayonProfile = '/partners/rayon-sports/profile';
   static const rayonRegistry = '/partners/rayon-sports/registry';
@@ -174,7 +165,7 @@ abstract final class AppRoutes {
       '/partners/rayon-sports/tickets/:ticketId/confirm';
   static const rayonMembership = '/partners/rayon-sports/membership';
   static const credit = '/credit';
-  static const creditReadiness = '/credit/readiness';
+  static const creditReadiness = '/credit/readiness'; // nested sub-route
   static const missions = '/missions';
   static const profile = '/profile';
 
@@ -197,7 +188,6 @@ abstract final class AppRoutes {
   static const adminRayonShop = '/admin/rayon/shop';
   static const adminRayonOrders = '/admin/rayon/orders';
   static const adminRayonMembers = '/admin/rayon/members';
-  static const adminRayonFanClubs = '/admin/rayon/fan-clubs';
   static const adminRayonInitiatives = '/admin/rayon/initiatives';
 
   static String onboardingLocation({String? redirect}) {
@@ -594,10 +584,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
       // ── Standalone routes (outside shell) ─────────────────────
       GoRoute(
-        path: AppRoutes.basket,
-        redirect: (context, state) => basketCompatibilityRedirectLocation(),
-      ),
-      GoRoute(
         path: AppRoutes.momo,
         builder: (context, state) {
           final authSnapshot = readAuthSnapshot();
@@ -726,13 +712,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 _ => BankPartnerScreen(bankId: id),
               };
             },
-            routes: [
-              GoRoute(
-                path: 'fans',
-                redirect: (context, state) =>
-                    resolvePartnerFansRedirect(state.pathParameters['id']!),
-              ),
-            ],
           ),
         ],
       ),
@@ -749,20 +728,22 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             child: const SecureScreenWrapper(child: CreditScoreScreen()),
           );
         },
-      ),
-      GoRoute(
-        path: AppRoutes.creditReadiness,
-        builder: (context, state) {
-          final authSnapshot = readAuthSnapshot();
-          final featureFlags = ref.read(featureFlagsStateProvider);
-          return KillSwitchGate(
-            enabled: featureFlags.isCreditEnabled(
-              isAdmin: authSnapshot.isAdmin,
-            ),
-            featureName: 'Credit Readiness',
-            child: const SecureScreenWrapper(child: CreditReadinessScreen()),
-          );
-        },
+        routes: [
+          GoRoute(
+            path: 'readiness',
+            builder: (context, state) {
+              final authSnapshot = readAuthSnapshot();
+              final featureFlags = ref.read(featureFlagsStateProvider);
+              return KillSwitchGate(
+                enabled: featureFlags.isCreditEnabled(
+                  isAdmin: authSnapshot.isAdmin,
+                ),
+                featureName: 'Credit Readiness',
+                child: const SecureScreenWrapper(child: CreditReadinessScreen()),
+              );
+            },
+          ),
+        ],
       ),
       GoRoute(
         path: AppRoutes.missions,
@@ -826,10 +807,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: 'members',
                 builder: (context, state) => const RsAdminMembersScreen(),
-              ),
-              GoRoute(
-                path: 'fan-clubs',
-                redirect: (context, state) => AppRoutes.adminRayonInitiatives,
               ),
               GoRoute(
                 path: 'initiatives',

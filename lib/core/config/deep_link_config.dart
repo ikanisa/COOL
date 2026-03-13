@@ -30,9 +30,7 @@ abstract final class DeepLinkConfig {
     );
   }
 
-  static Uri basketUri({Map<String, String>? queryParameters}) {
-    return _httpsUri(AppRoutes.basket, queryParameters: queryParameters);
-  }
+  // basketUri removed — /basket route no longer exists
 
   static Uri groupDetailUri(
     String groupId, {
@@ -90,7 +88,7 @@ abstract final class DeepLinkConfig {
     }
 
     final route = switch (segments.first.toLowerCase()) {
-      'basket' => AppRoutes.basket,
+      'basket' => AppRoutes.home, // legacy deep links redirect to home
       'invite' =>
         segments.length < 2 ? null : '/invite/${segments[1].toUpperCase()}',
       'groups' =>

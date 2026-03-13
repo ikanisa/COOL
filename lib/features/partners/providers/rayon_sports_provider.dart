@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/providers/hive_providers.dart';
+
 import '../../auth/providers/auth_provider.dart';
 import '../../../core/providers/supabase_client_provider.dart';
 import '../rayon/models/rs_models.dart';
@@ -10,7 +12,10 @@ import '../rayon/rayon_payment.dart';
 import '../repositories/rayon_sports_repository.dart';
 
 final rayonSportsRepositoryProvider = Provider<RayonSportsRepository>((ref) {
-  return RayonSportsRepository(client: ref.read(supabaseClientProvider));
+  return RayonSportsRepository(
+    client: ref.read(supabaseClientProvider),
+    openBox: ref.read(hiveOpenBoxProvider),
+  );
 });
 
 final rayonCurrentUserIdProvider = Provider<String?>((ref) {

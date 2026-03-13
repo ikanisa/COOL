@@ -34,3 +34,37 @@ final momoStatementBundleProvider = FutureProvider.autoDispose
       final repository = ref.watch(momoStatementRepositoryProvider);
       return repository.loadStatementBundle(userId, query: query);
     });
+
+final groupPaymentLedgerProvider = FutureProvider.autoDispose
+    .family<
+      MomoStatementPage<PayeePaymentLedgerEntry>,
+      GroupPaymentLedgerQuery
+    >((ref, request) async {
+      if (request.groupId.trim().isEmpty) {
+        return const MomoStatementPage<PayeePaymentLedgerEntry>();
+      }
+
+      final repository = ref.watch(momoStatementRepositoryProvider);
+      return repository.loadGroupPaymentLedgerEntriesPage(
+        request.groupId,
+        query: request.statementQuery,
+        payerUserId: request.payerUserId,
+      );
+    });
+
+final partnerPaymentLedgerProvider = FutureProvider.autoDispose
+    .family<
+      MomoStatementPage<PayeePaymentLedgerEntry>,
+      PartnerPaymentLedgerQuery
+    >((ref, request) async {
+      if (request.partnerId.trim().isEmpty) {
+        return const MomoStatementPage<PayeePaymentLedgerEntry>();
+      }
+
+      final repository = ref.watch(momoStatementRepositoryProvider);
+      return repository.loadPartnerPaymentLedgerEntriesPage(
+        request.partnerId,
+        query: request.statementQuery,
+        payerUserId: request.payerUserId,
+      );
+    });

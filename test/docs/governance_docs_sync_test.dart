@@ -29,6 +29,6 @@ void main() {
       routeInventory,
       contains('`/partners/rayon-sports/tickets/:ticketId/confirm`'),
     );
-    expect(routeInventory, contains('`/partners/:id/fans`'));
+    expect(routeInventory, isNot(contains('`/partners/:id/fans`')));
   });
 }

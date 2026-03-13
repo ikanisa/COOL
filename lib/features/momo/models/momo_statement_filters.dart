@@ -1,6 +1,6 @@
 import 'momo_statement.dart';
 
-enum StatementPeriodPreset { day, week, month, custom, all }
+enum StatementPeriodPreset { day, week, month, year, custom, all }
 
 enum StatementSortOption {
   newestFirst,
@@ -36,6 +36,11 @@ StatementDateRange resolveStatementDateRange({
     case StatementPeriodPreset.month:
       return StatementDateRange(
         startDate: today.subtract(const Duration(days: 29)),
+        endDate: today,
+      );
+    case StatementPeriodPreset.year:
+      return StatementDateRange(
+        startDate: today.subtract(const Duration(days: 364)),
         endDate: today,
       );
     case StatementPeriodPreset.custom:

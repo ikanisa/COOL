@@ -49,8 +49,7 @@ class MomoSmsIngestionRepository {
     OperationalHealthService? operationalHealthService,
   }) : _client = client,
        _operationalHealthService =
-           operationalHealthService ??
-           OperationalHealthService(client: client);
+           operationalHealthService ?? OperationalHealthService(client: client);
 
   final SupabaseClient _client;
   final OperationalHealthService _operationalHealthService;
@@ -107,7 +106,11 @@ class MomoSmsIngestionRepository {
     final trimmedSender = sender?.trim() ?? '';
     final trimmedBody = _normalizeWhitespace(body ?? '');
     final approvedSender = isApprovedSender(trimmedSender);
-    if (trimmedBody.isEmpty || !approvedSender) {
+    final strongTransactionSignal =
+        approvedSender ||
+        (_looksLikePhoneOrShortCode(trimmedSender) &&
+            looksLikeMomoTransactionBody(trimmedBody));
+    if (trimmedBody.isEmpty || !strongTransactionSignal) {
       return null;
     }
 
@@ -163,6 +166,25 @@ class MomoSmsIngestionRepository {
       'ref:',
     ];
     return transactionSignals.any(normalized.contains);
+  }
+
+  static bool looksLikeMomoTransactionBody(String body) {
+    final normalized = body.toLowerCase();
+    final hasAmount =
+        normalized.contains('rwf') ||
+        RegExp(r'\b\d{3,}[,. ]?\d*\b').hasMatch(normalized);
+    final hasStrongSignals =
+        normalized.contains('balance') ||
+        normalized.contains('txid') ||
+        normalized.contains('ft id') ||
+        normalized.contains('transaction id') ||
+        normalized.contains('payment of') ||
+        normalized.contains('you have received') ||
+        normalized.contains('withdraw') ||
+        normalized.contains('cash power') ||
+        normalized.contains('transferred') ||
+        normalized.contains('merchant');
+    return hasAmount && hasStrongSignals;
   }
 
   Future<MomoSmsIngestionResult?> ingestCapture({
@@ -312,6 +334,14 @@ class MomoSmsIngestionRepository {
     return sender.replaceAll(RegExp(r'[^a-z0-9]'), '');
   }
 
+  static bool _looksLikePhoneOrShortCode(String value) {
+    final digits = value.replaceAll(RegExp(r'[^0-9+]'), '');
+    if (digits.isEmpty) {
+      return false;
+    }
+    return RegExp(r'^\+?\d{4,15}$').hasMatch(digits);
+  }
+
   static String _normalizeWhitespace(String value) {
     return value.replaceAll(RegExp(r'\s+'), ' ').trim();
   }
@@ -354,10 +384,7 @@ class MomoSmsIngestionRepository {
         r'(?:payment of|received|withdraw(?:al)? of|airtime of|cash power of|transfer(?:red)? of)\s*([0-9][0-9,.\s]*)',
         caseSensitive: false,
       ),
-      RegExp(
-        r'([0-9][0-9,.\s]*)\s*(?:RWF|FRW)',
-        caseSensitive: false,
-      ),
+      RegExp(r'([0-9][0-9,.\s]*)\s*(?:RWF|FRW)', caseSensitive: false),
     ];
 
     for (final pattern in patterns) {

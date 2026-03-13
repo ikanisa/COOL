@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:hive_flutter/hive_flutter.dart' show Box, Hive;
+import 'package:hive_flutter/hive_flutter.dart' show Box;
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -48,12 +48,12 @@ extension SubscriptionPlanX on SubscriptionPlan {
 class MomoService {
   MomoService({
     required SupabaseClient client,
-    Future<Box<dynamic>> Function(String name)? openBox,
+    required Future<Box<dynamic>> Function(String name) openBox,
     SyncEngine? syncEngine,
     AppConfigRepository? appConfigRepository,
     SupportedCountriesRepository? supportedCountriesRepository,
   }) : _client = client,
-       _openBox = openBox ?? Hive.openBox<dynamic>,
+       _openBox = openBox,
        _syncEngine = syncEngine,
        _appConfigRepository =
            appConfigRepository ?? AppConfigRepository(client: client),

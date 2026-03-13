@@ -6,6 +6,7 @@ enum MomoPaymentSyncStatus { processing, confirmed, reviewRequired, unmatched }
 enum MomoPaymentMatchType {
   unknown,
   groupContribution,
+  partnerPayment,
   driverSubscription,
   rayonTicket,
   rayonShopOrder,
@@ -19,6 +20,7 @@ class MomoPaymentSyncResult {
     required this.matchType,
     this.reference,
     this.groupId,
+    this.partnerId,
     this.driverId,
   });
 
@@ -26,6 +28,7 @@ class MomoPaymentSyncResult {
   final MomoPaymentMatchType matchType;
   final String? reference;
   final String? groupId;
+  final String? partnerId;
   final String? driverId;
 
   bool get isConfirmed => status == MomoPaymentSyncStatus.confirmed;
@@ -151,6 +154,7 @@ class MomoPaymentSyncRepository {
           ),
           reference: reference,
           groupId: metadata['group_id']?.toString(),
+          partnerId: metadata['partner_id']?.toString(),
           driverId: driverId,
         );
       case 'manual_review':
@@ -163,6 +167,7 @@ class MomoPaymentSyncRepository {
           ),
           reference: reference,
           groupId: metadata['group_id']?.toString(),
+          partnerId: metadata['partner_id']?.toString(),
           driverId: driverId,
         );
       default:
@@ -181,6 +186,8 @@ class MomoPaymentSyncRepository {
     switch (targetTable) {
       case 'group_contributions':
         return MomoPaymentMatchType.groupContribution;
+      case 'partner_payment_routes':
+        return MomoPaymentMatchType.partnerPayment;
       case 'driver_subscriptions':
       case 'mobility_subscriptions':
         return MomoPaymentMatchType.driverSubscription;

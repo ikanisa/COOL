@@ -39,6 +39,64 @@ class MomoStatementPage<T> {
   bool hasMore({required int offset}) => offset + entries.length < totalCount;
 }
 
+class PayeePaymentLedgerEntry {
+  const PayeePaymentLedgerEntry({
+    required this.ledgerId,
+    required this.payerUserId,
+    required this.payerName,
+    required this.amount,
+    required this.currency,
+    required this.occurredAt,
+    required this.txCategory,
+    required this.cashflowBucket,
+    required this.label,
+    required this.targetTable,
+    this.payerPhone,
+    this.reference,
+    this.counterpartyName,
+    this.targetRecordId,
+  });
+
+  final String ledgerId;
+  final String payerUserId;
+  final String payerName;
+  final String? payerPhone;
+  final int amount;
+  final String currency;
+  final DateTime occurredAt;
+  final String? reference;
+  final String txCategory;
+  final String cashflowBucket;
+  final String label;
+  final String? counterpartyName;
+  final String targetTable;
+  final String? targetRecordId;
+
+  factory PayeePaymentLedgerEntry.fromJson(Map<String, dynamic> json) {
+    return PayeePaymentLedgerEntry(
+      ledgerId: json['ledger_id']?.toString() ?? '',
+      payerUserId: json['payer_user_id']?.toString() ?? '',
+      payerName: json['payer_name']?.toString() ?? 'Member',
+      payerPhone: _nonEmpty(json['payer_phone']),
+      amount: _asInt(json['amount']),
+      currency: json['currency']?.toString() ?? 'RWF',
+      occurredAt:
+          _parseDateTime(json['tx_datetime']) ??
+          _parseDateTime(json['created_at']) ??
+          DateTime.now(),
+      reference: _nonEmpty(json['external_reference']),
+      txCategory: json['tx_category']?.toString() ?? 'uncategorized',
+      cashflowBucket: json['cashflow_bucket']?.toString() ?? 'unknown',
+      label:
+          json['statement_label']?.toString() ??
+          _titleize(json['tx_category']?.toString() ?? 'payment'),
+      counterpartyName: _nonEmpty(json['counterparty_name']),
+      targetTable: json['target_table']?.toString() ?? '',
+      targetRecordId: _nonEmpty(json['target_record_id']),
+    );
+  }
+}
+
 class MomoStatementQuery {
   const MomoStatementQuery({
     this.startDate,
@@ -82,6 +140,58 @@ class MomoStatementQuery {
 
   @override
   int get hashCode => Object.hash(startDate, endDate, limit, offset);
+}
+
+class GroupPaymentLedgerQuery {
+  const GroupPaymentLedgerQuery({
+    required this.groupId,
+    this.statementQuery = const MomoStatementQuery(),
+    this.payerUserId,
+  });
+
+  final String groupId;
+  final MomoStatementQuery statementQuery;
+  final String? payerUserId;
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    return other is GroupPaymentLedgerQuery &&
+        other.groupId == groupId &&
+        other.statementQuery == statementQuery &&
+        other.payerUserId == payerUserId;
+  }
+
+  @override
+  int get hashCode => Object.hash(groupId, statementQuery, payerUserId);
+}
+
+class PartnerPaymentLedgerQuery {
+  const PartnerPaymentLedgerQuery({
+    required this.partnerId,
+    this.statementQuery = const MomoStatementQuery(),
+    this.payerUserId,
+  });
+
+  final String partnerId;
+  final MomoStatementQuery statementQuery;
+  final String? payerUserId;
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    return other is PartnerPaymentLedgerQuery &&
+        other.partnerId == partnerId &&
+        other.statementQuery == statementQuery &&
+        other.payerUserId == payerUserId;
+  }
+
+  @override
+  int get hashCode => Object.hash(partnerId, statementQuery, payerUserId);
 }
 
 class MomoWalletEntry {

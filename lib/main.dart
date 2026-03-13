@@ -7,13 +7,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'app.dart';
 import 'core/config/env_config.dart';
 import 'core/services/app_check_service.dart';
 import 'core/services/firebase_bootstrap_service.dart';
+import 'core/services/hive_runtime.dart';
 import 'core/theme/app_theme.dart';
 
 Future<void> main() async {
@@ -91,7 +91,7 @@ Future<void> main() async {
       }
 
       // ── Hive (local storage) ────────────────────────────────────────
-      await Hive.initFlutter();
+      await initializeHiveRuntime();
 
       // ── Stop cold start trace ───────────────────────────────────────
       try {

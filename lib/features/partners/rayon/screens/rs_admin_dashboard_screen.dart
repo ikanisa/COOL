@@ -45,12 +45,6 @@ class RsAdminDashboardScreen extends ConsumerWidget {
       'Tier & points mgmt',
     ),
     _Section(
-      'Fan Clubs',
-      Icons.groups_rounded,
-      '/admin/rayon/fan-clubs',
-      'Regional fan clubs',
-    ),
-    _Section(
       'Initiatives',
       Icons.favorite_rounded,
       '/admin/rayon/initiatives',

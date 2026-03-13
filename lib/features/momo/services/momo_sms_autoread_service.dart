@@ -4,13 +4,13 @@ import 'dart:io' show Platform;
 import 'package:another_telephony/telephony.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/config/env_config.dart';
 import '../../../core/services/app_access_service.dart';
 import '../../../core/services/crashlytics_service.dart';
+import '../../../core/services/hive_runtime.dart';
 import '../../../core/services/operational_health_service.dart';
 import '../repositories/momo_sms_ingestion_repository.dart';
 
@@ -304,6 +304,8 @@ class MomoSmsAutoreadService {
 class _MomoSmsBackgroundProcessor {
   static bool _hiveInitialized = false;
   static bool _supabaseInitialized = false;
+  static final InitializeHive _initializeHive = initializeHiveRuntime;
+  static final OpenHiveBox<bool> _openAppAccessBox = openHiveBox<bool>;
 
   static Future<void> handle(SmsMessage message) async {
     if (kIsWeb || !Platform.isAndroid) {
@@ -315,7 +317,8 @@ class _MomoSmsBackgroundProcessor {
     }
 
     await _ensureHiveInitialized();
-    final smsEnabledInApp = await AppAccessService.instance.isEnabled(
+    final appAccessService = AppAccessService(openBox: _openAppAccessBox);
+    final smsEnabledInApp = await appAccessService.isEnabled(
       AppAccessPermission.sms,
     );
     if (!smsEnabledInApp) {
@@ -345,7 +348,7 @@ class _MomoSmsBackgroundProcessor {
     if (_hiveInitialized) {
       return;
     }
-    await Hive.initFlutter();
+    await _initializeHive();
     _hiveInitialized = true;
   }
 

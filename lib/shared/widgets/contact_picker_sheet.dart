@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive_flutter/hive_flutter.dart' show Hive;
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../core/services/app_access_service.dart';
@@ -32,7 +31,7 @@ class ContactPickerSheet extends StatefulWidget {
   /// Returns the selected contacts (empty if cancelled).
   static Future<List<SimpleContact>> show(
     BuildContext context, {
-    AppAccessService? appAccessService,
+    required AppAccessService appAccessService,
     bool multiSelect = false,
     String? title,
     String? subtitle,
@@ -46,8 +45,7 @@ class ContactPickerSheet extends StatefulWidget {
         multiSelect: multiSelect,
         title: title,
         subtitle: subtitle,
-        appAccessService:
-            appAccessService ?? AppAccessService(openBox: Hive.openBox<bool>),
+        appAccessService: appAccessService,
         onSelected: (contacts) => Navigator.of(context).pop(contacts),
       ),
     );
