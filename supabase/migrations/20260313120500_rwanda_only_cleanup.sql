@@ -4,15 +4,47 @@
 delete from public.supported_countries
 where iso_code != 'RW';
 
+-- Disable triggers that validate MoMo fields against the user's country,
+-- because non-RW users may have phone numbers that don't match RW patterns.
+-- Users can login/OTP with any international phone number; MoMo fields are
+-- Rwanda-specific and get cleared for users whose numbers aren't valid for RW.
+alter table public.users disable trigger trg_enforce_user_momo_fields;
+
 update public.users
-set country = 'RW'
+set
+  country = 'RW',
+  -- Clear MoMo fields that aren't valid for Rwanda
+  momo_number = case
+    when momo_number is not null
+      and public.is_valid_momo_phone_for_country('RW', momo_number) then momo_number
+    else null
+  end,
+  momo_code = case
+    when momo_code is not null
+      and public.is_valid_momo_code_for_country('RW', momo_code) then momo_code
+    else null
+  end,
+  momo_route_type = case
+    when momo_number is not null
+      and public.is_valid_momo_phone_for_country('RW', momo_number) then momo_route_type
+    when momo_code is not null
+      and public.is_valid_momo_code_for_country('RW', momo_code) then momo_route_type
+    else null
+  end
 where country is not null
   and country != 'RW';
+
+alter table public.users enable trigger trg_enforce_user_momo_fields;
+
+-- Same pattern for groups
+alter table public.groups disable trigger trg_enforce_group_momo_fields;
 
 update public.groups
 set country = 'RW'
 where country is not null
   and country != 'RW';
+
+alter table public.groups enable trigger trg_enforce_group_momo_fields;
 
 update public.partners
 set country = 'RW'
