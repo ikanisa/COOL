@@ -23,6 +23,7 @@ import 'package:cool_app/features/partners/providers/rayon_sports_provider.dart'
 import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
 import 'package:cool_app/features/partners/repositories/rayon_sports_repository.dart';
 import 'package:cool_app/features/partners/screens/rayon/tickets_screen.dart';
+import 'package:cool_app/shared/widgets/cool_button.dart';
 
 import '../test/integration_smoke/test_harness.dart';
 
@@ -127,7 +128,7 @@ void main() {
         user: fakeUser(momoNumber: '788123456'),
       );
 
-      await tester.tap(find.text('Send MOMO').first);
+      await tester.tap(find.widgetWithText(CoolButton, 'Send money'));
       await settleTestApp(tester);
       await tester.tap(find.text('Confirm Send'));
       await settleTestApp(tester);

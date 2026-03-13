@@ -36,6 +36,20 @@ void main() {
     });
   });
 
+  group('CoolCountry.normalizeNationalPhone', () {
+    test('converts Rwanda E.164 numbers to local storage format', () {
+      final rwanda = CoolCountryCatalog.resolve(country: 'RW');
+
+      expect(rwanda.normalizeNationalPhone('+250788767816'), '0788767816');
+    });
+
+    test('keeps countries without a trunk zero in local format', () {
+      final botswana = CoolCountryCatalog.resolve(country: 'BW');
+
+      expect(botswana.normalizeNationalPhone('+26771123456'), '71123456');
+    });
+  });
+
   group('CoolCountry.buildUssdCode', () {
     test('builds Benin phone route from a stored E.164 number', () {
       final benin = CoolCountryCatalog.resolve(country: 'BJ');

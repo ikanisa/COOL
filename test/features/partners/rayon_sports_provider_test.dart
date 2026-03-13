@@ -5,6 +5,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:cool_app/features/partners/providers/rayon_sports_provider.dart';
 import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
 import 'package:cool_app/features/partners/rayon/rayon_payment.dart';
+
 import 'package:cool_app/features/partners/repositories/rayon_sports_repository.dart';
 
 class MockRayonSportsRepository extends Mock implements RayonSportsRepository {}
@@ -15,6 +16,7 @@ void main() {
   late RsMatch match;
   late RsProduct product;
   late RsInitiative initiative;
+  late PartnerPaymentRoute paymentRoute;
 
   setUp(() {
     repository = MockRayonSportsRepository();
@@ -56,6 +58,17 @@ void main() {
       isActive: true,
       endsAt: null,
     );
+    paymentRoute = const PartnerPaymentRoute(
+      id: 'route-1',
+      partnerId: 'rayon',
+      partnerName: 'Rayon Sports FC',
+      partnerSlug: 'rayon-sports',
+      countryCode: 'RW',
+      providerId: 'mtn_rwanda',
+      recipientCode: '008000',
+      reconciliationLabel: 'rayon_sports',
+      status: PartnerPaymentRouteStatus.active,
+    );
     data = RayonSportsData(
       partnerId: 'rayon',
       membership: FanMembership(
@@ -94,6 +107,9 @@ void main() {
     when(
       () => repository.loadData(userId: 'user-1'),
     ).thenAnswer((_) async => data);
+    when(
+      () => repository.getActivePaymentRoute(),
+    ).thenAnswer((_) async => paymentRoute);
   });
 
   group('RayonSportsNotifier smoke', () {
@@ -213,8 +229,9 @@ void main() {
 
       expect(
         message,
-        'Ticket checkout opened in MTN MoMo code $rayonSportsMomoCode for 12,000 RWF. Your tickets stay pending until payment confirmation arrives.',
+        'Ticket checkout opened to MTN MoMo code 008000 for 12,000 RWF. Fees 0 RWF. Your tickets stay pending until SMS confirmation matches rayon_sports.',
       );
+      verify(() => repository.getActivePaymentRoute()).called(1);
       verify(
         () => repository.purchaseTickets(
           matchId: 'match-1',
@@ -251,8 +268,9 @@ void main() {
       expect(result.amount, 4500);
       expect(
         result.message,
-        'Support checkout opened in MTN MoMo code $rayonSportsMomoCode for 4,500 RWF.',
+        'Support checkout opened to MTN MoMo code 008000 for 4,500 RWF. Fees 0 RWF. We confirm your receipt after SMS reconciliation for rayon_sports.',
       );
+      verify(() => repository.getActivePaymentRoute()).called(1);
       verify(
         () => repository.supportInitiative(
           userId: 'user-1',
@@ -297,9 +315,10 @@ void main() {
         expect(result.total, 9000);
         expect(
           result.message,
-          'Shop checkout opened in MTN MoMo code $rayonSportsMomoCode for 9,000 RWF.',
+          'Shop checkout opened to MTN MoMo code 008000 for 9,000 RWF. Fees 0 RWF. Your order receipt appears after SMS reconciliation for rayon_sports.',
         );
         expect(notifier.cartItemCount(), 0);
+        verify(() => repository.getActivePaymentRoute()).called(1);
         verify(
           () => repository.placeOrder(
             userId: 'user-1',

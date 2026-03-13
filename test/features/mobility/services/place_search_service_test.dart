@@ -40,4 +40,27 @@ void main() {
       expect(result.secondaryText, 'Nyarugenge, Kigali, Rwanda');
     },
   );
+
+  test(
+    'PlaceSearchResult derives readable labels from maps gateway payloads',
+    () {
+      final result = PlaceSearchResult.fromMapsGatewayJson(<String, dynamic>{
+        'placeId': 'ChIJ123',
+        'label': 'Kigali Heights, KN 5 Road, Kigali, Rwanda',
+        'primaryText': 'Kigali Heights',
+        'secondaryText': 'KN 5 Road, Kigali, Rwanda',
+        'position': <String, dynamic>{
+          'latitude': -1.94995,
+          'longitude': 30.08242,
+        },
+      });
+
+      expect(result.placeId, 'ChIJ123');
+      expect(result.label, 'Kigali Heights, KN 5 Road, Kigali, Rwanda');
+      expect(result.primaryText, 'Kigali Heights');
+      expect(result.secondaryText, 'KN 5 Road, Kigali, Rwanda');
+      expect(result.latitude, closeTo(-1.94995, 0.00001));
+      expect(result.longitude, closeTo(30.08242, 0.00001));
+    },
+  );
 }

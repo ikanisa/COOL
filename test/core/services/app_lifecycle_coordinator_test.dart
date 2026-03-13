@@ -7,6 +7,7 @@ import 'package:cool_app/core/services/performance_service.dart';
 import 'package:cool_app/core/services/trip_sync_coordinator.dart';
 import 'package:cool_app/features/auth/models/user_profile.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart' as auth;
+import 'package:cool_app/features/momo/services/momo_sms_autoread_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,6 +26,9 @@ class MockDeepLinkCoordinator extends Mock implements DeepLinkCoordinator {}
 
 class MockTripSyncCoordinator extends Mock implements TripSyncCoordinator {}
 
+class MockMomoSmsAutoreadService extends Mock
+    implements MomoSmsAutoreadService {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -40,6 +44,7 @@ void main() {
     late MockAppSessionCoordinator sessionCoordinator;
     late MockDeepLinkCoordinator deepLinkCoordinator;
     late MockTripSyncCoordinator tripSyncCoordinator;
+    late MockMomoSmsAutoreadService momoSmsAutoreadService;
     late List<String> events;
     late auth.AuthState authState;
     late AppLifecycleCoordinator coordinator;
@@ -51,6 +56,7 @@ void main() {
       sessionCoordinator = MockAppSessionCoordinator();
       deepLinkCoordinator = MockDeepLinkCoordinator();
       tripSyncCoordinator = MockTripSyncCoordinator();
+      momoSmsAutoreadService = MockMomoSmsAutoreadService();
       events = <String>[];
       authState = auth.AuthState(session: _fakeSession(), user: _fakeUser());
 
@@ -86,6 +92,7 @@ void main() {
       when(() => deepLinkCoordinator.dispose()).thenAnswer((_) {
         events.add('deepLink.dispose');
       });
+      when(() => momoSmsAutoreadService.refresh()).thenAnswer((_) async {});
 
       coordinator = AppLifecycleCoordinator(
         refreshFeatureFlags: () async {
@@ -98,6 +105,7 @@ void main() {
         sessionCoordinator: sessionCoordinator,
         deepLinkCoordinator: deepLinkCoordinator,
         tripSyncCoordinator: tripSyncCoordinator,
+        momoSmsAutoreadService: momoSmsAutoreadService,
       );
     });
 

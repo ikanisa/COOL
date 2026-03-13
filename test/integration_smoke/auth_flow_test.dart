@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:cool_app/core/l10n/locale_provider.dart';
 import 'package:cool_app/core/router/app_router.dart';
 
+import '../helpers/test_bootstrap.dart';
 import 'test_harness.dart';
 
 void main() {
@@ -42,6 +44,19 @@ void main() {
       expect(find.textContaining('Rwanda'), findsOneWidget);
       expect(find.textContaining('Benin'), findsOneWidget);
       expect(find.textContaining('Ghana'), findsOneWidget);
+    });
+
+    testWidgets('OTP screen localizes to French', (tester) async {
+      await pumpRouterApp(
+        tester,
+        initialLocation: AppRoutes.otp,
+        overrides: [
+          localeStoreProvider.overrideWithValue(MemoryLocaleStore('fr')),
+        ],
+      );
+
+      expect(find.text('Utilisez votre numéro WhatsApp'), findsOneWidget);
+      expect(find.text('Continuer'), findsOneWidget);
     });
   });
 }

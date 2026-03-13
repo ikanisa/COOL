@@ -26,26 +26,78 @@ void main() {
     });
   });
 
-  group('Rayon payment', () {
-    test('MoMo code is non-empty', () {
-      expect(rayonSportsMomoCode, isNotEmpty);
+  group('Rayon payment route', () {
+    test('PartnerPaymentRoute.payToLabel formats correctly', () {
+      final route = PartnerPaymentRoute(
+        id: 'route-1',
+        partnerId: 'rayon',
+        partnerName: 'Rayon Sports FC',
+        partnerSlug: 'rayon-sports',
+        countryCode: 'RW',
+        providerId: 'mtn_rwanda',
+        recipientCode: '008000',
+        reconciliationLabel: 'RAYON-SPORTS',
+        status: PartnerPaymentRouteStatus.active,
+      );
+
+      expect(route.isActive, isTrue);
+      expect(route.recipientCode, '008000');
+      expect(route.payToLabel, contains('008000'));
     });
 
-    test('USSD pattern contains code', () {
-      expect(rayonSportsMomoUssdPattern, contains(rayonSportsMomoCode));
-    });
+    test('PartnerPaymentRoute.ussdCode generates valid USSD', () {
+      final route = PartnerPaymentRoute(
+        id: 'route-2',
+        partnerId: 'rayon',
+        partnerName: 'Rayon Sports FC',
+        partnerSlug: 'rayon-sports',
+        countryCode: 'RW',
+        providerId: 'mtn_rwanda',
+        recipientCode: '008000',
+        reconciliationLabel: 'RAYON-SPORTS',
+        status: PartnerPaymentRouteStatus.active,
+      );
 
-    test('rayonSportsMomoUssd generates correct USSD for 5000 RWF', () {
-      final ussd = rayonSportsMomoUssd(5000);
+      expect(route.ussdPattern, contains('[amount]'));
+      expect(route.ussdPattern, contains('008000'));
+      final ussd = route.ussdCode(5000);
       expect(ussd, contains('5000'));
-      expect(ussd, contains(rayonSportsMomoCode));
       expect(ussd, startsWith('*182'));
       expect(ussd, endsWith('#'));
     });
 
-    test('rayonSportsMomoUssd generates correct USSD for 0 RWF', () {
-      final ussd = rayonSportsMomoUssd(0);
-      expect(ussd, contains('0'));
+    test('PartnerPaymentRoute.amountLabel formats amount', () {
+      final route = PartnerPaymentRoute(
+        id: 'route-3',
+        partnerId: 'rayon',
+        partnerName: 'Rayon Sports FC',
+        partnerSlug: 'rayon-sports',
+        countryCode: 'RW',
+        providerId: 'mtn_rwanda',
+        recipientCode: '008000',
+        reconciliationLabel: 'RAYON-SPORTS',
+        status: PartnerPaymentRouteStatus.active,
+      );
+
+      final label = route.amountLabel(12000);
+      expect(label, contains('12,000'));
+      expect(label, contains('RWF'));
+    });
+
+    test('inactive route returns isActive false', () {
+      final route = PartnerPaymentRoute(
+        id: 'route-4',
+        partnerId: 'rayon',
+        partnerName: 'Rayon Sports FC',
+        partnerSlug: 'rayon-sports',
+        countryCode: 'RW',
+        providerId: 'mtn_rwanda',
+        recipientCode: '008000',
+        reconciliationLabel: 'RAYON-SPORTS',
+        status: PartnerPaymentRouteStatus.draft,
+      );
+
+      expect(route.isActive, isFalse);
     });
   });
 
@@ -246,35 +298,38 @@ void main() {
   });
 
   group('RsShopOrder model', () {
-    test('paid and fulfilled backend statuses map to active UI order states', () {
-      final paidOrder = RsShopOrder.fromJson(<String, dynamic>{
-        'id': 'order-1',
-        'user_id': 'user-1',
-        'items': const <Map<String, dynamic>>[],
-        'subtotal': 10000,
-        'discount': 0,
-        'total': 10000,
-        'delivery_address': 'Kigali',
-        'momo_reference': 'RS-SHOP-1',
-        'status': 'paid',
-        'created_at': '2026-03-10T12:00:00Z',
-      });
-      final fulfilledOrder = RsShopOrder.fromJson(<String, dynamic>{
-        'id': 'order-2',
-        'user_id': 'user-1',
-        'items': const <Map<String, dynamic>>[],
-        'subtotal': 10000,
-        'discount': 0,
-        'total': 10000,
-        'delivery_address': 'Kigali',
-        'momo_reference': 'RS-SHOP-2',
-        'status': 'fulfilled',
-        'created_at': '2026-03-10T12:00:00Z',
-      });
+    test(
+      'paid and fulfilled backend statuses map to active UI order states',
+      () {
+        final paidOrder = RsShopOrder.fromJson(<String, dynamic>{
+          'id': 'order-1',
+          'user_id': 'user-1',
+          'items': const <Map<String, dynamic>>[],
+          'subtotal': 10000,
+          'discount': 0,
+          'total': 10000,
+          'delivery_address': 'Kigali',
+          'momo_reference': 'RS-SHOP-1',
+          'status': 'paid',
+          'created_at': '2026-03-10T12:00:00Z',
+        });
+        final fulfilledOrder = RsShopOrder.fromJson(<String, dynamic>{
+          'id': 'order-2',
+          'user_id': 'user-1',
+          'items': const <Map<String, dynamic>>[],
+          'subtotal': 10000,
+          'discount': 0,
+          'total': 10000,
+          'delivery_address': 'Kigali',
+          'momo_reference': 'RS-SHOP-2',
+          'status': 'fulfilled',
+          'created_at': '2026-03-10T12:00:00Z',
+        });
 
-      expect(paidOrder.status, OrderStatus.confirmed);
-      expect(fulfilledOrder.status, OrderStatus.delivered);
-    });
+        expect(paidOrder.status, OrderStatus.confirmed);
+        expect(fulfilledOrder.status, OrderStatus.delivered);
+      },
+    );
   });
 
   group('RsInitiative model', () {

@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'package:cool_app/core/services/app_access_service.dart';
 import 'package:cool_app/core/services/location_service.dart';
 import 'package:cool_app/features/mobility/providers/mobility_location_provider.dart';
 
@@ -18,7 +19,19 @@ void main() {
     Hive.init(hiveDir.path);
   });
 
+  setUp(() async {
+    await AppAccessService.instance.setEnabled(
+      AppAccessPermission.location,
+      true,
+    );
+  });
+
   tearDown(() async {
+    if (Hive.isBoxOpen(AppAccessService.boxName)) {
+      await Hive.box<bool>(AppAccessService.boxName).clear();
+      await Hive.box<bool>(AppAccessService.boxName).close();
+    }
+    await Hive.deleteBoxFromDisk(AppAccessService.boxName);
     if (Hive.isBoxOpen('mobility_location_cache')) {
       await Hive.box<dynamic>('mobility_location_cache').clear();
       await Hive.box<dynamic>('mobility_location_cache').close();
@@ -29,6 +42,24 @@ void main() {
   tearDownAll(() async {
     await hiveDir.delete(recursive: true);
   });
+
+  test(
+    'bootstrap respects the in-app location access toggle from profile settings',
+    () async {
+      await AppAccessService.instance.setEnabled(
+        AppAccessPermission.location,
+        false,
+      );
+      final notifier = MobilityLocationNotifier(
+        service: FakeLocationService(permission: LocationPermission.whileInUse),
+      );
+
+      await notifier.bootstrap();
+
+      expect(notifier.state.status, MobilityLocationStatus.accessDisabled);
+      expect(notifier.state.hasLocation, isFalse);
+    },
+  );
 
   test(
     'bootstrap requests rationale when permission has not been granted yet',

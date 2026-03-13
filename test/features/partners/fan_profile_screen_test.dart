@@ -28,6 +28,7 @@ void main() {
       id: 'user-1',
       phone: '+250788123456',
       fullName: 'Alex Fan',
+      publicUserId: '123456',
       momoNumber: '0788123456',
       momoProvider: 'mtn',
       country: 'RW',
@@ -38,7 +39,7 @@ void main() {
       id: 'membership-1',
       userId: 'user-1',
       partnerId: 'partner-1',
-      displayName: 'Alex Fan',
+      displayName: '123456',
       tier: FanTier.gold,
       points: 2200,
       chapter: 'Kigali Central',
@@ -113,10 +114,8 @@ void main() {
       () => repository.getFanMembership('user-1', 'partner-1'),
     ).thenAnswer((_) async => membership);
     when(
-      () => repository.getAchievements(
-        userId: 'user-1',
-        partnerId: 'partner-1',
-      ),
+      () =>
+          repository.getAchievements(userId: 'user-1', partnerId: 'partner-1'),
     ).thenAnswer((_) async => <RsAchievement>[achievement]);
     when(
       () => repository.getMyTickets('user-1'),
@@ -145,10 +144,12 @@ void main() {
       await tester.pump();
       await tester.pump();
 
-      expect(find.text('Alex Fan'), findsWidgets);
+      expect(find.text('123456'), findsWidgets);
       expect(find.text('Recent Orders'), findsOneWidget);
 
-      verify(() => repository.getFanMembership('user-1', 'partner-1')).called(1);
+      verify(
+        () => repository.getFanMembership('user-1', 'partner-1'),
+      ).called(1);
       verify(
         () => repository.getAchievements(
           userId: 'user-1',

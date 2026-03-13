@@ -154,6 +154,9 @@ void main() {
   testWidgets(
     'club shop screen builds from lightweight providers without aggregate loadData',
     (tester) async {
+      await tester.binding.setSurfaceSize(const Size(390, 844));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+
       await pumpScreen(tester, const ClubShopScreen());
 
       expect(find.text('Club Shop'), findsOneWidget);

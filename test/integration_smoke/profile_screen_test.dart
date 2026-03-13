@@ -11,6 +11,7 @@ import 'package:cool_app/features/credit/models/credit_dashboard.dart';
 import 'package:cool_app/features/credit/providers/credit_provider.dart';
 import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
 import 'package:cool_app/features/profile/screens/profile_screen.dart';
+import 'package:cool_app/features/profile/widgets/profile_settings_widgets.dart';
 
 import 'test_harness.dart';
 
@@ -30,7 +31,10 @@ class MemoryFcmPreferenceStore implements FcmPreferenceStore {
 
 class FakeFcmTokenRepository implements FcmTokenRepository {
   @override
-  Future<void> deleteToken({required String userId, required String token}) async {}
+  Future<void> deleteToken({
+    required String userId,
+    required String token,
+  }) async {}
 
   @override
   Future<void> upsertToken({
@@ -69,10 +73,7 @@ void main() {
       return <Override>[
         coolStatusRepositoryProvider.overrideWithValue(coolStatusRepository),
         creditDashboardProvider.overrideWith(
-          (ref) async => const CreditDashboard(
-            statementCount: 12,
-            score: 712,
-          ),
+          (ref) async => const CreditDashboard(statementCount: 12, score: 712),
         ),
         fcmServiceProvider.overrideWithValue(
           FcmService(
@@ -92,6 +93,7 @@ void main() {
         child: const ProfileScreen(),
         session: fakeSession(),
         user: fakeUser().copyWith(
+          publicUserId: '123456',
           officialName: 'Alex Fan',
           officialPhone: '+250788123456',
           kycStatus: 'verified',
@@ -102,17 +104,87 @@ void main() {
       await settleTestApp(tester);
 
       expect(find.text('Profile'), findsOneWidget);
-      expect(find.text('Official name'), findsOneWidget);
-      expect(find.text('Phone'), findsOneWidget);
+      expect(find.text('User ID'), findsOneWidget);
+      expect(find.text('Country'), findsOneWidget);
       expect(find.text('Identity'), findsOneWidget);
+      expect(find.text('123456'), findsWidgets);
+      expect(find.text('Travel role'), findsOneWidget);
+      expect(find.text('Passenger'), findsNothing);
+      expect(find.text('Passenger role'), findsNothing);
+      expect(find.text('Driver role'), findsNothing);
       expect(find.text('Mobile Money'), findsOneWidget);
       expect(find.text('Credit score'), findsOneWidget);
       expect(find.text('Preferences'), findsOneWidget);
       expect(find.text('More tools'), findsOneWidget);
 
       expect(find.text('Credit readiness'), findsNothing);
-      expect(find.text('MoMo QR code'), findsNothing);
+      expect(find.text('MoMo QR'), findsNothing);
       expect(find.text('COOL status'), findsNothing);
+    });
+
+    testWidgets(
+      'keeps passenger as default and exposes driver setup from one card',
+      (tester) async {
+        await pumpScopedApp(
+          tester,
+          child: const ProfileScreen(),
+          session: fakeSession(),
+          user: fakeUser().copyWith(
+            publicUserId: '123456',
+            officialName: 'Alex Fan',
+            officialPhone: '+250788123456',
+            kycStatus: 'verified',
+          ),
+          overrides: overrides(),
+        );
+
+        await settleTestApp(tester);
+
+        expect(find.text('Travel role'), findsOneWidget);
+        expect(find.text('Become a driver'), findsNothing);
+
+        await tester.tap(find.text('Travel role'));
+        await settleTestApp(tester);
+
+        expect(find.text('Passenger'), findsWidgets);
+        expect(find.text('Switch to driver'), findsOneWidget);
+
+        await tester.tapAt(const Offset(20, 20));
+        await settleTestApp(tester);
+
+        await tester.ensureVisible(find.byType(ProfileSectionToggleCard));
+        await tester.tap(find.byType(ProfileSectionToggleCard));
+        await settleTestApp(tester);
+
+        expect(find.text('Become a driver'), findsNothing);
+      },
+    );
+
+    testWidgets('shows driver label when the user already has driver mode', (
+      tester,
+    ) async {
+      await pumpScopedApp(
+        tester,
+        child: const ProfileScreen(),
+        session: fakeSession(),
+        user: fakeUser(isDriver: true, vehicleType: 'Cab').copyWith(
+          publicUserId: '123456',
+          officialName: 'Alex Fan',
+          officialPhone: '+250788123456',
+          kycStatus: 'verified',
+        ),
+        overrides: overrides(),
+      );
+
+      await settleTestApp(tester);
+
+      expect(find.text('Travel role'), findsOneWidget);
+
+      await tester.tap(find.text('Travel role'));
+      await settleTestApp(tester);
+
+      expect(find.text('Driver setup'), findsOneWidget);
+      expect(find.text('Switch to driver'), findsNothing);
     });
 
     testWidgets('reveals secondary shortcuts when more tools expands', (
@@ -123,6 +195,7 @@ void main() {
         child: const ProfileScreen(),
         session: fakeSession(),
         user: fakeUser().copyWith(
+          publicUserId: '123456',
           officialName: 'Alex Fan',
           officialPhone: '+250788123456',
           kycStatus: 'verified',
@@ -130,12 +203,37 @@ void main() {
         overrides: overrides(),
       );
 
-      await tester.tap(find.text('More tools'));
+      await tester.ensureVisible(find.byType(ProfileSectionToggleCard));
+      await tester.tap(find.byType(ProfileSectionToggleCard));
       await settleTestApp(tester);
 
       expect(find.text('Credit readiness'), findsOneWidget);
-      expect(find.text('MoMo QR code'), findsOneWidget);
+      expect(find.text('MoMo QR'), findsOneWidget);
       expect(find.text('COOL status'), findsOneWidget);
+    });
+
+    testWidgets('shows local momo number when stored value is E.164', (
+      tester,
+    ) async {
+      await pumpScopedApp(
+        tester,
+        child: const ProfileScreen(),
+        session: fakeSession(),
+        user: fakeUser().copyWith(
+          publicUserId: '123456',
+          officialName: 'Alex Fan',
+          officialPhone: '+250788123456',
+          momoNumber: '+250795588248',
+          kycStatus: 'verified',
+        ),
+        overrides: overrides(),
+      );
+
+      await settleTestApp(tester);
+
+      expect(find.text('0795588248'), findsOneWidget);
+      expect(find.text('+250 795 588 248'), findsNothing);
+      expect(find.text('+250795588248'), findsNothing);
     });
   });
 }

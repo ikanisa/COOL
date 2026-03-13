@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cool_app/core/config/country_catalog.dart';
 import 'package:cool_app/core/providers/engagement_providers.dart';
 import 'package:cool_app/core/providers/supported_countries_provider.dart';
@@ -8,9 +10,11 @@ import 'package:cool_app/features/auth/providers/auth_provider.dart';
 import 'package:cool_app/features/auth/repositories/auth_repository.dart';
 import 'package:cool_app/features/auth/screens/otp_screen.dart';
 import 'package:cool_app/features/auth/screens/otp_verify_screen.dart';
+import 'package:cool_app/shared/widgets/cool_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:cool_app/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide AuthState;
@@ -34,7 +38,6 @@ class TestRouteAuthNotifier extends AuthNotifier {
           ? AuthProfileRestoreState.available
           : AuthProfileRestoreState.pending,
     );
-
   }
 
   final AuthRepository _repository;
@@ -100,6 +103,28 @@ class FakeSupportedCountriesRepository extends SupportedCountriesRepository {
   }
 }
 
+class BlockingResolveSupportedCountriesRepository
+    extends SupportedCountriesRepository {
+  BlockingResolveSupportedCountriesRepository()
+    : super(client: MockSupabaseClient());
+
+  @override
+  Future<List<CoolCountry>> getSupportedCountries({
+    bool forceRefresh = false,
+  }) async {
+    return CoolCountryCatalog.all;
+  }
+
+  @override
+  Future<CoolCountry> resolveCountry({
+    String? countryCode,
+    String? phone,
+    String? providerId,
+  }) {
+    return Completer<CoolCountry>().future;
+  }
+}
+
 Session _fakeSession() {
   return Session.fromJson({
     'access_token': 'header.payload.signature',
@@ -132,6 +157,7 @@ void main() {
     String initialLocation = AppRoutes.splash,
     Session? session,
     Future<UserProfile?> Function()? getCurrentProfile,
+    SupportedCountriesRepository? supportedCountriesRepository,
   }) async {
     final repository = MockAuthRepository();
     when(() => repository.currentSession).thenReturn(session);
@@ -152,7 +178,7 @@ void main() {
           ),
         ),
         supportedCountriesRepositoryProvider.overrideWithValue(
-          FakeSupportedCountriesRepository(),
+          supportedCountriesRepository ?? FakeSupportedCountriesRepository(),
         ),
       ],
     );
@@ -164,7 +190,11 @@ void main() {
     await tester.pumpWidget(
       UncontrolledProviderScope(
         container: container,
-        child: MaterialApp.router(routerConfig: router),
+        child: MaterialApp.router(
+        routerConfig: router,
+        supportedLocales: AppLocalizations.supportedLocales,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+      ),
       ),
     );
     await tester.pump();
@@ -203,6 +233,49 @@ void main() {
             .widget<OtpVerifyScreen>(find.byType(OtpVerifyScreen))
             .redirectPath,
         AppRoutes.basket,
+      );
+    });
+
+    testWidgets('otp submit does not block on repository country resolution', (
+      tester,
+    ) async {
+      final result = await pumpRouterApp(
+        tester,
+        initialLocation: AppRoutes.otp,
+        supportedCountriesRepository:
+            BlockingResolveSupportedCountriesRepository(),
+      );
+      final repository = result.repository;
+      when(
+        () => repository.sendOtp('+250700000001', 'en'),
+      ).thenAnswer((_) async {});
+
+      await _settleRouter(tester);
+
+      expect(find.byType(OtpScreen), findsOneWidget);
+      final otpScreen = find.byType(OtpScreen);
+      final phoneField = find.descendant(
+        of: otpScreen,
+        matching: find.byType(TextField),
+      );
+      final continueButton = find.descendant(
+        of: otpScreen,
+        matching: find.byType(CoolButton),
+      );
+
+      await tester.enterText(phoneField, '700000001');
+      await tester.pump();
+      tester.widget<CoolButton>(continueButton).onTap();
+      await tester.pump();
+      await _settleRouter(tester);
+
+      verify(() => repository.sendOtp('+250700000001', 'en')).called(1);
+      expect(find.byType(OtpVerifyScreen), findsOneWidget);
+      expect(
+        tester
+            .widget<OtpVerifyScreen>(find.byType(OtpVerifyScreen))
+            .phoneNumber,
+        '+250700000001',
       );
     });
 

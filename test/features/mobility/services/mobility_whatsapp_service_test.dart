@@ -9,6 +9,7 @@ void main() {
     id: 'user-1',
     phone: '250788000111',
     fullName: 'Jean Bosco',
+    publicUserId: '123456',
     momoNumber: '250788000111',
     momoProvider: 'mtn',
     country: 'RW',
@@ -23,7 +24,7 @@ void main() {
       toLocation: 'Kigali Heights',
       departureTime: DateTime.utc(2026, 3, 12, 7, 30),
       vehicleType: 'Moto',
-      contactName: 'Aline',
+      contactName: '654321',
       whatsappNumber: '250788000222',
     );
 
@@ -32,8 +33,8 @@ void main() {
       requester: requester,
     );
 
-    expect(message, contains('Hi Aline'));
-    expect(message, contains("I'm Jean"));
+    expect(message, contains('Hi 654321'));
+    expect(message, contains("I'm 123456"));
     expect(message, contains('Nyamirambo to Kigali Heights'));
     expect(
       message,
@@ -46,7 +47,7 @@ void main() {
     () {
       const driver = DriverInfo(
         driverId: 'driver-1',
-        displayName: 'Eric Driver',
+        displayName: '654321',
         vehicleType: 'Cab',
         distanceKm: 1.4,
         isOnline: true,
@@ -59,7 +60,7 @@ void main() {
         requester: requester,
       );
 
-      expect(message, contains('Hi Eric Driver'));
+      expect(message, contains('Hi 654321'));
       expect(message, contains('Cab profile on COOL'));
       expect(message, contains('Remera → Kimironko'));
       expect(message, contains('1.4 km away'));

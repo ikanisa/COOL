@@ -294,7 +294,6 @@ Future<RoutedTestApp> pumpRouterApp(
   final container = testContext.container;
 
   final router = container.read(appRouterProvider);
-  addTearDown(router.dispose);
 
   if (initialLocation != AppRoutes.splash) {
     router.go(initialLocation);

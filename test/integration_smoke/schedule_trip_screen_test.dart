@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mocktail/mocktail.dart';
 
+import 'package:cool_app/core/services/app_access_service.dart';
 import 'package:cool_app/core/services/location_service.dart';
 import 'package:cool_app/features/mobility/providers/mobility_location_provider.dart';
 import 'package:cool_app/features/mobility/providers/mobility_provider.dart';
@@ -66,11 +70,100 @@ class DisabledLocationService implements LocationService {
 }
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   group('Schedule trip smoke', () {
     late MockMobilityRepository mobilityRepository;
+    late Directory hiveDir;
+
+    setUpAll(() async {
+      hiveDir = await Directory.systemTemp.createTemp('cool_schedule_trip');
+      Hive.init(hiveDir.path);
+    });
+
+    tearDown(() async {
+      for (final boxName in <String>[
+        AppAccessService.boxName,
+        'mobility_location_cache',
+      ]) {
+        if (Hive.isBoxOpen(boxName)) {
+          await Hive.box<dynamic>(boxName).clear();
+          await Hive.box<dynamic>(boxName).close();
+        }
+        await Hive.deleteBoxFromDisk(boxName);
+      }
+    });
+
+    tearDownAll(() async {
+      await hiveDir.delete(recursive: true);
+    });
 
     setUp(() {
       mobilityRepository = MockMobilityRepository();
+    });
+
+    testWidgets('defaults to passenger and shows the driver upgrade path', (
+      tester,
+    ) async {
+      await pumpScopedApp(
+        tester,
+        child: const ScheduleTripScreen(),
+        session: fakeSession(),
+        user: fakeUser(),
+        overrides: <Override>[
+          mobilityRepositoryProvider.overrideWithValue(mobilityRepository),
+          locationServiceProvider.overrideWithValue(DisabledLocationService()),
+        ],
+      );
+
+      await settleTestApp(tester);
+
+      expect(find.text('Schedule as'), findsOneWidget);
+      expect(
+        find.text(
+          'Passenger is your default role. You can switch per trip whenever needed.',
+        ),
+        findsOneWidget,
+      );
+      expect(find.text('Passenger'), findsOneWidget);
+      expect(find.text('Driver'), findsOneWidget);
+
+      await tester.tap(find.text('Driver'));
+      await settleTestApp(tester);
+
+      expect(
+        find.text('Finish driver setup before posting a trip as a driver.'),
+        findsOneWidget,
+      );
+      expect(find.text('Become a driver'), findsOneWidget);
+    });
+
+    testWidgets('keeps driver scheduling available for driver-ready users', (
+      tester,
+    ) async {
+      await pumpScopedApp(
+        tester,
+        child: const ScheduleTripScreen(),
+        session: fakeSession(),
+        user: fakeUser(isDriver: true, vehicleType: 'Cab'),
+        overrides: <Override>[
+          mobilityRepositoryProvider.overrideWithValue(mobilityRepository),
+          locationServiceProvider.overrideWithValue(DisabledLocationService()),
+        ],
+      );
+
+      await settleTestApp(tester);
+
+      await tester.tap(find.text('Driver'));
+      await settleTestApp(tester);
+
+      expect(
+        find.text(
+          'Driver trips are posted as return trips while you still keep passenger access.',
+        ),
+        findsOneWidget,
+      );
+      expect(find.text('Become a driver'), findsNothing);
     });
 
     testWidgets('keeps one main card per step and protects the posting flow', (
@@ -89,9 +182,9 @@ void main() {
 
       await settleTestApp(tester);
 
+      expect(find.text('Schedule as'), findsOneWidget);
       expect(find.text('Pickup and destination'), findsOneWidget);
       expect(find.text('Route → Time → Options → Review'), findsNothing);
-      expect(find.text('Turn on device location'), findsOneWidget);
 
       await tester.enterText(find.byType(TextFormField).at(0), 'Kigali');
       await tester.enterText(find.byType(TextFormField).at(1), 'Musanze');
@@ -115,6 +208,7 @@ void main() {
         find.text('Check the main trip details before posting.'),
         findsOneWidget,
       );
+      expect(find.text('Role'), findsOneWidget);
       expect(find.text('No return trip'), findsOneWidget);
       expect(find.text('One-time trip'), findsOneWidget);
     });

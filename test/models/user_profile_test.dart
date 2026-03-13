@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:cool_app/core/config/country_catalog.dart';
 import 'package:cool_app/features/auth/models/user_profile.dart';
 
 void main() {
@@ -6,6 +7,7 @@ void main() {
     test('parses minimal valid JSON', () {
       final json = {
         'id': 'abc123',
+        'public_user_id': '123456',
         'phone': '+250788000000',
         'full_name': 'Jean Bosco',
         'momo_number': '0788000000',
@@ -18,6 +20,7 @@ void main() {
       final profile = UserProfile.fromJson(json);
 
       expect(profile.id, 'abc123');
+      expect(profile.displayUserId, '123456');
       expect(profile.phone, '+250788000000');
       expect(profile.fullName, 'Jean Bosco');
       expect(profile.momoNumber, '0788000000');
@@ -81,6 +84,7 @@ void main() {
       expect(profile.id, '');
       expect(profile.phone, '');
       expect(profile.fullName, '');
+      expect(profile.displayUserId, '000000');
       expect(profile.momoNumber, '');
       expect(profile.country, '');
       expect(profile.languageCode, 'en');
@@ -123,12 +127,96 @@ void main() {
       final profile = UserProfile.fromJson(json);
       expect(profile.languageCode, 'rw');
     });
+
+    test('normalizes legacy E.164 momo numbers to local profile format', () {
+      final json = {
+        'id': 'x6',
+        'phone': '+250788555555',
+        'full_name': 'Legacy MoMo',
+        'momo_number': '+250788767816',
+        'momo_provider': 'mtn_rwanda',
+        'country': 'RW',
+        'language_code': 'en',
+        'is_driver': false,
+      };
+
+      final profile = UserProfile.fromJson(json);
+
+      expect(profile.momoNumber, '0788767816');
+    });
+
+    test('parses code-based wallet routes without a phone recipient', () {
+      final json = {
+        'id': 'x7',
+        'phone': '+256700123456',
+        'full_name': 'Merchant Route',
+        'momo_number': '',
+        'momo_code': '445566',
+        'momo_route_type': 'code',
+        'momo_provider': 'mtn_ug',
+        'country': 'UG',
+        'language_code': 'en',
+        'is_driver': false,
+      };
+
+      final profile = UserProfile.fromJson(json);
+
+      expect(profile.effectiveMomoRouteType, MomoRecipientType.code);
+      expect(profile.momoRecipientValue, '445566');
+      expect(profile.hasMomoRecipient, true);
+      expect(profile.isProfileComplete, true);
+      expect(profile.canShowMomoQr, isFalse);
+    });
+
+    test(
+      'preserves a code default route when both wallet fields are stored',
+      () {
+        final json = {
+          'id': 'x7b',
+          'phone': '+250788000000',
+          'full_name': 'Dual Route',
+          'momo_number': '0788000000',
+          'momo_code': '445566',
+          'momo_route_type': 'code',
+          'momo_provider': 'mtn_momo_rw',
+          'country': 'RW',
+          'language_code': 'en',
+          'is_driver': false,
+        };
+
+        final profile = UserProfile.fromJson(json);
+
+        expect(profile.momoNumber, '0788000000');
+        expect(profile.momoCode, '445566');
+        expect(profile.effectiveMomoRouteType, MomoRecipientType.code);
+        expect(profile.momoRecipientValue, '445566');
+        expect(profile.canShowMomoQr, isFalse);
+      },
+    );
+
+    test('does not infer stored official identity from display fields', () {
+      final profile = UserProfile.fromJson({
+        'id': 'x8',
+        'phone': '+250788888888',
+        'full_name': 'Display Only',
+        'momo_number': '0788888888',
+        'momo_provider': 'mtn_momo_rw',
+        'country': 'RW',
+        'language_code': 'en',
+        'is_driver': false,
+      });
+
+      expect(profile.officialName, isNull);
+      expect(profile.officialPhone, isNull);
+      expect(profile.hasOfficialIdentity, isFalse);
+    });
   });
 
   group('UserProfile.toJson', () {
     test('roundtrips through fromJson → toJson', () {
       final original = {
         'id': 'roundtrip-id',
+        'public_user_id': '654321',
         'phone': '+250788000000',
         'full_name': 'Roundtrip User',
         'momo_number': '0788000000',
@@ -142,6 +230,7 @@ void main() {
       final json = profile.toJson();
 
       expect(json['id'], 'roundtrip-id');
+      expect(json['public_user_id'], '654321');
       expect(json['phone'], '+250788000000');
       expect(json['full_name'], 'Roundtrip User');
       expect(json['is_driver'], false);
@@ -163,6 +252,49 @@ void main() {
       expect(json.containsKey('vehicle_type'), isFalse);
       expect(json.containsKey('created_at'), isFalse);
       expect(json.containsKey('updated_at'), isFalse);
+      expect(json.containsKey('public_user_id'), isFalse);
+      expect(json.containsKey('official_name'), isFalse);
+      expect(json.containsKey('official_phone'), isFalse);
+    });
+
+    test('serializes the preferred wallet route type', () {
+      const profile = UserProfile(
+        id: 'route-json',
+        phone: '+256700123456',
+        fullName: 'Merchant Route',
+        momoNumber: '',
+        momoCode: '778899',
+        momoRouteType: MomoRecipientType.code,
+        momoProvider: 'mtn_ug',
+        country: 'UG',
+        languageCode: 'en',
+        isDriver: false,
+      );
+
+      final json = profile.toJson();
+
+      expect(json['momo_route_type'], 'code');
+      expect(json['momo_code'], '778899');
+    });
+
+    test('does not persist empty official identity fields', () {
+      const profile = UserProfile(
+        id: 'identity-strip',
+        phone: '+250788000001',
+        fullName: 'Identity Strip',
+        momoNumber: '0788000001',
+        momoProvider: 'mtn_momo_rw',
+        country: 'RW',
+        languageCode: 'en',
+        isDriver: false,
+        officialName: '',
+        officialPhone: '   ',
+      );
+
+      final json = profile.toJson();
+
+      expect(json.containsKey('official_name'), isFalse);
+      expect(json.containsKey('official_phone'), isFalse);
     });
   });
 

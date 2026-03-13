@@ -1,8 +1,14 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mocktail/mocktail.dart';
 
+import 'package:cool_app/core/config/env_config.dart';
+import 'package:cool_app/core/services/app_access_service.dart';
 import 'package:cool_app/core/services/location_service.dart';
 import 'package:cool_app/features/mobility/models/subscription_status.dart';
 import 'package:cool_app/features/mobility/models/trip_type.dart';
@@ -88,6 +94,29 @@ void main() {
   late MockSubscriptionRepository subscriptionRepository;
   late MockTripRepository tripRepository;
   late MockVehicleTypeRepository vehicleTypeRepository;
+  late Directory hiveDir;
+
+  setUpAll(() async {
+    hiveDir = await Directory.systemTemp.createTemp('cool_trip_offline');
+    Hive.init(hiveDir.path);
+  });
+
+  tearDown(() async {
+    for (final boxName in <String>[
+      AppAccessService.boxName,
+      'mobility_location_cache',
+    ]) {
+      if (Hive.isBoxOpen(boxName)) {
+        await Hive.box<dynamic>(boxName).clear();
+        await Hive.box<dynamic>(boxName).close();
+      }
+      await Hive.deleteBoxFromDisk(boxName);
+    }
+  });
+
+  tearDownAll(() async {
+    await hiveDir.delete(recursive: true);
+  });
 
   setUp(() {
     mobilityRepository = MockMobilityRepository();
@@ -96,13 +125,10 @@ void main() {
     vehicleTypeRepository = MockVehicleTypeRepository();
 
     when(
-      () => mobilityRepository.getDriverProfile(
-        any(),
-      ),
+      () => mobilityRepository.getDriverProfile(any()),
     ).thenAnswer((_) async => null);
     when(
-      () =>
-          mobilityRepository.getMyTrips(any()),
+      () => mobilityRepository.getMyTrips(any()),
     ).thenAnswer((_) async => const []);
     when(
       () => mobilityRepository.getNearbyDrivers(any(), any(), any(), any()),
@@ -158,7 +184,12 @@ void main() {
       expect(find.text('All'), findsOneWidget);
       expect(find.text('Moto'), findsWidgets);
       expect(find.text('Schedule trip'), findsOneWidget);
-      expect(find.text('Nearby map'), findsOneWidget);
+      expect(
+        find.text('Nearby map'),
+        EnvConfig.hasEmbeddedGoogleMapsSupport(TargetPlatform.android)
+            ? findsOneWidget
+            : findsNothing,
+      );
 
       await tester.tap(find.text('Scheduled Trips'));
       await tester.pumpAndSettle();

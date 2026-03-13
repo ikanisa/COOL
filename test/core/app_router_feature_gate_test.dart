@@ -91,5 +91,37 @@ void main() {
         expect(find.text('Mobile Money'), findsOneWidget);
       },
     );
+
+    testWidgets(
+      'managed app config also blocks MoMo statements for standard users',
+      (tester) async {
+        final featureFlagsService = await _buildFeatureFlagsService(
+          appConfigOverrides: const <String, Object?>{
+            'feature_momo_stage': 'internal',
+            'feature_momo_admin_only': 'true',
+          },
+        );
+
+        final app = await pumpRouterApp(
+          tester,
+          initialLocation: AppRoutes.momoStatements,
+          session: fakeSession(),
+          user: fakeUser(),
+          overrides: <Override>[
+            featureFlagsServiceProvider.overrideWithValue(featureFlagsService),
+          ],
+        );
+
+        expect(
+          app.router.routeInformationProvider.value.uri.path,
+          AppRoutes.momoStatements,
+        );
+        expect(find.text('Temporarily Unavailable'), findsOneWidget);
+        expect(
+          find.textContaining('Mobile Money is temporarily unavailable.'),
+          findsOneWidget,
+        );
+      },
+    );
   });
 }

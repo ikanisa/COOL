@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:cool_app/core/services/crashlytics_service.dart';
 import 'package:cool_app/core/services/performance_service.dart';
+import 'package:cool_app/features/auth/models/user_profile.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart'
     as app_auth;
 import 'package:cool_app/features/auth/repositories/auth_repository.dart';
@@ -27,11 +28,31 @@ Session _fakeSession() {
   })!;
 }
 
+UserProfile _sampleUser({String? officialName, String? officialPhone}) {
+  return UserProfile(
+    id: 'user-123',
+    phone: '+250788123456',
+    fullName: 'Public User',
+    publicUserId: '123456',
+    momoNumber: '0788123456',
+    momoProvider: 'mtn_momo_rw',
+    country: 'RW',
+    languageCode: 'en',
+    isDriver: false,
+    officialName: officialName,
+    officialPhone: officialPhone,
+  );
+}
+
 void main() {
   late MockAuthRepository mockRepo;
   late app_auth.AuthNotifier notifier;
   late CrashlyticsService crashlytics;
   late PerformanceService performance;
+
+  setUpAll(() {
+    registerFallbackValue(_sampleUser());
+  });
 
   setUp(() {
     mockRepo = MockAuthRepository();
@@ -131,6 +152,19 @@ void main() {
       expect(notifier.state.error, isNotNull);
       expect(notifier.state.error, contains('Network error'));
     });
+
+    test('maps invalid Supabase function URLs to a config error', () async {
+      when(() => mockRepo.sendOtp(any(), any())).thenThrow(
+        ArgumentError('No host specified in url/functions/v1/send-otp'),
+      );
+
+      await notifier.sendOtp('+250788000000', 'en');
+
+      expect(notifier.state.isLoading, false);
+      expect(notifier.state.error, isNotNull);
+      expect(notifier.state.error, contains('SUPABASE_URL'));
+      expect(notifier.state.error, isNot(contains('No host specified')));
+    });
   });
 
   group('AuthNotifier.signOut', () {
@@ -174,6 +208,70 @@ void main() {
       expect(result, isNull);
       expect(notifier.state.error, isNotNull);
       expect(notifier.state.error, contains('verified session is required'));
+    });
+  });
+
+  group('AuthNotifier.updateOfficialIdentity', () {
+    test('normalizes and stores official identity fields', () async {
+      final original = _sampleUser();
+      final updated = _sampleUser(
+        officialName: 'Legal User',
+        officialPhone: '0788123456',
+      );
+
+      notifier.state = app_auth.AuthState(
+        user: original,
+        session: _fakeSession(),
+      );
+      when(
+        () => mockRepo.updateProfile(any()),
+      ).thenAnswer((_) async => updated);
+
+      final success = await notifier.updateOfficialIdentity(
+        officialName: '  Legal User ',
+        officialPhone: '+250788123456',
+      );
+
+      expect(success, true);
+      expect(notifier.state.user?.officialName, 'Legal User');
+      expect(notifier.state.user?.officialPhone, '0788123456');
+
+      final captured =
+          verify(() => mockRepo.updateProfile(captureAny())).captured.single
+              as UserProfile;
+      expect(captured.officialName, 'Legal User');
+      expect(captured.officialPhone, '0788123456');
+    });
+
+    test('allows clearing previously stored official identity', () async {
+      final original = _sampleUser(
+        officialName: 'Legal User',
+        officialPhone: '0788123456',
+      );
+      final cleared = _sampleUser();
+
+      notifier.state = app_auth.AuthState(
+        user: original,
+        session: _fakeSession(),
+      );
+      when(
+        () => mockRepo.updateProfile(any()),
+      ).thenAnswer((_) async => cleared);
+
+      final success = await notifier.updateOfficialIdentity(
+        officialName: '',
+        officialPhone: '',
+      );
+
+      expect(success, true);
+      expect(notifier.state.user?.officialName, isNull);
+      expect(notifier.state.user?.officialPhone, isNull);
+
+      final captured =
+          verify(() => mockRepo.updateProfile(captureAny())).captured.single
+              as UserProfile;
+      expect(captured.officialName, isNull);
+      expect(captured.officialPhone, isNull);
     });
   });
 

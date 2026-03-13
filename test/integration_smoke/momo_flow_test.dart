@@ -22,7 +22,7 @@ void main() {
       expect(find.text('Statements'), findsOneWidget);
       expect(find.text('My QR code'), findsOneWidget);
       expect(find.text('NFC tools'), findsOneWidget);
-      expect(find.textContaining('From 788123456'), findsOneWidget);
+      expect(find.textContaining('From 0788123456'), findsOneWidget);
     });
 
     testWidgets('Send money sheet validates inputs', (tester) async {
