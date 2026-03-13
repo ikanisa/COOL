@@ -32,14 +32,14 @@
 		<string>Cool uses the camera to scan QR codes for MoMo payments and shared tickets.</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string>Cool uses your location to find nearby drivers and mobility trips.</string>
-		<key>NSPhotoLibraryAddUsageDescription</key>
-		<string>Cool saves QR codes and shared images to your photo library when you request it.</string>
-		<key>NSPhotoLibraryUsageDescription</key>
-		<string>Cool lets you choose and share images from your photo library.</string>
 		<key>NFCReaderUsageDescription</key>
 		<string>Cool uses NFC for phone-to-phone sharing and MoMo tap experiences.</string>
 		<key>NSContactsUsageDescription</key>
 		<string>Cool uses contacts to help you invite friends to groups and share content.</string>
+		<key>LSSupportsOpeningDocumentsInPlace</key>
+		<true/>
+		<key>UIFileSharingEnabled</key>
+		<true/>
 		<key>UIBackgroundModes</key>
 		<array>
 			<string>remote-notification</string>

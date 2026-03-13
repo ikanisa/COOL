@@ -27,6 +27,23 @@
           "appId": "1:1074154147498:android:8469cac3e0217113dc4ad3",
           "fileOutput": "android/app/src/production/google-services.json"
         }
+      },
+      "ios": {
+        "default": {
+          "projectId": "gen-lang-client-0172279957",
+          "appId": "1:1074154147498:ios:97b9701b34e0dddedc4ad3",
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        },
+        "staging": {
+          "projectId": "gen-lang-client-0172279957",
+          "appId": "1:1074154147498:ios:59411d4546071204dc4ad3",
+          "fileOutput": "ios/Runner/GoogleService-Info-staging.plist"
+        },
+        "production": {
+          "projectId": "gen-lang-client-0172279957",
+          "appId": "1:1074154147498:ios:97b9701b34e0dddedc4ad3",
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
       }
     }
   }

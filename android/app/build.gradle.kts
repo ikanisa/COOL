@@ -8,8 +8,10 @@ plugins {
     id("com.google.firebase.firebase-perf")
 }
 
-import java.util.Properties
 import java.io.FileInputStream
+import java.io.File
+import java.util.Properties
+import java.util.Base64
 
 val keystoreProperties = Properties()
 val keystoreFile = rootProject.file("key.properties")
@@ -23,11 +25,70 @@ if (localPropertiesFile.exists()) {
     localProperties.load(FileInputStream(localPropertiesFile))
 }
 
+fun loadDotEnv(file: File): Map<String, String> {
+    if (!file.exists()) {
+        return emptyMap()
+    }
+
+    return file.readLines().mapNotNull { rawLine ->
+        val line = rawLine.trim()
+        if (line.isEmpty() || line.startsWith("#") || !line.contains("=")) {
+            return@mapNotNull null
+        }
+
+        val separatorIndex = line.indexOf('=')
+        val key = line.substring(0, separatorIndex).trim()
+        val value = line.substring(separatorIndex + 1).trim()
+            .removeSurrounding("\"")
+            .removeSurrounding("'")
+
+        if (key.isEmpty()) null else key to value
+    }.toMap()
+}
+
+val dotEnvProperties = loadDotEnv(rootProject.file("../.env"))
+
 fun buildConfigValue(name: String): String {
     return providers.gradleProperty(name).orNull
         ?: localProperties.getProperty(name)
         ?: System.getenv(name)
+        ?: dotEnvProperties[name]
         ?: ""
+}
+
+fun encodeDartDefines(defines: Map<String, String>): String {
+    return defines.entries.joinToString(",") { (key, value) ->
+        Base64.getEncoder().encodeToString("$key=$value".toByteArray(Charsets.UTF_8))
+    }
+}
+
+if (!project.hasProperty("dart-defines")) {
+    val localFlutterDartDefines = linkedMapOf<String, String>()
+    listOf(
+        "SUPABASE_URL",
+        "SUPABASE_ANON_KEY",
+        "GOOGLE_MAPS_ANDROID_API_KEY",
+        "GOOGLE_MAPS_IOS_API_KEY",
+        "GOOGLE_MAPS_ANDROID_MAP_ID",
+        "GOOGLE_MAPS_IOS_MAP_ID",
+        "FLAVOR",
+    ).forEach { key ->
+        val value = buildConfigValue(key)
+        if (value.isNotBlank()) {
+            localFlutterDartDefines[key] = value
+        }
+    }
+
+    if (localFlutterDartDefines.isNotEmpty()) {
+        localFlutterDartDefines.putIfAbsent(
+            "COOL_DEEP_LINK_HOST",
+            buildConfigValue("COOL_DEEP_LINK_HOST").ifBlank { "cool.app" }
+        )
+        extra["dart-defines"] = encodeDartDefines(localFlutterDartDefines)
+        logger.lifecycle(
+            "Using local Dart defines from environment/.env for Android build because none were provided explicitly."
+        )
+    }
 }
 
 val googleMapsAndroidApiKey = buildConfigValue("GOOGLE_MAPS_ANDROID_API_KEY")
