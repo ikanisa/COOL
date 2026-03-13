@@ -23,123 +23,143 @@ class MissionProgressCard extends StatelessWidget {
     final progress = mission.progressPercent;
     final isCompleted = mission.isCompleted;
 
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: isCompleted
-              ? AppColors.accent.withValues(alpha: 0.08)
-              : AppColors.surface,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
+    return Semantics(
+      button: onTap != null,
+      label: mission.title,
+      hint: onTap != null ? 'Opens mission details' : null,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
             color: isCompleted
-                ? AppColors.accent.withValues(alpha: 0.3)
-                : AppColors.border,
+                ? AppColors.accent.withValues(alpha: 0.08)
+                : AppColors.surface,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: isCompleted
+                  ? AppColors.accent.withValues(alpha: 0.3)
+                  : AppColors.border,
+            ),
           ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // ─── Header: emoji + title + countdown ─────────
-            Row(
-              children: [
-                Icon(IconMapper.from(mission.emoji), size: 24, color: AppColors.text2),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        mission.title,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.text,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      if (mission.description != null) ...[
-                        const SizedBox(height: 2),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // ─── Header: emoji + title + countdown ─────────
+              Row(
+                children: [
+                  Icon(
+                    IconMapper.from(mission.emoji),
+                    size: 24,
+                    color: AppColors.text2,
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         Text(
-                          mission.description!,
+                          mission.title,
                           style: GoogleFonts.dmSans(
-                            fontSize: 12,
-                            color: AppColors.text3,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.text,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
+                        if (mission.description != null) ...[
+                          const SizedBox(height: 2),
+                          Text(
+                            mission.description!,
+                            style: GoogleFonts.dmSans(
+                              fontSize: 12,
+                              color: AppColors.text3,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                _TimePill(label: mission.timeRemainingLabel),
-              ],
-            ),
+                  const SizedBox(width: 8),
+                  _TimePill(label: mission.timeRemainingLabel),
+                ],
+              ),
 
-            const SizedBox(height: 14),
+              const SizedBox(height: 14),
 
-            // ─── Progress bar ────────────────────────────────
-            ClipRRect(
-              borderRadius: BorderRadius.circular(6),
-              child: LinearProgressIndicator(
-                value: progress,
-                minHeight: 8,
-                backgroundColor: AppColors.surface3,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  isCompleted ? AppColors.accent : AppColors.blue,
+              // ─── Progress bar ────────────────────────────────
+              Semantics(
+                label:
+                    'Mission progress ${(progress * 100).toStringAsFixed(0)} percent',
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(6),
+                  child: LinearProgressIndicator(
+                    value: progress,
+                    minHeight: 8,
+                    backgroundColor: AppColors.surface3,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      isCompleted ? AppColors.accent : AppColors.blue,
+                    ),
+                  ),
                 ),
               ),
-            ),
 
-            const SizedBox(height: 8),
+              const SizedBox(height: 8),
 
-            // ─── Footer: progress label + reward ─────────────
-            Row(
-              children: [
-                Text(
-                  isCompleted
-                      ? 'Completed'
-                      : '${(progress * 100).toStringAsFixed(0)}% complete',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: isCompleted ? AppColors.accent : AppColors.text2,
+              // ─── Footer: progress label + reward ─────────────
+              Row(
+                children: [
+                  Text(
+                    isCompleted
+                        ? 'Completed'
+                        : '${(progress * 100).toStringAsFixed(0)}% complete',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: isCompleted ? AppColors.accent : AppColors.text2,
+                    ),
                   ),
-                ),
-                const Spacer(),
-                if (mission.rewardPoints > 0)
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.yellow.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.emoji_events_rounded, size: 12, color: AppColors.yellow),
-                        const SizedBox(width: 4),
-                        Text(
-                          '${mission.rewardPoints} pts',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.yellow,
-                          ),
+                  const Spacer(),
+                  if (mission.rewardPoints > 0)
+                    Semantics(
+                      label: '${mission.rewardPoints} reward points',
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
                         ),
-                      ],
+                        decoration: BoxDecoration(
+                          color: AppColors.yellow.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.emoji_events_rounded,
+                              size: 12,
+                              color: AppColors.yellow,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              '${mission.rewardPoints} pts',
+                              style: GoogleFonts.dmSans(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.yellow,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -152,19 +172,22 @@ class _TimePill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: AppColors.surface3,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Text(
-        label,
-        style: GoogleFonts.dmSans(
-          fontSize: 11,
-          fontWeight: FontWeight.w500,
-          color: AppColors.text3,
+    return Semantics(
+      label: 'Time remaining: $label',
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        decoration: BoxDecoration(
+          color: AppColors.surface3,
+          borderRadius: BorderRadius.circular(20),
         ),
+        child: Text(
+          label,
+          style: GoogleFonts.dmSans(
+            fontSize: 11,
+            fontWeight: FontWeight.w500,
+            color: AppColors.text3,
+                          ),
+                        ),
       ),
     );
   }

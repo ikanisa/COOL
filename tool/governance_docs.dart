@@ -1,5 +1,10 @@
 import 'dart:io';
 
+const _goRouterPrefix = 'GoRouter(';
+const _goRoutePrefix = 'GoRoute(';
+const _shellRoutePrefix = 'StatefulShellRoute.indexedStack(';
+const _shellBranchPrefix = 'StatefulShellBranch(';
+
 class GovernanceDocs {
   const GovernanceDocs({
     required this.routeInventory,
@@ -22,6 +27,20 @@ class RouteEntry {
   final String target;
   final String shell;
   final String category;
+
+  RouteEntry copyWith({
+    String? path,
+    String? target,
+    String? shell,
+    String? category,
+  }) {
+    return RouteEntry(
+      path: path ?? this.path,
+      target: target ?? this.target,
+      shell: shell ?? this.shell,
+      category: category ?? this.category,
+    );
+  }
 }
 
 class ScreenBudgetEntry {
@@ -82,43 +101,37 @@ List<RouteEntry> _readRouteEntries(Directory repoRoot) {
   final shellBranchCount = RegExp(
     r'StatefulShellBranch\(',
   ).allMatches(source).length;
-  final blocks = _extractGoRouteBlocks(source);
-  final entries = <RouteEntry>[];
 
-  for (final block in blocks) {
-    final pathMatch = RegExp(r'path:\s*([^,\n]+)').firstMatch(block);
-    if (pathMatch == null) {
-      continue;
-    }
-    final rawPath = pathMatch.group(1)!.trim();
-    final path = _resolvePath(rawPath, routeConstants);
-    final screenNames =
-        RegExp(
-            r'\b([A-Za-z_][A-Za-z0-9_]*Screen)\(',
-          ).allMatches(block).map((match) => match.group(1)!).toSet().toList()
-          ..sort();
-    final target = block.contains('redirect:')
-        ? 'Redirect'
-        : screenNames.isEmpty
-        ? 'Unknown'
-        : screenNames
-              .map((name) => _linkedScreenName(name, screenPaths[name]))
-              .join(', ');
-    entries.add(
+  final routerStart = source.indexOf(_goRouterPrefix);
+  if (routerStart == -1) {
+    return <RouteEntry>[
       RouteEntry(
-        path: path,
-        target: target,
-        shell: _shellForPath(path),
-        category: _categoryForPath(path),
+        path: '__meta_route_count__',
+        target: '0',
+        shell: shellBranchCount.toString(),
+        category: _countFeatureScreenFiles(repoRoot).toString(),
       ),
-    );
+    ];
   }
+
+  final routerBlock = _extractInvocation(source, routerStart, _goRouterPrefix);
+  final routerContent = _invocationContent(routerBlock, _goRouterPrefix);
+  final topLevelRoutes = _findTopLevelPropertyValue(routerContent, 'routes');
+  final entries = topLevelRoutes == null
+      ? <RouteEntry>[]
+      : _parseRouteList(
+          topLevelRoutes,
+          parentPath: '',
+          shell: 'No',
+          routeConstants: routeConstants,
+          screenPaths: screenPaths,
+        );
 
   entries.sort((a, b) => a.path.compareTo(b.path));
   return <RouteEntry>[
     RouteEntry(
       path: '__meta_route_count__',
-      target: blocks.length.toString(),
+      target: entries.length.toString(),
       shell: shellBranchCount.toString(),
       category: _countFeatureScreenFiles(repoRoot).toString(),
     ),
@@ -126,32 +139,179 @@ List<RouteEntry> _readRouteEntries(Directory repoRoot) {
   ];
 }
 
-List<String> _extractGoRouteBlocks(String source) {
-  final blocks = <String>[];
-  var index = 0;
-  while (true) {
-    final start = source.indexOf('GoRoute(', index);
-    if (start == -1) {
-      break;
+List<RouteEntry> _parseRouteList(
+  String listSource, {
+  required String parentPath,
+  required String shell,
+  required Map<String, String> routeConstants,
+  required Map<String, String> screenPaths,
+}) {
+  final entries = <RouteEntry>[];
+  for (final block in _extractTopLevelInvocations(listSource, <String>[
+    _goRoutePrefix,
+    _shellRoutePrefix,
+  ])) {
+    if (block.startsWith(_goRoutePrefix)) {
+      entries.addAll(
+        _parseGoRoute(
+          block,
+          parentPath: parentPath,
+          shell: shell,
+          routeConstants: routeConstants,
+          screenPaths: screenPaths,
+        ),
+      );
+      continue;
     }
-    var depth = 0;
-    var end = start;
-    for (var cursor = start; cursor < source.length; cursor++) {
-      final char = source[cursor];
-      if (char == '(') {
-        depth += 1;
-      } else if (char == ')') {
-        depth -= 1;
-        if (depth == 0) {
-          end = cursor;
-          break;
-        }
+
+    if (block.startsWith(_shellRoutePrefix)) {
+      entries.addAll(
+        _parseShellRoute(
+          block,
+          routeConstants: routeConstants,
+          screenPaths: screenPaths,
+        ),
+      );
+    }
+  }
+  return entries;
+}
+
+List<RouteEntry> _parseShellRoute(
+  String block, {
+  required Map<String, String> routeConstants,
+  required Map<String, String> screenPaths,
+}) {
+  final content = _invocationContent(block, _shellRoutePrefix);
+  final branchesSource = _findTopLevelPropertyValue(content, 'branches');
+  if (branchesSource == null) {
+    return const <RouteEntry>[];
+  }
+
+  final entries = <RouteEntry>[];
+  for (final branchBlock in _extractTopLevelInvocations(
+    branchesSource,
+    <String>[_shellBranchPrefix],
+  )) {
+    final branchContent = _invocationContent(branchBlock, _shellBranchPrefix);
+    final routesSource = _findTopLevelPropertyValue(branchContent, 'routes');
+    if (routesSource == null) {
+      continue;
+    }
+
+    final branchEntries = _parseRouteList(
+      routesSource,
+      parentPath: '',
+      shell: 'No',
+      routeConstants: routeConstants,
+      screenPaths: screenPaths,
+    );
+    if (branchEntries.isEmpty) {
+      continue;
+    }
+
+    final branchShell = _shellForPath(branchEntries.first.path);
+    entries.addAll(
+      branchEntries.map(
+        (entry) => entry.copyWith(
+          shell: branchShell,
+          category: _categoryForPath(entry.path),
+        ),
+      ),
+    );
+  }
+
+  return entries;
+}
+
+List<RouteEntry> _parseGoRoute(
+  String block, {
+  required String parentPath,
+  required String shell,
+  required Map<String, String> routeConstants,
+  required Map<String, String> screenPaths,
+}) {
+  final content = _invocationContent(block, _goRoutePrefix);
+  final rawPath = _findTopLevelPropertyValue(content, 'path');
+  if (rawPath == null) {
+    return const <RouteEntry>[];
+  }
+
+  final path = _joinPaths(parentPath, _resolvePath(rawPath, routeConstants));
+  final builder = _findTopLevelPropertyValue(content, 'builder');
+  final pageBuilder = _findTopLevelPropertyValue(content, 'pageBuilder');
+  final builderSources = <String?>[builder, pageBuilder];
+
+  final screenNames = <String>{};
+  for (final builderSource in builderSources.whereType<String>()) {
+    screenNames.addAll(_extractScreenNames(builderSource));
+  }
+
+  final redirectSource = _findTopLevelPropertyValue(content, 'redirect');
+  final target = screenNames.isNotEmpty
+      ? (screenNames.toList()..sort())
+            .map((name) => _linkedScreenName(name, screenPaths[name]))
+            .join(', ')
+      : redirectSource != null
+      ? 'Redirect'
+      : 'Unknown';
+
+  final children = <RouteEntry>[];
+  final childRoutes = _findTopLevelPropertyValue(content, 'routes');
+  if (childRoutes != null) {
+    children.addAll(
+      _parseRouteList(
+        childRoutes,
+        parentPath: path,
+        shell: shell,
+        routeConstants: routeConstants,
+        screenPaths: screenPaths,
+      ),
+    );
+  }
+
+  return <RouteEntry>[
+    RouteEntry(
+      path: path,
+      target: target,
+      shell: shell,
+      category: _categoryForPath(path),
+    ),
+    ...children,
+  ];
+}
+
+List<String> _extractTopLevelInvocations(String source, List<String> prefixes) {
+  final body = _stripOuterBrackets(source);
+  final invocations = <String>[];
+
+  var index = 0;
+  while (index < body.length) {
+    final state = _scanStateAt(body, index);
+    if (!state.isTopLevel) {
+      index += 1;
+      continue;
+    }
+
+    String? matchedPrefix;
+    for (final prefix in prefixes) {
+      if (body.startsWith(prefix, index)) {
+        matchedPrefix = prefix;
+        break;
       }
     }
-    blocks.add(source.substring(start, end + 1));
-    index = end + 1;
+
+    if (matchedPrefix == null) {
+      index += 1;
+      continue;
+    }
+
+    final block = _extractInvocation(body, index, matchedPrefix);
+    invocations.add(block);
+    index += block.length;
   }
-  return blocks;
+
+  return invocations;
 }
 
 Map<String, String> _readRouteConstants(String source) {
@@ -182,6 +342,19 @@ Map<String, String> _readScreenClassPaths(Directory repoRoot) {
   return mapping;
 }
 
+Iterable<String> _extractScreenNames(String source) sync* {
+  final matches = RegExp(
+    r'\b([A-Za-z_][A-Za-z0-9_]*Screen)\(',
+  ).allMatches(source);
+  final seen = <String>{};
+  for (final match in matches) {
+    final name = match.group(1)!;
+    if (seen.add(name)) {
+      yield name;
+    }
+  }
+}
+
 String _resolvePath(String rawPath, Map<String, String> constants) {
   final trimmed = rawPath.trim();
   if (trimmed.startsWith('AppRoutes.')) {
@@ -192,6 +365,24 @@ String _resolvePath(String rawPath, Map<String, String> constants) {
     return trimmed.substring(1, trimmed.length - 1);
   }
   return trimmed;
+}
+
+String _joinPaths(String parentPath, String childPath) {
+  final trimmedChild = childPath.trim();
+  if (trimmedChild.startsWith('/')) {
+    return trimmedChild;
+  }
+  if (parentPath.isEmpty) {
+    return trimmedChild.startsWith('/') ? trimmedChild : '/$trimmedChild';
+  }
+
+  final normalizedParent = parentPath.endsWith('/')
+      ? parentPath.substring(0, parentPath.length - 1)
+      : parentPath;
+  final normalizedChild = trimmedChild.startsWith('/')
+      ? trimmedChild.substring(1)
+      : trimmedChild;
+  return '$normalizedParent/$normalizedChild';
 }
 
 String _linkedScreenName(String className, String? relativePath) {
@@ -239,7 +430,8 @@ String _categoryForPath(String path) {
       path.startsWith('/groups/') ||
       path == '/mobility' ||
       path.startsWith('/mobility/') ||
-      path == '/profile') {
+      path == '/profile' ||
+      path.startsWith('/profile/')) {
     return 'Shell Branches';
   }
   if (path.startsWith('/partners')) {
@@ -271,9 +463,8 @@ String _renderRouteInventory(Directory repoRoot, List<RouteEntry> entries) {
   final buffer = StringBuffer()
     ..writeln('# Route Inventory')
     ..writeln()
-    ..writeln('Generated from code in ')
     ..writeln(
-      '[`lib/core/router/app_router.dart`](../lib/core/router/app_router.dart).',
+      'Generated from [`lib/core/router/app_router.dart`](../lib/core/router/app_router.dart).',
     )
     ..writeln()
     ..writeln('Current router shape:')
@@ -290,8 +481,9 @@ String _renderRouteInventory(Directory repoRoot, List<RouteEntry> entries) {
     ..writeln(
       '- New user-facing routes must ship with smoke or routing coverage.',
     )
-    ..writeln('- Route changes that grow screen scope must also refresh ')
-    ..writeln('[`SCREEN_BUDGETS.md`](./SCREEN_BUDGETS.md).')
+    ..writeln(
+      '- Route changes that grow screen scope must also refresh [`SCREEN_BUDGETS.md`](./SCREEN_BUDGETS.md).',
+    )
     ..writeln();
 
   for (final category in <String>[
@@ -428,4 +620,202 @@ String _renderScreenBudgets(List<ScreenBudgetEntry> entries) {
   }
 
   return buffer.toString();
+}
+
+String? _findTopLevelPropertyValue(String source, String property) {
+  for (var index = 0; index < source.length; index++) {
+    final state = _scanStateAt(source, index);
+    if (!state.isTopLevel) {
+      continue;
+    }
+    if (!_matchesProperty(source, index, property)) {
+      continue;
+    }
+
+    var cursor = index + property.length;
+    while (cursor < source.length && _isWhitespace(source.codeUnitAt(cursor))) {
+      cursor += 1;
+    }
+    if (cursor >= source.length || source[cursor] != ':') {
+      continue;
+    }
+    cursor += 1;
+    while (cursor < source.length && _isWhitespace(source.codeUnitAt(cursor))) {
+      cursor += 1;
+    }
+
+    final start = cursor;
+    for (; cursor < source.length; cursor++) {
+      final valueState = _scanStateAt(source, cursor);
+      if (!valueState.isTopLevel) {
+        continue;
+      }
+      if (source[cursor] == ',') {
+        return source.substring(start, cursor).trim();
+      }
+    }
+    return source.substring(start).trim();
+  }
+  return null;
+}
+
+bool _matchesProperty(String source, int index, String property) {
+  if (!source.startsWith(property, index)) {
+    return false;
+  }
+  if (index > 0) {
+    final previous = source.codeUnitAt(index - 1);
+    if (_isIdentifier(previous)) {
+      return false;
+    }
+  }
+  final nextIndex = index + property.length;
+  if (nextIndex < source.length) {
+    final next = source.codeUnitAt(nextIndex);
+    if (_isIdentifier(next)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+String _extractInvocation(String source, int start, String prefix) {
+  final openParenIndex = start + prefix.length - 1;
+  var depth = 0;
+  var inSingleQuote = false;
+  var inDoubleQuote = false;
+  var escaped = false;
+
+  for (var cursor = openParenIndex; cursor < source.length; cursor++) {
+    final char = source[cursor];
+
+    if (escaped) {
+      escaped = false;
+      continue;
+    }
+    if (char == r'\') {
+      escaped = true;
+      continue;
+    }
+    if (char == "'" && !inDoubleQuote) {
+      inSingleQuote = !inSingleQuote;
+      continue;
+    }
+    if (char == '"' && !inSingleQuote) {
+      inDoubleQuote = !inDoubleQuote;
+      continue;
+    }
+    if (inSingleQuote || inDoubleQuote) {
+      continue;
+    }
+
+    if (char == '(') {
+      depth += 1;
+    } else if (char == ')') {
+      depth -= 1;
+      if (depth == 0) {
+        return source.substring(start, cursor + 1);
+      }
+    }
+  }
+
+  throw StateError('Unbalanced invocation for $prefix');
+}
+
+String _invocationContent(String block, String prefix) {
+  return block.substring(prefix.length, block.length - 1);
+}
+
+String _stripOuterBrackets(String source) {
+  final trimmed = source.trim();
+  if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+    return trimmed.substring(1, trimmed.length - 1);
+  }
+  return trimmed;
+}
+
+_ScanState _scanStateAt(String source, int endIndex) {
+  var parenDepth = 0;
+  var bracketDepth = 0;
+  var braceDepth = 0;
+  var inSingleQuote = false;
+  var inDoubleQuote = false;
+  var escaped = false;
+
+  for (var index = 0; index < endIndex; index++) {
+    final char = source[index];
+    if (escaped) {
+      escaped = false;
+      continue;
+    }
+    if (char == r'\') {
+      escaped = true;
+      continue;
+    }
+    if (char == "'" && !inDoubleQuote) {
+      inSingleQuote = !inSingleQuote;
+      continue;
+    }
+    if (char == '"' && !inSingleQuote) {
+      inDoubleQuote = !inDoubleQuote;
+      continue;
+    }
+    if (inSingleQuote || inDoubleQuote) {
+      continue;
+    }
+
+    if (char == '(') {
+      parenDepth += 1;
+    } else if (char == ')') {
+      parenDepth -= 1;
+    } else if (char == '[') {
+      bracketDepth += 1;
+    } else if (char == ']') {
+      bracketDepth -= 1;
+    } else if (char == '{') {
+      braceDepth += 1;
+    } else if (char == '}') {
+      braceDepth -= 1;
+    }
+  }
+
+  return _ScanState(
+    parenDepth: parenDepth,
+    bracketDepth: bracketDepth,
+    braceDepth: braceDepth,
+    inSingleQuote: inSingleQuote,
+    inDoubleQuote: inDoubleQuote,
+  );
+}
+
+bool _isWhitespace(int codeUnit) =>
+    codeUnit == 32 || codeUnit == 9 || codeUnit == 10 || codeUnit == 13;
+
+bool _isIdentifier(int codeUnit) =>
+    (codeUnit >= 48 && codeUnit <= 57) ||
+    (codeUnit >= 65 && codeUnit <= 90) ||
+    (codeUnit >= 97 && codeUnit <= 122) ||
+    codeUnit == 95;
+
+class _ScanState {
+  const _ScanState({
+    required this.parenDepth,
+    required this.bracketDepth,
+    required this.braceDepth,
+    required this.inSingleQuote,
+    required this.inDoubleQuote,
+  });
+
+  final int parenDepth;
+  final int bracketDepth;
+  final int braceDepth;
+  final bool inSingleQuote;
+  final bool inDoubleQuote;
+
+  bool get isTopLevel =>
+      !inSingleQuote &&
+      !inDoubleQuote &&
+      parenDepth == 0 &&
+      bracketDepth == 0 &&
+      braceDepth == 0;
 }

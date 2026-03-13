@@ -45,18 +45,22 @@ class AppAccessSnapshot {
 /// when the underlying OS permission is still granted.
 class AppAccessService {
   AppAccessService({
+    required Future<Box<bool>> Function(String name) openBox,
     LocationService? locationService,
     DeviceSettingsService? deviceSettingsService,
     NfcHceService? nfcHceService,
-  }) : _locationService = locationService ?? DeviceLocationService.instance,
+  }) : _openBox = openBox,
+       _locationService = locationService ?? DeviceLocationService.instance,
        _deviceSettingsService =
            deviceSettingsService ?? DeviceSettingsService.instance,
        _nfcHceService = nfcHceService ?? NfcHceService.instance;
 
-  static final AppAccessService instance = AppAccessService();
-
   static const boxName = 'app_access_preferences';
+  static final AppAccessService instance = AppAccessService(
+    openBox: Hive.openBox<bool>,
+  );
 
+  final Future<Box<bool>> Function(String name) _openBox;
   final LocationService _locationService;
   final DeviceSettingsService _deviceSettingsService;
   final NfcHceService _nfcHceService;
@@ -65,12 +69,12 @@ class AppAccessService {
   ValueListenable<int> get changes => _changeRevision;
 
   Future<bool> isEnabled(AppAccessPermission permission) async {
-    final box = await _openBox();
+    final box = await _openBox(boxName);
     return box.get(permission.name, defaultValue: true) ?? true;
   }
 
   Future<void> setEnabled(AppAccessPermission permission, bool enabled) async {
-    final box = await _openBox();
+    final box = await _openBox(boxName);
     final current = box.get(permission.name, defaultValue: true) ?? true;
     if (current == enabled) {
       return;
@@ -161,13 +165,6 @@ class AppAccessService {
       case AppAccessPermission.sms:
         return openAppSettings();
     }
-  }
-
-  Future<Box<bool>> _openBox() async {
-    if (!Hive.isBoxOpen(boxName)) {
-      return Hive.openBox<bool>(boxName);
-    }
-    return Hive.box<bool>(boxName);
   }
 
   Future<void> _stopActiveNfcReceive() async {

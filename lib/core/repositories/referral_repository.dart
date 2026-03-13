@@ -3,8 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/referral_attribution.dart';
 
 class ReferralRepository {
-  ReferralRepository({SupabaseClient? client})
-    : _client = client ?? Supabase.instance.client;
+  ReferralRepository({required SupabaseClient client}) : _client = client;
 
   final SupabaseClient _client;
 

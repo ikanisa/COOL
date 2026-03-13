@@ -16,25 +16,27 @@ class SeasonBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     if (!season.isLive) return const SizedBox.shrink();
 
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            AppColors.accent.withValues(alpha: 0.12),
-            AppColors.blue.withValues(alpha: 0.08),
-          ],
+    return Semantics(
+      label: 'Active season ${season.title}',
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              AppColors.accent.withValues(alpha: 0.12),
+              AppColors.blue.withValues(alpha: 0.08),
+            ],
+          ),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: AppColors.accent.withValues(alpha: 0.2),
+          ),
         ),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: AppColors.accent.withValues(alpha: 0.2),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
           // ─── Header ────────────────────────────────────
           Row(
             children: [
@@ -50,18 +52,24 @@ class SeasonBanner extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: AppColors.accent.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  season.timeRemainingLabel,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.accent,
+              Semantics(
+                label: 'Season time remaining ${season.timeRemainingLabel}',
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.accent.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    season.timeRemainingLabel,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.accent,
+                    ),
                   ),
                 ),
               ),
@@ -71,14 +79,18 @@ class SeasonBanner extends StatelessWidget {
           const SizedBox(height: 10),
 
           // ─── Season progress bar ───────────────────────
-          ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: LinearProgressIndicator(
-              value: season.progressThroughSeason,
-              minHeight: 4,
-              backgroundColor: AppColors.surface3,
-              valueColor: AlwaysStoppedAnimation<Color>(
-                AppColors.accent.withValues(alpha: 0.6),
+          Semantics(
+            label:
+                'Season progress ${(season.progressThroughSeason * 100).round()} percent',
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: LinearProgressIndicator(
+                value: season.progressThroughSeason,
+                minHeight: 4,
+                backgroundColor: AppColors.surface3,
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  AppColors.accent.withValues(alpha: 0.6),
+                ),
               ),
             ),
           ),
@@ -89,44 +101,55 @@ class SeasonBanner extends StatelessWidget {
           Row(
             children: [
               Flexible(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Icons.star_rounded, size: 14, color: AppColors.text2),
-                    const SizedBox(width: 4),
-                    Flexible(
-                      child: Text(
-                        '$seasonPoints season pts',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.text2,
+                child: Semantics(
+                  label: '$seasonPoints season points',
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.star_rounded,
+                        size: 14,
+                        color: AppColors.text2,
+                      ),
+                      const SizedBox(width: 4),
+                      Flexible(
+                        child: Text(
+                          '$seasonPoints season pts',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.dmSans(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.text2,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               if (season.rewardsDescription != null) ...[
                 const SizedBox(width: 8),
                 Flexible(
-                  child: Text(
-                    season.rewardsDescription!,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 11,
-                      color: AppColors.text3,
+                  child: Semantics(
+                    label: season.rewardsDescription!,
+                    child: Text(
+                      season.rewardsDescription!,
+                      style: GoogleFonts.dmSans(
+                        fontSize: 11,
+                        color: AppColors.text3,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.end,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.end,
                   ),
                 ),
               ],
             ],
           ),
         ],
+        ),
       ),
     );
   }

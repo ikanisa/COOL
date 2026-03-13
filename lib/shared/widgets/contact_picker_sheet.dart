@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart' show Hive;
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../core/services/app_access_service.dart';
 import '../../core/services/contacts_service.dart';
 import '../../core/theme/app_colors.dart';
+import 'cool_skeleton.dart';
 
 /// A modal bottom sheet that lets users pick contacts from their phone.
 ///
@@ -14,12 +16,14 @@ class ContactPickerSheet extends StatefulWidget {
   const ContactPickerSheet._({
     required this.multiSelect,
     required this.onSelected,
+    required this.appAccessService,
     this.title,
     this.subtitle,
   });
 
   final bool multiSelect;
   final void Function(List<SimpleContact> selected) onSelected;
+  final AppAccessService appAccessService;
   final String? title;
   final String? subtitle;
 
@@ -28,6 +32,7 @@ class ContactPickerSheet extends StatefulWidget {
   /// Returns the selected contacts (empty if cancelled).
   static Future<List<SimpleContact>> show(
     BuildContext context, {
+    AppAccessService? appAccessService,
     bool multiSelect = false,
     String? title,
     String? subtitle,
@@ -41,6 +46,8 @@ class ContactPickerSheet extends StatefulWidget {
         multiSelect: multiSelect,
         title: title,
         subtitle: subtitle,
+        appAccessService:
+            appAccessService ?? AppAccessService(openBox: Hive.openBox<bool>),
         onSelected: (contacts) => Navigator.of(context).pop(contacts),
       ),
     );
@@ -54,7 +61,7 @@ class ContactPickerSheet extends StatefulWidget {
 class _ContactPickerSheetState extends State<ContactPickerSheet>
     with WidgetsBindingObserver {
   final _service = const ContactsService();
-  final _appAccessService = AppAccessService.instance;
+  late final AppAccessService _appAccessService = widget.appAccessService;
   final _searchController = TextEditingController();
   final _selected = <String>{};
 
@@ -182,8 +189,9 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
         final q = query.trim().toLowerCase();
         _filtered = _allContacts!.where((c) {
           if (c.displayName.toLowerCase().contains(q)) return true;
-          return c.phones
-              .any((p) => p.replaceAll(RegExp(r'[\s\-\(\)+]'), '').contains(q));
+          return c.phones.any(
+            (p) => p.replaceAll(RegExp(r'[\s\-\(\)+]'), '').contains(q),
+          );
         }).toList();
       }
     });
@@ -205,8 +213,9 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
 
   void _confirmSelection() {
     if (_allContacts == null || _selected.isEmpty) return;
-    final chosen =
-        _allContacts!.where((c) => _selected.contains(c.id)).toList();
+    final chosen = _allContacts!
+        .where((c) => _selected.contains(c.id))
+        .toList();
     widget.onSelected(chosen);
   }
 
@@ -242,7 +251,11 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    const Icon(Icons.contacts_rounded, size: 22, color: AppColors.text2),
+                    const Icon(
+                      Icons.contacts_rounded,
+                      size: 22,
+                      color: AppColors.text2,
+                    ),
                     const SizedBox(width: 10),
                     Expanded(
                       child: Column(
@@ -284,34 +297,40 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
 
                 // ── Search bar ──
                 if (!_permissionDenied && !_permanentlyDenied && _error == null)
-                  TextField(
-                    controller: _searchController,
-                    onChanged: _onSearch,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 14,
-                      color: AppColors.text,
-                    ),
-                    cursorColor: AppColors.accent,
-                    decoration: InputDecoration(
-                      hintText: 'Search by name or phone…',
-                      hintStyle: GoogleFonts.dmSans(
+                  Semantics(
+                    textField: true,
+                    label: 'Search contacts',
+                    hint:
+                        'Double tap to search by contact name or phone number',
+                    child: TextField(
+                      controller: _searchController,
+                      onChanged: _onSearch,
+                      style: GoogleFonts.dmSans(
                         fontSize: 14,
-                        color: AppColors.text3,
+                        color: AppColors.text,
                       ),
-                      prefixIcon: const Icon(
-                        Icons.search_rounded,
-                        color: AppColors.text3,
-                        size: 20,
-                      ),
-                      filled: true,
-                      fillColor: AppColors.surface2,
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 10,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        borderSide: BorderSide.none,
+                      cursorColor: AppColors.accent,
+                      decoration: InputDecoration(
+                        hintText: 'Search by name or phone…',
+                        hintStyle: GoogleFonts.dmSans(
+                          fontSize: 14,
+                          color: AppColors.text3,
+                        ),
+                        prefixIcon: const Icon(
+                          Icons.search_rounded,
+                          color: AppColors.text3,
+                          size: 20,
+                        ),
+                        filled: true,
+                        fillColor: AppColors.surface2,
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 10,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14),
+                          borderSide: BorderSide.none,
+                        ),
                       ),
                     ),
                   ),
@@ -321,9 +340,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
           ),
 
           // ── Body ──
-          Flexible(
-            child: _buildBody(),
-          ),
+          Flexible(child: _buildBody()),
 
           // ── Bottom safe area ──
           SizedBox(height: MediaQuery.paddingOf(context).bottom + 8),
@@ -337,7 +354,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
     if (_isLoading) {
       return const Padding(
         padding: EdgeInsets.symmetric(vertical: 60),
-        child: Center(child: CircularProgressIndicator()),
+        child: CoolSkeletonList(itemCount: 3),
       );
     }
 
@@ -398,10 +415,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                 ? 'No contacts match "${_searchController.text.trim()}"'
                 : 'No contacts with phone numbers found.',
             textAlign: TextAlign.center,
-            style: GoogleFonts.dmSans(
-              fontSize: 14,
-              color: AppColors.text3,
-            ),
+            style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text3),
           ),
         ),
       );
@@ -451,7 +465,9 @@ class _ContactTile extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
         decoration: const BoxDecoration(
-          border: Border(bottom: BorderSide(color: AppColors.border, width: 0.5)),
+          border: Border(
+            bottom: BorderSide(color: AppColors.border, width: 0.5),
+          ),
         ),
         child: Row(
           children: [
@@ -520,8 +536,11 @@ class _ContactTile extends StatelessWidget {
                   ),
                 ),
                 child: isSelected
-                    ? const Icon(Icons.check_rounded,
-                        size: 16, color: Colors.white)
+                    ? const Icon(
+                        Icons.check_rounded,
+                        size: 16,
+                        color: Colors.white,
+                      )
                     : null,
               )
             else

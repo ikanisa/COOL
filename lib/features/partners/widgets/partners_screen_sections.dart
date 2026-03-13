@@ -1,22 +1,21 @@
 part of '../screens/partners_screen.dart';
 
 class _FootballTab extends ConsumerWidget {
-  const _FootballTab({required this.country, required this.onOpenRayonSports});
+  const _FootballTab({required this.onOpenRayonSports});
 
-  final String? country;
   final VoidCallback onOpenRayonSports;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
-    final partnersAsync = ref.watch(footballPartnersProvider(country));
+    final partnersAsync = ref.watch(footballPartnersProvider);
 
     return partnersAsync.when(
       loading: () =>
           _LoadingState(title: l10n.loading, message: 'Loading partners…'),
       error: (error, _) => _ErrorState(
         error: error.toString(),
-        onRetry: () => ref.invalidate(footballPartnersProvider(country)),
+        onRetry: () => ref.invalidate(footballPartnersProvider),
       ),
       data: (partners) {
         if (partners.isEmpty) {
@@ -95,7 +94,10 @@ class _FootballHeroCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isRayon = partner.slug == 'rayon-sports';
-    return GestureDetector(
+    return Semantics(
+      button: true,
+      label: 'Open ${partner.name}',
+      child: GestureDetector(
       onTap: onTap,
       child: CoolCard(
         gradient: isRayon ? AppColors.rsHeroGradient : AppColors.blueGradient,
@@ -198,6 +200,7 @@ class _FootballHeroCard extends StatelessWidget {
           ],
         ),
       ),
+    ),
     );
   }
 
@@ -341,21 +344,19 @@ class _FeatureTileData {
 }
 
 class _BanksTab extends ConsumerWidget {
-  const _BanksTab({required this.country});
-
-  final String? country;
+  const _BanksTab();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
-    final partnersAsync = ref.watch(bankPartnersProvider(country));
+    final partnersAsync = ref.watch(bankPartnersProvider);
 
     return partnersAsync.when(
       loading: () =>
           _LoadingState(title: l10n.loading, message: 'Loading partners…'),
       error: (error, _) => _ErrorState(
         error: error.toString(),
-        onRetry: () => ref.invalidate(bankPartnersProvider(country)),
+        onRetry: () => ref.invalidate(bankPartnersProvider),
       ),
       data: (partners) {
         if (partners.isEmpty) {
@@ -415,7 +416,10 @@ class _BankPartnerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Semantics(
+      button: true,
+      label: 'Open ${partner.name}',
+      child: GestureDetector(
       onTap: () => context.push('/partners/${partner.slug}'),
       child: CoolCard(
         gradient: AppColors.accentGradient,
@@ -499,6 +503,7 @@ class _BankPartnerCard extends StatelessWidget {
           ),
         ),
       ),
+    ),
     );
   }
 
@@ -538,9 +543,7 @@ class _BankPartnerCard extends StatelessWidget {
 }
 
 class _OrgsTab extends ConsumerWidget {
-  const _OrgsTab({required this.country});
-
-  final String? country;
+  const _OrgsTab();
 
   Future<void> _openPartnerChat(
     BuildContext context, {
@@ -558,14 +561,14 @@ class _OrgsTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
-    final partnersAsync = ref.watch(orgPartnersProvider(country));
+    final partnersAsync = ref.watch(orgPartnersProvider);
 
     return partnersAsync.when(
       loading: () =>
           _LoadingState(title: l10n.loading, message: 'Loading partners…'),
       error: (error, _) => _ErrorState(
         error: error.toString(),
-        onRetry: () => ref.invalidate(orgPartnersProvider(country)),
+        onRetry: () => ref.invalidate(orgPartnersProvider),
       ),
       data: (partners) {
         if (partners.isEmpty) {

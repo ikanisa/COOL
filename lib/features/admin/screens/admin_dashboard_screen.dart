@@ -42,12 +42,6 @@ class AdminDashboardScreen extends ConsumerWidget {
       'Mobility filter chips',
     ),
     _AdminSection(
-      'Countries',
-      Icons.public_rounded,
-      '/admin/countries',
-      'Supported country catalog',
-    ),
-    _AdminSection(
       'App Config',
       Icons.settings_rounded,
       '/admin/app-config',
@@ -74,9 +68,13 @@ class AdminDashboardScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: AppColors.surface,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded, color: AppColors.text),
-          onPressed: () => context.go('/profile'),
+        leading: Semantics(
+          button: true,
+          label: 'Back to profile',
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_rounded, color: AppColors.text),
+            onPressed: () => context.go('/profile'),
+          ),
         ),
         title: Text(
           'Admin Panel',
@@ -123,44 +121,48 @@ class _AdminCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        HapticFeedback.selectionClick();
-        context.push(section.route);
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: AppColors.border, width: 1),
-        ),
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(section.icon, size: 28, color: AppColors.text2),
-            const SizedBox(height: 8),
-            Text(
-              section.title,
-              style: GoogleFonts.dmSans(
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                color: AppColors.text,
+    return Semantics(
+      button: true,
+      label: '${section.title}. ${section.subtitle}',
+      child: GestureDetector(
+        onTap: () {
+          HapticFeedback.selectionClick();
+          context.push(section.route);
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppColors.surface,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: AppColors.border, width: 1),
+          ),
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(section.icon, size: 28, color: AppColors.text2),
+              const SizedBox(height: 8),
+              Text(
+                section.title,
+                style: GoogleFonts.dmSans(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.text,
+                ),
               ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              section.subtitle,
-              style: GoogleFonts.dmSans(
-                fontSize: 11,
-                fontWeight: FontWeight.w400,
-                color: AppColors.text3,
+              const SizedBox(height: 4),
+              Text(
+                section.subtitle,
+                style: GoogleFonts.dmSans(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.text3,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

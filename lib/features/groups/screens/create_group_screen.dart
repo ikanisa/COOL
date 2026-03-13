@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
-import '../../../core/providers/supported_countries_provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_text_field.dart';
@@ -43,12 +43,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
   void initState() {
     super.initState();
     final user = ref.read(authProvider).user;
-    final viewerCountry = ref.read(currentUserCountryCodeProvider);
-    final country = CoolCountryCatalog.resolve(
-      country: viewerCountry,
-      phone: user?.phone,
-      providerId: user?.momoProvider,
-    );
+    final country = AppMarket.country;
     _communityRouteType =
         country.supportsMomoCode && user?.momoCode?.trim().isNotEmpty == true
         ? 'code'
@@ -80,7 +75,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
     if (_isSaving && bankPartner == null) {
       CoolToast.error(
         context,
-        'No bank custodian is configured for your country yet.',
+        'No bank custodian is configured for Rwanda yet.',
       );
       return;
     }
@@ -120,16 +115,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
     final isCreating = ref.watch(groupsCreateLoadingProvider);
     final createError = ref.watch(groupsCreateErrorProvider);
     final user = ref.watch(authProvider).user;
-    final viewerCountry = ref.watch(currentUserCountryCodeProvider);
-    final countries =
-        ref.watch(supportedCountriesProvider).valueOrNull ??
-        CoolCountryCatalog.all;
-    final communityCountry = CoolCountryCatalog.resolve(
-      country: viewerCountry,
-      phone: user?.phone,
-      providerId: user?.momoProvider,
-      source: countries,
-    );
+    final communityCountry = AppMarket.country;
     final bankPartnersAsync = ref.watch(currentCountryBankPartnersProvider);
     final bankOptions =
         bankPartnersAsync.valueOrNull
@@ -150,6 +136,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
       backgroundColor: AppColors.bg,
       appBar: AppBar(
         leading: IconButton(
+          tooltip: 'Back',
           onPressed: () => context.pop(),
           icon: const Icon(Icons.arrow_back_rounded),
         ),
@@ -259,7 +246,9 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
                     ),
                     const SizedBox(height: 24),
                     if (_isSaving) ...[
-                      _label(hasSingleBankOption ? 'Custodian' : 'Bank Partner'),
+                      _label(
+                        hasSingleBankOption ? 'Custodian' : 'Bank Partner',
+                      ),
                       const SizedBox(height: 8),
                       if (bankPartnersAsync.isLoading && bankOptions.isEmpty)
                         const LinearProgressIndicator(minHeight: 2)
@@ -275,7 +264,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
                       else if (hasSingleBankOption)
                         _SummaryCard(
                           title: selectedBank,
-                          subtitle: 'Matched to ${communityCountry.name}.',
+                          subtitle: 'Available in ${communityCountry.name}.',
                           icon: Icons.account_balance_rounded,
                         )
                       else
@@ -295,7 +284,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
                       if (!hasSingleBankOption) ...[
                         const SizedBox(height: 6),
                         Text(
-                          'Matched to your country.',
+                          'Available in Rwanda.',
                           style: GoogleFonts.dmSans(
                             fontSize: 11,
                             fontWeight: FontWeight.w400,
@@ -348,7 +337,9 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
                         keyboardType: activeRouteType == 'code'
                             ? TextInputType.number
                             : TextInputType.phone,
-                        prefixIcon: activeRouteType == 'code' ? Icons.tag_rounded : Icons.phone_rounded,
+                        prefixIcon: activeRouteType == 'code'
+                            ? Icons.tag_rounded
+                            : Icons.phone_rounded,
                         validator: (value) {
                           if (_isSaving) {
                             return null;
@@ -423,8 +414,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
                                       hint: '5,000',
                                       controller: _monthlyController,
                                       keyboardType: TextInputType.number,
-                                      prefixIcon:
-                                          Icons.calendar_today_rounded,
+                                      prefixIcon: Icons.calendar_today_rounded,
                                       textInputAction: TextInputAction.done,
                                     ),
                                   ],
@@ -519,17 +509,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
   }
 
   CoolCountry _communityCountry() {
-    final user = ref.read(authProvider).user;
-    final viewerCountry = ref.read(currentUserCountryCodeProvider);
-    final countries =
-        ref.read(supportedCountriesProvider).valueOrNull ??
-        CoolCountryCatalog.all;
-    return CoolCountryCatalog.resolve(
-      country: viewerCountry,
-      phone: user?.phone,
-      providerId: user?.momoProvider,
-      source: countries,
-    );
+    return AppMarket.country;
   }
 
   String? _effectiveBankPartner() {
@@ -572,43 +552,52 @@ class _TypeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 14),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.accentGlow : AppColors.surface2,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: isSelected ? AppColors.accent : AppColors.border,
-            width: 2,
+    return Semantics(
+      button: true,
+      selected: isSelected,
+      label: '$title group type',
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 14),
+          decoration: BoxDecoration(
+            color: isSelected ? AppColors.accentGlow : AppColors.surface2,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: isSelected ? AppColors.accent : AppColors.border,
+              width: 2,
+            ),
           ),
-        ),
-        child: Column(
-          children: [
-            Icon(icon, size: 28, color: isSelected ? AppColors.accent : AppColors.text),
-            const SizedBox(height: 8),
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
+          child: Column(
+            children: [
+              Icon(
+                icon,
+                size: 28,
                 color: isSelected ? AppColors.accent : AppColors.text,
               ),
-            ),
-            const SizedBox(height: 2),
-            Text(
-              subtitle,
-              textAlign: TextAlign.center,
-              style: GoogleFonts.dmSans(
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-                color: AppColors.text2,
+              const SizedBox(height: 8),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.dmSans(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: isSelected ? AppColors.accent : AppColors.text,
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 2),
+              Text(
+                subtitle,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.dmSans(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.text2,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -658,25 +647,30 @@ class _BankChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.accentGlow : AppColors.surface2,
-          borderRadius: BorderRadius.circular(30),
-          border: Border.all(
-            color: isSelected ? AppColors.accent : AppColors.border,
+    return Semantics(
+      button: true,
+      selected: isSelected,
+      label: '$label option',
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+          decoration: BoxDecoration(
+            color: isSelected ? AppColors.accentGlow : AppColors.surface2,
+            borderRadius: BorderRadius.circular(30),
+            border: Border.all(
+              color: isSelected ? AppColors.accent : AppColors.border,
+            ),
           ),
-        ),
-        child: Text(
-          label,
-          textAlign: TextAlign.center,
-          style: GoogleFonts.dmSans(
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-            color: isSelected ? AppColors.accent : AppColors.text2,
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.dmSans(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: isSelected ? AppColors.accent : AppColors.text2,
+            ),
           ),
         ),
       ),
@@ -754,52 +748,56 @@ class _SectionToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
-        child: Ink(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-          decoration: BoxDecoration(
-            color: AppColors.surface2,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.border),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.text,
+    return Semantics(
+      button: true,
+      label: isExpanded ? 'Hide $title' : 'Show $title',
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(16),
+          child: Ink(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+            decoration: BoxDecoration(
+              color: AppColors.surface2,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: AppColors.border),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: GoogleFonts.dmSans(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.text,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      subtitle,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.text2,
+                      const SizedBox(height: 2),
+                      Text(
+                        subtitle,
+                        style: GoogleFonts.dmSans(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.text2,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(width: 12),
-              Icon(
-                isExpanded
-                    ? Icons.keyboard_arrow_up_rounded
-                    : Icons.keyboard_arrow_down_rounded,
-                color: AppColors.text2,
-              ),
-            ],
+                const SizedBox(width: 12),
+                Icon(
+                  isExpanded
+                      ? Icons.keyboard_arrow_up_rounded
+                      : Icons.keyboard_arrow_down_rounded,
+                  color: AppColors.text2,
+                ),
+              ],
+            ),
           ),
         ),
       ),

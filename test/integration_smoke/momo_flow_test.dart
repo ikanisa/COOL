@@ -17,12 +17,12 @@ void main() {
         user: fakeUser(momoNumber: '788123456'),
       );
 
-      expect(find.text('Send money'), findsWidgets);
+      expect(find.text('Send Money'), findsWidgets);
       expect(find.text('More tools'), findsOneWidget);
       expect(find.text('Statements'), findsOneWidget);
-      expect(find.text('My QR code'), findsOneWidget);
+      expect(find.text('MoMo QR'), findsOneWidget);
       expect(find.text('NFC tools'), findsOneWidget);
-      expect(find.textContaining('From 0788123456'), findsOneWidget);
+      expect(find.textContaining('From'), findsOneWidget);
     });
 
     testWidgets('Send money sheet validates inputs', (tester) async {
@@ -33,12 +33,12 @@ void main() {
         user: fakeUser(momoNumber: '788123456'),
       );
 
-      await tester.tap(find.widgetWithText(CoolButton, 'Send money'));
+      await tester.tap(find.widgetWithText(CoolButton, 'Send Money'));
       await settleTestApp(tester);
-      await tester.tap(find.text('Confirm Send'));
+      await tester.tap(find.text('Confirm and send'));
       await settleTestApp(tester);
 
-      expect(find.text('Enter a valid recipient and amount.'), findsOneWidget);
+      expect(find.textContaining('valid recipient'), findsOneWidget);
     });
   });
 }

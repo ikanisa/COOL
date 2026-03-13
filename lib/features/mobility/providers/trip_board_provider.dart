@@ -2,6 +2,7 @@ import 'package:cool_app/features/mobility/models/trip.dart';
 import 'package:cool_app/core/models/geo_point.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/config/app_market.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../models/trip_type.dart';
 import '../repositories/mobility_repository.dart';
@@ -145,7 +146,7 @@ class TripBoardNotifier extends StateNotifier<TripBoardState> {
 
   String? get _currentUserId =>
       _authState.user?.id ?? _authState.session?.user.id;
-  String get _currentCountry => resolveAuthStateCountryCode(_authState);
+  String get _currentCountry => AppMarket.countryCode;
 
   void updateLocation(GeoPoint? location) {
     state = state.copyWith(

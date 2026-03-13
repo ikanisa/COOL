@@ -23,7 +23,6 @@ void main() {
     final container = _createContainer();
 
     final router = container.read(appRouterProvider);
-    addTearDown(router.dispose);
 
     expect(router.routeInformationProvider.value.uri.path, AppRoutes.splash);
 
@@ -38,7 +37,6 @@ void main() {
     final container = _createContainer();
 
     final router = container.read(appRouterProvider);
-    addTearDown(router.dispose);
 
     router.go('/invite/ABCD1234');
 

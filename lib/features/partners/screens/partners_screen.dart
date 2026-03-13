@@ -29,8 +29,8 @@ part '../widgets/partners_screen_sections.dart';
 
 /// Partners hub — football clubs, banks, and organizations.
 ///
-/// All partners are loaded dynamically from Supabase and filtered by the
-/// current user's country.
+/// All partners are loaded dynamically from Supabase for the fixed Rwanda
+/// market.
 class PartnersScreen extends ConsumerStatefulWidget {
   const PartnersScreen({super.key});
 
@@ -43,7 +43,6 @@ class _PartnersScreenState extends ConsumerState<PartnersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final country = ref.watch(currentUserCountryCodeProvider);
     final tabs = _tabLabels(context);
 
     return Scaffold(
@@ -83,7 +82,10 @@ class _PartnersScreenState extends ConsumerState<PartnersScreen> {
                     final disableAnimations =
                         MediaQuery.maybeOf(context)?.disableAnimations ?? false;
                     return Expanded(
-                      child: GestureDetector(
+                      child: Semantics(
+                        selected: isActive,
+                        label: '${tabs[index]} tab',
+                        child: GestureDetector(
                         onTap: () => setState(() => _activeTab = index),
                         child: AnimatedContainer(
                           duration: disableAnimations
@@ -107,6 +109,7 @@ class _PartnersScreenState extends ConsumerState<PartnersScreen> {
                           ),
                         ),
                       ),
+                      ),
                     );
                   }),
                 ),
@@ -115,12 +118,9 @@ class _PartnersScreenState extends ConsumerState<PartnersScreen> {
               IndexedStack(
                 index: _activeTab,
                 children: [
-                  _FootballTab(
-                    country: country,
-                    onOpenRayonSports: _openRayonSports,
-                  ),
-                  _BanksTab(country: country),
-                  _OrgsTab(country: country),
+                  _FootballTab(onOpenRayonSports: _openRayonSports),
+                  const _BanksTab(),
+                  const _OrgsTab(),
                 ],
               ),
             ],

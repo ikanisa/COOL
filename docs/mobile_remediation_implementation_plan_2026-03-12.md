@@ -167,14 +167,15 @@ Avoid the current silent-degrade model in release builds for Firebase. If Fireba
 
 The iOS app currently has several feature declarations without the final native configuration required to make them work in production.
 
-### Stream 2A: iOS Maps key completion
+### Stream 2A: iOS Embedded Maps Key Completion
 
 Tasks:
 
-1. define `GOOGLE_MAPS_IOS_API_KEY`
-2. wire it into release and debug xcconfig or a secure CI-driven xcconfig generation path
-3. update iOS build scripts to inject the key
-4. document the key in `.env.example` or its approved secure equivalent
+1. decide whether embedded `google_maps_flutter` rendering is part of the shipping scope or whether the route-summary fallback is sufficient
+2. if embedded maps are required, define `GOOGLE_MAPS_IOS_API_KEY`
+3. wire it into release and debug xcconfig or a secure CI-driven xcconfig generation path
+4. update iOS build scripts to inject the key when provided
+5. document the optional key and the fallback behavior in `.env.example` or its approved secure equivalent
 
 Files:
 

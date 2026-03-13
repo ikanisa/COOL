@@ -59,13 +59,13 @@ void main() {
             (ref) async => <Map<String, dynamic>>[
               <String, dynamic>{
                 'id': 'event-1',
-                'service': 'wallet_sync',
-                'component': 'wallet-issuer',
+                'service': 'partner_checkout',
+                'component': 'rayon_tickets',
                 'status': 'ok',
                 'severity': 'info',
                 'issue_code': null,
-                'message': 'Google Wallet pass prepared successfully.',
-                'function_name': 'wallet-issuer',
+                'message': 'Rayon ticket checkout opened successfully.',
+                'function_name': null,
                 'occurred_at': '2026-03-13T10:16:00Z',
               },
             ],
@@ -80,10 +80,19 @@ void main() {
     expect(find.text('Release Dashboard'), findsOneWidget);
     expect(find.text('SMS Ingest'), findsOneWidget);
     expect(find.text('Payment Sync'), findsOneWidget);
-    expect(find.text('Payment sync is still pending'), findsOneWidget);
-    expect(
-      find.text('Google Wallet pass prepared successfully.'),
-      findsOneWidget,
+    await tester.scrollUntilVisible(
+      find.text('Payment sync is still pending'),
+      250,
+      scrollable: find.byType(Scrollable).first,
     );
+    await tester.pumpAndSettle();
+    expect(find.text('Payment sync is still pending'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.text('partner_checkout'),
+      250,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('partner_checkout'), findsOneWidget);
   });
 }

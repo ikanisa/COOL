@@ -165,26 +165,31 @@ class TripBoardModeSwitcher extends StatelessWidget {
         children: [
           for (final item in _items)
             Expanded(
-              child: GestureDetector(
-                onTap: () => onChanged(item.$1),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 180),
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  decoration: BoxDecoration(
-                    color: activeView == item.$1
-                        ? AppColors.accent
-                        : Colors.transparent,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    item.$2,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
+              child: Semantics(
+                button: true,
+                selected: activeView == item.$1,
+                label: '${item.$2} tab',
+                child: GestureDetector(
+                  onTap: () => onChanged(item.$1),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 180),
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    decoration: BoxDecoration(
                       color: activeView == item.$1
-                          ? Colors.black
-                          : AppColors.text2,
+                          ? AppColors.accent
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      item.$2,
+                      style: GoogleFonts.dmSans(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: activeView == item.$1
+                            ? Colors.black
+                            : AppColors.text2,
+                      ),
                     ),
                   ),
                 ),
@@ -225,26 +230,31 @@ class TripBoardTabSwitcher extends StatelessWidget {
         children: [
           for (final tab in _tabs)
             Expanded(
-              child: GestureDetector(
-                onTap: () => onChanged(tab.$1),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  decoration: BoxDecoration(
-                    color: activeTab == tab.$1
-                        ? AppColors.accent
-                        : Colors.transparent,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    tab.$2,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
+              child: Semantics(
+                button: true,
+                selected: activeTab == tab.$1,
+                label: '${tab.$2} tab',
+                child: GestureDetector(
+                  onTap: () => onChanged(tab.$1),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    decoration: BoxDecoration(
                       color: activeTab == tab.$1
-                          ? Colors.black
-                          : AppColors.text2,
+                          ? AppColors.accent
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      tab.$2,
+                      style: GoogleFonts.dmSans(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: activeTab == tab.$1
+                            ? Colors.black
+                            : AppColors.text2,
+                      ),
                     ),
                   ),
                 ),

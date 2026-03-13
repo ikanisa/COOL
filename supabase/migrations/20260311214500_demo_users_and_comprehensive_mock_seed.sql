@@ -79,7 +79,7 @@ create temp table demo_runtime (
   season_definition_id uuid not null,
   rayon_partner_id uuid,
   club_kigali_id uuid,
-  club_diaspora_id uuid,
+  club_western_id uuid,
   club_huye_id uuid,
   initiative_fan_kit_id uuid,
   initiative_academy_id uuid
@@ -94,7 +94,7 @@ insert into demo_runtime (
   season_definition_id,
   rayon_partner_id,
   club_kigali_id,
-  club_diaspora_id,
+  club_western_id,
   club_huye_id,
   initiative_fan_kit_id,
   initiative_academy_id
@@ -150,7 +150,7 @@ select
   (
     select id
     from public.rs_fan_clubs
-    where name = 'Gikundiro Diaspora'
+    where name = 'Western Blue Wave'
     limit 1
   ),
   (
@@ -179,7 +179,7 @@ begin
     from demo_runtime
     where rayon_partner_id is null
        or club_kigali_id is null
-       or club_diaspora_id is null
+       or club_western_id is null
        or club_huye_id is null
        or initiative_fan_kit_id is null
        or initiative_academy_id is null
@@ -739,12 +739,12 @@ values
   (
     '63d5a62d-21d4-4662-b8cb-ae85e8f69402'::uuid,
     '+250788767816',
-    'Diaspora Builders Pool',
+    'Western Builders Pool',
     'community',
     'private',
     500000,
     30000,
-    'Private support pool for travel, matchday plans, and family projects across Kigali and Malta.',
+    'Private support pool for travel, matchday plans, and family projects across western Rwanda.',
     'Urwego Finance',
     '+250788767816',
     '+250788767816',
@@ -752,7 +752,7 @@ values
     'monthly',
     'RW',
     'DBPL2026',
-    'URWEGO-DIAS-02',
+    'URWEGO-WEST-02',
     timestamptz '2026-02-24 11:15:00+00'
   );
 
@@ -1981,7 +1981,7 @@ insert into demo_event_seed values
   ('9c2d769d-5b54-4ffa-823f-7adb31d8e604'::uuid, '+250788767816', 'shopPurchase', '7b74fa3c-4fd2-42dd-82eb-8822f86ec601', 30, jsonb_build_object('order_status', 'confirmed'), null, timestamptz '2026-03-10 15:30:00+00', 'event:aline:shop:1', 'rise-season'),
   ('03e0f64c-f2f1-4d22-95cb-9c1d94dbd705'::uuid, '+250788767816', 'clubJoined', '940f35e3-bd99-4c17-9de9-093298a453c8', 10, jsonb_build_object('club', 'Gikundiro Kigali Ultra'), null, timestamptz '2026-03-04 08:30:00+00', 'event:aline:club:1', 'rise-season'),
   ('771b5eb9-b34a-4d45-907f-33816bd97b06'::uuid, '+25075588248', 'tripCompleted', '6df503b1-2cfd-4300-9426-8a3fa53b3303', 18, jsonb_build_object('vehicle_type', 'moto'), null, timestamptz '2026-03-11 18:35:00+00', 'event:jc:trip:1', 'rise-season'),
-  ('2d4fb6a3-6a5a-4a17-a6dd-d1e6c7497907'::uuid, '+35677186193', 'clubJoined', '959121a9-4862-408b-becf-52d656e539a6', 10, jsonb_build_object('club', 'Gikundiro Diaspora'), '+250788767816', timestamptz '2026-03-05 10:00:00+00', 'event:matteo:club:1', 'rise-season');
+  ('2d4fb6a3-6a5a-4a17-a6dd-d1e6c7497907'::uuid, '+35677186193', 'clubJoined', '959121a9-4862-408b-becf-52d656e539a6', 10, jsonb_build_object('club', 'Western Blue Wave'), '+250788767816', timestamptz '2026-03-05 10:00:00+00', 'event:matteo:club:1', 'rise-season');
 
 insert into public.cool_events (
   id,
@@ -2166,7 +2166,7 @@ from (
   from demo_runtime runtime
   union all
   select
-    runtime.club_diaspora_id,
+    runtime.club_western_id,
     (select user_id from demo_user_seed where phone_e164 = '+35677186193'),
     timestamptz '2026-03-05 10:00:00+00'
   from demo_runtime runtime
@@ -2228,11 +2228,11 @@ from (
     (
       '32a53226-1978-49f5-9325-f4d29f120603'::uuid,
       (select user_id from demo_user_seed where phone_e164 = '+35677186193'),
-      'diaspora_voice',
+      'western_voice',
       timestamptz '2026-03-05 10:05:00+00',
       '🌍',
-      'Diaspora Voice',
-      'Joined and contributed through the diaspora supporters chapter.'
+      'Western Voice',
+      'Joined and contributed through the western Rwanda supporters chapter.'
     )
 ) as seeded(id, user_id, badge_type, earned_at, emoji, name, description)
 cross join demo_runtime runtime

@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/l10n/locale_provider.dart';
 import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_button.dart';
@@ -11,26 +10,15 @@ import '../../../shared/widgets/cool_brand_mark.dart';
 
 /// Welcome / onboarding screen shown to first-time users.
 ///
-/// Features a hero icon, a language selector that persists in Hive,
-/// and two CTAs leading to the OTP flow.
-class OnboardingScreen extends ConsumerStatefulWidget {
+/// Features a hero icon and two CTAs leading to the OTP flow.
+/// Language is fixed to English (Rwanda market).
+class OnboardingScreen extends ConsumerWidget {
   const OnboardingScreen({this.redirectPath, super.key});
 
   final String? redirectPath;
 
   @override
-  ConsumerState<OnboardingScreen> createState() => _OnboardingScreenState();
-}
-
-class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
-  String get _selectedLang => ref.watch(localeProvider).languageCode;
-
-  Future<void> _selectLang(String code) async {
-    await ref.read(localeProvider.notifier).setLocale(code);
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: AppColors.bg,
       body: SafeArea(
@@ -67,7 +55,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 SizedBox(
                   width: 300,
                   child: Text(
-                    'Save, pay, and move — together.',
+                    'Save, pay, and move in Rwanda.',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.dmSans(
                       fontSize: 15,
@@ -78,48 +66,52 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   ),
                 ),
                 const SizedBox(height: 28),
-                Wrap(
-                  alignment: WrapAlignment.center,
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: [
-                    _LangButton(
-                      flag: '🇬🇧',
-                      label: 'English',
-                      isSelected: _selectedLang == 'en',
-                      onTap: () => _selectLang('en'),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 10,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.surface2,
+                    borderRadius: BorderRadius.circular(999),
+                    border: Border.all(color: AppColors.border),
+                  ),
+                  child: Text(
+                    'Rwanda market · English only',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.text2,
                     ),
-                    _LangButton(
-                      flag: '🇫🇷',
-                      label: 'Français',
-                      isSelected: _selectedLang == 'fr',
-                      onTap: () => _selectLang('fr'),
-                    ),
-                  ],
+                  ),
                 ),
                 const SizedBox(height: 32),
                 CoolButton(
                   label: 'Continue',
                   onTap: () => context.push(
-                    AppRoutes.otpLocation(redirect: widget.redirectPath),
+                    AppRoutes.otpLocation(redirect: redirectPath),
                   ),
                 ),
                 const SizedBox(height: 14),
-                GestureDetector(
-                  onTap: () => context.push(
-                    AppRoutes.otpLocation(redirect: widget.redirectPath),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
+                Semantics(
+                  button: true,
+                  label: 'I already have an account',
+                  child: GestureDetector(
+                    onTap: () => context.push(
+                      AppRoutes.otpLocation(redirect: redirectPath),
                     ),
-                    child: Text(
-                      'I already have an account',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.text2,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
+                      child: Text(
+                        'I already have an account',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.text2,
+                        ),
                       ),
                     ),
                   ),
@@ -127,55 +119,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-// ── Language button ─────────────────────────────────────────────────────
-
-class _LangButton extends StatelessWidget {
-  const _LangButton({
-    required this.flag,
-    required this.label,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  final String flag;
-  final String label;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.accentGlow : AppColors.surface2,
-          borderRadius: BorderRadius.circular(999),
-          border: Border.all(
-            color: isSelected ? AppColors.accent : AppColors.border,
-          ),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(flag, style: const TextStyle(fontSize: 18)),
-            const SizedBox(width: 8),
-            Text(
-              label,
-              style: GoogleFonts.dmSans(
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                color: isSelected ? AppColors.accent : AppColors.text2,
-              ),
-            ),
-          ],
         ),
       ),
     );

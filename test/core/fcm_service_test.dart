@@ -184,59 +184,59 @@ void main() {
         isFirebaseAvailable: () => true,
       );
 
-      final status = await service.enable(userId: 'user-1', countryCode: 'rw');
+      final status = await service.enable(userId: 'user-1');
 
       expect(preferenceStore.enabled, isTrue);
       expect(status.isEffectivelyEnabled, isTrue);
-      expect(status.activeCountryTopic, 'country_RW');
+      expect(status.activeMarketTopic, 'market_RW');
       expect(tokenRepository.upserts, hasLength(1));
       expect(tokenRepository.upserts.single.userId, 'user-1');
       expect(tokenRepository.upserts.single.token, 'token-1');
-      expect(messagingClient.subscribedTopics, ['country_RW']);
+      expect(messagingClient.subscribedTopics, ['market_RW']);
     },
   );
 
   test('disable removes the active topic and token and persists off', () async {
-    await service.enable(userId: 'user-1', countryCode: 'rw');
+    await service.enable(userId: 'user-1');
 
     final status = await service.disable(userId: 'user-1');
 
     expect(preferenceStore.enabled, isFalse);
     expect(status.preferenceEnabled, isFalse);
     expect(status.isInitialized, isFalse);
-    expect(status.activeCountryTopic, isNull);
+    expect(status.activeMarketTopic, isNull);
     expect(tokenRepository.deletes, hasLength(1));
     expect(tokenRepository.deletes.single.userId, 'user-1');
     expect(tokenRepository.deletes.single.token, 'token-1');
-    expect(messagingClient.unsubscribedTopics, contains('country_RW'));
+    expect(messagingClient.unsubscribedTopics, contains('market_RW'));
     expect(messagingClient.deleteTokenCalled, isTrue);
   });
 
   test(
     'clearSession removes token state but preserves the saved preference',
     () async {
-      await service.enable(userId: 'user-1', countryCode: 'rw');
+      await service.enable(userId: 'user-1');
 
       final status = await service.clearSession(userId: 'user-1');
 
       expect(preferenceStore.enabled, isTrue);
       expect(status.preferenceEnabled, isTrue);
       expect(status.isInitialized, isFalse);
-      expect(status.activeCountryTopic, isNull);
+      expect(status.activeMarketTopic, isNull);
       expect(tokenRepository.deletes, hasLength(1));
-      expect(messagingClient.unsubscribedTopics, contains('country_RW'));
+      expect(messagingClient.unsubscribedTopics, contains('market_RW'));
       expect(messagingClient.deleteTokenCalled, isTrue);
     },
   );
 
-  test('syncTopics replaces the existing country subscription', () async {
-    await service.enable(userId: 'user-1', countryCode: 'rw');
+  test('syncTopics keeps the fixed Rwanda market topic', () async {
+    await service.enable(userId: 'user-1');
 
-    final status = await service.syncTopics(countryCode: 'ug');
+    final status = await service.syncTopics();
 
-    expect(status.activeCountryTopic, 'country_UG');
-    expect(messagingClient.unsubscribedTopics, contains('country_RW'));
-    expect(messagingClient.subscribedTopics, ['country_RW', 'country_UG']);
+    expect(status.activeMarketTopic, 'market_RW');
+    expect(messagingClient.unsubscribedTopics, isEmpty);
+    expect(messagingClient.subscribedTopics, ['market_RW']);
   });
 
   test('enable keeps the preference off when permission is denied', () async {
@@ -253,7 +253,7 @@ void main() {
       isFirebaseAvailable: () => true,
     );
 
-    final status = await service.enable(userId: 'user-1', countryCode: 'rw');
+    final status = await service.enable(userId: 'user-1');
 
     expect(preferenceStore.enabled, isFalse);
     expect(status.preferenceEnabled, isFalse);

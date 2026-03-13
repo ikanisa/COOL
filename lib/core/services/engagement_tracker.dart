@@ -1,7 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 
 import '../../features/auth/models/user_profile.dart';
-import '../config/country_catalog.dart';
+import '../config/app_market.dart';
 import '../models/engagement_event.dart';
 import 'feature_flags_service.dart';
 import 'firebase_bootstrap_service.dart';
@@ -48,14 +48,12 @@ class EngagementTracker {
 
     await _analytics!.setUserId(id: user.id);
     await _analytics!.setUserProperty(
-      name: 'country',
-      value: user.country.trim().isEmpty
-          ? null
-          : CoolCountryCatalog.normalizeCountryCode(user.country),
+      name: 'market',
+      value: AppMarket.countryCode,
     );
     await _analytics!.setUserProperty(
-      name: 'language_code',
-      value: user.languageCode,
+      name: 'ui_language',
+      value: AppMarket.languageCode,
     );
     await _analytics!.setUserProperty(
       name: 'momo_provider',

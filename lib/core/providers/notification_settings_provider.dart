@@ -65,7 +65,6 @@ class NotificationSettingsNotifier
   Future<void> setEnabled(bool enabled) async {
     final authState = _ref.read(authProvider);
     final userId = authState.user?.id ?? authState.session?.user.id;
-    final countryCode = _ref.read(currentUserCountryCodeProvider);
 
     if (enabled && (userId == null || userId.isEmpty)) {
       state = state.copyWith(
@@ -77,7 +76,7 @@ class NotificationSettingsNotifier
 
     state = state.copyWith(isLoading: true, error: null);
     final status = enabled
-        ? await _service.enable(userId: userId!, countryCode: countryCode)
+        ? await _service.enable(userId: userId!)
         : await _service.disable(userId: userId);
 
     state = state.copyWith(
@@ -95,9 +94,7 @@ class NotificationSettingsNotifier
 
     state = state.copyWith(isLoading: true, error: null);
     var status = await _service.initialize(userId: userId);
-    status = await _service.syncTopics(
-      countryCode: resolveAuthStateCountryCode(authState),
-    );
+    status = await _service.syncTopics();
     state = state.copyWith(
       status: status,
       isLoading: false,
@@ -110,9 +107,7 @@ class NotificationSettingsNotifier
       return;
     }
 
-    final status = await _service.syncTopics(
-      countryCode: resolveAuthStateCountryCode(authState),
-    );
+    final status = await _service.syncTopics();
     state = state.copyWith(
       status: status,
       isLoading: false,

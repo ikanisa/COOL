@@ -7,8 +7,8 @@ import '../models/cool_status.dart';
 ///
 /// All reads/writes go through Supabase with RLS enforced.
 class CoolStatusRepository {
-  CoolStatusRepository({SupabaseClient? client})
-    : _client = client ?? Supabase.instance.client;
+  CoolStatusRepository({required SupabaseClient client})
+    : _client = client;
 
   final SupabaseClient _client;
 

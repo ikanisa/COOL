@@ -7,6 +7,7 @@ import 'package:cool_app/core/theme/app_colors.dart';
 import 'package:cool_app/features/mobility/models/mobility_route_preview.dart';
 import 'package:cool_app/shared/widgets/cool_card.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as gmap;
@@ -159,10 +160,7 @@ class _ScheduleTripMapPreviewState extends State<ScheduleTripMapPreview> {
                 const SizedBox(
                   width: 18,
                   height: 18,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: AppColors.accent,
-                  ),
+                  child: CupertinoActivityIndicator(radius: 9),
                 ),
             ],
           ),

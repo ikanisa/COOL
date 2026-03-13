@@ -13,7 +13,7 @@ import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
-import '../../../shared/widgets/cool_state_view.dart';
+import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../models/momo_statement.dart';
@@ -161,6 +161,10 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
         child: CoolAsyncView<MomoStatementBundle>(
           value: bundleAsync,
           onRetry: _refresh,
+          loadingWidget: const SingleChildScrollView(
+            padding: EdgeInsets.fromLTRB(16, 12, 16, 16),
+            child: CoolSkeletonList(itemCount: 4),
+          ),
           builder: (bundle) {
             final viewModel = _buildViewModel(bundle);
             return LayoutBuilder(
@@ -183,7 +187,8 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
                                 officialPhone:
                                     user?.officialPhone ?? user?.phone ?? '-',
                                 periodLabel: _periodLabel(dateFormat),
-                                walletCount: viewModel.filteredWalletEntries.length,
+                                walletCount:
+                                    viewModel.filteredWalletEntries.length,
                                 savingsCount:
                                     viewModel.filteredSavingsEntries.length,
                                 incomingTotal: viewModel.incomingTotal,
@@ -206,7 +211,9 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
                                 isExporting: _isExporting,
                                 canExport: _isWalletTab
                                     ? viewModel.filteredWalletEntries.isNotEmpty
-                                    : viewModel.filteredSavingsEntries.isNotEmpty,
+                                    : viewModel
+                                          .filteredSavingsEntries
+                                          .isNotEmpty,
                                 onSelectPeriod: _selectPeriod,
                                 onPartyChanged: (value) {
                                   setState(() => _selectedParty = value);
@@ -220,13 +227,15 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
                                 onReset: _resetFilters,
                                 onDownloadPdf: () => _downloadActiveStatement(
                                   format: StatementExportFormat.pdf,
-                                  walletEntries: viewModel.filteredWalletEntries,
+                                  walletEntries:
+                                      viewModel.filteredWalletEntries,
                                   savingsEntries:
                                       viewModel.filteredSavingsEntries,
                                 ),
                                 onDownloadExcel: () => _downloadActiveStatement(
                                   format: StatementExportFormat.excel,
-                                  walletEntries: viewModel.filteredWalletEntries,
+                                  walletEntries:
+                                      viewModel.filteredWalletEntries,
                                   savingsEntries:
                                       viewModel.filteredSavingsEntries,
                                 ),

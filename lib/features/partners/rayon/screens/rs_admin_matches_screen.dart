@@ -6,6 +6,9 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../shared/widgets/cool_async_view.dart';
+import '../../../../shared/widgets/cool_empty_view.dart';
+import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/partner_navigation.dart';
 import '../models/rs_models.dart';
@@ -45,43 +48,42 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
         ),
         actions: buildPartnerAppBarActions(context, homeColor: Colors.white),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.rsBlue,
-        onPressed: () => _showMatchForm(context),
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
-      body: matchesAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(
-          child: Text(
-            'Error: $e',
-            style: const TextStyle(color: AppColors.red),
-          ),
+      floatingActionButton: Semantics(
+        button: true,
+        label: 'Add match',
+        hint: 'Opens the new match form',
+        child: FloatingActionButton(
+          backgroundColor: AppColors.rsBlue,
+          onPressed: () => _showMatchForm(context),
+          child: const Icon(Icons.add, color: Colors.white),
         ),
-        data: (matches) {
-          if (matches.isEmpty) {
-            return Center(
-              child: Text(
-                'No matches yet',
-                style: GoogleFonts.dmSans(color: AppColors.text3),
-              ),
+      ),
+      body: CoolAsyncView<List<RsMatch>>(
+        value: matchesAsync,
+        onRetry: () => ref.invalidate(rsAdminMatchesProvider),
+        loadingWidget: const Padding(
+          padding: EdgeInsets.all(16),
+          child: CoolSkeletonList(itemCount: 4),
+        ),
+        emptyCheck: (matches) => matches.isEmpty,
+        emptyWidget: const CoolEmptyView(
+          message: 'No matches have been scheduled yet.',
+          icon: Icons.sports_soccer_outlined,
+        ),
+        builder: (matches) => ListView.separated(
+          padding: const EdgeInsets.all(16),
+          itemCount: matches.length,
+          separatorBuilder: (context, index) => const SizedBox(height: 10),
+          itemBuilder: (context, index) {
+            final match = matches[index];
+            return _MatchTile(
+              match: match,
+              onToggleSale: () => _toggleSale(match),
+              onEdit: () => _showMatchForm(context, match: match),
+              onDelete: () => _deleteMatch(match),
             );
-          }
-          return ListView.separated(
-            padding: const EdgeInsets.all(16),
-            itemCount: matches.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 10),
-            itemBuilder: (context, index) {
-              final match = matches[index];
-              return _MatchTile(
-                match: match,
-                onToggleSale: () => _toggleSale(match),
-                onEdit: () => _showMatchForm(context, match: match),
-                onDelete: () => _deleteMatch(match),
-              );
-            },
-          );
-        },
+          },
+        ),
       ),
     );
   }
@@ -265,76 +267,95 @@ class _MatchTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dateStr = DateFormat('d MMM yyyy').format(match.matchDate);
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border, width: 1),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  '${match.homeTeam} vs ${match.awayTeam}',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.text,
+    return Semantics(
+      container: true,
+      label:
+          'Match ${match.homeTeam} versus ${match.awayTeam}. '
+          '${match.isOnSale ? 'On sale.' : 'Off sale.'} '
+          '$dateStr at ${match.kickoffTime}. Venue ${match.venue}. '
+          'General price ${match.ticketGeneralPrice} Rwandan francs. '
+          'VIP price ${match.ticketVipPrice} Rwandan francs. Capacity ${match.capacity}.',
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColors.border, width: 1),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    '${match.homeTeam} vs ${match.awayTeam}',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.text,
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                decoration: BoxDecoration(
-                  color: match.isOnSale
-                      ? AppColors.accent.withValues(alpha: 0.15)
-                      : AppColors.red.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  match.isOnSale ? 'ON SALE' : 'OFF SALE',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w700,
-                    color: match.isOnSale ? AppColors.accent : AppColors.red,
+                Semantics(
+                  label: match.isOnSale ? 'Status on sale' : 'Status off sale',
+                  child: ExcludeSemantics(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color: match.isOnSale
+                            ? AppColors.accent.withValues(alpha: 0.15)
+                            : AppColors.red.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        match.isOnSale ? 'ON SALE' : 'OFF SALE',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                          color: match.isOnSale
+                              ? AppColors.accent
+                              : AppColors.red,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          Text(
-            '$dateStr · ${match.kickoffTime} · ${match.venue}',
-            style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
-          ),
-          Text(
-            '${match.competition} · Gen ${match.ticketGeneralPrice} RWF · VIP ${match.ticketVipPrice} RWF · Cap ${match.capacity}',
-            style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              _TileAction(
-                icon: match.isOnSale ? Icons.pause : Icons.play_arrow,
-                label: match.isOnSale ? 'Pause' : 'Start',
-                onTap: onToggleSale,
-              ),
-              const SizedBox(width: 12),
-              _TileAction(icon: Icons.edit, label: 'Edit', onTap: onEdit),
-              const SizedBox(width: 12),
-              _TileAction(
-                icon: Icons.delete_outline,
-                label: 'Delete',
-                onTap: onDelete,
-                color: AppColors.red,
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+            const SizedBox(height: 6),
+            Text(
+              '$dateStr · ${match.kickoffTime} · ${match.venue}',
+              style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
+            ),
+            Text(
+              '${match.competition} · Gen ${match.ticketGeneralPrice} RWF · VIP ${match.ticketVipPrice} RWF · Cap ${match.capacity}',
+              style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                _TileAction(
+                  icon: match.isOnSale ? Icons.pause : Icons.play_arrow,
+                  label: match.isOnSale ? 'Pause' : 'Start',
+                  onTap: onToggleSale,
+                ),
+                const SizedBox(width: 12),
+                _TileAction(icon: Icons.edit, label: 'Edit', onTap: onEdit),
+                const SizedBox(width: 12),
+                _TileAction(
+                  icon: Icons.delete_outline,
+                  label: 'Delete',
+                  onTap: onDelete,
+                  color: AppColors.red,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -355,18 +376,23 @@ class _TileAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = color ?? AppColors.text2;
-    return GestureDetector(
-      onTap: () {
-        HapticFeedback.selectionClick();
-        onTap();
-      },
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 16, color: c),
-          const SizedBox(width: 4),
-          Text(label, style: GoogleFonts.dmSans(fontSize: 11, color: c)),
-        ],
+    return Semantics(
+      button: true,
+      label: label,
+      hint: 'Double tap to ${label.toLowerCase()} this match',
+      child: GestureDetector(
+        onTap: () {
+          HapticFeedback.selectionClick();
+          onTap();
+        },
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 16, color: c),
+            const SizedBox(width: 4),
+            Text(label, style: GoogleFonts.dmSans(fontSize: 11, color: c)),
+          ],
+        ),
       ),
     );
   }
@@ -386,22 +412,30 @@ class _FormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
-      child: TextField(
-        controller: controller,
-        keyboardType: keyboardType,
-        style: GoogleFonts.dmSans(color: AppColors.text, fontSize: 14),
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: GoogleFonts.dmSans(color: AppColors.text3, fontSize: 13),
-          filled: true,
-          fillColor: AppColors.surface2,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
-          ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 14,
-            vertical: 12,
+      child: Semantics(
+        textField: true,
+        label: label,
+        hint: 'Double tap to enter $label',
+        child: TextField(
+          controller: controller,
+          keyboardType: keyboardType,
+          style: GoogleFonts.dmSans(color: AppColors.text, fontSize: 14),
+          decoration: InputDecoration(
+            labelText: label,
+            labelStyle: GoogleFonts.dmSans(
+              color: AppColors.text3,
+              fontSize: 13,
+            ),
+            filled: true,
+            fillColor: AppColors.surface2,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: 12,
+            ),
           ),
         ),
       ),

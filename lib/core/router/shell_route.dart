@@ -102,22 +102,26 @@ class _AppShellState extends ConsumerState<AppShell> {
 
       // ── FAB ──────────────────────────────────────────────────────
       floatingActionButton: widget.showNavigationChrome
-          ? SizedBox(
-              width: 54,
-              height: 54,
-              child: FloatingActionButton(
-                onPressed: _onFabPressed,
-                tooltip: 'MoMo',
-                elevation: 0,
-                backgroundColor: AppColors.accent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18),
-                  side: const BorderSide(color: AppColors.border2),
-                ),
-                child: const Icon(
-                  Icons.account_balance_wallet_rounded,
-                  color: Colors.black,
-                  size: 24,
+          ? Semantics(
+              button: true,
+              label: context.l10n.momoScreenTitle,
+              child: SizedBox(
+                width: 54,
+                height: 54,
+                child: FloatingActionButton(
+                  onPressed: _onFabPressed,
+                  tooltip: context.l10n.momoScreenTitle,
+                  elevation: 0,
+                  backgroundColor: AppColors.accent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                    side: const BorderSide(color: AppColors.border2),
+                  ),
+                  child: const Icon(
+                    Icons.account_balance_wallet_rounded,
+                    color: Colors.black,
+                    size: 24,
+                  ),
                 ),
               ),
             )
@@ -158,23 +162,42 @@ class _AppShellState extends ConsumerState<AppShell> {
                   ),
                   items: [
                     BottomNavigationBarItem(
-                      icon: const Icon(Icons.home_rounded),
+                      icon: Semantics(
+                        label: '${context.l10n.navHome} tab',
+                        selected: index == 0,
+                        child: const Icon(Icons.home_rounded),
+                      ),
                       label: context.l10n.navHome,
                     ),
                     BottomNavigationBarItem(
-                      icon: const Icon(Icons.people_rounded),
+                      icon: Semantics(
+                        label: '${context.l10n.navGroups} tab',
+                        selected: index == 1,
+                        child: const Icon(Icons.people_rounded),
+                      ),
                       label: context.l10n.navGroups,
                     ),
                     BottomNavigationBarItem(
-                      icon: const ExcludeSemantics(child: SizedBox.shrink()),
+                      icon: Semantics(
+                        label: context.l10n.momoScreenTitle,
+                        child: ExcludeSemantics(child: SizedBox.shrink()),
+                      ),
                       label: '',
                     ),
                     BottomNavigationBarItem(
-                      icon: const Icon(Icons.directions_car_rounded),
+                      icon: Semantics(
+                        label: '${context.l10n.navMobility} tab',
+                        selected: index == 3,
+                        child: const Icon(Icons.directions_car_rounded),
+                      ),
                       label: context.l10n.navMobility,
                     ),
                     BottomNavigationBarItem(
-                      icon: const Icon(Icons.person_rounded),
+                      icon: Semantics(
+                        label: '${context.l10n.navProfile} tab',
+                        selected: index == 4,
+                        child: const Icon(Icons.person_rounded),
+                      ),
                       label: context.l10n.navProfile,
                     ),
                   ],

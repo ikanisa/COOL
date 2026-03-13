@@ -1,6 +1,6 @@
 # Play Review Access
 
-Updated: March 12, 2026
+Updated: March 13, 2026
 
 This document describes the safest review-access path currently prepared in the
 Cool repo.
@@ -22,6 +22,14 @@ Cool repo.
 - `verify-otp` now mints sessions through a deterministic internal email
   identity derived from the WhatsApp number, so hosted phone auth is no longer
   required.
+- OTP abuse controls are now enforced server-side:
+  - per-phone send limits
+  - per-IP send limits
+  - per-phone verify-attempt limits
+  - per-IP verify-attempt limits
+- Auth-user repair and lookup no longer page through `listUsers()`. The backend
+  now resolves users through the service-role RPC
+  `public.find_auth_user_by_phone_or_email(...)`.
 - Reviewers should also be told that Android SMS permission is part of payment
   confirmation verification and may need to be granted during the test flow.
 
@@ -67,8 +75,14 @@ path.
   deterministic internal email identity derived from the WhatsApp number.
 - Hosted email auth must remain enabled, but hosted phone auth is no longer a
   dependency for this flow.
+- Abuse controls are logged in `public.otp_rate_events` so review and support
+  troubleshooting can distinguish invalid-code churn from delivery failures
+  across both phone-scoped and IP-scoped limits.
 
 ## Important Constraint
 
 - Do not share the review phone/code with Google Play reviewers until the full
   login flow has been validated on a connected test device.
+- When validating the review account repeatedly, use a fresh test window. The
+  review flow now rate-limits repeated sends and verify attempts by phone and
+  by IP.

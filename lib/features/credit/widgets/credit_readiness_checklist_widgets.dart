@@ -300,11 +300,7 @@ class _ChecklistRow extends StatelessWidget {
 
 /// Stat chip (kyc, score, checks, dates).
 class HistoryStatChip extends StatelessWidget {
-  const HistoryStatChip({
-    required this.label,
-    required this.value,
-    super.key,
-  });
+  const HistoryStatChip({required this.label, required this.value, super.key});
 
   final String label;
   final String value;
@@ -377,12 +373,7 @@ class ReadinessErrorState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: CoolCard(
-        child: CoolErrorView(
-          message: error,
-          compact: true,
-        ),
-      ),
+      child: CoolCard(child: CoolErrorView(message: error, compact: true)),
     );
   }
 }

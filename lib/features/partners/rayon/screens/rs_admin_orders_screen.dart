@@ -5,6 +5,9 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../shared/widgets/cool_async_view.dart';
+import '../../../../shared/widgets/cool_empty_view.dart';
+import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/partner_navigation.dart';
 import '../models/rs_models.dart';
@@ -46,40 +49,34 @@ class RsAdminOrdersScreen extends ConsumerWidget {
         ),
         actions: buildPartnerAppBarActions(context, homeColor: Colors.white),
       ),
-      body: ordersAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(
-          child: Text(
-            'Error: $e',
-            style: const TextStyle(color: AppColors.red),
-          ),
+      body: CoolAsyncView<List<RsShopOrder>>(
+        value: ordersAsync,
+        onRetry: () => ref.invalidate(rsAdminOrdersProvider),
+        loadingWidget: const Padding(
+          padding: EdgeInsets.all(16),
+          child: CoolSkeletonList(itemCount: 4),
         ),
-        data: (orders) {
-          if (orders.isEmpty) {
-            return Center(
-              child: Text(
-                'No orders yet',
-                style: GoogleFonts.dmSans(color: AppColors.text3),
-              ),
+        emptyCheck: (orders) => orders.isEmpty,
+        emptyWidget: const CoolEmptyView(
+          message: 'No shop orders have been created yet.',
+          icon: Icons.shopping_bag_outlined,
+        ),
+        builder: (orders) => ListView.separated(
+          padding: const EdgeInsets.all(16),
+          itemCount: orders.length,
+          separatorBuilder: (context, index) => const SizedBox(height: 10),
+          itemBuilder: (context, index) {
+            final order = orders[index];
+            return _OrderTile(
+              order: order,
+              onStatusChange: (status) async {
+                final repo = ref.read(rayonSportsRepositoryProvider);
+                await repo.updateOrderStatus(order.id, status: status);
+                ref.invalidate(rsAdminOrdersProvider);
+              },
             );
-          }
-          return ListView.separated(
-            padding: const EdgeInsets.all(16),
-            itemCount: orders.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 10),
-            itemBuilder: (context, index) {
-              final order = orders[index];
-              return _OrderTile(
-                order: order,
-                onStatusChange: (status) async {
-                  final repo = ref.read(rayonSportsRepositoryProvider);
-                  await repo.updateOrderStatus(order.id, status: status);
-                  ref.invalidate(rsAdminOrdersProvider);
-                },
-              );
-            },
-          );
-        },
+          },
+        ),
       ),
     );
   }
@@ -140,7 +137,10 @@ class _OrderTile extends StatelessWidget {
             children: RsAdminOrdersScreen._statusFlow
                 .where((s) => s != order.status.value)
                 .map(
-                  (s) => GestureDetector(
+                  (s) => Semantics(
+                    button: true,
+                    label: 'Change status to $s',
+                    child: GestureDetector(
                     onTap: () => onStatusChange(s),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
@@ -159,6 +159,7 @@ class _OrderTile extends StatelessWidget {
                         ),
                       ),
                     ),
+                  ),
                   ),
                 )
                 .toList(),

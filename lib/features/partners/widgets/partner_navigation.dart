@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_colors.dart';
 
@@ -13,26 +14,34 @@ void popOrGo(BuildContext context, String fallbackLocation) {
   context.go(fallbackLocation);
 }
 
-IconButton buildPartnerBackButton(
+Widget buildPartnerBackButton(
   BuildContext context, {
   required String fallbackLocation,
   IconData icon = Icons.arrow_back_rounded,
   Color? color,
 }) {
-  return IconButton(
-    onPressed: () => popOrGo(context, fallbackLocation),
-    icon: Icon(icon),
-    color: color,
-    tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+  return Semantics(
+    button: true,
+    label: MaterialLocalizations.of(context).backButtonTooltip,
+    child: IconButton(
+      onPressed: () => popOrGo(context, fallbackLocation),
+      icon: Icon(icon),
+      color: color,
+      tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+    ),
   );
 }
 
-IconButton buildPartnerHomeButton(BuildContext context, {Color? color}) {
-  return IconButton(
-    onPressed: () => context.go(AppRoutes.home),
-    icon: const Icon(Icons.home_rounded),
-    color: color ?? AppColors.rsWhite,
-    tooltip: 'Home',
+Widget buildPartnerHomeButton(BuildContext context, {Color? color}) {
+  return Semantics(
+    button: true,
+    label: context.l10n.partnersHomeTooltip,
+    child: IconButton(
+      onPressed: () => context.go(AppRoutes.home),
+      icon: const Icon(Icons.home_rounded),
+      color: color ?? AppColors.rsWhite,
+      tooltip: context.l10n.partnersHomeTooltip,
+    ),
   );
 }
 

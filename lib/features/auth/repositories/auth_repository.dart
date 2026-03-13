@@ -3,12 +3,13 @@ import 'dart:convert';
 import 'package:cool_app/core/utils/json_helpers.dart' as jh;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
 import '../models/user_profile.dart';
 
 class AuthRepository {
-  AuthRepository({SupabaseClient? client})
-    : _client = client ?? Supabase.instance.client;
+  AuthRepository({required SupabaseClient client})
+    : _client = client;
 
   final SupabaseClient _client;
 
@@ -16,9 +17,17 @@ class AuthRepository {
   String? get currentUserId => _client.auth.currentUser?.id;
 
   Future<void> sendOtp(String phone, String language) async {
+    assert(
+      language.trim().isEmpty ||
+          language.trim().toLowerCase() == AppMarket.languageCode,
+      'COOL is English-only.',
+    );
     final response = await _client.functions.invoke(
       'send-otp',
-      body: <String, dynamic>{'phone': phone, 'language': language},
+      body: <String, Object?>{
+        'phone': phone,
+        'language': AppMarket.languageCode,
+      },
     );
 
     final data = jh.asMap(response.data);
@@ -30,7 +39,7 @@ class AuthRepository {
   Future<Session> verifyOtp(String phone, String code) async {
     final response = await _client.functions.invoke(
       'verify-otp',
-      body: <String, dynamic>{'phone': phone, 'code': code},
+      body: <String, Object?>{'phone': phone, 'code': code},
     );
 
     final data = jh.asMap(response.data);
@@ -53,17 +62,17 @@ class AuthRepository {
   Future<UserProfile> createProfile(UserProfile profile) async {
     final inserted = await _client
         .from('users')
-        .insert(profile.toJson())
+        .insert(_lockProfileMarket(profile.toJson()))
         .select()
         .single();
 
-    final created = UserProfile.fromJson(jh.asMap(inserted));
+    final created = UserProfile.fromJson(_lockProfileMarket(jh.asMap(inserted)));
     await _persistProfileMetadata(created);
     return created;
   }
 
   Future<UserProfile> updateProfile(UserProfile profile) async {
-    final data = profile.toJson();
+    final data = _lockProfileMarket(profile.toJson());
     data.remove('id');
     data.remove('created_at');
 
@@ -74,7 +83,7 @@ class AuthRepository {
         .select()
         .single();
 
-    final result = UserProfile.fromJson(jh.asMap(updated));
+    final result = UserProfile.fromJson(_lockProfileMarket(jh.asMap(updated)));
     await _persistProfileMetadata(result);
     return result;
   }
@@ -90,7 +99,12 @@ class AuthRepository {
     required String momoProvider,
     required String country,
   }) async {
-    final patch = <String, dynamic>{
+    assert(
+      country.trim().isEmpty ||
+          country.trim().toUpperCase() == AppMarket.countryCode,
+      'COOL is locked to the Rwanda market.',
+    );
+    final patch = <String, Object?>{
       'momo_number': momoNumber,
       'momo_code': momoCode,
       'momo_route_type': switch (momoRouteType) {
@@ -99,7 +113,8 @@ class AuthRepository {
         null => null,
       },
       'momo_provider': momoProvider,
-      'country': country,
+      'country': AppMarket.countryCode,
+      'language_code': AppMarket.languageCode,
     };
 
     final updated = await _client
@@ -109,7 +124,7 @@ class AuthRepository {
         .select()
         .single();
 
-    final result = UserProfile.fromJson(jh.asMap(updated));
+    final result = UserProfile.fromJson(_lockProfileMarket(jh.asMap(updated)));
     await _persistProfileMetadata(result);
     return result;
   }
@@ -121,7 +136,7 @@ class AuthRepository {
         .eq('id', userId)
         .maybeSingle();
     if (data != null) {
-      return UserProfile.fromJson(jh.asMap(data));
+      return UserProfile.fromJson(_lockProfileMarket(jh.asMap(data)));
     }
 
     return _profileFromMetadata(userId);
@@ -142,7 +157,7 @@ class AuthRepository {
   Future<void> deleteAccount() async {
     final response = await _client.functions.invoke(
       'delete-account',
-      body: <String, dynamic>{'confirm': true},
+      body: <String, Object?>{'confirm': true},
     );
 
     final data = jh.asMap(response.data);
@@ -168,7 +183,7 @@ class AuthRepository {
     await _client.auth.updateUser(
       UserAttributes(
         data: <String, dynamic>{
-          ...Map<String, dynamic>.from(currentUser.userMetadata ?? const {}),
+          ...jh.asMap(currentUser.userMetadata),
           'public_user_id': profile.displayUserId,
           'phone': profile.phone,
           'full_name': profile.fullName,
@@ -180,8 +195,10 @@ class AuthRepository {
             null => null,
           },
           'momo_provider': profile.momoProvider,
-          'country': profile.country,
-          'language_code': profile.languageCode,
+          'country': AppMarket.countryCode,
+          'language_code': AppMarket.languageCode,
+          'market': AppMarket.countryCode,
+          'ui_language': AppMarket.languageCode,
           'is_driver': profile.isDriver,
           'vehicle_type': profile.vehicleType,
           'avatar_url': profile.avatarUrl,
@@ -202,7 +219,7 @@ class AuthRepository {
       return null;
     }
 
-    final metadata = Map<String, dynamic>.from(user.userMetadata ?? const {});
+    final metadata = jh.asMapOrEmpty(user.userMetadata);
     final phone =
         metadata['phone']?.toString() ??
         metadata['whatsapp_number']?.toString() ??
@@ -213,7 +230,7 @@ class AuthRepository {
       return null;
     }
 
-    return UserProfile.fromJson(<String, dynamic>{
+    return UserProfile.fromJson(_lockProfileMarket(<String, Object?>{
       'id': user.id,
       'public_user_id': metadata['public_user_id']?.toString(),
       'phone': phone,
@@ -225,8 +242,8 @@ class AuthRepository {
       'momo_code': metadata['momo_code']?.toString(),
       'momo_route_type': metadata['momo_route_type']?.toString(),
       'momo_provider': metadata['momo_provider']?.toString() ?? '',
-      'country': metadata['country']?.toString() ?? '',
-      'language_code': metadata['language_code']?.toString() ?? 'en',
+      'country': AppMarket.countryCode,
+      'language_code': AppMarket.languageCode,
       'is_driver': jh.asBool(metadata['is_driver']),
       'vehicle_type': metadata['vehicle_type']?.toString(),
       'avatar_url': metadata['avatar_url']?.toString(),
@@ -235,20 +252,26 @@ class AuthRepository {
       'kyc_status': metadata['kyc_status']?.toString() ?? 'unverified',
       'kyc_verified_at': metadata['kyc_verified_at'],
       'credit_consent_granted_at': metadata['credit_consent_granted_at'],
-    });
+    }));
   }
 }
 
-Map<String, dynamic> normalizeAuthSessionPayload(
-  Map<String, dynamic> response,
-) {
+Map<String, dynamic> _lockProfileMarket(Map<String, dynamic> data) {
+  return <String, dynamic>{
+    ...data,
+    'country': AppMarket.countryCode,
+    'language_code': AppMarket.languageCode,
+  };
+}
+
+jh.JsonMap normalizeAuthSessionPayload(jh.JsonMap response) {
   final rawSession = _nestedMap(response, 'session') ?? response;
   final rawUser =
       _nestedMap(rawSession, 'user') ??
       _nestedMap(response, 'user') ??
-      const {};
+      const <String, Object?>{};
 
-  return <String, dynamic>{
+  return <String, Object?>{
     'access_token':
         _stringOrNull(rawSession['access_token']) ??
         _stringOrNull(response['access_token']),
@@ -263,7 +286,7 @@ Map<String, dynamic> normalizeAuthSessionPayload(
     'provider_refresh_token': _stringOrNull(
       rawSession['provider_refresh_token'],
     ),
-    'user': <String, dynamic>{
+    'user': <String, Object?>{
       'id': _stringOrNull(rawUser['id']) ?? '',
       'app_metadata': _mapOrEmpty(rawUser['app_metadata']),
       'user_metadata': _mapOrNull(rawUser['user_metadata']),
@@ -288,25 +311,25 @@ Map<String, dynamic> normalizeAuthSessionPayload(
   }..removeWhere((_, value) => value == null);
 }
 
-Map<String, dynamic>? _nestedMap(Map<String, dynamic> root, String key) {
+jh.JsonMap? _nestedMap(jh.JsonMap root, String key) {
   final value = root[key];
-  if (value is Map<String, dynamic>) {
+  if (value is jh.JsonMap) {
     return value;
   }
   if (value is Map) {
-    return Map<String, dynamic>.from(value);
+    return Map<String, Object?>.from(value);
   }
   return null;
 }
 
-String? _stringOrNull(dynamic value) {
+String? _stringOrNull(Object? value) {
   if (value == null) {
     return null;
   }
   return value.toString();
 }
 
-int? _intOrNull(dynamic value) {
+int? _intOrNull(Object? value) {
   if (value is int) {
     return value;
   }
@@ -319,16 +342,16 @@ int? _intOrNull(dynamic value) {
   return null;
 }
 
-Map<String, dynamic>? _mapOrNull(dynamic value) {
-  if (value is Map<String, dynamic>) {
+jh.JsonMap? _mapOrNull(Object? value) {
+  if (value is jh.JsonMap) {
     return value;
   }
   if (value is Map) {
-    return Map<String, dynamic>.from(value);
+    return Map<String, Object?>.from(value);
   }
   return null;
 }
 
-Map<String, dynamic> _mapOrEmpty(dynamic value) {
-  return _mapOrNull(value) ?? <String, dynamic>{};
+jh.JsonMap _mapOrEmpty(Object? value) {
+  return _mapOrNull(value) ?? <String, Object?>{};
 }

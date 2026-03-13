@@ -43,32 +43,7 @@ insert into public.supported_countries (
   momo_code_ussd_template
 )
 values
-  ('BJ', '+229', 'Benin', '🇧🇯', 'XOF', 'West African CFA franc', 'momo_bj', '*400*1*{recipient}*{amount}#', '*400*1*{recipient}*{amount}#', null),
-  ('BW', '+267', 'Botswana', '🇧🇼', 'BWP', 'Botswana pula', 'momo_bw', '*167*1*{recipient}*{amount}#', '*167*1*{recipient}*{amount}#', null),
-  ('CM', '+237', 'Cameroon', '🇨🇲', 'XAF', 'Central African CFA franc', 'momo_cm', '*126*1*{recipient}*{amount}#', '*126*1*{recipient}*{amount}#', null),
-  ('CG', '+242', 'Congo Brazzaville', '🇨🇬', 'XAF', 'Central African CFA franc', 'momo_cg', '*124*1*{recipient}*{amount}#', '*124*1*{recipient}*{amount}#', null),
-  ('CI', '+225', 'Côte d''Ivoire', '🇨🇮', 'XOF', 'West African CFA franc', 'momo_ci', '*133*1*{recipient}*{amount}#', '*133*1*{recipient}*{amount}#', null),
-  ('GH', '+233', 'Ghana', '🇬🇭', 'GHS', 'Ghanaian cedi', 'momo_gh', '*170*1*{recipient}*{amount}#', '*170*1*{recipient}*{amount}#', null),
-  ('GN', '+224', 'Guinea', '🇬🇳', 'GNF', 'Guinean franc', 'momo_gn', '*155*1*{recipient}*{amount}#', '*155*1*{recipient}*{amount}#', null),
-  ('GW', '+245', 'Guinea-Bissau', '🇬🇼', 'XOF', 'West African CFA franc', 'momo_gw', '*124*1*{recipient}*{amount}#', '*124*1*{recipient}*{amount}#', null),
-  ('KE', '+254', 'Kenya', '🇰🇪', 'KES', 'Kenyan shilling', 'momo_ke', '*334*1*{recipient}*{amount}#', '*334*1*{recipient}*{amount}#', null),
-  ('LR', '+231', 'Liberia', '🇱🇷', 'LRD', 'Liberian dollar', 'momo_lr', '*156*1*{recipient}*{amount}#', '*156*1*{recipient}*{amount}#', null),
-  ('MW', '+265', 'Malawi', '🇲🇼', 'MWK', 'Malawian kwacha', 'momo_mw', '*444*1*{recipient}*{amount}#', '*444*1*{recipient}*{amount}#', null),
-  ('MZ', '+258', 'Mozambique', '🇲🇿', 'MZN', 'Mozambican metical', 'momo_mz', '*197*1*{recipient}*{amount}#', '*197*1*{recipient}*{amount}#', null),
-  ('NG', '+234', 'Nigeria', '🇳🇬', 'NGN', 'Nigerian naira', 'momo_ng', '*223*1*{recipient}*{amount}#', '*223*1*{recipient}*{amount}#', null),
-  ('RW', '+250', 'Rwanda', '🇷🇼', 'RWF', 'Rwandan franc', 'momo_rw', '*182*1*1*{recipient}*{amount}#', '*182*1*1*{recipient}*{amount}#', '*182*8*1*{recipient}*{amount}#'),
-  ('ZA', '+27', 'South Africa', '🇿🇦', 'ZAR', 'South African rand', 'momo_za', '*120*668*1*{recipient}*{amount}#', '*120*668*1*{recipient}*{amount}#', null),
-  ('SZ', '+268', 'Eswatini (Swaziland)', '🇸🇿', 'SZL', 'Swazi lilangeni', 'momo_sz', '*468*1*{recipient}*{amount}#', '*468*1*{recipient}*{amount}#', null),
-  ('UG', '+256', 'Uganda', '🇺🇬', 'UGX', 'Ugandan shilling', 'momo_ug', '*165*1*{recipient}*{amount}#', '*165*1*{recipient}*{amount}#', null),
-  ('ZM', '+260', 'Zambia', '🇿🇲', 'ZMW', 'Zambian kwacha', 'momo_zm', '*303*1*{recipient}*{amount}#', '*303*1*{recipient}*{amount}#', null),
-  ('ZW', '+263', 'Zimbabwe', '🇿🇼', 'ZWL', 'Zimbabwean dollar', 'momo_zw', '*151*1*{recipient}*{amount}#', '*151*1*{recipient}*{amount}#', null),
-  ('CD', '+243', 'Democratic Republic of Congo (DRC)', '🇨🇩', 'CDF', 'Congolese franc', 'momo_cd', '*099*1*{recipient}*{amount}#', '*099*1*{recipient}*{amount}#', null),
-  ('ET', '+251', 'Ethiopia', '🇪🇹', 'ETB', 'Ethiopian birr', 'momo_et', '*806*1*{recipient}*{amount}#', '*806*1*{recipient}*{amount}#', null),
-  ('GA', '+241', 'Gabon', '🇬🇦', 'XAF', 'Central African CFA franc', 'momo_ga', '*222*1*{recipient}*{amount}#', '*222*1*{recipient}*{amount}#', null),
-  ('MG', '+261', 'Madagascar', '🇲🇬', 'MGA', 'Malagasy ariary', 'momo_mg', '*162*1*{recipient}*{amount}#', '*162*1*{recipient}*{amount}#', null),
-  ('SN', '+221', 'Senegal', '🇸🇳', 'XOF', 'West African CFA franc', 'momo_sn', '*140*1*{recipient}*{amount}#', '*140*1*{recipient}*{amount}#', null),
-  ('SL', '+232', 'Sierra Leone', '🇸🇱', 'SLL', 'Sierra Leonean leone', 'momo_sl', '*277*1*{recipient}*{amount}#', '*277*1*{recipient}*{amount}#', null),
-  ('TZ', '+255', 'Tanzania', '🇹🇿', 'TZS', 'Tanzanian shilling', 'momo_tz', '*150*00*1*{recipient}*{amount}#', '*150*00*1*{recipient}*{amount}#', null)
+  ('RW', '+250', 'Rwanda', '🇷🇼', 'RWF', 'Rwandan franc', 'momo_rw', '*182*1*1*{recipient}*{amount}#', '*182*1*1*{recipient}*{amount}#', '*182*8*1*{recipient}*{amount}#')
 on conflict (iso_code) do update
 set
   dial_code = excluded.dial_code,
@@ -92,8 +67,11 @@ set momo_number_ussd_template = coalesce(
     nullif(momo_ussd_template, ''),
     nullif(momo_number_ussd_template, '')
   )
-where coalesce(momo_number_ussd_template, '') = ''
-   or coalesce(momo_ussd_template, '') = '';
+where iso_code = 'RW'
+  and (
+    coalesce(momo_number_ussd_template, '') = ''
+    or coalesce(momo_ussd_template, '') = ''
+  );
 
 do $$
 begin
@@ -171,4 +149,3 @@ set receiving_momo_route_type = case
   else 'code'
 end
 where true;
-

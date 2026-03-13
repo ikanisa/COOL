@@ -2,8 +2,10 @@ import 'package:cool_app/features/mobility/models/trip.dart';
 import 'package:cool_app/features/mobility/models/trip_post_request.dart';
 import 'package:cool_app/core/models/geo_point.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../core/auth/auth_user_contact.dart';
+import '../../../core/config/app_market.dart';
 import '../../../core/providers/engagement_providers.dart';
 import '../../../core/providers/supabase_client_provider.dart';
 import '../../../core/services/crashlytics_service.dart';
@@ -20,7 +22,10 @@ final mobilityRepositoryProvider = Provider<MobilityRepository>((ref) {
 });
 
 final mobilityTripRepositoryProvider = Provider<TripRepository>((ref) {
-  return TripRepository(client: ref.read(supabaseClientProvider));
+  return TripRepository(
+    client: ref.read(supabaseClientProvider),
+    openBox: Hive.openBox<dynamic>,
+  );
 });
 
 final mobilityProvider = StateNotifierProvider<MobilityNotifier, MobilityState>(
@@ -183,7 +188,7 @@ class MobilityNotifier extends StateNotifier<MobilityState> {
 
   String? get _currentUserId =>
       _authState.user?.id ?? _authState.session?.user.id;
-  String get _currentCountry => resolveAuthStateCountryCode(_authState);
+  String get _currentCountry => AppMarket.countryCode;
 
   Future<void> loadNearbyDrivers() async {
     final location = state.userLocation;

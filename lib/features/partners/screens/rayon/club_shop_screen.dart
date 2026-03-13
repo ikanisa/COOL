@@ -36,7 +36,10 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
       scrollable: false,
       actions: [
         // Cart icon with badge
-        GestureDetector(
+        Semantics(
+          button: true,
+          label: 'Shopping cart, $cartItemCount items',
+          child: GestureDetector(
           onTap: cartItemCount > 0
               ? () => context.push('/partners/rayon-sports/shop/checkout')
               : null,
@@ -73,6 +76,7 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
               ],
             ),
           ),
+        ),
         ),
       ],
       child: shopCatalog.when(
@@ -270,7 +274,10 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
                                   final category = categoryOptions[index];
                                   final selected =
                                       category.category == _selectedCategory;
-                                  return GestureDetector(
+                                  return Semantics(
+                                    selected: selected,
+                                    label: '${category.label} category filter',
+                                    child: GestureDetector(
                                     onTap: () => setState(
                                       () =>
                                           _selectedCategory = category.category,
@@ -328,6 +335,7 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
                                         ],
                                       ),
                                     ),
+                                  ),
                                   );
                                 },
                               ),
@@ -388,7 +396,10 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
                       left: 0,
                       right: 0,
                       bottom: 0,
-                      child: GestureDetector(
+                      child: Semantics(
+                        button: true,
+                        label: 'Checkout cart',
+                        child: GestureDetector(
                         onTap: () => context.push(
                           '/partners/rayon-sports/shop/checkout',
                         ),
@@ -443,6 +454,7 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
                           ),
                         ),
                       ),
+                    ),
                     ),
                 ],
               );

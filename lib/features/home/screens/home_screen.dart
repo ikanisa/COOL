@@ -12,7 +12,10 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/intl_locale.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_error_boundary.dart';
+import '../../../shared/widgets/cool_error_view.dart';
+import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
+import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/quest_card.dart';
 import '../../../shared/widgets/season_banner.dart';
 import '../../../shared/widgets/section_title.dart';
@@ -176,49 +179,62 @@ class _OverviewCard extends StatelessWidget {
         ? AppColors.accent
         : AppColors.orange;
 
-    return CoolCard(
-      backgroundColor: AppColors.surface,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            l10n.totalBalance,
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: AppColors.text3,
-              letterSpacing: 0.2,
+    return Semantics(
+      container: true,
+      label:
+          'Home overview. Total balance ${_spokenCurrency(totalBalance, localeName)}. '
+          '${l10n.homeMonthlyNet} ${_signedSpokenCurrency(monthlyNetChange, localeName)}. '
+          '${l10n.navGroups} ${l10n.homeActiveCount(memberCount)}.',
+      child: CoolCard(
+        backgroundColor: AppColors.surface,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              l10n.totalBalance,
+              style: GoogleFonts.dmSans(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: AppColors.text3,
+                letterSpacing: 0.2,
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            _formatCurrency(totalBalance, localeName),
-            style: GoogleFonts.dmMono(
-              fontSize: 30,
-              fontWeight: FontWeight.w700,
-              color: AppColors.text,
-              height: 1.1,
+            const SizedBox(height: 10),
+            Semantics(
+              label:
+                  '${l10n.totalBalance}: ${_spokenCurrency(totalBalance, localeName)}',
+              child: ExcludeSemantics(
+                child: Text(
+                  _formatCurrency(totalBalance, localeName),
+                  style: GoogleFonts.dmMono(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.text,
+                    height: 1.1,
+                  ),
+                ),
+              ),
             ),
-          ),
 
-          const SizedBox(height: 18),
-          Wrap(
-            spacing: 10,
-            runSpacing: 10,
-            children: [
-              _MetricPill(
-                label: l10n.homeMonthlyNet,
-                value: _signedCurrency(monthlyNetChange, localeName),
-                valueColor: netColor,
-              ),
-              _MetricPill(
-                label: l10n.navGroups,
-                value: l10n.homeActiveCount(memberCount),
-                valueColor: AppColors.text,
-              ),
-            ],
-          ),
-        ],
+            const SizedBox(height: 18),
+            Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: [
+                _MetricPill(
+                  label: l10n.homeMonthlyNet,
+                  value: _signedCurrency(monthlyNetChange, localeName),
+                  valueColor: netColor,
+                ),
+                _MetricPill(
+                  label: l10n.navGroups,
+                  value: l10n.homeActiveCount(memberCount),
+                  valueColor: AppColors.text,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -237,35 +253,40 @@ class _MetricPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.surface2,
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              label,
-              style: GoogleFonts.dmSans(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: AppColors.text3,
-              ),
+    return Semantics(
+      label: '$label: $value',
+      child: ExcludeSemantics(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: AppColors.surface2,
+            borderRadius: BorderRadius.circular(999),
+            border: Border.all(color: AppColors.border),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  label,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.text3,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  value,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: valueColor,
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(width: 8),
-            Text(
-              value,
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-                color: valueColor,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -307,58 +328,31 @@ class _QuickActionCard extends StatelessWidget {
       color: AppColors.text3,
     );
 
-    return CoolCard(
-      backgroundColor: AppColors.surface,
-      onTap: () => openQuickActionRoute(context, route),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final isCompact = constraints.maxWidth < 170;
+    return Semantics(
+      button: true,
+      label: compactSubtitle.isEmpty
+          ? 'Quick action $compactTitle'
+          : 'Quick action $compactTitle. $compactSubtitle',
+      hint: 'Double tap to open',
+      child: ExcludeSemantics(
+        child: CoolCard(
+          backgroundColor: AppColors.surface,
+          onTap: () => openQuickActionRoute(context, route),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final isCompact = constraints.maxWidth < 170;
 
-          if (isCompact) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(children: [leadingIcon(), const Spacer(), trailingIcon]),
-                const SizedBox(height: 14),
-                Text(
-                  compactTitle,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.text,
-                  ),
-                ),
-                if (compactSubtitle.isNotEmpty) ...[
-                  const SizedBox(height: 6),
-                  Text(
-                    compactSubtitle,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.text3,
-                      height: 1.35,
-                    ),
-                  ),
-                ],
-              ],
-            );
-          }
-
-          return Row(
-            children: [
-              leadingIcon(),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
+              if (isCompact) {
+                return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Row(
+                      children: [leadingIcon(), const Spacer(), trailingIcon],
+                    ),
+                    const SizedBox(height: 14),
                     Text(
                       compactTitle,
-                      maxLines: 2,
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.dmSans(
                         fontSize: 14,
@@ -367,7 +361,7 @@ class _QuickActionCard extends StatelessWidget {
                       ),
                     ),
                     if (compactSubtitle.isNotEmpty) ...[
-                      const SizedBox(height: 3),
+                      const SizedBox(height: 6),
                       Text(
                         compactSubtitle,
                         maxLines: 2,
@@ -376,17 +370,55 @@ class _QuickActionCard extends StatelessWidget {
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
                           color: AppColors.text3,
+                          height: 1.35,
                         ),
                       ),
                     ],
                   ],
-                ),
-              ),
-              const SizedBox(width: 8),
-              trailingIcon,
-            ],
-          );
-        },
+                );
+              }
+
+              return Row(
+                children: [
+                  leadingIcon(),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          compactTitle,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.dmSans(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.text,
+                          ),
+                        ),
+                        if (compactSubtitle.isNotEmpty) ...[
+                          const SizedBox(height: 3),
+                          Text(
+                            compactSubtitle,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.dmSans(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.text3,
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  trailingIcon,
+                ],
+              );
+            },
+          ),
+        ),
       ),
     );
   }
@@ -440,10 +472,18 @@ class _QuickActionGrid extends StatelessWidget {
     final visibleItems = items.take(4).toList(growable: false);
     return LayoutBuilder(
       builder: (context, constraints) {
+        final textScale = MediaQuery.textScalerOf(context).scale(1);
         final crossAxisCount = switch (constraints.maxWidth) {
           < 780 => 2,
           _ => 4,
         };
+        final mainAxisExtent = textScale >= 1.4
+            ? switch (constraints.maxWidth) {
+                >= 780 => 230.0,
+                >= 420 => 240.0,
+                _ => 268.0,
+              }
+            : null;
 
         return GridView.builder(
           shrinkWrap: true,
@@ -453,11 +493,14 @@ class _QuickActionGrid extends StatelessWidget {
             crossAxisCount: crossAxisCount,
             mainAxisSpacing: 12,
             crossAxisSpacing: 12,
-            childAspectRatio: switch (constraints.maxWidth) {
-              >= 780 => 2.2,
-              >= 420 => 1.55,
-              _ => 1.18,
-            },
+            mainAxisExtent: mainAxisExtent,
+            childAspectRatio: mainAxisExtent == null
+                ? switch (constraints.maxWidth) {
+                    >= 780 => 2.2,
+                    >= 420 => 1.55,
+                    _ => 1.18,
+                  }
+                : 1,
           ),
           itemBuilder: (context, index) {
             final item = visibleItems[index];
@@ -524,28 +567,10 @@ class _RecentActivityCard extends StatelessWidget {
     if (transactions.isEmpty) {
       return CoolCard(
         backgroundColor: AppColors.surface,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              l10n.homeNoActivityTitle,
-              style: GoogleFonts.dmSans(
-                fontSize: 15,
-                fontWeight: FontWeight.w700,
-                color: AppColors.text,
-              ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              l10n.homeNoActivityMessage,
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w400,
-                color: AppColors.text2,
-                height: 1.4,
-              ),
-            ),
-          ],
+        child: CoolEmptyView(
+          message: l10n.homeNoActivityMessage,
+          compact: true,
+          icon: Icons.receipt_long_rounded,
         ),
       );
     }
@@ -586,63 +611,71 @@ class _ActivityRow extends StatelessWidget {
       ).format(transaction.recordedAt),
     ].join(' · ');
 
-    return Row(
-      children: [
-        Container(
-          width: 40,
-          height: 40,
-          decoration: BoxDecoration(
-            color: valueColor.withValues(alpha: 0.12),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          alignment: Alignment.center,
-          child: Icon(
-            signedAmount >= 0
-                ? Icons.arrow_downward_rounded
-                : Icons.arrow_upward_rounded,
-            size: 18,
-            color: valueColor,
-          ),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                transaction.title,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.dmSans(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.text,
-                ),
+    return Semantics(
+      container: true,
+      label:
+          '${transaction.title}. $meta. ${signedAmount >= 0 ? 'Incoming' : 'Outgoing'} '
+          'amount ${_signedSpokenCurrency(signedAmount, localeName)}.',
+      child: ExcludeSemantics(
+        child: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: valueColor.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(12),
               ),
-              const SizedBox(height: 4),
-              Text(
-                meta,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.dmSans(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.text3,
-                ),
+              alignment: Alignment.center,
+              child: Icon(
+                signedAmount >= 0
+                    ? Icons.arrow_downward_rounded
+                    : Icons.arrow_upward_rounded,
+                size: 18,
+                color: valueColor,
               ),
-            ],
-          ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    transaction.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.text,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    meta,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.text3,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              _signedCurrency(signedAmount, localeName),
+              style: GoogleFonts.dmSans(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: valueColor,
+              ),
+            ),
+          ],
         ),
-        const SizedBox(width: 12),
-        Text(
-          _signedCurrency(signedAmount, localeName),
-          style: GoogleFonts.dmSans(
-            fontSize: 13,
-            fontWeight: FontWeight.w700,
-            color: valueColor,
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
@@ -671,14 +704,23 @@ class _OverviewLoadingCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return const CoolCard(
       backgroundColor: AppColors.surface,
-      child: SizedBox(
-        height: 136,
-        child: Center(
-          child: CircularProgressIndicator(
-            color: AppColors.accent,
-            strokeWidth: 2.2,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CoolSkeleton(width: 120, height: 14, borderRadius: 7),
+          SizedBox(height: 18),
+          CoolSkeleton(
+            width: double.infinity,
+            height: 38,
+            borderRadius: 12,
           ),
-        ),
+          SizedBox(height: 18),
+          CoolSkeleton(
+            width: double.infinity,
+            height: 26,
+            borderRadius: 13,
+          ),
+        ],
       ),
     );
   }
@@ -691,14 +733,15 @@ class _ActivityLoadingCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return const CoolCard(
       backgroundColor: AppColors.surface,
-      child: SizedBox(
-        height: 140,
-        child: Center(
-          child: CircularProgressIndicator(
-            color: AppColors.accent,
-            strokeWidth: 2.2,
-          ),
-        ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CoolSkeleton(width: double.infinity, height: 16, borderRadius: 8),
+          SizedBox(height: 12),
+          CoolSkeleton(width: double.infinity, height: 16, borderRadius: 8),
+          SizedBox(height: 12),
+          CoolSkeleton(width: 160, height: 16, borderRadius: 8),
+        ],
       ),
     );
   }
@@ -711,39 +754,12 @@ class _OverviewErrorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return CoolCard(
       backgroundColor: AppColors.surface,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            l10n.homeLoadErrorTitle,
-            style: GoogleFonts.dmSans(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: AppColors.text,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            l10n.homeLoadErrorMessage,
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w400,
-              color: AppColors.text2,
-              height: 1.4,
-            ),
-          ),
-          const SizedBox(height: 14),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: TextButton(
-              onPressed: onRetry,
-              child: Text(l10n.retryAction),
-            ),
-          ),
-        ],
+      child: CoolErrorView(
+        message: context.l10n.homeLoadErrorMessage,
+        onRetry: onRetry,
+        compact: true,
       ),
     );
   }
@@ -764,4 +780,25 @@ String _signedCurrency(
 ]) {
   final prefix = amount >= 0 ? '+' : '-';
   return '$prefix${_formatCurrency(amount.abs(), localeName, currency)}';
+}
+
+String _spokenCurrency(
+  int amount,
+  String localeName, [
+  String currency = 'RWF',
+]) {
+  final spokenCurrency = switch (currency) {
+    'RWF' => 'Rwandan francs',
+    _ => currency,
+  };
+  return '${NumberFormat.decimalPattern(localeName).format(amount)} $spokenCurrency';
+}
+
+String _signedSpokenCurrency(
+  int amount,
+  String localeName, [
+  String currency = 'RWF',
+]) {
+  final direction = amount >= 0 ? 'plus' : 'minus';
+  return '$direction ${_spokenCurrency(amount.abs(), localeName, currency)}';
 }

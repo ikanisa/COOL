@@ -6,10 +6,8 @@ enum OperationalHealthStatus { ok, warn, error }
 enum OperationalHealthSeverity { info, warning, critical }
 
 class OperationalHealthService {
-  OperationalHealthService({SupabaseClient? client})
-    : _client = client ?? Supabase.instance.client;
-
-  static final OperationalHealthService instance = OperationalHealthService();
+  OperationalHealthService({required SupabaseClient client})
+    : _client = client;
 
   final SupabaseClient _client;
 
@@ -30,20 +28,30 @@ class OperationalHealthService {
     final resolvedUserId = _normalize(userId) ?? _client.auth.currentUser?.id;
 
     try {
-      await _client.from('operational_health_events').insert(<String, dynamic>{
-        'service': service,
-        'component': component,
-        'status': status.name,
-        'severity': (severity ?? _defaultSeverity(status)).name,
-        'issue_code': _normalize(issueCode),
-        'message': message,
-        'function_name': _normalize(functionName),
-        'user_id': resolvedUserId,
-        'subject_type': _normalize(subjectType),
-        'subject_id': _normalize(subjectId),
-        'metadata': metadata,
-        'occurred_at': (occurredAt ?? DateTime.now().toUtc()).toIso8601String(),
-      });
+      final response = await _client.functions.invoke(
+        'record-operational-health',
+        body: <String, dynamic>{
+          'service': service,
+          'component': component,
+          'status': status.name,
+          'severity': (severity ?? _defaultSeverity(status)).name,
+          'issueCode': _normalize(issueCode),
+          'message': message,
+          'functionName': _normalize(functionName),
+          'userId': resolvedUserId,
+          'subjectType': _normalize(subjectType),
+          'subjectId': _normalize(subjectId),
+          'metadata': metadata,
+          'occurredAt': (occurredAt ?? DateTime.now().toUtc()).toIso8601String(),
+        },
+      );
+      final data = response.data;
+      if (data is Map && data['success'] == false) {
+        throw StateError(
+          data['message']?.toString() ??
+              'Failed to record operational health event.',
+        );
+      }
     } catch (error) {
       debugPrint('[OperationalHealth] Failed to record event: $error');
     }

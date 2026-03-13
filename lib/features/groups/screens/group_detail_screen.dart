@@ -10,7 +10,10 @@ import '../../../core/providers/referral_providers.dart';
 import '../../../core/status/cool_status_awarder.dart';
 import '../../../core/status/models/cool_event.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_button.dart';
+import '../../../shared/widgets/cool_empty_view.dart';
+import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_toast.dart';
@@ -48,6 +51,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
       backgroundColor: AppColors.bg,
       appBar: AppBar(
         leading: IconButton(
+          tooltip: 'Back',
           onPressed: () => context.pop(),
           icon: const Icon(Icons.arrow_back_rounded),
         ),
@@ -63,12 +67,19 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
       body: CoolScreenBackground(
         primaryColor: AppColors.accent,
         secondaryColor: AppColors.blue,
-        child: detailAsync.when(
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, _) => _buildErrorState(error.toString()),
-          data: (detail) => detail == null
-              ? _buildErrorState('Group not found.')
-              : _buildContent(detail, isJoiningGroup),
+        child: CoolAsyncView<GroupDetail?>(
+          value: detailAsync,
+          onRetry: () => ref.invalidate(groupDetailProvider(widget.groupId)),
+          loadingWidget: const Padding(
+            padding: EdgeInsets.fromLTRB(18, 16, 18, 96),
+            child: CoolSkeletonList(itemCount: 4),
+          ),
+          emptyCheck: (detail) => detail == null,
+          emptyWidget: const CoolEmptyView(
+            message: 'Group not found.',
+            icon: Icons.groups_2_outlined,
+          ),
+          builder: (detail) => _buildContent(detail!, isJoiningGroup),
         ),
       ),
     );
@@ -153,49 +164,6 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
 
     final shareText = 'Join ${group.name} on Cool! 🎉\n${shareUri.toString()}';
     await SharePlus.instance.share(ShareParams(text: shareText));
-  }
-
-  Widget _buildErrorState(String error) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.warning_amber_rounded, size: 40, color: AppColors.orange),
-            const SizedBox(height: 16),
-            Text(
-              'Something went wrong',
-              style: GoogleFonts.dmSans(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: AppColors.text2,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              error,
-              textAlign: TextAlign.center,
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w400,
-                color: AppColors.text3,
-                height: 1.5,
-              ),
-            ),
-            const SizedBox(height: 24),
-            SizedBox(
-              width: 160,
-              child: CoolButton(
-                label: 'Retry',
-                onTap: () =>
-                    ref.invalidate(groupDetailProvider(widget.groupId)),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 
   Widget _buildContent(GroupDetail detail, bool isLoading) {
@@ -567,7 +535,11 @@ class _ContributionRow extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
             ),
             alignment: Alignment.center,
-            child: const Icon(Icons.download_rounded, size: 18, color: AppColors.text2),
+            child: const Icon(
+              Icons.download_rounded,
+              size: 18,
+              color: AppColors.text2,
+            ),
           ),
           const SizedBox(width: 12),
 
@@ -754,43 +726,48 @@ class _ContributeSheetState extends ConsumerState<_ContributeSheet> {
                 ),
               ),
               const SizedBox(height: 8),
-              TextField(
-                controller: _amountController,
-                keyboardType: TextInputType.number,
-                style: GoogleFonts.dmMono(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.accent,
-                ),
-                cursorColor: AppColors.accent,
-                decoration: InputDecoration(
-                  prefix: Text(
-                    'RWF  ',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.text3,
+              Semantics(
+                textField: true,
+                label: 'Contribution amount in Rwandan francs',
+                hint: 'Double tap to enter the contribution amount',
+                child: TextField(
+                  controller: _amountController,
+                  keyboardType: TextInputType.number,
+                  style: GoogleFonts.dmMono(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.accent,
+                  ),
+                  cursorColor: AppColors.accent,
+                  decoration: InputDecoration(
+                    prefix: Text(
+                      'RWF  ',
+                      style: GoogleFonts.dmSans(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.text3,
+                      ),
+                    ),
+                    filled: true,
+                    fillColor: AppColors.surface2,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(color: AppColors.border),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(color: AppColors.border),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(
+                        color: AppColors.accent,
+                        width: 1.5,
+                      ),
                     ),
                   ),
-                  filled: true,
-                  fillColor: AppColors.surface2,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: AppColors.border),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: AppColors.border),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(
-                      color: AppColors.accent,
-                      width: 1.5,
-                    ),
-                  ),
+                  onChanged: (_) => setState(() => _selectedMultiplier = null),
                 ),
-                onChanged: (_) => setState(() => _selectedMultiplier = null),
               ),
               const SizedBox(height: 12),
 
@@ -850,7 +827,11 @@ class _ContributeSheetState extends ConsumerState<_ContributeSheet> {
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.phone_rounded, size: 16, color: AppColors.text2),
+                    const Icon(
+                      Icons.phone_rounded,
+                      size: 16,
+                      color: AppColors.text2,
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(

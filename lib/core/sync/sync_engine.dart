@@ -87,9 +87,9 @@ class SyncEngine {
     String boxName = _defaultBoxName,
     this.maxAttempts = 10,
     this.staleDuration = const Duration(hours: 48),
-    Future<Box<dynamic>> Function(String name)? openBox,
+    required Future<Box<dynamic>> Function(String name) openBox,
   }) : _boxName = boxName,
-       _openBox = openBox ?? Hive.openBox<dynamic>;
+       _openBox = openBox;
 
   static const _defaultBoxName = 'sync_engine_queue';
 

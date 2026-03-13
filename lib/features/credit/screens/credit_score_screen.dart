@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -55,17 +56,19 @@ class _CreditScoreScreenState extends ConsumerState<CreditScoreScreen>
       backgroundColor: AppColors.bg,
       appBar: AppBar(
         leading: IconButton(
+          tooltip: 'Back',
           onPressed: () => context.pop(),
           icon: const Icon(Icons.arrow_back_rounded),
         ),
         actions: [
           IconButton(
+            tooltip: 'Refresh credit report',
             onPressed: !_isRefreshing && canRefresh ? _refreshReport : null,
             icon: _isRefreshing
                 ? const SizedBox(
                     width: 18,
                     height: 18,
-                    child: CircularProgressIndicator(strokeWidth: 2),
+                    child: CupertinoActivityIndicator(radius: 9),
                   )
                 : const Icon(Icons.refresh_rounded),
           ),
@@ -88,8 +91,7 @@ class _CreditScoreScreenState extends ConsumerState<CreditScoreScreen>
             ringAnimation: _ringAnimation,
           ),
           loading: () => const CreditScoreLoadingState(),
-          error: (error, _) =>
-              CreditScoreErrorState(error: error.toString()),
+          error: (error, _) => CreditScoreErrorState(error: error.toString()),
         ),
       ),
     );

@@ -39,14 +39,24 @@ class FakeFeatureFlagsService extends FeatureFlagsService {
 }
 
 class FakeAdminRepository extends AdminRepository {
-  FakeAdminRepository(List<Map<String, dynamic>> configs)
-    : _configs = configs.map(Map<String, dynamic>.from).toList(),
-      super(client: MockSupabaseClient());
+  FakeAdminRepository(
+    List<Map<String, dynamic>> configs, {
+    List<Map<String, dynamic>> partners = const <Map<String, dynamic>>[],
+    List<Map<String, dynamic>> paymentRoutes = const <Map<String, dynamic>>[],
+  }) : _configs = configs.map(Map<String, dynamic>.from).toList(),
+       _partners = partners.map(Map<String, dynamic>.from).toList(),
+       _paymentRoutes = paymentRoutes.map(Map<String, dynamic>.from).toList(),
+       super(client: MockSupabaseClient());
 
   final List<Map<String, dynamic>> _configs;
+  final List<Map<String, dynamic>> _partners;
+  final List<Map<String, dynamic>> _paymentRoutes;
   final List<Map<String, dynamic>> singleUpserts = <Map<String, dynamic>>[];
   final List<List<Map<String, dynamic>>> batchUpserts =
       <List<Map<String, dynamic>>>[];
+  final List<Map<String, dynamic>> paymentRouteUpserts =
+      <Map<String, dynamic>>[];
+  final List<String> paymentRouteDeletes = <String>[];
   int fetchCount = 0;
 
   @override
@@ -71,6 +81,49 @@ class FakeAdminRepository extends AdminRepository {
     }
   }
 
+  @override
+  Future<List<Map<String, dynamic>>> fetchPartners({String? country}) async {
+    return _partners.map(Map<String, dynamic>.from).toList(growable: false);
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> fetchPartnerPaymentRoutes({
+    String? partnerId,
+    String? country,
+  }) async {
+    return _paymentRoutes
+        .map(Map<String, dynamic>.from)
+        .toList(growable: false);
+  }
+
+  @override
+  Future<void> upsertPartnerPaymentRoute(Map<String, dynamic> route) async {
+    final normalized = Map<String, dynamic>.from(route);
+    paymentRouteUpserts.add(normalized);
+    final routeId = normalized['id']?.toString();
+    final index = _paymentRoutes.indexWhere(
+      (row) => row['id']?.toString() == routeId && routeId != null,
+    );
+    if (index >= 0) {
+      _paymentRoutes[index] = normalized;
+    } else {
+      _paymentRoutes.add(<String, dynamic>{
+        ...normalized,
+        'id': routeId ?? 'route-${_paymentRoutes.length + 1}',
+        'partner_name': _partners.firstWhere(
+          (partner) => partner['id'] == normalized['partner_id'],
+          orElse: () => const <String, dynamic>{'name': 'Partner'},
+        )['name'],
+      });
+    }
+  }
+
+  @override
+  Future<void> deletePartnerPaymentRoute(String id) async {
+    paymentRouteDeletes.add(id);
+    _paymentRoutes.removeWhere((row) => row['id']?.toString() == id);
+  }
+
   void _upsert(Map<String, dynamic> config) {
     final key = config['key'];
     final country = config['country'];
@@ -93,11 +146,17 @@ Finder _textFieldWithLabel(String label) {
   );
 }
 
+Finder _dropdownFieldWithLabel(String label) {
+  return find.byWidgetPredicate(
+    (widget) =>
+        widget is DropdownButtonFormField &&
+        widget.decoration.labelText == label,
+    description: 'DropdownButtonFormField(labelText: $label)',
+  );
+}
+
 void main() {
-  final countries = <CoolCountry>[
-    CoolCountryCatalog.resolve(country: 'RW'),
-    CoolCountryCatalog.resolve(country: 'KE'),
-  ];
+  final countries = <CoolCountry>[CoolCountryCatalog.resolve(country: 'RW')];
 
   testWidgets(
     'renders rollout cards, hides managed keys from generic list, and saves rollout changes',
@@ -110,9 +169,9 @@ void main() {
           'country': null,
         },
         <String, dynamic>{
-          'key': 'feature_momo_allowed_countries',
-          'value': 'RW, KE',
-          'description': 'MoMo allow list',
+          'key': 'feature_momo_allowed_scope',
+          'value': 'legacy-hidden',
+          'description': 'Legacy hidden rollout key',
           'country': null,
         },
         <String, dynamic>{
@@ -147,7 +206,7 @@ void main() {
         ProviderScope(
           overrides: <Override>[
             adminRepositoryProvider.overrideWithValue(repository),
-            supportedCountriesProvider.overrideWith((ref) async => countries),
+            supportedCountriesProvider.overrideWith((ref) => countries),
             featureFlagsServiceProvider.overrideWithValue(featureFlagsService),
           ],
           child: const MaterialApp(home: ManageAppConfigScreen()),
@@ -158,7 +217,8 @@ void main() {
       expect(find.text('Rollout Governance'), findsOneWidget);
       expect(find.text('Mobile Money'), findsOneWidget);
       expect(find.text('PILOT'), findsOneWidget);
-      expect(find.text('2 countries'), findsOneWidget);
+      expect(find.text('Rwanda only'), findsWidgets);
+      expect(find.text('feature_momo_allowed_scope'), findsNothing);
 
       await tester.ensureVisible(find.byIcon(Icons.tune_rounded).first);
       await tester.pumpAndSettle();
@@ -177,6 +237,12 @@ void main() {
           (row) => row['key'] == 'kill_momo_payments',
         )['value'],
         'true',
+      );
+      expect(
+        repository.batchUpserts.single.every(
+          (row) => row['country'] == 'RW',
+        ),
+        isTrue,
       );
       expect(featureFlagsService.refreshCalls, 1);
       expect(repository.fetchCount, greaterThan(1));
@@ -222,7 +288,7 @@ void main() {
       ProviderScope(
         overrides: <Override>[
           adminRepositoryProvider.overrideWithValue(repository),
-          supportedCountriesProvider.overrideWith((ref) async => countries),
+          supportedCountriesProvider.overrideWith((ref) => countries),
           featureFlagsServiceProvider.overrideWithValue(featureFlagsService),
         ],
         child: const MaterialApp(home: ManageAppConfigScreen()),
@@ -240,6 +306,7 @@ void main() {
     await tester.tap(find.text('Add code'));
     await tester.pumpAndSettle();
 
+    expect(_dropdownFieldWithLabel('Country scope'), findsNothing);
     await tester.enterText(_textFieldWithLabel('MoMo code'), '0788000000');
     await tester.tap(find.text('Save code'));
     await tester.pumpAndSettle();
@@ -260,9 +327,95 @@ void main() {
         'MoMo code used to receive mobility subscription payments.',
       ),
     );
-    expect(repository.singleUpserts.single, containsPair('country', isNull));
+    expect(repository.singleUpserts.single, containsPair('country', 'RW'));
     expect(find.textContaining('MoMo code: 0788000000'), findsOneWidget);
   });
+
+  testWidgets(
+    'partner payment routes section saves admin-managed checkout path',
+    (tester) async {
+      final repository = FakeAdminRepository(
+        const <Map<String, dynamic>>[],
+        partners: const <Map<String, dynamic>>[
+          <String, dynamic>{
+            'id': 'partner-1',
+            'name': 'Rayon Sports',
+            'slug': 'rayon-sports',
+            'country': 'RW',
+          },
+        ],
+      );
+      final featureFlagsService = FakeFeatureFlagsService();
+
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: <Override>[
+            adminRepositoryProvider.overrideWithValue(repository),
+            supportedCountriesProvider.overrideWith((ref) => countries),
+            featureFlagsServiceProvider.overrideWithValue(featureFlagsService),
+          ],
+          child: const MaterialApp(home: ManageAppConfigScreen()),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.scrollUntilVisible(
+        find.text('Partner Payment Routes'),
+        250,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Partner Payment Routes'), findsOneWidget);
+      await tester.tap(find.text('Add route'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(_dropdownFieldWithLabel('Partner'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Rayon Sports').last);
+      await tester.pumpAndSettle();
+
+      expect(_dropdownFieldWithLabel('Country'), findsNothing);
+      expect(_textFieldWithLabel('Market'), findsOneWidget);
+      await tester.enterText(_textFieldWithLabel('Provider id'), 'mtn_rwanda');
+      await tester.enterText(_textFieldWithLabel('Merchant code'), '008000');
+      await tester.enterText(
+        _textFieldWithLabel('Reconciliation label'),
+        'rayon_ticket_checkout',
+      );
+
+      await tester.tap(_dropdownFieldWithLabel('Status'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Active').last);
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Save route'));
+      await tester.pumpAndSettle();
+
+      expect(repository.paymentRouteUpserts, hasLength(1));
+      expect(
+        repository.paymentRouteUpserts.single,
+        containsPair('partner_id', 'partner-1'),
+      );
+      expect(
+        repository.paymentRouteUpserts.single,
+        containsPair('country', 'RW'),
+      );
+      expect(
+        repository.paymentRouteUpserts.single,
+        containsPair('recipient_code', '008000'),
+      );
+      expect(
+        repository.paymentRouteUpserts.single,
+        containsPair('status', 'active'),
+      );
+      expect(find.textContaining('MTN_RWANDA · code 008000'), findsOneWidget);
+      expect(
+        find.textContaining('Reconciliation: rayon_ticket_checkout'),
+        findsOneWidget,
+      );
+    },
+  );
 
   testWidgets('generic editor blocks managed feature keys', (tester) async {
     final repository = FakeAdminRepository(const <Map<String, dynamic>>[]);
@@ -272,7 +425,7 @@ void main() {
       ProviderScope(
         overrides: <Override>[
           adminRepositoryProvider.overrideWithValue(repository),
-          supportedCountriesProvider.overrideWith((ref) async => countries),
+          supportedCountriesProvider.overrideWith((ref) => countries),
           featureFlagsServiceProvider.overrideWithValue(featureFlagsService),
         ],
         child: const MaterialApp(home: ManageAppConfigScreen()),
@@ -283,6 +436,8 @@ void main() {
     await tester.tap(find.byType(FloatingActionButton));
     await tester.pumpAndSettle();
 
+    expect(_dropdownFieldWithLabel('Country scope'), findsNothing);
+    expect(_textFieldWithLabel('Market'), findsOneWidget);
     await tester.enterText(_textFieldWithLabel('Key'), 'kill_mobility');
     await tester.enterText(_textFieldWithLabel('Value'), 'true');
     await tester.tap(find.text('Save'));
@@ -307,7 +462,7 @@ void main() {
       ProviderScope(
         overrides: <Override>[
           adminRepositoryProvider.overrideWithValue(repository),
-          supportedCountriesProvider.overrideWith((ref) async => countries),
+          supportedCountriesProvider.overrideWith((ref) => countries),
           featureFlagsServiceProvider.overrideWithValue(featureFlagsService),
         ],
         child: const MaterialApp(home: ManageAppConfigScreen()),
@@ -318,6 +473,7 @@ void main() {
     await tester.tap(find.byType(FloatingActionButton));
     await tester.pumpAndSettle();
 
+    expect(_dropdownFieldWithLabel('Country scope'), findsNothing);
     await tester.enterText(
       _textFieldWithLabel('Key'),
       AppConfigKeys.mobilitySubscriptionMomoCode,

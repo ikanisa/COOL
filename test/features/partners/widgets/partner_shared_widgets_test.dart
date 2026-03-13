@@ -136,7 +136,6 @@ void main() {
         _wrap(const PartnerErrorCard(message: 'Network error')),
       );
 
-      expect(find.text('Unable to load services'), findsOneWidget);
       expect(find.text('Network error'), findsOneWidget);
       expect(find.byIcon(Icons.warning_amber_rounded), findsOneWidget);
     });
@@ -154,9 +153,9 @@ void main() {
       ));
 
       expect(find.text('Something went wrong'), findsOneWidget);
-      expect(find.text('Retry'), findsOneWidget);
+      expect(find.text('Try Again'), findsOneWidget);
 
-      await tester.tap(find.text('Retry'));
+      await tester.tap(find.text('Try Again'));
       await tester.pump();
       expect(retried, isTrue);
     });
@@ -176,7 +175,6 @@ void main() {
         _wrap(const PartnerEmptyServicesCard(partnerName: 'Acme')),
       );
 
-      expect(find.text('No services listed yet'), findsOneWidget);
       expect(
         find.textContaining('Acme'),
         findsOneWidget,

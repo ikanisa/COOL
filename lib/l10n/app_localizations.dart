@@ -6,7 +6,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
-import 'app_localizations_fr.dart';
 
 // ignore_for_file: type=lint
 
@@ -93,10 +92,7 @@ abstract class AppLocalizations {
       ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[
-    Locale('en'),
-    Locale('fr'),
-  ];
+  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
 
   /// No description provided for @appName.
   ///
@@ -137,7 +133,7 @@ abstract class AppLocalizations {
   /// No description provided for @welcomeSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Community savings, group funds & mobility — all in one simple app for Sub-Saharan Africa.'**
+  /// **'Community savings, group funds & mobility — all in one simple app for Rwanda.'**
   String get welcomeSubtitle;
 
   /// No description provided for @getStarted.
@@ -151,12 +147,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Already have an account? Sign In'**
   String get signIn;
-
-  /// No description provided for @selectLanguage.
-  ///
-  /// In en, this message translates to:
-  /// **'Select Language'**
-  String get selectLanguage;
 
   /// No description provided for @verifyWhatsapp.
   ///
@@ -1603,12 +1593,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'English'**
   String get languageEnglish;
-
-  /// No description provided for @languageFrench.
-  ///
-  /// In en, this message translates to:
-  /// **'Français'**
-  String get languageFrench;
 
   /// No description provided for @loading.
   ///
@@ -3266,6 +3250,12 @@ abstract class AppLocalizations {
   /// **'Official identity'**
   String get profileOfficialIdentityLabel;
 
+  /// No description provided for @profileTravelRoleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Travel role'**
+  String get profileTravelRoleLabel;
+
   /// No description provided for @profilePassengerRoleLabel.
   ///
   /// In en, this message translates to:
@@ -3277,6 +3267,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Driver'**
   String get profileDriverRoleLabel;
+
+  /// No description provided for @profileMomoCodeNotSet.
+  ///
+  /// In en, this message translates to:
+  /// **'MoMo code not set'**
+  String get profileMomoCodeNotSet;
+
+  /// No description provided for @profileDriverSetupPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver setup pending'**
+  String get profileDriverSetupPending;
+
+  /// No description provided for @profileRegularDriverCadence.
+  ///
+  /// In en, this message translates to:
+  /// **'Regular driver'**
+  String get profileRegularDriverCadence;
+
+  /// No description provided for @profileOccasionalDriverCadence.
+  ///
+  /// In en, this message translates to:
+  /// **'Occasional driver'**
+  String get profileOccasionalDriverCadence;
+
+  /// No description provided for @profileMobilityCreditsValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{credits} credits'**
+  String profileMobilityCreditsValue(int credits);
+
+  /// No description provided for @profileMobilitySubscriptionActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription active'**
+  String get profileMobilitySubscriptionActive;
+
+  /// No description provided for @profileMobilitySubscriptionUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribed until {date}'**
+  String profileMobilitySubscriptionUntil(String date);
 
   /// No description provided for @mobilityNoWhatsappAvailable.
   ///
@@ -3386,7 +3418,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'fr'].contains(locale.languageCode);
+      <String>['en'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -3397,8 +3429,6 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return AppLocalizationsEn();
-    case 'fr':
-      return AppLocalizationsFr();
   }
 
   throw FlutterError(

@@ -80,16 +80,38 @@
   </head>
   <body>
     <main>
-      <h1>Cool for iPhone is not published yet</h1>
-      <p>
+      <h1 id="title">Cool for iPhone is not published yet</h1>
+      <p id="description">
         The Android app and Android deep links are live. iPhone install and universal-link
         metadata stay disabled until the final Apple bundle, team, and App Store listing are
         ready.
       </p>
       <div class="actions">
-        <a class="button primary" href="https://play.google.com/store/apps/details?id=app.cool.mobile">Open Google Play</a>
+        <a id="primary-link" class="button primary" href="https://play.google.com/store/apps/details?id=app.cool.mobile">Open Google Play</a>
         <a class="button secondary" href="/">Back to Cool</a>
       </div>
     </main>
+    <script src="/assets/store-links.js"></script>
+    <script>
+      (function () {
+        var storeLinks = window.COOL_STORE_LINKS || {};
+        var primaryLink = document.getElementById("primary-link");
+        if (storeLinks.playStoreUrl) {
+          primaryLink.href = storeLinks.playStoreUrl;
+        }
+
+        var appStoreUrl = storeLinks.appStoreUrl;
+        if (!appStoreUrl) {
+          return;
+        }
+
+        document.title = "Get Cool for iPhone";
+        document.getElementById("title").textContent = "Get Cool for iPhone";
+        document.getElementById("description").textContent =
+          "Install Cool from the App Store to open links directly in the app.";
+        primaryLink.textContent = "Open App Store";
+        primaryLink.href = appStoreUrl;
+      })();
+    </script>
   </body>
 </html>

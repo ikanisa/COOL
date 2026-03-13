@@ -10,8 +10,8 @@ import '../models/trip.dart';
 import '../models/trip_type.dart';
 
 class MobilityRepository {
-  MobilityRepository({SupabaseClient? client})
-    : _client = client ?? Supabase.instance.client;
+  MobilityRepository({required SupabaseClient client})
+    : _client = client;
 
   final SupabaseClient _client;
   static const _regularDriverTripThreshold = 15;

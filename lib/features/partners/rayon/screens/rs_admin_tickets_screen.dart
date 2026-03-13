@@ -5,6 +5,9 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../shared/widgets/cool_async_view.dart';
+import '../../../../shared/widgets/cool_empty_view.dart';
+import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/partner_navigation.dart';
 import '../models/rs_models.dart';
@@ -60,38 +63,32 @@ class _RsAdminTicketsScreenState extends ConsumerState<RsAdminTicketsScreen> {
               const SizedBox.shrink(),
           // ── Ticket list ──
           Expanded(
-            child: ticketsAsync.when(
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, _) => Center(
-                child: Text(
-                  'Error: $e',
-                  style: const TextStyle(color: AppColors.red),
-                ),
+            child: CoolAsyncView<List<RsTicket>>(
+              value: ticketsAsync,
+              onRetry: () =>
+                  ref.invalidate(rsAdminTicketsProvider(_selectedMatchId)),
+              loadingWidget: const Padding(
+                padding: EdgeInsets.all(16),
+                child: CoolSkeletonList(itemCount: 4),
               ),
-              data: (tickets) {
-                if (tickets.isEmpty) {
-                  return Center(
-                    child: Text(
-                      'No tickets found',
-                      style: GoogleFonts.dmSans(color: AppColors.text3),
-                    ),
+              emptyCheck: (tickets) => tickets.isEmpty,
+              emptyWidget: const CoolEmptyView(
+                message: 'No tickets match the current filter.',
+                icon: Icons.confirmation_number_outlined,
+              ),
+              builder: (tickets) => ListView.separated(
+                padding: const EdgeInsets.all(16),
+                itemCount: tickets.length,
+                separatorBuilder: (context, index) => const SizedBox(height: 8),
+                itemBuilder: (context, index) {
+                  final ticket = tickets[index];
+                  return _TicketTile(
+                    ticket: ticket,
+                    onStatusChange: (status) =>
+                        _updateStatus(ticket.id, status),
                   );
-                }
-                return ListView.separated(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: tickets.length,
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 8),
-                  itemBuilder: (context, index) {
-                    final ticket = tickets[index];
-                    return _TicketTile(
-                      ticket: ticket,
-                      onStatusChange: (status) =>
-                          _updateStatus(ticket.id, status),
-                    );
-                  },
-                );
-              },
+                },
+              ),
             ),
           ),
         ],
@@ -157,7 +154,10 @@ class _FilterChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Semantics(
+      selected: isSelected,
+      label: '$label filter',
+      child: GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -177,6 +177,7 @@ class _FilterChip extends StatelessWidget {
           ),
         ),
       ),
+    ),
     );
   }
 }
@@ -229,7 +230,10 @@ class _TicketTile extends StatelessWidget {
             children: _statusFlow
                 .where((s) => s != ticket.status.name)
                 .map(
-                  (s) => GestureDetector(
+                  (s) => Semantics(
+                    button: true,
+                    label: 'Change status to $s',
+                    child: GestureDetector(
                     onTap: () => onStatusChange(s),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
@@ -248,6 +252,7 @@ class _TicketTile extends StatelessWidget {
                         ),
                       ),
                     ),
+                  ),
                   ),
                 )
                 .toList(),

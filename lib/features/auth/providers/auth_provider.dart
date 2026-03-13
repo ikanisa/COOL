@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/auth/auth_user_contact.dart';
+import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
 import '../../../core/config/env_config.dart';
 import '../../../core/providers/engagement_providers.dart';
@@ -9,6 +10,7 @@ import '../../../core/providers/supabase_client_provider.dart';
 import '../../../core/services/crashlytics_service.dart';
 import '../../../core/services/momo_service.dart';
 import '../../../core/services/performance_service.dart';
+import '../../momo/providers/momo_service_provider.dart';
 import '../models/user_profile.dart';
 import '../repositories/auth_repository.dart';
 
@@ -20,10 +22,12 @@ final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   final repository = ref.watch(authRepositoryProvider);
   final crashlytics = ref.read(crashlyticsServiceProvider);
   final performance = ref.read(performanceServiceProvider);
+  final momoService = ref.read(momoServiceProvider);
   return AuthNotifier(
     repository: repository,
     crashlytics: crashlytics,
     performance: performance,
+    momoService: momoService,
   );
 });
 
@@ -32,32 +36,11 @@ final currentUserProvider = Provider<UserProfile?>((ref) {
 });
 
 final currentUserCountryCodeProvider = Provider<String>((ref) {
-  final authState = ref.watch(authProvider);
-  return resolveAuthStateCountryCode(authState);
+  return AppMarket.countryCode;
 });
 
 String resolveAuthStateCountryCode(AuthState authState) {
-  final profileCountry = authState.user?.country;
-  if (profileCountry != null && profileCountry.trim().isNotEmpty) {
-    return CoolCountryCatalog.normalizeCountryCode(profileCountry);
-  }
-
-  final sessionCountry = authState.session?.user.userMetadata?['country']
-      ?.toString();
-  if (sessionCountry != null && sessionCountry.trim().isNotEmpty) {
-    return CoolCountryCatalog.normalizeCountryCode(sessionCountry);
-  }
-
-  final providerId = authState.user?.momoProvider;
-  final phone = authState.user?.momoNumber.isNotEmpty == true
-      ? authState.user!.momoNumber
-      : authState.user?.phone ?? authSessionPhone(authState.session);
-
-  return CoolCountryCatalog.resolve(
-    country: sessionCountry,
-    phone: phone,
-    providerId: providerId,
-  ).isoCode;
+  return AppMarket.countryCode;
 }
 
 enum AuthProfileRestoreState { available, missing, pending, failed }
@@ -130,9 +113,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
     required AuthRepository repository,
     required CrashlyticsService crashlytics,
     required PerformanceService performance,
+    required MomoService momoService,
   }) : _repository = repository,
        _crashlytics = crashlytics,
        _performance = performance,
+       _momoService = momoService,
        super(
          AuthState(
            session: repository.currentSession,
@@ -149,6 +134,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   final AuthRepository _repository;
   final CrashlyticsService _crashlytics;
   final PerformanceService _performance;
+  final MomoService _momoService;
 
   Future<void> restoreCurrentUser() async {
     final session = _repository.currentSession;
@@ -342,8 +328,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
           momoCode: normalizedIdentity.momoCode,
           momoRouteType: normalizedIdentity.momoRouteType,
           momoProvider: normalizedIdentity.momoProvider,
-          country: normalizedIdentity.country,
-          languageCode: data.languageCode,
+          country: AppMarket.countryCode,
+          languageCode: AppMarket.languageCode,
           isDriver: data.isDriver,
           vehicleType: data.vehicleType,
         ),
@@ -431,7 +417,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
         momoCode: normalizedIdentity.momoCode,
         momoRouteType: normalizedIdentity.momoRouteType,
         momoProvider: normalizedIdentity.momoProvider,
-        country: normalizedIdentity.country,
+        country: AppMarket.countryCode,
       ),
     );
 
@@ -472,7 +458,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     if (trimmedPhone.isNotEmpty) {
       try {
         final resolvedCountry = CoolCountryCatalog.resolve(
-          country: resolveAuthStateCountryCode(state),
+          country: AppMarket.countryCode,
           phone: user.phone,
           providerId: user.momoProvider,
         );
@@ -499,8 +485,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
       momoCode: user.momoCode,
       momoRouteType: user.momoRouteType,
       momoProvider: user.momoProvider,
-      country: user.country,
-      languageCode: user.languageCode,
+      country: AppMarket.countryCode,
+      languageCode: AppMarket.languageCode,
       isDriver: user.isDriver,
       isAdmin: user.isAdmin,
       vehicleType: user.vehicleType,
@@ -562,12 +548,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
       throw const FormatException('Add a MoMo number or code.');
     }
 
-    final seedCountry = await MomoService.instance.resolveCountry(
-      countryCode: fallbackCountry,
+    final seedCountry = await _momoService.resolveCountry(
+      countryCode: fallbackCountry ?? AppMarket.countryCode,
       phone: trimmedMomoNumber.isEmpty ? null : trimmedMomoNumber,
       providerId: fallbackProviderId,
     );
-    final resolvedCountry = await MomoService.instance.resolveCountry(
+    final resolvedCountry = await _momoService.resolveCountry(
       countryCode: seedCountry.isoCode,
       phone: trimmedMomoNumber.isEmpty ? null : trimmedMomoNumber,
       providerId: fallbackProviderId ?? seedCountry.providerId,

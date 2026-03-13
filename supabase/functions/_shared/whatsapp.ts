@@ -69,7 +69,7 @@ export async function sendTextMessage(options: {
 export async function sendOtpTemplate(options: {
   phone: string;
   code: string;
-  language: "en" | "fr";
+  language: string;
 }) {
   await postWhatsAppMessage({
     messaging_product: "whatsapp",

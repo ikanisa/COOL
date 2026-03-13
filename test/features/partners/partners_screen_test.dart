@@ -1,5 +1,4 @@
 import 'package:cool_app/core/router/app_router.dart';
-import 'package:cool_app/features/auth/providers/auth_provider.dart';
 import 'package:cool_app/features/partners/models/partner.dart';
 import 'package:cool_app/features/partners/providers/partner_provider.dart';
 import 'package:cool_app/features/partners/repositories/partner_repository.dart';
@@ -19,7 +18,7 @@ void main() {
   setUp(() {
     repository = MockPartnerRepository();
 
-    when(() => repository.fetchAll(country: any(named: 'country'))).thenAnswer(
+    when(() => repository.fetchAll()).thenAnswer(
       (_) async => const <Partner>[
         Partner(
           id: 'rayon-sports',
@@ -42,10 +41,7 @@ void main() {
   }) async {
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [
-          partnerRepositoryProvider.overrideWithValue(repository),
-          currentUserCountryCodeProvider.overrideWith((ref) => 'RW'),
-        ],
+        overrides: [partnerRepositoryProvider.overrideWithValue(repository)],
         child: MaterialApp.router(
           routerConfig: router,
           supportedLocales: AppLocalizations.supportedLocales,

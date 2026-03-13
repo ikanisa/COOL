@@ -28,9 +28,15 @@ class CoolScreenScaffold extends StatelessWidget {
           : AppBar(
               automaticallyImplyLeading: false,
               leading: showBackButton
-                  ? IconButton(
-                      onPressed: () => context.pop(),
-                      icon: const Icon(Icons.arrow_back_rounded),
+                  ? Semantics(
+                      button: true,
+                      label: MaterialLocalizations.of(
+                        context,
+                      ).backButtonTooltip,
+                      child: IconButton(
+                        onPressed: () => context.pop(),
+                        icon: const Icon(Icons.arrow_back_rounded),
+                      ),
                     )
                   : null,
               title: Text(title!),

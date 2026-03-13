@@ -1,43 +1,45 @@
-/// Shared JSON / dynamic-value helpers used across repositories and services.
+/// Shared JSON value helpers used across repositories and services.
 ///
-/// These functions safely coerce untyped values coming from Supabase responses
-/// (which are `Map<String, dynamic>` / `List<dynamic>`) into strongly-typed
-/// Dart primitives.
+/// These functions safely coerce untyped Supabase payloads into Dart-friendly
+/// `Object?` maps and lists.
 library;
 
-/// Coerce a dynamic value to `Map<String, dynamic>`.
+typedef JsonMap = Map<String, Object?>;
+typedef JsonList = List<Object?>;
+
+/// Coerce [value] to a JSON object map.
 ///
 /// Throws [StateError] if [value] is not a [Map].
-Map<String, dynamic> asMap(dynamic value) {
-  if (value is Map<String, dynamic>) {
+JsonMap asMap(Object? value) {
+  if (value is JsonMap) {
     return value;
   }
   if (value is Map) {
-    return Map<String, dynamic>.from(value);
+    return Map<String, Object?>.from(value);
   }
   throw StateError('Expected a JSON object but received ${value.runtimeType}.');
 }
 
-/// Returns [value] as a `Map<String, dynamic>`, or `null` if it is not a map.
-Map<String, dynamic>? asMapOrNull(dynamic value) {
-  if (value is Map<String, dynamic>) {
+/// Returns [value] as a JSON object map, or `null` when it is not a map.
+JsonMap? asMapOrNull(Object? value) {
+  if (value is JsonMap) {
     return value;
   }
   if (value is Map) {
-    return Map<String, dynamic>.from(value);
+    return Map<String, Object?>.from(value);
   }
   return null;
 }
 
-/// Returns [value] as a `Map<String, dynamic>`, or an empty map if it is not.
-Map<String, dynamic> asMapOrEmpty(dynamic value) {
-  return asMapOrNull(value) ?? const <String, dynamic>{};
+/// Returns [value] as a JSON object map, or an empty map if it is not.
+JsonMap asMapOrEmpty(Object? value) {
+  return asMapOrNull(value) ?? const <String, Object?>{};
 }
 
-/// Coerce a dynamic value to `List<Map<String, dynamic>>`.
+/// Coerce [value] to a list of JSON object maps.
 ///
 /// Throws [StateError] if [value] is not a [List].
-List<Map<String, dynamic>> asListOfMaps(dynamic value) {
+List<JsonMap> asListOfMaps(Object? value) {
   if (value is! List) {
     throw StateError(
       'Expected a JSON array but received ${value.runtimeType}.',
@@ -46,12 +48,12 @@ List<Map<String, dynamic>> asListOfMaps(dynamic value) {
 
   return value
       .whereType<Map>()
-      .map((item) => Map<String, dynamic>.from(item))
+      .map((item) => Map<String, Object?>.from(item))
       .toList(growable: false);
 }
 
-/// Safely cast a dynamic value to [bool]. Returns `false` for `null`.
-bool asBool(dynamic value) {
+/// Safely cast [value] to [bool]. Returns `false` for `null`.
+bool asBool(Object? value) {
   if (value is bool) {
     return value;
   }
@@ -65,8 +67,8 @@ bool asBool(dynamic value) {
   return false;
 }
 
-/// Safely cast a dynamic value to [double]. Returns `null` for `null`.
-double? asDouble(dynamic value) {
+/// Safely cast [value] to [double]. Returns `null` for `null`.
+double? asDouble(Object? value) {
   if (value == null) {
     return null;
   }
@@ -82,8 +84,8 @@ double? asDouble(dynamic value) {
   return null;
 }
 
-/// Safely cast a dynamic value to [int]. Returns `null` for `null`.
-int? asInt(dynamic value) {
+/// Safely cast [value] to [int]. Returns `null` for `null`.
+int? asInt(Object? value) {
   if (value == null) {
     return null;
   }
@@ -99,8 +101,8 @@ int? asInt(dynamic value) {
   return null;
 }
 
-/// Safely cast a dynamic value to [String]. Returns `null` for `null`.
-String? asStringOrNull(dynamic value) {
+/// Safely cast [value] to [String]. Returns `null` for `null`.
+String? asStringOrNull(Object? value) {
   if (value == null) {
     return null;
   }
@@ -108,7 +110,7 @@ String? asStringOrNull(dynamic value) {
 }
 
 /// Safely parse an ISO-8601 date string. Returns `null` for `null` or invalid.
-DateTime? parseDateTime(dynamic value) {
+DateTime? parseDateTime(Object? value) {
   if (value == null) {
     return null;
   }

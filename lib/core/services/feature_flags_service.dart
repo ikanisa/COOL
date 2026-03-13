@@ -45,10 +45,11 @@ class FeatureFlagsService {
     }
 
     try {
-      final overrides = await (_loadAppConfigOverrides?.call(
-            defaults.toRemoteConfigDefaults().keys.toSet(),
-          ) ??
-          Future<Map<String, Object?>>.value(const <String, Object?>{}));
+      final overrides =
+          await (_loadAppConfigOverrides?.call(
+                defaults.toRemoteConfigDefaults().keys.toSet(),
+              ) ??
+              Future<Map<String, Object?>>.value(const <String, Object?>{}));
       resolvedValues.addAll(
         Map<String, Object?>.fromEntries(
           overrides.entries.where(
@@ -93,33 +94,21 @@ class FeatureFlagsService {
       'kill_ticket_purchase': remoteConfig.getBool('kill_ticket_purchase'),
       'kill_mobility': remoteConfig.getBool('kill_mobility'),
       'feature_momo_stage': remoteConfig.getString('feature_momo_stage'),
-      'feature_momo_allowed_countries': remoteConfig.getString(
-        'feature_momo_allowed_countries',
-      ),
       'feature_momo_admin_only': remoteConfig.getBool(
         'feature_momo_admin_only',
       ),
       'feature_credit_stage': remoteConfig.getString('feature_credit_stage'),
-      'feature_credit_allowed_countries': remoteConfig.getString(
-        'feature_credit_allowed_countries',
-      ),
       'feature_credit_admin_only': remoteConfig.getBool(
         'feature_credit_admin_only',
       ),
       'feature_ticket_purchase_stage': remoteConfig.getString(
         'feature_ticket_purchase_stage',
       ),
-      'feature_ticket_purchase_allowed_countries': remoteConfig.getString(
-        'feature_ticket_purchase_allowed_countries',
-      ),
       'feature_ticket_purchase_admin_only': remoteConfig.getBool(
         'feature_ticket_purchase_admin_only',
       ),
       'feature_mobility_stage': remoteConfig.getString(
         'feature_mobility_stage',
-      ),
-      'feature_mobility_allowed_countries': remoteConfig.getString(
-        'feature_mobility_allowed_countries',
       ),
       'feature_mobility_admin_only': remoteConfig.getBool(
         'feature_mobility_admin_only',

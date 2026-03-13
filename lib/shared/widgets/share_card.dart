@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:share_plus/share_plus.dart';
+
+import '../../core/providers/app_access_provider.dart';
 
 import '../../core/theme/app_colors.dart';
 import 'contact_picker_sheet.dart';
@@ -9,7 +12,7 @@ import 'qr_share_sheet.dart';
 /// A reusable share card that provides WhatsApp + native share + QR code.
 ///
 /// Use this on detail screens to let users share deep-linked content.
-class ShareCard extends StatelessWidget {
+class ShareCard extends ConsumerWidget {
   const ShareCard({
     required this.title,
     required this.shareUrl,
@@ -77,9 +80,10 @@ class ShareCard extends StatelessWidget {
     await SharePlus.instance.share(ShareParams(text: '$text\n$resolvedUrl'));
   }
 
-  Future<void> _shareViaContacts(BuildContext context) async {
+  Future<void> _shareViaContacts(BuildContext context, WidgetRef ref) async {
     final contacts = await ContactPickerSheet.show(
       context,
+      appAccessService: ref.read(appAccessServiceProvider),
       multiSelect: false,
       title: 'Share via Contact',
       subtitle: 'Select a contact to share with',
@@ -93,7 +97,7 @@ class ShareCard extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -166,7 +170,7 @@ class ShareCard extends StatelessWidget {
                 child: _ShareButton(
                   icon: Icons.contacts_rounded,
                   label: 'Contacts',
-                  onTap: () => _shareViaContacts(context),
+                  onTap: () => _shareViaContacts(context, ref),
                 ),
               ),
             ],

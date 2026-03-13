@@ -1,5 +1,9 @@
 part of '../screens/manage_app_config_screen.dart';
 
+String _configScopeLabel(String? countryCode) {
+  return AppMarket.country.name;
+}
+
 class AppConfigSectionHeader extends StatelessWidget {
   const AppConfigSectionHeader({
     required this.title,
@@ -65,7 +69,7 @@ class ConfigTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final value = config['value']?.toString() ?? '';
     final preview = value.length > 60 ? '${value.substring(0, 60)}…' : value;
-    final country = config['country']?.toString();
+    final scopeLabel = _configScopeLabel(config['country']?.toString());
 
     return Container(
       decoration: BoxDecoration(
@@ -84,17 +88,21 @@ class ConfigTile extends StatelessWidget {
           ),
         ),
         subtitle: Text(
-          '$preview\n${config['description'] ?? ''} ${country != null && country.isNotEmpty ? '($country)' : '(global)'}',
+          '$preview\n${config['description'] ?? ''} ($scopeLabel)',
           style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
         ),
-        trailing: GestureDetector(
-          onTap: onEdit,
-          child: const Icon(
-            Icons.edit_rounded,
-            size: 18,
-            color: AppColors.text3,
+        trailing: Semantics(
+          button: true,
+          label: 'Edit ${config['key'] ?? 'config'}',
+          child: GestureDetector(
+            onTap: onEdit,
+            child: const Icon(
+              Icons.edit_rounded,
+              size: 18,
+              color: AppColors.text3,
+            ),
           ),
         ),
       ),
@@ -110,7 +118,6 @@ class RolloutCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final allowedCountries = rollout.rollout.allowedCountries;
     final stageLabel = rollout.rollout.stage.remoteConfigValue.toUpperCase();
 
     return Container(
@@ -150,6 +157,7 @@ class RolloutCard extends StatelessWidget {
               ),
               IconButton(
                 onPressed: onEdit,
+                tooltip: 'Edit rollout settings',
                 icon: const Icon(Icons.tune_rounded, color: AppColors.text),
               ),
             ],
@@ -179,22 +187,13 @@ class RolloutCard extends StatelessWidget {
                     ? const Color(0xFF725400)
                     : const Color(0xFF173A7A),
               ),
-              StatusPill(
-                label: allowedCountries.isEmpty
-                    ? 'All countries'
-                    : '${allowedCountries.length} countries',
-                tone: const Color(0xFFE8E3FF),
-                foreground: const Color(0xFF3D2F7A),
+              const StatusPill(
+                label: 'Rwanda only',
+                tone: Color(0xFFE8E3FF),
+                foreground: Color(0xFF3D2F7A),
               ),
             ],
           ),
-          if (allowedCountries.isNotEmpty) ...[
-            const SizedBox(height: 10),
-            Text(
-              allowedCountries.join(', '),
-              style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
-            ),
-          ],
         ],
       ),
     );
@@ -247,14 +246,6 @@ class MobilitySubscriptionConfigTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final countryCode = config['country']?.toString();
-    final scopeLabel = countryCode == null || countryCode.trim().isEmpty
-        ? 'Global default'
-        : CoolCountryCatalog.byIsoCode(
-                countryCode,
-                source: countries,
-              )?.pickerLabel ??
-              countryCode.toUpperCase();
     final code = config['value']?.toString() ?? '';
 
     return Container(
@@ -265,7 +256,7 @@ class MobilitySubscriptionConfigTile extends StatelessWidget {
       ),
       child: ListTile(
         title: Text(
-          scopeLabel,
+          _configScopeLabel(config['country']?.toString()),
           style: GoogleFonts.dmSans(
             fontSize: 13,
             fontWeight: FontWeight.w700,
@@ -276,12 +267,16 @@ class MobilitySubscriptionConfigTile extends StatelessWidget {
           'MoMo code: $code',
           style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
         ),
-        trailing: GestureDetector(
-          onTap: onEdit,
-          child: const Icon(
-            Icons.edit_rounded,
-            size: 18,
-            color: AppColors.text3,
+        trailing: Semantics(
+          button: true,
+          label: 'Edit MoMo subscription config',
+          child: GestureDetector(
+            onTap: onEdit,
+            child: const Icon(
+              Icons.edit_rounded,
+              size: 18,
+              color: AppColors.text3,
+            ),
           ),
         ),
       ),
@@ -303,12 +298,6 @@ class PartnerPaymentRouteConfigTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final countryCode = config['country']?.toString();
-    final scopeLabel = CoolCountryCatalog.byIsoCode(
-          countryCode,
-          source: countries,
-        )?.pickerLabel ??
-        (countryCode?.toUpperCase() ?? 'Unknown country');
     final partnerName = config['partner_name']?.toString() ?? 'Partner';
     final provider = config['provider']?.toString() ?? 'provider';
     final recipientCode = config['recipient_code']?.toString() ?? 'missing';
@@ -329,7 +318,7 @@ class PartnerPaymentRouteConfigTile extends StatelessWidget {
       ),
       child: ListTile(
         title: Text(
-          '$partnerName · $scopeLabel',
+          '$partnerName · Rwanda',
           style: GoogleFonts.dmSans(
             fontSize: 13,
             fontWeight: FontWeight.w700,
@@ -362,12 +351,16 @@ class PartnerPaymentRouteConfigTile extends StatelessWidget {
               foreground: foreground,
             ),
             const SizedBox(height: 6),
-            GestureDetector(
-              onTap: onEdit,
-              child: const Icon(
-                Icons.edit_rounded,
-                size: 18,
-                color: AppColors.text3,
+            Semantics(
+              button: true,
+              label: 'Edit payment route for $partnerName',
+              child: GestureDetector(
+                onTap: onEdit,
+                child: const Icon(
+                  Icons.edit_rounded,
+                  size: 18,
+                  color: AppColors.text3,
+                ),
               ),
             ),
           ],

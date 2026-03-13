@@ -22,32 +22,34 @@ Future<void> momoSmsBackgroundMessageHandler(SmsMessage message) async {
 
 class MomoSmsAutoreadService {
   MomoSmsAutoreadService({
-    SupabaseClient? client,
+    required SupabaseClient client,
+    required AppAccessService appAccessService,
     Telephony? telephony,
     MomoSmsIngestionRepository? ingestionRepository,
     CrashlyticsService? crashlytics,
     OperationalHealthService? operationalHealthService,
-  }) : _client = client ?? Supabase.instance.client,
+  }) : _client = client,
+       _appAccessService = appAccessService,
        _telephony = telephony ?? Telephony.instance,
        _ingestionRepository =
            ingestionRepository ??
-           MomoSmsIngestionRepository(
-             client: client ?? Supabase.instance.client,
-           ),
+           MomoSmsIngestionRepository(client: client),
        _crashlytics = crashlytics,
        _operationalHealthService =
            operationalHealthService ??
-           OperationalHealthService(client: client ?? Supabase.instance.client);
+           OperationalHealthService(client: client);
 
   final SupabaseClient _client;
+  final AppAccessService _appAccessService;
   final Telephony _telephony;
   final MomoSmsIngestionRepository _ingestionRepository;
   final CrashlyticsService? _crashlytics;
   final OperationalHealthService _operationalHealthService;
 
   static const _inboxRecoveryCooldown = Duration(minutes: 2);
-  static const _inboxRecoveryLookback = Duration(days: 3650);
-  static const _maxRecoveryMessages = 1000;
+  // Keep historical inbox access narrowly scoped to recent M-Money recovery.
+  static const _inboxRecoveryLookback = Duration(days: 7);
+  static const _maxRecoveryMessages = 100;
 
   bool _isListening = false;
   bool _isRecoveringInbox = false;
@@ -72,7 +74,7 @@ class MomoSmsAutoreadService {
       return;
     }
 
-    final smsEnabledInApp = await AppAccessService.instance.isEnabled(
+    final smsEnabledInApp = await _appAccessService.isEnabled(
       AppAccessPermission.sms,
     );
     if (!smsEnabledInApp) {
@@ -281,19 +283,12 @@ class MomoSmsAutoreadService {
   SmsFilter? _approvedSenderFilter() {
     final senderPatterns =
         MomoSmsIngestionRepository.approvedInboxSenderLikePatterns;
-    final bodyPatterns =
-        MomoSmsIngestionRepository.approvedInboxBodyLikePatterns;
 
     SmsFilter? filter;
     for (final senderPattern in senderPatterns) {
       filter = filter == null
           ? SmsFilter.where(SmsColumn.ADDRESS).like(senderPattern)
           : filter.or(SmsColumn.ADDRESS).like(senderPattern);
-    }
-    for (final bodyPattern in bodyPatterns) {
-      filter = filter == null
-          ? SmsFilter.where(SmsColumn.BODY).like(bodyPattern)
-          : filter.or(SmsColumn.BODY).like(bodyPattern);
     }
     return filter;
   }

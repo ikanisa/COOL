@@ -1,7 +1,7 @@
 /// Phone number validation utilities.
 ///
 /// Key distinction:
-/// - WhatsApp number: used for OTP, broadly international.
+/// - WhatsApp number: used for OTP, accepts any plausible global E.164 number.
 /// - MoMo number: a country-specific mobile MSISDN.
 /// - MoMo code: a separate merchant or payment code where supported.
 library;
@@ -226,18 +226,20 @@ abstract final class PhoneValidator {
     }
 
     final digits = trimmed.replaceAll(RegExp(r'[^0-9]'), '');
-    if (trimmed.startsWith('+')) {
-      if (digits.length < 7) {
+    if (trimmed.startsWith('+') || trimmed.startsWith('00')) {
+      final e164Digits = trimmed
+          .replaceAll(RegExp(r'[^0-9+]'), '')
+          .replaceFirst(RegExp(r'^00'), '+')
+          .replaceAll(RegExp(r'(?!^)\+'), '')
+          .replaceFirst('+', '');
+      if (e164Digits.length < 8 || e164Digits.length > 15) {
         throw const FormatException('Enter a valid phone number');
       }
-      return '+$digits';
+      return '+$e164Digits';
     }
 
-    if (country.isoCode == 'RW') {
-      final local = toRwandanLocal(trimmed);
-      if (local == null) {
-        throw const FormatException('Enter a 9-digit Rwandan number');
-      }
+    final local = toRwandanLocal(trimmed);
+    if (country.isoCode == 'RW' && local != null) {
       if (!local.startsWith('7')) {
         throw const FormatException('Rwandan mobile numbers start with 07');
       }
@@ -248,13 +250,7 @@ abstract final class PhoneValidator {
       throw const FormatException('Enter a valid phone number');
     }
 
-    final dialDigits = country.dialCode.replaceFirst('+', '');
-    if (digits.startsWith(dialDigits) && digits.length > dialDigits.length) {
-      return '+$digits';
-    }
-
-    final localDigits = digits.startsWith('0') ? digits.substring(1) : digits;
-    return '${country.dialCode}$localDigits';
+    throw const FormatException('Use + for full E.164 WhatsApp numbers');
   }
 
   // ──────────────────────────────────────────────────────────────────────

@@ -112,10 +112,11 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
   }
 
   Future<void> _openTripWhatsApp(Trip trip) async {
+    final l10n = context.l10n;
     final phoneNumber =
         trip.whatsappNumber?.trim() ?? trip.contactPhone?.trim() ?? '';
     if (phoneNumber.isEmpty) {
-      _showMarketplaceSnackBar('No WhatsApp contact is available yet.');
+      _showMarketplaceSnackBar(l10n.mobilityNoWhatsappAvailable);
       return;
     }
 
@@ -132,9 +133,10 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
   }
 
   Future<void> _openDriverWhatsApp(DriverInfo driver) async {
+    final l10n = context.l10n;
     final phoneNumber = driver.contactPhone?.trim() ?? '';
     if (phoneNumber.isEmpty) {
-      _showMarketplaceSnackBar('No WhatsApp contact is available yet.');
+      _showMarketplaceSnackBar(l10n.mobilityNoWhatsappAvailable);
       return;
     }
 
@@ -157,7 +159,7 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
       trip: trip,
       buttonLabel: _hasTripContact(trip)
           ? l10n.contactViaWhatsapp
-          : 'No contact available yet',
+          : l10n.mobilityNoContactYet,
       onOpenWhatsApp: _hasTripContact(trip)
           ? () {
               unawaited(_openTripWhatsApp(trip));
@@ -173,7 +175,7 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
       driver: driver,
       buttonLabel: _hasDriverContact(driver)
           ? l10n.contactViaWhatsapp
-          : 'No contact available yet',
+          : l10n.mobilityNoContactYet,
       onOpenWhatsApp: _hasDriverContact(driver)
           ? () {
               unawaited(_openDriverWhatsApp(driver));
@@ -298,14 +300,12 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
   }
 
   Future<void> _handleDriverStatusToggle(bool value) async {
+    final l10n = context.l10n;
     final position =
         ref.read(mobilityLocationProvider).position ??
         ref.read(mobilityUserLocationProvider);
     if (position == null) {
-      CoolToast.error(
-        context,
-        'Location is required before enabling driver mode.',
-      );
+      CoolToast.error(context, l10n.mobilityLocationRequiredDriverMode);
       return;
     }
 

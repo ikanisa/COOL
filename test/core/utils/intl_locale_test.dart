@@ -3,8 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('resolveIntlLocaleTag keeps supported locale tags', () {
-    expect(resolveIntlLocaleTag(const Locale('fr')), 'fr');
+  test('resolveIntlLocaleTag always resolves to English', () {
+    expect(resolveIntlLocaleTag(const Locale('sw')), 'en');
     expect(resolveIntlLocaleTag(const Locale('en')), 'en');
   });
 

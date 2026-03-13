@@ -32,8 +32,8 @@ class MomoPaymentSyncResult {
 }
 
 class MomoPaymentSyncRepository {
-  MomoPaymentSyncRepository({SupabaseClient? client})
-    : _client = client ?? Supabase.instance.client;
+  MomoPaymentSyncRepository({required SupabaseClient client})
+    : _client = client;
 
   final SupabaseClient _client;
 

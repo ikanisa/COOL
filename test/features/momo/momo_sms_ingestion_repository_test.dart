@@ -52,21 +52,6 @@ void main() {
       expect(capture.deviceMessageKey, isNotEmpty);
     });
 
-    test('captures MoMo transaction messages from raw-number senders', () {
-      final capture = MomoSmsIngestionRepository.captureFromDeviceMessage(
-        sender: '+250788767816',
-        body:
-            'You have received 50000 RWF from Yvette NYIRAMAHIRWE '
-            '(*********235) at 2025-11-19 23:12:44 . Balance:633978 RWF. '
-            'FT Id: 24224946460',
-      );
-
-      expect(capture, isNotNull);
-      expect(capture!.detectedTxType, equals('cash_in'));
-      expect(capture.detectedAmount, equals(50000));
-      expect(capture.detectedTxId, equals('24224946460'));
-    });
-
     test('rejects unsupported senders and empty bodies', () {
       expect(
         MomoSmsIngestionRepository.captureFromDeviceMessage(
@@ -79,6 +64,16 @@ void main() {
         MomoSmsIngestionRepository.captureFromDeviceMessage(
           sender: 'M-Money',
           body: '   ',
+        ),
+        isNull,
+      );
+      expect(
+        MomoSmsIngestionRepository.captureFromDeviceMessage(
+          sender: '+250788767816',
+          body:
+              'You have received 50000 RWF from Yvette NYIRAMAHIRWE '
+              '(*********235) at 2025-11-19 23:12:44 . Balance:633978 RWF. '
+              'FT Id: 24224946460',
         ),
         isNull,
       );

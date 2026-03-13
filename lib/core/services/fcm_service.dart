@@ -6,8 +6,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' show SupabaseClient;
 
+import '../config/app_market.dart';
 import '../config/deep_link_config.dart';
 import '../router/app_router.dart';
 import 'firebase_bootstrap_service.dart';
@@ -32,7 +33,7 @@ class FcmStatus {
     this.preferenceEnabled = true,
     this.authorizationStatus = FcmAuthorizationStatus.unknown,
     this.isInitialized = false,
-    this.activeCountryTopic,
+    this.activeMarketTopic,
     this.lastError,
   });
 
@@ -41,7 +42,7 @@ class FcmStatus {
   final bool preferenceEnabled;
   final FcmAuthorizationStatus authorizationStatus;
   final bool isInitialized;
-  final String? activeCountryTopic;
+  final String? activeMarketTopic;
   final String? lastError;
 
   bool get isAuthorized =>
@@ -55,16 +56,16 @@ class FcmStatus {
     bool? preferenceEnabled,
     FcmAuthorizationStatus? authorizationStatus,
     bool? isInitialized,
-    Object? activeCountryTopic = _sentinel,
+    Object? activeMarketTopic = _sentinel,
     Object? lastError = _sentinel,
   }) {
     return FcmStatus(
       preferenceEnabled: preferenceEnabled ?? this.preferenceEnabled,
       authorizationStatus: authorizationStatus ?? this.authorizationStatus,
       isInitialized: isInitialized ?? this.isInitialized,
-      activeCountryTopic: activeCountryTopic == _sentinel
-          ? this.activeCountryTopic
-          : activeCountryTopic as String?,
+      activeMarketTopic: activeMarketTopic == _sentinel
+          ? this.activeMarketTopic
+          : activeMarketTopic as String?,
       lastError: lastError == _sentinel ? this.lastError : lastError as String?,
     );
   }
@@ -77,22 +78,24 @@ abstract class FcmPreferenceStore {
 
 class HiveFcmPreferenceStore implements FcmPreferenceStore {
   HiveFcmPreferenceStore({
+    required Future<Box<dynamic>> Function(String name) openBox,
     this.boxName = FcmService.preferenceBoxName,
     this.enabledKey = FcmService.preferenceKey,
-  });
+  }) : _openBox = openBox;
 
+  final Future<Box<dynamic>> Function(String name) _openBox;
   final String boxName;
   final String enabledKey;
 
   @override
   Future<bool> readEnabled() async {
-    final box = await Hive.openBox<dynamic>(boxName);
+    final box = await _openBox(boxName);
     return box.get(enabledKey, defaultValue: true) as bool;
   }
 
   @override
   Future<void> writeEnabled(bool enabled) async {
-    final box = await Hive.openBox<dynamic>(boxName);
+    final box = await _openBox(boxName);
     await box.put(enabledKey, enabled);
   }
 }
@@ -108,8 +111,8 @@ abstract class FcmTokenRepository {
 }
 
 class SupabaseFcmTokenRepository implements FcmTokenRepository {
-  SupabaseFcmTokenRepository({SupabaseClient Function()? clientFactory})
-    : _clientFactory = clientFactory ?? (() => Supabase.instance.client);
+  SupabaseFcmTokenRepository({required SupabaseClient Function() clientFactory})
+    : _clientFactory = clientFactory;
 
   final SupabaseClient Function() _clientFactory;
 
@@ -227,12 +230,12 @@ FcmAuthorizationStatus _mapAuthorizationStatus(AuthorizationStatus status) {
 class FcmService {
   FcmService({
     FcmMessagingClient? messagingClient,
-    FcmPreferenceStore? preferenceStore,
-    FcmTokenRepository? tokenRepository,
+    required FcmPreferenceStore preferenceStore,
+    required FcmTokenRepository tokenRepository,
     bool Function()? isFirebaseAvailable,
   }) : _messagingClient = messagingClient,
-       _preferenceStore = preferenceStore ?? HiveFcmPreferenceStore(),
-       _tokenRepository = tokenRepository ?? SupabaseFcmTokenRepository(),
+       _preferenceStore = preferenceStore,
+       _tokenRepository = tokenRepository,
        _isFirebaseAvailable =
            isFirebaseAvailable ?? (() => Firebase.apps.isNotEmpty);
 
@@ -248,7 +251,7 @@ class FcmService {
   bool _isInitialized = false;
   String? _activeUserId;
   String? _currentToken;
-  String? _activeCountryTopic;
+  String? _activeMarketTopic;
   FcmStatus _status = const FcmStatus();
 
   StreamSubscription<String>? _tokenRefreshSubscription;
@@ -276,7 +279,7 @@ class FcmService {
         preferenceEnabled: preferenceEnabled,
         authorizationStatus: authorizationStatus,
         isInitialized: _isInitialized,
-        activeCountryTopic: _activeCountryTopic,
+        activeMarketTopic: _activeMarketTopic,
         lastError: null,
       ),
     );
@@ -319,7 +322,7 @@ class FcmService {
           preferenceEnabled: true,
           authorizationStatus: authorizationStatus,
           isInitialized: true,
-          activeCountryTopic: _activeCountryTopic,
+          activeMarketTopic: _activeMarketTopic,
           lastError: null,
         ),
       );
@@ -332,16 +335,13 @@ class FcmService {
     }
   }
 
-  Future<FcmStatus> enable({
-    required String userId,
-    String? countryCode,
-  }) async {
+  Future<FcmStatus> enable({required String userId}) async {
     await _safeWritePreference(true);
     final initialized = await initialize(userId: userId);
     if (!initialized.isAuthorized) {
       return initialized;
     }
-    return syncTopics(countryCode: countryCode);
+    return syncTopics();
   }
 
   Future<FcmStatus> disable({String? userId}) async {
@@ -355,13 +355,13 @@ class FcmService {
       (await status()).copyWith(
         preferenceEnabled: false,
         isInitialized: false,
-        activeCountryTopic: null,
+        activeMarketTopic: null,
         lastError: null,
       ),
     );
   }
 
-  Future<FcmStatus> syncTopics({String? countryCode}) async {
+  Future<FcmStatus> syncTopics() async {
     final current = await status();
     if (!_isInitialized ||
         !current.preferenceEnabled ||
@@ -370,25 +370,22 @@ class FcmService {
       return _setStatus(
         current.copyWith(
           isInitialized: _isInitialized,
-          activeCountryTopic: null,
+          activeMarketTopic: null,
         ),
       );
     }
 
-    final normalizedCountry = countryCode?.trim().toUpperCase();
-    final desiredTopic = normalizedCountry == null || normalizedCountry.isEmpty
-        ? null
-        : 'country_$normalizedCountry';
+    final desiredTopic = 'market_${AppMarket.countryCode}';
 
-    if (_activeCountryTopic != null && _activeCountryTopic != desiredTopic) {
+    if (_activeMarketTopic != null && _activeMarketTopic != desiredTopic) {
       try {
-        await _client.unsubscribeFromTopic(_activeCountryTopic!);
+        await _client.unsubscribeFromTopic(_activeMarketTopic!);
       } catch (error) {
         debugPrint('[FCM] Topic unsubscribe failed: $error');
       }
     }
 
-    if (desiredTopic != null && desiredTopic != _activeCountryTopic) {
+    if (desiredTopic != _activeMarketTopic) {
       try {
         await _client.subscribeToTopic(desiredTopic);
       } catch (error) {
@@ -396,11 +393,11 @@ class FcmService {
       }
     }
 
-    _activeCountryTopic = desiredTopic;
+    _activeMarketTopic = desiredTopic;
     return _setStatus(
       current.copyWith(
         isInitialized: _isInitialized,
-        activeCountryTopic: _activeCountryTopic,
+        activeMarketTopic: _activeMarketTopic,
         lastError: null,
       ),
     );
@@ -417,7 +414,7 @@ class FcmService {
     return _setStatus(
       (await status(refreshPermission: false)).copyWith(
         isInitialized: false,
-        activeCountryTopic: null,
+        activeMarketTopic: null,
         lastError: null,
       ),
     );
@@ -577,7 +574,7 @@ class FcmService {
   }
 
   Future<void> _clearTopicSubscription() async {
-    final activeTopic = _activeCountryTopic;
+    final activeTopic = _activeMarketTopic;
     if (activeTopic == null || activeTopic.isEmpty) {
       return;
     }
@@ -587,7 +584,7 @@ class FcmService {
     } catch (error) {
       debugPrint('[FCM] Topic unsubscribe failed: $error');
     } finally {
-      _activeCountryTopic = null;
+      _activeMarketTopic = null;
     }
   }
 

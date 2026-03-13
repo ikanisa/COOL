@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cool_app/core/models/geo_point.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -378,10 +379,7 @@ class MobilityLocationStatePane extends StatelessWidget {
                 const SizedBox(
                   width: 30,
                   height: 30,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2.4,
-                    color: AppColors.accent,
-                  ),
+                  child: CupertinoActivityIndicator(radius: 15),
                 )
               else
                 Icon(icon, color: AppColors.text2, size: 30),

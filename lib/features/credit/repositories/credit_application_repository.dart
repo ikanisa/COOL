@@ -4,8 +4,8 @@ import '../../partners/models/partner.dart';
 import '../models/partner_credit_application.dart';
 
 class CreditApplicationRepository {
-  CreditApplicationRepository({SupabaseClient? client})
-    : _client = client ?? Supabase.instance.client;
+  CreditApplicationRepository({required SupabaseClient client})
+    : _client = client;
 
   final SupabaseClient _client;
 

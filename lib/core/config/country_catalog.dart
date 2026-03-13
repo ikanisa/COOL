@@ -396,237 +396,9 @@ int? _asIntOrNull(dynamic value) {
   return null;
 }
 
+/// The COOL app is Rwanda-only. This catalog contains only the Rwanda entry.
 abstract final class CoolCountryCatalog {
   static const List<CoolCountry> all = <CoolCountry>[
-    CoolCountry(
-      isoCode: 'BJ',
-      dialCode: '+229',
-      name: 'Benin',
-      flagEmoji: '🇧🇯',
-      currencyCode: 'XOF',
-      currencyName: 'West African CFA franc',
-      momoUssdTemplate: '*400*1*{recipient}*{amount}#',
-      aliases: <String>['Benin'],
-      mobileNationalNumberPattern: r'^0?[1-9]\d{7,8}$',
-      mobilePossibleLengths: <int>[8, 9, 10],
-      mobileExampleNational: '0195123456',
-      mobileExampleE164: '+2290195123456',
-      momoNumberLocalPattern: r'^0?[1-9]\d{7,8}$',
-      momoNumberE164Pattern: r'^\+2290?[1-9]\d{7,8}$',
-    ),
-    CoolCountry(
-      isoCode: 'BW',
-      dialCode: '+267',
-      name: 'Botswana',
-      flagEmoji: '🇧🇼',
-      currencyCode: 'BWP',
-      currencyName: 'Botswana pula',
-      momoUssdTemplate: '*167*1*{recipient}*{amount}#',
-      aliases: <String>['Botswana'],
-      mobileNationalNumberPattern: r'^7[1-8]\d{6}$',
-      mobilePossibleLengths: <int>[8],
-      mobileExampleNational: '71123456',
-      mobileExampleE164: '+26771123456',
-      momoNumberLocalPattern: r'^7[1-8]\d{6}$',
-      momoNumberE164Pattern: r'^\+2677[1-8]\d{6}$',
-      phoneValidationSource: 'ITU E.164 / BOCRA Botswana',
-    ),
-    CoolCountry(
-      isoCode: 'CM',
-      dialCode: '+237',
-      name: 'Cameroon',
-      flagEmoji: '🇨🇲',
-      currencyCode: 'XAF',
-      currencyName: 'Central African CFA franc',
-      momoUssdTemplate: '*126*1*{recipient}*{amount}#',
-      aliases: <String>['Cameroon'],
-      mobileNationalNumberPattern: r'^[26]\d{7,8}$',
-      mobilePossibleLengths: <int>[8, 9],
-      mobileExampleNational: '671234567',
-      mobileExampleE164: '+237671234567',
-      momoNumberLocalPattern: r'^[26]\d{7,8}$',
-      momoNumberE164Pattern: r'^\+237[26]\d{7,8}$',
-      phoneValidationSource: 'ITU E.164 / GSMA',
-    ),
-    CoolCountry(
-      isoCode: 'CG',
-      dialCode: '+242',
-      name: 'Congo Brazzaville',
-      flagEmoji: '🇨🇬',
-      currencyCode: 'XAF',
-      currencyName: 'Central African CFA franc',
-      momoUssdTemplate: '*124*1*{recipient}*{amount}#',
-      aliases: <String>[
-        'Congo Brazzaville',
-        'Republic of the Congo',
-        'Republic of Congo',
-        'Congo',
-      ],
-      mobileNationalNumberPattern: r'^0?[56]\d{7}$',
-      mobilePossibleLengths: <int>[8, 9],
-      mobileExampleNational: '061234567',
-      mobileExampleE164: '+24261234567',
-      momoNumberLocalPattern: r'^0?[56]\d{7}$',
-      momoNumberE164Pattern: r'^\+242[56]\d{7}$',
-      phoneValidationSource: 'ITU E.164 / ARPCE Congo',
-    ),
-    CoolCountry(
-      isoCode: 'CI',
-      dialCode: '+225',
-      name: "Cote d'Ivoire",
-      flagEmoji: '🇨🇮',
-      currencyCode: 'XOF',
-      currencyName: 'West African CFA franc',
-      momoUssdTemplate: '*133*1*{recipient}*{amount}#',
-      aliases: <String>["Cote d'Ivoire", "Côte d'Ivoire", 'Ivory Coast'],
-      mobileNationalNumberPattern: r'^0?[027]\d{8}$',
-      mobilePossibleLengths: <int>[10],
-      mobileExampleNational: '0710345678',
-      mobileExampleE164: '+225710345678',
-      momoNumberLocalPattern: r'^0?[027]\d{8}$',
-      momoNumberE164Pattern: r'^\+225[027]\d{8}$',
-      phoneValidationSource: 'ITU E.164 / ARTCI',
-    ),
-    CoolCountry(
-      isoCode: 'GH',
-      dialCode: '+233',
-      name: 'Ghana',
-      flagEmoji: '🇬🇭',
-      currencyCode: 'GHS',
-      currencyName: 'Ghanaian cedi',
-      momoUssdTemplate: '*170*1*{recipient}*{amount}#',
-      aliases: <String>['Ghana'],
-      providerAliases: <String>['mtn_ghana', 'mtn', 'vodafone', 'airteltigo'],
-      mobileNationalNumberPattern: r'^0?[235]\d{8}$',
-      mobilePossibleLengths: <int>[9, 10],
-      mobileExampleNational: '0231234567',
-      mobileExampleE164: '+233231234567',
-      momoNumberLocalPattern: r'^0?[235]\d{8}$',
-      momoNumberE164Pattern: r'^\+233[235]\d{8}$',
-      phoneValidationSource: 'ITU E.164 / NCA Ghana',
-    ),
-    CoolCountry(
-      isoCode: 'GN',
-      dialCode: '+224',
-      name: 'Guinea',
-      flagEmoji: '🇬🇳',
-      currencyCode: 'GNF',
-      currencyName: 'Guinean franc',
-      momoUssdTemplate: '*155*1*{recipient}*{amount}#',
-      aliases: <String>['Guinea'],
-      mobileNationalNumberPattern: r'^[67]\d{8}$',
-      mobilePossibleLengths: <int>[9],
-      mobileExampleNational: '621234567',
-      mobileExampleE164: '+224621234567',
-      momoNumberLocalPattern: r'^[67]\d{8}$',
-      momoNumberE164Pattern: r'^\+224[67]\d{8}$',
-      phoneValidationSource: 'ITU E.164 / ARPT Guinea',
-    ),
-    CoolCountry(
-      isoCode: 'GW',
-      dialCode: '+245',
-      name: 'Guinea-Bissau',
-      flagEmoji: '🇬🇼',
-      currencyCode: 'XOF',
-      currencyName: 'West African CFA franc',
-      momoUssdTemplate: '*124*1*{recipient}*{amount}#',
-      aliases: <String>['Guinea-Bissau', 'Guinea Bissau'],
-      mobileNationalNumberPattern: r'^[5-7]\d{6}$',
-      mobilePossibleLengths: <int>[7],
-      mobileExampleNational: '5551234',
-      mobileExampleE164: '+2455551234',
-      momoNumberLocalPattern: r'^[5-7]\d{6}$',
-      momoNumberE164Pattern: r'^\+245[5-7]\d{6}$',
-      phoneValidationSource: 'ITU E.164 / ARN Guinea-Bissau',
-    ),
-    CoolCountry(
-      isoCode: 'KE',
-      dialCode: '+254',
-      name: 'Kenya',
-      flagEmoji: '🇰🇪',
-      currencyCode: 'KES',
-      currencyName: 'Kenyan shilling',
-      momoUssdTemplate: '*334*1*{recipient}*{amount}#',
-      aliases: <String>['Kenya'],
-      providerAliases: <String>['mpesa', 'm-pesa', 'safaricom'],
-      mobileNationalNumberPattern: r'^0?[17]\d{8}$',
-      mobilePossibleLengths: <int>[9, 10],
-      mobileExampleNational: '0712345678',
-      mobileExampleE164: '+254712345678',
-      momoNumberLocalPattern: r'^0?[17]\d{8}$',
-      momoNumberE164Pattern: r'^\+254[17]\d{8}$',
-      phoneValidationSource: 'ITU E.164 / CA Kenya',
-    ),
-    CoolCountry(
-      isoCode: 'LR',
-      dialCode: '+231',
-      name: 'Liberia',
-      flagEmoji: '🇱🇷',
-      currencyCode: 'LRD',
-      currencyName: 'Liberian dollar',
-      momoUssdTemplate: '*156*1*{recipient}*{amount}#',
-      aliases: <String>['Liberia'],
-      mobileNationalNumberPattern: r'^0?(?:555|77[025-9]|88[01678])\d{6}$',
-      mobilePossibleLengths: <int>[9, 10],
-      mobileExampleNational: '0770123456',
-      mobileExampleE164: '+231770123456',
-      momoNumberLocalPattern: r'^0?(?:555|77[025-9]|88[01678])\d{6}$',
-      momoNumberE164Pattern: r'^\+231(?:555|77[025-9]|88[01678])\d{6}$',
-      phoneValidationSource:
-          'LTA Liberia national numbering plan (July 18, 2024) / ITU E.164',
-    ),
-    CoolCountry(
-      isoCode: 'MW',
-      dialCode: '+265',
-      name: 'Malawi',
-      flagEmoji: '🇲🇼',
-      currencyCode: 'MWK',
-      currencyName: 'Malawian kwacha',
-      momoUssdTemplate: '*444*1*{recipient}*{amount}#',
-      aliases: <String>['Malawi'],
-      mobileNationalNumberPattern: r'^0?[89]\d{8}$',
-      mobilePossibleLengths: <int>[9, 10],
-      mobileExampleNational: '0991234567',
-      mobileExampleE164: '+265991234567',
-      momoNumberLocalPattern: r'^0?[89]\d{8}$',
-      momoNumberE164Pattern: r'^\+265[89]\d{8}$',
-      phoneValidationSource: 'ITU E.164 / MACRA Malawi',
-    ),
-    CoolCountry(
-      isoCode: 'MZ',
-      dialCode: '+258',
-      name: 'Mozambique',
-      flagEmoji: '🇲🇿',
-      currencyCode: 'MZN',
-      currencyName: 'Mozambican metical',
-      momoUssdTemplate: '*197*1*{recipient}*{amount}#',
-      aliases: <String>['Mozambique'],
-      mobileNationalNumberPattern: r'^[89]\d{8}$',
-      mobilePossibleLengths: <int>[9],
-      mobileExampleNational: '821234567',
-      mobileExampleE164: '+258821234567',
-      momoNumberLocalPattern: r'^[89]\d{8}$',
-      momoNumberE164Pattern: r'^\+258[89]\d{8}$',
-      phoneValidationSource: 'ITU E.164 / INCM Mozambique',
-    ),
-    CoolCountry(
-      isoCode: 'NG',
-      dialCode: '+234',
-      name: 'Nigeria',
-      flagEmoji: '🇳🇬',
-      currencyCode: 'NGN',
-      currencyName: 'Nigerian naira',
-      momoUssdTemplate: '*223*1*{recipient}*{amount}#',
-      aliases: <String>['Nigeria'],
-      providerAliases: <String>['mtn_nigeria', 'airtel', 'glo'],
-      mobileNationalNumberPattern: r'^0?[789]0[1-9]\d{7}$',
-      mobilePossibleLengths: <int>[10, 11],
-      mobileExampleNational: '08031234567',
-      mobileExampleE164: '+2348031234567',
-      momoNumberLocalPattern: r'^0?[789]0[1-9]\d{7}$',
-      momoNumberE164Pattern: r'^\+234[789]0[1-9]\d{7}$',
-      phoneValidationSource: 'ITU E.164 / NCC Nigeria',
-    ),
     CoolCountry(
       isoCode: 'RW',
       dialCode: '+250',
@@ -649,223 +421,10 @@ abstract final class CoolCountryCatalog {
       momoCodeMaxLength: 9,
       momoCodeExample: '123456',
     ),
-    CoolCountry(
-      isoCode: 'ZA',
-      dialCode: '+27',
-      name: 'South Africa',
-      flagEmoji: '🇿🇦',
-      currencyCode: 'ZAR',
-      currencyName: 'South African rand',
-      momoUssdTemplate: '*120*668*1*{recipient}*{amount}#',
-      aliases: <String>['South Africa'],
-      mobileNationalNumberPattern: r'^0?[6-8]\d{8}$',
-      mobilePossibleLengths: <int>[9, 10],
-      mobileExampleNational: '0711234567',
-      mobileExampleE164: '+27711234567',
-      momoNumberLocalPattern: r'^0?[6-8]\d{8}$',
-      momoNumberE164Pattern: r'^\+27[6-8]\d{8}$',
-      phoneValidationSource: 'ITU E.164 / ICASA South Africa',
-    ),
-    CoolCountry(
-      isoCode: 'SZ',
-      dialCode: '+268',
-      name: 'Eswatini',
-      flagEmoji: '🇸🇿',
-      currencyCode: 'SZL',
-      currencyName: 'Swazi lilangeni',
-      momoUssdTemplate: '*468*1*{recipient}*{amount}#',
-      aliases: <String>['Eswatini', 'Swaziland', 'Eswatini (Swaziland)'],
-      mobileNationalNumberPattern: r'^7[6-9]\d{6}$',
-      mobilePossibleLengths: <int>[8],
-      mobileExampleNational: '76123456',
-      mobileExampleE164: '+26876123456',
-      momoNumberLocalPattern: r'^7[6-9]\d{6}$',
-      momoNumberE164Pattern: r'^\+2687[6-9]\d{6}$',
-      phoneValidationSource: 'ITU E.164 / ESCCOM Eswatini',
-    ),
-    CoolCountry(
-      isoCode: 'UG',
-      dialCode: '+256',
-      name: 'Uganda',
-      flagEmoji: '🇺🇬',
-      currencyCode: 'UGX',
-      currencyName: 'Ugandan shilling',
-      momoUssdTemplate: '*165*1*{recipient}*{amount}#',
-      aliases: <String>['Uganda'],
-      providerAliases: <String>['airtel', 'mtn_uganda', 'mtn'],
-      mobileNationalNumberPattern: r'^0?[1-9]\d{7,8}$',
-      mobilePossibleLengths: <int>[9, 10],
-      mobileExampleNational: '0712345678',
-      mobileExampleE164: '+256712345678',
-      momoNumberLocalPattern: r'^0?[1-9]\d{7,8}$',
-      momoNumberE164Pattern: r'^\+256[1-9]\d{7,8}$',
-      phoneValidationSource: 'ITU E.164 / UCC Uganda',
-    ),
-    CoolCountry(
-      isoCode: 'ZM',
-      dialCode: '+260',
-      name: 'Zambia',
-      flagEmoji: '🇿🇲',
-      currencyCode: 'ZMW',
-      currencyName: 'Zambian kwacha',
-      momoUssdTemplate: '*303*1*{recipient}*{amount}#',
-      aliases: <String>['Zambia'],
-      mobileNationalNumberPattern: r'^0?[79]\d{8}$',
-      mobilePossibleLengths: <int>[9, 10],
-      mobileExampleNational: '0955123456',
-      mobileExampleE164: '+260955123456',
-      momoNumberLocalPattern: r'^0?[79]\d{8}$',
-      momoNumberE164Pattern: r'^\+260[79]\d{8}$',
-      phoneValidationSource: 'ITU E.164 / ZICTA Zambia',
-    ),
-    CoolCountry(
-      isoCode: 'ZW',
-      dialCode: '+263',
-      name: 'Zimbabwe',
-      flagEmoji: '🇿🇼',
-      currencyCode: 'ZWL',
-      currencyName: 'Zimbabwean dollar',
-      momoUssdTemplate: '*151*1*{recipient}*{amount}#',
-      aliases: <String>['Zimbabwe'],
-      mobileNationalNumberPattern: r'^0?7[1-8]\d{7}$',
-      mobilePossibleLengths: <int>[9, 10],
-      mobileExampleNational: '0712345678',
-      mobileExampleE164: '+263712345678',
-      momoNumberLocalPattern: r'^0?7[1-8]\d{7}$',
-      momoNumberE164Pattern: r'^\+2637[1-8]\d{7}$',
-      phoneValidationSource: 'ITU E.164 / POTRAZ Zimbabwe',
-    ),
-    CoolCountry(
-      isoCode: 'CD',
-      dialCode: '+243',
-      name: 'Democratic Republic of the Congo',
-      flagEmoji: '🇨🇩',
-      currencyCode: 'CDF',
-      currencyName: 'Congolese franc',
-      momoUssdTemplate: '*099*1*{recipient}*{amount}#',
-      aliases: <String>[
-        'DRC',
-        'Congo Kinshasa',
-        'Democratic Republic of Congo',
-        'Democratic Republic of the Congo',
-        'Democratic Republic of Congo (DRC)',
-      ],
-      providerAliases: <String>['orange', 'vodacom', 'airtel'],
-      mobileNationalNumberPattern: r'^0?[89]\d{6,8}$',
-      mobilePossibleLengths: <int>[7, 8, 9, 10],
-      mobileExampleNational: '0991234567',
-      mobileExampleE164: '+243991234567',
-      momoNumberLocalPattern: r'^0?[89]\d{6,8}$',
-      momoNumberE164Pattern: r'^\+243[89]\d{6,8}$',
-      phoneValidationSource: 'ITU E.164 / ARPTC DRC',
-    ),
-    CoolCountry(
-      isoCode: 'ET',
-      dialCode: '+251',
-      name: 'Ethiopia',
-      flagEmoji: '🇪🇹',
-      currencyCode: 'ETB',
-      currencyName: 'Ethiopian birr',
-      momoUssdTemplate: '*806*1*{recipient}*{amount}#',
-      aliases: <String>['Ethiopia'],
-      mobileNationalNumberPattern: r'^0?9\d{8}$',
-      mobilePossibleLengths: <int>[9, 10],
-      mobileExampleNational: '0911234567',
-      mobileExampleE164: '+251911234567',
-      momoNumberLocalPattern: r'^0?9\d{8}$',
-      momoNumberE164Pattern: r'^\+2519\d{8}$',
-      phoneValidationSource: 'ITU E.164 / ECA Ethiopia',
-    ),
-    CoolCountry(
-      isoCode: 'GA',
-      dialCode: '+241',
-      name: 'Gabon',
-      flagEmoji: '🇬🇦',
-      currencyCode: 'XAF',
-      currencyName: 'Central African CFA franc',
-      momoUssdTemplate: '*222*1*{recipient}*{amount}#',
-      aliases: <String>['Gabon'],
-      mobileNationalNumberPattern: r'^0?[067]\d{6,7}$',
-      mobilePossibleLengths: <int>[7, 8],
-      mobileExampleNational: '06123456',
-      mobileExampleE164: '+2416123456',
-      momoNumberLocalPattern: r'^0?[067]\d{6,7}$',
-      momoNumberE164Pattern: r'^\+241[067]\d{6,7}$',
-      phoneValidationSource: 'ITU E.164 / ARCEP Gabon',
-    ),
-    CoolCountry(
-      isoCode: 'MG',
-      dialCode: '+261',
-      name: 'Madagascar',
-      flagEmoji: '🇲🇬',
-      currencyCode: 'MGA',
-      currencyName: 'Malagasy ariary',
-      momoUssdTemplate: '*162*1*{recipient}*{amount}#',
-      aliases: <String>['Madagascar'],
-      mobileNationalNumberPattern: r'^0?3[2-49]\d{7}$',
-      mobilePossibleLengths: <int>[9, 10],
-      mobileExampleNational: '0321234567',
-      mobileExampleE164: '+261321234567',
-      momoNumberLocalPattern: r'^0?3[2-49]\d{7}$',
-      momoNumberE164Pattern: r'^\+2613[2-49]\d{7}$',
-      phoneValidationSource: 'ITU E.164 / ARTEC Madagascar',
-    ),
-    CoolCountry(
-      isoCode: 'SN',
-      dialCode: '+221',
-      name: 'Senegal',
-      flagEmoji: '🇸🇳',
-      currencyCode: 'XOF',
-      currencyName: 'West African CFA franc',
-      momoUssdTemplate: '*140*1*{recipient}*{amount}#',
-      aliases: <String>['Senegal'],
-      providerAliases: <String>['orange', 'free', 'expresso'],
-      mobileNationalNumberPattern: r'^0?7[0-9]\d{7}$',
-      mobilePossibleLengths: <int>[9, 10],
-      mobileExampleNational: '0701234567',
-      mobileExampleE164: '+221701234567',
-      momoNumberLocalPattern: r'^0?7[0-9]\d{7}$',
-      momoNumberE164Pattern: r'^\+2217[0-9]\d{7}$',
-      phoneValidationSource: 'ITU E.164 / ARTP Senegal',
-    ),
-    CoolCountry(
-      isoCode: 'SL',
-      dialCode: '+232',
-      name: 'Sierra Leone',
-      flagEmoji: '🇸🇱',
-      currencyCode: 'SLL',
-      currencyName: 'Sierra Leonean leone',
-      momoUssdTemplate: '*277*1*{recipient}*{amount}#',
-      aliases: <String>['Sierra Leone'],
-      mobileNationalNumberPattern: r'^[2-9]\d{7}$',
-      mobilePossibleLengths: <int>[8],
-      mobileExampleNational: '25123456',
-      mobileExampleE164: '+23225123456',
-      momoNumberLocalPattern: r'^[2-9]\d{7}$',
-      momoNumberE164Pattern: r'^\+232[2-9]\d{7}$',
-      phoneValidationSource: 'ITU E.164 / NATCOM Sierra Leone',
-    ),
-    CoolCountry(
-      isoCode: 'TZ',
-      dialCode: '+255',
-      name: 'Tanzania',
-      flagEmoji: '🇹🇿',
-      currencyCode: 'TZS',
-      currencyName: 'Tanzanian shilling',
-      momoUssdTemplate: '*150*00*1*{recipient}*{amount}#',
-      aliases: <String>['Tanzania'],
-      providerAliases: <String>['vodacom', 'tigo', 'airtel', 'mpesa'],
-      mobileNationalNumberPattern: r'^0?[67]\d{8}$',
-      mobilePossibleLengths: <int>[9, 10],
-      mobileExampleNational: '0621234567',
-      mobileExampleE164: '+255621234567',
-      momoNumberLocalPattern: r'^0?[67]\d{8}$',
-      momoNumberE164Pattern: r'^\+255[67]\d{8}$',
-      phoneValidationSource: 'ITU E.164 / TCRA Tanzania',
-    ),
   ];
 
-  static CoolCountry get defaultCountry => byIsoCode('RW')!;
+  /// Always Rwanda.
+  static CoolCountry get defaultCountry => all.first;
 
   static CoolCountry? byIsoCode(
     String? value, {
@@ -875,7 +434,6 @@ abstract final class CoolCountryCatalog {
     if (normalized.isEmpty) {
       return null;
     }
-
     for (final country in source) {
       if (country.isoCode.toLowerCase() == normalized) {
         return country;
@@ -896,7 +454,6 @@ abstract final class CoolCountryCatalog {
     if (value == null || value.trim().isEmpty) {
       return null;
     }
-
     final digits = value.replaceAll(RegExp(r'[^0-9+]'), '');
     for (final country in source) {
       if (country.dialCode == digits) {
@@ -914,7 +471,6 @@ abstract final class CoolCountryCatalog {
     if (normalized.isEmpty) {
       return null;
     }
-
     for (final country in source) {
       if (_normalizeLookup(country.providerId) == normalized) {
         return country;
@@ -925,7 +481,6 @@ abstract final class CoolCountryCatalog {
         }
       }
     }
-
     return null;
   }
 
@@ -936,22 +491,19 @@ abstract final class CoolCountryCatalog {
     if (value == null || value.trim().isEmpty) {
       return null;
     }
-
     final phone = value.startsWith('+')
         ? value
         : '+${value.replaceAll(RegExp(r'[^0-9]'), '')}';
-    final ordered = <CoolCountry>[...source]
-      ..sort((a, b) => b.dialCode.length.compareTo(a.dialCode.length));
-
-    for (final country in ordered) {
+    for (final country in source) {
       if (phone.startsWith(country.dialCode)) {
         return country;
       }
     }
-
     return null;
   }
 
+  /// Resolves any combination of country/phone/providerId to a country.
+  /// Always falls back to Rwanda.
   static CoolCountry resolve({
     String? country,
     String? phone,
@@ -969,7 +521,6 @@ abstract final class CoolCountryCatalog {
     if (value == null || value.trim().isEmpty) {
       return defaultCountry.isoCode;
     }
-
     return byIsoCode(value)?.isoCode ??
         byDialCode(value)?.isoCode ??
         fromPhoneNumber(value)?.isoCode ??

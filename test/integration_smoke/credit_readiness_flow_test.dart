@@ -72,7 +72,7 @@ void main() {
         () => applicationRepository.fetchMyApplications(),
       ).thenAnswer((_) async => applications);
       when(
-        () => partnerRepository.fetchAll(country: any(named: 'country')),
+        () => partnerRepository.fetchAll(),
       ).thenAnswer((_) async => partners);
 
       final user = fakeUser().copyWith(

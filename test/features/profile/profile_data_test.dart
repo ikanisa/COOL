@@ -12,14 +12,14 @@ void main() {
         name: '123456',
         officialName: '',
         userId: '123456',
-        phone: '+256700123456',
+        phone: '+250788123456',
         officialPhone: '',
         momoNumber: '',
         momoCode: '445566',
         momoRouteType: MomoRecipientType.code,
-        countryCode: 'UG',
-        country: 'Uganda',
-        currencyCode: 'UGX',
+        countryCode: 'RW',
+        country: 'Rwanda',
+        currencyCode: 'RWF',
         momoLinked: true,
         languageCode: 'en',
         notificationsEnabled: true,
@@ -29,8 +29,8 @@ void main() {
         isDriver: false,
       );
 
-      expect(profile.walletRouteLabel, 'Code route');
-      expect(profile.momoDisplayLabel, 'Code 445566');
+      expect(profile.walletRouteLabel, 'MoMo Code');
+      expect(profile.momoDisplayLabel, 'MoMo Code 445566');
       expect(profile.canShowMomoQr, isFalse);
     });
   });
@@ -55,8 +55,8 @@ void main() {
       expect(snapshot.vehicleType, 'Moto Taxi');
       expect(snapshot.plateNumber, 'RAB 123 C');
       expect(snapshot.baseLocation, 'Nyamirambo');
-      expect(snapshot.verificationStatusLabel, 'Pending review');
-      expect(snapshot.cadenceLabel, 'Occasional Driver');
+      expect(snapshot.verificationStatusLabel, 'Pending Review');
+      expect(snapshot.cadenceLabel, 'Occasional driver');
       expect(snapshot.isSetupComplete, isTrue);
     });
   });

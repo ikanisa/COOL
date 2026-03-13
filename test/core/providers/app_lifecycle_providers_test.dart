@@ -5,11 +5,13 @@ import 'package:cool_app/core/services/performance_service.dart';
 import 'package:cool_app/features/auth/models/user_profile.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart' as auth;
 import 'package:cool_app/features/auth/repositories/auth_repository.dart';
+import 'package:cool_app/core/services/momo_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' show Session;
+import 'package:supabase_flutter/supabase_flutter.dart'
+    show FlutterAuthClientOptions, Session, SupabaseClient;
 
 class MockAuthRepository extends Mock implements AuthRepository {}
 
@@ -21,6 +23,7 @@ class MutableAuthNotifier extends auth.AuthNotifier {
     required super.repository,
     required super.crashlytics,
     required super.performance,
+    required super.momoService,
     required auth.AuthState initialState,
   }) {
     state = initialState;
@@ -68,6 +71,7 @@ void main() {
               repository: authRepository,
               crashlytics: CrashlyticsService(),
               performance: PerformanceService(),
+              momoService: _buildTestMomoService(),
               initialState: initialState,
             ),
           ),
@@ -108,6 +112,16 @@ void main() {
 
       verifyNever(() => coordinator.handleAppResumed());
     },
+  );
+}
+
+MomoService _buildTestMomoService() {
+  return MomoService(
+    client: SupabaseClient(
+      'http://127.0.0.1:54321',
+      'test-anon-key',
+      authOptions: const FlutterAuthClientOptions(autoRefreshToken: false),
+    ),
   );
 }
 

@@ -1,65 +1,22 @@
-import 'package:cool_app/core/utils/json_helpers.dart' as jh;
-import 'package:supabase_flutter/supabase_flutter.dart';
-
 import '../config/country_catalog.dart';
 
+/// The COOL app is Rwanda-only. This repository always returns Rwanda.
+///
+/// The Supabase `supported_countries` table is no longer queried.
 class SupportedCountriesRepository {
-  SupportedCountriesRepository({SupabaseClient? client})
-    : _client = client ?? Supabase.instance.client;
+  SupportedCountriesRepository();
 
-  final SupabaseClient _client;
-  List<CoolCountry>? _cache;
+  List<CoolCountry> getSupportedCountries() => CoolCountryCatalog.all;
 
-  Future<List<CoolCountry>> getSupportedCountries({
-    bool forceRefresh = false,
-  }) async {
-    if (!forceRefresh && _cache != null && _cache!.isNotEmpty) {
-      return _cache!;
-    }
-
-    try {
-      final response = await _client
-          .from('supported_countries')
-          .select()
-          .eq('is_active', true)
-          .order('country_name', ascending: true);
-
-      final countries = jh.asListOfMaps(response)
-          .map(CoolCountry.fromJson)
-          .where((country) {
-            return country.isoCode.isNotEmpty &&
-                country.dialCode.isNotEmpty &&
-                country.momoUssdTemplate.isNotEmpty;
-          })
-          .toList(growable: false);
-
-      if (countries.isNotEmpty) {
-        _cache = countries;
-        return countries;
-      }
-    } catch (_) {
-      // Fall back to the local catalog when the DB table is unavailable.
-    }
-
-    _cache = CoolCountryCatalog.all;
-    return _cache!;
-  }
-
-  Future<CoolCountry> resolveCountry({
+  CoolCountry resolveCountry({
     String? countryCode,
     String? phone,
     String? providerId,
-  }) async {
-    final countries = await getSupportedCountries();
+  }) {
     return CoolCountryCatalog.resolve(
       country: countryCode,
       phone: phone,
       providerId: providerId,
-      source: countries,
     );
-  }
-
-  Future<void> clearCache() async {
-    _cache = null;
   }
 }

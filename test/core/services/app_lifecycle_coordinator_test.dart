@@ -3,6 +3,7 @@ import 'package:cool_app/core/services/app_session_coordinator.dart';
 import 'package:cool_app/core/services/crashlytics_service.dart';
 import 'package:cool_app/core/services/deep_link_coordinator.dart';
 import 'package:cool_app/core/services/engagement_tracker.dart';
+import 'package:cool_app/core/services/momo_service.dart';
 import 'package:cool_app/core/services/performance_service.dart';
 import 'package:cool_app/core/services/trip_sync_coordinator.dart';
 import 'package:cool_app/features/auth/models/user_profile.dart';
@@ -10,9 +11,8 @@ import 'package:cool_app/features/auth/providers/auth_provider.dart' as auth;
 import 'package:cool_app/features/momo/services/momo_sms_autoread_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart'
-    show Session, Supabase;
+    show FlutterAuthClientOptions, Session, SupabaseClient;
 
 class MockEngagementTracker extends Mock implements EngagementTracker {}
 
@@ -32,9 +32,8 @@ class MockMomoSmsAutoreadService extends Mock
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  setUpAll(() async {
+  setUpAll(() {
     registerFallbackValue(const auth.AuthState());
-    await _ensureSupabaseInitialized();
   });
 
   group('AppLifecycleCoordinator', () {
@@ -72,13 +71,14 @@ void main() {
       when(() => engagementTracker.trackAppOpened()).thenAnswer((_) async {
         events.add('engagement.trackAppOpened');
       });
-      when(
-        () => sessionCoordinator.bootstrap(any()),
-      ).thenAnswer((invocation) async {
+      when(() => sessionCoordinator.bootstrap(any())).thenAnswer((
+        invocation,
+      ) async {
         events.add('session.bootstrap');
       });
-      when(() => sessionCoordinator.handleAuthStateChanged(any(), any()))
-          .thenAnswer((_) async {});
+      when(
+        () => sessionCoordinator.handleAuthStateChanged(any(), any()),
+      ).thenAnswer((_) async {});
       when(() => tripSyncCoordinator.start()).thenAnswer((_) {
         events.add('tripSync.start');
       });
@@ -106,6 +106,7 @@ void main() {
         deepLinkCoordinator: deepLinkCoordinator,
         tripSyncCoordinator: tripSyncCoordinator,
         momoSmsAutoreadService: momoSmsAutoreadService,
+        momoService: _buildTestMomoService(),
       );
     });
 
@@ -155,16 +156,14 @@ void main() {
   });
 }
 
-Future<void> _ensureSupabaseInitialized() async {
-  SharedPreferences.setMockInitialValues(<String, Object>{});
-  try {
-    Supabase.instance.client;
-  } catch (_) {
-    await Supabase.initialize(
-      url: 'http://127.0.0.1:54321',
-      anonKey: 'test-anon-key',
-    );
-  }
+MomoService _buildTestMomoService() {
+  return MomoService(
+    client: SupabaseClient(
+      'http://127.0.0.1:54321',
+      'test-anon-key',
+      authOptions: const FlutterAuthClientOptions(autoRefreshToken: false),
+    ),
+  );
 }
 
 Session _fakeSession({

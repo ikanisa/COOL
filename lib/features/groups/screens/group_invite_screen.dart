@@ -10,6 +10,8 @@ import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_error_view.dart';
+import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/status_badge.dart';
 import '../../auth/providers/auth_provider.dart';
@@ -152,6 +154,7 @@ class _GroupInviteScreenState extends ConsumerState<GroupInviteScreen> {
       backgroundColor: AppColors.bg,
       appBar: AppBar(
         leading: IconButton(
+          tooltip: 'Back',
           onPressed: () => context.pop(),
           icon: const Icon(Icons.arrow_back_rounded),
         ),
@@ -165,7 +168,10 @@ class _GroupInviteScreenState extends ConsumerState<GroupInviteScreen> {
         ),
       ),
       body: isPreviewLoading && detail == null
-          ? const Center(child: CircularProgressIndicator())
+          ? const Padding(
+              padding: EdgeInsets.fromLTRB(18, 16, 18, 96),
+              child: CoolSkeletonList(itemCount: 3),
+            )
           : previewError != null && detail == null
           ? _InviteErrorState(
               error: previewError,
@@ -367,40 +373,12 @@ class _InviteErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.link_rounded, size: 40, color: AppColors.accent),
-            const SizedBox(height: 16),
-            Text(
-              'Invite unavailable',
-              style: GoogleFonts.dmSans(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: AppColors.text,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              error,
-              textAlign: TextAlign.center,
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w400,
-                color: AppColors.text3,
-                height: 1.5,
-              ),
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: 180,
-              child: CoolButton(label: 'Try Again', onTap: onRetry),
-            ),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: CoolErrorView(
+        message: error,
+        onRetry: onRetry,
+        icon: Icons.link_off_rounded,
       ),
     );
   }

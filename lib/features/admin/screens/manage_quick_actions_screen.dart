@@ -1,9 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/config/country_catalog.dart';
-import '../../../core/providers/supported_countries_provider.dart';
+import '../../../core/config/app_market.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
@@ -45,9 +45,6 @@ class _ManageQuickActionsScreenState
   @override
   Widget build(BuildContext context) {
     final actionsAsync = ref.watch(adminQuickActionsProvider);
-    final countries =
-        ref.watch(supportedCountriesProvider).valueOrNull ??
-        CoolCountryCatalog.all;
 
     return Scaffold(
       backgroundColor: AppColors.bg,
@@ -64,10 +61,15 @@ class _ManageQuickActionsScreenState
         ),
         iconTheme: const IconThemeData(color: AppColors.text),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.accent,
-        onPressed: () => _showEditSheet(context, ref, null, countries),
-        child: const Icon(Icons.add_rounded, color: Colors.black),
+      floatingActionButton: Semantics(
+        button: true,
+        label: 'Add quick action',
+        hint: 'Opens the new quick action form',
+        child: FloatingActionButton(
+          backgroundColor: AppColors.accent,
+          onPressed: () => _showEditSheet(context, ref, null),
+          child: const Icon(Icons.add_rounded, color: Colors.black),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -100,32 +102,43 @@ class _ManageQuickActionsScreenState
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(color: AppColors.border),
                     ),
-                    child: ListTile(
-                      leading: Text(
-                        a['emoji']?.toString() ?? '⚡',
-                        style: const TextStyle(fontSize: 22),
-                      ),
-                      title: Text(
-                        a['title']?.toString() ?? '',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.text,
+                    child: Semantics(
+                      container: true,
+                      label:
+                          'Quick action ${a['title'] ?? ''}. Route ${a['route'] ?? ''}. '
+                          'Market ${AppMarket.country.name}.',
+                      child: ListTile(
+                        leading: Text(
+                          a['emoji']?.toString() ?? '⚡',
+                          style: const TextStyle(fontSize: 22),
                         ),
-                      ),
-                      subtitle: Text(
-                        '${a['route']} · ${a['country'] ?? 'global'}',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 12,
-                          color: AppColors.text3,
+                        title: Text(
+                          a['title']?.toString() ?? '',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.text,
+                          ),
                         ),
-                      ),
-                      trailing: GestureDetector(
-                        onTap: () => _showEditSheet(context, ref, a, countries),
-                        child: const Icon(
-                          Icons.edit_rounded,
-                          size: 18,
-                          color: AppColors.text3,
+                        subtitle: Text(
+                          '${a['route']} · ${AppMarket.country.name}',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 12,
+                            color: AppColors.text3,
+                          ),
+                        ),
+                        trailing: Semantics(
+                          button: true,
+                          label: 'Edit quick action ${a['title'] ?? ''}',
+                          hint: 'Opens the quick action editor',
+                          child: GestureDetector(
+                            onTap: () => _showEditSheet(context, ref, a),
+                            child: const Icon(
+                              Icons.edit_rounded,
+                              size: 18,
+                              color: AppColors.text3,
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -143,14 +156,12 @@ class _ManageQuickActionsScreenState
     BuildContext context,
     WidgetRef ref,
     Map<String, dynamic>? action,
-    List<CoolCountry> countries,
   ) {
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (_) =>
-          _EditQuickActionSheet(action: action, ref: ref, countries: countries),
+      builder: (_) => _EditQuickActionSheet(action: action, ref: ref),
     ).then((_) {
       // Reset local cache so fresh data is picked up.
       setState(() => _localActions = null);
@@ -159,14 +170,9 @@ class _ManageQuickActionsScreenState
 }
 
 class _EditQuickActionSheet extends StatefulWidget {
-  const _EditQuickActionSheet({
-    this.action,
-    required this.ref,
-    required this.countries,
-  });
+  const _EditQuickActionSheet({this.action, required this.ref});
   final Map<String, dynamic>? action;
   final WidgetRef ref;
-  final List<CoolCountry> countries;
   @override
   State<_EditQuickActionSheet> createState() => _EditQuickActionSheetState();
 }
@@ -176,7 +182,6 @@ class _EditQuickActionSheetState extends State<_EditQuickActionSheet> {
       _subtitleCtl,
       _emojiCtl,
       _routeCtl;
-  String? _selectedCountryCode;
   bool _saving = false;
 
   @override
@@ -189,10 +194,6 @@ class _EditQuickActionSheetState extends State<_EditQuickActionSheet> {
     );
     _emojiCtl = TextEditingController(text: a?['emoji']?.toString() ?? '');
     _routeCtl = TextEditingController(text: a?['route']?.toString() ?? '');
-    _selectedCountryCode = CoolCountryCatalog.byIsoCode(
-      a?['country']?.toString(),
-      source: widget.countries,
-    )?.isoCode;
   }
 
   @override
@@ -211,7 +212,7 @@ class _EditQuickActionSheetState extends State<_EditQuickActionSheet> {
       'subtitle': _subtitleCtl.text.trim(),
       'emoji': _emojiCtl.text.trim(),
       'route': _routeCtl.text.trim(),
-      'country': _selectedCountryCode,
+      'country': AppMarket.countryCode,
     };
     if (widget.action != null) data['id'] = widget.action!['id'];
     try {
@@ -275,7 +276,7 @@ class _EditQuickActionSheetState extends State<_EditQuickActionSheet> {
                 _field('Subtitle', _subtitleCtl),
                 _field('Emoji', _emojiCtl),
                 _field('Route', _routeCtl),
-                _countryField(),
+                _marketField(),
                 const SizedBox(height: 12),
                 SizedBox(
                   width: double.infinity,
@@ -292,7 +293,7 @@ class _EditQuickActionSheetState extends State<_EditQuickActionSheet> {
                         ? const SizedBox(
                             width: 20,
                             height: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
+                            child: CupertinoActivityIndicator(radius: 10),
                           )
                         : Text(
                             'Save',
@@ -314,49 +315,43 @@ class _EditQuickActionSheetState extends State<_EditQuickActionSheet> {
 
   Widget _field(String label, TextEditingController ctl) => Padding(
     padding: const EdgeInsets.only(bottom: 10),
-    child: TextField(
-      controller: ctl,
-      style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
-        filled: true,
-        fillColor: AppColors.surface2,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
+    child: Semantics(
+      textField: true,
+      label: label,
+      hint: 'Double tap to enter $label',
+      child: TextField(
+        controller: ctl,
+        style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
+          filled: true,
+          fillColor: AppColors.surface2,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
         ),
       ),
     ),
   );
 
-  Widget _countryField() => Padding(
+  Widget _marketField() => Padding(
     padding: const EdgeInsets.only(bottom: 10),
-    child: DropdownButtonFormField<String?>(
-      initialValue: _selectedCountryCode,
-      dropdownColor: AppColors.surface2,
+    child: TextFormField(
+      initialValue: AppMarket.country.name,
+      enabled: false,
+      style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
       decoration: InputDecoration(
-        labelText: 'Country scope',
+        labelText: 'Market',
         labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
         filled: true,
-        fillColor: AppColors.surface2,
+        fillColor: AppColors.surface2.withValues(alpha: 0.5),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
         ),
       ),
-      items: [
-        const DropdownMenuItem<String?>(value: null, child: Text('Global')),
-        ...widget.countries.map(
-          (country) => DropdownMenuItem<String?>(
-            value: country.isoCode,
-            child: Text(country.pickerLabel),
-          ),
-        ),
-      ],
-      onChanged: _saving
-          ? null
-          : (value) => setState(() => _selectedCountryCode = value),
     ),
   );
 }

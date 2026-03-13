@@ -5,8 +5,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/credit_dashboard.dart';
 
 class CreditRepository {
-  CreditRepository({SupabaseClient? client})
-    : _client = client ?? Supabase.instance.client;
+  CreditRepository({required SupabaseClient client})
+    : _client = client;
 
   final SupabaseClient _client;
 

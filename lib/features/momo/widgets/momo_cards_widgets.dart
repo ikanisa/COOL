@@ -28,64 +28,80 @@ class MomoSendMoneyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final displayNumber = PhoneValidator.formatMomoDisplay(momoNumber, country);
-    return CoolCard(
-      backgroundColor: AppColors.surface,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            l10n.sendMoney,
-            style: GoogleFonts.dmSans(
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              color: AppColors.text,
+    return Semantics(
+      container: true,
+      label:
+          'Send money card. ${country.displayName} account $displayNumber. '
+          'Uses ${country.currencyCode}.',
+      child: CoolCard(
+        backgroundColor: AppColors.surface,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Semantics(
+              header: true,
+              child: Text(
+                l10n.sendMoney,
+                style: GoogleFonts.dmSans(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.text,
+                ),
+              ),
             ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            'Launches ${country.name} MoMo USSD to complete the transfer.',
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: AppColors.text2,
-              height: 1.4,
+            const SizedBox(height: 6),
+            Text(
+              'Launches ${country.name} MoMo USSD to complete the transfer.',
+              style: GoogleFonts.dmSans(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: AppColors.text2,
+                height: 1.4,
+              ),
             ),
-          ),
-          const SizedBox(height: 16),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: AppColors.surface2,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColors.border),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '${country.displayName} · ${country.currencyCode}',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+            const SizedBox(height: 16),
+            Semantics(
+              label:
+                  'Source account ${country.displayName}. Currency ${country.currencyCode}. '
+                  'From $displayNumber.',
+              child: ExcludeSemantics(
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: AppColors.surface2,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: AppColors.border),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${country.displayName} · ${country.currencyCode}',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.text,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'From $displayNumber',
+                        style: GoogleFonts.dmMono(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.text2,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  'From $displayNumber',
-                  style: GoogleFonts.dmMono(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-          const SizedBox(height: 16),
-          CoolButton(label: l10n.sendMoney, onTap: onSendTap),
-        ],
+            const SizedBox(height: 16),
+            CoolButton(label: l10n.sendMoney, onTap: onSendTap),
+          ],
+        ),
       ),
     );
   }
@@ -119,64 +135,71 @@ class MomoToolsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final displayNumber = PhoneValidator.formatMomoDisplay(momoNumber, country);
-    return CoolCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            l10n.moreToolsSectionTitle,
-            style: GoogleFonts.dmSans(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: AppColors.text,
+    return Semantics(
+      container: true,
+      label: 'Mobile Money tools for $displayNumber.',
+      child: CoolCard(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Semantics(
+              header: true,
+              child: Text(
+                l10n.moreToolsSectionTitle,
+                style: GoogleFonts.dmSans(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.text,
+                ),
+              ),
             ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            'Statements, QR, and NFC tools for your Mobile Money profile.',
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: AppColors.text2,
-              height: 1.4,
+            const SizedBox(height: 6),
+            Text(
+              'Statements, QR, and NFC tools for your Mobile Money profile.',
+              style: GoogleFonts.dmSans(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: AppColors.text2,
+                height: 1.4,
+              ),
             ),
-          ),
-          const SizedBox(height: 12),
-          MomoToolRow(
-            icon: Icons.receipt_long_rounded,
-            title: 'Statements',
-            subtitle: 'Review wallet and savings activity.',
-            onTap: onOpenStatements,
-          ),
-          const Divider(height: 1, color: AppColors.border),
-          MomoToolRow(
-            icon: Icons.qr_code_2_rounded,
-            title: 'MoMo QR',
-            subtitle: displayNumber,
-            onTap: onOpenQrCode,
-          ),
-          const Divider(height: 1, color: AppColors.border),
-          MomoToolRow(
-            icon: Icons.request_page_rounded,
-            title: 'Request payment',
-            subtitle: 'Create a MoMo pay link for SMS or WhatsApp.',
-            onTap: onRequestPayment,
-          ),
-          const Divider(height: 1, color: AppColors.border),
-          MomoToolRow(
-            icon: Icons.center_focus_strong_rounded,
-            title: 'Scan QR',
-            subtitle: 'Launch payment-ready QR and prefill recipient QR.',
-            onTap: onScanQr,
-          ),
-          const Divider(height: 1, color: AppColors.border),
-          MomoToolRow(
-            icon: Icons.nfc_rounded,
-            title: 'NFC tools',
-            subtitle: 'Share or scan payment-ready NFC details.',
-            onTap: onOpenNfcTools,
-          ),
-        ],
+            const SizedBox(height: 12),
+            MomoToolRow(
+              icon: Icons.receipt_long_rounded,
+              title: 'Statements',
+              subtitle: 'Review wallet and savings activity.',
+              onTap: onOpenStatements,
+            ),
+            const Divider(height: 1, color: AppColors.border),
+            MomoToolRow(
+              icon: Icons.qr_code_2_rounded,
+              title: 'MoMo QR',
+              subtitle: displayNumber,
+              onTap: onOpenQrCode,
+            ),
+            const Divider(height: 1, color: AppColors.border),
+            MomoToolRow(
+              icon: Icons.request_page_rounded,
+              title: 'Request payment',
+              subtitle: 'Create a MoMo pay link for SMS or WhatsApp.',
+              onTap: onRequestPayment,
+            ),
+            const Divider(height: 1, color: AppColors.border),
+            MomoToolRow(
+              icon: Icons.center_focus_strong_rounded,
+              title: 'Scan QR',
+              subtitle: 'Launch payment-ready QR and prefill recipient QR.',
+              onTap: onScanQr,
+            ),
+            const Divider(height: 1, color: AppColors.border),
+            MomoToolRow(
+              icon: Icons.nfc_rounded,
+              title: 'NFC tools',
+              subtitle: 'Share or scan payment-ready NFC details.',
+              onTap: onOpenNfcTools,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -202,56 +225,63 @@ class MomoToolRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(14),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 14),
-        child: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: AppColors.surface2,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              alignment: Alignment.center,
-              child: Icon(icon, size: 20, color: AppColors.text),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.text,
-                    ),
+    return Semantics(
+      button: true,
+      label: '$title. $subtitle',
+      hint: 'Double tap to open $title',
+      child: ExcludeSemantics(
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(14),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 14),
+            child: Row(
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: AppColors.surface2,
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    subtitle,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.text2,
-                    ),
-                    overflow: TextOverflow.ellipsis,
+                  alignment: Alignment.center,
+                  child: Icon(icon, size: 20, color: AppColors.text),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: GoogleFonts.dmSans(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.text,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        subtitle,
+                        style: GoogleFonts.dmSans(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.text2,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(width: 12),
+                const Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 14,
+                  color: AppColors.text3,
+                ),
+              ],
             ),
-            const SizedBox(width: 12),
-            const Icon(
-              Icons.arrow_forward_ios_rounded,
-              size: 14,
-              color: AppColors.text3,
-            ),
-          ],
+          ),
         ),
       ),
     );

@@ -27,7 +27,10 @@ class RsServiceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final lineColor = accentColor ?? AppColors.rsBlue;
 
-    return Material(
+    return Semantics(
+      button: true,
+      label: '$name service',
+      child: Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
@@ -65,6 +68,7 @@ class RsServiceCard extends StatelessWidget {
             ],
           ),
         ),
+      ),
       ),
     );
   }

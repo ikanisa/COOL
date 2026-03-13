@@ -6,10 +6,12 @@ import 'package:supabase_flutter/supabase_flutter.dart' show SupabaseClient;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/models/momo_qr_payload.dart';
+import '../../core/providers/app_access_provider.dart';
 import '../../core/providers/supabase_client_provider.dart';
 import '../../core/services/app_access_service.dart';
-import '../../core/services/momo_service.dart';
 import '../../core/theme/app_colors.dart';
+import '../../features/momo/providers/momo_service_provider.dart';
+import 'cool_skeleton.dart';
 import 'cool_button.dart';
 import 'cool_toast.dart';
 
@@ -35,7 +37,8 @@ class QrScannerScreen extends ConsumerStatefulWidget {
 
 class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
     with WidgetsBindingObserver {
-  final _appAccessService = AppAccessService.instance;
+  late final AppAccessService _appAccessService =
+      ref.read(appAccessServiceProvider);
   final MobileScannerController _controller = MobileScannerController(
     autoZoom: true,
     cameraResolution: const Size(1920, 1080),
@@ -236,7 +239,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
 
   Future<void> _launchPayloadPayment(MomoQrPayload payload) async {
     try {
-      await MomoService.instance.initiatePayment(
+      await ref.read(momoServiceProvider).initiatePayment(
         recipientMomo: payload.recipientValue,
         amount: payload.amount!,
         reference:
@@ -316,7 +319,9 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
     if (cameraAccess == null) {
       return const Scaffold(
         backgroundColor: Colors.black,
-        body: Center(child: CircularProgressIndicator()),
+        body: Center(
+          child: CoolSkeleton(width: 52, height: 52, borderRadius: 26),
+        ),
       );
     }
 
@@ -430,20 +435,24 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                     ),
                     child: Row(
                       children: [
-                        GestureDetector(
-                          onTap: () => Navigator.of(context).pop(),
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: Colors.black.withValues(alpha: 0.5),
-                              shape: BoxShape.circle,
-                            ),
-                            alignment: Alignment.center,
-                            child: const Icon(
-                              Icons.close_rounded,
-                              color: Colors.white,
-                              size: 22,
+                        Semantics(
+                          button: true,
+                          label: 'Close scanner',
+                          child: GestureDetector(
+                            onTap: () => Navigator.of(context).pop(),
+                            child: Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: Colors.black.withValues(alpha: 0.5),
+                                shape: BoxShape.circle,
+                              ),
+                              alignment: Alignment.center,
+                              child: const Icon(
+                                Icons.close_rounded,
+                                color: Colors.white,
+                                size: 22,
+                              ),
                             ),
                           ),
                         ),
@@ -459,27 +468,31 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                           ),
                         ),
                         const Spacer(),
-                        GestureDetector(
-                          onTap: () => _controller.toggleTorch(),
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: Colors.black.withValues(alpha: 0.5),
-                              shape: BoxShape.circle,
-                            ),
-                            alignment: Alignment.center,
-                            child: ValueListenableBuilder(
-                              valueListenable: _controller,
-                              builder: (_, state, child) {
-                                return Icon(
-                                  state.torchState == TorchState.on
-                                      ? Icons.flash_on_rounded
-                                      : Icons.flash_off_rounded,
-                                  color: Colors.white,
-                                  size: 22,
-                                );
-                              },
+                        Semantics(
+                          button: true,
+                          label: 'Toggle flashlight',
+                          child: GestureDetector(
+                            onTap: () => _controller.toggleTorch(),
+                            child: Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: Colors.black.withValues(alpha: 0.5),
+                                shape: BoxShape.circle,
+                              ),
+                              alignment: Alignment.center,
+                              child: ValueListenableBuilder(
+                                valueListenable: _controller,
+                                builder: (_, state, child) {
+                                  return Icon(
+                                    state.torchState == TorchState.on
+                                        ? Icons.flash_on_rounded
+                                        : Icons.flash_off_rounded,
+                                    color: Colors.white,
+                                    size: 22,
+                                  );
+                                },
+                              ),
                             ),
                           ),
                         ),

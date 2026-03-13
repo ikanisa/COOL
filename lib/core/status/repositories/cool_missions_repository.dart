@@ -6,8 +6,8 @@ import 'cool_status_repository.dart';
 
 /// Data access for cooperative missions.
 class CoolMissionsRepository {
-  CoolMissionsRepository({SupabaseClient? client})
-      : _client = client ?? Supabase.instance.client;
+  CoolMissionsRepository({required SupabaseClient client})
+      : _client = client;
 
   final SupabaseClient _client;
 

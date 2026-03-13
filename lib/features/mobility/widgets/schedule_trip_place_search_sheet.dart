@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -267,7 +268,7 @@ class _ScheduleTripPlaceSearchSheetState
       return const Center(
         child: Padding(
           padding: EdgeInsets.all(24),
-          child: CircularProgressIndicator(color: AppColors.accent),
+          child: CupertinoActivityIndicator(color: AppColors.accent),
         ),
       );
     }
@@ -354,10 +355,7 @@ class _ScheduleTripPlaceSearchSheetState
                       child: SizedBox(
                         width: 18,
                         height: 18,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: AppColors.accent,
-                        ),
+                        child: CupertinoActivityIndicator(radius: 9),
                       ),
                     ),
                 ],
@@ -410,39 +408,44 @@ class _PlaceSearchControls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final field = TextField(
-      controller: controller,
-      textInputAction: TextInputAction.search,
-      onSubmitted: (_) => onSubmitted(),
-      style: GoogleFonts.dmSans(
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
-        color: AppColors.text,
-      ),
-      decoration: InputDecoration(
-        hintText: 'Type a landmark, neighborhood, or address',
-        hintStyle: GoogleFonts.dmSans(
+    final field = Semantics(
+      textField: true,
+      label: 'Trip destination search',
+      hint: 'Double tap to search for a landmark, neighborhood, or address',
+      child: TextField(
+        controller: controller,
+        textInputAction: TextInputAction.search,
+        onSubmitted: (_) => onSubmitted(),
+        style: GoogleFonts.dmSans(
           fontSize: 14,
-          fontWeight: FontWeight.w400,
-          color: AppColors.text3,
+          fontWeight: FontWeight.w500,
+          color: AppColors.text,
         ),
-        filled: true,
-        fillColor: AppColors.surface3,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 14,
-          vertical: 14,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.border),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.border),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.accent, width: 1.2),
+        decoration: InputDecoration(
+          hintText: 'Type a landmark, neighborhood, or address',
+          hintStyle: GoogleFonts.dmSans(
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+            color: AppColors.text3,
+          ),
+          filled: true,
+          fillColor: AppColors.surface3,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 14,
+            vertical: 14,
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: AppColors.border),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: AppColors.border),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: AppColors.accent, width: 1.2),
+          ),
         ),
       ),
     );

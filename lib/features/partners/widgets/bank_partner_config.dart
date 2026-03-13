@@ -122,16 +122,16 @@ const bankCategoryMeta = <String, CategoryMeta>{
     accent: AppColors.blue,
   ),
   'payments': CategoryMeta(
-    title: 'Transfers & Remittances',
+    title: 'Transfers & Payments',
     description:
-        'Move money locally and internationally through bank, SWIFT, and remittance rails.',
+        'Move money through MoMo, bank transfers, and payment rails in Rwanda.',
     icon: Icons.swap_horiz_rounded,
     accent: AppColors.accent,
   ),
   'current_account': CategoryMeta(
     title: 'Accounts',
     description:
-        'Personal, SME, corporate, student, group, and diaspora account entry points.',
+        'Personal, SME, corporate, student, group, and community account entry points.',
     icon: Icons.account_balance_wallet_outlined,
     accent: AppColors.orange,
   ),
@@ -271,7 +271,7 @@ const bankPartnerConfigs = <String, BankPartnerConfig>{
     sourceDescription:
         'This page is backed by Supabase partner data refreshed from Equity Bank Rwanda official home, account, payments, savings, borrowing, and contact pages.',
     defaultDescription:
-        'Equity Bank Rwanda offers personal, SME, corporate, group, and diaspora banking, plus digital channels, savings, payments, and borrowing services in Rwanda.',
+        'Equity Bank Rwanda offers personal, SME, corporate, group, and community banking, plus digital channels, savings, payments, and borrowing services in Rwanda.',
     heroTags: [
       BankHeroTagData(
         icon: Icons.account_balance_wallet_outlined,
@@ -287,7 +287,7 @@ const bankPartnerConfigs = <String, BankPartnerConfig>{
       BankQuickActionData(
         icon: Icons.person_add_alt_1_rounded,
         title: 'Open Account',
-        subtitle: 'Personal, SME, group, diaspora',
+        subtitle: 'Personal, SME, group, community',
         action: 'web:$equityOpenAccountUrl',
       ),
       BankQuickActionData(

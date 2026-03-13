@@ -1,6 +1,6 @@
 # Google Play SMS Declaration Notes
 
-Updated: March 11, 2026
+Updated: March 13, 2026
 
 This document prepares the restricted SMS-permission declaration for the Cool
 Android app.
@@ -36,33 +36,40 @@ payment actually completed after the USSD handoff.
 
 ### Sender filtering
 
-The parser only accepts approved Mobile Money sender aliases, currently:
+The Android SMS ingest path only accepts approved Mobile Money sender aliases,
+currently including:
 
 - `M-Money`
 - `MobileMoney`
-
-Source: [momo_sms_parser.dart](/Volumes/PRO-G40/COOL/lib/core/services/momo_sms_parser.dart#L13)
-
-### Processing behavior
-
-- Incoming messages are ignored unless the sender matches the approved list and
-  the message matches a registered Mobile Money confirmation pattern.
-- Inbox scans are filtered by approved sender IDs before parsing.
-- Matching M-Money confirmations are then uploaded to Supabase for
-  reconciliation.
+- `Mobile Money`
+- `MoMo`
+- `MTN MoMo`
 
 Sources:
 
-- [momo_sms_listener.dart](/Volumes/PRO-G40/COOL/lib/core/services/momo_sms_listener.dart#L99)
-- [momo_sms_listener.dart](/Volumes/PRO-G40/COOL/lib/core/services/momo_sms_listener.dart#L153)
-- [momo_sms_ingestion_repository.dart](/Volumes/PRO-G40/COOL/lib/features/momo/repositories/momo_sms_ingestion_repository.dart#L42)
+- [momo_sms_ingestion_repository.dart](/Volumes/PRO-G40/COOL/lib/features/momo/repositories/momo_sms_ingestion_repository.dart#L58)
+- [momo_sms_ingestion_repository.dart](/Volumes/PRO-G40/COOL/lib/features/momo/repositories/momo_sms_ingestion_repository.dart#L105)
+
+### Processing behavior
+
+- Incoming messages are ignored unless the sender matches the approved list.
+- Inbox recovery scans are filtered by approved sender IDs only.
+- Inbox recovery is limited to a recent operational window and capped volume.
+- Approved-sender messages are uploaded to Supabase, where server-side parsing
+  determines whether they are valid M-Money confirmations for reconciliation.
+
+Sources:
+
+- [momo_sms_autoread_service.dart](/Volumes/PRO-G40/COOL/lib/features/momo/services/momo_sms_autoread_service.dart#L165)
+- [momo_sms_autoread_service.dart](/Volumes/PRO-G40/COOL/lib/features/momo/services/momo_sms_autoread_service.dart#L281)
+- [momo_sms_ingestion_repository.dart](/Volumes/PRO-G40/COOL/lib/features/momo/repositories/momo_sms_ingestion_repository.dart#L115)
 
 ### User consent and disclosure
 
 The app already includes explicit in-app disclosure before SMS sync is enabled:
 
-- consent prompt in [app.dart](/Volumes/PRO-G40/COOL/lib/app.dart#L268)
-- status / explanation screen in [momo_sms_history_screen.dart](/Volumes/PRO-G40/COOL/lib/features/momo/screens/momo_sms_history_screen.dart#L159)
+- SMS access disclosure in [profile_app_access_sheet.dart](/Volumes/PRO-G40/COOL/lib/features/profile/widgets/profile_app_access_sheet.dart#L712)
+- Mobile Money hub in [momo_screen.dart](/Volumes/PRO-G40/COOL/lib/features/momo/screens/momo_screen.dart#L1)
 - privacy policy disclosure at [privacy page](https://gen-lang-client-0172279957.web.app/privacy)
 
 ### Build and manifest
@@ -76,14 +83,14 @@ the main manifest:
 
 Use this position in the Play Console restricted-permissions form:
 
-`Cool uses READ_SMS and RECEIVE_SMS only to detect and verify Mobile Money payment-confirmation SMS that complete user-initiated financial transactions after a USSD handoff. The app filters to approved Mobile Money sender IDs and uses the resulting confirmation data to reconcile group contributions, mobility subscription payments, and partner transactions. Cool does not use SMS access for personal messaging, contact discovery, marketing, or general inbox reading.`
+`Cool uses READ_SMS and RECEIVE_SMS only to process SMS from approved Mobile Money sender IDs after user-initiated USSD payment flows. The app filters inbox access to approved sender IDs, limits recovery to a recent operational window, and sends matching sender messages to Supabase where server-side parsing determines whether they complete group, mobility, or partner transactions. Cool does not use SMS access for personal messaging, contact discovery, marketing, or general inbox reading.`
 
 ## Reviewer Evidence To Attach
 
 Capture and provide:
 
-1. The consent prompt that explains only approved M-Money sender IDs are processed.
-2. The M-Money verification status/history screen.
+1. The in-app SMS disclosure that explains only approved M-Money sender IDs are processed.
+2. The Mobile Money hub / payment verification surface.
 3. A short video showing:
    - user initiates a USSD payment
    - M-Money confirmation SMS arrives

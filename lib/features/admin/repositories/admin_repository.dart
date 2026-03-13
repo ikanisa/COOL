@@ -1,11 +1,12 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
 
 /// Central repository for admin CRUD operations across all dynamic content tables.
 class AdminRepository {
-  AdminRepository({SupabaseClient? client})
-    : _client = client ?? Supabase.instance.client;
+  AdminRepository({required SupabaseClient client})
+    : _client = client;
 
   final SupabaseClient _client;
   static const String _countryReferenceSelect =
@@ -57,12 +58,14 @@ class AdminRepository {
     var query = _client.from('partners').select();
     final normalizedCountry = _normalizeCountryOrNull(country);
     if (normalizedCountry != null) {
-      query = query.eq('country', normalizedCountry);
+      query = query.or('country.is.null,country.eq.$normalizedCountry');
     }
     final data = await query
         .order('country', ascending: true)
         .order('sort_order', ascending: true);
-    return List<Map<String, dynamic>>.from(data);
+    return _asListOfMaps(
+      data,
+    ).map((row) => _coerceBlankCountryToRwanda(row)).toList(growable: false);
   }
 
   Future<void> upsertPartner(Map<String, dynamic> partner) async {
@@ -91,18 +94,21 @@ class AdminRepository {
     if (partnerId != null) {
       query = query.eq('partner_id', partnerId);
     }
-    final normalizedCountry = _normalizeCountryOrNull(country);
-    if (normalizedCountry != null) {
-      query = query.or('country.is.null,country.eq.$normalizedCountry');
-    }
     final data = await query
-        .order('country', ascending: true)
-        .order('sort_order', ascending: true);
-    return List<Map<String, dynamic>>.from(data);
+        .order('sort_order', ascending: true)
+        .order('title', ascending: true);
+    return _asListOfMaps(
+      data,
+    ).map((row) => _coerceBlankCountryToRwanda(row)).toList(growable: false);
   }
 
   Future<void> upsertPartnerService(Map<String, dynamic> service) async {
-    final normalizedService = await _withServiceCountryFromPartner(service);
+    final normalizedService = _lockCountryScopeToRwanda(service);
+    final partnerId = _trimmed(normalizedService['partner_id']);
+    if (partnerId == null) {
+      throw StateError('Partner selection is required for partner services.');
+    }
+    normalizedService['partner_id'] = partnerId;
     await _client.from('partner_services').upsert(normalizedService);
   }
 
@@ -124,25 +130,25 @@ class AdminRepository {
     }
     final normalizedCountry = _normalizeCountryOrNull(country);
     if (normalizedCountry != null) {
-      query = query.eq('country', normalizedCountry);
+      query = query.or('country.is.null,country.eq.$normalizedCountry');
     }
     final data = await query
         .order('country', ascending: true)
         .order('updated_at', ascending: false);
     return _asListOfMaps(data)
         .map((row) {
-          final normalized = Map<String, dynamic>.from(row);
+          final normalized = _coerceBlankCountryToRwanda(row);
           final partner = row['partners'];
           if (partner is Map) {
             normalized['partner_name'] = partner['name']?.toString().trim();
             normalized['partner_slug'] = partner['slug']?.toString().trim();
-            normalized['partner_country'] = _normalizeCountryOrNull(
-              partner['country']?.toString(),
-            );
+            normalized['partner_country'] =
+                _normalizeCountryOrNull(partner['country']?.toString()) ??
+                AppMarket.countryCode;
           }
-          normalized['country'] = _normalizeCountryOrNull(
-            row['country']?.toString(),
-          );
+          normalized['country'] =
+              _normalizeCountryOrNull(row['country']?.toString()) ??
+              AppMarket.countryCode;
           normalized['provider'] = _trimmed(row['provider'])?.toLowerCase();
           normalized['recipient_code'] = _trimmed(row['recipient_code']);
           normalized['reconciliation_label'] = _trimmed(
@@ -182,19 +188,19 @@ class AdminRepository {
   Future<List<Map<String, dynamic>>> fetchQuickActions({
     String? country,
   }) async {
-    var query = _client.from('quick_actions').select();
-    final normalizedCountry = _normalizeCountryOrNull(country);
-    if (normalizedCountry != null) {
-      query = query.or('country.is.null,country.eq.$normalizedCountry');
-    }
-    final data = await query
-        .order('country', ascending: true)
+    final data = await _client
+        .from('quick_actions')
+        .select()
         .order('sort_order', ascending: true);
-    return List<Map<String, dynamic>>.from(data);
+    return _asListOfMaps(
+      data,
+    ).map((row) => _coerceBlankCountryToRwanda(row)).toList(growable: false);
   }
 
   Future<void> upsertQuickAction(Map<String, dynamic> action) async {
-    await _client.from('quick_actions').upsert(_withNormalizedCountry(action));
+    await _client
+        .from('quick_actions')
+        .upsert(_lockCountryScopeToRwanda(action));
   }
 
   Future<void> deleteQuickAction(String id) async {
@@ -215,19 +221,19 @@ class AdminRepository {
   Future<List<Map<String, dynamic>>> fetchVehicleTypes({
     String? country,
   }) async {
-    var query = _client.from('vehicle_types').select();
-    final normalizedCountry = _normalizeCountryOrNull(country);
-    if (normalizedCountry != null) {
-      query = query.or('country.is.null,country.eq.$normalizedCountry');
-    }
-    final data = await query
-        .order('country', ascending: true)
+    final data = await _client
+        .from('vehicle_types')
+        .select()
         .order('sort_order', ascending: true);
-    return List<Map<String, dynamic>>.from(data);
+    return _asListOfMaps(
+      data,
+    ).map((row) => _coerceBlankCountryToRwanda(row)).toList(growable: false);
   }
 
   Future<void> upsertVehicleType(Map<String, dynamic> type) async {
-    await _client.from('vehicle_types').upsert(_withNormalizedCountry(type));
+    await _client
+        .from('vehicle_types')
+        .upsert(_lockCountryScopeToRwanda(type));
   }
 
   Future<void> deleteVehicleType(String id) async {
@@ -337,32 +343,17 @@ class AdminRepository {
     throw StateError('Expected repair_momo_validation_issue to return JSON.');
   }
 
-  Future<void> updateCountry(
-    String isoCode,
-    Map<String, dynamic> updates,
-  ) async {
-    await _client
-        .from('supported_countries')
-        .update(updates)
-        .eq('iso_code', isoCode);
-  }
-
   // ── App Config ────────────────────────────────────────────────────────
 
   Future<List<Map<String, dynamic>>> fetchAppConfig({String? country}) async {
-    var query = _client.from('app_config').select();
-    final normalizedCountry = _normalizeCountryOrNull(country);
-    if (normalizedCountry != null) {
-      query = query.or('country.is.null,country.eq.$normalizedCountry');
-    }
-    final data = await query
-        .order('country', ascending: true)
-        .order('key', ascending: true);
-    return List<Map<String, dynamic>>.from(data);
+    final data = await _client.from('app_config').select().order('key');
+    return _asListOfMaps(
+      data,
+    ).map((row) => _coerceBlankCountryToRwanda(row)).toList(growable: false);
   }
 
   Future<void> upsertAppConfig(Map<String, dynamic> config) async {
-    await _client.from('app_config').upsert(_withNormalizedCountry(config));
+    await _client.from('app_config').upsert(_lockCountryScopeToRwanda(config));
   }
 
   Future<void> upsertAppConfigs(List<Map<String, dynamic>> configs) async {
@@ -371,7 +362,9 @@ class AdminRepository {
     }
     await _client
         .from('app_config')
-        .upsert(configs.map(_withNormalizedCountry).toList(growable: false));
+        .upsert(
+          configs.map(_lockCountryScopeToRwanda).toList(growable: false),
+        );
   }
 
   Future<void> deleteAppConfig(String key) async {
@@ -434,7 +427,7 @@ class AdminRepository {
             country: rawCountry,
             issueCode: 'unsupported_country',
             issueMessage:
-                'User country ${rawCountry ?? '(blank)'} is not configured in supported_countries.',
+                'User country ${rawCountry ?? '(blank)'} is not the supported Rwanda market.',
             momoNumber: momoNumber,
             momoCode: momoCode,
           ),
@@ -507,7 +500,7 @@ class AdminRepository {
             routeType: routeType,
             issueCode: 'unsupported_country',
             issueMessage:
-                'Group country ${rawCountry ?? '(blank)'} is not configured in supported_countries.',
+                'Group country ${rawCountry ?? '(blank)'} is not the supported Rwanda market.',
             momoNumber: momoNumber,
             momoCode: momoCode,
           ),
@@ -660,34 +653,17 @@ class AdminRepository {
     return normalized;
   }
 
-  Future<Map<String, dynamic>> _withServiceCountryFromPartner(
-    Map<String, dynamic> service,
-  ) async {
-    final normalized = Map<String, dynamic>.from(
-      _withNormalizedCountry(service),
-    );
-    final partnerId = normalized['partner_id']?.toString().trim();
-    if (partnerId == null || partnerId.isEmpty) {
-      throw StateError('Partner selection is required for partner services.');
+  Map<String, dynamic> _coerceBlankCountryToRwanda(Map<String, dynamic> row) {
+    final normalized = Map<String, dynamic>.from(row);
+    if (_normalizeCountryOrNull(row['country']?.toString()) == null) {
+      normalized['country'] = AppMarket.countryCode;
     }
+    return normalized;
+  }
 
-    final partnerRows = await _client
-        .from('partners')
-        .select('country')
-        .eq('id', partnerId)
-        .limit(1);
-    if (partnerRows.isEmpty) {
-      throw StateError('Selected partner could not be found.');
-    }
-
-    final partnerCountry = _normalizeCountryOrNull(
-      partnerRows.first['country']?.toString(),
-    );
-    if (partnerCountry == null) {
-      throw StateError('Selected partner does not have a valid country.');
-    }
-
-    normalized['country'] = partnerCountry;
+  Map<String, dynamic> _lockCountryScopeToRwanda(Map<String, dynamic> data) {
+    final normalized = Map<String, dynamic>.from(data);
+    normalized['country'] = AppMarket.countryCode;
     return normalized;
   }
 

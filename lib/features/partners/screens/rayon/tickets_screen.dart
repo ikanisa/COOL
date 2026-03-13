@@ -89,6 +89,7 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
           actions: [
             IconButton(
               onPressed: onSale.isEmpty ? null : () => _shareTicketsHub(onSale),
+              tooltip: 'Share tickets',
               icon: const Icon(
                 Icons.ios_share_rounded,
                 color: AppColors.rsWhite,
@@ -97,6 +98,7 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
             ),
             IconButton(
               onPressed: () => context.push(AppRoutes.rayonMyTickets),
+              tooltip: 'My tickets',
               icon: const Icon(
                 Icons.confirmation_number_outlined,
                 color: AppColors.rsWhite,
@@ -378,11 +380,15 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
                   padding: EdgeInsets.only(
                     bottom: index == hub.tickets.length - 1 ? 0 : 14,
                   ),
-                  child: GestureDetector(
-                    onTap: () => context.push(
-                      '/partners/rayon-sports/tickets/my-tickets',
+                  child: Semantics(
+                    button: true,
+                    label: 'View ticket for ${ticket.matchTitle}',
+                    child: GestureDetector(
+                      onTap: () => context.push(
+                        '/partners/rayon-sports/tickets/my-tickets',
+                      ),
+                      child: _CompactTicketRow(ticket: ticket),
                     ),
-                    child: _CompactTicketRow(ticket: ticket),
                   ),
                 );
               }, childCount: hub.tickets.length),
@@ -618,7 +624,10 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
                     right: type == SelectedSeatType.general ? 6 : 0,
                     left: type == SelectedSeatType.vip ? 6 : 0,
                   ),
-                  child: GestureDetector(
+                  child: Semantics(
+                    selected: selected,
+                    label: '${type.label} seat type',
+                    child: GestureDetector(
                     onTap: () => setState(() => _seat = type),
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 180),
@@ -659,6 +668,7 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
                     ),
                   ),
                 ),
+                ),
               );
             }).toList(),
           ),
@@ -681,7 +691,10 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
               final selected = q == _qty;
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 6),
-                child: GestureDetector(
+                child: Semantics(
+                  selected: selected,
+                  label: 'Quantity $q',
+                  child: GestureDetector(
                   onTap: () => setState(() => _qty = q),
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 180),
@@ -707,6 +720,7 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
                     ),
                   ),
                 ),
+              ),
               );
             }).toList(),
           ),

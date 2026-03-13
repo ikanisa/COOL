@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -93,8 +94,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                 const SizedBox(
                   width: 22,
                   height: 22,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2.2,
+                  child: CupertinoActivityIndicator(
+                    radius: 11,
                     color: AppColors.accent,
                   ),
                 ),

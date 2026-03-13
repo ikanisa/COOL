@@ -221,7 +221,10 @@ class FanClubDetailScreen extends ConsumerWidget {
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
                     if (club.memberCount > 5) ...[
-                      GestureDetector(
+                      Semantics(
+                        button: true,
+                        label: 'View all ${club.memberCount} members',
+                        child: GestureDetector(
                         onTap: () {},
                         child: Text(
                           'View all ${club.memberCount} members',
@@ -231,6 +234,7 @@ class FanClubDetailScreen extends ConsumerWidget {
                             color: AppColors.accent,
                           ),
                         ),
+                      ),
                       ),
                       const SizedBox(height: 22),
                     ],
@@ -377,7 +381,10 @@ class _JoinLeaveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Semantics(
+      button: true,
+      label: joined ? 'Already joined club' : 'Join club',
+      child: GestureDetector(
       onTap: joined ? null : onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
@@ -396,6 +403,7 @@ class _JoinLeaveButton extends StatelessWidget {
           ),
         ),
       ),
+    ),
     );
   }
 }

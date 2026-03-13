@@ -8,10 +8,14 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class TripRepository {
-  TripRepository({SupabaseClient? client})
-    : _client = client ?? Supabase.instance.client;
+  TripRepository({
+    required SupabaseClient client,
+    required Future<Box<dynamic>> Function(String name) openBox,
+  }) : _client = client,
+       _openBox = openBox;
 
   final SupabaseClient _client;
+  final Future<Box<dynamic>> Function(String name) _openBox;
 
   static const _boxName = 'mobility_trip_posts';
   static const _tableName = 'mobility_trips';
@@ -22,7 +26,7 @@ class TripRepository {
     final clientRequestId =
         request.clientRequestId ?? _nextClientRequestId(now);
     final requestWithId = request.copyWith(clientRequestId: clientRequestId);
-    final cachedPayload = <String, dynamic>{
+    final cachedPayload = <String, Object?>{
       ...requestWithId.toJson(),
       'created_at_local': now.toIso8601String(),
       'last_sync_attempt_at': null,
@@ -52,7 +56,7 @@ class TripRepository {
   }
 
   Future<TripSyncSummary> syncPendingTrips({required String userId}) async {
-    final box = await Hive.openBox<dynamic>(_boxName);
+    final box = await _openBox(_boxName);
     final keys = box.keys.toList(growable: false);
     var pendingCount = 0;
     var syncedCount = 0;
@@ -67,7 +71,7 @@ class TripRepository {
         continue;
       }
 
-      final entry = Map<String, dynamic>.from(rawEntry);
+      final entry = Map<String, Object?>.from(rawEntry);
       if (entry['stored_offline'] != true) {
         await box.delete(key);
         continue;
@@ -88,7 +92,9 @@ class TripRepository {
 
       TripPostRequest request;
       try {
-        request = TripPostRequest.fromOfflineCache(entry);
+        request = TripPostRequest.fromOfflineCache(
+          Map<String, dynamic>.from(entry),
+        );
       } on FormatException {
         await box.delete(key);
         discardedCount++;
@@ -119,12 +125,14 @@ class TripRepository {
     );
   }
 
-  Future<Map<String, dynamic>> _insertTrip(TripPostRequest request) async {
-    final payloads = <Map<String, dynamic>>[
-      request.toJson(),
-      request.toJson(includeContactFields: false),
-      request.toLegacyJson(),
-      request.toLegacyJson(includeContactFields: false),
+  Future<jh.JsonMap> _insertTrip(TripPostRequest request) async {
+    final payloads = <jh.JsonMap>[
+      Map<String, Object?>.from(request.toJson()),
+      Map<String, Object?>.from(request.toJson(includeContactFields: false)),
+      Map<String, Object?>.from(request.toLegacyJson()),
+      Map<String, Object?>.from(
+        request.toLegacyJson(includeContactFields: false),
+      ),
       _withoutClientRequestId(request.toJson()),
       _withoutClientRequestId(request.toJson(includeContactFields: false)),
       _withoutClientRequestId(request.toLegacyJson()),
@@ -142,7 +150,7 @@ class TripRepository {
             .insert(payload)
             .select('id')
             .single();
-        return Map<String, dynamic>.from(insertedTrip);
+        return Map<String, Object?>.from(insertedTrip);
       } on PostgrestException catch (error) {
         if (_isDuplicateClientRequestError(error)) {
           final existingTrip = await _findExistingTripByClientRequestId(
@@ -165,11 +173,11 @@ class TripRepository {
 
   Future<String> _cacheTrip({
     required String id,
-    required Map<String, dynamic> payload,
+    required jh.JsonMap payload,
     required bool storedOffline,
   }) async {
-    final box = await Hive.openBox<dynamic>(_boxName);
-    await box.put(id, <String, dynamic>{
+    final box = await _openBox(_boxName);
+    await box.put(id, <String, Object?>{
       'id': id,
       'stored_offline': storedOffline,
       ...payload,
@@ -178,18 +186,18 @@ class TripRepository {
   }
 
   Future<void> _deleteCachedTrip(String id) async {
-    final box = await Hive.openBox<dynamic>(_boxName);
+    final box = await _openBox(_boxName);
     await box.delete(id);
   }
 
   Future<void> _markSyncFailure(
     Box<dynamic> box,
     dynamic key,
-    Map<String, dynamic> entry,
+    jh.JsonMap entry,
     Object error,
   ) async {
     final attempts = jh.asInt(entry['sync_attempts']) ?? 0;
-    await box.put(key, <String, dynamic>{
+    await box.put(key, <String, Object?>{
       ...entry,
       'last_sync_attempt_at': DateTime.now().toIso8601String(),
       'last_sync_error': error.toString(),
@@ -197,7 +205,7 @@ class TripRepository {
     });
   }
 
-  Future<Map<String, dynamic>?> _findExistingTripByClientRequestId(
+  Future<jh.JsonMap?> _findExistingTripByClientRequestId(
     TripPostRequest request,
   ) async {
     final userId = request.userId;
@@ -219,7 +227,7 @@ class TripRepository {
       if (existing == null) {
         return null;
       }
-      return Map<String, dynamic>.from(existing);
+      return Map<String, Object?>.from(existing);
     } on PostgrestException {
       return null;
     }
@@ -239,13 +247,11 @@ class TripRepository {
     return departureAt.isBefore(DateTime.now());
   }
 
-  Map<String, dynamic> _withoutClientRequestId(Map<String, dynamic> payload) {
-    final sanitized = Map<String, dynamic>.from(payload);
+  jh.JsonMap _withoutClientRequestId(Map<String, dynamic> payload) {
+    final sanitized = Map<String, Object?>.from(payload);
     sanitized.remove('client_request_id');
     return sanitized;
   }
-
-
 
   static String _nextClientRequestId(DateTime now) {
     final randomSuffix = _random

@@ -22,7 +22,7 @@ class PrismaHeroCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final description =
         partner.description ??
-        'AI-powered professional services across legal, tax, accounting, audit, insurance, corporate, NGO, and marketplace operations in Rwanda and Malta.';
+        'AI-powered professional services across legal, tax, accounting, audit, insurance, corporate, NGO, and marketplace operations in Rwanda.';
 
     return CoolCard(
       gradient: AppColors.accentGradient,
@@ -116,8 +116,8 @@ class PrismaHeroCard extends StatelessWidget {
                       label: 'Audit, Insurance & Risk',
                     ),
                     PartnerHeroPill(
-                      icon: Icons.language_outlined,
-                      label: 'Rwanda & Malta',
+                      icon: Icons.flag_outlined,
+                      label: 'Rwanda Jurisdiction',
                     ),
                   ],
                 ),
@@ -170,16 +170,6 @@ class PrismaQuickActions extends StatelessWidget {
           ),
         ),
         PartnerQuickActionTile(
-          icon: Icons.travel_explore_outlined,
-          title: 'Malta Desk',
-          subtitle: 'WhatsApp Malta team',
-          onTap: () => launchPrismaAction(
-            context,
-            partner,
-            action: 'whatsapp:$ikanisaMaltaWhatsApp',
-          ),
-        ),
-        PartnerQuickActionTile(
           icon: Icons.alternate_email_outlined,
           title: 'Email',
           subtitle: ikanisaEmail,
@@ -222,7 +212,7 @@ class PrismaStatsCard extends StatelessWidget {
               SizedBox(width: 10),
               PrismaStatTile(value: '28K+', label: 'Indexed Docs'),
               SizedBox(width: 10),
-              PrismaStatTile(value: '2', label: 'Jurisdictions'),
+              PrismaStatTile(value: '1', label: 'Jurisdiction'),
               SizedBox(width: 10),
               PrismaStatTile(value: '14', label: 'Sectors'),
             ],
@@ -296,7 +286,7 @@ class PrismaSupportCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Start with the right desk',
+            'Get in touch',
             style: GoogleFonts.dmSans(
               fontSize: 18,
               fontWeight: FontWeight.w800,
@@ -305,7 +295,7 @@ class PrismaSupportCard extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'IKANISA publishes separate Rwanda and Malta WhatsApp channels. Use the one that matches your jurisdiction or email the team directly.',
+            'Reach the IKANISA Rwanda desk via WhatsApp or email the team directly.',
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,
@@ -321,12 +311,6 @@ class PrismaSupportCard extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           const PartnerSupportLine(
-            icon: Icons.travel_explore_outlined,
-            label: 'Malta WhatsApp',
-            value: '+356 9971 1145',
-          ),
-          const SizedBox(height: 10),
-          const PartnerSupportLine(
             icon: Icons.alternate_email_outlined,
             label: 'Email',
             value: ikanisaEmail,
@@ -335,36 +319,19 @@ class PrismaSupportCard extends StatelessWidget {
           const PartnerSupportLine(
             icon: Icons.place_outlined,
             label: 'Coverage',
-            value: 'Kigali, Rwanda · Valletta, Malta',
+            value: 'Kigali, Rwanda',
           ),
           const SizedBox(height: 16),
-          Wrap(
-            spacing: 10,
-            runSpacing: 10,
-            children: [
-              SizedBox(
-                width: 180,
-                child: CoolButton(
-                  label: 'Open Rwanda Desk',
-                  onTap: () => launchPrismaAction(
-                    context,
-                    partner,
-                    action: 'whatsapp:$ikanisaRwandaWhatsApp',
-                  ),
-                ),
+          SizedBox(
+            width: 180,
+            child: CoolButton(
+              label: 'Open Rwanda Desk',
+              onTap: () => launchPrismaAction(
+                context,
+                partner,
+                action: 'whatsapp:$ikanisaRwandaWhatsApp',
               ),
-              SizedBox(
-                width: 180,
-                child: CoolButton(
-                  label: 'Open Malta Desk',
-                  onTap: () => launchPrismaAction(
-                    context,
-                    partner,
-                    action: 'whatsapp:$ikanisaMaltaWhatsApp',
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
         ],
       ),

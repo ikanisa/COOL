@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/config/country_catalog.dart';
+import '../../../core/config/app_market.dart';
 import '../../../core/providers/supabase_client_provider.dart';
 import '../../auth/providers/auth_provider.dart';
+import '../../momo/providers/momo_service_provider.dart';
 import '../models/group.dart';
 import '../models/group_contribution.dart';
 import '../models/group_detail.dart';
@@ -12,14 +13,16 @@ import '../models/group_join_result.dart';
 import '../repositories/group_repository.dart';
 
 final groupRepositoryProvider = Provider<GroupRepository>((ref) {
-  return GroupRepository(client: ref.read(supabaseClientProvider));
+  return GroupRepository(
+    client: ref.read(supabaseClientProvider),
+    momoService: ref.read(momoServiceProvider),
+  );
 });
 
 final groupDetailProvider = FutureProvider.autoDispose
     .family<GroupDetail?, String>((ref, groupId) async {
       final repository = ref.watch(groupRepositoryProvider);
-      final viewerCountry = ref.watch(currentUserCountryCodeProvider);
-      return repository.getGroupById(groupId, country: viewerCountry);
+      return repository.getGroupById(groupId, country: AppMarket.countryCode);
     });
 
 final groupsProvider = StateNotifierProvider<GroupsNotifier, GroupsState>((
@@ -212,12 +215,9 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
   String? get _currentUserId =>
       _authState.user?.id ?? _authState.session?.user.id;
 
-  String get _defaultCountry =>
-      CoolCountryCatalog.normalizeCountryCode(_viewerCountry);
+  String get _defaultCountry => AppMarket.countryCode;
 
-  String? get _viewerCountry {
-    return resolveAuthStateCountryCode(_authState);
-  }
+  String get _viewerCountry => AppMarket.countryCode;
 
   Future<void> loadMyGroups() async {
     await _loadMyGroupsInternal();

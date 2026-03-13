@@ -6,6 +6,9 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../shared/widgets/cool_async_view.dart';
+import '../../../../shared/widgets/cool_empty_view.dart';
+import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/partner_navigation.dart';
 import '../models/rs_models.dart';
@@ -46,42 +49,41 @@ class _RsAdminInitiativesScreenState
         ),
         actions: buildPartnerAppBarActions(context, homeColor: Colors.white),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.rsBlue,
-        onPressed: () => _showForm(context),
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
-      body: initAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(
-          child: Text(
-            'Error: $e',
-            style: const TextStyle(color: AppColors.red),
-          ),
+      floatingActionButton: Semantics(
+        button: true,
+        label: 'Add initiative',
+        hint: 'Opens the new initiative form',
+        child: FloatingActionButton(
+          backgroundColor: AppColors.rsBlue,
+          onPressed: () => _showForm(context),
+          child: const Icon(Icons.add, color: Colors.white),
         ),
-        data: (initiatives) {
-          if (initiatives.isEmpty) {
-            return Center(
-              child: Text(
-                'No initiatives yet',
-                style: GoogleFonts.dmSans(color: AppColors.text3),
-              ),
+      ),
+      body: CoolAsyncView<List<RsInitiative>>(
+        value: initAsync,
+        onRetry: () => ref.invalidate(rsAdminInitiativesProvider),
+        loadingWidget: const Padding(
+          padding: EdgeInsets.all(16),
+          child: CoolSkeletonList(itemCount: 4),
+        ),
+        emptyCheck: (initiatives) => initiatives.isEmpty,
+        emptyWidget: const CoolEmptyView(
+          message: 'No initiatives have been created yet.',
+          icon: Icons.flag_outlined,
+        ),
+        builder: (initiatives) => ListView.separated(
+          padding: const EdgeInsets.all(16),
+          itemCount: initiatives.length,
+          separatorBuilder: (context, index) => const SizedBox(height: 10),
+          itemBuilder: (context, index) {
+            final init = initiatives[index];
+            return _InitiativeTile(
+              initiative: init,
+              onToggleActive: () => _toggleActive(init),
+              onEdit: () => _showForm(context, initiative: init),
             );
-          }
-          return ListView.separated(
-            padding: const EdgeInsets.all(16),
-            itemCount: initiatives.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 10),
-            itemBuilder: (context, index) {
-              final init = initiatives[index];
-              return _InitiativeTile(
-                initiative: init,
-                onToggleActive: () => _toggleActive(init),
-                onEdit: () => _showForm(context, initiative: init),
-              );
-            },
-          );
-        },
+          },
+        ),
       ),
     );
   }
@@ -203,87 +205,110 @@ class _InitiativeTile extends StatelessWidget {
     final fmtRaised = NumberFormat.compact().format(initiative.raisedAmount);
     final fmtTarget = NumberFormat.compact().format(initiative.targetAmount);
 
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  initiative.title,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.text,
+    return Semantics(
+      container: true,
+      label:
+          'Initiative ${initiative.title}. ${initiative.isActive ? 'Active' : 'Inactive'}. '
+          '$fmtRaised of $fmtTarget Rwandan francs raised. '
+          '${initiative.supporterCount} supporters. Ends $endsStr.',
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: AppColors.border),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    initiative.title,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.text,
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                decoration: BoxDecoration(
-                  color: initiative.isActive
-                      ? AppColors.accent.withValues(alpha: 0.15)
-                      : AppColors.red.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  initiative.isActive ? 'ACTIVE' : 'INACTIVE',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w700,
-                    color: initiative.isActive
-                        ? AppColors.accent
-                        : AppColors.red,
+                Semantics(
+                  label: initiative.isActive
+                      ? 'Status active'
+                      : 'Status inactive',
+                  child: ExcludeSemantics(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color: initiative.isActive
+                            ? AppColors.accent.withValues(alpha: 0.15)
+                            : AppColors.red.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        initiative.isActive ? 'ACTIVE' : 'INACTIVE',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                          color: initiative.isActive
+                              ? AppColors.accent
+                              : AppColors.red,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
+              ],
+            ),
+            if (initiative.description.isNotEmpty) ...[
+              const SizedBox(height: 4),
+              Text(
+                initiative.description,
+                style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
-          ),
-          if (initiative.description.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            Semantics(
+              label:
+                  'Progress ${(progress * 100).round()} percent. '
+                  '$fmtRaised raised of $fmtTarget Rwandan francs target.',
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: LinearProgressIndicator(
+                  value: progress,
+                  backgroundColor: AppColors.surface2,
+                  valueColor: const AlwaysStoppedAnimation<Color>(
+                    AppColors.accent,
+                  ),
+                  minHeight: 6,
+                ),
+              ),
+            ),
             const SizedBox(height: 4),
             Text(
-              initiative.description,
-              style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
+              '$fmtRaised / $fmtTarget RWF · ${initiative.supporterCount} supporters · Ends $endsStr',
+              style: GoogleFonts.dmSans(fontSize: 10, color: AppColors.text3),
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                _Btn(
+                  icon: initiative.isActive ? Icons.pause : Icons.play_arrow,
+                  label: initiative.isActive ? 'Deactivate' : 'Activate',
+                  onTap: onToggleActive,
+                ),
+                const SizedBox(width: 12),
+                _Btn(icon: Icons.edit, label: 'Edit', onTap: onEdit),
+              ],
             ),
           ],
-          const SizedBox(height: 8),
-          // ── Progress bar ──
-          ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: LinearProgressIndicator(
-              value: progress,
-              backgroundColor: AppColors.surface2,
-              valueColor: const AlwaysStoppedAnimation<Color>(AppColors.accent),
-              minHeight: 6,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            '$fmtRaised / $fmtTarget RWF · ${initiative.supporterCount} supporters · Ends $endsStr',
-            style: GoogleFonts.dmSans(fontSize: 10, color: AppColors.text3),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              _Btn(
-                icon: initiative.isActive ? Icons.pause : Icons.play_arrow,
-                label: initiative.isActive ? 'Deactivate' : 'Activate',
-                onTap: onToggleActive,
-              ),
-              const SizedBox(width: 12),
-              _Btn(icon: Icons.edit, label: 'Edit', onTap: onEdit),
-            ],
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -297,21 +322,26 @@ class _Btn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        HapticFeedback.selectionClick();
-        onTap();
-      },
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 14, color: AppColors.text2),
-          const SizedBox(width: 3),
-          Text(
-            label,
-            style: GoogleFonts.dmSans(fontSize: 10, color: AppColors.text2),
-          ),
-        ],
+    return Semantics(
+      button: true,
+      label: label,
+      hint: 'Double tap to ${label.toLowerCase()} this initiative',
+      child: GestureDetector(
+        onTap: () {
+          HapticFeedback.selectionClick();
+          onTap();
+        },
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 14, color: AppColors.text2),
+            const SizedBox(width: 3),
+            Text(
+              label,
+              style: GoogleFonts.dmSans(fontSize: 10, color: AppColors.text2),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -333,23 +363,31 @@ class _Field extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
-      child: TextField(
-        controller: controller,
-        keyboardType: keyboardType,
-        maxLines: maxLines,
-        style: GoogleFonts.dmSans(color: AppColors.text, fontSize: 14),
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: GoogleFonts.dmSans(color: AppColors.text3, fontSize: 13),
-          filled: true,
-          fillColor: AppColors.surface2,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
-          ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 14,
-            vertical: 12,
+      child: Semantics(
+        textField: true,
+        label: label,
+        hint: 'Double tap to enter $label',
+        child: TextField(
+          controller: controller,
+          keyboardType: keyboardType,
+          maxLines: maxLines,
+          style: GoogleFonts.dmSans(color: AppColors.text, fontSize: 14),
+          decoration: InputDecoration(
+            labelText: label,
+            labelStyle: GoogleFonts.dmSans(
+              color: AppColors.text3,
+              fontSize: 13,
+            ),
+            filled: true,
+            fillColor: AppColors.surface2,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: 12,
+            ),
           ),
         ),
       ),

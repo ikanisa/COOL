@@ -1,9 +1,10 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
 import '../../../core/identity/public_user_identity.dart';
 import '../../../core/identity/user_identity_lookup.dart';
-import '../../momo/services/momo_service.dart';
+import '../../../core/services/momo_service.dart';
 import '../models/group.dart';
 import '../models/group_contribution.dart';
 import '../models/group_detail.dart';
@@ -11,10 +12,14 @@ import '../models/group_join_result.dart';
 import '../models/group_member.dart';
 
 class GroupRepository {
-  GroupRepository({SupabaseClient? client})
-    : _client = client ?? Supabase.instance.client;
+  GroupRepository({
+    required SupabaseClient client,
+    required MomoService momoService,
+  }) : _client = client,
+       _momoService = momoService;
 
   final SupabaseClient _client;
+  final MomoService _momoService;
 
   Future<List<Group>> getMyGroups(String userId, {String? country}) async {
     final membershipRowsFuture = _client
@@ -38,7 +43,7 @@ class GroupRepository {
 
     return _fetchGroupsByIds(
       groupIds.toList(growable: false),
-      country: country,
+      country: country ?? AppMarket.countryCode,
     );
   }
 
@@ -53,7 +58,7 @@ class GroupRepository {
     }
 
     _assertCountryAccess(
-      viewerCountry: country,
+      viewerCountry: country ?? AppMarket.countryCode,
       resourceCountry: groupRow['country']?.toString(),
       resourceLabel: 'This group',
     );
@@ -140,7 +145,7 @@ class GroupRepository {
     }
 
     _assertCountryAccess(
-      viewerCountry: country,
+      viewerCountry: country ?? AppMarket.countryCode,
       resourceCountry: preview['country']?.toString(),
       resourceLabel: 'This group invite',
     );
@@ -165,9 +170,7 @@ class GroupRepository {
       throw StateError('No authenticated user is available.');
     }
 
-    final country = await MomoService.instance.resolveCountry(
-      countryCode: group.country,
-    );
+    final country = AppMarket.country;
     final routeType = group.type == 'community'
         ? (_parseRecipientType(group.momoRouteType) ??
               _inferRecipientType(country, group.momoNumber ?? ''))
@@ -186,7 +189,7 @@ class GroupRepository {
         'p_visibility': group.visibility,
         'p_type': group.type,
         'p_description': group.description,
-        'p_country': country.isoCode,
+        'p_country': AppMarket.countryCode,
         'p_target_amount': group.targetAmount,
         'p_monthly_contribution': group.monthlyContribution,
         'p_cycle_days': _cycleDaysForFrequency(group.frequency),
@@ -249,7 +252,7 @@ class GroupRepository {
     }
 
     _assertCountryAccess(
-      viewerCountry: await _currentUserCountry(),
+      viewerCountry: AppMarket.countryCode,
       resourceCountry: groupRow['country']?.toString(),
       resourceLabel: 'This group',
     );
@@ -266,9 +269,7 @@ class GroupRepository {
 
     final reference =
         'GCT-${DateTime.now().millisecondsSinceEpoch}-${currentUser.id.substring(0, 8)}';
-    final country = await MomoService.instance.resolveCountry(
-      countryCode: groupRow['country']?.toString(),
-    );
+    final country = AppMarket.country;
     final rawRecipientMomo =
         groupRow['receiving_momo_code']?.toString() ??
         groupRow['momo_number']?.toString();
@@ -295,7 +296,7 @@ class GroupRepository {
     });
 
     try {
-      await MomoService.instance.initiatePayment(
+      await _momoService.initiatePayment(
         recipientMomo: recipientMomo,
         amount: amount,
         reference: reference,
@@ -329,7 +330,7 @@ class GroupRepository {
 
     final preview = await getGroupByInviteCode(
       normalizedCode,
-      country: country ?? await _currentUserCountry(),
+      country: country ?? AppMarket.countryCode,
     );
     if (preview == null) {
       throw StateError('Invite code not found.');
@@ -352,8 +353,11 @@ class GroupRepository {
 
     final groupId = data['group_id']?.toString();
     final detail = groupId == null || groupId.isEmpty
-        ? await getGroupByInviteCode(normalizedCode, country: country)
-        : await getGroupById(groupId, country: country);
+        ? await getGroupByInviteCode(
+            normalizedCode,
+            country: country ?? AppMarket.countryCode,
+          )
+        : await getGroupById(groupId, country: country ?? AppMarket.countryCode);
     if (detail == null) {
       throw StateError('Joined group could not be loaded.');
     }
@@ -363,13 +367,7 @@ class GroupRepository {
 
   Future<List<Group>> getPublicGroups(String country) async {
     var query = _client.from('groups').select().eq('visibility', 'public');
-    final normalizedCountry = country.trim();
-    if (normalizedCountry.isNotEmpty) {
-      query = query.eq(
-        'country',
-        CoolCountryCatalog.normalizeCountryCode(normalizedCountry),
-      );
-    }
+    query = query.or('country.is.null,country.eq.${AppMarket.countryCode}');
 
     final response = await query.order('created_at', ascending: false);
     return _asListOfMaps(
@@ -386,10 +384,11 @@ class GroupRepository {
     }
 
     var query = _client.from('groups').select().inFilter('id', groupIds);
-    final normalizedCountry = _normalizeCountryOrNull(country);
-    if (normalizedCountry != null) {
-      query = query.eq('country', normalizedCountry);
-    }
+    final normalizedCountry =
+        _normalizeCountryOrNull(country) ?? AppMarket.countryCode;
+    query = normalizedCountry == AppMarket.countryCode
+        ? query.or('country.is.null,country.eq.${AppMarket.countryCode}')
+        : query.eq('country', normalizedCountry);
 
     final response = await query.order('created_at', ascending: false);
 
@@ -413,51 +412,21 @@ class GroupRepository {
     return inviteCode.trim().toUpperCase();
   }
 
-  Future<String?> _currentUserCountry() async {
-    final currentUser = _client.auth.currentUser;
-    if (currentUser == null) {
-      return null;
-    }
-
-    final metadataCountry = _normalizeCountryOrNull(
-      currentUser.userMetadata?['country']?.toString(),
-    );
-    if (metadataCountry != null) {
-      return metadataCountry;
-    }
-
-    final userRow = await _client
-        .from('users')
-        .select('country')
-        .eq('id', currentUser.id)
-        .maybeSingle();
-
-    return _normalizeCountryOrNull(userRow?['country']?.toString());
-  }
-
   void _assertCountryAccess({
     required String? viewerCountry,
     required String? resourceCountry,
     required String resourceLabel,
   }) {
-    final normalizedViewerCountry = _normalizeCountryOrNull(viewerCountry);
-    final normalizedResourceCountry = _normalizeCountryOrNull(resourceCountry);
-
-    if (normalizedViewerCountry == null || normalizedResourceCountry == null) {
-      return;
-    }
+    final normalizedViewerCountry =
+        _normalizeCountryOrNull(viewerCountry) ?? AppMarket.countryCode;
+    final normalizedResourceCountry =
+        _normalizeCountryOrNull(resourceCountry) ?? AppMarket.countryCode;
 
     if (normalizedViewerCountry == normalizedResourceCountry) {
       return;
     }
 
-    final countryName = CoolCountryCatalog.resolve(
-      country: normalizedResourceCountry,
-    ).displayName;
-    throw StateError(
-      '$resourceLabel is only available to users in $countryName. '
-      'Update your MoMo country if you recently changed markets.',
-    );
+    throw StateError('$resourceLabel is outside the Rwanda market.');
   }
 
   String? _normalizeCountryOrNull(String? value) {

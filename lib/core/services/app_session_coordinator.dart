@@ -84,15 +84,6 @@ class AppSessionCoordinator {
       );
     }
 
-    final previousCountry = previous == null
-        ? null
-        : resolveAuthStateCountryCode(previous);
-    if (hadSession &&
-        hasSession &&
-        previousCountry != resolveAuthStateCountryCode(next)) {
-      await _notificationSettings.syncTopicsForAuthState(next);
-    }
-
     if (hadSession && !hasSession) {
       await _momoSmsAutoreadService.stop(resetPermissionPromptState: true);
       await _clearIdentifiedUser();

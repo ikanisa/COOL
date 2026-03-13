@@ -1,7 +1,9 @@
 import 'dart:io' show Platform;
 
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -524,7 +526,7 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
 // PAYMENT REQUEST SHEET
 // ═════════════════════════════════════════════════════════════════════════════
 
-class MomoPaymentRequestSheet extends StatefulWidget {
+class MomoPaymentRequestSheet extends ConsumerStatefulWidget {
   const MomoPaymentRequestSheet({
     required this.country,
     required this.momoNumber,
@@ -537,11 +539,11 @@ class MomoPaymentRequestSheet extends StatefulWidget {
   final String? momoCode;
 
   @override
-  State<MomoPaymentRequestSheet> createState() =>
+  ConsumerState<MomoPaymentRequestSheet> createState() =>
       _MomoPaymentRequestSheetState();
 }
 
-class _MomoPaymentRequestSheetState extends State<MomoPaymentRequestSheet> {
+class _MomoPaymentRequestSheetState extends ConsumerState<MomoPaymentRequestSheet> {
   final _payerController = TextEditingController();
   final _amountController = TextEditingController();
   late MomoRecipientType _recipientType;
@@ -929,12 +931,16 @@ class MomoNfcSheet extends StatelessWidget {
   const MomoNfcSheet({
     required this.country,
     required this.momoNumber,
+    required this.momoService,
+    required this.appAccessService,
     this.momoCode,
     super.key,
   });
 
   final CoolCountry country;
   final String momoNumber;
+  final MomoService momoService;
+  final AppAccessService appAccessService;
   final String? momoCode;
 
   @override
@@ -964,6 +970,8 @@ class MomoNfcSheet extends StatelessWidget {
                 country: country,
                 momoNumber: momoNumber,
                 momoCode: momoCode,
+                momoService: momoService,
+                appAccessService: appAccessService,
               ),
             ],
           ),
@@ -981,12 +989,16 @@ class MomoNfcCard extends StatefulWidget {
   const MomoNfcCard({
     required this.country,
     required this.momoNumber,
+    required this.momoService,
+    required this.appAccessService,
     this.momoCode,
     super.key,
   });
 
   final CoolCountry country;
   final String momoNumber;
+  final MomoService momoService;
+  final AppAccessService appAccessService;
   final String? momoCode;
 
   @override
@@ -994,7 +1006,7 @@ class MomoNfcCard extends StatefulWidget {
 }
 
 class _MomoNfcCardState extends State<MomoNfcCard> with WidgetsBindingObserver {
-  final _appAccessService = AppAccessService.instance;
+  late final AppAccessService _appAccessService = widget.appAccessService;
   final _nfcHceService = NfcHceService.instance;
   bool _isScanning = false;
   bool _isActivating = false;
@@ -1109,7 +1121,7 @@ class _MomoNfcCardState extends State<MomoNfcCard> with WidgetsBindingObserver {
     }
 
     try {
-      await MomoService.instance.initiatePayment(
+      await widget.momoService.initiatePayment(
         recipientMomo: recipient,
         amount: amount,
         reference: 'NFC-${DateTime.now().millisecondsSinceEpoch}',
@@ -1500,7 +1512,7 @@ class _MomoNfcCardState extends State<MomoNfcCard> with WidgetsBindingObserver {
             ),
             const SizedBox(height: 18),
             if (nfcAccess == null)
-              const CircularProgressIndicator()
+              const CupertinoActivityIndicator()
             else if (nfcAccess.kind == AppAccessStateKind.disabledInApp)
               CoolButton(label: 'Enable NFC', onTap: _enableNfcAccess)
             else if (nfcAccess.kind == AppAccessStateKind.serviceDisabled)
@@ -1637,24 +1649,29 @@ class _NfcRouteTypeChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-        decoration: BoxDecoration(
-          color: isActive ? AppColors.accentGlow : AppColors.surface3,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(
-            color: isActive ? AppColors.accent : AppColors.border,
+    return Semantics(
+      button: true,
+      selected: isActive,
+      label: '$label option',
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          decoration: BoxDecoration(
+            color: isActive ? AppColors.accentGlow : AppColors.surface3,
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(
+              color: isActive ? AppColors.accent : AppColors.border,
+            ),
           ),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          label,
-          style: GoogleFonts.dmSans(
-            fontSize: 13,
-            fontWeight: FontWeight.w700,
-            color: isActive ? AppColors.accent : AppColors.text2,
+          alignment: Alignment.center,
+          child: Text(
+            label,
+            style: GoogleFonts.dmSans(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: isActive ? AppColors.accent : AppColors.text2,
+            ),
           ),
         ),
       ),

@@ -13,14 +13,16 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   late Directory hiveDir;
+  late AppAccessService appAccessService;
 
   setUpAll(() async {
     hiveDir = await Directory.systemTemp.createTemp('cool_mobility_location');
     Hive.init(hiveDir.path);
+    appAccessService = AppAccessService(openBox: Hive.openBox<bool>);
   });
 
   setUp(() async {
-    await AppAccessService.instance.setEnabled(
+    await appAccessService.setEnabled(
       AppAccessPermission.location,
       true,
     );
@@ -46,12 +48,14 @@ void main() {
   test(
     'bootstrap respects the in-app location access toggle from profile settings',
     () async {
-      await AppAccessService.instance.setEnabled(
+      await appAccessService.setEnabled(
         AppAccessPermission.location,
         false,
       );
       final notifier = MobilityLocationNotifier(
         service: FakeLocationService(permission: LocationPermission.whileInUse),
+        openBox: Hive.openBox<dynamic>,
+        appAccessService: appAccessService,
       );
 
       await notifier.bootstrap();
@@ -66,6 +70,8 @@ void main() {
     () async {
       final notifier = MobilityLocationNotifier(
         service: FakeLocationService(permission: LocationPermission.denied),
+        openBox: Hive.openBox<dynamic>,
+        appAccessService: appAccessService,
       );
 
       await notifier.bootstrap();
@@ -82,6 +88,8 @@ void main() {
         requestedPermission: LocationPermission.whileInUse,
         currentPosition: fakePosition(latitude: -1.9441, longitude: 30.0619),
       ),
+      openBox: Hive.openBox<dynamic>,
+      appAccessService: appAccessService,
     );
 
     await notifier.requestForegroundAccess();
@@ -103,6 +111,8 @@ void main() {
           accuracyStatus: LocationAccuracyStatus.reduced,
           currentPosition: fakePosition(latitude: -1.95, longitude: 30.06),
         ),
+        openBox: Hive.openBox<dynamic>,
+        appAccessService: appAccessService,
       );
 
       await notifier.bootstrap();
@@ -120,6 +130,8 @@ void main() {
           serviceEnabled: false,
           permission: LocationPermission.whileInUse,
         ),
+        openBox: Hive.openBox<dynamic>,
+        appAccessService: appAccessService,
       );
 
       await notifier.bootstrap();

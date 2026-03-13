@@ -50,9 +50,9 @@ Set via `identifyUser()` in `EngagementTracker`:
 
 | Property | Source | Example |
 |---|---|---|
-| `country` | `CoolCountryCatalog.normalizeCountryCode()` | `RW`, `GH`, `KE` |
-| `language_code` | User profile | `en`, `fr`, `rw` |
-| `momo_provider` | User profile | `mtn_rwanda`, `mpesa` |
+| `market` | `AppMarket.countryCode` | `RW` |
+| `ui_language` | `AppMarket.languageCode` | `en` |
+| `momo_provider` | User profile | `mtn_rwanda` |
 | `is_driver` | User profile | `true`, `false` |
 
 ## Key Funnels
@@ -89,5 +89,5 @@ trip_scheduled → driver_went_online → (trip matched) → (trip completed)
 ## Firebase Console Setup
 
 - **Custom definitions**: Register all user properties above in Firebase Console → Custom Definitions
-- **Audiences**: Create audiences by `country`, `momo_provider`, `is_driver`
-- **Remote Config targeting**: Use `country` user property for country-specific flag overrides
+- **Audiences**: Create audiences by `momo_provider`, `is_driver`
+- **Remote Config targeting**: Use `is_driver` or `momo_provider` user properties for flag overrides

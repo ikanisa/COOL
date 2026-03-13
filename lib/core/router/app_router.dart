@@ -57,7 +57,6 @@ import '../../features/admin/screens/manage_partners_screen.dart';
 import '../../features/admin/screens/manage_services_screen.dart';
 import '../../features/admin/screens/manage_quick_actions_screen.dart';
 import '../../features/admin/screens/manage_vehicle_types_screen.dart';
-import '../../features/admin/screens/manage_countries_screen.dart';
 import '../../features/admin/screens/manage_app_config_screen.dart';
 import '../../features/admin/screens/operational_dashboard_screen.dart';
 import '../status/screens/missions_screen.dart';
@@ -142,7 +141,6 @@ final _profileNavigatorKey = GlobalKey<NavigatorState>(
 abstract final class AppRoutes {
   static const splash = '/';
   static const onboarding = '/onboarding';
-  static const language = '/language';
   static const otp = '/otp';
   static const otpVerify = '/otp-verify';
   static const register = '/register';
@@ -189,7 +187,6 @@ abstract final class AppRoutes {
   static const adminServices = '/admin/services';
   static const adminQuickActions = '/admin/quick-actions';
   static const adminVehicleTypes = '/admin/vehicle-types';
-  static const adminCountries = '/admin/countries';
   static const adminAppConfig = '/admin/app-config';
   static const adminOperations = '/admin/operations';
 
@@ -272,7 +269,6 @@ abstract final class AppRoutes {
 const _authRoutes = {
   '/',
   AppRoutes.onboarding,
-  AppRoutes.language,
   AppRoutes.otp,
   AppRoutes.otpVerify,
   // Note: /register is NOT an auth route — authenticated users can visit
@@ -410,7 +406,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     bool hasProfile,
     bool isAdmin,
     AuthProfileRestoreState profileRestoreState,
-    String? countryCode,
   })
   readAuthSnapshot() {
     final state = ref.read(authProvider);
@@ -419,7 +414,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       hasProfile: state.user?.isProfileComplete ?? false,
       isAdmin: state.user?.isAdmin ?? false,
       profileRestoreState: state.profileRestoreState,
-      countryCode: resolveAuthStateCountryCode(state),
     );
   }
 
@@ -446,12 +440,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
       GoRoute(
         path: AppRoutes.onboarding,
-        builder: (context, state) => OnboardingScreen(
-          redirectPath: state.uri.queryParameters['redirect'],
-        ),
-      ),
-      GoRoute(
-        path: AppRoutes.language,
         builder: (context, state) => OnboardingScreen(
           redirectPath: state.uri.queryParameters['redirect'],
         ),
@@ -565,7 +553,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                     key: state.pageKey,
                     child: KillSwitchGate(
                       enabled: featureFlags.isMobilityEnabled(
-                        countryCode: authSnapshot.countryCode,
                         isAdmin: authSnapshot.isAdmin,
                       ),
                       featureName: 'Mobility',
@@ -617,7 +604,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           final featureFlags = ref.read(featureFlagsStateProvider);
           return KillSwitchGate(
             enabled: featureFlags.isMomoEnabled(
-              countryCode: authSnapshot.countryCode,
               isAdmin: authSnapshot.isAdmin,
             ),
             featureName: 'Mobile Money',
@@ -632,7 +618,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           final featureFlags = ref.read(featureFlagsStateProvider);
           return KillSwitchGate(
             enabled: featureFlags.isMomoEnabled(
-              countryCode: authSnapshot.countryCode,
               isAdmin: authSnapshot.isAdmin,
             ),
             featureName: 'Mobile Money',
@@ -704,7 +689,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                   final featureFlags = ref.read(featureFlagsStateProvider);
                   return KillSwitchGate(
                     enabled: featureFlags.isTicketPurchaseEnabled(
-                      countryCode: authSnapshot.countryCode,
                       isAdmin: authSnapshot.isAdmin,
                     ),
                     featureName: 'Ticket Purchase',
@@ -759,7 +743,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           final featureFlags = ref.read(featureFlagsStateProvider);
           return KillSwitchGate(
             enabled: featureFlags.isCreditEnabled(
-              countryCode: authSnapshot.countryCode,
               isAdmin: authSnapshot.isAdmin,
             ),
             featureName: 'Credit Score',
@@ -774,7 +757,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           final featureFlags = ref.read(featureFlagsStateProvider);
           return KillSwitchGate(
             enabled: featureFlags.isCreditEnabled(
-              countryCode: authSnapshot.countryCode,
               isAdmin: authSnapshot.isAdmin,
             ),
             featureName: 'Credit Readiness',
@@ -787,78 +769,75 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const MissionsScreen(),
       ),
 
-      // ── Admin routes (outside shell, full-screen) ──────────────
+      // ── Admin routes (nested under /admin) ─────────────────────
       GoRoute(
         path: AppRoutes.admin,
         builder: (context, state) => const AdminDashboardScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.adminUsers,
-        builder: (context, state) => const ManageUsersScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.adminPartners,
-        builder: (context, state) => const ManagePartnersScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.adminServices,
-        builder: (context, state) => const ManageServicesScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.adminQuickActions,
-        builder: (context, state) => const ManageQuickActionsScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.adminVehicleTypes,
-        builder: (context, state) => const ManageVehicleTypesScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.adminCountries,
-        builder: (context, state) => const ManageCountriesScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.adminAppConfig,
-        builder: (context, state) => const ManageAppConfigScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.adminOperations,
-        builder: (context, state) => const OperationalDashboardScreen(),
-      ),
-
-      // ── RS Admin routes ────────────────────────────────────────
-      GoRoute(
-        path: AppRoutes.adminRayon,
-        builder: (context, state) => const RsAdminDashboardScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.adminRayonMatches,
-        builder: (context, state) => const RsAdminMatchesScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.adminRayonTickets,
-        builder: (context, state) => const RsAdminTicketsScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.adminRayonShop,
-        builder: (context, state) => const RsAdminShopScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.adminRayonOrders,
-        builder: (context, state) => const RsAdminOrdersScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.adminRayonMembers,
-        builder: (context, state) => const RsAdminMembersScreen(),
-      ),
-      // TODO(admin): Create dedicated RsAdminFanClubsScreen when fan club
-      // management is needed. Using initiatives screen as the closest match.
-      GoRoute(
-        path: AppRoutes.adminRayonFanClubs,
-        builder: (context, state) => const RsAdminInitiativesScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.adminRayonInitiatives,
-        builder: (context, state) => const RsAdminInitiativesScreen(),
+        routes: [
+          GoRoute(
+            path: 'users',
+            builder: (context, state) => const ManageUsersScreen(),
+          ),
+          GoRoute(
+            path: 'partners',
+            builder: (context, state) => const ManagePartnersScreen(),
+          ),
+          GoRoute(
+            path: 'services',
+            builder: (context, state) => const ManageServicesScreen(),
+          ),
+          GoRoute(
+            path: 'quick-actions',
+            builder: (context, state) => const ManageQuickActionsScreen(),
+          ),
+          GoRoute(
+            path: 'vehicle-types',
+            builder: (context, state) => const ManageVehicleTypesScreen(),
+          ),
+          GoRoute(
+            path: 'app-config',
+            builder: (context, state) => const ManageAppConfigScreen(),
+          ),
+          GoRoute(
+            path: 'operations',
+            builder: (context, state) => const OperationalDashboardScreen(),
+          ),
+          // ── RS Admin routes (nested under /admin/rayon) ──────────
+          GoRoute(
+            path: 'rayon',
+            builder: (context, state) => const RsAdminDashboardScreen(),
+            routes: [
+              GoRoute(
+                path: 'matches',
+                builder: (context, state) => const RsAdminMatchesScreen(),
+              ),
+              GoRoute(
+                path: 'tickets',
+                builder: (context, state) => const RsAdminTicketsScreen(),
+              ),
+              GoRoute(
+                path: 'shop',
+                builder: (context, state) => const RsAdminShopScreen(),
+              ),
+              GoRoute(
+                path: 'orders',
+                builder: (context, state) => const RsAdminOrdersScreen(),
+              ),
+              GoRoute(
+                path: 'members',
+                builder: (context, state) => const RsAdminMembersScreen(),
+              ),
+              GoRoute(
+                path: 'fan-clubs',
+                redirect: (context, state) => AppRoutes.adminRayonInitiatives,
+              ),
+              GoRoute(
+                path: 'initiatives',
+                builder: (context, state) => const RsAdminInitiativesScreen(),
+              ),
+            ],
+          ),
+        ],
       ),
     ],
   );

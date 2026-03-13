@@ -6,6 +6,7 @@ import 'package:cool_app/core/providers/supported_countries_provider.dart';
 import 'package:cool_app/core/repositories/supported_countries_repository.dart';
 import 'package:cool_app/core/router/app_router.dart';
 import 'package:cool_app/core/theme/app_theme.dart';
+import 'package:cool_app/features/momo/providers/momo_service_provider.dart';
 import 'package:cool_app/features/auth/models/user_profile.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart';
 import 'package:cool_app/features/auth/repositories/auth_repository.dart';
@@ -64,6 +65,7 @@ class TestAuthNotifier extends AuthNotifier {
     required super.repository,
     required super.crashlytics,
     required super.performance,
+    required super.momoService,
     required Session? session,
     required UserProfile? user,
   }) {
@@ -176,17 +178,15 @@ _buildTestContainer({
   when(() => authRepository.signOut()).thenAnswer((_) async {});
 
   when(
-    () => countriesRepository.getSupportedCountries(
-      forceRefresh: any(named: 'forceRefresh'),
-    ),
-  ).thenAnswer((_) async => resolvedCountries);
+    () => countriesRepository.getSupportedCountries(),
+  ).thenReturn(resolvedCountries);
   when(
     () => countriesRepository.resolveCountry(
       countryCode: any(named: 'countryCode'),
       phone: any(named: 'phone'),
       providerId: any(named: 'providerId'),
     ),
-  ).thenAnswer((invocation) async {
+  ).thenAnswer((invocation) {
     final countryCode = invocation.namedArguments[#countryCode] as String?;
     final phone = invocation.namedArguments[#phone] as String?;
     final providerId = invocation.namedArguments[#providerId] as String?;
@@ -207,6 +207,7 @@ _buildTestContainer({
           repository: ref.watch(authRepositoryProvider),
           crashlytics: ref.read(crashlyticsServiceProvider),
           performance: ref.read(performanceServiceProvider),
+          momoService: ref.read(momoServiceProvider),
           session: session,
           user: user,
         ),

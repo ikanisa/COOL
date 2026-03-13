@@ -5,6 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../shared/widgets/cool_async_view.dart';
+import '../../../../shared/widgets/cool_empty_view.dart';
+import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/partner_navigation.dart';
 import '../models/rs_models.dart';
@@ -43,43 +46,42 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
         ),
         actions: buildPartnerAppBarActions(context, homeColor: Colors.white),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.rsBlue,
-        onPressed: () => _showProductForm(context),
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
-      body: productsAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(
-          child: Text(
-            'Error: $e',
-            style: const TextStyle(color: AppColors.red),
-          ),
+      floatingActionButton: Semantics(
+        button: true,
+        label: 'Add product',
+        hint: 'Opens the new product form',
+        child: FloatingActionButton(
+          backgroundColor: AppColors.rsBlue,
+          onPressed: () => _showProductForm(context),
+          child: const Icon(Icons.add, color: Colors.white),
         ),
-        data: (products) {
-          if (products.isEmpty) {
-            return Center(
-              child: Text(
-                'No products yet',
-                style: GoogleFonts.dmSans(color: AppColors.text3),
-              ),
+      ),
+      body: CoolAsyncView<List<RsProduct>>(
+        value: productsAsync,
+        onRetry: () => ref.invalidate(rsAdminProductsProvider),
+        loadingWidget: const Padding(
+          padding: EdgeInsets.all(16),
+          child: CoolSkeletonList(itemCount: 4),
+        ),
+        emptyCheck: (products) => products.isEmpty,
+        emptyWidget: const CoolEmptyView(
+          message: 'No shop products have been created yet.',
+          icon: Icons.inventory_2_outlined,
+        ),
+        builder: (products) => ListView.separated(
+          padding: const EdgeInsets.all(16),
+          itemCount: products.length,
+          separatorBuilder: (context, index) => const SizedBox(height: 10),
+          itemBuilder: (context, index) {
+            final prod = products[index];
+            return _ProductTile(
+              product: prod,
+              onToggleActive: () => _toggleActive(prod),
+              onEdit: () => _showProductForm(context, product: prod),
+              onDelete: () => _deleteProduct(prod),
             );
-          }
-          return ListView.separated(
-            padding: const EdgeInsets.all(16),
-            itemCount: products.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 10),
-            itemBuilder: (context, index) {
-              final prod = products[index];
-              return _ProductTile(
-                product: prod,
-                onToggleActive: () => _toggleActive(prod),
-                onEdit: () => _showProductForm(context, product: prod),
-                onDelete: () => _deleteProduct(prod),
-              );
-            },
-          );
-        },
+          },
+        ),
       ),
     );
   }
@@ -241,87 +243,99 @@ class _ProductTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Row(
-        children: [
-          Text(product.imageEmoji, style: const TextStyle(fontSize: 28)),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        product.name,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.text,
-                        ),
-                      ),
-                    ),
-                    if (!product.isActive)
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 6,
-                          vertical: 2,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.red.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
+    return Semantics(
+      container: true,
+      label:
+          'Product ${product.name}. ${product.isActive ? 'Active' : 'Inactive'}. '
+          'Price ${product.price} Rwandan francs. Stock ${product.stock}. '
+          'Category ${product.category.value}.',
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: AppColors.border),
+        ),
+        child: Row(
+          children: [
+            Text(product.imageEmoji, style: const TextStyle(fontSize: 28)),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
                         child: Text(
-                          'INACTIVE',
+                          product.name,
                           style: GoogleFonts.dmSans(
-                            fontSize: 9,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.red,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.text,
                           ),
                         ),
                       ),
-                  ],
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  '${product.price} RWF · Stock: ${product.stock} · ${product.category.value}',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 11,
-                    color: AppColors.text3,
+                      if (!product.isActive)
+                        Semantics(
+                          label: 'Status inactive',
+                          child: ExcludeSemantics(
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppColors.red.withValues(alpha: 0.15),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Text(
+                                'INACTIVE',
+                                style: GoogleFonts.dmSans(
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.red,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
-                ),
-                const SizedBox(height: 6),
-                Row(
-                  children: [
-                    _Action(
-                      icon: product.isActive
-                          ? Icons.visibility_off
-                          : Icons.visibility,
-                      label: product.isActive ? 'Deactivate' : 'Activate',
-                      onTap: onToggleActive,
+                  const SizedBox(height: 2),
+                  Text(
+                    '${product.price} RWF · Stock: ${product.stock} · ${product.category.value}',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 11,
+                      color: AppColors.text3,
                     ),
-                    const SizedBox(width: 12),
-                    _Action(icon: Icons.edit, label: 'Edit', onTap: onEdit),
-                    const SizedBox(width: 12),
-                    _Action(
-                      icon: Icons.delete_outline,
-                      label: 'Delete',
-                      onTap: onDelete,
-                      color: AppColors.red,
-                    ),
-                  ],
-                ),
-              ],
+                  ),
+                  const SizedBox(height: 6),
+                  Row(
+                    children: [
+                      _Action(
+                        icon: product.isActive
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        label: product.isActive ? 'Deactivate' : 'Activate',
+                        onTap: onToggleActive,
+                      ),
+                      const SizedBox(width: 12),
+                      _Action(icon: Icons.edit, label: 'Edit', onTap: onEdit),
+                      const SizedBox(width: 12),
+                      _Action(
+                        icon: Icons.delete_outline,
+                        label: 'Delete',
+                        onTap: onDelete,
+                        color: AppColors.red,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -342,18 +356,23 @@ class _Action extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = color ?? AppColors.text2;
-    return GestureDetector(
-      onTap: () {
-        HapticFeedback.selectionClick();
-        onTap();
-      },
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 14, color: c),
-          const SizedBox(width: 3),
-          Text(label, style: GoogleFonts.dmSans(fontSize: 10, color: c)),
-        ],
+    return Semantics(
+      button: true,
+      label: label,
+      hint: 'Double tap to ${label.toLowerCase()} this product',
+      child: GestureDetector(
+        onTap: () {
+          HapticFeedback.selectionClick();
+          onTap();
+        },
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 14, color: c),
+            const SizedBox(width: 3),
+            Text(label, style: GoogleFonts.dmSans(fontSize: 10, color: c)),
+          ],
+        ),
       ),
     );
   }
@@ -373,22 +392,30 @@ class _Field extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
-      child: TextField(
-        controller: controller,
-        keyboardType: keyboardType,
-        style: GoogleFonts.dmSans(color: AppColors.text, fontSize: 14),
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: GoogleFonts.dmSans(color: AppColors.text3, fontSize: 13),
-          filled: true,
-          fillColor: AppColors.surface2,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
-          ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 14,
-            vertical: 12,
+      child: Semantics(
+        textField: true,
+        label: label,
+        hint: 'Double tap to enter $label',
+        child: TextField(
+          controller: controller,
+          keyboardType: keyboardType,
+          style: GoogleFonts.dmSans(color: AppColors.text, fontSize: 14),
+          decoration: InputDecoration(
+            labelText: label,
+            labelStyle: GoogleFonts.dmSans(
+              color: AppColors.text3,
+              fontSize: 13,
+            ),
+            filled: true,
+            fillColor: AppColors.surface2,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: 12,
+            ),
           ),
         ),
       ),

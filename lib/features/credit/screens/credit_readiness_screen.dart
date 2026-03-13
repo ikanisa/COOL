@@ -27,6 +27,7 @@ class CreditReadinessScreen extends ConsumerWidget {
       backgroundColor: AppColors.bg,
       appBar: AppBar(
         leading: IconButton(
+          tooltip: 'Back',
           onPressed: () => context.pop(),
           icon: const Icon(Icons.arrow_back_rounded),
         ),

@@ -1,6 +1,7 @@
 import 'package:cool_app/core/providers/engagement_providers.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart';
 import 'package:cool_app/features/auth/repositories/auth_repository.dart';
+import 'package:cool_app/features/momo/providers/momo_service_provider.dart';
 import 'package:cool_app/features/auth/screens/otp_verify_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,6 +17,7 @@ class TestOtpVerifyAuthNotifier extends AuthNotifier {
     required super.repository,
     required super.crashlytics,
     required super.performance,
+    required super.momoService,
   }) {
     state = const AuthState(
       profileRestoreState: AuthProfileRestoreState.available,
@@ -42,6 +44,7 @@ void main() {
               repository: ref.watch(authRepositoryProvider),
               crashlytics: ref.read(crashlyticsServiceProvider),
               performance: ref.read(performanceServiceProvider),
+              momoService: ref.read(momoServiceProvider),
             ),
           ),
         ],

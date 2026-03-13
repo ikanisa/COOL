@@ -38,9 +38,11 @@ SMS ingest path and the admin operations dashboard.
 
 ### Wallet sync
 
-- Google Wallet issuance is handled by
-  `supabase/functions/wallet-issuer/index.ts`.
-- Wallet readiness depends on the ticket already being confirmed.
+- Google Wallet remains deferred to Phase 2 and is not part of the current
+  release surface.
+- The backend implementation can stay parked in
+  `supabase/functions/wallet-issuer/index.ts`, but Phase 1 release readiness
+  does not depend on wallet issuance.
 
 ## Release Dashboard
 
@@ -52,15 +54,16 @@ It reads from:
 - `public.get_operational_triage_issues()`
 - `public.get_recent_operational_health_events(...)`
 
-The dashboard tracks these monitored surfaces:
+The release-truth cards intentionally track only server-trusted surfaces:
 
-- SMS ingest
 - MoMo parsing
 - Payment sync
-- Wallet sync
-- Partner checkout
 - Edge Functions
 - Config hygiene
+
+Mobile-reported SMS ingest and partner checkout signals remain visible in the
+recent-signal feed, but they do not drive release status because they originate
+from authenticated app telemetry rather than server-observed state.
 
 ## Triage Queue
 
@@ -80,22 +83,30 @@ that must be visible before users report them:
 These flows now emit operational health events into
 `public.operational_health_events`:
 
-- SMS ingest
-  - listener activation
-  - inbox recovery success/failure
-  - raw SMS capture and parse-queue success/failure
 - MoMo parsing
   - parse + reconcile success
   - manual-review outcomes
   - parse failures
-- Wallet sync
-  - successful wallet pass preparation
-  - unexpected wallet issuance failures
+- Edge Function failures
+  - shared failure logging for critical Supabase functions
+
+Mobile client telemetry is relayed through the `record-operational-health` Edge
+Function and stamped with `ingest_origin = mobile_app`:
+
+- SMS ingest
+  - listener activation
+  - inbox recovery success/failure
+  - raw SMS capture and parse-queue success/failure
 - Partner checkout
   - successful ticket/shop/support handoff creation
   - checkout failures before payment sync starts
-- Edge Function failures
-  - shared failure logging for critical Supabase functions
+
+These mobile-origin events are useful for debugging and support triage, but
+they are not treated as release-gating truth.
+
+Authenticated clients no longer insert directly into
+`public.operational_health_events`. The table now expects service-role writes,
+with mobile telemetry entering only through the relay function.
 
 ## Release Use
 
@@ -104,5 +115,9 @@ Before cutting a release candidate:
 1. Run the normal automated readiness checks.
 2. Open Admin > Operations.
 3. Confirm there are no critical triage issues.
-4. Confirm payment sync and Edge Functions are not in a failing state.
+4. Confirm payment sync, MoMo parsing, and Edge Functions are not in a failing
+   state.
 5. Treat config-hygiene warnings as release work, not post-release cleanup.
+
+Do not block the current release on Google Wallet readiness. That surface is
+deferred until Phase 2.

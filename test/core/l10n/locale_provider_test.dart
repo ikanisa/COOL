@@ -20,19 +20,28 @@ class FakeLocaleStore implements LocaleStore {
 }
 
 void main() {
-  test(
-    'locale provider loads persisted language from the injected store',
-    () async {
-      final store = FakeLocaleStore(readValue: 'fr');
-      final container = createTestContainer(localeStore: store);
+  test('locale provider always returns English', () async {
+    final store = FakeLocaleStore(readValue: 'sw');
+    final container = createTestContainer(localeStore: store);
 
-      expect(container.read(localeProvider).languageCode, 'en');
+    expect(container.read(localeProvider).languageCode, 'en');
 
-      await pumpEventQueue();
+    await pumpEventQueue();
 
-      expect(container.read(localeProvider).languageCode, 'fr');
-    },
-  );
+    expect(container.read(localeProvider).languageCode, 'en');
+  });
+
+  test('locale notifier ignores setLocale — always stays English', () async {
+    final store = FakeLocaleStore(readValue: 'en');
+    final container = createTestContainer(localeStore: store);
+
+    await pumpEventQueue();
+
+    // Try to switch to another locale — should be ignored.
+    await container.read(localeProvider.notifier).setLocale('sw');
+    expect(container.read(localeProvider).languageCode, 'en');
+    expect(store.writes, isEmpty);
+  });
 
   test('locale provider normalizes unsupported persisted languages', () async {
     final store = FakeLocaleStore(readValue: 'de');
@@ -41,35 +50,7 @@ void main() {
     expect(container.read(localeProvider).languageCode, 'en');
 
     await pumpEventQueue();
+    // English-only — ignores German value.
     expect(container.read(localeProvider).languageCode, 'en');
   });
-
-  test('locale notifier persists updates through the injected store', () async {
-    final store = FakeLocaleStore(readValue: 'en');
-    final container = createTestContainer(localeStore: store);
-
-    expect(container.read(localeProvider).languageCode, 'en');
-
-    await pumpEventQueue();
-    expect(container.read(localeProvider).languageCode, 'en');
-
-    await container.read(localeProvider.notifier).setLocale('fr');
-
-    expect(container.read(localeProvider).languageCode, 'fr');
-    expect(store.writes, <String>['fr']);
-  });
-
-  test(
-    'locale notifier falls back to english for unsupported updates',
-    () async {
-      final store = FakeLocaleStore(readValue: 'en');
-      final container = createTestContainer(localeStore: store);
-
-      await pumpEventQueue();
-      await container.read(localeProvider.notifier).setLocale('rw');
-
-      expect(container.read(localeProvider).languageCode, 'en');
-      expect(store.writes, <String>['en']);
-    },
-  );
 }

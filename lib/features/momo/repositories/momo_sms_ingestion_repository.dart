@@ -45,12 +45,12 @@ class MomoSmsIngestionResult {
 
 class MomoSmsIngestionRepository {
   MomoSmsIngestionRepository({
-    SupabaseClient? client,
+    required SupabaseClient client,
     OperationalHealthService? operationalHealthService,
-  }) : _client = client ?? Supabase.instance.client,
+  }) : _client = client,
        _operationalHealthService =
            operationalHealthService ??
-           OperationalHealthService(client: client ?? Supabase.instance.client);
+           OperationalHealthService(client: client);
 
   final SupabaseClient _client;
   final OperationalHealthService _operationalHealthService;
@@ -84,22 +84,6 @@ class MomoSmsIngestionRepository {
     '%MTN MOMO%',
   ];
 
-  static const approvedInboxBodyLikePatterns = <String>[
-    '%FT Id:%',
-    '%FT ID:%',
-    '%TxId:%',
-    '%Tx ID:%',
-    '%Transaction ID%',
-    '%Balance:%',
-    '%received%RWF%',
-    '%payment%RWF%',
-    '%withdraw%RWF%',
-    '%transferred%RWF%',
-    '%cash power%',
-    '%airtime%',
-    '%bundle%',
-  ];
-
   String? get currentUserId => _client.auth.currentUser?.id;
 
   static bool isApprovedSender(String? sender) {
@@ -123,8 +107,7 @@ class MomoSmsIngestionRepository {
     final trimmedSender = sender?.trim() ?? '';
     final trimmedBody = _normalizeWhitespace(body ?? '');
     final approvedSender = isApprovedSender(trimmedSender);
-    final likelyMomoTransaction = _looksLikeMomoTransactionMessage(trimmedBody);
-    if (trimmedBody.isEmpty || (!approvedSender && !likelyMomoTransaction)) {
+    if (trimmedBody.isEmpty || !approvedSender) {
       return null;
     }
 
@@ -180,31 +163,6 @@ class MomoSmsIngestionRepository {
       'ref:',
     ];
     return transactionSignals.any(normalized.contains);
-  }
-
-  static bool _looksLikeMomoTransactionMessage(String body) {
-    final normalized = body.toLowerCase();
-    final hasAmount = _detectAmount(body) != null;
-    final hasTransactionId = _detectTransactionId(body) != null;
-    final hasBalance = normalized.contains('balance:');
-    final hasProviderSignal =
-        normalized.contains('mobile money') ||
-        normalized.contains('momo') ||
-        normalized.contains('m-money');
-    final hasTransactionVerb =
-        normalized.contains('received') ||
-        normalized.contains('payment') ||
-        normalized.contains('withdraw') ||
-        normalized.contains('cash power') ||
-        normalized.contains('airtime') ||
-        normalized.contains('bundle') ||
-        normalized.contains('transferred');
-
-    return (hasAmount &&
-            hasTransactionId &&
-            (hasBalance || hasTransactionVerb)) ||
-        (hasAmount && hasTransactionVerb && hasProviderSignal) ||
-        (hasTransactionId && hasBalance && hasTransactionVerb);
   }
 
   Future<MomoSmsIngestionResult?> ingestCapture({
@@ -397,7 +355,7 @@ class MomoSmsIngestionRepository {
         caseSensitive: false,
       ),
       RegExp(
-        r'([0-9][0-9,.\s]*)\s*(?:RWF|FRW|KES|UGX|TZS|CDF|USD)',
+        r'([0-9][0-9,.\s]*)\s*(?:RWF|FRW)',
         caseSensitive: false,
       ),
     ];

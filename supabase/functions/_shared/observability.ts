@@ -4,6 +4,7 @@ type AdminClient = ReturnType<typeof createAdminClient>;
 
 export type OperationalEventStatus = "ok" | "warn" | "error";
 export type OperationalEventSeverity = "info" | "warning" | "critical";
+export type OperationalEventIngestOrigin = "system" | "mobile_app";
 
 export type OperationalHealthEventInput = {
   service: string;
@@ -18,6 +19,7 @@ export type OperationalHealthEventInput = {
   subjectId?: string | null;
   metadata?: Record<string, unknown>;
   occurredAt?: string | null;
+  ingestOrigin?: OperationalEventIngestOrigin;
 };
 
 function normalizeNullableString(value: unknown): string | null {
@@ -63,6 +65,7 @@ export async function recordOperationalHealthEvent(
         metadata: event.metadata ?? {},
         occurred_at: normalizeNullableString(event.occurredAt) ??
           new Date().toISOString(),
+        ingest_origin: event.ingestOrigin ?? "system",
       });
 
     if (error) {

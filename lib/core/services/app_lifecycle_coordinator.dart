@@ -21,6 +21,7 @@ class AppLifecycleCoordinator {
     required DeepLinkCoordinator deepLinkCoordinator,
     required TripSyncCoordinator tripSyncCoordinator,
     required MomoSmsAutoreadService momoSmsAutoreadService,
+    required MomoService momoService,
   }) : _refreshFeatureFlags = refreshFeatureFlags,
        _readAuthState = readAuthState,
        _engagementTracker = engagementTracker,
@@ -29,7 +30,8 @@ class AppLifecycleCoordinator {
        _sessionCoordinator = sessionCoordinator,
        _deepLinkCoordinator = deepLinkCoordinator,
        _tripSyncCoordinator = tripSyncCoordinator,
-       _momoSmsAutoreadService = momoSmsAutoreadService;
+       _momoSmsAutoreadService = momoSmsAutoreadService,
+       _momoService = momoService;
 
   final Future<void> Function() _refreshFeatureFlags;
   final AuthState Function() _readAuthState;
@@ -40,6 +42,7 @@ class AppLifecycleCoordinator {
   final DeepLinkCoordinator _deepLinkCoordinator;
   final TripSyncCoordinator _tripSyncCoordinator;
   final MomoSmsAutoreadService _momoSmsAutoreadService;
+  final MomoService _momoService;
 
   bool _started = false;
 
@@ -54,7 +57,7 @@ class AppLifecycleCoordinator {
     await _crashlytics.initialize();
     await _performance.initialize();
 
-    MomoService.instance.setObservabilityServices(
+    _momoService.setObservabilityServices(
       crashlytics: _crashlytics,
       performance: _performance,
     );

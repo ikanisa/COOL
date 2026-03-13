@@ -20,7 +20,6 @@ void main() {
               currentMomoCode: '',
               currentMomoRouteType: null,
               country: CoolCountryCatalog.resolve(country: 'RW'),
-              availableCountries: CoolCountryCatalog.all,
             ),
           ),
         );
@@ -59,7 +58,6 @@ void main() {
               currentMomoCode: '',
               currentMomoRouteType: null,
               country: CoolCountryCatalog.resolve(country: 'RW'),
-              availableCountries: CoolCountryCatalog.all,
             ),
           ),
         );

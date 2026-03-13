@@ -71,7 +71,7 @@ The highest-risk gaps are:
 2. The repository documentation claims Android SMS-based M-Money verification is a core shipping path, but the current app code and manifest do not implement that path.
 3. iOS NFC is not production-ready. The app has NFC usage copy, but the iOS entitlements do not include the required NFC capability.
 4. iOS universal links are not production-ready. The entitlements declare associated domains, but the hosted `apple-app-site-association` file is empty.
-5. iOS Google Maps key wiring is incomplete. The app looks for `GOOGLE_MAPS_IOS_API_KEY`, but the checked-in xcconfig files leave it blank.
+5. iOS embedded Google Maps key wiring is incomplete. The app can still ship without `GOOGLE_MAPS_IOS_API_KEY` because it has non-map fallback states, but native `google_maps_flutter` rendering will stay hidden until that key exists.
 6. The committed iOS pod state does not match the declared Flutter dependency graph. Current `Podfile.lock` reflects only a subset of the Firebase and platform plugins the app declares.
 
 The biggest process problem is documentation drift. Several internal docs and the README describe a stronger production posture than the repo currently implements.
@@ -377,7 +377,7 @@ Why it matters:
 
 ### High-severity gaps
 
-#### 5. iOS Google Maps key wiring is incomplete
+#### 5. iOS embedded Google Maps key wiring is incomplete
 
 Severity: High
 
@@ -396,12 +396,12 @@ What is missing:
 
 - `ios/Flutter/Debug.xcconfig:3` sets `GOOGLE_MAPS_IOS_API_KEY=` blank
 - `ios/Flutter/Release.xcconfig:3` sets `GOOGLE_MAPS_IOS_API_KEY=` blank
-- `scripts/build_ios_production.sh:20-29` passes map IDs but not `GOOGLE_MAPS_IOS_API_KEY`
-- `.env.example` documents neither `GOOGLE_MAPS_ANDROID_API_KEY` nor `GOOGLE_MAPS_IOS_API_KEY`
+- at the time of this report, the build path had no documented secure source for `GOOGLE_MAPS_IOS_API_KEY`
 
 Why it matters:
 
-- The code is ready to consume the key, but the repo’s build path does not provide it.
+- It blocks embedded native map rendering on iOS.
+- It does not block `maps-gateway`, autocomplete, reverse geocoding, or route preview because those use backend Google/Gemini credentials.
 
 #### 6. iOS contacts permission macro is missing from Podfile
 
@@ -612,7 +612,7 @@ This decision must happen first because it affects compliance, release posture, 
 - add NFC capability / entitlements
 - complete `apple-app-site-association`
 - publish final App Store metadata and bundle alignment
-- inject `GOOGLE_MAPS_IOS_API_KEY`
+- inject `GOOGLE_MAPS_IOS_API_KEY` if the release must ship embedded native iOS maps
 - add `PERMISSION_CONTACTS=1`
 
 ### P1: Refresh native iOS dependency state

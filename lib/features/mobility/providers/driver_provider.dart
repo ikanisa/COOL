@@ -6,13 +6,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' show PostgrestException;
 
 import '../../auth/providers/auth_provider.dart';
+import '../../momo/providers/momo_service_provider.dart';
 import '../repositories/mobility_repository.dart';
 import '../repositories/subscription_repository.dart';
 import '../../../core/providers/supabase_client_provider.dart';
 import 'mobility_provider.dart';
 
 final subscriptionRepositoryProvider = Provider<SubscriptionRepository>((ref) {
-  return SubscriptionRepository(client: ref.read(supabaseClientProvider));
+  return SubscriptionRepository(
+    client: ref.read(supabaseClientProvider),
+    momoService: ref.read(momoServiceProvider),
+  );
 });
 
 final driverProvider = StateNotifierProvider<DriverNotifier, DriverState>((
@@ -370,6 +374,7 @@ class DriverNotifier extends StateNotifier<DriverState> {
 
   DriverProfile? _buildLegacyDriverProfileFallback(String userId) {
     final user = _authState.user;
+    final fullName = user?.fullName.trim();
     final vehicleType = user?.vehicleType?.trim();
     final hasDriverContext =
         user?.isDriver == true || (vehicleType?.isNotEmpty ?? false);
@@ -380,7 +385,9 @@ class DriverNotifier extends StateNotifier<DriverState> {
 
     return DriverProfile(
       userId: userId,
-      fullName: user?.displayUserId ?? '000000',
+      fullName: fullName?.isNotEmpty == true
+          ? fullName!
+          : user?.displayUserId ?? '000000',
       vehicleType: vehicleType?.isNotEmpty == true ? vehicleType! : 'Moto Taxi',
       isOnline: false,
       credits: 15,

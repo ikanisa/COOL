@@ -187,11 +187,10 @@ ON CONFLICT DO NOTHING;
 -- ─── App Config ──────────────────────────────────────────────────────────
 
 INSERT INTO public.app_config (key, value, description) VALUES
-  ('support_whatsapp',        '250795588248',      'Global WhatsApp support number'),
+  ('support_whatsapp',        '250795588248',      'Primary WhatsApp support number'),
   ('credit_grade_excellent',  '80',                'Minimum score for Excellent grade'),
   ('credit_grade_good',       '60',                'Minimum score for Good Standing grade'),
-  ('credit_grade_building',   '40',                'Minimum score for Building grade'),
-  ('supported_languages',     '[{"code":"en","flag":"🇬🇧","name":"English"},{"code":"fr","flag":"🇫🇷","name":"Français"}]', 'JSON array of supported languages')
+  ('credit_grade_building',   '40',                'Minimum score for Building grade')
 ON CONFLICT DO NOTHING;
 
 INSERT INTO public.app_config (key, value, description, country) VALUES
@@ -200,34 +199,9 @@ INSERT INTO public.app_config (key, value, description, country) VALUES
 ON CONFLICT DO NOTHING;
 
 -- ─── Supported Countries (update existing rows with new columns) ─────────
--- Rows already seeded by migration 20260310170000; just add geo + sort data.
+-- Rows already seeded by migration 20260310170000; keep the Rwanda map default.
 
 UPDATE public.supported_countries SET default_lat = -1.9441, default_lng = 30.0619, sort_order = 0 WHERE iso_code = 'RW';
-UPDATE public.supported_countries SET default_lat = -1.2864, default_lng = 36.8172, sort_order = 1 WHERE iso_code = 'KE';
-UPDATE public.supported_countries SET default_lat = 0.3476,  default_lng = 32.5825, sort_order = 2 WHERE iso_code = 'UG';
-UPDATE public.supported_countries SET default_lat = -6.7924, default_lng = 39.2083, sort_order = 3 WHERE iso_code = 'TZ';
-UPDATE public.supported_countries SET default_lat = 5.6037,  default_lng = -0.1870, sort_order = 4 WHERE iso_code = 'GH';
-UPDATE public.supported_countries SET default_lat = 9.0579,  default_lng = 7.4951,  sort_order = 5 WHERE iso_code = 'NG';
-UPDATE public.supported_countries SET default_lat = -33.9249,default_lng = 18.4241, sort_order = 6 WHERE iso_code = 'ZA';
-UPDATE public.supported_countries SET default_lat = 3.8480,  default_lng = 11.5021, sort_order = 7 WHERE iso_code = 'CM';
-UPDATE public.supported_countries SET default_lat = 5.3600,  default_lng = -4.0083, sort_order = 8 WHERE iso_code = 'CI';
-UPDATE public.supported_countries SET default_lat = 14.7167, default_lng = -17.4677,sort_order = 9 WHERE iso_code = 'SN';
-UPDATE public.supported_countries SET default_lat = -4.4419, default_lng = 15.2663, sort_order = 10 WHERE iso_code = 'CD';
-UPDATE public.supported_countries SET default_lat = 6.3703,  default_lng = 2.3912,  sort_order = 11 WHERE iso_code = 'BJ';
-UPDATE public.supported_countries SET default_lat = -24.6282,default_lng = 25.9231, sort_order = 12 WHERE iso_code = 'BW';
-UPDATE public.supported_countries SET default_lat = -4.2634, default_lng = 15.2429, sort_order = 13 WHERE iso_code = 'CG';
-UPDATE public.supported_countries SET default_lat = 9.6412,  default_lng = -13.5784,sort_order = 14 WHERE iso_code = 'GN';
-UPDATE public.supported_countries SET default_lat = 11.8037, default_lng = -15.1804,sort_order = 15 WHERE iso_code = 'GW';
-UPDATE public.supported_countries SET default_lat = 6.3008,  default_lng = -10.7972,sort_order = 16 WHERE iso_code = 'LR';
-UPDATE public.supported_countries SET default_lat = -13.9626,default_lng = 33.7741, sort_order = 17 WHERE iso_code = 'MW';
-UPDATE public.supported_countries SET default_lat = -25.9692,default_lng = 32.5732, sort_order = 18 WHERE iso_code = 'MZ';
-UPDATE public.supported_countries SET default_lat = -26.5225,default_lng = 31.4659, sort_order = 19 WHERE iso_code = 'SZ';
-UPDATE public.supported_countries SET default_lat = -15.3875,default_lng = 28.3228, sort_order = 20 WHERE iso_code = 'ZM';
-UPDATE public.supported_countries SET default_lat = -17.8252,default_lng = 31.0335, sort_order = 21 WHERE iso_code = 'ZW';
-UPDATE public.supported_countries SET default_lat = 9.0250,  default_lng = 38.7469, sort_order = 22 WHERE iso_code = 'ET';
-UPDATE public.supported_countries SET default_lat = 0.4162,  default_lng = 9.4673,  sort_order = 23 WHERE iso_code = 'GA';
-UPDATE public.supported_countries SET default_lat = -18.8792,default_lng = 47.5079, sort_order = 24 WHERE iso_code = 'MG';
-UPDATE public.supported_countries SET default_lat = 8.4606,  default_lng = -13.2317,sort_order = 25 WHERE iso_code = 'SL';
 
 
 -- ─── Partner Services (seed for existing partners) ───────────────────────

@@ -21,12 +21,13 @@ feature branch → main → tag v*.*.* → CI release → Firebase App Distribut
 1. **Merge to `main`**: All PRs must pass CI (analyze, test, size gate)
    - Route changes must also update `docs/ROUTE_INVENTORY.md`
    - New routes must satisfy `docs/SCREEN_BUDGETS.md`
+   - If store or deep-link identifiers changed, update `deeplinks/release_metadata.json` and regenerate the hosted association files
 2. **Tag a release**: `git tag v1.2.3 && git push origin v1.2.3`
 3. **CI builds automatically**: `release.yml` triggers on `v*` tags
 4. **CI pipeline**:
    - Reads Flutter version from `.fvmrc`
-   - Runs `flutter analyze --fatal-infos`
-   - Runs `flutter test`
+   - Runs `bash scripts/release_readiness.sh`
+   - This includes Flutter analysis/tests, deep-link asset validation, Deno checks, and flavor verification
    - Decodes signing keystore from secrets
    - Builds signed release APK
    - Uploads to Firebase App Distribution (staff group)
@@ -77,7 +78,6 @@ carry:
 
 - a kill-switch
 - a rollout stage (`live`, `pilot`, `internal`, `disabled`)
-- an optional allowed-country list
 - an optional admin-only restriction
 
 Current governed Flutter surfaces:
@@ -112,3 +112,16 @@ Staff (internal) → Beta (1-2 weeks soak) → Production
 | `STORE_PASSWORD` | Store password |
 | `FIREBASE_APP_ID` | Firebase Android app ID |
 | `FIREBASE_SERVICE_ACCOUNT` | Firebase service account JSON |
+
+## Native Release Inputs
+
+Production iOS validation is intentionally fail-fast now. Before cutting a release,
+ensure all of the following are present locally or in CI:
+
+- `ios/Runner/GoogleService-Info.plist` for bundle id `app.cool.mobile`
+- populated `deeplinks/release_metadata.json` values for `ios.teamId` and `ios.appStoreId`
+
+Client `GOOGLE_MAPS_ANDROID_API_KEY` and `GOOGLE_MAPS_IOS_API_KEY` are optional
+in this repo. If absent, the app still ships, but embedded
+`google_maps_flutter` widgets fall back to non-map route summary states while
+`maps-gateway` continues to use the server Google/Gemini credential path.

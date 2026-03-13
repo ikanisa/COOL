@@ -1,8 +1,9 @@
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/config/app_market.dart';
 import '../../../core/config/app_config_repository.dart';
 import '../../../core/config/country_catalog.dart';
 import '../../../core/models/engagement_feature_flags.dart';
@@ -27,9 +28,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
     final configAsync = ref.watch(adminAppConfigProvider);
     final partnerRoutesAsync = ref.watch(adminPartnerPaymentRoutesProvider);
     final partnersAsync = ref.watch(adminPartnersProvider);
-    final countries =
-        ref.watch(supportedCountriesProvider).valueOrNull ??
-        CoolCountryCatalog.all;
+    final countries = ref.watch(supportedCountriesProvider);
 
     return Scaffold(
       backgroundColor: AppColors.bg,
@@ -46,10 +45,15 @@ class ManageAppConfigScreen extends ConsumerWidget {
         ),
         iconTheme: const IconThemeData(color: AppColors.text),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.accent,
-        onPressed: () => _showEditSheet(context, ref, null, countries),
-        child: const Icon(Icons.add_rounded, color: Colors.black),
+      floatingActionButton: Semantics(
+        button: true,
+        label: 'Add config entry',
+        hint: 'Opens the new configuration form',
+        child: FloatingActionButton(
+          backgroundColor: AppColors.accent,
+          onPressed: () => _showEditSheet(context, ref, null, countries),
+          child: const Icon(Icons.add_rounded, color: Colors.black),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -66,7 +70,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
                 AppConfigSectionHeader(
                   title: 'Rollout Governance',
                   subtitle:
-                      'Manage kill switches, rollout stage, market allow-lists, and operator-only access for the app shell.',
+                      'Manage kill switches, rollout stage, and operator-only access for the Rwanda app shell.',
                 ),
                 const SizedBox(height: 12),
                 ...viewModel.rollouts.map(
@@ -83,7 +87,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
                 AppConfigSectionHeader(
                   title: 'Mobility Subscription Recipient',
                   subtitle:
-                      'Set the MoMo code that receives mobility subscription payments. Add a global default or country override here instead of using build flags.',
+                      'Set the MoMo code that receives Rwanda mobility subscription payments without shipping a new build.',
                 ),
                 const SizedBox(height: 12),
                 Align(
@@ -135,7 +139,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
                 AppConfigSectionHeader(
                   title: 'Partner Payment Routes',
                   subtitle:
-                      'Manage per-partner merchant codes, providers, reconciliation labels, and active checkout status without shipping a new app build.',
+                      'Manage Rwanda partner checkout merchant codes, providers, reconciliation labels, and active status without shipping a new build.',
                 ),
                 const SizedBox(height: 12),
                 Align(
@@ -200,7 +204,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
                 AppConfigSectionHeader(
                   title: 'Additional Config',
                   subtitle:
-                      'Use the generic config editor for non-rollout keys and country-scoped operational settings.',
+                      'Use the generic config editor for Rwanda operational settings and non-rollout keys.',
                 ),
                 const SizedBox(height: 12),
                 if (viewModel.genericConfigs.isEmpty)
@@ -257,11 +261,8 @@ class ManageAppConfigScreen extends ConsumerWidget {
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (_) => EditConfigSheet(
-        config: config,
-        ref: ref,
-        countries: countries,
-      ),
+      builder: (_) =>
+          EditConfigSheet(config: config, ref: ref, countries: countries),
     );
   }
 
@@ -275,11 +276,8 @@ class ManageAppConfigScreen extends ConsumerWidget {
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (_) => EditRolloutSheet(
-        rollout: rollout,
-        ref: ref,
-        countries: countries,
-      ),
+      builder: (_) =>
+          EditRolloutSheet(rollout: rollout, ref: ref, countries: countries),
     );
   }
 

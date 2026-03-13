@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -209,10 +210,7 @@ class _RouteField extends StatelessWidget {
               ? const SizedBox(
                   width: 18,
                   height: 18,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: AppColors.accent,
-                  ),
+                  child: CupertinoActivityIndicator(radius: 9),
                 )
               : _RouteActionIcon(
                   icon: Icons.my_location_rounded,

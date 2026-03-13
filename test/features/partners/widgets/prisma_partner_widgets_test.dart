@@ -41,7 +41,7 @@ void main() {
 
       expect(find.text('Legal, Tax & Compliance'), findsOneWidget);
       expect(find.text('Audit, Insurance & Risk'), findsOneWidget);
-      expect(find.text('Rwanda & Malta'), findsOneWidget);
+      expect(find.text('Rwanda Jurisdiction'), findsOneWidget);
     });
   });
 
@@ -53,7 +53,7 @@ void main() {
       expect(find.text('9'), findsOneWidget);
       expect(find.text('AI Agents'), findsOneWidget);
       expect(find.text('28K+'), findsOneWidget);
-      expect(find.text('2'), findsOneWidget);
+      expect(find.text('1'), findsOneWidget);
       expect(find.text('14'), findsOneWidget);
     });
   });
@@ -65,7 +65,7 @@ void main() {
       expect(find.text('How the platform works'), findsOneWidget);
       expect(find.text('Zero Hallucination'), findsOneWidget);
       expect(find.text('Jurisdiction Locked'), findsOneWidget);
-      expect(find.text('Multilingual'), findsOneWidget);
+      expect(find.text('Rwanda Professional Standards'), findsOneWidget);
     });
   });
 
@@ -75,20 +75,18 @@ void main() {
         PrismaSupportCard(partner: _testPartner),
       ));
 
-      expect(find.text('Start with the right desk'), findsOneWidget);
+      expect(find.text('Get in touch'), findsOneWidget);
       expect(find.text('Rwanda WhatsApp'), findsOneWidget);
-      expect(find.text('Malta WhatsApp'), findsOneWidget);
       expect(find.text('Email'), findsOneWidget);
       expect(find.text('Open Rwanda Desk'), findsOneWidget);
-      expect(find.text('Open Malta Desk'), findsOneWidget);
     });
   });
 
   group('normalizePrismaCategory', () {
     test('normalizes known categories', () {
       expect(normalizePrismaCategory('rwanda_agent'), 'rwanda_agent');
-      expect(normalizePrismaCategory('malta_agent'), 'malta_agent');
-      expect(normalizePrismaCategory('global_agent'), 'global_agent');
+      expect(normalizePrismaCategory('compliance_agent'), 'capability');
+      expect(normalizePrismaCategory('legacy_agent'), 'capability');
       expect(normalizePrismaCategory('capability'), 'capability');
       expect(normalizePrismaCategory('service'), 'capability');
       expect(normalizePrismaCategory('support'), 'support');
@@ -103,19 +101,23 @@ void main() {
     test('groups and orders services by category', () {
       const services = [
         PartnerService(
-          id: '1', partnerId: 'p2', title: 'S1', category: 'malta_agent'),
+          id: '1',
+          partnerId: 'p2',
+          title: 'S1',
+          category: 'compliance_agent',
+        ),
         PartnerService(
           id: '2', partnerId: 'p2', title: 'S2', category: 'rwanda_agent'),
         PartnerService(
-          id: '3', partnerId: 'p2', title: 'S3', category: 'malta_agent'),
+          id: '3', partnerId: 'p2', title: 'S3', category: 'legacy_agent'),
       ];
 
       final grouped = groupPrismaServices(services);
 
-      // rwanda_agent comes before malta_agent in prismaCategoryOrder
+      // rwanda_agent comes before capability in prismaCategoryOrder.
       expect(grouped[0].key, 'rwanda_agent');
       expect(grouped[0].value.length, 1);
-      expect(grouped[1].key, 'malta_agent');
+      expect(grouped[1].key, 'capability');
       expect(grouped[1].value.length, 2);
     });
   });

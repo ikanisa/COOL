@@ -4,10 +4,14 @@ import '../../../core/services/momo_service.dart';
 import '../models/subscription_status.dart';
 
 class SubscriptionRepository {
-  SubscriptionRepository({SupabaseClient? client})
-    : _client = client ?? Supabase.instance.client;
+  SubscriptionRepository({
+    required SupabaseClient client,
+    required MomoService momoService,
+  }) : _client = client,
+       _momoService = momoService;
 
   final SupabaseClient _client;
+  final MomoService _momoService;
   static const _monthlyFreeTripQuota = 15;
 
   Future<SubscriptionStatus> getSubscriptionStatus(String userId) async {
@@ -50,7 +54,7 @@ class SubscriptionRepository {
   }
 
   Future<void> initiateSubscription(String userId, String plan) async {
-    await MomoService.instance.initiateSubscription(
+    await _momoService.initiateSubscription(
       driverId: userId,
       plan: _planFromId(plan),
     );

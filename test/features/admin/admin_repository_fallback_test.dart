@@ -124,7 +124,7 @@ void main() {
     });
 
     test('_deriveMomoValidationIssuesLocally fallback produces valid issue shape', () {
-      // The issue row shape must match what ManageCountriesScreen expects.
+      // The issue row shape must match the admin validation diagnostics view.
       // We verify the _issueRow structure by creating a representative one.
       final issueRow = <String, dynamic>{
         'record_type': 'user',

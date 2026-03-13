@@ -49,8 +49,7 @@ class PartnerSectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final meta =
-        categoryMeta[category] ?? categoryMeta[fallbackCategory]!;
+    final meta = categoryMeta[category] ?? categoryMeta[fallbackCategory]!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -116,7 +115,12 @@ class PartnerServiceCard extends StatelessWidget {
   final Partner partner;
   final Map<String, CategoryMeta> categoryMeta;
   final String Function(String rawCategory) normalizeCategory;
-  final void Function(BuildContext context, {required String action, String? topic}) onCtaTap;
+  final void Function(
+    BuildContext context, {
+    required String action,
+    String? topic,
+  })
+  onCtaTap;
   final String fallbackCategory;
 
   /// Returns a gradient when the normalized category matches a condition.
@@ -127,8 +131,7 @@ class PartnerServiceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final normalizedCategory = normalizeCategory(service.category);
     final meta =
-        categoryMeta[normalizedCategory] ??
-        categoryMeta[fallbackCategory]!;
+        categoryMeta[normalizedCategory] ?? categoryMeta[fallbackCategory]!;
 
     return CoolCard(
       gradient: gradientWhen?.call(normalizedCategory),
@@ -313,7 +316,10 @@ class PartnerQuickActionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
+    return Semantics(
+      button: true,
+      label: '$title action',
+      child: Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
@@ -346,6 +352,7 @@ class PartnerQuickActionTile extends StatelessWidget {
             ],
           ),
         ),
+      ),
       ),
     );
   }

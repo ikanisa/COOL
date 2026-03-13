@@ -83,37 +83,29 @@ void main() {
         expect(flags.killMobility, isFalse);
       });
 
-      test('applies rollout governance by country and admin context', () {
+      test('applies rollout governance by stage and admin context', () {
         final flags = EngagementFeatureFlags.fromValues(<String, Object?>{
           'engagement_enabled': true,
           'engagement_share_tracking_enabled': true,
           'engagement_group_captain_enabled': false,
           'engagement_rayon_chapter_enabled': false,
           'feature_mobility_stage': 'pilot',
-          'feature_mobility_allowed_countries': 'RW, KE',
           'feature_credit_stage': 'internal',
           'feature_credit_admin_only': true,
         });
 
-        expect(flags.isMobilityEnabled(countryCode: 'RW'), isTrue);
-        expect(flags.isMobilityEnabled(countryCode: 'CD'), isFalse);
-        expect(
-          flags.isCreditEnabled(countryCode: 'RW', isAdmin: false),
-          isFalse,
-        );
-        expect(flags.isCreditEnabled(countryCode: 'RW', isAdmin: true), isTrue);
+        expect(flags.isMobilityEnabled(), isTrue);
+        expect(flags.isCreditEnabled(isAdmin: false), isFalse);
+        expect(flags.isCreditEnabled(isAdmin: true), isTrue);
       });
 
-      test('normalizes rollout countries and falls back on invalid stages', () {
+      test('falls back on invalid stages', () {
         final flags = EngagementFeatureFlags.fromValues(<String, Object?>{
           'feature_momo_stage': 'unexpected-stage',
-          'feature_momo_allowed_countries': ' rw, KE, rw,cd ',
         });
 
         expect(flags.momo.stage, FeatureRolloutStage.live);
-        expect(flags.momo.allowedCountries, <String>['CD', 'KE', 'RW']);
-        expect(flags.isMomoEnabled(countryCode: 'RW'), isTrue);
-        expect(flags.isMomoEnabled(countryCode: 'UG'), isFalse);
+        expect(flags.isMomoEnabled(), isTrue);
       });
     });
 
@@ -127,7 +119,6 @@ void main() {
         expect(map.containsKey('kill_ticket_purchase'), isTrue);
         expect(map.containsKey('kill_mobility'), isTrue);
         expect(map.containsKey('feature_momo_stage'), isTrue);
-        expect(map.containsKey('feature_credit_allowed_countries'), isTrue);
         expect(map.containsKey('feature_ticket_purchase_admin_only'), isTrue);
         expect(map.containsKey('feature_mobility_stage'), isTrue);
         expect(map['kill_momo_payments'], isFalse);

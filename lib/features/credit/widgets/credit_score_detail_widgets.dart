@@ -387,12 +387,7 @@ class CreditScoreErrorState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: CoolCard(
-        child: CoolErrorView(
-          message: error,
-          compact: true,
-        ),
-      ),
+      child: CoolCard(child: CoolErrorView(message: error, compact: true)),
     );
   }
 }

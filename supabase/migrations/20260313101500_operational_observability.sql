@@ -55,8 +55,7 @@ comment on table public.operational_health_events is
 create or replace view public.operational_config_issues as
 with required_configs(config_key, scope_mode, stale_after_days, description) as (
   values
-    ('support_whatsapp', 'global', 45, 'Global support escalation contact.'),
-    ('supported_languages', 'global', 90, 'Languages exposed by the app shell.'),
+    ('support_whatsapp', 'shared', 45, 'Primary support escalation contact.'),
     ('mobility_subscription_momo_code', 'any', 30, 'MoMo code used for mobility subscription checkout.')
 ),
 matching_configs as (
@@ -76,7 +75,7 @@ matching_configs as (
     where ac.key = rc.config_key
       and (
         rc.scope_mode = 'any'
-        or (rc.scope_mode = 'global' and ac.country is null)
+        or (rc.scope_mode = 'shared' and ac.country is null)
       )
     order by coalesce(ac.updated_at, ac.created_at) desc nulls last
     limit 1

@@ -317,24 +317,29 @@ class DriverModeToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => onChanged(!value),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 250),
-        width: 52,
-        height: 28,
-        padding: const EdgeInsets.all(3),
-        decoration: BoxDecoration(
-          color: value ? AppColors.accent : AppColors.surface3,
-          borderRadius: BorderRadius.circular(14),
-        ),
-        alignment: value ? Alignment.centerRight : Alignment.centerLeft,
-        child: Container(
-          width: 22,
-          height: 22,
-          decoration: const BoxDecoration(
-            color: AppColors.text,
-            shape: BoxShape.circle,
+    return Semantics(
+      button: true,
+      toggled: value,
+      label: value ? 'Driver mode on' : 'Driver mode off',
+      child: GestureDetector(
+        onTap: () => onChanged(!value),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          width: 52,
+          height: 28,
+          padding: const EdgeInsets.all(3),
+          decoration: BoxDecoration(
+            color: value ? AppColors.accent : AppColors.surface3,
+            borderRadius: BorderRadius.circular(14),
+          ),
+          alignment: value ? Alignment.centerRight : Alignment.centerLeft,
+          child: Container(
+            width: 22,
+            height: 22,
+            decoration: const BoxDecoration(
+              color: AppColors.text,
+              shape: BoxShape.circle,
+            ),
           ),
         ),
       ),
@@ -441,26 +446,31 @@ class DriverViewSwitcher extends StatelessWidget {
         children: [
           for (var i = 0; i < _labels.length; i++)
             Expanded(
-              child: GestureDetector(
-                onTap: () => onChanged(i),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 180),
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  decoration: BoxDecoration(
-                    color: activeIndex == i
-                        ? AppColors.accent
-                        : Colors.transparent,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    _labels[i],
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
+              child: Semantics(
+                button: true,
+                selected: activeIndex == i,
+                label: '${_labels[i]} tab',
+                child: GestureDetector(
+                  onTap: () => onChanged(i),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 180),
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    decoration: BoxDecoration(
                       color: activeIndex == i
-                          ? Colors.black
-                          : AppColors.text2,
+                          ? AppColors.accent
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      _labels[i],
+                      style: GoogleFonts.dmSans(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: activeIndex == i
+                            ? Colors.black
+                            : AppColors.text2,
+                      ),
                     ),
                   ),
                 ),

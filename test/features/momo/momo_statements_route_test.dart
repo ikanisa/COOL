@@ -4,6 +4,7 @@ import 'package:cool_app/core/config/country_catalog.dart';
 import 'package:cool_app/core/l10n/locale_provider.dart';
 import 'package:cool_app/core/providers/engagement_providers.dart';
 import 'package:cool_app/core/providers/supported_countries_provider.dart';
+import 'package:cool_app/core/services/momo_service.dart';
 import 'package:cool_app/core/theme/app_theme.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart';
 import 'package:cool_app/features/momo/models/momo_statement.dart';
@@ -121,17 +122,15 @@ void main() {
     when(() => authRepository.getProfile(any())).thenAnswer((_) async => user);
 
     when(
-      () => countriesRepository.getSupportedCountries(
-        forceRefresh: any(named: 'forceRefresh'),
-      ),
-    ).thenAnswer((_) async => CoolCountryCatalog.all);
+      () => countriesRepository.getSupportedCountries(),
+    ).thenReturn(CoolCountryCatalog.all);
     when(
       () => countriesRepository.resolveCountry(
         countryCode: any(named: 'countryCode'),
         phone: any(named: 'phone'),
         providerId: any(named: 'providerId'),
       ),
-    ).thenAnswer((_) async {
+    ).thenAnswer((_) {
       return CoolCountryCatalog.resolve(country: 'RW');
     });
 
@@ -143,6 +142,7 @@ void main() {
             repository: ref.watch(authRepositoryProvider),
             crashlytics: ref.read(crashlyticsServiceProvider),
             performance: ref.read(performanceServiceProvider),
+            momoService: MomoService(client: MockSupabaseClient()),
             session: session,
             user: user,
           ),
@@ -214,7 +214,7 @@ void main() {
           SavingsStatementEntry(
             id: 'savings-1',
             groupId: 'group-1',
-            groupName: 'Diaspora Builders Pool',
+            groupName: 'Western Builders Pool',
             amount: 15000,
             status: 'confirmed',
             createdAt: DateTime(2026, 3, 10),
@@ -238,17 +238,15 @@ void main() {
     when(() => authRepository.getProfile(any())).thenAnswer((_) async => user);
 
     when(
-      () => countriesRepository.getSupportedCountries(
-        forceRefresh: any(named: 'forceRefresh'),
-      ),
-    ).thenAnswer((_) async => CoolCountryCatalog.all);
+      () => countriesRepository.getSupportedCountries(),
+    ).thenReturn(CoolCountryCatalog.all);
     when(
       () => countriesRepository.resolveCountry(
         countryCode: any(named: 'countryCode'),
         phone: any(named: 'phone'),
         providerId: any(named: 'providerId'),
       ),
-    ).thenAnswer((_) async {
+    ).thenAnswer((_) {
       return CoolCountryCatalog.resolve(country: 'RW');
     });
 
@@ -260,6 +258,7 @@ void main() {
             repository: ref.watch(authRepositoryProvider),
             crashlytics: ref.read(crashlyticsServiceProvider),
             performance: ref.read(performanceServiceProvider),
+            momoService: MomoService(client: MockSupabaseClient()),
             session: session,
             user: user,
           ),
@@ -343,17 +342,15 @@ void main() {
     when(() => authRepository.getProfile(any())).thenAnswer((_) async => user);
 
     when(
-      () => countriesRepository.getSupportedCountries(
-        forceRefresh: any(named: 'forceRefresh'),
-      ),
-    ).thenAnswer((_) async => CoolCountryCatalog.all);
+      () => countriesRepository.getSupportedCountries(),
+    ).thenReturn(CoolCountryCatalog.all);
     when(
       () => countriesRepository.resolveCountry(
         countryCode: any(named: 'countryCode'),
         phone: any(named: 'phone'),
         providerId: any(named: 'providerId'),
       ),
-    ).thenAnswer((_) async {
+    ).thenAnswer((_) {
       return CoolCountryCatalog.resolve(country: 'RW');
     });
 
@@ -365,6 +362,7 @@ void main() {
             repository: ref.watch(authRepositoryProvider),
             crashlytics: ref.read(crashlyticsServiceProvider),
             performance: ref.read(performanceServiceProvider),
+            momoService: MomoService(client: MockSupabaseClient()),
             session: session,
             user: user,
           ),
@@ -436,17 +434,15 @@ void main() {
       ).thenAnswer((_) async => user);
 
       when(
-        () => countriesRepository.getSupportedCountries(
-          forceRefresh: any(named: 'forceRefresh'),
-        ),
-      ).thenAnswer((_) async => CoolCountryCatalog.all);
+        () => countriesRepository.getSupportedCountries(),
+      ).thenReturn(CoolCountryCatalog.all);
       when(
         () => countriesRepository.resolveCountry(
           countryCode: any(named: 'countryCode'),
           phone: any(named: 'phone'),
           providerId: any(named: 'providerId'),
         ),
-      ).thenAnswer((_) async {
+      ).thenAnswer((_) {
         return CoolCountryCatalog.resolve(country: 'RW');
       });
 
@@ -458,6 +454,7 @@ void main() {
               repository: ref.watch(authRepositoryProvider),
               crashlytics: ref.read(crashlyticsServiceProvider),
               performance: ref.read(performanceServiceProvider),
+              momoService: MomoService(client: MockSupabaseClient()),
               session: session,
               user: user,
             ),
@@ -558,17 +555,15 @@ void main() {
     when(() => authRepository.getProfile(any())).thenAnswer((_) async => user);
 
     when(
-      () => countriesRepository.getSupportedCountries(
-        forceRefresh: any(named: 'forceRefresh'),
-      ),
-    ).thenAnswer((_) async => CoolCountryCatalog.all);
+      () => countriesRepository.getSupportedCountries(),
+    ).thenReturn(CoolCountryCatalog.all);
     when(
       () => countriesRepository.resolveCountry(
         countryCode: any(named: 'countryCode'),
         phone: any(named: 'phone'),
         providerId: any(named: 'providerId'),
       ),
-    ).thenAnswer((_) async {
+    ).thenAnswer((_) {
       return CoolCountryCatalog.resolve(country: 'RW');
     });
 
@@ -580,6 +575,7 @@ void main() {
             repository: ref.watch(authRepositoryProvider),
             crashlytics: ref.read(crashlyticsServiceProvider),
             performance: ref.read(performanceServiceProvider),
+            momoService: MomoService(client: MockSupabaseClient()),
             session: session,
             user: user,
           ),
@@ -685,17 +681,15 @@ void main() {
     when(() => authRepository.getProfile(any())).thenAnswer((_) async => user);
 
     when(
-      () => countriesRepository.getSupportedCountries(
-        forceRefresh: any(named: 'forceRefresh'),
-      ),
-    ).thenAnswer((_) async => CoolCountryCatalog.all);
+      () => countriesRepository.getSupportedCountries(),
+    ).thenReturn(CoolCountryCatalog.all);
     when(
       () => countriesRepository.resolveCountry(
         countryCode: any(named: 'countryCode'),
         phone: any(named: 'phone'),
         providerId: any(named: 'providerId'),
       ),
-    ).thenAnswer((_) async {
+    ).thenAnswer((_) {
       return CoolCountryCatalog.resolve(country: 'RW');
     });
 
@@ -707,6 +701,7 @@ void main() {
             repository: ref.watch(authRepositoryProvider),
             crashlytics: ref.read(crashlyticsServiceProvider),
             performance: ref.read(performanceServiceProvider),
+            momoService: MomoService(client: MockSupabaseClient()),
             session: session,
             user: user,
           ),
@@ -756,9 +751,7 @@ void main() {
     expect(initialQuery.startDate, isNotNull);
     expect(initialQuery.endDate, isNotNull);
 
-    final dayChip = find.byKey(
-      const ValueKey<String>('statement-period-day'),
-    );
+    final dayChip = find.byKey(const ValueKey<String>('statement-period-day'));
     await tester.ensureVisible(dayChip);
     await tester.tap(dayChip, warnIfMissed: false);
     await settleTestApp(tester);

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-import '../../../core/config/country_catalog.dart';
+import '../../../core/config/app_market.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/phone_validator.dart';
@@ -84,9 +84,7 @@ class ProfileMomoQrCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final country =
-        CoolCountryCatalog.byIsoCode(countryCode) ??
-        CoolCountryCatalog.defaultCountry;
+    final country = AppMarket.country;
     final qrData = PhoneValidator.generateMomoQrData(
       momoNumber,
       country,

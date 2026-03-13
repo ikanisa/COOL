@@ -32,6 +32,6 @@ export function toWhatsAppRecipient(phone: string): string {
   return normalizePhone(phone).replace("+", "");
 }
 
-export function toOtpTemplateLanguage(language: "en" | "fr"): "en_US" | "fr" {
-  return language == "fr" ? "fr" : "en_US";
+export function toOtpTemplateLanguage(_language: string): "en_US" {
+  return "en_US";
 }

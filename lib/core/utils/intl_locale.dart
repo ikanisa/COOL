@@ -3,37 +3,20 @@ import 'package:intl/intl.dart';
 
 const _fallbackIntlLocale = 'en';
 
+/// The COOL app is English-only. Always returns 'en'.
 String resolveIntlLocale(
   BuildContext context, {
   String fallback = _fallbackIntlLocale,
 }) {
-  return resolveIntlLocaleTag(
-    Localizations.maybeLocaleOf(context),
-    fallback: fallback,
-  );
+  return _fallbackIntlLocale;
 }
 
+/// The COOL app is English-only. Always returns 'en'.
 String resolveIntlLocaleTag(
   Locale? locale, {
   String fallback = _fallbackIntlLocale,
 }) {
-  final candidates = <String>[
-    if (locale != null) locale.toLanguageTag(),
-    if (locale != null &&
-        locale.languageCode.isNotEmpty &&
-        (locale.countryCode?.isNotEmpty ?? false))
-      '${locale.languageCode}_${locale.countryCode}',
-    if (locale != null && locale.languageCode.isNotEmpty) locale.languageCode,
-    fallback,
-  ];
-
-  for (final candidate in candidates) {
-    if (_supportsIntlNumberFormatting(candidate)) {
-      return candidate;
-    }
-  }
-
-  return fallback;
+  return _fallbackIntlLocale;
 }
 
 NumberFormat decimalMoneyFormatForLocale(
@@ -57,11 +40,3 @@ DateFormat safeDateFormat(
   }
 }
 
-bool _supportsIntlNumberFormatting(String localeTag) {
-  try {
-    NumberFormat.decimalPattern(localeTag);
-    return true;
-  } catch (_) {
-    return false;
-  }
-}

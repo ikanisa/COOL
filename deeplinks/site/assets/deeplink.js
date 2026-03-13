@@ -1,7 +1,12 @@
 (function () {
+  var STORE_LINKS = window.COOL_STORE_LINKS || {};
   var PLAY_STORE_URL =
+    STORE_LINKS.playStoreUrl ||
     "https://play.google.com/store/apps/details?id=app.cool.mobile";
-  var IOS_DOWNLOAD_URL = "https://cool.app/download-ios/";
+  var IOS_DOWNLOAD_URL =
+    STORE_LINKS.appStoreUrl ||
+    STORE_LINKS.iosFallbackUrl ||
+    "https://cool.app/download-ios/";
   var path = window.location.pathname || "/";
   var query = window.location.search || "";
   var hash = window.location.hash || "";

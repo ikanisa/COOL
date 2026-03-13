@@ -5,7 +5,8 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 readonly FLUTTER_BIN="${FLUTTER_BIN:-$ROOT_DIR/scripts/flutterw}"
-readonly IOS_MAPS_KEYS_XCCONFIG="$ROOT_DIR/ios/Flutter/MapsKeys.xcconfig"
+# shellcheck source=scripts/_ios_release_env.sh
+source "$ROOT_DIR/scripts/_ios_release_env.sh"
 
 MAPS_KEYS_BACKUP=""
 
@@ -20,6 +21,10 @@ restore_ios_maps_keys() {
 
 prepare_ios_maps_keys() {
   if [[ -n "${GOOGLE_MAPS_IOS_API_KEY:-}" ]]; then
+    if ios_value_is_placeholder "$GOOGLE_MAPS_IOS_API_KEY"; then
+      return
+    fi
+
     if [[ -f "$IOS_MAPS_KEYS_XCCONFIG" ]]; then
       MAPS_KEYS_BACKUP="$(mktemp "${TMPDIR:-/tmp}/cool-maps-keys.XXXXXX")"
       cp "$IOS_MAPS_KEYS_XCCONFIG" "$MAPS_KEYS_BACKUP"
@@ -35,18 +40,17 @@ EOF
     return
   fi
 
-  if [[ -f "$IOS_MAPS_KEYS_XCCONFIG" ]] &&
-    grep -Eq '^GOOGLE_MAPS_IOS_API_KEY=.+' "$IOS_MAPS_KEYS_XCCONFIG"; then
+  local existing_maps_key
+  existing_maps_key="$(resolve_ios_maps_key || true)"
+  if ! ios_value_is_placeholder "$existing_maps_key"; then
     return
   fi
-
-  echo "Set GOOGLE_MAPS_IOS_API_KEY or create ios/Flutter/MapsKeys.xcconfig before building iOS." >&2
-  exit 1
 }
 
 require_build_env() {
   : "${SUPABASE_URL:?Set SUPABASE_URL before building the production iOS app.}"
   : "${SUPABASE_ANON_KEY:?Set SUPABASE_ANON_KEY before building the production iOS app.}"
+  require_ios_google_service_info
   prepare_ios_maps_keys
 }
 

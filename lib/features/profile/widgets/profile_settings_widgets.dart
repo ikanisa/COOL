@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,12 +29,15 @@ class ProfileSettingsSection extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 4, bottom: 10),
-          child: Text(
-            title,
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: AppColors.text2,
+          child: Semantics(
+            header: true,
+            child: Text(
+              title,
+              style: GoogleFonts.dmSans(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: AppColors.text2,
+              ),
             ),
           ),
         ),
@@ -122,29 +126,34 @@ class _ProfileFactTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          item.label,
-          style: GoogleFonts.dmSans(
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-            color: AppColors.text3,
-          ),
+    return Semantics(
+      label: '${item.label}: ${item.value}',
+      child: ExcludeSemantics(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              item.label,
+              style: GoogleFonts.dmSans(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: AppColors.text3,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              item.value,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.dmSans(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: item.valueColor,
+              ),
+            ),
+          ],
         ),
-        const SizedBox(height: 4),
-        Text(
-          item.value,
-          maxLines: 3,
-          overflow: TextOverflow.ellipsis,
-          style: GoogleFonts.dmSans(
-            fontSize: 14,
-            fontWeight: FontWeight.w700,
-            color: item.valueColor,
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
@@ -275,13 +284,21 @@ class ProfileSettingsRow extends StatelessWidget {
       },
     );
 
-    if (onTap == null) return content;
+    final semanticsLabel = value == null ? label : '$label: $value';
+    if (onTap == null) {
+      return Semantics(label: semanticsLabel, child: content);
+    }
 
-    return InkWell(
-      onTap: onTap,
-      splashColor: AppColors.accentGlow,
-      highlightColor: Colors.transparent,
-      child: content,
+    return Semantics(
+      button: true,
+      label: semanticsLabel,
+      hint: 'Double tap to open $label',
+      child: InkWell(
+        onTap: onTap,
+        splashColor: AppColors.accentGlow,
+        highlightColor: Colors.transparent,
+        child: content,
+      ),
     );
   }
 }
@@ -303,44 +320,53 @@ class ProfileSectionToggleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CoolCard(
-      backgroundColor: AppColors.surface,
-      onTap: onTap,
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.text,
-                  ),
+    return Semantics(
+      button: true,
+      label: '$title. $subtitle. ${isExpanded ? 'Expanded' : 'Collapsed'}',
+      hint: isExpanded
+          ? 'Double tap to collapse this section'
+          : 'Double tap to expand this section',
+      child: ExcludeSemantics(
+        child: CoolCard(
+          backgroundColor: AppColors.surface,
+          onTap: onTap,
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: GoogleFonts.dmSans(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.text,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      subtitle,
+                      style: GoogleFonts.dmSans(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.text2,
+                        height: 1.4,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  subtitle,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.text2,
-                    height: 1.4,
-                  ),
-                ),
-              ],
-            ),
+              ),
+              const SizedBox(width: 12),
+              Icon(
+                isExpanded
+                    ? Icons.keyboard_arrow_up_rounded
+                    : Icons.keyboard_arrow_down_rounded,
+                color: AppColors.text2,
+              ),
+            ],
           ),
-          const SizedBox(width: 12),
-          Icon(
-            isExpanded
-                ? Icons.keyboard_arrow_up_rounded
-                : Icons.keyboard_arrow_down_rounded,
-            color: AppColors.text2,
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -406,7 +432,7 @@ class ProfileNotificationToggle extends StatelessWidget {
             const SizedBox(
               width: 16,
               height: 16,
-              child: CircularProgressIndicator(strokeWidth: 2),
+              child: CupertinoActivityIndicator(radius: 8),
             ),
             const SizedBox(width: 8),
           ],
@@ -431,61 +457,68 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return GestureDetector(
-      onTap: () => context.push(AppRoutes.registerLocation(phone: phone)),
-      child: CoolCard(
-        backgroundColor: AppColors.surface,
-        borderColor: AppColors.accent.withValues(alpha: 0.35),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: AppColors.accentGlow,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                alignment: Alignment.center,
-                child: Icon(
-                  Icons.person_outline_rounded,
-                  color: AppColors.accent,
-                ),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      l10n.completeProfileTitle,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.text,
-                      ),
+    return Semantics(
+      button: true,
+      label: '${l10n.completeProfileTitle}. ${l10n.completeProfileSubtitle}',
+      hint: 'Double tap to complete your profile',
+      child: GestureDetector(
+        onTap: () => context.push(AppRoutes.registerLocation(phone: phone)),
+        child: ExcludeSemantics(
+          child: CoolCard(
+            backgroundColor: AppColors.surface,
+            borderColor: AppColors.accent.withValues(alpha: 0.35),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: AppColors.accentGlow,
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      l10n.completeProfileSubtitle,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.text2,
-                        height: 1.35,
-                      ),
+                    alignment: Alignment.center,
+                    child: Icon(
+                      Icons.person_outline_rounded,
+                      color: AppColors.accent,
                     ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          l10n.completeProfileTitle,
+                          style: GoogleFonts.dmSans(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.text,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          l10n.completeProfileSubtitle,
+                          style: GoogleFonts.dmSans(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.text2,
+                            height: 1.35,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 16,
+                    color: AppColors.text3,
+                  ),
+                ],
               ),
-              const SizedBox(width: 8),
-              Icon(
-                Icons.arrow_forward_ios_rounded,
-                size: 16,
-                color: AppColors.text3,
-              ),
-            ],
+            ),
           ),
         ),
       ),

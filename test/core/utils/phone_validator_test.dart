@@ -151,14 +151,6 @@ void main() {
       test('empty returns error', () {
         expect(PhoneValidator.validateMomoNumber('', 'RW'), isNotNull);
       });
-
-      test('generic country accepts 9+ digits', () {
-        expect(PhoneValidator.validateMomoNumber('123456789', 'UG'), null);
-      });
-
-      test('generic country rejects short', () {
-        expect(PhoneValidator.validateMomoNumber('12345', 'UG'), isNotNull);
-      });
     });
 
     group('validateMomoCode', () {
@@ -178,8 +170,8 @@ void main() {
         expect(PhoneValidator.validateMomoCode('123'), isNotNull);
       });
 
-      test('rejects 9-digit code', () {
-        expect(PhoneValidator.validateMomoCode('123456789'), isNotNull);
+      test('accepts 9-digit Rwanda code', () {
+        expect(PhoneValidator.validateMomoCode('123456789'), null);
       });
 
       test('rejects letters', () {
@@ -199,33 +191,17 @@ void main() {
         );
       });
 
-      test('rejects merchant codes for countries without a code route', () {
-        final ghana = CoolCountryCatalog.resolve(country: 'GH');
+      test('rejects codes longer than Rwanda rules allow', () {
+        final rwanda = CoolCountryCatalog.resolve(country: 'RW');
 
         expect(
           PhoneValidator.validateMomoCode(
-            '123456',
-            country: ghana,
+            '1234567890',
+            country: rwanda,
             required: true,
           ),
-          contains('not configured'),
+          contains('valid merchant code'),
         );
-      });
-    });
-
-    group('cross-country MoMo validation', () {
-      test('accepts Ghana local numbers and strips the trunk zero', () {
-        expect(PhoneValidator.validateMomoNumber('0231234567', 'GH'), null);
-      });
-
-      test('preserves E.164 leading zero for Benin numbers', () {
-        final benin = CoolCountryCatalog.resolve(country: 'BJ');
-
-        expect(benin.buildE164Phone('0195123456'), '+2290195123456');
-      });
-
-      test('accepts DRC mixed-length mobile recipients', () {
-        expect(PhoneValidator.validateMomoNumber('8812345', 'CD'), null);
       });
     });
 
@@ -248,6 +224,44 @@ void main() {
         expect(
           PhoneValidator.shouldAutoPopulateMomo('+256781234567', 'UG'),
           false,
+        );
+      });
+    });
+
+    group('buildOtpE164Phone', () {
+      final rwanda = CoolCountryCatalog.resolve(country: 'RW');
+
+      test('accepts Rwanda local numbers without +', () {
+        expect(
+          PhoneValidator.buildOtpE164Phone('0781234567', rwanda),
+          '+250781234567',
+        );
+      });
+
+      test('accepts global WhatsApp numbers with +', () {
+        expect(
+          PhoneValidator.buildOtpE164Phone('+256781234567', rwanda),
+          '+256781234567',
+        );
+      });
+
+      test('accepts global WhatsApp numbers with 00 prefix', () {
+        expect(
+          PhoneValidator.buildOtpE164Phone('00256781234567', rwanda),
+          '+256781234567',
+        );
+      });
+
+      test('rejects non-Rwanda E.164 input without +', () {
+        expect(
+          () => PhoneValidator.buildOtpE164Phone('256781234567', rwanda),
+          throwsA(
+            isA<FormatException>().having(
+              (error) => error.message,
+              'message',
+              'Use + for full E.164 WhatsApp numbers',
+            ),
+          ),
         );
       });
     });

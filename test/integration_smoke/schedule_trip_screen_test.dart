@@ -7,16 +7,60 @@ import 'package:geolocator/geolocator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mocktail/mocktail.dart';
 
+import 'package:cool_app/core/models/geo_point.dart';
 import 'package:cool_app/core/services/app_access_service.dart';
 import 'package:cool_app/core/services/location_service.dart';
+import 'package:cool_app/features/mobility/models/mobility_route_preview.dart';
 import 'package:cool_app/features/mobility/providers/mobility_location_provider.dart';
 import 'package:cool_app/features/mobility/providers/mobility_provider.dart';
 import 'package:cool_app/features/mobility/repositories/mobility_repository.dart';
 import 'package:cool_app/features/mobility/screens/schedule_trip_screen.dart';
+import 'package:cool_app/features/mobility/services/place_search_service.dart';
 
 import 'test_harness.dart';
 
 class MockMobilityRepository extends Mock implements MobilityRepository {}
+
+class FakePlaceSearchService implements PlaceSearchService {
+  @override
+  Future<PlaceSearchResult?> geocodeQuery(
+    String query, {
+    GeoPoint? near,
+    String? languageTag,
+    int limit = 1,
+  }) async => null;
+
+  @override
+  Future<List<PlaceSearchResult>> searchPlaces(
+    String query, {
+    GeoPoint? near,
+    String? languageTag,
+    String? sessionToken,
+    int limit = 5,
+  }) async => const [];
+
+  @override
+  Future<PlaceSearchResult> resolvePlace(
+    PlaceSearchResult prediction, {
+    String? languageTag,
+    String? sessionToken,
+  }) async => prediction;
+
+  @override
+  Future<PlaceSearchResult?> reverseGeocode({
+    required double latitude,
+    required double longitude,
+    String? languageTag,
+  }) async => null;
+
+  @override
+  Future<MobilityRoutePreview?> computeRoutePreview({
+    required GeoPoint origin,
+    required GeoPoint destination,
+    String? languageTag,
+    MobilityRouteTravelMode travelMode = MobilityRouteTravelMode.drive,
+  }) async => null;
+}
 
 class DisabledLocationService implements LocationService {
   @override
@@ -177,6 +221,7 @@ void main() {
         overrides: <Override>[
           mobilityRepositoryProvider.overrideWithValue(mobilityRepository),
           locationServiceProvider.overrideWithValue(DisabledLocationService()),
+          placeSearchServiceProvider.overrideWithValue(FakePlaceSearchService()),
         ],
       );
 

@@ -112,9 +112,8 @@ class _ActiveMissionsSliver extends ConsumerWidget {
           child: CoolSkeletonList(),
         ),
       ),
-      error: (error, _) => SliverToBoxAdapter(
-        child: _ErrorState(message: error.toString()),
-      ),
+      error: (error, _) =>
+          SliverToBoxAdapter(child: _ErrorState(message: error.toString())),
     );
   }
 }
@@ -152,9 +151,8 @@ class _UpcomingMissionsSliver extends ConsumerWidget {
           child: CoolSkeletonList(),
         ),
       ),
-      error: (error, _) => SliverToBoxAdapter(
-        child: _ErrorState(message: error.toString()),
-      ),
+      error: (error, _) =>
+          SliverToBoxAdapter(child: _ErrorState(message: error.toString())),
     );
   }
 }
@@ -176,7 +174,11 @@ class _UpcomingMissionTile extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(IconMapper.from(mission.emoji), size: 22, color: AppColors.text2),
+          Icon(
+            IconMapper.from(mission.emoji),
+            size: 22,
+            color: AppColors.text2,
+          ),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -205,7 +207,11 @@ class _UpcomingMissionTile extends StatelessWidget {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.emoji_events_rounded, size: 14, color: AppColors.yellow),
+                const Icon(
+                  Icons.emoji_events_rounded,
+                  size: 14,
+                  color: AppColors.yellow,
+                ),
                 const SizedBox(width: 4),
                 Text(
                   '${mission.rewardPoints} pts',
@@ -280,10 +286,7 @@ class _ErrorState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 18),
-      child: CoolErrorView(
-        message: message,
-        compact: true,
-      ),
+      child: CoolErrorView(message: message, compact: true),
     );
   }
 }

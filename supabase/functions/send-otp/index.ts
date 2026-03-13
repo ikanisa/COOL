@@ -1,6 +1,12 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
 import {
+  countRecentOtpRateEvents,
+  extractClientIp,
+  hashOtpRateActorKey,
+  recordOtpRateEvent,
+} from "../_shared/otp_abuse.ts";
+import {
   errorResponse,
   handleCors,
   jsonResponse,
@@ -14,10 +20,13 @@ import { sendOtpTemplate } from "../_shared/whatsapp.ts";
 
 type SendOtpRequest = {
   phone?: string;
-  language?: "en" | "fr";
+  language?: string;
 };
 
 const otpResendCooldownSeconds = 60;
+const otpRateLimitWindowMs = 10 * 60 * 1000;
+const maxOtpsPerPhonePerWindow = 3;
+const maxOtpsPerIpPerWindow = 10;
 
 function resolveReviewOtp(normalizedPhone: string): string | null {
   const configuredPhone = Deno.env.get("OTP_TEST_PHONE")?.trim();
@@ -53,10 +62,13 @@ Deno.serve(async (request: Request) => {
 
   try {
     const body = await request.json() as SendOtpRequest;
-    const language = body.language;
-    if (language != "en" && language != "fr") {
-      return errorResponse('language must be "en" or "fr"', 400);
+    const requestedLanguage = body.language?.trim().toLowerCase() ?? "en";
+    if (requestedLanguage != "en") {
+      console.warn(
+        `send-otp received unsupported language "${requestedLanguage}", defaulting to English.`,
+      );
     }
+    const language = "en";
 
     const normalizedPhone = normalizePhone(body.phone ?? "");
     const reviewCode = resolveReviewOtp(normalizedPhone);
@@ -64,6 +76,57 @@ Deno.serve(async (request: Request) => {
     const hashedCode = await hashOtpCode(normalizedPhone, code);
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000).toISOString();
     const supabase = createAdminClient();
+    const clientIp = extractClientIp(request);
+    const windowStart = new Date(Date.now() - otpRateLimitWindowMs)
+      .toISOString();
+    const ipActorKey = clientIp == null
+      ? null
+      : await hashOtpRateActorKey(`send_ip:${clientIp}`);
+    const phoneActorKey = await hashOtpRateActorKey(
+      `send_phone:${normalizedPhone}`,
+    );
+
+    if (ipActorKey != null) {
+      const recentIpEvents = await countRecentOtpRateEvents(supabase, {
+        action: "send_ip",
+        actorKey: ipActorKey,
+        windowStartIso: windowStart,
+      });
+      if (recentIpEvents >= maxOtpsPerIpPerWindow) {
+        await recordSendRateEvents(supabase, {
+          ipActorKey,
+          phoneActorKey,
+          outcome: "blocked_ip_limit",
+          phone: normalizedPhone,
+          metadata: { limit: maxOtpsPerIpPerWindow },
+        });
+        return errorResponse(
+          "Too many OTP requests from this network. Please try again later.",
+          429,
+          { retryAfterSeconds: 600 },
+        );
+      }
+    }
+
+    const recentPhoneEvents = await countRecentOtpRateEvents(supabase, {
+      action: "send_phone",
+      actorKey: phoneActorKey,
+      windowStartIso: windowStart,
+    });
+    if (recentPhoneEvents >= maxOtpsPerPhonePerWindow) {
+      await recordSendRateEvents(supabase, {
+        ipActorKey,
+        phoneActorKey,
+        outcome: "blocked_phone_limit",
+        phone: normalizedPhone,
+        metadata: { limit: maxOtpsPerPhonePerWindow },
+      });
+      return errorResponse(
+        "Too many OTP requests for this phone number. Please try again later.",
+        429,
+        { retryAfterSeconds: 600 },
+      );
+    }
 
     // ── Cooldown: reject re-sends within 60 seconds ──────────────────
     const existingOtpResult = await supabase
@@ -95,38 +158,22 @@ Deno.serve(async (request: Request) => {
         break finalCooldownCheck;
       }
 
+      await recordSendRateEvents(supabase, {
+        ipActorKey,
+        phoneActorKey,
+        outcome: "blocked_cooldown",
+        phone: normalizedPhone,
+        metadata: {
+          retryAfterSeconds: otpResendCooldownSeconds - elapsedSeconds,
+        },
+      });
+
       return errorResponse(
         "Please wait before requesting another code.",
         429,
         {
           retryAfterSeconds: otpResendCooldownSeconds - elapsedSeconds,
         },
-      );
-    }
-
-    // ── Rate limit: max 3 OTPs per phone per 10-minute window ────────
-    const rateLimitWindowMs = 10 * 60 * 1000;
-    const maxOtpsPerWindow = 3;
-    const windowStart = new Date(Date.now() - rateLimitWindowMs).toISOString();
-
-    const recentOtpsResult = await supabase
-      .from("otp_codes")
-      .select("id", { count: "exact", head: true })
-      .eq("phone", normalizedPhone)
-      .gte("created_at", windowStart);
-
-    if (recentOtpsResult.error) {
-      throw recentOtpsResult.error;
-    }
-
-    if ((recentOtpsResult.count ?? 0) >= maxOtpsPerWindow) {
-      console.warn(
-        `[OTP-ABUSE] Rate limit hit for phone ${normalizedPhone.slice(-4)}`,
-      );
-      return errorResponse(
-        "Too many OTP requests. Please try again later.",
-        429,
-        { retryAfterSeconds: 600 },
       );
     }
 
@@ -172,6 +219,13 @@ Deno.serve(async (request: Request) => {
       }
     }
 
+    await recordSendRateEvents(supabase, {
+      ipActorKey,
+      phoneActorKey,
+      outcome: reviewCode == null ? "sent" : "review_code",
+      phone: normalizedPhone,
+    });
+
     return jsonResponse({ success: true });
   } catch (error) {
     if (error instanceof SyntaxError) {
@@ -192,3 +246,38 @@ Deno.serve(async (request: Request) => {
     );
   }
 });
+
+async function recordSendRateEvents(
+  adminClient: ReturnType<typeof createAdminClient>,
+  options: {
+    ipActorKey: string | null;
+    phoneActorKey: string;
+    outcome: string;
+    phone: string;
+    metadata?: Record<string, unknown>;
+  },
+) {
+  const writes = [
+    recordOtpRateEvent(adminClient, {
+      action: "send_phone",
+      actorKey: options.phoneActorKey,
+      outcome: options.outcome,
+      phone: options.phone,
+      metadata: options.metadata,
+    }),
+  ];
+
+  if (options.ipActorKey != null) {
+    writes.push(
+      recordOtpRateEvent(adminClient, {
+        action: "send_ip",
+        actorKey: options.ipActorKey,
+        outcome: options.outcome,
+        phone: options.phone,
+        metadata: options.metadata,
+      }),
+    );
+  }
+
+  await Promise.all(writes);
+}

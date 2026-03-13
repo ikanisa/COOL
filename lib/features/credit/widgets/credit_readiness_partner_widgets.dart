@@ -66,10 +66,7 @@ class PartnerHandoffSection extends StatelessWidget {
 
 /// Shows application pipeline.
 class ApplicationPipelineSection extends StatelessWidget {
-  const ApplicationPipelineSection({
-    required this.applications,
-    super.key,
-  });
+  const ApplicationPipelineSection({required this.applications, super.key});
 
   final List<PartnerCreditApplication> applications;
 
@@ -123,12 +120,7 @@ class PartnerErrorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CoolCard(
-      child: CoolErrorView(
-        message: error,
-        compact: true,
-      ),
-    );
+    return CoolCard(child: CoolErrorView(message: error, compact: true));
   }
 }
 

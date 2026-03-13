@@ -7,7 +7,6 @@ import 'package:cool_app/core/services/location_service.dart';
 import 'package:cool_app/core/status/models/cool_status.dart';
 import 'package:cool_app/core/status/providers/cool_status_provider.dart';
 import 'package:cool_app/core/status/repositories/cool_status_repository.dart';
-import 'package:cool_app/features/auth/providers/auth_provider.dart';
 import 'package:cool_app/features/credit/models/credit_dashboard.dart';
 import 'package:cool_app/features/credit/providers/credit_provider.dart';
 import 'package:cool_app/features/groups/models/group.dart';
@@ -36,6 +35,7 @@ import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
 import 'package:cool_app/features/partners/screens/partners_screen.dart';
 import 'package:cool_app/features/profile/screens/profile_screen.dart';
 import 'package:cool_app/features/profile/widgets/profile_settings_widgets.dart';
+import 'package:cool_app/l10n/app_localizations.dart';
 import 'package:cool_app/shared/widgets/cool_button.dart';
 import 'package:cool_app/shared/widgets/tab_pill.dart';
 import 'package:flutter/material.dart';
@@ -152,10 +152,27 @@ Widget _accessibleHarness(Widget child) {
 void _expectTouchTarget(WidgetTester tester, Finder finder) {
   final size = tester.getSize(finder.first);
   expect(
-    size.width >= 48 || size.height >= 48,
+    size.width >= 48 && size.height >= 48,
     isTrue,
-    reason: 'Expected a touch target of at least 48dp in one dimension.',
+    reason: 'Expected a touch target of at least 48x48dp.',
   );
+}
+
+void _expectNoCapturedException(WidgetTester tester) {
+  final exception = tester.takeException();
+  if (exception == null) {
+    expect(exception, isNull);
+    return;
+  }
+
+  debugPrint('Captured test exception: $exception');
+  if (exception is FlutterError) {
+    for (final diagnostic in exception.diagnostics) {
+      debugPrint(diagnostic.toStringDeep());
+    }
+  }
+
+  expect(exception, isNull);
 }
 
 Future<void> _runWithSemantics(
@@ -238,7 +255,7 @@ void main() {
     subscriptionRepository = _MockSubscriptionRepository();
 
     when(
-      () => partnerRepository.fetchAll(country: any(named: 'country')),
+      () => partnerRepository.fetchAll(),
     ).thenAnswer((_) async => const <Partner>[samplePartner]);
 
     when(
@@ -296,6 +313,7 @@ void main() {
     testWidgets('Home route supports large text and accessible actions', (
       tester,
     ) async {
+      final l10n = lookupAppLocalizations(const Locale('en'));
       await _runWithSemantics(tester, () async {
         await pumpScopedApp(
           tester,
@@ -334,21 +352,22 @@ void main() {
           ],
         );
 
-        expect(find.bySemanticsLabel('Home'), findsWidgets);
+        expect(find.bySemanticsLabel(l10n.navHome), findsWidgets);
         _expectTouchTarget(
           tester,
           find.ancestor(
-            of: find.text('Statements'),
+            of: find.text(l10n.statementsLabel),
             matching: find.byType(ConstrainedBox),
           ),
         );
-        expect(tester.takeException(), isNull);
+        _expectNoCapturedException(tester);
       });
     });
 
     testWidgets('MoMo route supports large text and button hit areas', (
       tester,
     ) async {
+      final l10n = lookupAppLocalizations(const Locale('en'));
       await _runWithSemantics(tester, () async {
         await pumpScopedApp(
           tester,
@@ -357,15 +376,16 @@ void main() {
           user: fakeUser(momoNumber: '0788123456'),
         );
 
-        expect(find.bySemanticsLabel('Mobile Money'), findsWidgets);
+        expect(find.bySemanticsLabel(l10n.momoScreenTitle), findsWidgets);
         _expectTouchTarget(tester, find.byType(CoolButton));
-        expect(tester.takeException(), isNull);
+        _expectNoCapturedException(tester);
       });
     });
 
     testWidgets('Groups route supports large text and touch targets', (
       tester,
     ) async {
+      final l10n = lookupAppLocalizations(const Locale('en'));
       await _runWithSemantics(tester, () async {
         await pumpScopedApp(
           tester,
@@ -379,22 +399,23 @@ void main() {
 
         await settleTestApp(tester);
 
-        expect(find.bySemanticsLabel('Groups'), findsWidgets);
+        expect(find.bySemanticsLabel(l10n.navGroups), findsWidgets);
         _expectTouchTarget(
           tester,
           find.ancestor(
-            of: find.text('Create a new group'),
+            of: find.text(l10n.groupsCreateNewTitle),
             matching: find.byType(GestureDetector),
           ),
         );
         expect(find.byType(TabPill), findsWidgets);
-        expect(tester.takeException(), isNull);
+        _expectNoCapturedException(tester);
       });
     });
 
     testWidgets('Mobility route supports large text and touch targets', (
       tester,
     ) async {
+      final l10n = lookupAppLocalizations(const Locale('en'));
       await _runWithSemantics(tester, () async {
         await pumpScopedApp(
           tester,
@@ -414,15 +435,16 @@ void main() {
 
         await settleTestApp(tester);
 
-        expect(find.bySemanticsLabel('Mobility'), findsWidgets);
+        expect(find.bySemanticsLabel(l10n.navMobility), findsWidgets);
         _expectTouchTarget(tester, find.byType(CoolButton));
-        expect(tester.takeException(), isNull);
+        _expectNoCapturedException(tester);
       });
     });
 
     testWidgets('Partners route supports large text and touch targets', (
       tester,
     ) async {
+      final l10n = lookupAppLocalizations(const Locale('en'));
       await _runWithSemantics(tester, () async {
         await pumpScopedApp(
           tester,
@@ -431,22 +453,22 @@ void main() {
           user: fakeUser(),
           overrides: <Override>[
             partnerRepositoryProvider.overrideWithValue(partnerRepository),
-            currentUserCountryCodeProvider.overrideWith((ref) => 'RW'),
           ],
         );
 
-        expect(find.bySemanticsLabel('Partners'), findsWidgets);
+        expect(find.bySemanticsLabel(l10n.partnersTitle), findsWidgets);
         _expectTouchTarget(
           tester,
           find.byKey(const ValueKey('partner_feature_fan_registry')),
         );
-        expect(tester.takeException(), isNull);
+        _expectNoCapturedException(tester);
       });
     });
 
     testWidgets('Profile route supports large text and touch targets', (
       tester,
     ) async {
+      final l10n = lookupAppLocalizations(const Locale('en'));
       await _runWithSemantics(tester, () async {
         await pumpScopedApp(
           tester,
@@ -476,9 +498,9 @@ void main() {
           ],
         );
 
-        expect(find.bySemanticsLabel('Profile'), findsWidgets);
+        expect(find.bySemanticsLabel(l10n.navProfile), findsWidgets);
         _expectTouchTarget(tester, find.byType(ProfileSectionToggleCard));
-        expect(tester.takeException(), isNull);
+        _expectNoCapturedException(tester);
       });
     });
   });

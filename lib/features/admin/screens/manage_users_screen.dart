@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/config/app_market.dart';
 import '../../../core/identity/public_user_identity.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_async_view.dart';
@@ -133,14 +135,43 @@ class _SummaryCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
+          Column(
             children: [
-              _MetricChip(label: 'Total', value: totalUsers.toString()),
-              _MetricChip(label: 'Mock', value: mockUsers.toString()),
-              _MetricChip(label: 'Admins', value: adminUsers.toString()),
-              _MetricChip(label: 'Drivers', value: driverUsers.toString()),
+              Row(
+                children: [
+                  Expanded(
+                    child: _MetricChip(
+                      label: 'Total',
+                      value: totalUsers.toString(),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: _MetricChip(
+                      label: 'Mock',
+                      value: mockUsers.toString(),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Expanded(
+                    child: _MetricChip(
+                      label: 'Admins',
+                      value: adminUsers.toString(),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: _MetricChip(
+                      label: 'Drivers',
+                      value: driverUsers.toString(),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
           if (mockBatches.isNotEmpty) ...[
@@ -154,12 +185,14 @@ class _SummaryCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 for (final batch in mockBatches)
-                  _BatchCleanupButton(batch: batch),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: _BatchCleanupButton(batch: batch),
+                  ),
               ],
             ),
           ],
@@ -218,8 +251,6 @@ class _UserTile extends StatelessWidget {
       userId: user['id']?.toString(),
       phone: user['phone']?.toString(),
     );
-    final country = user['country']?.toString().trim() ?? '';
-    final languageCode = user['language_code']?.toString().trim() ?? 'en';
     final momoProvider = user['momo_provider']?.toString().trim() ?? '';
     final vehicleType = user['vehicle_type']?.toString().trim() ?? '';
     final createdAt = user['created_at']?.toString().trim() ?? '';
@@ -265,24 +296,27 @@ class _UserTile extends StatelessWidget {
                   ],
                 ),
               ),
-              Wrap(
-                spacing: 6,
-                runSpacing: 6,
-                alignment: WrapAlignment.end,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   if (isMock)
                     const _MarkerChip(label: 'Mock', color: Colors.orange),
-                  if (isAdmin)
+                  if (isAdmin) ...[
+                    if (isMock) const SizedBox(height: 6),
                     const _MarkerChip(label: 'Admin', color: Colors.green),
-                  if (isDriver)
+                  ],
+                  if (isDriver) ...[
+                    if (isMock || isAdmin) const SizedBox(height: 6),
                     const _MarkerChip(label: 'Driver', color: AppColors.blue),
+                  ],
                 ],
               ),
             ],
           ),
           const SizedBox(height: 10),
           Text(
-            '$country · ${languageCode.toUpperCase()} · ${momoProvider.isEmpty ? 'momo' : momoProvider}',
+            '${AppMarket.country.name} · ${AppMarket.languageCode.toUpperCase()} · '
+            '${momoProvider.isEmpty ? 'momo' : momoProvider}',
             style: GoogleFonts.dmSans(
               fontSize: 12,
               fontWeight: FontWeight.w500,
@@ -464,7 +498,7 @@ class _BatchCleanupButtonState extends ConsumerState<_BatchCleanupButton> {
           ? const SizedBox(
               width: 14,
               height: 14,
-              child: CircularProgressIndicator(strokeWidth: 2),
+              child: CupertinoActivityIndicator(radius: 7),
             )
           : const Icon(Icons.delete_outline_rounded, size: 16),
       style: OutlinedButton.styleFrom(

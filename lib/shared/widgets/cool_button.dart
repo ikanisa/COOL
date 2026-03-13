@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -106,13 +107,9 @@ class CoolButton extends StatelessWidget {
 
   Widget _buildChild(bool enabled) {
     if (isLoading) {
-      return SizedBox(
-        width: 22,
-        height: 22,
-        child: CircularProgressIndicator(
-          strokeWidth: 2.5,
-          color: _isPrimary ? Colors.black : AppColors.accent,
-        ),
+      return CupertinoActivityIndicator(
+        radius: 11,
+        color: _isPrimary ? Colors.black : AppColors.accent,
       );
     }
 

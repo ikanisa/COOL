@@ -9,10 +9,9 @@
   "navProfile": "Profile",
 
   "welcomeTitle": "Welcome to Cool",
-  "welcomeSubtitle": "Community savings, group funds & mobility — all in one simple app for Sub-Saharan Africa.",
+  "welcomeSubtitle": "Community savings, group funds & mobility — all in one simple app for Rwanda.",
   "getStarted": "Get Started",
   "signIn": "Already have an account? Sign In",
-  "selectLanguage": "Select Language",
 
   "verifyWhatsapp": "Verify via WhatsApp",
   "verifyWhatsappSubtitle": "We'll send a one-time code to your WhatsApp number.",
@@ -284,7 +283,6 @@
   "expiringInDays": "Expiring in {count} days",
   "@expiringInDays": { "placeholders": { "count": { "type": "int" } } },
   "languageEnglish": "English",
-  "languageFrench": "Français",
 
   "loading": "Loading…",
   "retry": "Retry",
@@ -677,8 +675,26 @@
   "profileSetupTitle": "Profile setup",
   "profilePublicProfileLabel": "Public profile",
   "profileOfficialIdentityLabel": "Official identity",
+  "profileTravelRoleLabel": "Travel role",
   "profilePassengerRoleLabel": "Passenger",
   "profileDriverRoleLabel": "Driver",
+  "profileMomoCodeNotSet": "MoMo code not set",
+  "profileDriverSetupPending": "Driver setup pending",
+  "profileRegularDriverCadence": "Regular driver",
+  "profileOccasionalDriverCadence": "Occasional driver",
+  "profileMobilityCreditsValue": "{credits} credits",
+  "@profileMobilityCreditsValue": {
+    "placeholders": {
+      "credits": { "type": "int" }
+    }
+  },
+  "profileMobilitySubscriptionActive": "Subscription active",
+  "profileMobilitySubscriptionUntil": "Subscribed until {date}",
+  "@profileMobilitySubscriptionUntil": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
 
   "mobilityNoWhatsappAvailable": "No WhatsApp contact available yet.",
   "mobilityNoContactYet": "No contact yet",

@@ -163,24 +163,28 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                GestureDetector(
-                  onTap: () =>
-                      ref.read(driverProvider.notifier).loadDriverProfile(),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 10,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.accentGlow,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      'Retry',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.accent,
+                Semantics(
+                  button: true,
+                  label: 'Retry loading driver profile',
+                  child: GestureDetector(
+                    onTap: () =>
+                        ref.read(driverProvider.notifier).loadDriverProfile(),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 10,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.accentGlow,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        'Retry',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.accent,
+                        ),
                       ),
                     ),
                   ),

@@ -1,11 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../core/providers/app_access_provider.dart';
 import '../../../core/providers/notification_settings_provider.dart';
 import '../../../core/providers/app_lifecycle_providers.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../core/services/app_access_service.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import 'profile_settings_widgets.dart';
@@ -38,7 +41,8 @@ class _ProfileAppAccessSheetState extends ConsumerState<ProfileAppAccessSheet>
     AppAccessPermission.nfc,
   ];
 
-  final _service = AppAccessService.instance;
+  late final AppAccessService _service =
+      ref.read(appAccessServiceProvider);
   final _busy = <AppAccessPermission>{};
   final _snapshots = <AppAccessPermission, AppAccessSnapshot>{};
 
@@ -239,7 +243,7 @@ class _ProfileAppAccessSheetState extends ConsumerState<ProfileAppAccessSheet>
                       if (_isLoading)
                         const Padding(
                           padding: EdgeInsets.symmetric(vertical: 48),
-                          child: CircularProgressIndicator(),
+                          child: CoolSkeletonList(itemCount: 3),
                         )
                       else
                         for (final permission in _permissions) ...[
@@ -426,7 +430,7 @@ class _PermissionAccessCard extends StatelessWidget {
           ? const SizedBox(
               width: 24,
               height: 24,
-              child: CircularProgressIndicator(strokeWidth: 2.2),
+              child: CupertinoActivityIndicator(radius: 12),
             )
           : Switch.adaptive(
               value: snapshot.enabledInApp,
@@ -641,20 +645,24 @@ class _InlineActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        decoration: BoxDecoration(
-          color: AppColors.accentGlow,
-          borderRadius: BorderRadius.circular(14),
-        ),
-        child: Text(
-          label,
-          style: GoogleFonts.dmSans(
-            fontSize: 12,
-            fontWeight: FontWeight.w700,
-            color: AppColors.accent,
+    return Semantics(
+      button: true,
+      label: label,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          decoration: BoxDecoration(
+            color: AppColors.accentGlow,
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: Text(
+            label,
+            style: GoogleFonts.dmSans(
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+              color: AppColors.accent,
+            ),
           ),
         ),
       ),

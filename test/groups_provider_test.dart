@@ -40,6 +40,7 @@ void main() {
       await notifier.loadInvitePreview('abc12345');
 
       expect(repository.lastInvitePreviewCode, 'abc12345');
+      expect(repository.lastInvitePreviewCountry, 'RW');
       expect(notifier.state.invitePreview?.group.id, _inviteDetail.group.id);
       expect(notifier.state.invitePreview?.isMember, isFalse);
       expect(notifier.state.error, isNull);
@@ -56,6 +57,7 @@ void main() {
       expect(result, isNotNull);
       expect(result!.didJoin, isTrue);
       expect(repository.lastJoinCode, 'ABCD1234');
+      expect(repository.lastJoinCountry, 'RW');
       expect(notifier.state.invitePreview?.isMember, isTrue);
       expect(notifier.state.isJoiningGroup, isFalse);
       expect(notifier.state.joinGroupError, isNull);
@@ -66,6 +68,20 @@ void main() {
         isTrue,
       );
     });
+
+    test('creates groups in the fixed Rwanda market by default', () async {
+      final created = await notifier.createGroup(
+        const GroupCreateData(
+          name: 'Neighbourhood Circle',
+          type: 'saving',
+          visibility: 'public',
+          targetAmountRwf: 120000,
+        ),
+      );
+
+      expect(created, isNotNull);
+      expect(repository.lastCreatedGroup?.country, 'RW');
+    });
   });
 }
 
@@ -75,12 +91,18 @@ class FakeGroupRepository implements GroupRepository {
   GroupDetail? groupDetail;
   GroupDetail? invitePreview;
   GroupJoinResult? joinResult;
+  Group? lastCreatedGroup;
   String? lastPublicCountry;
   String? lastJoinCode;
+  String? lastJoinCountry;
   String? lastInvitePreviewCode;
+  String? lastInvitePreviewCountry;
 
   @override
-  Future<Group> createGroup(Group group) async => group;
+  Future<Group> createGroup(Group group) async {
+    lastCreatedGroup = group;
+    return group;
+  }
 
   @override
   Future<void> contribute(String groupId, int amount) async {}
@@ -95,6 +117,7 @@ class FakeGroupRepository implements GroupRepository {
     String? country,
   }) async {
     lastInvitePreviewCode = inviteCode;
+    lastInvitePreviewCountry = country;
     return invitePreview;
   }
 
@@ -114,6 +137,7 @@ class FakeGroupRepository implements GroupRepository {
     String? country,
   }) async {
     lastJoinCode = inviteCode;
+    lastJoinCountry = country;
     if (joinResult == null) {
       throw StateError('joinResult was not configured for this test.');
     }

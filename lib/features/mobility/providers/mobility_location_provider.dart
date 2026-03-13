@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:cool_app/core/models/geo_point.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_flutter/hive_flutter.dart' show Box, Hive;
 
+import '../../../core/providers/app_access_provider.dart';
 import '../../../core/services/app_access_service.dart';
 import '../../../core/services/location_service.dart';
 
@@ -17,7 +18,12 @@ final mobilityLocationProvider =
       ref,
     ) {
       final service = ref.watch(locationServiceProvider);
-      return MobilityLocationNotifier(service: service);
+      final appAccess = ref.watch(appAccessServiceProvider);
+      return MobilityLocationNotifier(
+        service: service,
+        openBox: Hive.openBox<dynamic>,
+        appAccessService: appAccess,
+      );
     });
 
 enum MobilityLocationStatus {
@@ -92,15 +98,21 @@ class MobilityLocationState {
 }
 
 class MobilityLocationNotifier extends StateNotifier<MobilityLocationState> {
-  MobilityLocationNotifier({required LocationService service})
-    : _service = service,
-      super(const MobilityLocationState());
+  MobilityLocationNotifier({
+    required LocationService service,
+    required Future<Box<dynamic>> Function(String name) openBox,
+    required AppAccessService appAccessService,
+  }) : _service = service,
+       _openBox = openBox,
+       _appAccessService = appAccessService,
+       super(const MobilityLocationState());
 
   static const _cacheBoxName = 'mobility_location_cache';
   static const _cacheKey = 'latest_position';
 
   final LocationService _service;
-  final AppAccessService _appAccessService = AppAccessService.instance;
+  final Future<Box<dynamic>> Function(String name) _openBox;
+  final AppAccessService _appAccessService;
 
   bool _permissionPromptShownThisSession = false;
   bool _mobilityBranchActive = false;
@@ -349,7 +361,7 @@ class MobilityLocationNotifier extends StateNotifier<MobilityLocationState> {
     required Position position,
     required bool isApproximate,
   }) async {
-    final box = await Hive.openBox<dynamic>(_cacheBoxName);
+    final box = await _openBox(_cacheBoxName);
     await box.put(_cacheKey, <String, dynamic>{
       'latitude': position.latitude,
       'longitude': position.longitude,
@@ -360,7 +372,7 @@ class MobilityLocationNotifier extends StateNotifier<MobilityLocationState> {
   }
 
   Future<_CachedMobilityPosition?> _readCachedPosition() async {
-    final box = await Hive.openBox<dynamic>(_cacheBoxName);
+    final box = await _openBox(_cacheBoxName);
     final raw = box.get(_cacheKey);
     if (raw is! Map) {
       return null;

@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../features/auth/providers/auth_provider.dart';
+import '../../features/momo/providers/momo_service_provider.dart';
 import '../../features/momo/services/momo_sms_autoread_service.dart';
 import '../../features/mobility/services/trip_sync_service.dart';
 import '../router/app_router.dart';
@@ -11,6 +12,7 @@ import '../services/app_lifecycle_coordinator.dart';
 import '../services/app_session_coordinator.dart';
 import '../services/deep_link_coordinator.dart';
 import '../services/trip_sync_coordinator.dart';
+import 'app_access_provider.dart';
 import 'engagement_providers.dart';
 import 'notification_settings_provider.dart';
 import 'referral_providers.dart';
@@ -28,6 +30,7 @@ final tripSyncCoordinatorProvider = Provider<TripSyncCoordinator>((ref) {
 final momoSmsAutoreadServiceProvider = Provider<MomoSmsAutoreadService>((ref) {
   final service = MomoSmsAutoreadService(
     client: ref.read(supabaseClientProvider),
+    appAccessService: ref.read(appAccessServiceProvider),
     crashlytics: ref.read(crashlyticsServiceProvider),
   );
   ref.onDispose(service.dispose);
@@ -87,6 +90,7 @@ final appLifecycleCoordinatorProvider = Provider<AppLifecycleCoordinator>((
     deepLinkCoordinator: ref.read(deepLinkCoordinatorProvider),
     tripSyncCoordinator: ref.read(tripSyncCoordinatorProvider),
     momoSmsAutoreadService: ref.read(momoSmsAutoreadServiceProvider),
+    momoService: ref.read(momoServiceProvider),
   );
   ref.onDispose(coordinator.dispose);
   return coordinator;

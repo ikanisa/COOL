@@ -60,6 +60,7 @@ class KillSwitchGate extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_rounded, color: AppColors.text),
+          tooltip: MaterialLocalizations.of(context).backButtonTooltip,
           onPressed: onBackPressed ?? () => Navigator.of(context).pop(),
         ),
       ),

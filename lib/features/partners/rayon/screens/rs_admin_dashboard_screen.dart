@@ -151,7 +151,10 @@ class _AdminCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Semantics(
+      button: true,
+      label: '${section.title}. ${section.subtitle}',
+      child: GestureDetector(
       onTap: () {
         HapticFeedback.selectionClick();
         context.push(section.route);
@@ -191,6 +194,7 @@ class _AdminCard extends StatelessWidget {
           ],
         ),
       ),
+    ),
     );
   }
 }

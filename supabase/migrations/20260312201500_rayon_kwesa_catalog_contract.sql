@@ -873,9 +873,9 @@ begin
     ),
     (
       v_partner_id,
-      'Diaspora Blue Wave',
-      'Diaspora',
-      'International supporters coordinating digital campaigns, ticket gifting, and merch orders.',
+      'Western Blue Wave',
+      'Western',
+      'Western Rwanda supporters coordinating buses, ticket gifting, and merch orders.',
       58,
       14,
       4.9,
@@ -1134,7 +1134,7 @@ begin
     case user_id_map.rn
       when 1 then 'Kigali Central'
       when 2 then 'Southern Province'
-      else 'Diaspora'
+      else 'Western'
     end,
     'RS-2026-MOCK' || lpad(user_id_map.rn::text, 3, '0'),
     now(),
@@ -1158,7 +1158,7 @@ begin
       case mock_users.rn
         when 1 then 'Kigali Blue Chapter'
         when 2 then 'Southern Blue Brigade'
-        else 'Diaspora Blue Wave'
+        else 'Western Blue Wave'
       end as club_name,
       now() - make_interval(days => ((mock_users.rn * 9)::int)) as joined_at
     from mock_users

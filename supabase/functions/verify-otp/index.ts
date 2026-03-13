@@ -1,6 +1,12 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
 import {
+  countRecentOtpRateEvents,
+  extractClientIp,
+  hashOtpRateActorKey,
+  recordOtpRateEvent,
+} from "../_shared/otp_abuse.ts";
+import {
   errorResponse,
   handleCors,
   isMissingRelationError,
@@ -20,6 +26,10 @@ type VerifyOtpRequest = {
   phone?: string;
   code?: string;
 };
+
+const verifyRateLimitWindowMs = 10 * 60 * 1000;
+const maxVerifyAttemptsPerIpPerWindow = 20;
+const maxVerifyAttemptsPerPhonePerWindow = 9;
 
 function comparablePhone(value: string | null | undefined): string | null {
   if (!value?.trim()) {
@@ -88,39 +98,27 @@ async function findAuthUserByPhone(
   phone: string,
   email: string,
 ) {
-  let page = 1;
-  const perPage = 200;
+  const result = await adminClient.rpc("find_auth_user_by_phone_or_email", {
+    p_phone: phone,
+    p_email: email,
+  });
 
-  while (true) {
-    const result = await adminClient.auth.admin.listUsers({
-      page,
-      perPage,
-    });
-
-    if (result.error) {
-      throw result.error;
-    }
-
-    const matchedUser = result.data.users.find((user) => {
-      const userWithPhoneChange = user as typeof user & {
-        phone_change?: string | null;
-      };
-
-      return user.email == email ||
-        phonesMatch(user.phone, phone) ||
-        phonesMatch(userWithPhoneChange.phone_change, phone) ||
-        phonesMatch(user.user_metadata?.phone?.toString(), phone);
-    });
-    if (matchedUser) {
-      return matchedUser;
-    }
-
-    if (result.data.users.length < perPage) {
-      return null;
-    }
-
-    page += 1;
+  if (result.error) {
+    throw result.error;
   }
+
+  const rows = Array.isArray(result.data) ? result.data : [];
+  const userId = rows[0]?.user_id?.toString().trim();
+  if (!userId) {
+    return null;
+  }
+
+  const userResult = await adminClient.auth.admin.getUserById(userId);
+  if (userResult.error || !userResult.data.user) {
+    throw userResult.error ?? new Error("Could not load auth user");
+  }
+
+  return userResult.data.user;
 }
 
 async function ensureAuthUser(
@@ -142,6 +140,10 @@ async function ensureAuthUser(
           ...(existingUser.user_metadata ?? {}),
           phone,
           auth_strategy: "custom_whatsapp_otp",
+          country: "RW",
+          language_code: "en",
+          market: "RW",
+          ui_language: "en",
         },
       },
     );
@@ -164,6 +166,10 @@ async function ensureAuthUser(
     user_metadata: {
       phone,
       auth_strategy: "custom_whatsapp_otp",
+      country: "RW",
+      language_code: "en",
+      market: "RW",
+      ui_language: "en",
     },
   });
 
@@ -236,6 +242,55 @@ Deno.serve(async (request: Request) => {
     }
 
     const adminClient = createAdminClient();
+    const clientIp = extractClientIp(request);
+    const windowStart = new Date(Date.now() - verifyRateLimitWindowMs)
+      .toISOString();
+    const ipActorKey = clientIp == null
+      ? null
+      : await hashOtpRateActorKey(`verify_ip:${clientIp}`);
+    const phoneActorKey = await hashOtpRateActorKey(
+      `verify_phone:${normalizedPhone}`,
+    );
+    if (ipActorKey != null) {
+      const recentIpEvents = await countRecentOtpRateEvents(adminClient, {
+        action: "verify_ip",
+        actorKey: ipActorKey,
+        windowStartIso: windowStart,
+      });
+      if (recentIpEvents >= maxVerifyAttemptsPerIpPerWindow) {
+        await recordVerifyRateEvents(adminClient, {
+          ipActorKey,
+          phoneActorKey,
+          outcome: "blocked_ip_limit",
+          phone: normalizedPhone,
+          metadata: { limit: maxVerifyAttemptsPerIpPerWindow },
+        });
+        return errorResponse(
+          "Too many verification attempts from this network. Request a new code later.",
+          429,
+          { retryAfterSeconds: 600 },
+        );
+      }
+    }
+    const recentPhoneEvents = await countRecentOtpRateEvents(adminClient, {
+      action: "verify_phone",
+      actorKey: phoneActorKey,
+      windowStartIso: windowStart,
+    });
+    if (recentPhoneEvents >= maxVerifyAttemptsPerPhonePerWindow) {
+      await recordVerifyRateEvents(adminClient, {
+        ipActorKey,
+        phoneActorKey,
+        outcome: "blocked_phone_limit",
+        phone: normalizedPhone,
+        metadata: { limit: maxVerifyAttemptsPerPhonePerWindow },
+      });
+      return errorResponse(
+        "Too many verification attempts for this phone number. Request a new code later.",
+        429,
+        { retryAfterSeconds: 600 },
+      );
+    }
     const usingReviewOtp = isReviewOtpMatch(normalizedPhone, code);
 
     let otpRecord:
@@ -261,14 +316,32 @@ Deno.serve(async (request: Request) => {
 
       otpRecord = otpResult.data?.[0] ?? null;
       if (!otpRecord) {
+        await recordVerifyRateEvents(adminClient, {
+          ipActorKey,
+          phoneActorKey,
+          outcome: "missing_otp",
+          phone: normalizedPhone,
+        });
         return errorResponse("No OTP found for this phone number", 404);
       }
 
       if ((otpRecord.attempts ?? 0) >= 3) {
+        await recordVerifyRateEvents(adminClient, {
+          ipActorKey,
+          phoneActorKey,
+          outcome: "blocked_phone_attempts",
+          phone: normalizedPhone,
+        });
         return errorResponse("Too many attempts. Request a new code.", 429);
       }
 
       if (new Date(otpRecord.expires_at).getTime() < Date.now()) {
+        await recordVerifyRateEvents(adminClient, {
+          ipActorKey,
+          phoneActorKey,
+          outcome: "expired",
+          phone: normalizedPhone,
+        });
         return errorResponse("OTP code has expired", 400);
       }
 
@@ -283,6 +356,14 @@ Deno.serve(async (request: Request) => {
         if (updateAttemptsResult.error) {
           throw updateAttemptsResult.error;
         }
+
+        await recordVerifyRateEvents(adminClient, {
+          ipActorKey,
+          phoneActorKey,
+          outcome: "invalid_code",
+          phone: normalizedPhone,
+          metadata: { attemptsRemaining: Math.max(0, 3 - nextAttempts) },
+        });
 
         return errorResponse("Invalid OTP code", 400, {
           attemptsRemaining: Math.max(0, 3 - nextAttempts),
@@ -344,6 +425,13 @@ Deno.serve(async (request: Request) => {
       }
     }
 
+    await recordVerifyRateEvents(adminClient, {
+      ipActorKey,
+      phoneActorKey,
+      outcome: usingReviewOtp ? "review_success" : "success",
+      phone: normalizedPhone,
+    });
+
     const session = signInResult.data.session;
     return jsonResponse({
       success: true,
@@ -380,3 +468,38 @@ Deno.serve(async (request: Request) => {
     );
   }
 });
+
+async function recordVerifyRateEvents(
+  adminClient: ReturnType<typeof createAdminClient>,
+  options: {
+    ipActorKey: string | null;
+    phoneActorKey: string;
+    outcome: string;
+    phone: string;
+    metadata?: Record<string, unknown>;
+  },
+) {
+  const writes = [
+    recordOtpRateEvent(adminClient, {
+      action: "verify_phone",
+      actorKey: options.phoneActorKey,
+      outcome: options.outcome,
+      phone: options.phone,
+      metadata: options.metadata,
+    }),
+  ];
+
+  if (options.ipActorKey != null) {
+    writes.push(
+      recordOtpRateEvent(adminClient, {
+        action: "verify_ip",
+        actorKey: options.ipActorKey,
+        outcome: options.outcome,
+        phone: options.phone,
+        metadata: options.metadata,
+      }),
+    );
+  }
+
+  await Promise.all(writes);
+}

@@ -33,6 +33,13 @@ type MapsGatewayRequest = {
   travelMode?: string;
 };
 
+const RWANDA_REGION_CODE = "rw";
+const RWANDA_LANGUAGE_CODE = "en";
+const RWANDA_BOUNDS = {
+  low: { latitude: -2.95, longitude: 28.8 },
+  high: { latitude: -1.0, longitude: 30.95 },
+} as const;
+
 const mapsApiKeyConfig = resolveMapsApiKey();
 const mapsApiKey = mapsApiKeyConfig.apiKey;
 
@@ -148,6 +155,9 @@ async function autocompletePlaces(body: MapsGatewayRequest) {
   const payload: Record<string, unknown> = {
     input: query,
     includeQueryPredictions: false,
+    includedRegionCodes: [RWANDA_REGION_CODE],
+    locationRestriction: rwandaLocationRestriction(),
+    regionCode: RWANDA_REGION_CODE,
   };
 
   const languageCode = normalizeLanguageCode(body.languageCode);
@@ -158,16 +168,6 @@ async function autocompletePlaces(body: MapsGatewayRequest) {
   const sessionToken = body.sessionToken?.trim();
   if (sessionToken) {
     payload.sessionToken = sessionToken;
-  }
-
-  const near = parseLatLng(body.near, "near");
-  if (near) {
-    payload.locationBias = {
-      circle: {
-        center: near,
-        radius: 12000.0,
-      },
-    };
   }
 
   const response = await googleFetchJson(
@@ -224,21 +224,13 @@ async function textSearchPlaces(body: MapsGatewayRequest) {
     textQuery: query,
     pageSize: limit,
     rankPreference: "RELEVANCE",
+    locationRestriction: rwandaLocationRestriction(),
+    regionCode: RWANDA_REGION_CODE,
   };
 
   const languageCode = normalizeLanguageCode(body.languageCode);
   if (languageCode) {
     payload.languageCode = languageCode;
-  }
-
-  const near = parseLatLng(body.near, "near");
-  if (near) {
-    payload.locationBias = {
-      circle: {
-        center: near,
-        radius: 12000.0,
-      },
-    };
   }
 
   const response = await googleFetchJson(
@@ -256,6 +248,7 @@ async function textSearchPlaces(body: MapsGatewayRequest) {
 
   return asArray(response.places)
     .map((item) => toPlaceResult(asMap(item)))
+    .filter((place) => isPlaceWithinRwanda(place))
     .filter((place) => place.placeId && place.label && place.position)
     .slice(0, limit);
 }
@@ -273,6 +266,7 @@ async function fetchPlaceDetails(body: MapsGatewayRequest) {
   if (languageCode) {
     url.searchParams.set("languageCode", languageCode);
   }
+  url.searchParams.set("regionCode", RWANDA_REGION_CODE);
   if (body.sessionToken?.trim()) {
     url.searchParams.set("sessionToken", body.sessionToken.trim());
   }
@@ -287,6 +281,9 @@ async function fetchPlaceDetails(body: MapsGatewayRequest) {
   if (!place.position) {
     throw new HttpError(502, "Google Place Details did not return coordinates");
   }
+  if (!isPlaceWithinRwanda(place)) {
+    throw new HttpError(400, "Place is outside the Rwanda market");
+  }
 
   return place;
 }
@@ -296,10 +293,12 @@ async function reverseGeocode(body: MapsGatewayRequest) {
   if (!location) {
     throw new HttpError(400, "location is required for reverse_geocode");
   }
+  assertRwandaPoint(location, "location");
 
   const url = new URL("https://maps.googleapis.com/maps/api/geocode/json");
   url.searchParams.set("latlng", `${location.latitude},${location.longitude}`);
   url.searchParams.set("key", requireMapsApiKey());
+  url.searchParams.set("region", RWANDA_REGION_CODE.toLowerCase());
 
   const languageCode = normalizeLanguageCode(body.languageCode);
   if (languageCode) {
@@ -350,6 +349,8 @@ async function computeRoute(body: MapsGatewayRequest) {
       "origin and destination are required for compute_route",
     );
   }
+  assertRwandaPoint(origin, "origin");
+  assertRwandaPoint(destination, "destination");
 
   const travelMode = normalizeTravelMode(body.travelMode);
   const payload: Record<string, unknown> = {
@@ -485,6 +486,28 @@ function parseLatLng(value: unknown, fieldName: string): LatLng | null {
   return { latitude, longitude };
 }
 
+function rwandaLocationRestriction() {
+  return {
+    rectangle: {
+      low: RWANDA_BOUNDS.low,
+      high: RWANDA_BOUNDS.high,
+    },
+  };
+}
+
+function isWithinRwanda(point: LatLng): boolean {
+  return point.latitude >= RWANDA_BOUNDS.low.latitude &&
+    point.latitude <= RWANDA_BOUNDS.high.latitude &&
+    point.longitude >= RWANDA_BOUNDS.low.longitude &&
+    point.longitude <= RWANDA_BOUNDS.high.longitude;
+}
+
+function assertRwandaPoint(point: LatLng, fieldName: string) {
+  if (!isWithinRwanda(point)) {
+    throw new HttpError(400, `${fieldName} is outside the Rwanda market`);
+  }
+}
+
 function asMap(value: unknown): Record<string, any> {
   return value && typeof value == "object" && !Array.isArray(value)
     ? value as Record<string, any>
@@ -524,8 +547,13 @@ function clampInt(
 }
 
 function normalizeLanguageCode(value?: string): string | null {
-  const normalized = value?.trim();
-  return normalized ? normalized : null;
+  const normalized = value?.trim().toLowerCase();
+  if (!normalized) {
+    return RWANDA_LANGUAGE_CODE;
+  }
+  return normalized.startsWith("en")
+    ? RWANDA_LANGUAGE_CODE
+    : RWANDA_LANGUAGE_CODE;
 }
 
 function normalizeTravelMode(value?: string): string {
@@ -555,6 +583,16 @@ function toPlaceResult(place: Record<string, any>) {
     secondaryText,
     position: location,
   };
+}
+
+function isPlaceWithinRwanda(place: Record<string, any>): boolean {
+  const position = asMap(place.position);
+  const latitude = asNumber(position.latitude);
+  const longitude = asNumber(position.longitude);
+  if (latitude == null || longitude == null) {
+    return false;
+  }
+  return isWithinRwanda({ latitude, longitude });
 }
 
 function splitAddress(

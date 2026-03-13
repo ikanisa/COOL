@@ -27,45 +27,34 @@ class ManagedFeatureRollout {
     required this.key,
     this.stage = FeatureRolloutStage.live,
     this.killSwitch = false,
-    this.allowedCountries = const <String>[],
     this.adminOnly = false,
   });
 
   final String key;
   final FeatureRolloutStage stage;
   final bool killSwitch;
-  final List<String> allowedCountries;
   final bool adminOnly;
 
-  bool isEnabled({String? countryCode, bool isAdmin = false}) {
+  /// Rwanda-only: no country gating needed.
+  bool isEnabled({bool isAdmin = false}) {
     if (killSwitch || stage == FeatureRolloutStage.disabled) {
       return false;
     }
     if ((adminOnly || stage == FeatureRolloutStage.internal) && !isAdmin) {
       return false;
     }
-    if (allowedCountries.isEmpty) {
-      return true;
-    }
-
-    final normalizedCountry = countryCode?.trim().toUpperCase();
-    if (normalizedCountry == null || normalizedCountry.isEmpty) {
-      return false;
-    }
-    return allowedCountries.contains(normalizedCountry);
+    return true;
   }
 
   ManagedFeatureRollout copyWith({
     FeatureRolloutStage? stage,
     bool? killSwitch,
-    List<String>? allowedCountries,
     bool? adminOnly,
   }) {
     return ManagedFeatureRollout(
       key: key,
       stage: stage ?? this.stage,
       killSwitch: killSwitch ?? this.killSwitch,
-      allowedCountries: allowedCountries ?? this.allowedCountries,
       adminOnly: adminOnly ?? this.adminOnly,
     );
   }
@@ -74,7 +63,6 @@ class ManagedFeatureRollout {
     return <String, Object>{
       killSwitchKey: killSwitch,
       'feature_${key}_stage': stage.remoteConfigValue,
-      'feature_${key}_allowed_countries': allowedCountries.join(','),
       'feature_${key}_admin_only': adminOnly,
     };
   }
@@ -94,10 +82,6 @@ class ManagedFeatureRollout {
       killSwitch: _coerceBool(
         values[killSwitchKey],
         fallback: fallback.killSwitch,
-      ),
-      allowedCountries: _coerceCountryCodes(
-        values['feature_${key}_allowed_countries'],
-        fallback: fallback.allowedCountries,
       ),
       adminOnly: _coerceBool(
         values['feature_${key}_admin_only'],
@@ -197,20 +181,20 @@ class EngagementFeatureFlags {
   bool get ticketEnabled => isTicketPurchaseEnabled();
   bool get mobilityEnabled => isMobilityEnabled();
 
-  bool isMomoEnabled({String? countryCode, bool isAdmin = false}) {
-    return momo.isEnabled(countryCode: countryCode, isAdmin: isAdmin);
+  bool isMomoEnabled({bool isAdmin = false}) {
+    return momo.isEnabled(isAdmin: isAdmin);
   }
 
-  bool isCreditEnabled({String? countryCode, bool isAdmin = false}) {
-    return credit.isEnabled(countryCode: countryCode, isAdmin: isAdmin);
+  bool isCreditEnabled({bool isAdmin = false}) {
+    return credit.isEnabled(isAdmin: isAdmin);
   }
 
-  bool isTicketPurchaseEnabled({String? countryCode, bool isAdmin = false}) {
-    return ticketPurchase.isEnabled(countryCode: countryCode, isAdmin: isAdmin);
+  bool isTicketPurchaseEnabled({bool isAdmin = false}) {
+    return ticketPurchase.isEnabled(isAdmin: isAdmin);
   }
 
-  bool isMobilityEnabled({String? countryCode, bool isAdmin = false}) {
-    return mobility.isEnabled(countryCode: countryCode, isAdmin: isAdmin);
+  bool isMobilityEnabled({bool isAdmin = false}) {
+    return mobility.isEnabled(isAdmin: isAdmin);
   }
 
   Map<String, Object> toRemoteConfigDefaults() {
@@ -229,33 +213,7 @@ class EngagementFeatureFlags {
   }
 }
 
-List<String> _coerceCountryCodes(
-  Object? value, {
-  required List<String> fallback,
-}) {
-  if (value is List) {
-    final normalized =
-        value
-            .map((entry) => entry.toString().trim().toUpperCase())
-            .where((entry) => entry.isNotEmpty)
-            .toSet()
-            .toList()
-          ..sort();
-    return normalized;
-  }
-  if (value is String) {
-    final normalized =
-        value
-            .split(',')
-            .map((entry) => entry.trim().toUpperCase())
-            .where((entry) => entry.isNotEmpty)
-            .toSet()
-            .toList()
-          ..sort();
-    return normalized;
-  }
-  return fallback;
-}
+
 
 bool _coerceBool(Object? value, {required bool fallback}) {
   if (value is bool) {

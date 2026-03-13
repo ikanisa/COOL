@@ -7,11 +7,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/config/app_config_provider.dart';
-import '../../../core/config/country_catalog.dart';
+import '../../../core/config/app_market.dart';
 import '../../../core/l10n/l10n.dart';
-import '../../../core/l10n/locale_provider.dart';
 import '../../../core/providers/notification_settings_provider.dart';
-import '../../../core/providers/supported_countries_provider.dart';
 import '../../../core/router/app_router.dart';
 import '../../../core/status/models/cool_status.dart';
 import '../../../core/status/providers/cool_status_provider.dart';
@@ -45,11 +43,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   bool _showMoreTools = false;
 
   String _tierLabel(FanTier tier) {
+    final l10n = context.l10n;
     return switch (tier) {
-      FanTier.blue => 'Blue',
-      FanTier.silver => 'Silver',
-      FanTier.gold => 'Gold',
-      FanTier.platinum => 'Platinum',
+      FanTier.blue => l10n.profileTierBlue,
+      FanTier.silver => l10n.profileTierSilver,
+      FanTier.gold => l10n.profileTierGold,
+      FanTier.platinum => l10n.profileTierPlatinum,
     };
   }
 
@@ -95,22 +94,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     unawaited(ref.read(driverProvider.notifier).loadDriverProfile());
   }
 
-  // ── Language switcher ─────────────────────────────────────────────────
-
-  Future<void> _showLanguageSheet() async {
-    final currentLanguage = ref.read(localeProvider).languageCode;
-    final selected = await showModalBottomSheet<String>(
-      context: context,
-      useRootNavigator: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) => ProfileLanguageSheet(current: currentLanguage),
-    );
-
-    if (!mounted || selected == null) return;
-
-    // Persist to Hive and trigger app-wide locale rebuild.
-    await ref.read(localeProvider.notifier).setLocale(selected);
-  }
+  // ── App access sheet ──────────────────────────────────────────────────
 
   Future<void> _showAppAccessSheet() {
     return ProfileAppAccessSheet.show(context);
@@ -201,13 +185,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   // ── MoMo edit sheet ───────────────────────────────────────────────────
 
   Future<void> _showMomoEditSheet(ProfileData profile) async {
-    final countries =
-        ref.read(supportedCountriesProvider).valueOrNull ??
-        CoolCountryCatalog.all;
-    final country = CoolCountryCatalog.resolve(
-      country: profile.countryCode,
-      source: countries,
-    );
+    final country = AppMarket.country;
     final result = await showModalBottomSheet<ProfileMomoEditResult>(
       context: context,
       useRootNavigator: true,
@@ -218,7 +196,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         currentMomoCode: profile.momoCode,
         currentMomoRouteType: profile.effectiveMomoRouteType,
         country: country,
-        availableCountries: countries,
       ),
     );
 
@@ -273,15 +250,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       return;
     }
 
-    final countries =
-        ref.read(supportedCountriesProvider).valueOrNull ??
-        CoolCountryCatalog.all;
-    final country = CoolCountryCatalog.resolve(
-      country: profile.countryCode,
-      phone: user.phone,
-      providerId: user.momoProvider,
-      source: countries,
-    );
+    final country = AppMarket.country;
 
     final result =
         await showModalBottomSheet<ProfileOfficialIdentityEditResult>(
@@ -306,8 +275,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     showDialog<void>(
       context: context,
       barrierDismissible: false,
-      builder: (_) =>
-          ProfileBlockingProgressDialog(message: 'Saving identity…'),
+      builder: (_) => ProfileBlockingProgressDialog(
+        message: context.l10n.profileSavingIdentity,
+      ),
     );
 
     final success = await ref
@@ -323,9 +293,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     Navigator.of(context, rootNavigator: true).pop();
 
     if (success) {
-      CoolToast.success(context, 'Identity updated.');
+      CoolToast.success(context, context.l10n.profileIdentityUpdated);
     } else {
-      CoolToast.error(context, 'Identity update failed.');
+      CoolToast.error(context, context.l10n.profileIdentityUpdateFailed);
     }
   }
 
@@ -400,7 +370,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final authState = ref.watch(authProvider);
-    ref.watch(localeProvider);
     final notificationSettings = ref.watch(notificationSettingsProvider);
     final profile = ref.watch(profileViewProvider);
     final status = ref.watch(coolStatusProvider).valueOrNull;
@@ -426,15 +395,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final preferenceRows = <ProfileSettingsRow>[
       ProfileSettingsRow(
         icon: Icons.admin_panel_settings_outlined,
-        label: 'App access',
-        value: 'Manage',
+        label: l10n.profileAppAccess,
+        value: l10n.profileManageAction,
         onTap: _showAppAccessSheet,
-      ),
-      ProfileSettingsRow(
-        icon: Icons.translate_outlined,
-        label: l10n.languageLabel,
-        value: profile.languageLabel,
-        onTap: _showLanguageSheet,
       ),
       ProfileSettingsRow(
         icon: Icons.notifications_outlined,
@@ -485,7 +448,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         ProfileSettingsRow(
           icon: Icons.stars_rounded,
           label: l10n.profileCoolStatus,
-          value: '${_tierLabel(status.tier)} · ${status.totalPoints} pts',
+          value: l10n.profileCoolStatusValue(
+            _tierLabel(status.tier),
+            status.totalPoints,
+          ),
           valueColor: AppColors.accent,
           onTap: () => _showStatusSheet(status),
         ),
@@ -541,7 +507,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     ProfileFactsCard(
                       items: [
                         ProfileFactItem(
-                          label: 'User ID',
+                          label: l10n.profileUserIdLabel,
                           value: profile.userId,
                         ),
                         ProfileFactItem(
@@ -549,7 +515,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           value: profile.country,
                         ),
                         ProfileFactItem(
-                          label: 'Wallet',
+                          label: l10n.profileWalletLabel,
                           value: profile.momoLinked
                               ? profile.walletRouteLabel
                               : l10n.profileNotLinked,
@@ -566,7 +532,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     ),
                     const SizedBox(height: 14),
                     ProfileSettingsSection(
-                      title: 'Setup',
+                      title: l10n.profileSetupTitle,
                       rows: profile.setupItems
                           .map((item) {
                             final onTap = switch (item.id) {

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:cool_app/core/l10n/locale_provider.dart';
 import 'package:cool_app/core/router/app_router.dart';
 
-import '../helpers/test_bootstrap.dart';
 import 'test_harness.dart';
 
 void main() {
@@ -32,31 +30,46 @@ void main() {
       await tester.tap(find.text('Continue'));
       await settleTestApp(tester);
 
-      expect(find.text('Enter a 9-digit Rwandan number'), findsOneWidget);
+      expect(find.byType(TextField), findsOneWidget);
+      expect(find.text('Enter your code'), findsNothing);
     });
 
-    testWidgets('Country picker shows supported countries', (tester) async {
+    testWidgets('OTP screen accepts global WhatsApp numbers with +', (
+      tester,
+    ) async {
       await pumpRouterApp(tester, initialLocation: AppRoutes.otp);
 
-      await tester.tap(find.text('+250'));
+      await tester.enterText(find.byType(TextField), '+256781234567');
+      await tester.tap(find.text('Continue'));
       await settleTestApp(tester);
 
-      expect(find.textContaining('Rwanda'), findsOneWidget);
-      expect(find.textContaining('Benin'), findsOneWidget);
-      expect(find.textContaining('Ghana'), findsOneWidget);
+      expect(find.text('Enter your code'), findsOneWidget);
     });
 
-    testWidgets('OTP screen localizes to French', (tester) async {
-      await pumpRouterApp(
-        tester,
-        initialLocation: AppRoutes.otp,
-        overrides: [
-          localeStoreProvider.overrideWithValue(MemoryLocaleStore('fr')),
-        ],
-      );
+    testWidgets('OTP screen explains Rwanda market and global login', (
+      tester,
+    ) async {
+      await pumpRouterApp(tester, initialLocation: AppRoutes.otp);
 
-      expect(find.text('Utilisez votre numéro WhatsApp'), findsOneWidget);
-      expect(find.text('Continuer'), findsOneWidget);
+      expect(
+        find.text(
+          'Cool serves Rwanda only. You can still sign in with any WhatsApp number worldwide.',
+        ),
+        findsOneWidget,
+      );
+      expect(
+        find.text(
+          'Use your Rwanda number in local format, or paste a full WhatsApp number in E.164 format with +.',
+        ),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('OTP screen does not expose a country picker', (tester) async {
+      await pumpRouterApp(tester, initialLocation: AppRoutes.otp);
+
+      expect(find.byIcon(Icons.keyboard_arrow_down_rounded), findsNothing);
+      expect(find.text('+250'), findsNothing);
     });
   });
 }

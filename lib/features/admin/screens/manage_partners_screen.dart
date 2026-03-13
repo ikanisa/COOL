@@ -1,9 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/config/country_catalog.dart';
-import '../../../core/providers/supported_countries_provider.dart';
+import '../../../core/config/app_market.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
@@ -18,9 +18,6 @@ class ManagePartnersScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final partnersAsync = ref.watch(adminPartnersProvider);
-    final countries =
-        ref.watch(supportedCountriesProvider).valueOrNull ??
-        CoolCountryCatalog.all;
 
     return Scaffold(
       backgroundColor: AppColors.bg,
@@ -37,10 +34,15 @@ class ManagePartnersScreen extends ConsumerWidget {
         ),
         iconTheme: const IconThemeData(color: AppColors.text),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.accent,
-        onPressed: () => _showEditSheet(context, ref, null, countries),
-        child: const Icon(Icons.add_rounded, color: Colors.black),
+      floatingActionButton: Semantics(
+        button: true,
+        label: 'Add partner',
+        hint: 'Opens the new partner form',
+        child: FloatingActionButton(
+          backgroundColor: AppColors.accent,
+          onPressed: () => _showEditSheet(context, ref, null),
+          child: const Icon(Icons.add_rounded, color: Colors.black),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -60,7 +62,7 @@ class ManagePartnersScreen extends ConsumerWidget {
               final p = partners[index];
               return _PartnerTile(
                 partner: p,
-                onEdit: () => _showEditSheet(context, ref, p, countries),
+                onEdit: () => _showEditSheet(context, ref, p),
               );
             },
           ),
@@ -73,14 +75,12 @@ class ManagePartnersScreen extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     Map<String, dynamic>? partner,
-    List<CoolCountry> countries,
   ) {
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (_) =>
-          _EditPartnerSheet(partner: partner, ref: ref, countries: countries),
+      builder: (_) => _EditPartnerSheet(partner: partner, ref: ref),
     );
   }
 }
@@ -95,68 +95,85 @@ class _PartnerTile extends StatelessWidget {
     final isActive = partner['is_active'] == true;
     final isMock = partner['is_mock'] == true;
     final mockBatch = partner['mock_batch']?.toString().trim() ?? '';
+    final name = partner['name']?.toString() ?? '';
+    final slug = partner['slug']?.toString() ?? '';
+    final category = partner['category']?.toString() ?? '';
+    final marketName = AppMarket.country.name;
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.border),
       ),
-      child: ListTile(
-        leading: Text(
-          partner['emoji']?.toString() ?? '🤝',
-          style: const TextStyle(fontSize: 24),
-        ),
-        title: Row(
-          children: [
-            Expanded(
-              child: Text(
-                partner['name']?.toString() ?? '',
-                style: GoogleFonts.dmSans(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.text,
+      child: Semantics(
+        container: true,
+        label:
+            'Partner $name. Slug $slug. Category $category. Market $marketName. '
+            '${isActive ? 'Active.' : 'Inactive.'}'
+            '${isMock ? ' Mock partner.' : ''}'
+            '${mockBatch.isNotEmpty ? ' Batch $mockBatch.' : ''}',
+        child: ListTile(
+          leading: Text(
+            partner['emoji']?.toString() ?? '🤝',
+            style: const TextStyle(fontSize: 24),
+          ),
+          title: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  name,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.text,
+                  ),
                 ),
               ),
-            ),
-            if (isMock) const SizedBox(width: 8),
-            if (isMock)
-              const _AdminMarkerChip(label: 'Mock', color: Colors.orange),
-          ],
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              '${partner['slug']} · ${partner['category']} · ${partner['country'] ?? 'all'}',
-              style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
-            ),
-            if (isMock && mockBatch.isNotEmpty) ...[
-              const SizedBox(height: 4),
+              if (isMock) const SizedBox(width: 8),
+              if (isMock)
+                const _AdminMarkerChip(label: 'Mock', color: Colors.orange),
+            ],
+          ),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
               Text(
-                'Batch: $mockBatch',
-                style: GoogleFonts.dmSans(fontSize: 11, color: Colors.orange),
+                '$slug · $category · $marketName',
+                style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
+              ),
+              if (isMock && mockBatch.isNotEmpty) ...[
+                const SizedBox(height: 4),
+                Text(
+                  'Batch: $mockBatch',
+                  style: GoogleFonts.dmSans(fontSize: 11, color: Colors.orange),
+                ),
+              ],
+            ],
+          ),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _AdminMarkerChip(
+                label: isActive ? 'Active' : 'Off',
+                color: isActive ? Colors.green : Colors.red,
+              ),
+              const SizedBox(width: 8),
+              Semantics(
+                button: true,
+                label: 'Edit partner $name',
+                hint: 'Opens the partner editor',
+                child: GestureDetector(
+                  onTap: onEdit,
+                  child: const Icon(
+                    Icons.edit_rounded,
+                    size: 18,
+                    color: AppColors.text3,
+                  ),
+                ),
               ),
             ],
-          ],
-        ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _AdminMarkerChip(
-              label: isActive ? 'Active' : 'Off',
-              color: isActive ? Colors.green : Colors.red,
-            ),
-            const SizedBox(width: 8),
-            GestureDetector(
-              onTap: onEdit,
-              child: const Icon(
-                Icons.edit_rounded,
-                size: 18,
-                color: AppColors.text3,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -171,26 +188,26 @@ class _AdminMarkerChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(8),
+    return Semantics(
+      label: 'Status $label',
+      child: ExcludeSemantics(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          decoration: BoxDecoration(
+            color: color.withValues(alpha: 0.15),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Text(label, style: TextStyle(fontSize: 11, color: color)),
+        ),
       ),
-      child: Text(label, style: TextStyle(fontSize: 11, color: color)),
     );
   }
 }
 
 class _EditPartnerSheet extends StatefulWidget {
-  const _EditPartnerSheet({
-    this.partner,
-    required this.ref,
-    required this.countries,
-  });
+  const _EditPartnerSheet({this.partner, required this.ref});
   final Map<String, dynamic>? partner;
   final WidgetRef ref;
-  final List<CoolCountry> countries;
 
   @override
   State<_EditPartnerSheet> createState() => _EditPartnerSheetState();
@@ -204,7 +221,6 @@ class _EditPartnerSheetState extends State<_EditPartnerSheet> {
   late final TextEditingController _categoryCtl;
   late final TextEditingController _whatsappCtl;
   late bool _isActive;
-  late String _selectedCountryCode;
   bool _saving = false;
 
   @override
@@ -224,12 +240,6 @@ class _EditPartnerSheetState extends State<_EditPartnerSheet> {
       text: p?['whatsapp_number']?.toString() ?? '',
     );
     _isActive = p?['is_active'] == true || p == null;
-    _selectedCountryCode =
-        CoolCountryCatalog.byIsoCode(
-          p?['country']?.toString(),
-          source: widget.countries,
-        )?.isoCode ??
-        widget.countries.first.isoCode;
   }
 
   @override
@@ -251,7 +261,7 @@ class _EditPartnerSheetState extends State<_EditPartnerSheet> {
       'emoji': _emojiCtl.text.trim(),
       'subtitle': _subtitleCtl.text.trim(),
       'category': _categoryCtl.text.trim(),
-      'country': _selectedCountryCode,
+      'country': AppMarket.countryCode,
       'whatsapp_number': _whatsappCtl.text.trim(),
       'is_active': _isActive,
     };
@@ -312,16 +322,21 @@ class _EditPartnerSheetState extends State<_EditPartnerSheet> {
                 _field('Emoji', _emojiCtl),
                 _field('Subtitle', _subtitleCtl),
                 _field('Category', _categoryCtl),
-                _countryField(),
+                _marketField(),
                 _field('WhatsApp #', _whatsappCtl),
-                SwitchListTile(
-                  title: Text(
-                    'Active',
-                    style: GoogleFonts.dmSans(color: AppColors.text),
+                Semantics(
+                  label: 'Partner active status',
+                  toggled: _isActive,
+                  hint: 'Double tap to toggle active status',
+                  child: SwitchListTile(
+                    title: Text(
+                      'Active',
+                      style: GoogleFonts.dmSans(color: AppColors.text),
+                    ),
+                    value: _isActive,
+                    activeTrackColor: AppColors.accent,
+                    onChanged: (v) => setState(() => _isActive = v),
                   ),
-                  value: _isActive,
-                  activeTrackColor: AppColors.accent,
-                  onChanged: (v) => setState(() => _isActive = v),
                 ),
                 const SizedBox(height: 12),
                 SizedBox(
@@ -339,7 +354,7 @@ class _EditPartnerSheetState extends State<_EditPartnerSheet> {
                         ? const SizedBox(
                             width: 20,
                             height: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
+                            child: CupertinoActivityIndicator(radius: 10),
                           )
                         : Text(
                             'Save',
@@ -362,55 +377,45 @@ class _EditPartnerSheetState extends State<_EditPartnerSheet> {
   Widget _field(String label, TextEditingController ctl) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
-      child: TextField(
-        controller: ctl,
-        style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
-          filled: true,
-          fillColor: AppColors.surface2,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
+      child: Semantics(
+        textField: true,
+        label: label,
+        hint: 'Double tap to enter $label',
+        child: TextField(
+          controller: ctl,
+          style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
+          decoration: InputDecoration(
+            labelText: label,
+            labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
+            filled: true,
+            fillColor: AppColors.surface2,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _countryField() {
+  Widget _marketField() {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
-      child: DropdownButtonFormField<String>(
-        initialValue: _selectedCountryCode,
-        dropdownColor: AppColors.surface2,
+      child: TextFormField(
+        initialValue: AppMarket.country.name,
+        enabled: false,
+        style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
         decoration: InputDecoration(
-          labelText: 'Country',
+          labelText: 'Market',
           labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
           filled: true,
-          fillColor: AppColors.surface2,
+          fillColor: AppColors.surface2.withValues(alpha: 0.5),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide.none,
           ),
         ),
-        items: widget.countries
-            .map(
-              (country) => DropdownMenuItem<String>(
-                value: country.isoCode,
-                child: Text(country.pickerLabel),
-              ),
-            )
-            .toList(growable: false),
-        onChanged: _saving
-            ? null
-            : (value) {
-                if (value == null) {
-                  return;
-                }
-                setState(() => _selectedCountryCode = value);
-              },
       ),
     );
   }

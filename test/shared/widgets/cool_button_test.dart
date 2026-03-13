@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -29,7 +30,7 @@ void main() {
       await tester.pumpWidget(_wrap(
         CoolButton(label: 'Save', onTap: () {}, isLoading: true),
       ));
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      expect(find.byType(CupertinoActivityIndicator), findsOneWidget);
       // Label should not be visible during loading
       expect(find.text('Save'), findsNothing);
     });

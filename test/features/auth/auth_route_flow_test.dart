@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cool_app/core/config/country_catalog.dart';
 import 'package:cool_app/core/providers/engagement_providers.dart';
 import 'package:cool_app/core/providers/supported_countries_provider.dart';
@@ -8,6 +6,7 @@ import 'package:cool_app/core/router/app_router.dart';
 import 'package:cool_app/features/auth/models/user_profile.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart';
 import 'package:cool_app/features/auth/repositories/auth_repository.dart';
+import 'package:cool_app/features/momo/providers/momo_service_provider.dart';
 import 'package:cool_app/features/auth/screens/otp_screen.dart';
 import 'package:cool_app/features/auth/screens/otp_verify_screen.dart';
 import 'package:cool_app/shared/widgets/cool_button.dart';
@@ -23,13 +22,12 @@ import '../../helpers/test_bootstrap.dart';
 
 class MockAuthRepository extends Mock implements AuthRepository {}
 
-class MockSupabaseClient extends Mock implements SupabaseClient {}
-
 class TestRouteAuthNotifier extends AuthNotifier {
   TestRouteAuthNotifier({
     required super.repository,
     required super.crashlytics,
     required super.performance,
+    required super.momoService,
     required Session? session,
   }) : _repository = repository {
     state = AuthState(
@@ -80,21 +78,19 @@ class TestRouteAuthNotifier extends AuthNotifier {
 }
 
 class FakeSupportedCountriesRepository extends SupportedCountriesRepository {
-  FakeSupportedCountriesRepository() : super(client: MockSupabaseClient());
+  FakeSupportedCountriesRepository() : super();
 
   @override
-  Future<List<CoolCountry>> getSupportedCountries({
-    bool forceRefresh = false,
-  }) async {
+  List<CoolCountry> getSupportedCountries() {
     return CoolCountryCatalog.all;
   }
 
   @override
-  Future<CoolCountry> resolveCountry({
+  CoolCountry resolveCountry({
     String? countryCode,
     String? phone,
     String? providerId,
-  }) async {
+  }) {
     return CoolCountryCatalog.resolve(
       country: countryCode,
       phone: phone,
@@ -105,23 +101,20 @@ class FakeSupportedCountriesRepository extends SupportedCountriesRepository {
 
 class BlockingResolveSupportedCountriesRepository
     extends SupportedCountriesRepository {
-  BlockingResolveSupportedCountriesRepository()
-    : super(client: MockSupabaseClient());
+  BlockingResolveSupportedCountriesRepository() : super();
 
   @override
-  Future<List<CoolCountry>> getSupportedCountries({
-    bool forceRefresh = false,
-  }) async {
+  List<CoolCountry> getSupportedCountries() {
     return CoolCountryCatalog.all;
   }
 
   @override
-  Future<CoolCountry> resolveCountry({
+  CoolCountry resolveCountry({
     String? countryCode,
     String? phone,
     String? providerId,
   }) {
-    return Completer<CoolCountry>().future;
+    throw StateError('resolveCountry should not be called in the OTP flow.');
   }
 }
 
@@ -171,11 +164,12 @@ void main() {
         authRepositoryProvider.overrideWithValue(repository),
         authProvider.overrideWith(
           (ref) => TestRouteAuthNotifier(
-            repository: ref.watch(authRepositoryProvider),
-            crashlytics: ref.read(crashlyticsServiceProvider),
-            performance: ref.read(performanceServiceProvider),
-            session: session,
-          ),
+                repository: ref.watch(authRepositoryProvider),
+                crashlytics: ref.read(crashlyticsServiceProvider),
+                performance: ref.read(performanceServiceProvider),
+                momoService: ref.read(momoServiceProvider),
+                session: session,
+              ),
         ),
         supportedCountriesRepositoryProvider.overrideWithValue(
           supportedCountriesRepository ?? FakeSupportedCountriesRepository(),
@@ -184,17 +178,16 @@ void main() {
     );
 
     final router = container.read(appRouterProvider);
-    addTearDown(router.dispose);
     router.go(initialLocation);
 
     await tester.pumpWidget(
       UncontrolledProviderScope(
         container: container,
         child: MaterialApp.router(
-        routerConfig: router,
-        supportedLocales: AppLocalizations.supportedLocales,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-      ),
+          routerConfig: router,
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+        ),
       ),
     );
     await tester.pump();

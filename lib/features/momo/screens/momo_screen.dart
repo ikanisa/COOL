@@ -1,18 +1,20 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/models/momo_qr_payload.dart';
-import '../../../core/providers/supported_countries_provider.dart';
+import '../../../core/providers/app_access_provider.dart';
 import '../../../core/router/app_router.dart';
-import '../../../core/services/momo_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../auth/providers/auth_provider.dart';
+import '../providers/momo_service_provider.dart';
 import '../services/nfc_service.dart';
 import '../widgets/momo_cards_widgets.dart';
 import '../widgets/momo_qr_nfc_widgets.dart';
@@ -92,7 +94,6 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
         amount: amount,
         reference: 'NFC-${DateTime.now().millisecondsSinceEpoch}',
         recipientType: nfcPayload.recipientType,
-        countryCode: nfcPayload.countryCode,
       );
       return;
     }
@@ -109,7 +110,6 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
             qrPayload.reference ??
             'QR-${DateTime.now().millisecondsSinceEpoch}',
         recipientType: qrPayload.recipientType,
-        countryCode: qrPayload.countryCode,
       );
       return;
     }
@@ -130,17 +130,18 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
     required int amount,
     required String reference,
     required MomoRecipientType recipientType,
-    String? countryCode,
   }) async {
     setState(() => _launchingIncomingPayment = true);
     try {
-      await MomoService.instance.initiatePayment(
-        recipientMomo: recipientMomo,
-        amount: amount,
-        reference: reference,
-        recipientType: recipientType,
-        countryCode: countryCode,
-      );
+      await ref
+          .read(momoServiceProvider)
+          .initiatePayment(
+            recipientMomo: recipientMomo,
+            amount: amount,
+            reference: reference,
+            recipientType: recipientType,
+            countryCode: AppMarket.countryCode,
+          );
       if (!mounted) {
         return;
       }
@@ -157,21 +158,7 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
     }
   }
 
-  List<CoolCountry> get _countries =>
-      ref.read(supportedCountriesProvider).valueOrNull ??
-      CoolCountryCatalog.all;
-
-  CoolCountry get _currentCountry {
-    final authState = ref.read(authProvider);
-    final user = authState.user;
-    final countryCode = ref.read(currentUserCountryCodeProvider);
-    return CoolCountryCatalog.resolve(
-      country: countryCode,
-      phone: user?.phone,
-      providerId: user?.momoProvider,
-      source: _countries,
-    );
-  }
+  CoolCountry get _currentCountry => AppMarket.country;
 
   String get _currentMomoNumber {
     final user = ref.read(authProvider).user;
@@ -186,15 +173,7 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
 
   String? get _currentMomoCode => ref.read(authProvider).user?.momoCode;
 
-  CoolCountry _resolvePayloadCountry(MomoQrPayload payload) {
-    return CoolCountryCatalog.resolve(
-      country: payload.countryCode ?? _currentCountry.isoCode,
-      phone: payload.recipientType == MomoRecipientType.phoneNumber
-          ? payload.recipientValue
-          : null,
-      source: _countries,
-    );
-  }
+  CoolCountry _resolvePayloadCountry(MomoQrPayload _) => AppMarket.country;
 
   Future<void> _scanQrCode() async {
     final payload = await context.push<MomoQrPayload>(
@@ -220,16 +199,7 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
     final l10n = context.l10n;
     final authState = ref.watch(authProvider);
     final user = authState.user;
-    final countryCode = ref.watch(currentUserCountryCodeProvider);
-    final countries =
-        ref.watch(supportedCountriesProvider).valueOrNull ??
-        CoolCountryCatalog.all;
-    final country = CoolCountryCatalog.resolve(
-      country: countryCode,
-      phone: user?.phone,
-      providerId: user?.momoProvider,
-      source: countries,
-    );
+    final country = AppMarket.country;
     final momoNumber = user?.momoNumber.isNotEmpty == true
         ? user!.momoNumber
         : user?.phone.isNotEmpty == true
@@ -241,10 +211,15 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
       backgroundColor: AppColors.bg,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        leading: IconButton(
-          onPressed: _closeOrReturnHome,
-          tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-          icon: const Icon(Icons.arrow_back_rounded),
+        leading: Semantics(
+          button: true,
+          label: MaterialLocalizations.of(context).backButtonTooltip,
+          hint: 'Returns to the previous screen',
+          child: IconButton(
+            onPressed: _closeOrReturnHome,
+            tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+            icon: const Icon(Icons.arrow_back_rounded),
+          ),
         ),
         title: Text(
           l10n.momoScreenTitle,
@@ -255,10 +230,15 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
           ),
         ),
         actions: [
-          IconButton(
-            onPressed: () => context.go(AppRoutes.home),
-            tooltip: l10n.navHome,
-            icon: const Icon(Icons.home_rounded),
+          Semantics(
+            button: true,
+            label: l10n.navHome,
+            hint: 'Opens the home screen',
+            child: IconButton(
+              onPressed: () => context.go(AppRoutes.home),
+              tooltip: l10n.navHome,
+              icon: const Icon(Icons.home_rounded),
+            ),
           ),
         ],
       ),
@@ -320,35 +300,41 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
               left: 18,
               right: 18,
               top: 12,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 14,
-                  vertical: 12,
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppColors.border),
-                ),
-                child: Row(
-                  children: [
-                    const SizedBox(
-                      width: 18,
-                      height: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2.2),
+              child: Semantics(
+                liveRegion: true,
+                label: l10n.momoNfcLaunchingOverlay,
+                child: ExcludeSemantics(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 12,
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        l10n.momoNfcLaunchingOverlay,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.text,
+                    decoration: BoxDecoration(
+                      color: AppColors.surface,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: AppColors.border),
+                    ),
+                    child: Row(
+                      children: [
+                        const SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CupertinoActivityIndicator(radius: 9),
                         ),
-                      ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            l10n.momoNfcLaunchingOverlay,
+                            style: GoogleFonts.dmSans(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.text,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -389,6 +375,8 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
         country: country,
         momoNumber: momoNumber,
         momoCode: momoCode,
+        appAccessService: ref.read(appAccessServiceProvider),
+        momoService: ref.read(momoServiceProvider),
       ),
     );
   }
@@ -409,6 +397,7 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
       builder: (_) => MomoSendMoneySheet(
         country: country,
         momoNumber: momoNumber,
+        momoService: ref.read(momoServiceProvider),
         momoCode: momoCode,
         initialRecipient: initialRecipient,
         initialAmount: initialAmount,

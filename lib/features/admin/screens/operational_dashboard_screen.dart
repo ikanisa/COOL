@@ -66,11 +66,14 @@ class OperationalDashboardScreen extends ConsumerWidget {
                 message: 'No operational dashboard rows are available yet.',
                 icon: Icons.monitor_heart_outlined,
               ),
-              builder: (rows) => Wrap(
-                spacing: 12,
-                runSpacing: 12,
+              builder: (rows) => Column(
                 children: rows
-                    .map((row) => _DashboardCard(row: row))
+                    .map(
+                      (row) => Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: _DashboardCard(row: row),
+                      ),
+                    )
                     .toList(growable: false),
               ),
             ),
@@ -213,14 +216,31 @@ class _DashboardCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
+          Column(
             children: [
-              _MetricChip(label: 'OK', value: '$okCount'),
-              _MetricChip(label: 'Warn', value: '$warnCount'),
-              _MetricChip(label: 'Error', value: '$errorCount'),
-              _MetricChip(label: 'Issues', value: '$issueCount'),
+              Row(
+                children: [
+                  Expanded(
+                    child: _MetricChip(label: 'OK', value: '$okCount'),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: _MetricChip(label: 'Warn', value: '$warnCount'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Expanded(
+                    child: _MetricChip(label: 'Error', value: '$errorCount'),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: _MetricChip(label: 'Issues', value: '$issueCount'),
+                  ),
+                ],
+              ),
             ],
           ),
           const SizedBox(height: 12),
@@ -302,11 +322,10 @@ class _IssueCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _MetricChip(
+              _FactLine(
                 label: 'Service',
                 value: (_text(row['service']) ?? 'unknown').replaceAll(
                   '_',
@@ -314,11 +333,11 @@ class _IssueCard extends StatelessWidget {
                 ),
               ),
               if (reference != null)
-                _MetricChip(label: 'Reference', value: reference),
+                _FactLine(label: 'Reference', value: reference),
               if (subjectTable != null)
-                _MetricChip(label: 'Table', value: subjectTable),
+                _FactLine(label: 'Table', value: subjectTable),
               if (subjectId != null)
-                _MetricChip(label: 'Record', value: subjectId),
+                _FactLine(label: 'Record', value: subjectId),
             ],
           ),
           const SizedBox(height: 10),
@@ -394,18 +413,17 @@ class _EventTile extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _MetricChip(
+              _FactLine(
                 label: 'Component',
                 value: _text(row['component']) ?? 'general',
               ),
               if (functionName != null)
-                _MetricChip(label: 'Function', value: functionName),
+                _FactLine(label: 'Function', value: functionName),
               if (_text(row['issue_code']) case final issueCode?)
-                _MetricChip(label: 'Code', value: issueCode),
+                _FactLine(label: 'Code', value: issueCode),
             ],
           ),
         ],
@@ -434,6 +452,40 @@ class _MetricChip extends StatelessWidget {
           fontSize: 11,
           fontWeight: FontWeight.w600,
           color: AppColors.text,
+        ),
+      ),
+    );
+  }
+}
+
+class _FactLine extends StatelessWidget {
+  const _FactLine({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: RichText(
+        text: TextSpan(
+          style: GoogleFonts.dmSans(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            color: AppColors.text2,
+            height: 1.4,
+          ),
+          children: [
+            TextSpan(
+              text: '$label: ',
+              style: const TextStyle(
+                fontWeight: FontWeight.w700,
+                color: AppColors.text,
+              ),
+            ),
+            TextSpan(text: value),
+          ],
         ),
       ),
     );

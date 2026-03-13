@@ -3,8 +3,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/home_dashboard_data.dart';
 
 class HomeDashboardRepository {
-  HomeDashboardRepository({SupabaseClient? client})
-    : _client = client ?? Supabase.instance.client;
+  HomeDashboardRepository({required SupabaseClient client})
+    : _client = client;
 
   final SupabaseClient _client;
 

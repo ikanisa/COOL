@@ -291,8 +291,7 @@ async function loadRayonTicket(
           kickoff_time
         ),
         users (
-          full_name,
-          language_code
+          full_name
         )
       `,
     )
@@ -331,7 +330,7 @@ async function loadRayonTicket(
     status: `${data.status ?? "pending"}`.trim().toLowerCase(),
     purchasedAt: `${data.purchased_at ?? ""}`.trim(),
     holderName: normalizeNullableString(user?.full_name) ?? "Cool Fan",
-    languageCode: normalizeNullableString(user?.language_code) ?? "en",
+    languageCode: "en",
     matchTitle: `${homeTeam} vs ${awayTeam}`,
     competition: `${match.competition ?? "Football Match"}`.trim(),
     venue: `${match.venue ?? "Venue TBC"}`.trim(),
@@ -804,10 +803,6 @@ function localizedString(value: string, languageCode: string) {
 }
 
 function toWalletLanguage(languageCode: string): string {
-  const normalized = languageCode.trim().toLowerCase();
-  if (normalized.startsWith("fr")) {
-    return "fr-FR";
-  }
   return "en-US";
 }
 

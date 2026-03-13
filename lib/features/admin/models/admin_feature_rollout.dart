@@ -1,3 +1,4 @@
+import '../../../core/config/app_market.dart';
 import '../../../core/models/engagement_feature_flags.dart';
 
 class AdminFeatureRolloutConfig {
@@ -41,7 +42,7 @@ class AdminFeatureRolloutConfig {
       key: 'mobility',
       label: 'Mobility',
       description:
-          'Roll out rider and driver mobility flows by stage, market, and operator access.',
+          'Roll out rider and driver mobility flows by stage and operator access.',
       killSwitchKey: 'kill_mobility',
     ),
   ];
@@ -49,12 +50,16 @@ class AdminFeatureRolloutConfig {
   static final Set<String> managedConfigKeys = <String>{
     for (final spec in _specs) spec.killSwitchKey,
     for (final spec in _specs) 'feature_${spec.key}_stage',
-    for (final spec in _specs) 'feature_${spec.key}_allowed_countries',
     for (final spec in _specs) 'feature_${spec.key}_admin_only',
   };
+  static final RegExp _legacyManagedConfigKeyPattern = RegExp(
+    r'^feature_[a-z_]+_allowed_[a-z_]+$',
+  );
 
   static bool isManagedFeatureConfigKey(String key) {
-    return managedConfigKeys.contains(key.trim());
+    final normalized = key.trim();
+    return managedConfigKeys.contains(normalized) ||
+        _legacyManagedConfigKeyPattern.hasMatch(normalized);
   }
 
   static List<AdminFeatureRolloutConfig> fromAppConfigEntries(
@@ -68,31 +73,33 @@ class AdminFeatureRolloutConfig {
       if (key == null || key.isEmpty || !isManagedFeatureConfigKey(key)) {
         continue;
       }
-      if (country != null && country.isNotEmpty) {
+      if (country != null &&
+          country.isNotEmpty &&
+          country != AppMarket.countryCode) {
         continue;
       }
       values[key] = entry['value'];
     }
 
-    return _specs.map((spec) {
-      return AdminFeatureRolloutConfig(
-        key: spec.key,
-        label: spec.label,
-        description: spec.description,
-        killSwitchKey: spec.killSwitchKey,
-        rollout: ManagedFeatureRollout.fromValues(
-          key: spec.key,
-          killSwitchKey: spec.killSwitchKey,
-          values: values,
-          fallback: _defaultRollout(defaults, spec.key),
-        ),
-      );
-    }).toList(growable: false);
+    return _specs
+        .map((spec) {
+          return AdminFeatureRolloutConfig(
+            key: spec.key,
+            label: spec.label,
+            description: spec.description,
+            killSwitchKey: spec.killSwitchKey,
+            rollout: ManagedFeatureRollout.fromValues(
+              key: spec.key,
+              killSwitchKey: spec.killSwitchKey,
+              values: values,
+              fallback: _defaultRollout(defaults, spec.key),
+            ),
+          );
+        })
+        .toList(growable: false);
   }
 
-  AdminFeatureRolloutConfig copyWith({
-    ManagedFeatureRollout? rollout,
-  }) {
+  AdminFeatureRolloutConfig copyWith({ManagedFeatureRollout? rollout}) {
     return AdminFeatureRolloutConfig(
       key: key,
       label: label,
@@ -108,25 +115,19 @@ class AdminFeatureRolloutConfig {
         'key': killSwitchKey,
         'value': rollout.killSwitch.toString(),
         'description': 'Emergency kill switch for $label.',
-        'country': null,
+        'country': AppMarket.countryCode,
       },
       <String, dynamic>{
         'key': 'feature_${key}_stage',
         'value': rollout.stage.remoteConfigValue,
         'description': 'Rollout stage for $label.',
-        'country': null,
-      },
-      <String, dynamic>{
-        'key': 'feature_${key}_allowed_countries',
-        'value': rollout.allowedCountries.join(','),
-        'description': 'Comma-separated ISO country allow-list for $label.',
-        'country': null,
+        'country': AppMarket.countryCode,
       },
       <String, dynamic>{
         'key': 'feature_${key}_admin_only',
         'value': rollout.adminOnly.toString(),
         'description': 'Require admin access for $label.',
-        'country': null,
+        'country': AppMarket.countryCode,
       },
     ];
   }

@@ -13,9 +13,8 @@ import '../../../core/config/deep_link_config.dart';
 import '../../../core/providers/referral_providers.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_card.dart';
-import '../../../shared/widgets/cool_empty_view.dart';
-import '../../../shared/widgets/cool_error_view.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
+import '../../../shared/widgets/cool_state_view.dart';
 import '../../../shared/widgets/qr_share_sheet.dart';
 import '../../../shared/widgets/status_badge.dart';
 import '../../../shared/widgets/tab_pill.dart';
@@ -94,7 +93,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
       context,
       groupName: group.name,
       inviteUrl: shareUri.toString(),
-      shareText: 'Join ${group.name} on COOL: ${shareUri.toString()}',
+      shareText: context.l10n.groupsShareText(group.name, shareUri.toString()),
       analyticsTargetType: 'group_invite',
     );
   }
@@ -232,12 +231,13 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
   ];
 
   String _tabLabel(BuildContext context, _GroupsTab tab) {
+    final l10n = context.l10n;
     return switch (tab) {
-      _GroupsTab.all => 'All',
-      _GroupsTab.saving => 'Saving',
-      _GroupsTab.community => 'Community',
-      _GroupsTab.publicCatalog => 'Public',
-      _GroupsTab.privateOnly => 'Private',
+      _GroupsTab.all => l10n.groupsTabAll,
+      _GroupsTab.saving => l10n.groupsTabSaving,
+      _GroupsTab.community => l10n.groupsTabCommunity,
+      _GroupsTab.publicCatalog => l10n.groupsTabPublic,
+      _GroupsTab.privateOnly => l10n.groupsTabPrivate,
     };
   }
 }
@@ -251,62 +251,68 @@ class _CreateGroupBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => context.push(AppRoutes.groupCreate),
-      child: CustomPaint(
-        painter: _DashedBorderPainter(
-          color: AppColors.accent,
-          radius: 20,
-          dashWidth: 6,
-          dashGap: 4,
-        ),
-        child: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(vertical: 22, horizontal: 18),
-          decoration: BoxDecoration(
-            color: AppColors.accentGlow,
-            borderRadius: BorderRadius.circular(20),
+    final l10n = context.l10n;
+    return Semantics(
+      button: true,
+      label: l10n.groupsCreateNewTitle,
+      hint: l10n.groupsCreateNewSubtitle,
+      child: GestureDetector(
+        onTap: () => context.push(AppRoutes.groupCreate),
+        child: CustomPaint(
+          painter: _DashedBorderPainter(
+            color: AppColors.accent,
+            radius: 20,
+            dashWidth: 6,
+            dashGap: 4,
           ),
-          child: Column(
-            children: [
-              Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: AppColors.accent.withValues(alpha: 0.15),
-                  shape: BoxShape.circle,
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  '＋',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.accent,
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(vertical: 22, horizontal: 18),
+            decoration: BoxDecoration(
+              color: AppColors.accentGlow,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              children: [
+                Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: AppColors.accent.withValues(alpha: 0.15),
+                    shape: BoxShape.circle,
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    '＋',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.accent,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                'Create a new group',
-                style: GoogleFonts.dmSans(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.text,
+                const SizedBox(height: 10),
+                Text(
+                  l10n.groupsCreateNewTitle,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.text,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Start a savings circle, fundraiser, or community group and invite members in one link.',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.text2,
-                  height: 1.4,
+                const SizedBox(height: 4),
+                Text(
+                  l10n.groupsCreateNewSubtitle,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.text2,
+                    height: 1.4,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -321,10 +327,12 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CoolEmptyView(
+    final l10n = context.l10n;
+    return CoolStateView.empty(
+      title: isPublicCatalog ? l10n.groupsEmptyPublicTitle : l10n.noGroupsYet,
       message: isPublicCatalog
-          ? 'Public community groups will appear here once they are published.'
-          : 'Create a private group or join one with an invite link.',
+          ? l10n.groupsEmptyPublicMessage
+          : l10n.groupsEmptyPrivateMessage,
       icon: Icons.people_alt_outlined,
     );
   }
@@ -394,12 +402,12 @@ class _GroupListItem extends StatelessWidget {
         : 0.0;
 
     final meta = group.bankPartner != null
-        ? 'Bank custodian: ${group.bankPartner!}'
+        ? l10n.groupsBankCustodianMeta(group.bankPartner!)
         : group.momoNumber != null
-        ? 'MoMo route: ${group.momoNumber!}'
+        ? l10n.groupsMomoRouteMeta(group.momoNumber!)
         : group.type == 'saving'
-        ? 'Saving group'
-        : 'Community fund';
+        ? l10n.groupsSavingGroupMeta
+        : l10n.groupsCommunityFundMeta;
 
     return CoolCard(
       onTap: () {
@@ -438,7 +446,7 @@ class _GroupListItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Raised',
+                      l10n.groupsRaisedLabel,
                       style: GoogleFonts.dmSans(
                         fontSize: 11,
                         fontWeight: FontWeight.w400,
@@ -501,36 +509,46 @@ class _GroupListItem extends StatelessWidget {
                 const Spacer(),
 
                 // Share button
-                GestureDetector(
-                  onTap: onShare,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 7,
+                Semantics(
+                  button: true,
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      minWidth: 48,
+                      minHeight: 48,
                     ),
-                    decoration: BoxDecoration(
-                      color: AppColors.surface3,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: AppColors.border),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(
-                          Icons.link_rounded,
-                          size: 14,
-                          color: AppColors.text2,
+                    child: GestureDetector(
+                      onTap: onShare,
+                      behavior: HitTestBehavior.opaque,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 7,
                         ),
-                        const SizedBox(width: 5),
-                        Text(
-                          'Share',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.text2,
-                          ),
+                        decoration: BoxDecoration(
+                          color: AppColors.surface3,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: AppColors.border),
                         ),
-                      ],
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.link_rounded,
+                              size: 14,
+                              color: AppColors.text2,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              l10n.groupsShareAction,
+                              style: GoogleFonts.dmSans(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.text2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -564,11 +582,15 @@ class _ErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 24),
-      child: CoolErrorView(
-        message: error,
-        onRetry: () => unawaited(onRetry()),
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 24),
+        child: CoolStateView.error(
+          title: context.l10n.groupsLoadErrorTitle,
+          message: error,
+          actionLabel: context.l10n.retryAction,
+          onAction: () => unawaited(onRetry()),
+        ),
       ),
     );
   }

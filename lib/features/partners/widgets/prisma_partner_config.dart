@@ -15,13 +15,10 @@ import 'partner_shared_widgets.dart';
 
 const ikanisaSiteUrl = 'https://ikanisa.com/';
 const ikanisaRwandaWhatsApp = '+250795588248';
-const ikanisaMaltaWhatsApp = '+35699711145';
 const ikanisaEmail = 'info@ikanisa.com';
 
 const prismaCategoryOrder = <String>[
   'rwanda_agent',
-  'malta_agent',
-  'global_agent',
   'capability',
   'support',
 ];
@@ -30,34 +27,20 @@ const prismaCategoryMeta = <String, CategoryMeta>{
   'rwanda_agent': CategoryMeta(
     title: 'Rwanda Agents',
     description:
-        'Jurisdiction-locked Rwanda specialists for legal, tax, NGO, and marketplace work.',
+        'Rwanda-only specialists for legal, tax, finance, audit, NGO, and marketplace work.',
     icon: Icons.flag_rounded,
     accent: AppColors.accent,
   ),
-  'malta_agent': CategoryMeta(
-    title: 'Malta Agents',
-    description:
-        'Malta-focused corporate, tax, and insurance specialists aligned to MBR, CFR, and MFSA workflows.',
-    icon: Icons.public_rounded,
-    accent: AppColors.red,
-  ),
-  'global_agent': CategoryMeta(
-    title: 'Global Finance & Audit',
-    description:
-        'Cross-jurisdiction finance-control and assurance agents operating across Rwanda and Malta.',
-    icon: Icons.language_rounded,
-    accent: AppColors.blue,
-  ),
   'capability': CategoryMeta(
-    title: 'Platform Coverage',
+    title: 'Rwanda Platform Coverage',
     description:
-        'The broader service coverage exposed across legal, tax, accounting, audit, insurance, NGO, and marketplace workflows.',
+        'Rwanda-local service coverage across legal, tax, accounting, audit, insurance, NGO, and marketplace workflows.',
     icon: Icons.dashboard_customize_outlined,
     accent: AppColors.orange,
   ),
   'support': CategoryMeta(
     title: 'Onboarding & Contact',
-    description: 'Direct channels for starting with the Rwanda or Malta desks.',
+    description: 'Direct channels for starting with the Rwanda desk.',
     icon: Icons.support_agent_rounded,
     accent: AppColors.whatsapp,
   ),
@@ -74,7 +57,7 @@ const prismaValues = <({IconData icon, String title, String description})>[
     icon: Icons.lock_outline_rounded,
     title: 'Jurisdiction Locked',
     description:
-        'Rwanda agents do not apply Malta law, and Malta agents do not apply Rwanda law.',
+        'Jurisdiction-locked to Rwandan law and regulatory frameworks.',
   ),
   (
     icon: Icons.library_books_outlined,
@@ -89,10 +72,10 @@ const prismaValues = <({IconData icon, String title, String description})>[
         'Outputs are reviewed for citation completeness, source tracing, and law-in-force checks.',
   ),
   (
-    icon: Icons.translate_rounded,
-    title: 'Multilingual',
+    icon: Icons.account_balance_outlined,
+    title: 'Rwanda Professional Standards',
     description:
-        'English, French, Kinyarwanda, and Maltese support across the platform.',
+        'Aligned with ICPAR, RRA, RDB, and Rwanda Bar Association frameworks.',
   ),
 ];
 
@@ -101,14 +84,19 @@ const prismaValues = <({IconData icon, String title, String description})>[
 // ═════════════════════════════════════════════════════════════════════════════
 
 String normalizePrismaCategory(String rawCategory) {
-  return switch (rawCategory.trim().toLowerCase()) {
-    'rwanda_agent' => 'rwanda_agent',
-    'malta_agent' => 'malta_agent',
-    'global_agent' => 'global_agent',
-    'capability' || 'service' => 'capability',
-    'support' || 'general' => 'support',
-    _ => 'capability',
-  };
+  final normalized = rawCategory.trim().toLowerCase();
+  if (normalized == 'rwanda_agent') {
+    return 'rwanda_agent';
+  }
+  if (normalized == 'support' || normalized == 'general') {
+    return 'support';
+  }
+  if (normalized == 'capability' ||
+      normalized == 'service' ||
+      normalized.endsWith('_agent')) {
+    return 'capability';
+  }
+  return 'capability';
 }
 
 List<MapEntry<String, List<PartnerService>>> groupPrismaServices(

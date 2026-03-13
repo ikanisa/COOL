@@ -5,11 +5,14 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: read
+
 jobs:
   release:
     name: Build & Distribute
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
 
@@ -38,18 +41,23 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version-file: .dvmrc
+          cache: true
+
       - name: Install dependencies
         run: flutter pub get
 
       - name: Generate l10n
         run: flutter gen-l10n
 
-      # ── Gate: analyze + test must pass ─────────────────────
-      - name: Analyze
-        run: flutter analyze --fatal-infos
-
-      - name: Test
-        run: flutter test
+      # ── Gate: release readiness must pass ──────────────────
+      - name: Run release readiness checks
+        env:
+          SKIP_ANDROID_FLAVOR_BUILDS: '1'
+        run: bash scripts/release_readiness.sh
 
       # ── Decode signing key ─────────────────────────────────
       - name: Decode keystore

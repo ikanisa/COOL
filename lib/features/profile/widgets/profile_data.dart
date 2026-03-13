@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/phone_validator.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../mobility/providers/driver_provider.dart';
 import '../../mobility/models/subscription_status.dart';
 
@@ -66,25 +68,25 @@ class ProfileData {
   final String? subscriptionLabel;
   final bool subscriptionExpiring;
 
+  AppLocalizations get _l10n => lookupAppLocalizations(Locale(languageCode));
+
   String get momoDisplayLabel {
+    final l10n = _l10n;
     if (!momoLinked) {
-      return 'Not linked';
+      return l10n.profileNotLinked;
     }
 
     final routeType = effectiveMomoRouteType;
     if (routeType == MomoRecipientType.code) {
       return momoCode?.trim().isNotEmpty == true
-          ? 'Code ${momoCode!.trim()}'
-          : 'Code not set';
+          ? '${l10n.momoRouteCodeLabel} ${momoCode!.trim()}'
+          : l10n.profileMomoCodeNotSet;
     }
 
     if (momoNumber.isEmpty) {
-      return 'Not linked';
+      return l10n.profileNotLinked;
     }
-    final country =
-        CoolCountryCatalog.byIsoCode(countryCode) ??
-        CoolCountryCatalog.defaultCountry;
-    return PhoneValidator.formatMomoDisplay(momoNumber, country);
+    return PhoneValidator.formatMomoDisplay(momoNumber, AppMarket.country);
   }
 
   MomoRecipientType? get effectiveMomoRouteType {
@@ -101,10 +103,11 @@ class ProfileData {
   }
 
   String get walletRouteLabel {
+    final l10n = _l10n;
     return switch (effectiveMomoRouteType) {
-      MomoRecipientType.phoneNumber => 'Phone route',
-      MomoRecipientType.code => 'Code route',
-      null => 'Wallet route',
+      MomoRecipientType.phoneNumber => l10n.momoRoutePhoneLabel,
+      MomoRecipientType.code => l10n.momoRouteCodeLabel,
+      null => l10n.profileWalletLabel,
     };
   }
 
@@ -114,11 +117,12 @@ class ProfileData {
       momoNumber.trim().isNotEmpty;
 
   String get driverSummary {
+    final l10n = _l10n;
     if (!isDriver) {
-      return 'Passenger ready';
+      return l10n.profilePassengerRoleLabel;
     }
     if ((vehicleType?.trim().isEmpty ?? true)) {
-      return 'Vehicle setup pending';
+      return l10n.profileDriverSetupPending;
     }
 
     final parts = <String>[
@@ -140,25 +144,17 @@ class ProfileData {
         .toUpperCase();
   }
 
-  String get languageLabel {
-    switch (languageCode) {
-      case 'fr':
-        return 'Français';
-      default:
-        return 'English';
-    }
-  }
-
   String get kycLabel {
+    final l10n = _l10n;
     switch (kycStatus) {
       case 'verified':
-        return 'Verified';
+        return l10n.verified;
       case 'pending_review':
-        return 'Pending review';
+        return l10n.pendingReview;
       case 'rejected':
-        return 'Needs update';
+        return l10n.kycNeedsUpdate;
       default:
-        return 'Unverified';
+        return l10n.kycUnverified;
     }
   }
 
@@ -240,6 +236,7 @@ class ProfileSetupItem {
 class DriverProfileSnapshot {
   const DriverProfileSnapshot({
     required this.hasProfile,
+    this.locale = const Locale('en'),
     this.vehicleType,
     this.vehicleStatus,
     this.cadenceLabel,
@@ -251,6 +248,7 @@ class DriverProfileSnapshot {
   });
 
   final bool hasProfile;
+  final Locale locale;
   final String? vehicleType;
   final String? vehicleStatus;
   final String? cadenceLabel;
@@ -266,14 +264,18 @@ class DriverProfileSnapshot {
       (baseLocation?.trim().isNotEmpty ?? false);
 
   String? get verificationStatusLabel {
-    final label = humanizeVehicleStatus(vehicleStatus);
+    final label = humanizeVehicleStatus(vehicleStatus, locale: locale);
     return label?.trim().isEmpty ?? true ? null : label;
   }
 
-  factory DriverProfileSnapshot.fromState(DriverState state) {
+  factory DriverProfileSnapshot.fromState(
+    DriverState state, {
+    Locale locale = const Locale('en'),
+  }) {
     final profile = state.profile;
     final subscription = state.subscription;
     final now = DateTime.now();
+    final l10n = lookupAppLocalizations(locale);
 
     final subscriptionExpiring =
         subscription?.expiresAt != null &&
@@ -282,33 +284,41 @@ class DriverProfileSnapshot {
 
     return DriverProfileSnapshot(
       hasProfile: profile != null,
+      locale: locale,
       vehicleType: _trimmed(profile?.vehicleType),
       vehicleStatus: _trimmed(profile?.vehicleStatus),
       cadenceLabel: profile == null
           ? null
-          : (profile.isRegularDriver ? 'Regular Driver' : 'Occasional Driver'),
+          : profile.isRegularDriver
+          ? l10n.profileRegularDriverCadence
+          : l10n.profileOccasionalDriverCadence,
       baseLocation: _trimmed(profile?.baseLocation),
       plateNumber: _trimmed(profile?.plateNumber),
       credits: profile?.credits ?? 0,
       subscriptionLabel: _subscriptionLabel(
         subscription,
         profile?.credits ?? 0,
+        locale: locale,
       ),
       subscriptionExpiring: subscriptionExpiring,
     );
   }
 }
 
-String? humanizeVehicleStatus(String? rawStatus) {
+String? humanizeVehicleStatus(
+  String? rawStatus, {
+  Locale locale = const Locale('en'),
+}) {
   final normalized = rawStatus?.trim().toLowerCase() ?? '';
   if (normalized.isEmpty) {
     return null;
   }
 
+  final l10n = lookupAppLocalizations(locale);
   return switch (normalized) {
-    'verified' => 'Verified',
-    'pending_review' => 'Pending review',
-    'maintenance' => 'Maintenance',
+    'verified' => l10n.verified,
+    'pending_review' => l10n.pendingReview,
+    'maintenance' => l10n.maintenance,
     _ =>
       normalized
           .split('_')
@@ -323,18 +333,22 @@ String? humanizeVehicleStatus(String? rawStatus) {
 
 String? _subscriptionLabel(
   SubscriptionStatus? subscription,
-  int creditsBalance,
-) {
+  int creditsBalance, {
+  Locale locale = const Locale('en'),
+}) {
+  final l10n = lookupAppLocalizations(locale);
   if (subscription == null || !subscription.isSubscribed) {
-    return 'Mobility credits: $creditsBalance';
+    return l10n.profileMobilityCreditsValue(creditsBalance);
   }
 
   final expiresAt = subscription.expiresAt;
   if (expiresAt == null) {
-    return 'Active mobility subscription';
+    return l10n.profileMobilitySubscriptionActive;
   }
 
-  return 'Active until ${DateFormat('d MMM').format(expiresAt)}';
+  return l10n.profileMobilitySubscriptionUntil(
+    DateFormat('d MMM', locale.languageCode).format(expiresAt),
+  );
 }
 
 String? _trimmed(String? value) {

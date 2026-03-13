@@ -99,7 +99,10 @@ class RayonHomeScreen extends StatelessWidget {
                       membership.when(
                         data: (fanMembership) => Column(
                           children: [
-                            GestureDetector(
+                            Semantics(
+                              button: true,
+                              label: 'View membership profile',
+                              child: GestureDetector(
                               onTap: () => context.push(
                                 '/partners/rayon-sports/profile',
                               ),
@@ -121,6 +124,7 @@ class RayonHomeScreen extends StatelessWidget {
                                     : _membershipPerks(fanMembership.tier),
                               ),
                             ),
+                            ),
                             if (fanMembership == null) ...[
                               const SizedBox(height: 12),
                               _PendingMembershipRecoveryCard(
@@ -131,7 +135,10 @@ class RayonHomeScreen extends StatelessWidget {
                             const SizedBox(height: 10),
                             Align(
                               alignment: Alignment.centerRight,
-                              child: GestureDetector(
+                              child: Semantics(
+                                button: true,
+                                label: 'View all membership plans',
+                                child: GestureDetector(
                                 onTap: () => context.push(
                                   '/partners/rayon-sports/membership',
                                 ),
@@ -156,12 +163,16 @@ class RayonHomeScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
+                            ),
                           ],
                         ),
                         loading: () => const CoolSkeleton.card(),
                         error: (_, stackTrace) => Column(
                           children: [
-                            GestureDetector(
+                            Semantics(
+                              button: true,
+                              label: 'View membership profile',
+                              child: GestureDetector(
                               onTap: () => context.push(
                                 '/partners/rayon-sports/profile',
                               ),
@@ -173,6 +184,7 @@ class RayonHomeScreen extends StatelessWidget {
                                 year: DateTime.now().year,
                                 perks: _pendingMembershipPerks,
                               ),
+                            ),
                             ),
                             const SizedBox(height: 12),
                             _PendingMembershipRecoveryCard(
@@ -338,6 +350,7 @@ class _NotificationAction extends StatelessWidget {
         onPressed: () {
           // TODO: Navigate to notifications screen when implemented
         },
+        tooltip: 'Notifications',
         icon: const Icon(Icons.notifications_none_rounded),
       ),
     );
@@ -365,7 +378,10 @@ class _EmptyMatchCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
+    return Semantics(
+      button: true,
+      label: 'No match on sale yet',
+      child: Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
@@ -397,6 +413,7 @@ class _EmptyMatchCard extends StatelessWidget {
             ],
           ),
         ),
+      ),
       ),
     );
   }

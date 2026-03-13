@@ -1,10 +1,8 @@
-import 'dart:math' as math;
-
 import 'package:cool_app/core/config/env_config.dart';
 import 'package:cool_app/core/models/geo_point.dart';
 import 'package:cool_app/core/providers/engagement_providers.dart';
-import 'package:cool_app/core/services/crashlytics_service.dart';
 import 'package:cool_app/core/providers/supabase_client_provider.dart';
+import 'package:cool_app/core/services/crashlytics_service.dart';
 import 'package:cool_app/core/services/performance_dio_interceptor.dart';
 import 'package:cool_app/core/services/performance_service.dart';
 import 'package:cool_app/features/mobility/models/mobility_route_preview.dart';
@@ -12,13 +10,21 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+const _rwandaBounds = _GeoBounds(
+  south: -2.95,
+  west: 28.8,
+  north: -1.0,
+  east: 30.95,
+);
+const _rwandaLanguageTag = 'en';
+
 final placeSearchServiceProvider = Provider<PlaceSearchService>((ref) {
   final dio = Dio(
     BaseOptions(
       baseUrl: EnvConfig.mobilityGeocodingBaseUrl,
       connectTimeout: const Duration(seconds: 8),
       receiveTimeout: const Duration(seconds: 8),
-      headers: <String, dynamic>{
+      headers: <String, Object?>{
         'Accept': 'application/json',
         'User-Agent': EnvConfig.mobilityGeocodingUserAgent,
       },
@@ -104,13 +110,13 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
     try {
       final response = await _client.functions.invoke(
         'maps-gateway',
-        body: <String, dynamic>{
+        body: <String, Object?>{
           'action': 'text_search',
           'query': normalized,
-          'languageCode': languageTag,
+          'languageCode': _normalizedLanguageTag(languageTag),
           'limit': limit.clamp(1, 5),
           if (near != null)
-            'near': <String, dynamic>{
+            'near': <String, Object?>{
               'latitude': near.latitude,
               'longitude': near.longitude,
             },
@@ -126,9 +132,10 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
           .whereType<Map>()
           .map(
             (row) => PlaceSearchResult.fromMapsGatewayJson(
-              Map<String, dynamic>.from(row),
+              Map<String, Object?>.from(row),
             ),
           )
+          .where(_isRwandaResult)
           .where((place) => place.label.isNotEmpty)
           .toList(growable: false);
       final result = results.isEmpty ? null : results.first;
@@ -154,7 +161,7 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
       return _fallback.geocodeQuery(
         normalized,
         near: near,
-        languageTag: languageTag,
+        languageTag: _normalizedLanguageTag(languageTag),
         limit: limit,
       );
     }
@@ -178,14 +185,14 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
     try {
       final response = await _client.functions.invoke(
         'maps-gateway',
-        body: <String, dynamic>{
+        body: <String, Object?>{
           'action': 'autocomplete',
           'query': normalized,
-          'languageCode': languageTag,
+          'languageCode': _normalizedLanguageTag(languageTag),
           'sessionToken': sessionToken,
           'limit': limit.clamp(1, 8),
           if (near != null)
-            'near': <String, dynamic>{
+            'near': <String, Object?>{
               'latitude': near.latitude,
               'longitude': near.longitude,
             },
@@ -202,7 +209,7 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
           .whereType<Map>()
           .map(
             (row) => PlaceSearchResult.fromMapsGatewayJson(
-              Map<String, dynamic>.from(row),
+              Map<String, Object?>.from(row),
             ),
           )
           .where((result) => result.label.isNotEmpty)
@@ -229,7 +236,7 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
       return _fallback.searchPlaces(
         normalized,
         near: near,
-        languageTag: languageTag,
+        languageTag: _normalizedLanguageTag(languageTag),
         sessionToken: sessionToken,
         limit: limit,
       );
@@ -256,10 +263,10 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
     try {
       final response = await _client.functions.invoke(
         'maps-gateway',
-        body: <String, dynamic>{
+        body: <String, Object?>{
           'action': 'place_details',
           'placeId': placeId,
-          'languageCode': languageTag,
+          'languageCode': _normalizedLanguageTag(languageTag),
           'sessionToken': sessionToken,
         },
       );
@@ -274,6 +281,9 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
       final place = PlaceSearchResult.fromMapsGatewayJson(
         _asMap(data['place']),
       );
+      if (!_isRwandaResult(place)) {
+        throw StateError('Place is outside the Rwanda market.');
+      }
       _performance.stopTrace('maps_place_details');
       return place;
     } catch (error, stackTrace) {
@@ -288,7 +298,7 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
       );
       return _fallback.resolvePlace(
         prediction,
-        languageTag: languageTag,
+        languageTag: _normalizedLanguageTag(languageTag),
         sessionToken: sessionToken,
       );
     }
@@ -305,13 +315,13 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
     try {
       final response = await _client.functions.invoke(
         'maps-gateway',
-        body: <String, dynamic>{
+        body: <String, Object?>{
           'action': 'reverse_geocode',
-          'location': <String, dynamic>{
+          'location': <String, Object?>{
             'latitude': latitude,
             'longitude': longitude,
           },
-          'languageCode': languageTag,
+          'languageCode': _normalizedLanguageTag(languageTag),
         },
       );
 
@@ -327,7 +337,8 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
       if (place == null) {
         return null;
       }
-      return PlaceSearchResult.fromMapsGatewayJson(_asMap(place));
+      final result = PlaceSearchResult.fromMapsGatewayJson(_asMap(place));
+      return _isRwandaResult(result) ? result : null;
     } catch (error, stackTrace) {
       _performance.stopTrace(
         'maps_reverse_geocode',
@@ -344,7 +355,7 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
       return _fallback.reverseGeocode(
         latitude: latitude,
         longitude: longitude,
-        languageTag: languageTag,
+        languageTag: _normalizedLanguageTag(languageTag),
       );
     }
   }
@@ -361,17 +372,17 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
     try {
       final response = await _client.functions.invoke(
         'maps-gateway',
-        body: <String, dynamic>{
+        body: <String, Object?>{
           'action': 'compute_route',
-          'origin': <String, dynamic>{
+          'origin': <String, Object?>{
             'latitude': origin.latitude,
             'longitude': origin.longitude,
           },
-          'destination': <String, dynamic>{
+          'destination': <String, Object?>{
             'latitude': destination.latitude,
             'longitude': destination.longitude,
           },
-          'languageCode': languageTag,
+          'languageCode': _normalizedLanguageTag(languageTag),
           'travelMode': travelMode.apiValue,
         },
       );
@@ -407,7 +418,7 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
       return _fallback.computeRoutePreview(
         origin: origin,
         destination: destination,
-        languageTag: languageTag,
+        languageTag: _normalizedLanguageTag(languageTag),
         travelMode: travelMode,
       );
     }
@@ -451,40 +462,41 @@ class NominatimPlaceSearchService implements PlaceSearchService {
       return const <PlaceSearchResult>[];
     }
 
-    final viewBox = near == null ? null : _buildViewBox(near);
-    final queryParameters = <String, dynamic>{
+    final queryParameters = <String, Object?>{
       'q': normalized,
       'format': 'jsonv2',
       'addressdetails': 1,
       'limit': limit.clamp(1, 8),
       'dedupe': 1,
+      'countrycodes': 'rw',
+      'viewbox': _rwandaBounds.nominatimViewBox,
+      'bounded': 1,
     };
-    if (languageTag?.isNotEmpty ?? false) {
-      queryParameters['accept-language'] = languageTag;
-    }
-    if (viewBox != null) {
-      queryParameters['viewbox'] = viewBox;
+    final resolvedLanguageTag = _normalizedLanguageTag(languageTag);
+    if (resolvedLanguageTag.isNotEmpty) {
+      queryParameters['accept-language'] = resolvedLanguageTag;
     }
 
-    final headers = <String, dynamic>{};
-    if (languageTag?.isNotEmpty ?? false) {
-      headers['Accept-Language'] = languageTag;
+    final headers = <String, Object?>{};
+    if (resolvedLanguageTag.isNotEmpty) {
+      headers['Accept-Language'] = resolvedLanguageTag;
     }
 
-    final response = await _dio.get<List<dynamic>>(
+    final response = await _dio.get<List<Object?>>(
       '/search',
       queryParameters: queryParameters,
       options: Options(headers: headers),
     );
 
-    final rows = response.data ?? const <dynamic>[];
+    final rows = response.data ?? const <Object?>[];
     return rows
         .whereType<Map>()
         .map(
           (row) => PlaceSearchResult.fromNominatimJson(
-            Map<String, dynamic>.from(row),
+            Map<String, Object?>.from(row),
           ),
         )
+        .where(_isRwandaResult)
         .where((result) => result.label.isNotEmpty)
         .toList(growable: false);
   }
@@ -509,21 +521,24 @@ class NominatimPlaceSearchService implements PlaceSearchService {
     required double longitude,
     String? languageTag,
   }) async {
-    final response = await _dio.get<Map<String, dynamic>>(
+    if (!_rwandaBounds.contains(latitude, longitude)) {
+      return null;
+    }
+    final response = await _dio.get<Map<String, Object?>>(
       '/reverse',
-      queryParameters: <String, dynamic>{
+      queryParameters: <String, Object?>{
         'lat': latitude,
         'lon': longitude,
         'format': 'jsonv2',
         'addressdetails': 1,
         'zoom': 18,
-        if (languageTag != null && languageTag.isNotEmpty)
-          'accept-language': languageTag,
+        if (_normalizedLanguageTag(languageTag).isNotEmpty)
+          'accept-language': _normalizedLanguageTag(languageTag),
       },
       options: Options(
-        headers: <String, dynamic>{
-          if (languageTag != null && languageTag.isNotEmpty)
-            'Accept-Language': languageTag,
+        headers: <String, Object?>{
+          if (_normalizedLanguageTag(languageTag).isNotEmpty)
+            'Accept-Language': _normalizedLanguageTag(languageTag),
         },
       ),
     );
@@ -533,7 +548,8 @@ class NominatimPlaceSearchService implements PlaceSearchService {
       return null;
     }
 
-    return PlaceSearchResult.fromNominatimJson(data);
+    final result = PlaceSearchResult.fromNominatimJson(data);
+    return _isRwandaResult(result) ? result : null;
   }
 
   @override
@@ -545,18 +561,45 @@ class NominatimPlaceSearchService implements PlaceSearchService {
   }) async {
     return null;
   }
+}
 
-  String _buildViewBox(GeoPoint near) {
-    const spanKm = 12.0;
-    final latDelta = spanKm / 111.0;
-    final safeCos = math.max(math.cos(near.latitude * math.pi / 180), 0.2);
-    final lngDelta = spanKm / (111.0 * safeCos);
-    final west = near.longitude - lngDelta;
-    final east = near.longitude + lngDelta;
-    final north = near.latitude + latDelta;
-    final south = near.latitude - latDelta;
-    return '$west,$north,$east,$south';
+String _normalizedLanguageTag(String? languageTag) {
+  final normalized = languageTag?.trim().toLowerCase();
+  if (normalized == null || normalized.isEmpty) {
+    return _rwandaLanguageTag;
   }
+  return normalized.startsWith('en') ? _rwandaLanguageTag : _rwandaLanguageTag;
+}
+
+bool _isRwandaResult(PlaceSearchResult result) {
+  final position = result.position;
+  if (position == null) {
+    return true;
+  }
+  return _rwandaBounds.contains(position.latitude, position.longitude);
+}
+
+class _GeoBounds {
+  const _GeoBounds({
+    required this.south,
+    required this.west,
+    required this.north,
+    required this.east,
+  });
+
+  final double south;
+  final double west;
+  final double north;
+  final double east;
+
+  bool contains(double latitude, double longitude) {
+    return latitude >= south &&
+        latitude <= north &&
+        longitude >= west &&
+        longitude <= east;
+  }
+
+  String get nominatimViewBox => '$west,$north,$east,$south';
 }
 
 class PlaceSearchResult {
@@ -579,7 +622,7 @@ class PlaceSearchResult {
   double? get latitude => position?.latitude;
   double? get longitude => position?.longitude;
 
-  factory PlaceSearchResult.fromNominatimJson(Map<String, dynamic> json) {
+  factory PlaceSearchResult.fromNominatimJson(Map<String, Object?> json) {
     final displayName = json['display_name']?.toString().trim() ?? '';
     final parts = displayName
         .split(',')
@@ -604,7 +647,7 @@ class PlaceSearchResult {
     );
   }
 
-  factory PlaceSearchResult.fromMapsGatewayJson(Map<String, dynamic> json) {
+  factory PlaceSearchResult.fromMapsGatewayJson(Map<String, Object?> json) {
     final primary = json['primaryText']?.toString().trim();
     final secondary = json['secondaryText']?.toString().trim();
     final label = json['label']?.toString().trim();
@@ -635,27 +678,27 @@ class PlaceSearchResult {
   }
 }
 
-Map<String, dynamic> _asMap(dynamic value) {
-  if (value is Map<String, dynamic>) {
+Map<String, Object?> _asMap(Object? value) {
+  if (value is Map<String, Object?>) {
     return value;
   }
   if (value is Map) {
-    return Map<String, dynamic>.from(value);
+    return Map<String, Object?>.from(value);
   }
-  return const <String, dynamic>{};
+  return const <String, Object?>{};
 }
 
-List<dynamic> _asList(dynamic value) {
-  if (value is List<dynamic>) {
+List<Object?> _asList(Object? value) {
+  if (value is List<Object?>) {
     return value;
   }
   if (value is List) {
-    return List<dynamic>.from(value);
+    return List<Object?>.from(value);
   }
-  return const <dynamic>[];
+  return const <Object?>[];
 }
 
-String _resolvePrimaryText(Map<String, dynamic> json, List<String> parts) {
+String _resolvePrimaryText(Map<String, Object?> json, List<String> parts) {
   final address = _asMap(json['address']);
   final candidates = <String?>[
     json['name']?.toString(),
@@ -698,7 +741,7 @@ String? _resolveSecondaryText(List<String> parts, String primary) {
   return remaining.join(', ');
 }
 
-double? _parseDouble(dynamic value) {
+double? _parseDouble(Object? value) {
   if (value is num) {
     return value.toDouble();
   }

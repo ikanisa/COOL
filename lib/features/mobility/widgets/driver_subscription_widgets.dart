@@ -110,52 +110,57 @@ class DriverPlanCard extends StatelessWidget {
         ? AppColors.blue
         : AppColors.border;
 
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 220),
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? AppColors.accentGlow
-              : AppColors.surface2.withValues(alpha: 0.92),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: borderColor,
-            width: isSelected || isFeatured ? 1.5 : 1,
+    return Semantics(
+      button: true,
+      selected: isSelected,
+      label: '${plan.displayName} plan',
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 220),
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? AppColors.accentGlow
+                : AppColors.surface2.withValues(alpha: 0.92),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: borderColor,
+              width: isSelected || isFeatured ? 1.5 : 1,
+            ),
           ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(IconMapper.from(plan.emoji), size: 24, color: AppColors.text2),
-            const SizedBox(height: 8),
-            Text(
-              plan.displayName,
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-                color: AppColors.text,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(IconMapper.from(plan.emoji), size: 24, color: AppColors.text2),
+              const SizedBox(height: 8),
+              Text(
+                plan.displayName,
+                style: GoogleFonts.dmSans(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.text,
+                ),
               ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              '${formatAmount(plan.amountRwf)} RWF',
-              style: GoogleFonts.dmMono(
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-                color: isSelected ? AppColors.accent : AppColors.blue,
+              const SizedBox(height: 4),
+              Text(
+                '${formatAmount(plan.amountRwf)} RWF',
+                style: GoogleFonts.dmMono(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: isSelected ? AppColors.accent : AppColors.blue,
+                ),
               ),
-            ),
-            Text(
-              '/month',
-              style: GoogleFonts.dmSans(
-                fontSize: 11,
-                fontWeight: FontWeight.w500,
-                color: AppColors.text3,
+              Text(
+                '/month',
+                style: GoogleFonts.dmSans(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.text3,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

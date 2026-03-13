@@ -4,11 +4,13 @@ import 'package:cool_app/core/config/country_catalog.dart';
 
 /// Parameterized tests for country phone validation metadata.
 ///
-/// Every country with validation metadata must pass these invariants:
-/// 1. Example national number parses successfully
-/// 2. Example E.164 number parses successfully
-/// 3. Example national → E.164 round-trip matches
-/// 4. Invalid numbers are rejected
+/// Since the app is Rwanda-only, CoolCountryCatalog.all contains just Rwanda.
+/// These tests verify:
+/// 1. Rwanda has full validation metadata
+/// 2. Example national number parses successfully
+/// 3. Example E.164 number parses successfully
+/// 4. Example national → E.164 round-trip matches
+/// 5. Invalid numbers are rejected
 void main() {
   final countriesWithValidation = CoolCountryCatalog.all
       .where(
@@ -19,14 +21,14 @@ void main() {
       )
       .toList(growable: false);
 
-  // Sanity: make sure we actually test countries
-  test('At least 12 countries have full validation metadata', () {
+  // Rwanda-only: exactly 1 country with validation metadata
+  test('Exactly 1 country has full validation metadata', () {
     expect(
       countriesWithValidation.length,
-      greaterThanOrEqualTo(12),
-      reason:
-          'Expected ≥ 12 countries with validation, got ${countriesWithValidation.length}',
+      equals(1),
+      reason: 'Rwanda-only app: expected 1 country with validation',
     );
+    expect(countriesWithValidation.first.isoCode, 'RW');
   });
 
   group('Country phone validation round-trips', () {
@@ -71,9 +73,7 @@ void main() {
         });
 
         test('invalid number is rejected', () {
-          // A clearly invalid number: too short and wrong prefix
           expect(country.isValidPhoneNumber('123'), isFalse);
-          // All zeros should not match any valid mobile pattern
           expect(country.isValidPhoneNumber('0000000000000'), isFalse);
         });
 
@@ -89,7 +89,6 @@ void main() {
         if (country.momoNumberLocalPattern != null) {
           test('momoNumberLocalPattern matches example national', () {
             final pattern = RegExp(country.momoNumberLocalPattern!);
-            // Strip leading zero for patterns that allow optional zero
             final national = country.mobileExampleNational!;
             expect(
               pattern.hasMatch(national),
@@ -115,59 +114,33 @@ void main() {
     }
   });
 
-  group('Countries without leading zero in E.164', () {
-    // For countries where the national number starts with 0,
-    // the E.164 form should strip the leading 0 — UNLESS the
-    // country's E.164 example shows it is intentionally kept.
-    final countriesWithLeadingZero = countriesWithValidation.where((c) {
-      if (!c.mobileExampleNational!.startsWith('0')) return false;
-      // If the E.164 example itself has dial code + 0, this country keeps it
-      final dialDigits = c.dialCode.replaceFirst('+', '');
-      final nationalInE164 = c.mobileExampleE164!
-          .replaceFirst('+', '')
-          .substring(dialDigits.length);
-      return !nationalInE164.startsWith('0');
-    });
-
-    for (final country in countriesWithLeadingZero) {
-      test(
-        '${country.isoCode}: strips leading zero in E.164',
-        () {
-          final e164 = country.buildE164Phone(country.mobileExampleNational!);
-          // E.164 should start with + and the dial code, NOT "+<dialCode>0..."
-          expect(
-            e164.startsWith('${country.dialCode}0'),
-            isFalse,
-            reason:
-                '${country.isoCode}: E.164 should strip leading zero from national number',
-          );
-        },
+  group('Rwanda E.164 stripLeadingZero', () {
+    final rwanda = countriesWithValidation.first;
+    test('strips leading zero in E.164', () {
+      final e164 = rwanda.buildE164Phone(rwanda.mobileExampleNational!);
+      expect(
+        e164.startsWith('${rwanda.dialCode}0'),
+        isFalse,
+        reason: 'RW: E.164 should strip leading zero from national number',
       );
-    }
+    });
   });
 
-  group('Dial code prefix is not duplicated in E.164', () {
-    for (final country in countriesWithValidation) {
-      test(
-        '${country.isoCode}: no double dial code',
-        () {
-          // If input already has dial code, should not double it
-          final withDialCode =
-              '${country.dialCode}${country.mobileExampleNational!.replaceFirst(RegExp(r'^0'), '')}';
-          final e164 = country.buildE164Phone(withDialCode);
-          final dialDigits = country.dialCode.replaceFirst('+', '');
-          final nationalPart = e164.replaceFirst('+', '').substring(
-            dialDigits.length,
-          );
-          // National part should NOT start with the dial code again
-          expect(
-            nationalPart.startsWith(dialDigits),
-            isFalse,
-            reason:
-                '${country.isoCode}: dial code was duplicated in E.164 result',
-          );
-        },
+  group('Rwanda dial code prefix is not duplicated', () {
+    final rwanda = countriesWithValidation.first;
+    test('no double dial code', () {
+      final withDialCode =
+          '${rwanda.dialCode}${rwanda.mobileExampleNational!.replaceFirst(RegExp(r'^0'), '')}';
+      final e164 = rwanda.buildE164Phone(withDialCode);
+      final dialDigits = rwanda.dialCode.replaceFirst('+', '');
+      final nationalPart = e164.replaceFirst('+', '').substring(
+        dialDigits.length,
       );
-    }
+      expect(
+        nationalPart.startsWith(dialDigits),
+        isFalse,
+        reason: 'RW: dial code was duplicated in E.164 result',
+      );
+    });
   });
 }

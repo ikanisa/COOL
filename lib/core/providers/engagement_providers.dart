@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../config/app_config_repository.dart';
 import '../models/engagement_feature_flags.dart';
@@ -49,7 +50,15 @@ final crashlyticsServiceProvider = Provider<CrashlyticsService>((ref) {
 });
 
 final fcmServiceProvider = Provider<FcmService>((ref) {
-  final service = FcmService();
+  final client = ref.read(supabaseClientProvider);
+  final service = FcmService(
+    preferenceStore: HiveFcmPreferenceStore(
+      openBox: Hive.openBox<dynamic>,
+    ),
+    tokenRepository: SupabaseFcmTokenRepository(
+      clientFactory: () => client,
+    ),
+  );
   ref.onDispose(service.dispose);
   return service;
 });

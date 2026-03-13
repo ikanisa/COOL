@@ -1,20 +1,18 @@
 # Route Inventory
 
-Generated from code in 
-[`lib/core/router/app_router.dart`](../lib/core/router/app_router.dart).
+Generated from [`lib/core/router/app_router.dart`](../lib/core/router/app_router.dart).
 
 Current router shape:
 
-- `36` `GoRoute` declarations
+- `54` `GoRoute` declarations
 - `4` shell branches
-- `54` screen files under `lib/features/**/screens/*.dart`
+- `52` screen files under `lib/features/**/screens/*.dart`
 
 Change policy:
 
 - Route changes must regenerate this document from code.
 - New user-facing routes must ship with smoke or routing coverage.
-- Route changes that grow screen scope must also refresh 
-[`SCREEN_BUDGETS.md`](./SCREEN_BUDGETS.md).
+- Route changes that grow screen scope must also refresh [`SCREEN_BUDGETS.md`](./SCREEN_BUDGETS.md).
 
 ## Auth And Entry
 
@@ -22,7 +20,6 @@ Change policy:
 |---|---|---|
 | `/` | [`SplashScreen`](../lib/features/auth/screens/splash_screen.dart) | No |
 | `/invite/:code` | [`GroupInviteScreen`](../lib/features/groups/screens/group_invite_screen.dart) | No |
-| `/language` | [`OnboardingScreen`](../lib/features/auth/screens/onboarding_screen.dart) | No |
 | `/onboarding` | [`OnboardingScreen`](../lib/features/auth/screens/onboarding_screen.dart) | No |
 | `/otp` | [`OtpScreen`](../lib/features/auth/screens/otp_screen.dart) | No |
 | `/otp-verify` | [`OtpVerifyScreen`](../lib/features/auth/screens/otp_verify_screen.dart) | No |
@@ -33,9 +30,14 @@ Change policy:
 
 | Path | Target | Shell |
 |---|---|---|
-| `/groups` | [`CreateGroupScreen`](../lib/features/groups/screens/create_group_screen.dart), [`GroupDetailScreen`](../lib/features/groups/screens/group_detail_screen.dart), [`GroupsScreen`](../lib/features/groups/screens/groups_screen.dart) | Groups |
+| `/groups` | [`GroupsScreen`](../lib/features/groups/screens/groups_screen.dart) | Groups |
+| `/groups/:id` | [`GroupDetailScreen`](../lib/features/groups/screens/group_detail_screen.dart) | Groups |
+| `/groups/create` | [`CreateGroupScreen`](../lib/features/groups/screens/create_group_screen.dart) | Groups |
 | `/home` | [`HomeScreen`](../lib/features/home/screens/home_screen.dart) | Home |
-| `/mobility` | [`DriverProfileScreen`](../lib/features/mobility/screens/driver_profile_screen.dart), [`MobilityHomeScreen`](../lib/features/mobility/screens/mobility_home_screen.dart), [`ScheduleTripScreen`](../lib/features/mobility/screens/schedule_trip_screen.dart), [`TripBoardScreen`](../lib/features/mobility/screens/trip_board_screen.dart) | Mobility |
+| `/mobility` | [`MobilityHomeScreen`](../lib/features/mobility/screens/mobility_home_screen.dart) | Mobility |
+| `/mobility/driver` | [`DriverProfileScreen`](../lib/features/mobility/screens/driver_profile_screen.dart) | Mobility |
+| `/mobility/schedule` | [`ScheduleTripScreen`](../lib/features/mobility/screens/schedule_trip_screen.dart) | Mobility |
+| `/mobility/trips` | [`TripBoardScreen`](../lib/features/mobility/screens/trip_board_screen.dart) | Mobility |
 | `/profile` | [`ProfileScreen`](../lib/features/profile/screens/profile_screen.dart) | Profile |
 
 ## Standalone Core Routes
@@ -53,7 +55,22 @@ Change policy:
 
 | Path | Target | Shell |
 |---|---|---|
-| `/partners` | Redirect | No |
+| `/partners` | [`PartnersScreen`](../lib/features/partners/screens/partners_screen.dart) | No |
+| `/partners/:id` | [`BankPartnerScreen`](../lib/features/partners/screens/bank_partner_screen.dart), [`PrismaPartnerScreen`](../lib/features/partners/screens/prisma_partner_screen.dart), [`RadiantPartnerScreen`](../lib/features/partners/screens/radiant_partner_screen.dart) | No |
+| `/partners/:id/fans` | Redirect | No |
+| `/partners/rayon-sports` | [`RayonHomeScreen`](../lib/features/partners/rayon/screens/rayon_home_screen.dart) | No |
+| `/partners/rayon-sports/clubs` | [`FanClubsScreen`](../lib/features/partners/screens/rayon/fan_clubs_screen.dart) | No |
+| `/partners/rayon-sports/clubs/:clubId` | [`FanClubDetailScreen`](../lib/features/partners/screens/rayon/fan_club_detail_screen.dart) | No |
+| `/partners/rayon-sports/membership` | [`MembershipTiersScreen`](../lib/features/partners/rayon/screens/membership_tiers_screen.dart) | No |
+| `/partners/rayon-sports/profile` | [`FanProfileScreen`](../lib/features/partners/rayon/screens/fan_profile_screen.dart) | No |
+| `/partners/rayon-sports/registry` | [`MemberRegistryScreen`](../lib/features/partners/screens/rayon/member_registry_screen.dart) | No |
+| `/partners/rayon-sports/shop` | [`ClubShopScreen`](../lib/features/partners/screens/rayon/club_shop_screen.dart) | No |
+| `/partners/rayon-sports/shop/checkout` | [`ShopCheckoutScreen`](../lib/features/partners/screens/rayon/shop_checkout_screen.dart) | No |
+| `/partners/rayon-sports/support` | [`SupportScreen`](../lib/features/partners/rayon/screens/support_screen.dart) | No |
+| `/partners/rayon-sports/support/:initiativeId` | [`SupportDetailScreen`](../lib/features/partners/rayon/screens/support_detail_screen.dart) | No |
+| `/partners/rayon-sports/tickets` | [`TicketsScreen`](../lib/features/partners/screens/rayon/tickets_screen.dart) | No |
+| `/partners/rayon-sports/tickets/:ticketId/confirm` | [`TicketConfirmationScreen`](../lib/features/partners/screens/rayon/ticket_confirmation_screen.dart) | No |
+| `/partners/rayon-sports/tickets/my-tickets` | [`MyTicketsScreen`](../lib/features/partners/screens/rayon/my_tickets_screen.dart) | No |
 
 ## Admin Routes
 
@@ -61,7 +78,6 @@ Change policy:
 |---|---|---|
 | `/admin` | [`AdminDashboardScreen`](../lib/features/admin/screens/admin_dashboard_screen.dart) | No |
 | `/admin/app-config` | [`ManageAppConfigScreen`](../lib/features/admin/screens/manage_app_config_screen.dart) | No |
-| `/admin/countries` | [`ManageCountriesScreen`](../lib/features/admin/screens/manage_countries_screen.dart) | No |
 | `/admin/operations` | [`OperationalDashboardScreen`](../lib/features/admin/screens/operational_dashboard_screen.dart) | No |
 | `/admin/partners` | [`ManagePartnersScreen`](../lib/features/admin/screens/manage_partners_screen.dart) | No |
 | `/admin/quick-actions` | [`ManageQuickActionsScreen`](../lib/features/admin/screens/manage_quick_actions_screen.dart) | No |
@@ -74,7 +90,7 @@ Change policy:
 | Path | Target | Shell |
 |---|---|---|
 | `/admin/rayon` | [`RsAdminDashboardScreen`](../lib/features/partners/rayon/screens/rs_admin_dashboard_screen.dart) | No |
-| `/admin/rayon/fan-clubs` | [`RsAdminInitiativesScreen`](../lib/features/partners/rayon/screens/rs_admin_initiatives_screen.dart) | No |
+| `/admin/rayon/fan-clubs` | Redirect | No |
 | `/admin/rayon/initiatives` | [`RsAdminInitiativesScreen`](../lib/features/partners/rayon/screens/rs_admin_initiatives_screen.dart) | No |
 | `/admin/rayon/matches` | [`RsAdminMatchesScreen`](../lib/features/partners/rayon/screens/rs_admin_matches_screen.dart) | No |
 | `/admin/rayon/members` | [`RsAdminMembersScreen`](../lib/features/partners/rayon/screens/rs_admin_members_screen.dart) | No |

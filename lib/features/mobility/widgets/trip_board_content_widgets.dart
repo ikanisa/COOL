@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -481,10 +482,7 @@ class MyTripTile extends StatelessWidget {
                   const SizedBox(
                     width: 20,
                     height: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2.2,
-                      color: AppColors.accent,
-                    ),
+                    child: CupertinoActivityIndicator(radius: 10),
                   )
                 else
                   IconButton(
@@ -676,14 +674,7 @@ class TripBoardLoadingState extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          const SizedBox(
-            width: 24,
-            height: 24,
-            child: CircularProgressIndicator(
-              strokeWidth: 2.4,
-              color: AppColors.accent,
-            ),
-          ),
+          const CupertinoActivityIndicator(radius: 12),
           const SizedBox(height: 14),
           Text(
             title,

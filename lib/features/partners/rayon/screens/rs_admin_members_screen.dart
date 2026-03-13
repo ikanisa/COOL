@@ -5,6 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../shared/widgets/cool_async_view.dart';
+import '../../../../shared/widgets/cool_empty_view.dart';
+import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/partner_navigation.dart';
 import '../models/rs_models.dart';
@@ -51,41 +54,50 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
           // ── Search bar ──
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-            child: TextField(
-              onChanged: (v) => setState(() => _search = v.toLowerCase()),
-              style: GoogleFonts.dmSans(color: AppColors.text, fontSize: 14),
-              decoration: InputDecoration(
-                hintText: 'Search members…',
-                hintStyle: GoogleFonts.dmSans(
-                  color: AppColors.text3,
-                  fontSize: 14,
+            child: Semantics(
+              textField: true,
+              label: 'Search members',
+              hint: 'Double tap to search by name or membership number',
+              child: TextField(
+                onChanged: (v) => setState(() => _search = v.toLowerCase()),
+                style: GoogleFonts.dmSans(color: AppColors.text, fontSize: 14),
+                decoration: InputDecoration(
+                  hintText: 'Search members…',
+                  hintStyle: GoogleFonts.dmSans(
+                    color: AppColors.text3,
+                    fontSize: 14,
+                  ),
+                  prefixIcon: const Icon(
+                    Icons.search,
+                    color: AppColors.text3,
+                    size: 20,
+                  ),
+                  filled: true,
+                  fillColor: AppColors.surface,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14),
+                    borderSide: BorderSide.none,
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 10),
                 ),
-                prefixIcon: const Icon(
-                  Icons.search,
-                  color: AppColors.text3,
-                  size: 20,
-                ),
-                filled: true,
-                fillColor: AppColors.surface,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(14),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: const EdgeInsets.symmetric(vertical: 10),
               ),
             ),
           ),
           // ── Member list ──
           Expanded(
-            child: membersAsync.when(
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, _) => Center(
-                child: Text(
-                  'Error: $e',
-                  style: const TextStyle(color: AppColors.red),
-                ),
+            child: CoolAsyncView<List<FanMembership>>(
+              value: membersAsync,
+              onRetry: () => ref.invalidate(rsAdminMembersProvider),
+              loadingWidget: const Padding(
+                padding: EdgeInsets.all(16),
+                child: CoolSkeletonList(itemCount: 4),
               ),
-              data: (members) {
+              emptyCheck: (members) => members.isEmpty,
+              emptyWidget: const CoolEmptyView(
+                message: 'No fan memberships have been created yet.',
+                icon: Icons.people_alt_outlined,
+              ),
+              builder: (members) {
                 final filtered = _search.isEmpty
                     ? members
                     : members
@@ -98,11 +110,9 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
                           )
                           .toList();
                 if (filtered.isEmpty) {
-                  return Center(
-                    child: Text(
-                      'No members found',
-                      style: GoogleFonts.dmSans(color: AppColors.text3),
-                    ),
+                  return const CoolEmptyView(
+                    message: 'No members match the current search.',
+                    icon: Icons.search_off_rounded,
                   );
                 }
                 return ListView.separated(
@@ -150,36 +160,41 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
             ),
             const SizedBox(height: 16),
             ...FanTier.values.map(
-              (tier) => ListTile(
-                leading: Icon(
-                  _tierIcon(tier),
-                  size: 20,
-                  color: AppColors.rsGold,
-                ),
-                title: Text(
-                  tier.name.toUpperCase(),
-                  style: GoogleFonts.dmSans(
-                    color: member.tier == tier
-                        ? AppColors.accent
-                        : AppColors.text,
-                    fontWeight: member.tier == tier
-                        ? FontWeight.w700
-                        : FontWeight.w400,
+              (tier) => Semantics(
+                button: true,
+                label:
+                    'Set ${member.displayName} tier to ${tier.name.toUpperCase()}',
+                child: ListTile(
+                  leading: Icon(
+                    _tierIcon(tier),
+                    size: 20,
+                    color: AppColors.rsGold,
                   ),
+                  title: Text(
+                    tier.name.toUpperCase(),
+                    style: GoogleFonts.dmSans(
+                      color: member.tier == tier
+                          ? AppColors.accent
+                          : AppColors.text,
+                      fontWeight: member.tier == tier
+                          ? FontWeight.w700
+                          : FontWeight.w400,
+                    ),
+                  ),
+                  trailing: member.tier == tier
+                      ? const Icon(
+                          Icons.check_circle,
+                          color: AppColors.accent,
+                          size: 20,
+                        )
+                      : null,
+                  onTap: () async {
+                    final repo = ref.read(rayonSportsRepositoryProvider);
+                    await repo.updateMemberTier(member.userId, tier.name);
+                    ref.invalidate(rsAdminMembersProvider);
+                    if (ctx.mounted) Navigator.pop(ctx);
+                  },
                 ),
-                trailing: member.tier == tier
-                    ? const Icon(
-                        Icons.check_circle,
-                        color: AppColors.accent,
-                        size: 20,
-                      )
-                    : null,
-                onTap: () async {
-                  final repo = ref.read(rayonSportsRepositoryProvider);
-                  await repo.updateMemberTier(member.userId, tier.name);
-                  ref.invalidate(rsAdminMembersProvider);
-                  if (ctx.mounted) Navigator.pop(ctx);
-                },
               ),
             ),
           ],
@@ -216,21 +231,26 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            TextField(
-              controller: controller,
-              keyboardType: TextInputType.number,
-              style: GoogleFonts.dmSans(color: AppColors.text, fontSize: 16),
-              decoration: InputDecoration(
-                labelText: 'Points',
-                labelStyle: GoogleFonts.dmSans(
-                  color: AppColors.text3,
-                  fontSize: 13,
-                ),
-                filled: true,
-                fillColor: AppColors.surface2,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
+            Semantics(
+              textField: true,
+              label: 'Points',
+              hint: 'Double tap to edit member points',
+              child: TextField(
+                controller: controller,
+                keyboardType: TextInputType.number,
+                style: GoogleFonts.dmSans(color: AppColors.text, fontSize: 16),
+                decoration: InputDecoration(
+                  labelText: 'Points',
+                  labelStyle: GoogleFonts.dmSans(
+                    color: AppColors.text3,
+                    fontSize: 13,
+                  ),
+                  filled: true,
+                  fillColor: AppColors.surface2,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
             ),
@@ -286,66 +306,82 @@ class _MemberTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Row(
-        children: [
-          Icon(_tierIcon, size: 24, color: AppColors.rsGold),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  member.displayName,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.text,
+    return Semantics(
+      container: true,
+      label:
+          'Member ${member.displayName}. Membership ${member.membershipNumber}. '
+          'Tier ${member.tier.name.toUpperCase()}. ${member.points} points.',
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: AppColors.border),
+        ),
+        child: Row(
+          children: [
+            Icon(_tierIcon, size: 24, color: AppColors.rsGold),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    member.displayName,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.text,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  '${member.membershipNumber} · ${member.tier.name.toUpperCase()} · ${member.points} pts',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 11,
-                    color: AppColors.text3,
+                  const SizedBox(height: 2),
+                  Text(
+                    '${member.membershipNumber} · ${member.tier.name.toUpperCase()} · ${member.points} pts',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 11,
+                      color: AppColors.text3,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              HapticFeedback.selectionClick();
-              onEditTier();
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(4),
-              child: Icon(
-                Icons.military_tech,
-                size: 20,
-                color: AppColors.rsGold,
+                ],
               ),
             ),
-          ),
-          const SizedBox(width: 8),
-          GestureDetector(
-            onTap: () {
-              HapticFeedback.selectionClick();
-              onEditPoints();
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(4),
-              child: Icon(Icons.stars, size: 20, color: AppColors.accent),
+            Semantics(
+              button: true,
+              label: 'Edit tier for ${member.displayName}',
+              hint: 'Double tap to change the member tier',
+              child: GestureDetector(
+                onTap: () {
+                  HapticFeedback.selectionClick();
+                  onEditTier();
+                },
+                child: const Padding(
+                  padding: EdgeInsets.all(4),
+                  child: Icon(
+                    Icons.military_tech,
+                    size: 20,
+                    color: AppColors.rsGold,
+                  ),
+                ),
+              ),
             ),
-          ),
-        ],
+            const SizedBox(width: 8),
+            Semantics(
+              button: true,
+              label: 'Edit points for ${member.displayName}',
+              hint: 'Double tap to change the member points',
+              child: GestureDetector(
+                onTap: () {
+                  HapticFeedback.selectionClick();
+                  onEditPoints();
+                },
+                child: const Padding(
+                  padding: EdgeInsets.all(4),
+                  child: Icon(Icons.stars, size: 20, color: AppColors.accent),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

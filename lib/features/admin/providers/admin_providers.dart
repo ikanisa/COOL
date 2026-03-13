@@ -46,17 +46,6 @@ final adminVehicleTypesProvider = FutureProvider<List<Map<String, dynamic>>>((
   return ref.read(adminRepositoryProvider).fetchVehicleTypes();
 });
 
-final adminCountriesProvider = FutureProvider<List<Map<String, dynamic>>>((
-  ref,
-) async {
-  return ref.read(adminRepositoryProvider).fetchCountries();
-});
-
-final adminMomoValidationIssuesProvider =
-    FutureProvider<List<Map<String, dynamic>>>((ref) async {
-      return ref.read(adminRepositoryProvider).fetchMomoValidationIssues();
-    });
-
 final adminAppConfigProvider = FutureProvider<List<Map<String, dynamic>>>((
   ref,
 ) async {

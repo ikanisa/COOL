@@ -33,6 +33,7 @@ void main() {
 
   test('emits change notifications when access changes in app', () async {
     final service = AppAccessService(
+      openBox: Hive.openBox<bool>,
       locationService: _FakeLocationService(),
       deviceSettingsService: _FakeDeviceSettingsService(),
       nfcHceService: _FakeNfcHceService(supported: true),
@@ -51,6 +52,7 @@ void main() {
   test('disabling nfc stops an active tap receive session', () async {
     final nfcHceService = _FakeNfcHceService(active: true);
     final service = AppAccessService(
+      openBox: Hive.openBox<bool>,
       locationService: _FakeLocationService(),
       deviceSettingsService: _FakeDeviceSettingsService(),
       nfcHceService: nfcHceService,

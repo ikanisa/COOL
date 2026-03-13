@@ -146,9 +146,7 @@ void main() {
       (_) async =>
           SubscriptionStatus.freeTier(driverId: 'user-1', tripsUsed: 0),
     );
-    when(
-      () => vehicleTypeRepository.fetchAll(country: any(named: 'country')),
-    ).thenAnswer(
+    when(() => vehicleTypeRepository.fetchAll()).thenAnswer(
       (_) async => const <VehicleType>[
         VehicleType(id: 'all', label: 'All', value: 'All', emoji: '🚘'),
         VehicleType(id: 'moto', label: 'Moto', value: 'Moto', emoji: '🛺'),

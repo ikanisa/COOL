@@ -1,8 +1,4 @@
-import 'dart:convert';
-
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../config/country_catalog.dart';
 
 abstract final class AppConfigKeys {
   static const mobilitySubscriptionMomoCode = 'mobility_subscription_momo_code';
@@ -10,62 +6,32 @@ abstract final class AppConfigKeys {
 
 /// Fetches key-value config from the `app_config` Supabase table.
 class AppConfigRepository {
-  AppConfigRepository({SupabaseClient? client})
-    : _client = client ?? Supabase.instance.client;
+  AppConfigRepository({required SupabaseClient client}) : _client = client;
 
   final SupabaseClient _client;
 
   /// Cache of fetched config entries.
   final Map<String, String> _cache = {};
 
-  /// Fetch a single config value by key and optional country.
-  /// Returns the country-specific value if it exists, otherwise the global one.
-  Future<String?> getValue(
-    String key, {
-    String? country,
-    bool forceRefresh = false,
-  }) async {
-    final normalizedCountry = country == null || country.trim().isEmpty
-        ? null
-        : CoolCountryCatalog.normalizeCountryCode(country);
-    final cacheKey = '${key}_${normalizedCountry ?? 'global'}';
-    if (!forceRefresh && _cache.containsKey(cacheKey)) {
-      return _cache[cacheKey];
+  /// Fetch a single config value by key.
+  Future<String?> getValue(String key, {bool forceRefresh = false}) async {
+    if (!forceRefresh && _cache.containsKey(key)) {
+      return _cache[key];
     }
     if (forceRefresh) {
-      _cache.remove(cacheKey);
+      _cache.remove(key);
     }
 
-    // Try country-specific first
-    if (normalizedCountry != null) {
-      final rows = await _client
-          .from('app_config')
-          .select('value')
-          .eq('key', key)
-          .eq('country', normalizedCountry)
-          .limit(1);
-
-      if (rows.isNotEmpty) {
-        final value = rows.first['value']?.toString();
-        if (value != null) {
-          _cache[cacheKey] = value;
-          return value;
-        }
-      }
-    }
-
-    // Fall back to global (country IS NULL)
-    final globalRows = await _client
+    final rows = await _client
         .from('app_config')
         .select('value')
         .eq('key', key)
-        .isFilter('country', null)
         .limit(1);
 
-    if (globalRows.isNotEmpty) {
-      final value = globalRows.first['value']?.toString();
+    if (rows.isNotEmpty) {
+      final value = rows.first['value']?.toString();
       if (value != null) {
-        _cache[cacheKey] = value;
+        _cache[key] = value;
         return value;
       }
     }
@@ -74,41 +40,26 @@ class AppConfigRepository {
   }
 
   Future<String?> getMobilitySubscriptionMomoCode({
-    String? country,
     bool forceRefresh = false,
   }) async {
     final value = await getValue(
       AppConfigKeys.mobilitySubscriptionMomoCode,
-      country: country,
       forceRefresh: forceRefresh,
     );
     final trimmed = value?.trim();
     return trimmed == null || trimmed.isEmpty ? null : trimmed;
   }
 
-  /// Fetch all config entries, optionally filtered by country.
-  Future<Map<String, String>> getAll({String? country}) async {
-    final normalizedCountry = country == null || country.trim().isEmpty
-        ? null
-        : CoolCountryCatalog.normalizeCountryCode(country);
-    var query = _client.from('app_config').select();
-
-    if (normalizedCountry != null) {
-      query = query.or('country.is.null,country.eq.$normalizedCountry');
-    }
-
-    final rows = await query;
+  /// Fetch all config entries for the fixed Rwanda app shell.
+  Future<Map<String, String>> getAll() async {
+    final rows = await _client.from('app_config').select();
     final result = <String, String>{};
 
     for (final row in rows) {
       final key = row['key']?.toString();
       final value = row['value']?.toString();
       if (key != null && value != null) {
-        // Country-specific values override global ones
-        final rowCountry = row['country']?.toString();
-        if (rowCountry != null || !result.containsKey(key)) {
-          result[key] = value;
-        }
+        result[key] = value;
       }
     }
 
@@ -116,29 +67,16 @@ class AppConfigRepository {
     return result;
   }
 
-  /// Convenience: parse the supported_languages JSON config value.
-  Future<List<Map<String, String>>> getSupportedLanguages() async {
-    final raw = await getValue('supported_languages');
-    if (raw == null) return const [];
-
-    try {
-      final decoded = jsonDecode(raw);
-      if (decoded is List) {
-        return decoded
-            .whereType<Map<String, dynamic>>()
-            .map((m) => m.map((k, v) => MapEntry(k, v.toString())))
-            .toList();
-      }
-    } catch (_) {
-      // Fall through to empty
-    }
-    return const [];
+  /// Rwanda-only: English is the only supported language.
+  List<Map<String, String>> getSupportedLanguages() {
+    return const [
+      {'code': 'en', 'name': 'English'},
+    ];
   }
 
   /// Convenience: get the support WhatsApp number.
-  Future<String> getSupportWhatsApp({String? country}) async {
-    return await getValue('support_whatsapp', country: country) ??
-        '250795588248';
+  Future<String> getSupportWhatsApp() async {
+    return await getValue('support_whatsapp') ?? '250795588248';
   }
 
   /// Convenience: get credit grade thresholds.
@@ -152,21 +90,10 @@ class AppConfigRepository {
     return (excellent: excellent, good: good, building: building);
   }
 
-  /// Convenience: get default map coordinates for a country.
-  Future<({double lat, double lng})?> getDefaultMapCenter({
-    String? country,
-  }) async {
-    final latStr = await getValue('default_map_lat', country: country);
-    final lngStr = await getValue('default_map_lng', country: country);
-
-    if (latStr == null || lngStr == null) return null;
-
-    final lat = double.tryParse(latStr);
-    final lng = double.tryParse(lngStr);
-
-    if (lat == null || lng == null) return null;
-
-    return (lat: lat, lng: lng);
+  /// Rwanda-only: Kigali is the only map center.
+  ({double lat, double lng}) getDefaultMapCenter() {
+    // Kigali, Rwanda
+    return (lat: -1.9403, lng: 29.8739);
   }
 
   /// Clear the in-memory cache.

@@ -1,9 +1,10 @@
 import 'package:flutter/foundation.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_flutter/hive_flutter.dart' show Box, Hive;
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../auth/auth_user_contact.dart';
+import '../config/app_market.dart';
 import '../config/app_config_repository.dart';
 import '../config/country_catalog.dart';
 import '../models/momo_qr_payload.dart';
@@ -46,25 +47,21 @@ extension SubscriptionPlanX on SubscriptionPlan {
 /// Hive when the app is offline or Supabase is unavailable.
 class MomoService {
   MomoService({
-    SupabaseClient? client,
+    required SupabaseClient client,
+    Future<Box<dynamic>> Function(String name)? openBox,
     SyncEngine? syncEngine,
     AppConfigRepository? appConfigRepository,
     SupportedCountriesRepository? supportedCountriesRepository,
-  }) : _client = client ?? Supabase.instance.client,
+  }) : _client = client,
+       _openBox = openBox ?? Hive.openBox<dynamic>,
        _syncEngine = syncEngine,
        _appConfigRepository =
-           appConfigRepository ??
-           AppConfigRepository(client: client ?? Supabase.instance.client),
+           appConfigRepository ?? AppConfigRepository(client: client),
        _supportedCountriesRepository =
-           supportedCountriesRepository ??
-           SupportedCountriesRepository(
-             client: client ?? Supabase.instance.client,
-           );
-
-  /// Legacy singleton for backward compatibility.
-  static final MomoService instance = MomoService();
+           supportedCountriesRepository ?? SupportedCountriesRepository();
 
   final SupabaseClient _client;
+  final Future<Box<dynamic>> Function(String name) _openBox;
   final SyncEngine? _syncEngine;
   final AppConfigRepository _appConfigRepository;
   final SupportedCountriesRepository _supportedCountriesRepository;
@@ -180,10 +177,7 @@ class MomoService {
       providerId: providerId,
     );
     final recipientMomo = await _appConfigRepository
-        .getMobilitySubscriptionMomoCode(
-          country: country.isoCode,
-          forceRefresh: true,
-        );
+        .getMobilitySubscriptionMomoCode(forceRefresh: true);
     if (recipientMomo == null) {
       throw const MomoConfigurationException(
         AppConfigKeys.mobilitySubscriptionMomoCode,
@@ -316,7 +310,7 @@ class MomoService {
       if (_syncEngine != null) {
         await _syncEngine.enqueue(_syncDomain, payload);
       } else {
-        final box = await Hive.openBox<dynamic>(_pendingTransactionsCacheBox);
+        final box = await _openBox(_pendingTransactionsCacheBox);
         await box.add(payload);
       }
     }
@@ -333,7 +327,7 @@ class MomoService {
     );
 
     return _supportedCountriesRepository.resolveCountry(
-      countryCode: countryCode ?? metadata['country']?.toString(),
+      countryCode: countryCode ?? AppMarket.countryCode,
       phone:
           phone ??
           metadata['momo_number']?.toString() ??

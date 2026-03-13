@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/config/app_market.dart';
 import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_button.dart';
@@ -145,10 +146,9 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
   void _resend() {
     if (_resendSeconds > 0) return;
 
-    final locale = Localizations.localeOf(context).languageCode;
-    final language = locale == 'fr' ? 'fr' : 'en';
-
-    ref.read(authProvider.notifier).sendOtp(widget.phoneNumber, language);
+    ref
+        .read(authProvider.notifier)
+        .sendOtp(widget.phoneNumber, AppMarket.languageCode);
     _startResendTimer();
     for (final c in _controllers) {
       c.clear();
@@ -183,6 +183,7 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
+          tooltip: 'Back',
           onPressed: () =>
               context.go(AppRoutes.otpLocation(redirect: widget.redirectPath)),
           icon: const Icon(Icons.arrow_back_rounded, color: AppColors.text),
@@ -273,14 +274,18 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
                                 color: AppColors.text3,
                               ),
                             )
-                          : GestureDetector(
-                              onTap: _resend,
-                              child: Text(
-                                'Resend Code',
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.accent,
+                          : Semantics(
+                              button: true,
+                              label: 'Resend verification code',
+                              child: GestureDetector(
+                                onTap: _resend,
+                                child: Text(
+                                  'Resend Code',
+                                  style: GoogleFonts.dmSans(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.accent,
+                                  ),
                                 ),
                               ),
                             ),
@@ -320,50 +325,55 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
       child: SizedBox(
         width: 50,
         height: 58,
-        child: TextField(
-          controller: _controllers[index],
-          focusNode: _focusNodes[index],
-          textAlign: TextAlign.center,
-          maxLength: 1,
-          keyboardType: TextInputType.number,
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          style: GoogleFonts.dmMono(
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            color: AppColors.text,
-          ),
-          cursorColor: AppColors.accent,
-          decoration: InputDecoration(
-            counterText: '',
-            filled: true,
-            fillColor: AppColors.surface2,
-            contentPadding: const EdgeInsets.symmetric(vertical: 14),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: borderColor),
+        child: Semantics(
+          textField: true,
+          label: 'Verification code digit ${index + 1} of $_codeLength',
+          hint: 'Enter a single digit',
+          child: TextField(
+            controller: _controllers[index],
+            focusNode: _focusNodes[index],
+            textAlign: TextAlign.center,
+            maxLength: 1,
+            keyboardType: TextInputType.number,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            style: GoogleFonts.dmMono(
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
+              color: AppColors.text,
             ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: borderColor),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(
-                color: _hasError ? AppColors.red : AppColors.accent,
-                width: 1.5,
+            cursorColor: AppColors.accent,
+            decoration: InputDecoration(
+              counterText: '',
+              filled: true,
+              fillColor: AppColors.surface2,
+              contentPadding: const EdgeInsets.symmetric(vertical: 14),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: borderColor),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: borderColor),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(
+                  color: _hasError ? AppColors.red : AppColors.accent,
+                  width: 1.5,
+                ),
               ),
             ),
+            onChanged: (value) {
+              _clearInputError();
+              if (value.isNotEmpty && index < _codeLength - 1) {
+                _focusBox(index + 1);
+              }
+              // Auto-submit when all filled.
+              if (_code.length == _codeLength) {
+                _verify();
+              }
+            },
           ),
-          onChanged: (value) {
-            _clearInputError();
-            if (value.isNotEmpty && index < _codeLength - 1) {
-              _focusBox(index + 1);
-            }
-            // Auto-submit when all filled.
-            if (_code.length == _codeLength) {
-              _verify();
-            }
-          },
         ),
       ),
     );

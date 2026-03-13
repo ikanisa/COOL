@@ -1,6 +1,6 @@
 # Google Play Release Checklist
 
-Updated: March 11, 2026
+Updated: March 13, 2026
 
 This checklist captures the current release state of the Cool Android app and
 the remaining Google Play and Firebase work.
@@ -25,6 +25,10 @@ the remaining Google Play and Firebase work.
   `scripts/build_play_release.sh` also forces it on for release builds.
 - The current on-disk AAB predates this restoration of release SMS permissions,
   so a fresh signed AAB must be rebuilt before upload.
+- Reviewer OTP auth no longer depends on hosted phone login. `verify-otp` now
+  mints sessions through the app's deterministic internal email identity path.
+- OTP abuse controls are now enforced server-side with per-phone and per-IP
+  rate limits plus deterministic auth-user lookup.
 - Cool is implemented as a USSD/SMS reconciliation bridge, not as the general
   recipient of group or partner funds.
 - Mobility subscription payments now read their recipient MoMo code from
@@ -96,16 +100,17 @@ the remaining Google Play and Firebase work.
    - The repo-backed declaration notes live in
      `docs/google_play_sms_declaration.md`.
 
-3. Reviewer access is not fully production-ready yet.
+3. Reviewer access still needs signed-build validation, but the backend auth
+   blocker is closed.
    - OTP input validation is fixed and no longer returns `500` for bad phone
      input.
    - `OTP_TEST_PHONE` and `OTP_TEST_CODE` are now stored on the linked
      Supabase project, so the review-number bypass itself is active.
-   - The remaining failure is Supabase Auth project configuration: `verify-otp`
-     currently returns `Phone logins are disabled` when it tries to mint a
-     session with `signInWithPassword({ phone, password })`.
-   - Result: reviewers still need either hosted phone login enabled in
-     Supabase Auth or an alternate session-minting strategy before submission.
+   - `verify-otp` no longer depends on hosted phone login and now resolves
+     existing auth users through a deterministic service-role lookup instead of
+     paging through `listUsers()`.
+   - Result: the remaining task is connected-device validation on the linked
+     project and a signed build, not Supabase Auth reconfiguration.
 
 4. Data safety and Ads declarations remain open.
    - The release manifest includes `POST_NOTIFICATIONS` plus Firebase/Google
@@ -149,6 +154,12 @@ the remaining Google Play and Firebase work.
   - `https://gen-lang-client-0172279957.web.app/account-deletion`
 - Added an optional Play review OTP bypass in `send-otp`, controlled by the
   `OTP_TEST_PHONE` and `OTP_TEST_CODE` Supabase secrets.
+- Added server-side OTP abuse protections:
+  - per-phone send limits
+  - per-IP send limits
+  - per-IP verify-attempt limits
+- Replaced `verify-otp` auth-user repair via `listUsers()` pagination with the
+  deterministic RPC `public.find_auth_user_by_phone_or_email(...)`.
 - Restored `READ_SMS` and `RECEIVE_SMS` to the production Android manifest for
   M-Money financial transaction verification.
 - Restored `ENABLE_ANDROID_MOMO_SMS_AUTOREAD` to the production-on path and
@@ -159,7 +170,12 @@ the remaining Google Play and Firebase work.
   brand mark and generated Android/iOS app icon assets.
 - Cleared the current Dart analyzer warnings that were failing the release
   readiness script.
-- Verified the project test suite passes locally.
+- Verified targeted hardening checks pass locally:
+  - OTP/auth edge functions type-check
+  - OTP abuse helper tests pass
+  - SMS boundary tests pass
+- The full repo test suite should be rerun on the stabilized remediation
+  branch before upload.
 - Added `scripts/build_play_release.sh` to build a Play-ready AAB with required
   `--dart-define` values.
 
@@ -186,9 +202,9 @@ the remaining Google Play and Firebase work.
 2. Decide whether partner bank/Rayon recipient routing must be fully dynamic
    from Supabase before release, then implement the required schema/client
    changes if yes.
-3. Enable hosted phone login in Supabase Auth or change the custom OTP backend
-   to mint sessions without `signInWithPassword({ phone, password })`.
-4. Once that auth path works, use the configured `OTP_TEST_PHONE` and
+3. Validate the review bypass end to end on a signed Android build against the
+   linked Supabase project.
+4. Once that signed-build auth path is validated, use the configured `OTP_TEST_PHONE` and
    `OTP_TEST_CODE` in the Play Console app-access form.
 5. Prepare Play listing screenshots, feature graphic, and final store copy.
 

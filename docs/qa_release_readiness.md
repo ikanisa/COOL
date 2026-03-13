@@ -2,6 +2,9 @@
 
 This checklist tracks the current release gates for the Cool mobile app.
 
+Google Wallet is deferred to Phase 2 and is not part of the current release
+candidate gate.
+
 ## Required Release Gates
 
 No build is release-candidate quality unless every gate below is green.
@@ -10,8 +13,9 @@ No build is release-candidate quality unless every gate below is green.
 |---|---|---|
 | Static analysis | `flutter analyze` passes with zero issues | `scripts/release_readiness.sh` |
 | Flutter tests | `flutter test` passes with zero failures | `scripts/release_readiness.sh` |
+| Deep-link assets | `dart tool/deep_link_release_assets.dart --check` passes against `deeplinks/release_metadata.json`, with populated AASA details and no placeholder store metadata | `scripts/release_readiness.sh` and hosted `.well-known` files |
 | Edge-function checks | Deno checks for critical Supabase functions pass | `scripts/release_readiness.sh` plus targeted `deno check` / `deno test` |
-| Operational dashboard | Admin > Operations shows no critical triage issues | `/admin/operations` and `docs/OPERATIONAL_OBSERVABILITY.md` |
+| Operational dashboard | Admin > Operations shows no critical triage issues and no failing server-trusted surfaces | `/admin/operations` and `docs/OPERATIONAL_OBSERVABILITY.md` |
 | Route governance | Any route change updates `docs/ROUTE_INVENTORY.md` | PR review |
 | Screen governance | New routes stay within `docs/SCREEN_BUDGETS.md` budget | PR review |
 | Smoke coverage | Every new user-facing route has at least one route, widget, or flow smoke test | PR review |
@@ -28,7 +32,14 @@ That covers:
 
 - `flutter analyze`
 - `flutter test`
+- `dart tool/deep_link_release_assets.dart --check`
 - `deno test supabase/functions/parse-momo-sms/rayon_confirmation_test.ts`
+
+When release metadata changes, regenerate the committed association files first:
+
+```bash
+dart tool/deep_link_release_assets.dart --generate
+```
 
 Supporting governance docs:
 
@@ -62,8 +73,8 @@ Run these on an Android release build before submission:
 4. Add shop items to cart, start checkout, and confirm the MoMo handoff message shows the expected amount and MTN code.
 5. Open support initiatives, start a contribution, and confirm the MoMo handoff appears with the expected amount.
 6. Buy a ticket, confirm the pending ticket appears, and complete the SMS confirmation flow until the ticket becomes valid.
-7. Open My Tickets and Ticket Confirmation, then verify the QR and status surfaces render without missing data.
-8. Open Admin > Operations and confirm there are no critical payment sync, Edge Function, or config triage items.
+7. Open My Tickets and Ticket Confirmation, then verify the QR and status surfaces render without missing data and do not expose deferred wallet actions.
+8. Open Admin > Operations and confirm there are no critical payment sync, Edge Function, or config triage items, and that MoMo parsing is not failing.
 
 ## Permission Review
 
@@ -72,3 +83,4 @@ Confirm before submission:
 - Android manifest only declares `READ_SMS` and `RECEIVE_SMS` for M-Money verification.
 - In-app disclosure says only approved M-Money sender IDs are processed.
 - Play Console declarations match the actual SMS usage and data handling flow.
+- `deeplinks/release_metadata.json` contains the real Apple Team ID, App Store listing ID, and Android signing fingerprints for the build being submitted.

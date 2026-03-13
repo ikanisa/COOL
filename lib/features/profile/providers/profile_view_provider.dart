@@ -1,9 +1,10 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/config/country_catalog.dart';
+import '../../../core/config/app_market.dart';
 import '../../../core/l10n/locale_provider.dart';
 import '../../../core/providers/notification_settings_provider.dart';
-import '../../../core/providers/supported_countries_provider.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../credit/providers/credit_provider.dart';
 import '../../mobility/providers/driver_provider.dart';
@@ -13,12 +14,11 @@ final profileViewProvider = Provider<ProfileData>((ref) {
   final authState = ref.watch(authProvider);
   final locale = ref.watch(localeProvider);
   final notificationSettings = ref.watch(notificationSettingsProvider);
-  final countries =
-      ref.watch(supportedCountriesProvider).valueOrNull ??
-      CoolCountryCatalog.all;
   final creditDashboard = ref.watch(creditDashboardProvider).valueOrNull;
+  final l10n = lookupAppLocalizations(Locale(locale.languageCode));
   final driverSnapshot = DriverProfileSnapshot.fromState(
     ref.watch(driverProvider),
+    locale: Locale(locale.languageCode),
   );
 
   final user = authState.user;
@@ -29,12 +29,7 @@ final profileViewProvider = Provider<ProfileData>((ref) {
     );
   }
 
-  final country = CoolCountryCatalog.resolve(
-    country: resolveAuthStateCountryCode(authState),
-    phone: user.phone,
-    providerId: user.momoProvider,
-    source: countries,
-  );
+  final country = AppMarket.country;
   final hasDriverRole = user.isDriver || driverSnapshot.hasProfile;
   final officialName = user.officialName?.trim() ?? '';
   final officialPhone = user.officialPhone?.trim() ?? '';
@@ -48,22 +43,22 @@ final profileViewProvider = Provider<ProfileData>((ref) {
   final setupItems = <ProfileSetupItem>[
     ProfileSetupItem(
       id: 'account',
-      label: 'Public profile',
+      label: l10n.profilePublicProfileLabel,
       isComplete: user.hasBasicProfile,
     ),
     ProfileSetupItem(
       id: 'wallet',
-      label: 'Wallet',
+      label: l10n.profileWalletLabel,
       isComplete: walletConfigured,
     ),
     ProfileSetupItem(
       id: 'official_identity',
-      label: 'Official identity',
+      label: l10n.profileOfficialIdentityLabel,
       isComplete: officialName.isNotEmpty && officialPhone.isNotEmpty,
     ),
     ProfileSetupItem(
       id: 'travel_role',
-      label: 'Travel role',
+      label: l10n.profileTravelRoleLabel,
       isComplete:
           walletConfigured &&
           (!hasDriverRole || driverSnapshot.isSetupComplete),

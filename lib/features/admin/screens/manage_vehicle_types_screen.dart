@@ -1,9 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/config/country_catalog.dart';
-import '../../../core/providers/supported_countries_provider.dart';
+import '../../../core/config/app_market.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
@@ -18,9 +18,6 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final typesAsync = ref.watch(adminVehicleTypesProvider);
-    final countries =
-        ref.watch(supportedCountriesProvider).valueOrNull ??
-        CoolCountryCatalog.all;
 
     return Scaffold(
       backgroundColor: AppColors.bg,
@@ -37,10 +34,15 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
         ),
         iconTheme: const IconThemeData(color: AppColors.text),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.accent,
-        onPressed: () => _showEditSheet(context, ref, null, countries),
-        child: const Icon(Icons.add_rounded, color: Colors.black),
+      floatingActionButton: Semantics(
+        button: true,
+        label: 'Add vehicle type',
+        hint: 'Opens the new vehicle type form',
+        child: FloatingActionButton(
+          backgroundColor: AppColors.accent,
+          onPressed: () => _showEditSheet(context, ref, null),
+          child: const Icon(Icons.add_rounded, color: Colors.black),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -64,32 +66,43 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: AppColors.border),
                 ),
-                child: ListTile(
-                  leading: Text(
-                    t['emoji']?.toString() ?? '🚘',
-                    style: const TextStyle(fontSize: 22),
-                  ),
-                  title: Text(
-                    t['label']?.toString() ?? '',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.text,
+                child: Semantics(
+                  container: true,
+                  label:
+                      'Vehicle type ${t['label'] ?? ''}. Value ${t['value'] ?? ''}. '
+                      'Market ${AppMarket.country.name}.',
+                  child: ListTile(
+                    leading: Text(
+                      t['emoji']?.toString() ?? '🚘',
+                      style: const TextStyle(fontSize: 22),
                     ),
-                  ),
-                  subtitle: Text(
-                    'value: ${t['value']} · ${t['country'] ?? 'global'}',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 12,
-                      color: AppColors.text3,
+                    title: Text(
+                      t['label']?.toString() ?? '',
+                      style: GoogleFonts.dmSans(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.text,
+                      ),
                     ),
-                  ),
-                  trailing: GestureDetector(
-                    onTap: () => _showEditSheet(context, ref, t, countries),
-                    child: const Icon(
-                      Icons.edit_rounded,
-                      size: 18,
-                      color: AppColors.text3,
+                    subtitle: Text(
+                      'value: ${t['value']} · ${AppMarket.country.name}',
+                      style: GoogleFonts.dmSans(
+                        fontSize: 12,
+                        color: AppColors.text3,
+                      ),
+                    ),
+                    trailing: Semantics(
+                      button: true,
+                      label: 'Edit vehicle type ${t['label'] ?? ''}',
+                      hint: 'Opens the vehicle type editor',
+                      child: GestureDetector(
+                        onTap: () => _showEditSheet(context, ref, t),
+                        child: const Icon(
+                          Icons.edit_rounded,
+                          size: 18,
+                          color: AppColors.text3,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -105,34 +118,26 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     Map<String, dynamic>? type,
-    List<CoolCountry> countries,
   ) {
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (_) =>
-          _EditVehicleTypeSheet(type: type, ref: ref, countries: countries),
+      builder: (_) => _EditVehicleTypeSheet(type: type, ref: ref),
     );
   }
 }
 
 class _EditVehicleTypeSheet extends StatefulWidget {
-  const _EditVehicleTypeSheet({
-    this.type,
-    required this.ref,
-    required this.countries,
-  });
+  const _EditVehicleTypeSheet({this.type, required this.ref});
   final Map<String, dynamic>? type;
   final WidgetRef ref;
-  final List<CoolCountry> countries;
   @override
   State<_EditVehicleTypeSheet> createState() => _EditVehicleTypeSheetState();
 }
 
 class _EditVehicleTypeSheetState extends State<_EditVehicleTypeSheet> {
   late final TextEditingController _labelCtl, _valueCtl, _emojiCtl;
-  String? _selectedCountryCode;
   bool _saving = false;
 
   @override
@@ -142,10 +147,6 @@ class _EditVehicleTypeSheetState extends State<_EditVehicleTypeSheet> {
     _labelCtl = TextEditingController(text: t?['label']?.toString() ?? '');
     _valueCtl = TextEditingController(text: t?['value']?.toString() ?? '');
     _emojiCtl = TextEditingController(text: t?['emoji']?.toString() ?? '');
-    _selectedCountryCode = CoolCountryCatalog.byIsoCode(
-      t?['country']?.toString(),
-      source: widget.countries,
-    )?.isoCode;
   }
 
   @override
@@ -162,7 +163,7 @@ class _EditVehicleTypeSheetState extends State<_EditVehicleTypeSheet> {
       'label': _labelCtl.text.trim(),
       'value': _valueCtl.text.trim(),
       'emoji': _emojiCtl.text.trim(),
-      'country': _selectedCountryCode,
+      'country': AppMarket.countryCode,
     };
     if (widget.type != null) data['id'] = widget.type!['id'];
     try {
@@ -222,7 +223,7 @@ class _EditVehicleTypeSheetState extends State<_EditVehicleTypeSheet> {
               _field('Label (e.g. 🛺 Moto)', _labelCtl),
               _field('Value (e.g. Moto)', _valueCtl),
               _field('Emoji', _emojiCtl),
-              _countryField(),
+              _marketField(),
               const SizedBox(height: 12),
               SizedBox(
                 width: double.infinity,
@@ -239,7 +240,7 @@ class _EditVehicleTypeSheetState extends State<_EditVehicleTypeSheet> {
                       ? const SizedBox(
                           width: 20,
                           height: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2),
+                          child: CupertinoActivityIndicator(radius: 10),
                         )
                       : Text(
                           'Save',
@@ -260,49 +261,43 @@ class _EditVehicleTypeSheetState extends State<_EditVehicleTypeSheet> {
 
   Widget _field(String label, TextEditingController ctl) => Padding(
     padding: const EdgeInsets.only(bottom: 10),
-    child: TextField(
-      controller: ctl,
-      style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
-        filled: true,
-        fillColor: AppColors.surface2,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
+    child: Semantics(
+      textField: true,
+      label: label,
+      hint: 'Double tap to enter $label',
+      child: TextField(
+        controller: ctl,
+        style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
+          filled: true,
+          fillColor: AppColors.surface2,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
         ),
       ),
     ),
   );
 
-  Widget _countryField() => Padding(
+  Widget _marketField() => Padding(
     padding: const EdgeInsets.only(bottom: 10),
-    child: DropdownButtonFormField<String?>(
-      initialValue: _selectedCountryCode,
-      dropdownColor: AppColors.surface2,
+    child: TextFormField(
+      initialValue: AppMarket.country.name,
+      enabled: false,
+      style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
       decoration: InputDecoration(
-        labelText: 'Country scope',
+        labelText: 'Market',
         labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
         filled: true,
-        fillColor: AppColors.surface2,
+        fillColor: AppColors.surface2.withValues(alpha: 0.5),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
         ),
       ),
-      items: [
-        const DropdownMenuItem<String?>(value: null, child: Text('Global')),
-        ...widget.countries.map(
-          (country) => DropdownMenuItem<String?>(
-            value: country.isoCode,
-            child: Text(country.pickerLabel),
-          ),
-        ),
-      ],
-      onChanged: _saving
-          ? null
-          : (value) => setState(() => _selectedCountryCode = value),
     ),
   );
 }

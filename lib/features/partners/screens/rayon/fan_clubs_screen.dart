@@ -24,7 +24,7 @@ class FanClubsScreen extends ConsumerStatefulWidget {
 class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
   String _selectedRegion = 'All';
 
-  static const _regions = ['All', 'Kigali', 'Northern', 'Southern', 'Diaspora'];
+  static const _regions = ['All', 'Kigali', 'Northern', 'Southern', 'Western'];
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +99,10 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
                         itemBuilder: (context, index) {
                           final region = _regions[index];
                           final selected = region == _selectedRegion;
-                          return GestureDetector(
+                          return Semantics(
+                            selected: selected,
+                            label: '$region region filter',
+                            child: GestureDetector(
                             onTap: () =>
                                 setState(() => _selectedRegion = region),
                             child: AnimatedContainer(
@@ -130,6 +133,7 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
                                 ),
                               ),
                             ),
+                          ),
                           );
                         },
                       ),
@@ -165,14 +169,18 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
                         padding: EdgeInsets.only(
                           bottom: index == myClub.length - 1 ? 0 : 12,
                         ),
-                        child: GestureDetector(
-                          onTap: () => context.push(
-                            '/partners/rayon-sports/clubs/${club.id}',
-                          ),
-                          child: RsFanClubCard(
-                            club: club,
-                            isJoined: true,
-                            onJoinTap: () {},
+                        child: Semantics(
+                          button: true,
+                          label: 'Open ${club.name} fan club',
+                          child: GestureDetector(
+                            onTap: () => context.push(
+                              '/partners/rayon-sports/clubs/${club.id}',
+                            ),
+                            child: RsFanClubCard(
+                              club: club,
+                              isJoined: true,
+                              onJoinTap: () {},
+                            ),
                           ),
                         ),
                       );
@@ -208,16 +216,20 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
                       padding: EdgeInsets.only(
                         bottom: index == filtered.length - 1 ? 0 : 12,
                       ),
-                      child: GestureDetector(
-                        onTap: () => context.push(
-                          '/partners/rayon-sports/clubs/${club.id}',
-                        ),
-                        child: RsFanClubCard(
-                          club: club,
-                          isJoined: isJoined,
-                          onJoinTap: isJoined
-                              ? () {}
-                              : () => _joinClub(context, club.id),
+                      child: Semantics(
+                        button: true,
+                        label: 'Open ${club.name} fan club',
+                        child: GestureDetector(
+                          onTap: () => context.push(
+                            '/partners/rayon-sports/clubs/${club.id}',
+                          ),
+                          child: RsFanClubCard(
+                            club: club,
+                            isJoined: isJoined,
+                            onJoinTap: isJoined
+                                ? () {}
+                                : () => _joinClub(context, club.id),
+                          ),
                         ),
                       ),
                     );
@@ -289,7 +301,7 @@ class _CreateClubSheetState extends State<_CreateClubSheet> {
   final _descController = TextEditingController();
   String _region = 'Kigali';
 
-  static const _regionOptions = ['Kigali', 'Northern', 'Southern', 'Diaspora'];
+  static const _regionOptions = ['Kigali', 'Northern', 'Southern', 'Western'];
 
   @override
   void dispose() {
@@ -355,7 +367,10 @@ class _CreateClubSheetState extends State<_CreateClubSheet> {
                 runSpacing: 8,
                 children: _regionOptions.map((r) {
                   final selected = r == _region;
-                  return GestureDetector(
+                  return Semantics(
+                    selected: selected,
+                    label: '$r region',
+                    child: GestureDetector(
                     onTap: () => setState(() => _region = r),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
@@ -380,6 +395,7 @@ class _CreateClubSheetState extends State<_CreateClubSheet> {
                         ),
                       ),
                     ),
+                  ),
                   );
                 }).toList(),
               ),

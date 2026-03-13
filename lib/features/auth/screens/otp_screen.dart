@@ -5,10 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../core/config/country_catalog.dart';
+import '../../../core/config/app_market.dart';
 import '../../../core/config/env_config.dart';
 import '../../../core/l10n/l10n.dart';
-import '../../../core/providers/supported_countries_provider.dart';
 import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/phone_validator.dart';
@@ -17,6 +16,9 @@ import '../../../shared/widgets/cool_toast.dart';
 import '../providers/auth_provider.dart';
 
 /// Screen for entering a phone number to receive a WhatsApp OTP.
+///
+/// Any valid global WhatsApp number is accepted.
+/// Rwanda local numbers work without a country picker.
 class OtpScreen extends ConsumerStatefulWidget {
   const OtpScreen({this.redirectPath, super.key});
 
@@ -30,7 +32,6 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
   final _phoneController = TextEditingController();
   late final TapGestureRecognizer _termsRecognizer;
   late final TapGestureRecognizer _privacyRecognizer;
-  String _selectedCountryCode = CoolCountryCatalog.defaultCountry.isoCode;
   String? _errorText;
 
   @override
@@ -52,19 +53,15 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
 
   Future<void> _sendOtp() async {
     final l10n = context.l10n;
-    final phone = _phoneController.text.trim();
-    if (phone.isEmpty) {
+    final input = _phoneController.text.trim();
+    if (input.isEmpty) {
       setState(() => _errorText = l10n.otpPhoneRequired);
       return;
     }
 
-    // Validate phone number format per selected country.
-    final selectedCountry =
-        CoolCountryCatalog.byIsoCode(_selectedCountryCode) ??
-        CoolCountryCatalog.defaultCountry;
     final validationError = PhoneValidator.validateOtpPhone(
-      phone,
-      selectedCountry,
+      input,
+      AppMarket.country,
     );
     if (validationError != null) {
       setState(() => _errorText = validationError);
@@ -74,16 +71,13 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
     setState(() => _errorText = null);
 
     try {
-      final locale = Localizations.localeOf(context).languageCode;
       final fullPhone = PhoneValidator.buildOtpE164Phone(
-        phone,
-        selectedCountry,
+        input,
+        AppMarket.country,
       );
-
-      // Determine language from locale (default "en").
-      final language = locale == 'fr' ? 'fr' : 'en';
-
-      await ref.read(authProvider.notifier).sendOtp(fullPhone, language);
+      await ref
+          .read(authProvider.notifier)
+          .sendOtp(fullPhone, AppMarket.languageCode);
 
       if (!mounted) return;
 
@@ -122,12 +116,6 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final authState = ref.watch(authProvider);
-    final countries =
-        ref.watch(supportedCountriesProvider).valueOrNull ??
-        CoolCountryCatalog.all;
-    final selectedCountry =
-        CoolCountryCatalog.byIsoCode(_selectedCountryCode, source: countries) ??
-        CoolCountryCatalog.defaultCountry;
     final keyboardInset = MediaQuery.viewInsetsOf(context).bottom;
 
     return Scaffold(
@@ -136,6 +124,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
+          tooltip: 'Back',
           onPressed: () => context.go(
             AppRoutes.onboardingLocation(redirect: widget.redirectPath),
           ),
@@ -166,7 +155,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      l10n.otpUseWhatsappSubtitle,
+                      'Cool serves Rwanda only. You can still sign in with any WhatsApp number worldwide.',
                       style: GoogleFonts.dmSans(
                         fontSize: 14,
                         color: AppColors.text2,
@@ -176,7 +165,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
 
                     const SizedBox(height: 28),
 
-                    // ── Combined country + phone input ────────────────
+                    // ── Phone input ───────────────────────────────────
                     Container(
                       height: 56,
                       decoration: BoxDecoration(
@@ -184,78 +173,45 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(color: AppColors.border),
                       ),
-                      child: Row(
-                        children: [
-                          // Country code dropdown
-                          GestureDetector(
-                            onTap: () => _showCountryPicker(context, countries),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 14,
-                              ),
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  right: BorderSide(color: AppColors.border),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    selectedCountry.flagEmoji,
-                                    style: const TextStyle(fontSize: 18),
-                                  ),
-                                  const SizedBox(width: 6),
-                                  Text(
-                                    selectedCountry.dialCode,
-                                    style: GoogleFonts.dmSans(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColors.text,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Icon(
-                                    Icons.keyboard_arrow_down_rounded,
-                                    size: 18,
-                                    color: AppColors.text3,
-                                  ),
-                                ],
-                              ),
-                            ),
+                      child: Semantics(
+                        textField: true,
+                        label: l10n.phoneLabel,
+                        hint: 'Enter your phone number',
+                        child: TextField(
+                          controller: _phoneController,
+                          keyboardType: TextInputType.phone,
+                          textInputAction: TextInputAction.done,
+                          onSubmitted: (_) => _sendOtp(),
+                          style: GoogleFonts.dmSans(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.text,
+                            letterSpacing: 0.5,
                           ),
-
-                          // Phone input
-                          Expanded(
-                            child: TextField(
-                              controller: _phoneController,
-                              keyboardType: TextInputType.phone,
-                              textInputAction: TextInputAction.done,
-                              onSubmitted: (_) => _sendOtp(),
-                              style: GoogleFonts.dmSans(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.text,
-                                letterSpacing: 0.5,
-                              ),
-                              cursorColor: AppColors.accent,
-                              decoration: InputDecoration(
-                                hintText:
-                                    selectedCountry.mobileExampleNational ??
-                                        l10n.phoneHint,
-                                hintStyle: GoogleFonts.dmSans(
-                                  fontSize: 16,
-                                  color: AppColors.text3.withValues(alpha: 0.5),
-                                  letterSpacing: 0.5,
-                                ),
-                                contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 14,
-                                ),
-                                border: InputBorder.none,
-                              ),
+                          cursorColor: AppColors.accent,
+                          decoration: InputDecoration(
+                            hintText: '078 123 4567 or +256 781 234 567',
+                            hintStyle: GoogleFonts.dmSans(
+                              fontSize: 16,
+                              color: AppColors.text3.withValues(alpha: 0.5),
+                              letterSpacing: 0.5,
                             ),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 14,
+                            ),
+                            border: InputBorder.none,
                           ),
-                        ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      'Use your Rwanda number in local format, or paste a full WhatsApp number in E.164 format with +.',
+                      style: GoogleFonts.dmSans(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.text3,
+                        height: 1.4,
                       ),
                     ),
 
@@ -310,68 +266,6 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                 ),
               ),
             ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _showCountryPicker(BuildContext context, List<CoolCountry> countries) {
-    showModalBottomSheet<void>(
-      context: context,
-      backgroundColor: AppColors.surface2,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      builder: (_) => SafeArea(
-        child: FractionallySizedBox(
-          heightFactor: 0.8,
-          child: Column(
-            children: [
-              const SizedBox(height: 12),
-              Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: AppColors.text3.withValues(alpha: 0.3),
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: countries.length,
-                  itemBuilder: (context, index) {
-                    final country = countries[index];
-                    return ListTile(
-                      leading: Text(
-                        country.flagEmoji,
-                        style: const TextStyle(fontSize: 22),
-                      ),
-                      title: Text(
-                        '${country.name}  ${country.dialCode}',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 15,
-                          color: AppColors.text,
-                        ),
-                      ),
-                      trailing: _selectedCountryCode == country.isoCode
-                          ? const Icon(
-                              Icons.check_rounded,
-                              color: AppColors.accent,
-                            )
-                          : null,
-                      onTap: () {
-                        setState(() => _selectedCountryCode = country.isoCode);
-                        Navigator.pop(context);
-                      },
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(height: 8),
-            ],
           ),
         ),
       ),

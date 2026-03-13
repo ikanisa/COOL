@@ -95,9 +95,11 @@ class TicketVerifyResult {
 ///
 /// QR data format: `COOL-TKT:{ticketId}:{matchId}:{timestamp}:{hmac}`
 class TicketService {
-  TicketService._();
+  TicketService({
+    required Future<Box<String>> Function(String name) openBox,
+  }) : _openBox = openBox;
 
-  static final TicketService instance = TicketService._();
+  final Future<Box<String>> Function(String name) _openBox;
 
   static const _boxName = 'purchased_tickets';
 
@@ -134,14 +136,14 @@ class TicketService {
       purchasedAt: now,
     );
 
-    final box = await Hive.openBox<String>(_boxName);
+    final box = await _openBox(_boxName);
     await box.put(ticket.id, jsonEncode(ticket.toJson()));
 
     return ticket;
   }
 
   Future<List<PurchasedTicket>> getMyTickets() async {
-    final box = await Hive.openBox<String>(_boxName);
+    final box = await _openBox(_boxName);
     final tickets = <PurchasedTicket>[];
 
     for (final key in box.keys) {
@@ -158,7 +160,7 @@ class TicketService {
   }
 
   Future<void> markUsed(String ticketId) async {
-    final box = await Hive.openBox<String>(_boxName);
+    final box = await _openBox(_boxName);
     final raw = box.get(ticketId);
     if (raw == null) {
       return;
@@ -207,7 +209,7 @@ class TicketService {
       );
     }
 
-    final box = await Hive.openBox<String>(_boxName);
+    final box = await _openBox(_boxName);
     final raw = box.get(ticketId);
 
     if (raw != null) {

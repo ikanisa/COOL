@@ -202,55 +202,59 @@ class QrShareSheet extends ConsumerWidget {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    GestureDetector(
-                      onTap: () async {
-                        Clipboard.setData(ClipboardData(text: inviteUrl));
-                        if (_targetType == 'group_invite') {
-                          await ref.read(engagementTrackerProvider).trackInviteSent(
-                            channel: 'copy_link',
-                            inviteUrl: inviteUrl,
-                            targetType: _targetType,
-                          );
-                        }
-                        await ref
-                            .read(engagementTrackerProvider)
-                            .trackShareAction(
+                    Semantics(
+                      button: true,
+                      label: 'Copy invite link',
+                      child: GestureDetector(
+                        onTap: () async {
+                          Clipboard.setData(ClipboardData(text: inviteUrl));
+                          if (_targetType == 'group_invite') {
+                            await ref.read(engagementTrackerProvider).trackInviteSent(
                               channel: 'copy_link',
+                              inviteUrl: inviteUrl,
                               targetType: _targetType,
-                              targetUrl: inviteUrl,
                             );
-                        if (!context.mounted) {
-                          return;
-                        }
-                        CoolToast.success(context, 'Link copied!');
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 6,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.surface3,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(
-                              Icons.copy_rounded,
-                              size: 14,
-                              color: AppColors.accent,
-                            ),
-                            const SizedBox(width: 4),
-                            Text(
-                              'Copy',
-                              style: GoogleFonts.dmSans(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w600,
+                          }
+                          await ref
+                              .read(engagementTrackerProvider)
+                              .trackShareAction(
+                                channel: 'copy_link',
+                                targetType: _targetType,
+                                targetUrl: inviteUrl,
+                              );
+                          if (!context.mounted) {
+                            return;
+                          }
+                          CoolToast.success(context, 'Link copied!');
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.surface3,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.copy_rounded,
+                                size: 14,
                                 color: AppColors.accent,
                               ),
-                            ),
-                          ],
+                              const SizedBox(width: 4),
+                              Text(
+                                'Copy',
+                                style: GoogleFonts.dmSans(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.accent,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

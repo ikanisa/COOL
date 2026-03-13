@@ -1,153 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/config/country_catalog.dart';
-import '../../../core/config/app_config_provider.dart';
 import '../../../core/l10n/l10n.dart';
-import '../../../core/l10n/supported_locales.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/phone_validator.dart';
 import '../../../shared/widgets/momo_route_type_selector.dart';
-
-// ═════════════════════════════════════════════════════════════════════════════
-// LANGUAGE SHEET
-// ═════════════════════════════════════════════════════════════════════════════
-
-class ProfileLanguageSheet extends ConsumerWidget {
-  const ProfileLanguageSheet({required this.current, super.key});
-
-  final String current;
-
-  static const _fallbackLanguages = [
-    _LanguageOption('en', '🇬🇧', 'English'),
-    _LanguageOption('fr', '🇫🇷', 'Français'),
-  ];
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = context.l10n;
-    final langAsync = ref.watch(supportedLanguagesProvider);
-
-    final languages = langAsync.when(
-      data: (langs) {
-        if (langs.isEmpty) {
-          return _fallbackLanguages;
-        }
-
-        final supported = langs
-            .where((l) => isSupportedLanguageCode(l['code'] ?? ''))
-            .map(
-              (l) => _LanguageOption(
-                normalizeSupportedLanguageCode(l['code'] ?? 'en'),
-                l['flag'] ?? '🏳️',
-                l['name'] ?? '',
-              ),
-            )
-            .toList(growable: false);
-
-        if (supported.isEmpty) {
-          return _fallbackLanguages;
-        }
-
-        return supported;
-      },
-      loading: () => _fallbackLanguages,
-      error: (_, _) => _fallbackLanguages,
-    );
-
-    return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-      ),
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(22, 12, 22, 22),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Handle
-              Center(
-                child: Container(
-                  width: 40,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: AppColors.border2,
-                    borderRadius: BorderRadius.circular(999),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              Text(
-                l10n.languageLabel,
-                style: GoogleFonts.dmSans(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.text,
-                ),
-              ),
-              const SizedBox(height: 18),
-
-              for (final lang in languages) ...[
-                _buildLanguageTile(context, lang),
-                if (lang != languages.last)
-                  const Divider(color: AppColors.border, height: 1),
-              ],
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLanguageTile(BuildContext context, _LanguageOption lang) {
-    final isSelected = current == lang.code;
-
-    return InkWell(
-      onTap: () => Navigator.of(context).pop(lang.code),
-      borderRadius: BorderRadius.circular(12),
-      splashColor: AppColors.accentGlow,
-      highlightColor: Colors.transparent,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
-        child: Row(
-          children: [
-            Text(lang.flag, style: const TextStyle(fontSize: 24)),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Text(
-                lang.label,
-                style: GoogleFonts.dmSans(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  color: isSelected ? AppColors.accent : AppColors.text,
-                ),
-              ),
-            ),
-            if (isSelected)
-              const Icon(
-                Icons.check_circle_rounded,
-                size: 22,
-                color: AppColors.accent,
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _LanguageOption {
-  const _LanguageOption(this.code, this.flag, this.label);
-
-  final String code;
-  final String flag;
-  final String label;
-}
 
 // ═════════════════════════════════════════════════════════════════════════════
 // SIGN OUT DIALOG
@@ -285,7 +145,7 @@ class ProfileBlockingProgressDialog extends StatelessWidget {
           const SizedBox(
             width: 22,
             height: 22,
-            child: CircularProgressIndicator(strokeWidth: 2.4),
+            child: CupertinoActivityIndicator(radius: 11),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -328,7 +188,6 @@ class ProfileMomoEditSheet extends StatefulWidget {
   const ProfileMomoEditSheet({
     required this.currentMomoNumber,
     required this.country,
-    required this.availableCountries,
     this.currentMomoCode,
     this.currentMomoRouteType,
     super.key,
@@ -338,7 +197,6 @@ class ProfileMomoEditSheet extends StatefulWidget {
   final String? currentMomoCode;
   final MomoRecipientType? currentMomoRouteType;
   final CoolCountry country;
-  final List<CoolCountry> availableCountries;
 
   @override
   State<ProfileMomoEditSheet> createState() => _ProfileMomoEditSheetState();
@@ -347,23 +205,14 @@ class ProfileMomoEditSheet extends StatefulWidget {
 class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
   late final TextEditingController _numberController;
   late final TextEditingController _codeController;
-  late String _selectedCountryCode;
   late MomoRecipientType _selectedRouteType;
   String? _numberError;
   String? _codeError;
   String? _detectedProvider;
 
-  CoolCountry get _selectedCountry =>
-      CoolCountryCatalog.byIsoCode(
-        _selectedCountryCode,
-        source: widget.availableCountries,
-      ) ??
-      widget.country;
-
   @override
   void initState() {
     super.initState();
-    _selectedCountryCode = widget.country.isoCode;
     final localNumber = widget.currentMomoNumber.trim().isEmpty
         ? ''
         : () {
@@ -396,7 +245,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
   }
 
   void _updateProvider(String value) {
-    final label = PhoneValidator.providerLabel(value, _selectedCountry.isoCode);
+    final label = PhoneValidator.providerLabel(value, widget.country.isoCode);
     if (mounted) setState(() => _detectedProvider = label);
   }
 
@@ -427,7 +276,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
 
   void _save() {
     final number = _numberController.text.trim();
-    final country = _selectedCountry;
+    final country = widget.country;
     final code = country.supportsMomoCode ? _codeController.text.trim() : '';
     final hasCode = code.isNotEmpty;
     final hasNumber = number.isNotEmpty;
@@ -472,7 +321,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final country = _selectedCountry;
+    final country = widget.country;
     final bottomInset = MediaQuery.viewInsetsOf(context).bottom;
 
     return Container(
@@ -531,59 +380,33 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
               ),
               const SizedBox(height: 8),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 14,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.surface2,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: AppColors.border),
                 ),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    isExpanded: true,
-                    value: country.isoCode,
-                    dropdownColor: AppColors.surface2,
-                    icon: const Icon(
-                      Icons.keyboard_arrow_down_rounded,
-                      color: AppColors.text3,
+                child: Row(
+                  children: [
+                    Text(
+                      country.flagEmoji,
+                      style: const TextStyle(fontSize: 20),
                     ),
-                    style: GoogleFonts.dmSans(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.text,
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        '${country.name}  ·  ${country.currencyCode}  ·  ${country.dialCode}',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.text,
+                        ),
+                      ),
                     ),
-                    items: widget.availableCountries.map((item) {
-                      return DropdownMenuItem<String>(
-                        value: item.isoCode,
-                        child: Text(item.pickerLabel),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      if (value == null || value == _selectedCountryCode) {
-                        return;
-                      }
-                      setState(() {
-                        _selectedCountryCode = value;
-                        final nextCountry =
-                            CoolCountryCatalog.byIsoCode(
-                              value,
-                              source: widget.availableCountries,
-                            ) ??
-                            widget.country;
-                        if (!nextCountry.supportsMomoCode) {
-                          _codeController.clear();
-                        }
-                        _selectedRouteType = _resolveRouteType(
-                          country: nextCountry,
-                          preferredRouteType: _selectedRouteType,
-                          number: _numberController.text,
-                          code: _codeController.text,
-                        );
-                        _numberError = null;
-                        _codeError = null;
-                      });
-                      _updateProvider(_numberController.text);
-                    },
-                  ),
+                  ],
                 ),
               ),
               const SizedBox(height: 20),
@@ -599,34 +422,42 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
                 ),
               ),
               const SizedBox(height: 8),
-              TextField(
-                controller: _numberController,
-                keyboardType: TextInputType.phone,
-                style: GoogleFonts.dmSans(fontSize: 15, color: AppColors.text),
-                cursorColor: AppColors.accent,
-                decoration: InputDecoration(
-                  hintText: country.phoneExampleHint(),
-                  hintStyle: GoogleFonts.dmSans(
+              Semantics(
+                textField: true,
+                label: l10n.momoNumberLabel,
+                hint: 'Double tap to enter your Mobile Money number',
+                child: TextField(
+                  controller: _numberController,
+                  keyboardType: TextInputType.phone,
+                  style: GoogleFonts.dmSans(
                     fontSize: 15,
-                    color: AppColors.text3.withValues(alpha: 0.5),
+                    color: AppColors.text,
                   ),
-                  filled: true,
-                  fillColor: AppColors.surface2,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: AppColors.border),
+                  cursorColor: AppColors.accent,
+                  decoration: InputDecoration(
+                    hintText: country.phoneExampleHint(),
+                    hintStyle: GoogleFonts.dmSans(
+                      fontSize: 15,
+                      color: AppColors.text3.withValues(alpha: 0.5),
+                    ),
+                    filled: true,
+                    fillColor: AppColors.surface2,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: AppColors.border),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: AppColors.border),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: AppColors.accent),
+                    ),
+                    errorText: _numberError,
                   ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: AppColors.border),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: AppColors.accent),
-                  ),
-                  errorText: _numberError,
+                  onChanged: _updateProvider,
                 ),
-                onChanged: _updateProvider,
               ),
 
               // Provider chip
@@ -665,35 +496,40 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
                   ),
                 ),
                 const SizedBox(height: 8),
-                TextField(
-                  controller: _codeController,
-                  keyboardType: TextInputType.number,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 15,
-                    color: AppColors.text,
-                  ),
-                  cursorColor: AppColors.accent,
-                  decoration: InputDecoration(
-                    hintText: country.momoCodeExample ?? '12345',
-                    hintStyle: GoogleFonts.dmSans(
+                Semantics(
+                  textField: true,
+                  label: l10n.profileMomoCodeOptional,
+                  hint: 'Double tap to enter your Mobile Money merchant code',
+                  child: TextField(
+                    controller: _codeController,
+                    keyboardType: TextInputType.number,
+                    style: GoogleFonts.dmSans(
                       fontSize: 15,
-                      color: AppColors.text3.withValues(alpha: 0.5),
+                      color: AppColors.text,
                     ),
-                    filled: true,
-                    fillColor: AppColors.surface2,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: AppColors.border),
+                    cursorColor: AppColors.accent,
+                    decoration: InputDecoration(
+                      hintText: country.momoCodeExample ?? '12345',
+                      hintStyle: GoogleFonts.dmSans(
+                        fontSize: 15,
+                        color: AppColors.text3.withValues(alpha: 0.5),
+                      ),
+                      filled: true,
+                      fillColor: AppColors.surface2,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: AppColors.border),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: AppColors.border),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: AppColors.accent),
+                      ),
+                      errorText: _codeError,
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: AppColors.border),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: AppColors.accent),
-                    ),
-                    errorText: _codeError,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -984,32 +820,40 @@ class _ProfileOfficialIdentityEditSheetState
                 ),
               ),
               const SizedBox(height: 8),
-              TextField(
-                controller: _nameController,
-                textCapitalization: TextCapitalization.words,
-                style: GoogleFonts.dmSans(fontSize: 15, color: AppColors.text),
-                cursorColor: AppColors.accent,
-                decoration: InputDecoration(
-                  hintText: 'Legal name for reports',
-                  hintStyle: GoogleFonts.dmSans(
+              Semantics(
+                textField: true,
+                label: l10n.nameLabel,
+                hint: 'Double tap to enter your legal name',
+                child: TextField(
+                  controller: _nameController,
+                  textCapitalization: TextCapitalization.words,
+                  style: GoogleFonts.dmSans(
                     fontSize: 15,
-                    color: AppColors.text3.withValues(alpha: 0.5),
+                    color: AppColors.text,
                   ),
-                  filled: true,
-                  fillColor: AppColors.surface2,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: AppColors.border),
+                  cursorColor: AppColors.accent,
+                  decoration: InputDecoration(
+                    hintText: 'Legal name for reports',
+                    hintStyle: GoogleFonts.dmSans(
+                      fontSize: 15,
+                      color: AppColors.text3.withValues(alpha: 0.5),
+                    ),
+                    filled: true,
+                    fillColor: AppColors.surface2,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: AppColors.border),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: AppColors.border),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: AppColors.accent),
+                    ),
+                    errorText: _nameError,
                   ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: AppColors.border),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: AppColors.accent),
-                  ),
-                  errorText: _nameError,
                 ),
               ),
               const SizedBox(height: 20),
@@ -1023,35 +867,43 @@ class _ProfileOfficialIdentityEditSheetState
                 ),
               ),
               const SizedBox(height: 8),
-              TextField(
-                controller: _phoneController,
-                keyboardType: TextInputType.phone,
-                style: GoogleFonts.dmSans(fontSize: 15, color: AppColors.text),
-                cursorColor: AppColors.accent,
-                decoration: InputDecoration(
-                  hintText: widget.country.phoneExampleHint(),
-                  hintStyle: GoogleFonts.dmSans(
+              Semantics(
+                textField: true,
+                label: l10n.phoneLabel,
+                hint: 'Double tap to enter your phone number',
+                child: TextField(
+                  controller: _phoneController,
+                  keyboardType: TextInputType.phone,
+                  style: GoogleFonts.dmSans(
                     fontSize: 15,
-                    color: AppColors.text3.withValues(alpha: 0.5),
+                    color: AppColors.text,
                   ),
-                  filled: true,
-                  fillColor: AppColors.surface2,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: AppColors.border),
+                  cursorColor: AppColors.accent,
+                  decoration: InputDecoration(
+                    hintText: widget.country.phoneExampleHint(),
+                    hintStyle: GoogleFonts.dmSans(
+                      fontSize: 15,
+                      color: AppColors.text3.withValues(alpha: 0.5),
+                    ),
+                    filled: true,
+                    fillColor: AppColors.surface2,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: AppColors.border),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: AppColors.border),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: AppColors.accent),
+                    ),
+                    errorText: _phoneError,
+                    helperText:
+                        'Use the real phone number that should appear in formal statements.',
+                    helperMaxLines: 2,
                   ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: AppColors.border),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: AppColors.accent),
-                  ),
-                  errorText: _phoneError,
-                  helperText:
-                      'Use the real phone number that should appear in formal statements.',
-                  helperMaxLines: 2,
                 ),
               ),
               const SizedBox(height: 24),

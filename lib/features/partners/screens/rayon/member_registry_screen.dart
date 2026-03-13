@@ -106,11 +106,7 @@ class _MemberRegistryScreenState extends ConsumerState<MemberRegistryScreen> {
                       child: Stack(
                         children: [
                           if (registryState.isLoading)
-                            const Center(
-                              child: CircularProgressIndicator(
-                                color: AppColors.rsBluePale,
-                              ),
-                            )
+                            const RayonInlineLoadingView(compact: true)
                           else if (registryState.error != null &&
                               members.isEmpty)
                             Center(
@@ -171,10 +167,7 @@ class _MemberRegistryScreenState extends ConsumerState<MemberRegistryScreen> {
                                         ? const Center(
                                             child: Padding(
                                               padding: EdgeInsets.all(16),
-                                              child: CircularProgressIndicator(
-                                                color: AppColors.rsBluePale,
-                                                strokeWidth: 2,
-                                              ),
+                                              child: RayonInlineBusyIndicator(),
                                             ),
                                           )
                                         : _LoadMoreButton(
@@ -350,7 +343,10 @@ class _RegistryFilterChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
+    return Semantics(
+      selected: isSelected,
+      label: '$label filter',
+      child: Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
@@ -374,6 +370,7 @@ class _RegistryFilterChip extends StatelessWidget {
             ),
           ),
         ),
+      ),
       ),
     );
   }

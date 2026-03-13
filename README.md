@@ -1,8 +1,8 @@
 # Cool
 
-Cool is a Flutter mobile app for community finance, group savings, mobility, partner ecosystems, and credit visibility across Sub-Saharan Africa.
+Cool is a Flutter mobile app for community finance, group savings, mobility, partner ecosystems, and credit visibility in Rwanda.
 
-Primary markets include Rwanda, DRC, Kenya, and neighboring countries. The app is Android-first, English/French, and designed around Mobile Money, WhatsApp OTP, offline-friendly UX, and Supabase-backed data flows.
+The app is Android-first, English-only, and designed around Mobile Money (MTN Rwanda), WhatsApp OTP, offline-friendly UX, and Supabase-backed data flows.
 
 ## Product Scope
 
@@ -54,7 +54,7 @@ records.
 MoMo routing is database-driven through `public.supported_countries` plus the
 recipient data attached to the relevant feature flow.
 
-Each country can define:
+Rwanda uses the following USSD templates (from `public.supported_countries`):
 
 - `momo_number_ussd_template`
 - `momo_code_ussd_template`
@@ -73,7 +73,6 @@ Rwanda examples:
 
 The app selects the correct route dynamically based on:
 
-- selected country
 - stored user MoMo metadata
 - community group collection route type
 - the recipient configured on the relevant group or feature flow
@@ -95,7 +94,7 @@ Current recipient sources in this repo:
 - Repository layer owns all Supabase access
 - Widgets never call Supabase directly
 - Scrollable screens use safe bottom spacing for the shell nav
-- English and French localization via ARB files
+- English localization via ARB files
 - Cached/offline-friendly behavior where possible
 
 ## Tech Stack
@@ -193,7 +192,7 @@ COOL.html
 - Onboarding
 - WhatsApp OTP
 - Profile creation (optional, from Profile screen)
-- Country-aware MoMo setup
+- MoMo setup (Rwanda MTN)
 
 > **⚠️ CRITICAL ROUTING INVARIANT** — Do not change without updating tests.
 >
@@ -259,7 +258,7 @@ Important files:
 ### Admin
 
 - Internal CRUD and configuration surfaces
-- Country, partner, service, and quick-action management
+- Partner, service, and quick-action management
 - Rayon Sports partner operations
 
 ## Navigation Map
@@ -444,6 +443,11 @@ the production go-live phase when wallet support is actually activated.
 reverse geocoding, and route preview if that shared Google credential already
 has the required Maps Platform APIs enabled.
 
+Client `GOOGLE_MAPS_ANDROID_API_KEY` / `GOOGLE_MAPS_IOS_API_KEY` values are
+optional in this repo. They only enable embedded `google_maps_flutter`
+surfaces. If they are absent, the app still ships and mobility falls back to
+non-map route summary and list states.
+
 ## SMS and Permissions
 
 Android SMS read/access is a core part of COOL. iOS does not support inbox SMS
@@ -563,7 +567,7 @@ and
 
 - Hive is used for local storage and offline support
 - Pending MoMo transactions can be cached locally before reconciliation
-- Country data can fall back to the local catalog if Supabase is unavailable
+- Country data uses the local Rwanda-only catalog (`CoolCountryCatalog`)
 
 ## Compatibility Notes
 
@@ -584,5 +588,4 @@ The file [COOL.html](/Volumes/PRO-G40/COOL/COOL.html) contains the original inte
 
 - Remove client-side fallback secrets from `main.dart` and require `--dart-define` in production
 - Complete ARB coverage for all user-facing strings
-- Expand app-wide multi-currency formatting beyond current core flows
 - Expand the device-backed integration suite beyond the current critical journeys

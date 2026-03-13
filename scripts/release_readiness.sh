@@ -8,11 +8,14 @@ readonly FLUTTER_BIN="${FLUTTER_BIN:-$ROOT_DIR/scripts/flutterw}"
 echo "==> flutter analyze"
 "$FLUTTER_BIN" analyze --fatal-infos
 
-echo "==> flutter test"
-"$FLUTTER_BIN" test
+echo "==> flutter test (unit + widget)"
+"$FLUTTER_BIN" test --concurrency=4 --exclude-tags=integration
 
 echo "==> flutter test (integration smoke)"
-"$FLUTTER_BIN" test test/integration_smoke
+"$FLUTTER_BIN" test --concurrency=4 test/integration_smoke
+
+echo "==> deep-link release asset validation"
+dart tool/deep_link_release_assets.dart --check
 
 if [[ "${SKIP_ANDROID_FLAVOR_BUILDS:-0}" == "1" ]]; then
   echo "==> skipping android flavor builds (set SKIP_ANDROID_FLAVOR_BUILDS=0 to enable)"

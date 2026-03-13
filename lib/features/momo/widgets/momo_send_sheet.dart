@@ -18,6 +18,7 @@ class MomoSendMoneySheet extends StatefulWidget {
   const MomoSendMoneySheet({
     required this.country,
     required this.momoNumber,
+    required this.momoService,
     this.momoCode,
     this.initialRecipient,
     this.initialAmount,
@@ -27,6 +28,7 @@ class MomoSendMoneySheet extends StatefulWidget {
 
   final CoolCountry country;
   final String momoNumber;
+  final MomoService momoService;
   final String? momoCode;
   final String? initialRecipient;
   final String? initialAmount;
@@ -71,7 +73,7 @@ class _MomoSendMoneySheetState extends State<MomoSendMoneySheet> {
     setState(() => _isSubmitting = true);
 
     try {
-      await MomoService.instance.initiatePayment(
+      await widget.momoService.initiatePayment(
         recipientMomo: recipient,
         amount: amount,
         reference: 'SEND-${DateTime.now().millisecondsSinceEpoch}',
@@ -305,27 +307,32 @@ class MomoRouteTypeChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final disableAnimations =
         MediaQuery.maybeOf(context)?.disableAnimations ?? false;
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: disableAnimations
-            ? Duration.zero
-            : const Duration(milliseconds: 180),
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        decoration: BoxDecoration(
-          color: isActive ? AppColors.accentGlow : AppColors.surface2,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: isActive ? AppColors.accent : AppColors.border,
+    return Semantics(
+      button: true,
+      selected: isActive,
+      label: '$label route type',
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: disableAnimations
+              ? Duration.zero
+              : const Duration(milliseconds: 180),
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          decoration: BoxDecoration(
+            color: isActive ? AppColors.accentGlow : AppColors.surface2,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: isActive ? AppColors.accent : AppColors.border,
+            ),
           ),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          label,
-          style: GoogleFonts.dmSans(
-            fontSize: 13,
-            fontWeight: FontWeight.w700,
-            color: isActive ? AppColors.accent : AppColors.text2,
+          alignment: Alignment.center,
+          child: Text(
+            label,
+            style: GoogleFonts.dmSans(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: isActive ? AppColors.accent : AppColors.text2,
+            ),
           ),
         ),
       ),

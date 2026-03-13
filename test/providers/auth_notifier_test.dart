@@ -3,6 +3,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:cool_app/core/services/crashlytics_service.dart';
+import 'package:cool_app/core/services/momo_service.dart';
 import 'package:cool_app/core/services/performance_service.dart';
 import 'package:cool_app/features/auth/models/user_profile.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart'
@@ -10,6 +11,8 @@ import 'package:cool_app/features/auth/providers/auth_provider.dart'
 import 'package:cool_app/features/auth/repositories/auth_repository.dart';
 
 class MockAuthRepository extends Mock implements AuthRepository {}
+
+class MockSupabaseClient extends Mock implements SupabaseClient {}
 
 Session _fakeSession() {
   return Session.fromJson({
@@ -63,6 +66,7 @@ void main() {
       repository: mockRepo,
       crashlytics: crashlytics,
       performance: performance,
+      momoService: MomoService(client: MockSupabaseClient()),
     );
   });
 

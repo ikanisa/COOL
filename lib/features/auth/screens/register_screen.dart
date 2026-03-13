@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
-import '../../../core/providers/supported_countries_provider.dart';
 import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/phone_validator.dart';
@@ -32,24 +32,22 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   late final TextEditingController _momoCodeController;
   final _formKey = GlobalKey<FormState>();
 
-  late String _selectedCountryCode;
   late MomoRecipientType _selectedMomoRouteType;
   String? _errorText;
   bool _showOptionalDetails = false;
 
+  /// Rwanda is the only market.
+  CoolCountry get _country => AppMarket.country;
+
   @override
   void initState() {
     super.initState();
-    _selectedCountryCode = CoolCountryCatalog.resolve(
-      phone: widget.phone,
-    ).isoCode;
     // Auto-populate MoMo number only for MTN Rwanda numbers.
-    // Other numbers leave MoMo field empty for user to enter.
     final shouldAutoFill = PhoneValidator.shouldAutoPopulateMomo(
       widget.phone,
-      _selectedCountryCode,
+      _country.isoCode,
     );
-    final initialCountry = CoolCountryCatalog.resolve(phone: widget.phone);
+    final initialCountry = _country;
     _momoController = TextEditingController(
       text: shouldAutoFill
           ? initialCountry.normalizeNationalPhone(widget.phone)
@@ -120,20 +118,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     if (!(_formKey.currentState?.validate() ?? false)) return;
 
     setState(() => _errorText = null);
-    final languageCode = Localizations.localeOf(context).languageCode;
-    final availableCountries =
-        ref.read(supportedCountriesProvider).valueOrNull ??
-        CoolCountryCatalog.all;
-    final selectedCountry =
-        CoolCountryCatalog.byIsoCode(
-          _selectedCountryCode,
-          source: availableCountries,
-        ) ??
-        CoolCountryCatalog.resolve(
-          country: _selectedCountryCode,
-          phone: _momoController.text.trim(),
-          source: availableCountries,
-        );
+    final selectedCountry = _country;
 
     final profile = await ref
         .read(authProvider.notifier)
@@ -150,8 +135,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 ? _selectedMomoRouteType
                 : MomoRecipientType.phoneNumber,
             momoProvider: selectedCountry.providerId,
-            country: selectedCountry.isoCode,
-            languageCode: languageCode,
+            country: AppMarket.countryCode,
+            languageCode: AppMarket.languageCode,
             isDriver: false,
             phone: widget.phone.trim().isEmpty ? null : widget.phone.trim(),
           ),
@@ -172,12 +157,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
-    final countries =
-        ref.watch(supportedCountriesProvider).valueOrNull ??
-        CoolCountryCatalog.all;
-    final selectedCountry =
-        CoolCountryCatalog.byIsoCode(_selectedCountryCode, source: countries) ??
-        CoolCountryCatalog.resolve(phone: widget.phone, source: countries);
+    final selectedCountry = _country;
 
     return Scaffold(
       backgroundColor: AppColors.bg,
@@ -234,9 +214,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 ),
                 const SizedBox(height: 20),
 
-                // ── Country ────────────────────────────────────────────
+                // ── Market (fixed to Rwanda) ──────────────────────────
                 Text(
-                  'Country',
+                  'Market',
                   style: GoogleFonts.dmSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
@@ -245,58 +225,31 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 ),
                 const SizedBox(height: 8),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 14,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.surface2,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(color: AppColors.border),
                   ),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-                      value: selectedCountry.isoCode,
-                      dropdownColor: AppColors.surface2,
-                      icon: const Icon(
-                        Icons.keyboard_arrow_down_rounded,
-                        color: AppColors.text3,
+                  child: Row(
+                    children: [
+                      Text(
+                        selectedCountry.flagEmoji,
+                        style: const TextStyle(fontSize: 18),
                       ),
-                      style: GoogleFonts.dmSans(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.text,
+                      const SizedBox(width: 8),
+                      Text(
+                        '${selectedCountry.name}  ${selectedCountry.dialCode}',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.text,
+                        ),
                       ),
-                      items: countries.map((country) {
-                        return DropdownMenuItem<String>(
-                          value: country.isoCode,
-                          child: Text(country.pickerLabel),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        if (value == null) {
-                          return;
-                        }
-
-                        setState(() {
-                          _selectedCountryCode = value;
-                          final nextCountry =
-                              CoolCountryCatalog.byIsoCode(
-                                value,
-                                source: countries,
-                              ) ??
-                              CoolCountryCatalog.resolve(
-                                country: value,
-                                source: countries,
-                              );
-                          if (!nextCountry.supportsMomoCode) {
-                            _momoCodeController.clear();
-                          }
-                          _selectedMomoRouteType = _resolvePreferredRouteType(
-                            nextCountry,
-                            preferredRouteType: _selectedMomoRouteType,
-                          );
-                        });
-                      },
-                    ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -306,6 +259,16 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
                     color: AppColors.text3,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Cool serves Rwanda only. WhatsApp sign-in can still use any country code.',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.text3,
+                    height: 1.4,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -326,7 +289,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   builder: (context) {
                     final label = PhoneValidator.providerLabel(
                       _momoController.text,
-                      _selectedCountryCode,
+                      _country.isoCode,
                     );
                     if (label == null) return const SizedBox.shrink();
                     return Padding(
@@ -353,31 +316,35 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   },
                 ),
                 const SizedBox(height: 16),
-                GestureDetector(
-                  onTap: () => setState(
-                    () => _showOptionalDetails = !_showOptionalDetails,
-                  ),
-                  behavior: HitTestBehavior.opaque,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 6),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Optional details',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.text2,
+                Semantics(
+                  button: true,
+                  label: _showOptionalDetails ? 'Hide optional details' : 'Show optional details',
+                  child: GestureDetector(
+                    onTap: () => setState(
+                      () => _showOptionalDetails = !_showOptionalDetails,
+                    ),
+                    behavior: HitTestBehavior.opaque,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 6),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Optional details',
+                            style: GoogleFonts.dmSans(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.text2,
+                            ),
                           ),
-                        ),
-                        const Spacer(),
-                        Icon(
-                          _showOptionalDetails
-                              ? Icons.keyboard_arrow_up_rounded
-                              : Icons.keyboard_arrow_down_rounded,
-                          color: AppColors.text3,
-                        ),
-                      ],
+                          const Spacer(),
+                          Icon(
+                            _showOptionalDetails
+                                ? Icons.keyboard_arrow_up_rounded
+                                : Icons.keyboard_arrow_down_rounded,
+                            color: AppColors.text3,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

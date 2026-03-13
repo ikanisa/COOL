@@ -3,8 +3,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/momo_statement.dart';
 
 class MomoStatementRepository {
-  MomoStatementRepository({SupabaseClient? client})
-    : _client = client ?? Supabase.instance.client;
+  MomoStatementRepository({required SupabaseClient client})
+    : _client = client;
 
   final SupabaseClient _client;
 

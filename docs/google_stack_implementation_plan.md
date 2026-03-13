@@ -14,7 +14,8 @@ Current state in this repository:
 - Firebase is only partially integrated: `firebase_core`, `firebase_analytics`, and `firebase_remote_config` are present in `pubspec.yaml`.
 - Firebase bootstrap is not part of the primary startup path.
 - Mobility still uses `flutter_map`, `latlong2`, and Nominatim/OpenStreetMap.
-- The partner ticket flow exposes an `Add to Wallet` button, but it is not connected to Google Wallet.
+- Google Wallet is deferred to Phase 2. The backend implementation can remain
+  parked, but the Phase 1 product surface should not expose wallet actions.
 - Notification preferences exist in UI, but FCM is not wired in the current dependency graph.
 - Android Firebase config exists in repo, but iOS Firebase registration/config generation appears incomplete.
 
@@ -91,10 +92,10 @@ Create or confirm one Google Cloud project tied to the Firebase project and enab
 
 Create the following credentials:
 
-- Android native maps key, restricted to package name and SHA certificate fingerprints.
-- iOS native maps key, restricted to bundle ID.
 - Server-side Maps web service credential stored only in backend secrets.
 - Wallet issuer credentials stored only in backend secrets.
+- Android native maps key, restricted to package name and SHA certificate fingerprints, if embedded `google_maps_flutter` rendering is part of the release scope.
+- iOS native maps key, restricted to bundle ID, if embedded `google_maps_flutter` rendering is part of the release scope.
 
 Create the following map assets:
 
@@ -117,7 +118,8 @@ Create the following map assets:
 ### Acceptance Criteria
 
 - Firebase initializes deterministically on Android and iOS.
-- Android and iOS builds both render a Google map with the correct branded style.
+- If the full Google Maps UI migration is in scope, Android and iOS builds both render a Google map with the correct branded style.
+- If native client keys are intentionally omitted, the app documents and preserves the non-map fallback states instead of treating the build as broken.
 - Console quotas and budget alerts are enabled before production traffic starts.
 
 ## Workstream 1: Full Google Maps UI Migration
@@ -299,14 +301,14 @@ Edge function responsibilities:
 
 - validate auth
 - validate App Check token once enabled
-- normalize locale and country bias
+- normalize English locale and Rwanda map bias
 - enforce per-user rate limits
 - log request counts and latency
 - return only fields needed by the client
 
 ### Acceptance Criteria
 
-- Place search quality is better than current Nominatim results for target markets.
+- Place search quality is better than current Nominatim results for the Rwanda market.
 - Route preview appears in trip creation when both endpoints are resolved.
 - Route and place requests do not expose backend web service credentials in the client app.
 - Search latency and failure rates are measurable.
@@ -504,7 +506,7 @@ Initial parameters to define:
 - referral incentive copy
 - ticket promo banners
 - quest surfacing rules
-- country-specific partner modules
+- Rwanda partner modules
 
 ### Analytics Plan
 
@@ -522,21 +524,19 @@ Standardize events around:
 
 Add user properties where useful:
 
-- country
-- primary_language
+- market
+- ui_language
 - is_driver
 - notification_opt_in
 - wallet_user
 
 ### Translation Plan
 
-Use Cloud Translation only for dynamic content that is not compiled into app localization files:
+The product UI is fixed to English for the Rwanda market.
 
-- partner descriptions
-- campaign copy
-- selected support or AI-generated responses
-
-Do not replace the existing ARB localization system for core product UI.
+- Do not add runtime translation for core UI.
+- Keep partner, campaign, and support copy authored in English.
+- Do not introduce Cloud Translation into the product path.
 
 ### AI Plan
 

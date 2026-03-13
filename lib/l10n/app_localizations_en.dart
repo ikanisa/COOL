@@ -28,16 +28,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get welcomeSubtitle =>
-      'Community savings, group funds & mobility — all in one simple app for Sub-Saharan Africa.';
+      'Community savings, group funds & mobility — all in one simple app for Rwanda.';
 
   @override
   String get getStarted => 'Get Started';
 
   @override
   String get signIn => 'Already have an account? Sign In';
-
-  @override
-  String get selectLanguage => 'Select Language';
 
   @override
   String get verifyWhatsapp => 'Verify via WhatsApp';
@@ -800,9 +797,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get languageEnglish => 'English';
-
-  @override
-  String get languageFrench => 'Français';
 
   @override
   String get loading => 'Loading…';
@@ -1712,10 +1706,38 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileOfficialIdentityLabel => 'Official identity';
 
   @override
+  String get profileTravelRoleLabel => 'Travel role';
+
+  @override
   String get profilePassengerRoleLabel => 'Passenger';
 
   @override
   String get profileDriverRoleLabel => 'Driver';
+
+  @override
+  String get profileMomoCodeNotSet => 'MoMo code not set';
+
+  @override
+  String get profileDriverSetupPending => 'Driver setup pending';
+
+  @override
+  String get profileRegularDriverCadence => 'Regular driver';
+
+  @override
+  String get profileOccasionalDriverCadence => 'Occasional driver';
+
+  @override
+  String profileMobilityCreditsValue(int credits) {
+    return '$credits credits';
+  }
+
+  @override
+  String get profileMobilitySubscriptionActive => 'Subscription active';
+
+  @override
+  String profileMobilitySubscriptionUntil(String date) {
+    return 'Subscribed until $date';
+  }
 
   @override
   String get mobilityNoWhatsappAvailable =>

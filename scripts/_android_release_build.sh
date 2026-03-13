@@ -20,7 +20,7 @@ build_android_release() {
     "--dart-define=FLAVOR=production"
     "--dart-define=SUPABASE_URL=${SUPABASE_URL}"
     "--dart-define=SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}"
-    "--dart-define=GOOGLE_MAPS_ANDROID_API_KEY=${GOOGLE_MAPS_ANDROID_API_KEY}"
+    "--dart-define=GOOGLE_MAPS_ANDROID_API_KEY=${GOOGLE_MAPS_ANDROID_API_KEY:-}"
     "--dart-define=GOOGLE_MAPS_IOS_API_KEY=${GOOGLE_MAPS_IOS_API_KEY:-}"
     "--dart-define=GOOGLE_MAPS_ANDROID_MAP_ID=${GOOGLE_MAPS_ANDROID_MAP_ID:-}"
     "--dart-define=GOOGLE_MAPS_IOS_MAP_ID=${GOOGLE_MAPS_IOS_MAP_ID:-}"
@@ -34,6 +34,9 @@ build_android_release() {
   cd "$ROOT_DIR"
   _assert_pinned_flutter_version
   _require_build_env
+  if ! _has_android_maps_key; then
+    echo "GOOGLE_MAPS_ANDROID_API_KEY is not set; embedded Android map widgets will stay hidden in this build." >&2
+  fi
 
   case "$artifact_type" in
     apk)
@@ -52,7 +55,14 @@ build_android_release() {
 _require_build_env() {
   : "${SUPABASE_URL:?Set SUPABASE_URL before building an Android release artifact.}"
   : "${SUPABASE_ANON_KEY:?Set SUPABASE_ANON_KEY before building an Android release artifact.}"
-  : "${GOOGLE_MAPS_ANDROID_API_KEY:?Set GOOGLE_MAPS_ANDROID_API_KEY before building an Android release artifact.}"
+}
+
+_has_android_maps_key() {
+  local key="${GOOGLE_MAPS_ANDROID_API_KEY:-}"
+  key="${key//[$'\r\n\t ']}"
+  [[ -n "$key" &&
+    "$key" != "your_google_maps_android_api_key" &&
+    "$key" != "google_maps_api_key" ]]
 }
 
 _load_release_env() {

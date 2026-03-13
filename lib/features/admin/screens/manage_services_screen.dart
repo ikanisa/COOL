@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/config/app_market.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
@@ -33,10 +35,15 @@ class ManageServicesScreen extends ConsumerWidget {
         ),
         iconTheme: const IconThemeData(color: AppColors.text),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.accent,
-        onPressed: () => _showEditSheet(context, ref, null, partners),
-        child: const Icon(Icons.add_rounded, color: Colors.black),
+      floatingActionButton: Semantics(
+        button: true,
+        label: 'Add service',
+        hint: 'Opens the new service form',
+        child: FloatingActionButton(
+          backgroundColor: AppColors.accent,
+          onPressed: () => _showEditSheet(context, ref, null, partners),
+          child: const Icon(Icons.add_rounded, color: Colors.black),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -106,64 +113,86 @@ class _ServiceTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final isMock = service['is_mock'] == true;
     final mockBatch = service['mock_batch']?.toString().trim() ?? '';
+    final title = service['title']?.toString() ?? '';
+    final category = service['category']?.toString() ?? '';
+    final marketName = AppMarket.country.name;
 
-    return ListTile(
-      leading: Text(
-        service['emoji']?.toString() ?? '📋',
-        style: const TextStyle(fontSize: 22),
-      ),
-      title: Row(
-        children: [
-          Expanded(
-            child: Text(
-              service['title']?.toString() ?? '',
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: AppColors.text,
+    return Semantics(
+      container: true,
+      label:
+          'Service $title. Partner $partnerName. Category $category. Market $marketName.'
+          '${isMock ? ' Mock service.' : ''}'
+          '${mockBatch.isNotEmpty ? ' Batch $mockBatch.' : ''}',
+      child: ListTile(
+        leading: Text(
+          service['emoji']?.toString() ?? '📋',
+          style: const TextStyle(fontSize: 22),
+        ),
+        title: Row(
+          children: [
+            Expanded(
+              child: Text(
+                title,
+                style: GoogleFonts.dmSans(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.text,
+                ),
               ),
             ),
-          ),
-          if (isMock) const SizedBox(width: 8),
-          if (isMock)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: Colors.orange.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(8),
+            if (isMock) const SizedBox(width: 8),
+            if (isMock)
+              Semantics(
+                label: 'Mock service',
+                child: ExcludeSemantics(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.orange.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Text(
+                      'Mock',
+                      style: TextStyle(fontSize: 11, color: Colors.orange),
+                    ),
+                  ),
+                ),
               ),
-              child: const Text(
-                'Mock',
-                style: TextStyle(fontSize: 11, color: Colors.orange),
-              ),
-            ),
-        ],
-      ),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            '$partnerName · ${service['category']}',
-            style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            'Country: ${service['country'] ?? 'unassigned'}',
-            style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
-          ),
-          if (isMock && mockBatch.isNotEmpty) ...[
-            const SizedBox(height: 4),
-            Text(
-              'Batch: $mockBatch',
-              style: GoogleFonts.dmSans(fontSize: 11, color: Colors.orange),
-            ),
           ],
-        ],
-      ),
-      trailing: GestureDetector(
-        onTap: onEdit,
-        child: const Icon(Icons.edit_rounded, size: 18, color: AppColors.text3),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              '$partnerName · $category · $marketName',
+              style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
+            ),
+            if (isMock && mockBatch.isNotEmpty) ...[
+              const SizedBox(height: 4),
+              Text(
+                'Batch: $mockBatch',
+                style: GoogleFonts.dmSans(fontSize: 11, color: Colors.orange),
+              ),
+            ],
+          ],
+        ),
+        trailing: Semantics(
+          button: true,
+          label: 'Edit service $title',
+          hint: 'Opens the service editor',
+          child: GestureDetector(
+            onTap: onEdit,
+            child: const Icon(
+              Icons.edit_rounded,
+              size: 18,
+              color: AppColors.text3,
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -243,6 +272,7 @@ class _EditServiceSheetState extends State<_EditServiceSheet> {
       'cta_label': _ctaLabelCtl.text.trim(),
       'cta_action': _ctaActionCtl.text.trim(),
       'partner_id': _selectedPartnerId,
+      'country': AppMarket.countryCode,
     };
     if (widget.service != null) data['id'] = widget.service!['id'];
     try {
@@ -264,14 +294,6 @@ class _EditServiceSheetState extends State<_EditServiceSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final selectedPartner = widget.partners
-        .cast<Map<String, dynamic>?>()
-        .firstWhere(
-          (partner) => partner?['id']?.toString() == _selectedPartnerId,
-          orElse: () => null,
-        );
-    final partnerCountry = selectedPartner?['country']?.toString();
-
     return Container(
       decoration: const BoxDecoration(
         color: AppColors.surface,
@@ -315,21 +337,7 @@ class _EditServiceSheetState extends State<_EditServiceSheet> {
                 _field('Category', _categoryCtl),
                 _field('CTA Label', _ctaLabelCtl),
                 _field('CTA Action', _ctaActionCtl),
-                if (partnerCountry != null && partnerCountry.trim().isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Country: $partnerCountry',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.text3,
-                        ),
-                      ),
-                    ),
-                  ),
+                _marketField(),
                 const SizedBox(height: 12),
                 SizedBox(
                   width: double.infinity,
@@ -346,7 +354,7 @@ class _EditServiceSheetState extends State<_EditServiceSheet> {
                         ? const SizedBox(
                             width: 20,
                             height: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
+                            child: CupertinoActivityIndicator(radius: 10),
                           )
                         : Text(
                             'Save',
@@ -368,30 +376,15 @@ class _EditServiceSheetState extends State<_EditServiceSheet> {
 
   Widget _field(String label, TextEditingController ctl) => Padding(
     padding: const EdgeInsets.only(bottom: 10),
-    child: TextField(
-      controller: ctl,
-      style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
-        filled: true,
-        fillColor: AppColors.surface2,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
-        ),
-      ),
-    ),
-  );
-
-  Widget _partnerField() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: DropdownButtonFormField<String>(
-        initialValue: _selectedPartnerId,
-        dropdownColor: AppColors.surface2,
+    child: Semantics(
+      textField: true,
+      label: label,
+      hint: 'Double tap to enter $label',
+      child: TextField(
+        controller: ctl,
+        style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
         decoration: InputDecoration(
-          labelText: 'Partner',
+          labelText: label,
           labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
           filled: true,
           fillColor: AppColors.surface2,
@@ -400,21 +393,69 @@ class _EditServiceSheetState extends State<_EditServiceSheet> {
             borderSide: BorderSide.none,
           ),
         ),
-        items: widget.partners
-            .map(
-              (partner) => DropdownMenuItem<String>(
-                value: partner['id']?.toString(),
-                child: Text(
-                  '${partner['name'] ?? 'Partner'} (${partner['country'] ?? '--'})',
+      ),
+    ),
+  );
+
+  Widget _partnerField() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Semantics(
+        label: 'Partner selector',
+        hint: 'Double tap to choose a partner',
+        child: DropdownButtonFormField<String>(
+          initialValue: _selectedPartnerId,
+          dropdownColor: AppColors.surface2,
+          decoration: InputDecoration(
+            labelText: 'Partner',
+            labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
+            filled: true,
+            fillColor: AppColors.surface2,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
+          ),
+          items: widget.partners
+              .map(
+                (partner) => DropdownMenuItem<String>(
+                  value: partner['id']?.toString(),
+                  child: Text(
+                    '${partner['name'] ?? 'Partner'} (${AppMarket.country.name})',
+                  ),
                 ),
-              ),
-            )
-            .toList(growable: false),
-        onChanged: _saving
-            ? null
-            : (value) {
-                setState(() => _selectedPartnerId = value);
-              },
+              )
+              .toList(growable: false),
+          onChanged: _saving
+              ? null
+              : (value) {
+                  setState(() => _selectedPartnerId = value);
+                },
+        ),
+      ),
+    );
+  }
+
+  Widget _marketField() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: IgnorePointer(
+        child: InputDecorator(
+          decoration: InputDecoration(
+            labelText: 'Market',
+            labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
+            filled: true,
+            fillColor: AppColors.surface2,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
+          ),
+          child: Text(
+            AppMarket.country.name,
+            style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
+          ),
+        ),
       ),
     );
   }
