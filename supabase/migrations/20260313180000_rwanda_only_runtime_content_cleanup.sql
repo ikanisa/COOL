@@ -168,12 +168,16 @@ set
 where badge_type = 'diaspora_voice'
    or name = 'Diaspora Voice';
 
+alter table public.groups disable trigger trg_enforce_group_momo_fields;
+
 update public.groups
 set
   name = 'Western Builders Pool',
   description = 'Private support pool for travel, matchday plans, and family projects across western Rwanda.',
   updated_at = now()
 where name = 'Diaspora Builders Pool';
+
+alter table public.groups enable trigger trg_enforce_group_momo_fields;
 
 update public.cool_events
 set metadata = jsonb_set(metadata, '{club}', to_jsonb('Western Blue Wave'::text), true)

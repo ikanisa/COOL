@@ -20,17 +20,42 @@ set
   updated_at = now()
 where iso_code = 'RW';
 
+alter table public.users disable trigger trg_enforce_user_momo_fields;
+
 update public.users
 set
   country = 'RW',
-  language_code = 'en'
+  language_code = 'en',
+  momo_number = case
+    when momo_number is not null
+      and public.is_valid_momo_phone_for_country('RW', momo_number) then momo_number
+    else null
+  end,
+  momo_code = case
+    when momo_code is not null
+      and public.is_valid_momo_code_for_country('RW', momo_code) then momo_code
+    else null
+  end,
+  momo_route_type = case
+    when momo_number is not null
+      and public.is_valid_momo_phone_for_country('RW', momo_number) then momo_route_type
+    when momo_code is not null
+      and public.is_valid_momo_code_for_country('RW', momo_code) then momo_route_type
+    else null
+  end
 where
   country is distinct from 'RW'
   or language_code is distinct from 'en';
 
+alter table public.users enable trigger trg_enforce_user_momo_fields;
+
+alter table public.groups disable trigger trg_enforce_group_momo_fields;
+
 update public.groups
 set country = 'RW'
 where country is distinct from 'RW';
+
+alter table public.groups enable trigger trg_enforce_group_momo_fields;
 
 update public.partners
 set country = 'RW'
