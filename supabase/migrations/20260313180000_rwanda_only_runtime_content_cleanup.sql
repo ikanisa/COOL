@@ -96,18 +96,69 @@ from matching_configs
 where config_value is null
    or last_updated_at <= now() - make_interval(days => stale_after_days);
 
-update public.rs_fan_clubs
-set
-  name = case
-    when lower(btrim(name)) in ('gikundiro diaspora', 'diaspora blue wave')
-      then 'Western Blue Wave'
-    else name
-  end,
-  region = 'Western',
-  description = 'Supporters across Rubavu, Rusizi, Karongi, and the western corridor organizing buses, watch parties, and community drives.',
-  updated_at = now()
-where lower(btrim(region)) in ('diaspora', 'international')
-   or lower(btrim(name)) in ('gikundiro diaspora', 'diaspora blue wave');
+-- If 'Western Blue Wave' already exists for the partner, just delete the
+-- diaspora-named duplicates. Otherwise rename one and delete the rest.
+do $$
+declare
+  v_partner_id uuid;
+  v_has_western boolean;
+begin
+  select partner_id into v_partner_id
+  from public.rs_fan_clubs
+  where lower(btrim(region)) in ('diaspora', 'international')
+     or lower(btrim(name)) in ('gikundiro diaspora', 'diaspora blue wave')
+  limit 1;
+
+  if v_partner_id is null then
+    -- No diaspora rows to clean up
+    return;
+  end if;
+
+  select exists(
+    select 1 from public.rs_fan_clubs
+    where partner_id = v_partner_id
+      and name = 'Western Blue Wave'
+  ) into v_has_western;
+
+  if v_has_western then
+    -- Target name already exists; delete the diaspora rows
+    delete from public.rs_fan_clubs
+    where (lower(btrim(region)) in ('diaspora', 'international')
+       or lower(btrim(name)) in ('gikundiro diaspora', 'diaspora blue wave'))
+      and name != 'Western Blue Wave';
+  else
+    -- Rename one diaspora row, delete the rest
+    with keep_one as (
+      select id from public.rs_fan_clubs
+      where lower(btrim(region)) in ('diaspora', 'international')
+         or lower(btrim(name)) in ('gikundiro diaspora', 'diaspora blue wave')
+      order by created_at asc
+      limit 1
+    )
+    update public.rs_fan_clubs
+    set
+      name = 'Western Blue Wave',
+      region = 'Western',
+      description = 'Supporters across Rubavu, Rusizi, Karongi, and the western corridor organizing buses, watch parties, and community drives.',
+      updated_at = now()
+    where id in (select id from keep_one);
+
+    delete from public.rs_fan_clubs
+    where (lower(btrim(region)) in ('diaspora', 'international')
+       or lower(btrim(name)) in ('gikundiro diaspora', 'diaspora blue wave'))
+      and name != 'Western Blue Wave';
+  end if;
+
+  -- Ensure the surviving Western Blue Wave row has correct region/description
+  update public.rs_fan_clubs
+  set
+    region = 'Western',
+    description = 'Supporters across Rubavu, Rusizi, Karongi, and the western corridor organizing buses, watch parties, and community drives.',
+    updated_at = now()
+  where partner_id = v_partner_id
+    and name = 'Western Blue Wave';
+end;
+$$;
 
 update public.rs_achievements
 set
