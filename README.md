@@ -430,8 +430,14 @@ Implemented under [supabase/functions](/Volumes/PRO-G40/COOL/supabase/functions)
 | `expire-trips` | Expire mobility trips automatically |
 | `maps-gateway` | Proxy Google Places (New), geocoding, and routes access with auth and usage logging |
 | `rs-scan-ticket` | Verify Rayon Sports ticket QR scans with auth and partner-admin checks |
-| `wallet-issuer` | Issue Google Wallet / pass artifacts for supported journeys |
+| `wallet-issuer` | Deployed placeholder only. Google Wallet issuance is deferred until production go-live. |
 | `delete-account` | Account deletion backend flow |
+
+Critical release note: Google Wallet is deferred. `wallet-issuer` stays
+deployed so the contract surface exists, but pre-production releases must not
+be blocked on `GOOGLE_WALLET_ISSUER_ID` or
+`GOOGLE_WALLET_SERVICE_ACCOUNT_JSON`. Those secrets become mandatory only in
+the production go-live phase when wallet support is actually activated.
 
 `maps-gateway` uses `GOOGLE_MAPS_SERVER_API_KEY` when present and falls back to
 `GEMINI_API_KEY` for mobility autocomplete, place details, text geocoding,
