@@ -44,6 +44,8 @@ class CoolErrorBoundary extends StatefulWidget {
 
 class _CoolErrorBoundaryState extends State<CoolErrorBoundary> {
   bool _hasError = false;
+  late ErrorWidgetBuilder _previousErrorWidgetBuilder;
+  bool _restoreScheduled = false;
 
   @override
   Widget build(BuildContext context) {
@@ -53,25 +55,7 @@ class _CoolErrorBoundaryState extends State<CoolErrorBoundary> {
       );
     }
 
-    // Override ErrorWidget.builder within this subtree.
-    ErrorWidget.builder = (FlutterErrorDetails details) {
-      // Schedule state update after this frame.
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted && !_hasError) {
-          setState(() {
-            _hasError = true;
-          });
-          widget.onError?.call(details.exception, details.stack);
-          if (kDebugMode) {
-            debugPrint('[CoolErrorBoundary] Caught: ${details.exception}');
-          }
-        }
-      });
-
-      // Return a transparent placeholder during the frame where the error
-      // is first caught (the real fallback is shown on the next build).
-      return const SizedBox.shrink();
-    };
+    _installErrorWidgetBuilderForFrame();
 
     return widget.child;
   }
@@ -81,6 +65,43 @@ class _CoolErrorBoundaryState extends State<CoolErrorBoundary> {
       _hasError = false;
     });
     widget.onRetry?.call();
+  }
+
+  void _installErrorWidgetBuilderForFrame() {
+    final currentBuilder = ErrorWidget.builder;
+    if (!identical(currentBuilder, _handleErrorWidget)) {
+      _previousErrorWidgetBuilder = currentBuilder;
+      ErrorWidget.builder = _handleErrorWidget;
+    }
+    if (_restoreScheduled) {
+      return;
+    }
+    _restoreScheduled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _restoreScheduled = false;
+      if (identical(ErrorWidget.builder, _handleErrorWidget)) {
+        ErrorWidget.builder = _previousErrorWidgetBuilder;
+      }
+    });
+  }
+
+  Widget _handleErrorWidget(FlutterErrorDetails details) {
+    // Schedule state update after this frame.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && !_hasError) {
+        setState(() {
+          _hasError = true;
+        });
+        widget.onError?.call(details.exception, details.stack);
+        if (kDebugMode) {
+          debugPrint('[CoolErrorBoundary] Caught: ${details.exception}');
+        }
+      }
+    });
+
+    // Return a transparent placeholder during the frame where the error
+    // is first caught (the real fallback is shown on the next build).
+    return const SizedBox.shrink();
   }
 }
 

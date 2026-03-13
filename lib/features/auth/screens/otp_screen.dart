@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/config/country_catalog.dart';
 import '../../../core/config/env_config.dart';
+import '../../../core/l10n/l10n.dart';
 import '../../../core/providers/supported_countries_provider.dart';
 import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_colors.dart';
@@ -50,9 +51,10 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
   }
 
   Future<void> _sendOtp() async {
+    final l10n = context.l10n;
     final phone = _phoneController.text.trim();
     if (phone.isEmpty) {
-      setState(() => _errorText = 'Enter your phone number');
+      setState(() => _errorText = l10n.otpPhoneRequired);
       return;
     }
 
@@ -71,29 +73,34 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
 
     setState(() => _errorText = null);
 
-    final locale = Localizations.localeOf(context).languageCode;
-    final resolvedCountry = await ref
-        .read(supportedCountriesRepositoryProvider)
-        .resolveCountry(countryCode: _selectedCountryCode, phone: phone);
-    final fullPhone = resolvedCountry.buildE164Phone(phone);
-
-    // Determine language from locale (default "en").
-    final language = locale == 'fr' ? 'fr' : 'en';
-
-    await ref.read(authProvider.notifier).sendOtp(fullPhone, language);
-
-    if (!mounted) return;
-
-    final authState = ref.read(authProvider);
-    if (authState.error != null) {
-      setState(() => _errorText = authState.error);
-    } else {
-      context.push(
-        AppRoutes.otpVerifyLocation(
-          phone: fullPhone,
-          redirect: widget.redirectPath,
-        ),
+    try {
+      final locale = Localizations.localeOf(context).languageCode;
+      final fullPhone = PhoneValidator.buildOtpE164Phone(
+        phone,
+        selectedCountry,
       );
+
+      // Determine language from locale (default "en").
+      final language = locale == 'fr' ? 'fr' : 'en';
+
+      await ref.read(authProvider.notifier).sendOtp(fullPhone, language);
+
+      if (!mounted) return;
+
+      final authState = ref.read(authProvider);
+      if (authState.error != null) {
+        setState(() => _errorText = authState.error);
+      } else {
+        context.push(
+          AppRoutes.otpVerifyLocation(
+            phone: fullPhone,
+            redirect: widget.redirectPath,
+          ),
+        );
+      }
+    } catch (e) {
+      if (!mounted) return;
+      setState(() => _errorText = l10n.otpGenericError);
     }
   }
 
@@ -108,11 +115,12 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
       return;
     }
 
-    CoolToast.error(context, 'Could not open link');
+    CoolToast.error(context, context.l10n.openLinkError);
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final authState = ref.watch(authProvider);
     final countries =
         ref.watch(supportedCountriesProvider).valueOrNull ??
@@ -148,7 +156,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
 
                     // ── Title ─────────────────────────────────────────
                     Text(
-                      'Use your WhatsApp number',
+                      l10n.otpUseWhatsappTitle,
                       style: GoogleFonts.dmSans(
                         fontSize: 30,
                         fontWeight: FontWeight.w700,
@@ -158,7 +166,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      'We will send a 6-digit code to your WhatsApp.',
+                      l10n.otpUseWhatsappSubtitle,
                       style: GoogleFonts.dmSans(
                         fontSize: 14,
                         color: AppColors.text2,
@@ -223,6 +231,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                               controller: _phoneController,
                               keyboardType: TextInputType.phone,
                               textInputAction: TextInputAction.done,
+                              onSubmitted: (_) => _sendOtp(),
                               style: GoogleFonts.dmSans(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
@@ -231,7 +240,9 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                               ),
                               cursorColor: AppColors.accent,
                               decoration: InputDecoration(
-                                hintText: '000 000 000',
+                                hintText:
+                                    selectedCountry.mobileExampleNational ??
+                                        l10n.phoneHint,
                                 hintStyle: GoogleFonts.dmSans(
                                   fontSize: 16,
                                   color: AppColors.text3.withValues(alpha: 0.5),
@@ -264,7 +275,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
 
                     // ── CTA ───────────────────────────────────────────
                     CoolButton(
-                      label: 'Continue',
+                      label: l10n.otpContinue,
                       onTap: _sendOtp,
                       isLoading: authState.isLoading,
                     ),
@@ -277,17 +288,15 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                           height: 1.4,
                         ),
                         children: [
-                          const TextSpan(
-                            text: 'By continuing, you accept the ',
-                          ),
+                          TextSpan(text: l10n.otpLegalPrefix),
                           TextSpan(
-                            text: 'Terms',
+                            text: l10n.termsLabel,
                             style: const TextStyle(color: AppColors.accent),
                             recognizer: _termsRecognizer,
                           ),
-                          const TextSpan(text: ' and '),
+                          TextSpan(text: l10n.otpLegalAnd),
                           TextSpan(
-                            text: 'Privacy Policy',
+                            text: l10n.privacyPolicyLabel,
                             style: const TextStyle(color: AppColors.accent),
                             recognizer: _privacyRecognizer,
                           ),

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -35,10 +34,7 @@ const seatOptions = <int>[1, 2, 3];
 List<VehicleOption> buildVehicleOptions(BuildContext context) {
   final l10n = context.l10n;
   return <VehicleOption>[
-    VehicleOption(
-      value: TripVehiclePreference.moto,
-      label: l10n.vehicleMoto,
-    ),
+    VehicleOption(value: TripVehiclePreference.moto, label: l10n.vehicleMoto),
     VehicleOption(value: TripVehiclePreference.cab, label: l10n.vehicleCab),
     VehicleOption(value: TripVehiclePreference.any, label: l10n.vehicleAny),
   ];
@@ -69,6 +65,7 @@ class ScheduleTripRouteStep extends StatelessWidget {
     required this.isResolvingCurrentLocation,
     required this.routePreview,
     required this.loadingRoutePreview,
+    required this.resolvingTypedRoute,
     required this.routePreviewError,
     required this.locationState,
     required this.shouldShowLocationCard,
@@ -91,6 +88,7 @@ class ScheduleTripRouteStep extends StatelessWidget {
   final bool isResolvingCurrentLocation;
   final MobilityRoutePreview? routePreview;
   final bool loadingRoutePreview;
+  final bool resolvingTypedRoute;
   final String? routePreviewError;
   final MobilityLocationState locationState;
   final bool shouldShowLocationCard;
@@ -125,7 +123,7 @@ class ScheduleTripRouteStep extends StatelessWidget {
               ),
               const SizedBox(height: 6),
               Text(
-                'Enter both stops. Search or use your current location only if you need it.',
+                'Enter both stops. Use Google Places search for exact pins, or use your current location for pickup.',
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
@@ -148,11 +146,11 @@ class ScheduleTripRouteStep extends StatelessWidget {
                 fromValidator: fromValidator,
                 toValidator: toValidator,
                 fromHintText: fromSelection != null
-                    ? 'Pickup coordinates attached.'
-                    : 'Search or use current location.',
+                    ? 'Google pickup pin attached.'
+                    : 'Search Google Places or use current location.',
                 toHintText: toSelection != null
-                    ? 'Destination coordinates attached.'
-                    : 'Search for a destination.',
+                    ? 'Google destination pin attached.'
+                    : 'Search Google Places for a destination.',
               ),
             ],
           ),
@@ -161,7 +159,8 @@ class ScheduleTripRouteStep extends StatelessWidget {
           duration: const Duration(milliseconds: 280),
           curve: Curves.easeOut,
           alignment: Alignment.topCenter,
-          child: fromSelection == null &&
+          child:
+              fromSelection == null &&
                   toSelection == null &&
                   !loadingRoutePreview &&
                   (routePreviewError?.trim().isEmpty ?? true)
@@ -169,10 +168,11 @@ class ScheduleTripRouteStep extends StatelessWidget {
               : Padding(
                   padding: const EdgeInsets.only(top: 12),
                   child: ScheduleTripMapPreview(
-                    originLabel: fromSelection?.primaryText ??
+                    originLabel:
+                        fromSelection?.primaryText ??
                         fromController.text.trim(),
-                    destinationLabel: toSelection?.primaryText ??
-                        toController.text.trim(),
+                    destinationLabel:
+                        toSelection?.primaryText ?? toController.text.trim(),
                     origin: fromSelection?.position,
                     destination: toSelection?.position,
                     preview: routePreview,
@@ -194,6 +194,7 @@ class ScheduleTripRouteStep extends StatelessWidget {
         ScheduleTripStepActionBar(
           primaryLabel: 'Continue',
           onPrimary: onContinue,
+          isPrimaryLoading: resolvingTypedRoute,
         ),
       ],
     );
@@ -366,8 +367,9 @@ class ScheduleTripTimingStep extends StatelessWidget {
                                 for (final option in dayOptions)
                                   ScheduleTripDayChip(
                                     label: option.label,
-                                    selected:
-                                        recurringDays.contains(option.day),
+                                    selected: recurringDays.contains(
+                                      option.day,
+                                    ),
                                     onTap: () =>
                                         onRecurringDayToggled(option.day),
                                   ),
@@ -591,15 +593,11 @@ class ScheduleTripOptionsStep extends StatelessWidget {
                         fillColor: AppColors.surface3,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                            color: AppColors.border,
-                          ),
+                          borderSide: const BorderSide(color: AppColors.border),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                            color: AppColors.border,
-                          ),
+                          borderSide: const BorderSide(color: AppColors.border),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -633,6 +631,7 @@ class ScheduleTripOptionsStep extends StatelessWidget {
 /// Step 4: Review – trip summary and submit.
 class ScheduleTripReviewStep extends StatelessWidget {
   const ScheduleTripReviewStep({
+    required this.roleLabel,
     required this.fromText,
     required this.toText,
     required this.departureLabel,
@@ -649,6 +648,7 @@ class ScheduleTripReviewStep extends StatelessWidget {
     super.key,
   });
 
+  final String roleLabel;
   final String fromText;
   final String toText;
   final String departureLabel;
@@ -669,6 +669,7 @@ class ScheduleTripReviewStep extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ScheduleTripReviewCard(
+          roleLabel: roleLabel,
           routeLabel: '$fromText → $toText',
           departureLabel: departureLabel,
           vehicleLabel: vehicleLabel,

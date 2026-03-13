@@ -92,6 +92,8 @@ class GroupCard extends StatelessWidget {
             // ── Amount ────────────────────────────────────────────────
             Text(
               '${_formatAmount(amount)} RWF',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: GoogleFonts.dmMono(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,

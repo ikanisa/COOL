@@ -69,6 +69,8 @@ class BalanceCard extends StatelessWidget {
                   label: 'Total balance: ${_formatAmount(amount)} $currency',
                   child: Text(
                     '${_formatAmount(amount)} $currency',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.dmMono(
                       fontSize: 32,
                       fontWeight: FontWeight.w700,
@@ -118,8 +120,9 @@ class BalanceCard extends StatelessWidget {
                 const SizedBox(height: 22),
 
                 // Action buttons row
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                const Wrap(
+                  spacing: 12,
+                  runSpacing: 10,
                   children: [
                     _ActionButton(icon: Icons.upload_rounded, label: 'Send'),
                     _ActionButton(icon: Icons.download_rounded, label: 'Request'),

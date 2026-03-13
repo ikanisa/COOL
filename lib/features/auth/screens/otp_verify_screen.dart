@@ -79,14 +79,49 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
 
   String get _code => _controllers.map((c) => c.text).join();
 
-  Future<void> _verify() async {
-    final code = _code;
-    if (code.length < _codeLength) return;
+  void _clearInputError() {
+    if (!_hasError && _errorText == null) {
+      return;
+    }
 
     setState(() {
       _hasError = false;
       _errorText = null;
     });
+  }
+
+  void _focusBox(int index) {
+    _focusNodes[index].requestFocus();
+    _controllers[index].selection = TextSelection.collapsed(
+      offset: _controllers[index].text.length,
+    );
+  }
+
+  KeyEventResult _handleBackspace(int index, KeyEvent event) {
+    if (event is! KeyDownEvent ||
+        event.logicalKey != LogicalKeyboardKey.backspace) {
+      return KeyEventResult.ignored;
+    }
+
+    if (_controllers[index].text.isNotEmpty || index == 0) {
+      return KeyEventResult.ignored;
+    }
+
+    final previousIndex = index - 1;
+    final previousController = _controllers[previousIndex];
+    if (previousController.text.isNotEmpty) {
+      previousController.clear();
+    }
+    _focusBox(previousIndex);
+    _clearInputError();
+    return KeyEventResult.handled;
+  }
+
+  Future<void> _verify() async {
+    final code = _code;
+    if (code.length < _codeLength) return;
+
+    _clearInputError();
 
     await ref.read(authProvider.notifier).verifyOtp(widget.phoneNumber, code);
 
@@ -280,56 +315,56 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
         ? AppColors.accent
         : AppColors.border;
 
-    return SizedBox(
-      width: 50,
-      height: 58,
-      child: TextField(
-        controller: _controllers[index],
-        focusNode: _focusNodes[index],
-        textAlign: TextAlign.center,
-        maxLength: 1,
-        keyboardType: TextInputType.number,
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        style: GoogleFonts.dmMono(
-          fontSize: 24,
-          fontWeight: FontWeight.w700,
-          color: AppColors.text,
-        ),
-        cursorColor: AppColors.accent,
-        decoration: InputDecoration(
-          counterText: '',
-          filled: true,
-          fillColor: AppColors.surface2,
-          contentPadding: const EdgeInsets.symmetric(vertical: 14),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: borderColor),
+    return Focus(
+      onKeyEvent: (_, event) => _handleBackspace(index, event),
+      child: SizedBox(
+        width: 50,
+        height: 58,
+        child: TextField(
+          controller: _controllers[index],
+          focusNode: _focusNodes[index],
+          textAlign: TextAlign.center,
+          maxLength: 1,
+          keyboardType: TextInputType.number,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          style: GoogleFonts.dmMono(
+            fontSize: 24,
+            fontWeight: FontWeight.w700,
+            color: AppColors.text,
           ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: borderColor),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(
-              color: _hasError ? AppColors.red : AppColors.accent,
-              width: 1.5,
+          cursorColor: AppColors.accent,
+          decoration: InputDecoration(
+            counterText: '',
+            filled: true,
+            fillColor: AppColors.surface2,
+            contentPadding: const EdgeInsets.symmetric(vertical: 14),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: borderColor),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: borderColor),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(
+                color: _hasError ? AppColors.red : AppColors.accent,
+                width: 1.5,
+              ),
             ),
           ),
+          onChanged: (value) {
+            _clearInputError();
+            if (value.isNotEmpty && index < _codeLength - 1) {
+              _focusBox(index + 1);
+            }
+            // Auto-submit when all filled.
+            if (_code.length == _codeLength) {
+              _verify();
+            }
+          },
         ),
-        onChanged: (value) {
-          setState(() {
-            _hasError = false;
-            _errorText = null;
-          });
-          if (value.isNotEmpty && index < _codeLength - 1) {
-            _focusNodes[index + 1].requestFocus();
-          }
-          // Auto-submit when all filled.
-          if (_code.length == _codeLength) {
-            _verify();
-          }
-        },
       ),
     );
   }

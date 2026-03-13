@@ -3,8 +3,8 @@ import 'package:flutter/foundation.dart';
 /// Validates required environment variables at app startup.
 ///
 /// Critical vars (Supabase URL, anon key) MUST be provided via
-/// `--dart-define`. In release builds, missing critical vars are errors.
-/// In debug builds, they are warnings (to allow local dev without env).
+/// `--dart-define`. Invalid or placeholder values are treated as
+/// configuration failures and surfaced early at startup.
 class EnvConfig {
   EnvConfig._();
 
@@ -25,6 +25,14 @@ class EnvConfig {
 
   static const supabaseAnonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
 
+  static const googleMapsAndroidApiKey = String.fromEnvironment(
+    'GOOGLE_MAPS_ANDROID_API_KEY',
+  );
+
+  static const googleMapsIosApiKey = String.fromEnvironment(
+    'GOOGLE_MAPS_IOS_API_KEY',
+  );
+
   static const googleMapsAndroidMapId = String.fromEnvironment(
     'GOOGLE_MAPS_ANDROID_MAP_ID',
   );
@@ -36,6 +44,11 @@ class EnvConfig {
   static const deepLinkHost = String.fromEnvironment(
     'COOL_DEEP_LINK_HOST',
     defaultValue: 'cool.app',
+  );
+
+  static const enableAndroidMomoSmsAutoread = bool.fromEnvironment(
+    'ENABLE_ANDROID_MOMO_SMS_AUTOREAD',
+    defaultValue: true,
   );
 
   static const mobilityGeocodingBaseUrl = String.fromEnvironment(
@@ -63,27 +76,101 @@ class EnvConfig {
     defaultValue: 'https://gen-lang-client-0172279957.web.app/account-deletion',
   );
 
+  static const _envDefineHelp =
+      'Provide via --dart-define=SUPABASE_URL=https://... and '
+      '--dart-define=SUPABASE_ANON_KEY=... or use '
+      '--dart-define-from-file=.env.json.';
+
+  static const _placeholderSupabaseUrlValues = <String>{
+    'url',
+    'your_supabase_project_url',
+    'https://your-project.supabase.co',
+    'https://your-project-id.supabase.co',
+  };
+
+  static const _placeholderSupabaseAnonKeyValues = <String>{
+    'anon-key',
+    'your_supabase_anon_key',
+    'your-anon-key',
+  };
+
+  static const _placeholderGoogleMapsApiKeyValues = <String>{
+    'your_google_maps_android_api_key',
+    'your_google_maps_ios_api_key',
+    'google_maps_api_key',
+  };
+
+  static String? get criticalConfigurationError =>
+      describeCriticalConfigurationError(
+        supabaseUrl: supabaseUrl,
+        supabaseAnonKey: supabaseAnonKey,
+      );
+
+  static String? describeCriticalConfigurationError({
+    required String supabaseUrl,
+    required String supabaseAnonKey,
+  }) {
+    final normalizedUrl = supabaseUrl.trim();
+    if (normalizedUrl.isEmpty) {
+      return 'SUPABASE_URL is not set. $_envDefineHelp';
+    }
+
+    if (_looksLikePlaceholderValue(
+      value: normalizedUrl,
+      placeholders: _placeholderSupabaseUrlValues,
+    )) {
+      return 'SUPABASE_URL must be a real absolute Supabase URL, not '
+          '"$normalizedUrl". $_envDefineHelp';
+    }
+
+    final uri = Uri.tryParse(normalizedUrl);
+    if (uri == null || !uri.hasScheme || uri.host.isEmpty) {
+      return 'SUPABASE_URL must be an absolute URL with scheme and host. '
+          'Current value: "$normalizedUrl". $_envDefineHelp';
+    }
+
+    if (uri.scheme != 'https' && uri.scheme != 'http') {
+      return 'SUPABASE_URL must start with http:// or https://. '
+          'Current value: "$normalizedUrl". $_envDefineHelp';
+    }
+
+    final normalizedAnonKey = supabaseAnonKey.trim();
+    if (normalizedAnonKey.isEmpty) {
+      return 'SUPABASE_ANON_KEY is not set. $_envDefineHelp';
+    }
+
+    if (_looksLikePlaceholderValue(
+      value: normalizedAnonKey,
+      placeholders: _placeholderSupabaseAnonKeyValues,
+    )) {
+      return 'SUPABASE_ANON_KEY is still a placeholder. $_envDefineHelp';
+    }
+
+    return null;
+  }
+
   /// Returns a list of warning/error messages for missing or suspect env vars.
   /// Empty list = all good.
   static List<String> validate() {
     final warnings = <String>[];
 
-    if (supabaseUrl.isEmpty) {
-      warnings.add(
-        '${kReleaseMode ? "ERROR" : "WARN"}: SUPABASE_URL is not set. '
-        'Provide via --dart-define=SUPABASE_URL=https://...',
-      );
+    final criticalError = criticalConfigurationError;
+    if (criticalError != null) {
+      warnings.add('${kReleaseMode ? "ERROR" : "WARN"}: $criticalError');
     }
-    if (supabaseAnonKey.isEmpty) {
-      warnings.add(
-        '${kReleaseMode ? "ERROR" : "WARN"}: SUPABASE_ANON_KEY is not set. '
-        'Provide via --dart-define=SUPABASE_ANON_KEY=...',
-      );
-    }
+
     if (deepLinkHost == 'cool.app') {
       warnings.add(
         'INFO: COOL_DEEP_LINK_HOST is using default "cool.app" — '
         'set for production domain if deploying',
+      );
+    }
+    if (!hasGoogleMapsApiKeyForPlatform(TargetPlatform.android) &&
+        !hasGoogleMapsApiKeyForPlatform(TargetPlatform.iOS)) {
+      warnings.add(
+        'INFO: Google Maps API keys are not set — embedded maps stay hidden '
+        'until GOOGLE_MAPS_ANDROID_API_KEY / GOOGLE_MAPS_IOS_API_KEY are '
+        'provided.',
       );
     }
     if (googleMapsAndroidMapId.isEmpty && googleMapsIosMapId.isEmpty) {
@@ -106,9 +193,45 @@ class EnvConfig {
     return trimmed.isEmpty ? null : trimmed;
   }
 
+  static bool hasGoogleMapsApiKeyForPlatform(
+    TargetPlatform platform, {
+    String? androidApiKey,
+    String? iosApiKey,
+  }) {
+    final raw = switch (platform) {
+      TargetPlatform.android => androidApiKey ?? googleMapsAndroidApiKey,
+      TargetPlatform.iOS => iosApiKey ?? googleMapsIosApiKey,
+      _ => '',
+    };
+    final trimmed = raw.trim();
+    return trimmed.isNotEmpty &&
+        !_looksLikePlaceholderValue(
+          value: trimmed,
+          placeholders: _placeholderGoogleMapsApiKeyValues,
+        );
+  }
+
+  static bool hasEmbeddedGoogleMapsSupport(TargetPlatform platform) {
+    return switch (platform) {
+      TargetPlatform.android ||
+      TargetPlatform.iOS => hasGoogleMapsApiKeyForPlatform(platform),
+      _ => false,
+    };
+  }
+
+  static String? embeddedGoogleMapsUnavailableReason(TargetPlatform platform) {
+    if (hasEmbeddedGoogleMapsSupport(platform)) {
+      return null;
+    }
+    return switch (platform) {
+      TargetPlatform.android ||
+      TargetPlatform.iOS => 'Embedded maps are unavailable in this build.',
+      _ => 'Embedded maps are unavailable on this platform.',
+    };
+  }
+
   /// Whether critical env vars are present.
-  static bool get isConfigured =>
-      supabaseUrl.isNotEmpty && supabaseAnonKey.isNotEmpty;
+  static bool get isConfigured => criticalConfigurationError == null;
 
   /// Logs validation warnings at startup.
   /// In release mode, throws if critical vars (Supabase) are missing.
@@ -120,14 +243,25 @@ class EnvConfig {
 
     if (kReleaseMode && !isConfigured) {
       throw StateError(
-        'FATAL: Missing critical env vars (SUPABASE_URL / '
-        'SUPABASE_ANON_KEY). Cannot start in release mode without them. '
-        'Provide via --dart-define.',
+        'FATAL: ${criticalConfigurationError ?? "Missing critical env vars."} '
+        'Cannot start in release mode without valid Supabase configuration.',
       );
     }
 
     if (warnings.isEmpty) {
       debugPrint('[EnvConfig] ✅ All environment variables OK');
     }
+  }
+
+  static bool _looksLikePlaceholderValue({
+    required String value,
+    required Set<String> placeholders,
+  }) {
+    final normalized = value.trim().toLowerCase();
+    return placeholders.contains(normalized) ||
+        normalized.contains('your_') ||
+        normalized.contains('your-') ||
+        normalized.contains('<') ||
+        normalized.contains('example');
   }
 }

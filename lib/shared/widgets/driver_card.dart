@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../core/identity/public_user_identity.dart';
 import '../../core/theme/app_colors.dart';
 import 'status_badge.dart';
 import 'wa_button.dart';
@@ -45,7 +46,10 @@ class DriverCard extends StatelessWidget {
   final VoidCallback? onTap;
 
   String get _initials {
-    final source = displayName.trim().isEmpty ? driverId : displayName.trim();
+    final source = PublicUserIdentity.resolve(
+      publicUserId: displayName,
+      userId: driverId,
+    );
     final parts = source
         .split(RegExp(r'\s+'))
         .where((part) => part.isNotEmpty)
@@ -69,90 +73,165 @@ class DriverCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final name = displayName.trim().isEmpty ? driverId : displayName;
+    final name = PublicUserIdentity.resolve(
+      publicUserId: displayName,
+      userId: driverId,
+    );
     final content = Semantics(
-      label: '$name. $vehicleType. $_distanceLabel away. '
+      label:
+          '$name. $vehicleType. $_distanceLabel away. '
           '${isOnline ? 'Online' : 'Offline'}.',
       excludeSemantics: true,
       child: Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: AppColors.surface2,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // ── Top row: avatar + info + WA ──────────────────────────
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Avatar
-              _Avatar(initials: _initials, isOnline: isOnline),
-              const SizedBox(width: 12),
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          color: AppColors.surface2,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.border),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // ── Top row: avatar + info + WA ──────────────────────────
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Avatar
+                _Avatar(initials: _initials, isOnline: isOnline),
+                const SizedBox(width: 12),
 
-              // Info column
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      displayName.trim().isEmpty ? driverId : displayName,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.text,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    // Status badge
-                    isOnline
-                        ? const StatusBadge.online()
-                        : const StatusBadge.offline(),
-                    const SizedBox(height: 8),
-
-                    // Vehicle chip
-                    _VehicleChip(icon: _vehicleIconFromType(vehicleType), type: vehicleType),
-                    const SizedBox(height: 6),
-
-                    // Distance + rating row
-                    Row(
-                      children: [
-                        _InfoChip(
-                          icon: Icons.near_me_rounded,
-                          label: _distanceLabel,
-                        ),
-                        if (rating != null) ...[
-                          const SizedBox(width: 8),
-                          _InfoChip(
-                            icon: Icons.star_rounded,
-                            label: rating!.toStringAsFixed(1),
-                            iconColor: AppColors.yellow,
-                          ),
-                        ],
-                        if (tripCount != null) ...[
-                          const SizedBox(width: 8),
-                          _InfoChip(
-                            icon: Icons.route_rounded,
-                            label: '$tripCount',
-                          ),
-                        ],
-                      ],
-                    ),
-                    if (baseLocation != null &&
-                        baseLocation!.trim().isNotEmpty) ...[
-                      const SizedBox(height: 8),
+                // Info column
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       Text(
-                        baseLocation!,
+                        name,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.dmSans(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.text,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      // Status badge
+                      isOnline
+                          ? const StatusBadge.online()
+                          : const StatusBadge.offline(),
+                      const SizedBox(height: 8),
+
+                      // Vehicle chip
+                      _VehicleChip(
+                        icon: _vehicleIconFromType(vehicleType),
+                        type: vehicleType,
+                      ),
+                      const SizedBox(height: 6),
+
+                      // Distance + rating row
+                      Row(
+                        children: [
+                          _InfoChip(
+                            icon: Icons.near_me_rounded,
+                            label: _distanceLabel,
+                          ),
+                          if (rating != null) ...[
+                            const SizedBox(width: 8),
+                            _InfoChip(
+                              icon: Icons.star_rounded,
+                              label: rating!.toStringAsFixed(1),
+                              iconColor: AppColors.yellow,
+                            ),
+                          ],
+                          if (tripCount != null) ...[
+                            const SizedBox(width: 8),
+                            _InfoChip(
+                              icon: Icons.route_rounded,
+                              label: '$tripCount',
+                            ),
+                          ],
+                        ],
+                      ),
+                      if (baseLocation != null &&
+                          baseLocation!.trim().isNotEmpty) ...[
+                        const SizedBox(height: 8),
+                        Text(
+                          baseLocation!,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.dmSans(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.text2,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ],
+            ),
+
+            // ── Scheduled route / trust metadata ────────────────────
+            if (scheduledRoute != null ||
+                isRegularDriver ||
+                (vehicleStatus?.trim().isNotEmpty ?? false)) ...[
+              const SizedBox(height: 12),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.surface3,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.schedule_rounded,
+                      size: 14,
+                      color: AppColors.text3,
+                    ),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: Text(
+                        scheduledRoute ??
+                            (isRegularDriver
+                                ? 'Regular driver'
+                                : _vehicleStatusLabel(vehicleStatus)),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.dmSans(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w400,
                           color: AppColors.text2,
+                        ),
+                      ),
+                    ),
+                    if (hasReturnTrip || isRegularDriver) ...[
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: isRegularDriver
+                              ? AppColors.blueGlow
+                              : AppColors.purple.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Text(
+                          isRegularDriver ? 'Trusted' : 'Return',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            color: isRegularDriver
+                                ? AppColors.blue
+                                : AppColors.purple,
+                          ),
                         ),
                       ),
                     ],
@@ -160,92 +239,27 @@ class DriverCard extends StatelessWidget {
                 ),
               ),
             ],
-          ),
 
-          // ── Scheduled route / trust metadata ────────────────────
-          if (scheduledRoute != null ||
-              isRegularDriver ||
-              (vehicleStatus?.trim().isNotEmpty ?? false)) ...[
             const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                color: AppColors.surface3,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.schedule_rounded,
-                    size: 14,
-                    color: AppColors.text3,
-                  ),
-                  const SizedBox(width: 6),
-                  Expanded(
-                    child: Text(
-                      scheduledRoute ??
-                          (isRegularDriver
-                              ? 'Regular driver'
-                              : _vehicleStatusLabel(vehicleStatus)),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.text2,
-                      ),
+
+            // ── Footer action ───────────────────────────────────────
+            Row(
+              children: [
+                if (onTap != null)
+                  Text(
+                    'Tap for details',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.text3,
                     ),
                   ),
-                  if (hasReturnTrip || isRegularDriver) ...[
-                    const SizedBox(width: 8),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 2,
-                      ),
-                      decoration: BoxDecoration(
-                        color: isRegularDriver
-                            ? AppColors.blueGlow
-                            : AppColors.purple.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Text(
-                        isRegularDriver ? 'Trusted' : 'Return',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                          color: isRegularDriver
-                              ? AppColors.blue
-                              : AppColors.purple,
-                        ),
-                      ),
-                    ),
-                  ],
-                ],
-              ),
+                const Spacer(),
+                WaButton(onTap: onWhatsAppTap),
+              ],
             ),
           ],
-
-          const SizedBox(height: 12),
-
-          // ── Footer action ───────────────────────────────────────
-          Row(
-            children: [
-              if (onTap != null)
-                Text(
-                  'Tap for details',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.text3,
-                  ),
-                ),
-              const Spacer(),
-              WaButton(onTap: onWhatsAppTap),
-            ],
-          ),
-        ],
-      ),
+        ),
       ),
     );
 

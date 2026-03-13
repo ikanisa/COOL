@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_async_view.dart';
+import '../../../shared/widgets/cool_empty_view.dart';
+import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_providers.dart';
 
@@ -41,8 +43,12 @@ class ManageServicesScreen extends ConsumerWidget {
         child: CoolAsyncView<List<Map<String, dynamic>>>(
           value: servicesAsync,
           onRetry: () => ref.invalidate(adminPartnerServicesProvider(null)),
+          loadingWidget: const CoolSkeletonList(itemCount: 4),
           emptyCheck: (s) => s.isEmpty,
-          emptyMessage: 'No services yet',
+          emptyWidget: const CoolEmptyView(
+            message: 'No services are configured yet.',
+            icon: Icons.assignment_outlined,
+          ),
           builder: (services) => ListView.separated(
             itemCount: services.length,
             separatorBuilder: (_, _) => const SizedBox(height: 8),

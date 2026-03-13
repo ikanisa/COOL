@@ -366,9 +366,9 @@ class TripBoardTripTile extends StatelessWidget {
                     ? Icons.location_on_outlined
                     : Icons.route_outlined,
                 label: hasRoutePreview
-                    ? 'Route preview'
+                    ? 'Google route preview'
                     : hasPinnedPickup
-                    ? 'Pickup pinned'
+                    ? 'Google pickup pin'
                     : 'Text route',
               ),
             ],
@@ -465,8 +465,9 @@ class MyTripTile extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        DateFormat('EEE d MMM • HH:mm')
-                            .format(trip.departureTime),
+                        DateFormat(
+                          'EEE d MMM • HH:mm',
+                        ).format(trip.departureTime),
                         style: GoogleFonts.dmSans(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
@@ -740,6 +741,14 @@ class TripBoardLocationStateCard extends StatelessWidget {
         icon = Icons.satellite_alt_rounded;
         title = 'Checking your location';
         subtitle = 'Nearby trip matching needs your current area.';
+        break;
+      case MobilityLocationStatus.accessDisabled:
+        icon = Icons.admin_panel_settings_outlined;
+        title = 'Location is off in COOL';
+        subtitle =
+            'Nearby matching is disabled from Profile settings until you turn location back on.';
+        actionLabel = 'Enable Location';
+        action = onEnableLocation;
         break;
       case MobilityLocationStatus.needsPermission:
       case MobilityLocationStatus.denied:

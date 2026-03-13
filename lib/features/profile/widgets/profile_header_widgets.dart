@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../core/config/country_catalog.dart';
+import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/phone_validator.dart';
 import '../../../shared/widgets/cool_card.dart';
@@ -53,7 +54,7 @@ class ProfileHeader extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  '${profile.country} · ${profile.momoProvider}',
+                  '${profile.country} · ${profile.currencyCode}',
                   style: GoogleFonts.dmSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
@@ -82,13 +83,16 @@ class ProfileMomoQrCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final country =
         CoolCountryCatalog.byIsoCode(countryCode) ??
         CoolCountryCatalog.defaultCountry;
-    final qrData = PhoneValidator.generateMomoQrData(momoNumber, country);
-    final displayNumber = countryCode.toUpperCase() == 'RW'
-        ? PhoneValidator.formatRwandanDisplay(momoNumber)
-        : momoNumber;
+    final qrData = PhoneValidator.generateMomoQrData(
+      momoNumber,
+      country,
+      preferDirectDial: false,
+    );
+    final displayNumber = PhoneValidator.formatMomoDisplay(momoNumber, country);
     final providerLabel = PhoneValidator.providerLabel(momoNumber, countryCode);
 
     return CoolCard(
@@ -97,7 +101,7 @@ class ProfileMomoQrCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'MoMo QR',
+            l10n.profileMomoQrTitle,
             style: GoogleFonts.dmSans(
               fontSize: 15,
               fontWeight: FontWeight.w700,
@@ -106,7 +110,7 @@ class ProfileMomoQrCard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            'Scan to pay $displayNumber',
+            l10n.profileMomoQrSubtitle(displayNumber),
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w400,
@@ -124,8 +128,10 @@ class ProfileMomoQrCard extends StatelessWidget {
               padding: const EdgeInsets.all(12),
               child: QrImageView(
                 data: qrData,
-                size: 108,
-                backgroundColor: Colors.transparent,
+                size: 132,
+                padding: const EdgeInsets.all(14),
+                backgroundColor: Colors.white,
+                errorCorrectionLevel: QrErrorCorrectLevel.H,
                 eyeStyle: const QrEyeStyle(
                   color: Colors.black,
                   eyeShape: QrEyeShape.square,

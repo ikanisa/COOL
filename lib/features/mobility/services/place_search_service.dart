@@ -44,6 +44,13 @@ abstract class PlaceSearchService {
     int limit = 5,
   });
 
+  Future<PlaceSearchResult?> geocodeQuery(
+    String query, {
+    GeoPoint? near,
+    String? languageTag,
+    int limit = 1,
+  });
+
   Future<PlaceSearchResult> resolvePlace(
     PlaceSearchResult prediction, {
     String? languageTag,
@@ -79,6 +86,79 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
   final PlaceSearchService _fallback;
   final PerformanceService _performance;
   final CrashlyticsService _crashlytics;
+
+  @override
+  Future<PlaceSearchResult?> geocodeQuery(
+    String query, {
+    GeoPoint? near,
+    String? languageTag,
+    int limit = 1,
+  }) async {
+    final normalized = query.trim();
+    if (normalized.length < 3) {
+      return null;
+    }
+
+    _performance.startTrace('maps_place_geocode');
+
+    try {
+      final response = await _client.functions.invoke(
+        'maps-gateway',
+        body: <String, dynamic>{
+          'action': 'text_search',
+          'query': normalized,
+          'languageCode': languageTag,
+          'limit': limit.clamp(1, 5),
+          if (near != null)
+            'near': <String, dynamic>{
+              'latitude': near.latitude,
+              'longitude': near.longitude,
+            },
+        },
+      );
+
+      final data = _asMap(response.data);
+      if (data['success'] == false) {
+        throw StateError(data['message']?.toString() ?? 'Geocoding failed.');
+      }
+
+      final results = _asList(data['places'])
+          .whereType<Map>()
+          .map(
+            (row) => PlaceSearchResult.fromMapsGatewayJson(
+              Map<String, dynamic>.from(row),
+            ),
+          )
+          .where((place) => place.label.isNotEmpty)
+          .toList(growable: false);
+      final result = results.isEmpty ? null : results.first;
+
+      _performance.stopTrace(
+        'maps_place_geocode',
+        metrics: <String, int>{'count': result == null ? 0 : 1},
+      );
+      return result;
+    } catch (error, stackTrace) {
+      _performance.stopTrace(
+        'maps_place_geocode',
+        attributes: <String, String>{
+          'error': error.runtimeType.toString(),
+          'fallback': 'nominatim',
+        },
+      );
+      _crashlytics.recordError(
+        error,
+        stackTrace: stackTrace,
+        reason: 'maps_place_geocode',
+      );
+      return _fallback.geocodeQuery(
+        normalized,
+        near: near,
+        languageTag: languageTag,
+        limit: limit,
+      );
+    }
+  }
 
   @override
   Future<List<PlaceSearchResult>> searchPlaces(
@@ -338,6 +418,25 @@ class NominatimPlaceSearchService implements PlaceSearchService {
   NominatimPlaceSearchService({Dio? dio}) : _dio = dio ?? Dio();
 
   final Dio _dio;
+
+  @override
+  Future<PlaceSearchResult?> geocodeQuery(
+    String query, {
+    GeoPoint? near,
+    String? languageTag,
+    int limit = 1,
+  }) async {
+    final results = await searchPlaces(
+      query,
+      near: near,
+      languageTag: languageTag,
+      limit: limit,
+    );
+    if (results.isEmpty) {
+      return null;
+    }
+    return results.first;
+  }
 
   @override
   Future<List<PlaceSearchResult>> searchPlaces(

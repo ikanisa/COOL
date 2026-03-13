@@ -359,7 +359,7 @@ class MobilityNotifier extends StateNotifier<MobilityState> {
           data.contactPhone ??
           currentUser?.phone ??
           authSessionPhone(_authState.session),
-      contactName: data.contactName ?? currentUser?.fullName,
+      contactName: data.contactName ?? currentUser?.displayUserId,
       whatsappNumber:
           data.whatsappNumber ??
           data.contactPhone ??

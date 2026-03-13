@@ -11,7 +11,7 @@ class MobilityWhatsAppService {
     required Trip trip,
     UserProfile? requester,
   }) {
-    final name = _firstName(requester?.fullName);
+    final requesterId = requester?.displayUserId;
     final contact = trip.contactName?.trim();
     final departure = DateFormat(
       'EEE d MMM • HH:mm',
@@ -20,7 +20,7 @@ class MobilityWhatsAppService {
       ..write('Hi')
       ..write(contact != null && contact.isNotEmpty ? ' $contact' : '')
       ..write(', ')
-      ..write(name != null ? "I'm $name. " : '')
+      ..write(requesterId != null ? "I'm $requesterId. " : '')
       ..write('I found your listing on COOL for ')
       ..write('${trip.fromLocation} to ${trip.toLocation}')
       ..write(' on $departure. ');
@@ -41,7 +41,7 @@ class MobilityWhatsAppService {
     required DriverInfo driver,
     UserProfile? requester,
   }) {
-    final name = _firstName(requester?.fullName);
+    final requesterId = requester?.displayUserId;
     final contact = driver.displayName.trim();
     final distance = driver.distanceKm < 1
         ? '${(driver.distanceKm * 1000).round()} m'
@@ -50,7 +50,7 @@ class MobilityWhatsAppService {
       ..write('Hi')
       ..write(contact.isNotEmpty ? ' $contact' : '')
       ..write(', ')
-      ..write(name != null ? "I'm $name. " : '')
+      ..write(requesterId != null ? "I'm $requesterId. " : '')
       ..write('I found your ')
       ..write(driver.vehicleType)
       ..write(' profile on COOL');
@@ -68,15 +68,5 @@ class MobilityWhatsAppService {
       );
 
     return buffer.toString();
-  }
-
-  static String? _firstName(String? fullName) {
-    final normalized = fullName?.trim();
-    if (normalized == null || normalized.isEmpty) {
-      return null;
-    }
-
-    final parts = normalized.split(RegExp(r'\s+'));
-    return parts.isEmpty ? null : parts.first;
   }
 }

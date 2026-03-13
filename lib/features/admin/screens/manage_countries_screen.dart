@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_async_view.dart';
+import '../../../shared/widgets/cool_empty_view.dart';
+import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_providers.dart';
 
@@ -83,8 +85,15 @@ class ManageCountriesScreen extends ConsumerWidget {
                 ref.invalidate(adminCountriesProvider);
                 ref.invalidate(adminMomoValidationIssuesProvider);
               },
+              loadingWidget: const Padding(
+                padding: EdgeInsets.all(16),
+                child: CoolSkeletonList(itemCount: 4),
+              ),
               emptyCheck: (c) => c.isEmpty,
-              emptyMessage: 'No countries',
+              emptyWidget: const CoolEmptyView(
+                message: 'No countries are configured in the catalog yet.',
+                icon: Icons.public_rounded,
+              ),
               builder: (countries) {
                 final activeCount = countries.where(_isCountryActive).length;
                 final codeEnabledCount = countries
@@ -130,9 +139,16 @@ class ManageCountriesScreen extends ConsumerWidget {
             CoolAsyncView<List<Map<String, dynamic>>>(
               value: issuesAsync,
               onRetry: () => ref.invalidate(adminMomoValidationIssuesProvider),
+              loadingWidget: const Padding(
+                padding: EdgeInsets.all(16),
+                child: CoolSkeletonList(itemCount: 3),
+              ),
               emptyCheck: (i) => i.isEmpty,
-              emptyMessage:
-                  'No validation issues detected. Existing users and groups match the current MoMo country rules.',
+              emptyWidget: const CoolEmptyView(
+                message:
+                    'No validation issues detected. Existing users and groups match the current MoMo country rules.',
+                icon: Icons.verified_outlined,
+              ),
               builder: (issues) {
                 return ListView.separated(
                   padding: const EdgeInsets.all(16),

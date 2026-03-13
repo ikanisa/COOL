@@ -25,8 +25,9 @@ const _fallbackVehicleFilters = [
   MobilityVehicleFilter(label: 'Liffan', value: 'Liffan'),
 ];
 
-final mobilityVehicleFiltersProvider =
-    Provider<List<MobilityVehicleFilter>>((ref) {
+final mobilityVehicleFiltersProvider = Provider<List<MobilityVehicleFilter>>((
+  ref,
+) {
   final typesAsync = ref.watch(currentCountryVehicleTypesProvider);
   return typesAsync.when(
     data: (types) => types
@@ -86,8 +87,8 @@ class MobilityTopActionsCard extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             isDriver
-                ? 'Schedule a trip first, then browse or manage your driver mode.'
-                : 'Schedule a trip first or browse what is already nearby.',
+                ? 'Schedule each trip as passenger or driver, then manage your driver mode when needed.'
+                : 'Passenger is your default role. Schedule a trip now, or become a driver when you are ready.',
             style: GoogleFonts.dmSans(
               fontSize: 12,
               fontWeight: FontWeight.w400,
@@ -261,35 +262,36 @@ class MobilityFilterBar extends ConsumerWidget {
     final selectedVehicle = ref.watch(mobilitySelectedVehicleProvider);
     final filters = ref.watch(mobilityVehicleFiltersProvider);
     final notifier = ref.read(mobilityProvider.notifier);
-    final visibleFilters = <MobilityVehicleFilter>[...filters.take(4)];
-    if (!visibleFilters.any((filter) => filter.value == selectedVehicle)) {
-      final selectedFilter = filters.cast<MobilityVehicleFilter?>().firstWhere(
-        (filter) => filter?.value == selectedVehicle,
-        orElse: () => null,
-      );
-      if (selectedFilter != null) {
-        visibleFilters.add(selectedFilter);
-      }
-    }
+    final chips = [
+      for (final filter in filters)
+        VehicleChip(
+          label: filter.label,
+          isSelected: selectedVehicle == filter.value,
+          onTap: () {
+            unawaited(notifier.setVehicleFilter(filter.value));
+          },
+        ),
+    ];
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          for (var index = 0; index < visibleFilters.length; index++) ...[
-            VehicleChip(
-              label: visibleFilters[index].label,
-              isSelected: selectedVehicle == visibleFilters[index].value,
-              onTap: () {
-                unawaited(
-                  notifier.setVehicleFilter(visibleFilters[index].value),
-                );
-              },
-            ),
-            if (index != visibleFilters.length - 1) const SizedBox(width: 8),
-          ],
-        ],
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth < 420) {
+          return Wrap(spacing: 8, runSpacing: 8, children: chips);
+        }
+
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          padding: const EdgeInsets.only(right: 18),
+          child: Row(
+            children: [
+              for (var index = 0; index < chips.length; index++) ...[
+                chips[index],
+                if (index != chips.length - 1) const SizedBox(width: 8),
+              ],
+            ],
+          ),
+        );
+      },
     );
   }
 }

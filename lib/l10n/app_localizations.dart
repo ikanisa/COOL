@@ -1861,6 +1861,1518 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Copied to clipboard.'**
   String get copied;
+
+  /// No description provided for @retryAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retryAction;
+
+  /// No description provided for @cancelAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancelAction;
+
+  /// No description provided for @openAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get openAction;
+
+  /// No description provided for @languageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get languageLabel;
+
+  /// No description provided for @supportLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get supportLabel;
+
+  /// No description provided for @notificationsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationsLabel;
+
+  /// No description provided for @statementsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Statements'**
+  String get statementsLabel;
+
+  /// No description provided for @walletLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet'**
+  String get walletLabel;
+
+  /// No description provided for @savingsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings'**
+  String get savingsLabel;
+
+  /// No description provided for @allTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'All time'**
+  String get allTimeLabel;
+
+  /// No description provided for @last30DaysLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 30 days'**
+  String get last30DaysLabel;
+
+  /// No description provided for @last90DaysLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 90 days'**
+  String get last90DaysLabel;
+
+  /// No description provided for @incomingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Incoming'**
+  String get incomingLabel;
+
+  /// No description provided for @outgoingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Outgoing'**
+  String get outgoingLabel;
+
+  /// No description provided for @counterpartyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Counterparty'**
+  String get counterpartyLabel;
+
+  /// No description provided for @referenceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reference'**
+  String get referenceLabel;
+
+  /// No description provided for @detailsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get detailsLabel;
+
+  /// No description provided for @otpUseWhatsappTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use your WhatsApp number'**
+  String get otpUseWhatsappTitle;
+
+  /// No description provided for @otpUseWhatsappSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We will send a 6-digit code to your WhatsApp.'**
+  String get otpUseWhatsappSubtitle;
+
+  /// No description provided for @otpPhoneRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your phone number'**
+  String get otpPhoneRequired;
+
+  /// No description provided for @otpContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get otpContinue;
+
+  /// No description provided for @otpGenericError.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get otpGenericError;
+
+  /// No description provided for @openLinkError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open link'**
+  String get openLinkError;
+
+  /// No description provided for @otpLegalPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'By continuing, you accept the '**
+  String get otpLegalPrefix;
+
+  /// No description provided for @otpLegalAnd.
+  ///
+  /// In en, this message translates to:
+  /// **' and '**
+  String get otpLegalAnd;
+
+  /// No description provided for @termsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms'**
+  String get termsLabel;
+
+  /// No description provided for @privacyPolicyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicyLabel;
+
+  /// No description provided for @homeMissionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Missions'**
+  String get homeMissionsTitle;
+
+  /// No description provided for @homeMonthlyNet.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly net'**
+  String get homeMonthlyNet;
+
+  /// No description provided for @homeActionPay.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay'**
+  String get homeActionPay;
+
+  /// No description provided for @homeActionTrips.
+  ///
+  /// In en, this message translates to:
+  /// **'Trips'**
+  String get homeActionTrips;
+
+  /// No description provided for @homeFallbackGroupsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings and invites'**
+  String get homeFallbackGroupsSubtitle;
+
+  /// No description provided for @homeFallbackPaySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'MoMo and statements'**
+  String get homeFallbackPaySubtitle;
+
+  /// No description provided for @homeFallbackPartnersSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Banks and clubs'**
+  String get homeFallbackPartnersSubtitle;
+
+  /// No description provided for @homeFallbackTripsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ride or drive'**
+  String get homeFallbackTripsSubtitle;
+
+  /// No description provided for @homeActiveCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} active'**
+  String homeActiveCount(int count);
+
+  /// No description provided for @homeNoActivityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No activity yet'**
+  String get homeNoActivityTitle;
+
+  /// No description provided for @homeNoActivityMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity will appear here.'**
+  String get homeNoActivityMessage;
+
+  /// No description provided for @homeLoadErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load this section'**
+  String get homeLoadErrorTitle;
+
+  /// No description provided for @homeLoadErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Pull to refresh or try again.'**
+  String get homeLoadErrorMessage;
+
+  /// No description provided for @profileMobileMoney.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile Money'**
+  String get profileMobileMoney;
+
+  /// No description provided for @profileCreditScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit score'**
+  String get profileCreditScore;
+
+  /// No description provided for @profileNotLinked.
+  ///
+  /// In en, this message translates to:
+  /// **'Not linked'**
+  String get profileNotLinked;
+
+  /// No description provided for @profileCreditReadiness.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit readiness'**
+  String get profileCreditReadiness;
+
+  /// No description provided for @profileDriverTools.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver tools'**
+  String get profileDriverTools;
+
+  /// No description provided for @profileCoolStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'COOL status'**
+  String get profileCoolStatus;
+
+  /// No description provided for @profileAdminPanel.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin panel'**
+  String get profileAdminPanel;
+
+  /// No description provided for @officialNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Official name'**
+  String get officialNameLabel;
+
+  /// No description provided for @identityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Identity'**
+  String get identityLabel;
+
+  /// No description provided for @moneySectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Money'**
+  String get moneySectionTitle;
+
+  /// No description provided for @preferencesSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get preferencesSectionTitle;
+
+  /// No description provided for @moreToolsSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'More tools'**
+  String get moreToolsSectionTitle;
+
+  /// No description provided for @profileMoreToolsShowSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Show extra actions and secondary shortcuts.'**
+  String get profileMoreToolsShowSubtitle;
+
+  /// No description provided for @profileMoreToolsHideSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide QR, driver, status, and admin shortcuts.'**
+  String get profileMoreToolsHideSubtitle;
+
+  /// No description provided for @vehicleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle'**
+  String get vehicleLabel;
+
+  /// No description provided for @accountActionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account actions'**
+  String get accountActionsTitle;
+
+  /// No description provided for @signOutAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get signOutAction;
+
+  /// No description provided for @deleteAccountAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get deleteAccountAction;
+
+  /// No description provided for @deleteAccountQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account?'**
+  String get deleteAccountQuestion;
+
+  /// No description provided for @deleteAccountMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This permanently removes your account and data.'**
+  String get deleteAccountMessage;
+
+  /// No description provided for @signOutMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ll need to verify your number again to log back in.'**
+  String get signOutMessage;
+
+  /// No description provided for @completeProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete your profile'**
+  String get completeProfileTitle;
+
+  /// No description provided for @completeProfileSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish setup to unlock all features.'**
+  String get completeProfileSubtitle;
+
+  /// No description provided for @profileSavingMomoInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving MoMo info...'**
+  String get profileSavingMomoInfo;
+
+  /// No description provided for @profileDeletingAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleting your account...'**
+  String get profileDeletingAccount;
+
+  /// No description provided for @profileMomoUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'MoMo info updated'**
+  String get profileMomoUpdated;
+
+  /// No description provided for @profileMomoUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update MoMo info'**
+  String get profileMomoUpdateFailed;
+
+  /// No description provided for @profileSupportOpenError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open WhatsApp. Please try again.'**
+  String get profileSupportOpenError;
+
+  /// No description provided for @profileSupportUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Support is unavailable right now.'**
+  String get profileSupportUnavailable;
+
+  /// No description provided for @profileMomoQrTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'MoMo QR'**
+  String get profileMomoQrTitle;
+
+  /// No description provided for @profileMomoQrSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan to pay {number}'**
+  String profileMomoQrSubtitle(String number);
+
+  /// No description provided for @profileEditMomoInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit MoMo Info'**
+  String get profileEditMomoInfo;
+
+  /// No description provided for @profileEditMomoSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This number will be used for Mobile Money payments'**
+  String get profileEditMomoSubtitle;
+
+  /// No description provided for @profileMomoCodeOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'MOMO CODE (OPTIONAL)'**
+  String get profileMomoCodeOptional;
+
+  /// No description provided for @kycNeedsUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs update'**
+  String get kycNeedsUpdate;
+
+  /// No description provided for @kycUnverified.
+  ///
+  /// In en, this message translates to:
+  /// **'Unverified'**
+  String get kycUnverified;
+
+  /// No description provided for @userFallbackName.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get userFallbackName;
+
+  /// No description provided for @notSetLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set'**
+  String get notSetLabel;
+
+  /// No description provided for @momoStatementsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Statements & Ledger'**
+  String get momoStatementsTitle;
+
+  /// No description provided for @momoRefreshStatements.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh statements'**
+  String get momoRefreshStatements;
+
+  /// No description provided for @statementOverviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Statement overview'**
+  String get statementOverviewTitle;
+
+  /// No description provided for @walletEntriesMetric.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet entries'**
+  String get walletEntriesMetric;
+
+  /// No description provided for @savingsEntriesMetric.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings entries'**
+  String get savingsEntriesMetric;
+
+  /// No description provided for @walletEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No wallet entries yet'**
+  String get walletEmptyTitle;
+
+  /// No description provided for @walletEmptyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet activity will appear here.'**
+  String get walletEmptyMessage;
+
+  /// No description provided for @walletLedgerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet ledger'**
+  String get walletLedgerTitle;
+
+  /// No description provided for @walletLedgerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Showing {shown} of {total} wallet entries.'**
+  String walletLedgerSubtitle(int shown, int total);
+
+  /// No description provided for @savingsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No savings entries yet'**
+  String get savingsEmptyTitle;
+
+  /// No description provided for @savingsEmptyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings contributions will appear here.'**
+  String get savingsEmptyMessage;
+
+  /// No description provided for @savingsStatementTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings statement'**
+  String get savingsStatementTitle;
+
+  /// No description provided for @savingsStatementSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Showing {shown} of {total} group contribution records.'**
+  String savingsStatementSubtitle(int shown, int total);
+
+  /// No description provided for @coolMemberFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'COOL member'**
+  String get coolMemberFallback;
+
+  /// No description provided for @momoStatementsPeriodDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Day'**
+  String get momoStatementsPeriodDay;
+
+  /// No description provided for @momoStatementsPeriodWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Week'**
+  String get momoStatementsPeriodWeek;
+
+  /// No description provided for @momoStatementsPeriodMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Month'**
+  String get momoStatementsPeriodMonth;
+
+  /// No description provided for @momoStatementsPeriodCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get momoStatementsPeriodCustom;
+
+  /// No description provided for @momoStatementsPeriodAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get momoStatementsPeriodAll;
+
+  /// No description provided for @momoStatementsSortNewestFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest first'**
+  String get momoStatementsSortNewestFirst;
+
+  /// No description provided for @momoStatementsSortOldestFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Oldest first'**
+  String get momoStatementsSortOldestFirst;
+
+  /// No description provided for @momoStatementsSortAmountHighToLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount: high → low'**
+  String get momoStatementsSortAmountHighToLow;
+
+  /// No description provided for @momoStatementsSortAmountLowToHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount: low → high'**
+  String get momoStatementsSortAmountLowToHigh;
+
+  /// No description provided for @momoStatementsSortNameAz.
+  ///
+  /// In en, this message translates to:
+  /// **'Name: A → Z'**
+  String get momoStatementsSortNameAz;
+
+  /// No description provided for @momoStatementsSortNameZa.
+  ///
+  /// In en, this message translates to:
+  /// **'Name: Z → A'**
+  String get momoStatementsSortNameZa;
+
+  /// No description provided for @momoStatementsWalletFilteredEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching wallet entries'**
+  String get momoStatementsWalletFilteredEmptyTitle;
+
+  /// No description provided for @momoStatementsWalletFilteredEmptyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Try adjusting your filters or date range.'**
+  String get momoStatementsWalletFilteredEmptyMessage;
+
+  /// No description provided for @momoStatementsSavingsFilteredEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching savings entries'**
+  String get momoStatementsSavingsFilteredEmptyTitle;
+
+  /// No description provided for @momoStatementsSavingsFilteredEmptyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Try adjusting your filters or date range.'**
+  String get momoStatementsSavingsFilteredEmptyMessage;
+
+  /// No description provided for @fansScreenUnavailableTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fan Hub Moved'**
+  String get fansScreenUnavailableTitle;
+
+  /// No description provided for @fansScreenHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Fan Hub'**
+  String get fansScreenHeadline;
+
+  /// No description provided for @fansScreenBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Fan features for {clubName} are now consolidated in the partner hub.'**
+  String fansScreenBody(String clubName);
+
+  /// No description provided for @fansScreenMembershipUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Membership features live inside Rayon Sports.'**
+  String get fansScreenMembershipUnavailable;
+
+  /// No description provided for @fansScreenClubsUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Fan clubs are now managed inside Rayon Sports.'**
+  String get fansScreenClubsUnavailable;
+
+  /// No description provided for @fansScreenRayonDedicatedHub.
+  ///
+  /// In en, this message translates to:
+  /// **'Rayon Sports has a dedicated fan hub.'**
+  String get fansScreenRayonDedicatedHub;
+
+  /// No description provided for @fansScreenRouteKeptReachable.
+  ///
+  /// In en, this message translates to:
+  /// **'This route is kept reachable for deep links.'**
+  String get fansScreenRouteKeptReachable;
+
+  /// No description provided for @fansScreenBackToPartners.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Partners'**
+  String get fansScreenBackToPartners;
+
+  /// No description provided for @fansScreenOpenRayon.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Rayon Sports'**
+  String get fansScreenOpenRayon;
+
+  /// No description provided for @ticketWalletInvalidLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid Google Wallet link.'**
+  String get ticketWalletInvalidLink;
+
+  /// No description provided for @ticketWalletUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Google Wallet is not available on this device.'**
+  String get ticketWalletUnavailable;
+
+  /// No description provided for @ticketWalletOpenFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open Google Wallet.'**
+  String get ticketWalletOpenFailed;
+
+  /// No description provided for @ticketConfirmationScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ticket'**
+  String get ticketConfirmationScreenTitle;
+
+  /// No description provided for @ticketConfirmationNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Ticket not found.'**
+  String get ticketConfirmationNotFound;
+
+  /// No description provided for @ticketAddToGoogleWallet.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Google Wallet'**
+  String get ticketAddToGoogleWallet;
+
+  /// No description provided for @ticketBackToTickets.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Tickets'**
+  String get ticketBackToTickets;
+
+  /// No description provided for @ticketShareMatchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Match'**
+  String get ticketShareMatchTitle;
+
+  /// No description provided for @ticketShareMatchText.
+  ///
+  /// In en, this message translates to:
+  /// **'Check out {matchTitle} on Cool!'**
+  String ticketShareMatchText(String matchTitle);
+
+  /// No description provided for @ticketStatusPendingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Pending'**
+  String get ticketStatusPendingTitle;
+
+  /// No description provided for @ticketStatusPendingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for MoMo confirmation.'**
+  String get ticketStatusPendingSubtitle;
+
+  /// No description provided for @ticketStatusPendingNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Your ticket is reserved. Complete the MoMo payment to activate it.'**
+  String get ticketStatusPendingNote;
+
+  /// No description provided for @ticketStatusValidTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid Ticket'**
+  String get ticketStatusValidTitle;
+
+  /// No description provided for @ticketStatusValidSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Show this at the gate.'**
+  String get ticketStatusValidSubtitle;
+
+  /// No description provided for @ticketStatusValidNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Present the QR code below at the stadium entrance.'**
+  String get ticketStatusValidNote;
+
+  /// No description provided for @ticketStatusUsedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ticket Used'**
+  String get ticketStatusUsedTitle;
+
+  /// No description provided for @ticketStatusUsedSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This ticket has been scanned.'**
+  String get ticketStatusUsedSubtitle;
+
+  /// No description provided for @ticketStatusUsedNote.
+  ///
+  /// In en, this message translates to:
+  /// **'This ticket was validated at the gate. It cannot be used again.'**
+  String get ticketStatusUsedNote;
+
+  /// No description provided for @ticketStatusCancelledTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ticket Cancelled'**
+  String get ticketStatusCancelledTitle;
+
+  /// No description provided for @ticketStatusCancelledSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This ticket is no longer valid.'**
+  String get ticketStatusCancelledSubtitle;
+
+  /// No description provided for @ticketStatusCancelledNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact support if you believe this is an error.'**
+  String get ticketStatusCancelledNote;
+
+  /// No description provided for @partnersHomeTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Partners Home'**
+  String get partnersHomeTooltip;
+
+  /// No description provided for @partnersServicesTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Services'**
+  String get partnersServicesTab;
+
+  /// No description provided for @partnersRayonWelcomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Rayon Sports!'**
+  String get partnersRayonWelcomeTitle;
+
+  /// No description provided for @partnersRayonWelcomeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your fan membership has been created. Enjoy exclusive perks, tickets, and club updates.'**
+  String get partnersRayonWelcomeSubtitle;
+
+  /// No description provided for @partnersOpenRayonSports.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Rayon Sports'**
+  String get partnersOpenRayonSports;
+
+  /// No description provided for @partnersMembershipPerkRegistryAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Fan registry access'**
+  String get partnersMembershipPerkRegistryAccess;
+
+  /// No description provided for @partnersMembershipPerkClubUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'Club updates'**
+  String get partnersMembershipPerkClubUpdates;
+
+  /// No description provided for @partnersMembershipPerkMemberQueue.
+  ///
+  /// In en, this message translates to:
+  /// **'Member queue priority'**
+  String get partnersMembershipPerkMemberQueue;
+
+  /// No description provided for @partnersMembershipPerkPriorityTickets.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority ticket access'**
+  String get partnersMembershipPerkPriorityTickets;
+
+  /// No description provided for @partnersMembershipPerkShopDiscount.
+  ///
+  /// In en, this message translates to:
+  /// **'Shop discount'**
+  String get partnersMembershipPerkShopDiscount;
+
+  /// No description provided for @partnersMembershipPerkVipQueue.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP queue access'**
+  String get partnersMembershipPerkVipQueue;
+
+  /// No description provided for @partnersMembershipPerkVipAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP event access'**
+  String get partnersMembershipPerkVipAccess;
+
+  /// No description provided for @partnersMembershipPerkExclusiveEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'Exclusive events'**
+  String get partnersMembershipPerkExclusiveEvents;
+
+  /// No description provided for @partnersNoFootballPartners.
+  ///
+  /// In en, this message translates to:
+  /// **'No football partners available yet.'**
+  String get partnersNoFootballPartners;
+
+  /// No description provided for @partnersComingSoonMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'{partnerName} is coming soon!'**
+  String partnersComingSoonMessage(String partnerName);
+
+  /// No description provided for @partnersRayonHubBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Official Fan Hub'**
+  String get partnersRayonHubBadge;
+
+  /// No description provided for @partnersGamesMetricLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Games'**
+  String get partnersGamesMetricLabel;
+
+  /// No description provided for @partnersLoadingMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading partners…'**
+  String get partnersLoadingMessage;
+
+  /// No description provided for @partnersNoFinancePartners.
+  ///
+  /// In en, this message translates to:
+  /// **'No finance partners available yet.'**
+  String get partnersNoFinancePartners;
+
+  /// No description provided for @partnersFinancePrepTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial Readiness'**
+  String get partnersFinancePrepTitle;
+
+  /// No description provided for @partnersFinancePrepSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your credit readiness and prepare for financial services from our partners.'**
+  String get partnersFinancePrepSubtitle;
+
+  /// No description provided for @partnersReadinessChecklistCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit Readiness Checklist'**
+  String get partnersReadinessChecklistCta;
+
+  /// No description provided for @partnersWhatsappMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Hi, I\'d like to learn more about {partnerName} on Cool.'**
+  String partnersWhatsappMessage(String partnerName);
+
+  /// No description provided for @partnersNoServicePartners.
+  ///
+  /// In en, this message translates to:
+  /// **'No service partners available yet.'**
+  String get partnersNoServicePartners;
+
+  /// No description provided for @partnersInsurancePartnerBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Insurance Partner'**
+  String get partnersInsurancePartnerBadge;
+
+  /// No description provided for @partnersProfessionalServicesBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Professional Services'**
+  String get partnersProfessionalServicesBadge;
+
+  /// No description provided for @partnersServicePartnerBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Service Partner'**
+  String get partnersServicePartnerBadge;
+
+  /// No description provided for @partnersLoadErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load partners'**
+  String get partnersLoadErrorTitle;
+
+  /// No description provided for @partnersEmptyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Partners will appear here once available.'**
+  String get partnersEmptyMessage;
+
+  /// No description provided for @partnersClubShopSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Official merchandise'**
+  String get partnersClubShopSubtitle;
+
+  /// No description provided for @partnersFootballTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Football'**
+  String get partnersFootballTab;
+
+  /// No description provided for @partnersFinanceTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Finance'**
+  String get partnersFinanceTab;
+
+  /// No description provided for @partnersFeaturesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Features'**
+  String get partnersFeaturesTitle;
+
+  /// No description provided for @momoNfcInvalidRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid NFC payment request.'**
+  String get momoNfcInvalidRequest;
+
+  /// No description provided for @momoLaunchingUssd.
+  ///
+  /// In en, this message translates to:
+  /// **'Launching USSD…'**
+  String get momoLaunchingUssd;
+
+  /// No description provided for @momoNfcLaunchFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'NFC launch failed. Please try again.'**
+  String get momoNfcLaunchFailed;
+
+  /// No description provided for @momoScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile Money'**
+  String get momoScreenTitle;
+
+  /// No description provided for @momoNfcLaunchingOverlay.
+  ///
+  /// In en, this message translates to:
+  /// **'Launching MoMo…'**
+  String get momoNfcLaunchingOverlay;
+
+  /// No description provided for @momoSendValidationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid recipient and amount.'**
+  String get momoSendValidationError;
+
+  /// No description provided for @momoSendLaunchFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not launch MoMo payment for {countryName}.'**
+  String momoSendLaunchFailed(String countryName);
+
+  /// No description provided for @momoFromNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'From {number}'**
+  String momoFromNumber(String number);
+
+  /// No description provided for @momoRoutePhoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get momoRoutePhoneLabel;
+
+  /// No description provided for @momoRouteCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'MoMo Code'**
+  String get momoRouteCodeLabel;
+
+  /// No description provided for @momoRecipientCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipient MoMo Code'**
+  String get momoRecipientCodeLabel;
+
+  /// No description provided for @momoRecipientPhoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipient Phone'**
+  String get momoRecipientPhoneLabel;
+
+  /// No description provided for @momoAmountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount ({currency})'**
+  String momoAmountLabel(String currency);
+
+  /// No description provided for @momoSendCompletesViaUssd.
+  ///
+  /// In en, this message translates to:
+  /// **'Completes via USSD on your {countryName} SIM.'**
+  String momoSendCompletesViaUssd(String countryName);
+
+  /// No description provided for @momoConfirmSendLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Money'**
+  String get momoConfirmSendLabel;
+
+  /// No description provided for @momoStatementsPayerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Payer'**
+  String get momoStatementsPayerLabel;
+
+  /// No description provided for @momoStatementsAllPayers.
+  ///
+  /// In en, this message translates to:
+  /// **'All payers'**
+  String get momoStatementsAllPayers;
+
+  /// No description provided for @momoStatementsAllGroups.
+  ///
+  /// In en, this message translates to:
+  /// **'All groups'**
+  String get momoStatementsAllGroups;
+
+  /// No description provided for @momoStatementsSelectCustomPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Select custom period'**
+  String get momoStatementsSelectCustomPeriod;
+
+  /// No description provided for @momoStatementsNothingToDownload.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to download yet.'**
+  String get momoStatementsNothingToDownload;
+
+  /// No description provided for @momoStatementsSavedFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved {fileName}'**
+  String momoStatementsSavedFile(String fileName);
+
+  /// No description provided for @momoStatementsDownloadedFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloaded {fileName}'**
+  String momoStatementsDownloadedFile(String fileName);
+
+  /// No description provided for @momoStatementsDownloadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Statement download failed.'**
+  String get momoStatementsDownloadFailed;
+
+  /// No description provided for @momoStatementsFilterSummaryPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Period: {period}'**
+  String momoStatementsFilterSummaryPeriod(String period);
+
+  /// No description provided for @momoStatementsFilterSummaryParty.
+  ///
+  /// In en, this message translates to:
+  /// **'{label}: {value}'**
+  String momoStatementsFilterSummaryParty(String label, String value);
+
+  /// No description provided for @momoStatementsFilterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters & exports'**
+  String get momoStatementsFilterTitle;
+
+  /// No description provided for @momoStatementsSortByLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort'**
+  String get momoStatementsSortByLabel;
+
+  /// No description provided for @resetAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get resetAction;
+
+  /// No description provided for @momoStatementsPreparingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Exporting…'**
+  String get momoStatementsPreparingLabel;
+
+  /// No description provided for @momoStatementsPdfLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF'**
+  String get momoStatementsPdfLabel;
+
+  /// No description provided for @momoStatementsExcelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Excel'**
+  String get momoStatementsExcelLabel;
+
+  /// No description provided for @groupsTabAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get groupsTabAll;
+
+  /// No description provided for @groupsTabSaving.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving'**
+  String get groupsTabSaving;
+
+  /// No description provided for @groupsTabCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Community'**
+  String get groupsTabCommunity;
+
+  /// No description provided for @groupsTabPublic.
+  ///
+  /// In en, this message translates to:
+  /// **'Public'**
+  String get groupsTabPublic;
+
+  /// No description provided for @groupsTabPrivate.
+  ///
+  /// In en, this message translates to:
+  /// **'Private'**
+  String get groupsTabPrivate;
+
+  /// No description provided for @groupsShareText.
+  ///
+  /// In en, this message translates to:
+  /// **'Join {groupName} on Cool: {inviteUrl}'**
+  String groupsShareText(String groupName, String inviteUrl);
+
+  /// No description provided for @groupsCreateNewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a New Group'**
+  String get groupsCreateNewTitle;
+
+  /// No description provided for @groupsCreateNewSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving or Community'**
+  String get groupsCreateNewSubtitle;
+
+  /// No description provided for @groupsEmptyPublicTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No public groups found'**
+  String get groupsEmptyPublicTitle;
+
+  /// No description provided for @groupsEmptyPublicMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Pull to refresh or check your groups.'**
+  String get groupsEmptyPublicMessage;
+
+  /// No description provided for @groupsEmptyPrivateMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a group or browse public ones.'**
+  String get groupsEmptyPrivateMessage;
+
+  /// No description provided for @groupsBankCustodianMeta.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank custodian · {partnerName}'**
+  String groupsBankCustodianMeta(String partnerName);
+
+  /// No description provided for @groupsMomoRouteMeta.
+  ///
+  /// In en, this message translates to:
+  /// **'MoMo route · {number}'**
+  String groupsMomoRouteMeta(String number);
+
+  /// No description provided for @groupsSavingGroupMeta.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving group'**
+  String get groupsSavingGroupMeta;
+
+  /// No description provided for @groupsCommunityFundMeta.
+  ///
+  /// In en, this message translates to:
+  /// **'Community fund'**
+  String get groupsCommunityFundMeta;
+
+  /// No description provided for @groupsRaisedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'raised'**
+  String get groupsRaisedLabel;
+
+  /// No description provided for @groupsShareAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get groupsShareAction;
+
+  /// No description provided for @groupsLoadErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get groupsLoadErrorTitle;
+
+  /// No description provided for @profileTierBlue.
+  ///
+  /// In en, this message translates to:
+  /// **'Blue'**
+  String get profileTierBlue;
+
+  /// No description provided for @profileTierSilver.
+  ///
+  /// In en, this message translates to:
+  /// **'Silver'**
+  String get profileTierSilver;
+
+  /// No description provided for @profileTierGold.
+  ///
+  /// In en, this message translates to:
+  /// **'Gold'**
+  String get profileTierGold;
+
+  /// No description provided for @profileTierPlatinum.
+  ///
+  /// In en, this message translates to:
+  /// **'Platinum'**
+  String get profileTierPlatinum;
+
+  /// No description provided for @profileSavingIdentity.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving identity details...'**
+  String get profileSavingIdentity;
+
+  /// No description provided for @profileIdentityUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Identity details updated'**
+  String get profileIdentityUpdated;
+
+  /// No description provided for @profileIdentityUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update identity details'**
+  String get profileIdentityUpdateFailed;
+
+  /// No description provided for @profileAppAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'App access'**
+  String get profileAppAccess;
+
+  /// No description provided for @profileManageAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage'**
+  String get profileManageAction;
+
+  /// No description provided for @profileCoolStatusValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{tier} · {points} pts'**
+  String profileCoolStatusValue(String tier, int points);
+
+  /// No description provided for @profileUserIdLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'User ID'**
+  String get profileUserIdLabel;
+
+  /// No description provided for @profileWalletLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet'**
+  String get profileWalletLabel;
+
+  /// No description provided for @profileSetupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile setup'**
+  String get profileSetupTitle;
+
+  /// No description provided for @profilePublicProfileLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Public profile'**
+  String get profilePublicProfileLabel;
+
+  /// No description provided for @profileOfficialIdentityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Official identity'**
+  String get profileOfficialIdentityLabel;
+
+  /// No description provided for @profilePassengerRoleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Passenger'**
+  String get profilePassengerRoleLabel;
+
+  /// No description provided for @profileDriverRoleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver'**
+  String get profileDriverRoleLabel;
+
+  /// No description provided for @mobilityNoWhatsappAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No WhatsApp contact available yet.'**
+  String get mobilityNoWhatsappAvailable;
+
+  /// No description provided for @mobilityNoContactYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No contact yet'**
+  String get mobilityNoContactYet;
+
+  /// No description provided for @mobilityLocationRequiredDriverMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Location is required before turning on driver mode.'**
+  String get mobilityLocationRequiredDriverMode;
+
+  /// No description provided for @momoSendMoneyOpensUssd.
+  ///
+  /// In en, this message translates to:
+  /// **'Open {countryName} MoMo USSD to send money.'**
+  String momoSendMoneyOpensUssd(String countryName);
+
+  /// No description provided for @momoMoreToolsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Statements, QR, and NFC tools for your route.'**
+  String get momoMoreToolsSubtitle;
+
+  /// No description provided for @momoStatementsToolSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review wallet and savings history.'**
+  String get momoStatementsToolSubtitle;
+
+  /// No description provided for @momoNfcToolsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'NFC tools'**
+  String get momoNfcToolsTitle;
+
+  /// No description provided for @momoNfcToolsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap-to-pay and share route details.'**
+  String get momoNfcToolsSubtitle;
+
+  /// No description provided for @basketScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Basket'**
+  String get basketScreenTitle;
+
+  /// No description provided for @basketScreenHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Basket is not live right now'**
+  String get basketScreenHeadline;
+
+  /// No description provided for @basketScreenBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This route stays available for compatibility, but basket balances and creation flows are not active in this build.'**
+  String get basketScreenBody;
+
+  /// No description provided for @basketScreenCardBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Basket products are paused while the team finishes the next release.'**
+  String get basketScreenCardBody;
+
+  /// No description provided for @basketScreenExpectationBalances.
+  ///
+  /// In en, this message translates to:
+  /// **'No live basket balances are shown here.'**
+  String get basketScreenExpectationBalances;
+
+  /// No description provided for @basketScreenExpectationCreation.
+  ///
+  /// In en, this message translates to:
+  /// **'New basket creation is currently disabled.'**
+  String get basketScreenExpectationCreation;
+
+  /// No description provided for @basketScreenExpectationLinks.
+  ///
+  /// In en, this message translates to:
+  /// **'Existing deep links still land on this placeholder.'**
+  String get basketScreenExpectationLinks;
+
+  /// No description provided for @basketScreenBackHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Back Home'**
+  String get basketScreenBackHome;
 }
 
 class _AppLocalizationsDelegate

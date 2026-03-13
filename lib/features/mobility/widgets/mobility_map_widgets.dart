@@ -135,8 +135,19 @@ class _MobilityMapBoxState extends State<MobilityMapBox> {
 
   @override
   Widget build(BuildContext context) {
+    final supportsEmbeddedMaps = EnvConfig.hasEmbeddedGoogleMapsSupport(
+      Theme.of(context).platform,
+    );
     Widget child;
-    if (widget.locationState.hasLocation && widget.center != null) {
+    if (!supportsEmbeddedMaps) {
+      child = MobilityMapUnavailablePane(
+        message:
+            EnvConfig.embeddedGoogleMapsUnavailableReason(
+              Theme.of(context).platform,
+            ) ??
+            'Embedded maps are unavailable in this build.',
+      );
+    } else if (widget.locationState.hasLocation && widget.center != null) {
       child = Stack(
         children: [
           gmap.GoogleMap(
@@ -236,6 +247,48 @@ class _MobilityMapBoxState extends State<MobilityMapBox> {
 // LOCATION STATE PANE (permission / error states)
 // ═════════════════════════════════════════════════════════════════════════════
 
+class MobilityMapUnavailablePane extends StatelessWidget {
+  const MobilityMapUnavailablePane({required this.message, super.key});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: AppColors.surface3,
+      alignment: Alignment.center,
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.map_outlined, color: AppColors.text2, size: 28),
+          const SizedBox(height: 10),
+          Text(
+            'Nearby map unavailable',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.dmSans(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: AppColors.text,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            '$message Browse nearby drivers and trips from the list instead.',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.dmSans(
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+              color: AppColors.text2,
+              height: 1.45,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class MobilityLocationStatePane extends StatelessWidget {
   const MobilityLocationStatePane({
     required this.locationState,
@@ -262,6 +315,14 @@ class MobilityLocationStatePane extends StatelessWidget {
       case MobilityLocationStatus.idle:
       case MobilityLocationStatus.checking:
       case MobilityLocationStatus.requesting:
+        break;
+      case MobilityLocationStatus.accessDisabled:
+        icon = Icons.admin_panel_settings_outlined;
+        title = 'Location is off in COOL';
+        message =
+            'Enable location in Profile settings to restore nearby drivers and mobility matching.';
+        actionLabel = 'Enable location';
+        onAction = onRequestLocation;
         break;
       case MobilityLocationStatus.needsPermission:
         icon = Icons.my_location_rounded;
@@ -365,10 +426,7 @@ class MobilityLocationStatePane extends StatelessWidget {
 // ═════════════════════════════════════════════════════════════════════════════
 
 class MobilityLocationMetaBanner extends StatelessWidget {
-  const MobilityLocationMetaBanner({
-    required this.locationState,
-    super.key,
-  });
+  const MobilityLocationMetaBanner({required this.locationState, super.key});
 
   final MobilityLocationState locationState;
 

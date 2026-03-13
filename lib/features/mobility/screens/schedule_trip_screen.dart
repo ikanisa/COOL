@@ -9,12 +9,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 
+import '../../../core/router/app_router.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/status/cool_status_awarder.dart';
 import '../../../core/status/models/cool_event.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/utils/intl_locale.dart';
+import '../../auth/providers/auth_provider.dart';
+import '../providers/driver_provider.dart';
 import '../providers/mobility_location_provider.dart';
 import '../providers/mobility_provider.dart';
 import '../services/place_search_service.dart';
@@ -22,6 +25,8 @@ import '../widgets/schedule_trip_place_search_sheet.dart';
 import '../widgets/schedule_trip_shared.dart';
 import '../widgets/schedule_trip_step_widgets.dart';
 import '../../../shared/widgets/cool_toast.dart';
+
+enum ScheduleTripPostingRole { passenger, driver }
 
 class ScheduleTripScreen extends ConsumerStatefulWidget {
   const ScheduleTripScreen({super.key});
@@ -49,12 +54,15 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
   PlaceSearchResult? _fromSelection;
   PlaceSearchResult? _toSelection;
   bool _resolvingCurrentLocation = false;
+  bool _resolvingTypedRoute = false;
   MobilityRoutePreview? _routePreview;
   bool _loadingRoutePreview = false;
   String? _routePreviewError;
   int _routePreviewRequestId = 0;
   ScheduleTripStep _activeStep = ScheduleTripStep.route;
+  ScheduleTripPostingRole _postingRole = ScheduleTripPostingRole.passenger;
   bool _showAdditionalDetails = false;
+  bool _didResolveInitialRole = false;
 
   @override
   void initState() {
@@ -76,6 +84,17 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
     _toController.dispose();
     _priceNoteController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_didResolveInitialRole) {
+      return;
+    }
+
+    _postingRole = _initialPostingRoleFromRoute();
+    _didResolveInitialRole = true;
   }
 
   // ── Sync & route preview ────────────────────────────────────────
@@ -135,7 +154,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
           .computeRoutePreview(
             origin: origin,
             destination: destination,
-            languageTag: Localizations.localeOf(context).toLanguageTag(),
+            languageTag: resolveIntlLocale(context),
             travelMode: _selectedTravelMode(),
           );
       if (!mounted || requestId != _routePreviewRequestId) return;
@@ -240,8 +259,10 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
   }
 
   String _formatDate(DateTime date) {
-    final localeName = Localizations.localeOf(context).toLanguageTag();
-    return DateFormat('EEE, d MMM', localeName).format(date);
+    return safeDateFormat(
+      'EEE, d MMM',
+      locale: Localizations.maybeLocaleOf(context),
+    ).format(date);
   }
 
   String _formatTime(TimeOfDay time) {
@@ -270,6 +291,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
 
   bool _shouldShowLocationAttachmentCard(MobilityLocationState locationState) {
     return switch (locationState.status) {
+      MobilityLocationStatus.accessDisabled ||
       MobilityLocationStatus.needsPermission ||
       MobilityLocationStatus.denied ||
       MobilityLocationStatus.deniedForever ||
@@ -346,10 +368,11 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
     });
   }
 
-  void _goToNextStep() {
+  Future<void> _goToNextStep() async {
     if (_activeStep == ScheduleTripStep.route) {
       final isValid = _formKey.currentState?.validate() ?? false;
       if (!_validateRouteStep() || !isValid) return;
+      await _resolveTypedRouteSelections();
     }
     if (_activeStep == ScheduleTripStep.timing && !_validateTimingStep()) {
       return;
@@ -363,21 +386,15 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
   // ── Place search & location ─────────────────────────────────────
 
   Future<void> _openPlaceSearch({required bool isOrigin}) async {
-    final result = await showModalBottomSheet<PlaceSearchResult>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return ScheduleTripPlaceSearchSheet(
-          title: isOrigin ? 'Set pickup' : 'Set destination',
-          initialQuery: isOrigin
-              ? _fromController.text.trim()
-              : _toController.text.trim(),
-          service: ref.read(placeSearchServiceProvider),
-          near: ref.read(mobilityLocationProvider).position,
-          languageTag: Localizations.localeOf(context).toLanguageTag(),
-        );
-      },
+    final result = await showPlaceSearchSheet(
+      context,
+      title: isOrigin ? 'Set pickup' : 'Set destination',
+      initialQuery: isOrigin
+          ? _fromController.text.trim()
+          : _toController.text.trim(),
+      service: ref.read(placeSearchServiceProvider),
+      near: ref.read(mobilityLocationProvider).position,
+      languageTag: resolveIntlLocale(context),
     );
 
     if (!mounted || result == null) return;
@@ -394,10 +411,86 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
     unawaited(_refreshRoutePreview());
   }
 
+  Future<void> _resolveTypedRouteSelections() async {
+    if (_resolvingTypedRoute) {
+      return;
+    }
+
+    final pendingOrigins =
+        _fromSelection == null && _fromController.text.trim().isNotEmpty;
+    final pendingDestination =
+        _toSelection == null && _toController.text.trim().isNotEmpty;
+    if (!pendingOrigins && !pendingDestination) {
+      return;
+    }
+
+    setState(() => _resolvingTypedRoute = true);
+    final failedFields = <String>[];
+
+    try {
+      if (pendingOrigins) {
+        final resolved = await ref
+            .read(placeSearchServiceProvider)
+            .geocodeQuery(
+              _fromController.text.trim(),
+              near: ref.read(mobilityLocationProvider).position,
+              languageTag: resolveIntlLocale(context),
+            );
+        if (!mounted) {
+          return;
+        }
+        if (resolved != null) {
+          setState(() {
+            _fromSelection = resolved;
+            _fromController.text = resolved.label;
+          });
+        } else {
+          failedFields.add('pickup');
+        }
+      }
+
+      if (pendingDestination) {
+        final resolved = await ref
+            .read(placeSearchServiceProvider)
+            .geocodeQuery(
+              _toController.text.trim(),
+              near: ref.read(mobilityLocationProvider).position,
+              languageTag: resolveIntlLocale(context),
+            );
+        if (!mounted) {
+          return;
+        }
+        if (resolved != null) {
+          setState(() {
+            _toSelection = resolved;
+            _toController.text = resolved.label;
+          });
+        } else {
+          failedFields.add('destination');
+        }
+      }
+
+      unawaited(_refreshRoutePreview());
+    } finally {
+      if (mounted) {
+        setState(() => _resolvingTypedRoute = false);
+      }
+    }
+
+    if (failedFields.isNotEmpty && mounted) {
+      _showSnackBar(
+        message:
+            'Google could not pin ${failedFields.join(' and ')} exactly. You can continue with text only, or use search to choose a place.',
+        backgroundColor: AppColors.orange,
+        textColor: Colors.black,
+      );
+    }
+  }
+
   Future<void> _useCurrentLocationForPickup() async {
     if (_resolvingCurrentLocation) return;
 
-    final languageTag = Localizations.localeOf(context).toLanguageTag();
+    final languageTag = resolveIntlLocale(context);
     final locationNotifier = ref.read(mobilityLocationProvider.notifier);
     var locationState = ref.read(mobilityLocationProvider);
     if (!locationState.hasLocation) {
@@ -472,16 +565,43 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
     return 'Current location ($lat, $lng)';
   }
 
+  ScheduleTripPostingRole _initialPostingRoleFromRoute() {
+    try {
+      final role = GoRouterState.of(
+        context,
+      ).uri.queryParameters['role']?.trim().toLowerCase();
+      if (role == 'driver') {
+        return ScheduleTripPostingRole.driver;
+      }
+    } catch (_) {
+      // The screen is also mounted directly in widget tests.
+    }
+    return ScheduleTripPostingRole.passenger;
+  }
+
+  bool _canScheduleAsDriver({
+    required bool hasDriverRole,
+    required String? vehicleType,
+  }) {
+    return hasDriverRole || (vehicleType?.trim().isNotEmpty ?? false);
+  }
+
   // ── Submit ──────────────────────────────────────────────────────
 
-  Future<void> _submit() async {
+  Future<void> _submit({required bool canScheduleAsDriver}) async {
     FocusScope.of(context).unfocus();
 
     final l10n = context.l10n;
-    final tripRole = GoRouterState.of(
-      context,
-    ).uri.queryParameters['role']?.trim();
-    final isDriverReturnTrip = tripRole?.toLowerCase() == 'driver';
+    final isDriverReturnTrip = _postingRole == ScheduleTripPostingRole.driver;
+    if (isDriverReturnTrip && !canScheduleAsDriver) {
+      _showSnackBar(
+        message: 'Finish driver setup before posting as a driver.',
+        backgroundColor: AppColors.red,
+        textColor: Colors.white,
+      );
+      return;
+    }
+    final tripRole = isDriverReturnTrip ? 'DRIVER' : 'PASSENGER';
     if (!_validateRouteStep()) {
       setState(() => _activeStep = ScheduleTripStep.route);
       return;
@@ -570,6 +690,17 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
     final l10n = context.l10n;
     final isSubmitting = ref.watch(mobilitySubmissionLoadingProvider);
     final locationState = ref.watch(mobilityLocationProvider);
+    final currentUser = ref.watch(currentUserProvider);
+    final driverProfile = ref.watch(
+      driverProvider.select((state) => state.profile),
+    );
+    final hasDriverRole =
+        (currentUser?.isDriver ?? false) || driverProfile != null;
+    final canScheduleAsDriver = _canScheduleAsDriver(
+      hasDriverRole: hasDriverRole,
+      vehicleType: driverProfile?.vehicleType ?? currentUser?.vehicleType,
+    );
+    final isDriverPosting = _postingRole == ScheduleTripPostingRole.driver;
     final vehicleOptions = buildVehicleOptions(context);
     final dayOptions = buildDayOptions(context);
 
@@ -602,6 +733,16 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      _ScheduleTripRoleCard(
+                        selectedRole: _postingRole,
+                        canScheduleAsDriver: canScheduleAsDriver,
+                        onSelectRole: (role) {
+                          setState(() => _postingRole = role);
+                        },
+                        onOpenDriverSetup: () =>
+                            context.push(AppRoutes.mobilityDriver),
+                      ),
+                      const SizedBox(height: 18),
                       ScheduleTripStepper(activeStep: _activeStep),
                       const SizedBox(height: 18),
                       if (_activeStep == ScheduleTripStep.route)
@@ -610,22 +751,19 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
                           toController: _toController,
                           fromSelection: _fromSelection,
                           toSelection: _toSelection,
-                          isResolvingCurrentLocation:
-                              _resolvingCurrentLocation,
+                          isResolvingCurrentLocation: _resolvingCurrentLocation,
                           routePreview: _routePreview,
                           loadingRoutePreview: _loadingRoutePreview,
+                          resolvingTypedRoute: _resolvingTypedRoute,
                           routePreviewError: _routePreviewError,
                           locationState: locationState,
                           shouldShowLocationCard:
-                              _shouldShowLocationAttachmentCard(
-                            locationState,
-                          ),
+                              _shouldShowLocationAttachmentCard(locationState),
                           onFromSearchTap: () =>
                               _openPlaceSearch(isOrigin: true),
                           onToSearchTap: () =>
                               _openPlaceSearch(isOrigin: false),
-                          onUseCurrentLocationTap:
-                              _useCurrentLocationForPickup,
+                          onUseCurrentLocationTap: _useCurrentLocationForPickup,
                           onEnableLocation: () {
                             ref
                                 .read(mobilityLocationProvider.notifier)
@@ -641,7 +779,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
                                 .read(mobilityLocationProvider.notifier)
                                 .openLocationSettings();
                           },
-                          onContinue: _goToNextStep,
+                          onContinue: () => unawaited(_goToNextStep()),
                           fromValidator: (value) {
                             if ((value ?? '').trim().isEmpty) {
                               return l10n.scheduleTripFromRequired;
@@ -700,7 +838,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
                             });
                           },
                           onBack: _goToPreviousStep,
-                          onContinue: _goToNextStep,
+                          onContinue: () => unawaited(_goToNextStep()),
                         ),
                       if (_activeStep == ScheduleTripStep.options)
                         ScheduleTripOptionsStep(
@@ -709,32 +847,29 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
                           showAdditionalDetails: _showAdditionalDetails,
                           priceNoteController: _priceNoteController,
                           onVehicleChanged: (value) {
-                            setState(
-                              () => _vehiclePreference = value,
-                            );
+                            setState(() => _vehiclePreference = value);
                             unawaited(_refreshRoutePreview());
                           },
                           onSeatChanged: (value) =>
                               setState(() => _seats = value),
                           onToggleDetails: () {
                             setState(() {
-                              _showAdditionalDetails =
-                                  !_showAdditionalDetails;
+                              _showAdditionalDetails = !_showAdditionalDetails;
                             });
                           },
                           onBack: _goToPreviousStep,
-                          onContinue: _goToNextStep,
+                          onContinue: () => unawaited(_goToNextStep()),
                         ),
                       if (_activeStep == ScheduleTripStep.review)
                         ScheduleTripReviewStep(
+                          roleLabel: isDriverPosting ? 'Driver' : 'Passenger',
                           fromText: _fromController.text.trim(),
                           toText: _toController.text.trim(),
                           departureLabel:
                               '${_formatDate(_selectedDate)} · ${_formatTime(_selectedTime)}',
                           vehicleLabel: vehicleOptions
                               .firstWhere(
-                                (option) =>
-                                    option.value == _vehiclePreference,
+                                (option) => option.value == _vehiclePreference,
                               )
                               .label,
                           seatsLabel: _seats >= 3 ? '3+' : '$_seats',
@@ -744,23 +879,27 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
                           recurringLabel: _recurringTrip
                               ? dayOptions
                                     .where(
-                                      (option) => _recurringDays
-                                          .contains(option.day),
+                                      (option) =>
+                                          _recurringDays.contains(option.day),
                                     )
                                     .map((option) => option.label)
                                     .join(', ')
                               : 'One-time trip',
-                          detailsLabel:
-                              _priceNoteController.text.trim().isEmpty
-                                  ? 'No extra note'
-                                  : _priceNoteController.text.trim(),
-                          previewLabel: _routePreview == null
-                              ? 'No live route preview'
-                              : '${_routePreview!.distanceLabel} · ${_routePreview!.durationLabel}',
+                          detailsLabel: _priceNoteController.text.trim().isEmpty
+                              ? 'No extra note'
+                              : _priceNoteController.text.trim(),
+                          previewLabel: _routePreview != null
+                              ? '${_routePreview!.distanceLabel} · ${_routePreview!.durationLabel}'
+                              : _fromSelection != null && _toSelection != null
+                              ? 'Google pins attached · route preview unavailable'
+                              : _fromSelection != null || _toSelection != null
+                              ? 'Partial Google pinning attached'
+                              : 'Text route only',
                           isSubmitting: isSubmitting,
                           submitLabel: l10n.scheduleTripPostCta,
                           onBack: _goToPreviousStep,
-                          onSubmit: _submit,
+                          onSubmit: () =>
+                              _submit(canScheduleAsDriver: canScheduleAsDriver),
                         ),
                     ],
                   ),
@@ -769,6 +908,89 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _ScheduleTripRoleCard extends StatelessWidget {
+  const _ScheduleTripRoleCard({
+    required this.selectedRole,
+    required this.canScheduleAsDriver,
+    required this.onSelectRole,
+    required this.onOpenDriverSetup,
+  });
+
+  final ScheduleTripPostingRole selectedRole;
+  final bool canScheduleAsDriver;
+  final ValueChanged<ScheduleTripPostingRole> onSelectRole;
+  final VoidCallback onOpenDriverSetup;
+
+  @override
+  Widget build(BuildContext context) {
+    final isDriverSelected = selectedRole == ScheduleTripPostingRole.driver;
+    final summary = switch ((isDriverSelected, canScheduleAsDriver)) {
+      (false, _) =>
+        'Passenger is your default role. You can switch per trip whenever needed.',
+      (true, true) =>
+        'Driver trips are posted as return trips while you still keep passenger access.',
+      (true, false) => 'Finish driver setup before posting a trip as a driver.',
+    };
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Schedule as',
+            style: GoogleFonts.dmSans(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: AppColors.text,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            summary,
+            style: GoogleFonts.dmSans(
+              fontSize: 13,
+              fontWeight: FontWeight.w400,
+              color: AppColors.text2,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 14),
+          Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            children: [
+              ScheduleTripSelectionChip(
+                label: 'Passenger',
+                selected: selectedRole == ScheduleTripPostingRole.passenger,
+                onTap: () => onSelectRole(ScheduleTripPostingRole.passenger),
+              ),
+              ScheduleTripSelectionChip(
+                label: 'Driver',
+                selected: isDriverSelected,
+                onTap: () => onSelectRole(ScheduleTripPostingRole.driver),
+              ),
+            ],
+          ),
+          if (isDriverSelected && !canScheduleAsDriver) ...[
+            const SizedBox(height: 14),
+            TextButton.icon(
+              onPressed: onOpenDriverSetup,
+              icon: const Icon(Icons.directions_car_outlined, size: 18),
+              label: const Text('Become a driver'),
+            ),
+          ],
+        ],
       ),
     );
   }

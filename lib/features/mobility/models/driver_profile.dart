@@ -1,3 +1,5 @@
+import '../../../core/identity/public_user_identity.dart';
+
 class DriverProfile {
   const DriverProfile({
     required this.userId,
@@ -91,16 +93,17 @@ class DriverProfile {
     final isRegularDriver =
         _asBool(json['is_regular_driver']) || tripsDone >= 15;
     final credits = _asInt(json['credits']);
+    final userId = json['user_id']?.toString() ?? '';
 
     return DriverProfile(
-      userId: json['user_id']?.toString() ?? '',
-      fullName:
-          userMap['full_name']?.toString() ??
-          profileMap['full_name']?.toString() ??
-          userMap['name']?.toString() ??
-          profileMap['name']?.toString() ??
-          json['full_name']?.toString() ??
-          'Driver',
+      userId: userId,
+      fullName: PublicUserIdentity.resolve(
+        publicUserId:
+            userMap['public_user_id']?.toString() ??
+            profileMap['public_user_id']?.toString() ??
+            json['public_user_id']?.toString(),
+        userId: userId,
+      ),
       vehicleType: json['vehicle_type']?.toString() ?? 'Moto Taxi',
       vehicleDescription: vehicleDescription,
       isRegularDriver: isRegularDriver,

@@ -1,7 +1,9 @@
 import 'package:cool_app/core/models/geo_point.dart';
+import 'package:cool_app/core/identity/user_identity_lookup.dart';
 import 'package:cool_app/core/utils/json_helpers.dart' as jh;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/identity/public_user_identity.dart';
 import '../models/driver_info.dart';
 import '../models/driver_profile.dart';
 import '../models/trip.dart';
@@ -58,9 +60,11 @@ class MobilityRepository {
               final driverMeta =
                   driverMetaByUser[userId] ?? const <String, dynamic>{};
               final vehicleTypeValue = row['vehicle_type']?.toString() ?? '';
-              final displayName =
-                  profile['full_name']?.toString() ??
-                  _shortId(userId, fallback: 'Driver');
+              final displayName = PublicUserIdentity.resolve(
+                publicUserId: profile['public_user_id']?.toString(),
+                userId: userId,
+                phone: profile['phone']?.toString(),
+              );
               final driverLat = jh.asDouble(row['latitude']);
               final driverLng = jh.asDouble(row['longitude']);
               final distanceKm = jh.asDouble(row['distance_km']) ?? 0;
@@ -143,7 +147,8 @@ class MobilityRepository {
         .order('travel_time', ascending: true)
         .order('created_at', ascending: false);
 
-    final rows = jh.asListOfMaps(response)
+    final rows = jh
+        .asListOfMaps(response)
         .where((row) => _isVisibleTripStatus(row['status']))
         .toList(growable: false);
     return _hydrateTrips(rows);
@@ -202,7 +207,10 @@ class MobilityRepository {
   }
 
   Future<DriverProfile?> getDriverProfile(String userId) async {
-    final query = _client.from('driver_profiles').select().eq('user_id', userId);
+    final query = _client
+        .from('driver_profiles')
+        .select()
+        .eq('user_id', userId);
 
     final row = await query.maybeSingle();
 
@@ -296,11 +304,19 @@ class MobilityRepository {
     }
 
     try {
-      final response = await _client
-          .from('users')
-          .select('id, full_name, avatar_url, phone')
-          .inFilter('id', userIds);
-      final rows = jh.asListOfMaps(response);
+      final rows = await fetchUserIdentityRows(
+        fetchRows: ({required includePublicUserId}) async => jh.asListOfMaps(
+          await _client
+              .from('users')
+              .select(
+                buildUserIdentitySelect(
+                  includePublicUserId: includePublicUserId,
+                  extraColumns: const <String>['avatar_url'],
+                ),
+              )
+              .inFilter('id', userIds),
+        ),
+      );
       return {
         for (final row in rows)
           if ((row['id']?.toString() ?? '').isNotEmpty)
@@ -346,9 +362,10 @@ class MobilityRepository {
         .from('mobility_trips')
         .select('id, status')
         .eq('user_id', userId);
-    return jh.asListOfMaps(
-      response,
-    ).where((row) => _isVisibleTripStatus(row['status'])).length;
+    return jh
+        .asListOfMaps(response)
+        .where((row) => _isVisibleTripStatus(row['status']))
+        .length;
   }
 }
 
@@ -406,14 +423,6 @@ String _vehicleEmoji(String rawValue) {
   }
 }
 
-String _shortId(String value, {required String fallback}) {
-  final trimmed = value.trim();
-  if (trimmed.isEmpty) {
-    return fallback;
-  }
-  return trimmed.length <= 6 ? trimmed : trimmed.substring(0, 6);
-}
-
 /// Whether a trip status should be visible in the user's own trip list.
 /// Includes paused trips so users can repost them.
 bool _isVisibleTripStatus(dynamic value) {
@@ -422,5 +431,3 @@ bool _isVisibleTripStatus(dynamic value) {
       normalized == 'open' ||
       normalized == 'paused';
 }
-
-

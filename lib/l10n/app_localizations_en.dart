@@ -941,4 +941,837 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get copied => 'Copied to clipboard.';
+
+  @override
+  String get retryAction => 'Retry';
+
+  @override
+  String get cancelAction => 'Cancel';
+
+  @override
+  String get openAction => 'Open';
+
+  @override
+  String get languageLabel => 'Language';
+
+  @override
+  String get supportLabel => 'Support';
+
+  @override
+  String get notificationsLabel => 'Notifications';
+
+  @override
+  String get statementsLabel => 'Statements';
+
+  @override
+  String get walletLabel => 'Wallet';
+
+  @override
+  String get savingsLabel => 'Savings';
+
+  @override
+  String get allTimeLabel => 'All time';
+
+  @override
+  String get last30DaysLabel => 'Last 30 days';
+
+  @override
+  String get last90DaysLabel => 'Last 90 days';
+
+  @override
+  String get incomingLabel => 'Incoming';
+
+  @override
+  String get outgoingLabel => 'Outgoing';
+
+  @override
+  String get counterpartyLabel => 'Counterparty';
+
+  @override
+  String get referenceLabel => 'Reference';
+
+  @override
+  String get detailsLabel => 'Details';
+
+  @override
+  String get otpUseWhatsappTitle => 'Use your WhatsApp number';
+
+  @override
+  String get otpUseWhatsappSubtitle =>
+      'We will send a 6-digit code to your WhatsApp.';
+
+  @override
+  String get otpPhoneRequired => 'Enter your phone number';
+
+  @override
+  String get otpContinue => 'Continue';
+
+  @override
+  String get otpGenericError => 'Something went wrong. Please try again.';
+
+  @override
+  String get openLinkError => 'Could not open link';
+
+  @override
+  String get otpLegalPrefix => 'By continuing, you accept the ';
+
+  @override
+  String get otpLegalAnd => ' and ';
+
+  @override
+  String get termsLabel => 'Terms';
+
+  @override
+  String get privacyPolicyLabel => 'Privacy Policy';
+
+  @override
+  String get homeMissionsTitle => 'Missions';
+
+  @override
+  String get homeMonthlyNet => 'Monthly net';
+
+  @override
+  String get homeActionPay => 'Pay';
+
+  @override
+  String get homeActionTrips => 'Trips';
+
+  @override
+  String get homeFallbackGroupsSubtitle => 'Savings and invites';
+
+  @override
+  String get homeFallbackPaySubtitle => 'MoMo and statements';
+
+  @override
+  String get homeFallbackPartnersSubtitle => 'Banks and clubs';
+
+  @override
+  String get homeFallbackTripsSubtitle => 'Ride or drive';
+
+  @override
+  String homeActiveCount(int count) {
+    return '$count active';
+  }
+
+  @override
+  String get homeNoActivityTitle => 'No activity yet';
+
+  @override
+  String get homeNoActivityMessage => 'Activity will appear here.';
+
+  @override
+  String get homeLoadErrorTitle => 'Couldn\'t load this section';
+
+  @override
+  String get homeLoadErrorMessage => 'Pull to refresh or try again.';
+
+  @override
+  String get profileMobileMoney => 'Mobile Money';
+
+  @override
+  String get profileCreditScore => 'Credit score';
+
+  @override
+  String get profileNotLinked => 'Not linked';
+
+  @override
+  String get profileCreditReadiness => 'Credit readiness';
+
+  @override
+  String get profileDriverTools => 'Driver tools';
+
+  @override
+  String get profileCoolStatus => 'COOL status';
+
+  @override
+  String get profileAdminPanel => 'Admin panel';
+
+  @override
+  String get officialNameLabel => 'Official name';
+
+  @override
+  String get identityLabel => 'Identity';
+
+  @override
+  String get moneySectionTitle => 'Money';
+
+  @override
+  String get preferencesSectionTitle => 'Preferences';
+
+  @override
+  String get moreToolsSectionTitle => 'More tools';
+
+  @override
+  String get profileMoreToolsShowSubtitle =>
+      'Show extra actions and secondary shortcuts.';
+
+  @override
+  String get profileMoreToolsHideSubtitle =>
+      'Hide QR, driver, status, and admin shortcuts.';
+
+  @override
+  String get vehicleLabel => 'Vehicle';
+
+  @override
+  String get accountActionsTitle => 'Account actions';
+
+  @override
+  String get signOutAction => 'Sign out';
+
+  @override
+  String get deleteAccountAction => 'Delete account';
+
+  @override
+  String get deleteAccountQuestion => 'Delete account?';
+
+  @override
+  String get deleteAccountMessage =>
+      'This permanently removes your account and data.';
+
+  @override
+  String get signOutMessage =>
+      'You\'ll need to verify your number again to log back in.';
+
+  @override
+  String get completeProfileTitle => 'Complete your profile';
+
+  @override
+  String get completeProfileSubtitle => 'Finish setup to unlock all features.';
+
+  @override
+  String get profileSavingMomoInfo => 'Saving MoMo info...';
+
+  @override
+  String get profileDeletingAccount => 'Deleting your account...';
+
+  @override
+  String get profileMomoUpdated => 'MoMo info updated';
+
+  @override
+  String get profileMomoUpdateFailed => 'Failed to update MoMo info';
+
+  @override
+  String get profileSupportOpenError =>
+      'Could not open WhatsApp. Please try again.';
+
+  @override
+  String get profileSupportUnavailable => 'Support is unavailable right now.';
+
+  @override
+  String get profileMomoQrTitle => 'MoMo QR';
+
+  @override
+  String profileMomoQrSubtitle(String number) {
+    return 'Scan to pay $number';
+  }
+
+  @override
+  String get profileEditMomoInfo => 'Edit MoMo Info';
+
+  @override
+  String get profileEditMomoSubtitle =>
+      'This number will be used for Mobile Money payments';
+
+  @override
+  String get profileMomoCodeOptional => 'MOMO CODE (OPTIONAL)';
+
+  @override
+  String get kycNeedsUpdate => 'Needs update';
+
+  @override
+  String get kycUnverified => 'Unverified';
+
+  @override
+  String get userFallbackName => 'User';
+
+  @override
+  String get notSetLabel => 'Not set';
+
+  @override
+  String get momoStatementsTitle => 'Statements & Ledger';
+
+  @override
+  String get momoRefreshStatements => 'Refresh statements';
+
+  @override
+  String get statementOverviewTitle => 'Statement overview';
+
+  @override
+  String get walletEntriesMetric => 'Wallet entries';
+
+  @override
+  String get savingsEntriesMetric => 'Savings entries';
+
+  @override
+  String get walletEmptyTitle => 'No wallet entries yet';
+
+  @override
+  String get walletEmptyMessage => 'Wallet activity will appear here.';
+
+  @override
+  String get walletLedgerTitle => 'Wallet ledger';
+
+  @override
+  String walletLedgerSubtitle(int shown, int total) {
+    return 'Showing $shown of $total wallet entries.';
+  }
+
+  @override
+  String get savingsEmptyTitle => 'No savings entries yet';
+
+  @override
+  String get savingsEmptyMessage => 'Savings contributions will appear here.';
+
+  @override
+  String get savingsStatementTitle => 'Savings statement';
+
+  @override
+  String savingsStatementSubtitle(int shown, int total) {
+    return 'Showing $shown of $total group contribution records.';
+  }
+
+  @override
+  String get coolMemberFallback => 'COOL member';
+
+  @override
+  String get momoStatementsPeriodDay => 'Day';
+
+  @override
+  String get momoStatementsPeriodWeek => 'Week';
+
+  @override
+  String get momoStatementsPeriodMonth => 'Month';
+
+  @override
+  String get momoStatementsPeriodCustom => 'Custom';
+
+  @override
+  String get momoStatementsPeriodAll => 'All';
+
+  @override
+  String get momoStatementsSortNewestFirst => 'Newest first';
+
+  @override
+  String get momoStatementsSortOldestFirst => 'Oldest first';
+
+  @override
+  String get momoStatementsSortAmountHighToLow => 'Amount: high → low';
+
+  @override
+  String get momoStatementsSortAmountLowToHigh => 'Amount: low → high';
+
+  @override
+  String get momoStatementsSortNameAz => 'Name: A → Z';
+
+  @override
+  String get momoStatementsSortNameZa => 'Name: Z → A';
+
+  @override
+  String get momoStatementsWalletFilteredEmptyTitle =>
+      'No matching wallet entries';
+
+  @override
+  String get momoStatementsWalletFilteredEmptyMessage =>
+      'Try adjusting your filters or date range.';
+
+  @override
+  String get momoStatementsSavingsFilteredEmptyTitle =>
+      'No matching savings entries';
+
+  @override
+  String get momoStatementsSavingsFilteredEmptyMessage =>
+      'Try adjusting your filters or date range.';
+
+  @override
+  String get fansScreenUnavailableTitle => 'Fan Hub Moved';
+
+  @override
+  String get fansScreenHeadline => 'Fan Hub';
+
+  @override
+  String fansScreenBody(String clubName) {
+    return 'Fan features for $clubName are now consolidated in the partner hub.';
+  }
+
+  @override
+  String get fansScreenMembershipUnavailable =>
+      'Membership features live inside Rayon Sports.';
+
+  @override
+  String get fansScreenClubsUnavailable =>
+      'Fan clubs are now managed inside Rayon Sports.';
+
+  @override
+  String get fansScreenRayonDedicatedHub =>
+      'Rayon Sports has a dedicated fan hub.';
+
+  @override
+  String get fansScreenRouteKeptReachable =>
+      'This route is kept reachable for deep links.';
+
+  @override
+  String get fansScreenBackToPartners => 'Back to Partners';
+
+  @override
+  String get fansScreenOpenRayon => 'Open Rayon Sports';
+
+  @override
+  String get ticketWalletInvalidLink => 'Invalid Google Wallet link.';
+
+  @override
+  String get ticketWalletUnavailable =>
+      'Google Wallet is not available on this device.';
+
+  @override
+  String get ticketWalletOpenFailed => 'Could not open Google Wallet.';
+
+  @override
+  String get ticketConfirmationScreenTitle => 'Ticket';
+
+  @override
+  String get ticketConfirmationNotFound => 'Ticket not found.';
+
+  @override
+  String get ticketAddToGoogleWallet => 'Add to Google Wallet';
+
+  @override
+  String get ticketBackToTickets => 'Back to Tickets';
+
+  @override
+  String get ticketShareMatchTitle => 'Share Match';
+
+  @override
+  String ticketShareMatchText(String matchTitle) {
+    return 'Check out $matchTitle on Cool!';
+  }
+
+  @override
+  String get ticketStatusPendingTitle => 'Payment Pending';
+
+  @override
+  String get ticketStatusPendingSubtitle => 'Waiting for MoMo confirmation.';
+
+  @override
+  String get ticketStatusPendingNote =>
+      'Your ticket is reserved. Complete the MoMo payment to activate it.';
+
+  @override
+  String get ticketStatusValidTitle => 'Valid Ticket';
+
+  @override
+  String get ticketStatusValidSubtitle => 'Show this at the gate.';
+
+  @override
+  String get ticketStatusValidNote =>
+      'Present the QR code below at the stadium entrance.';
+
+  @override
+  String get ticketStatusUsedTitle => 'Ticket Used';
+
+  @override
+  String get ticketStatusUsedSubtitle => 'This ticket has been scanned.';
+
+  @override
+  String get ticketStatusUsedNote =>
+      'This ticket was validated at the gate. It cannot be used again.';
+
+  @override
+  String get ticketStatusCancelledTitle => 'Ticket Cancelled';
+
+  @override
+  String get ticketStatusCancelledSubtitle => 'This ticket is no longer valid.';
+
+  @override
+  String get ticketStatusCancelledNote =>
+      'Contact support if you believe this is an error.';
+
+  @override
+  String get partnersHomeTooltip => 'Partners Home';
+
+  @override
+  String get partnersServicesTab => 'Services';
+
+  @override
+  String get partnersRayonWelcomeTitle => 'Welcome to Rayon Sports!';
+
+  @override
+  String get partnersRayonWelcomeSubtitle =>
+      'Your fan membership has been created. Enjoy exclusive perks, tickets, and club updates.';
+
+  @override
+  String get partnersOpenRayonSports => 'Open Rayon Sports';
+
+  @override
+  String get partnersMembershipPerkRegistryAccess => 'Fan registry access';
+
+  @override
+  String get partnersMembershipPerkClubUpdates => 'Club updates';
+
+  @override
+  String get partnersMembershipPerkMemberQueue => 'Member queue priority';
+
+  @override
+  String get partnersMembershipPerkPriorityTickets => 'Priority ticket access';
+
+  @override
+  String get partnersMembershipPerkShopDiscount => 'Shop discount';
+
+  @override
+  String get partnersMembershipPerkVipQueue => 'VIP queue access';
+
+  @override
+  String get partnersMembershipPerkVipAccess => 'VIP event access';
+
+  @override
+  String get partnersMembershipPerkExclusiveEvents => 'Exclusive events';
+
+  @override
+  String get partnersNoFootballPartners =>
+      'No football partners available yet.';
+
+  @override
+  String partnersComingSoonMessage(String partnerName) {
+    return '$partnerName is coming soon!';
+  }
+
+  @override
+  String get partnersRayonHubBadge => 'Official Fan Hub';
+
+  @override
+  String get partnersGamesMetricLabel => 'Games';
+
+  @override
+  String get partnersLoadingMessage => 'Loading partners…';
+
+  @override
+  String get partnersNoFinancePartners => 'No finance partners available yet.';
+
+  @override
+  String get partnersFinancePrepTitle => 'Financial Readiness';
+
+  @override
+  String get partnersFinancePrepSubtitle =>
+      'Check your credit readiness and prepare for financial services from our partners.';
+
+  @override
+  String get partnersReadinessChecklistCta => 'Credit Readiness Checklist';
+
+  @override
+  String partnersWhatsappMessage(String partnerName) {
+    return 'Hi, I\'d like to learn more about $partnerName on Cool.';
+  }
+
+  @override
+  String get partnersNoServicePartners => 'No service partners available yet.';
+
+  @override
+  String get partnersInsurancePartnerBadge => 'Insurance Partner';
+
+  @override
+  String get partnersProfessionalServicesBadge => 'Professional Services';
+
+  @override
+  String get partnersServicePartnerBadge => 'Service Partner';
+
+  @override
+  String get partnersLoadErrorTitle => 'Could not load partners';
+
+  @override
+  String get partnersEmptyMessage =>
+      'Partners will appear here once available.';
+
+  @override
+  String get partnersClubShopSubtitle => 'Official merchandise';
+
+  @override
+  String get partnersFootballTab => 'Football';
+
+  @override
+  String get partnersFinanceTab => 'Finance';
+
+  @override
+  String get partnersFeaturesTitle => 'Features';
+
+  @override
+  String get momoNfcInvalidRequest => 'Invalid NFC payment request.';
+
+  @override
+  String get momoLaunchingUssd => 'Launching USSD…';
+
+  @override
+  String get momoNfcLaunchFailed => 'NFC launch failed. Please try again.';
+
+  @override
+  String get momoScreenTitle => 'Mobile Money';
+
+  @override
+  String get momoNfcLaunchingOverlay => 'Launching MoMo…';
+
+  @override
+  String get momoSendValidationError =>
+      'Please enter a valid recipient and amount.';
+
+  @override
+  String momoSendLaunchFailed(String countryName) {
+    return 'Could not launch MoMo payment for $countryName.';
+  }
+
+  @override
+  String momoFromNumber(String number) {
+    return 'From $number';
+  }
+
+  @override
+  String get momoRoutePhoneLabel => 'Phone Number';
+
+  @override
+  String get momoRouteCodeLabel => 'MoMo Code';
+
+  @override
+  String get momoRecipientCodeLabel => 'Recipient MoMo Code';
+
+  @override
+  String get momoRecipientPhoneLabel => 'Recipient Phone';
+
+  @override
+  String momoAmountLabel(String currency) {
+    return 'Amount ($currency)';
+  }
+
+  @override
+  String momoSendCompletesViaUssd(String countryName) {
+    return 'Completes via USSD on your $countryName SIM.';
+  }
+
+  @override
+  String get momoConfirmSendLabel => 'Send Money';
+
+  @override
+  String get momoStatementsPayerLabel => 'Payer';
+
+  @override
+  String get momoStatementsAllPayers => 'All payers';
+
+  @override
+  String get momoStatementsAllGroups => 'All groups';
+
+  @override
+  String get momoStatementsSelectCustomPeriod => 'Select custom period';
+
+  @override
+  String get momoStatementsNothingToDownload => 'Nothing to download yet.';
+
+  @override
+  String momoStatementsSavedFile(String fileName) {
+    return 'Saved $fileName';
+  }
+
+  @override
+  String momoStatementsDownloadedFile(String fileName) {
+    return 'Downloaded $fileName';
+  }
+
+  @override
+  String get momoStatementsDownloadFailed => 'Statement download failed.';
+
+  @override
+  String momoStatementsFilterSummaryPeriod(String period) {
+    return 'Period: $period';
+  }
+
+  @override
+  String momoStatementsFilterSummaryParty(String label, String value) {
+    return '$label: $value';
+  }
+
+  @override
+  String get momoStatementsFilterTitle => 'Filters & exports';
+
+  @override
+  String get momoStatementsSortByLabel => 'Sort';
+
+  @override
+  String get resetAction => 'Reset';
+
+  @override
+  String get momoStatementsPreparingLabel => 'Exporting…';
+
+  @override
+  String get momoStatementsPdfLabel => 'PDF';
+
+  @override
+  String get momoStatementsExcelLabel => 'Excel';
+
+  @override
+  String get groupsTabAll => 'All';
+
+  @override
+  String get groupsTabSaving => 'Saving';
+
+  @override
+  String get groupsTabCommunity => 'Community';
+
+  @override
+  String get groupsTabPublic => 'Public';
+
+  @override
+  String get groupsTabPrivate => 'Private';
+
+  @override
+  String groupsShareText(String groupName, String inviteUrl) {
+    return 'Join $groupName on Cool: $inviteUrl';
+  }
+
+  @override
+  String get groupsCreateNewTitle => 'Create a New Group';
+
+  @override
+  String get groupsCreateNewSubtitle => 'Saving or Community';
+
+  @override
+  String get groupsEmptyPublicTitle => 'No public groups found';
+
+  @override
+  String get groupsEmptyPublicMessage =>
+      'Pull to refresh or check your groups.';
+
+  @override
+  String get groupsEmptyPrivateMessage =>
+      'Create a group or browse public ones.';
+
+  @override
+  String groupsBankCustodianMeta(String partnerName) {
+    return 'Bank custodian · $partnerName';
+  }
+
+  @override
+  String groupsMomoRouteMeta(String number) {
+    return 'MoMo route · $number';
+  }
+
+  @override
+  String get groupsSavingGroupMeta => 'Saving group';
+
+  @override
+  String get groupsCommunityFundMeta => 'Community fund';
+
+  @override
+  String get groupsRaisedLabel => 'raised';
+
+  @override
+  String get groupsShareAction => 'Share';
+
+  @override
+  String get groupsLoadErrorTitle => 'Something went wrong';
+
+  @override
+  String get profileTierBlue => 'Blue';
+
+  @override
+  String get profileTierSilver => 'Silver';
+
+  @override
+  String get profileTierGold => 'Gold';
+
+  @override
+  String get profileTierPlatinum => 'Platinum';
+
+  @override
+  String get profileSavingIdentity => 'Saving identity details...';
+
+  @override
+  String get profileIdentityUpdated => 'Identity details updated';
+
+  @override
+  String get profileIdentityUpdateFailed => 'Failed to update identity details';
+
+  @override
+  String get profileAppAccess => 'App access';
+
+  @override
+  String get profileManageAction => 'Manage';
+
+  @override
+  String profileCoolStatusValue(String tier, int points) {
+    return '$tier · $points pts';
+  }
+
+  @override
+  String get profileUserIdLabel => 'User ID';
+
+  @override
+  String get profileWalletLabel => 'Wallet';
+
+  @override
+  String get profileSetupTitle => 'Profile setup';
+
+  @override
+  String get profilePublicProfileLabel => 'Public profile';
+
+  @override
+  String get profileOfficialIdentityLabel => 'Official identity';
+
+  @override
+  String get profilePassengerRoleLabel => 'Passenger';
+
+  @override
+  String get profileDriverRoleLabel => 'Driver';
+
+  @override
+  String get mobilityNoWhatsappAvailable =>
+      'No WhatsApp contact available yet.';
+
+  @override
+  String get mobilityNoContactYet => 'No contact yet';
+
+  @override
+  String get mobilityLocationRequiredDriverMode =>
+      'Location is required before turning on driver mode.';
+
+  @override
+  String momoSendMoneyOpensUssd(String countryName) {
+    return 'Open $countryName MoMo USSD to send money.';
+  }
+
+  @override
+  String get momoMoreToolsSubtitle =>
+      'Statements, QR, and NFC tools for your route.';
+
+  @override
+  String get momoStatementsToolSubtitle => 'Review wallet and savings history.';
+
+  @override
+  String get momoNfcToolsTitle => 'NFC tools';
+
+  @override
+  String get momoNfcToolsSubtitle => 'Tap-to-pay and share route details.';
+
+  @override
+  String get basketScreenTitle => 'Basket';
+
+  @override
+  String get basketScreenHeadline => 'Basket is not live right now';
+
+  @override
+  String get basketScreenBody =>
+      'This route stays available for compatibility, but basket balances and creation flows are not active in this build.';
+
+  @override
+  String get basketScreenCardBody =>
+      'Basket products are paused while the team finishes the next release.';
+
+  @override
+  String get basketScreenExpectationBalances =>
+      'No live basket balances are shown here.';
+
+  @override
+  String get basketScreenExpectationCreation =>
+      'New basket creation is currently disabled.';
+
+  @override
+  String get basketScreenExpectationLinks =>
+      'Existing deep links still land on this placeholder.';
+
+  @override
+  String get basketScreenBackHome => 'Back Home';
 }

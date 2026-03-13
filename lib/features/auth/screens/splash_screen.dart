@@ -66,21 +66,21 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                   child: Column(
                     children: [
                       Container(
-                        width: 132,
-                        height: 132,
+                        width: 112,
+                        height: 112,
                         decoration: BoxDecoration(
                           color: AppColors.surface2,
-                          borderRadius: BorderRadius.circular(32),
+                          borderRadius: BorderRadius.circular(28),
                           border: Border.all(color: AppColors.border),
                         ),
                         alignment: Alignment.center,
-                        child: const CoolBrandMark(size: 92),
+                        child: const CoolBrandMark(size: 68),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 14),
                       Text(
                         'Cool',
                         style: GoogleFonts.dmSans(
-                          fontSize: 28,
+                          fontSize: 26,
                           fontWeight: FontWeight.w700,
                           color: AppColors.text,
                           letterSpacing: -0.8,

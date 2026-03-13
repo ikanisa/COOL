@@ -7,6 +7,7 @@ import '../../../shared/widgets/cool_card.dart';
 /// Summary card displayed on the review step of Schedule Trip.
 class ScheduleTripReviewCard extends StatelessWidget {
   const ScheduleTripReviewCard({
+    required this.roleLabel,
     required this.routeLabel,
     required this.departureLabel,
     required this.vehicleLabel,
@@ -18,6 +19,7 @@ class ScheduleTripReviewCard extends StatelessWidget {
     super.key,
   });
 
+  final String roleLabel;
   final String routeLabel;
   final String departureLabel;
   final String vehicleLabel;
@@ -52,6 +54,7 @@ class ScheduleTripReviewCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
+          _TripReviewItem(label: 'Role', value: roleLabel),
           _TripReviewItem(label: 'Route', value: routeLabel),
           _TripReviewItem(label: 'Departure', value: departureLabel),
           _TripReviewItem(label: 'Vehicle', value: vehicleLabel),

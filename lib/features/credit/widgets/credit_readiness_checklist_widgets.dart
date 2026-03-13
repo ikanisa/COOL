@@ -6,6 +6,8 @@ import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_empty_view.dart';
+import '../../../shared/widgets/cool_error_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../auth/models/user_profile.dart';
 import '../models/credit_dashboard.dart';
@@ -373,40 +375,12 @@ class ReadinessErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: CoolCard(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(
-                Icons.error_outline_rounded,
-                size: 34,
-                color: AppColors.orange,
-              ),
-              const SizedBox(height: 12),
-              Text(
-                'Could not load readiness data.',
-                style: GoogleFonts.dmSans(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.text,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                error,
-                textAlign: TextAlign.center,
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.text2,
-                  height: 1.45,
-                ),
-              ),
-            ],
-          ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: CoolCard(
+        child: CoolErrorView(
+          message: error,
+          compact: true,
         ),
       ),
     );
@@ -419,20 +393,14 @@ class ReadinessEmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: CoolCard(
-          child: Text(
-            'Sign in to review formal profile, credit, and bank-onboarding readiness.',
-            textAlign: TextAlign.center,
-            style: GoogleFonts.dmSans(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: AppColors.text2,
-              height: 1.45,
-            ),
-          ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: CoolCard(
+        child: CoolEmptyView(
+          message:
+              'Sign in to review formal profile, credit, and bank-onboarding readiness.',
+          compact: true,
+          icon: Icons.credit_score_outlined,
         ),
       ),
     );

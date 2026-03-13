@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'supported_locales.dart';
+
 /// Hive box + key used to persist the selected locale.
 const _settingsBox = 'settings';
 const _langKey = 'lang';
@@ -60,13 +62,16 @@ class LocaleNotifier extends StateNotifier<Locale> {
   final LocaleStore _store;
 
   Future<void> _loadFromStore() async {
-    final code = await _store.readLanguageCode();
+    final code = normalizeSupportedLanguageCode(
+      await _store.readLanguageCode(),
+    );
     state = Locale(code);
   }
 
   /// Sets the app locale and persists the choice through the configured store.
   Future<void> setLocale(String languageCode) async {
-    state = Locale(languageCode);
-    await _store.writeLanguageCode(languageCode);
+    final normalized = normalizeSupportedLanguageCode(languageCode);
+    state = Locale(normalized);
+    await _store.writeLanguageCode(normalized);
   }
 }

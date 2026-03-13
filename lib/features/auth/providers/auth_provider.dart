@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/auth/auth_user_contact.dart';
 import '../../../core/config/country_catalog.dart';
+import '../../../core/config/env_config.dart';
 import '../../../core/providers/engagement_providers.dart';
 import '../../../core/providers/supabase_client_provider.dart';
 import '../../../core/services/crashlytics_service.dart';
@@ -103,6 +104,7 @@ class AuthProfileData {
     required this.fullName,
     required this.momoNumber,
     this.momoCode,
+    this.momoRouteType,
     required this.momoProvider,
     required this.country,
     required this.languageCode,
@@ -114,6 +116,7 @@ class AuthProfileData {
   final String fullName;
   final String momoNumber;
   final String? momoCode;
+  final MomoRecipientType? momoRouteType;
   final String momoProvider;
   final String country;
   final String languageCode;
@@ -299,12 +302,19 @@ class AuthNotifier extends StateNotifier<AuthState> {
       return null;
     }
 
-    ({String momoNumber, String? momoCode, String momoProvider, String country})
+    ({
+      String momoNumber,
+      String? momoCode,
+      MomoRecipientType? momoRouteType,
+      String momoProvider,
+      String country,
+    })
     normalizedIdentity;
     try {
       normalizedIdentity = await _normalizeMomoIdentity(
         momoNumber: data.momoNumber,
         momoCode: data.momoCode,
+        preferredRouteType: data.momoRouteType,
         fallbackCountry: data.country,
         fallbackProviderId: data.momoProvider,
       );
@@ -330,6 +340,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
           fullName: data.fullName,
           momoNumber: normalizedIdentity.momoNumber,
           momoCode: normalizedIdentity.momoCode,
+          momoRouteType: normalizedIdentity.momoRouteType,
           momoProvider: normalizedIdentity.momoProvider,
           country: normalizedIdentity.country,
           languageCode: data.languageCode,
@@ -375,6 +386,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   Future<bool> updateMomoInfo({
     required String momoNumber,
     String? momoCode,
+    MomoRecipientType? momoRouteType,
     String? momoProvider,
     String? country,
   }) async {
@@ -384,12 +396,19 @@ class AuthNotifier extends StateNotifier<AuthState> {
       return false;
     }
 
-    ({String momoNumber, String? momoCode, String momoProvider, String country})
+    ({
+      String momoNumber,
+      String? momoCode,
+      MomoRecipientType? momoRouteType,
+      String momoProvider,
+      String country,
+    })
     normalizedIdentity;
     try {
       normalizedIdentity = await _normalizeMomoIdentity(
         momoNumber: momoNumber,
         momoCode: momoCode,
+        preferredRouteType: momoRouteType,
         fallbackCountry: country ?? resolveAuthStateCountryCode(state),
         fallbackProviderId: momoProvider ?? user.momoProvider,
       );
@@ -410,6 +429,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
         user.id,
         momoNumber: normalizedIdentity.momoNumber,
         momoCode: normalizedIdentity.momoCode,
+        momoRouteType: normalizedIdentity.momoRouteType,
         momoProvider: normalizedIdentity.momoProvider,
         country: normalizedIdentity.country,
       ),
@@ -435,32 +455,154 @@ class AuthNotifier extends StateNotifier<AuthState> {
     return success;
   }
 
+  Future<bool> updateOfficialIdentity({
+    required String officialName,
+    required String officialPhone,
+  }) async {
+    final user = state.user;
+    if (user == null) {
+      state = state.copyWith(error: 'No user profile loaded.');
+      return false;
+    }
+
+    final trimmedName = officialName.trim();
+    final trimmedPhone = officialPhone.trim();
+    String? normalizedOfficialPhone;
+
+    if (trimmedPhone.isNotEmpty) {
+      try {
+        final resolvedCountry = CoolCountryCatalog.resolve(
+          country: resolveAuthStateCountryCode(state),
+          phone: user.phone,
+          providerId: user.momoProvider,
+        );
+        normalizedOfficialPhone = resolvedCountry.normalizeNationalPhone(
+          trimmedPhone,
+        );
+      } catch (error, stack) {
+        _crashlytics.recordError(
+          error,
+          stackTrace: stack,
+          reason: 'normalize_official_identity_phone',
+        );
+        state = state.copyWith(error: _errorMessage(error));
+        return false;
+      }
+    }
+
+    final updatedProfile = UserProfile(
+      id: user.id,
+      phone: user.phone,
+      fullName: user.fullName,
+      publicUserId: user.publicUserId,
+      momoNumber: user.momoNumber,
+      momoCode: user.momoCode,
+      momoRouteType: user.momoRouteType,
+      momoProvider: user.momoProvider,
+      country: user.country,
+      languageCode: user.languageCode,
+      isDriver: user.isDriver,
+      isAdmin: user.isAdmin,
+      vehicleType: user.vehicleType,
+      avatarUrl: user.avatarUrl,
+      officialName: trimmedName.isEmpty ? null : trimmedName,
+      officialPhone: normalizedOfficialPhone,
+      kycStatus: user.kycStatus,
+      kycVerifiedAt: user.kycVerifiedAt,
+      creditConsentGrantedAt: user.creditConsentGrantedAt,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    );
+
+    state = state.copyWith(isLoading: true, error: null);
+
+    final result = await AsyncValue.guard(
+      () => _repository.updateProfile(updatedProfile),
+    );
+
+    var success = false;
+    result.when(
+      data: (value) {
+        success = true;
+        state = state.copyWith(user: value, isLoading: false, error: null);
+      },
+      error: (error, stack) {
+        _crashlytics.recordError(
+          error,
+          stackTrace: stack,
+          reason: 'update_official_identity',
+        );
+        state = state.copyWith(isLoading: false, error: _errorMessage(error));
+      },
+      loading: () {},
+    );
+
+    return success;
+  }
+
   Future<
-    ({String momoNumber, String? momoCode, String momoProvider, String country})
+    ({
+      String momoNumber,
+      String? momoCode,
+      MomoRecipientType? momoRouteType,
+      String momoProvider,
+      String country,
+    })
   >
   _normalizeMomoIdentity({
     required String momoNumber,
     String? momoCode,
+    MomoRecipientType? preferredRouteType,
     String? fallbackCountry,
     String? fallbackProviderId,
   }) async {
+    final trimmedMomoNumber = momoNumber.trim();
+    final trimmedMomoCode = momoCode?.trim() ?? '';
+    if (trimmedMomoNumber.isEmpty && trimmedMomoCode.isEmpty) {
+      throw const FormatException('Add a MoMo number or code.');
+    }
+
     final seedCountry = await MomoService.instance.resolveCountry(
       countryCode: fallbackCountry,
-      phone: momoNumber,
+      phone: trimmedMomoNumber.isEmpty ? null : trimmedMomoNumber,
       providerId: fallbackProviderId,
     );
-    final normalizedMomoNumber = seedCountry.buildE164Phone(momoNumber);
     final resolvedCountry = await MomoService.instance.resolveCountry(
       countryCode: seedCountry.isoCode,
-      phone: normalizedMomoNumber,
+      phone: trimmedMomoNumber.isEmpty ? null : trimmedMomoNumber,
       providerId: fallbackProviderId ?? seedCountry.providerId,
     );
+    final normalizedMomoNumber = trimmedMomoNumber.isEmpty
+        ? ''
+        : resolvedCountry.normalizeNationalPhone(trimmedMomoNumber);
+    final normalizedMomoCode = trimmedMomoCode.isEmpty
+        ? null
+        : resolvedCountry.normalizeMerchantCode(trimmedMomoCode);
+    final momoRouteType = switch (preferredRouteType) {
+      MomoRecipientType.phoneNumber =>
+        normalizedMomoNumber.isEmpty
+            ? throw const FormatException(
+                'MoMo number is required for the selected default route.',
+              )
+            : MomoRecipientType.phoneNumber,
+      MomoRecipientType.code =>
+        normalizedMomoCode == null
+            ? throw const FormatException(
+                'MoMo code is required for the selected default route.',
+              )
+            : MomoRecipientType.code,
+      null =>
+        normalizedMomoNumber.isNotEmpty
+            ? MomoRecipientType.phoneNumber
+            : normalizedMomoCode == null
+            ? null
+            : MomoRecipientType.code,
+    };
 
     return (
       momoNumber: normalizedMomoNumber,
-      momoCode: momoCode == null || momoCode.trim().isEmpty
-          ? null
-          : resolvedCountry.normalizeMerchantCode(momoCode),
+      momoCode: normalizedMomoCode,
+      momoRouteType: momoRouteType,
       momoProvider: resolvedCountry.providerId,
       country: resolvedCountry.isoCode,
     );
@@ -502,5 +644,22 @@ class AuthNotifier extends StateNotifier<AuthState> {
     );
   }
 
-  String _errorMessage(Object error) => error.toString();
+  String _errorMessage(Object error) {
+    final raw = error.toString();
+    if (raw.contains('No host specified') && raw.contains('/functions/')) {
+      return EnvConfig.criticalConfigurationError ??
+          'This build is missing a valid Supabase backend configuration. '
+              'Rebuild with a valid SUPABASE_URL and SUPABASE_ANON_KEY.';
+    }
+
+    if (raw.startsWith('StateError: ')) {
+      return raw.substring('StateError: '.length);
+    }
+
+    if (raw.startsWith('Exception: ')) {
+      return raw.substring('Exception: '.length);
+    }
+
+    return raw;
+  }
 }

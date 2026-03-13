@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/config/country_catalog.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/phone_validator.dart';
-import '../../mobility/models/subscription_status.dart';
 import '../../mobility/providers/driver_provider.dart';
+import '../../mobility/models/subscription_status.dart';
 
 /// Aggregated profile data consumed by profile UI widgets.
 class ProfileData {
@@ -16,17 +17,23 @@ class ProfileData {
     required this.officialPhone,
     this.momoNumber = '',
     this.momoCode,
+    this.momoRouteType,
     this.countryCode = 'RW',
     required this.country,
-    required this.momoProvider,
+    required this.currencyCode,
     required this.momoLinked,
     required this.languageCode,
     required this.notificationsEnabled,
     required this.creditScoreLabel,
     required this.kycStatus,
+    required this.showCompletionBanner,
+    this.setupItems = const <ProfileSetupItem>[],
     required this.isDriver,
     this.vehicleType,
-    this.vehicleStatus,
+    this.driverVerificationStatus,
+    this.driverCadenceLabel,
+    this.driverBaseLocation,
+    this.driverPlateNumber,
     this.subscriptionLabel,
     this.subscriptionExpiring = false,
   });
@@ -38,31 +45,95 @@ class ProfileData {
   final String officialPhone;
   final String momoNumber;
   final String? momoCode;
+  final MomoRecipientType? momoRouteType;
   final String countryCode;
   final String country;
-  final String momoProvider;
+  final String currencyCode;
   final bool momoLinked;
   final String languageCode;
   final bool notificationsEnabled;
   final String creditScoreLabel;
   final String kycStatus;
+  final bool showCompletionBanner;
+  final List<ProfileSetupItem> setupItems;
 
-  String get momoDisplayLabel {
-    if (momoNumber.isEmpty) return 'Not linked';
-    if (countryCode.toUpperCase() == 'RW') {
-      return PhoneValidator.formatRwandanDisplay(momoNumber);
-    }
-    return momoNumber;
-  }
-
-  // Driver-only fields
   final bool isDriver;
   final String? vehicleType;
-  final String? vehicleStatus;
+  final String? driverVerificationStatus;
+  final String? driverCadenceLabel;
+  final String? driverBaseLocation;
+  final String? driverPlateNumber;
   final String? subscriptionLabel;
   final bool subscriptionExpiring;
 
+  String get momoDisplayLabel {
+    if (!momoLinked) {
+      return 'Not linked';
+    }
+
+    final routeType = effectiveMomoRouteType;
+    if (routeType == MomoRecipientType.code) {
+      return momoCode?.trim().isNotEmpty == true
+          ? 'Code ${momoCode!.trim()}'
+          : 'Code not set';
+    }
+
+    if (momoNumber.isEmpty) {
+      return 'Not linked';
+    }
+    final country =
+        CoolCountryCatalog.byIsoCode(countryCode) ??
+        CoolCountryCatalog.defaultCountry;
+    return PhoneValidator.formatMomoDisplay(momoNumber, country);
+  }
+
+  MomoRecipientType? get effectiveMomoRouteType {
+    if (momoRouteType != null) {
+      return momoRouteType;
+    }
+    if (momoNumber.trim().isNotEmpty) {
+      return MomoRecipientType.phoneNumber;
+    }
+    if (momoCode?.trim().isNotEmpty == true) {
+      return MomoRecipientType.code;
+    }
+    return null;
+  }
+
+  String get walletRouteLabel {
+    return switch (effectiveMomoRouteType) {
+      MomoRecipientType.phoneNumber => 'Phone route',
+      MomoRecipientType.code => 'Code route',
+      null => 'Wallet route',
+    };
+  }
+
+  bool get canShowMomoQr =>
+      momoLinked &&
+      effectiveMomoRouteType == MomoRecipientType.phoneNumber &&
+      momoNumber.trim().isNotEmpty;
+
+  String get driverSummary {
+    if (!isDriver) {
+      return 'Passenger ready';
+    }
+    if ((vehicleType?.trim().isEmpty ?? true)) {
+      return 'Vehicle setup pending';
+    }
+
+    final parts = <String>[
+      vehicleType!.trim(),
+      if (subscriptionLabel?.trim().isNotEmpty == true)
+        subscriptionLabel!.trim(),
+    ];
+    return parts.join(' · ');
+  }
+
   String get initials {
+    final compactName = name.replaceAll(RegExp(r'[^0-9A-Za-z]'), '');
+    if (compactName.isNotEmpty) {
+      return compactName.characters.take(2).toString().toUpperCase();
+    }
     final parts = name.split(' ').where((p) => p.isNotEmpty).toList();
     if (parts.length == 1) return parts.first.characters.take(2).toString();
     return '${parts.first.characters.first}${parts.last.characters.first}'
@@ -113,37 +184,56 @@ class ProfileData {
       officialPhone: officialPhone,
       momoNumber: momoNumber,
       momoCode: momoCode,
+      momoRouteType: momoRouteType,
       countryCode: countryCode,
       country: country,
-      momoProvider: momoProvider,
+      currencyCode: currencyCode,
       momoLinked: momoLinked,
       languageCode: languageCode ?? this.languageCode,
       notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
       creditScoreLabel: creditScoreLabel,
       kycStatus: kycStatus,
+      showCompletionBanner: showCompletionBanner,
+      setupItems: setupItems,
       isDriver: isDriver,
       vehicleType: vehicleType,
-      vehicleStatus: vehicleStatus,
+      driverVerificationStatus: driverVerificationStatus,
+      driverCadenceLabel: driverCadenceLabel,
+      driverBaseLocation: driverBaseLocation,
+      driverPlateNumber: driverPlateNumber,
       subscriptionLabel: subscriptionLabel,
       subscriptionExpiring: subscriptionExpiring,
     );
   }
 
   static const empty = ProfileData(
-    name: 'User',
-    officialName: 'User',
-    userId: '------',
+    name: '000000',
+    officialName: '',
+    userId: '000000',
     phone: '',
     officialPhone: '',
     country: 'Rwanda',
-    momoProvider: 'RWF',
+    currencyCode: 'RWF',
     momoLinked: false,
     languageCode: 'en',
     notificationsEnabled: true,
     creditScoreLabel: '--',
     kycStatus: 'unverified',
+    showCompletionBanner: false,
     isDriver: false,
   );
+}
+
+class ProfileSetupItem {
+  const ProfileSetupItem({
+    required this.id,
+    required this.label,
+    required this.isComplete,
+  });
+
+  final String id;
+  final String label;
+  final bool isComplete;
 }
 
 /// Snapshot of driver profile data used by the profile screen.
@@ -152,6 +242,9 @@ class DriverProfileSnapshot {
     required this.hasProfile,
     this.vehicleType,
     this.vehicleStatus,
+    this.cadenceLabel,
+    this.baseLocation,
+    this.plateNumber,
     this.credits = 0,
     this.subscriptionLabel,
     this.subscriptionExpiring = false,
@@ -160,9 +253,22 @@ class DriverProfileSnapshot {
   final bool hasProfile;
   final String? vehicleType;
   final String? vehicleStatus;
+  final String? cadenceLabel;
+  final String? baseLocation;
+  final String? plateNumber;
   final int credits;
   final String? subscriptionLabel;
   final bool subscriptionExpiring;
+
+  bool get isSetupComplete =>
+      (vehicleType?.trim().isNotEmpty ?? false) &&
+      (plateNumber?.trim().isNotEmpty ?? false) &&
+      (baseLocation?.trim().isNotEmpty ?? false);
+
+  String? get verificationStatusLabel {
+    final label = humanizeVehicleStatus(vehicleStatus);
+    return label?.trim().isEmpty ?? true ? null : label;
+  }
 
   factory DriverProfileSnapshot.fromState(DriverState state) {
     final profile = state.profile;
@@ -176,10 +282,13 @@ class DriverProfileSnapshot {
 
     return DriverProfileSnapshot(
       hasProfile: profile != null,
-      vehicleType: profile?.vehicleType,
-      vehicleStatus: profile == null
+      vehicleType: _trimmed(profile?.vehicleType),
+      vehicleStatus: _trimmed(profile?.vehicleStatus),
+      cadenceLabel: profile == null
           ? null
           : (profile.isRegularDriver ? 'Regular Driver' : 'Occasional Driver'),
+      baseLocation: _trimmed(profile?.baseLocation),
+      plateNumber: _trimmed(profile?.plateNumber),
       credits: profile?.credits ?? 0,
       subscriptionLabel: _subscriptionLabel(
         subscription,
@@ -188,6 +297,28 @@ class DriverProfileSnapshot {
       subscriptionExpiring: subscriptionExpiring,
     );
   }
+}
+
+String? humanizeVehicleStatus(String? rawStatus) {
+  final normalized = rawStatus?.trim().toLowerCase() ?? '';
+  if (normalized.isEmpty) {
+    return null;
+  }
+
+  return switch (normalized) {
+    'verified' => 'Verified',
+    'pending_review' => 'Pending review',
+    'maintenance' => 'Maintenance',
+    _ =>
+      normalized
+          .split('_')
+          .where((part) => part.isNotEmpty)
+          .map(
+            (part) =>
+                '${part.characters.first.toUpperCase()}${part.substring(1)}',
+          )
+          .join(' '),
+  };
 }
 
 String? _subscriptionLabel(
@@ -204,4 +335,9 @@ String? _subscriptionLabel(
   }
 
   return 'Active until ${DateFormat('d MMM').format(expiresAt)}';
+}
+
+String? _trimmed(String? value) {
+  final normalized = value?.trim() ?? '';
+  return normalized.isEmpty ? null : normalized;
 }

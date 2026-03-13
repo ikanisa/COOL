@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/identity/public_user_identity.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_async_view.dart';
+import '../../../shared/widgets/cool_empty_view.dart';
+import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_providers.dart';
 
@@ -36,8 +38,12 @@ class ManageUsersScreen extends ConsumerWidget {
         child: CoolAsyncView<List<Map<String, dynamic>>>(
           value: usersAsync,
           onRetry: () => ref.invalidate(adminUsersProvider),
+          loadingWidget: const CoolSkeletonList(itemCount: 5),
           emptyCheck: (u) => u.isEmpty,
-          emptyMessage: 'No users found',
+          emptyWidget: const CoolEmptyView(
+            message: 'No users were returned for this environment.',
+            icon: Icons.person_outline_rounded,
+          ),
           builder: (users) {
             final mockCount = users
                 .where((user) => user['is_mock'] == true)

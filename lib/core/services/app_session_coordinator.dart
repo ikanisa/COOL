@@ -1,5 +1,6 @@
 import '../../features/auth/models/user_profile.dart';
 import '../../features/auth/providers/auth_provider.dart';
+import '../../features/momo/services/momo_sms_autoread_service.dart';
 import '../models/referral_attribution.dart';
 import '../providers/notification_settings_provider.dart';
 import '../repositories/referral_repository.dart';
@@ -16,13 +17,15 @@ class AppSessionCoordinator {
     required ReferralAttribution? Function() readReferralAttribution,
     required void Function(String inviteId) markReferralOpened,
     required TripSyncCoordinator tripSyncCoordinator,
+    required MomoSmsAutoreadService momoSmsAutoreadService,
   }) : _notificationSettings = notificationSettings,
        _engagementTracker = engagementTracker,
        _crashlytics = crashlytics,
        _referralRepository = referralRepository,
        _readReferralAttribution = readReferralAttribution,
        _markReferralOpened = markReferralOpened,
-       _tripSyncCoordinator = tripSyncCoordinator;
+       _tripSyncCoordinator = tripSyncCoordinator,
+       _momoSmsAutoreadService = momoSmsAutoreadService;
 
   final NotificationSettingsNotifier _notificationSettings;
   final EngagementTracker _engagementTracker;
@@ -31,15 +34,18 @@ class AppSessionCoordinator {
   final ReferralAttribution? Function() _readReferralAttribution;
   final void Function(String inviteId) _markReferralOpened;
   final TripSyncCoordinator _tripSyncCoordinator;
+  final MomoSmsAutoreadService _momoSmsAutoreadService;
 
   Future<void> bootstrap(AuthState authState) async {
     await _identifyUserIfAvailable(authState.user);
 
     if (authState.session == null) {
+      await _momoSmsAutoreadService.stop(resetPermissionPromptState: true);
       return;
     }
 
     await markReferralInviteOpenedIfNeeded();
+    await _momoSmsAutoreadService.refresh();
     await _notificationSettings.initializeForAuthState(authState);
     await _engagementTracker.trackSessionStarted(
       userId: authState.user?.id ?? authState.session!.user.id,
@@ -67,6 +73,7 @@ class AppSessionCoordinator {
 
     if (!hadSession && hasSession) {
       await markReferralInviteOpenedIfNeeded();
+      await _momoSmsAutoreadService.refresh();
       await _notificationSettings.initializeForAuthState(next);
       _tripSyncCoordinator.scheduleSync(source: 'auth_transition');
       await _engagementTracker.trackSessionStarted(
@@ -87,6 +94,7 @@ class AppSessionCoordinator {
     }
 
     if (hadSession && !hasSession) {
+      await _momoSmsAutoreadService.stop(resetPermissionPromptState: true);
       await _clearIdentifiedUser();
       if (previousUserId != null && previousUserId.isNotEmpty) {
         await _notificationSettings.clearSession(userId: previousUserId);

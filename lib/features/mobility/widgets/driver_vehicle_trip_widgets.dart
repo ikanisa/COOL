@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/utils/intl_locale.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../providers/mobility_location_provider.dart';
+import '../services/place_search_service.dart';
+import 'schedule_trip_place_search_sheet.dart';
 import '../../../shared/widgets/cool_text_field.dart';
 import 'driver_profile_models.dart';
 
@@ -154,12 +159,12 @@ class VehicleInfoCard extends StatelessWidget {
         children: [
           _VehicleInfoTile(label: 'Vehicle Type', value: vehicle.type),
           const Divider(color: AppColors.border, height: 1),
-          _VehicleInfoTile(label: 'Description', value: vehicle.plateNumber),
+          _VehicleInfoTile(label: 'Plate Number', value: vehicle.plateNumber),
           const Divider(color: AppColors.border, height: 1),
-          _VehicleInfoTile(label: 'Driver Type', value: vehicle.baseLocation),
+          _VehicleInfoTile(label: 'Base Location', value: vehicle.baseLocation),
           const Divider(color: AppColors.border, height: 1),
           _VehicleInfoTile(
-            label: 'Availability',
+            label: 'Verification',
             value: vehicle.status,
             valueColor: vehicle.statusColor,
           ),
@@ -212,22 +217,20 @@ class _VehicleInfoTile extends StatelessWidget {
 }
 
 /// Bottom sheet for editing vehicle info.
-class EditVehicleSheet extends StatefulWidget {
+class EditVehicleSheet extends ConsumerStatefulWidget {
   const EditVehicleSheet({required this.vehicle, super.key});
 
   final VehicleData vehicle;
 
   @override
-  State<EditVehicleSheet> createState() => _EditVehicleSheetState();
+  ConsumerState<EditVehicleSheet> createState() => _EditVehicleSheetState();
 }
 
-class _EditVehicleSheetState extends State<EditVehicleSheet> {
+class _EditVehicleSheetState extends ConsumerState<EditVehicleSheet> {
   late final TextEditingController _vehicleTypeController;
   late final TextEditingController _plateNumberController;
   late final TextEditingController _baseLocationController;
-  late String _status;
-
-  static const _statuses = ['Verified', 'Pending Review', 'Maintenance'];
+  bool _isResolvingBaseLocation = false;
 
   @override
   void initState() {
@@ -239,7 +242,6 @@ class _EditVehicleSheetState extends State<EditVehicleSheet> {
     _baseLocationController = TextEditingController(
       text: widget.vehicle.baseLocation,
     );
-    _status = widget.vehicle.status;
   }
 
   @override
@@ -250,15 +252,64 @@ class _EditVehicleSheetState extends State<EditVehicleSheet> {
     super.dispose();
   }
 
-  void _save() {
-    Navigator.of(context).pop(
-      VehicleData(
-        type: _vehicleTypeController.text.trim(),
-        plateNumber: _plateNumberController.text.trim(),
-        baseLocation: _baseLocationController.text.trim(),
-        status: _status,
-      ),
+  Future<void> _openBaseLocationSearch() async {
+    final result = await showPlaceSearchSheet(
+      context,
+      title: 'Set base location',
+      initialQuery: _baseLocationController.text.trim(),
+      service: ref.read(placeSearchServiceProvider),
+      near: ref.read(mobilityLocationProvider).position,
+      languageTag: resolveIntlLocale(context),
     );
+
+    if (!mounted || result == null) {
+      return;
+    }
+
+    setState(() {
+      _baseLocationController.text = result.label;
+    });
+  }
+
+  Future<void> _save() async {
+    if (_isResolvingBaseLocation) {
+      return;
+    }
+
+    setState(() => _isResolvingBaseLocation = true);
+    var baseLocation = _baseLocationController.text.trim();
+
+    try {
+      if (baseLocation.isNotEmpty) {
+        final resolved = await ref
+            .read(placeSearchServiceProvider)
+            .geocodeQuery(
+              baseLocation,
+              near: ref.read(mobilityLocationProvider).position,
+              languageTag: resolveIntlLocale(context),
+            );
+        if (!mounted) {
+          return;
+        }
+        if (resolved != null) {
+          baseLocation = resolved.label;
+          _baseLocationController.text = baseLocation;
+        }
+      }
+
+      Navigator.of(context).pop(
+        VehicleData(
+          type: _vehicleTypeController.text.trim(),
+          plateNumber: _plateNumberController.text.trim(),
+          baseLocation: baseLocation,
+          status: widget.vehicle.status,
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() => _isResolvingBaseLocation = false);
+      }
+    }
   }
 
   @override
@@ -324,68 +375,22 @@ class _EditVehicleSheetState extends State<EditVehicleSheet> {
                 prefixEmoji: '📍',
                 textInputAction: TextInputAction.done,
               ),
-              const SizedBox(height: 16),
-              Text(
-                'Status',
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.text2,
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: TextButton.icon(
+                  onPressed: _openBaseLocationSearch,
+                  icon: const Icon(Icons.search_rounded, size: 18),
+                  label: const Text('Search Google Places'),
                 ),
               ),
-              const SizedBox(height: 10),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  for (final option in _statuses)
-                    _VehicleStatusChip(
-                      label: option,
-                      isSelected: _status == option,
-                      onTap: () => setState(() => _status = option),
-                    ),
-                ],
-              ),
               const SizedBox(height: 20),
-              CoolButton(label: 'Save Vehicle Info', onTap: _save),
+              CoolButton(
+                label: 'Save Vehicle Info',
+                onTap: () => _save(),
+                isLoading: _isResolvingBaseLocation,
+              ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _VehicleStatusChip extends StatelessWidget {
-  const _VehicleStatusChip({
-    required this.label,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.accentGlow : AppColors.surface2,
-          borderRadius: BorderRadius.circular(30),
-          border: Border.all(
-            color: isSelected ? AppColors.accent : AppColors.border,
-          ),
-        ),
-        child: Text(
-          label,
-          style: GoogleFonts.dmSans(
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
-            color: isSelected ? AppColors.accent : AppColors.text2,
           ),
         ),
       ),

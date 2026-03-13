@@ -136,6 +136,9 @@ class _ScheduleTripMapPreviewState extends State<ScheduleTripMapPreview> {
   Widget build(BuildContext context) {
     final contentPoints = _contentPoints;
     final preview = widget.preview;
+    final supportsEmbeddedMaps = EnvConfig.hasEmbeddedGoogleMapsSupport(
+      Theme.of(context).platform,
+    );
 
     return CoolCard(
       child: Column(
@@ -144,7 +147,7 @@ class _ScheduleTripMapPreviewState extends State<ScheduleTripMapPreview> {
           Row(
             children: [
               Text(
-                'Route Preview',
+                supportsEmbeddedMaps ? 'Route Preview' : 'Route Summary',
                 style: GoogleFonts.dmSans(
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
@@ -166,8 +169,12 @@ class _ScheduleTripMapPreviewState extends State<ScheduleTripMapPreview> {
           const SizedBox(height: 8),
           Text(
             preview == null
-                ? 'Resolve pickup and destination to preview the actual Google route.'
-                : 'Review the path, ETA, and distance before posting the trip.',
+                ? supportsEmbeddedMaps
+                      ? 'Resolve pickup and destination to preview the route on the map.'
+                      : 'Resolve pickup and destination to preview route details before posting.'
+                : supportsEmbeddedMaps
+                ? 'Review the path, ETA, and distance before posting the trip.'
+                : 'Review the route, ETA, and distance before posting the trip.',
             style: GoogleFonts.dmSans(
               fontSize: 12,
               fontWeight: FontWeight.w500,
@@ -197,6 +204,12 @@ class _ScheduleTripMapPreviewState extends State<ScheduleTripMapPreview> {
                           height: 1.45,
                         ),
                       ),
+                    )
+                  else if (!supportsEmbeddedMaps)
+                    _RouteSummaryPane(
+                      originLabel: widget.originLabel,
+                      destinationLabel: widget.destinationLabel,
+                      preview: preview,
                     )
                   else
                     gmap.GoogleMap(
@@ -238,37 +251,12 @@ class _ScheduleTripMapPreviewState extends State<ScheduleTripMapPreview> {
                       ),
                     ),
                   ),
-                  if (preview != null)
+                  if (preview != null && supportsEmbeddedMaps)
                     Positioned(
                       left: 10,
                       right: 10,
                       bottom: 10,
-                      child: Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: [
-                          _PreviewChip(
-                            icon: Icons.route_rounded,
-                            label: preview.distanceLabel,
-                          ),
-                          _PreviewChip(
-                            icon: Icons.schedule_rounded,
-                            label: preview.durationLabel,
-                          ),
-                          _PreviewChip(
-                            icon:
-                                preview.travelMode ==
-                                    MobilityRouteTravelMode.twoWheeler
-                                ? Icons.two_wheeler_rounded
-                                : Icons.directions_car_filled_rounded,
-                            label:
-                                preview.travelMode ==
-                                    MobilityRouteTravelMode.twoWheeler
-                                ? 'Moto route'
-                                : 'Drive route',
-                          ),
-                        ],
-                      ),
+                      child: _PreviewChips(preview: preview),
                     ),
                 ],
               ),
@@ -288,6 +276,153 @@ class _ScheduleTripMapPreviewState extends State<ScheduleTripMapPreview> {
           ],
         ],
       ),
+    );
+  }
+}
+
+class _RouteSummaryPane extends StatelessWidget {
+  const _RouteSummaryPane({
+    required this.originLabel,
+    required this.destinationLabel,
+    required this.preview,
+  });
+
+  final String originLabel;
+  final String destinationLabel;
+  final MobilityRoutePreview? preview;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: AppColors.surface3,
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 38,
+                height: 38,
+                decoration: BoxDecoration(
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                alignment: Alignment.center,
+                child: const Icon(
+                  Icons.alt_route_rounded,
+                  color: AppColors.accent,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  'Map rendering is hidden in this build. Route details still work.',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.text,
+                    height: 1.4,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 18),
+          _RouteStopRow(
+            icon: Icons.trip_origin_rounded,
+            label: 'Pickup',
+            value: originLabel,
+          ),
+          const SizedBox(height: 12),
+          _RouteStopRow(
+            icon: Icons.place_outlined,
+            label: 'Destination',
+            value: destinationLabel,
+          ),
+          if (preview != null) ...[
+            const Spacer(),
+            _PreviewChips(preview: preview!),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _RouteStopRow extends StatelessWidget {
+  const _RouteStopRow({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
+
+  final IconData icon;
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, size: 18, color: AppColors.text2),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: GoogleFonts.dmSans(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.text3,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                value.trim().isEmpty ? 'Not attached yet.' : value.trim(),
+                style: GoogleFonts.dmSans(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.text,
+                  height: 1.35,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _PreviewChips extends StatelessWidget {
+  const _PreviewChips({required this.preview});
+
+  final MobilityRoutePreview preview;
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        _PreviewChip(icon: Icons.route_rounded, label: preview.distanceLabel),
+        _PreviewChip(
+          icon: Icons.schedule_rounded,
+          label: preview.durationLabel,
+        ),
+        _PreviewChip(
+          icon: preview.travelMode == MobilityRouteTravelMode.twoWheeler
+              ? Icons.two_wheeler_rounded
+              : Icons.directions_car_filled_rounded,
+          label: preview.travelMode == MobilityRouteTravelMode.twoWheeler
+              ? 'Moto route'
+              : 'Drive route',
+        ),
+      ],
     );
   }
 }

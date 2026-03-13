@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cool_app/core/utils/json_helpers.dart' as jh;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/config/country_catalog.dart';
 import '../models/user_profile.dart';
 
 class AuthRepository {
@@ -78,23 +79,28 @@ class AuthRepository {
     return result;
   }
 
-  /// Partial update: only touches momo_number, momo_code, momo_provider.
+  /// Partial update: only touches wallet routing fields.
   /// Prevents the full-profile upsert from writing privileged fields like
   /// is_admin back into the DB (audit fix P0 #3).
   Future<UserProfile> updateMomoInfo(
     String userId, {
     required String momoNumber,
     String? momoCode,
+    MomoRecipientType? momoRouteType,
     required String momoProvider,
     required String country,
   }) async {
     final patch = <String, dynamic>{
       'momo_number': momoNumber,
       'momo_code': momoCode,
+      'momo_route_type': switch (momoRouteType) {
+        MomoRecipientType.phoneNumber => 'phone_number',
+        MomoRecipientType.code => 'code',
+        null => null,
+      },
       'momo_provider': momoProvider,
       'country': country,
     };
-    patch.removeWhere((_, v) => v == null);
 
     final updated = await _client
         .from('users')
@@ -163,18 +169,26 @@ class AuthRepository {
       UserAttributes(
         data: <String, dynamic>{
           ...Map<String, dynamic>.from(currentUser.userMetadata ?? const {}),
+          'public_user_id': profile.displayUserId,
           'phone': profile.phone,
           'full_name': profile.fullName,
           'momo_number': profile.momoNumber,
           'momo_code': profile.momoCode,
+          'momo_route_type': switch (profile.effectiveMomoRouteType) {
+            MomoRecipientType.phoneNumber => 'phone_number',
+            MomoRecipientType.code => 'code',
+            null => null,
+          },
           'momo_provider': profile.momoProvider,
           'country': profile.country,
           'language_code': profile.languageCode,
           'is_driver': profile.isDriver,
           'vehicle_type': profile.vehicleType,
-          'official_name': profile.officialName ?? profile.fullName,
-          'official_phone': profile.officialPhone ?? profile.phone,
+          'avatar_url': profile.avatarUrl,
+          'official_name': profile.officialName,
+          'official_phone': profile.officialPhone,
           'kyc_status': profile.kycStatus,
+          'kyc_verified_at': profile.kycVerifiedAt?.toIso8601String(),
           'credit_consent_granted_at': profile.creditConsentGrantedAt
               ?.toIso8601String(),
         }..removeWhere((_, value) => value == null),
@@ -201,6 +215,7 @@ class AuthRepository {
 
     return UserProfile.fromJson(<String, dynamic>{
       'id': user.id,
+      'public_user_id': metadata['public_user_id']?.toString(),
       'phone': phone,
       'full_name':
           metadata['full_name']?.toString() ??
@@ -208,14 +223,17 @@ class AuthRepository {
           '',
       'momo_number': metadata['momo_number']?.toString() ?? '',
       'momo_code': metadata['momo_code']?.toString(),
+      'momo_route_type': metadata['momo_route_type']?.toString(),
       'momo_provider': metadata['momo_provider']?.toString() ?? '',
       'country': metadata['country']?.toString() ?? '',
       'language_code': metadata['language_code']?.toString() ?? 'en',
       'is_driver': jh.asBool(metadata['is_driver']),
       'vehicle_type': metadata['vehicle_type']?.toString(),
+      'avatar_url': metadata['avatar_url']?.toString(),
       'official_name': metadata['official_name']?.toString(),
       'official_phone': metadata['official_phone']?.toString(),
       'kyc_status': metadata['kyc_status']?.toString() ?? 'unverified',
+      'kyc_verified_at': metadata['kyc_verified_at'],
       'credit_consent_granted_at': metadata['credit_consent_granted_at'],
     });
   }

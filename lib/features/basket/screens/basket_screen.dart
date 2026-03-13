@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
@@ -93,18 +94,18 @@ class BasketScreen extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 18),
-                    const _BasketExpectationRow(
+                    _BasketExpectationRow(
                       icon: Icons.account_balance_wallet_outlined,
                       text: 'No live basket totals are shown on this screen.',
                     ),
                     const SizedBox(height: 10),
-                    const _BasketExpectationRow(
+                    _BasketExpectationRow(
                       icon: Icons.add_chart_rounded,
                       text:
                           'New basket creation is intentionally disabled until persistence is ready.',
                     ),
                     const SizedBox(height: 10),
-                    const _BasketExpectationRow(
+                    _BasketExpectationRow(
                       icon: Icons.link_rounded,
                       text:
                           'The route remains active so existing links do not break.',
@@ -118,7 +119,7 @@ class BasketScreen extends StatelessWidget {
                   Expanded(
                     child: CoolButton(
                       label: 'Back Home',
-                      onTap: () => context.go('/home'),
+                      onTap: () => context.go(AppRoutes.home),
                     ),
                   ),
                   const SizedBox(width: 12),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../core/services/app_access_service.dart';
 import '../../core/services/contacts_service.dart';
 import '../../core/theme/app_colors.dart';
 
@@ -50,37 +51,64 @@ class ContactPickerSheet extends StatefulWidget {
   State<ContactPickerSheet> createState() => _ContactPickerSheetState();
 }
 
-class _ContactPickerSheetState extends State<ContactPickerSheet> {
+class _ContactPickerSheetState extends State<ContactPickerSheet>
+    with WidgetsBindingObserver {
   final _service = const ContactsService();
+  final _appAccessService = AppAccessService.instance;
   final _searchController = TextEditingController();
   final _selected = <String>{};
 
   List<SimpleContact>? _allContacts;
   List<SimpleContact> _filtered = [];
   bool _isLoading = true;
+  bool _accessDisabledInApp = false;
   bool _permissionDenied = false;
   bool _permanentlyDenied = false;
   String? _error;
+  bool _refreshOnResume = false;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _loadContacts();
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _searchController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state != AppLifecycleState.resumed || !_refreshOnResume) {
+      return;
+    }
+    _refreshOnResume = false;
+    _loadContacts();
   }
 
   Future<void> _loadContacts() async {
     setState(() {
       _isLoading = true;
       _error = null;
+      _accessDisabledInApp = false;
       _permissionDenied = false;
       _permanentlyDenied = false;
     });
+
+    final access = await _appAccessService.getSnapshot(
+      AppAccessPermission.contacts,
+    );
+    if (access.kind == AppAccessStateKind.disabledInApp) {
+      setState(() {
+        _isLoading = false;
+        _accessDisabledInApp = true;
+      });
+      return;
+    }
 
     final status = await _service.requestPermission();
 
@@ -112,6 +140,36 @@ class _ContactPickerSheetState extends State<ContactPickerSheet> {
         _isLoading = false;
         _error = 'Could not load contacts.';
       });
+    }
+  }
+
+  Future<void> _enableContactsAccess() async {
+    final snapshot = await _appAccessService.enableAndRequest(
+      AppAccessPermission.contacts,
+    );
+    if (!mounted) {
+      return;
+    }
+    if (snapshot.kind == AppAccessStateKind.blockedInSystem) {
+      setState(() {
+        _isLoading = false;
+        _accessDisabledInApp = false;
+        _permanentlyDenied = true;
+      });
+      return;
+    }
+    await _loadContacts();
+  }
+
+  Future<void> _openContactsSettings() async {
+    _refreshOnResume = true;
+    final opened = await openAppSettings();
+    if (!mounted) {
+      return;
+    }
+    if (!opened) {
+      _refreshOnResume = false;
+      setState(() => _error = 'Could not open contacts settings.');
     }
   }
 
@@ -291,7 +349,18 @@ class _ContactPickerSheetState extends State<ContactPickerSheet> {
         message:
             'You\'ve permanently denied contacts access. Open Settings to allow Cool to read your contacts.',
         actionLabel: 'Open Settings',
-        onAction: openAppSettings,
+        onAction: _openContactsSettings,
+      );
+    }
+
+    if (_accessDisabledInApp) {
+      return _PermissionState(
+        icon: Icons.admin_panel_settings_outlined,
+        title: 'Contacts are off in COOL',
+        message:
+            'Contacts access is currently disabled from Profile settings, so invite and share flows stay blocked until you turn it back on.',
+        actionLabel: 'Enable Contacts',
+        onAction: _enableContactsAccess,
       );
     }
 

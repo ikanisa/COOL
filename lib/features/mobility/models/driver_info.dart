@@ -1,3 +1,5 @@
+import '../../../core/identity/public_user_identity.dart';
+
 class DriverInfo {
   const DriverInfo({
     required this.driverId,
@@ -39,15 +41,18 @@ class DriverInfo {
 
   factory DriverInfo.fromJson(Map<String, dynamic> json) {
     final profile = _asMap(json['profile']);
-    final displayName =
-        profile['full_name']?.toString() ??
-        json['driver_name']?.toString() ??
-        json['driver_id']?.toString() ??
-        json['user_id']?.toString() ??
-        '';
+    final driverId =
+        json['driver_id']?.toString() ?? json['user_id']?.toString() ?? '';
+    final displayName = PublicUserIdentity.resolve(
+      publicUserId:
+          profile['public_user_id']?.toString() ??
+          json['driver_name']?.toString() ??
+          json['public_user_id']?.toString(),
+      userId: driverId,
+      phone: json['contact_phone']?.toString() ?? profile['phone']?.toString(),
+    );
     return DriverInfo(
-      driverId:
-          json['driver_id']?.toString() ?? json['user_id']?.toString() ?? '',
+      driverId: driverId,
       displayName: displayName,
       vehicleType: json['vehicle_type']?.toString() ?? '',
       distanceKm: _asDouble(json['distance_km']) ?? 0,

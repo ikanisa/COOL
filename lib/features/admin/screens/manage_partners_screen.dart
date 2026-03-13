@@ -6,6 +6,8 @@ import '../../../core/config/country_catalog.dart';
 import '../../../core/providers/supported_countries_provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_async_view.dart';
+import '../../../shared/widgets/cool_empty_view.dart';
+import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_providers.dart';
 
@@ -45,8 +47,12 @@ class ManagePartnersScreen extends ConsumerWidget {
         child: CoolAsyncView<List<Map<String, dynamic>>>(
           value: partnersAsync,
           onRetry: () => ref.invalidate(adminPartnersProvider),
+          loadingWidget: const CoolSkeletonList(itemCount: 4),
           emptyCheck: (p) => p.isEmpty,
-          emptyMessage: 'No partners yet',
+          emptyWidget: const CoolEmptyView(
+            message: 'No partners have been added yet.',
+            icon: Icons.handshake_rounded,
+          ),
           builder: (partners) => ListView.separated(
             itemCount: partners.length,
             separatorBuilder: (_, _) => const SizedBox(height: 8),

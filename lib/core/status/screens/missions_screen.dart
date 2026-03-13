@@ -6,7 +6,10 @@ import '../../../core/status/models/cool_mission.dart';
 import '../../../core/status/providers/cool_missions_provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/icon_mapper.dart';
+import '../../../shared/widgets/cool_empty_view.dart';
+import '../../../shared/widgets/cool_error_view.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
+import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/mission_progress_card.dart';
 import '../../../features/auth/providers/auth_provider.dart';
 
@@ -105,12 +108,12 @@ class _ActiveMissionsSliver extends ConsumerWidget {
       },
       loading: () => const SliverToBoxAdapter(
         child: Padding(
-          padding: EdgeInsets.all(32),
-          child: Center(child: CircularProgressIndicator.adaptive()),
+          padding: EdgeInsets.fromLTRB(18, 10, 18, 0),
+          child: CoolSkeletonList(),
         ),
       ),
-      error: (_, _) => const SliverToBoxAdapter(
-        child: _EmptyState(message: 'Couldn\'t load missions'),
+      error: (error, _) => SliverToBoxAdapter(
+        child: _ErrorState(message: error.toString()),
       ),
     );
   }
@@ -145,12 +148,12 @@ class _UpcomingMissionsSliver extends ConsumerWidget {
       },
       loading: () => const SliverToBoxAdapter(
         child: Padding(
-          padding: EdgeInsets.all(32),
-          child: Center(child: CircularProgressIndicator.adaptive()),
+          padding: EdgeInsets.fromLTRB(18, 10, 18, 0),
+          child: CoolSkeletonList(),
         ),
       ),
-      error: (_, _) => const SliverToBoxAdapter(
-        child: _EmptyState(message: 'Couldn\'t load upcoming missions'),
+      error: (error, _) => SliverToBoxAdapter(
+        child: _ErrorState(message: error.toString()),
       ),
     );
   }
@@ -259,11 +262,27 @@ class _EmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 18),
-      child: Center(
-        child: Text(
-          message,
-          style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text3),
-        ),
+      child: CoolEmptyView(
+        message: message,
+        compact: true,
+        icon: Icons.flag_outlined,
+      ),
+    );
+  }
+}
+
+class _ErrorState extends StatelessWidget {
+  const _ErrorState({required this.message});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 18),
+      child: CoolErrorView(
+        message: message,
+        compact: true,
       ),
     );
   }

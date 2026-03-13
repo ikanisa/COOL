@@ -398,6 +398,14 @@ class ScheduleTripLocationAttachmentCard extends StatelessWidget {
         subtitle =
             'If a location fix is available, you can use it for pickup and nearby search.';
         break;
+      case MobilityLocationStatus.accessDisabled:
+        icon = Icons.admin_panel_settings_outlined;
+        title = 'Location is off in COOL';
+        subtitle =
+            'Enable location from Profile settings to use current-location pickup or nearby search.';
+        actionLabel = 'Enable Location';
+        action = onEnableLocation;
+        break;
       case MobilityLocationStatus.needsPermission:
       case MobilityLocationStatus.denied:
         icon = Icons.pin_drop_rounded;

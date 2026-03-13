@@ -5,13 +5,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/l10n/l10n.dart';
+import '../../../core/router/app_router.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 
 import '../../../core/config/deep_link_config.dart';
 import '../../../core/providers/referral_providers.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_empty_view.dart';
+import '../../../shared/widgets/cool_error_view.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/qr_share_sheet.dart';
 import '../../../shared/widgets/status_badge.dart';
@@ -28,8 +31,10 @@ class GroupsScreen extends ConsumerStatefulWidget {
   ConsumerState<GroupsScreen> createState() => _GroupsScreenState();
 }
 
+enum _GroupsTab { all, saving, community, publicCatalog, privateOnly }
+
 class _GroupsScreenState extends ConsumerState<GroupsScreen> {
-  String _activeTab = 'All';
+  _GroupsTab _activeTab = _GroupsTab.all;
 
   @override
   void initState() {
@@ -38,31 +43,22 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
     Future.microtask(() => ref.read(groupsProvider.notifier).loadMyGroups());
   }
 
-  Future<void> _onTabChanged(String tab) async {
+  Future<void> _onTabChanged(_GroupsTab tab) async {
     setState(() => _activeTab = tab);
     final notifier = ref.read(groupsProvider.notifier);
 
-    if (tab.contains('Public')) {
-      await notifier.loadPublicGroups();
-      return;
+    switch (tab) {
+      case _GroupsTab.publicCatalog:
+        await notifier.loadPublicGroups();
+      case _GroupsTab.saving:
+        await notifier.loadFilteredMyGroups(type: 'saving');
+      case _GroupsTab.community:
+        await notifier.loadFilteredMyGroups(type: 'community');
+      case _GroupsTab.privateOnly:
+        await notifier.loadFilteredMyGroups(visibility: 'private');
+      case _GroupsTab.all:
+        await notifier.loadMyGroups();
     }
-
-    if (tab.contains('Saving')) {
-      await notifier.loadFilteredMyGroups(type: 'saving');
-      return;
-    }
-
-    if (tab.contains('Community')) {
-      await notifier.loadFilteredMyGroups(type: 'community');
-      return;
-    }
-
-    if (tab.contains('Private')) {
-      await notifier.loadFilteredMyGroups(visibility: 'private');
-      return;
-    }
-
-    await notifier.loadMyGroups();
   }
 
   Future<void> _openShareSheet(Group group) async {
@@ -98,7 +94,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
       context,
       groupName: group.name,
       inviteUrl: shareUri.toString(),
-      shareText: 'Join ${group.name} on Cool: ${shareUri.toString()}',
+      shareText: 'Join ${group.name} on COOL: ${shareUri.toString()}',
       analyticsTargetType: 'group_invite',
     );
   }
@@ -109,16 +105,18 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final groups = ref.watch(groupsListProvider);
     final isLoading = ref.watch(groupsListLoadingProvider);
     final error = ref.watch(groupsListErrorProvider);
+    final isPublicCatalog = _activeTab == _GroupsTab.publicCatalog;
 
     return Scaffold(
       backgroundColor: AppColors.bg,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          'Groups',
+          l10n.navGroups,
           style: GoogleFonts.dmSans(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -146,23 +144,48 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(height: 8),
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: _tabs.map((t) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(right: 8),
-                                    child: TabPill(
-                                      label: t,
-                                      isActive: _activeTab == t,
-                                      onTap: () => unawaited(_onTabChanged(t)),
-                                    ),
+                            LayoutBuilder(
+                              builder: (context, constraints) {
+                                final tabs = _tabs
+                                    .map(
+                                      (tab) => TabPill(
+                                        label: _tabLabel(context, tab),
+                                        isActive: _activeTab == tab,
+                                        onTap: () =>
+                                            unawaited(_onTabChanged(tab)),
+                                      ),
+                                    )
+                                    .toList(growable: false);
+
+                                if (constraints.maxWidth < 420) {
+                                  return Wrap(
+                                    spacing: 8,
+                                    runSpacing: 8,
+                                    children: tabs,
                                   );
-                                }).toList(),
-                              ),
+                                }
+
+                                return SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  padding: const EdgeInsets.only(right: 18),
+                                  child: Row(
+                                    children: [
+                                      for (
+                                        var index = 0;
+                                        index < tabs.length;
+                                        index++
+                                      ) ...[
+                                        tabs[index],
+                                        if (index != tabs.length - 1)
+                                          const SizedBox(width: 8),
+                                      ],
+                                    ],
+                                  ),
+                                );
+                              },
                             ),
                             const SizedBox(height: 20),
-                            if (!_activeTab.contains('Public')) ...[
+                            if (!isPublicCatalog) ...[
                               const _CreateGroupBanner(),
                               const SizedBox(height: 20),
                             ],
@@ -174,9 +197,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                       SliverPadding(
                         padding: const EdgeInsets.fromLTRB(18, 0, 18, 96),
                         sliver: SliverToBoxAdapter(
-                          child: _EmptyState(
-                            isPublicCatalog: _activeTab.contains('Public'),
-                          ),
+                          child: _EmptyState(isPublicCatalog: isPublicCatalog),
                         ),
                       )
                     else
@@ -202,13 +223,23 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
     );
   }
 
-  static const _tabs = [
-    'All',
-    'Saving',
-    'Community',
-    'Public',
-    'Private',
+  static const _tabs = <_GroupsTab>[
+    _GroupsTab.all,
+    _GroupsTab.saving,
+    _GroupsTab.community,
+    _GroupsTab.publicCatalog,
+    _GroupsTab.privateOnly,
   ];
+
+  String _tabLabel(BuildContext context, _GroupsTab tab) {
+    return switch (tab) {
+      _GroupsTab.all => 'All',
+      _GroupsTab.saving => 'Saving',
+      _GroupsTab.community => 'Community',
+      _GroupsTab.publicCatalog => 'Public',
+      _GroupsTab.privateOnly => 'Private',
+    };
+  }
 }
 
 // ═════════════════════════════════════════════════════════════════════════
@@ -221,7 +252,7 @@ class _CreateGroupBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.push('/groups/create'),
+      onTap: () => context.push(AppRoutes.groupCreate),
       child: CustomPaint(
         painter: _DashedBorderPainter(
           color: AppColors.accent,
@@ -257,7 +288,7 @@ class _CreateGroupBanner extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                'Create a New Group',
+                'Create a new group',
                 style: GoogleFonts.dmSans(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
@@ -266,7 +297,7 @@ class _CreateGroupBanner extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                'Saving or Community',
+                'Start a savings circle, fundraiser, or community group and invite members in one link.',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
@@ -290,41 +321,11 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 28),
-      decoration: BoxDecoration(
-        color: AppColors.surface2,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Column(
-        children: [
-          const Icon(Icons.people_alt_outlined, size: 32, color: AppColors.text3),
-          const SizedBox(height: 12),
-          Text(
-            isPublicCatalog ? 'No public groups found' : 'No groups yet',
-            style: GoogleFonts.dmSans(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: AppColors.text,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            isPublicCatalog
-                ? 'Pull to refresh or check your groups.'
-                : 'Create a group or browse public ones.',
-            textAlign: TextAlign.center,
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w400,
-              color: AppColors.text2,
-              height: 1.5,
-            ),
-          ),
-        ],
-      ),
+    return CoolEmptyView(
+      message: isPublicCatalog
+          ? 'Public community groups will appear here once they are published.'
+          : 'Create a private group or join one with an invite link.',
+      icon: Icons.people_alt_outlined,
     );
   }
 }
@@ -387,14 +388,15 @@ class _GroupListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final progress = group.targetAmount > 0
         ? (group.amount / group.targetAmount).clamp(0.0, 1.0)
         : 0.0;
 
     final meta = group.bankPartner != null
-        ? 'Bank custodian · ${group.bankPartner}'
+        ? 'Bank custodian: ${group.bankPartner!}'
         : group.momoNumber != null
-        ? 'MOMO route · ${group.momoNumber}'
+        ? 'MoMo route: ${group.momoNumber!}'
         : group.type == 'saving'
         ? 'Saving group'
         : 'Community fund';
@@ -436,7 +438,7 @@ class _GroupListItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'raised',
+                      'Raised',
                       style: GoogleFonts.dmSans(
                         fontSize: 11,
                         fontWeight: FontWeight.w400,
@@ -462,7 +464,7 @@ class _GroupListItem extends StatelessWidget {
 
             // Meta info
             Text(
-              '$meta · ${group.memberCount} members',
+              '$meta · ${l10n.memberCount(group.memberCount)}',
               style: GoogleFonts.dmSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
@@ -489,7 +491,7 @@ class _GroupListItem extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  '${group.memberCount} members',
+                  l10n.memberCount(group.memberCount),
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
@@ -514,7 +516,11 @@ class _GroupListItem extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.link_rounded, size: 14, color: AppColors.text2),
+                        const Icon(
+                          Icons.link_rounded,
+                          size: 14,
+                          color: AppColors.text2,
+                        ),
                         const SizedBox(width: 5),
                         Text(
                           'Share',
@@ -558,43 +564,11 @@ class _ErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.warning_amber_rounded, size: 40, color: AppColors.orange),
-            const SizedBox(height: 16),
-            Text(
-              'Something went wrong',
-              style: GoogleFonts.dmSans(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: AppColors.text2,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              error,
-              textAlign: TextAlign.center,
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w400,
-                color: AppColors.text3,
-                height: 1.5,
-              ),
-            ),
-            const SizedBox(height: 24),
-            SizedBox(
-              width: 160,
-              child: CoolButton(
-                label: 'Retry',
-                onTap: () => unawaited(onRetry()),
-              ),
-            ),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 24),
+      child: CoolErrorView(
+        message: error,
+        onRetry: () => unawaited(onRetry()),
       ),
     );
   }

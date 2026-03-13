@@ -7,6 +7,8 @@ import 'package:intl/intl.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_empty_view.dart';
+import '../../../shared/widgets/cool_error_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../partners/models/partner.dart';
@@ -32,8 +34,10 @@ class PartnerHandoffSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (partners.isEmpty) {
-      return const PartnerErrorCard(
-        error: 'No active finance partners found.',
+      return const CoolEmptyView(
+        message: 'No active finance partners found.',
+        compact: true,
+        icon: Icons.account_balance_outlined,
       );
     }
 
@@ -72,15 +76,11 @@ class ApplicationPipelineSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (applications.isEmpty) {
-      return CoolCard(
-        child: Text(
-          'No partner applications yet.',
-          style: GoogleFonts.dmSans(
-            fontSize: 13,
-            fontWeight: FontWeight.w500,
-            color: AppColors.text2,
-            height: 1.45,
-          ),
+      return const CoolCard(
+        child: CoolEmptyView(
+          message: 'No partner applications yet.',
+          compact: true,
+          icon: Icons.inbox_rounded,
         ),
       );
     }
@@ -124,13 +124,9 @@ class PartnerErrorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CoolCard(
-      child: Text(
-        error,
-        style: GoogleFonts.dmSans(
-          fontSize: 13,
-          fontWeight: FontWeight.w500,
-          color: AppColors.text2,
-        ),
+      child: CoolErrorView(
+        message: error,
+        compact: true,
       ),
     );
   }

@@ -8,6 +8,30 @@ import '../../../shared/widgets/cool_button.dart';
 import '../services/place_search_service.dart';
 import '../../../core/models/geo_point.dart';
 
+Future<PlaceSearchResult?> showPlaceSearchSheet(
+  BuildContext context, {
+  required String title,
+  required String initialQuery,
+  required PlaceSearchService service,
+  required String languageTag,
+  GeoPoint? near,
+}) {
+  return showModalBottomSheet<PlaceSearchResult>(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (context) {
+      return ScheduleTripPlaceSearchSheet(
+        title: title,
+        initialQuery: initialQuery,
+        service: service,
+        near: near,
+        languageTag: languageTag,
+      );
+    },
+  );
+}
+
 /// Bottom sheet for searching and selecting a place.
 class ScheduleTripPlaceSearchSheet extends StatefulWidget {
   const ScheduleTripPlaceSearchSheet({
@@ -201,7 +225,7 @@ class _ScheduleTripPlaceSearchSheetState
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    'Autocomplete starts after a short pause. Details are only loaded when you pick a result.',
+                    'Powered by Google Places. Autocomplete starts after a short pause, and exact coordinates are attached when you pick a result.',
                     style: GoogleFonts.dmSans(
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
@@ -255,7 +279,7 @@ class _ScheduleTripPlaceSearchSheetState
     if (_results.isEmpty) {
       if (!_hasSearched) {
         return const _PlaceSearchEmptyState(
-          message: 'Search for a place to attach exact route coordinates.',
+          message: 'Search Google Places to attach exact route coordinates.',
         );
       }
       return const _PlaceSearchEmptyState(

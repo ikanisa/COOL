@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/identity/public_user_identity.dart';
+
 import '../../../core/services/momo_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../models/trip.dart';
@@ -162,9 +164,7 @@ String formatTripDate(DateTime date) {
 }
 
 String shortDriverId(String? value) {
-  final raw = value?.trim() ?? '';
-  if (raw.isEmpty) return '------';
-  return raw.length <= 6 ? raw : raw.substring(0, 6);
+  return PublicUserIdentity.resolve(publicUserId: value, fallback: '000000');
 }
 
 String displayValue(String? value) {

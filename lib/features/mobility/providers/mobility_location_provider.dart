@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import '../../../core/services/app_access_service.dart';
 import '../../../core/services/location_service.dart';
 
 final locationServiceProvider = Provider<LocationService>((ref) {
@@ -22,6 +23,7 @@ final mobilityLocationProvider =
 enum MobilityLocationStatus {
   idle,
   checking,
+  accessDisabled,
   needsPermission,
   requesting,
   ready,
@@ -98,6 +100,7 @@ class MobilityLocationNotifier extends StateNotifier<MobilityLocationState> {
   static const _cacheKey = 'latest_position';
 
   final LocationService _service;
+  final AppAccessService _appAccessService = AppAccessService.instance;
 
   bool _permissionPromptShownThisSession = false;
   bool _mobilityBranchActive = false;
@@ -108,6 +111,7 @@ class MobilityLocationNotifier extends StateNotifier<MobilityLocationState> {
   }
 
   Future<void> requestForegroundAccess() async {
+    await _appAccessService.setEnabled(AppAccessPermission.location, true);
     _permissionPromptShownThisSession = true;
     await _resolveLocation(requestIfNeeded: true);
   }
@@ -166,6 +170,20 @@ class MobilityLocationNotifier extends StateNotifier<MobilityLocationState> {
           : MobilityLocationStatus.checking,
       error: null,
     );
+
+    final appAccessEnabled = await _appAccessService.isEnabled(
+      AppAccessPermission.location,
+    );
+    if (!appAccessEnabled) {
+      await _service.stopLocationUpdates();
+      state = state.copyWith(
+        status: MobilityLocationStatus.accessDisabled,
+        isTracking: false,
+        error:
+            'Location is turned off in COOL profile settings for mobility features.',
+      );
+      return;
+    }
 
     final servicesEnabled = await _service.isLocationServiceEnabled();
     if (!servicesEnabled) {

@@ -171,6 +171,46 @@ class CoolCountry {
     return digits;
   }
 
+  /// Normalize a phone to the user-facing national format used for storage
+  /// and profile display. This preserves a leading trunk zero when the
+  /// country's national examples use one (for example `078...` in Rwanda).
+  String normalizeNationalPhone(String value) {
+    final e164 = buildE164Phone(value);
+    var digits = e164.replaceAll(RegExp(r'[^0-9]'), '');
+    final dialDigits = dialCode.replaceFirst('+', '');
+
+    if (digits.startsWith(dialDigits)) {
+      digits = digits.substring(dialDigits.length);
+    }
+
+    final nationalExampleDigits = mobileExampleNational?.replaceAll(
+      RegExp(r'[^0-9]'),
+      '',
+    );
+    if (nationalExampleDigits != null && nationalExampleDigits.isNotEmpty) {
+      if (nationalExampleDigits.startsWith('0')) {
+        return digits.startsWith('0') ? digits : '0$digits';
+      }
+
+      while (digits.startsWith('0')) {
+        digits = digits.substring(1);
+      }
+      return digits;
+    }
+
+    final localPattern = momoNumberLocalPattern ?? mobileNationalNumberPattern;
+    if (_matchesPattern(digits, localPattern)) {
+      return digits;
+    }
+
+    final withLeadingZero = digits.startsWith('0') ? digits : '0$digits';
+    if (_matchesPattern(withLeadingZero, localPattern)) {
+      return withLeadingZero;
+    }
+
+    return digits;
+  }
+
   String normalizeMerchantCode(String value) {
     final digits = value.replaceAll(RegExp(r'[^0-9]'), '');
     if (digits.isEmpty) {
@@ -604,9 +644,9 @@ abstract final class CoolCountryCatalog {
       mobileExampleE164: '+250781234567',
       momoNumberLocalPattern: r'^0?7[23589]\d{7}$',
       momoNumberE164Pattern: r'^\+2507[23589]\d{7}$',
-      momoCodePattern: r'^\d{4,8}$',
+      momoCodePattern: r'^\d{4,9}$',
       momoCodeMinLength: 4,
-      momoCodeMaxLength: 8,
+      momoCodeMaxLength: 9,
       momoCodeExample: '123456',
     ),
     CoolCountry(

@@ -101,7 +101,7 @@ class QuestCarousel extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 150,
+          height: 170,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 18),

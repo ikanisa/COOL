@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_card.dart';
@@ -82,7 +83,7 @@ class ProfileFactsCard extends StatelessWidget {
       backgroundColor: AppColors.surface,
       child: LayoutBuilder(
         builder: (context, constraints) {
-          if (constraints.maxWidth < 420) {
+          if (constraints.maxWidth < 560) {
             return Column(
               children: [
                 for (var index = 0; index < items.length; index++) ...[
@@ -135,7 +136,7 @@ class _ProfileFactTile extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           item.value,
-          maxLines: 2,
+          maxLines: 3,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.dmSans(
             fontSize: 14,
@@ -175,61 +176,103 @@ class ProfileSettingsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final content = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      child: Row(
-        children: [
-          Container(
-            width: 36,
-            height: 36,
-            decoration: BoxDecoration(
-              color: AppColors.surface2,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            alignment: Alignment.center,
-            child: Icon(
-              icon,
-              size: 18,
-              color: iconColor ?? labelColor.withValues(alpha: 0.9),
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              label,
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: labelColor,
-              ),
-            ),
-          ),
-          if (trailing != null)
-            trailing!
-          else if (value != null) ...[
-            Flexible(
-              child: Text(
-                value!,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: valueColor,
+    final content = LayoutBuilder(
+      builder: (context, constraints) {
+        final shouldStackValue =
+            trailing == null && value != null && constraints.maxWidth < 390;
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          child: Row(
+            crossAxisAlignment: shouldStackValue
+                ? CrossAxisAlignment.start
+                : CrossAxisAlignment.center,
+            children: [
+              Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: AppColors.surface2,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                alignment: Alignment.center,
+                child: Icon(
+                  icon,
+                  size: 18,
+                  color: iconColor ?? labelColor.withValues(alpha: 0.9),
                 ),
               ),
-            ),
-          ],
-          if (onTap != null && showArrow) ...[
-            const SizedBox(width: 6),
-            const Icon(
-              Icons.chevron_right_rounded,
-              size: 18,
-              color: AppColors.text3,
-            ),
-          ],
-        ],
-      ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: shouldStackValue
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            label,
+                            style: GoogleFonts.dmSans(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: labelColor,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            value!,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.dmSans(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              color: valueColor,
+                              height: 1.35,
+                            ),
+                          ),
+                        ],
+                      )
+                    : Text(
+                        label,
+                        style: GoogleFonts.dmSans(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: labelColor,
+                        ),
+                      ),
+              ),
+              if (trailing != null)
+                trailing!
+              else if (!shouldStackValue && value != null) ...[
+                const SizedBox(width: 12),
+                Flexible(
+                  child: Text(
+                    value!,
+                    maxLines: 2,
+                    textAlign: TextAlign.right,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: valueColor,
+                      height: 1.35,
+                    ),
+                  ),
+                ),
+              ],
+              if (onTap != null && showArrow) ...[
+                const SizedBox(width: 6),
+                Padding(
+                  padding: EdgeInsets.only(top: shouldStackValue ? 2 : 0),
+                  child: const Icon(
+                    Icons.chevron_right_rounded,
+                    size: 18,
+                    color: AppColors.text3,
+                  ),
+                ),
+              ],
+            ],
+          ),
+        );
+      },
     );
 
     if (onTap == null) return content;
@@ -316,18 +359,19 @@ class ProfileDangerZone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return ProfileSettingsSection(
-      title: 'Account actions',
+      title: l10n.accountActionsTitle,
       rows: [
         ProfileSettingsRow(
           icon: Icons.logout_rounded,
-          label: 'Sign out',
+          label: l10n.signOutAction,
           onTap: onSignOut,
         ),
         ProfileSettingsRow(
           icon: Icons.delete_outline_rounded,
           iconColor: AppColors.red,
-          label: 'Delete account',
+          label: l10n.deleteAccountAction,
           labelColor: AppColors.red,
           onTap: onDeleteAccount,
           showArrow: false,
@@ -353,7 +397,7 @@ class ProfileNotificationToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Semantics(
-      label: 'Notifications',
+      label: context.l10n.notificationsLabel,
       toggled: value,
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -386,6 +430,7 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return GestureDetector(
       onTap: () => context.push(AppRoutes.registerLocation(phone: phone)),
       child: CoolCard(
@@ -414,7 +459,7 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Complete your profile',
+                      l10n.completeProfileTitle,
                       style: GoogleFonts.dmSans(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -423,7 +468,7 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Finish setup to unlock all features.',
+                      l10n.completeProfileSubtitle,
                       style: GoogleFonts.dmSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,

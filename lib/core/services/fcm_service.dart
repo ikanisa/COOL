@@ -10,14 +10,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../config/deep_link_config.dart';
 import '../router/app_router.dart';
+import 'firebase_bootstrap_service.dart';
 
 /// Top-level background message handler (must be a top-level function).
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // Ensure Firebase is initialized for background isolates.
-  try {
-    await Firebase.initializeApp();
-  } catch (_) {}
+  await FirebaseBootstrapService.ensureInitialized();
   debugPrint('[FCM] Background message: ${message.messageId}');
 }
 

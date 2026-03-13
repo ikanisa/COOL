@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'cool_empty_view.dart';
 import 'cool_error_view.dart';
 import 'cool_skeleton.dart';
 
@@ -73,7 +74,7 @@ class CoolAsyncView<T> extends StatelessWidget {
       data: (data) {
         if (emptyCheck != null && emptyCheck!(data)) {
           return emptyWidget ??
-              _DefaultEmptyView(message: emptyMessage ?? 'Nothing here yet');
+              CoolEmptyView(message: emptyMessage ?? 'Nothing here yet');
         }
         return builder(data);
       },
@@ -93,41 +94,5 @@ class CoolAsyncView<T> extends StatelessWidget {
       return raw.substring(11);
     }
     return raw;
-  }
-}
-
-class _DefaultEmptyView extends StatelessWidget {
-  const _DefaultEmptyView({required this.message});
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.inbox_rounded,
-              size: 48,
-              color: Theme.of(
-                context,
-              ).colorScheme.onSurface.withValues(alpha: 0.3),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              message,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(
-                  context,
-                ).colorScheme.onSurface.withValues(alpha: 0.5),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 
 import '../../../core/config/deep_link_config.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/utils/intl_locale.dart';
 import '../../../shared/widgets/share_card.dart';
 import '../../../shared/widgets/wa_button.dart';
 import '../models/driver_info.dart';
@@ -31,12 +32,17 @@ Future<void> showTripListingSheet(
     ),
     builder: (context) => SafeArea(
       top: false,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(18, 16, 18, 24),
-        child: _TripListingSheetBody(
-          trip: trip,
-          buttonLabel: buttonLabel,
-          onOpenWhatsApp: onOpenWhatsApp,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.85,
+        ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(18, 16, 18, 24),
+          child: _TripListingSheetBody(
+            trip: trip,
+            buttonLabel: buttonLabel,
+            onOpenWhatsApp: onOpenWhatsApp,
+          ),
         ),
       ),
     ),
@@ -58,12 +64,17 @@ Future<void> showDriverListingSheet(
     ),
     builder: (context) => SafeArea(
       top: false,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(18, 16, 18, 24),
-        child: _DriverListingSheetBody(
-          driver: driver,
-          buttonLabel: buttonLabel,
-          onOpenWhatsApp: onOpenWhatsApp,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.85,
+        ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(18, 16, 18, 24),
+          child: _DriverListingSheetBody(
+            driver: driver,
+            buttonLabel: buttonLabel,
+            onOpenWhatsApp: onOpenWhatsApp,
+          ),
         ),
       ),
     ),
@@ -126,7 +137,7 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
           .computeRoutePreview(
             origin: origin,
             destination: destination,
-            languageTag: Localizations.localeOf(context).toLanguageTag(),
+            languageTag: resolveIntlLocale(context),
             travelMode: _travelModeFor(widget.trip),
           );
       if (!mounted || requestId != _routePreviewRequestId) {
@@ -137,7 +148,7 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
         _routePreview = preview;
         _loadingRoutePreview = false;
         _routePreviewError = preview == null
-            ? 'Google route data is not available for this listing yet.'
+            ? 'Route data is not available for this listing yet.'
             : null;
       });
     } catch (_) {
@@ -206,10 +217,7 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
           spacing: 8,
           runSpacing: 8,
           children: [
-            _SheetChip(
-              label:
-                  _displayVehicleType(trip.vehicleType),
-            ),
+            _SheetChip(label: _displayVehicleType(trip.vehicleType)),
             _SheetChip(label: departure),
             if (trip.seats > 0) _SheetChip(label: 'Seats ${trip.seats}'),
             if (distance != null) _SheetChip(label: distance),
@@ -246,7 +254,7 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
           label: 'Route coordinates',
           value: _tripOrigin != null && _tripDestination != null
               ? _routePreview == null
-                    ? 'Pinned with Google route lookup'
+                    ? 'Pinned with Google Places'
                     : 'Pinned with Google route preview'
               : 'Text route only',
         ),
@@ -660,7 +668,6 @@ String _formatLastActive(DateTime? value) {
   }
   return DateFormat('d MMM • HH:mm').format(value);
 }
-
 
 String _displayVehicleType(String vehicleType) {
   switch (vehicleType.trim().toLowerCase()) {

@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_async_view.dart';
+import '../../../shared/widgets/cool_empty_view.dart';
+import '../../../shared/widgets/cool_skeleton.dart';
 import '../providers/admin_providers.dart';
 
 class OperationalDashboardScreen extends ConsumerWidget {
@@ -58,8 +60,12 @@ class OperationalDashboardScreen extends ConsumerWidget {
             CoolAsyncView<List<Map<String, dynamic>>>(
               value: dashboardAsync,
               onRetry: refresh,
+              loadingWidget: const CoolSkeletonList(itemCount: 3),
               emptyCheck: (rows) => rows.isEmpty,
-              emptyMessage: 'No operational dashboard rows are available yet.',
+              emptyWidget: const CoolEmptyView(
+                message: 'No operational dashboard rows are available yet.',
+                icon: Icons.monitor_heart_outlined,
+              ),
               builder: (rows) => Wrap(
                 spacing: 12,
                 runSpacing: 12,
@@ -78,9 +84,13 @@ class OperationalDashboardScreen extends ConsumerWidget {
             CoolAsyncView<List<Map<String, dynamic>>>(
               value: triageAsync,
               onRetry: refresh,
+              loadingWidget: const CoolSkeletonList(itemCount: 3),
               emptyCheck: (rows) => rows.isEmpty,
-              emptyMessage:
-                  'No release-blocking operational issues need triage right now.',
+              emptyWidget: const CoolEmptyView(
+                message:
+                    'No release-blocking operational issues need triage right now.',
+                icon: Icons.fact_check_outlined,
+              ),
               builder: (rows) => Column(
                 children: rows
                     .map(
@@ -102,9 +112,12 @@ class OperationalDashboardScreen extends ConsumerWidget {
             CoolAsyncView<List<Map<String, dynamic>>>(
               value: eventsAsync,
               onRetry: refresh,
+              loadingWidget: const CoolSkeletonList(itemCount: 3),
               emptyCheck: (rows) => rows.isEmpty,
-              emptyMessage:
-                  'No operational health events have been recorded yet.',
+              emptyWidget: const CoolEmptyView(
+                message: 'No operational health events have been recorded yet.',
+                icon: Icons.sensors_outlined,
+              ),
               builder: (rows) => Column(
                 children: rows
                     .map(

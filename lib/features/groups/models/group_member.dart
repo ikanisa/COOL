@@ -1,3 +1,5 @@
+import '../../../core/identity/public_user_identity.dart';
+
 class GroupMember {
   const GroupMember({
     required this.userId,
@@ -17,20 +19,23 @@ class GroupMember {
 
   factory GroupMember.fromJson(Map<String, dynamic> json) {
     final nestedUser = json['users'];
+    final userId = json['user_id']?.toString() ?? '';
     return GroupMember(
-      userId: json['user_id']?.toString() ?? '',
+      userId: userId,
       contributionAmount: _asInt(
         json['contribution_amount'] ?? json['total_contribution'],
       ),
-      displayName:
-          json['display_name']?.toString() ??
-          (json['member'] is Map
-              ? (json['member'] as Map)['full_name']?.toString()
-              : null) ??
-          (nestedUser is Map
-              ? nestedUser['full_name']?.toString() ??
-                    nestedUser['name']?.toString()
-              : null),
+      displayName: PublicUserIdentity.resolve(
+        publicUserId:
+            json['display_name']?.toString() ??
+            (json['member'] is Map
+                ? (json['member'] as Map)['public_user_id']?.toString()
+                : null) ??
+            (nestedUser is Map
+                ? nestedUser['public_user_id']?.toString()
+                : null),
+        userId: userId,
+      ),
       isAdmin:
           _asBool(json['is_admin']) ||
           const {

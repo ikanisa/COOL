@@ -6,6 +6,8 @@ import '../../../core/config/country_catalog.dart';
 import '../../../core/providers/supported_countries_provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_async_view.dart';
+import '../../../shared/widgets/cool_empty_view.dart';
+import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_providers.dart';
 
@@ -72,8 +74,12 @@ class _ManageQuickActionsScreenState
         child: CoolAsyncView<List<Map<String, dynamic>>>(
           value: actionsAsync,
           onRetry: () => ref.invalidate(adminQuickActionsProvider),
+          loadingWidget: const CoolSkeletonList(itemCount: 4),
           emptyCheck: (a) => a.isEmpty,
-          emptyMessage: 'No quick actions',
+          emptyWidget: const CoolEmptyView(
+            message: 'No quick actions are configured yet.',
+            icon: Icons.bolt_rounded,
+          ),
           builder: (actions) {
             _localActions ??= List<Map<String, dynamic>>.from(actions);
             final displayActions = _localActions!;

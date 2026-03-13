@@ -125,24 +125,23 @@ class CoolStatusCard extends StatelessWidget {
           ],
 
           // ─── Streak row ────────────────────────────────────
-          Row(
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
             children: [
               _StatPill(
                 icon: Icons.local_fire_department_rounded,
                 label: '${status.currentStreak} streak',
               ),
-              const SizedBox(width: 8),
               _StatPill(
                 icon: Icons.emoji_events_rounded,
                 label: '${status.longestStreak} best',
               ),
-              if (status.streakGraceRemaining > 0) ...[
-                const SizedBox(width: 8),
+              if (status.streakGraceRemaining > 0)
                 _StatPill(
                   icon: Icons.shield_rounded,
                   label: '${status.streakGraceRemaining} grace',
                 ),
-              ],
             ],
           ),
         ],

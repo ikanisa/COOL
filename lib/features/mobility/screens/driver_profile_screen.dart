@@ -49,9 +49,9 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
     final profile = driverState.profile;
     final currentVehicle = VehicleData(
       type: profile?.vehicleType ?? 'Moto Taxi',
-      plateNumber: profile?.vehicleDescription ?? '',
-      baseLocation: profile?.isRegularDriver == true ? 'Regular' : 'Occasional',
-      status: profile?.isOnline == true ? 'Online' : 'Offline',
+      plateNumber: profile?.plateNumber ?? profile?.vehicleDescription ?? '',
+      baseLocation: profile?.baseLocation ?? '',
+      status: _vehicleVerificationLabel(profile?.vehicleStatus),
     );
     final updatedVehicle = await showModalBottomSheet<VehicleData>(
       context: context,
@@ -195,14 +195,15 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
     // Build display model from provider state.
     final vehicle = VehicleData(
       type: profile?.vehicleType ?? currentUser?.vehicleType ?? 'Moto Taxi',
-      plateNumber: displayValue(profile?.vehicleDescription),
-      baseLocation: profile?.isRegularDriver == true ? 'Regular' : 'Occasional',
-      status: profile?.isOnline == true ? 'Online' : 'Offline',
+      plateNumber: displayValue(profile?.plateNumber ?? profile?.vehicleDescription),
+      baseLocation: displayValue(profile?.baseLocation),
+      status: _vehicleVerificationLabel(profile?.vehicleStatus),
     );
 
     final driver = DriverProfileData(
-      name: profile?.fullName ?? currentUser?.fullName ?? 'Driver',
-      driverId: '#${shortDriverId(profile?.userId ?? currentUser?.id)}',
+      name: profile?.fullName ?? currentUser?.displayUserId ?? '000000',
+      driverId:
+          '#${profile?.fullName ?? currentUser?.displayUserId ?? shortDriverId(profile?.userId ?? currentUser?.id)}',
       rating: profile?.rating ?? 0,
       tripsDone: scheduledTrips.length,
       freeTripsRemaining: profile?.credits ?? sub?.tripsRemaining ?? 0,
@@ -321,6 +322,20 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
         ],
       ),
     );
+  }
+
+  String _vehicleVerificationLabel(String? rawStatus) {
+    return switch (rawStatus?.trim().toLowerCase()) {
+      'verified' => 'Verified',
+      'pending_review' => 'Pending Review',
+      'maintenance' => 'Maintenance',
+      null || '' => 'Pending Review',
+      final value => value
+          .split('_')
+          .where((part) => part.isNotEmpty)
+          .map((part) => '${part[0].toUpperCase()}${part.substring(1)}')
+          .join(' '),
+    };
   }
 }
 

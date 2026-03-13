@@ -333,5 +333,374 @@
   "search": "Rechercher",
   "noResults": "Aucun résultat.",
   "seeMore": "Voir plus",
-  "copied": "Copié dans le presse-papiers."
+  "copied": "Copié dans le presse-papiers.",
+
+  "retryAction": "Réessayer",
+  "cancelAction": "Annuler",
+  "openAction": "Ouvrir",
+  "languageLabel": "Langue",
+  "supportLabel": "Assistance",
+  "notificationsLabel": "Notifications",
+  "statementsLabel": "Relevés",
+  "walletLabel": "Portefeuille",
+  "savingsLabel": "Épargne",
+  "allTimeLabel": "Depuis le début",
+  "last30DaysLabel": "30 derniers jours",
+  "last90DaysLabel": "90 derniers jours",
+  "incomingLabel": "Entrées",
+  "outgoingLabel": "Sorties",
+  "counterpartyLabel": "Contrepartie",
+  "referenceLabel": "Référence",
+  "detailsLabel": "Détails",
+  "otpUseWhatsappTitle": "Utilisez votre numéro WhatsApp",
+  "otpUseWhatsappSubtitle": "Nous enverrons un code à 6 chiffres sur votre WhatsApp.",
+  "otpPhoneRequired": "Entrez votre numéro de téléphone",
+  "otpContinue": "Continuer",
+  "otpGenericError": "Une erreur est survenue. Veuillez réessayer.",
+  "openLinkError": "Impossible d'ouvrir le lien",
+  "otpLegalPrefix": "En continuant, vous acceptez les ",
+  "otpLegalAnd": " et la ",
+  "termsLabel": "Conditions",
+  "privacyPolicyLabel": "Politique de confidentialité",
+  "homeMissionsTitle": "Missions",
+  "homeMonthlyNet": "Net mensuel",
+  "homeActionPay": "Payer",
+  "homeActionTrips": "Trajets",
+  "homeFallbackGroupsSubtitle": "Épargne et invitations",
+  "homeFallbackPaySubtitle": "MoMo et relevés",
+  "homeFallbackPartnersSubtitle": "Banques et clubs",
+  "homeFallbackTripsSubtitle": "Trajet ou conduite",
+  "homeActiveCount": "{count} actifs",
+  "@homeActiveCount": { "placeholders": { "count": { "type": "int" } } },
+  "homeNoActivityTitle": "Aucune activité pour le moment",
+  "homeNoActivityMessage": "L'activité apparaîtra ici.",
+  "homeLoadErrorTitle": "Impossible de charger cette section",
+  "homeLoadErrorMessage": "Tirez pour actualiser ou réessayez.",
+  "profileMobileMoney": "Mobile Money",
+  "profileCreditScore": "Score de crédit",
+  "profileNotLinked": "Non lié",
+  "profileCreditReadiness": "Préparation au crédit",
+  "profileDriverTools": "Outils chauffeur",
+  "profileCoolStatus": "Statut COOL",
+  "profileAdminPanel": "Panneau admin",
+  "officialNameLabel": "Nom officiel",
+  "identityLabel": "Identité",
+  "moneySectionTitle": "Argent",
+  "preferencesSectionTitle": "Préférences",
+  "moreToolsSectionTitle": "Plus d'outils",
+  "profileMoreToolsShowSubtitle": "Afficher les actions supplémentaires et raccourcis secondaires.",
+  "profileMoreToolsHideSubtitle": "Masquer les raccourcis QR, chauffeur, statut et admin.",
+  "vehicleLabel": "Véhicule",
+  "accountActionsTitle": "Actions du compte",
+  "signOutAction": "Se déconnecter",
+  "deleteAccountAction": "Supprimer le compte",
+  "deleteAccountQuestion": "Supprimer le compte ?",
+  "deleteAccountMessage": "Cela supprime définitivement votre compte et vos données.",
+  "signOutMessage": "Vous devrez vérifier votre numéro à nouveau pour vous reconnecter.",
+  "completeProfileTitle": "Complétez votre profil",
+  "completeProfileSubtitle": "Terminez la configuration pour débloquer toutes les fonctionnalités.",
+  "profileSavingMomoInfo": "Enregistrement des infos MoMo...",
+  "profileDeletingAccount": "Suppression de votre compte...",
+  "profileMomoUpdated": "Infos MoMo mises à jour",
+  "profileMomoUpdateFailed": "Échec de la mise à jour des infos MoMo",
+  "profileSupportOpenError": "Impossible d'ouvrir WhatsApp. Veuillez réessayer.",
+  "profileSupportUnavailable": "L'assistance est indisponible pour le moment.",
+  "profileMomoQrTitle": "QR MoMo",
+  "profileMomoQrSubtitle": "Scannez pour payer {number}",
+  "@profileMomoQrSubtitle": {
+    "placeholders": { "number": { "type": "String" } }
+  },
+  "profileEditMomoInfo": "Modifier les infos MoMo",
+  "profileEditMomoSubtitle": "Ce numéro sera utilisé pour les paiements Mobile Money",
+  "profileMomoCodeOptional": "CODE MOMO (OPTIONNEL)",
+  "kycNeedsUpdate": "À mettre à jour",
+  "kycUnverified": "Non vérifié",
+  "userFallbackName": "Utilisateur",
+  "notSetLabel": "Non défini",
+  "momoStatementsTitle": "Relevés et grand livre",
+  "momoRefreshStatements": "Actualiser les relevés",
+  "statementOverviewTitle": "Aperçu du relevé",
+  "walletEntriesMetric": "Entrées portefeuille",
+  "savingsEntriesMetric": "Entrées épargne",
+  "walletEmptyTitle": "Aucune entrée de portefeuille",
+  "walletEmptyMessage": "L'activité du portefeuille apparaîtra ici.",
+  "walletLedgerTitle": "Grand livre portefeuille",
+  "walletLedgerSubtitle": "{shown} sur {total} écritures portefeuille.",
+  "@walletLedgerSubtitle": {
+    "placeholders": {
+      "shown": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "savingsEmptyTitle": "Aucune entrée d'épargne",
+  "savingsEmptyMessage": "Les contributions d'épargne apparaîtront ici.",
+  "savingsStatementTitle": "Relevé d'épargne",
+  "savingsStatementSubtitle": "{shown} sur {total} contributions de groupe affichées.",
+  "@savingsStatementSubtitle": {
+    "placeholders": {
+      "shown": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "coolMemberFallback": "Membre COOL",
+
+  "momoStatementsPeriodDay": "Jour",
+  "momoStatementsPeriodWeek": "Semaine",
+  "momoStatementsPeriodMonth": "Mois",
+  "momoStatementsPeriodCustom": "Personnalisé",
+  "momoStatementsPeriodAll": "Tout",
+  "momoStatementsSortNewestFirst": "Plus récent d'abord",
+  "momoStatementsSortOldestFirst": "Plus ancien d'abord",
+  "momoStatementsSortAmountHighToLow": "Montant : élevé → bas",
+  "momoStatementsSortAmountLowToHigh": "Montant : bas → élevé",
+  "momoStatementsSortNameAz": "Nom : A → Z",
+  "momoStatementsSortNameZa": "Nom : Z → A",
+  "momoStatementsWalletFilteredEmptyTitle": "Aucune entrée de portefeuille correspondante",
+  "momoStatementsWalletFilteredEmptyMessage": "Essayez d'ajuster vos filtres ou la période.",
+  "momoStatementsSavingsFilteredEmptyTitle": "Aucune entrée d'épargne correspondante",
+  "momoStatementsSavingsFilteredEmptyMessage": "Essayez d'ajuster vos filtres ou la période.",
+
+  "fansScreenUnavailableTitle": "Hub Fan déplacé",
+  "fansScreenHeadline": "Hub Fan",
+  "fansScreenBody": "Les fonctionnalités fan pour {clubName} sont désormais dans le hub partenaire.",
+  "@fansScreenBody": {
+    "placeholders": {
+      "clubName": { "type": "String" }
+    }
+  },
+  "fansScreenMembershipUnavailable": "Les fonctionnalités d'adhésion se trouvent dans Rayon Sports.",
+  "fansScreenClubsUnavailable": "Les clubs de fans sont désormais gérés dans Rayon Sports.",
+  "fansScreenRayonDedicatedHub": "Rayon Sports dispose d'un hub dédié aux fans.",
+  "fansScreenRouteKeptReachable": "Cette route est maintenue accessible pour les liens profonds.",
+  "fansScreenBackToPartners": "Retour aux partenaires",
+  "fansScreenOpenRayon": "Ouvrir Rayon Sports",
+
+  "ticketWalletInvalidLink": "Lien Google Wallet invalide.",
+  "ticketWalletUnavailable": "Google Wallet n'est pas disponible sur cet appareil.",
+  "ticketWalletOpenFailed": "Impossible d'ouvrir Google Wallet.",
+  "ticketConfirmationScreenTitle": "Billet",
+  "ticketConfirmationNotFound": "Billet introuvable.",
+  "ticketAddToGoogleWallet": "Ajouter à Google Wallet",
+  "ticketBackToTickets": "Retour aux billets",
+  "ticketShareMatchTitle": "Partager le match",
+  "ticketShareMatchText": "Découvrez {matchTitle} sur Cool !",
+  "@ticketShareMatchText": {
+    "placeholders": {
+      "matchTitle": { "type": "String" }
+    }
+  },
+  "ticketStatusPendingTitle": "Paiement en attente",
+  "ticketStatusPendingSubtitle": "En attente de confirmation MoMo.",
+  "ticketStatusPendingNote": "Votre billet est réservé. Finalisez le paiement MoMo pour l'activer.",
+  "ticketStatusValidTitle": "Billet valide",
+  "ticketStatusValidSubtitle": "Présentez-le à l'entrée.",
+  "ticketStatusValidNote": "Présentez le code QR ci-dessous à l'entrée du stade.",
+  "ticketStatusUsedTitle": "Billet utilisé",
+  "ticketStatusUsedSubtitle": "Ce billet a été scanné.",
+  "ticketStatusUsedNote": "Ce billet a été validé à l'entrée. Il ne peut plus être utilisé.",
+  "ticketStatusCancelledTitle": "Billet annulé",
+  "ticketStatusCancelledSubtitle": "Ce billet n'est plus valide.",
+  "ticketStatusCancelledNote": "Contactez le support si vous pensez qu'il s'agit d'une erreur.",
+
+  "partnersHomeTooltip": "Accueil partenaires",
+
+  "partnersServicesTab": "Services",
+  "partnersRayonWelcomeTitle": "Bienvenue chez Rayon Sports !",
+  "partnersRayonWelcomeSubtitle": "Votre adhésion fan a été créée. Profitez d'avantages exclusifs, de billets et d'actualités du club.",
+  "partnersOpenRayonSports": "Ouvrir Rayon Sports",
+  "partnersMembershipPerkRegistryAccess": "Accès au registre fan",
+  "partnersMembershipPerkClubUpdates": "Actualités du club",
+  "partnersMembershipPerkMemberQueue": "File prioritaire membre",
+  "partnersMembershipPerkPriorityTickets": "Accès prioritaire aux billets",
+  "partnersMembershipPerkShopDiscount": "Remise boutique",
+  "partnersMembershipPerkVipQueue": "File VIP",
+  "partnersMembershipPerkVipAccess": "Accès VIP événements",
+  "partnersMembershipPerkExclusiveEvents": "Événements exclusifs",
+  "partnersNoFootballPartners": "Aucun partenaire football disponible.",
+  "partnersComingSoonMessage": "{partnerName} arrive bientôt !",
+  "@partnersComingSoonMessage": {
+    "placeholders": {
+      "partnerName": { "type": "String" }
+    }
+  },
+  "partnersRayonHubBadge": "Hub Fan Officiel",
+  "partnersGamesMetricLabel": "Matchs",
+  "partnersLoadingMessage": "Chargement des partenaires…",
+  "partnersNoFinancePartners": "Aucun partenaire financier disponible.",
+  "partnersFinancePrepTitle": "Préparation financière",
+  "partnersFinancePrepSubtitle": "Vérifiez votre admissibilité au crédit et préparez-vous aux services financiers de nos partenaires.",
+  "partnersReadinessChecklistCta": "Checklist d'admissibilité",
+  "partnersWhatsappMessage": "Bonjour, j'aimerais en savoir plus sur {partnerName} sur Cool.",
+  "@partnersWhatsappMessage": {
+    "placeholders": {
+      "partnerName": { "type": "String" }
+    }
+  },
+  "partnersNoServicePartners": "Aucun partenaire de services disponible.",
+  "partnersInsurancePartnerBadge": "Partenaire assurance",
+  "partnersProfessionalServicesBadge": "Services professionnels",
+  "partnersServicePartnerBadge": "Partenaire de services",
+  "partnersLoadErrorTitle": "Impossible de charger les partenaires",
+  "partnersEmptyMessage": "Les partenaires apparaîtront ici une fois disponibles.",
+  "partnersClubShopSubtitle": "Merchandising officiel",
+  "partnersFootballTab": "Football",
+  "partnersFinanceTab": "Finance",
+  "partnersFeaturesTitle": "Fonctionnalités",
+
+  "momoNfcInvalidRequest": "Demande de paiement NFC invalide.",
+  "momoLaunchingUssd": "Lancement USSD…",
+  "momoNfcLaunchFailed": "Échec du lancement NFC. Veuillez réessayer.",
+  "momoScreenTitle": "Mobile Money",
+  "momoNfcLaunchingOverlay": "Lancement MoMo…",
+  "momoSendValidationError": "Veuillez entrer un destinataire et un montant valides.",
+  "momoSendLaunchFailed": "Impossible de lancer le paiement MoMo pour {countryName}.",
+  "@momoSendLaunchFailed": {
+    "placeholders": {
+      "countryName": { "type": "String" }
+    }
+  },
+  "momoFromNumber": "De {number}",
+  "@momoFromNumber": {
+    "placeholders": {
+      "number": { "type": "String" }
+    }
+  },
+  "momoRoutePhoneLabel": "Numéro de téléphone",
+  "momoRouteCodeLabel": "Code MoMo",
+  "momoRecipientCodeLabel": "Code MoMo du destinataire",
+  "momoRecipientPhoneLabel": "Téléphone du destinataire",
+  "momoAmountLabel": "Montant ({currency})",
+  "@momoAmountLabel": {
+    "placeholders": {
+      "currency": { "type": "String" }
+    }
+  },
+  "momoSendCompletesViaUssd": "Se termine via USSD sur votre SIM {countryName}.",
+  "@momoSendCompletesViaUssd": {
+    "placeholders": {
+      "countryName": { "type": "String" }
+    }
+  },
+  "momoConfirmSendLabel": "Envoyer de l'argent",
+
+  "momoStatementsPayerLabel": "Payeur",
+  "momoStatementsAllPayers": "Tous les payeurs",
+  "momoStatementsAllGroups": "Tous les groupes",
+  "momoStatementsSelectCustomPeriod": "Choisir une période personnalisée",
+  "momoStatementsNothingToDownload": "Rien à télécharger pour le moment.",
+  "momoStatementsSavedFile": "Enregistré : {fileName}",
+  "@momoStatementsSavedFile": {
+    "placeholders": {
+      "fileName": { "type": "String" }
+    }
+  },
+  "momoStatementsDownloadedFile": "Téléchargé : {fileName}",
+  "@momoStatementsDownloadedFile": {
+    "placeholders": {
+      "fileName": { "type": "String" }
+    }
+  },
+  "momoStatementsDownloadFailed": "Échec du téléchargement du relevé.",
+  "momoStatementsFilterSummaryPeriod": "Période : {period}",
+  "@momoStatementsFilterSummaryPeriod": {
+    "placeholders": {
+      "period": { "type": "String" }
+    }
+  },
+  "momoStatementsFilterSummaryParty": "{label} : {value}",
+  "@momoStatementsFilterSummaryParty": {
+    "placeholders": {
+      "label": { "type": "String" },
+      "value": { "type": "String" }
+    }
+  },
+  "momoStatementsFilterTitle": "Filtres et exports",
+  "momoStatementsSortByLabel": "Tri",
+  "resetAction": "Réinitialiser",
+  "momoStatementsPreparingLabel": "Export en cours…",
+  "momoStatementsPdfLabel": "PDF",
+  "momoStatementsExcelLabel": "Excel",
+
+  "groupsTabAll": "Tous",
+  "groupsTabSaving": "Épargne",
+  "groupsTabCommunity": "Communautaire",
+  "groupsTabPublic": "Public",
+  "groupsTabPrivate": "Privé",
+  "groupsShareText": "Rejoignez {groupName} sur Cool : {inviteUrl}",
+  "@groupsShareText": {
+    "placeholders": {
+      "groupName": { "type": "String" },
+      "inviteUrl": { "type": "String" }
+    }
+  },
+  "groupsCreateNewTitle": "Créer un nouveau groupe",
+  "groupsCreateNewSubtitle": "Épargne ou communautaire",
+  "groupsEmptyPublicTitle": "Aucun groupe public trouvé",
+  "groupsEmptyPublicMessage": "Tirez pour actualiser ou vérifiez vos groupes.",
+  "groupsEmptyPrivateMessage": "Créez un groupe ou parcourez les groupes publics.",
+  "groupsBankCustodianMeta": "Banque dépositaire · {partnerName}",
+  "@groupsBankCustodianMeta": {
+    "placeholders": {
+      "partnerName": { "type": "String" }
+    }
+  },
+  "groupsMomoRouteMeta": "Route MoMo · {number}",
+  "@groupsMomoRouteMeta": {
+    "placeholders": {
+      "number": { "type": "String" }
+    }
+  },
+  "groupsSavingGroupMeta": "Groupe d'épargne",
+  "groupsCommunityFundMeta": "Fonds communautaire",
+  "groupsRaisedLabel": "collecté",
+  "groupsShareAction": "Partager",
+  "groupsLoadErrorTitle": "Une erreur est survenue",
+
+  "profileTierBlue": "Bleu",
+  "profileTierSilver": "Argent",
+  "profileTierGold": "Or",
+  "profileTierPlatinum": "Platine",
+  "profileSavingIdentity": "Enregistrement des informations d'identité...",
+  "profileIdentityUpdated": "Informations d'identité mises à jour",
+  "profileIdentityUpdateFailed": "Échec de la mise à jour des informations d'identité",
+  "profileAppAccess": "Accès de l'application",
+  "profileManageAction": "Gérer",
+  "profileCoolStatusValue": "{tier} · {points} pts",
+  "@profileCoolStatusValue": {
+    "placeholders": {
+      "tier": { "type": "String" },
+      "points": { "type": "int" }
+    }
+  },
+  "profileUserIdLabel": "ID utilisateur",
+  "profileWalletLabel": "Portefeuille",
+  "profileSetupTitle": "Configuration du profil",
+  "profilePublicProfileLabel": "Profil public",
+  "profileOfficialIdentityLabel": "Identité officielle",
+  "profilePassengerRoleLabel": "Passager",
+  "profileDriverRoleLabel": "Chauffeur",
+
+  "mobilityNoWhatsappAvailable": "Aucun contact WhatsApp disponible pour le moment.",
+  "mobilityNoContactYet": "Aucun contact pour le moment",
+  "mobilityLocationRequiredDriverMode": "La localisation est requise avant d'activer le mode chauffeur.",
+
+  "momoSendMoneyOpensUssd": "Ouvrez le code USSD MoMo de {countryName} pour envoyer de l'argent.",
+  "@momoSendMoneyOpensUssd": {
+    "placeholders": {
+      "countryName": { "type": "String" }
+    }
+  },
+  "momoMoreToolsSubtitle": "Relevés, QR et outils NFC pour votre route.",
+  "momoStatementsToolSubtitle": "Consultez l'historique du portefeuille et de l'épargne.",
+  "momoNfcToolsTitle": "Outils NFC",
+  "momoNfcToolsSubtitle": "Paiement sans contact et partage de route.",
+
+  "basketScreenTitle": "Panier",
+  "basketScreenHeadline": "Le panier n'est pas actif pour le moment",
+  "basketScreenBody": "Cette route reste disponible pour la compatibilité, mais les soldes et la création de paniers ne sont pas actifs dans cette version.",
+  "basketScreenCardBody": "Les produits panier sont en pause pendant la finalisation de la prochaine version.",
+  "basketScreenExpectationBalances": "Aucun solde panier en direct n'est affiché ici.",
+  "basketScreenExpectationCreation": "La création de nouveaux paniers est actuellement désactivée.",
+  "basketScreenExpectationLinks": "Les liens profonds existants arrivent toujours sur cet écran.",
+  "basketScreenBackHome": "Retour à l'accueil"
 }

@@ -8,6 +8,9 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../auth/providers/auth_provider.dart';
+import '../../../core/config/env_config.dart';
+import '../../../core/l10n/l10n.dart';
+import '../../../core/router/app_router.dart';
 import '../../../core/services/whatsapp_contact_service.dart';
 import '../services/mobility_whatsapp_service.dart';
 import '../../../shared/widgets/cool_toast.dart';
@@ -112,9 +115,7 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
     final phoneNumber =
         trip.whatsappNumber?.trim() ?? trip.contactPhone?.trim() ?? '';
     if (phoneNumber.isEmpty) {
-      _showMarketplaceSnackBar(
-        'No WhatsApp contact available yet.',
-      );
+      _showMarketplaceSnackBar('No WhatsApp contact is available yet.');
       return;
     }
 
@@ -133,9 +134,7 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
   Future<void> _openDriverWhatsApp(DriverInfo driver) async {
     final phoneNumber = driver.contactPhone?.trim() ?? '';
     if (phoneNumber.isEmpty) {
-      _showMarketplaceSnackBar(
-        'No WhatsApp contact available yet.',
-      );
+      _showMarketplaceSnackBar('No WhatsApp contact is available yet.');
       return;
     }
 
@@ -152,12 +151,13 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
   }
 
   Future<void> _showTripPreview(Trip trip) {
+    final l10n = context.l10n;
     return showTripListingSheet(
       context,
       trip: trip,
       buttonLabel: _hasTripContact(trip)
-          ? 'Chat on WhatsApp'
-          : 'No contact yet',
+          ? l10n.contactViaWhatsapp
+          : 'No contact available yet',
       onOpenWhatsApp: _hasTripContact(trip)
           ? () {
               unawaited(_openTripWhatsApp(trip));
@@ -167,12 +167,13 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
   }
 
   Future<void> _showDriverPreview(DriverInfo driver) {
+    final l10n = context.l10n;
     return showDriverListingSheet(
       context,
       driver: driver,
       buttonLabel: _hasDriverContact(driver)
-          ? 'Chat on WhatsApp'
-          : 'No contact yet',
+          ? l10n.contactViaWhatsapp
+          : 'No contact available yet',
       onOpenWhatsApp: _hasDriverContact(driver)
           ? () {
               unawaited(_openDriverWhatsApp(driver));
@@ -187,6 +188,7 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final currentUser = ref.watch(currentUserProvider);
     final driverProfile = ref.watch(
       driverProvider.select((state) => state.profile),
@@ -195,14 +197,19 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
     final isDriver = (currentUser?.isDriver ?? false) || driverProfile != null;
     final driverIsOnline = driverProfile?.isOnline ?? false;
     final driverVehicleType =
-        driverProfile?.vehicleType ?? currentUser?.vehicleType ?? 'Driver';
+        driverProfile?.vehicleType ??
+        currentUser?.vehicleType ??
+        l10n.driverProfile;
+    final supportsEmbeddedMaps = EnvConfig.hasEmbeddedGoogleMapsSupport(
+      Theme.of(context).platform,
+    );
 
     return Scaffold(
       backgroundColor: AppColors.bg,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          'Mobility',
+          l10n.navMobility,
           style: GoogleFonts.dmSans(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -223,10 +230,11 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
                 sliver: SliverToBoxAdapter(
                   child: MobilityTopActionsCard(
                     isDriver: isDriver,
-                    onOpenTrips: () => context.push('/mobility/trips'),
-                    onScheduleTrip: () => context.push('/mobility/schedule'),
+                    onOpenTrips: () => context.push(AppRoutes.mobilityTrips),
+                    onScheduleTrip: () =>
+                        context.push(AppRoutes.mobilitySchedule),
                     onOpenDriverTools: isDriver
-                        ? () => context.push('/mobility/driver')
+                        ? () => context.push(AppRoutes.mobilityDriver)
                         : null,
                   ),
                 ),
@@ -244,9 +252,7 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
                 ),
               const SliverPadding(
                 padding: EdgeInsets.fromLTRB(18, 18, 18, 0),
-                sliver: SliverToBoxAdapter(
-                  child: MobilityBrowseControlsCard(),
-                ),
+                sliver: SliverToBoxAdapter(child: MobilityBrowseControlsCard()),
               ),
               MobilityContentSliver(
                 onDriverPreviewTap: (driver) {
@@ -259,7 +265,7 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
                   unawaited(_showTripPreview(trip));
                 },
               ),
-              if (activeTab == 0) ...[
+              if (activeTab == 0 && supportsEmbeddedMaps) ...[
                 SliverPadding(
                   padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
                   sliver: SliverToBoxAdapter(
@@ -298,7 +304,7 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
     if (position == null) {
       CoolToast.error(
         context,
-        'Location is required before turning on driver mode.',
+        'Location is required before enabling driver mode.',
       );
       return;
     }

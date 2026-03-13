@@ -6,6 +6,7 @@
 /// - MoMo code: a separate merchant or payment code where supported.
 library;
 
+import '../models/momo_qr_payload.dart';
 import '../config/country_catalog.dart';
 
 /// Rwanda mobile prefixes (after +250, the "7X" digit pair).
@@ -89,6 +90,16 @@ abstract final class PhoneValidator {
     return '+250 ${local.substring(0, 3)} ${local.substring(3, 6)} ${local.substring(6)}';
   }
 
+  /// User-facing MoMo display should stay in the country's local/national
+  /// format instead of E.164. For Rwanda this means `07XXXXXXXX`.
+  static String formatMomoDisplay(String phone, CoolCountry country) {
+    try {
+      return country.normalizeNationalPhone(phone);
+    } catch (_) {
+      return phone.trim();
+    }
+  }
+
   // ──────────────────────────────────────────────────────────────────────
   // Country-aware MoMo validation
   // ──────────────────────────────────────────────────────────────────────
@@ -141,8 +152,8 @@ abstract final class PhoneValidator {
 
     if (country == null) {
       final digits = trimmed.replaceAll(RegExp(r'[^0-9]'), '');
-      if (digits.length < 4 || digits.length > 8) {
-        return 'MoMo code must be 4-8 digits';
+      if (digits.length < 4 || digits.length > 9) {
+        return 'MoMo code must be 4-9 digits';
       }
       if (digits != trimmed) {
         return 'MoMo code must contain only numbers';
@@ -196,34 +207,90 @@ abstract final class PhoneValidator {
   /// from any country, but must have enough digits to be plausible.
   /// Returns `null` if valid, or an error message.
   static String? validateOtpPhone(String phone, CoolCountry country) {
-    final trimmed = phone.trim();
-    if (trimmed.isEmpty) return 'Enter your phone number';
-
-    final digits = trimmed.replaceAll(RegExp(r'[^0-9]'), '');
-
-    // Rwanda-specific: must be a valid mobile prefix
-    if (country.isoCode == 'RW') {
-      final local = toRwandanLocal(trimmed);
-      if (local == null) return 'Enter a 9-digit Rwandan number';
-      if (!local.startsWith('7')) {
-        return 'Rwandan mobile numbers start with 07';
-      }
+    try {
+      buildOtpE164Phone(phone, country);
       return null;
+    } on FormatException catch (error) {
+      final message = error.message.toString().trim();
+      return message.isEmpty ? 'Enter a valid phone number' : message;
+    }
+  }
+
+  /// Format a WhatsApp/OTP phone number to E.164 using broader auth rules than
+  /// MoMo validation. OTP login should accept any plausible WhatsApp number
+  /// for the selected country, even if the number is not valid for MoMo.
+  static String buildOtpE164Phone(String phone, CoolCountry country) {
+    final trimmed = phone.trim();
+    if (trimmed.isEmpty) {
+      throw const FormatException('Enter your phone number');
     }
 
-    // Generic: at least 7 digits (shortest international numbers)
-    if (digits.length < 7) return 'Enter a valid phone number';
-    return null;
+    final digits = trimmed.replaceAll(RegExp(r'[^0-9]'), '');
+    if (trimmed.startsWith('+')) {
+      if (digits.length < 7) {
+        throw const FormatException('Enter a valid phone number');
+      }
+      return '+$digits';
+    }
+
+    if (country.isoCode == 'RW') {
+      final local = toRwandanLocal(trimmed);
+      if (local == null) {
+        throw const FormatException('Enter a 9-digit Rwandan number');
+      }
+      if (!local.startsWith('7')) {
+        throw const FormatException('Rwandan mobile numbers start with 07');
+      }
+      return '${country.dialCode}$local';
+    }
+
+    if (digits.length < 7) {
+      throw const FormatException('Enter a valid phone number');
+    }
+
+    final dialDigits = country.dialCode.replaceFirst('+', '');
+    if (digits.startsWith(dialDigits) && digits.length > dialDigits.length) {
+      return '+$digits';
+    }
+
+    final localDigits = digits.startsWith('0') ? digits.substring(1) : digits;
+    return '${country.dialCode}$localDigits';
   }
 
   // ──────────────────────────────────────────────────────────────────────
   // USSD QR data
   // ──────────────────────────────────────────────────────────────────────
 
-  /// Generate USSD-compatible QR data for a MoMo number.
-  /// Uses the local format prefixed with the dial code.
-  static String generateMomoQrData(String momoNumber, CoolCountry country) {
-    final e164 = country.buildE164Phone(momoNumber);
-    return 'momo://${e164.replaceAll(RegExp(r'[^0-9+]'), '')}';
+  /// Generate QR data for a MoMo route.
+  ///
+  /// When [amount] is provided, the QR encodes a payment-ready dialer route.
+  /// Without an amount, it encodes a COOL app link that prefills the recipient.
+  static String generateMomoQrData(
+    String recipientValue,
+    CoolCountry country, {
+    MomoRecipientType recipientType = MomoRecipientType.phoneNumber,
+    int? amount,
+    String? reference,
+    bool preferDirectDial = true,
+  }) {
+    final normalizedRecipient = switch (recipientType) {
+      MomoRecipientType.phoneNumber => country.buildE164Phone(recipientValue),
+      MomoRecipientType.code => country.normalizeMerchantCode(recipientValue),
+    };
+    final payload = amount != null && amount > 0
+        ? MomoQrPayload.paymentRequest(
+            recipientValue: normalizedRecipient,
+            recipientType: recipientType,
+            amount: amount,
+            countryCode: country.isoCode,
+            reference: reference,
+          )
+        : MomoQrPayload.profile(
+            recipientValue: normalizedRecipient,
+            recipientType: recipientType,
+            countryCode: country.isoCode,
+            reference: reference,
+          );
+    return payload.toQrData(country, preferDirectDial: preferDirectDial);
   }
 }

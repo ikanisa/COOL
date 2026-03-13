@@ -1,6 +1,8 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/config/country_catalog.dart';
+import '../../../core/identity/public_user_identity.dart';
+import '../../../core/identity/user_identity_lookup.dart';
 import '../../momo/services/momo_service.dart';
 import '../models/group.dart';
 import '../models/group_contribution.dart';
@@ -76,7 +78,10 @@ class GroupRepository {
       for (final row in rawMemberRows)
         if ((row['user_id']?.toString() ?? '').isNotEmpty &&
             (row['display_name']?.toString().trim().isNotEmpty ?? false))
-          row['user_id'].toString(): row['display_name'].toString().trim(),
+          row['user_id'].toString(): PublicUserIdentity.resolve(
+            publicUserId: row['display_name']?.toString(),
+            userId: row['user_id']?.toString(),
+          ),
     };
     final contributorNames = await _loadContributorNames(
       contributionRows
@@ -471,31 +476,26 @@ class GroupRepository {
       return seedNames;
     }
 
-    List<Map<String, dynamic>> userRows = const <Map<String, dynamic>>[];
-    try {
-      userRows = _asListOfMaps(
+    final userRows = await fetchUserIdentityRows(
+      fetchRows: ({required includePublicUserId}) async => _asListOfMaps(
         await _client
             .from('users')
-            .select('id, official_name, full_name')
+            .select(
+              buildUserIdentitySelect(includePublicUserId: includePublicUserId),
+            )
             .inFilter('id', userIds),
-      );
-    } on PostgrestException {
-      userRows = _asListOfMaps(
-        await _client
-            .from('users')
-            .select('id, full_name')
-            .inFilter('id', userIds),
-      );
-    }
+      ),
+    );
 
     final contributorNames = <String, String>{...seedNames};
     for (final row in userRows) {
       final id = row['id']?.toString() ?? '';
-      final officialName = row['official_name']?.toString().trim() ?? '';
-      final fullName = row['full_name']?.toString().trim() ?? '';
-      final preferredName = officialName.isNotEmpty ? officialName : fullName;
-      if (id.isNotEmpty && preferredName.isNotEmpty) {
-        contributorNames[id] = preferredName;
+      if (id.isNotEmpty) {
+        contributorNames[id] = PublicUserIdentity.resolve(
+          publicUserId: row['public_user_id']?.toString(),
+          userId: id,
+          phone: row['phone']?.toString(),
+        );
       }
     }
 

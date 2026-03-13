@@ -1,3 +1,4 @@
+import '../../../core/identity/public_user_identity.dart';
 import 'trip_type.dart';
 
 class Trip {
@@ -69,10 +70,14 @@ class Trip {
       json['repeat_days'] ?? json['recurring_days'],
     );
     final profile = _asMap(json['profile']);
+    final userId = json['user_id']?.toString();
+    final contactPhone =
+        json['contact_phone']?.toString() ??
+        json['whatsapp_number']?.toString();
 
     return Trip(
       id: json['id']?.toString(),
-      userId: json['user_id']?.toString(),
+      userId: userId,
       fromLocation: json['from_location']?.toString() ?? '',
       toLocation: json['to_location']?.toString() ?? '',
       departureTime:
@@ -110,13 +115,14 @@ class Trip {
       status: json['status']?.toString() ?? 'ACTIVE',
       role: role,
       repeatDays: repeatDays,
-      contactPhone:
-          json['contact_phone']?.toString() ??
-          json['whatsapp_number']?.toString(),
-      contactName:
-          json['contact_name']?.toString() ??
-          profile['full_name']?.toString() ??
-          profile['name']?.toString(),
+      contactPhone: contactPhone,
+      contactName: PublicUserIdentity.resolve(
+        publicUserId:
+            json['contact_name']?.toString() ??
+            profile['public_user_id']?.toString(),
+        userId: userId,
+        phone: contactPhone,
+      ),
       whatsappNumber: json['whatsapp_number']?.toString(),
       priceNote: json['price_note']?.toString(),
     );

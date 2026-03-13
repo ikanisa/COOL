@@ -1,3 +1,5 @@
+import '../../../core/identity/public_user_identity.dart';
+
 class GroupContribution {
   const GroupContribution({
     this.id,
@@ -18,16 +20,20 @@ class GroupContribution {
   final DateTime? createdAt;
 
   factory GroupContribution.fromJson(Map<String, dynamic> json) {
+    final userId =
+        json['user_id']?.toString() ?? json['member_id']?.toString() ?? '';
     return GroupContribution(
       id: json['id']?.toString(),
       groupId: json['group_id']?.toString() ?? '',
-      userId:
-          json['user_id']?.toString() ?? json['member_id']?.toString() ?? '',
+      userId: userId,
       amount: _asInt(json['amount']),
       status: json['status']?.toString() ?? 'pending',
-      contributorName:
-          json['contributor_name']?.toString() ??
-          json['display_name']?.toString(),
+      contributorName: PublicUserIdentity.resolve(
+        publicUserId:
+            json['contributor_name']?.toString() ??
+            json['display_name']?.toString(),
+        userId: userId,
+      ),
       createdAt: _parseDateTime(json['created_at']),
     );
   }

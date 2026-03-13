@@ -430,7 +430,7 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
           userId: userId,
           amount: amount,
           status: 'pending',
-          contributorName: _authState.user?.fullName,
+          contributorName: _authState.user?.displayUserId,
           createdAt: DateTime.now(),
         );
         contribution = value;

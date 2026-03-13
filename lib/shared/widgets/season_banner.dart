@@ -88,31 +88,42 @@ class SeasonBanner extends StatelessWidget {
           // ─── Footer: season points + reward preview ────
           Row(
             children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.star_rounded, size: 14, color: AppColors.text2),
-                  const SizedBox(width: 4),
-                  Text(
-                    '$seasonPoints season pts',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.text2,
+              Flexible(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.star_rounded, size: 14, color: AppColors.text2),
+                    const SizedBox(width: 4),
+                    Flexible(
+                      child: Text(
+                        '$seasonPoints season pts',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.dmSans(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.text2,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              if (season.rewardsDescription != null)
-                Text(
-                  season.rewardsDescription!,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 11,
-                    color: AppColors.text3,
-                  ),
-                  overflow: TextOverflow.ellipsis,
+                  ],
                 ),
+              ),
+              if (season.rewardsDescription != null) ...[
+                const SizedBox(width: 8),
+                Flexible(
+                  child: Text(
+                    season.rewardsDescription!,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 11,
+                      color: AppColors.text3,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.end,
+                  ),
+                ),
+              ],
             ],
           ),
         ],

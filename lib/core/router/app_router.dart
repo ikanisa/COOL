@@ -11,7 +11,6 @@ import '../../features/auth/screens/otp_screen.dart';
 import '../../features/auth/screens/otp_verify_screen.dart';
 import '../../features/auth/screens/register_screen.dart';
 import '../../features/auth/screens/splash_screen.dart';
-import '../../features/basket/screens/basket_screen.dart';
 import '../../features/credit/screens/credit_score_screen.dart';
 import '../../features/credit/screens/credit_readiness_screen.dart';
 import '../../features/groups/screens/create_group_screen.dart';
@@ -27,7 +26,6 @@ import '../../features/mobility/screens/trip_board_screen.dart';
 import '../../features/momo/screens/momo_screen.dart';
 import '../../features/momo/screens/momo_statements_screen.dart';
 import '../../features/partners/screens/bank_partner_screen.dart';
-import '../../features/partners/screens/fans_screen.dart';
 import '../../features/partners/screens/partners_screen.dart';
 import '../../features/partners/screens/prisma_partner_screen.dart';
 import '../../features/partners/screens/radiant_partner_screen.dart';
@@ -61,6 +59,7 @@ import '../../features/admin/screens/manage_quick_actions_screen.dart';
 import '../../features/admin/screens/manage_vehicle_types_screen.dart';
 import '../../features/admin/screens/manage_countries_screen.dart';
 import '../../features/admin/screens/manage_app_config_screen.dart';
+import '../../features/admin/screens/operational_dashboard_screen.dart';
 import '../status/screens/missions_screen.dart';
 import '../../shared/widgets/kill_switch_gate.dart';
 import '../../shared/widgets/secure_screen_wrapper.dart';
@@ -74,6 +73,57 @@ import 'shell_route.dart';
 /// Slugs that have a dedicated detail screen (not a generic fans page).
 /// As partners become fully data-driven, this set may shrink.
 const _partnerDetailSlugs = {'urwego', 'equity', 'radiant', 'prisma'};
+const _shellRootLocations = {
+  AppRoutes.home,
+  AppRoutes.groups,
+  AppRoutes.mobility,
+  AppRoutes.profile,
+};
+
+String basketCompatibilityRedirectLocation() => AppRoutes.home;
+
+String? resolvePartnerDetailRedirect(String id) {
+  if (id == 'rayon-sports') {
+    return AppRoutes.rayonHome;
+  }
+  if (_partnerDetailSlugs.contains(id)) {
+    return null;
+  }
+  return AppRoutes.partners;
+}
+
+String resolvePartnerFansRedirect(String id) {
+  final detailRedirect = resolvePartnerDetailRedirect(id);
+  if (detailRedirect != null) {
+    return detailRedirect;
+  }
+  return '/partners/$id';
+}
+
+bool isShellRootLocation(String location) {
+  final trimmed = location.trim();
+  if (trimmed.isEmpty) {
+    return false;
+  }
+
+  final uri = Uri.tryParse(trimmed);
+  final path = uri?.path.isNotEmpty == true ? uri!.path : trimmed;
+  return _shellRootLocations.contains(path);
+}
+
+void openQuickActionRoute(BuildContext context, String location) {
+  final trimmed = location.trim();
+  if (trimmed.isEmpty) {
+    return;
+  }
+
+  if (isShellRootLocation(trimmed)) {
+    context.go(trimmed);
+    return;
+  }
+
+  context.push(trimmed);
+}
 
 final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'rootNavigator');
 final _homeNavigatorKey = GlobalKey<NavigatorState>(
@@ -141,6 +191,7 @@ abstract final class AppRoutes {
   static const adminVehicleTypes = '/admin/vehicle-types';
   static const adminCountries = '/admin/countries';
   static const adminAppConfig = '/admin/app-config';
+  static const adminOperations = '/admin/operations';
 
   // RS Admin routes
   static const adminRayon = '/admin/rayon';
@@ -343,24 +394,41 @@ String? resolveAppRedirect({
   return null;
 }
 
-final appRouterProvider = Provider<GoRouter>((ref) {
-  final authSnapshot = ref.watch(
-    authProvider.select(
-      (state) => (
-        session: state.session,
-        hasProfile: state.user?.isProfileComplete ?? false,
-        isAdmin: state.user?.isAdmin ?? false,
-        profileRestoreState: state.profileRestoreState,
-        countryCode: resolveAuthStateCountryCode(state),
-      ),
-    ),
-  );
-  final featureFlags = ref.watch(featureFlagsStateProvider);
+final _appRouterRefreshListenableProvider = Provider<ChangeNotifier>((ref) {
+  final notifier = _AppRouterRefreshNotifier();
+  ref.listen(authProvider, (previous, next) => notifier.refresh());
+  ref.listen(featureFlagsStateProvider, (previous, next) => notifier.refresh());
+  ref.onDispose(notifier.dispose);
+  return notifier;
+});
 
-  return GoRouter(
+final appRouterProvider = Provider<GoRouter>((ref) {
+  final refreshListenable = ref.watch(_appRouterRefreshListenableProvider);
+
+  ({
+    Session? session,
+    bool hasProfile,
+    bool isAdmin,
+    AuthProfileRestoreState profileRestoreState,
+    String? countryCode,
+  })
+  readAuthSnapshot() {
+    final state = ref.read(authProvider);
+    return (
+      session: state.session,
+      hasProfile: state.user?.isProfileComplete ?? false,
+      isAdmin: state.user?.isAdmin ?? false,
+      profileRestoreState: state.profileRestoreState,
+      countryCode: resolveAuthStateCountryCode(state),
+    );
+  }
+
+  final router = GoRouter(
     navigatorKey: rootNavigatorKey,
     initialLocation: '/',
+    refreshListenable: refreshListenable,
     redirect: (context, state) {
+      final authSnapshot = readAuthSnapshot();
       final location = state.matchedLocation;
       return resolveAppRedirect(
         location: location,
@@ -428,6 +496,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.scanner,
         builder: (context, state) {
+          final authSnapshot = readAuthSnapshot();
           final modeStr = state.uri.queryParameters['mode'] ?? 'ticket';
           final mode = modeStr == 'momo' ? QrScanMode.momo : QrScanMode.ticket;
           final ticketScanningEnabled =
@@ -442,16 +511,20 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
       // ── Main app (shell with bottom nav) ──────────────────────
       StatefulShellRoute.indexedStack(
-        builder: (context, state, navigationShell) =>
-            AppShell(navigationShell: navigationShell),
+        builder: (context, state, navigationShell) => AppShell(
+          navigationShell: navigationShell,
+          showNavigationChrome: _shellRootLocations.contains(state.uri.path),
+        ),
         branches: [
           StatefulShellBranch(
             navigatorKey: _homeNavigatorKey,
             routes: [
               GoRoute(
                 path: AppRoutes.home,
-                pageBuilder: (context, state) =>
-                    const NoTransitionPage(child: HomeScreen()),
+                pageBuilder: (context, state) => NoTransitionPage(
+                  key: state.pageKey,
+                  child: const HomeScreen(),
+                ),
               ),
             ],
           ),
@@ -460,8 +533,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: AppRoutes.groups,
-                pageBuilder: (context, state) =>
-                    const NoTransitionPage(child: GroupsScreen()),
+                pageBuilder: (context, state) => NoTransitionPage(
+                  key: state.pageKey,
+                  child: const GroupsScreen(),
+                ),
                 routes: [
                   GoRoute(
                     path: 'create',
@@ -483,16 +558,21 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: AppRoutes.mobility,
-                pageBuilder: (context, state) => NoTransitionPage(
-                  child: KillSwitchGate(
-                    enabled: featureFlags.isMobilityEnabled(
-                      countryCode: authSnapshot.countryCode,
-                      isAdmin: authSnapshot.isAdmin,
+                pageBuilder: (context, state) {
+                  final authSnapshot = readAuthSnapshot();
+                  final featureFlags = ref.read(featureFlagsStateProvider);
+                  return NoTransitionPage(
+                    key: state.pageKey,
+                    child: KillSwitchGate(
+                      enabled: featureFlags.isMobilityEnabled(
+                        countryCode: authSnapshot.countryCode,
+                        isAdmin: authSnapshot.isAdmin,
+                      ),
+                      featureName: 'Mobility',
+                      child: const MobilityHomeScreen(),
                     ),
-                    featureName: 'Mobility',
-                    child: const MobilityHomeScreen(),
-                  ),
-                ),
+                  );
+                },
                 routes: [
                   GoRoute(
                     path: 'schedule',
@@ -515,8 +595,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: AppRoutes.profile,
-                pageBuilder: (context, state) =>
-                    const NoTransitionPage(child: ProfileScreen()),
+                pageBuilder: (context, state) => NoTransitionPage(
+                  key: state.pageKey,
+                  child: const ProfileScreen(),
+                ),
               ),
             ],
           ),
@@ -526,22 +608,37 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       // ── Standalone routes (outside shell) ─────────────────────
       GoRoute(
         path: AppRoutes.basket,
-        builder: (context, state) => const BasketScreen(),
+        redirect: (context, state) => basketCompatibilityRedirectLocation(),
       ),
       GoRoute(
         path: AppRoutes.momo,
-        builder: (context, state) => KillSwitchGate(
-          enabled: featureFlags.isMomoEnabled(
-            countryCode: authSnapshot.countryCode,
-            isAdmin: authSnapshot.isAdmin,
-          ),
-          featureName: 'Mobile Money',
-          child: const SecureScreenWrapper(child: MomoScreen()),
-        ),
+        builder: (context, state) {
+          final authSnapshot = readAuthSnapshot();
+          final featureFlags = ref.read(featureFlagsStateProvider);
+          return KillSwitchGate(
+            enabled: featureFlags.isMomoEnabled(
+              countryCode: authSnapshot.countryCode,
+              isAdmin: authSnapshot.isAdmin,
+            ),
+            featureName: 'Mobile Money',
+            child: SecureScreenWrapper(child: MomoScreen(launchUri: state.uri)),
+          );
+        },
       ),
       GoRoute(
         path: AppRoutes.momoStatements,
-        builder: (context, state) => const MomoStatementsScreen(),
+        builder: (context, state) {
+          final authSnapshot = readAuthSnapshot();
+          final featureFlags = ref.read(featureFlagsStateProvider);
+          return KillSwitchGate(
+            enabled: featureFlags.isMomoEnabled(
+              countryCode: authSnapshot.countryCode,
+              isAdmin: authSnapshot.isAdmin,
+            ),
+            featureName: 'Mobile Money',
+            child: const SecureScreenWrapper(child: MomoStatementsScreen()),
+          );
+        },
       ),
       GoRoute(
         path: AppRoutes.partners,
@@ -602,16 +699,20 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               ),
               GoRoute(
                 path: 'tickets',
-                builder: (context, state) => KillSwitchGate(
-                  enabled: featureFlags.isTicketPurchaseEnabled(
-                    countryCode: authSnapshot.countryCode,
-                    isAdmin: authSnapshot.isAdmin,
-                  ),
-                  featureName: 'Ticket Purchase',
-                  child: TicketsScreen(
-                    referralParameters: state.uri.queryParameters,
-                  ),
-                ),
+                builder: (context, state) {
+                  final authSnapshot = readAuthSnapshot();
+                  final featureFlags = ref.read(featureFlagsStateProvider);
+                  return KillSwitchGate(
+                    enabled: featureFlags.isTicketPurchaseEnabled(
+                      countryCode: authSnapshot.countryCode,
+                      isAdmin: authSnapshot.isAdmin,
+                    ),
+                    featureName: 'Ticket Purchase',
+                    child: TicketsScreen(
+                      referralParameters: state.uri.queryParameters,
+                    ),
+                  );
+                },
                 routes: [
                   GoRoute(
                     path: 'my-tickets',
@@ -629,15 +730,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: ':id',
-            redirect: (context, state) {
-              final id = state.pathParameters['id']!;
-              if (id == 'rayon-sports') {
-                return AppRoutes.rayonHome;
-              }
-              // Non-football partners get their own detail screen
-              if (_partnerDetailSlugs.contains(id)) return null;
-              return '/partners/$id/fans';
-            },
+            redirect: (context, state) =>
+                resolvePartnerDetailRedirect(state.pathParameters['id']!),
             builder: (context, state) {
               final id = state.pathParameters['id']!;
               return switch (id) {
@@ -651,10 +745,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: 'fans',
-                builder: (context, state) {
-                  final id = state.pathParameters['id']!;
-                  return FansScreen(partnerId: id);
-                },
+                redirect: (context, state) =>
+                    resolvePartnerFansRedirect(state.pathParameters['id']!),
               ),
             ],
           ),
@@ -662,25 +754,33 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.credit,
-        builder: (context, state) => KillSwitchGate(
-          enabled: featureFlags.isCreditEnabled(
-            countryCode: authSnapshot.countryCode,
-            isAdmin: authSnapshot.isAdmin,
-          ),
-          featureName: 'Credit Score',
-          child: const SecureScreenWrapper(child: CreditScoreScreen()),
-        ),
+        builder: (context, state) {
+          final authSnapshot = readAuthSnapshot();
+          final featureFlags = ref.read(featureFlagsStateProvider);
+          return KillSwitchGate(
+            enabled: featureFlags.isCreditEnabled(
+              countryCode: authSnapshot.countryCode,
+              isAdmin: authSnapshot.isAdmin,
+            ),
+            featureName: 'Credit Score',
+            child: const SecureScreenWrapper(child: CreditScoreScreen()),
+          );
+        },
       ),
       GoRoute(
         path: AppRoutes.creditReadiness,
-        builder: (context, state) => KillSwitchGate(
-          enabled: featureFlags.isCreditEnabled(
-            countryCode: authSnapshot.countryCode,
-            isAdmin: authSnapshot.isAdmin,
-          ),
-          featureName: 'Credit Readiness',
-          child: const SecureScreenWrapper(child: CreditReadinessScreen()),
-        ),
+        builder: (context, state) {
+          final authSnapshot = readAuthSnapshot();
+          final featureFlags = ref.read(featureFlagsStateProvider);
+          return KillSwitchGate(
+            enabled: featureFlags.isCreditEnabled(
+              countryCode: authSnapshot.countryCode,
+              isAdmin: authSnapshot.isAdmin,
+            ),
+            featureName: 'Credit Readiness',
+            child: const SecureScreenWrapper(child: CreditReadinessScreen()),
+          );
+        },
       ),
       GoRoute(
         path: AppRoutes.missions,
@@ -720,6 +820,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.adminAppConfig,
         builder: (context, state) => const ManageAppConfigScreen(),
       ),
+      GoRoute(
+        path: AppRoutes.adminOperations,
+        builder: (context, state) => const OperationalDashboardScreen(),
+      ),
 
       // ── RS Admin routes ────────────────────────────────────────
       GoRoute(
@@ -758,4 +862,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
     ],
   );
+  ref.onDispose(router.dispose);
+  return router;
 });
+
+class _AppRouterRefreshNotifier extends ChangeNotifier {
+  void refresh() => notifyListeners();
+}

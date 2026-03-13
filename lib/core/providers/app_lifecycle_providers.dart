@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../features/auth/providers/auth_provider.dart';
+import '../../features/momo/services/momo_sms_autoread_service.dart';
 import '../../features/mobility/services/trip_sync_service.dart';
 import '../router/app_router.dart';
 import '../services/app_lifecycle_coordinator.dart';
@@ -13,6 +14,7 @@ import '../services/trip_sync_coordinator.dart';
 import 'engagement_providers.dart';
 import 'notification_settings_provider.dart';
 import 'referral_providers.dart';
+import 'supabase_client_provider.dart';
 
 final tripSyncCoordinatorProvider = Provider<TripSyncCoordinator>((ref) {
   final coordinator = TripSyncCoordinator(
@@ -21,6 +23,15 @@ final tripSyncCoordinatorProvider = Provider<TripSyncCoordinator>((ref) {
   );
   ref.onDispose(coordinator.dispose);
   return coordinator;
+});
+
+final momoSmsAutoreadServiceProvider = Provider<MomoSmsAutoreadService>((ref) {
+  final service = MomoSmsAutoreadService(
+    client: ref.read(supabaseClientProvider),
+    crashlytics: ref.read(crashlyticsServiceProvider),
+  );
+  ref.onDispose(service.dispose);
+  return service;
 });
 
 final appSessionCoordinatorProvider = Provider<AppSessionCoordinator>((ref) {
@@ -34,6 +45,7 @@ final appSessionCoordinatorProvider = Provider<AppSessionCoordinator>((ref) {
       ref.read(activeReferralAttributionProvider.notifier).markOpened(inviteId);
     },
     tripSyncCoordinator: ref.read(tripSyncCoordinatorProvider),
+    momoSmsAutoreadService: ref.read(momoSmsAutoreadServiceProvider),
   );
 });
 
@@ -74,6 +86,7 @@ final appLifecycleCoordinatorProvider = Provider<AppLifecycleCoordinator>((
     sessionCoordinator: ref.read(appSessionCoordinatorProvider),
     deepLinkCoordinator: ref.read(deepLinkCoordinatorProvider),
     tripSyncCoordinator: ref.read(tripSyncCoordinatorProvider),
+    momoSmsAutoreadService: ref.read(momoSmsAutoreadServiceProvider),
   );
   ref.onDispose(coordinator.dispose);
   return coordinator;

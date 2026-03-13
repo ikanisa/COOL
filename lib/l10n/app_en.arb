@@ -333,5 +333,374 @@
   "search": "Search",
   "noResults": "No results found.",
   "seeMore": "See More",
-  "copied": "Copied to clipboard."
+  "copied": "Copied to clipboard.",
+
+  "retryAction": "Retry",
+  "cancelAction": "Cancel",
+  "openAction": "Open",
+  "languageLabel": "Language",
+  "supportLabel": "Support",
+  "notificationsLabel": "Notifications",
+  "statementsLabel": "Statements",
+  "walletLabel": "Wallet",
+  "savingsLabel": "Savings",
+  "allTimeLabel": "All time",
+  "last30DaysLabel": "Last 30 days",
+  "last90DaysLabel": "Last 90 days",
+  "incomingLabel": "Incoming",
+  "outgoingLabel": "Outgoing",
+  "counterpartyLabel": "Counterparty",
+  "referenceLabel": "Reference",
+  "detailsLabel": "Details",
+  "otpUseWhatsappTitle": "Use your WhatsApp number",
+  "otpUseWhatsappSubtitle": "We will send a 6-digit code to your WhatsApp.",
+  "otpPhoneRequired": "Enter your phone number",
+  "otpContinue": "Continue",
+  "otpGenericError": "Something went wrong. Please try again.",
+  "openLinkError": "Could not open link",
+  "otpLegalPrefix": "By continuing, you accept the ",
+  "otpLegalAnd": " and ",
+  "termsLabel": "Terms",
+  "privacyPolicyLabel": "Privacy Policy",
+  "homeMissionsTitle": "Missions",
+  "homeMonthlyNet": "Monthly net",
+  "homeActionPay": "Pay",
+  "homeActionTrips": "Trips",
+  "homeFallbackGroupsSubtitle": "Savings and invites",
+  "homeFallbackPaySubtitle": "MoMo and statements",
+  "homeFallbackPartnersSubtitle": "Banks and clubs",
+  "homeFallbackTripsSubtitle": "Ride or drive",
+  "homeActiveCount": "{count} active",
+  "@homeActiveCount": { "placeholders": { "count": { "type": "int" } } },
+  "homeNoActivityTitle": "No activity yet",
+  "homeNoActivityMessage": "Activity will appear here.",
+  "homeLoadErrorTitle": "Couldn't load this section",
+  "homeLoadErrorMessage": "Pull to refresh or try again.",
+  "profileMobileMoney": "Mobile Money",
+  "profileCreditScore": "Credit score",
+  "profileNotLinked": "Not linked",
+  "profileCreditReadiness": "Credit readiness",
+  "profileDriverTools": "Driver tools",
+  "profileCoolStatus": "COOL status",
+  "profileAdminPanel": "Admin panel",
+  "officialNameLabel": "Official name",
+  "identityLabel": "Identity",
+  "moneySectionTitle": "Money",
+  "preferencesSectionTitle": "Preferences",
+  "moreToolsSectionTitle": "More tools",
+  "profileMoreToolsShowSubtitle": "Show extra actions and secondary shortcuts.",
+  "profileMoreToolsHideSubtitle": "Hide QR, driver, status, and admin shortcuts.",
+  "vehicleLabel": "Vehicle",
+  "accountActionsTitle": "Account actions",
+  "signOutAction": "Sign out",
+  "deleteAccountAction": "Delete account",
+  "deleteAccountQuestion": "Delete account?",
+  "deleteAccountMessage": "This permanently removes your account and data.",
+  "signOutMessage": "You'll need to verify your number again to log back in.",
+  "completeProfileTitle": "Complete your profile",
+  "completeProfileSubtitle": "Finish setup to unlock all features.",
+  "profileSavingMomoInfo": "Saving MoMo info...",
+  "profileDeletingAccount": "Deleting your account...",
+  "profileMomoUpdated": "MoMo info updated",
+  "profileMomoUpdateFailed": "Failed to update MoMo info",
+  "profileSupportOpenError": "Could not open WhatsApp. Please try again.",
+  "profileSupportUnavailable": "Support is unavailable right now.",
+  "profileMomoQrTitle": "MoMo QR",
+  "profileMomoQrSubtitle": "Scan to pay {number}",
+  "@profileMomoQrSubtitle": {
+    "placeholders": { "number": { "type": "String" } }
+  },
+  "profileEditMomoInfo": "Edit MoMo Info",
+  "profileEditMomoSubtitle": "This number will be used for Mobile Money payments",
+  "profileMomoCodeOptional": "MOMO CODE (OPTIONAL)",
+  "kycNeedsUpdate": "Needs update",
+  "kycUnverified": "Unverified",
+  "userFallbackName": "User",
+  "notSetLabel": "Not set",
+  "momoStatementsTitle": "Statements & Ledger",
+  "momoRefreshStatements": "Refresh statements",
+  "statementOverviewTitle": "Statement overview",
+  "walletEntriesMetric": "Wallet entries",
+  "savingsEntriesMetric": "Savings entries",
+  "walletEmptyTitle": "No wallet entries yet",
+  "walletEmptyMessage": "Wallet activity will appear here.",
+  "walletLedgerTitle": "Wallet ledger",
+  "walletLedgerSubtitle": "Showing {shown} of {total} wallet entries.",
+  "@walletLedgerSubtitle": {
+    "placeholders": {
+      "shown": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "savingsEmptyTitle": "No savings entries yet",
+  "savingsEmptyMessage": "Savings contributions will appear here.",
+  "savingsStatementTitle": "Savings statement",
+  "savingsStatementSubtitle": "Showing {shown} of {total} group contribution records.",
+  "@savingsStatementSubtitle": {
+    "placeholders": {
+      "shown": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "coolMemberFallback": "COOL member",
+
+  "momoStatementsPeriodDay": "Day",
+  "momoStatementsPeriodWeek": "Week",
+  "momoStatementsPeriodMonth": "Month",
+  "momoStatementsPeriodCustom": "Custom",
+  "momoStatementsPeriodAll": "All",
+  "momoStatementsSortNewestFirst": "Newest first",
+  "momoStatementsSortOldestFirst": "Oldest first",
+  "momoStatementsSortAmountHighToLow": "Amount: high → low",
+  "momoStatementsSortAmountLowToHigh": "Amount: low → high",
+  "momoStatementsSortNameAz": "Name: A → Z",
+  "momoStatementsSortNameZa": "Name: Z → A",
+  "momoStatementsWalletFilteredEmptyTitle": "No matching wallet entries",
+  "momoStatementsWalletFilteredEmptyMessage": "Try adjusting your filters or date range.",
+  "momoStatementsSavingsFilteredEmptyTitle": "No matching savings entries",
+  "momoStatementsSavingsFilteredEmptyMessage": "Try adjusting your filters or date range.",
+
+  "fansScreenUnavailableTitle": "Fan Hub Moved",
+  "fansScreenHeadline": "Fan Hub",
+  "fansScreenBody": "Fan features for {clubName} are now consolidated in the partner hub.",
+  "@fansScreenBody": {
+    "placeholders": {
+      "clubName": { "type": "String" }
+    }
+  },
+  "fansScreenMembershipUnavailable": "Membership features live inside Rayon Sports.",
+  "fansScreenClubsUnavailable": "Fan clubs are now managed inside Rayon Sports.",
+  "fansScreenRayonDedicatedHub": "Rayon Sports has a dedicated fan hub.",
+  "fansScreenRouteKeptReachable": "This route is kept reachable for deep links.",
+  "fansScreenBackToPartners": "Back to Partners",
+  "fansScreenOpenRayon": "Open Rayon Sports",
+
+  "ticketWalletInvalidLink": "Invalid Google Wallet link.",
+  "ticketWalletUnavailable": "Google Wallet is not available on this device.",
+  "ticketWalletOpenFailed": "Could not open Google Wallet.",
+  "ticketConfirmationScreenTitle": "Ticket",
+  "ticketConfirmationNotFound": "Ticket not found.",
+  "ticketAddToGoogleWallet": "Add to Google Wallet",
+  "ticketBackToTickets": "Back to Tickets",
+  "ticketShareMatchTitle": "Share Match",
+  "ticketShareMatchText": "Check out {matchTitle} on Cool!",
+  "@ticketShareMatchText": {
+    "placeholders": {
+      "matchTitle": { "type": "String" }
+    }
+  },
+  "ticketStatusPendingTitle": "Payment Pending",
+  "ticketStatusPendingSubtitle": "Waiting for MoMo confirmation.",
+  "ticketStatusPendingNote": "Your ticket is reserved. Complete the MoMo payment to activate it.",
+  "ticketStatusValidTitle": "Valid Ticket",
+  "ticketStatusValidSubtitle": "Show this at the gate.",
+  "ticketStatusValidNote": "Present the QR code below at the stadium entrance.",
+  "ticketStatusUsedTitle": "Ticket Used",
+  "ticketStatusUsedSubtitle": "This ticket has been scanned.",
+  "ticketStatusUsedNote": "This ticket was validated at the gate. It cannot be used again.",
+  "ticketStatusCancelledTitle": "Ticket Cancelled",
+  "ticketStatusCancelledSubtitle": "This ticket is no longer valid.",
+  "ticketStatusCancelledNote": "Contact support if you believe this is an error.",
+
+  "partnersHomeTooltip": "Partners Home",
+
+  "partnersServicesTab": "Services",
+  "partnersRayonWelcomeTitle": "Welcome to Rayon Sports!",
+  "partnersRayonWelcomeSubtitle": "Your fan membership has been created. Enjoy exclusive perks, tickets, and club updates.",
+  "partnersOpenRayonSports": "Open Rayon Sports",
+  "partnersMembershipPerkRegistryAccess": "Fan registry access",
+  "partnersMembershipPerkClubUpdates": "Club updates",
+  "partnersMembershipPerkMemberQueue": "Member queue priority",
+  "partnersMembershipPerkPriorityTickets": "Priority ticket access",
+  "partnersMembershipPerkShopDiscount": "Shop discount",
+  "partnersMembershipPerkVipQueue": "VIP queue access",
+  "partnersMembershipPerkVipAccess": "VIP event access",
+  "partnersMembershipPerkExclusiveEvents": "Exclusive events",
+  "partnersNoFootballPartners": "No football partners available yet.",
+  "partnersComingSoonMessage": "{partnerName} is coming soon!",
+  "@partnersComingSoonMessage": {
+    "placeholders": {
+      "partnerName": { "type": "String" }
+    }
+  },
+  "partnersRayonHubBadge": "Official Fan Hub",
+  "partnersGamesMetricLabel": "Games",
+  "partnersLoadingMessage": "Loading partners…",
+  "partnersNoFinancePartners": "No finance partners available yet.",
+  "partnersFinancePrepTitle": "Financial Readiness",
+  "partnersFinancePrepSubtitle": "Check your credit readiness and prepare for financial services from our partners.",
+  "partnersReadinessChecklistCta": "Credit Readiness Checklist",
+  "partnersWhatsappMessage": "Hi, I'd like to learn more about {partnerName} on Cool.",
+  "@partnersWhatsappMessage": {
+    "placeholders": {
+      "partnerName": { "type": "String" }
+    }
+  },
+  "partnersNoServicePartners": "No service partners available yet.",
+  "partnersInsurancePartnerBadge": "Insurance Partner",
+  "partnersProfessionalServicesBadge": "Professional Services",
+  "partnersServicePartnerBadge": "Service Partner",
+  "partnersLoadErrorTitle": "Could not load partners",
+  "partnersEmptyMessage": "Partners will appear here once available.",
+  "partnersClubShopSubtitle": "Official merchandise",
+  "partnersFootballTab": "Football",
+  "partnersFinanceTab": "Finance",
+  "partnersFeaturesTitle": "Features",
+
+  "momoNfcInvalidRequest": "Invalid NFC payment request.",
+  "momoLaunchingUssd": "Launching USSD…",
+  "momoNfcLaunchFailed": "NFC launch failed. Please try again.",
+  "momoScreenTitle": "Mobile Money",
+  "momoNfcLaunchingOverlay": "Launching MoMo…",
+  "momoSendValidationError": "Please enter a valid recipient and amount.",
+  "momoSendLaunchFailed": "Could not launch MoMo payment for {countryName}.",
+  "@momoSendLaunchFailed": {
+    "placeholders": {
+      "countryName": { "type": "String" }
+    }
+  },
+  "momoFromNumber": "From {number}",
+  "@momoFromNumber": {
+    "placeholders": {
+      "number": { "type": "String" }
+    }
+  },
+  "momoRoutePhoneLabel": "Phone Number",
+  "momoRouteCodeLabel": "MoMo Code",
+  "momoRecipientCodeLabel": "Recipient MoMo Code",
+  "momoRecipientPhoneLabel": "Recipient Phone",
+  "momoAmountLabel": "Amount ({currency})",
+  "@momoAmountLabel": {
+    "placeholders": {
+      "currency": { "type": "String" }
+    }
+  },
+  "momoSendCompletesViaUssd": "Completes via USSD on your {countryName} SIM.",
+  "@momoSendCompletesViaUssd": {
+    "placeholders": {
+      "countryName": { "type": "String" }
+    }
+  },
+  "momoConfirmSendLabel": "Send Money",
+
+  "momoStatementsPayerLabel": "Payer",
+  "momoStatementsAllPayers": "All payers",
+  "momoStatementsAllGroups": "All groups",
+  "momoStatementsSelectCustomPeriod": "Select custom period",
+  "momoStatementsNothingToDownload": "Nothing to download yet.",
+  "momoStatementsSavedFile": "Saved {fileName}",
+  "@momoStatementsSavedFile": {
+    "placeholders": {
+      "fileName": { "type": "String" }
+    }
+  },
+  "momoStatementsDownloadedFile": "Downloaded {fileName}",
+  "@momoStatementsDownloadedFile": {
+    "placeholders": {
+      "fileName": { "type": "String" }
+    }
+  },
+  "momoStatementsDownloadFailed": "Statement download failed.",
+  "momoStatementsFilterSummaryPeriod": "Period: {period}",
+  "@momoStatementsFilterSummaryPeriod": {
+    "placeholders": {
+      "period": { "type": "String" }
+    }
+  },
+  "momoStatementsFilterSummaryParty": "{label}: {value}",
+  "@momoStatementsFilterSummaryParty": {
+    "placeholders": {
+      "label": { "type": "String" },
+      "value": { "type": "String" }
+    }
+  },
+  "momoStatementsFilterTitle": "Filters & exports",
+  "momoStatementsSortByLabel": "Sort",
+  "resetAction": "Reset",
+  "momoStatementsPreparingLabel": "Exporting…",
+  "momoStatementsPdfLabel": "PDF",
+  "momoStatementsExcelLabel": "Excel",
+
+  "groupsTabAll": "All",
+  "groupsTabSaving": "Saving",
+  "groupsTabCommunity": "Community",
+  "groupsTabPublic": "Public",
+  "groupsTabPrivate": "Private",
+  "groupsShareText": "Join {groupName} on Cool: {inviteUrl}",
+  "@groupsShareText": {
+    "placeholders": {
+      "groupName": { "type": "String" },
+      "inviteUrl": { "type": "String" }
+    }
+  },
+  "groupsCreateNewTitle": "Create a New Group",
+  "groupsCreateNewSubtitle": "Saving or Community",
+  "groupsEmptyPublicTitle": "No public groups found",
+  "groupsEmptyPublicMessage": "Pull to refresh or check your groups.",
+  "groupsEmptyPrivateMessage": "Create a group or browse public ones.",
+  "groupsBankCustodianMeta": "Bank custodian · {partnerName}",
+  "@groupsBankCustodianMeta": {
+    "placeholders": {
+      "partnerName": { "type": "String" }
+    }
+  },
+  "groupsMomoRouteMeta": "MoMo route · {number}",
+  "@groupsMomoRouteMeta": {
+    "placeholders": {
+      "number": { "type": "String" }
+    }
+  },
+  "groupsSavingGroupMeta": "Saving group",
+  "groupsCommunityFundMeta": "Community fund",
+  "groupsRaisedLabel": "raised",
+  "groupsShareAction": "Share",
+  "groupsLoadErrorTitle": "Something went wrong",
+
+  "profileTierBlue": "Blue",
+  "profileTierSilver": "Silver",
+  "profileTierGold": "Gold",
+  "profileTierPlatinum": "Platinum",
+  "profileSavingIdentity": "Saving identity details...",
+  "profileIdentityUpdated": "Identity details updated",
+  "profileIdentityUpdateFailed": "Failed to update identity details",
+  "profileAppAccess": "App access",
+  "profileManageAction": "Manage",
+  "profileCoolStatusValue": "{tier} · {points} pts",
+  "@profileCoolStatusValue": {
+    "placeholders": {
+      "tier": { "type": "String" },
+      "points": { "type": "int" }
+    }
+  },
+  "profileUserIdLabel": "User ID",
+  "profileWalletLabel": "Wallet",
+  "profileSetupTitle": "Profile setup",
+  "profilePublicProfileLabel": "Public profile",
+  "profileOfficialIdentityLabel": "Official identity",
+  "profilePassengerRoleLabel": "Passenger",
+  "profileDriverRoleLabel": "Driver",
+
+  "mobilityNoWhatsappAvailable": "No WhatsApp contact available yet.",
+  "mobilityNoContactYet": "No contact yet",
+  "mobilityLocationRequiredDriverMode": "Location is required before turning on driver mode.",
+
+  "momoSendMoneyOpensUssd": "Open {countryName} MoMo USSD to send money.",
+  "@momoSendMoneyOpensUssd": {
+    "placeholders": {
+      "countryName": { "type": "String" }
+    }
+  },
+  "momoMoreToolsSubtitle": "Statements, QR, and NFC tools for your route.",
+  "momoStatementsToolSubtitle": "Review wallet and savings history.",
+  "momoNfcToolsTitle": "NFC tools",
+  "momoNfcToolsSubtitle": "Tap-to-pay and share route details.",
+
+  "basketScreenTitle": "Basket",
+  "basketScreenHeadline": "Basket is not live right now",
+  "basketScreenBody": "This route stays available for compatibility, but basket balances and creation flows are not active in this build.",
+  "basketScreenCardBody": "Basket products are paused while the team finishes the next release.",
+  "basketScreenExpectationBalances": "No live basket balances are shown here.",
+  "basketScreenExpectationCreation": "New basket creation is currently disabled.",
+  "basketScreenExpectationLinks": "Existing deep links still land on this placeholder.",
+  "basketScreenBackHome": "Back Home"
 }

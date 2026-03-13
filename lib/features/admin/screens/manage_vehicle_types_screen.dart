@@ -6,6 +6,8 @@ import '../../../core/config/country_catalog.dart';
 import '../../../core/providers/supported_countries_provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_async_view.dart';
+import '../../../shared/widgets/cool_empty_view.dart';
+import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_providers.dart';
 
@@ -45,8 +47,12 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
         child: CoolAsyncView<List<Map<String, dynamic>>>(
           value: typesAsync,
           onRetry: () => ref.invalidate(adminVehicleTypesProvider),
+          loadingWidget: const CoolSkeletonList(itemCount: 4),
           emptyCheck: (t) => t.isEmpty,
-          emptyMessage: 'No vehicle types',
+          emptyWidget: const CoolEmptyView(
+            message: 'No vehicle types are configured yet.',
+            icon: Icons.directions_car_filled_rounded,
+          ),
           builder: (types) => ListView.separated(
             itemCount: types.length,
             separatorBuilder: (_, _) => const SizedBox(height: 8),

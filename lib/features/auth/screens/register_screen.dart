@@ -11,12 +11,12 @@ import '../../../core/utils/phone_validator.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_text_field.dart';
+import '../../../shared/widgets/momo_route_type_selector.dart';
 import '../providers/auth_provider.dart';
 
 /// Profile setup screen shown after OTP verification for new users.
 ///
-/// Collects full name, MOMO info, optional vehicle type, and creates
-/// the user profile via [AuthProvider.createProfile].
+/// Collects the base passenger profile and wallet route after OTP verification.
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({required this.phone, this.redirectPath, super.key});
   final String phone;
@@ -33,7 +33,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
 
   late String _selectedCountryCode;
-  String? _vehicleType;
+  late MomoRecipientType _selectedMomoRouteType;
   String? _errorText;
   bool _showOptionalDetails = false;
 
@@ -49,10 +49,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       widget.phone,
       _selectedCountryCode,
     );
+    final initialCountry = CoolCountryCatalog.resolve(phone: widget.phone);
     _momoController = TextEditingController(
-      text: shouldAutoFill ? widget.phone : '',
+      text: shouldAutoFill
+          ? initialCountry.normalizeNationalPhone(widget.phone)
+          : '',
     );
     _momoCodeController = TextEditingController();
+    _selectedMomoRouteType = _resolvePreferredRouteType(initialCountry);
   }
 
   @override
@@ -63,16 +67,72 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     super.dispose();
   }
 
+  MomoRecipientType _resolvePreferredRouteType(
+    CoolCountry country, {
+    MomoRecipientType? preferredRouteType,
+  }) {
+    if (!country.supportsMomoCode) {
+      return MomoRecipientType.phoneNumber;
+    }
+
+    final hasNumber = _momoController.text.trim().isNotEmpty;
+    final hasCode = _momoCodeController.text.trim().isNotEmpty;
+
+    if (preferredRouteType == MomoRecipientType.code && hasCode) {
+      return MomoRecipientType.code;
+    }
+    if (preferredRouteType == MomoRecipientType.phoneNumber && hasNumber) {
+      return MomoRecipientType.phoneNumber;
+    }
+    if (hasCode && !hasNumber) {
+      return MomoRecipientType.code;
+    }
+    return MomoRecipientType.phoneNumber;
+  }
+
+  String? _validateMomoNumber(CoolCountry country, String? value) {
+    final trimmed = value?.trim() ?? '';
+    if (trimmed.isEmpty) {
+      if (_selectedMomoRouteType == MomoRecipientType.phoneNumber) {
+        return country.supportsMomoCode
+            ? 'MoMo number is required for the selected default route'
+            : 'MoMo number is required';
+      }
+      return null;
+    }
+
+    return PhoneValidator.validateMomoNumberForCountry(trimmed, country);
+  }
+
+  String? _validateMomoCode(CoolCountry country, String? value) {
+    final trimmed = value?.trim() ?? '';
+    if (trimmed.isEmpty) {
+      if (_selectedMomoRouteType == MomoRecipientType.code) {
+        return 'MoMo code is required for the selected default route';
+      }
+      return null;
+    }
+
+    return PhoneValidator.validateMomoCode(trimmed, country: country);
+  }
+
   Future<void> _createAccount() async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
 
     setState(() => _errorText = null);
     final languageCode = Localizations.localeOf(context).languageCode;
-    final selectedCountry = await ref
-        .read(supportedCountriesRepositoryProvider)
-        .resolveCountry(
-          countryCode: _selectedCountryCode,
+    final availableCountries =
+        ref.read(supportedCountriesProvider).valueOrNull ??
+        CoolCountryCatalog.all;
+    final selectedCountry =
+        CoolCountryCatalog.byIsoCode(
+          _selectedCountryCode,
+          source: availableCountries,
+        ) ??
+        CoolCountryCatalog.resolve(
+          country: _selectedCountryCode,
           phone: _momoController.text.trim(),
+          source: availableCountries,
         );
 
     final profile = await ref
@@ -80,20 +140,20 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         .createProfile(
           AuthProfileData(
             fullName: _nameController.text.trim(),
-            momoNumber: selectedCountry.buildE164Phone(_momoController.text),
+            momoNumber: _momoController.text.trim(),
             momoCode:
                 !selectedCountry.supportsMomoCode ||
                     _momoCodeController.text.trim().isEmpty
                 ? null
-                : selectedCountry.normalizeMerchantCode(
-                    _momoCodeController.text,
-                  ),
+                : _momoCodeController.text.trim(),
+            momoRouteType: selectedCountry.supportsMomoCode
+                ? _selectedMomoRouteType
+                : MomoRecipientType.phoneNumber,
             momoProvider: selectedCountry.providerId,
             country: selectedCountry.isoCode,
             languageCode: languageCode,
-            isDriver: _vehicleType != null,
+            isDriver: false,
             phone: widget.phone.trim().isEmpty ? null : widget.phone.trim(),
-            vehicleType: _vehicleType,
           ),
         );
 
@@ -230,6 +290,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           if (!nextCountry.supportsMomoCode) {
                             _momoCodeController.clear();
                           }
+                          _selectedMomoRouteType = _resolvePreferredRouteType(
+                            nextCountry,
+                            preferredRouteType: _selectedMomoRouteType,
+                          );
                         });
                       },
                     ),
@@ -254,12 +318,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   keyboardType: TextInputType.phone,
                   prefixIcon: Icons.phone_rounded,
                   textInputAction: TextInputAction.next,
-                  validator: (v) {
-                    return PhoneValidator.validateMomoNumberForCountry(
-                      v ?? '',
-                      selectedCountry,
-                    );
-                  },
+                  onChanged: (_) => setState(() => _errorText = null),
+                  validator: (v) => _validateMomoNumber(selectedCountry, v),
                 ),
                 // Provider indicator
                 Builder(
@@ -338,66 +398,40 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           keyboardType: TextInputType.number,
                           prefixIcon: Icons.tag_rounded,
                           textInputAction: TextInputAction.next,
-                          validator: (v) {
-                            return PhoneValidator.validateMomoCode(
-                              v ?? '',
-                              country: selectedCountry,
-                            );
+                          onChanged: (_) => setState(() => _errorText = null),
+                          validator: (v) =>
+                              _validateMomoCode(selectedCountry, v),
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Default receive route',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.text2,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        MomoRouteTypeSelector(
+                          value: _selectedMomoRouteType,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedMomoRouteType = value;
+                              _errorText = null;
+                            });
                           },
                         ),
-                      ],
-                      const SizedBox(height: 16),
-                      Text(
-                        'Vehicle Type (optional)',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.text2,
+                        const SizedBox(height: 8),
+                        Text(
+                          'Choose whether payments should come to your MoMo number or your MoMo code by default.',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.text3,
+                            height: 1.4,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: _vehicleOptions.map((opt) {
-                          final isSelected = _vehicleType == opt.$2;
-                          return GestureDetector(
-                            onTap: () => setState(() {
-                              _vehicleType = _vehicleType == opt.$2
-                                  ? null
-                                  : opt.$2;
-                            }),
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 200),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 14,
-                                vertical: 10,
-                              ),
-                              decoration: BoxDecoration(
-                                color: isSelected
-                                    ? AppColors.accentGlow
-                                    : AppColors.surface2,
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  color: isSelected
-                                      ? AppColors.accent
-                                      : AppColors.border,
-                                ),
-                              ),
-                              child: Text(
-                                opt.$2,
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                  color: isSelected
-                                      ? AppColors.accent
-                                      : AppColors.text2,
-                                ),
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      ),
+                      ],
                     ],
                   ),
                   secondChild: const SizedBox.shrink(),
@@ -430,14 +464,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       ),
     );
   }
-
-  static const _vehicleOptions = [
-    (Icons.two_wheeler_rounded, 'Moto Taxi'),
-    (Icons.directions_car_rounded, 'Cab'),
-    (Icons.local_shipping_rounded, 'Truck'),
-    (Icons.airport_shuttle_rounded, 'Liffan'),
-    (Icons.directions_car_filled_rounded, 'Other'),
-  ];
 }
 
 class _VerifiedPhoneCard extends StatelessWidget {
@@ -457,7 +483,11 @@ class _VerifiedPhoneCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.check_circle_rounded, size: 18, color: AppColors.accent),
+          const Icon(
+            Icons.check_circle_rounded,
+            size: 18,
+            color: AppColors.accent,
+          ),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
