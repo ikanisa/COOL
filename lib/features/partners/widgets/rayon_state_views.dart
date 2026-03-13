@@ -8,9 +8,12 @@ class RayonLoadingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 24),
-      child: CoolSkeletonList(itemCount: 4),
+    return const SingleChildScrollView(
+      physics: AlwaysScrollableScrollPhysics(),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 24),
+        child: CoolSkeletonList(itemCount: 4),
+      ),
     );
   }
 }
