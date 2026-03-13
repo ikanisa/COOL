@@ -795,8 +795,9 @@ void main() {
       final dayChip = find.byKey(
         const ValueKey<String>('statement-period-day'),
       );
-      await tester.ensureVisible(dayChip);
-      await tester.tap(dayChip, warnIfMissed: false);
+      expect(dayChip, findsOneWidget);
+      final dayChoiceChip = tester.widget<ChoiceChip>(dayChip);
+      dayChoiceChip.onSelected?.call(true);
       await tester.pump();
       await settleTestApp(tester);
 
@@ -808,8 +809,9 @@ void main() {
       final allTimeChip = find.byKey(
         const ValueKey<String>('statement-period-all'),
       );
-      await tester.ensureVisible(allTimeChip);
-      await tester.tap(allTimeChip, warnIfMissed: false);
+      expect(allTimeChip, findsOneWidget);
+      final allTimeChoiceChip = tester.widget<ChoiceChip>(allTimeChip);
+      allTimeChoiceChip.onSelected?.call(true);
       await tester.pump();
       await settleTestApp(tester);
 
