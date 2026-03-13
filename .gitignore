@@ -31,6 +31,8 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+/build
+/build_stale_*/
 /coverage/
 
 # Symbolication related
@@ -62,8 +64,11 @@ android/local.properties
 # Firebase service configs (contain API keys)
 **/google-services.json
 **/GoogleService-Info.plist
+**/GoogleService-Info-*.plist
+**/ios/Flutter/MapsKeys.xcconfig
 
 # Firebase & build logs
 firebase-debug.log
 flutter_*.log
 *.log
+.env.json
