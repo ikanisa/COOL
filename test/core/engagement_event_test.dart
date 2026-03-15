@@ -5,9 +5,9 @@ import 'package:cool_app/core/models/engagement_event.dart';
 void main() {
   group('EngagementEvent.analyticsParameters', () {
     test('drops null values and converts booleans to integers', () {
-      final event = EngagementEvent(
+      const event = EngagementEvent(
         name: EngagementEventName.deepLinkOpened,
-        parameters: const <String, Object?>{
+        parameters: <String, Object?>{
           'has_query': true,
           'campaign': null,
           'source': 'invite',

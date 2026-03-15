@@ -82,7 +82,7 @@ void main() {
       status: TicketStatus.valid,
       purchasedAt: DateTime(2026, 3, 25),
     );
-    product = RsProduct(
+    product = const RsProduct(
       id: 'product-1',
       partnerId: 'partner-1',
       name: 'Replica Jersey',

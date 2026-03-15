@@ -137,7 +137,7 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(18, 0, 18, 12),
-              child: Container(
+              child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: palette.bg,
                   borderRadius: BorderRadius.circular(14),

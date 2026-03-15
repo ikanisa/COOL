@@ -206,7 +206,7 @@ void main() {
     ) async {
       await tester.pumpWidget(
         _wrap(
-          MomoInboxSyncCard(
+          const MomoInboxSyncCard(
             isAndroidSmsAvailable: true,
             isSyncing: false,
             onSyncTap: _noop,
@@ -231,7 +231,7 @@ void main() {
     ) async {
       await tester.pumpWidget(
         _wrap(
-          MomoInboxSyncCard(
+          const MomoInboxSyncCard(
             isAndroidSmsAvailable: false,
             isSyncing: false,
             onSyncTap: _noop,

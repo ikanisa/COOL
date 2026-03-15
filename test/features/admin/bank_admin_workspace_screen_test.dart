@@ -140,7 +140,7 @@ void main() {
   );
 
   final snapshot = BankAdminWorkspaceSnapshot(
-    groups: BankAdminPage<BankAdminGroupSummary>(
+    groups: const BankAdminPage<BankAdminGroupSummary>(
       entries: <BankAdminGroupSummary>[
         BankAdminGroupSummary(
           group: Group(
@@ -167,7 +167,7 @@ void main() {
       ],
       totalCount: 1,
     ),
-    members: BankAdminPage<BankAdminMemberRecord>(
+    members: const BankAdminPage<BankAdminMemberRecord>(
       entries: <BankAdminMemberRecord>[
         BankAdminMemberRecord(
           groupId: 'group-1',

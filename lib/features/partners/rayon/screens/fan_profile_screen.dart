@@ -355,7 +355,7 @@ class _ProfileHero extends StatelessWidget {
                   ),
                 ),
               const SizedBox(height: 18),
-              Container(
+              DecoratedBox(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(14),
                   border: Border.all(color: AppColors.border),

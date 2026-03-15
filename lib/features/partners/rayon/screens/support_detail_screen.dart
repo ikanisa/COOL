@@ -756,7 +756,7 @@ class _RecentSupportersCard extends StatelessWidget {
                     _SupporterRow(contribution: contributions[i]),
                     if (i < contributions.length - 1)
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 12),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
                         child: Divider(height: 1, color: AppColors.border),
                       ),
                   ],
@@ -1115,9 +1115,9 @@ class _DetailLoadingState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(16, 10, 16, 96),
-      child: const Column(
+    return const SingleChildScrollView(
+      padding: EdgeInsets.fromLTRB(16, 10, 16, 96),
+      child: Column(
         children: [
           CoolSkeleton(width: double.infinity, height: 140, borderRadius: 22),
           SizedBox(height: 18),

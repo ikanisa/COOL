@@ -95,7 +95,7 @@ void main() {
     test('_isMissingSchemaObjectError recognizes PGRST205 code', () {
       // Verify the error detection logic works for the exact error code
       // we see on-device.
-      final error = PostgrestException(
+      const error = PostgrestException(
         message: 'Could not find the table or view',
         code: 'PGRST205',
       );
@@ -107,7 +107,7 @@ void main() {
     });
 
     test('_isMissingSchemaObjectError recognizes PGRST202 code', () {
-      final error = PostgrestException(
+      const error = PostgrestException(
         message: 'Could not find the function',
         code: 'PGRST202',
       );
@@ -119,7 +119,7 @@ void main() {
     test('catalog fallback produces well-formed country rows', () {
       // Directly invoke the catalog path to ensure it produces rows
       // with the exact shape the admin screen expects.
-      final catalogCountries = CoolCountryCatalog.all;
+      const catalogCountries = CoolCountryCatalog.all;
 
       final rows = catalogCountries
           .map(

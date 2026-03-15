@@ -34,7 +34,7 @@ void main() {
       saleStartsAt: DateTime(2026, 3, 20),
       capacity: 1000,
     );
-    product = RsProduct(
+    product = const RsProduct(
       id: 'prod-1',
       partnerId: 'rayon',
       name: 'Replica Jersey',

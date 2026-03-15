@@ -46,10 +46,10 @@ class MomoQrSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: palette.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
         top: false,
@@ -707,10 +707,10 @@ class _MomoPaymentRequestSheetState
     final requestReady = _canShare;
     final palette = context.coolPalette;
 
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: palette.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
         top: false,
@@ -949,10 +949,10 @@ class MomoNfcSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: palette.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
         top: false,
@@ -1156,7 +1156,7 @@ class _MomoNfcCardState extends State<MomoNfcCard> with WidgetsBindingObserver {
         return Container(
           decoration: BoxDecoration(
             color: palette.surface,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
           ),
           padding: const EdgeInsets.fromLTRB(22, 16, 22, 32),
           child: Column(
@@ -1272,7 +1272,7 @@ class _MomoNfcCardState extends State<MomoNfcCard> with WidgetsBindingObserver {
             return Container(
               decoration: BoxDecoration(
                 color: palette.surface,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
               ),
               padding: EdgeInsets.fromLTRB(
                 22,

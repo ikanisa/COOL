@@ -511,7 +511,7 @@ class _BankAdminWorkspaceScreenState
                           snapshot: snapshot,
                         ),
                         const SizedBox(height: 24),
-                        Container(
+                        DecoratedBox(
                           decoration: BoxDecoration(
                             color: palette.surface,
                             borderRadius: BorderRadius.circular(16),
@@ -992,7 +992,7 @@ class _GroupDetailSheet extends StatelessWidget {
                             ),
                           ),
                           if (member.isAdmin)
-                            _StatusTag(
+                            const _StatusTag(
                               label: 'Admin',
                               backgroundColor: AppColors.rsBlueGlow,
                               foregroundColor: AppColors.rsWhite,
@@ -1173,7 +1173,7 @@ class _MembersTab extends StatelessWidget {
                 ),
               ),
               if (member.isAdmin)
-                _StatusTag(
+                const _StatusTag(
                   label: 'Admin',
                   backgroundColor: AppColors.rsBlueGlow,
                   foregroundColor: AppColors.rsWhite,

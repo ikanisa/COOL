@@ -36,7 +36,7 @@ void main() {
 
   group('Rayon payment route', () {
     test('PartnerPaymentRoute.payToLabel formats correctly', () {
-      final route = PartnerPaymentRoute(
+      const route = PartnerPaymentRoute(
         id: 'route-1',
         partnerId: 'rayon',
         partnerName: 'Rayon Sports FC',
@@ -54,7 +54,7 @@ void main() {
     });
 
     test('PartnerPaymentRoute.ussdCode generates valid USSD', () {
-      final route = PartnerPaymentRoute(
+      const route = PartnerPaymentRoute(
         id: 'route-2',
         partnerId: 'rayon',
         partnerName: 'Rayon Sports FC',
@@ -75,7 +75,7 @@ void main() {
     });
 
     test('PartnerPaymentRoute.amountLabel formats amount', () {
-      final route = PartnerPaymentRoute(
+      const route = PartnerPaymentRoute(
         id: 'route-3',
         partnerId: 'rayon',
         partnerName: 'Rayon Sports FC',
@@ -93,7 +93,7 @@ void main() {
     });
 
     test('inactive route returns isActive false', () {
-      final route = PartnerPaymentRoute(
+      const route = PartnerPaymentRoute(
         id: 'route-4',
         partnerId: 'rayon',
         partnerName: 'Rayon Sports FC',
@@ -309,10 +309,10 @@ void main() {
     test(
       'paid and fulfilled backend statuses map to active UI order states',
       () {
-        final paidOrder = RsShopOrder.fromJson(<String, dynamic>{
+        final paidOrder = RsShopOrder.fromJson(const <String, dynamic>{
           'id': 'order-1',
           'user_id': 'user-1',
-          'items': const <Map<String, dynamic>>[],
+          'items': <Map<String, dynamic>>[],
           'subtotal': 10000,
           'discount': 0,
           'total': 10000,
@@ -321,10 +321,10 @@ void main() {
           'status': 'paid',
           'created_at': '2026-03-10T12:00:00Z',
         });
-        final fulfilledOrder = RsShopOrder.fromJson(<String, dynamic>{
+        final fulfilledOrder = RsShopOrder.fromJson(const <String, dynamic>{
           'id': 'order-2',
           'user_id': 'user-1',
-          'items': const <Map<String, dynamic>>[],
+          'items': <Map<String, dynamic>>[],
           'subtotal': 10000,
           'discount': 0,
           'total': 10000,

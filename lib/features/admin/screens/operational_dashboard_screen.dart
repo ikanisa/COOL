@@ -59,7 +59,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 24),
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Release Dashboard',
               subtitle:
                   'Live health by monitored surface so release blockers show up before user reports do.',
@@ -86,7 +86,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 24),
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Triage Queue',
               subtitle:
                   'Focused on failed payment sync, failed function invocation, and stale config.',
@@ -114,7 +114,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 24),
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Recent Signals',
               subtitle:
                   'Raw health events from mobile and Edge Function instrumentation.',

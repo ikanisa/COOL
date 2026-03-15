@@ -103,10 +103,10 @@ class PrismaHeroCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
-                Wrap(
+                const Wrap(
                   spacing: 10,
                   runSpacing: 10,
-                  children: const [
+                  children: [
                     PartnerHeroPill(
                       icon: Icons.balance_outlined,
                       label: 'Legal, Tax & Compliance',
@@ -206,8 +206,8 @@ class PrismaStatsCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          Row(
-            children: const [
+          const Row(
+            children: [
               PrismaStatTile(value: '9', label: 'AI Agents'),
               SizedBox(width: 10),
               PrismaStatTile(value: '28K+', label: 'Indexed Docs'),

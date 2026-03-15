@@ -75,3 +75,11 @@ flutter_*.log
 
 # Google Play service account key
 output/play_store/play-store-sa-key.json
+
+# Cloudflare Wrangler local cache
+.wrangler/
+
+# Scratch / analysis output
+analysis_output*.txt
+update_profile.dart
+package-lock.json

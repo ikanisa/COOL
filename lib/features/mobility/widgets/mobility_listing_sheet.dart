@@ -258,14 +258,14 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
                     : 'Pinned with Google route preview'
               : 'Text route only',
         ),
-        _DetailRow(
+        const _DetailRow(
           label: 'Chat flow',
           value: 'Price and pickup are agreed on WhatsApp after you connect.',
         ),
         if (trip.priceNote?.trim().isNotEmpty ?? false)
           _DetailRow(label: 'Price note', value: trip.priceNote!.trim()),
         const SizedBox(height: 18),
-        _MarketplaceHint(
+        const _MarketplaceHint(
           text:
               'This app introduces both sides. Final price, exact pickup, and timing are confirmed in WhatsApp.',
         ),
@@ -415,12 +415,12 @@ class _DriverListingSheetBody extends StatelessWidget {
             value: _titleCase(driver.vehicleStatus!),
           ),
         _DetailRow(label: 'Last active', value: lastActive),
-        _DetailRow(
+        const _DetailRow(
           label: 'Chat flow',
           value: 'Price and pickup are agreed directly in WhatsApp.',
         ),
         const SizedBox(height: 18),
-        _MarketplaceHint(
+        const _MarketplaceHint(
           text:
               'The app helps you discover nearby drivers. You agree on fare, pickup, and exact timing in WhatsApp.',
         ),

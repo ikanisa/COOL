@@ -19,7 +19,7 @@ void main() {
       repository = FakeGroupRepository();
       notifier = GroupsNotifier(
         repository: repository,
-        authState: AuthState(user: _signedInUser),
+        authState: const AuthState(user: _signedInUser),
       );
     });
 

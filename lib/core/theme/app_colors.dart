@@ -79,11 +79,11 @@ abstract final class AppColors {
   static const rsBlueBorder = Color(0x590055CC);
 
   // Gradient helpers.
-  static final accentGradient = LinearGradient(
+  static const accentGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: const [accent, blue],
-    transform: const GradientRotation(135 * math.pi / 180),
+    colors: [accent, blue],
+    transform: GradientRotation(135 * math.pi / 180),
   );
 
   static LinearGradient get cardGradient => LinearGradient(
@@ -113,18 +113,18 @@ abstract final class AppColors {
     transform: const GradientRotation(135 * math.pi / 180),
   );
 
-  static final rsBlueGradient = LinearGradient(
+  static const rsBlueGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: const [Color(0xFF031A43), rsBlue, rsBlueMid],
-    transform: const GradientRotation(135 * math.pi / 180),
+    colors: [Color(0xFF031A43), rsBlue, rsBlueMid],
+    transform: GradientRotation(135 * math.pi / 180),
   );
 
-  static final rsHeroGradient = LinearGradient(
+  static const rsHeroGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: const [Color(0xFF031A43), rsBlue, Color(0xFF0B2E66), rsGold],
-    stops: const [0, 0.45, 0.8, 1],
-    transform: const GradientRotation(135 * math.pi / 180),
+    colors: [Color(0xFF031A43), rsBlue, Color(0xFF0B2E66), rsGold],
+    stops: [0, 0.45, 0.8, 1],
+    transform: GradientRotation(135 * math.pi / 180),
   );
 }

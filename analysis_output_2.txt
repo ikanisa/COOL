@@ -1,7 +1,0 @@
-Analyzing COOL...                                               
-
-warning • Unused import: 'package:flutter_riverpod/flutter_riverpod.dart' • lib/core/services/app_update_service.dart:3:8 • unused_import
-warning • Unused import: '../providers/engagement_providers.dart' • lib/core/services/app_update_service.dart:6:8 • unused_import
-  error • The named parameter 'appUpdateService' isn't defined • test/core/services/app_lifecycle_coordinator_test.dart:117:9 • undefined_named_parameter
-   info • Don't invoke 'print' in production code • tool/update_governance.dart:11:3 • avoid_print
-

@@ -339,7 +339,7 @@ class _TierCard extends StatelessWidget {
                 if (isCurrent)
                   _StatusChip(label: 'Current', color: tier.color, filled: true)
                 else if (isUnlocked)
-                  _StatusChip(
+                  const _StatusChip(
                     label: 'Unlocked',
                     color: AppColors.accent,
                     filled: false,

@@ -137,7 +137,7 @@ class MobilityRepository {
   }
 
   Future<List<Trip>> getMyTrips(String userId) async {
-    var query = _client
+    final query = _client
         .from('mobility_trips')
         .select(_tripSelect)
         .eq('user_id', userId);

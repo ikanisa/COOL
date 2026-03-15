@@ -82,9 +82,9 @@ class ScheduleTripRouteEditor extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   _RouteDot(color: palette.accent),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   const _RouteDash(axis: Axis.horizontal),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   _RouteDot(color: palette.orange),
                 ],
               ),
@@ -229,7 +229,7 @@ class _RouteField extends StatelessWidget {
         ),
       if (isResolved)
         Padding(
-          padding: EdgeInsets.only(left: 6, right: 4),
+          padding: const EdgeInsets.only(left: 6, right: 4),
           child: Icon(
             Icons.check_circle_rounded,
             size: 20,

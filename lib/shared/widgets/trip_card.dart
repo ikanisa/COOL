@@ -172,7 +172,7 @@ class TripCard extends StatelessWidget {
 
                   // Recurring tag
                   if (isRecurring)
-                    _Chip(
+                    const _Chip(
                       label: 'Daily',
                       bgColor: AppColors.accentGlow,
                       textColor: AppColors.accent,

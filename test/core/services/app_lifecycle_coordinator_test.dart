@@ -139,7 +139,7 @@ void main() {
     });
 
     test('auth changes and resume events are delegated', () async {
-      final previous = const auth.AuthState();
+      const previous = auth.AuthState();
       final next = auth.AuthState(session: _fakeSession(), user: _fakeUser());
 
       await coordinator.handleAuthStateChanged(previous, next);

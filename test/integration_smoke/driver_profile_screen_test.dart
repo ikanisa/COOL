@@ -115,7 +115,7 @@ void main() {
       final todayTrip = DateTime(now.year, now.month, now.day, 14);
 
       when(() => mobilityRepository.getDriverProfile(any())).thenAnswer(
-        (_) async => DriverProfile(
+        (_) async => const DriverProfile(
           userId: 'user-1',
           fullName: 'Alex Driver',
           vehicleType: 'Moto Taxi',

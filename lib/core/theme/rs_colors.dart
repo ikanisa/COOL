@@ -22,42 +22,42 @@ abstract final class RsColors {
   // ── Gradient helpers ────────────────────────────────────────────────
 
   /// Dark card surface gradient at 135°.
-  static final rsCardGradient = LinearGradient(
+  static const rsCardGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: const [Color(0xFF091540), Color(0xFF0D1E6A)],
-    transform: const GradientRotation(135 * math.pi / 180),
+    colors: [Color(0xFF091540), Color(0xFF0D1E6A)],
+    transform: GradientRotation(135 * math.pi / 180),
   );
 
   /// Hero gradient: 3-stop blue → transparent at 135°.
-  static final rsHeroGradient = LinearGradient(
+  static const rsHeroGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: const [Color(0xFF001A5C), Color(0xFF00115A), Colors.transparent],
-    transform: const GradientRotation(135 * math.pi / 180),
+    colors: [Color(0xFF001A5C), Color(0xFF00115A), Colors.transparent],
+    transform: GradientRotation(135 * math.pi / 180),
   );
 
   /// Membership card gradient at 135°.
-  static final rsMembershipGradient = LinearGradient(
+  static const rsMembershipGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: const [Color(0xFF0A1F60), Color(0xFF0D2878), Color(0xFF0047AB)],
-    transform: const GradientRotation(135 * math.pi / 180),
+    colors: [Color(0xFF0A1F60), Color(0xFF0D2878), Color(0xFF0047AB)],
+    transform: GradientRotation(135 * math.pi / 180),
   );
 
   /// Gold accent gradient.
-  static final rsGoldGradient = LinearGradient(
+  static const rsGoldGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: const [rsGold, rsGoldLight],
-    transform: const GradientRotation(135 * math.pi / 180),
+    colors: [rsGold, rsGoldLight],
+    transform: GradientRotation(135 * math.pi / 180),
   );
 
   /// Support / initiative card gradient.
-  static final rsSupportGradient = LinearGradient(
+  static const rsSupportGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: const [Color(0xFF0E1A4A), Color(0xFF152260)],
-    transform: const GradientRotation(135 * math.pi / 180),
+    colors: [Color(0xFF0E1A4A), Color(0xFF152260)],
+    transform: GradientRotation(135 * math.pi / 180),
   );
 }

@@ -376,7 +376,7 @@ class FcmService {
       );
     }
 
-    final desiredTopic = 'market_${AppMarket.countryCode}';
+    const desiredTopic = 'market_${AppMarket.countryCode}';
 
     if (_activeMarketTopic != null && _activeMarketTopic != desiredTopic) {
       try {

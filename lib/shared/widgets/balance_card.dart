@@ -38,7 +38,7 @@ class BalanceCard extends StatelessWidget {
             child: Container(
               width: 120,
               height: 120,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [AppColors.accentGlow, Colors.transparent],

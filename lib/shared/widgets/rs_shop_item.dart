@@ -41,7 +41,7 @@ class RsShopItem extends StatelessWidget {
           '${NumberFormat.decimalPattern('en').format(discountedPrice)} RWF. '
           '${quantity > 0 ? '$quantity in cart.' : ''}',
       excludeSemantics: true,
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(
           color: AppColors.surface2,
           borderRadius: BorderRadius.circular(18),

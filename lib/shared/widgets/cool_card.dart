@@ -55,7 +55,7 @@ class CoolCard extends StatelessWidget {
       ],
     );
 
-    Widget content = Padding(
+    final Widget content = Padding(
       padding: padding ?? const EdgeInsets.all(18),
       child: child,
     );

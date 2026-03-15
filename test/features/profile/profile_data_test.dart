@@ -42,8 +42,8 @@ void main() {
   group('DriverProfileSnapshot', () {
     test('preserves actual verification and base-location fields', () {
       final snapshot = DriverProfileSnapshot.fromState(
-        DriverState(
-          profile: const DriverProfile(
+        const DriverState(
+          profile: DriverProfile(
             userId: 'driver-1',
             fullName: '123456',
             vehicleType: 'Moto Taxi',

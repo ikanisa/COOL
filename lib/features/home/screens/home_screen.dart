@@ -835,7 +835,7 @@ class _OverviewLoadingCard extends StatelessWidget {
     final palette = context.coolPalette;
     return CoolCard(
       backgroundColor: palette.surface,
-      child: Column(
+      child: const Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           CoolSkeleton(width: 120, height: 14, borderRadius: 7),
@@ -857,7 +857,7 @@ class _ActivityLoadingCard extends StatelessWidget {
     final palette = context.coolPalette;
     return CoolCard(
       backgroundColor: palette.surface,
-      child: Column(
+      child: const Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           CoolSkeleton(width: double.infinity, height: 16, borderRadius: 8),

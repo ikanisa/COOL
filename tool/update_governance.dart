@@ -8,5 +8,5 @@ void main() {
   File('docs/ROUTE_INVENTORY.md').writeAsStringSync(docs.routeInventory);
   File('docs/SCREEN_BUDGETS.md').writeAsStringSync(docs.screenBudgets);
 
-  print('Governance docs updated.');
+  stderr.writeln('Governance docs updated.');
 }

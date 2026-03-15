@@ -66,13 +66,9 @@ class GroupCard extends StatelessWidget {
               // ── Badges ────────────────────────────────────────────────
               Row(
                 children: [
-                  _isSaving
-                      ? const StatusBadge.saving()
-                      : const StatusBadge.community(),
+                  if (_isSaving) const StatusBadge.saving() else const StatusBadge.community(),
                   const SizedBox(width: 6),
-                  visibility == 'public'
-                      ? const StatusBadge.public()
-                      : const StatusBadge.private(),
+                  if (visibility == 'public') const StatusBadge.public() else const StatusBadge.private(),
                 ],
               ),
               const SizedBox(height: 12),

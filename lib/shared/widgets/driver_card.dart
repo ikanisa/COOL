@@ -117,9 +117,7 @@ class DriverCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 6),
                       // Status badge
-                      isOnline
-                          ? const StatusBadge.online()
-                          : const StatusBadge.offline(),
+                      if (isOnline) const StatusBadge.online() else const StatusBadge.offline(),
                       const SizedBox(height: 8),
 
                       // Vehicle chip

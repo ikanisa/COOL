@@ -186,7 +186,7 @@ void main() {
     testWidgets('renders service title and CTA button', (tester) async {
       String? tappedAction;
 
-      final service = const PartnerService(
+      const service = PartnerService(
         id: 's1',
         partnerId: 'p1',
         title: 'Savings Account',
@@ -218,7 +218,7 @@ void main() {
     });
 
     testWidgets('hides CTA when ctaAction is null', (tester) async {
-      final service = const PartnerService(
+      const service = PartnerService(
         id: 's2',
         partnerId: 'p1',
         title: 'Checking Account',

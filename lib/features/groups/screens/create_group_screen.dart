@@ -285,8 +285,8 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
             AnimatedSwitcher(
               duration: const Duration(milliseconds: 250),
               child: _isSaving
-                  ? _InfoBanner(
-                      key: const ValueKey('saving'),
+                  ? const _InfoBanner(
+                      key: ValueKey('saving'),
                       icon: Icons.account_balance_rounded,
                       text: 'Bank-held and insured.',
                       color: AppColors.accent,

@@ -95,7 +95,7 @@ class _DriverVehicleScreenState extends ConsumerState<DriverVehicleScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _DriverDetailIntroCard(
+          const _DriverDetailIntroCard(
             title: 'Vehicle details',
             subtitle:
                 'Keep your vehicle type, plate number, and base location current so riders see the right setup.',
@@ -215,7 +215,7 @@ class _DriverSubscriptionScreenState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _DriverDetailIntroCard(
+          const _DriverDetailIntroCard(
             title: 'Subscription access',
             subtitle:
                 'Review trip credits, active plan status, and upgrade options without mixing them into your driving dashboard.',

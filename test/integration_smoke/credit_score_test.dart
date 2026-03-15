@@ -20,7 +20,7 @@ void main() {
       tester,
     ) async {
       final repository = MockCreditRepository();
-      final dashboard = CreditDashboard(
+      const dashboard = CreditDashboard(
         statementCount: 24,
         groupContributionCount: 6,
         activeMonthCount: 8,
@@ -35,7 +35,7 @@ void main() {
         debitTotal: 1800000,
         groupTotal: 360000,
         averageGroupContribution: 5000,
-        factors: const <CreditFactor>[
+        factors: <CreditFactor>[
           CreditFactor(
             key: 'tx_volume',
             label: 'Transaction Volume',

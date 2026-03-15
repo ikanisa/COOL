@@ -179,10 +179,10 @@ class _ProfileAppAccessSheetState extends ConsumerState<ProfileAppAccessSheet>
             : 0);
     final totalCount = _permissions.length + 1;
 
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
         top: false,

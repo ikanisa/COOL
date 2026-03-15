@@ -92,7 +92,7 @@ void main() {
     });
 
     test('handles missing fields with defaults', () {
-      final m = FanMembership.fromJson(<String, dynamic>{});
+      final m = FanMembership.fromJson(const <String, dynamic>{});
       expect(m.id, '');
       expect(m.displayName, 'Fan');
       expect(m.points, 0);
@@ -101,7 +101,7 @@ void main() {
     });
 
     test('reads display_name from nested users fallback', () {
-      final m = FanMembership.fromJson({
+      final m = FanMembership.fromJson(const {
         'users': {'full_name': 'Nested Name'},
       });
       expect(m.displayName, 'Nested Name');
@@ -160,7 +160,7 @@ void main() {
 
   group('RsMatch', () {
     test('title combines home and away teams', () {
-      final match = RsMatch.fromJson({
+      final match = RsMatch.fromJson(const {
         'home_team': 'Rayon Sports',
         'away_team': 'APR FC',
         'match_date': '2026-04-10',
@@ -169,7 +169,7 @@ void main() {
     });
 
     test('kickoff time is truncated to 5 chars if longer', () {
-      final match = RsMatch.fromJson({
+      final match = RsMatch.fromJson(const {
         'kickoff_time': '15:00:00',
       });
       expect(match.kickoffTime, '15:00');
@@ -178,7 +178,7 @@ void main() {
 
   group('RsShopProduct.fromJson', () {
     test('parses price and stock as integers', () {
-      final p = RsProduct.fromJson({
+      final p = RsProduct.fromJson(const {
         'id': 'p-1',
         'name': 'Jersey',
         'price': 18000,
@@ -189,7 +189,7 @@ void main() {
     });
 
     test('accepts numeric types (double price)', () {
-      final p = RsProduct.fromJson({
+      final p = RsProduct.fromJson(const {
         'price': 15000.5,
         'stock': 10.0,
       });

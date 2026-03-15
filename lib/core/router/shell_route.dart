@@ -140,7 +140,7 @@ class _AppShellState extends ConsumerState<AppShell> {
 
       // ── Bottom nav ───────────────────────────────────────────────
       bottomNavigationBar: widget.showNavigationChrome
-          ? Container(
+          ? DecoratedBox(
               decoration: BoxDecoration(
                 color: palette.surface,
                 border: Border(top: BorderSide(color: palette.border)),
@@ -194,7 +194,7 @@ class _AppShellState extends ConsumerState<AppShell> {
                     BottomNavigationBarItem(
                       icon: Semantics(
                         label: context.l10n.momoScreenTitle,
-                        child: ExcludeSemantics(child: SizedBox.shrink()),
+                        child: const ExcludeSemantics(child: SizedBox.shrink()),
                       ),
                       label: '',
                     ),

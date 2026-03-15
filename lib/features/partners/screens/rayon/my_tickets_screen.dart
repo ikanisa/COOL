@@ -91,7 +91,7 @@ class MyTicketsScreen extends ConsumerWidget {
                   padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate([
-                      _SectionLabel(
+                      const _SectionLabel(
                         text: 'PAYMENT PENDING',
                         color: RsColors.rsGoldLight,
                       ),
@@ -136,7 +136,7 @@ class MyTicketsScreen extends ConsumerWidget {
                   ),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate([
-                      _SectionLabel(
+                      const _SectionLabel(
                         text: 'READY FOR ENTRY',
                         color: AppColors.accent,
                       ),

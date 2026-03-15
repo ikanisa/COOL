@@ -63,8 +63,8 @@ void main() {
     notifier = MobilityNotifier(
       repository: mobilityRepository,
       tripRepository: tripRepository,
-      authState: AuthState(
-        user: const UserProfile(
+      authState: const AuthState(
+        user: UserProfile(
           id: 'user-1',
           phone: '+250788123456',
           fullName: 'Cool Driver',

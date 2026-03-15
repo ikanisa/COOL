@@ -266,15 +266,13 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
                       const SizedBox(height: 24),
 
                       // ── Resend ────────────────────────────────────────
-                      _resendSeconds > 0
-                          ? Text(
+                      if (_resendSeconds > 0) Text(
                               'Resend in ${_resendSeconds}s',
                               style: GoogleFonts.dmSans(
                                 fontSize: 12,
                                 color: AppColors.text3,
                               ),
-                            )
-                          : Semantics(
+                            ) else Semantics(
                               button: true,
                               label: 'Resend verification code',
                               child: GestureDetector(

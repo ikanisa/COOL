@@ -195,10 +195,10 @@ class _EditVehicleTypeSheetState extends State<_EditVehicleTypeSheet> {
   }
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) => DecoratedBox(
     decoration: BoxDecoration(
       color: AppColors.surface,
-      borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
     ),
     child: SafeArea(
       top: false,

@@ -713,7 +713,7 @@ String _resolvePrimaryText(Map<String, Object?> json, List<String> parts) {
     address['municipality']?.toString(),
     address['county']?.toString(),
     address['state']?.toString(),
-    parts.isEmpty ? null : parts.first,
+    if (parts.isEmpty) null else parts.first,
   ];
 
   for (final candidate in candidates) {

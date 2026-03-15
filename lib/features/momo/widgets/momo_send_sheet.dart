@@ -130,10 +130,10 @@ class _MomoSendMoneySheetState extends State<MomoSendMoneySheet> {
     final amount = int.tryParse(
       _amountController.text.replaceAll(RegExp(r'[^0-9]'), ''),
     );
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: palette.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
         top: false,

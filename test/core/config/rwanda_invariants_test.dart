@@ -196,10 +196,10 @@ void main() {
       "check (language_code = 'en')",
       "new.country := 'RW';",
       "alter column language_code set default 'en';",
-      "partner_payment_routes_country_rwanda_only_check",
-      "groups_country_rwanda_only_check",
-      "users_language_code_english_only_check",
-      "get_partner_payment_route(",
+      'partner_payment_routes_country_rwanda_only_check',
+      'groups_country_rwanda_only_check',
+      'users_language_code_english_only_check',
+      'get_partner_payment_route(',
     ];
 
     for (final snippet in expectedSnippets) {

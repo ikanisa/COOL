@@ -183,10 +183,10 @@ class ProfileSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: palette.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
         top: false,

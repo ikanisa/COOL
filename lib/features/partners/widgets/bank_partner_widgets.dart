@@ -247,7 +247,7 @@ class BankSourceCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             alignment: Alignment.center,
-            child: Icon(
+            child: const Icon(
               Icons.verified_outlined,
               color: AppColors.accent,
               size: 20,

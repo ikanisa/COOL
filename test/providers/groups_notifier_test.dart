@@ -145,7 +145,7 @@ void main() {
       // Set up a notifier with a fake user ID
       final notifierWithUser = GroupsNotifier(
         repository: mockRepo,
-        authState: AuthState(
+        authState: const AuthState(
           user: null,
           session: null,
           isLoading: false,
@@ -166,7 +166,7 @@ void main() {
 
       final notifierWithAuth = GroupsNotifier(
         repository: mockRepo,
-        authState: AuthState(
+        authState: const AuthState(
           user: null,
           session: null,
           isLoading: false,

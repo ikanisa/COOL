@@ -147,10 +147,10 @@ class _EditPartnerPaymentRouteSheetState
   }
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) => DecoratedBox(
     decoration: BoxDecoration(
       color: AppColors.surface,
-      borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
     ),
     child: SafeArea(
       top: false,
@@ -234,7 +234,7 @@ class _EditPartnerPaymentRouteSheetState
                     onPressed: _saving || _deleting ? null : _delete,
                     style: OutlinedButton.styleFrom(
                       foregroundColor: AppColors.orange,
-                      side: BorderSide(color: AppColors.orange),
+                      side: const BorderSide(color: AppColors.orange),
                     ),
                     child: _deleting
                         ? const SizedBox(
@@ -439,10 +439,10 @@ class _EditMobilitySubscriptionCodeSheetState
   }
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) => DecoratedBox(
     decoration: BoxDecoration(
       color: AppColors.surface,
-      borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
     ),
     child: SafeArea(
       top: false,
@@ -647,10 +647,10 @@ class _EditConfigSheetState extends State<EditConfigSheet> {
   }
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) => DecoratedBox(
     decoration: BoxDecoration(
       color: AppColors.surface,
-      borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
     ),
     child: SafeArea(
       top: false,
@@ -836,10 +836,10 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
         top: false,

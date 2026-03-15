@@ -81,7 +81,7 @@ class QuestEngine {
     // ─── 3. No match tickets this month ─────────────────────
     if (matchTicketsThisMonth == 0) {
       quests.add(
-        CoolQuest(
+        const CoolQuest(
           id: 'match_attend',
           icon: Icons.sports_soccer_rounded,
           title: 'Attend a match',
@@ -109,7 +109,7 @@ class QuestEngine {
     // ─── 5. Post a trip (driver) ────────────────────────────
     if (!hasPostedTrip) {
       quests.add(
-        CoolQuest(
+        const CoolQuest(
           id: 'post_trip',
           icon: Icons.pin_drop_rounded,
           title: 'Post your route',
@@ -138,7 +138,7 @@ class QuestEngine {
     // ─── 7. Join a group ────────────────────────────────────
     if (groupCount == 0) {
       quests.add(
-        CoolQuest(
+        const CoolQuest(
           id: 'join_group',
           icon: Icons.group_rounded,
           title: 'Join a savings group',
@@ -152,7 +152,7 @@ class QuestEngine {
     // ─── 8. No fan club ─────────────────────────────────────
     if (membership == null) {
       quests.add(
-        CoolQuest(
+        const CoolQuest(
           id: 'join_club',
           icon: Icons.stadium_rounded,
           title: 'Become a Rayon fan',

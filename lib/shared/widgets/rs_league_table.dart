@@ -69,7 +69,7 @@ class RsLeagueTable extends StatelessWidget {
           const SizedBox(height: 16),
 
           // Header
-          _TableRow(
+          const _TableRow(
             position: '#',
             name: 'Team',
             played: 'P',

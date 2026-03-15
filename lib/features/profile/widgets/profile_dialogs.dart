@@ -457,7 +457,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: AppColors.accent),
+                  borderSide: const BorderSide(color: AppColors.accent),
                 ),
                 errorText: _numberError,
               ),
@@ -523,7 +523,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: AppColors.accent),
+                    borderSide: const BorderSide(color: AppColors.accent),
                   ),
                   errorText: _codeError,
                 ),
@@ -598,10 +598,10 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
       return content;
     }
 
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(top: false, child: content),
     );
@@ -875,7 +875,7 @@ class _ProfileOfficialIdentityEditSheetState
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: AppColors.accent),
+                  borderSide: const BorderSide(color: AppColors.accent),
                 ),
                 errorText: _nameError,
               ),
@@ -919,7 +919,7 @@ class _ProfileOfficialIdentityEditSheetState
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: AppColors.accent),
+                  borderSide: const BorderSide(color: AppColors.accent),
                 ),
                 errorText: _phoneError,
                 helperText:
@@ -964,10 +964,10 @@ class _ProfileOfficialIdentityEditSheetState
       return content;
     }
 
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(top: false, child: content),
     );

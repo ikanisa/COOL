@@ -72,7 +72,7 @@ void main() {
       rating: 4.8,
       bannerEmoji: '🥁',
     );
-    product = RsProduct(
+    product = const RsProduct(
       id: 'product-1',
       partnerId: 'partner-1',
       name: 'Replica Jersey',

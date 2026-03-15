@@ -54,12 +54,12 @@ void main() {
     });
 
     test('serializes rollout values into app config rows', () {
-      final config = AdminFeatureRolloutConfig(
+      const config = AdminFeatureRolloutConfig(
         key: 'credit',
         label: 'Credit',
         description: 'Credit rollout',
         killSwitchKey: 'kill_credit_features',
-        rollout: const ManagedFeatureRollout(
+        rollout: ManagedFeatureRollout(
           key: 'credit',
           stage: FeatureRolloutStage.internal,
           killSwitch: true,

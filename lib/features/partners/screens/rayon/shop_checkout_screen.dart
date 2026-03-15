@@ -337,7 +337,7 @@ class _ShopCheckoutOverviewCard extends StatelessWidget {
             ),
             if (index < products.length - 1)
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: 12),
                 child: Divider(height: 1, color: AppColors.border),
               ),
           ],

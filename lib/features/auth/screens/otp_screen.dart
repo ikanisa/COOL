@@ -166,7 +166,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                     const SizedBox(height: 32),
 
                     // ── Phone input card ──────────────────────────────
-                    Container(
+                    DecoratedBox(
                       decoration: BoxDecoration(
                         color: AppColors.surface2,
                         borderRadius: BorderRadius.circular(14),
@@ -192,9 +192,9 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text(
+                                  const Text(
                                     '🇷🇼',
-                                    style: const TextStyle(fontSize: 18),
+                                    style: TextStyle(fontSize: 18),
                                   ),
                                   const SizedBox(width: 6),
                                   Text(

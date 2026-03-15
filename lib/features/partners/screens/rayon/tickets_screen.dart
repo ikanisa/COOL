@@ -137,7 +137,7 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
                       paymentRoute: paymentRoute,
                     ),
                     const SizedBox(height: 16),
-                    Container(
+                    DecoratedBox(
                       decoration: BoxDecoration(
                         color: AppColors.surface2,
                         borderRadius: BorderRadius.circular(12),

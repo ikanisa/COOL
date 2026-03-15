@@ -63,7 +63,7 @@ class ManageServicesScreen extends ConsumerWidget {
               final s = services[index];
               final partnerName =
                   (s['partners'] as Map?)?['name']?.toString() ?? '';
-              return Container(
+              return DecoratedBox(
                 decoration: BoxDecoration(
                   color: AppColors.surface,
                   borderRadius: BorderRadius.circular(16),
@@ -290,10 +290,10 @@ class _EditServiceSheetState extends State<_EditServiceSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
         top: false,

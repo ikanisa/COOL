@@ -618,7 +618,7 @@ class _ScannerOverlay extends StatelessWidget {
         ),
         Positioned.fromRect(
           rect: scanWindow,
-          child: Container(
+          child: DecoratedBox(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(28),
               border: Border.all(
@@ -732,7 +732,7 @@ class _TicketResultSheet extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       padding: const EdgeInsets.fromLTRB(22, 16, 22, 32),
       child: Column(

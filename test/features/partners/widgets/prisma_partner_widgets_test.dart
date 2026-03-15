@@ -27,7 +27,7 @@ void main() {
   group('PrismaHeroCard', () {
     testWidgets('renders partner name and IKANISA badge', (tester) async {
       await tester.pumpWidget(_wrap(
-        PrismaHeroCard(partner: _testPartner),
+        const PrismaHeroCard(partner: _testPartner),
       ));
 
       expect(find.text('PRISMA by IKANISA'), findsOneWidget);
@@ -36,7 +36,7 @@ void main() {
 
     testWidgets('renders hero pills', (tester) async {
       await tester.pumpWidget(_wrap(
-        PrismaHeroCard(partner: _testPartner),
+        const PrismaHeroCard(partner: _testPartner),
       ));
 
       expect(find.text('Legal, Tax & Compliance'), findsOneWidget);
@@ -72,7 +72,7 @@ void main() {
   group('PrismaSupportCard', () {
     testWidgets('renders support heading and contact lines', (tester) async {
       await tester.pumpWidget(_wrap(
-        PrismaSupportCard(partner: _testPartner),
+        const PrismaSupportCard(partner: _testPartner),
       ));
 
       expect(find.text('Get in touch'), findsOneWidget);

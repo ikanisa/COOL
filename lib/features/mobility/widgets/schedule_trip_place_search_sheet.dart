@@ -194,10 +194,10 @@ class _ScheduleTripPlaceSearchSheetState
       padding: EdgeInsets.only(bottom: keyboardInset),
       child: SizedBox(
         height: sheetHeight,
-        child: Container(
+        child: DecoratedBox(
           decoration: BoxDecoration(
             color: palette.surface,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
           ),
           child: SafeArea(
             top: false,

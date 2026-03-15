@@ -155,25 +155,25 @@ class RayonHomeScreen extends StatelessWidget {
                           ],
                         ),
                         loading: () => const CoolSkeletonList(itemCount: 3),
-                        error: (_, stackTrace) => Column(
+                        error: (_, stackTrace) => const Column(
                           children: [
                             Row(
-                              children: const [
+                              children: [
                                 Expanded(child: CoolSkeleton.card()),
                                 SizedBox(width: 12),
                                 Expanded(child: CoolSkeleton.card()),
                               ],
                             ),
-                            const SizedBox(height: 12),
+                            SizedBox(height: 12),
                             Row(
-                              children: const [
+                              children: [
                                 Expanded(child: CoolSkeleton.card()),
                                 SizedBox(width: 12),
                                 Expanded(child: CoolSkeleton.card()),
                               ],
                             ),
-                            const SizedBox(height: 12),
-                            const CoolSkeleton.card(),
+                            SizedBox(height: 12),
+                            CoolSkeleton.card(),
                           ],
                         ),
                       ),

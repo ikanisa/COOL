@@ -304,7 +304,7 @@ class MomoSmsAutoreadService {
     required DateTime cutoff,
   }) async {
     final cutoffMillis = cutoff.millisecondsSinceEpoch.toString();
-    final senderPatterns =
+    const senderPatterns =
         MomoSmsIngestionRepository.approvedInboxSenderLikePatterns;
     final messages = <SmsMessage>[];
 
@@ -345,8 +345,8 @@ class MomoSmsSyncException implements Exception {
 class _MomoSmsBackgroundProcessor {
   static bool _hiveInitialized = false;
   static bool _supabaseInitialized = false;
-  static final InitializeHive _initializeHive = initializeHiveRuntime;
-  static final OpenHiveBox<bool> _openAppAccessBox = openHiveBox<bool>;
+  static const InitializeHive _initializeHive = initializeHiveRuntime;
+  static const OpenHiveBox<bool> _openAppAccessBox = openHiveBox<bool>;
 
   static Future<void> handle(SmsMessage message) async {
     try {

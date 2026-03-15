@@ -242,7 +242,7 @@ class MomoWalletEntry {
       label:
           json['statement_label']?.toString() ??
           json['description']?.toString() ??
-          _titleize(json['tx_category']?.toString() ?? json['entry_type']),
+          _titleize(json['tx_category']?.toString() ?? json['entry_type']?.toString()),
       counterpartyName: _nonEmpty(json['counterparty_name']),
       reference: _nonEmpty(json['external_reference']),
       description: _nonEmpty(json['description']),

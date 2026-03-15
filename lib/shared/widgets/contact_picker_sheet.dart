@@ -225,7 +225,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
       constraints: BoxConstraints(maxHeight: screenHeight * 0.85),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

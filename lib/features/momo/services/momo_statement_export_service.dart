@@ -173,7 +173,7 @@ class MomoStatementExportService {
                 .map(
                   (entry) => <String>[
                     _dateTimeFormat.format(entry.occurredAt),
-                    entry.isCredit ? 'Incoming' : 'Outgoing',
+                    if (entry.isCredit) 'Incoming' else 'Outgoing',
                     _titleize(entry.txCategory),
                     _titleize(entry.cashflowBucket),
                     entry.counterpartyName ?? '-',
@@ -549,7 +549,7 @@ class MomoStatementExportService {
       for (final entry in entries)
         <String>[
           _dateTimeFormat.format(entry.occurredAt),
-          entry.isCredit ? 'Incoming' : 'Outgoing',
+          if (entry.isCredit) 'Incoming' else 'Outgoing',
           entry.txCategory,
           entry.cashflowBucket,
           entry.counterpartyName ?? '',
@@ -913,9 +913,9 @@ class MomoStatementExportService {
                 pw.Container(
                   width: 40,
                   height: 40,
-                  decoration: pw.BoxDecoration(
+                  decoration: const pw.BoxDecoration(
                     color: PdfColors.white,
-                    borderRadius: const pw.BorderRadius.all(
+                    borderRadius: pw.BorderRadius.all(
                       pw.Radius.circular(8),
                     ),
                   ),

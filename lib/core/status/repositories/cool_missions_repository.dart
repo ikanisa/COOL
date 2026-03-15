@@ -29,7 +29,7 @@ class CoolMissionsRepository {
       final progressRow = await _client
           .from('cool_mission_progress')
           .select()
-          .eq('mission_id', row['id'])
+          .eq('mission_id', row['id'] as Object)
           .eq('user_id', userId)
           .maybeSingle();
 

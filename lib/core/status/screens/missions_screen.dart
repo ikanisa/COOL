@@ -44,8 +44,8 @@ class MissionsScreen extends ConsumerWidget {
               ),
 
               // ─── Active missions ─────────────────────────
-              SliverPadding(
-                padding: const EdgeInsets.fromLTRB(18, 8, 18, 0),
+              const SliverPadding(
+                padding: EdgeInsets.fromLTRB(18, 8, 18, 0),
                 sliver: SliverToBoxAdapter(
                   child: _SectionLabel(label: 'Active Missions'),
                 ),
@@ -59,8 +59,8 @@ class MissionsScreen extends ConsumerWidget {
                 ),
 
               // ─── Upcoming missions ───────────────────────
-              SliverPadding(
-                padding: const EdgeInsets.fromLTRB(18, 24, 18, 0),
+              const SliverPadding(
+                padding: EdgeInsets.fromLTRB(18, 24, 18, 0),
                 sliver: SliverToBoxAdapter(
                   child: _SectionLabel(label: 'Coming Soon'),
                 ),

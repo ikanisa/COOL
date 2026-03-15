@@ -71,7 +71,7 @@ class ConfigTile extends StatelessWidget {
     final preview = value.length > 60 ? '${value.substring(0, 60)}…' : value;
     final scopeLabel = _configScopeLabel(config['country']?.toString());
 
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
@@ -244,7 +244,7 @@ class MobilitySubscriptionConfigTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final code = config['value']?.toString() ?? '';
 
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
@@ -302,7 +302,7 @@ class PartnerPaymentRouteConfigTile extends StatelessWidget {
       _ => (const Color(0xFFE8E3FF), const Color(0xFF3D2F7A)),
     };
 
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),

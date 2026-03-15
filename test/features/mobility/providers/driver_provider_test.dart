@@ -23,8 +23,8 @@ void main() {
     subscriptionRepository = MockSubscriptionRepository();
 
     notifier = DriverNotifier(
-      authState: AuthState(
-        user: const UserProfile(
+      authState: const AuthState(
+        user: UserProfile(
           id: 'driver-1',
           phone: '+250788123456',
           fullName: 'Legacy Driver',
