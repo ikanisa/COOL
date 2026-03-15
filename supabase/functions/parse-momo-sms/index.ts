@@ -413,6 +413,40 @@ Deno.serve(async (request: Request) => {
         },
       });
 
+      // ── Push notification for successfully parsed payment ──────────
+      if (
+        parsed.parse_status === "parsed" &&
+        parsed.amount != null &&
+        parsed.amount > 0
+      ) {
+        try {
+          const { sendToUser } = await import("../_shared/fcm.ts");
+          const amountStr = new Intl.NumberFormat("en-RW", {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+          }).format(parsed.amount);
+          const currency = parsed.currency ?? "RWF";
+          const counterparty = parsed.counterparty_name ?? "MoMo";
+          const direction = parsed.tx_direction === "credit"
+            ? "received from"
+            : "sent to";
+
+          await sendToUser(rawSms.user_id, {
+            title: parsed.tx_direction === "credit"
+              ? "Payment Received 💰"
+              : "Payment Sent",
+            body: `${amountStr} ${currency} ${direction} ${counterparty}`,
+          }, {
+            route: "/momo",
+            type: "momo_payment",
+            raw_sms_id: rawSmsId,
+          });
+        } catch (notifError) {
+          // Non-fatal: log but don't fail the parse flow.
+          console.error("parse-momo-sms push notification failed:", notifError);
+        }
+      }
+
       return jsonResponse({
         success: true,
         rawSmsId,
