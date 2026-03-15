@@ -163,13 +163,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       backgroundColor: AppColors.bg,
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: Text(
-          'Finish profile',
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: AppColors.text,
-          ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () => context.pop(),
+          icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
       ),
       body: CoolScreenBackground(
@@ -182,22 +180,30 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 12),
-
-                if (widget.phone.isNotEmpty) ...[
-                  _VerifiedPhoneCard(phoneNumber: widget.phone),
-                  const SizedBox(height: 16),
-                ],
                 Text(
-                  'Finish setup to start using Cool.',
+                  'Create Profile',
                   style: GoogleFonts.dmSans(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
+                    fontSize: 34,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.text,
+                    height: 1.1,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  'Setup your account to start using Cool.',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
                     color: AppColors.text2,
-                    height: 1.45,
                   ),
                 ),
                 const SizedBox(height: 24),
+
+                if (widget.phone.isNotEmpty) ...[
+                  _VerifiedPhoneCard(phoneNumber: widget.phone),
+                  const SizedBox(height: 24),
+                ],
 
                 // ── Full Name ──────────────────────────────────────────
                 CoolTextField(
@@ -252,25 +258,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 12),
-                Text(
-                  '${selectedCountry.displayName} · ${selectedCountry.currencyCode}',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.text3,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Cool serves Rwanda only. WhatsApp sign-in can still use any country code.',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.text3,
-                    height: 1.4,
-                  ),
-                ),
+
                 const SizedBox(height: 20),
 
                 // ── MOMO Number ────────────────────────────────────────
@@ -318,7 +306,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 const SizedBox(height: 16),
                 Semantics(
                   button: true,
-                  label: _showOptionalDetails ? 'Hide optional details' : 'Show optional details',
+                  label: _showOptionalDetails
+                      ? 'Hide optional details'
+                      : 'Show optional details',
                   child: GestureDetector(
                     onTap: () => setState(
                       () => _showOptionalDetails = !_showOptionalDetails,

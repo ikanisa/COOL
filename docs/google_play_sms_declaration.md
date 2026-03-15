@@ -70,7 +70,7 @@ The app already includes explicit in-app disclosure before SMS sync is enabled:
 
 - SMS access disclosure in [profile_app_access_sheet.dart](/Volumes/PRO-G40/COOL/lib/features/profile/widgets/profile_app_access_sheet.dart#L712)
 - Mobile Money hub in [momo_screen.dart](/Volumes/PRO-G40/COOL/lib/features/momo/screens/momo_screen.dart#L1)
-- privacy policy disclosure at [privacy page](https://gen-lang-client-0172279957.web.app/privacy)
+- privacy policy disclosure at [privacy page](https://cool.ikanisa.com/privacy)
 
 ### Build and manifest
 
@@ -97,7 +97,7 @@ Capture and provide:
    - Cool detects it
    - transaction status changes to confirmed
 4. Privacy policy URL:
-   - `https://gen-lang-client-0172279957.web.app/privacy`
+   - `https://cool.ikanisa.com/privacy`
 5. Test account / review-access details from [play_review_access.md](/Volumes/PRO-G40/COOL/docs/play_review_access.md#L1)
 
 ## Remaining Requirement

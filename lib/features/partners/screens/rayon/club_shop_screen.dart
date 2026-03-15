@@ -6,8 +6,10 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/rs_colors.dart';
+import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/rs_shop_item.dart';
 import '../../rayon/models/rs_models.dart';
+import '../../rayon/rayon_payment.dart';
 
 import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/rayon_screen_scaffold.dart';
@@ -40,43 +42,43 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
           button: true,
           label: 'Shopping cart, $cartItemCount items',
           child: GestureDetector(
-          onTap: cartItemCount > 0
-              ? () => context.push('/partners/rayon-sports/shop/checkout')
-              : null,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                const Icon(
-                  Icons.shopping_bag_outlined,
-                  color: AppColors.rsWhite,
-                  size: 22,
-                ),
-                if (cartItemCount > 0)
-                  Positioned(
-                    right: -6,
-                    top: -4,
-                    child: Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: const BoxDecoration(
-                        color: RsColors.rsGold,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Text(
-                        '$cartItemCount',
-                        style: GoogleFonts.dmMono(
-                          fontSize: 9,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.black,
+            onTap: cartItemCount > 0
+                ? () => context.push('/partners/rayon-sports/shop/checkout')
+                : null,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 16),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  const Icon(
+                    Icons.shopping_bag_outlined,
+                    color: AppColors.rsWhite,
+                    size: 22,
+                  ),
+                  if (cartItemCount > 0)
+                    Positioned(
+                      right: -6,
+                      top: -4,
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: const BoxDecoration(
+                          color: RsColors.rsGold,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Text(
+                          '$cartItemCount',
+                          style: GoogleFonts.dmMono(
+                            fontSize: 9,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
         ),
       ],
       child: shopCatalog.when(
@@ -115,152 +117,11 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
                         padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
                         sliver: SliverList(
                           delegate: SliverChildListDelegate([
-                            Container(
-                              width: double.infinity,
-                              padding: const EdgeInsets.all(18),
-                              decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    Color(0xFF0A1E60),
-                                    Color(0xFF0D2878),
-                                  ],
-                                ),
-                                borderRadius: BorderRadius.circular(16),
-                                border: Border.all(
-                                  color: RsColors.rsBlueBorder,
-                                ),
-                              ),
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    right: -10,
-                                    top: -10,
-                                    child: Opacity(
-                                      opacity: 0.15,
-                                      child: Icon(
-                                        Icons.sports_soccer_rounded,
-                                        size: 80,
-                                        color: AppColors.rsWhite,
-                                      ),
-                                    ),
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.shopping_bag_rounded,
-                                            size: 22,
-                                            color: AppColors.text,
-                                          ),
-                                          const SizedBox(width: 10),
-                                          Expanded(
-                                            child: Text(
-                                              'Official gear, real colors.',
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              style:
-                                                  GoogleFonts.barlowCondensed(
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.w800,
-                                                    color: AppColors.rsWhite,
-                                                  ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 6),
-                                      Text(
-                                        paymentRoute == null
-                                            ? 'Checkout appears once backend payment routing is active.'
-                                            : 'Pay to ${paymentRoute.payToLabel} at checkout.',
-                                        style: GoogleFonts.barlow(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500,
-                                          color: AppColors.text2,
-                                          height: 1.35,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Text(
-                                        '${shop.products.length} items across ${categoryOptions.length - 1} collections.',
-                                        style: GoogleFonts.dmMono(
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w600,
-                                          color: AppColors.text2,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Wrap(
-                                        spacing: 8,
-                                        runSpacing: 8,
-                                        children: [
-                                          if (hasMemberDiscount)
-                                            Container(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                    horizontal: 10,
-                                                    vertical: 5,
-                                                  ),
-                                              decoration: BoxDecoration(
-                                                color: RsColors.rsGold
-                                                    .withValues(alpha: 0.18),
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                border: Border.all(
-                                                  color: RsColors.rsGold
-                                                      .withValues(alpha: 0.4),
-                                                ),
-                                              ),
-                                              child: Text(
-                                                'GOLD −10%',
-                                                style:
-                                                    GoogleFonts.barlowCondensed(
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.w800,
-                                                      color:
-                                                          RsColors.rsGoldLight,
-                                                    ),
-                                              ),
-                                            ),
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 10,
-                                              vertical: 5,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white.withValues(
-                                                alpha: 0.08,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              border: Border.all(
-                                                color: Colors.white.withValues(
-                                                  alpha: 0.14,
-                                                ),
-                                              ),
-                                            ),
-                                            child: Text(
-                                              paymentRoute?.payToLabel ??
-                                                  'Route pending',
-                                              style: GoogleFonts.dmMono(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w700,
-                                                color: AppColors.rsWhite,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                            _ShopSummaryCard(
+                              itemCount: shop.products.length,
+                              collectionCount: categoryOptions.length - 1,
+                              hasMemberDiscount: hasMemberDiscount,
+                              paymentRoute: paymentRoute,
                             ),
                             const SizedBox(height: 16),
                             SizedBox(
@@ -278,64 +139,66 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
                                     selected: selected,
                                     label: '${category.label} category filter',
                                     child: GestureDetector(
-                                    onTap: () => setState(
-                                      () =>
-                                          _selectedCategory = category.category,
-                                    ),
-                                    child: AnimatedContainer(
-                                      duration: const Duration(
-                                        milliseconds: 180,
+                                      onTap: () => setState(
+                                        () => _selectedCategory =
+                                            category.category,
                                       ),
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 12,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: selected
-                                            ? RsColors.rsBlue
-                                            : AppColors.surface2,
-                                        borderRadius: BorderRadius.circular(20),
-                                        border: Border.all(
-                                          color: selected
-                                              ? RsColors.rsBlueBorder
-                                              : AppColors.border,
+                                      child: AnimatedContainer(
+                                        duration: const Duration(
+                                          milliseconds: 180,
                                         ),
-                                      ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Icon(
-                                            category.icon,
-                                            size: 14,
-                                            color: selected
-                                                ? Colors.white
-                                                : AppColors.text2,
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 12,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: selected
+                                              ? RsColors.rsBlue
+                                              : AppColors.surface2,
+                                          borderRadius: BorderRadius.circular(
+                                            20,
                                           ),
-                                          const SizedBox(width: 6),
-                                          Text(
-                                            category.label,
-                                            style: GoogleFonts.barlow(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w700,
+                                          border: Border.all(
+                                            color: selected
+                                                ? RsColors.rsBlueBorder
+                                                : AppColors.border,
+                                          ),
+                                        ),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Icon(
+                                              category.icon,
+                                              size: 14,
                                               color: selected
                                                   ? Colors.white
                                                   : AppColors.text2,
                                             ),
-                                          ),
-                                          const SizedBox(width: 6),
-                                          Text(
-                                            '${category.count}',
-                                            style: GoogleFonts.dmMono(
-                                              fontSize: 11,
-                                              fontWeight: FontWeight.w700,
-                                              color: selected
-                                                  ? Colors.white70
-                                                  : AppColors.text3,
+                                            const SizedBox(width: 6),
+                                            Text(
+                                              category.label,
+                                              style: GoogleFonts.barlow(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w700,
+                                                color: selected
+                                                    ? Colors.white
+                                                    : AppColors.text2,
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                            const SizedBox(width: 6),
+                                            Text(
+                                              '${category.count}',
+                                              style: GoogleFonts.dmMono(
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.w700,
+                                                color: selected
+                                                    ? Colors.white70
+                                                    : AppColors.text3,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
                                   );
                                 },
                               ),
@@ -396,65 +259,14 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
                       left: 0,
                       right: 0,
                       bottom: 0,
-                      child: Semantics(
-                        button: true,
-                        label: 'Checkout cart',
-                        child: GestureDetector(
+                      child: _CheckoutFooterBar(
+                        itemCount: shop.cartItemCount,
+                        total: shop.cartTotal,
+                        enabled: paymentRoute != null,
                         onTap: () => context.push(
                           '/partners/rayon-sports/shop/checkout',
                         ),
-                        child: Container(
-                          margin: const EdgeInsets.all(12),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 18,
-                            vertical: 14,
-                          ),
-                          decoration: BoxDecoration(
-                            color: RsColors.rsBlue,
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [
-                              BoxShadow(
-                                color: RsColors.rsBlue.withValues(alpha: 0.4),
-                                blurRadius: 20,
-                                offset: const Offset(0, 8),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              Text(
-                                '${shop.cartItemCount} Items',
-                                style: GoogleFonts.barlow(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              const Spacer(),
-                              Text(
-                                '${shop.cartTotal} RWF',
-                                style: GoogleFonts.dmMono(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                  color: RsColors.rsGoldLight,
-                                ),
-                              ),
-                              const SizedBox(width: 10),
-                              Text(
-                                paymentRoute == null
-                                    ? 'Checkout pending →'
-                                    : '${paymentRoute.providerLabel} Checkout →',
-                                style: GoogleFonts.barlow(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                       ),
-                    ),
                     ),
                 ],
               );
@@ -503,6 +315,238 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
         ),
       ),
     ];
+  }
+}
+
+class _ShopSummaryCard extends StatelessWidget {
+  const _ShopSummaryCard({
+    required this.itemCount,
+    required this.collectionCount,
+    required this.hasMemberDiscount,
+    this.paymentRoute,
+  });
+
+  final int itemCount;
+  final int collectionCount;
+  final bool hasMemberDiscount;
+  final PartnerPaymentRoute? paymentRoute;
+
+  @override
+  Widget build(BuildContext context) {
+    final checkoutNote = paymentRoute == null
+        ? 'Checkout opens once partner payment routing is active.'
+        : 'Pay to ${paymentRoute!.payToLabel} during checkout.';
+
+    return CoolCard(
+      borderColor: AppColors.border2,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Official gear, real colors.',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.barlowCondensed(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.rsWhite,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      '$itemCount items across $collectionCount collections.',
+                      style: GoogleFonts.barlow(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.text2,
+                        height: 1.35,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: RsColors.rsBlue.withValues(alpha: 0.14),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: RsColors.rsBlueBorder),
+                ),
+                alignment: Alignment.center,
+                child: const Icon(
+                  Icons.shopping_bag_rounded,
+                  size: 20,
+                  color: AppColors.rsWhite,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          Text(
+            checkoutNote,
+            style: GoogleFonts.barlow(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: AppColors.text2,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              if (hasMemberDiscount)
+                _ShopMetaPill(
+                  label: 'Gold -10%',
+                  foregroundColor: RsColors.rsGoldLight,
+                  backgroundColor: RsColors.rsGold.withValues(alpha: 0.14),
+                  borderColor: RsColors.rsGold.withValues(alpha: 0.28),
+                ),
+              _ShopMetaPill(
+                label: paymentRoute?.providerLabel ?? 'Route pending',
+                foregroundColor: AppColors.rsWhite,
+                backgroundColor: RsColors.rsBlue.withValues(alpha: 0.14),
+                borderColor: RsColors.rsBlueBorder,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ShopMetaPill extends StatelessWidget {
+  const _ShopMetaPill({
+    required this.label,
+    required this.foregroundColor,
+    required this.backgroundColor,
+    required this.borderColor,
+  });
+
+  final String label;
+  final Color foregroundColor;
+  final Color backgroundColor;
+  final Color borderColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: borderColor),
+      ),
+      child: Text(
+        label,
+        style: GoogleFonts.dmMono(
+          fontSize: 11,
+          fontWeight: FontWeight.w700,
+          color: foregroundColor,
+        ),
+      ),
+    );
+  }
+}
+
+class _CheckoutFooterBar extends StatelessWidget {
+  const _CheckoutFooterBar({
+    required this.itemCount,
+    required this.total,
+    required this.enabled,
+    required this.onTap,
+  });
+
+  final int itemCount;
+  final int total;
+  final bool enabled;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      label: 'Checkout cart',
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          margin: const EdgeInsets.all(12),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+          decoration: BoxDecoration(
+            color: enabled ? RsColors.rsBlue : AppColors.surface2,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: enabled ? RsColors.rsBlueBorder : AppColors.border,
+            ),
+            boxShadow: enabled
+                ? [
+                    BoxShadow(
+                      color: RsColors.rsBlue.withValues(alpha: 0.28),
+                      blurRadius: 20,
+                      offset: const Offset(0, 8),
+                    ),
+                  ]
+                : null,
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '$itemCount items',
+                      style: GoogleFonts.barlow(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      enabled ? 'Ready for checkout' : 'Checkout pending',
+                      style: GoogleFonts.barlow(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white.withValues(alpha: 0.78),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                '$total RWF',
+                style: GoogleFonts.dmMono(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: enabled ? RsColors.rsGoldLight : AppColors.text2,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                'Checkout',
+                style: GoogleFonts.barlow(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 

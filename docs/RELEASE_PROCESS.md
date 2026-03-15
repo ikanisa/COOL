@@ -110,16 +110,33 @@ Staff (internal) → Beta (1-2 weeks soak) → Production
 | `KEY_ALIAS` | Keystore alias |
 | `KEY_PASSWORD` | Key password |
 | `STORE_PASSWORD` | Store password |
+| `SUPABASE_URL` | Production Supabase project URL passed via `--dart-define` |
+| `SUPABASE_ANON_KEY` | Production Supabase anon key passed via `--dart-define` |
+| `FIREBASE_ANDROID_PRODUCTION_API_KEY` | Android production Firebase API key |
+| `FIREBASE_ANDROID_PRODUCTION_APP_ID` | Android production Firebase app id |
+| `FIREBASE_ANDROID_PRODUCTION_MESSAGING_SENDER_ID` | Android production Firebase sender id |
+| `FIREBASE_ANDROID_PRODUCTION_PROJECT_ID` | Android production Firebase project id |
+| `FIREBASE_ANDROID_PRODUCTION_STORAGE_BUCKET` | Android production Firebase storage bucket |
 | `FIREBASE_APP_ID` | Firebase Android app ID |
 | `FIREBASE_SERVICE_ACCOUNT` | Firebase service account JSON |
+| `COOL_ANDROID_PLAY_APP_SIGNING_SHA256_CERT_FINGERPRINT` | Final Google Play app-signing SHA-256 fingerprint |
+| `COOL_IOS_TEAM_ID` | Apple Developer Team ID for the production bundle |
+| `COOL_IOS_APP_STORE_ID` | Production App Store listing ID |
 
 ## Native Release Inputs
 
 Production iOS validation is intentionally fail-fast now. Before cutting a release,
 ensure all of the following are present locally or in CI:
 
-- `ios/Runner/GoogleService-Info.plist` for bundle id `app.cool.mobile`
-- populated `deeplinks/release_metadata.json` values for `ios.teamId` and `ios.appStoreId`
+- `FIREBASE_IOS_PRODUCTION_API_KEY`
+- `FIREBASE_IOS_PRODUCTION_APP_ID`
+- `FIREBASE_IOS_PRODUCTION_MESSAGING_SENDER_ID`
+- `FIREBASE_IOS_PRODUCTION_PROJECT_ID`
+- `FIREBASE_IOS_PRODUCTION_STORAGE_BUCKET`
+- `FIREBASE_IOS_PRODUCTION_BUNDLE_ID`
+- `COOL_ANDROID_PLAY_APP_SIGNING_SHA256_CERT_FINGERPRINT`
+- `COOL_IOS_TEAM_ID`
+- `COOL_IOS_APP_STORE_ID`
 
 Client `GOOGLE_MAPS_ANDROID_API_KEY` and `GOOGLE_MAPS_IOS_API_KEY` are optional
 in this repo. If absent, the app still ships, but embedded

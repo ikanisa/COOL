@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/router/app_routes.dart';
 import '../../../core/services/momo_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_button.dart';
@@ -17,8 +18,6 @@ import '../widgets/driver_profile_models.dart';
 import '../widgets/driver_subscription_widgets.dart';
 import '../widgets/driver_vehicle_trip_widgets.dart';
 
-enum _DriverProfileView { overview, manage }
-
 /// Driver profile for mobility partners.
 ///
 /// Wired to [driverProvider] for profile, subscription, and trip data.
@@ -32,71 +31,12 @@ class DriverProfileScreen extends ConsumerStatefulWidget {
 }
 
 class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
-  SubscriptionPlan _selectedPlan = MomoService.motoTaxiPlan;
-  bool _isLaunchingSubscription = false;
-  _DriverProfileView _activeView = _DriverProfileView.overview;
-
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
       ref.read(driverProvider.notifier).loadDriverProfile();
     });
-  }
-
-  Future<void> _openVehicleEditor() async {
-    final driverState = ref.read(driverProvider);
-    final profile = driverState.profile;
-    final currentVehicle = VehicleData(
-      type: profile?.vehicleType ?? 'Moto Taxi',
-      plateNumber: profile?.plateNumber ?? profile?.vehicleDescription ?? '',
-      baseLocation: profile?.baseLocation ?? '',
-      status: _vehicleVerificationLabel(profile?.vehicleStatus),
-    );
-    final updatedVehicle = await showModalBottomSheet<VehicleData>(
-      context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (context) => EditVehicleSheet(vehicle: currentVehicle),
-    );
-
-    if (!mounted || updatedVehicle == null) return;
-
-    await ref
-        .read(driverProvider.notifier)
-        .updateVehicle(
-          updatedVehicle.type,
-          updatedVehicle.plateNumber,
-          updatedVehicle.baseLocation,
-        );
-  }
-
-  Future<void> _paySubscription() async {
-    if (_isLaunchingSubscription) return;
-
-    setState(() => _isLaunchingSubscription = true);
-
-    try {
-      await ref
-          .read(driverProvider.notifier)
-          .initiateSubscription(_selectedPlan);
-
-      if (!mounted) return;
-      final error = ref.read(driverProvider).error;
-      if (error != null) {
-        CoolToast.error(context, error);
-      }
-    } catch (_) {
-      if (!mounted) return;
-      CoolToast.error(
-        context,
-        'Unable to open the USSD dialer. Please try again.',
-      );
-    } finally {
-      if (mounted) {
-        setState(() => _isLaunchingSubscription = false);
-      }
-    }
   }
 
   Future<void> _toggleOnlineStatus(bool value) async {
@@ -199,7 +139,9 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
     // Build display model from provider state.
     final vehicle = VehicleData(
       type: profile?.vehicleType ?? currentUser?.vehicleType ?? 'Moto Taxi',
-      plateNumber: displayValue(profile?.plateNumber ?? profile?.vehicleDescription),
+      plateNumber: displayValue(
+        profile?.plateNumber ?? profile?.vehicleDescription,
+      ),
       baseLocation: displayValue(profile?.baseLocation),
       status: _vehicleVerificationLabel(profile?.vehicleStatus),
     );
@@ -248,81 +190,37 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          DriverViewSwitcher(
-            activeIndex: _activeView.index,
-            onChanged: (index) {
-              setState(() => _activeView = _DriverProfileView.values[index]);
-            },
+          _DriverDashboardCard(
+            driver: driver,
+            planLabel:
+                activeSubscription?.plan.displayName ?? 'Free driver plan',
+            onAvailabilityChanged: _toggleOnlineStatus,
+            onAddReturnTrip: () =>
+                context.push('${AppRoutes.mobilitySchedule}?role=driver'),
+            onOpenVehicle: () => context.push(AppRoutes.mobilityDriverVehicle),
+            onOpenSubscription: () =>
+                context.push(AppRoutes.mobilityDriverSubscription),
           ),
+          const SizedBox(height: 16),
+          if (activeSubscription != null)
+            ActiveSubscriptionCard(subscription: activeSubscription, now: now)
+          else
+            DriverSubscriptionSummaryCard(
+              freeTripsRemaining: driver.freeTripsRemaining,
+              tripsUsedThisMonth: driver.tripsUsedThisMonth,
+              showUpgradeHint: shouldShowUpgradeBanner,
+              onOpenManage: () =>
+                  context.push(AppRoutes.mobilityDriverSubscription),
+            ),
           const SizedBox(height: 18),
-          if (_activeView == _DriverProfileView.overview) ...[
-            _DriverDashboardCard(
-              driver: driver,
-              planLabel:
-                  activeSubscription?.plan.displayName ?? 'Free driver plan',
-              onAvailabilityChanged: _toggleOnlineStatus,
-              onAddReturnTrip: () =>
-                  context.push('/mobility/schedule?role=driver'),
-              onOpenManage: () {
-                setState(() => _activeView = _DriverProfileView.manage);
-              },
-            ),
-            const SizedBox(height: 16),
-            if (activeSubscription != null)
-              ActiveSubscriptionCard(subscription: activeSubscription, now: now)
-            else
-              DriverSubscriptionSummaryCard(
-                freeTripsRemaining: driver.freeTripsRemaining,
-                tripsUsedThisMonth: driver.tripsUsedThisMonth,
-                showUpgradeHint: shouldShowUpgradeBanner,
-                onOpenManage: () {
-                  setState(() => _activeView = _DriverProfileView.manage);
-                },
-              ),
-            const SizedBox(height: 18),
-            _DriverSectionIntro(
-              title: todaysTrips.isNotEmpty
-                  ? 'Today\'s trips'
-                  : 'Upcoming trips',
-              subtitle: visibleTrips.isEmpty
-                  ? 'Your next posted rides will show here.'
-                  : 'Keep the next rides visible and current.',
-            ),
-            const SizedBox(height: 10),
-            ScheduledTripsCard(trips: visibleTrips),
-          ] else ...[
-            _DriverManageSummaryCard(
-              vehicle: driver.vehicle,
-              planLabel:
-                  activeSubscription?.plan.displayName ??
-                  (shouldShowUpgradeBanner
-                      ? 'Upgrade available'
-                      : 'Free driver plan'),
-              onEditVehicle: _openVehicleEditor,
-            ),
-            const SizedBox(height: 16),
-            VehicleInfoCard(vehicle: driver.vehicle),
-            const SizedBox(height: 16),
-            if (activeSubscription != null)
-              ActiveSubscriptionCard(subscription: activeSubscription, now: now)
-            else if (shouldShowUpgradeBanner)
-              DriverSubscriptionBanner(
-                tripsUsedCount: driver.tripsUsedThisMonth,
-                freeTripsRemaining: driver.freeTripsRemaining,
-                selectedPlan: _selectedPlan,
-                isLoading: _isLaunchingSubscription,
-                onPlanSelected: (plan) {
-                  setState(() => _selectedPlan = plan);
-                },
-                onPayTap: _paySubscription,
-              )
-            else
-              DriverSubscriptionSummaryCard(
-                freeTripsRemaining: driver.freeTripsRemaining,
-                tripsUsedThisMonth: driver.tripsUsedThisMonth,
-                showUpgradeHint: false,
-              ),
-          ],
+          _DriverSectionIntro(
+            title: todaysTrips.isNotEmpty ? 'Today\'s trips' : 'Upcoming trips',
+            subtitle: visibleTrips.isEmpty
+                ? 'Your next posted rides will show here.'
+                : 'Keep the next rides visible and current.',
+          ),
+          const SizedBox(height: 10),
+          ScheduledTripsCard(trips: visibleTrips),
         ],
       ),
     );
@@ -334,11 +232,12 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
       'pending_review' => 'Pending Review',
       'maintenance' => 'Maintenance',
       null || '' => 'Pending Review',
-      final value => value
-          .split('_')
-          .where((part) => part.isNotEmpty)
-          .map((part) => '${part[0].toUpperCase()}${part.substring(1)}')
-          .join(' '),
+      final value =>
+        value
+            .split('_')
+            .where((part) => part.isNotEmpty)
+            .map((part) => '${part[0].toUpperCase()}${part.substring(1)}')
+            .join(' '),
     };
   }
 }
@@ -349,14 +248,16 @@ class _DriverDashboardCard extends StatelessWidget {
     required this.planLabel,
     required this.onAvailabilityChanged,
     required this.onAddReturnTrip,
-    required this.onOpenManage,
+    required this.onOpenVehicle,
+    required this.onOpenSubscription,
   });
 
   final DriverProfileData driver;
   final String planLabel;
   final ValueChanged<bool> onAvailabilityChanged;
   final VoidCallback onAddReturnTrip;
-  final VoidCallback onOpenManage;
+  final VoidCallback onOpenVehicle;
+  final VoidCallback onOpenSubscription;
 
   @override
   Widget build(BuildContext context) {
@@ -477,12 +378,19 @@ class _DriverDashboardCard extends StatelessWidget {
           const SizedBox(height: 16),
           CoolButton(label: 'Add return trip', onTap: onAddReturnTrip),
           const SizedBox(height: 8),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: TextButton(
-              onPressed: onOpenManage,
-              child: const Text('Manage vehicle and plan'),
-            ),
+          Wrap(
+            spacing: 4,
+            runSpacing: 4,
+            children: [
+              TextButton(
+                onPressed: onOpenVehicle,
+                child: const Text('Vehicle'),
+              ),
+              TextButton(
+                onPressed: onOpenSubscription,
+                child: const Text('Subscription'),
+              ),
+            ],
           ),
         ],
       ),
@@ -569,127 +477,6 @@ class _DriverSectionIntro extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _DriverManageSummaryCard extends StatelessWidget {
-  const _DriverManageSummaryCard({
-    required this.vehicle,
-    required this.planLabel,
-    required this.onEditVehicle,
-  });
-
-  final VehicleData vehicle;
-  final String planLabel;
-  final VoidCallback onEditVehicle;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Vehicle and plan',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.text,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Keep your vehicle details current and review subscription access in one place.',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.text2,
-                        height: 1.4,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              TextButton(
-                onPressed: onEditVehicle,
-                child: const Text('Edit vehicle'),
-              ),
-            ],
-          ),
-          const SizedBox(height: 14),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _DriverInfoPill(
-                icon: tripVehicleIcon(vehicle.type),
-                label: vehicle.type,
-              ),
-              _DriverInfoPill(
-                icon: Icons.verified_rounded,
-                label: planLabel,
-                valueColor: AppColors.blue,
-              ),
-              _DriverInfoPill(
-                icon: Icons.circle,
-                label: vehicle.status,
-                valueColor: vehicle.statusColor,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _DriverInfoPill extends StatelessWidget {
-  const _DriverInfoPill({
-    required this.icon,
-    required this.label,
-    this.valueColor = AppColors.text2,
-  });
-
-  final IconData icon;
-  final String label;
-  final Color valueColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: AppColors.surface3,
-        borderRadius: BorderRadius.circular(999),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 14, color: valueColor),
-          const SizedBox(width: 6),
-          Text(
-            label,
-            style: GoogleFonts.dmSans(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: valueColor,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

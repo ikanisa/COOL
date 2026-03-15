@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cool_app/features/mobility/models/trip.dart';
 import 'package:cool_app/features/mobility/models/trip_post_request.dart';
 import 'package:cool_app/core/models/geo_point.dart';
@@ -8,6 +10,7 @@ import '../../../core/auth/auth_user_contact.dart';
 import '../../../core/config/app_market.dart';
 import '../../../core/providers/engagement_providers.dart';
 import '../../../core/providers/supabase_client_provider.dart';
+import '../../../core/services/app_review_service.dart';
 import '../../../core/services/crashlytics_service.dart';
 import '../../../core/services/engagement_tracker.dart';
 import '../../../core/services/performance_service.dart';
@@ -36,6 +39,7 @@ final mobilityProvider = StateNotifierProvider<MobilityNotifier, MobilityState>(
     final crashlytics = ref.read(crashlyticsServiceProvider);
     final engagement = ref.read(engagementTrackerProvider);
     final performance = ref.read(performanceServiceProvider);
+    final appReview = ref.read(appReviewServiceProvider);
     return MobilityNotifier(
       repository: repository,
       tripRepository: tripRepository,
@@ -43,6 +47,7 @@ final mobilityProvider = StateNotifierProvider<MobilityNotifier, MobilityState>(
       crashlytics: crashlytics,
       engagement: engagement,
       performance: performance,
+      appReview: appReview,
     );
   },
 );
@@ -171,12 +176,14 @@ class MobilityNotifier extends StateNotifier<MobilityState> {
     required CrashlyticsService crashlytics,
     required EngagementTracker engagement,
     required PerformanceService performance,
+    required AppReviewService appReview,
   }) : _repository = repository,
        _tripRepository = tripRepository,
        _authState = authState,
        _crashlytics = crashlytics,
        _engagement = engagement,
        _performance = performance,
+       _appReview = appReview,
        super(const MobilityState());
 
   final MobilityRepository _repository;
@@ -185,6 +192,7 @@ class MobilityNotifier extends StateNotifier<MobilityState> {
   final CrashlyticsService _crashlytics;
   final EngagementTracker _engagement;
   final PerformanceService _performance;
+  final AppReviewService _appReview;
 
   String? get _currentUserId =>
       _authState.user?.id ?? _authState.session?.user.id;
@@ -435,6 +443,9 @@ class MobilityNotifier extends StateNotifier<MobilityState> {
           isSubmittingTrip: false,
           submissionError: null,
         );
+
+        // Strong success moment: request app review.
+        unawaited(_appReview.requestReview());
       },
       error: (error, stack) {
         _performance.stopTrace(

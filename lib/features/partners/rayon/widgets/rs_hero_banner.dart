@@ -83,7 +83,11 @@ class RsHeroBanner extends StatelessWidget {
                           ),
                         ),
                         alignment: Alignment.center,
-                        child: const Icon(Icons.favorite_rounded, size: 26, color: AppColors.accent),
+                        child: const Icon(
+                          Icons.favorite_rounded,
+                          size: 26,
+                          color: AppColors.accent,
+                        ),
                       ),
                       const SizedBox(width: 14),
                       Expanded(

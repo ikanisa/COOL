@@ -528,7 +528,8 @@ List<ScreenBudgetEntry> _readScreenBudgets(Directory repoRoot) {
       continue;
     }
     final relativePath = entity.path.replaceFirst('${repoRoot.path}/', '');
-    final loc = entity.readAsLinesSync().length;
+    final content = entity.readAsStringSync();
+    final loc = content.isEmpty ? 0 : content.split('\n').length;
     entries.add(
       ScreenBudgetEntry(
         path: relativePath,

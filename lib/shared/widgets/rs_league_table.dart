@@ -79,7 +79,7 @@ class RsLeagueTable extends StatelessWidget {
             isHeader: true,
             isHighlighted: false,
           ),
-          const Divider(color: AppColors.border, height: 1),
+          Divider(color: AppColors.border, height: 1),
           const SizedBox(height: 6),
 
           // Rows
@@ -129,14 +129,12 @@ class _TableRow extends StatelessWidget {
     final bg = isHighlighted
         ? RsColors.rsBlue.withValues(alpha: 0.18)
         : Colors.transparent;
-    final border = isHighlighted
-        ? RsColors.rsBlueBorder
-        : Colors.transparent;
+    final border = isHighlighted ? RsColors.rsBlueBorder : Colors.transparent;
     final textColor = isHeader
         ? AppColors.text3
         : isHighlighted
-            ? RsColors.rsWhite
-            : AppColors.text2;
+        ? RsColors.rsWhite
+        : AppColors.text2;
     final textStyle = isHeader
         ? GoogleFonts.barlow(
             fontSize: 11,

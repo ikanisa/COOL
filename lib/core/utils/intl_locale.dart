@@ -3,7 +3,11 @@ import 'package:intl/intl.dart';
 
 const _fallbackIntlLocale = 'en';
 
-/// The COOL app is English-only. Always returns 'en'.
+/// COOL is fixed to the Rwanda market and English-only.
+///
+/// Formatting must not follow the device locale because that would create
+/// mixed-language and mixed-format behavior in a product that intentionally
+/// enforces a single market and language.
 String resolveIntlLocale(
   BuildContext context, {
   String fallback = _fallbackIntlLocale,
@@ -11,7 +15,7 @@ String resolveIntlLocale(
   return _fallbackIntlLocale;
 }
 
-/// The COOL app is English-only. Always returns 'en'.
+/// COOL is English-only. Locale input is intentionally ignored.
 String resolveIntlLocaleTag(
   Locale? locale, {
   String fallback = _fallbackIntlLocale,
@@ -39,4 +43,3 @@ DateFormat safeDateFormat(
     return DateFormat(pattern);
   }
 }
-

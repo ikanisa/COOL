@@ -98,11 +98,7 @@ class ConfigTile extends StatelessWidget {
           label: 'Edit ${config['key'] ?? 'config'}',
           child: GestureDetector(
             onTap: onEdit,
-            child: const Icon(
-              Icons.edit_rounded,
-              size: 18,
-              color: AppColors.text3,
-            ),
+            child: Icon(Icons.edit_rounded, size: 18, color: AppColors.text3),
           ),
         ),
       ),
@@ -158,7 +154,7 @@ class RolloutCard extends StatelessWidget {
               IconButton(
                 onPressed: onEdit,
                 tooltip: 'Edit rollout settings',
-                icon: const Icon(Icons.tune_rounded, color: AppColors.text),
+                icon: Icon(Icons.tune_rounded, color: AppColors.text),
               ),
             ],
           ),
@@ -272,11 +268,7 @@ class MobilitySubscriptionConfigTile extends StatelessWidget {
           label: 'Edit MoMo subscription config',
           child: GestureDetector(
             onTap: onEdit,
-            child: const Icon(
-              Icons.edit_rounded,
-              size: 18,
-              color: AppColors.text3,
-            ),
+            child: Icon(Icons.edit_rounded, size: 18, color: AppColors.text3),
           ),
         ),
       ),
@@ -356,7 +348,7 @@ class PartnerPaymentRouteConfigTile extends StatelessWidget {
               label: 'Edit payment route for $partnerName',
               child: GestureDetector(
                 onTap: onEdit,
-                child: const Icon(
+                child: Icon(
                   Icons.edit_rounded,
                   size: 18,
                   color: AppColors.text3,

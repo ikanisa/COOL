@@ -17,7 +17,7 @@ class CoolSeason extends Equatable {
 
   final String id;
   final String title;
-  final String theme;    // 'savings', 'supporter', 'commuter', 'matchday'
+  final String theme; // 'savings', 'supporter', 'commuter', 'matchday'
   final String emoji;
   final DateTime startsAt;
   final DateTime endsAt;
@@ -67,7 +67,14 @@ class CoolSeason extends Equatable {
 
   @override
   List<Object?> get props => [
-    id, title, theme, emoji, startsAt, endsAt, isActive, rewardsDescription,
+    id,
+    title,
+    theme,
+    emoji,
+    startsAt,
+    endsAt,
+    isActive,
+    rewardsDescription,
   ];
 }
 

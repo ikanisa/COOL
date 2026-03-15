@@ -3,15 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
 import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../providers/rayon_sports_provider.dart';
-import '../../widgets/partner_navigation.dart';
 import '../models/rs_models.dart';
 import '../providers/rs_admin_provider.dart';
+import '../widgets/rs_admin_shell.dart';
 
 /// Admin screen for managing shop orders — all orders, status pipeline.
 class RsAdminOrdersScreen extends ConsumerWidget {
@@ -29,27 +28,28 @@ class RsAdminOrdersScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ordersAsync = ref.watch(rsAdminOrdersProvider);
 
-    return Scaffold(
-      backgroundColor: AppColors.bg,
-      appBar: AppBar(
-        backgroundColor: AppColors.rsBlue,
-        elevation: 0,
-        leading: buildPartnerBackButton(
-          context,
-          fallbackLocation: AppRoutes.adminRayon,
-          color: Colors.white,
+    return RsAdminShell(
+      title: 'Shop Orders',
+      subtitle:
+          'Keep the fulfilment queue readable from confirmation through delivery.',
+      metrics: [
+        RsAdminMetric(
+          label: 'orders',
+          value:
+              ordersAsync.whenOrNull(data: (orders) => '${orders.length}') ??
+              '...',
         ),
-        title: Text(
-          'Shop Orders',
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-          ),
+        RsAdminMetric(
+          label: 'pending',
+          value:
+              ordersAsync.whenOrNull(
+                data: (orders) =>
+                    '${orders.where((order) => order.status == OrderStatus.pending).length}',
+              ) ??
+              '...',
         ),
-        actions: buildPartnerAppBarActions(context, homeColor: Colors.white),
-      ),
-      body: CoolAsyncView<List<RsShopOrder>>(
+      ],
+      child: CoolAsyncView<List<RsShopOrder>>(
         value: ordersAsync,
         onRetry: () => ref.invalidate(rsAdminOrdersProvider),
         loadingWidget: const Padding(
@@ -62,7 +62,7 @@ class RsAdminOrdersScreen extends ConsumerWidget {
           icon: Icons.shopping_bag_outlined,
         ),
         builder: (orders) => ListView.separated(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.zero,
           itemCount: orders.length,
           separatorBuilder: (context, index) => const SizedBox(height: 10),
           itemBuilder: (context, index) {

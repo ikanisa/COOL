@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -8,7 +10,7 @@ import '../config/app_config_repository.dart';
 import '../config/country_catalog.dart';
 import '../models/momo_qr_payload.dart';
 import '../repositories/supported_countries_repository.dart';
-import '../sync/sync_engine.dart';
+import 'app_review_service.dart';
 import 'crashlytics_service.dart';
 import 'hive_runtime.dart';
 import 'performance_service.dart';
@@ -42,36 +44,27 @@ extension SubscriptionPlanX on SubscriptionPlan {
 /// Most flows provide the destination recipient explicitly. Mobility
 /// subscription payments read their recipient code from admin-managed
 /// `app_config` instead of build-time env vars.
-///
-/// Pending transactions are written to Supabase when possible and cached in
-/// Hive when the app is offline or Supabase is unavailable.
 class MomoService {
   MomoService({
     required SupabaseClient client,
-    required OpenHiveBox<dynamic> openBox,
-    SyncEngine? syncEngine,
+    OpenHiveBox<dynamic>? openBox,
     AppConfigRepository? appConfigRepository,
     SupportedCountriesRepository? supportedCountriesRepository,
+    AppReviewService? appReviewService,
   }) : _client = client,
-       _openBox = openBox,
-       _syncEngine = syncEngine,
        _appConfigRepository =
            appConfigRepository ?? AppConfigRepository(client: client),
        _supportedCountriesRepository =
-           supportedCountriesRepository ?? SupportedCountriesRepository();
+           supportedCountriesRepository ?? SupportedCountriesRepository(),
+       _appReviewService = appReviewService;
 
   final SupabaseClient _client;
-  final OpenHiveBox<dynamic> _openBox;
-  final SyncEngine? _syncEngine;
   final AppConfigRepository _appConfigRepository;
   final SupportedCountriesRepository _supportedCountriesRepository;
+  final AppReviewService? _appReviewService;
 
   static const motoTaxiPlan = SubscriptionPlan.moto;
   static const cabOtherPlan = SubscriptionPlan.cabOther;
-
-  static const _pendingTransactionsTable = 'pending_transactions';
-  static const _pendingTransactionsCacheBox = 'pending_transactions_cache';
-  static const _syncDomain = 'momo_pending';
 
   // Firebase services for observability (late-bound, no-op if unavailable).
   CrashlyticsService? _crashlytics;
@@ -120,25 +113,6 @@ class MomoService {
       recipientType: recipientType,
     );
 
-    await _recordPendingTransaction(<String, dynamic>{
-      'recipient_momo': normalizedRecipient,
-      'amount': amount,
-      'reference': reference,
-      'provider': country.providerId,
-      'status': 'pending',
-      'raw_payload': <String, dynamic>{
-        'country_code': country.isoCode,
-        'country_name': country.name,
-        'currency_code': country.currencyCode,
-        'currency_name': country.currencyName,
-        'recipient_type': recipientType.name,
-        'ussd_template': recipientType == MomoRecipientType.code
-            ? country.momoCodeUssdTemplate
-            : country.momoUssdTemplate,
-      },
-      'created_at': DateTime.now().toIso8601String(),
-    });
-
     final encoded = Uri.encodeComponent(ussdCode);
     final launched = await launchUrl(
       Uri.parse('tel:$encoded'),
@@ -164,6 +138,9 @@ class MomoService {
     );
     _crashlytics?.log('momo: USSD launched for ref=$reference');
     debugPrint('[MoMo] ✅ USSD launched for ref=$reference');
+
+    // Strong success moment: request app review.
+    unawaited(_appReviewService?.requestReview() ?? Future.value());
   }
 
   Future<void> initiateSubscription({
@@ -185,15 +162,55 @@ class MomoService {
     }
     final timestamp = DateTime.now().millisecondsSinceEpoch;
     final reference = 'SUB-$driverId-$timestamp';
+    final createdAt = DateTime.now().toIso8601String();
 
-    await initiatePayment(
-      recipientMomo: recipientMomo,
-      amount: plan.amountRwf,
-      reference: reference,
-      recipientType: MomoRecipientType.code,
-      countryCode: country.isoCode,
-      providerId: country.providerId,
-    );
+    await _client.from('driver_subscriptions').insert(<String, dynamic>{
+      'driver_id': driverId,
+      'plan': plan.id,
+      'plan_id': plan.id,
+      'plan_name': plan.displayName,
+      'amount': plan.amountRwf,
+      'amount_rwf': plan.amountRwf,
+      'status': 'pending',
+      'momo_reference': reference,
+      'created_at': createdAt,
+      'updated_at': createdAt,
+    });
+
+    try {
+      await initiatePayment(
+        recipientMomo: recipientMomo,
+        amount: plan.amountRwf,
+        reference: reference,
+        recipientType: MomoRecipientType.code,
+        countryCode: country.isoCode,
+        providerId: country.providerId,
+      );
+    } catch (error) {
+      final cancelledAt = DateTime.now().toIso8601String();
+      try {
+        await _client
+            .from('driver_subscriptions')
+            .update(<String, dynamic>{
+              'status': 'cancelled',
+              'cancelled_at': cancelledAt,
+              'updated_at': cancelledAt,
+            })
+            .eq('driver_id', driverId)
+            .eq('momo_reference', reference)
+            .eq('status', 'pending');
+      } catch (updateError) {
+        debugPrint(
+          '[MoMo] ⚠️ Failed to cancel subscription checkout after dialer failure: '
+          '$updateError',
+        );
+        _crashlytics?.recordError(
+          updateError,
+          reason: 'momo_subscription_checkout_cancel_failed',
+        );
+      }
+      rethrow;
+    }
   }
 
   Future<void> initiatePaymentUSSD(
@@ -292,28 +309,6 @@ class MomoService {
       providerId: providerId,
       phone: phone,
     );
-  }
-
-  Future<void> _recordPendingTransaction(Map<String, dynamic> payload) async {
-    try {
-      final userId = _client.auth.currentUser?.id;
-      await _client.from(_pendingTransactionsTable).insert(<String, dynamic>{
-        ...?userId == null ? null : <String, dynamic>{'user_id': userId},
-        ...payload,
-      });
-      debugPrint(
-        '[MoMo] Pending transaction recorded to Supabase: '
-        'ref=${payload['reference']}',
-      );
-    } catch (e) {
-      debugPrint('[MoMo] ⚠️ Supabase insert failed ($e), caching locally');
-      if (_syncEngine != null) {
-        await _syncEngine.enqueue(_syncDomain, payload);
-      } else {
-        final box = await _openBox(_pendingTransactionsCacheBox);
-        await box.add(payload);
-      }
-    }
   }
 
   Future<CoolCountry> _resolveCountry({

@@ -9,11 +9,7 @@ import '../../../core/utils/icon_mapper.dart';
 ///
 /// Designed for use in lists and the missions screen.
 class MissionProgressCard extends StatelessWidget {
-  const MissionProgressCard({
-    required this.mission,
-    this.onTap,
-    super.key,
-  });
+  const MissionProgressCard({required this.mission, this.onTap, super.key});
 
   final CoolMission mission;
   final VoidCallback? onTap;
@@ -186,8 +182,8 @@ class _TimePill extends StatelessWidget {
             fontSize: 11,
             fontWeight: FontWeight.w500,
             color: AppColors.text3,
-                          ),
-                        ),
+          ),
+        ),
       ),
     );
   }

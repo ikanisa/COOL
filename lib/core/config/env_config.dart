@@ -63,17 +63,17 @@ class EnvConfig {
 
   static const privacyPolicyUrl = String.fromEnvironment(
     'COOL_PRIVACY_POLICY_URL',
-    defaultValue: 'https://gen-lang-client-0172279957.web.app/privacy',
+    defaultValue: 'https://cool.ikanisa.com/privacy',
   );
 
   static const termsOfServiceUrl = String.fromEnvironment(
     'COOL_TERMS_OF_SERVICE_URL',
-    defaultValue: 'https://gen-lang-client-0172279957.web.app/terms',
+    defaultValue: 'https://cool.ikanisa.com/terms',
   );
 
   static const accountDeletionUrl = String.fromEnvironment(
     'COOL_ACCOUNT_DELETION_URL',
-    defaultValue: 'https://gen-lang-client-0172279957.web.app/account-deletion',
+    defaultValue: 'https://cool.ikanisa.com/account-deletion',
   );
 
   static const _envDefineHelp =
@@ -160,7 +160,7 @@ class EnvConfig {
     }
 
     if (deepLinkHost == 'cool.app') {
-      warnings.add(
+      debugPrint(
         'INFO: COOL_DEEP_LINK_HOST is using default "cool.app" — '
         'set for production domain if deploying',
       );

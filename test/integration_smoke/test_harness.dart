@@ -6,6 +6,8 @@ import 'package:cool_app/core/providers/supported_countries_provider.dart';
 import 'package:cool_app/core/repositories/supported_countries_repository.dart';
 import 'package:cool_app/core/router/app_router.dart';
 import 'package:cool_app/core/theme/app_theme.dart';
+import 'package:cool_app/core/theme/theme_preference.dart';
+import 'package:cool_app/core/theme/theme_preference_provider.dart';
 import 'package:cool_app/features/momo/providers/momo_service_provider.dart';
 import 'package:cool_app/features/auth/models/user_profile.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart';
@@ -88,6 +90,7 @@ Session fakeSession({
   String userId = 'user-1',
   String phone = '+250788123456',
   String country = 'RW',
+  Map<String, dynamic> appMetadata = const <String, dynamic>{},
 }) {
   return Session.fromJson(<String, dynamic>{
     'access_token': 'token-$userId',
@@ -98,7 +101,7 @@ Session fakeSession({
       'id': userId,
       'phone': phone,
       'user_metadata': <String, dynamic>{'phone': phone, 'country': country},
-      'app_metadata': const <String, dynamic>{},
+      'app_metadata': appMetadata,
       'aud': 'authenticated',
       'created_at': DateTime(2026).toIso8601String(),
     },
@@ -214,6 +217,9 @@ _buildTestContainer({
       ),
       supportedCountriesRepositoryProvider.overrideWithValue(
         countriesRepository,
+      ),
+      initialThemePreferenceProvider.overrideWithValue(
+        (preference: AppThemePreference.system, updatedAt: null),
       ),
       ...overrides,
     ],

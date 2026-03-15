@@ -3,15 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
 import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../providers/rayon_sports_provider.dart';
-import '../../widgets/partner_navigation.dart';
 import '../models/rs_models.dart';
 import '../providers/rs_admin_provider.dart';
+import '../widgets/rs_admin_shell.dart';
 
 /// Admin screen for managing RS tickets — view all, filter by match, update status.
 class RsAdminTicketsScreen extends ConsumerStatefulWidget {
@@ -30,68 +29,57 @@ class _RsAdminTicketsScreenState extends ConsumerState<RsAdminTicketsScreen> {
     final ticketsAsync = ref.watch(rsAdminTicketsProvider(_selectedMatchId));
     final matchesAsync = ref.watch(rsAdminMatchesProvider);
 
-    return Scaffold(
-      backgroundColor: AppColors.bg,
-      appBar: AppBar(
-        backgroundColor: AppColors.rsBlue,
-        elevation: 0,
-        leading: buildPartnerBackButton(
-          context,
-          fallbackLocation: AppRoutes.adminRayon,
-          color: Colors.white,
+    return RsAdminShell(
+      title: 'Tickets',
+      subtitle:
+          'Review issued tickets and narrow the queue to a single fixture when needed.',
+      metrics: [
+        RsAdminMetric(
+          label: 'visible',
+          value:
+              ticketsAsync.whenOrNull(data: (tickets) => '${tickets.length}') ??
+              '...',
         ),
-        title: Text(
-          'Tickets',
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-          ),
+        RsAdminMetric(
+          label: 'matches',
+          value:
+              matchesAsync.whenOrNull(data: (matches) => '${matches.length}') ??
+              '...',
         ),
-        actions: buildPartnerAppBarActions(context, homeColor: Colors.white),
-      ),
-      body: Column(
-        children: [
-          // ── Match filter ──
+      ],
+      controls:
           matchesAsync.whenOrNull(
-                data: (matches) => _MatchFilter(
-                  matches: matches,
-                  selected: _selectedMatchId,
-                  onChanged: (id) => setState(() => _selectedMatchId = id),
-                ),
-              ) ??
-              const SizedBox.shrink(),
-          // ── Ticket list ──
-          Expanded(
-            child: CoolAsyncView<List<RsTicket>>(
-              value: ticketsAsync,
-              onRetry: () =>
-                  ref.invalidate(rsAdminTicketsProvider(_selectedMatchId)),
-              loadingWidget: const Padding(
-                padding: EdgeInsets.all(16),
-                child: CoolSkeletonList(itemCount: 4),
-              ),
-              emptyCheck: (tickets) => tickets.isEmpty,
-              emptyWidget: const CoolEmptyView(
-                message: 'No tickets match the current filter.',
-                icon: Icons.confirmation_number_outlined,
-              ),
-              builder: (tickets) => ListView.separated(
-                padding: const EdgeInsets.all(16),
-                itemCount: tickets.length,
-                separatorBuilder: (context, index) => const SizedBox(height: 8),
-                itemBuilder: (context, index) {
-                  final ticket = tickets[index];
-                  return _TicketTile(
-                    ticket: ticket,
-                    onStatusChange: (status) =>
-                        _updateStatus(ticket.id, status),
-                  );
-                },
-              ),
+            data: (matches) => _MatchFilter(
+              matches: matches,
+              selected: _selectedMatchId,
+              onChanged: (id) => setState(() => _selectedMatchId = id),
             ),
-          ),
-        ],
+          ) ??
+          const SizedBox.shrink(),
+      child: CoolAsyncView<List<RsTicket>>(
+        value: ticketsAsync,
+        onRetry: () => ref.invalidate(rsAdminTicketsProvider(_selectedMatchId)),
+        loadingWidget: const Padding(
+          padding: EdgeInsets.all(16),
+          child: CoolSkeletonList(itemCount: 4),
+        ),
+        emptyCheck: (tickets) => tickets.isEmpty,
+        emptyWidget: const CoolEmptyView(
+          message: 'No tickets match the current filter.',
+          icon: Icons.confirmation_number_outlined,
+        ),
+        builder: (tickets) => ListView.separated(
+          padding: EdgeInsets.zero,
+          itemCount: tickets.length,
+          separatorBuilder: (context, index) => const SizedBox(height: 8),
+          itemBuilder: (context, index) {
+            final ticket = tickets[index];
+            return _TicketTile(
+              ticket: ticket,
+              onStatusChange: (status) => _updateStatus(ticket.id, status),
+            );
+          },
+        ),
       ),
     );
   }

@@ -1,10 +1,7 @@
 import 'group_detail.dart';
 
 class GroupJoinResult {
-  const GroupJoinResult({
-    required this.detail,
-    required this.status,
-  });
+  const GroupJoinResult({required this.detail, required this.status});
 
   final GroupDetail detail;
   final String status;

@@ -223,7 +223,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
 
     return Container(
       constraints: BoxConstraints(maxHeight: screenHeight * 0.85),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
@@ -249,7 +249,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.contacts_rounded,
                       size: 22,
                       color: AppColors.text2,
@@ -314,7 +314,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                           fontSize: 14,
                           color: AppColors.text3,
                         ),
-                        prefixIcon: const Icon(
+                        prefixIcon: Icon(
                           Icons.search_rounded,
                           color: AppColors.text3,
                           size: 20,
@@ -462,7 +462,7 @@ class _ContactTile extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(color: AppColors.border, width: 0.5),
           ),
@@ -542,7 +542,7 @@ class _ContactTile extends StatelessWidget {
                     : null,
               )
             else
-              const Icon(
+              Icon(
                 Icons.chevron_right_rounded,
                 color: AppColors.text3,
                 size: 20,

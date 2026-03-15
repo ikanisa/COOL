@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/status_badge.dart';
@@ -15,6 +15,7 @@ import '../../../shared/widgets/wa_button.dart';
 import '../models/trip.dart';
 import '../providers/mobility_location_provider.dart';
 import '../providers/trip_board_provider.dart';
+import 'trip_display_strings.dart';
 
 // ── Helpers ──────────────────────────────────────────────────────────────
 
@@ -59,6 +60,8 @@ String displayVehicleType(String vehicleType) {
       return vehicleType;
   }
 }
+
+String myTripTypeLabel(Trip trip) => tripTypeLabelForTrip(trip);
 
 // ── Slivers ──────────────────────────────────────────────────────────────
 
@@ -142,7 +145,7 @@ class TripBoardPublicTripsSliver extends ConsumerWidget {
       padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
       sliver: _TripsTabSliver(
         trips: trips,
-        emptyTitle: 'No scheduled trips nearby',
+        emptyTitle: 'No passenger trips nearby',
         onPreviewTap: onPreviewTap,
         onWhatsAppTap: onWhatsAppTap,
         buttonLabelBuilder: (trip) =>
@@ -276,8 +279,8 @@ class _DriverReturnTripsSliver extends StatelessWidget {
           const SliverToBoxAdapter(
             child: TripBoardEmptyState(
               icon: Icons.repeat_rounded,
-              title: 'No return trips available',
-              subtitle: 'Try another vehicle type or post a trip.',
+              title: 'No driver returns available',
+              subtitle: 'Try another vehicle type or check again later.',
             ),
           )
         else
@@ -390,24 +393,25 @@ class _TripMetaLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: AppColors.surface2,
+        color: palette.surface2,
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 13, color: AppColors.text3),
+          Icon(icon, size: 13, color: palette.text3),
           const SizedBox(width: 6),
           Text(
             label,
             style: GoogleFonts.dmSans(
               fontSize: 11,
               fontWeight: FontWeight.w600,
-              color: AppColors.text2,
+              color: palette.text2,
             ),
           ),
         ],
@@ -436,6 +440,7 @@ class MyTripTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Opacity(
       opacity: _isExpired || _isCancelled || _isPaused ? 0.58 : 1,
       child: CoolCard(
@@ -449,7 +454,7 @@ class MyTripTile extends StatelessWidget {
                 Icon(
                   vehicleIconForType(trip.vehicleType),
                   size: 22,
-                  color: AppColors.accent,
+                  color: palette.accent,
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -461,7 +466,7 @@ class MyTripTile extends StatelessWidget {
                         style: GoogleFonts.dmSans(
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.text,
+                          color: palette.text,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -472,7 +477,7 @@ class MyTripTile extends StatelessWidget {
                         style: GoogleFonts.dmSans(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.text2,
+                          color: palette.text2,
                         ),
                       ),
                     ],
@@ -490,8 +495,9 @@ class MyTripTile extends StatelessWidget {
                     tooltip: 'Trip actions',
                     icon: const Icon(
                       Icons.more_horiz_rounded,
-                      color: AppColors.text2,
+                      color: Colors.transparent,
                     ),
+                    color: palette.text2,
                   ),
               ],
             ),
@@ -499,7 +505,14 @@ class MyTripTile extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: _InfoPill(label: displayVehicleType(trip.vehicleType)),
+                  child: Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      _InfoPill(label: displayVehicleType(trip.vehicleType)),
+                      _InfoPill(label: myTripTypeLabel(trip)),
+                    ],
+                  ),
                 ),
                 const SizedBox(width: 8),
                 _MyTripStatusBadge(
@@ -532,38 +545,39 @@ class _MyTripStatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     if (isExpired) {
-      return const StatusBadge(
+      return StatusBadge(
         label: 'Expired',
-        bgColor: AppColors.surface3,
-        textColor: AppColors.text3,
+        bgColor: palette.surface3,
+        textColor: palette.text3,
       );
     }
     if (isCancelled) {
-      return const StatusBadge(
+      return StatusBadge(
         label: 'Cancelled',
-        bgColor: AppColors.surface3,
-        textColor: AppColors.text3,
+        bgColor: palette.surface3,
+        textColor: palette.text3,
       );
     }
     if (isPaused) {
       return StatusBadge(
         label: 'Paused',
-        bgColor: AppColors.orange.withValues(alpha: 0.15),
-        textColor: AppColors.orange,
+        bgColor: palette.orange.withValues(alpha: 0.15),
+        textColor: palette.orange,
       );
     }
     if (isMatched) {
-      return const StatusBadge(
+      return StatusBadge(
         label: 'Matched',
-        bgColor: AppColors.blueGlow,
-        textColor: AppColors.blue,
+        bgColor: palette.blueGlow,
+        textColor: palette.blue,
       );
     }
-    return const StatusBadge(
+    return StatusBadge(
       label: 'Active',
-      bgColor: AppColors.accentGlow,
-      textColor: AppColors.accent,
+      bgColor: palette.accentGlow,
+      textColor: palette.accent,
     );
   }
 }
@@ -575,10 +589,11 @@ class _InfoPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: AppColors.surface3,
+        color: palette.surface3,
         borderRadius: BorderRadius.circular(30),
       ),
       child: Text(
@@ -586,7 +601,7 @@ class _InfoPill extends StatelessWidget {
         style: GoogleFonts.dmSans(
           fontSize: 11,
           fontWeight: FontWeight.w600,
-          color: AppColors.text2,
+          color: palette.text2,
         ),
       ),
     );
@@ -614,12 +629,13 @@ class TripBoardEmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return CoolCard(
       padding: const EdgeInsets.all(20),
       child: Center(
         child: Column(
           children: [
-            Icon(icon, size: 34, color: AppColors.text2),
+            Icon(icon, size: 34, color: palette.text2),
             const SizedBox(height: 12),
             Text(
               title,
@@ -627,7 +643,7 @@ class TripBoardEmptyState extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 15,
                 fontWeight: FontWeight.w700,
-                color: AppColors.text,
+                color: palette.text,
               ),
             ),
             if (subtitle != null) ...[
@@ -638,7 +654,7 @@ class TripBoardEmptyState extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.text2,
+                  color: palette.text2,
                   height: 1.45,
                 ),
               ),
@@ -670,6 +686,7 @@ class TripBoardLoadingState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return CoolCard(
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -682,7 +699,7 @@ class TripBoardLoadingState extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 15,
               fontWeight: FontWeight.w700,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
           const SizedBox(height: 6),
@@ -692,7 +709,7 @@ class TripBoardLoadingState extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              color: palette.text2,
               height: 1.4,
             ),
           ),

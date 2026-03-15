@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_palette.dart';
 
 /// Standardized empty-state view for screens and lists with no data.
 ///
@@ -34,11 +34,14 @@ class CoolEmptyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final iconSize = compact ? 36.0 : 48.0;
     final spacing = compact ? 12.0 : 20.0;
 
     return Semantics(
+      container: true,
       label: message,
+      liveRegion: true,
       child: Center(
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -53,10 +56,10 @@ class CoolEmptyView extends StatelessWidget {
                   width: iconSize + 20,
                   height: iconSize + 20,
                   decoration: BoxDecoration(
-                    color: AppColors.surface3,
+                    color: palette.surface3,
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(icon, size: iconSize, color: AppColors.text3),
+                  child: Icon(icon, size: iconSize, color: palette.text3),
                 ),
               ),
               SizedBox(height: spacing),
@@ -65,7 +68,7 @@ class CoolEmptyView extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: GoogleFonts.dmSans(
                   fontSize: compact ? 14 : 16,
-                  color: AppColors.text3,
+                  color: palette.text3,
                   height: 1.5,
                 ),
               ),
@@ -74,7 +77,7 @@ class CoolEmptyView extends StatelessWidget {
                 TextButton(
                   onPressed: action,
                   style: TextButton.styleFrom(
-                    foregroundColor: AppColors.accent,
+                    foregroundColor: palette.accent,
                     textStyle: GoogleFonts.dmSans(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,

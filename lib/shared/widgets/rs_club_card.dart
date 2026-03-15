@@ -21,89 +21,90 @@ class RsClubCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       button: true,
-      label: '${club.name}. ${club.region}. '
+      label:
+          '${club.name}. ${club.region}. '
           '${joined ? 'Joined' : 'Not joined'}. '
           '${club.memberCount} members.',
       excludeSemantics: true,
       child: CoolCard(
-      onTap: onTap,
-      gradient: AppColors.cardGradient,
-      borderColor: joined
-          ? AppColors.rsGold.withValues(alpha: 0.55)
-          : AppColors.rsBlueBorder,
-      child: Padding(
-        padding: const EdgeInsets.all(18),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    club.name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.barlowCondensed(
-                      fontSize: 26,
-                      fontWeight: FontWeight.w900,
-                      color: AppColors.rsWhite,
-                    ),
-                  ),
-                ),
-                if (joined)
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.rsGold.withValues(alpha: 0.18),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
+        onTap: onTap,
+        gradient: AppColors.cardGradient,
+        borderColor: joined
+            ? AppColors.rsGold.withValues(alpha: 0.55)
+            : AppColors.rsBlueBorder,
+        child: Padding(
+          padding: const EdgeInsets.all(18),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
                     child: Text(
-                      'JOINED',
+                      club.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.barlowCondensed(
-                        fontSize: 13,
+                        fontSize: 26,
                         fontWeight: FontWeight.w900,
-                        color: AppColors.rsGoldLight,
+                        color: AppColors.rsWhite,
                       ),
                     ),
                   ),
-              ],
-            ),
-            const SizedBox(height: 6),
-            Text(
-              club.region,
-              style: GoogleFonts.barlow(
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-                color: AppColors.rsBluePale,
+                  if (joined)
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.rsGold.withValues(alpha: 0.18),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Text(
+                        'JOINED',
+                        style: GoogleFonts.barlowCondensed(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w900,
+                          color: AppColors.rsGoldLight,
+                        ),
+                      ),
+                    ),
+                ],
               ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              club.description,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.barlow(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: AppColors.text2,
-                height: 1.35,
+              const SizedBox(height: 6),
+              Text(
+                club.region,
+                style: GoogleFonts.barlow(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.rsBluePale,
+                ),
               ),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              '${club.memberCount} members',
-              style: GoogleFonts.dmMono(
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-                color: AppColors.rsGoldLight,
+              const SizedBox(height: 10),
+              Text(
+                club.description,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.barlow(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.text2,
+                  height: 1.35,
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 12),
+              Text(
+                '${club.memberCount} members',
+                style: GoogleFonts.dmMono(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.rsGoldLight,
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
       ),
     );
   }

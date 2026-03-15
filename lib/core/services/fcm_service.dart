@@ -609,32 +609,54 @@ class FcmService {
     }
 
     final route = _resolveRoute(message);
+    final imageUrl = message.data['image_url']?.toString();
 
     ScaffoldMessenger.of(context).showMaterialBanner(
       MaterialBanner(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         leading: const Icon(Icons.notifications_rounded, color: Colors.white),
         backgroundColor: const Color(0xFF1A1A2E),
-        content: Column(
+        content: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
           children: [
-            if (notification.title != null)
-              Text(
-                notification.title!,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14,
-                ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (notification.title != null)
+                    Text(
+                      notification.title!,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 14,
+                      ),
+                    ),
+                  if (notification.body != null) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      notification.body!,
+                      style:
+                          const TextStyle(color: Colors.white70, fontSize: 13),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ],
               ),
-            if (notification.body != null) ...[
-              const SizedBox(height: 2),
-              Text(
-                notification.body!,
-                style: const TextStyle(color: Colors.white70, fontSize: 13),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+            ),
+            if (imageUrl != null && imageUrl.isNotEmpty) ...[
+              const SizedBox(width: 12),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  imageUrl,
+                  width: 48,
+                  height: 48,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, _, _) => const SizedBox.shrink(),
+                ),
               ),
             ],
           ],

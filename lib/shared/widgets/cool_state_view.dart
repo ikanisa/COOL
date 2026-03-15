@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_palette.dart';
 import 'cool_button.dart';
 
 enum CoolStateTone { loading, empty, offline, error, success }
@@ -125,24 +125,26 @@ class CoolStateView extends StatelessWidget {
   final bool compact;
   final bool center;
 
-  Color get _accentColor => switch (tone) {
-    CoolStateTone.loading => AppColors.accent,
-    CoolStateTone.empty => AppColors.text3,
-    CoolStateTone.offline => AppColors.orange,
-    CoolStateTone.error => AppColors.red,
-    CoolStateTone.success => AppColors.accent,
+  Color _accentColor(CoolPalette palette) => switch (tone) {
+    CoolStateTone.loading => palette.accent,
+    CoolStateTone.empty => palette.text3,
+    CoolStateTone.offline => palette.orange,
+    CoolStateTone.error => palette.red,
+    CoolStateTone.success => palette.accent,
   };
 
-  Color get _backgroundColor => switch (tone) {
-    CoolStateTone.loading => AppColors.accentGlow,
-    CoolStateTone.empty => AppColors.surface2,
-    CoolStateTone.offline => AppColors.orange.withValues(alpha: 0.08),
-    CoolStateTone.error => AppColors.red.withValues(alpha: 0.08),
-    CoolStateTone.success => AppColors.accentGlow,
+  Color _backgroundColor(CoolPalette palette) => switch (tone) {
+    CoolStateTone.loading => palette.accentGlow,
+    CoolStateTone.empty => palette.surface2,
+    CoolStateTone.offline => palette.orange.withValues(alpha: 0.08),
+    CoolStateTone.error => palette.red.withValues(alpha: 0.08),
+    CoolStateTone.success => palette.accentGlow,
   };
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+    final accentColor = _accentColor(palette);
     final content = Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(
@@ -150,16 +152,18 @@ class CoolStateView extends StatelessWidget {
         vertical: compact ? 18 : 24,
       ),
       decoration: BoxDecoration(
-        color: _backgroundColor,
+        color: _backgroundColor(palette),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: _accentColor.withValues(alpha: tone == CoolStateTone.empty ? 0.2 : 0.28),
+          color: accentColor.withValues(
+            alpha: tone == CoolStateTone.empty ? 0.2 : 0.28,
+          ),
         ),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: compact ? 30 : 36, color: _accentColor),
+          Icon(icon, size: compact ? 30 : 36, color: accentColor),
           SizedBox(height: compact ? 10 : 12),
           Text(
             title,
@@ -167,7 +171,7 @@ class CoolStateView extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: compact ? 15 : 16,
               fontWeight: FontWeight.w700,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
           const SizedBox(height: 8),
@@ -177,7 +181,7 @@ class CoolStateView extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: compact ? 12 : 13,
               fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              color: palette.text2,
               height: 1.45,
             ),
           ),
@@ -188,7 +192,8 @@ class CoolStateView extends StatelessWidget {
               child: CoolButton(
                 label: actionLabel!,
                 onTap: onAction!,
-                variant: tone == CoolStateTone.error || tone == CoolStateTone.offline
+                variant:
+                    tone == CoolStateTone.error || tone == CoolStateTone.offline
                     ? CoolButtonVariant.secondary
                     : CoolButtonVariant.primary,
                 fullWidth: false,

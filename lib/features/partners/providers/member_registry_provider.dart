@@ -98,8 +98,8 @@ class MemberRegistryState {
 
 class MemberRegistryNotifier extends StateNotifier<MemberRegistryState> {
   MemberRegistryNotifier({required RayonSportsRepository repository})
-      : _repository = repository,
-        super(const MemberRegistryState());
+    : _repository = repository,
+      super(const MemberRegistryState());
 
   final RayonSportsRepository _repository;
   String? _partnerId;

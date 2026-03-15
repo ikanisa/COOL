@@ -177,13 +177,14 @@ void main() {
       );
 
       expect(find.text('Mobility'), findsOneWidget);
-      expect(find.text('Start here'), findsOneWidget);
-      expect(find.text('Browse nearby'), findsOneWidget);
-      expect(find.text('All'), findsOneWidget);
-      expect(find.text('Moto'), findsWidgets);
+      expect(find.text('Find or post a ride'), findsOneWidget);
+      expect(find.text('Nearby drivers'), findsOneWidget);
+      expect(find.text('All vehicle types'), findsOneWidget);
+      expect(find.text('Filters'), findsOneWidget);
       expect(find.text('Schedule trip'), findsOneWidget);
+      expect(find.text('Manage driver mode'), findsOneWidget);
       expect(
-        find.text('Nearby map'),
+        find.text('Show map'),
         EnvConfig.hasEmbeddedGoogleMapsSupport(TargetPlatform.android)
             ? findsOneWidget
             : findsNothing,
@@ -193,7 +194,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Scheduled trips'), findsOneWidget);
-      expect(find.text('Nearby map'), findsNothing);
+      expect(find.text('Show map'), findsNothing);
     },
   );
 }

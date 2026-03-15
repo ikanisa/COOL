@@ -19,7 +19,9 @@ class NfcHceService {
 
   Future<bool> isPaymentRequestActive() async {
     try {
-      final active = await _channel.invokeMethod<bool>('isPaymentRequestActive');
+      final active = await _channel.invokeMethod<bool>(
+        'isPaymentRequestActive',
+      );
       return active ?? false;
     } catch (_) {
       return false;

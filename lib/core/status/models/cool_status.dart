@@ -110,9 +110,17 @@ class CoolStatus extends Equatable {
 
   @override
   List<Object?> get props => [
-    id, userId, totalPoints, tier, currentStreak, longestStreak,
-    streakGraceRemaining, seasonPoints, activeSeasonId,
-    updatedAt, createdAt,
+    id,
+    userId,
+    totalPoints,
+    tier,
+    currentStreak,
+    longestStreak,
+    streakGraceRemaining,
+    seasonPoints,
+    activeSeasonId,
+    updatedAt,
+    createdAt,
   ];
 }
 

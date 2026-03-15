@@ -45,92 +45,93 @@ class GroupCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       button: true,
-      label: '$name. ${_isSaving ? 'Saving' : 'Community'} group. '
+      label:
+          '$name. ${_isSaving ? 'Saving' : 'Community'} group. '
           '${GroupCard._formatAmount(amount)} RWF. $memberCount members.',
       excludeSemantics: true,
       child: GestureDetector(
         onTap: onTap,
-      child: Container(
-        constraints: const BoxConstraints(minWidth: 200),
-        padding: const EdgeInsets.all(18),
-        decoration: BoxDecoration(
-          color: AppColors.surface2,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: AppColors.border),
+        child: Container(
+          constraints: const BoxConstraints(minWidth: 200),
+          padding: const EdgeInsets.all(18),
+          decoration: BoxDecoration(
+            color: AppColors.surface2,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: AppColors.border),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // ── Badges ────────────────────────────────────────────────
+              Row(
+                children: [
+                  _isSaving
+                      ? const StatusBadge.saving()
+                      : const StatusBadge.community(),
+                  const SizedBox(width: 6),
+                  visibility == 'public'
+                      ? const StatusBadge.public()
+                      : const StatusBadge.private(),
+                ],
+              ),
+              const SizedBox(height: 12),
+
+              // ── Name ──────────────────────────────────────────────────
+              Text(
+                name,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.dmSans(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.text,
+                ),
+              ),
+              const SizedBox(height: 8),
+
+              // ── Amount ────────────────────────────────────────────────
+              Text(
+                '${_formatAmount(amount)} RWF',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.dmMono(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
+                  color: _accentColor,
+                ),
+              ),
+              const SizedBox(height: 12),
+
+              // ── Progress bar ──────────────────────────────────────────
+              ClipRRect(
+                borderRadius: BorderRadius.circular(2),
+                child: LinearProgressIndicator(
+                  value: _progress,
+                  minHeight: 4,
+                  backgroundColor: AppColors.surface3,
+                  color: _accentColor,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'Target: ${_formatAmount(targetAmount)} RWF',
+                style: GoogleFonts.dmSans(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.text3,
+                ),
+              ),
+              const SizedBox(height: 12),
+
+              // ── Member stack ──────────────────────────────────────────
+              _MemberAvatarStack(
+                memberCount: memberCount,
+                accentColor: _accentColor,
+              ),
+            ],
+          ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // ── Badges ────────────────────────────────────────────────
-            Row(
-              children: [
-                _isSaving
-                    ? const StatusBadge.saving()
-                    : const StatusBadge.community(),
-                const SizedBox(width: 6),
-                visibility == 'public'
-                    ? const StatusBadge.public()
-                    : const StatusBadge.private(),
-              ],
-            ),
-            const SizedBox(height: 12),
-
-            // ── Name ──────────────────────────────────────────────────
-            Text(
-              name,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.dmSans(
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                color: AppColors.text,
-              ),
-            ),
-            const SizedBox(height: 8),
-
-            // ── Amount ────────────────────────────────────────────────
-            Text(
-              '${_formatAmount(amount)} RWF',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.dmMono(
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
-                color: _accentColor,
-              ),
-            ),
-            const SizedBox(height: 12),
-
-            // ── Progress bar ──────────────────────────────────────────
-            ClipRRect(
-              borderRadius: BorderRadius.circular(2),
-              child: LinearProgressIndicator(
-                value: _progress,
-                minHeight: 4,
-                backgroundColor: AppColors.surface3,
-                color: _accentColor,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'Target: ${_formatAmount(targetAmount)} RWF',
-              style: GoogleFonts.dmSans(
-                fontSize: 11,
-                fontWeight: FontWeight.w400,
-                color: AppColors.text3,
-              ),
-            ),
-            const SizedBox(height: 12),
-
-            // ── Member stack ──────────────────────────────────────────
-            _MemberAvatarStack(
-              memberCount: memberCount,
-              accentColor: _accentColor,
-            ),
-          ],
-        ),
-      ),
       ),
     );
   }

@@ -400,13 +400,8 @@ void main() {
         await settleTestApp(tester);
 
         expect(find.bySemanticsLabel(l10n.navGroups), findsWidgets);
-        _expectTouchTarget(
-          tester,
-          find.ancestor(
-            of: find.text(l10n.groupsCreateNewTitle),
-            matching: find.byType(GestureDetector),
-          ),
-        );
+        expect(find.text('My Groups'), findsOneWidget);
+        _expectTouchTarget(tester, find.byType(CoolButton).first);
         expect(find.byType(TabPill), findsWidgets);
         _expectNoCapturedException(tester);
       });

@@ -49,3 +49,11 @@ final partnerBySlugProvider = FutureProvider.family<Partner?, String>((
   final repo = ref.read(partnerRepositoryProvider);
   return repo.fetchBySlug(slug);
 });
+
+final partnerByIdProvider = FutureProvider.family<Partner?, String>((
+  ref,
+  id,
+) async {
+  final repo = ref.read(partnerRepositoryProvider);
+  return repo.fetchById(id);
+});

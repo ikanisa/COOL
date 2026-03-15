@@ -149,9 +149,9 @@ the remaining Google Play and Firebase work.
 - Deployed `send-otp`, `verify-otp`, and `delete-account` to the linked
   Supabase project `mmpbzcdhfvplxplnfucy`.
 - Published live legal pages on Firebase Hosting:
-  - `https://gen-lang-client-0172279957.web.app/privacy`
-  - `https://gen-lang-client-0172279957.web.app/terms`
-  - `https://gen-lang-client-0172279957.web.app/account-deletion`
+  - `https://cool.ikanisa.com/privacy`
+  - `https://cool.ikanisa.com/terms`
+  - `https://cool.ikanisa.com/account-deletion`
 - Added an optional Play review OTP bypass in `send-otp`, controlled by the
   `OTP_TEST_PHONE` and `OTP_TEST_CODE` Supabase secrets.
 - Added server-side OTP abuse protections:

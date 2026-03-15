@@ -21,7 +21,7 @@ void main() {
       ),
     ];
 
-    testWidgets('CreateGroupScreen renders type selector and form fields', (
+    testWidgets('CreateGroupScreen starts with the basic setup step', (
       tester,
     ) async {
       await pumpScopedApp(
@@ -37,15 +37,14 @@ void main() {
       );
 
       expect(find.text('Create Group'), findsWidgets);
+      expect(find.text('Step 1 of 3'), findsOneWidget);
 
-      // Both type cards visible
       expect(find.text('Group Saving'), findsOneWidget);
       expect(find.text('Community Fund'), findsOneWidget);
 
-      // Form fields visible
       expect(find.text('Group Name'), findsOneWidget);
       expect(find.text('Saving Target (RWF)'), findsOneWidget);
-      expect(find.text('More options'), findsOneWidget);
+      expect(find.text('Continue'), findsOneWidget);
       expect(find.text('Description'), findsNothing);
     });
 
@@ -62,17 +61,15 @@ void main() {
         ],
       );
 
-      final createButton = find.byType(CoolButton);
-      await tester.ensureVisible(createButton);
-      await tester.tap(createButton);
+      final continueButton = find.byType(CoolButton);
+      await tester.ensureVisible(continueButton);
+      await tester.tap(continueButton);
       await settleTestApp(tester);
 
       expect(find.text('Group name is required'), findsOneWidget);
     });
 
-    testWidgets('form validation requires valid target amount', (
-      tester,
-    ) async {
+    testWidgets('form validation requires valid target amount', (tester) async {
       await pumpScopedApp(
         tester,
         child: const CreateGroupScreen(),
@@ -88,9 +85,9 @@ void main() {
       await tester.enterText(find.byType(TextFormField).first, 'Test Savings');
       await settleTestApp(tester);
 
-      final createButton = find.byType(CoolButton);
-      await tester.ensureVisible(createButton);
-      await tester.tap(createButton);
+      final continueButton = find.byType(CoolButton);
+      await tester.ensureVisible(continueButton);
+      await tester.tap(continueButton);
       await settleTestApp(tester);
 
       expect(find.text('Enter a valid target amount'), findsOneWidget);
@@ -111,16 +108,21 @@ void main() {
         ],
       );
 
-      // Tap Community Fund type
       await tester.tap(find.text('Community Fund'));
       await settleTestApp(tester);
 
-      // Should now show Collection Route section
+      await tester.enterText(find.byType(TextFormField).first, 'School Drive');
+      await tester.enterText(find.byType(TextFormField).last, '120000');
+      await settleTestApp(tester);
+
+      await tester.tap(find.text('Continue'));
+      await settleTestApp(tester);
+
+      expect(find.text('Step 2 of 3'), findsOneWidget);
       expect(find.text('Collection Route'), findsOneWidget);
       expect(find.text('Phone Number'), findsOneWidget);
 
-      // Bank partner section should NOT be visible
-      expect(find.text('Bank Partner (country matched)'), findsNothing);
+      expect(find.text('Custodian'), findsNothing);
     });
 
     testWidgets('displays frequency options (daily, weekly, monthly)', (
@@ -138,9 +140,47 @@ void main() {
         ],
       );
 
+      await tester.enterText(find.byType(TextFormField).first, 'Family Save');
+      await tester.enterText(find.byType(TextFormField).last, '100000');
+      await settleTestApp(tester);
+
+      await tester.tap(find.text('Continue'));
+      await settleTestApp(tester);
+
       expect(find.text('Daily'), findsOneWidget);
       expect(find.text('Weekly'), findsOneWidget);
       expect(find.text('Monthly'), findsOneWidget);
     });
+
+    testWidgets(
+      'final step reveals optional details instead of showing them immediately',
+      (tester) async {
+        await pumpScopedApp(
+          tester,
+          child: const CreateGroupScreen(),
+          session: fakeSession(),
+          user: fakeUser(momoNumber: '0788123456'),
+          overrides: <Override>[
+            currentCountryBankPartnersProvider.overrideWith(
+              (ref) async => bankPartners,
+            ),
+          ],
+        );
+
+        await tester.enterText(find.byType(TextFormField).first, 'Rainy Day');
+        await tester.enterText(find.byType(TextFormField).last, '250000');
+        await settleTestApp(tester);
+
+        await tester.tap(find.text('Continue'));
+        await settleTestApp(tester);
+        await tester.tap(find.text('Continue'));
+        await settleTestApp(tester);
+
+        expect(find.text('Step 3 of 3'), findsOneWidget);
+        expect(find.text('Description'), findsOneWidget);
+        expect(find.text('Visibility'), findsOneWidget);
+        expect(find.text('Create Group'), findsWidgets);
+      },
+    );
   });
 }

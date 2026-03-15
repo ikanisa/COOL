@@ -163,23 +163,11 @@ class _FanProfileScreenState extends ConsumerState<FanProfileScreen> {
                   ),
                   const SizedBox(height: 24),
                   membershipAsync.when(
-                    data: (membership) => _BenefitsSection(
-                      tier: membership?.tier ?? FanTier.blue,
-                    ),
+                    data: (membership) =>
+                        _PerksAccessCard(membership: membership, user: user),
                     loading: () => const CoolSkeleton.card(),
                     error: (error, stackTrace) =>
-                        const _BenefitsSection(tier: FanTier.blue),
-                  ),
-                  const SizedBox(height: 24),
-                  membershipAsync.when(
-                    data: (membership) => membership == null
-                        ? const _PendingQrCard()
-                        : _QrAccessCard(
-                            fanId: _displayId(user, membership),
-                            tier: membership.tier,
-                          ),
-                    loading: () => const CoolSkeleton.card(),
-                    error: (error, stackTrace) => const _PendingQrCard(),
+                        _PerksAccessCard(membership: null, user: user),
                   ),
                 ]),
               ),
@@ -480,206 +468,223 @@ class _ChapterChip extends StatelessWidget {
   }
 }
 
-class _BenefitsSection extends StatelessWidget {
-  const _BenefitsSection({required this.tier});
+class _PerksAccessCard extends StatelessWidget {
+  const _PerksAccessCard({required this.membership, required this.user});
 
-  final FanTier tier;
+  final RsFanMembership? membership;
+  final UserProfile? user;
 
   @override
   Widget build(BuildContext context) {
+    final tier = membership?.tier ?? FanTier.blue;
     final currentTierIndex = FanTier.values.indexOf(tier);
     final benefits = _benefitsForDisplay(tier);
+    final fanId = _displayId(user, membership);
+    final hasMembership = membership != null;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '${_benefitsTierName(tier)} Benefits',
-          style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
-        ),
-        const SizedBox(height: 12),
-        ...benefits.map((benefit) {
-          final active = currentTierIndex >= benefit.minTierIndex;
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: CoolCard(
-              gradient: AppColors.cardGradient,
-              borderColor: AppColors.rsBlueBorder,
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(benefit.icon, size: 22, color: AppColors.text2),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            benefit.title,
-                            style: GoogleFonts.barlow(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.rsWhite,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            benefit.subtitle,
-                            style: GoogleFonts.barlow(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.text2,
-                              height: 1.35,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    _BenefitStatusChip(active: active),
-                  ],
+    return CoolCard(
+      gradient: AppColors.cardGradient,
+      borderColor: AppColors.rsBlueBorder,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'Perks & access',
+                  style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
                 ),
               ),
+              if (hasMembership) RsTierBadge(tier: tier),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            hasMembership
+                ? 'Your membership is ready for supporter pricing, match access, and club checkpoints.'
+                : 'Create membership to unlock supporter pricing and stadium access.',
+            style: GoogleFonts.barlow(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: AppColors.text2,
+              height: 1.45,
             ),
-          );
-        }),
-      ],
+          ),
+          const SizedBox(height: 16),
+          ...benefits.map((benefit) {
+            final active = currentTierIndex >= benefit.minTierIndex;
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: _PerkRow(benefit: benefit, active: active),
+            );
+          }),
+          const SizedBox(height: 8),
+          Container(
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: AppColors.surface2,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: AppColors.border2),
+            ),
+            child: Row(
+              children: [
+                if (hasMembership)
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: AppColors.rsWhite,
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: QrImageView(
+                        data: fanId,
+                        size: 88,
+                        backgroundColor: Colors.transparent,
+                        eyeStyle: const QrEyeStyle(
+                          color: RsColors.rsBlue,
+                          eyeShape: QrEyeShape.square,
+                        ),
+                        dataModuleStyle: const QrDataModuleStyle(
+                          color: RsColors.rsBlue,
+                          dataModuleShape: QrDataModuleShape.square,
+                        ),
+                      ),
+                    ),
+                  )
+                else
+                  Container(
+                    width: 108,
+                    height: 108,
+                    decoration: BoxDecoration(
+                      color: AppColors.surface3,
+                      borderRadius: BorderRadius.circular(18),
+                      border: Border.all(color: AppColors.border2),
+                    ),
+                    alignment: Alignment.center,
+                    child: Icon(
+                      Icons.qr_code_2_rounded,
+                      size: 42,
+                      color: AppColors.text3,
+                    ),
+                  ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        hasMembership ? 'Fan access QR' : 'Fan access pending',
+                        style: GoogleFonts.barlow(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.rsWhite,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        hasMembership
+                            ? '$fanId • ${_tierName(tier).toUpperCase()}'
+                            : 'QR appears once membership is created.',
+                        style: GoogleFonts.dmMono(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          color: hasMembership
+                              ? AppColors.accent
+                              : AppColors.text2,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        hasMembership
+                            ? 'Show this at stadium gates and member checkpoints.'
+                            : 'Tickets and shop still work while membership is pending.',
+                        style: GoogleFonts.barlow(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.text2,
+                          height: 1.4,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
 
-class _BenefitStatusChip extends StatelessWidget {
-  const _BenefitStatusChip({required this.active});
+class _PerkRow extends StatelessWidget {
+  const _PerkRow({required this.benefit, required this.active});
 
+  final _BenefitItem benefit;
   final bool active;
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
+    return Container(
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: active ? AppColors.accentGlow : AppColors.surface3,
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(
-          color: active
-              ? AppColors.accent.withValues(alpha: 0.35)
-              : AppColors.border,
-        ),
+        color: AppColors.surface2,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border2),
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        child: Text(
-          active ? 'Active' : 'Upgrade',
-          style: GoogleFonts.barlow(
-            fontSize: 11,
-            fontWeight: FontWeight.w700,
-            color: active ? AppColors.accent : AppColors.text3,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _QrAccessCard extends StatelessWidget {
-  const _QrAccessCard({required this.fanId, required this.tier});
-
-  final String fanId;
-  final FanTier tier;
-
-  @override
-  Widget build(BuildContext context) {
-    return CoolCard(
-      gradient: AppColors.cardGradient,
-      borderColor: AppColors.rsBlueBorder,
-      child: Padding(
-        padding: const EdgeInsets.all(22),
-        child: Column(
-          children: [
-            Text(
-              'Fan Access QR',
-              textAlign: TextAlign.center,
-              style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
-            ),
-            const SizedBox(height: 18),
-            DecoratedBox(
-              decoration: BoxDecoration(
-                color: AppColors.rsWhite,
-                borderRadius: BorderRadius.circular(18),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: QrImageView(
-                  data: fanId,
-                  size: 100,
-                  backgroundColor: Colors.transparent,
-                  eyeStyle: const QrEyeStyle(
-                    color: RsColors.rsBlue,
-                    eyeShape: QrEyeShape.square,
-                  ),
-                  dataModuleStyle: const QrDataModuleStyle(
-                    color: RsColors.rsBlue,
-                    dataModuleShape: QrDataModuleShape.square,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(benefit.icon, size: 22, color: AppColors.text2),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  benefit.title,
+                  style: GoogleFonts.barlow(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.rsWhite,
                   ),
                 ),
+                const SizedBox(height: 4),
+                Text(
+                  benefit.subtitle,
+                  style: GoogleFonts.barlow(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.text2,
+                    height: 1.35,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            decoration: BoxDecoration(
+              color: active ? AppColors.accentGlow : AppColors.surface3,
+              borderRadius: BorderRadius.circular(999),
+              border: Border.all(
+                color: active
+                    ? AppColors.accent.withValues(alpha: 0.35)
+                    : AppColors.border,
               ),
             ),
-            const SizedBox(height: 16),
-            Text(
-              '$fanId • ${_tierName(tier).toUpperCase()}',
-              style: GoogleFonts.dmMono(
-                fontSize: 13,
+            child: Text(
+              active ? 'Active' : 'Upgrade',
+              style: GoogleFonts.barlow(
+                fontSize: 11,
                 fontWeight: FontWeight.w700,
-                color: AppColors.accent,
+                color: active ? AppColors.accent : AppColors.text3,
               ),
             ),
-            const SizedBox(height: 8),
-            Text(
-              'Show at stadium gate',
-              style: GoogleFonts.barlow(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: AppColors.text2,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _PendingQrCard extends StatelessWidget {
-  const _PendingQrCard();
-
-  @override
-  Widget build(BuildContext context) {
-    return CoolCard(
-      gradient: AppColors.cardGradient,
-      borderColor: AppColors.rsBlueBorder,
-      child: Padding(
-        padding: const EdgeInsets.all(22),
-        child: Column(
-          children: [
-            Text(
-              'Fan Access QR',
-              textAlign: TextAlign.center,
-              style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              'QR will appear once membership is created.',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.barlow(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: AppColors.text2,
-                height: 1.45,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -950,13 +955,6 @@ String _tierName(FanTier tier) => switch (tier) {
   FanTier.gold => 'Gold',
   FanTier.platinum => 'Platinum',
 };
-
-String _benefitsTierName(FanTier tier) {
-  return switch (tier) {
-    FanTier.platinum => 'Platinum',
-    _ => 'Gold',
-  };
-}
 
 List<_BenefitItem> _benefitsForDisplay(FanTier tier) {
   final gold = <_BenefitItem>[

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,13 +10,17 @@ import '../../../core/config/country_catalog.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/models/momo_qr_payload.dart';
 import '../../../core/providers/app_access_provider.dart';
+import '../../../core/providers/app_lifecycle_providers.dart';
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
+import '../../../shared/widgets/cool_button.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../providers/momo_service_provider.dart';
 import '../services/nfc_service.dart';
+import '../services/momo_sms_autoread_service.dart';
 import '../widgets/momo_cards_widgets.dart';
 import '../widgets/momo_qr_nfc_widgets.dart';
 import '../widgets/momo_send_sheet.dart';
@@ -33,6 +38,8 @@ class MomoScreen extends ConsumerStatefulWidget {
 class _MomoScreenState extends ConsumerState<MomoScreen> {
   bool _launchingIncomingPayment = false;
   bool _handledIncomingPayment = false;
+  bool _syncingSmsInbox = false;
+  bool _showMoreTools = false;
 
   void _closeOrReturnHome() {
     if (context.canPop()) {
@@ -158,8 +165,6 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
     }
   }
 
-  CoolCountry get _currentCountry => AppMarket.country;
-
   String get _currentMomoNumber {
     final user = ref.read(authProvider).user;
     if (user?.momoNumber.isNotEmpty == true) {
@@ -168,10 +173,26 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
     if (user?.phone.isNotEmpty == true) {
       return user!.phone;
     }
-    return _currentCountry.buildE164Phone('91234567');
+    return '';
   }
 
   String? get _currentMomoCode => ref.read(authProvider).user?.momoCode;
+
+  bool get _hasReceiveRouteConfigured =>
+      _currentMomoNumber.trim().isNotEmpty ||
+      (_currentMomoCode?.trim().isNotEmpty ?? false);
+
+  bool _ensureReceiveRouteConfigured() {
+    if (_hasReceiveRouteConfigured) {
+      return true;
+    }
+
+    CoolToast.error(
+      context,
+      'Add your Rwanda MoMo number in profile first to generate a receive QR.',
+    );
+    return false;
+  }
 
   CoolCountry _resolvePayloadCountry(MomoQrPayload _) => AppMarket.country;
 
@@ -194,9 +215,51 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
     );
   }
 
+  Future<void> _syncSmsInbox() async {
+    if (_syncingSmsInbox) {
+      return;
+    }
+
+    setState(() => _syncingSmsInbox = true);
+    try {
+      final result = await ref
+          .read(momoSmsAutoreadServiceProvider)
+          .syncInbox(trigger: MomoInboxSyncTrigger.manual);
+      if (!mounted) {
+        return;
+      }
+      if (result.uploadedMessages > 0) {
+        CoolToast.success(
+          context,
+          'Synced ${result.uploadedMessages} new M-Money SMS from the inbox.',
+        );
+      } else {
+        CoolToast.info(
+          context,
+          'Inbox checked. No new M-Money SMS needed syncing.',
+        );
+      }
+    } on MomoSmsSyncException catch (error) {
+      if (!mounted) {
+        return;
+      }
+      CoolToast.error(context, error.message);
+    } catch (_) {
+      if (!mounted) {
+        return;
+      }
+      CoolToast.error(context, 'Could not sync the M-Money inbox right now.');
+    } finally {
+      if (mounted) {
+        setState(() => _syncingSmsInbox = false);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final palette = context.coolPalette;
     final authState = ref.watch(authProvider);
     final user = authState.user;
     final country = AppMarket.country;
@@ -204,11 +267,15 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
         ? user!.momoNumber
         : user?.phone.isNotEmpty == true
         ? user!.phone
-        : country.buildE164Phone('91234567');
+        : '';
     final momoCode = user?.momoCode;
+    final hasReceiveRoute =
+        momoNumber.trim().isNotEmpty || (momoCode?.trim().isNotEmpty ?? false);
+    final isAndroidSmsAvailable =
+        !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
 
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: palette.bg,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: Semantics(
@@ -219,14 +286,6 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
             onPressed: _closeOrReturnHome,
             tooltip: MaterialLocalizations.of(context).backButtonTooltip,
             icon: const Icon(Icons.arrow_back_rounded),
-          ),
-        ),
-        title: Text(
-          l10n.momoScreenTitle,
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: AppColors.text,
           ),
         ),
         actions: [
@@ -249,10 +308,56 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
               physics: const AlwaysScrollableScrollPhysics(),
               slivers: [
                 SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(18, 8, 18, 96),
+                  padding: const EdgeInsets.fromLTRB(18, 18, 18, 96),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate([
-                      const SizedBox(height: 8),
+                      Text(
+                        l10n.momoScreenTitle,
+                        style: GoogleFonts.dmSans(
+                          fontSize: 34,
+                          fontWeight: FontWeight.w800,
+                          color: palette.text,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      if (hasReceiveRoute)
+                        MomoQrCodeCard(
+                          country: country,
+                          momoNumber: momoNumber,
+                          momoCode: momoCode,
+                        )
+                      else
+                        CoolCard(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Receive by QR',
+                                style: GoogleFonts.dmSans(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                  color: palette.text,
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              Text(
+                                'Add your Rwanda MoMo number in profile. Then COOL can generate your receive QR and payment requests using the local 07 format.',
+                                style: GoogleFonts.dmSans(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  color: palette.text2,
+                                  height: 1.4,
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              CoolButton(
+                                label: 'Open profile',
+                                onTap: () => context.go(AppRoutes.profile),
+                              ),
+                            ],
+                          ),
+                        ),
+                      const SizedBox(height: 16),
                       MomoSendMoneyCard(
                         country: country,
                         momoNumber: momoNumber,
@@ -264,31 +369,102 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      MomoToolsCard(
-                        country: country,
-                        momoNumber: momoNumber,
-                        onOpenStatements: () =>
-                            context.push(AppRoutes.momoStatements),
-                        onOpenQrCode: () => _showQrCodeSheet(
-                          context,
-                          country: country,
-                          momoNumber: momoNumber,
-                          momoCode: momoCode,
-                        ),
-                        onRequestPayment: () => _showRequestPaymentSheet(
-                          context,
-                          country: country,
-                          momoNumber: momoNumber,
-                          momoCode: momoCode,
-                        ),
-                        onScanQr: _scanQrCode,
-                        onOpenNfcTools: () => _showNfcToolsSheet(
-                          context,
-                          country: country,
-                          momoNumber: momoNumber,
-                          momoCode: momoCode,
+                      const MomoPaymentSafetyCard(),
+                      const SizedBox(height: 16),
+                      CoolCard(
+                        onTap: () {
+                          setState(() {
+                            _showMoreTools = !_showMoreTools;
+                          });
+                        },
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Extra Tools',
+                                    style: GoogleFonts.dmSans(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                      color: palette.text,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    _showMoreTools
+                                        ? 'Hide SMS sync and QR/NFC tools.'
+                                        : 'Open SMS sync, QR/NFC, and statements.',
+                                    style: GoogleFonts.dmSans(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      color: palette.text2,
+                                      height: 1.4,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Icon(
+                              _showMoreTools
+                                  ? Icons.keyboard_arrow_up_rounded
+                                  : Icons.keyboard_arrow_down_rounded,
+                              color: palette.text2,
+                            ),
+                          ],
                         ),
                       ),
+                      if (_showMoreTools) ...[
+                        const SizedBox(height: 16),
+                        MomoInboxSyncCard(
+                          isAndroidSmsAvailable: isAndroidSmsAvailable,
+                          isSyncing: _syncingSmsInbox,
+                          onSyncTap: _syncSmsInbox,
+                        ),
+                        const SizedBox(height: 16),
+                        MomoToolsCard(
+                          country: country,
+                          momoNumber: momoNumber,
+                          onOpenStatements: () =>
+                              context.push(AppRoutes.momoStatements),
+                          onOpenQrCode: () {
+                            if (!_ensureReceiveRouteConfigured()) {
+                              return;
+                            }
+                            _showQrCodeSheet(
+                              context,
+                              country: country,
+                              momoNumber: momoNumber,
+                              momoCode: momoCode,
+                            );
+                          },
+                          onRequestPayment: () {
+                            if (!_ensureReceiveRouteConfigured()) {
+                              return;
+                            }
+                            _showRequestPaymentSheet(
+                              context,
+                              country: country,
+                              momoNumber: momoNumber,
+                              momoCode: momoCode,
+                            );
+                          },
+                          onScanQr: _scanQrCode,
+                          onOpenNfcTools: () {
+                            if (!_ensureReceiveRouteConfigured()) {
+                              return;
+                            }
+                            _showNfcToolsSheet(
+                              context,
+                              country: country,
+                              momoNumber: momoNumber,
+                              momoCode: momoCode,
+                            );
+                          },
+                        ),
+                      ],
                     ]),
                   ),
                 ),
@@ -310,9 +486,9 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
                       vertical: 12,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.surface,
+                      color: palette.surface,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: AppColors.border),
+                      border: Border.all(color: palette.border),
                     ),
                     child: Row(
                       children: [
@@ -328,7 +504,7 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
                             style: GoogleFonts.dmSans(
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.text,
+                              color: palette.text,
                             ),
                           ),
                         ),

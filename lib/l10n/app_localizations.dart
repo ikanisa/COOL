@@ -802,6 +802,90 @@ abstract class AppLocalizations {
   /// **'Trip saved offline and will sync when a connection is available.'**
   String get scheduleTripPostedPendingSync;
 
+  /// No description provided for @scheduleTripPostingGuideTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Posting behavior'**
+  String get scheduleTripPostingGuideTitle;
+
+  /// No description provided for @scheduleTripPostingGuideSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Make sure the trip details are honest before you post. Coordination and final pickup details happen after the listing goes live.'**
+  String get scheduleTripPostingGuideSubtitle;
+
+  /// No description provided for @scheduleTripPostingVisibilityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Visible to others'**
+  String get scheduleTripPostingVisibilityLabel;
+
+  /// No description provided for @scheduleTripPostingPrecisionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup precision'**
+  String get scheduleTripPostingPrecisionLabel;
+
+  /// No description provided for @scheduleTripPostingCoordinationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'After posting'**
+  String get scheduleTripPostingCoordinationLabel;
+
+  /// No description provided for @scheduleTripPostingOfflineLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline fallback'**
+  String get scheduleTripPostingOfflineLabel;
+
+  /// No description provided for @scheduleTripPostingPassengerVisibility.
+  ///
+  /// In en, this message translates to:
+  /// **'Drivers see your route, timing, seats, and note.'**
+  String get scheduleTripPostingPassengerVisibility;
+
+  /// No description provided for @scheduleTripPostingDriverVisibility.
+  ///
+  /// In en, this message translates to:
+  /// **'Riders see your route, timing, seats, vehicle, and rider note.'**
+  String get scheduleTripPostingDriverVisibility;
+
+  /// No description provided for @scheduleTripPostingPrecisionExact.
+  ///
+  /// In en, this message translates to:
+  /// **'Exact pickup and destination pins are attached.'**
+  String get scheduleTripPostingPrecisionExact;
+
+  /// No description provided for @scheduleTripPostingPrecisionPartial.
+  ///
+  /// In en, this message translates to:
+  /// **'One place pin is attached. Confirm the other stop in chat.'**
+  String get scheduleTripPostingPrecisionPartial;
+
+  /// No description provided for @scheduleTripPostingPrecisionTextOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Text route only. Confirm the exact pickup in chat.'**
+  String get scheduleTripPostingPrecisionTextOnly;
+
+  /// No description provided for @scheduleTripPostingPassengerCoordination.
+  ///
+  /// In en, this message translates to:
+  /// **'Drivers contact you after posting. Final pickup, fare, and timing are agreed in WhatsApp.'**
+  String get scheduleTripPostingPassengerCoordination;
+
+  /// No description provided for @scheduleTripPostingDriverCoordination.
+  ///
+  /// In en, this message translates to:
+  /// **'Riders contact you after posting. Final pickup, fare, and timing are agreed in WhatsApp.'**
+  String get scheduleTripPostingDriverCoordination;
+
+  /// No description provided for @scheduleTripPostingOfflineBehavior.
+  ///
+  /// In en, this message translates to:
+  /// **'If the network drops, COOL saves this trip on device and syncs it later.'**
+  String get scheduleTripPostingOfflineBehavior;
+
   /// No description provided for @scheduleTripFromRequired.
   ///
   /// In en, this message translates to:
@@ -1876,6 +1960,54 @@ abstract class AppLocalizations {
   /// **'Support'**
   String get supportLabel;
 
+  /// No description provided for @appearanceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get appearanceLabel;
+
+  /// No description provided for @appearanceSheetSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how Cool looks on this device.'**
+  String get appearanceSheetSubtitle;
+
+  /// No description provided for @appearanceSystemLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get appearanceSystemLabel;
+
+  /// No description provided for @appearanceSystemDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow your phone\'s light or dark setting.'**
+  String get appearanceSystemDescription;
+
+  /// No description provided for @appearanceLightLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get appearanceLightLabel;
+
+  /// No description provided for @appearanceLightDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Always use the light theme.'**
+  String get appearanceLightDescription;
+
+  /// No description provided for @appearanceDarkLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get appearanceDarkLabel;
+
+  /// No description provided for @appearanceDarkDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Always use the dark theme.'**
+  String get appearanceDarkDescription;
+
   /// No description provided for @notificationsLabel.
   ///
   /// In en, this message translates to:
@@ -2023,7 +2155,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeActionPay.
   ///
   /// In en, this message translates to:
-  /// **'Pay'**
+  /// **'MoMo'**
   String get homeActionPay;
 
   /// No description provided for @homeActionTrips.
@@ -2041,7 +2173,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeFallbackPaySubtitle.
   ///
   /// In en, this message translates to:
-  /// **'MoMo and statements'**
+  /// **'Receive, send, and statements'**
   String get homeFallbackPaySubtitle;
 
   /// No description provided for @homeFallbackPartnersSubtitle.
@@ -2055,6 +2187,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ride or drive'**
   String get homeFallbackTripsSubtitle;
+
+  /// No description provided for @homePriorityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get homePriorityLabel;
+
+  /// No description provided for @homePriorityGroupsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Start with a group'**
+  String get homePriorityGroupsTitle;
+
+  /// No description provided for @homePriorityGroupsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create or join a group to build trusted activity on Cool.'**
+  String get homePriorityGroupsSubtitle;
+
+  /// No description provided for @homePriorityMomoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Mobile Money'**
+  String get homePriorityMomoTitle;
+
+  /// No description provided for @homePriorityMomoSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Send, request, or receive so your latest wallet activity shows up here.'**
+  String get homePriorityMomoSubtitle;
+
+  /// No description provided for @homePriorityStatementsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review statements'**
+  String get homePriorityStatementsTitle;
+
+  /// No description provided for @homePriorityStatementsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your monthly trend is down. Check recent activity before you send more money.'**
+  String get homePriorityStatementsSubtitle;
+
+  /// No description provided for @homePriorityMomentumTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep contributions moving'**
+  String get homePriorityMomentumTitle;
+
+  /// No description provided for @homePriorityMomentumSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You have active group activity this month. Open Groups to keep momentum.'**
+  String get homePriorityMomentumSubtitle;
 
   /// No description provided for @homeActiveCount.
   ///
@@ -2167,7 +2353,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileMoreToolsHideSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Hide QR, driver, status, and admin shortcuts.'**
+  /// **'Hide QR, driver, and status shortcuts.'**
   String get profileMoreToolsHideSubtitle;
 
   /// No description provided for @vehicleLabel.
@@ -2949,6 +3135,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Completes via USSD on your {countryName} SIM.'**
   String momoSendCompletesViaUssd(String countryName);
+
+  /// No description provided for @momoContinueToUssd.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue to USSD'**
+  String get momoContinueToUssd;
+
+  /// No description provided for @momoTrustCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Before you pay'**
+  String get momoTrustCardTitle;
+
+  /// No description provided for @momoTrustCardSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'COOL opens the network prompt, but you still approve the payment on your own line.'**
+  String get momoTrustCardSubtitle;
+
+  /// No description provided for @momoTrustFeesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fees show before confirmation'**
+  String get momoTrustFeesTitle;
+
+  /// No description provided for @momoTrustFeesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The USSD prompt displays the amount and any network charges before you enter your PIN.'**
+  String get momoTrustFeesSubtitle;
+
+  /// No description provided for @momoTrustApprovalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You approve on your phone'**
+  String get momoTrustApprovalTitle;
+
+  /// No description provided for @momoTrustApprovalSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'COOL never completes the transfer for you. You confirm it inside the MoMo flow.'**
+  String get momoTrustApprovalSubtitle;
+
+  /// No description provided for @momoTrustReceiptTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Receipts land in statements'**
+  String get momoTrustReceiptTitle;
+
+  /// No description provided for @momoTrustReceiptSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Matching Mobile Money SMS confirmations sync back into Statements for later review.'**
+  String get momoTrustReceiptSubtitle;
+
+  /// No description provided for @momoReviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review before USSD'**
+  String get momoReviewTitle;
+
+  /// No description provided for @momoReviewRecipientLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipient'**
+  String get momoReviewRecipientLabel;
+
+  /// No description provided for @momoReviewAmountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get momoReviewAmountLabel;
+
+  /// No description provided for @momoReviewRouteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Route'**
+  String get momoReviewRouteLabel;
+
+  /// No description provided for @momoReviewFromLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get momoReviewFromLabel;
+
+  /// No description provided for @momoReviewMissingRecipient.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a recipient'**
+  String get momoReviewMissingRecipient;
+
+  /// No description provided for @momoReviewMissingAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Add amount'**
+  String get momoReviewMissingAmount;
+
+  /// No description provided for @momoWhatHappensNextTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What happens next'**
+  String get momoWhatHappensNextTitle;
+
+  /// No description provided for @momoWhatHappensNextOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'COOL opens the {countryName} USSD prompt.'**
+  String momoWhatHappensNextOpen(String countryName);
+
+  /// No description provided for @momoWhatHappensNextConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'You confirm the amount, fees, and PIN on your own line.'**
+  String get momoWhatHappensNextConfirm;
+
+  /// No description provided for @momoWhatHappensNextReceipt.
+  ///
+  /// In en, this message translates to:
+  /// **'A matching SMS confirmation updates your statements history.'**
+  String get momoWhatHappensNextReceipt;
 
   /// No description provided for @momoConfirmSendLabel.
   ///

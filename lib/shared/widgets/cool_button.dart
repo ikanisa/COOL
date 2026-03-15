@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_palette.dart';
 
 /// Variants available for [CoolButton].
 enum CoolButtonVariant { primary, secondary }
@@ -43,23 +43,25 @@ class CoolButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final palette = context.coolPalette;
     final enabled = !isLoading;
     final backgroundDecoration = BoxDecoration(
       color: _isPrimary
-          ? (enabled ? AppColors.accent : AppColors.surface3)
-          : (enabled ? AppColors.surface2 : AppColors.surface3),
+          ? (enabled ? palette.accent : palette.surface3)
+          : (enabled ? palette.surface2 : palette.surface3),
       borderRadius: BorderRadius.circular(_radius),
       border: Border.all(
         color: _isPrimary
-            ? (enabled ? AppColors.accent : AppColors.border)
-            : (enabled ? AppColors.border2 : AppColors.border),
+            ? (enabled ? palette.accent : palette.border)
+            : (enabled ? palette.border2 : palette.border),
       ),
       boxShadow: enabled
           ? [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.06),
-                blurRadius: 4,
-                offset: const Offset(0, 2),
+                color: Colors.black.withValues(alpha: 0.12),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
               ),
             ]
           : null,
@@ -70,32 +72,37 @@ class CoolButton extends StatelessWidget {
       button: true,
       enabled: enabled,
       hint: isLoading ? 'Loading' : null,
+      excludeSemantics: true,
       child: Tooltip(
         message: semanticsLabel ?? label,
         child: SizedBox(
           width: fullWidth ? double.infinity : null,
-          height: _height,
-          child: Material(
-            color: Colors.transparent,
-            borderRadius: BorderRadius.circular(_radius),
-            child: Ink(
-              decoration: backgroundDecoration,
-              child: InkWell(
-                onTap: enabled
-                    ? () {
-                        HapticFeedback.lightImpact();
-                        onTap();
-                      }
-                    : null,
-                borderRadius: BorderRadius.circular(_radius),
-                splashColor: _isPrimary
-                    ? Colors.black.withValues(alpha: 0.06)
-                    : Colors.white.withValues(alpha: 0.04),
-                highlightColor: Colors.transparent,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  alignment: Alignment.center,
-                  child: _buildChild(enabled),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: _height),
+            child: Material(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(_radius),
+              child: Ink(
+                decoration: backgroundDecoration,
+                child: InkWell(
+                  onTap: enabled
+                      ? () {
+                          HapticFeedback.lightImpact();
+                          onTap();
+                        }
+                      : null,
+                  borderRadius: BorderRadius.circular(_radius),
+                  splashColor: _isPrimary
+                      ? theme.colorScheme.onPrimary.withValues(alpha: 0.06)
+                      : palette.text.withValues(alpha: 0.06),
+                  highlightColor: Colors.transparent,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 12,
+                    ),
+                    child: _buildChild(context, palette, enabled),
+                  ),
                 ),
               ),
             ),
@@ -105,36 +112,56 @@ class CoolButton extends StatelessWidget {
     );
   }
 
-  Widget _buildChild(bool enabled) {
+  Widget _buildChild(BuildContext context, CoolPalette palette, bool enabled) {
+    final primaryForeground = Theme.of(context).colorScheme.onPrimary;
+    final textColor = _isPrimary
+        ? primaryForeground
+        : (enabled ? palette.text : palette.text3);
+
+    Widget child;
     if (isLoading) {
-      return CupertinoActivityIndicator(
+      child = CupertinoActivityIndicator(
+        key: const ValueKey('cool_button_loading'),
         radius: 11,
-        color: _isPrimary ? Colors.black : AppColors.accent,
+        color: textColor,
       );
+    } else {
+      final textWidget = Text(
+        label,
+        maxLines: 2,
+        softWrap: true,
+        textAlign: TextAlign.center,
+        overflow: TextOverflow.ellipsis,
+        style: GoogleFonts.dmSans(
+          fontSize: _fontSize,
+          fontWeight: FontWeight.w700,
+          color: textColor,
+        ),
+      );
+
+      if (icon == null) {
+        child = textWidget;
+      } else {
+        child = Wrap(
+          key: const ValueKey('cool_button_content'),
+          alignment: WrapAlignment.center,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          spacing: 8,
+          runSpacing: 4,
+          children: [
+            Icon(icon, size: 20, color: textColor),
+            textWidget,
+          ],
+        );
+      }
     }
 
-    final textColor = _isPrimary
-        ? Colors.black
-        : (enabled ? AppColors.text : AppColors.text3);
-
-    final textWidget = Text(
-      label,
-      style: GoogleFonts.dmSans(
-        fontSize: _fontSize,
-        fontWeight: FontWeight.w700,
-        color: textColor,
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 200),
+      child: Container(
+        key: ValueKey(isLoading),
+        child: child,
       ),
-    );
-
-    if (icon == null) return textWidget;
-
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, size: 20, color: textColor),
-        const SizedBox(width: 8),
-        textWidget,
-      ],
     );
   }
 }

@@ -55,10 +55,12 @@ class _CreditScoreScreenState extends ConsumerState<CreditScoreScreen>
     return Scaffold(
       backgroundColor: AppColors.bg,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         leading: IconButton(
-          tooltip: 'Back',
           onPressed: () => context.pop(),
-          icon: const Icon(Icons.arrow_back_rounded),
+          icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
         actions: [
           IconButton(
@@ -70,28 +72,41 @@ class _CreditScoreScreenState extends ConsumerState<CreditScoreScreen>
                     height: 18,
                     child: CupertinoActivityIndicator(radius: 9),
                   )
-                : const Icon(Icons.refresh_rounded),
+                : Icon(Icons.refresh_rounded, color: AppColors.text),
           ),
         ],
-        title: Text(
-          'Credit',
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: AppColors.text,
-          ),
-        ),
       ),
       body: CoolScreenBackground(
         primaryColor: AppColors.purple,
         secondaryColor: AppColors.yellow,
-        child: dashboardAsync.when(
-          data: (dashboard) => _CreditScoreBody(
-            dashboard: dashboard,
-            ringAnimation: _ringAnimation,
-          ),
-          loading: () => const CreditScoreLoadingState(),
-          error: (error, _) => CreditScoreErrorState(error: error.toString()),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(18, 0, 18, 24),
+              child: Text(
+                'Credit',
+                style: GoogleFonts.dmSans(
+                  fontSize: 34,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.text,
+                  height: 1.1,
+                ),
+              ),
+            ),
+            Expanded(
+              child: dashboardAsync.when(
+                data: (dashboard) => _CreditScoreBody(
+                  dashboard: dashboard,
+                  ringAnimation: _ringAnimation,
+                ),
+                loading: () => const CreditScoreLoadingState(),
+                error:
+                    (error, _) =>
+                        CreditScoreErrorState(error: error.toString()),
+              ),
+            ),
+          ],
         ),
       ),
     );

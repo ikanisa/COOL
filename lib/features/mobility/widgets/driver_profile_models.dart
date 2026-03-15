@@ -81,6 +81,20 @@ class VehicleData {
   final String baseLocation;
   final String status;
 
+  bool get hasType => _hasVisibleValue(type);
+
+  bool get hasPlateNumber => _hasVisibleValue(plateNumber);
+
+  bool get hasBaseLocation => _hasVisibleValue(baseLocation);
+
+  bool get isVerified {
+    final normalized = status.toLowerCase();
+    return normalized.contains('online') ||
+        normalized.contains('verified') ||
+        normalized.contains('approved') ||
+        normalized.contains('active');
+  }
+
   String get emoji {
     final normalized = type.toLowerCase();
     if (normalized.contains('moto')) return '🛺';
@@ -94,9 +108,7 @@ class VehicleData {
 
   Color get statusColor {
     final normalized = status.toLowerCase();
-    if (normalized.contains('online') ||
-        normalized.contains('verified') ||
-        normalized.contains('active')) {
+    if (isVerified) {
       return AppColors.accent;
     }
     if (normalized.contains('offline')) {
@@ -105,6 +117,11 @@ class VehicleData {
     if (normalized.contains('pending')) return AppColors.yellow;
     if (normalized.contains('maintenance')) return AppColors.orange;
     return AppColors.text;
+  }
+
+  static bool _hasVisibleValue(String value) {
+    final trimmed = value.trim();
+    return trimmed.isNotEmpty && trimmed != '--';
   }
 }
 

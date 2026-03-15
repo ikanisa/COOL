@@ -59,7 +59,7 @@ class _ManageQuickActionsScreenState
             color: AppColors.text,
           ),
         ),
-        iconTheme: const IconThemeData(color: AppColors.text),
+        iconTheme: IconThemeData(color: AppColors.text),
       ),
       floatingActionButton: Semantics(
         button: true,
@@ -133,7 +133,7 @@ class _ManageQuickActionsScreenState
                           hint: 'Opens the quick action editor',
                           child: GestureDetector(
                             onTap: () => _showEditSheet(context, ref, a),
-                            child: const Icon(
+                            child: Icon(
                               Icons.edit_rounded,
                               size: 18,
                               color: AppColors.text3,
@@ -235,7 +235,7 @@ class _EditQuickActionSheetState extends State<_EditQuickActionSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),

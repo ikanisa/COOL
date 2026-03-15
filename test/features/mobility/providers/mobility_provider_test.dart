@@ -7,6 +7,7 @@ import 'package:cool_app/core/services/engagement_tracker.dart';
 import 'package:cool_app/core/services/feature_flags_service.dart';
 import 'package:cool_app/core/services/firebase_bootstrap_service.dart';
 import 'package:cool_app/core/services/performance_service.dart';
+import 'package:cool_app/core/services/app_review_service.dart';
 import 'package:cool_app/core/models/engagement_feature_flags.dart';
 import 'package:cool_app/features/auth/models/user_profile.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart';
@@ -24,6 +25,8 @@ class MockFirebaseBootstrapService extends Mock
 
 class MockFeatureFlagsService extends Mock implements FeatureFlagsService {}
 
+class MockAppReviewService extends Mock implements AppReviewService {}
+
 final _fallbackTripRequest = TripPostRequest(
   fromLocation: 'Kigali Heights',
   toLocation: 'BK Arena',
@@ -37,6 +40,7 @@ void main() {
   late MockTripRepository tripRepository;
   late MockFirebaseBootstrapService mockBootstrap;
   late MockFeatureFlagsService mockFeatureFlags;
+  late MockAppReviewService mockAppReview;
   late MobilityNotifier notifier;
 
   setUpAll(() {
@@ -48,11 +52,13 @@ void main() {
     tripRepository = MockTripRepository();
     mockBootstrap = MockFirebaseBootstrapService();
     mockFeatureFlags = MockFeatureFlagsService();
+    mockAppReview = MockAppReviewService();
 
     when(() => mockBootstrap.initialize()).thenAnswer((_) async => false);
     when(() => mockFeatureFlags.current).thenReturn(
       EngagementFeatureFlags.defaults(),
     );
+    when(() => mockAppReview.requestReview()).thenAnswer((_) async {});
 
     notifier = MobilityNotifier(
       repository: mobilityRepository,
@@ -76,6 +82,7 @@ void main() {
         featureFlagsService: mockFeatureFlags,
       ),
       performance: PerformanceService(),
+      appReview: mockAppReview,
     );
   });
 

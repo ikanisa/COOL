@@ -187,12 +187,7 @@ class MyTicketsScreen extends ConsumerWidget {
                   ),
                 ),
               ],
-              const SliverPadding(
-                padding: EdgeInsets.fromLTRB(18, 18, 18, 96),
-                sliver: SliverToBoxAdapter(
-                  child: _LeagueStandingsUnavailableCard(),
-                ),
-              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 96)),
             ],
           );
         },
@@ -223,46 +218,6 @@ class _SectionLabel extends StatelessWidget {
         fontWeight: FontWeight.w800,
         color: color,
         letterSpacing: 1,
-      ),
-    );
-  }
-}
-
-class _LeagueStandingsUnavailableCard extends StatelessWidget {
-  const _LeagueStandingsUnavailableCard();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: RsColors.rsBlue.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: RsColors.rsBlueBorder),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'League standings unavailable',
-            style: GoogleFonts.barlowCondensed(
-              fontSize: 22,
-              fontWeight: FontWeight.w800,
-              color: AppColors.rsWhite,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            'This build does not ship live league standings yet, so no demo table is shown on the tickets screen.',
-            style: GoogleFonts.barlow(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: AppColors.text2,
-              height: 1.45,
-            ),
-          ),
-        ],
       ),
     );
   }

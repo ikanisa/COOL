@@ -87,11 +87,7 @@ class AppLogger {
   }) {
     try {
       if (Firebase.apps.isNotEmpty) {
-        FirebaseCrashlytics.instance.recordError(
-          error,
-          stack,
-          fatal: fatal,
-        );
+        FirebaseCrashlytics.instance.recordError(error, stack, fatal: fatal);
       }
     } catch (_) {
       // Swallow.

@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/config/app_market.dart';
-import '../../../core/l10n/locale_provider.dart';
 import '../../../core/providers/notification_settings_provider.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../auth/providers/auth_provider.dart';
@@ -12,19 +11,19 @@ import '../widgets/profile_data.dart';
 
 final profileViewProvider = Provider<ProfileData>((ref) {
   final authState = ref.watch(authProvider);
-  final locale = ref.watch(localeProvider);
   final notificationSettings = ref.watch(notificationSettingsProvider);
   final creditDashboard = ref.watch(creditDashboardProvider).valueOrNull;
-  final l10n = lookupAppLocalizations(Locale(locale.languageCode));
+  const profileLocale = Locale(AppMarket.languageCode);
+  final l10n = lookupAppLocalizations(profileLocale);
   final driverSnapshot = DriverProfileSnapshot.fromState(
     ref.watch(driverProvider),
-    locale: Locale(locale.languageCode),
+    locale: profileLocale,
   );
 
   final user = authState.user;
   if (user == null) {
     return ProfileData.empty.copyWith(
-      languageCode: locale.languageCode,
+      languageCode: AppMarket.languageCode,
       notificationsEnabled: notificationSettings.status.preferenceEnabled,
     );
   }
@@ -78,7 +77,7 @@ final profileViewProvider = Provider<ProfileData>((ref) {
     country: country.displayName,
     currencyCode: country.currencyCode,
     momoLinked: walletConfigured,
-    languageCode: locale.languageCode,
+    languageCode: AppMarket.languageCode,
     notificationsEnabled: notificationSettings.status.preferenceEnabled,
     creditScoreLabel: creditDashboard?.score?.toString() ?? '--',
     kycStatus: user.kycStatus,

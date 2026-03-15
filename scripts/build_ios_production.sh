@@ -50,7 +50,12 @@ EOF
 require_build_env() {
   : "${SUPABASE_URL:?Set SUPABASE_URL before building the production iOS app.}"
   : "${SUPABASE_ANON_KEY:?Set SUPABASE_ANON_KEY before building the production iOS app.}"
-  require_ios_google_service_info
+  : "${FIREBASE_IOS_PRODUCTION_API_KEY:?Set FIREBASE_IOS_PRODUCTION_API_KEY before building the production iOS app.}"
+  : "${FIREBASE_IOS_PRODUCTION_APP_ID:?Set FIREBASE_IOS_PRODUCTION_APP_ID before building the production iOS app.}"
+  : "${FIREBASE_IOS_PRODUCTION_MESSAGING_SENDER_ID:?Set FIREBASE_IOS_PRODUCTION_MESSAGING_SENDER_ID before building the production iOS app.}"
+  : "${FIREBASE_IOS_PRODUCTION_PROJECT_ID:?Set FIREBASE_IOS_PRODUCTION_PROJECT_ID before building the production iOS app.}"
+  : "${FIREBASE_IOS_PRODUCTION_STORAGE_BUCKET:?Set FIREBASE_IOS_PRODUCTION_STORAGE_BUCKET before building the production iOS app.}"
+  : "${FIREBASE_IOS_PRODUCTION_BUNDLE_ID:?Set FIREBASE_IOS_PRODUCTION_BUNDLE_ID before building the production iOS app.}"
   prepare_ios_maps_keys
 }
 
@@ -63,6 +68,30 @@ if [[ -f .env ]]; then
   # shellcheck source=/dev/null
   source .env
   set +a
+fi
+
+if [[ -f .env.json ]]; then
+  for json_key in \
+    SUPABASE_URL \
+    SUPABASE_ANON_KEY \
+    GOOGLE_MAPS_ANDROID_API_KEY \
+    GOOGLE_MAPS_IOS_API_KEY \
+    GOOGLE_MAPS_ANDROID_MAP_ID \
+    GOOGLE_MAPS_IOS_MAP_ID \
+    COOL_DEEP_LINK_HOST \
+    FIREBASE_IOS_PRODUCTION_API_KEY \
+    FIREBASE_IOS_PRODUCTION_APP_ID \
+    FIREBASE_IOS_PRODUCTION_MESSAGING_SENDER_ID \
+    FIREBASE_IOS_PRODUCTION_PROJECT_ID \
+    FIREBASE_IOS_PRODUCTION_STORAGE_BUCKET \
+    FIREBASE_IOS_PRODUCTION_BUNDLE_ID; do
+    if [[ -z "${!json_key:-}" ]]; then
+      json_value="$(jq -r --arg key "$json_key" '.[$key] // empty' .env.json)"
+      if [[ -n "$json_value" ]]; then
+        export "$json_key=$json_value"
+      fi
+    fi
+  done
 fi
 
 require_build_env
@@ -78,7 +107,13 @@ require_build_env
   --dart-define=GOOGLE_MAPS_IOS_API_KEY="${GOOGLE_MAPS_IOS_API_KEY:-}" \
   --dart-define=GOOGLE_MAPS_ANDROID_MAP_ID="${GOOGLE_MAPS_ANDROID_MAP_ID:-}" \
   --dart-define=GOOGLE_MAPS_IOS_MAP_ID="${GOOGLE_MAPS_IOS_MAP_ID:-}" \
-  --dart-define=COOL_DEEP_LINK_HOST="${COOL_DEEP_LINK_HOST:-cool.app}"
+  --dart-define=COOL_DEEP_LINK_HOST="${COOL_DEEP_LINK_HOST:-cool.app}" \
+  --dart-define=FIREBASE_IOS_PRODUCTION_API_KEY="${FIREBASE_IOS_PRODUCTION_API_KEY}" \
+  --dart-define=FIREBASE_IOS_PRODUCTION_APP_ID="${FIREBASE_IOS_PRODUCTION_APP_ID}" \
+  --dart-define=FIREBASE_IOS_PRODUCTION_MESSAGING_SENDER_ID="${FIREBASE_IOS_PRODUCTION_MESSAGING_SENDER_ID}" \
+  --dart-define=FIREBASE_IOS_PRODUCTION_PROJECT_ID="${FIREBASE_IOS_PRODUCTION_PROJECT_ID}" \
+  --dart-define=FIREBASE_IOS_PRODUCTION_STORAGE_BUCKET="${FIREBASE_IOS_PRODUCTION_STORAGE_BUCKET}" \
+  --dart-define=FIREBASE_IOS_PRODUCTION_BUNDLE_ID="${FIREBASE_IOS_PRODUCTION_BUNDLE_ID}"
 
 echo ""
 echo "✅ Production iOS build: build/ios/iphoneos/Cool.app"

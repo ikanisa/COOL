@@ -230,7 +230,11 @@ class DriverAvailabilityCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(14),
                 ),
                 alignment: Alignment.center,
-                child: Icon(tripVehicleIcon(vehicleType), size: 22, color: AppColors.accent),
+                child: Icon(
+                  tripVehicleIcon(vehicleType),
+                  size: 22,
+                  color: AppColors.accent,
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -336,7 +340,7 @@ class DriverModeToggle extends StatelessWidget {
           child: Container(
             width: 22,
             height: 22,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: AppColors.text,
               shape: BoxShape.circle,
             ),
@@ -376,7 +380,7 @@ class DriverSubscriptionSummaryCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
             ),
             alignment: Alignment.center,
-            child: const Icon(
+            child: Icon(
               Icons.account_balance_wallet_outlined,
               color: AppColors.text2,
             ),
@@ -435,6 +439,7 @@ class DriverViewSwitcher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final onPrimary = Theme.of(context).colorScheme.onPrimary;
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
@@ -467,9 +472,7 @@ class DriverViewSwitcher extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
-                        color: activeIndex == i
-                            ? Colors.black
-                            : AppColors.text2,
+                        color: activeIndex == i ? onPrimary : AppColors.text2,
                       ),
                     ),
                   ),

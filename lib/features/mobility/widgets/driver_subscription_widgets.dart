@@ -132,7 +132,11 @@ class DriverPlanCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(IconMapper.from(plan.emoji), size: 24, color: AppColors.text2),
+              Icon(
+                IconMapper.from(plan.emoji),
+                size: 24,
+                color: AppColors.text2,
+              ),
               const SizedBox(height: 8),
               Text(
                 plan.displayName,

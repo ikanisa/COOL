@@ -4,15 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
 import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../providers/rayon_sports_provider.dart';
-import '../../widgets/partner_navigation.dart';
 import '../models/rs_models.dart';
 import '../providers/rs_admin_provider.dart';
+import '../widgets/rs_admin_shell.dart';
 
 /// Admin screen for managing RS initiatives — CRUD, toggle active, progress.
 class RsAdminInitiativesScreen extends ConsumerStatefulWidget {
@@ -29,26 +28,10 @@ class _RsAdminInitiativesScreenState
   Widget build(BuildContext context) {
     final initAsync = ref.watch(rsAdminInitiativesProvider);
 
-    return Scaffold(
-      backgroundColor: AppColors.bg,
-      appBar: AppBar(
-        backgroundColor: AppColors.rsBlue,
-        elevation: 0,
-        leading: buildPartnerBackButton(
-          context,
-          fallbackLocation: AppRoutes.adminRayon,
-          color: Colors.white,
-        ),
-        title: Text(
-          'Initiatives',
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-          ),
-        ),
-        actions: buildPartnerAppBarActions(context, homeColor: Colors.white),
-      ),
+    return RsAdminShell(
+      title: 'Initiatives',
+      subtitle:
+          'Track live causes, funding progress, and activation state without extra dashboard chrome.',
       floatingActionButton: Semantics(
         button: true,
         label: 'Add initiative',
@@ -59,7 +42,23 @@ class _RsAdminInitiativesScreenState
           child: const Icon(Icons.add, color: Colors.white),
         ),
       ),
-      body: CoolAsyncView<List<RsInitiative>>(
+      metrics: [
+        RsAdminMetric(
+          label: 'causes',
+          value:
+              initAsync.whenOrNull(data: (items) => '${items.length}') ?? '...',
+        ),
+        RsAdminMetric(
+          label: 'active',
+          value:
+              initAsync.whenOrNull(
+                data: (items) =>
+                    '${items.where((initiative) => initiative.isActive).length}',
+              ) ??
+              '...',
+        ),
+      ],
+      child: CoolAsyncView<List<RsInitiative>>(
         value: initAsync,
         onRetry: () => ref.invalidate(rsAdminInitiativesProvider),
         loadingWidget: const Padding(
@@ -72,7 +71,7 @@ class _RsAdminInitiativesScreenState
           icon: Icons.flag_outlined,
         ),
         builder: (initiatives) => ListView.separated(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.zero,
           itemCount: initiatives.length,
           separatorBuilder: (context, index) => const SizedBox(height: 10),
           itemBuilder: (context, index) {

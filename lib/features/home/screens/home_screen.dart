@@ -8,7 +8,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/status/providers/home_status_providers.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../core/utils/intl_locale.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_error_boundary.dart';
@@ -28,6 +28,7 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
     final l10n = context.l10n;
     final dashboardAsync = ref.watch(homeDashboardProvider);
     final quests = ref.watch(questsProvider);
@@ -38,7 +39,7 @@ class HomeScreen extends ConsumerWidget {
     }
 
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: palette.bg,
       body: CoolScreenBackground(
         child: CoolErrorBoundary(
           onRetry: () {
@@ -49,8 +50,8 @@ class HomeScreen extends ConsumerWidget {
           child: SafeArea(
             bottom: false,
             child: RefreshIndicator(
-              color: AppColors.accent,
-              backgroundColor: AppColors.surface2,
+              color: palette.accent,
+              backgroundColor: palette.surface2,
               onRefresh: refresh,
               child: ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
@@ -59,12 +60,12 @@ class HomeScreen extends ConsumerWidget {
                   Text(
                     l10n.navHome,
                     style: GoogleFonts.dmSans(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.text,
+                      fontSize: 34,
+                      fontWeight: FontWeight.w800,
+                      color: palette.text,
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 24),
                   dashboardAsync.when(
                     data: (dashboard) => _OverviewCard(data: dashboard),
                     loading: () => const _OverviewLoadingCard(),
@@ -82,7 +83,7 @@ class HomeScreen extends ConsumerWidget {
                       );
 
                       return actionsAsync.when(
-                        data: (actions) => _QuickActionGrid(
+                        data: (actions) => _QuickActionListCard(
                           items: actions
                               .take(4)
                               .map(
@@ -94,10 +95,10 @@ class HomeScreen extends ConsumerWidget {
                               )
                               .toList(growable: false),
                         ),
-                        loading: () => _QuickActionGrid(
+                        loading: () => _QuickActionListCard(
                           items: _fallbackQuickActions(l10n),
                         ),
-                        error: (_, _) => _QuickActionGrid(
+                        error: (_, _) => _QuickActionListCard(
                           items: _fallbackQuickActions(l10n),
                         ),
                       );
@@ -170,14 +171,14 @@ class _OverviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final l10n = context.l10n;
     final localeName = resolveIntlLocale(context);
     final totalBalance = data?.totalBalance ?? 0;
     final monthlyNetChange = data?.monthlyNetChange ?? 0;
     final memberCount = data?.memberCount ?? 0;
-    final netColor = monthlyNetChange >= 0
-        ? AppColors.accent
-        : AppColors.orange;
+    final recommendation = _buildHomePriorityRecommendation(data, l10n);
+    final netColor = monthlyNetChange >= 0 ? palette.accent : palette.orange;
 
     return Semantics(
       container: true,
@@ -186,7 +187,7 @@ class _OverviewCard extends StatelessWidget {
           '${l10n.homeMonthlyNet} ${_signedSpokenCurrency(monthlyNetChange, localeName)}. '
           '${l10n.navGroups} ${l10n.homeActiveCount(memberCount)}.',
       child: CoolCard(
-        backgroundColor: AppColors.surface,
+        backgroundColor: palette.surface,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -195,7 +196,7 @@ class _OverviewCard extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: AppColors.text3,
+                color: palette.text3,
                 letterSpacing: 0.2,
               ),
             ),
@@ -209,7 +210,7 @@ class _OverviewCard extends StatelessWidget {
                   style: GoogleFonts.dmMono(
                     fontSize: 30,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                    color: palette.text,
                     height: 1.1,
                   ),
                 ),
@@ -229,15 +230,194 @@ class _OverviewCard extends StatelessWidget {
                 _MetricPill(
                   label: l10n.navGroups,
                   value: l10n.homeActiveCount(memberCount),
-                  valueColor: AppColors.text,
+                  valueColor: palette.text,
                 ),
               ],
             ),
+            const SizedBox(height: 18),
+            _HomePriorityStrip(recommendation: recommendation),
           ],
         ),
       ),
     );
   }
+}
+
+class _HomePriorityStrip extends StatelessWidget {
+  const _HomePriorityStrip({required this.recommendation});
+
+  final _HomePriorityRecommendation recommendation;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+    final l10n = context.l10n;
+    return Semantics(
+      button: true,
+      label:
+          '${l10n.homePriorityLabel}. ${recommendation.title}. ${recommendation.subtitle}. ${recommendation.ctaLabel}.',
+      hint: 'Double tap to open ${recommendation.ctaLabel}',
+      child: ExcludeSemantics(
+        child: Material(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(18),
+          child: Ink(
+            decoration: BoxDecoration(
+              color: palette.surface2,
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(color: palette.border),
+            ),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(18),
+              onTap: () => openQuickActionRoute(context, recommendation.route),
+              child: Padding(
+                padding: const EdgeInsets.all(14),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 42,
+                      height: 42,
+                      decoration: BoxDecoration(
+                        color: palette.accentGlow,
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      alignment: Alignment.center,
+                      child: Icon(
+                        recommendation.icon,
+                        size: 20,
+                        color: palette.accent,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l10n.homePriorityLabel,
+                            style: GoogleFonts.dmSans(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                              color: palette.text3,
+                              letterSpacing: 0.3,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            recommendation.title,
+                            style: GoogleFonts.dmSans(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: palette.text,
+                            ),
+                          ),
+                          const SizedBox(height: 3),
+                          Text(
+                            recommendation.subtitle,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.dmSans(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: palette.text2,
+                              height: 1.35,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: palette.surface3,
+                        borderRadius: BorderRadius.circular(999),
+                        border: Border.all(color: palette.border),
+                      ),
+                      child: Text(
+                        recommendation.ctaLabel,
+                        style: GoogleFonts.dmSans(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: palette.text,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _HomePriorityRecommendation {
+  const _HomePriorityRecommendation({
+    required this.title,
+    required this.subtitle,
+    required this.ctaLabel,
+    required this.route,
+    required this.icon,
+  });
+
+  final String title;
+  final String subtitle;
+  final String ctaLabel;
+  final String route;
+  final IconData icon;
+}
+
+_HomePriorityRecommendation _buildHomePriorityRecommendation(
+  HomeDashboardData? data,
+  AppLocalizations l10n,
+) {
+  final memberCount = data?.memberCount ?? 0;
+  final monthlyNetChange = data?.monthlyNetChange ?? 0;
+  final hasRecentTransactions = (data?.recentTransactions.isNotEmpty ?? false);
+
+  if (memberCount == 0) {
+    return _HomePriorityRecommendation(
+      title: l10n.homePriorityGroupsTitle,
+      subtitle: l10n.homePriorityGroupsSubtitle,
+      ctaLabel: l10n.navGroups,
+      route: AppRoutes.groups,
+      icon: Icons.people_alt_outlined,
+    );
+  }
+
+  if (!hasRecentTransactions) {
+    return _HomePriorityRecommendation(
+      title: l10n.homePriorityMomoTitle,
+      subtitle: l10n.homePriorityMomoSubtitle,
+      ctaLabel: l10n.homeActionPay,
+      route: AppRoutes.momo,
+      icon: Icons.account_balance_wallet_outlined,
+    );
+  }
+
+  if (monthlyNetChange < 0) {
+    return _HomePriorityRecommendation(
+      title: l10n.homePriorityStatementsTitle,
+      subtitle: l10n.homePriorityStatementsSubtitle,
+      ctaLabel: l10n.statementsLabel,
+      route: AppRoutes.momoStatements,
+      icon: Icons.receipt_long_rounded,
+    );
+  }
+
+  return _HomePriorityRecommendation(
+    title: l10n.homePriorityMomentumTitle,
+    subtitle: l10n.homePriorityMomentumSubtitle,
+    ctaLabel: l10n.navGroups,
+    route: AppRoutes.groups,
+    icon: Icons.trending_up_rounded,
+  );
 }
 
 class _MetricPill extends StatelessWidget {
@@ -253,14 +433,15 @@ class _MetricPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Semantics(
       label: '$label: $value',
       child: ExcludeSemantics(
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: AppColors.surface2,
+            color: palette.surface2,
             borderRadius: BorderRadius.circular(999),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: palette.border),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
@@ -272,7 +453,7 @@ class _MetricPill extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.text3,
+                    color: palette.text3,
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -293,8 +474,8 @@ class _MetricPill extends StatelessWidget {
   }
 }
 
-class _QuickActionCard extends StatelessWidget {
-  const _QuickActionCard({
+class _QuickActionRow extends StatelessWidget {
+  const _QuickActionRow({
     required this.title,
     required this.subtitle,
     required this.route,
@@ -306,6 +487,7 @@ class _QuickActionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final compactTitle = _shortActionTitle(context, title, route);
     final compactSubtitle = subtitle.trim();
 
@@ -314,18 +496,18 @@ class _QuickActionCard extends StatelessWidget {
         width: 42,
         height: 42,
         decoration: BoxDecoration(
-          color: AppColors.surface2,
+          color: palette.surface2,
           borderRadius: BorderRadius.circular(14),
         ),
         alignment: Alignment.center,
-        child: Icon(_iconForRoute(route), size: 20, color: AppColors.accent),
+        child: Icon(_iconForRoute(route), size: 20, color: palette.accent),
       );
     }
 
-    const trailingIcon = Icon(
+    final trailingIcon = Icon(
       Icons.arrow_forward_rounded,
       size: 18,
-      color: AppColors.text3,
+      color: palette.text3,
     );
 
     return Semantics(
@@ -335,77 +517,42 @@ class _QuickActionCard extends StatelessWidget {
           : 'Quick action $compactTitle. $compactSubtitle',
       hint: 'Double tap to open',
       child: ExcludeSemantics(
-        child: CoolCard(
-          backgroundColor: AppColors.surface,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
           onTap: () => openQuickActionRoute(context, route),
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final isCompact = constraints.maxWidth < 170;
-
-              if (isCompact) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [leadingIcon(), const Spacer(), trailingIcon],
-                    ),
-                    const SizedBox(height: 14),
-                    Text(
-                      compactTitle,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.text,
-                      ),
-                    ),
-                    if (compactSubtitle.isNotEmpty) ...[
-                      const SizedBox(height: 6),
-                      Text(
-                        compactSubtitle,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.text3,
-                          height: 1.35,
-                        ),
-                      ),
-                    ],
-                  ],
-                );
-              }
-
-              return Row(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 56),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Row(
                 children: [
                   leadingIcon(),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           compactTitle,
-                          maxLines: 2,
+                          maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.dmSans(
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.text,
+                            color: palette.text,
                           ),
                         ),
                         if (compactSubtitle.isNotEmpty) ...[
-                          const SizedBox(height: 3),
+                          const SizedBox(height: 4),
                           Text(
                             compactSubtitle,
-                            maxLines: 2,
+                            maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.dmSans(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
-                              color: AppColors.text3,
+                              color: palette.text3,
                             ),
                           ),
                         ],
@@ -415,8 +562,8 @@ class _QuickActionCard extends StatelessWidget {
                   const SizedBox(width: 8),
                   trailingIcon,
                 ],
-              );
-            },
+              ),
+            ),
           ),
         ),
       ),
@@ -462,56 +609,36 @@ class _QuickActionCard extends StatelessWidget {
   }
 }
 
-class _QuickActionGrid extends StatelessWidget {
-  const _QuickActionGrid({required this.items});
+class _QuickActionListCard extends StatelessWidget {
+  const _QuickActionListCard({required this.items});
 
   final List<_QuickActionData> items;
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final visibleItems = items.take(4).toList(growable: false);
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final textScale = MediaQuery.textScalerOf(context).scale(1);
-        final crossAxisCount = switch (constraints.maxWidth) {
-          < 780 => 2,
-          _ => 4,
-        };
-        final mainAxisExtent = textScale >= 1.4
-            ? switch (constraints.maxWidth) {
-                >= 780 => 230.0,
-                >= 420 => 240.0,
-                _ => 268.0,
-              }
-            : null;
-
-        return GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: visibleItems.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: crossAxisCount,
-            mainAxisSpacing: 12,
-            crossAxisSpacing: 12,
-            mainAxisExtent: mainAxisExtent,
-            childAspectRatio: mainAxisExtent == null
-                ? switch (constraints.maxWidth) {
-                    >= 780 => 2.2,
-                    >= 420 => 1.55,
-                    _ => 1.18,
-                  }
-                : 1,
-          ),
-          itemBuilder: (context, index) {
-            final item = visibleItems[index];
-            return _QuickActionCard(
-              title: item.title,
-              subtitle: item.subtitle,
-              route: item.route,
-            );
-          },
-        );
-      },
+    return CoolCard(
+      backgroundColor: palette.surface,
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Column(
+        children: [
+          for (var index = 0; index < visibleItems.length; index++) ...[
+            _QuickActionRow(
+              title: visibleItems[index].title,
+              subtitle: visibleItems[index].subtitle,
+              route: visibleItems[index].route,
+            ),
+            if (index != visibleItems.length - 1)
+              Divider(
+                color: palette.border,
+                height: 1,
+                indent: 16,
+                endIndent: 16,
+              ),
+          ],
+        ],
+      ),
     );
   }
 }
@@ -560,13 +687,15 @@ class _RecentActivityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final l10n = context.l10n;
-    final transactions =
+    final allTransactions =
         data?.recentTransactions ?? const <HomeDashboardTransaction>[];
+    final transactions = allTransactions.take(1).toList(growable: false);
 
     if (transactions.isEmpty) {
       return CoolCard(
-        backgroundColor: AppColors.surface,
+        backgroundColor: palette.surface,
         child: CoolEmptyView(
           message: l10n.homeNoActivityMessage,
           compact: true,
@@ -576,13 +705,13 @@ class _RecentActivityCard extends StatelessWidget {
     }
 
     return CoolCard(
-      backgroundColor: AppColors.surface,
+      backgroundColor: palette.surface,
       child: Column(
         children: [
           for (var i = 0; i < transactions.length; i++) ...[
             _ActivityRow(transaction: transactions[i]),
             if (i != transactions.length - 1)
-              Divider(color: AppColors.border, height: 22),
+              Divider(color: palette.border, height: 22),
           ],
         ],
       ),
@@ -597,9 +726,10 @@ class _ActivityRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final localeName = resolveIntlLocale(context);
     final signedAmount = transaction.signedAmount;
-    final valueColor = signedAmount >= 0 ? AppColors.accent : AppColors.orange;
+    final valueColor = signedAmount >= 0 ? palette.accent : palette.orange;
     final meta = [
       if (transaction.groupName?.trim().isNotEmpty == true)
         transaction.groupName!,
@@ -647,7 +777,7 @@ class _ActivityRow extends StatelessWidget {
                     style: GoogleFonts.dmSans(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.text,
+                      color: palette.text,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -658,7 +788,7 @@ class _ActivityRow extends StatelessWidget {
                     style: GoogleFonts.dmSans(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
-                      color: AppColors.text3,
+                      color: palette.text3,
                     ),
                   ),
                 ],
@@ -702,24 +832,17 @@ class _OverviewLoadingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CoolCard(
-      backgroundColor: AppColors.surface,
+    final palette = context.coolPalette;
+    return CoolCard(
+      backgroundColor: palette.surface,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           CoolSkeleton(width: 120, height: 14, borderRadius: 7),
           SizedBox(height: 18),
-          CoolSkeleton(
-            width: double.infinity,
-            height: 38,
-            borderRadius: 12,
-          ),
+          CoolSkeleton(width: double.infinity, height: 38, borderRadius: 12),
           SizedBox(height: 18),
-          CoolSkeleton(
-            width: double.infinity,
-            height: 26,
-            borderRadius: 13,
-          ),
+          CoolSkeleton(width: double.infinity, height: 26, borderRadius: 13),
         ],
       ),
     );
@@ -731,8 +854,9 @@ class _ActivityLoadingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CoolCard(
-      backgroundColor: AppColors.surface,
+    final palette = context.coolPalette;
+    return CoolCard(
+      backgroundColor: palette.surface,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -754,8 +878,9 @@ class _OverviewErrorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return CoolCard(
-      backgroundColor: AppColors.surface,
+      backgroundColor: palette.surface,
       child: CoolErrorView(
         message: context.l10n.homeLoadErrorMessage,
         onRetry: onRetry,

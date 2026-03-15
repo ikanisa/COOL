@@ -5,6 +5,12 @@ const _coolDeepLinkHost = String.fromEnvironment(
   'COOL_DEEP_LINK_HOST',
   defaultValue: 'cool.app',
 );
+const _legacyCoolDeepLinkHosts = <String>{
+  'cool.app',
+  'www.cool.app',
+  'cool.ikanisa.com',
+  'www.cool.ikanisa.com',
+};
 
 enum MomoQrAction { profile, pay }
 
@@ -153,10 +159,12 @@ class MomoQrPayload {
         .where((segment) => segment.isNotEmpty)
         .toList(growable: false);
     final host = uri.host.toLowerCase();
+    final defaultHost = _coolDeepLinkHost.toLowerCase();
     final isCoolAppLink =
         (uri.scheme == 'https' || uri.scheme == 'http') &&
-        (host == _coolDeepLinkHost.toLowerCase() ||
-            host == 'www.${_coolDeepLinkHost.toLowerCase()}') &&
+        (host == defaultHost ||
+            host == 'www.$defaultHost' ||
+            _legacyCoolDeepLinkHosts.contains(host)) &&
         segments.isNotEmpty &&
         segments.first.toLowerCase() == _coolMomoHost;
     final isCustomScheme =

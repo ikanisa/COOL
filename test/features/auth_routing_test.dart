@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:cool_app/core/router/app_redirects.dart';
+import 'package:cool_app/features/admin/models/admin_workspace_access.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart';
 
 /// QA-02: Auth Routing & Profile-Gating Regression Tests
@@ -281,6 +282,32 @@ void main() {
         isAdmin: true,
       );
       expect(result, isNull);
+    });
+
+    test('/admin passes through for partner admin user', () {
+      final result = resolveAppRedirect(
+        location: AppRoutes.admin,
+        hasSession: true,
+        hasProfile: true,
+        profileRestoreState: AuthProfileRestoreState.available,
+        adminAccess: const AdminWorkspaceAccess(
+          partnerAdminIds: {'partner-rayon'},
+        ),
+      );
+      expect(result, isNull);
+    });
+
+    test('/admin/platform redirects partner admin user back to launcher', () {
+      final result = resolveAppRedirect(
+        location: AppRoutes.adminPlatform,
+        hasSession: true,
+        hasProfile: true,
+        profileRestoreState: AuthProfileRestoreState.available,
+        adminAccess: const AdminWorkspaceAccess(
+          partnerAdminIds: {'partner-rayon'},
+        ),
+      );
+      expect(result, equals(AppRoutes.admin));
     });
   });
 }

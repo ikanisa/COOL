@@ -12,7 +12,8 @@ final activeSeasonProvider = FutureProvider.autoDispose<CoolSeason?>((
   ref,
 ) async {
   try {
-    final data = await ref.read(supabaseClientProvider)
+    final data = await ref
+        .read(supabaseClientProvider)
         .from('cool_seasons')
         .select()
         .eq('is_active', true)

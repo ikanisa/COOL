@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/l10n/l10n.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../models/mobility_route_preview.dart';
 import '../models/trip_post_request.dart';
@@ -58,6 +58,7 @@ List<DayOption> buildDayOptions(BuildContext context) {
 /// Step 1: Route – pickup and destination input.
 class ScheduleTripRouteStep extends StatelessWidget {
   const ScheduleTripRouteStep({
+    required this.isDriverPosting,
     required this.fromController,
     required this.toController,
     required this.fromSelection,
@@ -81,6 +82,7 @@ class ScheduleTripRouteStep extends StatelessWidget {
     super.key,
   });
 
+  final bool isDriverPosting;
   final TextEditingController fromController;
   final TextEditingController toController;
   final PlaceSearchResult? fromSelection;
@@ -104,7 +106,12 @@ class ScheduleTripRouteStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final l10n = context.l10n;
+    final title = isDriverPosting ? 'Return route' : 'Pickup and destination';
+    final subtitle = isDriverPosting
+        ? 'Set where you are leaving from and where riders are headed. Use Google Places search for exact pins when possible.'
+        : 'Enter both stops. Use Google Places search for exact pins, or use your current location for pickup.';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,20 +121,20 @@ class ScheduleTripRouteStep extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Pickup and destination',
+                title,
                 style: GoogleFonts.dmSans(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
               const SizedBox(height: 6),
               Text(
-                'Enter both stops. Use Google Places search for exact pins, or use your current location for pickup.',
+                subtitle,
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
-                  color: AppColors.text2,
+                  color: palette.text2,
                   height: 1.4,
                 ),
               ),
@@ -206,6 +213,7 @@ class ScheduleTripRouteStep extends StatelessWidget {
 /// Step 2: Timing – date/time, return trip, recurring.
 class ScheduleTripTimingStep extends StatelessWidget {
   const ScheduleTripTimingStep({
+    required this.isDriverPosting,
     required this.selectedDate,
     required this.selectedTime,
     required this.returnTrip,
@@ -227,6 +235,7 @@ class ScheduleTripTimingStep extends StatelessWidget {
     super.key,
   });
 
+  final bool isDriverPosting;
   final DateTime selectedDate;
   final TimeOfDay selectedTime;
   final bool returnTrip;
@@ -248,8 +257,16 @@ class ScheduleTripTimingStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final l10n = context.l10n;
     final dayOptions = buildDayOptions(context);
+    final title = isDriverPosting ? 'Departure timing' : 'When';
+    final subtitle = isDriverPosting
+        ? 'Set when this driver return leaves. Add a second leg or repeat only if this route runs regularly.'
+        : 'Set departure first. Add a return or repeat only if needed.';
+    final extraTitle = isDriverPosting
+        ? 'Extra scheduling'
+        : 'Return or repeat';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -259,20 +276,20 @@ class ScheduleTripTimingStep extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'When',
+                title,
                 style: GoogleFonts.dmSans(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
               const SizedBox(height: 6),
               Text(
-                'Set departure first. Add a return or repeat only if needed.',
+                subtitle,
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
-                  color: AppColors.text2,
+                  color: palette.text2,
                   height: 1.4,
                 ),
               ),
@@ -293,11 +310,11 @@ class ScheduleTripTimingStep extends StatelessWidget {
               ),
               const SizedBox(height: 18),
               Text(
-                'Return or repeat',
+                extraTitle,
                 style: GoogleFonts.dmSans(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
               const SizedBox(height: 12),
@@ -399,6 +416,8 @@ class ScheduleTripTimingStep extends StatelessWidget {
 /// Step 3: Options – vehicle, seats, price note.
 class ScheduleTripOptionsStep extends StatelessWidget {
   const ScheduleTripOptionsStep({
+    required this.isDriverPosting,
+    required this.driverVehicleLabel,
     required this.vehiclePreference,
     required this.seats,
     required this.showAdditionalDetails,
@@ -411,6 +430,8 @@ class ScheduleTripOptionsStep extends StatelessWidget {
     super.key,
   });
 
+  final bool isDriverPosting;
+  final String? driverVehicleLabel;
   final TripVehiclePreference vehiclePreference;
   final int seats;
   final bool showAdditionalDetails;
@@ -423,8 +444,28 @@ class ScheduleTripOptionsStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final l10n = context.l10n;
     final vehicleOptions = buildVehicleOptions(context);
+    final normalizedVehicle = driverVehicleLabel?.trim() ?? '';
+    final hasDriverVehicle = isDriverPosting && normalizedVehicle.isNotEmpty;
+    final headerTitle = isDriverPosting ? 'Driver return setup' : 'Trip setup';
+    final headerSubtitle = isDriverPosting
+        ? 'Use your driver setup defaults and adjust only what riders need to know.'
+        : 'Choose the ride, seats, and any optional note.';
+    final seatsLabel = isDriverPosting
+        ? 'Seats available'
+        : l10n.scheduleTripSeatsLabel;
+    final detailsTitle = isDriverPosting ? 'Rider note' : 'Add details';
+    final detailsSubtitle = isDriverPosting
+        ? 'Fare notes and posting expiry are optional.'
+        : 'Price notes and expiry are optional.';
+    final noteFieldLabel = isDriverPosting
+        ? 'Rider note (optional)'
+        : 'Price note (optional)';
+    final noteHint = isDriverPosting
+        ? 'e.g. 500 RWF · Pickup near main road'
+        : 'e.g. 500 RWF · Negotiable';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -434,40 +475,93 @@ class ScheduleTripOptionsStep extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Trip setup',
+                headerTitle,
                 style: GoogleFonts.dmSans(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
               const SizedBox(height: 6),
               Text(
-                'Choose the ride, seats, and any optional note.',
+                headerSubtitle,
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
-                  color: AppColors.text2,
+                  color: palette.text2,
                   height: 1.4,
                 ),
               ),
-              const SizedBox(height: 16),
-              ScheduleTripFieldLabel(label: l10n.scheduleTripVehicleLabel),
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  for (final option in vehicleOptions)
-                    ScheduleTripSelectionChip(
-                      label: option.label,
-                      selected: vehiclePreference == option.value,
-                      onTap: () => onVehicleChanged(option.value),
-                    ),
-                ],
-              ),
+              if (hasDriverVehicle) ...[
+                const SizedBox(height: 16),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: palette.surface2,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: palette.border2),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.directions_car_filled_rounded,
+                        size: 18,
+                        color: palette.accent,
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Posting vehicle',
+                              style: GoogleFonts.dmSans(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                                color: palette.text,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              '$normalizedVehicle from your driver setup. Update it from the Driver > Vehicle screen if it changed.',
+                              style: GoogleFonts.dmSans(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400,
+                                color: palette.text2,
+                                height: 1.4,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ] else ...[
+                const SizedBox(height: 16),
+                ScheduleTripFieldLabel(
+                  label: isDriverPosting
+                      ? 'Vehicle for this trip'
+                      : l10n.scheduleTripVehicleLabel,
+                ),
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    for (final option in vehicleOptions)
+                      ScheduleTripSelectionChip(
+                        label: option.label,
+                        selected: vehiclePreference == option.value,
+                        onTap: () => onVehicleChanged(option.value),
+                      ),
+                  ],
+                ),
+              ],
               const SizedBox(height: 18),
-              ScheduleTripFieldLabel(label: l10n.scheduleTripSeatsLabel),
+              ScheduleTripFieldLabel(label: seatsLabel),
               const SizedBox(height: 8),
               Wrap(
                 spacing: 8,
@@ -486,11 +580,11 @@ class ScheduleTripOptionsStep extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      'Add details',
+                      detailsTitle,
                       style: GoogleFonts.dmSans(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                   ),
@@ -502,11 +596,11 @@ class ScheduleTripOptionsStep extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                'Price notes and expiry are optional.',
+                detailsSubtitle,
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
-                  color: AppColors.text2,
+                  color: palette.text2,
                   height: 1.4,
                 ),
               ),
@@ -524,17 +618,17 @@ class ScheduleTripOptionsStep extends StatelessWidget {
                       width: double.infinity,
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: AppColors.surface2,
+                        color: palette.surface2,
                         borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: AppColors.border2),
+                        border: Border.all(color: palette.border2),
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.schedule_rounded,
                             size: 18,
-                            color: AppColors.text2,
+                            color: palette.text2,
                           ),
                           const SizedBox(width: 10),
                           Expanded(
@@ -546,7 +640,7 @@ class ScheduleTripOptionsStep extends StatelessWidget {
                                   style: GoogleFonts.dmSans(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w700,
-                                    color: AppColors.text,
+                                    color: palette.text,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
@@ -555,7 +649,7 @@ class ScheduleTripOptionsStep extends StatelessWidget {
                                   style: GoogleFonts.dmSans(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w400,
-                                    color: AppColors.text2,
+                                    color: palette.text2,
                                     height: 1.4,
                                   ),
                                 ),
@@ -566,43 +660,41 @@ class ScheduleTripOptionsStep extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 14),
-                    const ScheduleTripFieldLabel(
-                      label: 'Price note (optional)',
-                    ),
+                    ScheduleTripFieldLabel(label: noteFieldLabel),
                     const SizedBox(height: 8),
                     TextFormField(
                       controller: priceNoteController,
                       style: GoogleFonts.dmSans(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                       maxLength: 60,
                       decoration: InputDecoration(
-                        hintText: 'e.g. 500 RWF · Negotiable',
+                        hintText: noteHint,
                         hintStyle: GoogleFonts.dmSans(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
-                          color: AppColors.text3,
+                          color: palette.text3,
                         ),
                         counterStyle: GoogleFonts.dmSans(
                           fontSize: 11,
-                          color: AppColors.text3,
+                          color: palette.text3,
                         ),
                         filled: true,
-                        fillColor: AppColors.surface3,
+                        fillColor: palette.surface3,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: AppColors.border),
+                          borderSide: BorderSide(color: palette.border),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: AppColors.border),
+                          borderSide: BorderSide(color: palette.border),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                            color: AppColors.accent,
+                          borderSide: BorderSide(
+                            color: palette.accent,
                             width: 1.2,
                           ),
                         ),
@@ -631,7 +723,18 @@ class ScheduleTripOptionsStep extends StatelessWidget {
 /// Step 4: Review – trip summary and submit.
 class ScheduleTripReviewStep extends StatelessWidget {
   const ScheduleTripReviewStep({
+    required this.title,
+    required this.subtitle,
+    required this.postingGuideTitle,
+    required this.postingGuideSubtitle,
+    required this.roleFieldLabel,
+    required this.seatsFieldLabel,
+    required this.detailsFieldLabel,
     required this.roleLabel,
+    required this.visibilityValue,
+    required this.precisionValue,
+    required this.coordinationValue,
+    required this.offlineValue,
     required this.fromText,
     required this.toText,
     required this.departureLabel,
@@ -648,7 +751,18 @@ class ScheduleTripReviewStep extends StatelessWidget {
     super.key,
   });
 
+  final String title;
+  final String subtitle;
+  final String postingGuideTitle;
+  final String postingGuideSubtitle;
+  final String roleFieldLabel;
+  final String seatsFieldLabel;
+  final String detailsFieldLabel;
   final String roleLabel;
+  final String visibilityValue;
+  final String precisionValue;
+  final String coordinationValue;
+  final String offlineValue;
   final String fromText;
   final String toText;
   final String departureLabel;
@@ -665,19 +779,38 @@ class ScheduleTripReviewStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ScheduleTripReviewCard(
+          title: title,
+          subtitle: subtitle,
+          roleFieldLabel: roleFieldLabel,
           roleLabel: roleLabel,
           routeLabel: '$fromText → $toText',
           departureLabel: departureLabel,
           vehicleLabel: vehicleLabel,
+          seatsFieldLabel: seatsFieldLabel,
           seatsLabel: seatsLabel,
           returnLabel: returnLabel,
           recurringLabel: recurringLabel,
+          detailsFieldLabel: detailsFieldLabel,
           detailsLabel: detailsLabel,
           previewLabel: previewLabel,
+        ),
+        const SizedBox(height: 12),
+        ScheduleTripPostingGuideCard(
+          title: postingGuideTitle,
+          subtitle: postingGuideSubtitle,
+          visibilityLabel: l10n.scheduleTripPostingVisibilityLabel,
+          visibilityValue: visibilityValue,
+          precisionLabel: l10n.scheduleTripPostingPrecisionLabel,
+          precisionValue: precisionValue,
+          coordinationLabel: l10n.scheduleTripPostingCoordinationLabel,
+          coordinationValue: coordinationValue,
+          offlineLabel: l10n.scheduleTripPostingOfflineLabel,
+          offlineValue: offlineValue,
         ),
         const SizedBox(height: 20),
         ScheduleTripStepActionBar(

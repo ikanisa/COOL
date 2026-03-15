@@ -44,7 +44,7 @@ class ScheduledTripsCard extends StatelessWidget {
           for (var index = 0; index < trips.length; index++) ...[
             ScheduledTripTile(trip: trips[index]),
             if (index != trips.length - 1)
-              const Divider(color: AppColors.border, height: 1),
+              Divider(color: AppColors.border, height: 1),
           ],
         ],
       ),
@@ -158,11 +158,11 @@ class VehicleInfoCard extends StatelessWidget {
       child: Column(
         children: [
           _VehicleInfoTile(label: 'Vehicle Type', value: vehicle.type),
-          const Divider(color: AppColors.border, height: 1),
+          Divider(color: AppColors.border, height: 1),
           _VehicleInfoTile(label: 'Plate Number', value: vehicle.plateNumber),
-          const Divider(color: AppColors.border, height: 1),
+          Divider(color: AppColors.border, height: 1),
           _VehicleInfoTile(label: 'Base Location', value: vehicle.baseLocation),
-          const Divider(color: AppColors.border, height: 1),
+          Divider(color: AppColors.border, height: 1),
           _VehicleInfoTile(
             label: 'Verification',
             value: vehicle.status,
@@ -175,11 +175,11 @@ class VehicleInfoCard extends StatelessWidget {
 }
 
 class _VehicleInfoTile extends StatelessWidget {
-  const _VehicleInfoTile({
+  _VehicleInfoTile({
     required this.label,
     required this.value,
-    this.valueColor = AppColors.text,
-  });
+    Color? valueColor,
+  }) : valueColor = valueColor ?? AppColors.text;
 
   final String label;
   final String value;
@@ -315,7 +315,7 @@ class _EditVehicleSheetState extends ConsumerState<EditVehicleSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),

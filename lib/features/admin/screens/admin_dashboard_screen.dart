@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
+import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 
 /// Admin Dashboard — card grid for all admin management screens.
 class AdminDashboardScreen extends ConsumerWidget {
@@ -63,43 +65,52 @@ class AdminDashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: palette.bg,
       appBar: AppBar(
-        backgroundColor: AppColors.surface,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         leading: Semantics(
           button: true,
           label: 'Back to profile',
           child: IconButton(
-            icon: const Icon(Icons.arrow_back_rounded, color: AppColors.text),
+            icon: Icon(Icons.arrow_back_rounded, color: palette.text),
             onPressed: () => context.go('/profile'),
           ),
         ),
-        title: Text(
-          'Admin Panel',
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: AppColors.text,
-          ),
-        ),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              childAspectRatio: 1.2,
-            ),
-            itemCount: _sections.length,
-            itemBuilder: (context, index) {
-              final section = _sections[index];
-              return _AdminCard(section: section);
-            },
+      body: CoolScreenBackground(
+        child: SafeArea(
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(18, 0, 18, 24),
+            children: [
+              Text(
+                'Admin Panel',
+                style: GoogleFonts.dmSans(
+                  fontSize: 34,
+                  fontWeight: FontWeight.w800,
+                  color: palette.text,
+                  height: 1.1,
+                ),
+              ),
+              const SizedBox(height: 24),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 12,
+                  childAspectRatio: 1.2,
+                ),
+                itemCount: _sections.length,
+                itemBuilder: (context, index) {
+                  final section = _sections[index];
+                  return _AdminCard(section: section);
+                },
+              ),
+            ],
           ),
         ),
       ),
@@ -121,49 +132,40 @@ class _AdminCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      button: true,
-      label: '${section.title}. ${section.subtitle}',
-      child: GestureDetector(
-        onTap: () {
-          HapticFeedback.selectionClick();
-          context.push(section.route);
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            color: AppColors.surface,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: AppColors.border, width: 1),
+    final palette = context.coolPalette;
+    return CoolCard(
+      padding: const EdgeInsets.all(16),
+      onTap: () {
+        HapticFeedback.selectionClick();
+        context.push(section.route);
+      },
+      semanticsLabel: '${section.title}. ${section.subtitle}',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(section.icon, size: 28, color: palette.text2),
+          const SizedBox(height: 8),
+          Text(
+            section.title,
+            style: GoogleFonts.dmSans(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: palette.text,
+            ),
           ),
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(section.icon, size: 28, color: AppColors.text2),
-              const SizedBox(height: 8),
-              Text(
-                section.title,
-                style: GoogleFonts.dmSans(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.text,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                section.subtitle,
-                style: GoogleFonts.dmSans(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.text3,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
+          const SizedBox(height: 4),
+          Text(
+            section.subtitle,
+            style: GoogleFonts.dmSans(
+              fontSize: 11,
+              fontWeight: FontWeight.w400,
+              color: palette.text3,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
-        ),
+        ],
       ),
     );
   }

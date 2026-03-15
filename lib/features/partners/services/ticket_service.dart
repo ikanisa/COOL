@@ -96,9 +96,7 @@ class TicketVerifyResult {
 ///
 /// QR data format: `COOL-TKT:{ticketId}:{matchId}:{timestamp}:{hmac}`
 class TicketService {
-  TicketService({
-    required OpenHiveBox<String> openBox,
-  }) : _openBox = openBox;
+  TicketService({required OpenHiveBox<String> openBox}) : _openBox = openBox;
 
   final OpenHiveBox<String> _openBox;
 

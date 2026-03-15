@@ -48,10 +48,7 @@ class QuestCard extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 quest.subtitle,
-                style: GoogleFonts.dmSans(
-                  fontSize: 12,
-                  color: AppColors.text3,
-                ),
+                style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),

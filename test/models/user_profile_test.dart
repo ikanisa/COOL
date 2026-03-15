@@ -112,7 +112,7 @@ void main() {
       expect(profile.updatedAt, isNotNull);
     });
 
-    test('falls back to "language" key when "language_code" is missing', () {
+    test('falls back to English when legacy language data is non-English', () {
       final json = {
         'id': 'x5',
         'phone': '+250788555555',
@@ -125,7 +125,7 @@ void main() {
       };
 
       final profile = UserProfile.fromJson(json);
-      expect(profile.languageCode, 'rw');
+      expect(profile.languageCode, 'en');
     });
 
     test('normalizes legacy E.164 momo numbers to local profile format', () {
@@ -317,6 +317,25 @@ void main() {
       expect(copied.id, 'copy-id');
       expect(copied.phone, '+250788777777');
       expect(copied.isDriver, true);
+    });
+
+    test('keeps language pinned to English even when overridden', () {
+      const profile = UserProfile(
+        id: 'lang-pin',
+        phone: '+250788777777',
+        fullName: 'Copy Test',
+        momoNumber: '0788777777',
+        momoProvider: 'mtn_momo_rw',
+        country: 'RW',
+        languageCode: 'rw',
+        isDriver: false,
+      );
+
+      final copied = profile.copyWith(languageCode: 'fr');
+
+      expect(profile.languageCode, 'en');
+      expect(copied.languageCode, 'en');
+      expect(copied.toJson()['language_code'], 'en');
     });
   });
 }

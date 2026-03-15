@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../providers/mobility_location_provider.dart';
@@ -44,6 +44,7 @@ class ScheduleTripRouteEditor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final fields = Column(
       children: [
         _RouteField(
@@ -79,12 +80,12 @@ class ScheduleTripRouteEditor extends StatelessWidget {
             children: [
               Row(
                 mainAxisSize: MainAxisSize.min,
-                children: const [
-                  _RouteDot(color: AppColors.accent),
+                children: [
+                  _RouteDot(color: palette.accent),
                   SizedBox(width: 8),
-                  _RouteDash(axis: Axis.horizontal),
+                  const _RouteDash(axis: Axis.horizontal),
                   SizedBox(width: 8),
-                  _RouteDot(color: AppColors.orange),
+                  _RouteDot(color: palette.orange),
                 ],
               ),
               const SizedBox(height: 12),
@@ -99,10 +100,10 @@ class ScheduleTripRouteEditor extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 14),
               child: Column(
-                children: const [
-                  _RouteDot(color: AppColors.accent),
-                  _RouteDash(),
-                  _RouteDot(color: AppColors.orange),
+                children: [
+                  _RouteDot(color: palette.accent),
+                  const _RouteDash(),
+                  _RouteDot(color: palette.orange),
                 ],
               ),
             ),
@@ -139,6 +140,7 @@ class _RouteDash extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     if (axis == Axis.horizontal) {
       return SizedBox(
         width: 44,
@@ -150,7 +152,7 @@ class _RouteDash extends StatelessWidget {
               width: 4,
               height: 2,
               decoration: BoxDecoration(
-                color: AppColors.text3,
+                color: palette.text3,
                 borderRadius: BorderRadius.circular(1),
               ),
             ),
@@ -169,7 +171,7 @@ class _RouteDash extends StatelessWidget {
             width: 2,
             height: 4,
             decoration: BoxDecoration(
-              color: AppColors.text3,
+              color: palette.text3,
               borderRadius: BorderRadius.circular(1),
             ),
           ),
@@ -202,6 +204,7 @@ class _RouteField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final suffixIcons = <Widget>[
       if (onUseCurrentLocationTap != null)
         Padding(
@@ -225,12 +228,12 @@ class _RouteField extends StatelessWidget {
           onTap: onSearchTap!,
         ),
       if (isResolved)
-        const Padding(
+        Padding(
           padding: EdgeInsets.only(left: 6, right: 4),
           child: Icon(
             Icons.check_circle_rounded,
             size: 20,
-            color: AppColors.accent,
+            color: palette.accent,
           ),
         ),
     ];
@@ -242,18 +245,18 @@ class _RouteField extends StatelessWidget {
       style: GoogleFonts.dmSans(
         fontSize: 14,
         fontWeight: FontWeight.w500,
-        color: AppColors.text,
+        color: palette.text,
       ),
-      cursorColor: AppColors.accent,
+      cursorColor: palette.accent,
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: GoogleFonts.dmSans(
           fontSize: 14,
           fontWeight: FontWeight.w400,
-          color: AppColors.text3,
+          color: palette.text3,
         ),
         filled: true,
-        fillColor: AppColors.surface3,
+        fillColor: palette.surface3,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 14,
           vertical: 14,
@@ -270,23 +273,23 @@ class _RouteField extends StatelessWidget {
         suffixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: palette.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: palette.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.accent, width: 1.2),
+          borderSide: BorderSide(color: palette.accent, width: 1.2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.red),
+          borderSide: BorderSide(color: palette.red),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.red, width: 1.2),
+          borderSide: BorderSide(color: palette.red, width: 1.2),
         ),
       ),
     );
@@ -306,6 +309,7 @@ class _RouteActionIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Tooltip(
       message: tooltip,
       child: InkWell(
@@ -313,7 +317,7 @@ class _RouteActionIcon extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         child: Padding(
           padding: const EdgeInsets.all(6),
-          child: Icon(icon, size: 18, color: AppColors.text2),
+          child: Icon(icon, size: 18, color: palette.text2),
         ),
       ),
     );
@@ -328,6 +332,7 @@ class _RouteResolutionHint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Padding(
       padding: const EdgeInsets.only(left: 2),
       child: Row(
@@ -336,7 +341,7 @@ class _RouteResolutionHint extends StatelessWidget {
           Icon(
             highlighted ? Icons.check_circle_rounded : Icons.place_outlined,
             size: 14,
-            color: highlighted ? AppColors.accent : AppColors.text3,
+            color: highlighted ? palette.accent : palette.text3,
           ),
           const SizedBox(width: 6),
           Expanded(
@@ -345,7 +350,7 @@ class _RouteResolutionHint extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
-                color: highlighted ? AppColors.accent : AppColors.text2,
+                color: highlighted ? palette.accent : palette.text2,
                 height: 1.35,
               ),
             ),
@@ -373,6 +378,7 @@ class ScheduleTripLocationAttachmentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     late final IconData icon;
     late final String title;
     late final String subtitle;
@@ -444,7 +450,7 @@ class ScheduleTripLocationAttachmentCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 20, color: AppColors.text2),
+          Icon(icon, size: 20, color: palette.text2),
           const SizedBox(width: 10),
           Expanded(
             child: Column(
@@ -455,7 +461,7 @@ class ScheduleTripLocationAttachmentCard extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -464,7 +470,7 @@ class ScheduleTripLocationAttachmentCard extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w400,
-                    color: AppColors.text2,
+                    color: palette.text2,
                     height: 1.4,
                   ),
                 ),

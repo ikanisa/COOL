@@ -194,6 +194,7 @@ class GroupRepository {
         'p_monthly_contribution': group.monthlyContribution,
         'p_cycle_days': _cycleDaysForFrequency(group.frequency),
         'p_bank_partner': group.bankPartner,
+        'p_institution_id': group.institutionId,
         'p_momo_number': routeType == MomoRecipientType.phoneNumber
             ? normalizedRecipient
             : null,
@@ -357,7 +358,10 @@ class GroupRepository {
             normalizedCode,
             country: country ?? AppMarket.countryCode,
           )
-        : await getGroupById(groupId, country: country ?? AppMarket.countryCode);
+        : await getGroupById(
+            groupId,
+            country: country ?? AppMarket.countryCode,
+          );
     if (detail == null) {
       throw StateError('Joined group could not be loaded.');
     }

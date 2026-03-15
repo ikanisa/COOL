@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/config/app_market.dart';
 import '../rayon/models/rs_models.dart';
 import '../rayon/rayon_identity.dart' as rayon_identity;
+import '../rayon/rs_membership_package.dart';
 import '../rayon/rayon_payment.dart';
 
 class RayonSportsMembershipRepository {
@@ -156,6 +157,31 @@ class RayonSportsMembershipRepository {
 
     _cachedPaymentRoute = paymentRoute;
     return paymentRoute;
+  }
+
+  Future<List<RsMembershipPackage>> getMembershipPackages({
+    String? partnerId,
+    bool includeInactive = false,
+  }) async {
+    final resolvedPartnerId = partnerId ?? await resolvePartnerId();
+    if (resolvedPartnerId == null || resolvedPartnerId.isEmpty) {
+      return RsMembershipPackage.fallback();
+    }
+
+    var query = _client
+        .from('rs_membership_packages')
+        .select()
+        .eq('partner_id', resolvedPartnerId);
+
+    if (!includeInactive) {
+      query = query.eq('is_active', true);
+    }
+
+    final rows = _asListOfMaps(await query.order('sort_order').order('tier'));
+    if (rows.isEmpty) {
+      return RsMembershipPackage.fallback();
+    }
+    return rows.map(RsMembershipPackage.fromJson).toList(growable: false);
   }
 
   Future<bool> isGoogleWalletOperationallyReady() async {

@@ -8,6 +8,8 @@ class _MomoStatementsViewModel {
     required this.filteredSavingsEntries,
     required this.incomingTotal,
     required this.outgoingTotal,
+    required this.savingsTotal,
+    required this.activeSavingsGroups,
   });
 
   final List<String> activePartyOptions;
@@ -16,6 +18,8 @@ class _MomoStatementsViewModel {
   final List<SavingsStatementEntry> filteredSavingsEntries;
   final int incomingTotal;
   final int outgoingTotal;
+  final int savingsTotal;
+  final int activeSavingsGroups;
 }
 
 extension _MomoStatementsController on _MomoStatementsScreenState {
@@ -63,6 +67,14 @@ extension _MomoStatementsController on _MomoStatementsScreenState {
       outgoingTotal: filteredWalletEntries
           .where((entry) => entry.isDebit)
           .fold<int>(0, (sum, entry) => sum + entry.amount),
+      savingsTotal: filteredSavingsEntries.fold<int>(
+        0,
+        (sum, entry) => sum + entry.amount,
+      ),
+      activeSavingsGroups: filteredSavingsEntries
+          .map((entry) => entry.groupId)
+          .toSet()
+          .length,
     );
   }
 
@@ -72,6 +84,13 @@ extension _MomoStatementsController on _MomoStatementsScreenState {
 
   String _allPartyLabel() {
     return _isWalletTab ? 'All payers' : 'All groups';
+  }
+
+  String _optionsSummary(String? effectivePartyFilter) {
+    final audienceLabel = effectivePartyFilter == null
+        ? _allPartyLabel()
+        : '${_activePartyLabel()}: $effectivePartyFilter';
+    return '$audienceLabel · ${_sortOptionLabel()}';
   }
 
   Future<void> _selectPeriod(StatementPeriodPreset preset) async {
@@ -111,6 +130,48 @@ extension _MomoStatementsController on _MomoStatementsScreenState {
       _customStartDate = null;
       _customEndDate = null;
     });
+  }
+
+  Future<void> _showOptionsSheet({
+    required _MomoStatementsViewModel viewModel,
+    required List<MomoWalletEntry> walletEntries,
+    required List<SavingsStatementEntry> savingsEntries,
+  }) {
+    return showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return StatementOptionsSheet(
+          activePartyLabel: _activePartyLabel(),
+          allPartyLabel: _allPartyLabel(),
+          partyOptions: viewModel.activePartyOptions,
+          initialParty: viewModel.effectivePartyFilter,
+          initialSort: _sortOption,
+          canExport: _isWalletTab
+              ? walletEntries.isNotEmpty
+              : savingsEntries.isNotEmpty,
+          onApply: (party, sort) {
+            _applyState(() {
+              _selectedParty = party;
+              _sortOption = sort;
+            });
+          },
+          onReset: _resetFilters,
+          onDownloadPdf: () => _downloadActiveStatement(
+            format: StatementExportFormat.pdf,
+            walletEntries: walletEntries,
+            savingsEntries: savingsEntries,
+          ),
+          onDownloadExcel: () => _downloadActiveStatement(
+            format: StatementExportFormat.excel,
+            walletEntries: walletEntries,
+            savingsEntries: savingsEntries,
+          ),
+        );
+      },
+    );
   }
 
   Future<void> _downloadActiveStatement({

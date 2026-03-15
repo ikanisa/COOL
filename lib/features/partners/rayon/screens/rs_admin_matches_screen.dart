@@ -4,15 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
 import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../providers/rayon_sports_provider.dart';
-import '../../widgets/partner_navigation.dart';
 import '../models/rs_models.dart';
 import '../providers/rs_admin_provider.dart';
+import '../widgets/rs_admin_shell.dart';
 
 /// Admin screen for managing RS matches — create, edit, toggle sale, delete.
 class RsAdminMatchesScreen extends ConsumerStatefulWidget {
@@ -28,26 +27,10 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
   Widget build(BuildContext context) {
     final matchesAsync = ref.watch(rsAdminMatchesProvider);
 
-    return Scaffold(
-      backgroundColor: AppColors.bg,
-      appBar: AppBar(
-        backgroundColor: AppColors.rsBlue,
-        elevation: 0,
-        leading: buildPartnerBackButton(
-          context,
-          fallbackLocation: AppRoutes.adminRayon,
-          color: Colors.white,
-        ),
-        title: Text(
-          'Matches',
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-          ),
-        ),
-        actions: buildPartnerAppBarActions(context, homeColor: Colors.white),
-      ),
+    return RsAdminShell(
+      title: 'Matches',
+      subtitle:
+          'Schedule fixtures, adjust pricing, and control when tickets go live.',
       floatingActionButton: Semantics(
         button: true,
         label: 'Add match',
@@ -58,7 +41,24 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
           child: const Icon(Icons.add, color: Colors.white),
         ),
       ),
-      body: CoolAsyncView<List<RsMatch>>(
+      metrics: [
+        RsAdminMetric(
+          label: 'scheduled',
+          value:
+              matchesAsync.whenOrNull(data: (matches) => '${matches.length}') ??
+              '...',
+        ),
+        RsAdminMetric(
+          label: 'on sale',
+          value:
+              matchesAsync.whenOrNull(
+                data: (matches) =>
+                    '${matches.where((match) => match.isOnSale).length}',
+              ) ??
+              '...',
+        ),
+      ],
+      child: CoolAsyncView<List<RsMatch>>(
         value: matchesAsync,
         onRetry: () => ref.invalidate(rsAdminMatchesProvider),
         loadingWidget: const Padding(
@@ -71,7 +71,7 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
           icon: Icons.sports_soccer_outlined,
         ),
         builder: (matches) => ListView.separated(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.zero,
           itemCount: matches.length,
           separatorBuilder: (context, index) => const SizedBox(height: 10),
           itemBuilder: (context, index) {

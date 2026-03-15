@@ -17,11 +17,7 @@ const ikanisaSiteUrl = 'https://ikanisa.com/';
 const ikanisaRwandaWhatsApp = '+250795588248';
 const ikanisaEmail = 'info@ikanisa.com';
 
-const prismaCategoryOrder = <String>[
-  'rwanda_agent',
-  'capability',
-  'support',
-];
+const prismaCategoryOrder = <String>['rwanda_agent', 'capability', 'support'];
 
 const prismaCategoryMeta = <String, CategoryMeta>{
   'rwanda_agent': CategoryMeta(

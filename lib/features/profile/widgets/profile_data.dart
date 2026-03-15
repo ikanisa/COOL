@@ -24,7 +24,7 @@ class ProfileData {
     required this.country,
     required this.currencyCode,
     required this.momoLinked,
-    required this.languageCode,
+    String? languageCode = AppMarket.languageCode,
     required this.notificationsEnabled,
     required this.creditScoreLabel,
     required this.kycStatus,
@@ -38,7 +38,7 @@ class ProfileData {
     this.driverPlateNumber,
     this.subscriptionLabel,
     this.subscriptionExpiring = false,
-  });
+  }) : languageCode = AppMarket.languageCode;
 
   final String name;
   final String officialName;
@@ -68,7 +68,8 @@ class ProfileData {
   final String? subscriptionLabel;
   final bool subscriptionExpiring;
 
-  AppLocalizations get _l10n => lookupAppLocalizations(Locale(languageCode));
+  AppLocalizations get _l10n =>
+      lookupAppLocalizations(const Locale(AppMarket.languageCode));
 
   String get momoDisplayLabel {
     final l10n = _l10n;
@@ -133,6 +134,27 @@ class ProfileData {
     return parts.join(' · ');
   }
 
+  String get travelRoleLabel {
+    final l10n = _l10n;
+    if (!isDriver) {
+      return l10n.profilePassengerRoleLabel;
+    }
+    if ((vehicleType?.trim().isEmpty ?? true)) {
+      return l10n.profileDriverSetupPending;
+    }
+    return l10n.profileDriverRoleLabel;
+  }
+
+  Color get travelRoleValueColor {
+    if (!isDriver) {
+      return AppColors.text2;
+    }
+    if ((vehicleType?.trim().isEmpty ?? true)) {
+      return AppColors.orange;
+    }
+    return AppColors.blue;
+  }
+
   String get initials {
     final compactName = name.replaceAll(RegExp(r'[^0-9A-Za-z]'), '');
     if (compactName.isNotEmpty) {
@@ -185,7 +207,7 @@ class ProfileData {
       country: country,
       currencyCode: currencyCode,
       momoLinked: momoLinked,
-      languageCode: languageCode ?? this.languageCode,
+      languageCode: AppMarket.languageCode,
       notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
       creditScoreLabel: creditScoreLabel,
       kycStatus: kycStatus,
@@ -211,7 +233,7 @@ class ProfileData {
     country: 'Rwanda',
     currencyCode: 'RWF',
     momoLinked: false,
-    languageCode: 'en',
+    languageCode: AppMarket.languageCode,
     notificationsEnabled: true,
     creditScoreLabel: '--',
     kycStatus: 'unverified',
@@ -236,7 +258,7 @@ class ProfileSetupItem {
 class DriverProfileSnapshot {
   const DriverProfileSnapshot({
     required this.hasProfile,
-    this.locale = const Locale('en'),
+    Locale? locale = const Locale(AppMarket.languageCode),
     this.vehicleType,
     this.vehicleStatus,
     this.cadenceLabel,
@@ -245,7 +267,7 @@ class DriverProfileSnapshot {
     this.credits = 0,
     this.subscriptionLabel,
     this.subscriptionExpiring = false,
-  });
+  }) : locale = const Locale(AppMarket.languageCode);
 
   final bool hasProfile;
   final Locale locale;
@@ -275,7 +297,7 @@ class DriverProfileSnapshot {
     final profile = state.profile;
     final subscription = state.subscription;
     final now = DateTime.now();
-    final l10n = lookupAppLocalizations(locale);
+    final l10n = lookupAppLocalizations(const Locale(AppMarket.languageCode));
 
     final subscriptionExpiring =
         subscription?.expiresAt != null &&
@@ -284,7 +306,7 @@ class DriverProfileSnapshot {
 
     return DriverProfileSnapshot(
       hasProfile: profile != null,
-      locale: locale,
+      locale: const Locale(AppMarket.languageCode),
       vehicleType: _trimmed(profile?.vehicleType),
       vehicleStatus: _trimmed(profile?.vehicleStatus),
       cadenceLabel: profile == null
@@ -314,7 +336,7 @@ String? humanizeVehicleStatus(
     return null;
   }
 
-  final l10n = lookupAppLocalizations(locale);
+  final l10n = lookupAppLocalizations(const Locale(AppMarket.languageCode));
   return switch (normalized) {
     'verified' => l10n.verified,
     'pending_review' => l10n.pendingReview,
@@ -336,7 +358,7 @@ String? _subscriptionLabel(
   int creditsBalance, {
   Locale locale = const Locale('en'),
 }) {
-  final l10n = lookupAppLocalizations(locale);
+  final l10n = lookupAppLocalizations(const Locale(AppMarket.languageCode));
   if (subscription == null || !subscription.isSubscribed) {
     return l10n.profileMobilityCreditsValue(creditsBalance);
   }
@@ -347,7 +369,7 @@ String? _subscriptionLabel(
   }
 
   return l10n.profileMobilitySubscriptionUntil(
-    DateFormat('d MMM', locale.languageCode).format(expiresAt),
+    DateFormat('d MMM', AppMarket.languageCode).format(expiresAt),
   );
 }
 

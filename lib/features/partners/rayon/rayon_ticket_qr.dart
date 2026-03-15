@@ -44,7 +44,8 @@ String _resolveTicketQrSecret({String? debugSecretOverride}) {
     return secret;
   }
 
-  final override = (debugSecretOverride ?? _debugTicketQrSecretOverride)?.trim();
+  final override = (debugSecretOverride ?? _debugTicketQrSecretOverride)
+      ?.trim();
   if (override != null && override.isNotEmpty) {
     return override;
   }

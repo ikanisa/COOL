@@ -6,8 +6,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../widgets/partner_navigation.dart';
 import '../providers/rs_admin_provider.dart';
+import '../widgets/rs_admin_shell.dart';
+import '../../../../shared/widgets/cool_card.dart';
 
 /// RS Admin Hub — 7 cards for all RS admin management screens + live stats.
 class RsAdminDashboardScreen extends ConsumerWidget {
@@ -42,7 +43,19 @@ class RsAdminDashboardScreen extends ConsumerWidget {
       'Members',
       Icons.people_rounded,
       '/admin/rayon/members',
-      'Tier & points mgmt',
+      'Registry & points',
+    ),
+    _Section(
+      'Packages',
+      Icons.workspace_premium_rounded,
+      '/admin/rayon/packages',
+      'Tier copy & benefits',
+    ),
+    _Section(
+      'Finance',
+      Icons.account_balance_wallet_rounded,
+      '/admin/rayon/finance',
+      'Routes & ledger export',
     ),
     _Section(
       'Initiatives',
@@ -58,74 +71,43 @@ class RsAdminDashboardScreen extends ConsumerWidget {
     final membersAsync = ref.watch(rsAdminMembersProvider);
     final productsAsync = ref.watch(rsAdminProductsProvider);
 
-    return Scaffold(
-      backgroundColor: AppColors.bg,
-      appBar: AppBar(
-        backgroundColor: AppColors.rsBlue,
-        elevation: 0,
-        leading: buildPartnerBackButton(
-          context,
-          fallbackLocation: AppRoutes.admin,
-          color: Colors.white,
+    return RsAdminShell(
+      title: 'Rayon Sports Admin',
+      subtitle:
+          'Open one workspace at a time for matchday, ticketing, shop, member, and cause operations.',
+      fallbackLocation: AppRoutes.admin,
+      expandBody: false,
+      metrics: [
+        RsAdminMetric(
+          label: 'matches',
+          value:
+              matchesAsync.whenOrNull(data: (matches) => '${matches.length}') ??
+              '...',
         ),
-        title: Text(
-          'Rayon Sports Admin',
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-          ),
+        RsAdminMetric(
+          label: 'members',
+          value:
+              membersAsync.whenOrNull(data: (members) => '${members.length}') ??
+              '...',
         ),
-        actions: buildPartnerAppBarActions(context, homeColor: Colors.white),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // ── Quick stats row ──
-              Row(
-                children: [
-                  _StatChip(
-                    Icons.sports_soccer_rounded,
-                    matchesAsync.whenOrNull(data: (m) => '${m.length}') ?? '…',
-                    'Matches',
-                  ),
-                  const SizedBox(width: 8),
-                  _StatChip(
-                    Icons.people_rounded,
-                    membersAsync.whenOrNull(data: (m) => '${m.length}') ?? '…',
-                    'Members',
-                  ),
-                  const SizedBox(width: 8),
-                  _StatChip(
-                    Icons.shopping_bag_rounded,
-                    productsAsync.whenOrNull(data: (p) => '${p.length}') ?? '…',
-                    'Products',
-                  ),
-                ],
+        RsAdminMetric(
+          label: 'products',
+          value:
+              productsAsync.whenOrNull(
+                data: (products) => '${products.length}',
+              ) ??
+              '...',
+        ),
+      ],
+      child: Column(
+        children: _sections
+            .map(
+              (section) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: _AdminCard(section: section),
               ),
-              const SizedBox(height: 20),
-              // ── Grid ──
-              GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 12,
-                  crossAxisSpacing: 12,
-                  childAspectRatio: 1.2,
-                ),
-                itemCount: _sections.length,
-                itemBuilder: (context, index) {
-                  final s = _sections[index];
-                  return _AdminCard(section: s);
-                },
-              ),
-            ],
-          ),
-        ),
+            )
+            .toList(growable: false),
       ),
     );
   }
@@ -150,95 +132,55 @@ class _AdminCard extends StatelessWidget {
       label: '${section.title}. ${section.subtitle}',
       hint: 'Double tap to open ${section.title.toLowerCase()} management',
       excludeSemantics: true,
-      child: GestureDetector(
+      child: CoolCard(
         onTap: () {
           HapticFeedback.selectionClick();
           context.push(section.route);
         },
-        child: Container(
-          decoration: BoxDecoration(
-            color: AppColors.surface,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: AppColors.rsBlueBorder, width: 1),
-          ),
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(section.icon, size: 28, color: AppColors.text),
-              const SizedBox(height: 8),
-              Text(
-                section.title,
-                style: GoogleFonts.dmSans(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.text,
-                ),
+        semanticsLabel: '${section.title}. ${section.subtitle}',
+        borderColor: AppColors.border2,
+        child: Row(
+          children: [
+            Container(
+              width: 46,
+              height: 46,
+              decoration: BoxDecoration(
+                color: AppColors.rsBlueGlow,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: AppColors.rsBlueBorder),
               ),
-              const SizedBox(height: 4),
-              Text(
-                section.subtitle,
-                style: GoogleFonts.dmSans(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.text3,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _StatChip extends StatelessWidget {
-  const _StatChip(this.icon, this.value, this.label);
-  final IconData icon;
-  final String value;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Semantics(
-        container: true,
-        label: '$label count $value',
-        excludeSemantics: true,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-          decoration: BoxDecoration(
-            color: AppColors.surface,
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: AppColors.border, width: 1),
-          ),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              alignment: Alignment.center,
+              child: Icon(section.icon, size: 22, color: AppColors.rsWhite),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(icon, size: 16, color: AppColors.text),
-                  const SizedBox(width: 4),
                   Text(
-                    value,
-                    style: GoogleFonts.dmSans(
+                    section.title,
+                    style: GoogleFonts.barlow(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.text,
+                      color: AppColors.rsWhite,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    section.subtitle,
+                    style: GoogleFonts.barlow(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.text2,
+                      height: 1.35,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 2),
-              Text(
-                label,
-                style: GoogleFonts.dmSans(fontSize: 10, color: AppColors.text3),
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(width: 12),
+            Icon(Icons.arrow_forward_rounded, size: 18, color: AppColors.text2),
+          ],
         ),
       ),
     );

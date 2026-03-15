@@ -224,9 +224,7 @@ class TripBoardNotifier extends StateNotifier<TripBoardState> {
 
     state = state.copyWith(isLoadingMyTrips: true, myTripsError: null);
 
-    final result = await AsyncValue.guard(
-      () => _repository.getMyTrips(userId),
-    );
+    final result = await AsyncValue.guard(() => _repository.getMyTrips(userId));
 
     result.when(
       data: (trips) {

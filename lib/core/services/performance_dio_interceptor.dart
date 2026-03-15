@@ -47,10 +47,7 @@ class PerformanceDioInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    _stopMetric(
-      err.requestOptions,
-      responseCode: err.response?.statusCode,
-    );
+    _stopMetric(err.requestOptions, responseCode: err.response?.statusCode);
     handler.next(err);
   }
 

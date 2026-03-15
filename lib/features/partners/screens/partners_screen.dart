@@ -49,27 +49,31 @@ class _PartnersScreenState extends ConsumerState<PartnersScreen> {
       backgroundColor: AppColors.bg,
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         leading: buildPartnerBackButton(
           context,
           fallbackLocation: AppRoutes.home,
-        ),
-        title: Text(
-          context.l10n.partnersTitle,
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: AppColors.text,
-          ),
+          color: AppColors.text,
         ),
         actions: buildPartnerAppBarActions(context, homeColor: AppColors.text),
       ),
       body: CoolScreenBackground(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(18, 8, 18, 96),
+          padding: const EdgeInsets.fromLTRB(18, 0, 18, 96),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 8),
+              Text(
+                context.l10n.partnersTitle,
+                style: GoogleFonts.dmSans(
+                  fontSize: 34,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.text,
+                  height: 1.1,
+                ),
+              ),
+              const SizedBox(height: 24),
               Container(
                 padding: const EdgeInsets.all(3),
                 decoration: BoxDecoration(
@@ -81,34 +85,35 @@ class _PartnersScreenState extends ConsumerState<PartnersScreen> {
                     final isActive = _activeTab == index;
                     final disableAnimations =
                         MediaQuery.maybeOf(context)?.disableAnimations ?? false;
+                    final onPrimary = Theme.of(context).colorScheme.onPrimary;
                     return Expanded(
                       child: Semantics(
                         selected: isActive,
                         label: '${tabs[index]} tab',
                         child: GestureDetector(
-                        onTap: () => setState(() => _activeTab = index),
-                        child: AnimatedContainer(
-                          duration: disableAnimations
-                              ? Duration.zero
-                              : const Duration(milliseconds: 200),
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          decoration: BoxDecoration(
-                            color: isActive
-                                ? AppColors.accent
-                                : Colors.transparent,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            tabs[index],
-                            style: GoogleFonts.dmSans(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                              color: isActive ? Colors.black : AppColors.text2,
+                          onTap: () => setState(() => _activeTab = index),
+                          child: AnimatedContainer(
+                            duration: disableAnimations
+                                ? Duration.zero
+                                : const Duration(milliseconds: 200),
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            decoration: BoxDecoration(
+                              color: isActive
+                                  ? AppColors.accent
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              tabs[index],
+                              style: GoogleFonts.dmSans(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: isActive ? onPrimary : AppColors.text2,
+                              ),
                             ),
                           ),
                         ),
-                      ),
                       ),
                     );
                   }),

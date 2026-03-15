@@ -2,12 +2,14 @@
 
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+if [[ -z "${ROOT_DIR:-}" ]]; then
+  ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+fi
 readonly ROOT_DIR
 
-readonly BUILD_PRIVACY_POLICY_URL_DEFAULT="https://gen-lang-client-0172279957.web.app/privacy"
-readonly BUILD_TERMS_OF_SERVICE_URL_DEFAULT="https://gen-lang-client-0172279957.web.app/terms"
-readonly BUILD_ACCOUNT_DELETION_URL_DEFAULT="https://gen-lang-client-0172279957.web.app/account-deletion"
+readonly BUILD_PRIVACY_POLICY_URL_DEFAULT="https://cool.ikanisa.com/privacy"
+readonly BUILD_TERMS_OF_SERVICE_URL_DEFAULT="https://cool.ikanisa.com/terms"
+readonly BUILD_ACCOUNT_DELETION_URL_DEFAULT="https://cool.ikanisa.com/account-deletion"
 readonly BUILD_FLUTTER_BIN="${FLUTTER_BIN:-$ROOT_DIR/scripts/flutterw}"
 
 build_android_release() {
@@ -29,6 +31,11 @@ build_android_release() {
     "--dart-define=COOL_PRIVACY_POLICY_URL=${COOL_PRIVACY_POLICY_URL:-$BUILD_PRIVACY_POLICY_URL_DEFAULT}"
     "--dart-define=COOL_TERMS_OF_SERVICE_URL=${COOL_TERMS_OF_SERVICE_URL:-$BUILD_TERMS_OF_SERVICE_URL_DEFAULT}"
     "--dart-define=COOL_ACCOUNT_DELETION_URL=${COOL_ACCOUNT_DELETION_URL:-$BUILD_ACCOUNT_DELETION_URL_DEFAULT}"
+    "--dart-define=FIREBASE_ANDROID_PRODUCTION_API_KEY=${FIREBASE_ANDROID_PRODUCTION_API_KEY:-}"
+    "--dart-define=FIREBASE_ANDROID_PRODUCTION_APP_ID=${FIREBASE_ANDROID_PRODUCTION_APP_ID:-}"
+    "--dart-define=FIREBASE_ANDROID_PRODUCTION_MESSAGING_SENDER_ID=${FIREBASE_ANDROID_PRODUCTION_MESSAGING_SENDER_ID:-}"
+    "--dart-define=FIREBASE_ANDROID_PRODUCTION_PROJECT_ID=${FIREBASE_ANDROID_PRODUCTION_PROJECT_ID:-}"
+    "--dart-define=FIREBASE_ANDROID_PRODUCTION_STORAGE_BUCKET=${FIREBASE_ANDROID_PRODUCTION_STORAGE_BUCKET:-}"
   )
 
   cd "$ROOT_DIR"
@@ -55,6 +62,10 @@ build_android_release() {
 _require_build_env() {
   : "${SUPABASE_URL:?Set SUPABASE_URL before building an Android release artifact.}"
   : "${SUPABASE_ANON_KEY:?Set SUPABASE_ANON_KEY before building an Android release artifact.}"
+  # Firebase keys are optional build-time overrides (google-services.json is the runtime source).
+  if [[ -z "${FIREBASE_ANDROID_PRODUCTION_API_KEY:-}" ]]; then
+    echo "⚠️  FIREBASE_ANDROID_PRODUCTION_API_KEY not set; Firebase will use google-services.json defaults." >&2
+  fi
 }
 
 _has_android_maps_key() {
@@ -86,7 +97,12 @@ _load_release_env() {
       COOL_PRIVACY_POLICY_URL \
       COOL_TERMS_OF_SERVICE_URL \
       COOL_ACCOUNT_DELETION_URL \
-      ENABLE_ANDROID_MOMO_SMS_AUTOREAD; do
+      ENABLE_ANDROID_MOMO_SMS_AUTOREAD \
+      FIREBASE_ANDROID_PRODUCTION_API_KEY \
+      FIREBASE_ANDROID_PRODUCTION_APP_ID \
+      FIREBASE_ANDROID_PRODUCTION_MESSAGING_SENDER_ID \
+      FIREBASE_ANDROID_PRODUCTION_PROJECT_ID \
+      FIREBASE_ANDROID_PRODUCTION_STORAGE_BUCKET; do
       if [[ -z "${!json_key:-}" ]]; then
         local json_value
         json_value="$(

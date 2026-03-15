@@ -4,8 +4,7 @@ import '../models/partner_service.dart';
 
 /// Fetches partner services from the `partner_services` Supabase table.
 class PartnerServiceRepository {
-  PartnerServiceRepository({required SupabaseClient client})
-    : _client = client;
+  PartnerServiceRepository({required SupabaseClient client}) : _client = client;
 
   final SupabaseClient _client;
 

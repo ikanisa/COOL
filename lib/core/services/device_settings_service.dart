@@ -4,7 +4,8 @@ import 'package:flutter/services.dart';
 /// through the standard app-settings entry point.
 class DeviceSettingsService {
   DeviceSettingsService({MethodChannel? channel})
-    : _channel = channel ?? const MethodChannel('app.cool.mobile/device_settings');
+    : _channel =
+          channel ?? const MethodChannel('app.cool.mobile/device_settings');
 
   static final DeviceSettingsService instance = DeviceSettingsService();
 

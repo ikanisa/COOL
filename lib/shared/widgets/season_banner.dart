@@ -30,125 +30,127 @@ class SeasonBanner extends StatelessWidget {
             ],
           ),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: AppColors.accent.withValues(alpha: 0.2),
-          ),
+          border: Border.all(color: AppColors.accent.withValues(alpha: 0.2)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          // ─── Header ────────────────────────────────────
-          Row(
-            children: [
-              Icon(IconMapper.from(season.emoji), size: 22, color: AppColors.text2),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  season.title,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.text,
-                  ),
+            // ─── Header ────────────────────────────────────
+            Row(
+              children: [
+                Icon(
+                  IconMapper.from(season.emoji),
+                  size: 22,
+                  color: AppColors.text2,
                 ),
-              ),
-              Semantics(
-                label: 'Season time remaining ${season.timeRemainingLabel}',
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.accent.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
+                const SizedBox(width: 8),
+                Expanded(
                   child: Text(
-                    season.timeRemainingLabel,
+                    season.title,
                     style: GoogleFonts.dmSans(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.accent,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.text,
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 10),
-
-          // ─── Season progress bar ───────────────────────
-          Semantics(
-            label:
-                'Season progress ${(season.progressThroughSeason * 100).round()} percent',
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(4),
-              child: LinearProgressIndicator(
-                value: season.progressThroughSeason,
-                minHeight: 4,
-                backgroundColor: AppColors.surface3,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  AppColors.accent.withValues(alpha: 0.6),
-                ),
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 10),
-
-          // ─── Footer: season points + reward preview ────
-          Row(
-            children: [
-              Flexible(
-                child: Semantics(
-                  label: '$seasonPoints season points',
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.star_rounded,
-                        size: 14,
-                        color: AppColors.text2,
-                      ),
-                      const SizedBox(width: 4),
-                      Flexible(
-                        child: Text(
-                          '$seasonPoints season pts',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.dmSans(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.text2,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              if (season.rewardsDescription != null) ...[
-                const SizedBox(width: 8),
-                Flexible(
-                  child: Semantics(
-                    label: season.rewardsDescription!,
+                Semantics(
+                  label: 'Season time remaining ${season.timeRemainingLabel}',
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.accent.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     child: Text(
-                      season.rewardsDescription!,
+                      season.timeRemainingLabel,
                       style: GoogleFonts.dmSans(
                         fontSize: 11,
-                        color: AppColors.text3,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.accent,
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.end,
                     ),
                   ),
                 ),
               ],
-            ],
-          ),
-        ],
+            ),
+
+            const SizedBox(height: 10),
+
+            // ─── Season progress bar ───────────────────────
+            Semantics(
+              label:
+                  'Season progress ${(season.progressThroughSeason * 100).round()} percent',
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: LinearProgressIndicator(
+                  value: season.progressThroughSeason,
+                  minHeight: 4,
+                  backgroundColor: AppColors.surface3,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    AppColors.accent.withValues(alpha: 0.6),
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            // ─── Footer: season points + reward preview ────
+            Row(
+              children: [
+                Flexible(
+                  child: Semantics(
+                    label: '$seasonPoints season points',
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.star_rounded,
+                          size: 14,
+                          color: AppColors.text2,
+                        ),
+                        const SizedBox(width: 4),
+                        Flexible(
+                          child: Text(
+                            '$seasonPoints season pts',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.dmSans(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.text2,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                if (season.rewardsDescription != null) ...[
+                  const SizedBox(width: 8),
+                  Flexible(
+                    child: Semantics(
+                      label: season.rewardsDescription!,
+                      child: Text(
+                        season.rewardsDescription!,
+                        style: GoogleFonts.dmSans(
+                          fontSize: 11,
+                          color: AppColors.text3,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.end,
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ],
         ),
       ),
     );

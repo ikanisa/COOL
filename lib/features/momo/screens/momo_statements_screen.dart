@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -6,7 +8,7 @@ import 'package:intl/intl.dart';
 
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../core/utils/intl_locale.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_button.dart';
@@ -87,193 +89,172 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final locale = Localizations.maybeLocaleOf(context);
+    final palette = context.coolPalette;
     final moneyFormat = decimalMoneyFormatForLocale(context);
-    final dateFormat = safeDateFormat('dd MMM yyyy', locale: locale);
-    final dateTimeFormat = safeDateFormat('dd MMM yyyy, HH:mm', locale: locale);
-    final user = ref.watch(authProvider).user;
+    final dateFormat = safeDateFormat('dd MMM yyyy');
+    final dateTimeFormat = safeDateFormat('dd MMM yyyy, HH:mm');
     final bundleAsync = ref.watch(momoStatementBundleProvider(_query));
 
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: palette.bg,
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         leading: IconButton(
           onPressed: _closeOrReturnHome,
           tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-          icon: const Icon(Icons.arrow_back_rounded),
-        ),
-        title: Text(
-          l10n.momoStatementsTitle,
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: AppColors.text,
-          ),
+          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
         actions: [
           IconButton(
             tooltip: 'Home',
             onPressed: () => context.go(AppRoutes.home),
-            icon: const Icon(Icons.home_rounded, color: AppColors.text),
+            icon: Icon(Icons.home_rounded, color: palette.text),
           ),
           IconButton(
             tooltip: l10n.momoRefreshStatements,
             onPressed: _refresh,
-            icon: const Icon(Icons.refresh_rounded, color: AppColors.text),
+            icon: Icon(Icons.refresh_rounded, color: palette.text),
           ),
         ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(54),
-          child: Container(
-            margin: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-            decoration: BoxDecoration(
-              color: AppColors.bg,
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: AppColors.border),
-            ),
-            child: TabBar(
-              controller: _tabController,
-              dividerColor: Colors.transparent,
-              indicator: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: AppColors.surface2,
-              ),
-              labelColor: AppColors.text,
-              unselectedLabelColor: AppColors.text3,
-              labelStyle: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-              ),
-              unselectedLabelStyle: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-              ),
-              tabs: [
-                Tab(text: l10n.walletLabel),
-                Tab(text: l10n.savingsLabel),
-              ],
-            ),
-          ),
-        ),
       ),
       body: CoolScreenBackground(
-        child: CoolAsyncView<MomoStatementBundle>(
-          value: bundleAsync,
-          onRetry: _refresh,
-          loadingWidget: const SingleChildScrollView(
-            padding: EdgeInsets.fromLTRB(16, 12, 16, 16),
-            child: CoolSkeletonList(itemCount: 4),
-          ),
-          builder: (bundle) {
-            final viewModel = _buildViewModel(bundle);
-            return LayoutBuilder(
-              builder: (context, constraints) {
-                final topMaxHeight = constraints.maxHeight < 620
-                    ? constraints.maxHeight * 0.44
-                    : 320.0;
-                return Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
-                  child: Column(
-                    children: [
-                      ConstrainedBox(
-                        constraints: BoxConstraints(maxHeight: topMaxHeight),
-                        child: SingleChildScrollView(
-                          child: Column(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(18, 0, 18, 24),
+              child: Text(
+                l10n.momoStatementsTitle,
+                style: GoogleFonts.dmSans(
+                  fontSize: 34,
+                  fontWeight: FontWeight.w800,
+                  color: palette.text,
+                  height: 1.1,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(18, 0, 18, 12),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: palette.bg,
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: palette.border),
+                ),
+                child: TabBar(
+                  controller: _tabController,
+                  dividerColor: Colors.transparent,
+                  indicator: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: palette.surface2,
+                  ),
+                  labelColor: palette.text,
+                  unselectedLabelColor: palette.text3,
+                  labelStyle: GoogleFonts.dmSans(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  unselectedLabelStyle: GoogleFonts.dmSans(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  tabs: [
+                    Tab(text: l10n.walletLabel),
+                    Tab(text: l10n.savingsLabel),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: CoolAsyncView<MomoStatementBundle>(
+                value: bundleAsync,
+                onRetry: _refresh,
+                loadingWidget: const SingleChildScrollView(
+                  padding: EdgeInsets.fromLTRB(16, 12, 16, 16),
+                  child: CoolSkeletonList(itemCount: 4),
+                ),
+                builder: (bundle) {
+                  final viewModel = _buildViewModel(bundle);
+                  final visibleCount = _isWalletTab
+                      ? viewModel.filteredWalletEntries.length
+                      : viewModel.filteredSavingsEntries.length;
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+                    child: Column(
+                      children: [
+                        StatementOverviewCard(
+                          title: _isWalletTab
+                              ? l10n.walletLedgerTitle
+                              : l10n.savingsStatementTitle,
+                          headlineValue: '$visibleCount',
+                          headlineLabel: _isWalletTab
+                              ? visibleCount == 1
+                                    ? 'wallet entry in view'
+                                    : 'wallet entries in view'
+                              : visibleCount == 1
+                              ? 'savings entry in view'
+                              : 'savings entries in view',
+                          supportingLabel: _periodLabel(dateFormat),
+                          primaryMetricLabel: _isWalletTab
+                              ? l10n.incomingLabel
+                              : 'Saved',
+                          primaryMetricValue: _isWalletTab
+                              ? moneyFormat.format(viewModel.incomingTotal)
+                              : moneyFormat.format(viewModel.savingsTotal),
+                          secondaryMetricLabel: _isWalletTab
+                              ? l10n.outgoingLabel
+                              : l10n.navGroups,
+                          secondaryMetricValue: _isWalletTab
+                              ? moneyFormat.format(viewModel.outgoingTotal)
+                              : '${viewModel.activeSavingsGroups}',
+                        ),
+                        const SizedBox(height: 12),
+                        StatementToolbarCard(
+                          selectedPeriod: _periodPreset,
+                          periodSummary: _periodLabel(dateFormat),
+                          optionsSummary: _optionsSummary(
+                            viewModel.effectivePartyFilter,
+                          ),
+                          onSelectPeriod: _selectPeriod,
+                          onOpenOptions: () => _showOptionsSheet(
+                            viewModel: viewModel,
+                            walletEntries: viewModel.filteredWalletEntries,
+                            savingsEntries: viewModel.filteredSavingsEntries,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Expanded(
+                          child: TabBarView(
+                            controller: _tabController,
                             children: [
-                              StatementOverviewCard(
-                                userName:
-                                    user?.fullName ?? l10n.coolMemberFallback,
-                                officialPhone:
-                                    user?.officialPhone ?? user?.phone ?? '-',
-                                periodLabel: _periodLabel(dateFormat),
-                                walletCount:
-                                    viewModel.filteredWalletEntries.length,
-                                savingsCount:
-                                    viewModel.filteredSavingsEntries.length,
-                                incomingTotal: viewModel.incomingTotal,
-                                outgoingTotal: viewModel.outgoingTotal,
+                              WalletStatementTab(
+                                entries: viewModel.filteredWalletEntries,
+                                totalCount: bundle.walletTotalCount,
+                                dateFormat: dateTimeFormat,
                                 moneyFormat: moneyFormat,
+                                isFilteredView:
+                                    viewModel.effectivePartyFilter != null,
                               ),
-                              const SizedBox(height: 12),
-                              StatementControlsCard(
-                                selectedPeriod: _periodPreset,
-                                selectedParty: viewModel.effectivePartyFilter,
-                                selectedSort: _sortOption,
-                                activePartyLabel: _activePartyLabel(),
-                                allPartyLabel: _allPartyLabel(),
-                                partyOptions: viewModel.activePartyOptions,
-                                customPeriodLabel:
-                                    _periodPreset ==
-                                        StatementPeriodPreset.custom
-                                    ? _periodLabel(dateFormat)
-                                    : null,
-                                isExporting: _isExporting,
-                                canExport: _isWalletTab
-                                    ? viewModel.filteredWalletEntries.isNotEmpty
-                                    : viewModel
-                                          .filteredSavingsEntries
-                                          .isNotEmpty,
-                                onSelectPeriod: _selectPeriod,
-                                onPartyChanged: (value) {
-                                  setState(() => _selectedParty = value);
-                                },
-                                onSortChanged: (value) {
-                                  if (value == null) {
-                                    return;
-                                  }
-                                  setState(() => _sortOption = value);
-                                },
-                                onReset: _resetFilters,
-                                onDownloadPdf: () => _downloadActiveStatement(
-                                  format: StatementExportFormat.pdf,
-                                  walletEntries:
-                                      viewModel.filteredWalletEntries,
-                                  savingsEntries:
-                                      viewModel.filteredSavingsEntries,
-                                ),
-                                onDownloadExcel: () => _downloadActiveStatement(
-                                  format: StatementExportFormat.excel,
-                                  walletEntries:
-                                      viewModel.filteredWalletEntries,
-                                  savingsEntries:
-                                      viewModel.filteredSavingsEntries,
-                                ),
+                              SavingsStatementTab(
+                                entries: viewModel.filteredSavingsEntries,
+                                totalCount: bundle.savingsTotalCount,
+                                dateFormat: dateFormat,
+                                moneyFormat: moneyFormat,
+                                isFilteredView:
+                                    viewModel.effectivePartyFilter != null,
                               ),
                             ],
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      Expanded(
-                        child: TabBarView(
-                          controller: _tabController,
-                          children: [
-                            WalletStatementTab(
-                              entries: viewModel.filteredWalletEntries,
-                              totalCount: bundle.walletTotalCount,
-                              dateFormat: dateTimeFormat,
-                              moneyFormat: moneyFormat,
-                              isFilteredView:
-                                  viewModel.effectivePartyFilter != null,
-                            ),
-                            SavingsStatementTab(
-                              entries: viewModel.filteredSavingsEntries,
-                              totalCount: bundle.savingsTotalCount,
-                              dateFormat: dateFormat,
-                              moneyFormat: moneyFormat,
-                              isFilteredView:
-                                  viewModel.effectivePartyFilter != null,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            );
-          },
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

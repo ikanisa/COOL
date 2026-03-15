@@ -31,44 +31,44 @@ class RsServiceCard extends StatelessWidget {
       button: true,
       label: '$name service',
       child: Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(18),
-        splashColor: AppColors.rsBlueGlow,
-        highlightColor: AppColors.rsBlueGlow.withValues(alpha: 0.22),
-        child: Ink(
-          decoration: BoxDecoration(
-            color: AppColors.surface2,
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: AppColors.border2),
-          ),
-          child: Stack(
-            children: [
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: Container(
-                  height: 3,
-                  decoration: BoxDecoration(
-                    color: lineColor,
-                    borderRadius: const BorderRadius.vertical(
-                      bottom: Radius.circular(18),
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(18),
+          splashColor: AppColors.rsBlueGlow,
+          highlightColor: AppColors.rsBlueGlow.withValues(alpha: 0.22),
+          child: Ink(
+            decoration: BoxDecoration(
+              color: AppColors.surface2,
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(color: AppColors.border2),
+            ),
+            child: Stack(
+              children: [
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    height: 3,
+                    decoration: BoxDecoration(
+                      color: lineColor,
+                      borderRadius: const BorderRadius.vertical(
+                        bottom: Radius.circular(18),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 18),
-                child: isWide
-                    ? _WideContent(lineColor: lineColor, card: this)
-                    : _TallContent(lineColor: lineColor, card: this),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 18),
+                  child: isWide
+                      ? _WideContent(lineColor: lineColor, card: this)
+                      : _TallContent(lineColor: lineColor, card: this),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
       ),
     );
   }

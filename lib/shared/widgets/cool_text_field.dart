@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_palette.dart';
 
 /// A styled text field matching the Cool design system.
 ///
@@ -39,6 +39,7 @@ class CoolTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final semanticsLabel = label ?? hint;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,7 +54,7 @@ class CoolTextField extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: AppColors.text2,
+                color: palette.text2,
               ),
             ),
           ),
@@ -77,18 +78,18 @@ class CoolTextField extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 15,
               fontWeight: FontWeight.w500,
-              color: AppColors.text,
+              color: palette.text,
             ),
-            cursorColor: AppColors.accent,
+            cursorColor: palette.accent,
             decoration: InputDecoration(
               hintText: hint,
               hintStyle: GoogleFonts.dmSans(
                 fontSize: 15,
                 fontWeight: FontWeight.w400,
-                color: AppColors.text3,
+                color: palette.text3,
               ),
               filled: true,
-              fillColor: AppColors.surface2,
+              fillColor: palette.surface2,
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 18,
                 vertical: 16,
@@ -96,7 +97,7 @@ class CoolTextField extends StatelessWidget {
               prefixIcon: prefixIcon != null
                   ? Padding(
                       padding: const EdgeInsets.only(left: 16, right: 8),
-                      child: Icon(prefixIcon, size: 18, color: AppColors.text2),
+                      child: Icon(prefixIcon, size: 18, color: palette.text2),
                     )
                   : prefixEmoji != null
                   ? Padding(
@@ -107,37 +108,33 @@ class CoolTextField extends StatelessWidget {
                       ),
                     )
                   : null,
-              prefixIconConstraints:
-                  (prefixIcon != null || prefixEmoji != null)
+              prefixIconConstraints: (prefixIcon != null || prefixEmoji != null)
                   ? const BoxConstraints(minWidth: 0, minHeight: 0)
                   : null,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: AppColors.border),
+                borderSide: BorderSide(color: palette.border),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: AppColors.border),
+                borderSide: BorderSide(color: palette.border),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(
-                  color: AppColors.accent,
-                  width: 1.5,
-                ),
+                borderSide: BorderSide(color: palette.accent, width: 1.5),
               ),
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: AppColors.red),
+                borderSide: BorderSide(color: palette.red),
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: AppColors.red, width: 1.5),
+                borderSide: BorderSide(color: palette.red, width: 1.5),
               ),
               errorStyle: GoogleFonts.dmSans(
                 fontSize: 11,
                 fontWeight: FontWeight.w400,
-                color: AppColors.red,
+                color: palette.red,
               ),
             ),
           ),

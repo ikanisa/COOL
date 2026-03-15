@@ -104,9 +104,12 @@ class _ShopCheckoutScreenState extends ConsumerState<ShopCheckoutScreen>
             );
           }
 
-          final hasMemberDiscount = shop.hasMemberDiscount;
           final subtotal = shop.subtotalFor(products);
           final discountAmount = shop.discountFor(subtotal);
+          final itemCount = products.fold<int>(
+            0,
+            (sum, product) => sum + shop.quantityFor(product.id),
+          );
           const delivery = 0;
           final total = subtotal - discountAmount + delivery;
 
@@ -114,195 +117,75 @@ class _ShopCheckoutScreenState extends ConsumerState<ShopCheckoutScreen>
             physics: const AlwaysScrollableScrollPhysics(),
             slivers: [
               SliverPadding(
-                padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
-                sliver: SliverList(
-                  delegate: SliverChildListDelegate([
-                    Text(
-                      'Your order',
-                      style: GoogleFonts.barlowCondensed(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.rsWhite,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                  ]),
-                ),
-              ),
-              SliverPadding(
-                padding: const EdgeInsets.symmetric(horizontal: 18),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate((context, index) {
-                    final product = products[index];
-                    final qty = shop.quantityFor(product.id);
-                    final lineTotal = product.price * qty;
-                    final discountedTotal = hasMemberDiscount
-                        ? (lineTotal * 0.9).round()
-                        : lineTotal;
-
-                    return Padding(
-                      padding: EdgeInsets.only(
-                        bottom: index == products.length - 1 ? 0 : 10,
-                      ),
-                      child: CoolCard(
-                        gradient: AppColors.cardGradient,
-                        borderColor: RsColors.rsBlueBorder,
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 44,
-                              height: 44,
-                              decoration: BoxDecoration(
-                                color: AppColors.surface3,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              alignment: Alignment.center,
-                              child: Text(
-                                product.imageEmoji,
-                                style: const TextStyle(fontSize: 22),
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    product.name,
-                                    style: GoogleFonts.barlow(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w700,
-                                      color: AppColors.text,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    'Qty $qty',
-                                    style: GoogleFonts.dmSans(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColors.text2,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Text(
-                              _fmtRwf(discountedTotal),
-                              style: GoogleFonts.dmMono(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.text,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }, childCount: products.length),
-                ),
-              ),
-              SliverPadding(
                 padding: const EdgeInsets.fromLTRB(18, 8, 18, 96),
-                sliver: SliverList(
-                  delegate: SliverChildListDelegate([
-                    CoolCard(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Delivery or pickup',
-                            style: GoogleFonts.barlow(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.text,
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          CoolTextField(
-                            controller: _addressController,
-                            label: 'Address',
-                            hint: 'Pickup at Kigali Pele Stadium',
-                            maxLines: 2,
-                          ),
-                        ],
+                sliver: SliverToBoxAdapter(
+                  child: Column(
+                    children: [
+                      _ShopCheckoutOverviewCard(
+                        products: products,
+                        shop: shop,
+                        itemCount: itemCount,
+                        subtotal: subtotal,
+                        discountAmount: discountAmount,
+                        deliveryFee: delivery,
+                        total: total,
                       ),
-                    ),
-                    const SizedBox(height: 12),
-                    CoolCard(
-                      child: Column(
-                        children: [
-                          _SummaryRow(
-                            label: 'Subtotal',
-                            value: _fmtRwf(subtotal),
-                          ),
-                          if (discountAmount > 0)
-                            _SummaryRow(
-                              label: 'Member discount',
-                              value: '-${_fmtRwf(discountAmount)}',
-                              valueColor: AppColors.accent,
-                            ),
-                          const _SummaryRow(label: 'Delivery', value: 'Free'),
-                          const Divider(color: AppColors.border),
-                          _SummaryRow(
-                            label: 'Total',
-                            value: _fmtRwf(total),
-                            valueColor: AppColors.rsWhite,
-                          ),
-                        ],
+                      const SizedBox(height: 16),
+                      _ShopCheckoutActionCard(
+                        addressController: _addressController,
+                        total: total,
+                        paymentRoute: paymentRoute,
+                        onSubmit: paymentRoute == null
+                            ? () {}
+                            : () async {
+                                final notifier = ref.read(
+                                  rayonSportsProvider.notifier,
+                                );
+                                try {
+                                  final referralInviteId = _referralInviteId;
+                                  final result = await notifier.checkoutShop(
+                                    products: products,
+                                    membership: shop.membership,
+                                    quantities: shop.cart,
+                                    deliveryAddress:
+                                        _addressController.text.trim().isEmpty
+                                        ? 'Pickup at Kigali Pele Stadium'
+                                        : _addressController.text.trim(),
+                                    referralInviteId: referralInviteId,
+                                  );
+                                  if (!context.mounted) {
+                                    return;
+                                  }
+                                  setState(() {
+                                    _openedOrderId = result.orderId;
+                                    _openedOrderTotal = result.total;
+                                    _openedMessage = result.message;
+                                  });
+                                  ref
+                                      .read(
+                                        rayonCartControllerProvider.notifier,
+                                      )
+                                      .clearCart();
+                                  if (referralInviteId != null &&
+                                      referralInviteId.isNotEmpty) {
+                                    ref
+                                        .read(
+                                          activeReferralAttributionProvider
+                                              .notifier,
+                                        )
+                                        .clearIfMatches(referralInviteId);
+                                  }
+                                  CoolToast.info(context, result.message);
+                                } catch (error) {
+                                  if (!context.mounted) {
+                                    return;
+                                  }
+                                  CoolToast.error(context, error.toString());
+                                }
+                              },
                       ),
-                    ),
-                    const SizedBox(height: 18),
-                    CoolButton(
-                      label: paymentRoute == null
-                          ? 'Payment route unavailable'
-                          : 'Pay ${paymentRoute.amountLabel(total)} via ${paymentRoute.providerLabel}',
-                      onTap: paymentRoute == null
-                          ? () {}
-                          : () async {
-                        final notifier = ref.read(rayonSportsProvider.notifier);
-                        try {
-                          final referralInviteId = _referralInviteId;
-                          final result = await notifier.checkoutShop(
-                            products: products,
-                            membership: shop.membership,
-                            quantities: shop.cart,
-                            deliveryAddress:
-                                _addressController.text.trim().isEmpty
-                                ? 'Pickup at Kigali Pele Stadium'
-                                : _addressController.text.trim(),
-                            referralInviteId: referralInviteId,
-                          );
-                          if (!context.mounted) {
-                            return;
-                          }
-                          setState(() {
-                            _openedOrderId = result.orderId;
-                            _openedOrderTotal = result.total;
-                            _openedMessage = result.message;
-                          });
-                          ref
-                              .read(rayonCartControllerProvider.notifier)
-                              .clearCart();
-                          if (referralInviteId != null &&
-                              referralInviteId.isNotEmpty) {
-                            ref
-                                .read(
-                                  activeReferralAttributionProvider.notifier,
-                                )
-                                .clearIfMatches(referralInviteId);
-                          }
-                          CoolToast.info(context, result.message);
-                        } catch (error) {
-                          if (!context.mounted) {
-                            return;
-                          }
-                          CoolToast.error(context, error.toString());
-                        }
-                      },
-                      icon: Icons.phone_in_talk_outlined,
-                    ),
-                  ]),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -358,6 +241,321 @@ class _SummaryRow extends StatelessWidget {
               fontWeight: FontWeight.w700,
               color: valueColor ?? AppColors.text,
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ShopCheckoutOverviewCard extends StatelessWidget {
+  const _ShopCheckoutOverviewCard({
+    required this.products,
+    required this.shop,
+    required this.itemCount,
+    required this.subtotal,
+    required this.discountAmount,
+    required this.deliveryFee,
+    required this.total,
+  });
+
+  final List<RsProduct> products;
+  final RayonShopCatalogData shop;
+  final int itemCount;
+  final int subtotal;
+  final int discountAmount;
+  final int deliveryFee;
+  final int total;
+
+  @override
+  Widget build(BuildContext context) {
+    final hasMemberDiscount = shop.hasMemberDiscount;
+
+    return CoolCard(
+      borderColor: AppColors.border2,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Review order',
+                      style: GoogleFonts.barlowCondensed(
+                        fontSize: 28,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.rsWhite,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      '$itemCount items across ${products.length} products.',
+                      style: GoogleFonts.barlow(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.text2,
+                        height: 1.35,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (hasMemberDiscount)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: RsColors.rsGold.withValues(alpha: 0.14),
+                    borderRadius: BorderRadius.circular(999),
+                    border: Border.all(
+                      color: RsColors.rsGold.withValues(alpha: 0.28),
+                    ),
+                  ),
+                  child: Text(
+                    'GOLD -10%',
+                    style: GoogleFonts.dmMono(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                      color: RsColors.rsGoldLight,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          const SizedBox(height: 18),
+          for (var index = 0; index < products.length; index++) ...[
+            _CheckoutLineItemRow(
+              product: products[index],
+              quantity: shop.quantityFor(products[index].id),
+              hasMemberDiscount: hasMemberDiscount,
+            ),
+            if (index < products.length - 1)
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 12),
+                child: Divider(height: 1, color: AppColors.border),
+              ),
+          ],
+          const SizedBox(height: 16),
+          Divider(color: AppColors.border),
+          const SizedBox(height: 12),
+          _SummaryRow(
+            label: 'Subtotal',
+            value: _ShopCheckoutScreenState._fmtRwf(subtotal),
+          ),
+          if (discountAmount > 0)
+            _SummaryRow(
+              label: 'Member discount',
+              value: '-${_ShopCheckoutScreenState._fmtRwf(discountAmount)}',
+              valueColor: AppColors.accent,
+            ),
+          _SummaryRow(
+            label: 'Pickup / delivery',
+            value: deliveryFee == 0
+                ? 'Free'
+                : _ShopCheckoutScreenState._fmtRwf(deliveryFee),
+          ),
+          Divider(color: AppColors.border),
+          _SummaryRow(
+            label: 'Total',
+            value: _ShopCheckoutScreenState._fmtRwf(total),
+            valueColor: AppColors.rsWhite,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CheckoutLineItemRow extends StatelessWidget {
+  const _CheckoutLineItemRow({
+    required this.product,
+    required this.quantity,
+    required this.hasMemberDiscount,
+  });
+
+  final RsProduct product;
+  final int quantity;
+  final bool hasMemberDiscount;
+
+  @override
+  Widget build(BuildContext context) {
+    final lineTotal = product.price * quantity;
+    final discountedTotal = hasMemberDiscount
+        ? (lineTotal * 0.9).round()
+        : lineTotal;
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: AppColors.surface3,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          alignment: Alignment.center,
+          child: Text(product.imageEmoji, style: const TextStyle(fontSize: 20)),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                product.name,
+                style: GoogleFonts.barlow(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.text,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'Qty $quantity',
+                style: GoogleFonts.dmSans(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.text2,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 12),
+        Text(
+          _ShopCheckoutScreenState._fmtRwf(discountedTotal),
+          style: GoogleFonts.dmMono(
+            fontSize: 12,
+            fontWeight: FontWeight.w700,
+            color: AppColors.text,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ShopCheckoutActionCard extends StatelessWidget {
+  const _ShopCheckoutActionCard({
+    required this.addressController,
+    required this.total,
+    required this.onSubmit,
+    this.paymentRoute,
+  });
+
+  final TextEditingController addressController;
+  final int total;
+  final VoidCallback onSubmit;
+  final PartnerPaymentRoute? paymentRoute;
+
+  @override
+  Widget build(BuildContext context) {
+    final paymentLabel = paymentRoute == null
+        ? 'Payment route unavailable'
+        : 'Pay ${paymentRoute!.amountLabel(total)} via ${paymentRoute!.providerLabel}';
+    final paymentTitle = paymentRoute == null
+        ? 'Checkout unavailable'
+        : paymentRoute!.providerLabel;
+    final paymentBody = paymentRoute == null
+        ? 'Checkout opens once partner payment routing is active.'
+        : 'Pay ${paymentRoute!.amountLabel(total)} to ${paymentRoute!.payToLabel}. Order confirmation follows after ${paymentRoute!.reconciliationLabel}.';
+
+    return CoolCard(
+      borderColor: AppColors.border2,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Pickup or delivery',
+            style: GoogleFonts.barlow(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: AppColors.text,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            'Leave the field empty to collect from Kigali Pele Stadium.',
+            style: GoogleFonts.barlow(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: AppColors.text2,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 12),
+          CoolTextField(
+            controller: addressController,
+            label: 'Address',
+            hint: 'Pickup at Kigali Pele Stadium',
+            maxLines: 2,
+          ),
+          const SizedBox(height: 14),
+          Container(
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: RsColors.rsBlue.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: RsColors.rsBlueBorder),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 36,
+                  height: 36,
+                  decoration: BoxDecoration(
+                    color: RsColors.rsBlueGlow,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  alignment: Alignment.center,
+                  child: const Icon(
+                    Icons.phone_in_talk_rounded,
+                    color: RsColors.rsWhite,
+                    size: 18,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        paymentTitle,
+                        style: GoogleFonts.barlow(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          color: RsColors.rsWhite,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        paymentBody,
+                        style: GoogleFonts.barlow(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.text2,
+                          height: 1.45,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          CoolButton(
+            label: paymentLabel,
+            onTap: onSubmit,
+            icon: Icons.phone_in_talk_outlined,
           ),
         ],
       ),
@@ -663,7 +861,7 @@ class _EmptyCheckout extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
-            const Icon(
+            Icon(
               Icons.shopping_cart_outlined,
               size: 56,
               color: AppColors.text3,
@@ -759,7 +957,8 @@ String _statusBody(
   final paymentDetails = paymentRoute == null
       ? 'backend payment routing'
       : paymentRoute.payToLabel;
-  final amountLabel = paymentRoute?.amountLabel(total) ??
+  final amountLabel =
+      paymentRoute?.amountLabel(total) ??
       _ShopCheckoutScreenState._fmtRwf(total);
   final receiptLogic = paymentRoute == null
       ? 'SMS reconciliation'

@@ -82,6 +82,25 @@ void main() {
       expect(created, isNotNull);
       expect(repository.lastCreatedGroup?.country, 'RW');
     });
+
+    test(
+      'preserves the stable bank partner id on created savings groups',
+      () async {
+        await notifier.createGroup(
+          const GroupCreateData(
+            name: 'Neighbourhood Circle',
+            type: 'saving',
+            visibility: 'private',
+            targetAmountRwf: 120000,
+            bankPartner: 'BK Rwanda',
+            bankPartnerId: 'bank-1',
+          ),
+        );
+
+        expect(repository.lastCreatedGroup?.bankPartner, 'BK Rwanda');
+        expect(repository.lastCreatedGroup?.institutionId, 'bank-1');
+      },
+    );
   });
 }
 

@@ -13,15 +13,14 @@ import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/services/whatsapp_contact_service.dart';
 import '../services/mobility_whatsapp_service.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_toast.dart';
 
-import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../models/driver_info.dart';
 import '../providers/driver_provider.dart';
 import '../providers/mobility_location_provider.dart';
 import '../providers/mobility_provider.dart';
-import '../widgets/mobility_driver_widgets.dart';
 import '../widgets/mobility_list_widgets.dart';
 import '../widgets/mobility_listing_sheet.dart';
 import '../widgets/mobility_map_widgets.dart';
@@ -191,44 +190,52 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final palette = context.coolPalette;
     final currentUser = ref.watch(currentUserProvider);
     final driverProfile = ref.watch(
       driverProvider.select((state) => state.profile),
     );
     final activeTab = ref.watch(mobilityActiveTabProvider);
     final isDriver = (currentUser?.isDriver ?? false) || driverProfile != null;
-    final driverIsOnline = driverProfile?.isOnline ?? false;
-    final driverVehicleType =
-        driverProfile?.vehicleType ??
-        currentUser?.vehicleType ??
-        l10n.driverProfile;
     final supportsEmbeddedMaps = EnvConfig.hasEmbeddedGoogleMapsSupport(
       Theme.of(context).platform,
     );
 
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: palette.bg,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text(
-          l10n.navMobility,
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: AppColors.text,
-          ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () => context.go(AppRoutes.home),
+          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
       ),
       body: CoolScreenBackground(
         child: RefreshIndicator(
-          color: AppColors.accent,
-          backgroundColor: AppColors.surface2,
+          color: palette.accent,
+          backgroundColor: palette.surface2,
           onRefresh: _refreshNearbyDrivers,
           child: CustomScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             slivers: [
               SliverPadding(
-                padding: EdgeInsets.fromLTRB(18, isDriver ? 8 : 16, 18, 0),
+                padding: const EdgeInsets.fromLTRB(18, 0, 18, 24),
+                sliver: SliverToBoxAdapter(
+                  child: Text(
+                    l10n.navMobility,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 34,
+                      fontWeight: FontWeight.w800,
+                      color: palette.text,
+                      height: 1.1,
+                    ),
+                  ),
+                ),
+              ),
+              SliverPadding(
+                padding: EdgeInsets.fromLTRB(18, isDriver ? 0 : 8, 18, 0),
                 sliver: SliverToBoxAdapter(
                   child: MobilityTopActionsCard(
                     isDriver: isDriver,
@@ -241,20 +248,17 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
                   ),
                 ),
               ),
-              if (isDriver)
-                SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
-                  sliver: SliverToBoxAdapter(
-                    child: MobilityDriverStatusSection(
-                      isOnline: driverIsOnline,
-                      vehicleType: driverVehicleType,
-                      onChanged: _handleDriverStatusToggle,
-                    ),
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
+                sliver: SliverToBoxAdapter(
+                  child: MobilityBrowseControlsCard(
+                    supportsEmbeddedMaps: supportsEmbeddedMaps,
+                    showMap: _showMap,
+                    onToggleMap: () {
+                      setState(() => _showMap = !_showMap);
+                    },
                   ),
                 ),
-              const SliverPadding(
-                padding: EdgeInsets.fromLTRB(18, 18, 18, 0),
-                sliver: SliverToBoxAdapter(child: MobilityBrowseControlsCard()),
               ),
               MobilityContentSliver(
                 onDriverPreviewTap: (driver) {
@@ -267,56 +271,23 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
                   unawaited(_showTripPreview(trip));
                 },
               ),
-              if (activeTab == 0 && supportsEmbeddedMaps) ...[
+              if (activeTab == 0 && supportsEmbeddedMaps && _showMap)
                 SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
+                  padding: const EdgeInsets.fromLTRB(18, 12, 18, 0),
                   sliver: SliverToBoxAdapter(
-                    child: MobilityMapToggleCard(
-                      isExpanded: _showMap,
-                      onTap: () {
-                        setState(() => _showMap = !_showMap);
+                    child: MobilityMapSection(
+                      onDriverTap: (driver) {
+                        unawaited(_showDriverPreview(driver));
                       },
                     ),
                   ),
                 ),
-                if (_showMap)
-                  SliverPadding(
-                    padding: const EdgeInsets.fromLTRB(18, 12, 18, 0),
-                    sliver: SliverToBoxAdapter(
-                      child: MobilityMapSection(
-                        onDriverTap: (driver) {
-                          unawaited(_showDriverPreview(driver));
-                        },
-                      ),
-                    ),
-                  ),
-              ],
               const SliverToBoxAdapter(child: SizedBox(height: 96)),
             ],
           ),
         ),
       ),
     );
-  }
-
-  Future<void> _handleDriverStatusToggle(bool value) async {
-    final l10n = context.l10n;
-    final position =
-        ref.read(mobilityLocationProvider).position ??
-        ref.read(mobilityUserLocationProvider);
-    if (position == null) {
-      CoolToast.error(context, l10n.mobilityLocationRequiredDriverMode);
-      return;
-    }
-
-    await ref
-        .read(driverProvider.notifier)
-        .setOnlineStatus(
-          isOnline: value,
-          latitude: position.latitude,
-          longitude: position.longitude,
-        );
-    await ref.read(mobilityProvider.notifier).loadNearbyDrivers();
   }
 }
 

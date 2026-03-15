@@ -7,6 +7,7 @@ import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../shared/widgets/cool_button.dart';
+import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_toast.dart';
 import '../../../../shared/widgets/cool_text_field.dart';
 import '../../../../shared/widgets/rs_fan_club_card.dart';
@@ -71,23 +72,10 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
                 padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
-                    Text(
-                      'Local chapters, louder stands.',
-                      style: GoogleFonts.barlowCondensed(
-                        fontSize: 34,
-                        fontWeight: FontWeight.w900,
-                        color: AppColors.rsWhite,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Choose your region, organize away trips, and join the supporters moving the club forward.',
-                      style: GoogleFonts.barlow(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.text2,
-                        height: 1.4,
-                      ),
+                    _FanClubsOverviewCard(
+                      totalClubs: directory.clubs.length,
+                      joinedClubs: myClub.length,
+                      selectedRegion: _selectedRegion,
                     ),
                     const SizedBox(height: 16),
                     SizedBox(
@@ -103,37 +91,37 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
                             selected: selected,
                             label: '$region region filter',
                             child: GestureDetector(
-                            onTap: () =>
-                                setState(() => _selectedRegion = region),
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 180),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 14,
-                              ),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: selected
-                                    ? RsColors.rsBlue
-                                    : AppColors.surface2,
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  color: selected
-                                      ? RsColors.rsBlueBorder
-                                      : AppColors.border,
+                              onTap: () =>
+                                  setState(() => _selectedRegion = region),
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 180),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 14,
                                 ),
-                              ),
-                              child: Text(
-                                region,
-                                style: GoogleFonts.barlow(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w700,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
                                   color: selected
-                                      ? Colors.white
-                                      : AppColors.text2,
+                                      ? RsColors.rsBlue
+                                      : AppColors.surface2,
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(
+                                    color: selected
+                                        ? RsColors.rsBlueBorder
+                                        : AppColors.border,
+                                  ),
+                                ),
+                                child: Text(
+                                  region,
+                                  style: GoogleFonts.barlow(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w700,
+                                    color: selected
+                                        ? Colors.white
+                                        : AppColors.text2,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
                           );
                         },
                       ),
@@ -148,12 +136,11 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
                   sliver: SliverList(
                     delegate: SliverChildListDelegate([
                       Text(
-                        'MY CLUB',
+                        'Joined clubs',
                         style: GoogleFonts.barlow(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w800,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
                           color: AppColors.blue,
-                          letterSpacing: 1,
                         ),
                       ),
                       const SizedBox(height: 10),
@@ -194,12 +181,11 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
                     Text(
-                      'ALL CLUBS',
+                      'All clubs',
                       style: GoogleFonts.barlow(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w800,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
                         color: AppColors.text2,
-                        letterSpacing: 1,
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -280,6 +266,107 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
           Navigator.of(modalCtx).pop();
           CoolToast.success(context, 'Club creation request submitted.');
         },
+      ),
+    );
+  }
+}
+
+class _FanClubsOverviewCard extends StatelessWidget {
+  const _FanClubsOverviewCard({
+    required this.totalClubs,
+    required this.joinedClubs,
+    required this.selectedRegion,
+  });
+
+  final int totalClubs;
+  final int joinedClubs;
+  final String selectedRegion;
+
+  @override
+  Widget build(BuildContext context) {
+    return CoolCard(
+      borderColor: AppColors.border2,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Local chapters, louder stands.',
+            style: GoogleFonts.barlowCondensed(
+              fontSize: 30,
+              fontWeight: FontWeight.w900,
+              color: AppColors.rsWhite,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Filter by region, join a chapter, and organize matchday support.',
+            style: GoogleFonts.barlow(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: AppColors.text2,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              _FanClubMetaPill(
+                label: '$totalClubs clubs',
+                foregroundColor: AppColors.rsWhite,
+                backgroundColor: RsColors.rsBlue.withValues(alpha: 0.14),
+                borderColor: RsColors.rsBlueBorder,
+              ),
+              _FanClubMetaPill(
+                label: '$joinedClubs joined',
+                foregroundColor: RsColors.rsGoldLight,
+                backgroundColor: RsColors.rsGold.withValues(alpha: 0.14),
+                borderColor: RsColors.rsGold.withValues(alpha: 0.28),
+              ),
+              _FanClubMetaPill(
+                label: selectedRegion == 'All' ? 'All regions' : selectedRegion,
+                foregroundColor: AppColors.text2,
+                backgroundColor: AppColors.surface2,
+                borderColor: AppColors.border,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _FanClubMetaPill extends StatelessWidget {
+  const _FanClubMetaPill({
+    required this.label,
+    required this.foregroundColor,
+    required this.backgroundColor,
+    required this.borderColor,
+  });
+
+  final String label;
+  final Color foregroundColor;
+  final Color backgroundColor;
+  final Color borderColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: borderColor),
+      ),
+      child: Text(
+        label,
+        style: GoogleFonts.dmMono(
+          fontSize: 11,
+          fontWeight: FontWeight.w700,
+          color: foregroundColor,
+        ),
       ),
     );
   }
@@ -371,31 +458,33 @@ class _CreateClubSheetState extends State<_CreateClubSheet> {
                     selected: selected,
                     label: '$r region',
                     child: GestureDetector(
-                    onTap: () => setState(() => _region = r),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: selected ? RsColors.rsBlue : AppColors.surface2,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: selected
-                              ? RsColors.rsBlueBorder
-                              : AppColors.border,
+                      onTap: () => setState(() => _region = r),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 8,
                         ),
-                      ),
-                      child: Text(
-                        r,
-                        style: GoogleFonts.barlow(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w700,
-                          color: selected ? Colors.white : AppColors.text2,
+                        decoration: BoxDecoration(
+                          color: selected
+                              ? RsColors.rsBlue
+                              : AppColors.surface2,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: selected
+                                ? RsColors.rsBlueBorder
+                                : AppColors.border,
+                          ),
+                        ),
+                        child: Text(
+                          r,
+                          style: GoogleFonts.barlow(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            color: selected ? Colors.white : AppColors.text2,
+                          ),
                         ),
                       ),
                     ),
-                  ),
                   );
                 }).toList(),
               ),

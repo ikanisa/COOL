@@ -9,6 +9,7 @@ import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../providers/admin_providers.dart';
 
 /// Admin screen for managing partners.
@@ -22,17 +23,13 @@ class ManagePartnersScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.bg,
       appBar: AppBar(
-        backgroundColor: AppColors.surface,
+        backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
-          'Manage Partners',
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: AppColors.text,
-          ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded),
+          color: AppColors.text,
+          onPressed: () => Navigator.of(context).pop(),
         ),
-        iconTheme: const IconThemeData(color: AppColors.text),
       ),
       floatingActionButton: Semantics(
         button: true,
@@ -44,29 +41,47 @@ class ManagePartnersScreen extends ConsumerWidget {
           child: const Icon(Icons.add_rounded, color: Colors.black),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: CoolAsyncView<List<Map<String, dynamic>>>(
-          value: partnersAsync,
-          onRetry: () => ref.invalidate(adminPartnersProvider),
-          loadingWidget: const CoolSkeletonList(itemCount: 4),
-          emptyCheck: (p) => p.isEmpty,
-          emptyWidget: const CoolEmptyView(
-            message: 'No partners have been added yet.',
-            icon: Icons.handshake_rounded,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            child: Text(
+              'Manage Partners',
+              style: GoogleFonts.dmSans(
+                fontSize: 34,
+                fontWeight: FontWeight.w800,
+                height: 1.1,
+                color: AppColors.text,
+              ),
+            ),
           ),
-          builder: (partners) => ListView.separated(
-            itemCount: partners.length,
-            separatorBuilder: (_, _) => const SizedBox(height: 8),
-            itemBuilder: (context, index) {
-              final p = partners[index];
-              return _PartnerTile(
-                partner: p,
-                onEdit: () => _showEditSheet(context, ref, p),
-              );
-            },
+          const SizedBox(height: 24),
+          Expanded(
+            child: CoolAsyncView<List<Map<String, dynamic>>>(
+              value: partnersAsync,
+              onRetry: () => ref.invalidate(adminPartnersProvider),
+              loadingWidget: const CoolSkeletonList(itemCount: 4),
+              emptyCheck: (p) => p.isEmpty,
+              emptyWidget: const CoolEmptyView(
+                message: 'No partners have been added yet.',
+                icon: Icons.handshake_rounded,
+              ),
+              builder: (partners) => ListView.separated(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                itemCount: partners.length,
+                separatorBuilder: (_, _) => const SizedBox(height: 12),
+                itemBuilder: (context, index) {
+                  final p = partners[index];
+                  return _PartnerTile(
+                    partner: p,
+                    onEdit: () => _showEditSheet(context, ref, p),
+                  );
+                },
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -99,12 +114,8 @@ class _PartnerTile extends StatelessWidget {
     final slug = partner['slug']?.toString() ?? '';
     final category = partner['category']?.toString() ?? '';
     final marketName = AppMarket.country.name;
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
-      ),
+    return CoolCard(
+      padding: EdgeInsets.zero,
       child: Semantics(
         container: true,
         label:
@@ -165,7 +176,7 @@ class _PartnerTile extends StatelessWidget {
                 hint: 'Opens the partner editor',
                 child: GestureDetector(
                   onTap: onEdit,
-                  child: const Icon(
+                  child: Icon(
                     Icons.edit_rounded,
                     size: 18,
                     color: AppColors.text3,
@@ -282,7 +293,7 @@ class _EditPartnerSheetState extends State<_EditPartnerSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),

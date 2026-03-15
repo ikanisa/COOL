@@ -128,7 +128,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
           onPressed: () => context.go(
             AppRoutes.onboardingLocation(redirect: widget.redirectPath),
           ),
-          icon: const Icon(Icons.arrow_back_rounded, color: AppColors.text),
+          icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
       ),
       body: SafeArea(
@@ -145,73 +145,101 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
 
                     // ── Title ─────────────────────────────────────────
                     Text(
-                      l10n.otpUseWhatsappTitle,
+                      'Enter your number',
                       style: GoogleFonts.dmSans(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w700,
+                        fontSize: 34,
+                        fontWeight: FontWeight.w800,
                         color: AppColors.text,
-                        height: 1.2,
+                        height: 1.1,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 12),
                     Text(
-                      'Cool serves Rwanda only. You can still sign in with any WhatsApp number worldwide.',
+                      'A one-time code will be sent to your WhatsApp.',
                       style: GoogleFonts.dmSans(
-                        fontSize: 14,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
                         color: AppColors.text2,
-                        height: 1.45,
+                        height: 1.4,
                       ),
                     ),
+                    const SizedBox(height: 32),
 
-                    const SizedBox(height: 28),
-
-                    // ── Phone input ───────────────────────────────────
+                    // ── Phone input card ──────────────────────────────
                     Container(
-                      height: 56,
                       decoration: BoxDecoration(
                         color: AppColors.surface2,
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(14),
                         border: Border.all(color: AppColors.border),
                       ),
                       child: Semantics(
                         textField: true,
                         label: l10n.phoneLabel,
                         hint: 'Enter your phone number',
-                        child: TextField(
-                          controller: _phoneController,
-                          keyboardType: TextInputType.phone,
-                          textInputAction: TextInputAction.done,
-                          onSubmitted: (_) => _sendOtp(),
-                          style: GoogleFonts.dmSans(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.text,
-                            letterSpacing: 0.5,
-                          ),
-                          cursorColor: AppColors.accent,
-                          decoration: InputDecoration(
-                            hintText: '078 123 4567 or +256 781 234 567',
-                            hintStyle: GoogleFonts.dmSans(
-                              fontSize: 16,
-                              color: AppColors.text3.withValues(alpha: 0.5),
-                              letterSpacing: 0.5,
+                        child: Row(
+                          children: [
+                            // Country code prefix
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 14,
+                                vertical: 16,
+                              ),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  right: BorderSide(color: AppColors.border),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    '🇷🇼',
+                                    style: const TextStyle(fontSize: 18),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    '+250',
+                                    style: GoogleFonts.dmSans(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.text,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 14,
+                            // Phone number input
+                            Expanded(
+                              child: TextField(
+                                controller: _phoneController,
+                                keyboardType: TextInputType.phone,
+                                textInputAction: TextInputAction.done,
+                                onSubmitted: (_) => _sendOtp(),
+                                style: GoogleFonts.dmSans(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.text,
+                                  letterSpacing: 0.8,
+                                ),
+                                cursorColor: AppColors.accent,
+                                decoration: InputDecoration(
+                                  hintText: '78 123 4567',
+                                  hintStyle: GoogleFonts.dmSans(
+                                    fontSize: 16,
+                                    color: AppColors.text3.withValues(
+                                      alpha: 0.5,
+                                    ),
+                                    letterSpacing: 0.5,
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 14,
+                                  ),
+                                  border: InputBorder.none,
+                                ),
+                              ),
                             ),
-                            border: InputBorder.none,
-                          ),
+                          ],
                         ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      'Use your Rwanda number in local format, or paste a full WhatsApp number in E.164 format with +.',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.text3,
-                        height: 1.4,
                       ),
                     ),
 

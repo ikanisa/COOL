@@ -72,3 +72,6 @@ firebase-debug.log
 flutter_*.log
 *.log
 .env.json
+
+# Google Play service account key
+output/play_store/play-store-sa-key.json

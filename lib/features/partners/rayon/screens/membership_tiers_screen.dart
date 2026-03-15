@@ -13,6 +13,7 @@ import '../../../../shared/widgets/rs_progress_bar.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/partner_navigation.dart';
 import '../models/rs_models.dart';
+import '../rs_membership_package.dart';
 import '../widgets/rs_tier_badge.dart';
 
 /// Full-screen page showing all Rayon Sports membership tiers with
@@ -25,6 +26,7 @@ class MembershipTiersScreen extends StatelessWidget {
     return Consumer(
       builder: (context, ref, _) {
         final membershipAsync = ref.watch(rayonUserMembershipProvider);
+        final packagesAsync = ref.watch(rayonMembershipPackagesProvider);
 
         return Scaffold(
           backgroundColor: AppColors.bg,
@@ -53,10 +55,29 @@ class MembershipTiersScreen extends StatelessWidget {
                 SliverPadding(
                   padding: const EdgeInsets.fromLTRB(18, 12, 18, 96),
                   sliver: membershipAsync.when(
-                    data: (membership) => _TierList(
-                      currentTier: membership?.tier ?? FanTier.blue,
-                      currentPoints: membership?.points ?? 0,
-                    ),
+                    data: (membership) {
+                      final currentTier = membership?.tier ?? FanTier.blue;
+                      final currentPoints = membership?.points ?? 0;
+                      return packagesAsync.when(
+                        data: (packages) => _TierList(
+                          currentTier: currentTier,
+                          currentPoints: currentPoints,
+                          packages: packages.isEmpty
+                              ? RsMembershipPackage.fallback()
+                              : packages,
+                        ),
+                        loading: () => _TierList(
+                          currentTier: currentTier,
+                          currentPoints: currentPoints,
+                          packages: RsMembershipPackage.fallback(),
+                        ),
+                        error: (_, _) => _TierList(
+                          currentTier: currentTier,
+                          currentPoints: currentPoints,
+                          packages: RsMembershipPackage.fallback(),
+                        ),
+                      );
+                    },
                     loading: () => SliverList(
                       delegate: SliverChildBuilderDelegate(
                         (context, index) => const Padding(
@@ -66,8 +87,11 @@ class MembershipTiersScreen extends StatelessWidget {
                         childCount: 4,
                       ),
                     ),
-                    error: (error, stack) =>
-                        _TierList(currentTier: FanTier.blue, currentPoints: 0),
+                    error: (error, stack) => _TierList(
+                      currentTier: FanTier.blue,
+                      currentPoints: 0,
+                      packages: RsMembershipPackage.fallback(),
+                    ),
                   ),
                 ),
               ],
@@ -82,13 +106,21 @@ class MembershipTiersScreen extends StatelessWidget {
 // ── Tier list ─────────────────────────────────────────────────────
 
 class _TierList extends StatelessWidget {
-  const _TierList({required this.currentTier, required this.currentPoints});
+  const _TierList({
+    required this.currentTier,
+    required this.currentPoints,
+    required this.packages,
+  });
 
   final FanTier currentTier;
   final int currentPoints;
+  final List<RsMembershipPackage> packages;
 
   @override
   Widget build(BuildContext context) {
+    final sortedPackages = packages.toList(growable: false)
+      ..sort((left, right) => left.sortOrder.compareTo(right.sortOrder));
+
     return SliverList(
       delegate: SliverChildListDelegate([
         // Introductory card
@@ -96,11 +128,11 @@ class _TierList extends StatelessWidget {
         const SizedBox(height: 20),
 
         // One card per tier, from Blue (lowest) to Platinum (highest)
-        for (final tier in FanTier.values) ...[
+        for (final package in sortedPackages) ...[
           _TierCard(
-            tier: tier,
-            isCurrent: tier == currentTier,
-            isUnlocked: tier.index <= currentTier.index,
+            package: package,
+            isCurrent: package.tier == currentTier,
+            isUnlocked: package.tier.index <= currentTier.index,
             currentPoints: currentPoints,
           ),
           const SizedBox(height: 14),
@@ -226,20 +258,20 @@ class _ProgressToNext extends StatelessWidget {
 
 class _TierCard extends StatelessWidget {
   const _TierCard({
-    required this.tier,
+    required this.package,
     required this.isCurrent,
     required this.isUnlocked,
     required this.currentPoints,
   });
 
-  final FanTier tier;
+  final RsMembershipPackage package;
   final bool isCurrent;
   final bool isUnlocked;
   final int currentPoints;
 
   @override
   Widget build(BuildContext context) {
-    final meta = _tierMeta(tier);
+    final tier = package.tier;
 
     return CoolCard(
       gradient: isCurrent
@@ -272,7 +304,7 @@ class _TierCard extends StatelessWidget {
                   ),
                   alignment: Alignment.center,
                   child: Icon(
-                    meta.icon,
+                    _tierIcon(tier),
                     size: 22,
                     color: isUnlocked ? tier.color : AppColors.text3,
                   ),
@@ -283,7 +315,7 @@ class _TierCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        tier.label,
+                        package.title,
                         style: GoogleFonts.barlow(
                           fontSize: 20,
                           fontWeight: FontWeight.w800,
@@ -294,7 +326,7 @@ class _TierCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        meta.subtitle,
+                        package.subtitle,
                         style: GoogleFonts.barlow(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
@@ -323,15 +355,30 @@ class _TierCard extends StatelessWidget {
 
             const SizedBox(height: 16),
 
+            if (package.description.trim().isNotEmpty) ...[
+              Text(
+                package.description,
+                style: GoogleFonts.barlow(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: isUnlocked
+                      ? AppColors.text2
+                      : AppColors.text3.withValues(alpha: 0.75),
+                  height: 1.4,
+                ),
+              ),
+              const SizedBox(height: 14),
+            ],
+
             // ── Benefits list ───────────────────────────────
-            ...meta.benefits.map(
+            ...package.benefits.map(
               (benefit) => Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Icon(
-                      benefit.icon,
+                      _benefitIcon(benefit.title),
                       size: 16,
                       color: isUnlocked ? tier.color : AppColors.text3,
                     ),
@@ -412,123 +459,29 @@ class _StatusChip extends StatelessWidget {
   }
 }
 
-// ── Tier metadata ─────────────────────────────────────────────────
+IconData _tierIcon(FanTier tier) => switch (tier) {
+  FanTier.blue => Icons.favorite_rounded,
+  FanTier.silver => Icons.workspace_premium_rounded,
+  FanTier.gold => Icons.emoji_events_rounded,
+  FanTier.platinum => Icons.diamond_rounded,
+};
 
-class _TierMeta {
-  const _TierMeta({
-    required this.icon,
-    required this.subtitle,
-    required this.benefits,
-  });
-
-  final IconData icon;
-  final String subtitle;
-  final List<_Benefit> benefits;
-}
-
-class _Benefit {
-  const _Benefit({
-    required this.icon,
-    required this.title,
-    required this.description,
-  });
-
-  final IconData icon;
-  final String title;
-  final String description;
-}
-
-_TierMeta _tierMeta(FanTier tier) {
-  return switch (tier) {
-    FanTier.blue => const _TierMeta(
-      icon: Icons.favorite_rounded,
-      subtitle: 'Free — every fan starts here',
-      benefits: [
-        _Benefit(
-          icon: Icons.confirmation_number_rounded,
-          title: 'Standard Tickets',
-          description: 'Buy match tickets at regular pricing.',
-        ),
-        _Benefit(
-          icon: Icons.shopping_bag_rounded,
-          title: 'Club Shop Access',
-          description: 'Browse and purchase official Rayon merch.',
-        ),
-        _Benefit(
-          icon: Icons.bar_chart_rounded,
-          title: 'Fan Points',
-          description: 'Earn points from attendance, purchases, and support.',
-        ),
-      ],
-    ),
-    FanTier.silver => const _TierMeta(
-      icon: Icons.workspace_premium_rounded,
-      subtitle: '1,000 pts — dedicated supporter',
-      benefits: [
-        _Benefit(
-          icon: Icons.confirmation_number_rounded,
-          title: '5% Ticket Discount',
-          description: 'Save on every match ticket purchase.',
-        ),
-        _Benefit(
-          icon: Icons.star_rounded,
-          title: 'Priority Queue',
-          description: 'Jump the queue when tickets open for big matches.',
-        ),
-        _Benefit(
-          icon: Icons.military_tech_rounded,
-          title: 'Silver Badge',
-          description: 'Exclusive silver badge on your fan profile.',
-        ),
-      ],
-    ),
-    FanTier.gold => const _TierMeta(
-      icon: Icons.emoji_events_rounded,
-      subtitle: '2,000 pts — elite supporter',
-      benefits: [
-        _Benefit(
-          icon: Icons.confirmation_number_rounded,
-          title: 'Priority Tickets',
-          description: 'Get earlier access to on-sale match entries.',
-        ),
-        _Benefit(
-          icon: Icons.shopping_bag_rounded,
-          title: '10% Shop Discount',
-          description: 'Unlock supporter pricing on official club gear.',
-        ),
-        _Benefit(
-          icon: Icons.auto_awesome_rounded,
-          title: 'VIP Events',
-          description: 'Access select fan sessions and special event queues.',
-        ),
-      ],
-    ),
-    FanTier.platinum => const _TierMeta(
-      icon: Icons.diamond_rounded,
-      subtitle: '5,000 pts — ultimate fan',
-      benefits: [
-        _Benefit(
-          icon: Icons.confirmation_number_rounded,
-          title: 'Priority Tickets + 15% Off',
-          description: 'Best pricing and first access to all matches.',
-        ),
-        _Benefit(
-          icon: Icons.handshake_rounded,
-          title: 'Meet & Greet',
-          description: 'Join premium player and club meetups when available.',
-        ),
-        _Benefit(
-          icon: Icons.checkroom_rounded,
-          title: 'Free Kit',
-          description: 'Receive one complimentary official kit each season.',
-        ),
-        _Benefit(
-          icon: Icons.emoji_events_rounded,
-          title: 'All Gold Benefits',
-          description:
-              'VIP events, shop discounts, and everything from lower tiers.',
-        ),
-      ],
-    ),
-  };
+IconData _benefitIcon(String title) {
+  final normalized = title.toLowerCase();
+  if (normalized.contains('ticket')) {
+    return Icons.confirmation_number_rounded;
+  }
+  if (normalized.contains('shop') || normalized.contains('kit')) {
+    return Icons.shopping_bag_rounded;
+  }
+  if (normalized.contains('meet') || normalized.contains('event')) {
+    return Icons.auto_awesome_rounded;
+  }
+  if (normalized.contains('discount')) {
+    return Icons.local_offer_rounded;
+  }
+  if (normalized.contains('badge')) {
+    return Icons.military_tech_rounded;
+  }
+  return Icons.star_rounded;
 }

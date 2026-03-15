@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_palette.dart';
 
 /// A small pill badge used to indicate status, category, or role.
 ///
@@ -14,7 +15,8 @@ class StatusBadge extends StatelessWidget {
     this.textColor,
     this.emoji,
     super.key,
-  }) : showPulseDot = false;
+  }) : showPulseDot = false,
+       _tone = null;
 
   const StatusBadge._({
     required this.label,
@@ -22,8 +24,9 @@ class StatusBadge extends StatelessWidget {
     this.textColor,
     this.emoji,
     required this.showPulseDot,
+    required _StatusBadgeTone tone,
     super.key,
-  });
+  }) : _tone = tone;
 
   // ── Preset constructors ─────────────────────────────────────────────
 
@@ -31,10 +34,11 @@ class StatusBadge extends StatelessWidget {
   const StatusBadge.saving({Key? key})
     : this._(
         label: 'Saving',
-        bgColor: AppColors.accentGlow,
-        textColor: AppColors.accent,
+        bgColor: null,
+        textColor: null,
         emoji: null,
         showPulseDot: false,
+        tone: _StatusBadgeTone.saving,
         key: key,
       );
 
@@ -42,10 +46,11 @@ class StatusBadge extends StatelessWidget {
   const StatusBadge.community({Key? key})
     : this._(
         label: 'Community',
-        bgColor: const Color(0x26FF6B35),
-        textColor: AppColors.orange,
+        bgColor: null,
+        textColor: null,
         emoji: null,
         showPulseDot: false,
+        tone: _StatusBadgeTone.community,
         key: key,
       );
 
@@ -53,10 +58,11 @@ class StatusBadge extends StatelessWidget {
   const StatusBadge.public({Key? key})
     : this._(
         label: 'Public',
-        bgColor: AppColors.blueGlow,
-        textColor: AppColors.blue,
+        bgColor: null,
+        textColor: null,
         emoji: null,
         showPulseDot: false,
+        tone: _StatusBadgeTone.public,
         key: key,
       );
 
@@ -64,10 +70,11 @@ class StatusBadge extends StatelessWidget {
   const StatusBadge.private({Key? key})
     : this._(
         label: 'Private',
-        bgColor: AppColors.surface3,
-        textColor: AppColors.text2,
+        bgColor: null,
+        textColor: null,
         emoji: null,
         showPulseDot: false,
+        tone: _StatusBadgeTone.private,
         key: key,
       );
 
@@ -75,10 +82,11 @@ class StatusBadge extends StatelessWidget {
   const StatusBadge.online({Key? key})
     : this._(
         label: 'Online',
-        bgColor: AppColors.accentGlow,
-        textColor: AppColors.accent,
+        bgColor: null,
+        textColor: null,
         emoji: null,
         showPulseDot: true,
+        tone: _StatusBadgeTone.online,
         key: key,
       );
 
@@ -86,10 +94,11 @@ class StatusBadge extends StatelessWidget {
   const StatusBadge.offline({Key? key})
     : this._(
         label: 'Offline',
-        bgColor: AppColors.surface3,
-        textColor: AppColors.text3,
+        bgColor: null,
+        textColor: null,
         emoji: null,
         showPulseDot: false,
+        tone: _StatusBadgeTone.offline,
         key: key,
       );
 
@@ -98,11 +107,14 @@ class StatusBadge extends StatelessWidget {
   final Color? textColor;
   final String? emoji;
   final bool showPulseDot;
+  final _StatusBadgeTone? _tone;
 
   @override
   Widget build(BuildContext context) {
-    final bg = bgColor ?? AppColors.accentGlow;
-    final fg = textColor ?? AppColors.accent;
+    final palette = context.coolPalette;
+    final defaults = _colorsForTone(palette);
+    final bg = bgColor ?? defaults.$1;
+    final fg = textColor ?? defaults.$2;
 
     return Semantics(
       label: 'Status: $label',
@@ -115,7 +127,10 @@ class StatusBadge extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (showPulseDot) ...[_PulseDot(color: fg), const SizedBox(width: 6)],
+            if (showPulseDot) ...[
+              _PulseDot(color: fg),
+              const SizedBox(width: 6),
+            ],
             if (emoji != null) ...[
               ExcludeSemantics(
                 child: Text(emoji!, style: const TextStyle(fontSize: 12)),
@@ -136,7 +151,23 @@ class StatusBadge extends StatelessWidget {
       ),
     );
   }
+
+  (Color, Color) _colorsForTone(CoolPalette palette) {
+    return switch (_tone) {
+      _StatusBadgeTone.community => (
+        AppColors.orange.withValues(alpha: 0.15),
+        palette.orange,
+      ),
+      _StatusBadgeTone.public => (palette.blueGlow, palette.blue),
+      _StatusBadgeTone.private => (palette.surface3, palette.text2),
+      _StatusBadgeTone.online => (palette.accentGlow, palette.accent),
+      _StatusBadgeTone.offline => (palette.surface3, palette.text3),
+      _StatusBadgeTone.saving || null => (palette.accentGlow, palette.accent),
+    };
+  }
 }
+
+enum _StatusBadgeTone { saving, community, public, private, online, offline }
 
 // ── Animated pulse dot ──────────────────────────────────────────────────
 

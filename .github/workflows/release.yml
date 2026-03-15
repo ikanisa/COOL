@@ -57,6 +57,9 @@ jobs:
       - name: Run release readiness checks
         env:
           SKIP_ANDROID_FLAVOR_BUILDS: '1'
+          COOL_ANDROID_PLAY_APP_SIGNING_SHA256_CERT_FINGERPRINT: ${{ secrets.COOL_ANDROID_PLAY_APP_SIGNING_SHA256_CERT_FINGERPRINT }}
+          COOL_IOS_TEAM_ID: ${{ secrets.COOL_IOS_TEAM_ID }}
+          COOL_IOS_APP_STORE_ID: ${{ secrets.COOL_IOS_APP_STORE_ID }}
         run: bash scripts/release_readiness.sh
 
       # ── Decode signing key ─────────────────────────────────
@@ -81,7 +84,17 @@ jobs:
 
       # ── Build signed APK ───────────────────────────────────
       - name: Build release APK
-        run: flutter build apk --release
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          FIREBASE_ANDROID_PRODUCTION_API_KEY: ${{ secrets.FIREBASE_ANDROID_PRODUCTION_API_KEY }}
+          FIREBASE_ANDROID_PRODUCTION_APP_ID: ${{ secrets.FIREBASE_ANDROID_PRODUCTION_APP_ID }}
+          FIREBASE_ANDROID_PRODUCTION_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_ANDROID_PRODUCTION_MESSAGING_SENDER_ID }}
+          FIREBASE_ANDROID_PRODUCTION_PROJECT_ID: ${{ secrets.FIREBASE_ANDROID_PRODUCTION_PROJECT_ID }}
+          FIREBASE_ANDROID_PRODUCTION_STORAGE_BUCKET: ${{ secrets.FIREBASE_ANDROID_PRODUCTION_STORAGE_BUCKET }}
+          GOOGLE_MAPS_ANDROID_API_KEY: ${{ secrets.GOOGLE_MAPS_ANDROID_API_KEY }}
+          GOOGLE_MAPS_ANDROID_MAP_ID: ${{ secrets.GOOGLE_MAPS_ANDROID_MAP_ID }}
+        run: bash scripts/build_production.sh
 
       # ── Upload to Firebase App Distribution ─────────────────
       - name: Upload to Firebase App Distribution
@@ -90,7 +103,7 @@ jobs:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           groups: staff
-          file: build/app/outputs/flutter-apk/app-release.apk
+          file: build/app/outputs/flutter-apk/app-production-release.apk
           releaseNotes: |
             Release ${{ github.ref_name }}
             Commit: ${{ github.sha }}
@@ -100,5 +113,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: release-apk-${{ github.ref_name }}
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/app-production-release.apk
           retention-days: 30

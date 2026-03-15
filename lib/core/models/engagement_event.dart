@@ -11,6 +11,10 @@ enum EngagementEventName {
   discoverTabSwitch,
   walletAddStarted,
   walletAddCompleted,
+  appReviewRequested,
+  appStoreListingOpened,
+  appUpdateImmediateStarted,
+  appUpdateFlexibleStarted,
 }
 
 extension EngagementEventNameX on EngagementEventName {
@@ -27,6 +31,12 @@ extension EngagementEventNameX on EngagementEventName {
     EngagementEventName.discoverTabSwitch => 'discover_tab_switch',
     EngagementEventName.walletAddStarted => 'wallet_add_started',
     EngagementEventName.walletAddCompleted => 'wallet_add_completed',
+    EngagementEventName.appReviewRequested => 'app_review_requested',
+    EngagementEventName.appStoreListingOpened => 'app_store_listing_opened',
+    EngagementEventName.appUpdateImmediateStarted =>
+      'app_update_immediate_started',
+    EngagementEventName.appUpdateFlexibleStarted =>
+      'app_update_flexible_started',
   };
 }
 

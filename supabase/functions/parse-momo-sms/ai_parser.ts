@@ -174,9 +174,11 @@ export function getAiProvider(explicit?: string): AiProvider {
 
 export function getModel(provider: AiProvider): string {
   if (provider === "gemini") {
-    return Deno.env.get("GEMINI_SMS_PARSE_MODEL") ?? "gemini-2.5-flash";
+    // default to gemini-3.1-pro as the most authoritative parsing model.
+    return Deno.env.get("GEMINI_SMS_PARSE_MODEL") ?? "gemini-3.1-pro";
   }
-  return requireEnv("OPENAI_SMS_PARSE_MODEL");
+  // OpenAI fallback remains on gpt-4.1-mini or equivalent.
+  return Deno.env.get("OPENAI_SMS_PARSE_MODEL") ?? "gpt-4.1-mini";
 }
 
 export function buildPrompt(record: RawSmsRecord): string {

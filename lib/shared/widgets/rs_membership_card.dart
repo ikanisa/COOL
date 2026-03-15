@@ -19,81 +19,82 @@ class RsMembershipCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Semantics(
-      label: 'Rayon Sports membership. ${membership.displayName}. '
+      label:
+          'Rayon Sports membership. ${membership.displayName}. '
           '${membership.tier.label} tier. '
           '${showPoints ? '${membership.points} points.' : ''}',
       excludeSemantics: true,
       child: CoolCard(
-      gradient: AppColors.rsHeroGradient,
-      borderColor: AppColors.rsBlueBorder,
-      child: Padding(
-        padding: const EdgeInsets.all(22),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'RAYON SPORTS FC',
-                        style: GoogleFonts.barlowCondensed(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w900,
-                          color: AppColors.rsWhite,
-                          letterSpacing: 0.4,
+        gradient: AppColors.rsHeroGradient,
+        borderColor: AppColors.rsBlueBorder,
+        child: Padding(
+          padding: const EdgeInsets.all(22),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'RAYON SPORTS FC',
+                          style: GoogleFonts.barlowCondensed(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w900,
+                            color: AppColors.rsWhite,
+                            letterSpacing: 0.4,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        membership.displayName,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.barlow(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.rsWhite,
+                        const SizedBox(height: 6),
+                        Text(
+                          membership.displayName,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.barlow(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.rsWhite,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        membership.chapter,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.barlow(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.rsWhite.withValues(alpha: 0.74),
+                        const SizedBox(height: 2),
+                        Text(
+                          membership.chapter,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.barlow(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.rsWhite.withValues(alpha: 0.74),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                RsTierBadge(tier: membership.tier),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                _RsMetric(
-                  label: 'Member ID',
-                  value: membership.membershipNumber,
-                ),
-                const SizedBox(width: 12),
-                if (showPoints)
+                  RsTierBadge(tier: membership.tier),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
                   _RsMetric(
-                    label: 'Points',
-                    value: '${membership.points}',
-                    accentColor: AppColors.rsGoldLight,
+                    label: 'Member ID',
+                    value: membership.membershipNumber,
                   ),
-              ],
-            ),
-          ],
+                  const SizedBox(width: 12),
+                  if (showPoints)
+                    _RsMetric(
+                      label: 'Points',
+                      value: '${membership.points}',
+                      accentColor: AppColors.rsGoldLight,
+                    ),
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
       ),
     );
   }

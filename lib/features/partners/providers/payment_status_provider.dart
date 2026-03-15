@@ -67,23 +67,22 @@ class PaymentPollState {
 }
 
 final paymentStatusProvider = StateNotifierProvider.autoDispose
-    .family<PaymentStatusNotifier, PaymentPollState, PaymentPollArgs>(
-  (ref, args) {
-    final notifier = PaymentStatusNotifier(
+    .family<PaymentStatusNotifier, PaymentPollState, PaymentPollArgs>((
+      ref,
       args,
-      client: ref.read(supabaseClientProvider),
-    );
-    ref.onDispose(notifier.dispose);
-    return notifier;
-  },
-);
+    ) {
+      final notifier = PaymentStatusNotifier(
+        args,
+        client: ref.read(supabaseClientProvider),
+      );
+      ref.onDispose(notifier.dispose);
+      return notifier;
+    });
 
 class PaymentStatusNotifier extends StateNotifier<PaymentPollState> {
-  PaymentStatusNotifier(
-    this._args, {
-    required SupabaseClient client,
-  }) : _client = client,
-       super(const PaymentPollState()) {
+  PaymentStatusNotifier(this._args, {required SupabaseClient client})
+    : _client = client,
+      super(const PaymentPollState()) {
     _startPolling();
   }
 
@@ -134,8 +133,8 @@ class PaymentStatusNotifier extends StateNotifier<PaymentPollState> {
 
       if (_disposed) return;
 
-      final dbStatus =
-          (response?[_args.statusColumn] as String?)?.toLowerCase();
+      final dbStatus = (response?[_args.statusColumn] as String?)
+          ?.toLowerCase();
 
       if (dbStatus == null) return; // record not found yet
 

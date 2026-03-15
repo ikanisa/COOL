@@ -9,6 +9,7 @@ import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../providers/admin_providers.dart';
 
 /// Admin screen for managing mobility vehicle types.
@@ -22,17 +23,13 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.bg,
       appBar: AppBar(
-        backgroundColor: AppColors.surface,
+        backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
-          'Vehicle Types',
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: AppColors.text,
-          ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded),
+          color: AppColors.text,
+          onPressed: () => Navigator.of(context).pop(),
         ),
-        iconTheme: const IconThemeData(color: AppColors.text),
       ),
       floatingActionButton: Semantics(
         button: true,
@@ -44,72 +41,86 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
           child: const Icon(Icons.add_rounded, color: Colors.black),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: CoolAsyncView<List<Map<String, dynamic>>>(
-          value: typesAsync,
-          onRetry: () => ref.invalidate(adminVehicleTypesProvider),
-          loadingWidget: const CoolSkeletonList(itemCount: 4),
-          emptyCheck: (t) => t.isEmpty,
-          emptyWidget: const CoolEmptyView(
-            message: 'No vehicle types are configured yet.',
-            icon: Icons.directions_car_filled_rounded,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            child: Text(
+              'Vehicle Types',
+              style: GoogleFonts.dmSans(
+                fontSize: 34,
+                fontWeight: FontWeight.w800,
+                height: 1.1,
+                color: AppColors.text,
+              ),
+            ),
           ),
-          builder: (types) => ListView.separated(
-            itemCount: types.length,
-            separatorBuilder: (_, _) => const SizedBox(height: 8),
-            itemBuilder: (context, index) {
-              final t = types[index];
-              return Container(
-                decoration: BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppColors.border),
-                ),
-                child: Semantics(
-                  container: true,
-                  label:
-                      'Vehicle type ${t['label'] ?? ''}. Value ${t['value'] ?? ''}. '
-                      'Market ${AppMarket.country.name}.',
-                  child: ListTile(
-                    leading: Text(
-                      t['emoji']?.toString() ?? '🚘',
-                      style: const TextStyle(fontSize: 22),
-                    ),
-                    title: Text(
-                      t['label']?.toString() ?? '',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.text,
-                      ),
-                    ),
-                    subtitle: Text(
-                      'value: ${t['value']} · ${AppMarket.country.name}',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
-                        color: AppColors.text3,
-                      ),
-                    ),
-                    trailing: Semantics(
-                      button: true,
-                      label: 'Edit vehicle type ${t['label'] ?? ''}',
-                      hint: 'Opens the vehicle type editor',
-                      child: GestureDetector(
-                        onTap: () => _showEditSheet(context, ref, t),
-                        child: const Icon(
-                          Icons.edit_rounded,
-                          size: 18,
-                          color: AppColors.text3,
+          const SizedBox(height: 24),
+          Expanded(
+            child: CoolAsyncView<List<Map<String, dynamic>>>(
+              value: typesAsync,
+              onRetry: () => ref.invalidate(adminVehicleTypesProvider),
+              loadingWidget: const CoolSkeletonList(itemCount: 4),
+              emptyCheck: (t) => t.isEmpty,
+              emptyWidget: const CoolEmptyView(
+                message: 'No vehicle types are configured yet.',
+                icon: Icons.directions_car_filled_rounded,
+              ),
+              builder: (types) => ListView.separated(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                itemCount: types.length,
+                separatorBuilder: (_, _) => const SizedBox(height: 12),
+                itemBuilder: (context, index) {
+                  final t = types[index];
+                  return CoolCard(
+                    padding: EdgeInsets.zero,
+                    child: Semantics(
+                      container: true,
+                      label:
+                          'Vehicle type ${t['label'] ?? ''}. Value ${t['value'] ?? ''}. '
+                          'Market ${AppMarket.country.name}.',
+                      child: ListTile(
+                        leading: Text(
+                          t['emoji']?.toString() ?? '🚘',
+                          style: const TextStyle(fontSize: 22),
+                        ),
+                        title: Text(
+                          t['label']?.toString() ?? '',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.text,
+                          ),
+                        ),
+                        subtitle: Text(
+                          'value: ${t['value']} · ${AppMarket.country.name}',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 12,
+                            color: AppColors.text3,
+                          ),
+                        ),
+                        trailing: Semantics(
+                          button: true,
+                          label: 'Edit vehicle type ${t['label'] ?? ''}',
+                          hint: 'Opens the vehicle type editor',
+                          child: GestureDetector(
+                            onTap: () => _showEditSheet(context, ref, t),
+                            child: Icon(
+                              Icons.edit_rounded,
+                              size: 18,
+                              color: AppColors.text3,
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-              );
-            },
+                  );
+                },
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -185,7 +196,7 @@ class _EditVehicleTypeSheetState extends State<_EditVehicleTypeSheet> {
 
   @override
   Widget build(BuildContext context) => Container(
-    decoration: const BoxDecoration(
+    decoration: BoxDecoration(
       color: AppColors.surface,
       borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
     ),

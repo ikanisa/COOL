@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../features/mobility/providers/mobility_location_provider.dart';
 import '../l10n/l10n.dart';
-import '../theme/app_colors.dart';
+import '../theme/cool_palette.dart';
 
 /// The main scaffold that wraps all bottom-nav routes.
 ///
@@ -94,7 +94,17 @@ class _AppShellState extends ConsumerState<AppShell> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+    final onPrimary = Theme.of(context).colorScheme.onPrimary;
     final index = _currentIndex();
+    final textScale = MediaQuery.textScalerOf(context).scale(1);
+    final navigationHeight = (72 + ((textScale - 1) * 24))
+        .clamp(72, 96)
+        .toDouble();
+    final fabExtent = (54 + ((textScale - 1) * 8)).clamp(54, 62).toDouble();
+    final navLabelFontSize = (10 + ((textScale - 1) * 1.5))
+        .clamp(10, 12)
+        .toDouble();
     _syncMobilityBranchVisibility(widget.navigationShell.currentIndex == 2);
 
     return Scaffold(
@@ -106,20 +116,20 @@ class _AppShellState extends ConsumerState<AppShell> {
               button: true,
               label: context.l10n.momoScreenTitle,
               child: SizedBox(
-                width: 54,
-                height: 54,
+                width: fabExtent,
+                height: fabExtent,
                 child: FloatingActionButton(
                   onPressed: _onFabPressed,
                   tooltip: context.l10n.momoScreenTitle,
                   elevation: 0,
-                  backgroundColor: AppColors.accent,
+                  backgroundColor: palette.accent,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18),
-                    side: const BorderSide(color: AppColors.border2),
+                    side: BorderSide(color: palette.border2),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.account_balance_wallet_rounded,
-                    color: Colors.black,
+                    color: onPrimary,
                     size: 24,
                   ),
                 ),
@@ -132,28 +142,32 @@ class _AppShellState extends ConsumerState<AppShell> {
       bottomNavigationBar: widget.showNavigationChrome
           ? Container(
               decoration: BoxDecoration(
-                color: AppColors.surface,
-                border: const Border(top: BorderSide(color: AppColors.border)),
+                color: palette.surface,
+                border: Border(top: BorderSide(color: palette.border)),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.06),
+                    color: palette.text.withValues(
+                      alpha: Theme.of(context).brightness == Brightness.light
+                          ? 0.06
+                          : 0.18,
+                    ),
                     blurRadius: 4,
                     offset: const Offset(0, -1),
                   ),
                 ],
               ),
               child: SizedBox(
-                height: 72,
+                height: navigationHeight,
                 child: BottomNavigationBar(
                   currentIndex: index,
                   onTap: _onItemTapped,
-                  backgroundColor: AppColors.surface,
+                  backgroundColor: palette.surface,
                   elevation: 0,
                   type: BottomNavigationBarType.fixed,
-                  selectedItemColor: AppColors.accent,
-                  unselectedItemColor: AppColors.text3,
-                  selectedFontSize: 10,
-                  unselectedFontSize: 10,
+                  selectedItemColor: palette.accent,
+                  unselectedItemColor: palette.text3,
+                  selectedFontSize: navLabelFontSize,
+                  unselectedFontSize: navLabelFontSize,
                   selectedLabelStyle: GoogleFonts.dmSans(
                     fontWeight: FontWeight.w600,
                   ),

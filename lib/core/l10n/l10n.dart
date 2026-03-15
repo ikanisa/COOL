@@ -4,6 +4,5 @@ import '../../l10n/app_localizations.dart';
 
 extension AppLocalizationsX on BuildContext {
   AppLocalizations get l10n =>
-      AppLocalizations.of(this) ??
-      lookupAppLocalizations(const Locale('en'));
+      AppLocalizations.of(this) ?? lookupAppLocalizations(const Locale('en'));
 }

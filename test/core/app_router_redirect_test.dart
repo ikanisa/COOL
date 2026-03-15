@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:cool_app/core/router/app_redirects.dart';
+import 'package:cool_app/features/admin/models/admin_workspace_access.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart';
 
 void main() {
@@ -148,6 +149,77 @@ void main() {
           isAdmin: true,
         ),
         isNull,
+      );
+    });
+
+    test('allows partner admins into the admin workspace launcher', () {
+      expect(
+        resolveAppRedirect(
+          location: AppRoutes.admin,
+          hasSession: true,
+          hasProfile: true,
+          profileRestoreState: AuthProfileRestoreState.available,
+          adminAccess: const AdminWorkspaceAccess(
+            partnerAdminIds: {'partner-rayon'},
+          ),
+        ),
+        isNull,
+      );
+    });
+
+    test('redirects partner admins away from platform admin routes', () {
+      expect(
+        resolveAppRedirect(
+          location: AppRoutes.adminPlatform,
+          hasSession: true,
+          hasProfile: true,
+          profileRestoreState: AuthProfileRestoreState.available,
+          adminAccess: const AdminWorkspaceAccess(
+            partnerAdminIds: {'partner-rayon'},
+          ),
+        ),
+        AppRoutes.admin,
+      );
+    });
+
+    test('allows scoped partner admin workspaces for matching ids', () {
+      expect(
+        resolveAppRedirect(
+          location: AppRoutes.adminPartnerWorkspaceLocation('partner-rayon'),
+          hasSession: true,
+          hasProfile: true,
+          profileRestoreState: AuthProfileRestoreState.available,
+          adminAccess: const AdminWorkspaceAccess(
+            partnerAdminIds: {'partner-rayon'},
+          ),
+        ),
+        isNull,
+      );
+    });
+
+    test('allows scoped bank admin workspaces for matching ids', () {
+      expect(
+        resolveAppRedirect(
+          location: AppRoutes.adminBankWorkspaceLocation('bank-1'),
+          hasSession: true,
+          hasProfile: true,
+          profileRestoreState: AuthProfileRestoreState.available,
+          adminAccess: const AdminWorkspaceAccess(bankAdminIds: {'bank-1'}),
+        ),
+        isNull,
+      );
+    });
+
+    test('redirects bank admins away from partner admin routes', () {
+      expect(
+        resolveAppRedirect(
+          location: AppRoutes.adminRayon,
+          hasSession: true,
+          hasProfile: true,
+          profileRestoreState: AuthProfileRestoreState.available,
+          adminAccess: const AdminWorkspaceAccess(bankAdminIds: {'bank-1'}),
+        ),
+        AppRoutes.admin,
       );
     });
   });

@@ -111,9 +111,9 @@ void main() {
           any(),
         ),
       ).thenAnswer((_) async => const []);
-      when(() => mobilityRepository.getMyTrips(any())).thenAnswer(
-        (_) async => const [],
-      );
+      when(
+        () => mobilityRepository.getMyTrips(any()),
+      ).thenAnswer((_) async => const []);
     });
 
     testWidgets('explore and my-trips modes keep one clear header path', (
@@ -132,24 +132,43 @@ void main() {
 
       await settleTestApp(tester);
 
-      expect(find.text('Trip board'), findsOneWidget);
+      expect(find.text('Trip Board'), findsOneWidget);
       expect(find.text('Explore'), findsOneWidget);
-      expect(find.text('Explore trips'), findsOneWidget);
-      expect(find.text('Post trip'), findsOneWidget);
-      expect(find.text('Passenger'), findsOneWidget);
-      expect(find.text('Return trips'), findsOneWidget);
+      expect(find.text('My trips'), findsOneWidget);
+      expect(find.text('Results'), findsOneWidget);
+      expect(find.textContaining('Passenger trips'), findsOneWidget);
+      expect(find.text('Trip type'), findsOneWidget);
+      expect(find.text('Filters'), findsOneWidget);
       expect(
         find.text('Browse trips, then continue on WhatsApp.'),
         findsNothing,
       );
+
+      await tester.tap(find.text('Trip type'));
+      await settleTestApp(tester);
+
+      expect(find.text('Driver returns'), findsWidgets);
+      await tester.tap(find.text('Driver returns').last);
+      await settleTestApp(tester);
+
+      expect(find.text('Driver returns · All vehicle types'), findsOneWidget);
+
+      await tester.tap(find.text('Filters'));
+      await settleTestApp(tester);
+
+      expect(find.text('Vehicle filter'), findsOneWidget);
+      await tester.tap(find.text('Moto').last);
+      await settleTestApp(tester);
+
+      expect(find.text('Driver returns · Moto only'), findsOneWidget);
 
       await tester.tap(find.text('My trips'));
       await settleTestApp(tester);
 
       expect(find.text('Manage your trips'), findsOneWidget);
       expect(find.text('No trips posted yet'), findsOneWidget);
-      expect(find.text('Passenger'), findsNothing);
-      expect(find.text('Return trips'), findsNothing);
+      expect(find.text('Trip type'), findsNothing);
+      expect(find.text('Filters'), findsNothing);
     });
   });
 }

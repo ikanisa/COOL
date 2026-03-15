@@ -45,13 +45,13 @@ class OnboardingScreen extends ConsumerWidget {
                   'Welcome to Cool',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.dmSans(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w700,
+                    fontSize: 34,
+                    fontWeight: FontWeight.w800,
                     color: AppColors.text,
-                    height: 1.15,
+                    height: 1.1,
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 16),
                 SizedBox(
                   width: 300,
                   child: Text(
@@ -59,61 +59,17 @@ class OnboardingScreen extends ConsumerWidget {
                     textAlign: TextAlign.center,
                     style: GoogleFonts.dmSans(
                       fontSize: 15,
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w500,
                       color: AppColors.text2,
-                      height: 1.45,
+                      height: 1.4,
                     ),
                   ),
                 ),
-                const SizedBox(height: 28),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 10,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.surface2,
-                    borderRadius: BorderRadius.circular(999),
-                    border: Border.all(color: AppColors.border),
-                  ),
-                  child: Text(
-                    'Rwanda market · English only',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.text2,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 48),
                 CoolButton(
-                  label: 'Continue',
+                  label: 'Get Started',
                   onTap: () => context.push(
                     AppRoutes.otpLocation(redirect: redirectPath),
-                  ),
-                ),
-                const SizedBox(height: 14),
-                Semantics(
-                  button: true,
-                  label: 'I already have an account',
-                  child: GestureDetector(
-                    onTap: () => context.push(
-                      AppRoutes.otpLocation(redirect: redirectPath),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      child: Text(
-                        'I already have an account',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.text2,
-                        ),
-                      ),
-                    ),
                   ),
                 ),
               ],

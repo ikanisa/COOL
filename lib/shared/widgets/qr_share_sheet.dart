@@ -68,11 +68,13 @@ class QrShareSheet extends ConsumerWidget {
     if (await canLaunchUrl(waUrl)) {
       await launchUrl(waUrl, mode: LaunchMode.externalApplication);
       if (_targetType == 'group_invite') {
-        await ref.read(engagementTrackerProvider).trackInviteSent(
-          channel: 'whatsapp',
-          inviteUrl: inviteUrl,
-          targetType: _targetType,
-        );
+        await ref
+            .read(engagementTrackerProvider)
+            .trackInviteSent(
+              channel: 'whatsapp',
+              inviteUrl: inviteUrl,
+              targetType: _targetType,
+            );
       }
       await ref
           .read(engagementTrackerProvider)
@@ -109,7 +111,7 @@ class QrShareSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
@@ -209,11 +211,13 @@ class QrShareSheet extends ConsumerWidget {
                         onTap: () async {
                           Clipboard.setData(ClipboardData(text: inviteUrl));
                           if (_targetType == 'group_invite') {
-                            await ref.read(engagementTrackerProvider).trackInviteSent(
-                              channel: 'copy_link',
-                              inviteUrl: inviteUrl,
-                              targetType: _targetType,
-                            );
+                            await ref
+                                .read(engagementTrackerProvider)
+                                .trackInviteSent(
+                                  channel: 'copy_link',
+                                  inviteUrl: inviteUrl,
+                                  targetType: _targetType,
+                                );
                           }
                           await ref
                               .read(engagementTrackerProvider)

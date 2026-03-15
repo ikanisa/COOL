@@ -27,51 +27,51 @@ class RsServiceCard extends StatelessWidget {
       label: '$name. $desc. $count.',
       excludeSemantics: true,
       child: CoolCard(
-      onTap: onTap,
-      gradient: AppColors.rsBlueGradient,
-      borderColor: AppColors.rsBlueBorder,
-      child: Padding(
-        padding: const EdgeInsets.all(18),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(icon, style: const TextStyle(fontSize: 24)),
-            const SizedBox(height: 12),
-            Text(
-              name,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.barlowCondensed(
-                fontSize: 22,
-                fontWeight: FontWeight.w900,
-                color: AppColors.rsWhite,
-                height: 0.95,
+        onTap: onTap,
+        gradient: AppColors.rsBlueGradient,
+        borderColor: AppColors.rsBlueBorder,
+        child: Padding(
+          padding: const EdgeInsets.all(18),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(icon, style: const TextStyle(fontSize: 24)),
+              const SizedBox(height: 12),
+              Text(
+                name,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.barlowCondensed(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w900,
+                  color: AppColors.rsWhite,
+                  height: 0.95,
+                ),
               ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              desc,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.barlow(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: AppColors.rsWhite.withValues(alpha: 0.82),
-                height: 1.3,
+              const SizedBox(height: 6),
+              Text(
+                desc,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.barlow(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.rsWhite.withValues(alpha: 0.82),
+                  height: 1.3,
+                ),
               ),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              count,
-              style: GoogleFonts.dmMono(
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-                color: AppColors.rsGoldLight,
+              const SizedBox(height: 12),
+              Text(
+                count,
+                style: GoogleFonts.dmMono(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.rsGoldLight,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
       ),
     );
   }

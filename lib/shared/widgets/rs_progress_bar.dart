@@ -64,36 +64,35 @@ class _RsProgressBarState extends State<RsProgressBar> {
       value: '${(_rendered * 100).round()}%',
       excludeSemantics: true,
       child: ClipRRect(
-      borderRadius: BorderRadius.circular(widget.height / 2),
-      child: Container(
-        height: widget.height,
-        decoration: BoxDecoration(
-          color: AppColors.surface2,
-          borderRadius: BorderRadius.circular(widget.height / 2),
-        ),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return Stack(
-              children: [
-                AnimatedContainer(
-                  duration: widget.animated
-                      ? const Duration(milliseconds: 600)
-                      : Duration.zero,
-                  curve: Curves.easeOutCubic,
-                  width: constraints.maxWidth * _rendered,
-                  decoration: BoxDecoration(
-                    borderRadius:
-                        BorderRadius.circular(widget.height / 2),
-                    gradient: LinearGradient(
-                      colors: [widget.fillColor, lighterFill],
+        borderRadius: BorderRadius.circular(widget.height / 2),
+        child: Container(
+          height: widget.height,
+          decoration: BoxDecoration(
+            color: AppColors.surface2,
+            borderRadius: BorderRadius.circular(widget.height / 2),
+          ),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return Stack(
+                children: [
+                  AnimatedContainer(
+                    duration: widget.animated
+                        ? const Duration(milliseconds: 600)
+                        : Duration.zero,
+                    curve: Curves.easeOutCubic,
+                    width: constraints.maxWidth * _rendered,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(widget.height / 2),
+                      gradient: LinearGradient(
+                        colors: [widget.fillColor, lighterFill],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            );
-          },
+                ],
+              );
+            },
+          ),
         ),
-      ),
       ),
     );
   }

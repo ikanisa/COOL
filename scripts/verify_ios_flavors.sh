@@ -11,8 +11,6 @@ if [[ "$(uname -s)" != "Darwin" ]]; then
   exit 0
 fi
 
-require_ios_google_service_info
-
 if ! has_ios_maps_key; then
   echo "==> iOS embedded Google Maps key not set; map widgets will stay hidden in this build"
 fi

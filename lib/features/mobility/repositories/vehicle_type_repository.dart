@@ -4,8 +4,7 @@ import '../models/vehicle_type.dart';
 
 /// Fetches vehicle types from the `vehicle_types` Supabase table.
 class VehicleTypeRepository {
-  VehicleTypeRepository({required SupabaseClient client})
-    : _client = client;
+  VehicleTypeRepository({required SupabaseClient client}) : _client = client;
 
   final SupabaseClient _client;
 

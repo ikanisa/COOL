@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_palette.dart';
 
 /// Widget-level error boundary that catches synchronous build errors
 /// in its subtree and displays a recovery UI instead of the red error screen.
@@ -50,9 +50,7 @@ class _CoolErrorBoundaryState extends State<CoolErrorBoundary> {
   @override
   Widget build(BuildContext context) {
     if (_hasError) {
-      return widget.fallback ?? _BrandedErrorFallback(
-        onRetry: _retry,
-      );
+      return widget.fallback ?? _BrandedErrorFallback(onRetry: _retry);
     }
 
     _installErrorWidgetBuilderForFrame();
@@ -113,6 +111,7 @@ class _BrandedErrorFallback extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 48),
@@ -123,13 +122,13 @@ class _BrandedErrorFallback extends StatelessWidget {
               width: 72,
               height: 72,
               decoration: BoxDecoration(
-                color: AppColors.red.withValues(alpha: 0.1),
+                color: palette.red.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.warning_amber_rounded,
                 size: 40,
-                color: AppColors.red,
+                color: palette.red,
               ),
             ),
             const SizedBox(height: 20),
@@ -138,7 +137,7 @@ class _BrandedErrorFallback extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
-                color: AppColors.text,
+                color: palette.text,
               ),
             ),
             const SizedBox(height: 8),
@@ -147,7 +146,7 @@ class _BrandedErrorFallback extends StatelessWidget {
               textAlign: TextAlign.center,
               style: GoogleFonts.dmSans(
                 fontSize: 14,
-                color: AppColors.text2,
+                color: palette.text2,
                 height: 1.5,
               ),
             ),
@@ -163,9 +162,7 @@ class _BrandedErrorFallback extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                style: TextButton.styleFrom(
-                  foregroundColor: AppColors.accent,
-                ),
+                style: TextButton.styleFrom(foregroundColor: palette.accent),
               ),
             ],
           ],

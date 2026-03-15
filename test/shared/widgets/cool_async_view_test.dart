@@ -38,6 +38,24 @@ void main() {
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
+    testWidgets('announces loading state for assistive tech', (tester) async {
+      final semantics = tester.ensureSemantics();
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: CoolAsyncView<String>(
+              value: const AsyncValue<String>.loading(),
+              builder: (data) => Text(data),
+            ),
+          ),
+        ),
+      );
+
+      expect(find.bySemanticsLabel('Loading content'), findsOneWidget);
+      semantics.dispose();
+    });
+
     testWidgets('shows error view on error', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -93,8 +111,9 @@ void main() {
       expect(find.text('Hello'), findsOneWidget);
     });
 
-    testWidgets('shows empty view when emptyCheck returns true',
-        (tester) async {
+    testWidgets('shows empty view when emptyCheck returns true', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(

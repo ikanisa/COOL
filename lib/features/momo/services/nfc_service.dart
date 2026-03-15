@@ -12,13 +12,15 @@ const _coolDeepLinkHost = String.fromEnvironment(
   'COOL_DEEP_LINK_HOST',
   defaultValue: 'cool.app',
 );
+const _legacyCoolDeepLinkHosts = <String>{
+  'cool.app',
+  'www.cool.app',
+  'cool.ikanisa.com',
+  'www.cool.ikanisa.com',
+};
 
 /// NFC availability status.
-enum NfcStatus {
-  available,
-  disabled,
-  notSupported,
-}
+enum NfcStatus { available, disabled, notSupported }
 
 class NfcPaymentPayload {
   const NfcPaymentPayload({
@@ -40,17 +42,13 @@ class NfcPaymentPayload {
 
   Uri toDeepLinkUri() {
     final country = (countryCode ?? '').trim().toUpperCase();
-    return Uri.https(
-      _coolDeepLinkHost,
-      '/momo',
-      <String, String>{
-        'action': 'nfc_pay',
-        'recipient': recipientValue,
-        'amount': amount,
-        'recipient_type': recipientType.name,
-        if (country.isNotEmpty) 'country': country,
-      },
-    );
+    return Uri.https(_coolDeepLinkHost, '/momo', <String, String>{
+      'action': 'nfc_pay',
+      'recipient': recipientValue,
+      'amount': amount,
+      'recipient_type': recipientType.name,
+      if (country.isNotEmpty) 'country': country,
+    });
   }
 
   static NfcPaymentPayload? tryParse(String rawText) {
@@ -86,10 +84,7 @@ class NfcPaymentPayload {
       if (recipientValue.isEmpty || amount.isEmpty) {
         return null;
       }
-      return NfcPaymentPayload(
-        recipientValue: recipientValue,
-        amount: amount,
-      );
+      return NfcPaymentPayload(recipientValue: recipientValue, amount: amount);
     }
 
     return null;
@@ -101,7 +96,13 @@ class NfcPaymentPayload {
         .toList(growable: false);
     final isCoolAppLink =
         (uri.scheme == 'https' || uri.scheme == 'http') &&
-        uri.host.toLowerCase() == _coolDeepLinkHost.toLowerCase() &&
+        (() {
+          final normalizedHost = uri.host.toLowerCase();
+          final defaultHost = _coolDeepLinkHost.toLowerCase();
+          return normalizedHost == defaultHost ||
+              normalizedHost == 'www.$defaultHost' ||
+              _legacyCoolDeepLinkHosts.contains(normalizedHost);
+        })() &&
         segments.isNotEmpty &&
         segments.first.toLowerCase() == _coolNfcMomoHost;
     final isCustomScheme =
@@ -240,7 +241,8 @@ class NfcService {
 
       return NfcReadResult(
         recipientValue: parsedPayload?.recipientValue,
-        recipientType: parsedPayload?.recipientType ?? MomoRecipientType.phoneNumber,
+        recipientType:
+            parsedPayload?.recipientType ?? MomoRecipientType.phoneNumber,
         amount: parsedPayload?.amount,
         rawText: rawText,
         countryCode: parsedPayload?.countryCode,

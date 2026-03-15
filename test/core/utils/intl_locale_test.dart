@@ -3,13 +3,34 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('resolveIntlLocaleTag always resolves to English', () {
+  testWidgets('resolveIntlLocaleTag always resolves to English', (
+    tester,
+  ) async {
     expect(resolveIntlLocaleTag(const Locale('sw')), 'en');
     expect(resolveIntlLocaleTag(const Locale('en')), 'en');
   });
 
-  test('resolveIntlLocaleTag falls back for unsupported locales', () {
-    expect(resolveIntlLocaleTag(const Locale('rw')), 'en');
+  testWidgets('resolveIntlLocale ignores the device locale', (tester) async {
+    tester.binding.platformDispatcher.localeTestValue = const Locale(
+      'fr',
+      'FR',
+    );
+    addTearDown(tester.binding.platformDispatcher.clearLocaleTestValue);
+
+    String? resolvedLocale;
+    await tester.pumpWidget(
+      Directionality(
+        textDirection: TextDirection.ltr,
+        child: Builder(
+          builder: (context) {
+            resolvedLocale = resolveIntlLocale(context);
+            return const SizedBox.shrink();
+          },
+        ),
+      ),
+    );
+
+    expect(resolvedLocale, 'en');
     expect(resolveIntlLocaleTag(const Locale('rw', 'RW')), 'en');
   });
 }

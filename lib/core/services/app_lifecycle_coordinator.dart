@@ -7,6 +7,7 @@ import 'engagement_tracker.dart';
 import 'momo_service.dart';
 import 'performance_service.dart';
 import 'app_session_coordinator.dart';
+import 'app_update_service.dart';
 import 'deep_link_coordinator.dart';
 import 'trip_sync_coordinator.dart';
 
@@ -22,6 +23,7 @@ class AppLifecycleCoordinator {
     required TripSyncCoordinator tripSyncCoordinator,
     required MomoSmsAutoreadService momoSmsAutoreadService,
     required MomoService momoService,
+    required AppUpdateService appUpdateService,
   }) : _refreshFeatureFlags = refreshFeatureFlags,
        _readAuthState = readAuthState,
        _engagementTracker = engagementTracker,
@@ -31,7 +33,8 @@ class AppLifecycleCoordinator {
        _deepLinkCoordinator = deepLinkCoordinator,
        _tripSyncCoordinator = tripSyncCoordinator,
        _momoSmsAutoreadService = momoSmsAutoreadService,
-       _momoService = momoService;
+       _momoService = momoService,
+       _appUpdateService = appUpdateService;
 
   final Future<void> Function() _refreshFeatureFlags;
   final AuthState Function() _readAuthState;
@@ -43,6 +46,7 @@ class AppLifecycleCoordinator {
   final TripSyncCoordinator _tripSyncCoordinator;
   final MomoSmsAutoreadService _momoSmsAutoreadService;
   final MomoService _momoService;
+  final AppUpdateService _appUpdateService;
 
   bool _started = false;
 
@@ -67,6 +71,8 @@ class AppLifecycleCoordinator {
 
     _tripSyncCoordinator.start();
     await _deepLinkCoordinator.start();
+
+    unawaited(_appUpdateService.checkForUpdate());
   }
 
   Future<void> handleAuthStateChanged(
@@ -79,6 +85,7 @@ class AppLifecycleCoordinator {
   void handleAppResumed() {
     _tripSyncCoordinator.onAppResumed();
     unawaited(_momoSmsAutoreadService.refresh());
+    unawaited(_appUpdateService.checkForUpdate());
   }
 
   void dispose() {

@@ -15,14 +15,54 @@ class _BadgeMeta {
   final bool isMilestone; // milestone → gold border, activity → blue border
 
   static _BadgeMeta from(String type) => switch (type) {
-    'ticket-buyer'      => const _BadgeMeta(Icons.confirmation_number_rounded, 'Ticket Buyer', 'Purchased your first match ticket.', false),
-    'monthly-active'    => const _BadgeMeta(Icons.calendar_month_rounded, 'Monthly Active', 'Active for a full calendar month.', false),
-    'top-recruiter'     => const _BadgeMeta(Icons.campaign_rounded, 'Top Recruiter', 'Recruited 5+ new fans to the club.', true),
-    'match-attendance'  => const _BadgeMeta(Icons.stadium_rounded, 'Matchday Loyalist', 'Attended 10+ matches this season.', true),
-    'first-purchase'    => const _BadgeMeta(Icons.shopping_bag_rounded, 'First Purchase', 'Made your first shop purchase.', false),
-    'supporter'         => const _BadgeMeta(Icons.handshake_rounded, 'Club Supporter', 'Backed a community initiative.', false),
-    'season-holder'     => const _BadgeMeta(Icons.military_tech_rounded, 'Season Holder', 'Held a full-season membership.', true),
-    _                   => const _BadgeMeta(Icons.star_rounded, 'Club Star', 'A loyal Gikundiro supporter.', false),
+    'ticket-buyer' => const _BadgeMeta(
+      Icons.confirmation_number_rounded,
+      'Ticket Buyer',
+      'Purchased your first match ticket.',
+      false,
+    ),
+    'monthly-active' => const _BadgeMeta(
+      Icons.calendar_month_rounded,
+      'Monthly Active',
+      'Active for a full calendar month.',
+      false,
+    ),
+    'top-recruiter' => const _BadgeMeta(
+      Icons.campaign_rounded,
+      'Top Recruiter',
+      'Recruited 5+ new fans to the club.',
+      true,
+    ),
+    'match-attendance' => const _BadgeMeta(
+      Icons.stadium_rounded,
+      'Matchday Loyalist',
+      'Attended 10+ matches this season.',
+      true,
+    ),
+    'first-purchase' => const _BadgeMeta(
+      Icons.shopping_bag_rounded,
+      'First Purchase',
+      'Made your first shop purchase.',
+      false,
+    ),
+    'supporter' => const _BadgeMeta(
+      Icons.handshake_rounded,
+      'Club Supporter',
+      'Backed a community initiative.',
+      false,
+    ),
+    'season-holder' => const _BadgeMeta(
+      Icons.military_tech_rounded,
+      'Season Holder',
+      'Held a full-season membership.',
+      true,
+    ),
+    _ => const _BadgeMeta(
+      Icons.star_rounded,
+      'Club Star',
+      'A loyal Gikundiro supporter.',
+      false,
+    ),
   };
 }
 
@@ -52,45 +92,41 @@ class RsAchievementBadge extends StatelessWidget {
       label: '${meta.name} achievement. ${meta.description}',
       excludeSemantics: true,
       child: Tooltip(
-      message: meta.description,
-      preferBelow: true,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 220),
-            width: 56,
-            height: 56,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: bgColor,
-              border: Border.all(color: borderColor, width: 1.6),
+        message: meta.description,
+        preferBelow: true,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 220),
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: bgColor,
+                border: Border.all(color: borderColor, width: 1.6),
+              ),
+              alignment: Alignment.center,
+              child: Icon(meta.icon, size: 24, color: Colors.white),
             ),
-            alignment: Alignment.center,
-            child: Icon(
-              meta.icon,
-              size: 24,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 6),
-          SizedBox(
-            width: 68,
-            child: Text(
-              meta.name,
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.barlow(
-                fontSize: 10,
-                fontWeight: FontWeight.w600,
-                color: AppColors.text2,
-                height: 1.25,
+            const SizedBox(height: 6),
+            SizedBox(
+              width: 68,
+              child: Text(
+                meta.name,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.barlow(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.text2,
+                  height: 1.25,
+                ),
               ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
       ),
     );
   }

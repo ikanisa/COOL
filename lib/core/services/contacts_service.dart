@@ -33,13 +33,15 @@ class ContactsService {
 
     return contacts
         .where((c) => c.phones.isNotEmpty)
-        .map((c) => SimpleContact(
-              id: c.id ?? '',
-              displayName: (c.displayName ?? '').trim().isNotEmpty
-                  ? c.displayName!.trim()
-                  : c.phones.first.number,
-              phones: c.phones.map((p) => p.number).toList(),
-            ))
+        .map(
+          (c) => SimpleContact(
+            id: c.id ?? '',
+            displayName: (c.displayName ?? '').trim().isNotEmpty
+                ? c.displayName!.trim()
+                : c.phones.first.number,
+            phones: c.phones.map((p) => p.number).toList(),
+          ),
+        )
         .toList();
   }
 
@@ -54,7 +56,9 @@ class ContactsService {
     final q = query.trim().toLowerCase();
     return contacts.where((c) {
       if (c.displayName.toLowerCase().contains(q)) return true;
-      return c.phones.any((p) => p.replaceAll(RegExp(r'[\s\-\(\)+]'), '').contains(q));
+      return c.phones.any(
+        (p) => p.replaceAll(RegExp(r'[\s\-\(\)+]'), '').contains(q),
+      );
     }).toList();
   }
 }

@@ -1,0 +1,21 @@
+import 'package:flutter/material.dart';
+
+enum AppThemePreference { system, light, dark }
+
+AppThemePreference appThemePreferenceFromStorage(String? value) {
+  return switch (value?.trim().toLowerCase()) {
+    'light' => AppThemePreference.light,
+    'dark' => AppThemePreference.dark,
+    _ => AppThemePreference.system,
+  };
+}
+
+extension AppThemePreferenceThemeMode on AppThemePreference {
+  ThemeMode get themeMode => switch (this) {
+    AppThemePreference.system => ThemeMode.system,
+    AppThemePreference.light => ThemeMode.light,
+    AppThemePreference.dark => ThemeMode.dark,
+  };
+
+  String get storageValue => name;
+}

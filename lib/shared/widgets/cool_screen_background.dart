@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_palette.dart';
 
 class CoolScreenBackground extends StatelessWidget {
   const CoolScreenBackground({
@@ -21,7 +22,7 @@ class CoolScreenBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      decoration: const BoxDecoration(color: AppColors.bg),
+      decoration: BoxDecoration(color: context.coolPalette.bg),
       child: child,
     );
   }

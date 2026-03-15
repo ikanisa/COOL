@@ -88,182 +88,185 @@ class _RsMatchCardState extends State<RsMatchCard> {
         match.remainingCapacity < (match.capacity * 0.2);
 
     return Semantics(
-      label: '${match.homeTeam} vs ${match.awayTeam}. '
+      label:
+          '${match.homeTeam} vs ${match.awayTeam}. '
           '${DateFormat('d MMM').format(match.matchDate)} at ${match.kickoffTime}. '
           '${match.venue}. $buttonLabel.',
       excludeSemantics: true,
       child: DecoratedBox(
-      decoration: BoxDecoration(
-        borderRadius: cardRadius,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.22),
-            blurRadius: 28,
-            offset: const Offset(0, 18),
-          ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        borderRadius: cardRadius,
-        clipBehavior: Clip.antiAlias,
-        child: Ink(
-          decoration: BoxDecoration(
-            gradient: RsColors.rsCardGradient,
-            borderRadius: cardRadius,
-            border: Border.all(color: AppColors.rsBlueBorder),
-          ),
-          child: Stack(
-            children: [
-              Positioned(
-                top: -36,
-                right: -22,
-                child: IgnorePointer(
-                  child: Container(
-                    width: 140,
-                    height: 140,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: RadialGradient(
-                        colors: [
-                          AppColors.rsBlueLight.withValues(alpha: 0.34),
-                          AppColors.rsBlueGlow,
-                          Colors.transparent,
-                        ],
+        decoration: BoxDecoration(
+          borderRadius: cardRadius,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.22),
+              blurRadius: 28,
+              offset: const Offset(0, 18),
+            ),
+          ],
+        ),
+        child: Material(
+          color: Colors.transparent,
+          borderRadius: cardRadius,
+          clipBehavior: Clip.antiAlias,
+          child: Ink(
+            decoration: BoxDecoration(
+              gradient: RsColors.rsCardGradient,
+              borderRadius: cardRadius,
+              border: Border.all(color: AppColors.rsBlueBorder),
+            ),
+            child: Stack(
+              children: [
+                Positioned(
+                  top: -36,
+                  right: -22,
+                  child: IgnorePointer(
+                    child: Container(
+                      width: 140,
+                      height: 140,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: RadialGradient(
+                          colors: [
+                            AppColors.rsBlueLight.withValues(alpha: 0.34),
+                            AppColors.rsBlueGlow,
+                            Colors.transparent,
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(cardPadding),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      match.competition.toUpperCase(),
-                      style: GoogleFonts.barlow(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 1.2,
-                        color: AppColors.rsGoldLight,
+                Padding(
+                  padding: EdgeInsets.all(cardPadding),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        match.competition.toUpperCase(),
+                        style: GoogleFonts.barlow(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1.2,
+                          color: AppColors.rsGoldLight,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: widget.isCompact ? 10 : 12),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: _TeamName(
-                            name: match.homeTeam,
-                            alignment: TextAlign.left,
-                            isCompact: widget.isCompact,
-                          ),
-                        ),
-                        SizedBox(width: widget.isCompact ? 8 : 12),
-                        _VsBlock(
-                          date: match.matchDate,
-                          kickoffTime: match.kickoffTime,
-                          isCompact: widget.isCompact,
-                        ),
-                        SizedBox(width: widget.isCompact ? 8 : 12),
-                        Expanded(
-                          child: _TeamName(
-                            name: match.awayTeam,
-                            alignment: TextAlign.right,
-                            isCompact: widget.isCompact,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: widget.isCompact ? 12 : 14),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: [
-                        _DetailChip(
-                          icon: Icons.place_outlined,
-                          label: match.venue,
-                        ),
-                        _DetailChip(
-                          icon: Icons.people_outline_rounded,
-                          label: _capacityForVenue(match.venue),
-                        ),
-                        if (showRemainingChip)
-                          _DetailChip(
-                            icon: Icons.local_fire_department_rounded,
-                            label: '${match.remainingCapacity} left',
-                            highlight: true,
-                          ),
-                      ],
-                    ),
-                    SizedBox(height: widget.isCompact ? 14 : 16),
-                    const _TicketTearDivider(),
-                    SizedBox(height: widget.isCompact ? 14 : 16),
-                    if (widget.isCompact)
-                      _CompactFooter(
-                        match: match,
-                        seat: effectiveSeat,
-                        onSeatSelected: _selectSeat,
-                        onBuyTap: widget.onBuyTap,
-                        enabled: buttonEnabled,
-                        label: buttonLabel,
-                      )
-                    else
+                      SizedBox(height: widget.isCompact ? 10 : 12),
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
-                            child: _PriceBlock(
-                              price: effectiveSeat.priceFor(match),
-                              seatLabel: effectiveSeat.label,
+                            child: _TeamName(
+                              name: match.homeTeam,
+                              alignment: TextAlign.left,
+                              isCompact: widget.isCompact,
                             ),
                           ),
-                          const SizedBox(width: 14),
+                          SizedBox(width: widget.isCompact ? 8 : 12),
+                          _VsBlock(
+                            date: match.matchDate,
+                            kickoffTime: match.kickoffTime,
+                            isCompact: widget.isCompact,
+                          ),
+                          SizedBox(width: widget.isCompact ? 8 : 12),
                           Expanded(
-                            flex: 2,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    _SeatTypeChip(
-                                      label: SelectedSeatType.general.label,
-                                      selected:
-                                          effectiveSeat ==
-                                          SelectedSeatType.general,
-                                      onTap: () =>
-                                          _selectSeat(SelectedSeatType.general),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    _SeatTypeChip(
-                                      label: SelectedSeatType.vip.label,
-                                      selected:
-                                          effectiveSeat == SelectedSeatType.vip,
-                                      onTap: () =>
-                                          _selectSeat(SelectedSeatType.vip),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 12),
-                                _BuyButton(
-                                  enabled: buttonEnabled,
-                                  onTap: widget.onBuyTap,
-                                  label: buttonLabel,
-                                ),
-                              ],
+                            child: _TeamName(
+                              name: match.awayTeam,
+                              alignment: TextAlign.right,
+                              isCompact: widget.isCompact,
                             ),
                           ),
                         ],
                       ),
-                  ],
+                      SizedBox(height: widget.isCompact ? 12 : 14),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: [
+                          _DetailChip(
+                            icon: Icons.place_outlined,
+                            label: match.venue,
+                          ),
+                          _DetailChip(
+                            icon: Icons.people_outline_rounded,
+                            label: _capacityForVenue(match.venue),
+                          ),
+                          if (showRemainingChip)
+                            _DetailChip(
+                              icon: Icons.local_fire_department_rounded,
+                              label: '${match.remainingCapacity} left',
+                              highlight: true,
+                            ),
+                        ],
+                      ),
+                      SizedBox(height: widget.isCompact ? 14 : 16),
+                      const _TicketTearDivider(),
+                      SizedBox(height: widget.isCompact ? 14 : 16),
+                      if (widget.isCompact)
+                        _CompactFooter(
+                          match: match,
+                          seat: effectiveSeat,
+                          onSeatSelected: _selectSeat,
+                          onBuyTap: widget.onBuyTap,
+                          enabled: buttonEnabled,
+                          label: buttonLabel,
+                        )
+                      else
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Expanded(
+                              child: _PriceBlock(
+                                price: effectiveSeat.priceFor(match),
+                                seatLabel: effectiveSeat.label,
+                              ),
+                            ),
+                            const SizedBox(width: 14),
+                            Expanded(
+                              flex: 2,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      _SeatTypeChip(
+                                        label: SelectedSeatType.general.label,
+                                        selected:
+                                            effectiveSeat ==
+                                            SelectedSeatType.general,
+                                        onTap: () => _selectSeat(
+                                          SelectedSeatType.general,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      _SeatTypeChip(
+                                        label: SelectedSeatType.vip.label,
+                                        selected:
+                                            effectiveSeat ==
+                                            SelectedSeatType.vip,
+                                        onTap: () =>
+                                            _selectSeat(SelectedSeatType.vip),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 12),
+                                  _BuyButton(
+                                    enabled: buttonEnabled,
+                                    onTap: widget.onBuyTap,
+                                    label: buttonLabel,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
       ),
     );
   }
@@ -431,10 +434,7 @@ class _CutoutCircle extends StatelessWidget {
       child: Container(
         width: 16,
         height: 16,
-        decoration: const BoxDecoration(
-          color: AppColors.bg,
-          shape: BoxShape.circle,
-        ),
+        decoration: BoxDecoration(color: AppColors.bg, shape: BoxShape.circle),
       ),
     );
   }

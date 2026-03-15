@@ -12,13 +12,13 @@ import {
 } from "../_shared/observability.ts";
 import { createAdminClient, createUserClient } from "../_shared/supabase.ts";
 import {
+  type AiProvider,
   buildPrompt,
   callGemini,
   callOpenAi,
   getAiProvider,
   getModel,
   normalizeParsedSms,
-  type AiProvider,
   type RawSmsRecord,
 } from "./ai_parser.ts";
 import {
@@ -330,7 +330,6 @@ Deno.serve(async (request: Request) => {
               recurring_pattern_hint: parsed.recurring_pattern_hint,
               source_raw_sms_id: rawSms.id,
               matched_reference: autoReconciliation.matchedReference,
-              pending_transaction_id: autoReconciliation.pendingTransactionId,
               ...autoReconciliation.metadata,
             },
             updated_at: timestamp,
@@ -357,7 +356,6 @@ Deno.serve(async (request: Request) => {
             parser_model: aiResult.model,
             source_raw_sms_id: rawSms.id,
             matched_reference: autoReconciliation.matchedReference,
-            pending_transaction_id: autoReconciliation.pendingTransactionId,
             ...autoReconciliation.metadata,
           },
           reconciled_at: autoReconciliation.matchStatus === "matched"

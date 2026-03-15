@@ -2,10 +2,10 @@ import 'package:equatable/equatable.dart';
 
 /// Types of cooperative missions.
 enum CoolMissionType {
-  savingsSprint,     // group reaches X total contributions
-  supporterSeason,   // chapter reaches Y initiative support
-  commuterWeek,      // mobility circle completes Z reliable trips
-  matchdayMonth,     // attend N matches in a month
+  savingsSprint, // group reaches X total contributions
+  supporterSeason, // chapter reaches Y initiative support
+  commuterWeek, // mobility circle completes Z reliable trips
+  matchdayMonth, // attend N matches in a month
 }
 
 extension CoolMissionTypeX on CoolMissionType {
@@ -14,34 +14,35 @@ extension CoolMissionTypeX on CoolMissionType {
   static CoolMissionType fromValue(String? value) {
     final normalized = (value ?? '').trim();
     return switch (normalized) {
-      'savings_sprint' || 'savingsSprint'     => CoolMissionType.savingsSprint,
-      'supporter_season' || 'supporterSeason' => CoolMissionType.supporterSeason,
-      'commuter_week' || 'commuterWeek'       => CoolMissionType.commuterWeek,
-      'matchday_month' || 'matchdayMonth'     => CoolMissionType.matchdayMonth,
+      'savings_sprint' || 'savingsSprint' => CoolMissionType.savingsSprint,
+      'supporter_season' ||
+      'supporterSeason' => CoolMissionType.supporterSeason,
+      'commuter_week' || 'commuterWeek' => CoolMissionType.commuterWeek,
+      'matchday_month' || 'matchdayMonth' => CoolMissionType.matchdayMonth,
       _ => CoolMissionType.savingsSprint,
     };
   }
 
   String get displayLabel => switch (this) {
-    CoolMissionType.savingsSprint   => 'Savings Sprint',
+    CoolMissionType.savingsSprint => 'Savings Sprint',
     CoolMissionType.supporterSeason => 'Supporter Season',
-    CoolMissionType.commuterWeek    => 'Commuter Week',
-    CoolMissionType.matchdayMonth   => 'Matchday Month',
+    CoolMissionType.commuterWeek => 'Commuter Week',
+    CoolMissionType.matchdayMonth => 'Matchday Month',
   };
 
   String get defaultEmoji => switch (this) {
-    CoolMissionType.savingsSprint   => '💰',
+    CoolMissionType.savingsSprint => '💰',
     CoolMissionType.supporterSeason => '🤝',
-    CoolMissionType.commuterWeek    => '🚗',
-    CoolMissionType.matchdayMonth   => '⚽',
+    CoolMissionType.commuterWeek => '🚗',
+    CoolMissionType.matchdayMonth => '⚽',
   };
 }
 
 /// Scope for mission participation.
 enum MissionScope {
-  group,    // single group
-  chapter,  // fan club chapter
-  global,   // everyone
+  group, // single group
+  chapter, // fan club chapter
+  global, // everyone
 }
 
 extension MissionScopeX on MissionScope {
@@ -49,9 +50,9 @@ extension MissionScopeX on MissionScope {
 
   static MissionScope fromValue(String? value) {
     return switch ((value ?? '').trim().toLowerCase()) {
-      'group'   => MissionScope.group,
+      'group' => MissionScope.group,
       'chapter' => MissionScope.chapter,
-      _         => MissionScope.global,
+      _ => MissionScope.global,
     };
   }
 }
@@ -154,9 +155,22 @@ class CoolMission extends Equatable {
 
   @override
   List<Object?> get props => [
-    id, seasonId, title, description, missionType, targetValue,
-    scope, scopeId, emoji, startsAt, endsAt, rewardPoints,
-    rewardDescription, isActive, userProgress, totalProgress,
+    id,
+    seasonId,
+    title,
+    description,
+    missionType,
+    targetValue,
+    scope,
+    scopeId,
+    emoji,
+    startsAt,
+    endsAt,
+    rewardPoints,
+    rewardDescription,
+    isActive,
+    userProgress,
+    totalProgress,
   ];
 }
 
@@ -195,7 +209,13 @@ class CoolMissionProgress extends Equatable {
   };
 
   @override
-  List<Object?> get props => [id, missionId, userId, contributionValue, completedAt];
+  List<Object?> get props => [
+    id,
+    missionId,
+    userId,
+    contributionValue,
+    completedAt,
+  ];
 }
 
 // ─── Parsing helpers ──────────────────────────────────────────────

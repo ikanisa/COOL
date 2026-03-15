@@ -64,11 +64,11 @@ jobs:
 
       # ── APK Size Gate ───────────────────────────────────────
       - name: Build release APK (size check)
-        run: flutter build apk --release --no-pub
+        run: flutter build apk --release --no-pub --flavor production --dart-define=FLAVOR=production
 
       - name: Check APK size budget
         run: |
-          APK_PATH="build/app/outputs/flutter-apk/app-release.apk"
+          APK_PATH="build/app/outputs/flutter-apk/app-production-release.apk"
           if [ ! -f "$APK_PATH" ]; then
             echo "::error::APK not found at $APK_PATH"
             exit 1

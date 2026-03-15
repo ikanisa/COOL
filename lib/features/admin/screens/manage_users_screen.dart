@@ -23,68 +23,78 @@ class ManageUsersScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.bg,
       appBar: AppBar(
-        backgroundColor: AppColors.surface,
+        automaticallyImplyLeading: true,
+        backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
-          'Manage Users',
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: AppColors.text,
-          ),
+        leading: IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
-        iconTheme: const IconThemeData(color: AppColors.text),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: CoolAsyncView<List<Map<String, dynamic>>>(
-          value: usersAsync,
-          onRetry: () => ref.invalidate(adminUsersProvider),
-          loadingWidget: const CoolSkeletonList(itemCount: 5),
-          emptyCheck: (u) => u.isEmpty,
-          emptyWidget: const CoolEmptyView(
-            message: 'No users were returned for this environment.',
-            icon: Icons.person_outline_rounded,
-          ),
-          builder: (users) {
-            final mockCount = users
-                .where((user) => user['is_mock'] == true)
-                .length;
-            final adminCount = users
-                .where((user) => user['is_admin'] == true)
-                .length;
-            final driverCount = users
-                .where((user) => user['is_driver'] == true)
-                .length;
-            final mockBatches =
-                users
-                    .map((user) => user['mock_batch']?.toString().trim() ?? '')
-                    .where((batch) => batch.isNotEmpty)
-                    .toSet()
-                    .toList(growable: false)
-                  ..sort();
-
-            return ListView.separated(
-              itemCount: users.length + 1,
-              separatorBuilder: (_, index) => index == 0
-                  ? const SizedBox(height: 16)
-                  : const SizedBox(height: 10),
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return _SummaryCard(
-                    totalUsers: users.length,
-                    mockUsers: mockCount,
-                    adminUsers: adminCount,
-                    driverUsers: driverCount,
-                    mockBatches: mockBatches,
-                  );
-                }
-
-                return _UserTile(user: users[index - 1]);
-              },
-            );
-          },
+      body: CoolAsyncView<List<Map<String, dynamic>>>(
+        value: usersAsync,
+        onRetry: () => ref.invalidate(adminUsersProvider),
+        loadingWidget: const Padding(
+          padding: EdgeInsets.fromLTRB(18, 0, 18, 16),
+          child: CoolSkeletonList(itemCount: 5),
         ),
+        emptyCheck: (u) => u.isEmpty,
+        emptyWidget: const CoolEmptyView(
+          message: 'No users were returned for this environment.',
+          icon: Icons.person_outline_rounded,
+        ),
+        builder: (users) {
+          final mockCount = users.where((user) => user['is_mock'] == true).length;
+          final adminCount =
+              users.where((user) => user['is_admin'] == true).length;
+          final driverCount =
+              users.where((user) => user['is_driver'] == true).length;
+          final mockBatches =
+              users
+                  .map((user) => user['mock_batch']?.toString().trim() ?? '')
+                  .where((batch) => batch.isNotEmpty)
+                  .toSet()
+                  .toList(growable: false)
+                ..sort();
+
+          return ListView.separated(
+            padding: const EdgeInsets.fromLTRB(18, 0, 18, 96),
+            itemCount: users.length + 1,
+            separatorBuilder:
+                (_, index) =>
+                    index == 0
+                        ? const SizedBox(height: 24)
+                        : const SizedBox(height: 12),
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Manage Users',
+                      style: GoogleFonts.dmSans(
+                        fontSize: 34,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.text,
+                        height: 1.1,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    _SummaryCard(
+                      totalUsers: users.length,
+                      mockUsers: mockCount,
+                      adminUsers: adminCount,
+                      driverUsers: driverCount,
+                      mockBatches: mockBatches,
+                    ),
+                  ],
+                );
+              }
+
+              return _UserTile(user: users[index - 1]);
+            },
+          );
+        },
       ),
     );
   }
@@ -227,7 +237,7 @@ class _MetricChip extends StatelessWidget {
             ),
             TextSpan(
               text: label,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.text3,
                 fontWeight: FontWeight.w500,
               ),

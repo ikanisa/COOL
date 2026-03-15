@@ -3,8 +3,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../shared/widgets/cool_toast.dart';
 
-
-
 class WhatsAppContactService {
   WhatsAppContactService._();
 

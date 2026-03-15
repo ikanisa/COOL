@@ -8,16 +8,15 @@ void main() {
   final repoRoot = Directory.current;
 
   test('governance docs match generated code inventory', () {
-    final docs = buildGovernanceDocs(repoRoot);
+    final result = Process.runSync(
+      'dart',
+      ['tool/governance_docs.dart', '--check'],
+      workingDirectory: repoRoot.path,
+    );
 
-    expect(
-      File('${repoRoot.path}/docs/ROUTE_INVENTORY.md').readAsStringSync(),
-      docs.routeInventory,
-    );
-    expect(
-      File('${repoRoot.path}/docs/SCREEN_BUDGETS.md').readAsStringSync(),
-      docs.screenBudgets,
-    );
+    if (result.exitCode != 0) {
+      fail('Governance docs are out of sync. Run "dart tool/governance_docs.dart" to fix.\n${result.stderr}');
+    }
   });
 
   test('route inventory keeps nested routes visible', () {

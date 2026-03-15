@@ -8,6 +8,7 @@ import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../providers/admin_providers.dart';
+import '../../../shared/widgets/cool_card.dart';
 
 class OperationalDashboardScreen extends ConsumerWidget {
   const OperationalDashboardScreen({super.key});
@@ -27,30 +28,37 @@ class OperationalDashboardScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.bg,
       appBar: AppBar(
-        backgroundColor: AppColors.surface,
+        backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
-          'Operations',
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: AppColors.text,
-          ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded),
+          color: AppColors.text,
+          onPressed: () => Navigator.of(context).pop(),
         ),
-        iconTheme: const IconThemeData(color: AppColors.text),
         actions: [
           IconButton(
             tooltip: 'Refresh',
             onPressed: refresh,
             icon: const Icon(Icons.refresh_rounded),
+            color: AppColors.text,
           ),
         ],
       ),
       body: RefreshIndicator(
         onRefresh: refresh,
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+          padding: const EdgeInsets.fromLTRB(18, 0, 18, 32),
           children: [
+            Text(
+              'Operations',
+              style: GoogleFonts.dmSans(
+                fontSize: 34,
+                fontWeight: FontWeight.w800,
+                height: 1.1,
+                color: AppColors.text,
+              ),
+            ),
+            const SizedBox(height: 24),
             _SectionHeader(
               title: 'Release Dashboard',
               subtitle:
@@ -186,17 +194,8 @@ class _DashboardCard extends StatelessWidget {
     final warnCount = _count(row['warn_count_24h']);
     final errorCount = _count(row['error_count_24h']);
 
-    return Container(
-      width: 260,
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(
-          color: _statusColor(status).withValues(alpha: 0.45),
-          width: 1,
-        ),
-      ),
+    return CoolCard(
+      borderColor: _statusColor(status).withValues(alpha: 0.45),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -280,16 +279,8 @@ class _IssueCard extends StatelessWidget {
     final subjectTable = _text(row['subject_table']);
     final subjectId = _text(row['subject_id']);
 
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(
-          color: _severityColor(severity).withValues(alpha: 0.5),
-          width: 1,
-        ),
-      ),
+    return CoolCard(
+      borderColor: _severityColor(severity).withValues(alpha: 0.5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -365,16 +356,8 @@ class _EventTile extends StatelessWidget {
     final status = _text(row['status']) ?? 'ok';
     final functionName = _text(row['function_name']);
 
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(
-          color: _statusColor(status).withValues(alpha: 0.35),
-          width: 1,
-        ),
-      ),
+    return CoolCard(
+      borderColor: _statusColor(status).withValues(alpha: 0.35),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -479,7 +462,7 @@ class _FactLine extends StatelessWidget {
           children: [
             TextSpan(
               text: '$label: ',
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.w700,
                 color: AppColors.text,
               ),

@@ -66,7 +66,12 @@ class CoolAsyncView<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return value.when(
       skipLoadingOnRefresh: skipLoadingOnRefresh,
-      loading: () => loadingWidget ?? const CoolSkeletonList(),
+      loading: () => Semantics(
+        container: true,
+        liveRegion: true,
+        label: 'Loading content',
+        child: loadingWidget ?? const CoolSkeletonList(),
+      ),
       error: (error, _) => CoolErrorView(
         message: errorMessage ?? _friendlyError(error),
         onRetry: onRetry,

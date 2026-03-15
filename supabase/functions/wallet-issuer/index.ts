@@ -14,8 +14,9 @@ import { hmacSha256Hex } from "../_shared/security.ts";
 import { createAdminClient, createUserClient } from "../_shared/supabase.ts";
 
 type WalletIssuerRequest = {
-  action?: "health" | "rayon_ticket";
+  action?: "health" | "rayon_ticket" | "rayon_membership";
   ticketId?: string;
+  membershipId?: string;
 };
 
 type AuthenticatedCaller = {
@@ -140,6 +141,43 @@ Deno.serve(async (request: Request) => {
 
         return jsonResponse({ success: true, ...response });
       }
+      case "rayon_membership": {
+        const response = await issueRayonMembershipWalletPass({
+          caller,
+          membershipId: body.membershipId,
+        });
+
+        console.info(
+          JSON.stringify({
+            service: "wallet-issuer",
+            action: "rayon_membership",
+            user_id: caller.userId,
+            membership_id: body.membershipId ?? null,
+            latency_ms: Date.now() - startedAt,
+          }),
+        );
+
+        await recordOperationalHealthEvent(createAdminClient(), {
+          service: "wallet_sync",
+          component: "wallet-issuer",
+          status: "ok",
+          severity: "info",
+          message: "Google Wallet membership pass prepared successfully.",
+          functionName: "wallet-issuer",
+          userId: caller.userId,
+          subjectType: "rs_membership",
+          subjectId: body.membershipId ?? null,
+          metadata: {
+            action: "rayon_membership",
+            wallet_pass_id: response.walletPassId,
+            class_id: response.classId,
+            object_id: response.objectId,
+            latency_ms: Date.now() - startedAt,
+          },
+        });
+
+        return jsonResponse({ success: true, ...response });
+      }
       default:
         return errorResponse("Unsupported wallet action.", 400, {
           action: body.action ?? null,
@@ -186,6 +224,181 @@ Deno.serve(async (request: Request) => {
   }
 });
 
+type RayonMembershipRecord = {
+  id: string;
+  userId: string;
+  tier: string;
+  points: number;
+  status: string;
+  holderName: string;
+  joinedAt: string;
+};
+
+async function issueRayonMembershipWalletPass(options: {
+  caller: AuthenticatedCaller;
+  membershipId?: string;
+}) {
+  const { caller, membershipId } = options;
+  if (!membershipId) {
+    throw new HttpError(400, "membershipId is required.");
+  }
+
+  const config = requireWalletConfig();
+  const admin = createAdminClient();
+
+  const membership = await loadRayonMembership(admin, membershipId);
+  if (membership.userId !== caller.userId) {
+    throw new HttpError(403, "Membership does not belong to this user.");
+  }
+
+  const classId = `${config.issuerId}.RS_MEMBERSHIP_GENERIC`;
+  const objectId = `${config.issuerId}.RS_MEMB_${membership.id.replace(
+    /-/g,
+    "_",
+  )}`;
+
+  await ensureGenericClass(config, classId);
+  await ensureGenericObject(config, objectId, classId, membership);
+
+  const saveUrl = await generateSaveUrl(config, {
+    genericObjects: [{ id: objectId }],
+  });
+
+  const walletPassId = await persistWalletPass(admin, {
+    userId: caller.userId,
+    partnerId: null, // Global RS context
+    entityType: "rs_membership",
+    entityId: membership.id,
+    passType: "generic_pass",
+    classId,
+    objectId,
+    saveUrl,
+    payload: membership,
+  });
+
+  return {
+    walletPassId,
+    classId,
+    objectId,
+    saveUrl,
+  };
+}
+
+async function loadRayonMembership(
+  admin: ReturnType<typeof createAdminClient>,
+  membershipId: string,
+): Promise<RayonMembershipRecord> {
+  const { data, error } = await admin
+    .from("rs_fan_memberships")
+    .select("*, users!inner(full_name)")
+    .eq("id", membershipId)
+    .maybeSingle();
+
+  if (error) {
+    throw new HttpError(500, "Failed to load membership.", {
+      membershipId,
+      details: error.message,
+    });
+  }
+
+  if (!data) {
+    throw new HttpError(404, "Membership not found.");
+  }
+
+  const user = unwrapSingleRecord(data.users);
+
+  return {
+    id: `${data.id ?? ""}`.trim(),
+    userId: `${data.user_id ?? ""}`.trim(),
+    tier: `${data.tier ?? "Blue"}`.trim(),
+    points: Number(data.points ?? 0),
+    status: `${data.status ?? "active"}`.trim().toLowerCase(),
+    holderName: normalizeNullableString(user?.full_name) ?? "Cool Fan",
+    joinedAt: `${data.created_at ?? ""}`.trim(),
+  };
+}
+
+async function ensureGenericClass(config: WalletConfig, classId: string) {
+  const existing = await walletApiGet(
+    config,
+    `/genericClass/${encodeURIComponent(classId)}`,
+  );
+  if (existing) {
+    return;
+  }
+
+  await walletApiRequest(config, "/genericClass", {
+    method: "POST",
+    body: JSON.stringify({
+      id: classId,
+      issuerName: config.issuerName,
+      reviewStatus: "UNDER_REVIEW",
+    }),
+  });
+}
+
+async function ensureGenericObject(
+  config: WalletConfig,
+  objectId: string,
+  classId: string,
+  membership: RayonMembershipRecord,
+) {
+  const existing = await walletApiGet(
+    config,
+    `/genericObject/${encodeURIComponent(objectId)}`,
+  );
+  if (existing) {
+    return;
+  }
+
+  await walletApiRequest(config, "/genericObject", {
+    method: "POST",
+    body: JSON.stringify({
+      id: objectId,
+      classId,
+      state: "ACTIVE",
+      barcode: {
+        type: "QR_CODE",
+        value: `COOL-MEMB:${membership.id}`,
+        alternateText: membership.id,
+      },
+      cardTitle: localizedString("Rayon Sports Membership", "en"),
+      header: localizedString(membership.tier, "en"),
+      subheader: localizedString(`${membership.points} Points`, "en"),
+      heroImage: {
+        sourceUri: {
+          uri: "https://cool.ikanisa.com/assets/images/partners/rayon_sports_logo.png",
+        },
+      },
+      textModulesData: [
+        {
+          id: "tier",
+          header: "Tier",
+          body: membership.tier,
+        },
+        {
+          id: "points",
+          header: "Points",
+          body: `${membership.points}`,
+        },
+        {
+          id: "holder",
+          header: "Fan",
+          body: membership.holderName,
+        },
+      ],
+      linksModuleData: {
+        uris: [
+          {
+            id: "open_profile",
+            description: "View in Cool",
+            uri: `${config.appBaseUrl.replace(/\/$/, "")}/profile`,
+          },
+        ],
+      },
+    }),
+  });
+}
 async function issueRayonTicketWalletPass(options: {
   caller: AuthenticatedCaller;
   ticketId?: string;
@@ -221,14 +434,16 @@ async function issueRayonTicketWalletPass(options: {
 
   const saveUrl = await createSaveUrl(config, objectId);
   const walletPassId = await persistWalletPass(admin, {
-    userId: ticket.userId,
+    userId: caller.userId,
     partnerId: ticket.partnerId,
+    entityType: "rs_ticket",
     entityId: ticket.id,
+    passType: "event_ticket",
     classId,
     objectId,
     saveUrl,
-    payload: {
-      ticketId: ticket.id,
+    payload: ticket,
+  });
       matchId: ticket.matchId,
       matchTitle: ticket.matchTitle,
       seatType: ticket.seatType,

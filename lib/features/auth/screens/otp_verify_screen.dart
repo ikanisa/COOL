@@ -186,7 +186,7 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
           tooltip: 'Back',
           onPressed: () =>
               context.go(AppRoutes.otpLocation(redirect: widget.redirectPath)),
-          icon: const Icon(Icons.arrow_back_rounded, color: AppColors.text),
+          icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
       ),
       body: SafeArea(
@@ -203,33 +203,33 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
 
                       // ── Title ─────────────────────────────────────────
                       Text(
-                        'Enter your code',
+                        'Verify code',
                         style: GoogleFonts.dmSans(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w700,
+                          fontSize: 34,
+                          fontWeight: FontWeight.w800,
                           color: AppColors.text,
+                          height: 1.1,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 12),
+                      Text(
+                        'Enter the 6-digit code sent to',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.text2,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
                       Text(
                         widget.phoneNumber,
                         style: GoogleFonts.dmSans(
                           fontSize: 15,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w700,
                           color: AppColors.accent,
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Use the 6-digit code we sent on WhatsApp.',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 13,
-                          color: AppColors.text2,
-                          height: 1.4,
-                        ),
-                      ),
-                      const SizedBox(height: 36),
+                      const SizedBox(height: 40),
 
                       // ── OTP boxes ─────────────────────────────────────
                       AnimatedBuilder(

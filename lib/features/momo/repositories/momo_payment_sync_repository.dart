@@ -11,7 +11,6 @@ enum MomoPaymentMatchType {
   rayonTicket,
   rayonShopOrder,
   rayonInitiativeContribution,
-  pendingTransaction,
 }
 
 class MomoPaymentSyncResult {
@@ -198,11 +197,6 @@ class MomoPaymentSyncRepository {
       case 'rs_initiative_contributions':
         return MomoPaymentMatchType.rayonInitiativeContribution;
     }
-
-    if (matchType == 'pending_transaction_only') {
-      return MomoPaymentMatchType.pendingTransaction;
-    }
-
     return MomoPaymentMatchType.unknown;
   }
 }

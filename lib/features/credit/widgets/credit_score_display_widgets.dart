@@ -11,7 +11,8 @@ const creditScoreMin = 300;
 const creditScoreMax = 850;
 
 double creditScoreProgress(int score) {
-  final normalized = (score - creditScoreMin) / (creditScoreMax - creditScoreMin);
+  final normalized =
+      (score - creditScoreMin) / (creditScoreMax - creditScoreMin);
   return normalized.clamp(0, 1).toDouble();
 }
 
@@ -48,12 +49,20 @@ class ScoreHeroCard extends StatelessWidget {
     }
 
     final summary = dashboard?.summary?.trim();
-    if (summary != null && summary.isNotEmpty) return summary;
+    if (summary != null && summary.isNotEmpty) {
+      return summary;
+    }
 
     final score = dashboard!.score!;
-    if (score >= 720) return 'Wallet and savings activity looks strong.';
-    if (score >= 640) return 'You are building a reliable financial track record.';
-    if (score >= 560) return 'Steady activity will help improve your next report.';
+    if (score >= 720) {
+      return 'Wallet and savings activity looks strong.';
+    }
+    if (score >= 640) {
+      return 'You are building a reliable financial track record.';
+    }
+    if (score >= 560) {
+      return 'Steady activity will help improve your next report.';
+    }
     return 'More verified activity is needed before your score can improve.';
   }
 

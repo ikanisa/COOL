@@ -37,8 +37,9 @@ class QrScannerScreen extends ConsumerStatefulWidget {
 
 class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
     with WidgetsBindingObserver {
-  late final AppAccessService _appAccessService =
-      ref.read(appAccessServiceProvider);
+  late final AppAccessService _appAccessService = ref.read(
+    appAccessServiceProvider,
+  );
   final MobileScannerController _controller = MobileScannerController(
     autoZoom: true,
     cameraResolution: const Size(1920, 1080),
@@ -239,14 +240,17 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
 
   Future<void> _launchPayloadPayment(MomoQrPayload payload) async {
     try {
-      await ref.read(momoServiceProvider).initiatePayment(
-        recipientMomo: payload.recipientValue,
-        amount: payload.amount!,
-        reference:
-            payload.reference ?? 'QR-${DateTime.now().millisecondsSinceEpoch}',
-        recipientType: payload.recipientType,
-        countryCode: payload.countryCode,
-      );
+      await ref
+          .read(momoServiceProvider)
+          .initiatePayment(
+            recipientMomo: payload.recipientValue,
+            amount: payload.amount!,
+            reference:
+                payload.reference ??
+                'QR-${DateTime.now().millisecondsSinceEpoch}',
+            recipientType: payload.recipientType,
+            countryCode: payload.countryCode,
+          );
       if (!mounted) {
         return;
       }
@@ -288,7 +292,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(
+                Icon(
                   Icons.lock_outline_rounded,
                   size: 42,
                   color: AppColors.text2,
@@ -370,7 +374,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(
+                Icon(
                   Icons.camera_alt_outlined,
                   size: 42,
                   color: AppColors.text2,
@@ -726,7 +730,7 @@ class _TicketResultSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),

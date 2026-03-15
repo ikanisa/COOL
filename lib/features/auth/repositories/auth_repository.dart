@@ -8,8 +8,7 @@ import '../../../core/config/country_catalog.dart';
 import '../models/user_profile.dart';
 
 class AuthRepository {
-  AuthRepository({required SupabaseClient client})
-    : _client = client;
+  AuthRepository({required SupabaseClient client}) : _client = client;
 
   final SupabaseClient _client;
 
@@ -66,7 +65,9 @@ class AuthRepository {
         .select()
         .single();
 
-    final created = UserProfile.fromJson(_lockProfileMarket(jh.asMap(inserted)));
+    final created = UserProfile.fromJson(
+      _lockProfileMarket(jh.asMap(inserted)),
+    );
     await _persistProfileMetadata(created);
     return created;
   }
@@ -208,6 +209,9 @@ class AuthRepository {
           'kyc_verified_at': profile.kycVerifiedAt?.toIso8601String(),
           'credit_consent_granted_at': profile.creditConsentGrantedAt
               ?.toIso8601String(),
+          'theme_preference': profile.themePreference,
+          'theme_preference_updated_at': profile.themePreferenceUpdatedAt
+              ?.toIso8601String(),
         }..removeWhere((_, value) => value == null),
       ),
     );
@@ -230,29 +234,33 @@ class AuthRepository {
       return null;
     }
 
-    return UserProfile.fromJson(_lockProfileMarket(<String, Object?>{
-      'id': user.id,
-      'public_user_id': metadata['public_user_id']?.toString(),
-      'phone': phone,
-      'full_name':
-          metadata['full_name']?.toString() ??
-          metadata['name']?.toString() ??
-          '',
-      'momo_number': metadata['momo_number']?.toString() ?? '',
-      'momo_code': metadata['momo_code']?.toString(),
-      'momo_route_type': metadata['momo_route_type']?.toString(),
-      'momo_provider': metadata['momo_provider']?.toString() ?? '',
-      'country': AppMarket.countryCode,
-      'language_code': AppMarket.languageCode,
-      'is_driver': jh.asBool(metadata['is_driver']),
-      'vehicle_type': metadata['vehicle_type']?.toString(),
-      'avatar_url': metadata['avatar_url']?.toString(),
-      'official_name': metadata['official_name']?.toString(),
-      'official_phone': metadata['official_phone']?.toString(),
-      'kyc_status': metadata['kyc_status']?.toString() ?? 'unverified',
-      'kyc_verified_at': metadata['kyc_verified_at'],
-      'credit_consent_granted_at': metadata['credit_consent_granted_at'],
-    }));
+    return UserProfile.fromJson(
+      _lockProfileMarket(<String, Object?>{
+        'id': user.id,
+        'public_user_id': metadata['public_user_id']?.toString(),
+        'phone': phone,
+        'full_name':
+            metadata['full_name']?.toString() ??
+            metadata['name']?.toString() ??
+            '',
+        'momo_number': metadata['momo_number']?.toString() ?? '',
+        'momo_code': metadata['momo_code']?.toString(),
+        'momo_route_type': metadata['momo_route_type']?.toString(),
+        'momo_provider': metadata['momo_provider']?.toString() ?? '',
+        'country': AppMarket.countryCode,
+        'language_code': AppMarket.languageCode,
+        'is_driver': jh.asBool(metadata['is_driver']),
+        'vehicle_type': metadata['vehicle_type']?.toString(),
+        'avatar_url': metadata['avatar_url']?.toString(),
+        'official_name': metadata['official_name']?.toString(),
+        'official_phone': metadata['official_phone']?.toString(),
+        'kyc_status': metadata['kyc_status']?.toString() ?? 'unverified',
+        'kyc_verified_at': metadata['kyc_verified_at'],
+        'credit_consent_granted_at': metadata['credit_consent_granted_at'],
+        'theme_preference': metadata['theme_preference'],
+        'theme_preference_updated_at': metadata['theme_preference_updated_at'],
+      }),
+    );
   }
 }
 

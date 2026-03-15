@@ -3,7 +3,7 @@ import 'dart:math' as math;
 
 import 'package:cool_app/core/config/env_config.dart';
 import 'package:cool_app/core/models/geo_point.dart';
-import 'package:cool_app/core/theme/app_colors.dart';
+import 'package:cool_app/core/theme/cool_palette.dart';
 import 'package:cool_app/features/mobility/models/mobility_route_preview.dart';
 import 'package:cool_app/shared/widgets/cool_card.dart';
 import 'package:flutter/foundation.dart';
@@ -123,7 +123,7 @@ class _ScheduleTripMapPreviewState extends State<ScheduleTripMapPreview> {
     return <gmap.Polyline>{
       gmap.Polyline(
         polylineId: const gmap.PolylineId('schedule-route'),
-        color: AppColors.accent,
+        color: context.coolPalette.accent,
         width: 5,
         startCap: gmap.Cap.roundCap,
         endCap: gmap.Cap.roundCap,
@@ -135,6 +135,7 @@ class _ScheduleTripMapPreviewState extends State<ScheduleTripMapPreview> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final contentPoints = _contentPoints;
     final preview = widget.preview;
     final supportsEmbeddedMaps = EnvConfig.hasEmbeddedGoogleMapsSupport(
@@ -152,7 +153,7 @@ class _ScheduleTripMapPreviewState extends State<ScheduleTripMapPreview> {
                 style: GoogleFonts.dmSans(
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
               const Spacer(),
@@ -176,7 +177,7 @@ class _ScheduleTripMapPreviewState extends State<ScheduleTripMapPreview> {
             style: GoogleFonts.dmSans(
               fontSize: 12,
               fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              color: palette.text2,
               height: 1.4,
             ),
           ),
@@ -189,7 +190,7 @@ class _ScheduleTripMapPreviewState extends State<ScheduleTripMapPreview> {
                 children: [
                   if (contentPoints.isEmpty)
                     Container(
-                      color: AppColors.surface3,
+                      color: palette.surface3,
                       alignment: Alignment.center,
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       child: Text(
@@ -198,7 +199,7 @@ class _ScheduleTripMapPreviewState extends State<ScheduleTripMapPreview> {
                         style: GoogleFonts.dmSans(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.text2,
+                          color: palette.text2,
                           height: 1.45,
                         ),
                       ),
@@ -240,9 +241,9 @@ class _ScheduleTripMapPreviewState extends State<ScheduleTripMapPreview> {
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [
-                              AppColors.bg.withValues(alpha: 0.10),
+                              palette.bg.withValues(alpha: 0.10),
                               Colors.transparent,
-                              AppColors.bg.withValues(alpha: 0.20),
+                              palette.bg.withValues(alpha: 0.20),
                             ],
                           ),
                         ),
@@ -267,7 +268,7 @@ class _ScheduleTripMapPreviewState extends State<ScheduleTripMapPreview> {
               style: GoogleFonts.dmSans(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: AppColors.orange,
+                color: palette.orange,
                 height: 1.35,
               ),
             ),
@@ -291,8 +292,9 @@ class _RouteSummaryPane extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
-      color: AppColors.surface3,
+      color: palette.surface3,
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -303,14 +305,11 @@ class _RouteSummaryPane extends StatelessWidget {
                 width: 38,
                 height: 38,
                 decoration: BoxDecoration(
-                  color: AppColors.surface,
+                  color: palette.surface,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 alignment: Alignment.center,
-                child: const Icon(
-                  Icons.alt_route_rounded,
-                  color: AppColors.accent,
-                ),
+                child: Icon(Icons.alt_route_rounded, color: palette.accent),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -319,7 +318,7 @@ class _RouteSummaryPane extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.text,
+                    color: palette.text,
                     height: 1.4,
                   ),
                 ),
@@ -361,10 +360,11 @@ class _RouteStopRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, size: 18, color: AppColors.text2),
+        Icon(icon, size: 18, color: palette.text2),
         const SizedBox(width: 10),
         Expanded(
           child: Column(
@@ -375,7 +375,7 @@ class _RouteStopRow extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 11,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.text3,
+                  color: palette.text3,
                 ),
               ),
               const SizedBox(height: 2),
@@ -384,7 +384,7 @@ class _RouteStopRow extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.text,
+                  color: palette.text,
                   height: 1.35,
                 ),
               ),
@@ -433,24 +433,25 @@ class _PreviewChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
       decoration: BoxDecoration(
-        color: AppColors.surface.withValues(alpha: 0.9),
+        color: palette.surface.withValues(alpha: 0.9),
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 14, color: AppColors.accent),
+          Icon(icon, size: 14, color: palette.accent),
           const SizedBox(width: 6),
           Text(
             label,
             style: GoogleFonts.dmSans(
               fontSize: 11,
               fontWeight: FontWeight.w700,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
         ],

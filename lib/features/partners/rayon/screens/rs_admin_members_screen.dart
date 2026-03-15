@@ -3,15 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
 import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../providers/rayon_sports_provider.dart';
-import '../../widgets/partner_navigation.dart';
 import '../models/rs_models.dart';
 import '../providers/rs_admin_provider.dart';
+import '../widgets/rs_admin_shell.dart';
 
 /// Admin screen for managing RS memberships — list, adjust tier/points.
 class RsAdminMembersScreen extends ConsumerStatefulWidget {
@@ -29,110 +28,83 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
   Widget build(BuildContext context) {
     final membersAsync = ref.watch(rsAdminMembersProvider);
 
-    return Scaffold(
-      backgroundColor: AppColors.bg,
-      appBar: AppBar(
-        backgroundColor: AppColors.rsBlue,
-        elevation: 0,
-        leading: buildPartnerBackButton(
-          context,
-          fallbackLocation: AppRoutes.adminRayon,
-          color: Colors.white,
+    return RsAdminShell(
+      title: 'Members',
+      subtitle:
+          'Search the supporter base, then update tier or points only when needed.',
+      metrics: [
+        RsAdminMetric(
+          label: 'members',
+          value:
+              membersAsync.whenOrNull(data: (members) => '${members.length}') ??
+              '...',
         ),
-        title: Text(
-          'Members',
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
+      ],
+      controls: Semantics(
+        textField: true,
+        label: 'Search members',
+        hint: 'Double tap to search by name or membership number',
+        child: TextField(
+          onChanged: (value) => setState(() => _search = value.toLowerCase()),
+          style: GoogleFonts.dmSans(color: AppColors.text, fontSize: 14),
+          decoration: InputDecoration(
+            hintText: 'Search members…',
+            hintStyle: GoogleFonts.dmSans(color: AppColors.text3, fontSize: 14),
+            prefixIcon: Icon(Icons.search, color: AppColors.text3, size: 20),
+            filled: true,
+            fillColor: AppColors.surface,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(14),
+              borderSide: BorderSide.none,
+            ),
+            contentPadding: const EdgeInsets.symmetric(vertical: 10),
           ),
         ),
-        actions: buildPartnerAppBarActions(context, homeColor: Colors.white),
       ),
-      body: Column(
-        children: [
-          // ── Search bar ──
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-            child: Semantics(
-              textField: true,
-              label: 'Search members',
-              hint: 'Double tap to search by name or membership number',
-              child: TextField(
-                onChanged: (v) => setState(() => _search = v.toLowerCase()),
-                style: GoogleFonts.dmSans(color: AppColors.text, fontSize: 14),
-                decoration: InputDecoration(
-                  hintText: 'Search members…',
-                  hintStyle: GoogleFonts.dmSans(
-                    color: AppColors.text3,
-                    fontSize: 14,
-                  ),
-                  prefixIcon: const Icon(
-                    Icons.search,
-                    color: AppColors.text3,
-                    size: 20,
-                  ),
-                  filled: true,
-                  fillColor: AppColors.surface,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide.none,
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 10),
-                ),
-              ),
-            ),
-          ),
-          // ── Member list ──
-          Expanded(
-            child: CoolAsyncView<List<FanMembership>>(
-              value: membersAsync,
-              onRetry: () => ref.invalidate(rsAdminMembersProvider),
-              loadingWidget: const Padding(
-                padding: EdgeInsets.all(16),
-                child: CoolSkeletonList(itemCount: 4),
-              ),
-              emptyCheck: (members) => members.isEmpty,
-              emptyWidget: const CoolEmptyView(
-                message: 'No fan memberships have been created yet.',
-                icon: Icons.people_alt_outlined,
-              ),
-              builder: (members) {
-                final filtered = _search.isEmpty
-                    ? members
-                    : members
-                          .where(
-                            (m) =>
-                                m.displayName.toLowerCase().contains(_search) ||
-                                m.membershipNumber.toLowerCase().contains(
-                                  _search,
-                                ),
-                          )
-                          .toList();
-                if (filtered.isEmpty) {
-                  return const CoolEmptyView(
-                    message: 'No members match the current search.',
-                    icon: Icons.search_off_rounded,
-                  );
-                }
-                return ListView.separated(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: filtered.length,
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 8),
-                  itemBuilder: (context, index) {
-                    final member = filtered[index];
-                    return _MemberTile(
-                      member: member,
-                      onEditTier: () => _showTierPicker(member),
-                      onEditPoints: () => _showPointsEditor(member),
-                    );
-                  },
-                );
-              },
-            ),
-          ),
-        ],
+      child: CoolAsyncView<List<FanMembership>>(
+        value: membersAsync,
+        onRetry: () => ref.invalidate(rsAdminMembersProvider),
+        loadingWidget: const Padding(
+          padding: EdgeInsets.all(16),
+          child: CoolSkeletonList(itemCount: 4),
+        ),
+        emptyCheck: (members) => members.isEmpty,
+        emptyWidget: const CoolEmptyView(
+          message: 'No fan memberships have been created yet.',
+          icon: Icons.people_alt_outlined,
+        ),
+        builder: (members) {
+          final filtered = _search.isEmpty
+              ? members
+              : members
+                    .where(
+                      (member) =>
+                          member.displayName.toLowerCase().contains(_search) ||
+                          member.membershipNumber.toLowerCase().contains(
+                            _search,
+                          ),
+                    )
+                    .toList();
+          if (filtered.isEmpty) {
+            return const CoolEmptyView(
+              message: 'No members match the current search.',
+              icon: Icons.search_off_rounded,
+            );
+          }
+          return ListView.separated(
+            padding: EdgeInsets.zero,
+            itemCount: filtered.length,
+            separatorBuilder: (context, index) => const SizedBox(height: 8),
+            itemBuilder: (context, index) {
+              final member = filtered[index];
+              return _MemberTile(
+                member: member,
+                onEditTier: () => _showTierPicker(member),
+                onEditPoints: () => _showPointsEditor(member),
+              );
+            },
+          );
+        },
       ),
     );
   }

@@ -5,7 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/theme_preference.dart';
 import '../../../shared/widgets/cool_card.dart';
 
 /// A titled settings section containing a list of [ProfileSettingsRow]s.
@@ -21,6 +22,7 @@ class ProfileSettingsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     if (rows.isEmpty) {
       return const SizedBox.shrink();
     }
@@ -36,20 +38,20 @@ class ProfileSettingsSection extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: AppColors.text2,
+                color: palette.text2,
               ),
             ),
           ),
         ),
         CoolCard(
-          backgroundColor: AppColors.surface,
+          backgroundColor: palette.surface,
           padding: EdgeInsets.zero,
           child: Column(
             children: [
               for (var i = 0; i < rows.length; i++) ...[
                 rows[i],
                 if (i < rows.length - 1)
-                  const Divider(color: AppColors.border, height: 1, indent: 62),
+                  Divider(color: palette.border, height: 1, indent: 62),
               ],
             ],
           ),
@@ -63,12 +65,12 @@ class ProfileFactItem {
   const ProfileFactItem({
     required this.label,
     required this.value,
-    this.valueColor = AppColors.text,
+    this.valueColor,
   });
 
   final String label;
   final String value;
-  final Color valueColor;
+  final Color? valueColor;
 }
 
 /// Compact summary card for passive account facts.
@@ -79,12 +81,13 @@ class ProfileFactsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     if (items.isEmpty) {
       return const SizedBox.shrink();
     }
 
     return CoolCard(
-      backgroundColor: AppColors.surface,
+      backgroundColor: palette.surface,
       child: LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth < 560) {
@@ -93,7 +96,7 @@ class ProfileFactsCard extends StatelessWidget {
                 for (var index = 0; index < items.length; index++) ...[
                   _ProfileFactTile(item: items[index]),
                   if (index < items.length - 1)
-                    const Divider(color: AppColors.border, height: 20),
+                    Divider(color: palette.border, height: 20),
                 ],
               ],
             );
@@ -108,7 +111,7 @@ class ProfileFactsCard extends StatelessWidget {
                     width: 1,
                     height: 44,
                     margin: const EdgeInsets.symmetric(horizontal: 14),
-                    color: AppColors.border,
+                    color: palette.border,
                   ),
               ],
             ],
@@ -126,6 +129,7 @@ class _ProfileFactTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Semantics(
       label: '${item.label}: ${item.value}',
       child: ExcludeSemantics(
@@ -137,7 +141,7 @@ class _ProfileFactTile extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
-                color: AppColors.text3,
+                color: palette.text3,
               ),
             ),
             const SizedBox(height: 4),
@@ -148,7 +152,7 @@ class _ProfileFactTile extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
-                color: item.valueColor,
+                color: item.valueColor ?? palette.text,
               ),
             ),
           ],
@@ -164,8 +168,8 @@ class ProfileSettingsRow extends StatelessWidget {
     required this.icon,
     required this.label,
     this.value,
-    this.valueColor = AppColors.text2,
-    this.labelColor = AppColors.text,
+    this.valueColor,
+    this.labelColor,
     this.iconColor,
     this.onTap,
     this.trailing,
@@ -176,8 +180,8 @@ class ProfileSettingsRow extends StatelessWidget {
   final IconData icon;
   final String label;
   final String? value;
-  final Color valueColor;
-  final Color labelColor;
+  final Color? valueColor;
+  final Color? labelColor;
   final Color? iconColor;
   final VoidCallback? onTap;
   final Widget? trailing;
@@ -185,6 +189,9 @@ class ProfileSettingsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+    final resolvedLabelColor = labelColor ?? palette.text;
+    final resolvedValueColor = valueColor ?? palette.text2;
     final content = LayoutBuilder(
       builder: (context, constraints) {
         final shouldStackValue =
@@ -201,14 +208,14 @@ class ProfileSettingsRow extends StatelessWidget {
                 width: 36,
                 height: 36,
                 decoration: BoxDecoration(
-                  color: AppColors.surface2,
+                  color: palette.surface2,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 alignment: Alignment.center,
                 child: Icon(
                   icon,
                   size: 18,
-                  color: iconColor ?? labelColor.withValues(alpha: 0.9),
+                  color: iconColor ?? resolvedLabelColor.withValues(alpha: 0.9),
                 ),
               ),
               const SizedBox(width: 12),
@@ -222,7 +229,7 @@ class ProfileSettingsRow extends StatelessWidget {
                             style: GoogleFonts.dmSans(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: labelColor,
+                              color: resolvedLabelColor,
                             ),
                           ),
                           const SizedBox(height: 4),
@@ -233,7 +240,7 @@ class ProfileSettingsRow extends StatelessWidget {
                             style: GoogleFonts.dmSans(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
-                              color: valueColor,
+                              color: resolvedValueColor,
                               height: 1.35,
                             ),
                           ),
@@ -244,7 +251,7 @@ class ProfileSettingsRow extends StatelessWidget {
                         style: GoogleFonts.dmSans(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
-                          color: labelColor,
+                          color: resolvedLabelColor,
                         ),
                       ),
               ),
@@ -261,7 +268,7 @@ class ProfileSettingsRow extends StatelessWidget {
                     style: GoogleFonts.dmSans(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
-                      color: valueColor,
+                      color: resolvedValueColor,
                       height: 1.35,
                     ),
                   ),
@@ -271,10 +278,10 @@ class ProfileSettingsRow extends StatelessWidget {
                 const SizedBox(width: 6),
                 Padding(
                   padding: EdgeInsets.only(top: shouldStackValue ? 2 : 0),
-                  child: const Icon(
+                  child: Icon(
                     Icons.chevron_right_rounded,
                     size: 18,
-                    color: AppColors.text3,
+                    color: palette.text3,
                   ),
                 ),
               ],
@@ -295,7 +302,7 @@ class ProfileSettingsRow extends StatelessWidget {
       hint: 'Double tap to open $label',
       child: InkWell(
         onTap: onTap,
-        splashColor: AppColors.accentGlow,
+        splashColor: palette.accentGlow,
         highlightColor: Colors.transparent,
         child: content,
       ),
@@ -320,6 +327,7 @@ class ProfileSectionToggleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Semantics(
       button: true,
       label: '$title. $subtitle. ${isExpanded ? 'Expanded' : 'Collapsed'}',
@@ -328,7 +336,7 @@ class ProfileSectionToggleCard extends StatelessWidget {
           : 'Double tap to expand this section',
       child: ExcludeSemantics(
         child: CoolCard(
-          backgroundColor: AppColors.surface,
+          backgroundColor: palette.surface,
           onTap: onTap,
           child: Row(
             children: [
@@ -341,7 +349,7 @@ class ProfileSectionToggleCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -350,7 +358,7 @@ class ProfileSectionToggleCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
-                        color: AppColors.text2,
+                        color: palette.text2,
                         height: 1.4,
                       ),
                     ),
@@ -362,7 +370,7 @@ class ProfileSectionToggleCard extends StatelessWidget {
                 isExpanded
                     ? Icons.keyboard_arrow_up_rounded
                     : Icons.keyboard_arrow_down_rounded,
-                color: AppColors.text2,
+                color: palette.text2,
               ),
             ],
           ),
@@ -385,6 +393,7 @@ class ProfileDangerZone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final l10n = context.l10n;
     return ProfileSettingsSection(
       title: l10n.accountActionsTitle,
@@ -396,9 +405,9 @@ class ProfileDangerZone extends StatelessWidget {
         ),
         ProfileSettingsRow(
           icon: Icons.delete_outline_rounded,
-          iconColor: AppColors.red,
+          iconColor: palette.red,
           label: l10n.deleteAccountAction,
-          labelColor: AppColors.red,
+          labelColor: palette.red,
           onTap: onDeleteAccount,
           showArrow: false,
         ),
@@ -422,6 +431,7 @@ class ProfileNotificationToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Semantics(
       label: context.l10n.notificationsLabel,
       toggled: value,
@@ -439,10 +449,177 @@ class ProfileNotificationToggle extends StatelessWidget {
           Switch.adaptive(
             value: value,
             onChanged: isLoading ? null : onChanged,
-            activeTrackColor: AppColors.accent,
+            activeTrackColor: palette.accent,
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// Theme mode selector shown inside the profile appearance sheet.
+class ProfileAppearanceSheet extends StatelessWidget {
+  const ProfileAppearanceSheet({
+    required this.currentPreference,
+    required this.onSelected,
+    super.key,
+  });
+
+  final AppThemePreference currentPreference;
+  final Future<void> Function(AppThemePreference preference) onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+    final l10n = context.l10n;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.appearanceLabel,
+          style: GoogleFonts.dmSans(
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: palette.text,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          l10n.appearanceSheetSubtitle,
+          style: GoogleFonts.dmSans(
+            fontSize: 13,
+            fontWeight: FontWeight.w400,
+            color: palette.text2,
+            height: 1.4,
+          ),
+        ),
+        const SizedBox(height: 16),
+        CoolCard(
+          backgroundColor: palette.surface,
+          padding: EdgeInsets.zero,
+          child: Column(
+            children: [
+              for (
+                var index = 0;
+                index < AppThemePreference.values.length;
+                index++
+              ) ...[
+                _ProfileAppearanceOption(
+                  preference: AppThemePreference.values[index],
+                  isSelected:
+                      AppThemePreference.values[index] == currentPreference,
+                  onTap: () => onSelected(AppThemePreference.values[index]),
+                ),
+                if (index < AppThemePreference.values.length - 1)
+                  Divider(color: palette.border, height: 1, indent: 62),
+              ],
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ProfileAppearanceOption extends StatelessWidget {
+  const _ProfileAppearanceOption({
+    required this.preference,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  final AppThemePreference preference;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  String _label(BuildContext context) {
+    final l10n = context.l10n;
+    return switch (preference) {
+      AppThemePreference.system => l10n.appearanceSystemLabel,
+      AppThemePreference.light => l10n.appearanceLightLabel,
+      AppThemePreference.dark => l10n.appearanceDarkLabel,
+    };
+  }
+
+  String _subtitle(BuildContext context) {
+    final l10n = context.l10n;
+    return switch (preference) {
+      AppThemePreference.system => l10n.appearanceSystemDescription,
+      AppThemePreference.light => l10n.appearanceLightDescription,
+      AppThemePreference.dark => l10n.appearanceDarkDescription,
+    };
+  }
+
+  IconData _icon() {
+    return switch (preference) {
+      AppThemePreference.system => Icons.brightness_auto_rounded,
+      AppThemePreference.light => Icons.light_mode_outlined,
+      AppThemePreference.dark => Icons.dark_mode_outlined,
+    };
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+
+    return Semantics(
+      button: true,
+      selected: isSelected,
+      label: '${_label(context)}. ${_subtitle(context)}',
+      child: InkWell(
+        onTap: onTap,
+        splashColor: palette.accentGlow,
+        highlightColor: Colors.transparent,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          child: Row(
+            children: [
+              Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: palette.surface2,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                alignment: Alignment.center,
+                child: Icon(_icon(), size: 18, color: palette.text2),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      _label(context),
+                      style: GoogleFonts.dmSans(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: palette.text,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      _subtitle(context),
+                      style: GoogleFonts.dmSans(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: palette.text2,
+                        height: 1.35,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 12),
+              Icon(
+                isSelected ? Icons.check_circle_rounded : Icons.circle_outlined,
+                color: isSelected ? palette.accent : palette.text3,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -456,6 +633,7 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final l10n = context.l10n;
     return Semantics(
       button: true,
@@ -465,8 +643,8 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
         onTap: () => context.push(AppRoutes.registerLocation(phone: phone)),
         child: ExcludeSemantics(
           child: CoolCard(
-            backgroundColor: AppColors.surface,
-            borderColor: AppColors.accent.withValues(alpha: 0.35),
+            backgroundColor: palette.surface,
+            borderColor: palette.accent.withValues(alpha: 0.35),
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Row(
@@ -475,13 +653,13 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: AppColors.accentGlow,
+                      color: palette.accentGlow,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     alignment: Alignment.center,
                     child: Icon(
                       Icons.person_outline_rounded,
-                      color: AppColors.accent,
+                      color: palette.accent,
                     ),
                   ),
                   const SizedBox(width: 14),
@@ -494,7 +672,7 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
                           style: GoogleFonts.dmSans(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.text,
+                            color: palette.text,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -503,7 +681,7 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
                           style: GoogleFonts.dmSans(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
-                            color: AppColors.text2,
+                            color: palette.text2,
                             height: 1.35,
                           ),
                         ),
@@ -514,7 +692,7 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
                   Icon(
                     Icons.arrow_forward_ios_rounded,
                     size: 16,
-                    color: AppColors.text3,
+                    color: palette.text3,
                   ),
                 ],
               ),

@@ -6,6 +6,8 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 readonly FLUTTER_BIN="${FLUTTER_BIN:-$ROOT_DIR/scripts/flutterw}"
 readonly LOCAL_BUILD_ROOT="${COOL_LOCAL_BUILD_ROOT:-/tmp/cool-build}"
+# shellcheck source=scripts/_android_release_build.sh
+source "$ROOT_DIR/scripts/_android_release_build.sh"
 
 echo "══════════════════════════════════════════════════════"
 echo "  Building STAGING APK"
@@ -21,13 +23,13 @@ if [[ ! -L "$ROOT_DIR/build" || "$(readlink "$ROOT_DIR/build" 2>/dev/null || tru
   ln -sfn "$LOCAL_BUILD_ROOT" "$ROOT_DIR/build"
 fi
 
-# Source env vars from .env if available
-if [[ -f .env ]]; then
-  set -a
-  # shellcheck source=/dev/null
-  source .env
-  set +a
-fi
+_load_release_env
+
+: "${FIREBASE_ANDROID_STAGING_API_KEY:?Set FIREBASE_ANDROID_STAGING_API_KEY before building the staging APK.}"
+: "${FIREBASE_ANDROID_STAGING_APP_ID:?Set FIREBASE_ANDROID_STAGING_APP_ID before building the staging APK.}"
+: "${FIREBASE_ANDROID_STAGING_MESSAGING_SENDER_ID:?Set FIREBASE_ANDROID_STAGING_MESSAGING_SENDER_ID before building the staging APK.}"
+: "${FIREBASE_ANDROID_STAGING_PROJECT_ID:?Set FIREBASE_ANDROID_STAGING_PROJECT_ID before building the staging APK.}"
+: "${FIREBASE_ANDROID_STAGING_STORAGE_BUCKET:?Set FIREBASE_ANDROID_STAGING_STORAGE_BUCKET before building the staging APK.}"
 
 # Stale daemons from earlier builds can keep the workspace locked or starve memory.
 if [[ -x "$ROOT_DIR/android/gradlew" ]]; then
@@ -44,7 +46,12 @@ fi
   --dart-define=GOOGLE_MAPS_IOS_API_KEY="${GOOGLE_MAPS_IOS_API_KEY:-}" \
   --dart-define=GOOGLE_MAPS_ANDROID_MAP_ID="${GOOGLE_MAPS_ANDROID_MAP_ID:-}" \
   --dart-define=GOOGLE_MAPS_IOS_MAP_ID="${GOOGLE_MAPS_IOS_MAP_ID:-}" \
-  --dart-define=COOL_DEEP_LINK_HOST="${COOL_DEEP_LINK_HOST:-cool.app}"
+  --dart-define=COOL_DEEP_LINK_HOST="${COOL_DEEP_LINK_HOST:-cool.app}" \
+  --dart-define=FIREBASE_ANDROID_STAGING_API_KEY="${FIREBASE_ANDROID_STAGING_API_KEY}" \
+  --dart-define=FIREBASE_ANDROID_STAGING_APP_ID="${FIREBASE_ANDROID_STAGING_APP_ID}" \
+  --dart-define=FIREBASE_ANDROID_STAGING_MESSAGING_SENDER_ID="${FIREBASE_ANDROID_STAGING_MESSAGING_SENDER_ID}" \
+  --dart-define=FIREBASE_ANDROID_STAGING_PROJECT_ID="${FIREBASE_ANDROID_STAGING_PROJECT_ID}" \
+  --dart-define=FIREBASE_ANDROID_STAGING_STORAGE_BUCKET="${FIREBASE_ANDROID_STAGING_STORAGE_BUCKET}"
 
 if [[ ! -f "$staging_apk" ]]; then
   echo "Staging APK was not generated: $staging_apk" >&2

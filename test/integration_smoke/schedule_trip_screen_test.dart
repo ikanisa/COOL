@@ -16,6 +16,7 @@ import 'package:cool_app/features/mobility/providers/mobility_provider.dart';
 import 'package:cool_app/features/mobility/repositories/mobility_repository.dart';
 import 'package:cool_app/features/mobility/screens/schedule_trip_screen.dart';
 import 'package:cool_app/features/mobility/services/place_search_service.dart';
+import 'package:cool_app/shared/widgets/cool_button.dart';
 
 import 'test_harness.dart';
 
@@ -162,21 +163,22 @@ void main() {
 
       await settleTestApp(tester);
 
-      expect(find.text('Schedule as'), findsOneWidget);
-      expect(
-        find.text(
-          'Passenger is your default role. You can switch per trip whenever needed.',
-        ),
-        findsOneWidget,
-      );
-      expect(find.text('Passenger'), findsOneWidget);
-      expect(find.text('Driver'), findsOneWidget);
+      expect(find.text('Step 1 of 4'), findsOneWidget);
+      expect(find.text('Set your route'), findsOneWidget);
+      expect(find.text('Posting as Passenger'), findsOneWidget);
+      expect(find.text('Passenger is your default role.'), findsOneWidget);
+      expect(find.widgetWithText(CoolButton, 'Role'), findsOneWidget);
 
-      await tester.tap(find.text('Driver'));
+      await tester.tap(find.widgetWithText(CoolButton, 'Role'));
       await settleTestApp(tester);
 
+      expect(find.text('Choose role'), findsOneWidget);
+      await tester.tap(find.text('Driver').last);
+      await settleTestApp(tester);
+
+      expect(find.text('Posting as Driver'), findsOneWidget);
       expect(
-        find.text('Finish driver setup before posting a trip as a driver.'),
+        find.text('Finish driver setup before posting as a driver.'),
         findsOneWidget,
       );
       expect(find.text('Become a driver'), findsOneWidget);
@@ -198,15 +200,14 @@ void main() {
 
       await settleTestApp(tester);
 
-      await tester.tap(find.text('Driver'));
+      await tester.tap(find.widgetWithText(CoolButton, 'Role'));
       await settleTestApp(tester);
 
-      expect(
-        find.text(
-          'Driver trips are posted as return trips while you still keep passenger access.',
-        ),
-        findsOneWidget,
-      );
+      await tester.tap(find.text('Driver').last);
+      await settleTestApp(tester);
+
+      expect(find.text('Posting as Driver'), findsOneWidget);
+      expect(find.text('Driver trips post as return trips.'), findsOneWidget);
       expect(find.text('Become a driver'), findsNothing);
     });
 
@@ -221,27 +222,31 @@ void main() {
         overrides: <Override>[
           mobilityRepositoryProvider.overrideWithValue(mobilityRepository),
           locationServiceProvider.overrideWithValue(DisabledLocationService()),
-          placeSearchServiceProvider.overrideWithValue(FakePlaceSearchService()),
+          placeSearchServiceProvider.overrideWithValue(
+            FakePlaceSearchService(),
+          ),
         ],
       );
 
       await settleTestApp(tester);
 
-      expect(find.text('Schedule as'), findsOneWidget);
+      expect(find.text('Step 1 of 4'), findsOneWidget);
       expect(find.text('Pickup and destination'), findsOneWidget);
-      expect(find.text('Route → Time → Options → Review'), findsNothing);
+      expect(find.text('Set your route'), findsOneWidget);
 
       await tester.enterText(find.byType(TextFormField).at(0), 'Kigali');
       await tester.enterText(find.byType(TextFormField).at(1), 'Musanze');
       await tester.tap(find.text('Continue'));
       await settleTestApp(tester);
 
+      expect(find.text('Step 2 of 4'), findsOneWidget);
       expect(find.text('When'), findsOneWidget);
       expect(find.text('Return or repeat'), findsOneWidget);
 
       await tester.tap(find.text('Continue'));
       await settleTestApp(tester);
 
+      expect(find.text('Step 3 of 4'), findsOneWidget);
       expect(find.text('Trip setup'), findsOneWidget);
       expect(find.text('Ride options'), findsNothing);
       expect(find.text('Add details'), findsOneWidget);
@@ -249,13 +254,100 @@ void main() {
       await tester.tap(find.text('Review').last);
       await settleTestApp(tester);
 
+      expect(find.text('Step 4 of 4'), findsOneWidget);
       expect(
         find.text('Check the main trip details before posting.'),
         findsOneWidget,
       );
-      expect(find.text('Role'), findsOneWidget);
+      expect(find.text('Posting behavior'), findsOneWidget);
+      expect(
+        find.text('Drivers see your route, timing, seats, and note.'),
+        findsOneWidget,
+      );
+      expect(
+        find.text('Text route only. Confirm the exact pickup in chat.'),
+        findsOneWidget,
+      );
+      expect(
+        find.text(
+          'If the network drops, COOL saves this trip on device and syncs it later.',
+        ),
+        findsOneWidget,
+      );
       expect(find.text('No return trip'), findsOneWidget);
       expect(find.text('One-time trip'), findsOneWidget);
+    });
+
+    testWidgets('driver entry applies defaults and cleaner review copy', (
+      tester,
+    ) async {
+      await pumpScopedApp(
+        tester,
+        child: const ScheduleTripScreen(
+          initialRole: ScheduleTripPostingRole.driver,
+        ),
+        session: fakeSession(),
+        user: fakeUser(isDriver: true, vehicleType: 'Cab'),
+        overrides: <Override>[
+          mobilityRepositoryProvider.overrideWithValue(mobilityRepository),
+          locationServiceProvider.overrideWithValue(DisabledLocationService()),
+          placeSearchServiceProvider.overrideWithValue(
+            FakePlaceSearchService(),
+          ),
+        ],
+      );
+
+      await settleTestApp(tester);
+
+      expect(find.text('Set your return route'), findsOneWidget);
+      expect(find.text('Posting as Driver'), findsOneWidget);
+      expect(find.text('Driver trips post as return trips.'), findsOneWidget);
+
+      await tester.enterText(find.byType(TextFormField).at(0), 'Kigali');
+      await tester.enterText(find.byType(TextFormField).at(1), 'Musanze');
+      await tester.tap(find.text('Continue'));
+      await settleTestApp(tester);
+
+      expect(find.text('Step 2 of 4'), findsOneWidget);
+      expect(find.text('Departure timing'), findsOneWidget);
+      expect(find.text('Extra scheduling'), findsOneWidget);
+
+      await tester.tap(find.text('Continue'));
+      await settleTestApp(tester);
+
+      expect(find.text('Step 3 of 4'), findsOneWidget);
+      expect(find.text('Driver return setup'), findsOneWidget);
+      expect(find.text('Posting vehicle'), findsOneWidget);
+      expect(find.text('Vehicle for this trip'), findsNothing);
+      expect(find.text('Seats available'), findsOneWidget);
+      expect(find.text('Rider note'), findsOneWidget);
+
+      await tester.tap(find.text('Review').last);
+      await settleTestApp(tester);
+
+      expect(find.text('Step 4 of 4'), findsOneWidget);
+      expect(find.text('Ready to post your driver return?'), findsOneWidget);
+      expect(find.text('Trip type'), findsOneWidget);
+      expect(find.text('Driver return'), findsOneWidget);
+      expect(find.text('Seats available'), findsOneWidget);
+      expect(find.text('Rider note'), findsOneWidget);
+      expect(find.text('Posting behavior'), findsOneWidget);
+      expect(
+        find.text(
+          'Riders see your route, timing, seats, vehicle, and rider note.',
+        ),
+        findsOneWidget,
+      );
+      expect(
+        find.text(
+          'Riders contact you after posting. Final pickup, fare, and timing are agreed in WhatsApp.',
+        ),
+        findsOneWidget,
+      );
+      expect(
+        find.text('Check the main trip details before posting.'),
+        findsNothing,
+      );
     });
   });
 }

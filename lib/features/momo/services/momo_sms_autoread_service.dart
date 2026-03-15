@@ -11,13 +11,26 @@ import '../../../core/config/env_config.dart';
 import '../../../core/services/app_access_service.dart';
 import '../../../core/services/crashlytics_service.dart';
 import '../../../core/services/hive_runtime.dart';
-import '../../../core/services/operational_health_service.dart';
 import '../repositories/momo_sms_ingestion_repository.dart';
 
 @pragma('vm:entry-point')
 Future<void> momoSmsBackgroundMessageHandler(SmsMessage message) async {
   WidgetsFlutterBinding.ensureInitialized();
   await _MomoSmsBackgroundProcessor.handle(message);
+}
+
+enum MomoInboxSyncTrigger { initialPermissionGrant, manual }
+
+class MomoInboxSyncResult {
+  const MomoInboxSyncResult({
+    required this.scannedMessages,
+    required this.uploadedMessages,
+    required this.duplicateMessages,
+  });
+
+  final int scannedMessages;
+  final int uploadedMessages;
+  final int duplicateMessages;
 }
 
 class MomoSmsAutoreadService {
@@ -27,35 +40,26 @@ class MomoSmsAutoreadService {
     Telephony? telephony,
     MomoSmsIngestionRepository? ingestionRepository,
     CrashlyticsService? crashlytics,
-    OperationalHealthService? operationalHealthService,
   }) : _client = client,
        _appAccessService = appAccessService,
        _telephony = telephony ?? Telephony.instance,
        _ingestionRepository =
-           ingestionRepository ??
-           MomoSmsIngestionRepository(client: client),
-       _crashlytics = crashlytics,
-       _operationalHealthService =
-           operationalHealthService ??
-           OperationalHealthService(client: client);
+           ingestionRepository ?? MomoSmsIngestionRepository(client: client),
+       _crashlytics = crashlytics;
 
   final SupabaseClient _client;
   final AppAccessService _appAccessService;
   final Telephony _telephony;
   final MomoSmsIngestionRepository _ingestionRepository;
   final CrashlyticsService? _crashlytics;
-  final OperationalHealthService _operationalHealthService;
 
-  static const _inboxRecoveryCooldown = Duration(minutes: 2);
-  // Keep historical inbox access narrowly scoped to recent M-Money recovery.
-  static const _inboxRecoveryLookback = Duration(days: 7);
-  static const _maxRecoveryMessages = 100;
+  static const _initialInboxSyncLookback = Duration(days: 30);
 
   bool _isListening = false;
-  bool _isRecoveringInbox = false;
+  bool _isSyncingInbox = false;
   bool _requestedPermissionThisLaunch = false;
-  DateTime? _lastInboxRecoveryAt;
   String? _activeUserId;
+  String? _initialSyncCompletedForUserId;
 
   Future<void> refresh({bool forcePermissionRequest = false}) async {
     if (!_supportsSmsAutoread) {
@@ -97,21 +101,13 @@ class MomoSmsAutoreadService {
       );
       _isListening = true;
       _activeUserId = session.user.id;
+      if (_initialSyncCompletedForUserId != session.user.id) {
+        unawaited(_runInitialInboxSync());
+      }
       await _crashlytics?.log(
         'momo_sms: Android SMS autoread active for ${session.user.id}',
       );
-      unawaited(
-        _operationalHealthService.recordEvent(
-          service: 'sms_ingest',
-          component: 'android_sms_autoread',
-          message: 'Android SMS autoread activated.',
-          userId: session.user.id,
-          metadata: const <String, dynamic>{'mode': 'incoming_listener'},
-        ),
-      );
     }
-
-    unawaited(_recoverRecentInbox());
   }
 
   Future<void> stop({bool resetPermissionPromptState = false}) async {
@@ -164,40 +160,74 @@ class MomoSmsAutoreadService {
 
   void _ignoreIncomingMessage(SmsMessage _) {}
 
-  Future<void> _recoverRecentInbox() async {
-    if (_isRecoveringInbox) {
-      return;
+  Future<void> _runInitialInboxSync() async {
+    try {
+      await syncInbox(trigger: MomoInboxSyncTrigger.initialPermissionGrant);
+    } catch (error, stackTrace) {
+      await _crashlytics?.recordError(
+        error,
+        stackTrace: stackTrace,
+        reason: 'momo_sms_initial_inbox_sync_failed',
+      );
+    }
+  }
+
+  Future<MomoInboxSyncResult> syncInbox({
+    required MomoInboxSyncTrigger trigger,
+  }) async {
+    if (!_supportsSmsAutoread) {
+      throw const MomoSmsSyncException(
+        'SMS sync is only available on Android devices.',
+      );
+    }
+    if (!EnvConfig.enableAndroidMomoSmsAutoread) {
+      throw const MomoSmsSyncException('Android SMS sync is disabled.');
+    }
+    if (_isSyncingInbox) {
+      throw const MomoSmsSyncException('An inbox sync is already running.');
     }
 
-    final lastRecoveryAt = _lastInboxRecoveryAt;
-    final now = DateTime.now().toUtc();
-    if (lastRecoveryAt != null &&
-        now.difference(lastRecoveryAt) < _inboxRecoveryCooldown) {
-      return;
+    final session = _client.auth.currentSession;
+    if (session == null) {
+      throw const MomoSmsSyncException('Sign in again before syncing SMS.');
     }
 
-    _isRecoveringInbox = true;
-    _lastInboxRecoveryAt = now;
+    final smsEnabledInApp = await _appAccessService.isEnabled(
+      AppAccessPermission.sms,
+    );
+    if (!smsEnabledInApp) {
+      throw const MomoSmsSyncException(
+        'Enable SMS payment sync in COOL before scanning the inbox.',
+      );
+    }
+
+    final permissionGranted = await _ensureSmsPermission(forceRequest: false);
+    if (!permissionGranted) {
+      throw const MomoSmsSyncException(
+        'Android SMS access is required before scanning the inbox.',
+      );
+    }
+
+    _isSyncingInbox = true;
 
     try {
-      final messages = await _telephony.getInboxSms(
-        columns: const [SmsColumn.ADDRESS, SmsColumn.BODY, SmsColumn.DATE],
-        filter: _approvedSenderFilter(),
-        sortOrder: [OrderBy(SmsColumn.DATE, sort: Sort.DESC)],
-      );
+      final now = DateTime.now().toUtc();
+      final cutoff = now.subtract(_initialInboxSyncLookback);
+      final messages = await _loadCandidateInboxMessages(cutoff: cutoff);
 
-      final cutoff = now.subtract(_inboxRecoveryLookback);
-      var processedMessages = 0;
+      var scannedMessages = 0;
+      var uploadedMessages = 0;
+      var duplicateMessages = 0;
+      final processedMessageKeys = <String>{};
+
       for (final message in messages) {
-        if (processedMessages >= _maxRecoveryMessages) {
-          break;
-        }
-
         final capture = MomoSmsIngestionRepository.captureFromDeviceMessage(
           sender: message.address,
           body: message.body,
           timestampMillis: message.date,
-          ingestionSource: 'android_sms_inbox_recovery',
+          ingestionSource: trigger == MomoInboxSyncTrigger.manual
+              ? 'android_sms_manual_sync'
+              : 'android_sms_initial_sync',
         );
         if (capture == null) {
           continue;
@@ -205,40 +235,43 @@ class MomoSmsAutoreadService {
         if (capture.receivedAt.isBefore(cutoff)) {
           break;
         }
+        if (!processedMessageKeys.add(capture.deviceMessageKey)) {
+          continue;
+        }
 
-        processedMessages += 1;
-        await _ingestionRepository.ingestCapture(capture: capture);
-      }
-
-      await _crashlytics?.log(
-        'momo_sms: recovered $processedMessages inbox messages',
-      );
-      if (processedMessages > 0) {
-        await _operationalHealthService.recordEvent(
-          service: 'sms_ingest',
-          component: 'android_sms_inbox_recovery',
-          message: 'Recovered recent MoMo SMS messages from inbox.',
-          userId: _activeUserId,
-          metadata: <String, dynamic>{'processed_messages': processedMessages},
+        scannedMessages += 1;
+        final result = await _ingestionRepository.ingestCapture(
+          capture: capture,
         );
+        if (result == null) {
+          continue;
+        }
+        if (result.inserted) {
+          uploadedMessages += 1;
+        } else {
+          duplicateMessages += 1;
+        }
       }
+
+      _initialSyncCompletedForUserId = session.user.id;
+      await _crashlytics?.log(
+        'momo_sms: ${trigger.name} scanned=$scannedMessages '
+        'uploaded=$uploadedMessages duplicates=$duplicateMessages',
+      );
+      return MomoInboxSyncResult(
+        scannedMessages: scannedMessages,
+        uploadedMessages: uploadedMessages,
+        duplicateMessages: duplicateMessages,
+      );
     } catch (error, stackTrace) {
       await _crashlytics?.recordError(
         error,
         stackTrace: stackTrace,
-        reason: 'momo_sms_inbox_recovery_failed',
+        reason: 'momo_sms_inbox_sync_failed',
       );
-      await _operationalHealthService.recordEvent(
-        service: 'sms_ingest',
-        component: 'android_sms_inbox_recovery',
-        status: OperationalHealthStatus.error,
-        issueCode: 'sms_inbox_recovery_failed',
-        message: 'Failed to recover MoMo SMS messages from inbox.',
-        userId: _activeUserId,
-        metadata: <String, dynamic>{'error': error.toString()},
-      );
+      rethrow;
     } finally {
-      _isRecoveringInbox = false;
+      _isSyncingInbox = false;
     }
   }
 
@@ -264,33 +297,32 @@ class MomoSmsAutoreadService {
         stackTrace: stackTrace,
         reason: 'momo_sms_ingestion_failed',
       );
-      await _operationalHealthService.recordEvent(
-        service: 'sms_ingest',
-        component: 'android_sms_autoread',
-        status: OperationalHealthStatus.error,
-        issueCode: 'sms_ingestion_failed',
-        message: 'Incoming MoMo SMS ingestion failed.',
-        userId: _activeUserId,
-        metadata: <String, dynamic>{
-          'sender': message.address,
-          'ingestion_source': ingestionSource,
-          'error': error.toString(),
-        },
-      );
     }
   }
 
-  SmsFilter? _approvedSenderFilter() {
+  Future<List<SmsMessage>> _loadCandidateInboxMessages({
+    required DateTime cutoff,
+  }) async {
+    final cutoffMillis = cutoff.millisecondsSinceEpoch.toString();
     final senderPatterns =
         MomoSmsIngestionRepository.approvedInboxSenderLikePatterns;
+    final messages = <SmsMessage>[];
 
-    SmsFilter? filter;
     for (final senderPattern in senderPatterns) {
-      filter = filter == null
-          ? SmsFilter.where(SmsColumn.ADDRESS).like(senderPattern)
-          : filter.or(SmsColumn.ADDRESS).like(senderPattern);
+      final filter = SmsFilter.where(SmsColumn.ADDRESS)
+          .like(senderPattern)
+          .and(SmsColumn.DATE)
+          .greaterThanOrEqualTo(cutoffMillis);
+      final patternMessages = await _telephony.getInboxSms(
+        columns: const [SmsColumn.ADDRESS, SmsColumn.BODY, SmsColumn.DATE],
+        filter: filter,
+        sortOrder: [OrderBy(SmsColumn.DATE, sort: Sort.DESC)],
+      );
+      messages.addAll(patternMessages);
     }
-    return filter;
+
+    messages.sort((a, b) => (b.date ?? 0).compareTo(a.date ?? 0));
+    return messages;
   }
 
   bool get _supportsSmsAutoread {
@@ -301,6 +333,15 @@ class MomoSmsAutoreadService {
   }
 }
 
+class MomoSmsSyncException implements Exception {
+  const MomoSmsSyncException(this.message);
+
+  final String message;
+
+  @override
+  String toString() => message;
+}
+
 class _MomoSmsBackgroundProcessor {
   static bool _hiveInitialized = false;
   static bool _supabaseInitialized = false;
@@ -308,40 +349,44 @@ class _MomoSmsBackgroundProcessor {
   static final OpenHiveBox<bool> _openAppAccessBox = openHiveBox<bool>;
 
   static Future<void> handle(SmsMessage message) async {
-    if (kIsWeb || !Platform.isAndroid) {
-      return;
-    }
+    try {
+      if (kIsWeb || !Platform.isAndroid) {
+        return;
+      }
 
-    if (!EnvConfig.enableAndroidMomoSmsAutoread) {
-      return;
-    }
+      if (!EnvConfig.enableAndroidMomoSmsAutoread) {
+        return;
+      }
 
-    await _ensureHiveInitialized();
-    final appAccessService = AppAccessService(openBox: _openAppAccessBox);
-    final smsEnabledInApp = await appAccessService.isEnabled(
-      AppAccessPermission.sms,
-    );
-    if (!smsEnabledInApp) {
-      return;
-    }
+      await _ensureHiveInitialized();
+      final appAccessService = AppAccessService(openBox: _openAppAccessBox);
+      final smsEnabledInApp = await appAccessService.isEnabled(
+        AppAccessPermission.sms,
+      );
+      if (!smsEnabledInApp) {
+        return;
+      }
 
-    final client = await _ensureSupabaseClient();
-    if (client == null || client.auth.currentUser?.id == null) {
-      return;
-    }
+      final client = await _ensureSupabaseClient();
+      if (client == null || client.auth.currentUser?.id == null) {
+        return;
+      }
 
-    final capture = MomoSmsIngestionRepository.captureFromDeviceMessage(
-      sender: message.address,
-      body: message.body,
-      timestampMillis: message.date,
-      ingestionSource: 'android_sms_listener_background',
-    );
-    if (capture == null) {
-      return;
-    }
+      final capture = MomoSmsIngestionRepository.captureFromDeviceMessage(
+        sender: message.address,
+        body: message.body,
+        timestampMillis: message.date,
+        ingestionSource: 'android_sms_listener_background',
+      );
+      if (capture == null) {
+        return;
+      }
 
-    final repository = MomoSmsIngestionRepository(client: client);
-    await repository.ingestCapture(capture: capture);
+      final repository = MomoSmsIngestionRepository(client: client);
+      await repository.ingestCapture(capture: capture);
+    } catch (error) {
+      debugPrint('[MoMo SMS] background ingestion skipped after error: $error');
+    }
   }
 
   static Future<void> _ensureHiveInitialized() async {

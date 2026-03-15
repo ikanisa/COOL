@@ -4,9 +4,9 @@ Generated from [`lib/core/router/app_router.dart`](../lib/core/router/app_router
 
 Current router shape:
 
-- `51` `GoRoute` declarations
+- `61` `GoRoute` declarations
 - `4` shell branches
-- `52` screen files under `lib/features/**/screens/*.dart`
+- `59` screen files under `lib/features/**/screens/*.dart`
 
 Change policy:
 
@@ -36,9 +36,14 @@ Change policy:
 | `/home` | [`HomeScreen`](../lib/features/home/screens/home_screen.dart) | Home |
 | `/mobility` | [`MobilityHomeScreen`](../lib/features/mobility/screens/mobility_home_screen.dart) | Mobility |
 | `/mobility/driver` | [`DriverProfileScreen`](../lib/features/mobility/screens/driver_profile_screen.dart) | Mobility |
+| `/mobility/driver/subscription` | [`DriverSubscriptionScreen`](../lib/features/mobility/screens/driver_detail_screens.dart) | Mobility |
+| `/mobility/driver/vehicle` | [`DriverVehicleScreen`](../lib/features/mobility/screens/driver_detail_screens.dart) | Mobility |
 | `/mobility/schedule` | [`ScheduleTripScreen`](../lib/features/mobility/screens/schedule_trip_screen.dart) | Mobility |
 | `/mobility/trips` | [`TripBoardScreen`](../lib/features/mobility/screens/trip_board_screen.dart) | Mobility |
 | `/profile` | [`ProfileScreen`](../lib/features/profile/screens/profile_screen.dart) | Profile |
+| `/profile/identity` | [`ProfileIdentityScreen`](../lib/features/profile/screens/profile_detail_screens.dart) | Profile |
+| `/profile/travel-role` | [`ProfileTravelRoleScreen`](../lib/features/profile/screens/profile_detail_screens.dart) | Profile |
+| `/profile/wallet` | [`ProfileWalletScreen`](../lib/features/profile/screens/profile_detail_screens.dart) | Profile |
 
 ## Standalone Core Routes
 
@@ -74,10 +79,13 @@ Change policy:
 
 | Path | Target | Shell |
 |---|---|---|
-| `/admin` | [`AdminDashboardScreen`](../lib/features/admin/screens/admin_dashboard_screen.dart) | No |
+| `/admin` | [`AdminWorkspacesScreen`](../lib/features/admin/screens/admin_workspaces_screen.dart) | No |
 | `/admin/app-config` | [`ManageAppConfigScreen`](../lib/features/admin/screens/manage_app_config_screen.dart) | No |
+| `/admin/banks/:partnerId` | [`BankAdminWorkspaceScreen`](../lib/features/admin/screens/bank_admin_workspace_screen.dart) | No |
 | `/admin/operations` | [`OperationalDashboardScreen`](../lib/features/admin/screens/operational_dashboard_screen.dart) | No |
 | `/admin/partners` | [`ManagePartnersScreen`](../lib/features/admin/screens/manage_partners_screen.dart) | No |
+| `/admin/partners/:partnerId` | [`PartnerAdminWorkspaceScreen`](../lib/features/admin/screens/partner_admin_workspace_screen.dart) | No |
+| `/admin/platform` | [`AdminDashboardScreen`](../lib/features/admin/screens/admin_dashboard_screen.dart) | No |
 | `/admin/quick-actions` | [`ManageQuickActionsScreen`](../lib/features/admin/screens/manage_quick_actions_screen.dart) | No |
 | `/admin/services` | [`ManageServicesScreen`](../lib/features/admin/screens/manage_services_screen.dart) | No |
 | `/admin/users` | [`ManageUsersScreen`](../lib/features/admin/screens/manage_users_screen.dart) | No |
@@ -88,10 +96,12 @@ Change policy:
 | Path | Target | Shell |
 |---|---|---|
 | `/admin/rayon` | [`RsAdminDashboardScreen`](../lib/features/partners/rayon/screens/rs_admin_dashboard_screen.dart) | No |
+| `/admin/rayon/finance` | [`RsAdminFinanceScreen`](../lib/features/partners/rayon/screens/rs_admin_finance_screen.dart) | No |
 | `/admin/rayon/initiatives` | [`RsAdminInitiativesScreen`](../lib/features/partners/rayon/screens/rs_admin_initiatives_screen.dart) | No |
 | `/admin/rayon/matches` | [`RsAdminMatchesScreen`](../lib/features/partners/rayon/screens/rs_admin_matches_screen.dart) | No |
 | `/admin/rayon/members` | [`RsAdminMembersScreen`](../lib/features/partners/rayon/screens/rs_admin_members_screen.dart) | No |
 | `/admin/rayon/orders` | [`RsAdminOrdersScreen`](../lib/features/partners/rayon/screens/rs_admin_orders_screen.dart) | No |
+| `/admin/rayon/packages` | [`RsAdminPackagesScreen`](../lib/features/partners/rayon/screens/rs_admin_packages_screen.dart) | No |
 | `/admin/rayon/shop` | [`RsAdminShopScreen`](../lib/features/partners/rayon/screens/rs_admin_shop_screen.dart) | No |
 | `/admin/rayon/tickets` | [`RsAdminTicketsScreen`](../lib/features/partners/rayon/screens/rs_admin_tickets_screen.dart) | No |
 

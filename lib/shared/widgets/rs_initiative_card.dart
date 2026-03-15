@@ -22,7 +22,9 @@ class RsInitiativeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final category = RsTheme.parseCategory(initiative.category.value.toLowerCase());
+    final category = RsTheme.parseCategory(
+      initiative.category.value.toLowerCase(),
+    );
     final categoryColor = RsTheme.categoryColor(category);
     final contributorInitials = _buildContributorInitials(initiative);
     final visibleAvatars = contributorInitials.take(3).toList(growable: false);
@@ -32,182 +34,183 @@ class RsInitiativeCard extends StatelessWidget {
     );
 
     return Semantics(
-      label: '${initiative.title}. '
+      label:
+          '${initiative.title}. '
           '${(initiative.progress * 100).round()}% funded. '
           '${initiative.supporterCount} supporters.',
       excludeSemantics: true,
       child: Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(18),
-        child: Ink(
-          decoration: BoxDecoration(
-            color: AppColors.surface2,
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: AppColors.border2),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.18),
-                blurRadius: 24,
-                offset: const Offset(0, 16),
-              ),
-            ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(18),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    color: RsTheme.categoryBackground(category),
-                    borderRadius: BorderRadius.circular(999),
-                  ),
-                  child: Text(
-                    initiative.category.value.toUpperCase(),
-                    style: GoogleFonts.barlow(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 1.1,
-                      color: categoryColor,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  initiative.title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.barlowCondensed(
-                    fontSize: 26,
-                    fontWeight: FontWeight.w900,
-                    color: AppColors.rsWhite,
-                    height: 0.95,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  initiative.description,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.barlow(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    height: 1.35,
-                    color: AppColors.text2,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Raised: ${_formatRwf(initiative.raisedAmount)} of ${_formatRwf(initiative.targetAmount)}',
-                        style: GoogleFonts.barlow(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.rsWhite,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Text(
-                      '${(initiative.progress * 100).round()}%',
-                      style: GoogleFonts.dmMono(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                        color: categoryColor,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(999),
-                  child: SizedBox(
-                    height: 6,
-                    child: Stack(
-                      children: [
-                        Container(color: AppColors.surface3),
-                        FractionallySizedBox(
-                          widthFactor: initiative.progress,
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  categoryColor.withValues(alpha: 0.78),
-                                  categoryColor,
-                                  AppColors.rsGoldLight,
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 72,
-                      height: 28,
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          for (
-                            var index = 0;
-                            index < visibleAvatars.length;
-                            index++
-                          )
-                            Positioned(
-                              left: index * 18,
-                              child: _SupporterAvatar(
-                                label: visibleAvatars[index],
-                                color: _avatarColorForIndex(
-                                  index,
-                                  categoryColor,
-                                ),
-                              ),
-                            ),
-                          if (overflowCount > 0)
-                            Positioned(
-                              left: visibleAvatars.length * 18,
-                              child: _SupporterAvatar(
-                                label: '+$overflowCount',
-                                color: AppColors.surface3,
-                                isOverflow: true,
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        '${NumberFormat.decimalPattern('en').format(initiative.supporterCount)} supporters',
-                        style: GoogleFonts.barlow(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.text2,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    _SupportButton(onTap: onSupportTap),
-                  ],
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(18),
+          child: Ink(
+            decoration: BoxDecoration(
+              color: AppColors.surface2,
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(color: AppColors.border2),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.18),
+                  blurRadius: 24,
+                  offset: const Offset(0, 16),
                 ),
               ],
             ),
+            child: Padding(
+              padding: const EdgeInsets.all(18),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: RsTheme.categoryBackground(category),
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                    child: Text(
+                      initiative.category.value.toUpperCase(),
+                      style: GoogleFonts.barlow(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 1.1,
+                        color: categoryColor,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    initiative.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.barlowCondensed(
+                      fontSize: 26,
+                      fontWeight: FontWeight.w900,
+                      color: AppColors.rsWhite,
+                      height: 0.95,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    initiative.description,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.barlow(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      height: 1.35,
+                      color: AppColors.text2,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Raised: ${_formatRwf(initiative.raisedAmount)} of ${_formatRwf(initiative.targetAmount)}',
+                          style: GoogleFonts.barlow(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.rsWhite,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Text(
+                        '${(initiative.progress * 100).round()}%',
+                        style: GoogleFonts.dmMono(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: categoryColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(999),
+                    child: SizedBox(
+                      height: 6,
+                      child: Stack(
+                        children: [
+                          Container(color: AppColors.surface3),
+                          FractionallySizedBox(
+                            widthFactor: initiative.progress,
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    categoryColor.withValues(alpha: 0.78),
+                                    categoryColor,
+                                    AppColors.rsGoldLight,
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 72,
+                        height: 28,
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            for (
+                              var index = 0;
+                              index < visibleAvatars.length;
+                              index++
+                            )
+                              Positioned(
+                                left: index * 18,
+                                child: _SupporterAvatar(
+                                  label: visibleAvatars[index],
+                                  color: _avatarColorForIndex(
+                                    index,
+                                    categoryColor,
+                                  ),
+                                ),
+                              ),
+                            if (overflowCount > 0)
+                              Positioned(
+                                left: visibleAvatars.length * 18,
+                                child: _SupporterAvatar(
+                                  label: '+$overflowCount',
+                                  color: AppColors.surface3,
+                                  isOverflow: true,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          '${NumberFormat.decimalPattern('en').format(initiative.supporterCount)} supporters',
+                          style: GoogleFonts.barlow(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.text2,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      _SupportButton(onTap: onSupportTap),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
-      ),
       ),
     );
   }

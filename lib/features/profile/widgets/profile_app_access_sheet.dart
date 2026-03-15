@@ -41,8 +41,7 @@ class _ProfileAppAccessSheetState extends ConsumerState<ProfileAppAccessSheet>
     AppAccessPermission.nfc,
   ];
 
-  late final AppAccessService _service =
-      ref.read(appAccessServiceProvider);
+  late final AppAccessService _service = ref.read(appAccessServiceProvider);
   final _busy = <AppAccessPermission>{};
   final _snapshots = <AppAccessPermission, AppAccessSnapshot>{};
 
@@ -181,7 +180,7 @@ class _ProfileAppAccessSheetState extends ConsumerState<ProfileAppAccessSheet>
     final totalCount = _permissions.length + 1;
 
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
@@ -694,11 +693,7 @@ class _SmsPolicyNotice extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             alignment: Alignment.center,
-            child: const Icon(
-              Icons.sms_outlined,
-              color: AppColors.text2,
-              size: 20,
-            ),
+            child: Icon(Icons.sms_outlined, color: AppColors.text2, size: 20),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -715,7 +710,7 @@ class _SmsPolicyNotice extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'COOL uses Android SMS access only for approved M-Money confirmation sender IDs so user-initiated USSD payments can be verified and recorded. iOS cannot read inbox SMS, so this payment path is Android-only.',
+                  'COOL uses Android SMS access to import M-Money inbox messages for the last 12 months on first setup, keep listening for new M-Money SMS, and let you rescan the inbox with Sync SMS if anything was missed. iOS cannot read inbox SMS, so this payment path is Android-only.',
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
@@ -754,7 +749,7 @@ _PermissionMetadata _metadataFor(AppAccessPermission permission) {
       icon: Icons.sms_outlined,
       title: 'SMS payment sync',
       subtitle:
-          'Required on Android so COOL can read approved Mobile Money confirmation SMS and record verified payment transactions.',
+          'Required on Android so COOL can import M-Money inbox SMS, forward new ones to Supabase, and rebuild statements from the device inbox.',
       linkedFeatures: ['MoMo verification', 'Transaction recording'],
       serviceActionLabel: 'Open system settings',
     ),

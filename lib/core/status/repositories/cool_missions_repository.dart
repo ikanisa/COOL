@@ -6,8 +6,7 @@ import 'cool_status_repository.dart';
 
 /// Data access for cooperative missions.
 class CoolMissionsRepository {
-  CoolMissionsRepository({required SupabaseClient client})
-      : _client = client;
+  CoolMissionsRepository({required SupabaseClient client}) : _client = client;
 
   final SupabaseClient _client;
 
@@ -38,10 +37,9 @@ class CoolMissionsRepository {
           ? (progressRow['contribution_value'] as int? ?? 0)
           : 0;
 
-      missions.add(CoolMission.fromJson({
-        ...row,
-        'user_progress': userProgress,
-      }));
+      missions.add(
+        CoolMission.fromJson({...row, 'user_progress': userProgress}),
+      );
     }
 
     return missions;
@@ -77,15 +75,12 @@ class CoolMissionsRepository {
     // Upsert progress
     final row = await _client
         .from('cool_mission_progress')
-        .upsert(
-          {
-            'mission_id': missionId,
-            'user_id': userId,
-            'contribution_value': amount,
-            'updated_at': DateTime.now().toIso8601String(),
-          },
-          onConflict: 'mission_id,user_id',
-        )
+        .upsert({
+          'mission_id': missionId,
+          'user_id': userId,
+          'contribution_value': amount,
+          'updated_at': DateTime.now().toIso8601String(),
+        }, onConflict: 'mission_id,user_id')
         .select()
         .maybeSingle();
 
@@ -101,24 +96,24 @@ class CoolMissionsRepository {
       // Mark as completed
       await _client
           .from('cool_mission_progress')
-          .update({
-            'completed_at': DateTime.now().toIso8601String(),
-          })
+          .update({'completed_at': DateTime.now().toIso8601String()})
           .eq('mission_id', missionId)
           .eq('user_id', userId);
 
       // Award mission completion bonus
       if (statusRepo != null && mission.rewardPoints > 0) {
-        await statusRepo.logEvent(CoolEvent(
-          userId: userId,
-          eventType: CoolEventType.missionCompleted,
-          sourceId: missionId,
-          pointsAwarded: mission.rewardPoints,
-          metadata: {
-            'mission_title': mission.title,
-            'mission_type': mission.missionType.value,
-          },
-        ));
+        await statusRepo.logEvent(
+          CoolEvent(
+            userId: userId,
+            eventType: CoolEventType.missionCompleted,
+            sourceId: missionId,
+            pointsAwarded: mission.rewardPoints,
+            metadata: {
+              'mission_title': mission.title,
+              'mission_type': mission.missionType.value,
+            },
+          ),
+        );
       }
     }
 

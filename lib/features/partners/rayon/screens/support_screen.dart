@@ -12,12 +12,10 @@ import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_screen_background.dart';
 import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../../../shared/widgets/rs_initiative_card.dart';
-import '../models/rs_models.dart';
 
 import '../rayon_payment.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/partner_navigation.dart';
-import '../widgets/rs_tier_badge.dart';
 
 class SupportScreen extends StatelessWidget {
   const SupportScreen({super.key});
@@ -28,7 +26,6 @@ class SupportScreen extends StatelessWidget {
       builder: (context, ref, _) {
         final initiativesAsync = ref.watch(rayonInitiativesProvider);
         final summaryAsync = ref.watch(rayonInitiativesSummaryProvider);
-        final membershipAsync = ref.watch(rayonUserMembershipProvider);
         final paymentRoute = ref.watch(rayonPaymentRouteProvider).valueOrNull;
 
         return Scaffold(
@@ -61,8 +58,6 @@ class SupportScreen extends StatelessWidget {
                       delegate: SliverChildListDelegate([
                         _SupportIntroCard(
                           summary: summaryAsync.valueOrNull,
-                          tier:
-                              membershipAsync.valueOrNull?.tier ?? FanTier.blue,
                           paymentRoute: paymentRoute,
                         ),
                         const SizedBox(height: 24),
@@ -153,111 +148,64 @@ class SupportScreen extends StatelessWidget {
 }
 
 class _SupportIntroCard extends StatelessWidget {
-  const _SupportIntroCard({
-    required this.summary,
-    required this.tier,
-    this.paymentRoute,
-  });
+  const _SupportIntroCard({required this.summary, this.paymentRoute});
 
   final RayonInitiativesSummary? summary;
-  final FanTier tier;
   final PartnerPaymentRoute? paymentRoute;
 
   @override
   Widget build(BuildContext context) {
     return CoolCard(
-      gradient: RsColors.rsSupportGradient,
-      borderColor: RsColors.rsBlueBorder,
-      child: Stack(
+      borderColor: AppColors.border2,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Positioned(
-            right: 8,
-            top: -8,
-            child: IgnorePointer(
-              child: Icon(
-                Icons.sports_soccer_rounded,
-                size: 120,
-                color: AppColors.rsWhite.withValues(alpha: 0.12),
-              ),
+          Text(
+            'Back club causes.',
+            style: GoogleFonts.barlowCondensed(
+              fontSize: 28,
+              fontWeight: FontWeight.w900,
+              color: RsColors.rsWhite,
+              height: 1,
             ),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          const SizedBox(height: 8),
+          Text(
+            paymentRoute == null
+                ? 'Checkout opens once partner payment routing is active.'
+                : 'Support club projects through ${paymentRoute!.providerLabel}.',
+            style: GoogleFonts.barlow(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: AppColors.text2,
+              height: 1.45,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Support Rayon Sports',
-                          style: GoogleFonts.barlowCondensed(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w900,
-                            color: RsColors.rsWhite,
-                            height: 1,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          paymentRoute == null
-                              ? 'Support checkout appears once backend payment routing is active.'
-                              : 'Back club projects and academy growth by paying ${paymentRoute!.payToLabel}.',
-                          style: GoogleFonts.barlow(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.text2,
-                            height: 1.45,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  RsTierBadge(tier: tier),
-                ],
-              ),
-              const SizedBox(height: 18),
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.18),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppColors.border2),
+              Expanded(
+                child: _SummaryMetric(
+                  value: summary == null
+                      ? '--'
+                      : _formatRwf(summary!.totalRaised),
+                  label: 'Raised',
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(14),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: _SummaryMetric(
-                          value: summary == null
-                              ? '--'
-                              : _formatRwf(summary!.totalRaised),
-                          label: 'Total raised',
-                        ),
-                      ),
-                      const _MetricDivider(),
-                      Expanded(
-                        child: _SummaryMetric(
-                          value: summary == null
-                              ? '--'
-                              : _compactCount(summary!.totalSupporters),
-                          label: 'Supporters',
-                        ),
-                      ),
-                      const _MetricDivider(),
-                      Expanded(
-                        child: _SummaryMetric(
-                          value: summary == null
-                              ? '--'
-                              : '${summary!.activeCauses}',
-                          label: 'Active causes',
-                        ),
-                      ),
-                    ],
-                  ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _SummaryMetric(
+                  value: summary == null
+                      ? '--'
+                      : _compactCount(summary!.totalSupporters),
+                  label: 'Supporters',
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _SummaryMetric(
+                  value: summary == null ? '--' : '${summary!.activeCauses}',
+                  label: 'Causes',
                 ),
               ),
             ],
@@ -297,20 +245,6 @@ class _SummaryMetric extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _MetricDivider extends StatelessWidget {
-  const _MetricDivider();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 1,
-      height: 38,
-      margin: const EdgeInsets.symmetric(horizontal: 12),
-      color: AppColors.border2,
     );
   }
 }

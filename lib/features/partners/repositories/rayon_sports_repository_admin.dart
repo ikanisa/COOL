@@ -369,4 +369,116 @@ extension RayonSportsAdminRepository on RayonSportsRepository {
     ).first;
     return FanMembership.fromJson(_withResolvedDisplayName(row));
   }
+
+  Future<List<PartnerPaymentRoute>> adminGetPaymentRoutes() async {
+    final partnerId = await _resolvePartnerId();
+    if (partnerId == null) {
+      return const <PartnerPaymentRoute>[];
+    }
+
+    final rows = _asListOfMaps(
+      await _client
+          .from('partner_payment_routes')
+          .select('*, partners(name, slug)')
+          .eq('partner_id', partnerId)
+          .order('country')
+          .order('updated_at', ascending: false),
+    );
+    return rows
+        .map((row) {
+          final partner = _asMap(row['partners']);
+          return PartnerPaymentRoute.fromJson(<String, Object?>{
+            ...row,
+            'partner_name': partner['name'],
+            'partner_slug': partner['slug'],
+          });
+        })
+        .toList(growable: false);
+  }
+
+  Future<PartnerPaymentRoute> upsertPaymentRoute({
+    required String countryCode,
+    required String providerId,
+    required String recipientCode,
+    required String reconciliationLabel,
+    required PartnerPaymentRouteStatus status,
+  }) async {
+    final partnerId = await _resolvePartnerId();
+    if (partnerId == null) {
+      throw StateError('Rayon Sports partner not found.');
+    }
+
+    final row = _asListOfMaps(
+      await _client
+          .from('partner_payment_routes')
+          .upsert(<String, Object?>{
+            'partner_id': partnerId,
+            'country': countryCode,
+            'provider': providerId,
+            'recipient_code': recipientCode,
+            'reconciliation_label': reconciliationLabel,
+            'status': status.name,
+          }, onConflict: 'partner_id,country')
+          .select('*, partners(name, slug)'),
+    ).first;
+    final partner = _asMap(row['partners']);
+    return PartnerPaymentRoute.fromJson(<String, Object?>{
+      ...row,
+      'partner_name': partner['name'],
+      'partner_slug': partner['slug'],
+    });
+  }
+
+  Future<void> deletePaymentRoute(String routeId) async {
+    await _client.from('partner_payment_routes').delete().eq('id', routeId);
+  }
+
+  Future<List<RsMembershipPackage>> adminGetMembershipPackages() async {
+    final partnerId = await _resolvePartnerId();
+    if (partnerId == null) {
+      return RsMembershipPackage.fallback();
+    }
+
+    final rows = _asListOfMaps(
+      await _client
+          .from('rs_membership_packages')
+          .select()
+          .eq('partner_id', partnerId)
+          .order('sort_order')
+          .order('tier'),
+    );
+    if (rows.isEmpty) {
+      return RsMembershipPackage.fallback();
+    }
+    return rows.map(RsMembershipPackage.fromJson).toList(growable: false);
+  }
+
+  Future<RsMembershipPackage> upsertMembershipPackage({
+    required FanTier tier,
+    required String title,
+    required String subtitle,
+    required String description,
+    required List<RsMembershipPackageBenefit> benefits,
+    required bool isActive,
+    required int sortOrder,
+  }) async {
+    final partnerId = await _resolvePartnerId();
+    if (partnerId == null) {
+      throw StateError('Rayon Sports partner not found.');
+    }
+
+    final row = _asListOfMaps(
+      await _client.from('rs_membership_packages').upsert(<String, Object?>{
+        'partner_id': partnerId,
+        'tier': tier.name,
+        'title': title,
+        'subtitle': subtitle,
+        'description': description,
+        'benefits': benefits.map((benefit) => benefit.toJson()).toList(),
+        'is_active': isActive,
+        'sort_order': sortOrder,
+      }, onConflict: 'partner_id,tier').select(),
+    ).first;
+    return RsMembershipPackage.fromJson(row);
+  }
 }

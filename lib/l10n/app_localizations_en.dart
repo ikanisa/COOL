@@ -383,6 +383,57 @@ class AppLocalizationsEn extends AppLocalizations {
       'Trip saved offline and will sync when a connection is available.';
 
   @override
+  String get scheduleTripPostingGuideTitle => 'Posting behavior';
+
+  @override
+  String get scheduleTripPostingGuideSubtitle =>
+      'Make sure the trip details are honest before you post. Coordination and final pickup details happen after the listing goes live.';
+
+  @override
+  String get scheduleTripPostingVisibilityLabel => 'Visible to others';
+
+  @override
+  String get scheduleTripPostingPrecisionLabel => 'Pickup precision';
+
+  @override
+  String get scheduleTripPostingCoordinationLabel => 'After posting';
+
+  @override
+  String get scheduleTripPostingOfflineLabel => 'Offline fallback';
+
+  @override
+  String get scheduleTripPostingPassengerVisibility =>
+      'Drivers see your route, timing, seats, and note.';
+
+  @override
+  String get scheduleTripPostingDriverVisibility =>
+      'Riders see your route, timing, seats, vehicle, and rider note.';
+
+  @override
+  String get scheduleTripPostingPrecisionExact =>
+      'Exact pickup and destination pins are attached.';
+
+  @override
+  String get scheduleTripPostingPrecisionPartial =>
+      'One place pin is attached. Confirm the other stop in chat.';
+
+  @override
+  String get scheduleTripPostingPrecisionTextOnly =>
+      'Text route only. Confirm the exact pickup in chat.';
+
+  @override
+  String get scheduleTripPostingPassengerCoordination =>
+      'Drivers contact you after posting. Final pickup, fare, and timing are agreed in WhatsApp.';
+
+  @override
+  String get scheduleTripPostingDriverCoordination =>
+      'Riders contact you after posting. Final pickup, fare, and timing are agreed in WhatsApp.';
+
+  @override
+  String get scheduleTripPostingOfflineBehavior =>
+      'If the network drops, COOL saves this trip on device and syncs it later.';
+
+  @override
   String get scheduleTripFromRequired => 'Enter a departure point.';
 
   @override
@@ -952,6 +1003,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get supportLabel => 'Support';
 
   @override
+  String get appearanceLabel => 'Appearance';
+
+  @override
+  String get appearanceSheetSubtitle => 'Choose how Cool looks on this device.';
+
+  @override
+  String get appearanceSystemLabel => 'System';
+
+  @override
+  String get appearanceSystemDescription =>
+      'Follow your phone\'s light or dark setting.';
+
+  @override
+  String get appearanceLightLabel => 'Light';
+
+  @override
+  String get appearanceLightDescription => 'Always use the light theme.';
+
+  @override
+  String get appearanceDarkLabel => 'Dark';
+
+  @override
+  String get appearanceDarkDescription => 'Always use the dark theme.';
+
+  @override
   String get notificationsLabel => 'Notifications';
 
   @override
@@ -1025,7 +1101,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeMonthlyNet => 'Monthly net';
 
   @override
-  String get homeActionPay => 'Pay';
+  String get homeActionPay => 'MoMo';
 
   @override
   String get homeActionTrips => 'Trips';
@@ -1034,13 +1110,44 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeFallbackGroupsSubtitle => 'Savings and invites';
 
   @override
-  String get homeFallbackPaySubtitle => 'MoMo and statements';
+  String get homeFallbackPaySubtitle => 'Receive, send, and statements';
 
   @override
   String get homeFallbackPartnersSubtitle => 'Banks and clubs';
 
   @override
   String get homeFallbackTripsSubtitle => 'Ride or drive';
+
+  @override
+  String get homePriorityLabel => 'Today';
+
+  @override
+  String get homePriorityGroupsTitle => 'Start with a group';
+
+  @override
+  String get homePriorityGroupsSubtitle =>
+      'Create or join a group to build trusted activity on Cool.';
+
+  @override
+  String get homePriorityMomoTitle => 'Open Mobile Money';
+
+  @override
+  String get homePriorityMomoSubtitle =>
+      'Send, request, or receive so your latest wallet activity shows up here.';
+
+  @override
+  String get homePriorityStatementsTitle => 'Review statements';
+
+  @override
+  String get homePriorityStatementsSubtitle =>
+      'Your monthly trend is down. Check recent activity before you send more money.';
+
+  @override
+  String get homePriorityMomentumTitle => 'Keep contributions moving';
+
+  @override
+  String get homePriorityMomentumSubtitle =>
+      'You have active group activity this month. Open Groups to keep momentum.';
 
   @override
   String homeActiveCount(int count) {
@@ -1101,7 +1208,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileMoreToolsHideSubtitle =>
-      'Hide QR, driver, status, and admin shortcuts.';
+      'Hide QR, driver, and status shortcuts.';
 
   @override
   String get vehicleLabel => 'Vehicle';
@@ -1536,6 +1643,74 @@ class AppLocalizationsEn extends AppLocalizations {
   String momoSendCompletesViaUssd(String countryName) {
     return 'Completes via USSD on your $countryName SIM.';
   }
+
+  @override
+  String get momoContinueToUssd => 'Continue to USSD';
+
+  @override
+  String get momoTrustCardTitle => 'Before you pay';
+
+  @override
+  String get momoTrustCardSubtitle =>
+      'COOL opens the network prompt, but you still approve the payment on your own line.';
+
+  @override
+  String get momoTrustFeesTitle => 'Fees show before confirmation';
+
+  @override
+  String get momoTrustFeesSubtitle =>
+      'The USSD prompt displays the amount and any network charges before you enter your PIN.';
+
+  @override
+  String get momoTrustApprovalTitle => 'You approve on your phone';
+
+  @override
+  String get momoTrustApprovalSubtitle =>
+      'COOL never completes the transfer for you. You confirm it inside the MoMo flow.';
+
+  @override
+  String get momoTrustReceiptTitle => 'Receipts land in statements';
+
+  @override
+  String get momoTrustReceiptSubtitle =>
+      'Matching Mobile Money SMS confirmations sync back into Statements for later review.';
+
+  @override
+  String get momoReviewTitle => 'Review before USSD';
+
+  @override
+  String get momoReviewRecipientLabel => 'Recipient';
+
+  @override
+  String get momoReviewAmountLabel => 'Amount';
+
+  @override
+  String get momoReviewRouteLabel => 'Route';
+
+  @override
+  String get momoReviewFromLabel => 'From';
+
+  @override
+  String get momoReviewMissingRecipient => 'Add a recipient';
+
+  @override
+  String get momoReviewMissingAmount => 'Add amount';
+
+  @override
+  String get momoWhatHappensNextTitle => 'What happens next';
+
+  @override
+  String momoWhatHappensNextOpen(String countryName) {
+    return 'COOL opens the $countryName USSD prompt.';
+  }
+
+  @override
+  String get momoWhatHappensNextConfirm =>
+      'You confirm the amount, fees, and PIN on your own line.';
+
+  @override
+  String get momoWhatHappensNextReceipt =>
+      'A matching SMS confirmation updates your statements history.';
 
   @override
   String get momoConfirmSendLabel => 'Send Money';

@@ -113,6 +113,15 @@ Future<Box<T>> noOpOpenBox<T>(String name) =>
     throw UnimplementedError('Hive disabled in tests');
 
 Future<void> tapStatementsTool(WidgetTester tester) async {
+  final moreTools = find.text('More tools');
+  await tester.scrollUntilVisible(
+    moreTools,
+    250,
+    scrollable: find.byType(Scrollable).first,
+  );
+  await tester.tap(moreTools);
+  await tester.pumpAndSettle();
+
   final statements = find.text('Statements');
   await tester.scrollUntilVisible(
     statements,
@@ -655,6 +664,13 @@ void main() {
 
     await tapStatementsTool(tester);
 
+    final optionsButton = find.byKey(
+      const ValueKey<String>('statement-open-options'),
+    );
+    await tester.ensureVisible(optionsButton);
+    await tester.tap(optionsButton);
+    await settleTestApp(tester);
+
     final payerField = find.byKey(
       const ValueKey<String>('statement-party-filter'),
     );
@@ -663,10 +679,14 @@ void main() {
     await settleTestApp(tester);
     await tester.tap(find.text('Alice').last);
     await settleTestApp(tester);
+    await tester.tap(find.text('Apply filters'));
+    await settleTestApp(tester);
 
     expect(find.textContaining('Alice'), findsWidgets);
     expect(find.textContaining('Bob payout'), findsNothing);
 
+    await tester.tap(optionsButton);
+    await settleTestApp(tester);
     await tester.tap(find.text('PDF'));
     await settleTestApp(tester);
 
@@ -788,17 +808,16 @@ void main() {
       expect(initialQuery.startDate, isNotNull);
       expect(initialQuery.endDate, isNotNull);
 
-      // Settle after data loads so CoolAsyncView rebuilds with
-      // the StatementControlsCard (which contains the period chips).
       await settleTestApp(tester);
 
-      final dayChip = find.byKey(
-        const ValueKey<String>('statement-period-day'),
+      final periodSelector = find.byKey(
+        const ValueKey<String>('statement-period-selector'),
       );
-      expect(dayChip, findsOneWidget);
-      final dayChoiceChip = tester.widget<ChoiceChip>(dayChip);
-      dayChoiceChip.onSelected?.call(true);
-      await tester.pump();
+      expect(periodSelector, findsOneWidget);
+      await tester.ensureVisible(periodSelector);
+      await tester.tap(periodSelector);
+      await settleTestApp(tester);
+      await tester.tap(find.text('Day').last);
       await settleTestApp(tester);
 
       final dayQuery = await waitForLatestQuery(minimumCount: 2);
@@ -806,13 +825,9 @@ void main() {
       expect(dayQuery.startDate, today);
       expect(dayQuery.endDate, today);
 
-      final allTimeChip = find.byKey(
-        const ValueKey<String>('statement-period-all'),
-      );
-      expect(allTimeChip, findsOneWidget);
-      final allTimeChoiceChip = tester.widget<ChoiceChip>(allTimeChip);
-      allTimeChoiceChip.onSelected?.call(true);
-      await tester.pump();
+      await tester.tap(periodSelector);
+      await settleTestApp(tester);
+      await tester.tap(find.text('All time').last);
       await settleTestApp(tester);
 
       final allQuery = await waitForLatestQuery(minimumCount: 3);

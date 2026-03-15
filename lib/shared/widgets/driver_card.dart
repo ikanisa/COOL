@@ -189,7 +189,7 @@ class DriverCard extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.schedule_rounded,
                       size: 14,
                       color: AppColors.text3,

@@ -6,8 +6,7 @@ import '../models/partner.dart';
 ///
 /// Partners are read-only in the client app. Admin CRUD is a future phase.
 class PartnerRepository {
-  PartnerRepository({required SupabaseClient client})
-    : _client = client;
+  PartnerRepository({required SupabaseClient client}) : _client = client;
 
   final SupabaseClient _client;
 
@@ -36,6 +35,46 @@ class PartnerRepository {
         .limit(1);
     if (rows.isEmpty) return null;
     return Partner.fromJson(rows.first);
+  }
+
+  /// Fetch a single partner by its id.
+  Future<Partner?> fetchById(String id) async {
+    final trimmedId = id.trim();
+    if (trimmedId.isEmpty) {
+      return null;
+    }
+
+    final rows = await _client
+        .from(_table)
+        .select()
+        .eq('id', trimmedId)
+        .eq('is_active', true)
+        .limit(1);
+    if (rows.isEmpty) {
+      return null;
+    }
+    return Partner.fromJson(rows.first);
+  }
+
+  /// Fetch a fixed set of partners by id.
+  Future<List<Partner>> fetchByIds(List<String> ids) async {
+    final normalizedIds = ids
+        .map((id) => id.trim())
+        .where((id) => id.isNotEmpty)
+        .toSet()
+        .toList(growable: false);
+    if (normalizedIds.isEmpty) {
+      return const <Partner>[];
+    }
+
+    final rows = await _client
+        .from(_table)
+        .select()
+        .eq('is_active', true)
+        .inFilter('id', normalizedIds)
+        .order('sort_order')
+        .order('name');
+    return rows.map((row) => Partner.fromJson(row)).toList(growable: false);
   }
 
   /// Fetch partners filtered by [category].

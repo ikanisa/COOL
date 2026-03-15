@@ -1,6 +1,6 @@
 import { type ParsedSms, type RawSmsRecord } from "./ai_parser.ts";
 import { createAdminClient } from "../_shared/supabase.ts";
-import { confirmRayonPendingTransaction } from "../_shared/rayon_payments.ts";
+import { confirmRayonReferenceMatch } from "../_shared/rayon_payments.ts";
 import {
   buildManualReviewResult,
   reconcileParsedSms,
@@ -260,7 +260,11 @@ Deno.test("buildManualReviewResult marks the record as a manual review", () => {
     candidate_score: 11,
   });
 
-  assertEquals(result.matchType, "manual_review", "match type should be manual");
+  assertEquals(
+    result.matchType,
+    "manual_review",
+    "match type should be manual",
+  );
   assertEquals(
     result.matchStatus,
     "manual_review",
@@ -299,26 +303,15 @@ Deno.test("reconcileParsedSms returns manual review when amount is missing", asy
 
 Deno.test("reconcileParsedSms confirms a matched group contribution", async () => {
   const tables: TableStore = {
-    pending_transactions: [
-      {
-        id: "pending-1",
-        user_id: "user-1",
-        group_id: "group-1",
-        group_contribution_id: "contribution-1",
-        reference: "SAVE-001",
-        recipient_momo: "250788111222",
-        amount: 10000,
-        provider: "mtn_rwanda",
-        status: "pending",
-        created_at: "2026-03-11T14:57:00.000Z",
-        confirmed_at: null,
-      },
-    ],
     group_contributions: [
       {
         id: "contribution-1",
         group_id: "group-1",
+        user_id: "user-1",
+        amount: 10000,
+        momo_reference: "GCT-001",
         status: "pending",
+        created_at: "2026-03-11T14:57:00.000Z",
       },
     ],
     driver_subscriptions: [],
@@ -335,8 +328,8 @@ Deno.test("reconcileParsedSms confirms a matched group contribution", async () =
 
   assertEquals(
     result.matchType,
-    "pending_transaction_reference",
-    "group contribution should resolve by reference",
+    "group_contribution",
+    "group contribution should resolve from the domain row directly",
   );
   assertEquals(result.matchStatus, "matched", "matched payment should post");
   assertEquals(
@@ -350,11 +343,6 @@ Deno.test("reconcileParsedSms confirms a matched group contribution", async () =
     "resolved contribution id should be returned",
   );
   assertEquals(
-    result.pendingTransactionId,
-    "pending-1",
-    "pending transaction id should round-trip",
-  );
-  assertEquals(
     result.metadata.group_id,
     "group-1",
     "group id should be included in metadata",
@@ -363,15 +351,6 @@ Deno.test("reconcileParsedSms confirms a matched group contribution", async () =
     tables.group_contributions[0]?.status,
     "confirmed",
     "group contribution should be confirmed",
-  );
-  assertEquals(
-    tables.pending_transactions[0]?.status,
-    "confirmed",
-    "pending transaction should be confirmed",
-  );
-  assert(
-    typeof tables.pending_transactions[0]?.raw_payload === "object",
-    "pending transaction should persist parser metadata",
   );
 });
 
@@ -431,21 +410,6 @@ Deno.test("reconcileParsedSms allocates group payments directly from payee route
 
 Deno.test("reconcileParsedSms leaves unmatched target records in pending review", async () => {
   const tables: TableStore = {
-    pending_transactions: [
-      {
-        id: "pending-2",
-        user_id: "user-1",
-        group_id: null,
-        group_contribution_id: null,
-        reference: "SAVE-002",
-        recipient_momo: "250788111222",
-        amount: 10000,
-        provider: "mtn_rwanda",
-        status: "pending",
-        created_at: "2026-03-11T14:59:00.000Z",
-        confirmed_at: null,
-      },
-    ],
     group_contributions: [],
     driver_subscriptions: [],
   };
@@ -461,28 +425,18 @@ Deno.test("reconcileParsedSms leaves unmatched target records in pending review"
 
   assertEquals(
     result.matchType,
-    "pending_transaction_only",
-    "missing target records should stay pending",
+    "manual_review",
+    "missing target records should fall back to manual review",
   );
   assertEquals(
     result.matchStatus,
-    "pending_review",
+    "manual_review",
     "missing targets should require review",
   );
   assertEquals(
-    result.matchedReference,
-    "SAVE-002",
-    "matched reference should still be surfaced",
-  );
-  assertEquals(
     result.metadata.reason,
-    "target_record_not_found",
-    "reason should explain the pending review",
-  );
-  assertEquals(
-    tables.pending_transactions[0]?.status,
-    "pending",
-    "pending transaction should remain unchanged",
+    "no_matching_payment_record",
+    "reason should explain the manual review",
   );
   assertDeepEquals(
     tables.group_contributions,
@@ -545,26 +499,13 @@ Deno.test("reconcileParsedSms allocates partner payments directly from payee rou
 
 Deno.test("reconcileParsedSms activates matched driver subscriptions", async () => {
   const tables: TableStore = {
-    pending_transactions: [
-      {
-        id: "pending-sub-1",
-        user_id: "user-1",
-        group_id: null,
-        group_contribution_id: null,
-        reference: "SUB-user-1-1741700000000",
-        recipient_momo: "250788111222",
-        amount: 10000,
-        provider: "mtn_rwanda",
-        status: "pending",
-        created_at: "2026-03-11T14:58:00.000Z",
-        confirmed_at: null,
-      },
-    ],
     group_contributions: [],
     driver_subscriptions: [
       {
         id: "driver-sub-1",
         driver_id: "user-1",
+        amount: 10000,
+        amount_rwf: 10000,
         momo_reference: "SUB-user-1-1741700000000",
         status: "pending",
         started_at: null,
@@ -586,8 +527,8 @@ Deno.test("reconcileParsedSms activates matched driver subscriptions", async () 
 
   assertEquals(
     result.matchType,
-    "pending_transaction_reference",
-    "subscription references should resolve as matched references",
+    "driver_subscription",
+    "subscription rows should resolve directly from driver_subscriptions",
   );
   assertEquals(
     result.targetTable,
@@ -612,11 +553,6 @@ Deno.test("reconcileParsedSms activates matched driver subscriptions", async () 
   assert(
     typeof tables.driver_subscriptions[0]?.expires_at === "string",
     "missing expires_at should be synthesized",
-  );
-  assertEquals(
-    tables.pending_transactions[0]?.status,
-    "confirmed",
-    "backing pending transaction should be confirmed",
   );
 });
 
@@ -693,11 +629,6 @@ Deno.test("reconcileParsedSms confirms matched Rayon ticket references", async (
     tables.rs_tickets[0]?.status,
     "valid",
     "pending tickets should become valid after confirmation",
-  );
-  assertEquals(
-    tables.pending_transactions[0]?.status,
-    "confirmed",
-    "pending transaction should be confirmed after Rayon ticket match",
   );
   assertEquals(
     result.metadata.ticket_count,
@@ -779,11 +710,6 @@ Deno.test("reconcileParsedSms confirms matched Rayon shop order references", asy
     tables.rs_shop_orders[0]?.status,
     "paid",
     "pending shop orders should become paid",
-  );
-  assertEquals(
-    tables.pending_transactions[0]?.status,
-    "confirmed",
-    "pending transaction should be confirmed after shop match",
   );
   assertEquals(
     result.metadata.partner_id,
@@ -882,11 +808,6 @@ Deno.test("reconcileParsedSms confirms matched Rayon initiative references", asy
     "initiative supporter count should increase once",
   );
   assertEquals(
-    tables.pending_transactions[0]?.status,
-    "confirmed",
-    "pending transaction should be confirmed after initiative match",
-  );
-  assertEquals(
     result.metadata.points_awarded,
     60,
     "support confirmation should award support points",
@@ -930,8 +851,8 @@ Deno.test("reconcileParsedSms returns manual review when Rayon ticket rows are m
   );
   assertEquals(
     result.metadata.reason,
-    "missing_rayon_ticket_rows",
-    "ticket reason should identify the missing ticket rows",
+    "no_matching_payment_record",
+    "ticket reason should explain the missing domain candidate",
   );
 });
 
@@ -972,8 +893,8 @@ Deno.test("reconcileParsedSms returns manual review when Rayon shop rows are mis
   );
   assertEquals(
     result.metadata.reason,
-    "missing_rayon_shop_order",
-    "shop reason should identify the missing shop row",
+    "no_matching_payment_record",
+    "shop reason should explain the missing domain candidate",
   );
 });
 
@@ -1014,8 +935,8 @@ Deno.test("reconcileParsedSms returns manual review when Rayon initiative rows a
   );
   assertEquals(
     result.metadata.reason,
-    "missing_rayon_support_row",
-    "support reason should identify the missing initiative row",
+    "no_matching_payment_record",
+    "support reason should explain the missing domain candidate",
   );
 });
 
@@ -1085,7 +1006,11 @@ Deno.test("reconcileParsedSms degrades cleanly when RPCs and WhatsApp delivery f
     "2026-03-11T15:05:00.000Z",
   );
 
-  assertEquals(result.matchType, "rayon_ticket", "ticket match should still succeed");
+  assertEquals(
+    result.matchType,
+    "rayon_ticket",
+    "ticket match should still succeed",
+  );
   assertEquals(
     result.metadata.points_awarded,
     0,
@@ -1102,11 +1027,15 @@ Deno.test("reconcileParsedSms degrades cleanly when RPCs and WhatsApp delivery f
     "failed WhatsApp delivery should degrade to false",
   );
   assert(
-    adminClient.rpcCalls.some((call) => call.name === "rs_apply_membership_points"),
+    adminClient.rpcCalls.some((call) =>
+      call.name === "rs_apply_membership_points"
+    ),
     "membership points RPC should be attempted",
   );
   assert(
-    adminClient.rpcCalls.some((call) => call.name === "activate_referral_invite_for_user"),
+    adminClient.rpcCalls.some((call) =>
+      call.name === "activate_referral_invite_for_user"
+    ),
     "referral activation RPC should be attempted",
   );
 });
@@ -1192,7 +1121,9 @@ Deno.test("reconcileParsedSms keeps Rayon ticket replays idempotent", async () =
     "replayed tickets must not resend WhatsApp confirmations",
   );
   assert(
-    !adminClient.rpcCalls.some((call) => call.name === "rs_apply_membership_points"),
+    !adminClient.rpcCalls.some((call) =>
+      call.name === "rs_apply_membership_points"
+    ),
     "replayed tickets with zero points should skip the points RPC",
   );
 });
@@ -1289,18 +1220,13 @@ Deno.test("reconcileParsedSms keeps Rayon initiative replays idempotent", async 
   );
 });
 
-Deno.test("confirmRayonPendingTransaction rejects unsupported Rayon references", async () => {
+Deno.test("confirmRayonReferenceMatch rejects unsupported Rayon references", async () => {
   const adminClient = new FakeAdminClient({});
-  const result = await confirmRayonPendingTransaction(
+  const result = await confirmRayonReferenceMatch(
     adminClient as unknown as ReturnType<typeof createAdminClient>,
     {
-      id: "pending-unsupported-rayon",
       user_id: "user-1",
       reference: "RS-OTHER-001",
-      amount: 10000,
-      provider: "mtn_rwanda",
-      status: "pending",
-      confirmed_at: null,
     },
     {
       source: "parse-momo-sms",

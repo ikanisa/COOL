@@ -64,10 +64,8 @@ class PendingWrite {
 /// Handler function that attempts to sync a single pending write.
 ///
 /// Should throw on failure. On success, return normally.
-typedef SyncHandler = Future<void> Function(
-  String id,
-  Map<String, dynamic> payload,
-);
+typedef SyncHandler =
+    Future<void> Function(String id, Map<String, dynamic> payload);
 
 /// Central pending-write queue backed by Hive.
 ///
@@ -105,8 +103,9 @@ class SyncEngine {
   final OpenHiveBox<dynamic> _openBox;
 
   /// Current sync engine status for UI consumption.
-  final ValueNotifier<SyncEngineStatus> status =
-      ValueNotifier(SyncEngineStatus.idle);
+  final ValueNotifier<SyncEngineStatus> status = ValueNotifier(
+    SyncEngineStatus.idle,
+  );
 
   static final Random _random = Random.secure();
 
@@ -120,7 +119,8 @@ class SyncEngine {
     Map<String, dynamic> payload, {
     String? id,
   }) async {
-    final writeId = id ??
+    final writeId =
+        id ??
         '${domain}_${DateTime.now().microsecondsSinceEpoch}_'
             '${_random.nextInt(1 << 32).toRadixString(16).padLeft(8, '0')}';
 
@@ -144,10 +144,7 @@ class SyncEngine {
   /// [handler] is called for each pending item. If it throws, the item's
   /// attempt count is incremented and it stays in the queue (unless max
   /// attempts reached, in which case it is discarded).
-  Future<SyncFlushResult> flush(
-    String domain,
-    SyncHandler handler,
-  ) async {
+  Future<SyncFlushResult> flush(String domain, SyncHandler handler) async {
     final box = await _openBox(_boxName);
     final keys = box.keys.toList(growable: false);
     final now = DateTime.now();
@@ -294,8 +291,7 @@ class SyncEngine {
     const baseDelay = Duration(seconds: 2);
     const maxDelay = Duration(minutes: 30);
 
-    final exponentialMs =
-        baseDelay.inMilliseconds * pow(2, write.attempts - 1);
+    final exponentialMs = baseDelay.inMilliseconds * pow(2, write.attempts - 1);
     final jitterMs = _random.nextInt(1000);
     final delayMs = min(exponentialMs + jitterMs, maxDelay.inMilliseconds);
     final cooldownEnd = write.lastAttemptAt!.add(

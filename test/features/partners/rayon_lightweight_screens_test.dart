@@ -5,10 +5,13 @@ import 'package:mocktail/mocktail.dart';
 
 import 'package:cool_app/features/partners/providers/rayon_sports_provider.dart';
 import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
+import 'package:cool_app/features/partners/rayon/screens/support_detail_screen.dart';
 import 'package:cool_app/features/partners/rayon/screens/support_screen.dart';
+import 'package:cool_app/features/partners/rayon/rayon_payment.dart';
 import 'package:cool_app/features/partners/repositories/rayon_sports_repository.dart';
 import 'package:cool_app/features/partners/screens/rayon/club_shop_screen.dart';
 import 'package:cool_app/features/partners/screens/rayon/fan_clubs_screen.dart';
+import 'package:cool_app/features/partners/screens/rayon/shop_checkout_screen.dart';
 import 'package:cool_app/features/partners/screens/rayon/tickets_screen.dart';
 
 class MockRayonSportsRepository extends Mock implements RayonSportsRepository {}
@@ -21,14 +24,20 @@ void main() {
   late RsMatch match;
   late RsTicket ticket;
   late RsInitiative initiative;
+  late RsInitiativeContribution contribution;
 
-  Future<void> pumpScreen(WidgetTester tester, Widget screen) async {
+  Future<void> pumpScreen(
+    WidgetTester tester,
+    Widget screen, {
+    List<Override> overrides = const <Override>[],
+  }) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
           rayonSportsRepositoryProvider.overrideWithValue(repository),
           rayonCurrentUserIdProvider.overrideWith((ref) => 'user-1'),
           rayonPartnerIdProvider.overrideWith((ref) async => 'partner-1'),
+          ...overrides,
         ],
         child: MaterialApp(home: screen),
       ),
@@ -113,6 +122,16 @@ void main() {
       isActive: true,
       endsAt: null,
     );
+    contribution = RsInitiativeContribution(
+      id: 'contribution-1',
+      initiativeId: 'initiative-1',
+      userId: 'user-2',
+      amount: 5000,
+      momoReference: 'momo-1',
+      status: 'confirmed',
+      createdAt: DateTime(2026, 3, 1, 14, 30),
+      supporterName: 'Jamie Supporter',
+    );
 
     when(
       () => repository.getUserClubs('user-1'),
@@ -135,6 +154,22 @@ void main() {
     when(
       () => repository.getInitiatives('partner-1'),
     ).thenAnswer((_) async => <RsInitiative>[initiative]);
+    when(
+      () => repository.getRecentContributionActivity('initiative-1', 10),
+    ).thenAnswer((_) async => <RsInitiativeContribution>[contribution]);
+    when(() => repository.getActivePaymentRoute()).thenAnswer(
+      (_) async => const PartnerPaymentRoute(
+        id: 'route-1',
+        partnerId: 'partner-1',
+        partnerName: 'Rayon Sports',
+        partnerSlug: 'rayon-sports',
+        countryCode: 'RW',
+        providerId: 'mtn_rwanda',
+        recipientCode: '060000',
+        reconciliationLabel: 'Rayon Sports',
+        status: PartnerPaymentRouteStatus.active,
+      ),
+    );
   });
 
   testWidgets(
@@ -176,7 +211,8 @@ void main() {
       await pumpScreen(tester, const TicketsScreen());
 
       expect(find.text('Tickets'), findsOneWidget);
-      expect(find.text('Secure your seat early.'), findsOneWidget);
+      expect(find.text('Choose your match.'), findsOneWidget);
+      expect(find.text('Gold access active'), findsOneWidget);
 
       verify(() => repository.getMatches('partner-1', false)).called(1);
       verify(
@@ -196,9 +232,57 @@ void main() {
       expect(find.text('Active Causes'), findsOneWidget);
 
       verify(() => repository.getInitiatives('partner-1')).called(1);
+      verify(() => repository.getActivePaymentRoute()).called(1);
+      verifyNever(() => repository.getFanMembership('user-1', 'partner-1'));
+      verifyNever(() => repository.loadData(userId: any(named: 'userId')));
+    },
+  );
+
+  testWidgets(
+    'support detail screen builds from initiative and contributor providers only',
+    (tester) async {
+      await pumpScreen(
+        tester,
+        const SupportDetailScreen(initiativeId: 'initiative-1'),
+      );
+
+      expect(find.text('Support Club'), findsOneWidget);
+      expect(find.text('Back this cause'), findsOneWidget);
+      expect(find.text('More details'), findsOneWidget);
+      expect(find.text('Jamie Supporter'), findsOneWidget);
+
+      verify(() => repository.getInitiatives('partner-1')).called(1);
+      verify(
+        () => repository.getRecentContributionActivity('initiative-1', 10),
+      ).called(1);
+      verify(() => repository.getActivePaymentRoute()).called(1);
+      verifyNever(() => repository.getFanMembership('user-1', 'partner-1'));
+      verifyNever(() => repository.loadData(userId: any(named: 'userId')));
+    },
+  );
+
+  testWidgets(
+    'shop checkout screen builds from lightweight shop providers on entry',
+    (tester) async {
+      final cartController = RayonCartController()..addToCart('product-1');
+
+      await pumpScreen(
+        tester,
+        const ShopCheckoutScreen(),
+        overrides: [
+          rayonCartControllerProvider.overrideWith((ref) => cartController),
+        ],
+      );
+
+      expect(find.text('Checkout'), findsOneWidget);
+      expect(find.text('Review order'), findsOneWidget);
+      expect(find.text('Pickup or delivery'), findsOneWidget);
+
+      verify(() => repository.getProducts('partner-1', null)).called(1);
       verify(
         () => repository.getFanMembership('user-1', 'partner-1'),
       ).called(1);
+      verify(() => repository.getActivePaymentRoute()).called(1);
       verifyNever(() => repository.loadData(userId: any(named: 'userId')));
     },
   );

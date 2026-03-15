@@ -216,10 +216,7 @@ class _MobilityMapBoxState extends State<MobilityMapBox> {
               child: IconButton(
                 onPressed: _recenter,
                 tooltip: 'Recenter map',
-                icon: const Icon(
-                  Icons.my_location_rounded,
-                  color: AppColors.text,
-                ),
+                icon: Icon(Icons.my_location_rounded, color: AppColors.text),
               ),
             ),
           ),
@@ -262,7 +259,7 @@ class MobilityMapUnavailablePane extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.map_outlined, color: AppColors.text2, size: 28),
+          Icon(Icons.map_outlined, color: AppColors.text2, size: 28),
           const SizedBox(height: 10),
           Text(
             'Nearby map unavailable',

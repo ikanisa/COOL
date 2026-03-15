@@ -15,6 +15,11 @@ import 'core/services/app_check_service.dart';
 import 'core/services/firebase_bootstrap_service.dart';
 import 'core/services/hive_runtime.dart';
 import 'core/theme/app_theme.dart';
+import 'core/theme/cool_palette.dart';
+import 'core/theme/theme_preference.dart';
+import 'core/theme/theme_preference_provider.dart';
+import 'core/theme/theme_preference_store.dart';
+import 'core/theme/theme_system_chrome.dart';
 
 Future<void> main() async {
   // ── Run everything inside runZonedGuarded so the binding, init, and
@@ -61,16 +66,6 @@ Future<void> main() async {
         };
       }
 
-      // ── System chrome ───────────────────────────────────────────────
-      SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.light,
-          systemNavigationBarColor: Color(0xFF0A0A0F),
-          systemNavigationBarIconBrightness: Brightness.light,
-        ),
-      );
-
       // Intentional: portrait-only for mobile-first finance app.
       // This is a product decision — financial flows (MoMo, credit, wallet)
       // are designed for single-column portrait layout. Landscape would
@@ -92,6 +87,10 @@ Future<void> main() async {
 
       // ── Hive (local storage) ────────────────────────────────────────
       await initializeHiveRuntime();
+      final themePreferenceStore = HiveThemePreferenceStore(
+        openBox: openHiveBox<String>,
+      );
+      final initialPreference = await themePreferenceStore.read();
 
       // ── Stop cold start trace ───────────────────────────────────────
       try {
@@ -144,6 +143,14 @@ Future<void> main() async {
       // ── Launch app ──────────────────────────────────────────────────
       runApp(
         ProviderScope(
+          overrides: [
+            themePreferenceStoreProvider.overrideWithValue(
+              themePreferenceStore,
+            ),
+            initialThemePreferenceProvider.overrideWithValue(
+              initialPreference,
+            ),
+          ],
           child: configError == null
               ? const CoolApp()
               : ConfigErrorApp(message: configError),
@@ -159,78 +166,89 @@ Future<void> main() async {
   );
 }
 
-class ConfigErrorApp extends StatelessWidget {
+class ConfigErrorApp extends ConsumerWidget {
   const ConfigErrorApp({required this.message, super.key});
 
   final String message;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themePreference = ref.watch(themePreferenceProvider);
+
     return MaterialApp(
       title: 'Cool',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.dark,
-      home: Scaffold(
-        backgroundColor: const Color(0xFF0A0A0F),
-        body: SafeArea(
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 420),
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF141421),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: const Color(0xFF2A2A3A)),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Icon(
-                          Icons.settings_rounded,
-                          color: Color(0xFFFF4D6A),
-                          size: 32,
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      themeMode: themePreference.themeMode,
+      builder: (context, child) =>
+          ThemeSystemChrome(child: child ?? const SizedBox.shrink()),
+      home: Builder(
+        builder: (context) {
+          final palette = context.coolPalette;
+          return Scaffold(
+            backgroundColor: palette.bg,
+            body: SafeArea(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 420),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: palette.surface,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: palette.border2),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(24),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(
+                              Icons.settings_rounded,
+                              color: palette.red,
+                              size: 32,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'Backend configuration required',
+                              style: TextStyle(
+                                color: palette.text,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              message,
+                              style: TextStyle(
+                                color: palette.text2,
+                                fontSize: 14,
+                                height: 1.45,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'Local runs usually need: flutter run '
+                              '--dart-define-from-file=.env.json',
+                              style: TextStyle(
+                                color: palette.text3,
+                                fontSize: 13,
+                                height: 1.4,
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 16),
-                        const Text(
-                          'Backend configuration required',
-                          style: TextStyle(
-                            color: Color(0xFFF0F0F5),
-                            fontSize: 22,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          message,
-                          style: const TextStyle(
-                            color: Color(0xFFB8B8C8),
-                            fontSize: 14,
-                            height: 1.45,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        const Text(
-                          'Local runs usually need: flutter run '
-                          '--dart-define-from-file=.env.json',
-                          style: TextStyle(
-                            color: Color(0xFF8888A0),
-                            fontSize: 13,
-                            height: 1.4,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

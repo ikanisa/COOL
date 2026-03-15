@@ -8,14 +8,9 @@ import {
 
 type AdminClient = ReturnType<typeof createAdminClient>;
 
-export type PendingTransactionRecord = {
-  id: string;
-  user_id: string | null;
+export type RayonReferenceMatch = {
   reference: string;
-  amount: number;
-  provider: string | null;
-  status: string | null;
-  confirmed_at: string | null;
+  user_id: string | null;
 };
 
 type UserContactRecord = {
@@ -67,7 +62,6 @@ export type RayonPaymentConfirmationResult = {
   targetTable: string | null;
   targetRecordId: string | null;
   matchedReference: string | null;
-  pendingTransactionId: string | null;
   notes: string | null;
   metadata: Record<string, unknown>;
 };
@@ -172,46 +166,11 @@ export function buildManualReviewResult(
     targetTable: null,
     targetRecordId: null,
     matchedReference: null,
-    pendingTransactionId: null,
     notes: reason,
     metadata: {
       auto_match: false,
       ...metadata,
     },
-  };
-}
-
-export async function resolvePendingTransactionByReference(
-  adminClient: AdminClient,
-  reference: string,
-): Promise<PendingTransactionRecord | null> {
-  const result = await adminClient
-    .from("pending_transactions")
-    .select(
-      "id, user_id, reference, amount, provider, status, confirmed_at",
-    )
-    .eq("reference", reference)
-    .in("status", ["pending", "confirmed"])
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
-
-  if (result.error) {
-    throw result.error;
-  }
-
-  if (!result.data) {
-    return null;
-  }
-
-  return {
-    id: asString(result.data.id) ?? "",
-    user_id: asString(result.data.user_id),
-    reference: asString(result.data.reference) ?? "",
-    amount: asNullableInt(result.data.amount) ?? 0,
-    provider: asString(result.data.provider),
-    status: asString(result.data.status),
-    confirmed_at: asString(result.data.confirmed_at),
   };
 }
 
@@ -281,14 +240,14 @@ async function resolveRayonPartnerId(
 
 async function resolveRayonTickets(
   adminClient: AdminClient,
-  pendingTransaction: PendingTransactionRecord,
+  referenceMatch: RayonReferenceMatch,
 ): Promise<RsTicketRecord[]> {
   const result = await adminClient
     .from("rs_tickets")
     .select(
       "id, user_id, referral_invite_id, match_id, seat_type, amount_paid, qr_code, momo_reference, status, rs_matches(home_team, away_team, competition, venue, match_date, kickoff_time, partner_id)",
     )
-    .eq("momo_reference", pendingTransaction.reference)
+    .eq("momo_reference", referenceMatch.reference)
     .order("purchased_at", { ascending: false });
 
   if (result.error) {
@@ -321,14 +280,14 @@ async function resolveRayonTickets(
 
 async function resolveRayonShopOrder(
   adminClient: AdminClient,
-  pendingTransaction: PendingTransactionRecord,
+  referenceMatch: RayonReferenceMatch,
 ): Promise<RsShopOrderRecord | null> {
   const result = await adminClient
     .from("rs_shop_orders")
     .select(
       "id, user_id, referral_invite_id, total, delivery_address, momo_reference, status",
     )
-    .eq("momo_reference", pendingTransaction.reference)
+    .eq("momo_reference", referenceMatch.reference)
     .order("created_at", { ascending: false })
     .limit(1)
     .maybeSingle();
@@ -354,14 +313,14 @@ async function resolveRayonShopOrder(
 
 async function resolveRayonInitiativeContribution(
   adminClient: AdminClient,
-  pendingTransaction: PendingTransactionRecord,
+  referenceMatch: RayonReferenceMatch,
 ): Promise<RsInitiativeContributionRecord | null> {
   const result = await adminClient
     .from("rs_initiative_contributions")
     .select(
       "id, user_id, referral_invite_id, initiative_id, amount, momo_reference, status, rs_initiatives(title, partner_id)",
     )
-    .eq("momo_reference", pendingTransaction.reference)
+    .eq("momo_reference", referenceMatch.reference)
     .order("created_at", { ascending: false })
     .limit(1)
     .maybeSingle();
@@ -463,43 +422,6 @@ async function maybeSendWhatsAppConfirmation(
   }
 }
 
-async function confirmPendingTransaction(
-  adminClient: AdminClient,
-  pendingTransaction: PendingTransactionRecord,
-  context: RayonPaymentConfirmationContext,
-) {
-  const confirmationTimestamp = pendingTransaction.confirmed_at ??
-    context.timestamp;
-
-  const result = await adminClient
-    .from("pending_transactions")
-    .update({
-      status: "confirmed",
-      confirmed_at: confirmationTimestamp,
-      updated_at: context.timestamp,
-      raw_payload: {
-        source: context.source,
-        provider: normalizeProviderId(context.provider),
-        amount_rwf: context.amount,
-        transaction_id: context.transactionId ?? null,
-        payee_number_or_code: context.payeeNumberOrCode ?? null,
-        merchant_code: context.merchantCode ?? null,
-        candidate_score: context.candidateScore ?? null,
-        confidence: context.confidence ?? null,
-        raw_sms_id: context.rawSmsId ?? null,
-        parsed_sms_id: context.parsedSmsId ?? null,
-        sender: context.sender ?? null,
-        country: context.country ?? null,
-        ...context.extraPayload ?? {},
-      },
-    })
-    .eq("id", pendingTransaction.id);
-
-  if (result.error) {
-    throw result.error;
-  }
-}
-
 function buildRayonTicketConfirmationMessage(
   tickets: RsTicketRecord[],
 ): string {
@@ -563,7 +485,7 @@ function buildRayonSupportConfirmationMessage(
 
 async function confirmRayonTickets(
   adminClient: AdminClient,
-  pendingTransaction: PendingTransactionRecord,
+  referenceMatch: RayonReferenceMatch,
   context: RayonPaymentConfirmationContext,
   tickets: RsTicketRecord[],
 ): Promise<RayonPaymentConfirmationResult> {
@@ -573,7 +495,7 @@ async function confirmRayonTickets(
       "Rayon ticket rows were not found for the matched payment reference.",
       {
         reason: "missing_rayon_ticket_rows",
-        matched_reference: pendingTransaction.reference,
+        matched_reference: referenceMatch.reference,
       },
     );
   }
@@ -596,8 +518,6 @@ async function confirmRayonTickets(
       throw updateResult.error;
     }
   }
-
-  await confirmPendingTransaction(adminClient, pendingTransaction, context);
 
   const pointsToAward = confirmations.reduce(
     (sum, entry) => sum + entry.confirmation.pointsToAward,
@@ -635,8 +555,7 @@ async function confirmRayonTickets(
     ledgerStatus: "posted",
     targetTable: "rs_tickets",
     targetRecordId: ticket.id,
-    matchedReference: pendingTransaction.reference,
-    pendingTransactionId: pendingTransaction.id,
+    matchedReference: referenceMatch.reference,
     notes: "Rayon Sports ticket payment confirmed.",
     metadata: {
       auto_match: true,
@@ -655,7 +574,7 @@ async function confirmRayonTickets(
 
 async function confirmRayonShopOrder(
   adminClient: AdminClient,
-  pendingTransaction: PendingTransactionRecord,
+  referenceMatch: RayonReferenceMatch,
   context: RayonPaymentConfirmationContext,
   order: RsShopOrderRecord,
 ): Promise<RayonPaymentConfirmationResult> {
@@ -675,8 +594,6 @@ async function confirmRayonShopOrder(
   if (updateResult.error) {
     throw updateResult.error;
   }
-
-  await confirmPendingTransaction(adminClient, pendingTransaction, context);
 
   const partnerId = await resolveRayonPartnerId(adminClient);
   const pointsAwarded = await maybeAwardRayonMembershipPoints(
@@ -708,8 +625,7 @@ async function confirmRayonShopOrder(
     ledgerStatus: "posted",
     targetTable: "rs_shop_orders",
     targetRecordId: order.id,
-    matchedReference: pendingTransaction.reference,
-    pendingTransactionId: pendingTransaction.id,
+    matchedReference: referenceMatch.reference,
     notes: "Rayon Sports shop order payment confirmed.",
     metadata: {
       auto_match: true,
@@ -727,7 +643,7 @@ async function confirmRayonShopOrder(
 
 async function confirmRayonInitiativeContribution(
   adminClient: AdminClient,
-  pendingTransaction: PendingTransactionRecord,
+  referenceMatch: RayonReferenceMatch,
   context: RayonPaymentConfirmationContext,
   contribution: RsInitiativeContributionRecord,
 ): Promise<RayonPaymentConfirmationResult> {
@@ -780,8 +696,6 @@ async function confirmRayonInitiativeContribution(
     }
   }
 
-  await confirmPendingTransaction(adminClient, pendingTransaction, context);
-
   const pointsAwarded = await maybeAwardRayonMembershipPoints(
     adminClient,
     contribution.user_id,
@@ -811,8 +725,7 @@ async function confirmRayonInitiativeContribution(
     ledgerStatus: "posted",
     targetTable: "rs_initiative_contributions",
     targetRecordId: contribution.id,
-    matchedReference: pendingTransaction.reference,
-    pendingTransactionId: pendingTransaction.id,
+    matchedReference: referenceMatch.reference,
     notes: "Rayon Sports initiative contribution confirmed.",
     metadata: {
       auto_match: true,
@@ -827,79 +740,79 @@ async function confirmRayonInitiativeContribution(
   };
 }
 
-export async function confirmRayonPendingTransaction(
+export async function confirmRayonReferenceMatch(
   adminClient: AdminClient,
-  pendingTransaction: PendingTransactionRecord,
+  referenceMatch: RayonReferenceMatch,
   context: RayonPaymentConfirmationContext,
 ): Promise<RayonPaymentConfirmationResult> {
-  if (looksLikeRayonTicketReference(pendingTransaction.reference)) {
-    const tickets = await resolveRayonTickets(adminClient, pendingTransaction);
+  if (looksLikeRayonTicketReference(referenceMatch.reference)) {
+    const tickets = await resolveRayonTickets(adminClient, referenceMatch);
     if (tickets.length === 0) {
       return buildManualReviewResult(
         "No Rayon Sports ticket rows matched the payment reference.",
         {
           reason: "missing_rayon_ticket_rows",
-          matched_reference: pendingTransaction.reference,
+          matched_reference: referenceMatch.reference,
         },
       );
     }
 
     return await confirmRayonTickets(
       adminClient,
-      pendingTransaction,
+      referenceMatch,
       context,
       tickets,
     );
   }
 
-  if (looksLikeRayonSupportReference(pendingTransaction.reference)) {
+  if (looksLikeRayonSupportReference(referenceMatch.reference)) {
     const contribution = await resolveRayonInitiativeContribution(
       adminClient,
-      pendingTransaction,
+      referenceMatch,
     );
     if (!contribution) {
       return buildManualReviewResult(
         "No Rayon Sports initiative contribution matched the payment reference.",
         {
           reason: "missing_rayon_support_row",
-          matched_reference: pendingTransaction.reference,
+          matched_reference: referenceMatch.reference,
         },
       );
     }
 
     return await confirmRayonInitiativeContribution(
       adminClient,
-      pendingTransaction,
+      referenceMatch,
       context,
       contribution,
     );
   }
 
-  if (looksLikeRayonShopReference(pendingTransaction.reference)) {
-    const order = await resolveRayonShopOrder(adminClient, pendingTransaction);
+  if (looksLikeRayonShopReference(referenceMatch.reference)) {
+    const order = await resolveRayonShopOrder(adminClient, referenceMatch);
     if (!order) {
       return buildManualReviewResult(
         "No Rayon Sports shop order matched the payment reference.",
         {
           reason: "missing_rayon_shop_order",
-          matched_reference: pendingTransaction.reference,
+          matched_reference: referenceMatch.reference,
         },
       );
     }
 
     return await confirmRayonShopOrder(
       adminClient,
-      pendingTransaction,
+      referenceMatch,
       context,
       order,
     );
   }
 
   return buildManualReviewResult(
-    "Pending transaction reference is not a supported Rayon Sports payment.",
+    "Payment reference is not a supported Rayon Sports payment.",
     {
       reason: "unsupported_rayon_reference",
-      matched_reference: pendingTransaction.reference,
+      matched_reference: referenceMatch.reference,
     },
   );
 }

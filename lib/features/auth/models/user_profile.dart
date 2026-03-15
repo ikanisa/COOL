@@ -1,3 +1,4 @@
+import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
 import '../../../core/identity/public_user_identity.dart';
 
@@ -12,7 +13,7 @@ class UserProfile {
     this.momoRouteType,
     required this.momoProvider,
     required this.country,
-    required this.languageCode,
+    String? languageCode = AppMarket.languageCode,
     required this.isDriver,
     this.isAdmin = false,
     this.vehicleType,
@@ -22,9 +23,11 @@ class UserProfile {
     this.kycStatus = 'unverified',
     this.kycVerifiedAt,
     this.creditConsentGrantedAt,
+    this.themePreference = 'system',
+    this.themePreferenceUpdatedAt,
     this.createdAt,
     this.updatedAt,
-  });
+  }) : languageCode = AppMarket.languageCode;
 
   final String id;
   final String phone;
@@ -45,6 +48,8 @@ class UserProfile {
   final String kycStatus;
   final DateTime? kycVerifiedAt;
   final DateTime? creditConsentGrantedAt;
+  final String themePreference;
+  final DateTime? themePreferenceUpdatedAt;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -138,7 +143,7 @@ class UserProfile {
       languageCode:
           json['language_code']?.toString() ??
           json['language']?.toString() ??
-          'en',
+          AppMarket.languageCode,
       isDriver: _asBool(json['is_driver']),
       isAdmin: _asBool(json['is_admin']),
       vehicleType: json['vehicle_type']?.toString(),
@@ -148,6 +153,10 @@ class UserProfile {
       kycStatus: _asNonEmptyString(json['kyc_status']) ?? 'unverified',
       kycVerifiedAt: _parseDateTime(json['kyc_verified_at']),
       creditConsentGrantedAt: _parseDateTime(json['credit_consent_granted_at']),
+      themePreference: json['theme_preference']?.toString() ?? 'system',
+      themePreferenceUpdatedAt: _parseDateTime(
+        json['theme_preference_updated_at'],
+      ),
       createdAt: _parseDateTime(json['created_at']),
       updatedAt: _parseDateTime(json['updated_at']),
     );
@@ -178,7 +187,7 @@ class UserProfile {
       'momo_route_type': _serializeMomoRecipientType(effectiveMomoRouteType),
       'momo_provider': normalizedProvider,
       'country': normalizedCountry,
-      'language_code': languageCode,
+      'language_code': AppMarket.languageCode,
       'is_driver': isDriver,
       'is_admin': isAdmin,
       'vehicle_type': vehicleType,
@@ -188,6 +197,8 @@ class UserProfile {
       'kyc_status': kycStatus,
       'kyc_verified_at': kycVerifiedAt?.toIso8601String(),
       'credit_consent_granted_at': creditConsentGrantedAt?.toIso8601String(),
+      'theme_preference': themePreference,
+      'theme_preference_updated_at': themePreferenceUpdatedAt?.toIso8601String(),
       'created_at': createdAt?.toIso8601String(),
       'updated_at': updatedAt?.toIso8601String(),
     };
@@ -216,6 +227,8 @@ class UserProfile {
     String? kycStatus,
     DateTime? kycVerifiedAt,
     DateTime? creditConsentGrantedAt,
+    String? themePreference,
+    DateTime? themePreferenceUpdatedAt,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -244,7 +257,7 @@ class UserProfile {
       country: nextCountry.isEmpty
           ? ''
           : CoolCountryCatalog.normalizeCountryCode(nextCountry),
-      languageCode: languageCode ?? this.languageCode,
+      languageCode: AppMarket.languageCode,
       isDriver: isDriver ?? this.isDriver,
       isAdmin: isAdmin ?? this.isAdmin,
       vehicleType: vehicleType ?? this.vehicleType,
@@ -255,6 +268,9 @@ class UserProfile {
       kycVerifiedAt: kycVerifiedAt ?? this.kycVerifiedAt,
       creditConsentGrantedAt:
           creditConsentGrantedAt ?? this.creditConsentGrantedAt,
+      themePreference: themePreference ?? this.themePreference,
+      themePreferenceUpdatedAt:
+          themePreferenceUpdatedAt ?? this.themePreferenceUpdatedAt,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );

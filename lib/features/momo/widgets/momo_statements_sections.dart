@@ -2,80 +2,94 @@ part of '../screens/momo_statements_screen.dart';
 
 class StatementOverviewCard extends StatelessWidget {
   const StatementOverviewCard({
-    required this.userName,
-    required this.officialPhone,
-    required this.periodLabel,
-    required this.walletCount,
-    required this.savingsCount,
-    required this.incomingTotal,
-    required this.outgoingTotal,
-    required this.moneyFormat,
+    required this.title,
+    required this.headlineValue,
+    required this.headlineLabel,
+    required this.supportingLabel,
+    required this.primaryMetricLabel,
+    required this.primaryMetricValue,
+    required this.secondaryMetricLabel,
+    required this.secondaryMetricValue,
     super.key,
   });
 
-  final String userName;
-  final String officialPhone;
-  final String periodLabel;
-  final int walletCount;
-  final int savingsCount;
-  final int incomingTotal;
-  final int outgoingTotal;
-  final NumberFormat moneyFormat;
+  final String title;
+  final String headlineValue;
+  final String headlineLabel;
+  final String supportingLabel;
+  final String primaryMetricLabel;
+  final String primaryMetricValue;
+  final String secondaryMetricLabel;
+  final String secondaryMetricValue;
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
+    final palette = context.coolPalette;
     return CoolCard(
-      gradient: AppColors.blueGradient,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            l10n.statementOverviewTitle,
+            title,
             style: GoogleFonts.dmSans(
               fontSize: 18,
               fontWeight: FontWeight.w700,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
           const SizedBox(height: 8),
-          Text(
-            '$userName  •  $officialPhone',
-            style: GoogleFonts.dmSans(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: AppColors.text2,
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                headlineValue,
+                style: GoogleFonts.dmSans(
+                  fontSize: 34,
+                  fontWeight: FontWeight.w700,
+                  color: palette.text,
+                  height: 1,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 3),
+                  child: Text(
+                    headlineLabel,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: palette.text2,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 6),
           Text(
-            periodLabel,
+            supportingLabel,
             style: GoogleFonts.dmSans(
               fontSize: 12,
               fontWeight: FontWeight.w500,
-              color: AppColors.text3,
+              color: palette.text3,
             ),
           ),
           const SizedBox(height: 14),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
+          Row(
             children: [
-              _MetricChip(
-                label: l10n.walletEntriesMetric,
-                value: '$walletCount',
+              Expanded(
+                child: _OverviewMetricTile(
+                  label: primaryMetricLabel,
+                  value: primaryMetricValue,
+                ),
               ),
-              _MetricChip(
-                label: l10n.savingsEntriesMetric,
-                value: '$savingsCount',
-              ),
-              _MetricChip(
-                label: l10n.incomingLabel,
-                value: moneyFormat.format(incomingTotal),
-              ),
-              _MetricChip(
-                label: l10n.outgoingLabel,
-                value: moneyFormat.format(outgoingTotal),
+              const SizedBox(width: 10),
+              Expanded(
+                child: _OverviewMetricTile(
+                  label: secondaryMetricLabel,
+                  value: secondaryMetricValue,
+                ),
               ),
             ],
           ),
@@ -85,219 +99,409 @@ class StatementOverviewCard extends StatelessWidget {
   }
 }
 
-class StatementControlsCard extends StatelessWidget {
-  const StatementControlsCard({
+class StatementToolbarCard extends StatelessWidget {
+  const StatementToolbarCard({
     required this.selectedPeriod,
-    required this.selectedParty,
-    required this.selectedSort,
-    required this.activePartyLabel,
-    required this.allPartyLabel,
-    required this.partyOptions,
-    required this.isExporting,
-    required this.canExport,
+    required this.periodSummary,
+    required this.optionsSummary,
     required this.onSelectPeriod,
-    required this.onPartyChanged,
-    required this.onSortChanged,
-    required this.onReset,
-    required this.onDownloadPdf,
-    required this.onDownloadExcel,
-    this.customPeriodLabel,
+    required this.onOpenOptions,
     super.key,
   });
 
   final StatementPeriodPreset selectedPeriod;
-  final String? selectedParty;
-  final StatementSortOption selectedSort;
-  final String activePartyLabel;
-  final String allPartyLabel;
-  final List<String> partyOptions;
-  final String? customPeriodLabel;
-  final bool isExporting;
-  final bool canExport;
+  final String periodSummary;
+  final String optionsSummary;
   final Future<void> Function(StatementPeriodPreset period) onSelectPeriod;
-  final ValueChanged<String?> onPartyChanged;
-  final ValueChanged<StatementSortOption?> onSortChanged;
-  final VoidCallback onReset;
-  final VoidCallback onDownloadPdf;
-  final VoidCallback onDownloadExcel;
+  final VoidCallback onOpenOptions;
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return CoolCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Filters and exports',
-            style: GoogleFonts.dmSans(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: AppColors.text,
-            ),
-          ),
-          const SizedBox(height: 12),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: StatementPeriodPreset.values
-                .map(
-                  (period) => ChoiceChip(
-                    key: ValueKey<String>('statement-period-${period.name}'),
-                    label: Text(_periodLabel(context, period)),
-                    selected: selectedPeriod == period,
-                    onSelected: (_) => onSelectPeriod(period),
-                    labelStyle: GoogleFonts.dmSans(
-                      color: selectedPeriod == period
-                          ? Colors.black
-                          : AppColors.text,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    backgroundColor: AppColors.surface2,
-                    selectedColor: AppColors.accent,
-                    side: const BorderSide(color: AppColors.border2),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(999),
-                    ),
-                  ),
-                )
-                .toList(growable: false),
-          ),
-          if (selectedPeriod == StatementPeriodPreset.custom &&
-              customPeriodLabel != null) ...[
-            const SizedBox(height: 10),
-            Text(
-              customPeriodLabel!,
-              style: GoogleFonts.dmSans(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: AppColors.text3,
-              ),
-            ),
-          ],
-          const SizedBox(height: 14),
           Row(
             children: [
               Expanded(
-                child: DropdownButtonFormField<String?>(
-                  key: const ValueKey<String>('statement-party-filter'),
-                  isExpanded: true,
-                  initialValue: selectedParty,
-                  decoration: _dropdownDecoration(activePartyLabel),
-                  items: [
-                    DropdownMenuItem<String?>(
-                      value: null,
-                      child: Text(allPartyLabel),
-                    ),
-                    ...partyOptions.map(
-                      (party) => DropdownMenuItem<String?>(
-                        value: party,
-                        child: Text(party),
-                      ),
-                    ),
-                  ],
-                  onChanged: onPartyChanged,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: DropdownButtonFormField<StatementSortOption>(
-                  key: const ValueKey<String>('statement-sort-filter'),
-                  isExpanded: true,
-                  initialValue: selectedSort,
-                  decoration: _dropdownDecoration('Sort by'),
-                  items: StatementSortOption.values
+                child: PopupMenuButton<StatementPeriodPreset>(
+                  key: const ValueKey<String>('statement-period-selector'),
+                  tooltip: 'Change statement period',
+                  onSelected: (period) => unawaited(onSelectPeriod(period)),
+                  itemBuilder: (context) => StatementPeriodPreset.values
                       .map(
-                        (sort) => DropdownMenuItem<StatementSortOption>(
-                          value: sort,
-                          child: Text(_sortLabel(context, sort)),
+                        (period) => PopupMenuItem<StatementPeriodPreset>(
+                          value: period,
+                          child: Text(_statementPeriodLabel(period)),
                         ),
                       )
                       .toList(growable: false),
-                  onChanged: onSortChanged,
+                  child: Container(
+                    height: 52,
+                    padding: const EdgeInsets.symmetric(horizontal: 14),
+                    decoration: BoxDecoration(
+                      color: palette.surface2,
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: palette.border),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.calendar_month_rounded,
+                          size: 18,
+                          color: palette.text,
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Period',
+                                style: GoogleFonts.dmSans(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                  color: palette.text3,
+                                ),
+                              ),
+                              const SizedBox(height: 1),
+                              Text(
+                                _statementPeriodLabel(selectedPeriod),
+                                style: GoogleFonts.dmSans(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: palette.text,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Icon(Icons.expand_more_rounded, color: palette.text2),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              SizedBox(
+                width: 112,
+                height: 52,
+                child: OutlinedButton.icon(
+                  key: const ValueKey<String>('statement-open-options'),
+                  onPressed: onOpenOptions,
+                  icon: const Icon(Icons.tune_rounded, size: 18),
+                  label: const Text('More'),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: palette.text,
+                    side: BorderSide(color: palette.border),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    backgroundColor: palette.surface2,
+                    textStyle: GoogleFonts.dmSans(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                  ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 14),
-          Row(
-            children: [
-              Expanded(
-                child: CoolButton(
-                  label: 'Reset',
-                  variant: CoolButtonVariant.secondary,
-                  onTap: onReset,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: CoolButton(
-                  label: isExporting ? 'Preparing...' : 'PDF',
-                  icon: Icons.picture_as_pdf_rounded,
-                  onTap: canExport && !isExporting ? onDownloadPdf : _noop,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: CoolButton(
-                  label: isExporting ? 'Preparing...' : 'Excel',
-                  icon: Icons.table_view_rounded,
-                  onTap: canExport && !isExporting ? onDownloadExcel : _noop,
-                ),
-              ),
-            ],
+          const SizedBox(height: 12),
+          Text(
+            periodSummary,
+            style: GoogleFonts.dmSans(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: palette.text,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            optionsSummary,
+            style: GoogleFonts.dmSans(
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+              color: palette.text3,
+              height: 1.4,
+            ),
           ),
         ],
       ),
     );
   }
+}
 
-  InputDecoration _dropdownDecoration(String label) {
-    return InputDecoration(
-      labelText: label,
-      filled: true,
-      fillColor: AppColors.surface2,
-      labelStyle: GoogleFonts.dmSans(
-        fontSize: 12,
-        fontWeight: FontWeight.w600,
-        color: AppColors.text3,
-      ),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(color: AppColors.border),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(color: AppColors.border),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(color: AppColors.accent),
+class StatementOptionsSheet extends StatefulWidget {
+  const StatementOptionsSheet({
+    required this.activePartyLabel,
+    required this.allPartyLabel,
+    required this.partyOptions,
+    required this.initialParty,
+    required this.initialSort,
+    required this.canExport,
+    required this.onApply,
+    required this.onReset,
+    required this.onDownloadPdf,
+    required this.onDownloadExcel,
+    super.key,
+  });
+
+  final String activePartyLabel;
+  final String allPartyLabel;
+  final List<String> partyOptions;
+  final String? initialParty;
+  final StatementSortOption initialSort;
+  final bool canExport;
+  final void Function(String? party, StatementSortOption sort) onApply;
+  final VoidCallback onReset;
+  final VoidCallback onDownloadPdf;
+  final VoidCallback onDownloadExcel;
+
+  @override
+  State<StatementOptionsSheet> createState() => _StatementOptionsSheetState();
+}
+
+class _StatementOptionsSheetState extends State<StatementOptionsSheet> {
+  late String? _selectedParty = widget.initialParty;
+  late StatementSortOption _selectedSort = widget.initialSort;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+    final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+    return Padding(
+      padding: EdgeInsets.fromLTRB(12, 0, 12, bottomInset + 12),
+      child: Material(
+        color: palette.surface,
+        borderRadius: BorderRadius.circular(24),
+        clipBehavior: Clip.antiAlias,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'View options',
+                      style: GoogleFonts.dmSans(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: palette.text,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: const Icon(Icons.close_rounded),
+                    tooltip: 'Close',
+                  ),
+                ],
+              ),
+              Text(
+                'Adjust the visible list, then export only if you need a file.',
+                style: GoogleFonts.dmSans(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: palette.text2,
+                  height: 1.4,
+                ),
+              ),
+              const SizedBox(height: 18),
+              const _OptionsSectionTitle('Filters'),
+              const SizedBox(height: 12),
+              DropdownButtonFormField<String?>(
+                key: const ValueKey<String>('statement-party-filter'),
+                isExpanded: true,
+                initialValue: _selectedParty,
+                decoration: _optionsDropdownDecoration(
+                  context,
+                  widget.activePartyLabel,
+                ),
+                items: [
+                  DropdownMenuItem<String?>(
+                    value: null,
+                    child: Text(widget.allPartyLabel),
+                  ),
+                  ...widget.partyOptions.map(
+                    (party) => DropdownMenuItem<String?>(
+                      value: party,
+                      child: Text(party),
+                    ),
+                  ),
+                ],
+                onChanged: (value) {
+                  setState(() => _selectedParty = value);
+                },
+              ),
+              const SizedBox(height: 12),
+              DropdownButtonFormField<StatementSortOption>(
+                key: const ValueKey<String>('statement-sort-filter'),
+                isExpanded: true,
+                initialValue: _selectedSort,
+                decoration: _optionsDropdownDecoration(context, 'Sort by'),
+                items: StatementSortOption.values
+                    .map(
+                      (sort) => DropdownMenuItem<StatementSortOption>(
+                        value: sort,
+                        child: Text(_statementSortLabel(sort)),
+                      ),
+                    )
+                    .toList(growable: false),
+                onChanged: (value) {
+                  if (value == null) {
+                    return;
+                  }
+                  setState(() => _selectedSort = value);
+                },
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: CoolButton(
+                      label: 'Reset',
+                      variant: CoolButtonVariant.secondary,
+                      onTap: () {
+                        widget.onReset();
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: CoolButton(
+                      label: 'Apply filters',
+                      onTap: () {
+                        widget.onApply(_selectedParty, _selectedSort);
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              const _OptionsSectionTitle('Export current results'),
+              const SizedBox(height: 6),
+              Text(
+                'PDF and Excel use the entries already visible on the statements screen.',
+                style: GoogleFonts.dmSans(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: palette.text3,
+                  height: 1.4,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: CoolButton(
+                      label: 'PDF',
+                      icon: Icons.picture_as_pdf_rounded,
+                      onTap: widget.canExport
+                          ? () {
+                              Navigator.of(context).pop();
+                              widget.onDownloadPdf();
+                            }
+                          : _noop,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: CoolButton(
+                      label: 'Excel',
+                      icon: Icons.table_view_rounded,
+                      onTap: widget.canExport
+                          ? () {
+                              Navigator.of(context).pop();
+                              widget.onDownloadExcel();
+                            }
+                          : _noop,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
+}
 
-  String _periodLabel(BuildContext context, StatementPeriodPreset period) {
-    return switch (period) {
-      StatementPeriodPreset.day => 'Day',
-      StatementPeriodPreset.week => 'Week',
-      StatementPeriodPreset.month => 'Month',
-      StatementPeriodPreset.year => 'Year',
-      StatementPeriodPreset.custom => 'Custom',
-      StatementPeriodPreset.all => 'All time',
-    };
-  }
+InputDecoration _optionsDropdownDecoration(BuildContext context, String label) {
+  final palette = context.coolPalette;
+  return InputDecoration(
+    labelText: label,
+    filled: true,
+    fillColor: palette.surface2,
+    labelStyle: GoogleFonts.dmSans(
+      fontSize: 12,
+      fontWeight: FontWeight.w600,
+      color: palette.text3,
+    ),
+    contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(14),
+      borderSide: BorderSide(color: palette.border),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(14),
+      borderSide: BorderSide(color: palette.border),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(14),
+      borderSide: BorderSide(color: palette.accent),
+    ),
+  );
+}
 
-  String _sortLabel(BuildContext context, StatementSortOption sort) {
-    return switch (sort) {
-      StatementSortOption.newestFirst => 'Newest first',
-      StatementSortOption.oldestFirst => 'Oldest first',
-      StatementSortOption.amountHighToLow => 'Amount high to low',
-      StatementSortOption.amountLowToHigh => 'Amount low to high',
-      StatementSortOption.nameAz => 'Name A-Z',
-      StatementSortOption.nameZa => 'Name Z-A',
-    };
+class _OptionsSectionTitle extends StatelessWidget {
+  const _OptionsSectionTitle(this.label);
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+    return Text(
+      label,
+      style: GoogleFonts.dmSans(
+        fontSize: 14,
+        fontWeight: FontWeight.w700,
+        color: palette.text,
+      ),
+    );
   }
+}
+
+String _statementPeriodLabel(StatementPeriodPreset period) {
+  return switch (period) {
+    StatementPeriodPreset.day => 'Day',
+    StatementPeriodPreset.week => 'Week',
+    StatementPeriodPreset.month => 'Month',
+    StatementPeriodPreset.year => 'Year',
+    StatementPeriodPreset.custom => 'Custom',
+    StatementPeriodPreset.all => 'All time',
+  };
+}
+
+String _statementSortLabel(StatementSortOption sort) {
+  return switch (sort) {
+    StatementSortOption.newestFirst => 'Newest first',
+    StatementSortOption.oldestFirst => 'Oldest first',
+    StatementSortOption.amountHighToLow => 'Amount high to low',
+    StatementSortOption.amountLowToHigh => 'Amount low to high',
+    StatementSortOption.nameAz => 'Name A-Z',
+    StatementSortOption.nameZa => 'Name Z-A',
+  };
 }
 
 class WalletStatementTab extends StatelessWidget {
@@ -318,6 +522,7 @@ class WalletStatementTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     if (entries.isEmpty) {
       return CoolEmptyView(
         message: isFilteredView
@@ -353,9 +558,8 @@ class WalletStatementTab extends StatelessWidget {
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                      color:
-                          (entry.isCredit ? AppColors.accent : AppColors.orange)
-                              .withValues(alpha: 0.16),
+                      color: (entry.isCredit ? palette.accent : palette.orange)
+                          .withValues(alpha: 0.16),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     alignment: Alignment.center,
@@ -363,9 +567,7 @@ class WalletStatementTab extends StatelessWidget {
                       entry.isCredit
                           ? Icons.south_west_rounded
                           : Icons.north_east_rounded,
-                      color: entry.isCredit
-                          ? AppColors.accent
-                          : AppColors.orange,
+                      color: entry.isCredit ? palette.accent : palette.orange,
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -378,7 +580,7 @@ class WalletStatementTab extends StatelessWidget {
                           style: GoogleFonts.dmSans(
                             fontSize: 15,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.text,
+                            color: palette.text,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -387,7 +589,7 @@ class WalletStatementTab extends StatelessWidget {
                           style: GoogleFonts.dmSans(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.text3,
+                            color: palette.text3,
                           ),
                         ),
                       ],
@@ -400,9 +602,7 @@ class WalletStatementTab extends StatelessWidget {
                     style: GoogleFonts.dmSans(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
-                      color: entry.isCredit
-                          ? AppColors.accent
-                          : AppColors.orange,
+                      color: entry.isCredit ? palette.accent : palette.orange,
                     ),
                   ),
                 ],
@@ -416,19 +616,19 @@ class WalletStatementTab extends StatelessWidget {
                     label: entry.isCredit
                         ? context.l10n.incomingLabel
                         : context.l10n.outgoingLabel,
-                    color: entry.isCredit ? AppColors.accent : AppColors.orange,
+                    color: entry.isCredit ? palette.accent : palette.orange,
                   ),
                   _StatusChip(
                     label: _humanizeToken(entry.txCategory),
-                    color: AppColors.blue,
+                    color: palette.blue,
                   ),
                   _StatusChip(
                     label: _humanizeToken(entry.cashflowBucket),
-                    color: AppColors.yellow,
+                    color: palette.yellow,
                   ),
                   _StatusChip(
                     label: _humanizeToken(entry.ledgerStatus),
-                    color: AppColors.purple,
+                    color: palette.purple,
                   ),
                 ],
               ),
@@ -473,6 +673,7 @@ class SavingsStatementTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     if (entries.isEmpty) {
       return CoolEmptyView(
         message: isFilteredView
@@ -508,14 +709,11 @@ class SavingsStatementTab extends StatelessWidget {
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: AppColors.blueGlow,
+                      color: palette.blueGlow,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     alignment: Alignment.center,
-                    child: const Icon(
-                      Icons.groups_2_rounded,
-                      color: AppColors.blue,
-                    ),
+                    child: Icon(Icons.groups_2_rounded, color: palette.blue),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -527,7 +725,7 @@ class SavingsStatementTab extends StatelessWidget {
                           style: GoogleFonts.dmSans(
                             fontSize: 15,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.text,
+                            color: palette.text,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -536,7 +734,7 @@ class SavingsStatementTab extends StatelessWidget {
                           style: GoogleFonts.dmSans(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.text3,
+                            color: palette.text3,
                           ),
                         ),
                       ],
@@ -549,7 +747,7 @@ class SavingsStatementTab extends StatelessWidget {
                     style: GoogleFonts.dmSans(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.accent,
+                      color: palette.accent,
                     ),
                   ),
                 ],
@@ -563,13 +761,11 @@ class SavingsStatementTab extends StatelessWidget {
                     label: entry.isConfirmed
                         ? context.l10n.confirmed
                         : context.l10n.pending,
-                    color: entry.isConfirmed
-                        ? AppColors.accent
-                        : AppColors.yellow,
+                    color: entry.isConfirmed ? palette.accent : palette.yellow,
                   ),
                   _StatusChip(
                     label: context.l10n.savingsLabel,
-                    color: AppColors.blue,
+                    color: palette.blue,
                   ),
                 ],
               ),
@@ -594,6 +790,7 @@ class _SectionLead extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
       child: Column(
@@ -604,7 +801,7 @@ class _SectionLead extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
           const SizedBox(height: 4),
@@ -613,7 +810,7 @@ class _SectionLead extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 12,
               fontWeight: FontWeight.w500,
-              color: AppColors.text3,
+              color: palette.text3,
             ),
           ),
         ],
@@ -622,38 +819,43 @@ class _SectionLead extends StatelessWidget {
   }
 }
 
-class _MetricChip extends StatelessWidget {
-  const _MetricChip({required this.label, required this.value});
+class _OverviewMetricTile extends StatelessWidget {
+  const _OverviewMetricTile({required this.label, required this.value});
 
   final String label;
   final String value;
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: AppColors.bg,
+        color: palette.surface2,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
-      child: RichText(
-        text: TextSpan(
-          style: GoogleFonts.dmSans(color: AppColors.text),
-          children: [
-            TextSpan(
-              text: '$value ',
-              style: const TextStyle(fontWeight: FontWeight.w700),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: GoogleFonts.dmSans(
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              color: palette.text3,
             ),
-            TextSpan(
-              text: label,
-              style: const TextStyle(
-                color: AppColors.text3,
-                fontWeight: FontWeight.w500,
-              ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: GoogleFonts.dmSans(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: palette.text,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -694,6 +896,7 @@ class _DetailLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: RichText(
@@ -701,14 +904,14 @@ class _DetailLine extends StatelessWidget {
           style: GoogleFonts.dmSans(
             fontSize: 12,
             fontWeight: FontWeight.w500,
-            color: AppColors.text3,
+            color: palette.text3,
             height: 1.45,
           ),
           children: [
             TextSpan(
               text: '$label: ',
-              style: const TextStyle(
-                color: AppColors.text,
+              style: TextStyle(
+                color: palette.text,
                 fontWeight: FontWeight.w700,
               ),
             ),

@@ -314,7 +314,9 @@ class CoolCountry {
   String phoneExampleHint() {
     return mobileExampleNational?.trim().isNotEmpty ?? false
         ? mobileExampleNational!.trim()
-        : '$dialCode 91234567';
+        : mobileExampleE164?.trim().isNotEmpty ?? false
+        ? normalizeNationalPhone(mobileExampleE164!.trim())
+        : '07XXXXXXX';
   }
 
   String? _normalizedLocalDigitsForE164(String digits) {

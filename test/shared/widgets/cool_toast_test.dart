@@ -23,10 +23,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 300)); // Animate in.
 
       expect(find.text('Trip booked!'), findsOneWidget);
-      expect(
-        find.byIcon(Icons.check_circle_outline_rounded),
-        findsOneWidget,
-      );
+      expect(find.byIcon(Icons.check_circle_outline_rounded), findsOneWidget);
     });
 
     testWidgets('error shows red error icon and message', (tester) async {
@@ -73,8 +70,33 @@ void main() {
       expect(find.byIcon(Icons.info_outline_rounded), findsOneWidget);
     });
 
-    testWidgets('dismisses previous snackbar before showing new one',
-        (tester) async {
+    testWidgets('snackbar content is exposed to semantics', (tester) async {
+      final semantics = tester.ensureSemantics();
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Builder(
+              builder: (context) => ElevatedButton(
+                onPressed: () => CoolToast.success(context, 'Trip booked!'),
+                child: const Text('Trigger'),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Trigger'));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
+
+      expect(find.bySemanticsLabel('Trip booked!'), findsOneWidget);
+      semantics.dispose();
+    });
+
+    testWidgets('dismisses previous snackbar before showing new one', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -87,8 +109,7 @@ void main() {
                     child: const Text('First'),
                   ),
                   ElevatedButton(
-                    onPressed: () =>
-                        CoolToast.error(context, 'Second message'),
+                    onPressed: () => CoolToast.error(context, 'Second message'),
                     child: const Text('Second'),
                   ),
                 ],
@@ -129,8 +150,7 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 300));
 
-      final snackBar =
-          tester.widget<SnackBar>(find.byType(SnackBar));
+      final snackBar = tester.widget<SnackBar>(find.byType(SnackBar));
       expect(snackBar.behavior, SnackBarBehavior.floating);
     });
   });

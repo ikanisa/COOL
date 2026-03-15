@@ -92,17 +92,18 @@ extension on _ScheduleTripScreenState {
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 120)),
       builder: (context, child) {
+        final palette = context.coolPalette;
+        final theme = Theme.of(context);
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.dark(
-              primary: AppColors.accent,
-              onPrimary: Colors.black,
-              surface: AppColors.surface,
-              onSurface: AppColors.text,
+            colorScheme: theme.colorScheme.copyWith(
+              brightness: theme.brightness,
+              primary: palette.accent,
+              onPrimary: theme.colorScheme.onPrimary,
+              surface: palette.surface,
+              onSurface: palette.text,
             ),
-            dialogTheme: const DialogThemeData(
-              backgroundColor: AppColors.surface,
-            ),
+            dialogTheme: DialogThemeData(backgroundColor: palette.surface),
           ),
           child: child!,
         );
@@ -128,17 +129,18 @@ extension on _ScheduleTripScreenState {
       context: context,
       initialTime: isReturn ? _returnTime : _selectedTime,
       builder: (context, child) {
+        final palette = context.coolPalette;
+        final theme = Theme.of(context);
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.dark(
-              primary: AppColors.accent,
-              onPrimary: Colors.black,
-              surface: AppColors.surface,
-              onSurface: AppColors.text,
+            colorScheme: theme.colorScheme.copyWith(
+              brightness: theme.brightness,
+              primary: palette.accent,
+              onPrimary: theme.colorScheme.onPrimary,
+              surface: palette.surface,
+              onSurface: palette.text,
             ),
-            dialogTheme: const DialogThemeData(
-              backgroundColor: AppColors.surface,
-            ),
+            dialogTheme: DialogThemeData(backgroundColor: palette.surface),
           ),
           child: child!,
         );
@@ -177,15 +179,15 @@ extension on _ScheduleTripScreenState {
 
   void _showSnackBar({
     required String message,
-    required Color backgroundColor,
-    required Color textColor,
+    required _ScheduleTripToastKind kind,
   }) {
-    if (backgroundColor == AppColors.red) {
-      CoolToast.error(context, message);
-    } else if (backgroundColor == AppColors.accent) {
-      CoolToast.success(context, message);
-    } else {
-      CoolToast.info(context, message);
+    switch (kind) {
+      case _ScheduleTripToastKind.info:
+        CoolToast.info(context, message);
+      case _ScheduleTripToastKind.success:
+        CoolToast.success(context, message);
+      case _ScheduleTripToastKind.error:
+        CoolToast.error(context, message);
     }
   }
 
@@ -227,11 +229,7 @@ extension on _ScheduleTripScreenState {
 
     if (message == null) return true;
 
-    _showSnackBar(
-      message: message,
-      backgroundColor: AppColors.red,
-      textColor: Colors.white,
-    );
+    _showSnackBar(message: message, kind: _ScheduleTripToastKind.error);
     return false;
   }
 
@@ -244,8 +242,7 @@ extension on _ScheduleTripScreenState {
       if (!returnAt.isAfter(departureAt)) {
         _showSnackBar(
           message: l10n.scheduleTripReturnInvalidError,
-          backgroundColor: AppColors.red,
-          textColor: Colors.white,
+          kind: _ScheduleTripToastKind.error,
         );
         return false;
       }
@@ -254,8 +251,7 @@ extension on _ScheduleTripScreenState {
     if (_recurringTrip && _recurringDays.isEmpty) {
       _showSnackBar(
         message: l10n.scheduleTripRecurringDaysError,
-        backgroundColor: AppColors.red,
-        textColor: Colors.white,
+        kind: _ScheduleTripToastKind.error,
       );
       return false;
     }
@@ -284,6 +280,31 @@ extension on _ScheduleTripScreenState {
     if (_activeStepIndex >= ScheduleTripStep.values.length - 1) return;
     _updateState(() {
       _activeStep = ScheduleTripStep.values[_activeStepIndex + 1];
+    });
+  }
+
+  Future<void> _openRoleSheet(bool canScheduleAsDriver) async {
+    final nextRole = await showModalBottomSheet<ScheduleTripPostingRole>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) => _ScheduleTripRoleSheet(
+        selectedRole: _postingRole,
+        canScheduleAsDriver: canScheduleAsDriver,
+      ),
+    );
+
+    if (!mounted || nextRole == null || nextRole == _postingRole) {
+      return;
+    }
+
+    final currentUser = ref.read(currentUserProvider);
+    final driverProfile = ref.read(driverProvider).profile;
+    _updateState(() {
+      _postingRole = nextRole;
+      _applyPostingRoleDefaults(
+        role: nextRole,
+        vehicleType: driverProfile?.vehicleType ?? currentUser?.vehicleType,
+      );
     });
   }
 
@@ -385,8 +406,7 @@ extension on _ScheduleTripScreenState {
       _showSnackBar(
         message:
             'Google could not pin ${failedFields.join(' and ')} exactly. You can continue with text only, or use search to choose a place.',
-        backgroundColor: AppColors.orange,
-        textColor: Colors.black,
+        kind: _ScheduleTripToastKind.info,
       );
     }
   }
@@ -408,8 +428,7 @@ extension on _ScheduleTripScreenState {
         message:
             locationState.error ??
             'Current location is unavailable. Search for a place instead.',
-        backgroundColor: AppColors.red,
-        textColor: Colors.white,
+        kind: _ScheduleTripToastKind.error,
       );
       return;
     }
@@ -453,8 +472,7 @@ extension on _ScheduleTripScreenState {
       _showSnackBar(
         message:
             'Pickup coordinates were attached, but the address could not be resolved.',
-        backgroundColor: AppColors.orange,
-        textColor: Colors.black,
+        kind: _ScheduleTripToastKind.info,
       );
     } finally {
       if (mounted) {
@@ -490,6 +508,25 @@ extension on _ScheduleTripScreenState {
     return hasDriverRole || (vehicleType?.trim().isNotEmpty ?? false);
   }
 
+  void _applyPostingRoleDefaults({
+    required ScheduleTripPostingRole role,
+    required String? vehicleType,
+  }) {
+    if (role != ScheduleTripPostingRole.driver) {
+      return;
+    }
+
+    final normalized = vehicleType?.trim().toLowerCase() ?? '';
+    if (normalized.isEmpty) {
+      return;
+    }
+
+    _vehiclePreference = normalized.contains('moto')
+        ? TripVehiclePreference.moto
+        : TripVehiclePreference.cab;
+    _seats = normalized.contains('moto') ? 1 : 3;
+  }
+
   // ── Submit ──────────────────────────────────────────────────────
 
   Future<void> _submit({required bool canScheduleAsDriver}) async {
@@ -500,8 +537,7 @@ extension on _ScheduleTripScreenState {
     if (isDriverReturnTrip && !canScheduleAsDriver) {
       _showSnackBar(
         message: 'Finish driver setup before posting as a driver.',
-        backgroundColor: AppColors.red,
-        textColor: Colors.white,
+        kind: _ScheduleTripToastKind.error,
       );
       return;
     }
@@ -566,8 +602,7 @@ extension on _ScheduleTripScreenState {
         message: result.storedOffline
             ? l10n.scheduleTripPostedPendingSync
             : l10n.scheduleTripPostedSuccess,
-        backgroundColor: AppColors.accent,
-        textColor: Colors.black,
+        kind: _ScheduleTripToastKind.success,
       );
       if (!result.storedOffline) {
         context.go('/mobility/trips');
@@ -577,11 +612,7 @@ extension on _ScheduleTripScreenState {
 
     final error = ref.read(mobilitySubmissionErrorProvider);
     if (error != null) {
-      _showSnackBar(
-        message: error,
-        backgroundColor: AppColors.red,
-        textColor: Colors.white,
-      );
+      _showSnackBar(message: error, kind: _ScheduleTripToastKind.error);
     }
   }
 }

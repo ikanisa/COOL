@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_palette.dart';
 import 'cool_button.dart';
 
 /// Standardized error view used throughout the app.
 ///
 /// Displays a centered message with an optional icon and retry button.
-/// Matches the app's dark theme and uses [CoolButton] for retry.
 class CoolErrorView extends StatelessWidget {
   const CoolErrorView({
     required this.message,
@@ -31,6 +30,7 @@ class CoolErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final iconSize = compact ? 36.0 : 52.0;
     final spacing = compact ? 12.0 : 20.0;
 
@@ -51,10 +51,10 @@ class CoolErrorView extends StatelessWidget {
                   width: iconSize + 20,
                   height: iconSize + 20,
                   decoration: BoxDecoration(
-                    color: AppColors.red.withValues(alpha: 0.1),
+                    color: palette.red.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(icon, size: iconSize, color: AppColors.red),
+                  child: Icon(icon, size: iconSize, color: palette.red),
                 ),
               ),
               SizedBox(height: spacing),
@@ -63,7 +63,7 @@ class CoolErrorView extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: GoogleFonts.dmSans(
                   fontSize: compact ? 14 : 16,
-                  color: AppColors.text2,
+                  color: palette.text2,
                   height: 1.5,
                 ),
               ),

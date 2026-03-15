@@ -113,32 +113,8 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
                 padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
-                    if (isGoldPlus) ...[
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 6,
-                        ),
-                        decoration: BoxDecoration(
-                          color: RsColors.rsGold.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: RsColors.rsGold.withValues(alpha: 0.35),
-                          ),
-                        ),
-                        child: Text(
-                          '⭐ GOLD — Early Access',
-                          style: GoogleFonts.barlowCondensed(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w800,
-                            color: RsColors.rsGoldLight,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                    ],
                     Text(
-                      'Secure your seat early.',
+                      'Choose your match.',
                       style: GoogleFonts.barlowCondensed(
                         fontSize: 34,
                         fontWeight: FontWeight.w900,
@@ -147,9 +123,7 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      paymentRoute == null
-                          ? 'Ticket checkout stays hidden until backend payment routing is configured for Rayon Sports.'
-                          : 'All Rayon Sports ticket payments go to ${paymentRoute.payToLabel}. Checkout launches ${paymentRoute.ussdPattern} on your phone.',
+                      'Buy official Rayon Sports tickets without the extra noise.',
                       style: GoogleFonts.barlow(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -157,42 +131,11 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
                         height: 1.4,
                       ),
                     ),
-                    if (isGoldPlus) ...[
-                      const SizedBox(height: 14),
-                      CoolCard(
-                        gradient: LinearGradient(
-                          colors: [
-                            RsColors.rsGold.withValues(alpha: 0.12),
-                            RsColors.rsGold.withValues(alpha: 0.06),
-                          ],
-                        ),
-                        borderColor: RsColors.rsGold.withValues(alpha: 0.3),
-                        child: Padding(
-                          padding: const EdgeInsets.all(14),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.star_rounded,
-                                size: 20,
-                                color: AppColors.orange,
-                              ),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                child: Text(
-                                  'Gold Priority Access: You can buy 24h before public sale opens.',
-                                  style: GoogleFonts.barlow(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w600,
-                                    color: RsColors.rsGoldLight,
-                                    height: 1.3,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                    const SizedBox(height: 16),
+                    _TicketAccessSummaryCard(
+                      isGoldPlus: isGoldPlus,
+                      paymentRoute: paymentRoute,
+                    ),
                     const SizedBox(height: 16),
                     Container(
                       decoration: BoxDecoration(
@@ -459,6 +402,107 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
   }
 }
 
+class _TicketAccessSummaryCard extends StatelessWidget {
+  const _TicketAccessSummaryCard({
+    required this.isGoldPlus,
+    required this.paymentRoute,
+  });
+
+  final bool isGoldPlus;
+  final PartnerPaymentRoute? paymentRoute;
+
+  @override
+  Widget build(BuildContext context) {
+    final paymentLabel = paymentRoute?.payToLabel;
+
+    return CoolCard(
+      borderColor: AppColors.border2,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            isGoldPlus ? 'Gold access active' : 'Public sale access',
+            style: GoogleFonts.barlow(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: AppColors.text,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              _TicketSummaryPill(
+                icon: isGoldPlus
+                    ? Icons.star_rounded
+                    : Icons.confirmation_number_outlined,
+                label: isGoldPlus
+                    ? 'Gold members buy before public sale'
+                    : 'Standard ticket access',
+                highlight: isGoldPlus,
+              ),
+              _TicketSummaryPill(
+                icon: Icons.payments_outlined,
+                label: paymentLabel == null
+                    ? 'Checkout unavailable'
+                    : 'Pay to $paymentLabel',
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TicketSummaryPill extends StatelessWidget {
+  const _TicketSummaryPill({
+    required this.icon,
+    required this.label,
+    this.highlight = false,
+  });
+
+  final IconData icon;
+  final String label;
+  final bool highlight;
+
+  @override
+  Widget build(BuildContext context) {
+    final foreground = highlight ? RsColors.rsGoldLight : AppColors.text2;
+    final background = highlight
+        ? RsColors.rsGold.withValues(alpha: 0.12)
+        : AppColors.surface2;
+    final border = highlight
+        ? RsColors.rsGold.withValues(alpha: 0.28)
+        : AppColors.border;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      decoration: BoxDecoration(
+        color: background,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: border),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: foreground),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: GoogleFonts.barlow(
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+              color: foreground,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 // ── Compact ticket row (for My Tickets tab) ──────────────────────────
 
 class _CompactTicketRow extends StatelessWidget {
@@ -628,46 +672,50 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
                     selected: selected,
                     label: '${type.label} seat type',
                     child: GestureDetector(
-                    onTap: () => setState(() => _seat = type),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 180),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      decoration: BoxDecoration(
-                        color: selected ? RsColors.rsBlue : AppColors.surface2,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
+                      onTap: () => setState(() => _seat = type),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 180),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        decoration: BoxDecoration(
                           color: selected
-                              ? RsColors.rsBlueBorder
-                              : AppColors.border,
+                              ? RsColors.rsBlue
+                              : AppColors.surface2,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: selected
+                                ? RsColors.rsBlueBorder
+                                : AppColors.border,
+                          ),
                         ),
-                      ),
-                      alignment: Alignment.center,
-                      child: Column(
-                        children: [
-                          Text(
-                            type.label,
-                            style: GoogleFonts.barlowCondensed(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w800,
-                              color: selected ? Colors.white : AppColors.text2,
+                        alignment: Alignment.center,
+                        child: Column(
+                          children: [
+                            Text(
+                              type.label,
+                              style: GoogleFonts.barlowCondensed(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w800,
+                                color: selected
+                                    ? Colors.white
+                                    : AppColors.text2,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            '${type.priceFor(match)} RWF',
-                            style: GoogleFonts.dmMono(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w600,
-                              color: selected
-                                  ? Colors.white70
-                                  : AppColors.text3,
+                            const SizedBox(height: 2),
+                            Text(
+                              '${type.priceFor(match)} RWF',
+                              style: GoogleFonts.dmMono(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                                color: selected
+                                    ? Colors.white70
+                                    : AppColors.text3,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
                 ),
               );
             }).toList(),
@@ -695,32 +743,32 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
                   selected: selected,
                   label: 'Quantity $q',
                   child: GestureDetector(
-                  onTap: () => setState(() => _qty = q),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 180),
-                    width: 52,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: selected ? RsColors.rsBlue : AppColors.surface2,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: selected
-                            ? RsColors.rsBlueBorder
-                            : AppColors.border,
+                    onTap: () => setState(() => _qty = q),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 180),
+                      width: 52,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: selected ? RsColors.rsBlue : AppColors.surface2,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: selected
+                              ? RsColors.rsBlueBorder
+                              : AppColors.border,
+                        ),
                       ),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      '$q',
-                      style: GoogleFonts.dmMono(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: selected ? Colors.white : AppColors.text2,
+                      alignment: Alignment.center,
+                      child: Text(
+                        '$q',
+                        style: GoogleFonts.dmMono(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: selected ? Colors.white : AppColors.text2,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
               );
             }).toList(),
           ),

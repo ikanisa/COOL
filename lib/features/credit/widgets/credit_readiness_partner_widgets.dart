@@ -681,7 +681,7 @@ InputDecoration _sheetInputDecoration({required String label, String? hint}) {
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(14),
-      borderSide: const BorderSide(color: AppColors.border2),
+      borderSide: BorderSide(color: AppColors.border2),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(14),
@@ -689,7 +689,7 @@ InputDecoration _sheetInputDecoration({required String label, String? hint}) {
     ),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(14),
-      borderSide: const BorderSide(color: AppColors.border2),
+      borderSide: BorderSide(color: AppColors.border2),
     ),
   );
 }

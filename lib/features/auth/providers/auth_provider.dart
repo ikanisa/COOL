@@ -526,6 +526,33 @@ class AuthNotifier extends StateNotifier<AuthState> {
     return success;
   }
 
+  Future<bool> updateProfile(UserProfile profile) async {
+    state = state.copyWith(isLoading: true, error: null);
+
+    final result = await AsyncValue.guard(
+      () => _repository.updateProfile(profile),
+    );
+
+    var success = false;
+    result.when(
+      data: (value) {
+        success = true;
+        state = state.copyWith(user: value, isLoading: false, error: null);
+      },
+      error: (error, stack) {
+        _crashlytics.recordError(
+          error,
+          stackTrace: stack,
+          reason: 'update_profile',
+        );
+        state = state.copyWith(isLoading: false, error: _errorMessage(error));
+      },
+      loading: () {},
+    );
+
+    return success;
+  }
+
   Future<
     ({
       String momoNumber,

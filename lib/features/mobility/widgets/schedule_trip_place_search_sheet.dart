@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../services/place_search_service.dart';
 import '../../../core/models/geo_point.dart';
@@ -188,14 +188,15 @@ class _ScheduleTripPlaceSearchSheetState
     final keyboardInset = MediaQuery.of(context).viewInsets.bottom;
     final viewportHeight = MediaQuery.sizeOf(context).height;
     final sheetHeight = (viewportHeight * 0.78).clamp(360.0, 680.0);
+    final palette = context.coolPalette;
 
     return Padding(
       padding: EdgeInsets.only(bottom: keyboardInset),
       child: SizedBox(
         height: sheetHeight,
         child: Container(
-          decoration: const BoxDecoration(
-            color: AppColors.surface,
+          decoration: BoxDecoration(
+            color: palette.surface,
             borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
           ),
           child: SafeArea(
@@ -210,7 +211,7 @@ class _ScheduleTripPlaceSearchSheetState
                       width: 44,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: AppColors.border2,
+                        color: palette.border2,
                         borderRadius: BorderRadius.circular(999),
                       ),
                     ),
@@ -221,7 +222,7 @@ class _ScheduleTripPlaceSearchSheetState
                     style: GoogleFonts.dmSans(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.text,
+                      color: palette.text,
                     ),
                   ),
                   const SizedBox(height: 6),
@@ -230,7 +231,7 @@ class _ScheduleTripPlaceSearchSheetState
                     style: GoogleFonts.dmSans(
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
-                      color: AppColors.text2,
+                      color: palette.text2,
                       height: 1.4,
                     ),
                   ),
@@ -248,7 +249,7 @@ class _ScheduleTripPlaceSearchSheetState
                       style: GoogleFonts.dmSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.text3,
+                        color: palette.text3,
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -264,11 +265,12 @@ class _ScheduleTripPlaceSearchSheetState
   }
 
   Widget _buildResults() {
+    final palette = context.coolPalette;
     if (_isSearching && _results.isEmpty) {
-      return const Center(
+      return Center(
         child: Padding(
-          padding: EdgeInsets.all(24),
-          child: CupertinoActivityIndicator(color: AppColors.accent),
+          padding: const EdgeInsets.all(24),
+          child: CupertinoActivityIndicator(color: palette.accent),
         ),
       );
     }
@@ -294,7 +296,7 @@ class _ScheduleTripPlaceSearchSheetState
       itemBuilder: (context, index) {
         final result = _results[index];
         return Material(
-          color: AppColors.surface3,
+          color: palette.surface2,
           borderRadius: BorderRadius.circular(14),
           child: InkWell(
             borderRadius: BorderRadius.circular(14),
@@ -310,12 +312,12 @@ class _ScheduleTripPlaceSearchSheetState
                     width: 32,
                     height: 32,
                     decoration: BoxDecoration(
-                      color: AppColors.accentGlow,
+                      color: palette.accentGlow,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.place_rounded,
-                      color: AppColors.accent,
+                      color: palette.accent,
                       size: 18,
                     ),
                   ),
@@ -329,7 +331,7 @@ class _ScheduleTripPlaceSearchSheetState
                           style: GoogleFonts.dmSans(
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.text,
+                            color: palette.text,
                           ),
                         ),
                         if (result.secondaryText != null &&
@@ -340,7 +342,7 @@ class _ScheduleTripPlaceSearchSheetState
                             style: GoogleFonts.dmSans(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
-                              color: AppColors.text2,
+                              color: palette.text2,
                               height: 1.35,
                             ),
                           ),
@@ -375,6 +377,7 @@ class _PlaceSearchEmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
@@ -384,7 +387,7 @@ class _PlaceSearchEmptyState extends StatelessWidget {
           style: GoogleFonts.dmSans(
             fontSize: 13,
             fontWeight: FontWeight.w500,
-            color: AppColors.text2,
+            color: palette.text2,
             height: 1.45,
           ),
         ),
@@ -408,6 +411,7 @@ class _PlaceSearchControls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final field = Semantics(
       textField: true,
       label: 'Trip destination search',
@@ -419,32 +423,32 @@ class _PlaceSearchControls extends StatelessWidget {
         style: GoogleFonts.dmSans(
           fontSize: 14,
           fontWeight: FontWeight.w500,
-          color: AppColors.text,
+          color: palette.text,
         ),
         decoration: InputDecoration(
           hintText: 'Type a landmark, neighborhood, or address',
           hintStyle: GoogleFonts.dmSans(
             fontSize: 14,
             fontWeight: FontWeight.w400,
-            color: AppColors.text3,
+            color: palette.text3,
           ),
           filled: true,
-          fillColor: AppColors.surface3,
+          fillColor: palette.surface2,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 14,
             vertical: 14,
           ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: AppColors.border),
+            borderSide: BorderSide(color: palette.border),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: AppColors.border),
+            borderSide: BorderSide(color: palette.border),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: AppColors.accent, width: 1.2),
+            borderSide: BorderSide(color: palette.accent, width: 1.2),
           ),
         ),
       ),

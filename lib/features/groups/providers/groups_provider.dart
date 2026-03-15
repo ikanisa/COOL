@@ -164,6 +164,7 @@ class GroupCreateData {
     this.country,
     this.monthlyContributionRwf,
     this.bankPartner,
+    this.bankPartnerId,
     this.momoNumber,
     this.momoRouteType,
     this.description,
@@ -178,6 +179,7 @@ class GroupCreateData {
   final String? country;
   final int? monthlyContributionRwf;
   final String? bankPartner;
+  final String? bankPartnerId;
   final String? momoNumber;
   final String? momoRouteType;
   final String? description;
@@ -336,6 +338,7 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
           monthlyContribution: data.monthlyContributionRwf,
           description: data.description,
           bankPartner: data.bankPartner,
+          institutionId: data.bankPartnerId,
           momoNumber: data.momoNumber,
           momoRouteType: data.momoRouteType,
           frequency: data.frequency,

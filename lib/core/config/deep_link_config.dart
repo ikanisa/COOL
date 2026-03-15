@@ -1,6 +1,12 @@
 import '../router/app_routes.dart';
 
 abstract final class DeepLinkConfig {
+  static const _legacyHosts = <String>{
+    'cool.app',
+    'www.cool.app',
+    'cool.ikanisa.com',
+    'www.cool.ikanisa.com',
+  };
   static const host = String.fromEnvironment(
     'COOL_DEEP_LINK_HOST',
     defaultValue: 'cool.app',
@@ -134,7 +140,8 @@ abstract final class DeepLinkConfig {
     final normalizedHost = uri.host.toLowerCase();
     final primaryHost = host.toLowerCase();
     return normalizedHost == primaryHost ||
-        normalizedHost == 'www.$primaryHost';
+        normalizedHost == 'www.$primaryHost' ||
+        _legacyHosts.contains(normalizedHost);
   }
 
   static List<String> _normalizedSegments(Uri uri) {

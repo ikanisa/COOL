@@ -99,7 +99,6 @@ class SupportDetailScreen extends StatelessWidget {
         final initiativeAsync = ref.watch(
           supportDetailInitiativeProvider(initiativeId),
         );
-        final membership = ref.watch(rayonUserMembershipProvider).valueOrNull;
         final paymentRoute = ref.watch(rayonPaymentRouteProvider).valueOrNull;
         final selectedAmount = ref.watch(
           supportDetailAmountProvider(initiativeId),
@@ -162,6 +161,64 @@ class SupportDetailScreen extends StatelessWidget {
                   contributionsAsync.valueOrNull,
                   pendingContributionId,
                 );
+                final supportCtaLabel = paymentRoute == null
+                    ? 'Support ${_formatRwf(selectedAmount)}'
+                    : 'Support ${paymentRoute.amountLabel(selectedAmount)} via ${paymentRoute.providerLabel}';
+
+                Future<void> submitSupport() async {
+                  final notifier = ref.read(rayonSportsProvider.notifier);
+                  ref
+                          .read(
+                            supportDetailSubmittingProvider(
+                              initiativeId,
+                            ).notifier,
+                          )
+                          .state =
+                      true;
+                  try {
+                    final result = await notifier.supportInitiative(
+                      initiativeId: initiative.id,
+                      amount: selectedAmount,
+                      referralInviteId: referralInviteId,
+                    );
+                    ref
+                            .read(
+                              supportDetailPendingContributionIdProvider(
+                                initiativeId,
+                              ).notifier,
+                            )
+                            .state =
+                        result.contributionId;
+                    if (referralInviteId != null &&
+                        referralInviteId.isNotEmpty) {
+                      ref
+                          .read(activeReferralAttributionProvider.notifier)
+                          .clearIfMatches(referralInviteId);
+                    }
+                    ref.invalidate(
+                      rayonRecentContributorsProvider(initiative.id),
+                    );
+                    // Points are awarded server-side after payment confirmation.
+                    if (!context.mounted) {
+                      return;
+                    }
+                    CoolToast.info(context, result.message);
+                  } catch (error) {
+                    if (!context.mounted) {
+                      return;
+                    }
+                    CoolToast.error(context, error.toString());
+                  } finally {
+                    ref
+                            .read(
+                              supportDetailSubmittingProvider(
+                                initiativeId,
+                              ).notifier,
+                            )
+                            .state =
+                        false;
+                  }
+                }
 
                 return SingleChildScrollView(
                   padding: const EdgeInsets.fromLTRB(16, 10, 16, 96),
@@ -173,134 +230,27 @@ class SupportDetailScreen extends StatelessWidget {
                         categoryColor: categoryColor,
                       ),
                       const SizedBox(height: 18),
-                      _CategoryPill(
-                        label: initiative.category.value.toUpperCase(),
-                        color: categoryColor,
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        initiative.title,
-                        style: GoogleFonts.barlowCondensed(
-                          fontSize: 34,
-                          fontWeight: FontWeight.w900,
-                          color: RsColors.rsWhite,
-                          height: 1,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        initiative.description,
-                        style: GoogleFonts.barlow(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.text2,
-                          height: 1.5,
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      _ProgressCard(
+                      _CauseSummaryCard(
                         initiative: initiative,
                         categoryColor: categoryColor,
                       ),
-                      const SizedBox(height: 20),
-                      Text(
-                        'Choose Amount',
-                        style: RsTextStyles.sectionTitle(
-                          color: RsColors.rsWhite,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      CoolCard(
-                        borderColor: AppColors.border2,
-                        child: RsAmountSelector(
-                          amounts: const [1000, 2000, 5000, 10000, 20000],
-                          allowCustom: true,
-                          selectedAmount: selectedAmount,
-                          onAmountSelected: (amount) {
-                            ref
-                                    .read(
-                                      supportDetailAmountProvider(
-                                        initiativeId,
-                                      ).notifier,
-                                    )
-                                    .state =
-                                amount;
-                          },
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      _PerksCard(),
                       const SizedBox(height: 16),
-                      _MomoInfoBanner(
+                      _SupportCheckoutCard(
                         amount: selectedAmount,
-                        tier: membership?.tier ?? FanTier.blue,
                         paymentRoute: paymentRoute,
-                      ),
-                      const SizedBox(height: 16),
-                      CoolButton(
-                        label: paymentRoute == null
-                            ? 'Support ${_formatRwf(selectedAmount)}'
-                            : 'Support ${paymentRoute.amountLabel(selectedAmount)} via ${paymentRoute.providerLabel}',
-                        icon: Icons.favorite_border_rounded,
+                        ctaLabel: supportCtaLabel,
                         isLoading: isSubmitting,
-                        onTap: () async {
-                          final notifier = ref.read(
-                            rayonSportsProvider.notifier,
-                          );
+                        onAmountSelected: (amount) {
                           ref
                                   .read(
-                                    supportDetailSubmittingProvider(
+                                    supportDetailAmountProvider(
                                       initiativeId,
                                     ).notifier,
                                   )
                                   .state =
-                              true;
-                          try {
-                            final result = await notifier.supportInitiative(
-                              initiativeId: initiative.id,
-                              amount: selectedAmount,
-                              referralInviteId: referralInviteId,
-                            );
-                            ref
-                                .read(
-                                  supportDetailPendingContributionIdProvider(
-                                    initiativeId,
-                                  ).notifier,
-                                )
-                                .state = result
-                                .contributionId;
-                            if (referralInviteId != null &&
-                                referralInviteId.isNotEmpty) {
-                              ref
-                                  .read(
-                                    activeReferralAttributionProvider.notifier,
-                                  )
-                                  .clearIfMatches(referralInviteId);
-                            }
-                            ref.invalidate(
-                              rayonRecentContributorsProvider(initiative.id),
-                            );
-                            // Points are awarded server-side after payment confirmation.
-                            if (!context.mounted) {
-                              return;
-                            }
-                            CoolToast.info(context, result.message);
-                          } catch (error) {
-                            if (!context.mounted) {
-                              return;
-                            }
-                            CoolToast.error(context, error.toString());
-                          } finally {
-                            ref
-                                    .read(
-                                      supportDetailSubmittingProvider(
-                                        initiativeId,
-                                      ).notifier,
-                                    )
-                                    .state =
-                                false;
-                          }
+                              amount;
                         },
+                        onTap: submitSupport,
                       ),
                       if (pendingContribution != null &&
                           pendingContribution.status.toLowerCase() ==
@@ -315,19 +265,21 @@ class SupportDetailScreen extends StatelessWidget {
                       ],
                       const SizedBox(height: 24),
                       Text(
-                        'Recent Support Activity',
+                        'More details',
                         style: RsTextStyles.sectionTitle(
                           color: RsColors.rsWhite,
                         ),
                       ),
                       const SizedBox(height: 12),
+                      _PerksCard(),
+                      const SizedBox(height: 16),
                       _RecentSupportersCard(
                         contributionsAsync: contributionsAsync,
                         onRefreshStatus: () => ref.invalidate(
                           rayonRecentContributorsProvider(initiative.id),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 16),
 
                       // ── Share initiative ──────────────────────
                       ShareCard(
@@ -429,8 +381,11 @@ class _DetailHero extends StatelessWidget {
   }
 }
 
-class _ProgressCard extends StatelessWidget {
-  const _ProgressCard({required this.initiative, required this.categoryColor});
+class _CauseSummaryCard extends StatelessWidget {
+  const _CauseSummaryCard({
+    required this.initiative,
+    required this.categoryColor,
+  });
 
   final RsInitiative initiative;
   final Color categoryColor;
@@ -444,24 +399,61 @@ class _ProgressCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            _formatRwf(initiative.raisedAmount),
-            style: GoogleFonts.dmMono(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: AppColors.blue,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            'of ${_formatRwf(initiative.targetAmount)} goal',
-            style: GoogleFonts.barlow(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: AppColors.text2,
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: _CategoryPill(
+                  label: initiative.category.value.toUpperCase(),
+                  color: categoryColor,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    _formatRwf(initiative.raisedAmount),
+                    style: GoogleFonts.dmMono(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.blue,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'raised so far',
+                    style: GoogleFonts.barlow(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.text3,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
           const SizedBox(height: 14),
+          Text(
+            initiative.title,
+            style: GoogleFonts.barlowCondensed(
+              fontSize: 30,
+              fontWeight: FontWeight.w900,
+              color: RsColors.rsWhite,
+              height: 1,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            initiative.description,
+            style: GoogleFonts.barlow(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: AppColors.text2,
+              height: 1.45,
+            ),
+          ),
+          const SizedBox(height: 16),
           RsProgressBar(
             progress: initiative.progress,
             fillColor: categoryColor,
@@ -470,17 +462,19 @@ class _ProgressCard extends StatelessWidget {
           const SizedBox(height: 12),
           Row(
             children: [
-              Text(
-                '${NumberFormat.decimalPattern('en').format(initiative.supporterCount)} supporters',
-                style: GoogleFonts.barlow(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.text2,
+              Expanded(
+                child: Text(
+                  '${NumberFormat.decimalPattern('en').format(initiative.supporterCount)} supporters',
+                  style: GoogleFonts.barlow(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.text2,
+                  ),
                 ),
               ),
-              const Spacer(),
+              const SizedBox(width: 12),
               Text(
-                '$percentage% funded',
+                '$percentage% of ${_formatRwf(initiative.targetAmount)}',
                 textAlign: TextAlign.right,
                 style: GoogleFonts.dmMono(
                   fontSize: 12,
@@ -500,21 +494,22 @@ class _PerksCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CoolCard(
-      gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [RsColors.rsGold.withValues(alpha: 0.18), AppColors.surface2],
-      ),
-      borderColor: RsColors.rsGold.withValues(alpha: 0.4),
+      borderColor: AppColors.border2,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Supporter Perks',
-            style: GoogleFonts.barlowCondensed(
-              fontSize: 24,
-              fontWeight: FontWeight.w900,
-              color: RsColors.rsGoldLight,
+            'Supporter perks',
+            style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            'Recognition scales with the size of the contribution.',
+            style: GoogleFonts.barlow(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: AppColors.text2,
+              height: 1.45,
             ),
           ),
           const SizedBox(height: 14),
@@ -573,32 +568,94 @@ class _PerkRow extends StatelessWidget {
   }
 }
 
-class _MomoInfoBanner extends StatelessWidget {
-  const _MomoInfoBanner({
+class _SupportCheckoutCard extends StatelessWidget {
+  const _SupportCheckoutCard({
     required this.amount,
-    required this.tier,
+    required this.ctaLabel,
+    required this.isLoading,
+    required this.onAmountSelected,
+    required this.onTap,
     this.paymentRoute,
   });
 
   final int amount;
-  final FanTier tier;
+  final String ctaLabel;
+  final bool isLoading;
+  final ValueChanged<int> onAmountSelected;
+  final VoidCallback onTap;
   final PartnerPaymentRoute? paymentRoute;
 
   @override
   Widget build(BuildContext context) {
     return CoolCard(
-      gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [RsColors.rsBlue.withValues(alpha: 0.28), AppColors.surface2],
+      borderColor: AppColors.border2,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Back this cause',
+            style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            'Choose an amount, confirm the MoMo payment, then check the status here if it stays pending.',
+            style: GoogleFonts.barlow(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: AppColors.text2,
+              height: 1.45,
+            ),
+          ),
+          const SizedBox(height: 14),
+          RsAmountSelector(
+            amounts: const [1000, 2000, 5000, 10000, 20000],
+            allowCustom: true,
+            selectedAmount: amount,
+            onAmountSelected: onAmountSelected,
+          ),
+          const SizedBox(height: 14),
+          _SupportPaymentSummary(amount: amount, paymentRoute: paymentRoute),
+          const SizedBox(height: 16),
+          CoolButton(
+            label: ctaLabel,
+            icon: Icons.favorite_border_rounded,
+            isLoading: isLoading,
+            onTap: onTap,
+          ),
+        ],
       ),
-      borderColor: RsColors.rsBlueBorder,
+    );
+  }
+}
+
+class _SupportPaymentSummary extends StatelessWidget {
+  const _SupportPaymentSummary({required this.amount, this.paymentRoute});
+
+  final int amount;
+  final PartnerPaymentRoute? paymentRoute;
+
+  @override
+  Widget build(BuildContext context) {
+    final title = paymentRoute == null
+        ? 'Payment route pending'
+        : paymentRoute!.providerLabel;
+    final detail = paymentRoute == null
+        ? 'Partner payment routing is still being configured for this checkout.'
+        : 'Pay ${paymentRoute!.amountLabel(amount)} to ${paymentRoute!.payToLabel}. Status updates after ${paymentRoute!.reconciliationLabel}.';
+
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: RsColors.rsBlue.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: RsColors.rsBlueBorder),
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 38,
-            height: 38,
+            width: 36,
+            height: 36,
             decoration: BoxDecoration(
               color: RsColors.rsBlueGlow,
               borderRadius: BorderRadius.circular(12),
@@ -607,7 +664,7 @@ class _MomoInfoBanner extends StatelessWidget {
             child: const Icon(
               Icons.phone_in_talk_rounded,
               color: RsColors.rsWhite,
-              size: 20,
+              size: 18,
             ),
           ),
           const SizedBox(width: 12),
@@ -616,16 +673,18 @@ class _MomoInfoBanner extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Payment info',
-                  style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  paymentRoute == null
-                      ? 'Backend payment routing is not active for this checkout yet.'
-                      : 'Pay to ${paymentRoute!.payToLabel} · Amount ${paymentRoute!.amountLabel(amount)} · Fees ${paymentRoute!.feesLabel()}. Receipt follows after SMS reconciliation for ${paymentRoute!.reconciliationLabel}.',
+                  title,
                   style: GoogleFonts.barlow(
                     fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: RsColors.rsWhite,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  detail,
+                  style: GoogleFonts.barlow(
+                    fontSize: 12,
                     fontWeight: FontWeight.w500,
                     color: AppColors.text2,
                     height: 1.45,
@@ -653,86 +712,106 @@ class _RecentSupportersCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return CoolCard(
       borderColor: AppColors.border2,
-      child: contributionsAsync.when(
-        data: (contributions) {
-          if (contributions.isEmpty) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Center(
-                child: Text(
-                  'Support activity will appear here after the first contribution.',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.barlow(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
-                    height: 1.4,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Recent support',
+            style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            'Latest confirmed and pending contributions.',
+            style: GoogleFonts.barlow(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: AppColors.text2,
+              height: 1.45,
+            ),
+          ),
+          const SizedBox(height: 14),
+          contributionsAsync.when(
+            data: (contributions) {
+              if (contributions.isEmpty) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Center(
+                    child: Text(
+                      'Support activity will appear here after the first contribution.',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.barlow(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.text2,
+                        height: 1.4,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            );
-          }
+                );
+              }
 
-          return Column(
-            children: [
-              for (var i = 0; i < contributions.length; i++) ...[
-                _SupporterRow(contribution: contributions[i]),
-                if (i < contributions.length - 1)
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12),
-                    child: Divider(height: 1, color: AppColors.border),
+              return Column(
+                children: [
+                  for (var i = 0; i < contributions.length; i++) ...[
+                    _SupporterRow(contribution: contributions[i]),
+                    if (i < contributions.length - 1)
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12),
+                        child: Divider(height: 1, color: AppColors.border),
+                      ),
+                  ],
+                ],
+              );
+            },
+            loading: () => const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8),
+              child: Column(
+                children: [
+                  CoolSkeleton(
+                    width: double.infinity,
+                    height: 52,
+                    borderRadius: 14,
                   ),
-              ],
-            ],
-          );
-        },
-        loading: () => const Padding(
-          padding: EdgeInsets.symmetric(vertical: 8),
-          child: Column(
-            children: [
-              CoolSkeleton(
-                width: double.infinity,
-                height: 52,
-                borderRadius: 14,
+                  SizedBox(height: 12),
+                  CoolSkeleton(
+                    width: double.infinity,
+                    height: 52,
+                    borderRadius: 14,
+                  ),
+                  SizedBox(height: 12),
+                  CoolSkeleton(
+                    width: double.infinity,
+                    height: 52,
+                    borderRadius: 14,
+                  ),
+                ],
               ),
-              SizedBox(height: 12),
-              CoolSkeleton(
-                width: double.infinity,
-                height: 52,
-                borderRadius: 14,
+            ),
+            error: (error, _) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: Column(
+                children: [
+                  Text(
+                    'Recent support activity could not be loaded.',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.barlow(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.text2,
+                      height: 1.4,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  TextButton.icon(
+                    onPressed: onRefreshStatus,
+                    icon: const Icon(Icons.sync_rounded, size: 18),
+                    label: const Text('Try again'),
+                  ),
+                ],
               ),
-              SizedBox(height: 12),
-              CoolSkeleton(
-                width: double.infinity,
-                height: 52,
-                borderRadius: 14,
-              ),
-            ],
+            ),
           ),
-        ),
-        error: (error, _) => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4),
-          child: Column(
-            children: [
-              Text(
-                'Recent support activity could not be loaded.',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.barlow(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.text2,
-                  height: 1.4,
-                ),
-              ),
-              const SizedBox(height: 8),
-              TextButton.icon(
-                onPressed: onRefreshStatus,
-                icon: const Icon(Icons.sync_rounded, size: 18),
-                label: const Text('Try again'),
-              ),
-            ],
-          ),
-        ),
+        ],
       ),
     );
   }
@@ -1041,10 +1120,6 @@ class _DetailLoadingState extends StatelessWidget {
       child: const Column(
         children: [
           CoolSkeleton(width: double.infinity, height: 140, borderRadius: 22),
-          SizedBox(height: 18),
-          CoolSkeleton(width: 120, height: 28, borderRadius: 999),
-          SizedBox(height: 14),
-          CoolSkeleton(width: double.infinity, height: 100, borderRadius: 18),
           SizedBox(height: 18),
           CoolSkeleton.card(),
           SizedBox(height: 18),

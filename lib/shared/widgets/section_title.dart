@@ -34,8 +34,8 @@ class SectionTitle extends StatelessWidget {
           Text(
             title,
             style: GoogleFonts.dmSans(
-              fontSize: 17,
-              fontWeight: FontWeight.w700,
+              fontSize: 20,
+              fontWeight: FontWeight.w800,
               color: AppColors.text,
             ),
           ),

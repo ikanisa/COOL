@@ -5,13 +5,7 @@ import '../../../../core/theme/rs_colors.dart';
 import '../models/rs_models.dart';
 
 /// Categories for club support initiatives.
-enum InitiativeCategory {
-  community,
-  infrastructure,
-  youth,
-  matchday,
-  charity,
-}
+enum InitiativeCategory { community, infrastructure, youth, matchday, charity }
 
 /// Rayon Sports FC design helpers.
 ///
@@ -22,9 +16,9 @@ abstract final class RsTheme {
   /// Returns the accent colour for a membership tier.
   static Color tierColor(FanTier tier) => switch (tier) {
     FanTier.platinum => const Color(0xFFC8DCFF),
-    FanTier.gold     => RsColors.rsGoldLight,
-    FanTier.silver   => const Color(0xFFC8C8E0),
-    FanTier.blue     => AppColors.blue,
+    FanTier.gold => RsColors.rsGoldLight,
+    FanTier.silver => const Color(0xFFC8C8E0),
+    FanTier.blue => AppColors.blue,
   };
 
   /// Returns a semi-transparent background tinted to [tier].
@@ -34,20 +28,20 @@ abstract final class RsTheme {
   /// Returns a display label for [tier], e.g. "PLATINUM".
   static String tierLabel(FanTier tier) => switch (tier) {
     FanTier.platinum => 'PLATINUM',
-    FanTier.gold     => 'GOLD',
-    FanTier.silver   => 'SILVER',
-    FanTier.blue     => 'BLUE',
+    FanTier.gold => 'GOLD',
+    FanTier.silver => 'SILVER',
+    FanTier.blue => 'BLUE',
   };
 
   // ── Initiative category → colour ───────────────────────────────────
 
   /// Returns the accent colour for an initiative category.
   static Color categoryColor(InitiativeCategory cat) => switch (cat) {
-    InitiativeCategory.community      => AppColors.accent,
+    InitiativeCategory.community => AppColors.accent,
     InitiativeCategory.infrastructure => AppColors.blue,
-    InitiativeCategory.youth          => AppColors.purple,
-    InitiativeCategory.matchday       => AppColors.orange,
-    InitiativeCategory.charity        => RsColors.rsGold,
+    InitiativeCategory.youth => AppColors.purple,
+    InitiativeCategory.matchday => AppColors.orange,
+    InitiativeCategory.charity => RsColors.rsGold,
   };
 
   /// Returns a semi-transparent background tinted to [cat].

@@ -98,109 +98,111 @@ class _FootballHeroCard extends StatelessWidget {
       button: true,
       label: 'Open ${partner.name}',
       child: GestureDetector(
-      onTap: onTap,
-      child: CoolCard(
-        gradient: isRayon ? AppColors.rsHeroGradient : AppColors.blueGradient,
-        borderColor: isRayon ? AppColors.rsBlueBorder : AppColors.border,
-        child: Stack(
-          children: [
-            Positioned(
-              right: -5,
-              top: 8,
-              child: Icon(
-                IconMapper.from(partner.emoji),
-                size: 60,
-                color: Colors.white.withValues(alpha: 0.12),
+        onTap: onTap,
+        child: CoolCard(
+          gradient: isRayon ? AppColors.rsHeroGradient : AppColors.blueGradient,
+          borderColor: isRayon ? AppColors.rsBlueBorder : AppColors.border,
+          child: Stack(
+            children: [
+              Positioned(
+                right: -5,
+                top: 8,
+                child: Icon(
+                  IconMapper.from(partner.emoji),
+                  size: 60,
+                  color: Colors.white.withValues(alpha: 0.12),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(22),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 5,
-                    ),
-                    decoration: BoxDecoration(
-                      color: isRayon
-                          ? AppColors.rsGold.withValues(alpha: 0.18)
-                          : AppColors.blue.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: isRayon
-                            ? AppColors.rsGold.withValues(alpha: 0.4)
-                            : AppColors.blue.withValues(alpha: 0.4),
+              Padding(
+                padding: const EdgeInsets.all(22),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 5,
                       ),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          IconMapper.from(partner.emoji),
-                          size: 13,
+                      decoration: BoxDecoration(
+                        color: isRayon
+                            ? AppColors.rsGold.withValues(alpha: 0.18)
+                            : AppColors.blue.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
                           color: isRayon
-                              ? AppColors.rsGoldLight
-                              : AppColors.blue,
+                              ? AppColors.rsGold.withValues(alpha: 0.4)
+                              : AppColors.blue.withValues(alpha: 0.4),
                         ),
-                        const SizedBox(width: 4),
-                        Text(
-                          isRayon ? 'Rayon hub' : context.l10n.officialPartner,
-                          style: GoogleFonts.dmSans(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            IconMapper.from(partner.emoji),
+                            size: 13,
                             color: isRayon
                                 ? AppColors.rsGoldLight
                                 : AppColors.blue,
                           ),
+                          const SizedBox(width: 4),
+                          Text(
+                            isRayon
+                                ? 'Rayon hub'
+                                : context.l10n.officialPartner,
+                            style: GoogleFonts.dmSans(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                              color: isRayon
+                                  ? AppColors.rsGoldLight
+                                  : AppColors.blue,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      partner.name,
+                      style: GoogleFonts.dmSans(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.text,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      partner.subtitle ?? '',
+                      style: GoogleFonts.dmSans(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.text2,
+                      ),
+                    ),
+                    const SizedBox(height: 18),
+                    Row(
+                      children: [
+                        _stat(
+                          _formatCompactCount(partner.fanCount),
+                          context.l10n.fansTitle,
+                          isRayon,
                         ),
+                        _divider(),
+                        _stat(
+                          partner.clubCount.toString(),
+                          context.l10n.fanClubs,
+                          isRayon,
+                        ),
+                        _divider(),
+                        _stat(partner.gameCount.toString(), 'Games', isRayon),
                       ],
                     ),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    partner.name,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.text,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    partner.subtitle ?? '',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.text2,
-                    ),
-                  ),
-                  const SizedBox(height: 18),
-                  Row(
-                    children: [
-                      _stat(
-                        _formatCompactCount(partner.fanCount),
-                        context.l10n.fansTitle,
-                        isRayon,
-                      ),
-                      _divider(),
-                      _stat(
-                        partner.clubCount.toString(),
-                        context.l10n.fanClubs,
-                        isRayon,
-                      ),
-                      _divider(),
-                      _stat(partner.gameCount.toString(), 'Games', isRayon),
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    ),
     );
   }
 
@@ -420,90 +422,92 @@ class _BankPartnerCard extends StatelessWidget {
       button: true,
       label: 'Open ${partner.name}',
       child: GestureDetector(
-      onTap: () => context.push('/partners/${partner.slug}'),
-      child: CoolCard(
-        gradient: AppColors.accentGradient,
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Container(
+        onTap: () => context.push('/partners/${partner.slug}'),
+        child: CoolCard(
+          gradient: AppColors.accentGradient,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.accent.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: AppColors.accent.withValues(alpha: 0.3),
+                          ),
+                        ),
+                        child: Text(
+                          context.l10n.bankingPartner,
+                          style: GoogleFonts.dmSans(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.accent,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    PartnerBrandMark(
+                      partner: partner,
+                      width: 122,
+                      height: 58,
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 5,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.accent.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: AppColors.accent.withValues(alpha: 0.3),
-                        ),
-                      ),
-                      child: Text(
-                        context.l10n.bankingPartner,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.accent,
-                        ),
+                        horizontal: 12,
+                        vertical: 10,
                       ),
                     ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  partner.name,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.text,
                   ),
-                  const SizedBox(width: 12),
-                  PartnerBrandMark(
-                    partner: partner,
-                    width: 122,
-                    height: 58,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 10,
+                ),
+                Text(
+                  partner.subtitle ?? '',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.text2,
+                  ),
+                ),
+                const SizedBox(height: 14),
+                Row(
+                  children: [
+                    _bankStat(
+                      partner.fanCount > 0 ? partner.fanCount.toString() : '—',
+                      context.l10n.activeGroups,
+                      AppColors.accent,
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Text(
-                partner.name,
-                style: GoogleFonts.dmSans(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.text,
+                    const SizedBox(width: 20),
+                    _bankStat(
+                      partner.clubCount > 0
+                          ? _formatRwf(partner.clubCount)
+                          : '—',
+                      context.l10n.rwfHeld,
+                      AppColors.accent,
+                    ),
+                  ],
                 ),
-              ),
-              Text(
-                partner.subtitle ?? '',
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.text2,
-                ),
-              ),
-              const SizedBox(height: 14),
-              Row(
-                children: [
-                  _bankStat(
-                    partner.fanCount > 0 ? partner.fanCount.toString() : '—',
-                    context.l10n.activeGroups,
-                    AppColors.accent,
-                  ),
-                  const SizedBox(width: 20),
-                  _bankStat(
-                    partner.clubCount > 0 ? _formatRwf(partner.clubCount) : '—',
-                    context.l10n.rwfHeld,
-                    AppColors.accent,
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
-    ),
     );
   }
 

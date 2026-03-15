@@ -42,6 +42,7 @@ class GroupDetailScreen extends ConsumerStatefulWidget {
 class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
     with CoolStatusAwarder {
   bool _showAllMembers = false;
+  bool _showAllContributions = false;
 
   @override
   Widget build(BuildContext context) {
@@ -51,36 +52,50 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
     return Scaffold(
       backgroundColor: AppColors.bg,
       appBar: AppBar(
+        automaticallyImplyLeading: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         leading: IconButton(
-          tooltip: 'Back',
           onPressed: () => context.pop(),
-          icon: const Icon(Icons.arrow_back_rounded),
-        ),
-        title: Text(
-          'Group Detail',
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: AppColors.text,
-          ),
+          icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
       ),
       body: CoolScreenBackground(
         primaryColor: AppColors.accent,
         secondaryColor: AppColors.blue,
-        child: CoolAsyncView<GroupDetail?>(
-          value: detailAsync,
-          onRetry: () => ref.invalidate(groupDetailProvider(widget.groupId)),
-          loadingWidget: const Padding(
-            padding: EdgeInsets.fromLTRB(18, 16, 18, 96),
-            child: CoolSkeletonList(itemCount: 4),
-          ),
-          emptyCheck: (detail) => detail == null,
-          emptyWidget: const CoolEmptyView(
-            message: 'Group not found.',
-            icon: Icons.groups_2_outlined,
-          ),
-          builder: (detail) => _buildContent(detail!, isJoiningGroup),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(18, 0, 18, 24),
+              child: Text(
+                'Group Detail',
+                style: GoogleFonts.dmSans(
+                  fontSize: 34,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.text,
+                  height: 1.1,
+                ),
+              ),
+            ),
+            Expanded(
+              child: CoolAsyncView<GroupDetail?>(
+                value: detailAsync,
+                onRetry: () =>
+                    ref.invalidate(groupDetailProvider(widget.groupId)),
+                loadingWidget: const Padding(
+                  padding: EdgeInsets.fromLTRB(18, 0, 18, 96),
+                  child: CoolSkeletonList(itemCount: 4),
+                ),
+                emptyCheck: (detail) => detail == null,
+                emptyWidget: const CoolEmptyView(
+                  message: 'Group not found.',
+                  icon: Icons.groups_2_outlined,
+                ),
+                builder: (detail) => _buildContent(detail!, isJoiningGroup),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -168,6 +183,23 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
     await SharePlus.instance.share(ShareParams(text: shareText));
   }
 
+  Future<void> _openMoreActions(GroupDetail detail) async {
+    await showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) => _GroupMoreActionsSheet(
+        onShare: () {
+          Navigator.of(context).pop();
+          _openShareSheet(detail);
+        },
+        onInvite: () {
+          Navigator.of(context).pop();
+          _inviteFromContacts(detail);
+        },
+      ),
+    );
+  }
+
   Widget _buildContent(GroupDetail detail, bool isLoading) {
     final group = detail.group;
     final members = detail.members;
@@ -178,7 +210,10 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
         : 0.0;
     final percent = (progress * 100).round();
     final isPrivate = group.visibility == 'private';
-    final visibleMembers = _showAllMembers ? members : members.take(4).toList();
+    final visibleMembers = _showAllMembers ? members : members.take(3).toList();
+    final visibleContributions = _showAllContributions
+        ? contributions
+        : contributions.take(3).toList();
 
     final custodianLabel = group.bankPartner != null
         ? '${group.bankPartner} Custodian'
@@ -273,54 +308,6 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
                       color: AppColors.text2,
                     ),
                   ),
-                  if (group.frequency != null ||
-                      (group.description?.trim().isNotEmpty ?? false)) ...[
-                    const SizedBox(height: 10),
-                    if (group.frequency != null && group.frequency!.isNotEmpty)
-                      Text(
-                        '${_formatFrequency(group.frequency!)} contributions',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.text2,
-                        ),
-                      ),
-                    if (group.description?.trim().isNotEmpty ?? false) ...[
-                      const SizedBox(height: 6),
-                      Text(
-                        group.description!.trim(),
-                        style: GoogleFonts.dmSans(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.text2,
-                          height: 1.45,
-                        ),
-                      ),
-                    ],
-                  ],
-
-                  // MOMO note for community funds
-                  if (group.type == 'community') ...[
-                    const SizedBox(height: 8),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.orange.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        'MOMO fund',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.orange,
-                        ),
-                      ),
-                    ),
-                  ],
                 ],
               ),
             ),
@@ -345,27 +332,39 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
                       ),
               ),
               const SizedBox(width: 12),
-              Expanded(
-                child: CoolButton(
-                  label: '🔗 Share / QR',
-                  variant: CoolButtonVariant.secondary,
-                  onTap: () => _openShareSheet(detail),
-                ),
+              CoolButton(
+                label: 'More',
+                icon: Icons.more_horiz_rounded,
+                fullWidth: false,
+                variant: CoolButtonVariant.secondary,
+                onTap: () => _openMoreActions(detail),
               ),
             ],
           ),
-          const SizedBox(height: 10),
-          CoolButton(
-            label: '👥 Invite from Contacts',
-            variant: CoolButtonVariant.secondary,
-            onTap: () => _inviteFromContacts(detail),
+          const SizedBox(height: 16),
+          _GroupFactsCard(
+            memberCount: members.length,
+            cadenceLabel: group.frequency != null && group.frequency!.isNotEmpty
+                ? '${_formatFrequency(group.frequency!)} cadence'
+                : 'Flexible contributions',
+            routeLabel: custodianLabel,
+            description: group.description?.trim(),
+            showMomoTag: group.type == 'community',
           ),
           const SizedBox(height: 28),
 
           // ═══════════════════════════════════════════════════════
           // MEMBERS SECTION
           // ═══════════════════════════════════════════════════════
-          SectionTitle(title: 'Members (${members.length})'),
+          SectionTitle(
+            title: 'Members (${members.length})',
+            actionLabel: members.length > 3
+                ? (_showAllMembers ? 'Show less' : 'Show all')
+                : null,
+            onAction: members.length > 3
+                ? () => setState(() => _showAllMembers = !_showAllMembers)
+                : null,
+          ),
           const SizedBox(height: 12),
 
           ...visibleMembers.map((m) {
@@ -381,28 +380,22 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
             );
           }),
 
-          if (!_showAllMembers && members.length > 4) ...[
-            const SizedBox(height: 8),
-            Center(
-              child: GestureDetector(
-                onTap: () => setState(() => _showAllMembers = true),
-                child: Text(
-                  'Show all ${members.length} members',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.accent,
-                  ),
-                ),
-              ),
-            ),
-          ],
           const SizedBox(height: 28),
 
           // ═══════════════════════════════════════════════════════
           // CONTRIBUTIONS HISTORY
           // ═══════════════════════════════════════════════════════
-          const SectionTitle(title: 'Contributions History'),
+          SectionTitle(
+            title: 'Recent contributions',
+            actionLabel: contributions.length > 3
+                ? (_showAllContributions ? 'Show less' : 'Show all')
+                : null,
+            onAction: contributions.length > 3
+                ? () => setState(
+                    () => _showAllContributions = !_showAllContributions,
+                  )
+                : null,
+          ),
           const SizedBox(height: 12),
 
           if (contributions.isEmpty)
@@ -420,7 +413,9 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
               ),
             )
           else
-            ...contributions.map((c) => _ContributionRow(contribution: c)),
+            ...visibleContributions.map(
+              (c) => _ContributionRow(contribution: c),
+            ),
         ],
       ),
     );
@@ -504,6 +499,185 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
 }
 
 // ═════════════════════════════════════════════════════════════════════════
+// Facts card and more-actions sheet
+// ═════════════════════════════════════════════════════════════════════════
+
+class _GroupFactsCard extends StatelessWidget {
+  const _GroupFactsCard({
+    required this.memberCount,
+    required this.cadenceLabel,
+    required this.routeLabel,
+    required this.showMomoTag,
+    this.description,
+  });
+
+  final int memberCount;
+  final String cadenceLabel;
+  final String routeLabel;
+  final String? description;
+  final bool showMomoTag;
+
+  @override
+  Widget build(BuildContext context) {
+    return CoolCard(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Group facts',
+              style: GoogleFonts.dmSans(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: AppColors.text,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: [
+                _GroupFactChip(
+                  icon: Icons.groups_2_outlined,
+                  label: memberCount == 1 ? '1 member' : '$memberCount members',
+                ),
+                _GroupFactChip(
+                  icon: Icons.event_repeat_rounded,
+                  label: cadenceLabel,
+                ),
+                _GroupFactChip(
+                  icon: showMomoTag
+                      ? Icons.phone_android_rounded
+                      : Icons.account_balance_wallet_outlined,
+                  label: routeLabel,
+                ),
+              ],
+            ),
+            if (description?.isNotEmpty ?? false) ...[
+              const SizedBox(height: 14),
+              Text(
+                description!,
+                style: GoogleFonts.dmSans(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.text2,
+                  height: 1.45,
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _GroupFactChip extends StatelessWidget {
+  const _GroupFactChip({required this.icon, required this.label});
+
+  final IconData icon;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: AppColors.surface2,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 16, color: AppColors.text2),
+          const SizedBox(width: 8),
+          Text(
+            label,
+            style: GoogleFonts.dmSans(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: AppColors.text,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _GroupMoreActionsSheet extends StatelessWidget {
+  const _GroupMoreActionsSheet({required this.onShare, required this.onInvite});
+
+  final VoidCallback onShare;
+  final VoidCallback onInvite;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(22, 12, 22, 22),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: AppColors.border2,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                'More actions',
+                style: GoogleFonts.dmSans(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.text,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'Keep sharing and invite tools here so the main action stays clear.',
+                style: GoogleFonts.dmSans(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.text2,
+                  height: 1.45,
+                ),
+              ),
+              const SizedBox(height: 20),
+              CoolButton(
+                label: 'Share / QR',
+                variant: CoolButtonVariant.secondary,
+                onTap: onShare,
+              ),
+              const SizedBox(height: 12),
+              CoolButton(
+                label: 'Invite from Contacts',
+                variant: CoolButtonVariant.secondary,
+                onTap: onInvite,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ═════════════════════════════════════════════════════════════════════════
 // Contribution row
 // ═════════════════════════════════════════════════════════════════════════
 
@@ -523,7 +697,7 @@ class _ContributionRow extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 14),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         border: Border(bottom: BorderSide(color: AppColors.border)),
       ),
       child: Row(
@@ -537,7 +711,7 @@ class _ContributionRow extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
             ),
             alignment: Alignment.center,
-            child: const Icon(
+            child: Icon(
               Icons.download_rounded,
               size: 18,
               color: AppColors.text2,
@@ -672,7 +846,7 @@ class _ContributeSheetState extends ConsumerState<_ContributeSheet> {
     final double = widget.monthlyAmount * 2;
 
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
@@ -754,11 +928,11 @@ class _ContributeSheetState extends ConsumerState<_ContributeSheet> {
                     fillColor: AppColors.surface2,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: AppColors.border),
+                      borderSide: BorderSide(color: AppColors.border),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: AppColors.border),
+                      borderSide: BorderSide(color: AppColors.border),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -829,11 +1003,7 @@ class _ContributeSheetState extends ConsumerState<_ContributeSheet> {
                 ),
                 child: Row(
                   children: [
-                    const Icon(
-                      Icons.phone_rounded,
-                      size: 16,
-                      color: AppColors.text2,
-                    ),
+                    Icon(Icons.phone_rounded, size: 16, color: AppColors.text2),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(

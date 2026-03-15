@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_screen_background.dart';
 import '../../../../shared/widgets/rs_tier_badge.dart';
 import '../../rayon/models/rs_models.dart';
@@ -73,7 +74,39 @@ class _MemberRegistryScreenState extends ConsumerState<MemberRegistryScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _HeaderRow(memberCount: members.length),
+                    Row(
+                      children: [
+                        DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: AppColors.surface2,
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(color: AppColors.border2),
+                          ),
+                          child: buildPartnerBackButton(
+                            context,
+                            fallbackLocation: AppRoutes.rayonHome,
+                            color: AppColors.rsWhite,
+                          ),
+                        ),
+                        const Spacer(),
+                        DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: AppColors.surface2,
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(color: AppColors.border2),
+                          ),
+                          child: buildPartnerHomeButton(
+                            context,
+                            color: AppColors.rsWhite,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 14),
+                    _RegistryOverviewCard(
+                      memberCount: members.length,
+                      activeFilter: registryState.filter,
+                    ),
                     const SizedBox(height: 18),
                     _SearchBar(
                       controller: _searchController,
@@ -103,13 +136,10 @@ class _MemberRegistryScreenState extends ConsumerState<MemberRegistryScreen> {
                     ],
                     const SizedBox(height: 18),
                     Expanded(
-                      child: Stack(
-                        children: [
-                          if (registryState.isLoading)
-                            const RayonInlineLoadingView(compact: true)
-                          else if (registryState.error != null &&
-                              members.isEmpty)
-                            Center(
+                      child: registryState.isLoading
+                          ? const RayonInlineLoadingView(compact: true)
+                          : registryState.error != null && members.isEmpty
+                          ? Center(
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -130,18 +160,14 @@ class _MemberRegistryScreenState extends ConsumerState<MemberRegistryScreen> {
                                 ],
                               ),
                             )
-                          else
-                            ListView.builder(
-                              padding: const EdgeInsets.only(bottom: 158),
+                          : ListView.builder(
+                              padding: const EdgeInsets.only(bottom: 24),
                               itemCount: _listItemCount(members, registryState),
                               itemBuilder: (context, index) {
                                 if (members.isEmpty) {
-                                  if (index == 0) {
-                                    return _EmptyRegistryState(
-                                      query: registryState.query,
-                                    );
-                                  }
-                                  return const SizedBox(height: 140);
+                                  return _EmptyRegistryState(
+                                    query: registryState.query,
+                                  );
                                 }
 
                                 if (index < members.length) {
@@ -153,7 +179,6 @@ class _MemberRegistryScreenState extends ConsumerState<MemberRegistryScreen> {
                                   );
                                 }
 
-                                // "Load more" footer
                                 if (registryState.hasMore &&
                                     index == members.length) {
                                   return Padding(
@@ -177,18 +202,18 @@ class _MemberRegistryScreenState extends ConsumerState<MemberRegistryScreen> {
                                   );
                                 }
 
-                                return const SizedBox(height: 140);
+                                if (index ==
+                                    members.length +
+                                        (registryState.hasMore ? 1 : 0)) {
+                                  return const Padding(
+                                    padding: EdgeInsets.only(top: 6),
+                                    child: _TierLegendCard(),
+                                  );
+                                }
+
+                                return const SizedBox.shrink();
                               },
                             ),
-                          const Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Padding(
-                              padding: EdgeInsets.only(bottom: 6),
-                              child: _TierLegendCard(),
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
                   ],
                 ),
@@ -218,72 +243,83 @@ class _MemberRegistryScreenState extends ConsumerState<MemberRegistryScreen> {
     MemberRegistryState state,
   ) {
     if (members.isEmpty) {
-      return 2;
+      return 1;
     }
-    return members.length + (state.hasMore ? 2 : 1);
+    return members.length + (state.hasMore ? 1 : 0) + 1;
   }
 }
 
-class _HeaderRow extends StatelessWidget {
-  const _HeaderRow({required this.memberCount});
+class _RegistryOverviewCard extends StatelessWidget {
+  const _RegistryOverviewCard({
+    required this.memberCount,
+    required this.activeFilter,
+  });
 
   final int memberCount;
+  final MemberRegistryFilter activeFilter;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        DecoratedBox(
-          decoration: BoxDecoration(
-            color: AppColors.surface2,
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: AppColors.border2),
+    return CoolCard(
+      borderColor: AppColors.border2,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'Fan Registry',
+                  style: GoogleFonts.barlowCondensed(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.rsWhite,
+                    height: 0.96,
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.rsBlueGlow,
+                  borderRadius: BorderRadius.circular(999),
+                  border: Border.all(color: AppColors.rsBlueBorder),
+                ),
+                child: Text(
+                  '$memberCount members',
+                  style: GoogleFonts.dmMono(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.rsBluePale,
+                  ),
+                ),
+              ),
+            ],
           ),
-          child: buildPartnerBackButton(
-            context,
-            fallbackLocation: AppRoutes.rayonHome,
-            color: AppColors.rsWhite,
-          ),
-        ),
-        const SizedBox(width: 14),
-        Expanded(
-          child: Text(
-            'Fan Registry',
-            style: GoogleFonts.barlowCondensed(
-              fontSize: 32,
-              fontWeight: FontWeight.w800,
-              color: AppColors.rsWhite,
-              height: 0.96,
+          const SizedBox(height: 8),
+          Text(
+            'Search by supporter name, membership number, or tier.',
+            style: GoogleFonts.barlow(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: AppColors.text2,
+              height: 1.4,
             ),
           ),
-        ),
-        const SizedBox(width: 10),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
-          decoration: BoxDecoration(
-            color: AppColors.rsBlue.withValues(alpha: 0.22),
-            borderRadius: BorderRadius.circular(999),
-            border: Border.all(color: AppColors.rsBlueBorder),
-          ),
-          child: Text(
-            '$memberCount members',
+          const SizedBox(height: 12),
+          Text(
+            'View: ${activeFilter.label}',
             style: GoogleFonts.dmMono(
               fontSize: 11,
               fontWeight: FontWeight.w700,
-              color: AppColors.rsBluePale,
+              color: AppColors.text3,
             ),
           ),
-        ),
-        const SizedBox(width: 8),
-        DecoratedBox(
-          decoration: BoxDecoration(
-            color: AppColors.surface2,
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: AppColors.border2),
-          ),
-          child: buildPartnerHomeButton(context, color: AppColors.rsWhite),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -318,7 +354,7 @@ class _SearchBar extends StatelessWidget {
             fontWeight: FontWeight.w500,
             color: AppColors.text3,
           ),
-          prefixIcon: const Icon(Icons.search_rounded, color: AppColors.text2),
+          prefixIcon: Icon(Icons.search_rounded, color: AppColors.text2),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,
@@ -347,30 +383,30 @@ class _RegistryFilterChip extends StatelessWidget {
       selected: isSelected,
       label: '$label filter',
       child: Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(999),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 180),
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-          decoration: BoxDecoration(
-            color: isSelected ? AppColors.rsBlueGlow : AppColors.surface2,
-            borderRadius: BorderRadius.circular(999),
-            border: Border.all(
-              color: isSelected ? AppColors.rsBlueBorder : AppColors.border2,
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(999),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 180),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            decoration: BoxDecoration(
+              color: isSelected ? AppColors.rsBlueGlow : AppColors.surface2,
+              borderRadius: BorderRadius.circular(999),
+              border: Border.all(
+                color: isSelected ? AppColors.rsBlueBorder : AppColors.border2,
+              ),
             ),
-          ),
-          child: Text(
-            label,
-            style: GoogleFonts.barlow(
-              fontSize: 13,
-              fontWeight: FontWeight.w700,
-              color: isSelected ? AppColors.rsBluePale : AppColors.text2,
+            child: Text(
+              label,
+              style: GoogleFonts.barlow(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: isSelected ? AppColors.rsBluePale : AppColors.text2,
+              ),
             ),
           ),
         ),
-      ),
       ),
     );
   }

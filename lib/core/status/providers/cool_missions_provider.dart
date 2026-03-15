@@ -13,16 +13,16 @@ final coolMissionsRepositoryProvider = Provider<CoolMissionsRepository>((ref) {
 
 // ─── Active missions ──────────────────────────────────────────────
 
-final activeMissionsProvider =
-    FutureProvider.family<List<CoolMission>, String>((ref, userId) async {
-  final repo = ref.watch(coolMissionsRepositoryProvider);
-  return repo.getActiveMissions(userId);
-});
+final activeMissionsProvider = FutureProvider.family<List<CoolMission>, String>(
+  (ref, userId) async {
+    final repo = ref.watch(coolMissionsRepositoryProvider);
+    return repo.getActiveMissions(userId);
+  },
+);
 
 // ─── Upcoming missions ───────────────────────────────────────────
 
-final upcomingMissionsProvider =
-    FutureProvider<List<CoolMission>>((ref) async {
+final upcomingMissionsProvider = FutureProvider<List<CoolMission>>((ref) async {
   final repo = ref.watch(coolMissionsRepositoryProvider);
   return repo.getUpcomingMissions();
 });

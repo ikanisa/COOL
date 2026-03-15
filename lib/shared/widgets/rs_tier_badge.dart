@@ -15,21 +15,21 @@ class RsTierBadge extends StatelessWidget {
       label: '${tier.label} tier',
       excludeSemantics: true,
       child: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-      decoration: BoxDecoration(
-        color: tier.glowColor,
-        borderRadius: BorderRadius.circular(30),
-        border: Border.all(color: tier.color.withValues(alpha: 0.7)),
-      ),
-      child: Text(
-        tier.label.toUpperCase(),
-        style: GoogleFonts.barlowCondensed(
-          fontSize: 13,
-          fontWeight: FontWeight.w900,
-          letterSpacing: 1.1,
-          color: tier == FanTier.silver ? AppColors.text : tier.color,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+        decoration: BoxDecoration(
+          color: tier.glowColor,
+          borderRadius: BorderRadius.circular(30),
+          border: Border.all(color: tier.color.withValues(alpha: 0.7)),
         ),
-      ),
+        child: Text(
+          tier.label.toUpperCase(),
+          style: GoogleFonts.barlowCondensed(
+            fontSize: 13,
+            fontWeight: FontWeight.w900,
+            letterSpacing: 1.1,
+            color: tier == FanTier.silver ? AppColors.text : tier.color,
+          ),
+        ),
       ),
     );
   }

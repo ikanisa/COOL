@@ -2,22 +2,54 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-/// Design-system color palette for the Cool app.
+/// Legacy dark-first design-system color palette for the Cool app.
+///
+/// Theme-aware semantic tokens now live in [CoolPalette]. The semantic getters
+/// in this class mirror the active app brightness so older screens still adapt
+/// while they migrate onto direct palette reads.
 abstract final class AppColors {
+  static bool _useLightPalette = false;
+
+  static void applyBrightness(Brightness brightness) {
+    _useLightPalette = brightness == Brightness.light;
+  }
+
+  // Dark semantic colors.
+  static const darkBg = Color(0xFF0A0A0F);
+  static const darkSurface = Color(0xFF13131A);
+  static const darkSurface2 = Color(0xFF1C1C26);
+  static const darkSurface3 = Color(0xFF252532);
+  static const darkBorder = Color(0x12FFFFFF);
+  static const darkBorder2 = Color(0x1FFFFFFF);
+  static const darkText = Color(0xFFF0F0F5);
+  static const darkText2 = Color(0xFF8888A0);
+  static const darkText3 = Color(0xFF555568);
+
+  // Light semantic colors.
+  static const lightBg = Color(0xFFF7F8FC);
+  static const lightSurface = Color(0xFFFFFFFF);
+  static const lightSurface2 = Color(0xFFF0F2F7);
+  static const lightSurface3 = Color(0xFFE4E7EF);
+  static const lightBorder = Color(0x140A0A0F);
+  static const lightBorder2 = Color(0x220A0A0F);
+  static const lightText = Color(0xFF10131C);
+  static const lightText2 = Color(0xFF5C6679);
+  static const lightText3 = Color(0xFF8B93A4);
+
   // Backgrounds and surfaces.
-  static const bg = Color(0xFF0A0A0F);
-  static const surface = Color(0xFF13131A);
-  static const surface2 = Color(0xFF1C1C26);
-  static const surface3 = Color(0xFF252532);
+  static Color get bg => _useLightPalette ? lightBg : darkBg;
+  static Color get surface => _useLightPalette ? lightSurface : darkSurface;
+  static Color get surface2 => _useLightPalette ? lightSurface2 : darkSurface2;
+  static Color get surface3 => _useLightPalette ? lightSurface3 : darkSurface3;
 
   // Borders.
-  static const border = Color(0x12FFFFFF);
-  static const border2 = Color(0x1FFFFFFF);
+  static Color get border => _useLightPalette ? lightBorder : darkBorder;
+  static Color get border2 => _useLightPalette ? lightBorder2 : darkBorder2;
 
   // Text.
-  static const text = Color(0xFFF0F0F5);
-  static const text2 = Color(0xFF8888A0);
-  static const text3 = Color(0xFF555568);
+  static Color get text => _useLightPalette ? lightText : darkText;
+  static Color get text2 => _useLightPalette ? lightText2 : darkText2;
+  static Color get text3 => _useLightPalette ? lightText3 : darkText3;
 
   // Accent and brand colors.
   static const accent = Color(0xFF00E5A0);
@@ -54,24 +86,30 @@ abstract final class AppColors {
     transform: const GradientRotation(135 * math.pi / 180),
   );
 
-  static final cardGradient = LinearGradient(
+  static LinearGradient get cardGradient => LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: const [Color(0xFF151520), Color(0xFF1A1A28)],
+    colors: _useLightPalette
+        ? const [Color(0xFFFFFFFF), Color(0xFFF0F3FA)]
+        : const [Color(0xFF151520), Color(0xFF1A1A28)],
     transform: const GradientRotation(135 * math.pi / 180),
   );
 
-  static final purpleGradient = LinearGradient(
+  static LinearGradient get purpleGradient => LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: const [Color(0xFF12102A), Color(0xFF1A1040)],
+    colors: _useLightPalette
+        ? const [Color(0xFFF7F0FF), Color(0xFFEADFFF)]
+        : const [Color(0xFF12102A), Color(0xFF1A1040)],
     transform: const GradientRotation(135 * math.pi / 180),
   );
 
-  static final blueGradient = LinearGradient(
+  static LinearGradient get blueGradient => LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: const [Color(0xFF0D1B2A), Color(0xFF1A2D4A)],
+    colors: _useLightPalette
+        ? const [Color(0xFFF2F7FF), Color(0xFFE2ECFF)]
+        : const [Color(0xFF0D1B2A), Color(0xFF1A2D4A)],
     transform: const GradientRotation(135 * math.pi / 180),
   );
 

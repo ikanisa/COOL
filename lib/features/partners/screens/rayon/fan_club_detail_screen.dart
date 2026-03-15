@@ -7,9 +7,8 @@ import '../../../../core/router/app_routes.dart';
 import '../../../../core/providers/referral_providers.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/rs_colors.dart';
-import '../../../../shared/widgets/cool_button.dart';
-import '../../../../shared/widgets/cool_toast.dart';
 import '../../../../shared/widgets/cool_card.dart';
+import '../../../../shared/widgets/cool_toast.dart';
 import '../../../../shared/widgets/rs_achievement_badge.dart';
 import '../../../../shared/widgets/share_card.dart';
 import '../../providers/rayon_sports_provider.dart';
@@ -81,122 +80,27 @@ class FanClubDetailScreen extends ConsumerWidget {
                 padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
-                    Container(
-                      height: 64,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        gradient: _regionGradient(club.region),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        club.bannerEmoji,
-                        style: const TextStyle(fontSize: 32),
-                      ),
+                    _ClubOverviewCard(
+                      clubName: club.name,
+                      region: club.region,
+                      bannerEmoji: club.bannerEmoji,
+                      description: club.description,
+                      memberCount: club.memberCount,
+                      eventCount: club.eventCount,
+                      rating: club.rating,
+                      joined: joined,
+                      onJoinTap: joined
+                          ? () {
+                              CoolToast.info(
+                                context,
+                                'Leave club coming soon.',
+                              );
+                            }
+                          : () => _join(context, ref, club.id),
                     ),
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        Container(
-                          width: 44,
-                          height: 44,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: RsColors.rsBlueGlow,
-                            border: Border.all(
-                              color: RsColors.rsBlueBorder,
-                              width: 1.2,
-                            ),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            club.bannerEmoji,
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                club.name,
-                                style: GoogleFonts.barlowCondensed(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w900,
-                                  color: AppColors.rsWhite,
-                                ),
-                              ),
-                              Text(
-                                club.region,
-                                style: GoogleFonts.barlow(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  color: RsColors.rsBluePale,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        _JoinLeaveButton(
-                          joined: joined,
-                          onTap: joined
-                              ? () {
-                                  CoolToast.info(
-                                    context,
-                                    'Leave club coming soon.',
-                                  );
-                                }
-                              : () => _join(context, ref, club.id),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 18),
-                    Row(
-                      children: [
-                        _StatTile(
-                          label: 'Members',
-                          value: '${club.memberCount}',
-                        ),
-                        const SizedBox(width: 10),
-                        _StatTile(label: 'Events', value: '${club.eventCount}'),
-                        const SizedBox(width: 10),
-                        _StatTile(
-                          label: 'Rating',
-                          value: club.rating > 0
-                              ? club.rating.toStringAsFixed(1)
-                              : '—',
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 18),
-                    if (club.description.isNotEmpty) ...[
-                      Text(
-                        club.description,
-                        style: GoogleFonts.barlow(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.text2,
-                          height: 1.45,
-                        ),
-                      ),
-                      const SizedBox(height: 22),
-                    ],
-                    if (detail.achievements.isNotEmpty) ...[
-                      _SectionTitle(label: 'Club Achievements'),
-                      const SizedBox(height: 10),
-                      Wrap(
-                        spacing: 16,
-                        runSpacing: 14,
-                        children: detail.achievements
-                            .take(6)
-                            .map((a) => RsAchievementBadge(achievement: a))
-                            .toList(),
-                      ),
-                      const SizedBox(height: 22),
-                    ],
+                    const SizedBox(height: 22),
                     _SectionTitle(
-                      label: 'Members',
+                      label: 'Members preview',
                       trailing: '${club.memberCount}',
                     ),
                     const SizedBox(height: 10),
@@ -225,16 +129,29 @@ class FanClubDetailScreen extends ConsumerWidget {
                         button: true,
                         label: 'View all ${club.memberCount} members',
                         child: GestureDetector(
-                        onTap: () {},
-                        child: Text(
-                          'View all ${club.memberCount} members',
-                          style: GoogleFonts.barlow(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.accent,
+                          onTap: () {},
+                          child: Text(
+                            'View all ${club.memberCount} members',
+                            style: GoogleFonts.barlow(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.accent,
+                            ),
                           ),
                         ),
                       ),
+                      const SizedBox(height: 22),
+                    ],
+                    if (detail.achievements.isNotEmpty) ...[
+                      const _SectionTitle(label: 'More details'),
+                      const SizedBox(height: 10),
+                      Wrap(
+                        spacing: 16,
+                        runSpacing: 14,
+                        children: detail.achievements
+                            .take(6)
+                            .map((a) => RsAchievementBadge(achievement: a))
+                            .toList(),
                       ),
                       const SizedBox(height: 22),
                     ],
@@ -248,14 +165,6 @@ class FanClubDetailScreen extends ConsumerWidget {
                       sheetSubtitle: 'Invite supporters to join ${club.name}.',
                       analyticsTargetType: 'rayon_club',
                       resolveShareUrl: () => _buildShareUrl(ref, club.id),
-                    ),
-                    const SizedBox(height: 22),
-                    CoolButton(
-                      label: joined ? 'Already Joined' : 'Join This Club',
-                      onTap: joined
-                          ? () {}
-                          : () => _join(context, ref, club.id),
-                      icon: Icons.groups_2_outlined,
                     ),
                   ]),
                 ),
@@ -334,6 +243,112 @@ class FanClubDetailScreen extends ConsumerWidget {
   }
 }
 
+class _ClubOverviewCard extends StatelessWidget {
+  const _ClubOverviewCard({
+    required this.clubName,
+    required this.region,
+    required this.bannerEmoji,
+    required this.description,
+    required this.memberCount,
+    required this.eventCount,
+    required this.rating,
+    required this.joined,
+    required this.onJoinTap,
+  });
+
+  final String clubName;
+  final String region;
+  final String bannerEmoji;
+  final String description;
+  final int memberCount;
+  final int eventCount;
+  final double rating;
+  final bool joined;
+  final VoidCallback onJoinTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return CoolCard(
+      gradient: FanClubDetailScreen._regionGradient(region),
+      borderColor: RsColors.rsBlueBorder,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 64,
+                height: 64,
+                decoration: BoxDecoration(
+                  color: AppColors.rsWhite.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(
+                    color: AppColors.rsWhite.withValues(alpha: 0.14),
+                  ),
+                ),
+                alignment: Alignment.center,
+                child: Text(bannerEmoji, style: const TextStyle(fontSize: 30)),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      region.toUpperCase(),
+                      style: GoogleFonts.dmMono(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.rsGoldLight,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      clubName,
+                      style: GoogleFonts.barlowCondensed(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w900,
+                        color: AppColors.rsWhite,
+                        height: 0.95,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    _JoinLeaveButton(joined: joined, onTap: onJoinTap),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Text(
+            description,
+            style: GoogleFonts.barlow(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: AppColors.rsWhite.withValues(alpha: 0.82),
+              height: 1.45,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              _StatTile(label: 'Members', value: '$memberCount'),
+              const SizedBox(width: 10),
+              _StatTile(label: 'Events', value: '$eventCount'),
+              const SizedBox(width: 10),
+              _StatTile(
+                label: 'Rating',
+                value: rating <= 0 ? 'New' : rating.toStringAsFixed(1),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 // ── Section title ────────────────────────────────────────────────────
 
 class _SectionTitle extends StatelessWidget {
@@ -385,25 +400,25 @@ class _JoinLeaveButton extends StatelessWidget {
       button: true,
       label: joined ? 'Already joined club' : 'Join club',
       child: GestureDetector(
-      onTap: joined ? null : onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-        decoration: BoxDecoration(
-          color: joined ? RsColors.rsBlueGlow : RsColors.rsBlue,
-          borderRadius: BorderRadius.circular(30),
-          border: joined ? Border.all(color: RsColors.rsBlueBorder) : null,
-        ),
-        child: Text(
-          joined ? '✓ Joined' : 'Join',
-          style: GoogleFonts.barlowCondensed(
-            fontSize: 14,
-            fontWeight: FontWeight.w800,
-            color: joined ? AppColors.blue : Colors.white,
+        onTap: joined ? null : onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+          decoration: BoxDecoration(
+            color: joined ? RsColors.rsBlueGlow : RsColors.rsBlue,
+            borderRadius: BorderRadius.circular(30),
+            border: joined ? Border.all(color: RsColors.rsBlueBorder) : null,
+          ),
+          child: Text(
+            joined ? '✓ Joined' : 'Join',
+            style: GoogleFonts.barlowCondensed(
+              fontSize: 14,
+              fontWeight: FontWeight.w800,
+              color: joined ? AppColors.blue : AppColors.rsWhite,
+            ),
           ),
         ),
       ),
-    ),
     );
   }
 }

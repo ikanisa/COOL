@@ -86,109 +86,110 @@ class TripCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       button: true,
-      label: 'Trip from $fromLocation to $toLocation. '
+      label:
+          'Trip from $fromLocation to $toLocation. '
           '$vehicleType. $_formattedDeparture.',
       excludeSemantics: true,
       child: GestureDetector(
         onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(18),
-        decoration: BoxDecoration(
-          color: AppColors.surface2,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: AppColors.border),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // ── Route (from → to) ─────────────────────────────────
-            _RouteLine(dotColor: AppColors.accent, location: fromLocation),
-            Padding(
-              padding: const EdgeInsets.only(left: 5),
-              child: Container(
-                width: 1.5,
-                height: 16,
-                color: AppColors.border2,
-              ),
-            ),
-            _RouteLine(dotColor: AppColors.orange, location: toLocation),
-            const SizedBox(height: 14),
-
-            // ── Time row ──────────────────────────────────────────
-            Row(
-              children: [
-                Icon(
-                  Icons.access_time_rounded,
-                  size: 14,
-                  color: _isExpiringSoon || _hasDeparted
-                      ? AppColors.red
-                      : AppColors.text3,
+        child: Container(
+          padding: const EdgeInsets.all(18),
+          decoration: BoxDecoration(
+            color: AppColors.surface2,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: AppColors.border),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // ── Route (from → to) ─────────────────────────────────
+              _RouteLine(dotColor: AppColors.accent, location: fromLocation),
+              Padding(
+                padding: const EdgeInsets.only(left: 5),
+                child: Container(
+                  width: 1.5,
+                  height: 16,
+                  color: AppColors.border2,
                 ),
-                const SizedBox(width: 6),
-                Expanded(
-                  child: Text(
-                    _formattedDeparture,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                      color: _isExpiringSoon || _hasDeparted
-                          ? AppColors.red
-                          : AppColors.text2,
+              ),
+              _RouteLine(dotColor: AppColors.orange, location: toLocation),
+              const SizedBox(height: 14),
+
+              // ── Time row ──────────────────────────────────────────
+              Row(
+                children: [
+                  Icon(
+                    Icons.access_time_rounded,
+                    size: 14,
+                    color: _isExpiringSoon || _hasDeparted
+                        ? AppColors.red
+                        : AppColors.text3,
+                  ),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      _formattedDeparture,
+                      style: GoogleFonts.dmSans(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: _isExpiringSoon || _hasDeparted
+                            ? AppColors.red
+                            : AppColors.text2,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
+                ],
+              ),
+              const SizedBox(height: 12),
 
-            // ── Bottom row: vehicle + tags ─────────────────────────
-            Wrap(
-              spacing: 8,
-              runSpacing: 6,
-              children: [
-                // Vehicle chip
-                _Chip(
-                  label: vehicleType,
-                  bgColor: AppColors.surface3,
-                  textColor: AppColors.text2,
-                ),
-
-                // Seats
-                if (seats != null)
+              // ── Bottom row: vehicle + tags ─────────────────────────
+              Wrap(
+                spacing: 8,
+                runSpacing: 6,
+                children: [
+                  // Vehicle chip
                   _Chip(
-                    label: '$seats seat${seats! > 1 ? 's' : ''}',
+                    label: vehicleType,
                     bgColor: AppColors.surface3,
                     textColor: AppColors.text2,
                   ),
 
-                // Return tag
-                if (isReturn || isDriverReturnTrip)
-                  _Chip(
-                    label: 'Return',
-                    bgColor: AppColors.purple.withValues(alpha: 0.15),
-                    textColor: AppColors.purple,
-                  ),
+                  // Seats
+                  if (seats != null)
+                    _Chip(
+                      label: '$seats seat${seats! > 1 ? 's' : ''}',
+                      bgColor: AppColors.surface3,
+                      textColor: AppColors.text2,
+                    ),
 
-                // Recurring tag
-                if (isRecurring)
-                  _Chip(
-                    label: 'Daily',
-                    bgColor: AppColors.accentGlow,
-                    textColor: AppColors.accent,
-                  ),
+                  // Return tag
+                  if (isReturn || isDriverReturnTrip)
+                    _Chip(
+                      label: 'Return',
+                      bgColor: AppColors.purple.withValues(alpha: 0.15),
+                      textColor: AppColors.purple,
+                    ),
 
-                // Expiring warning
-                if (_isExpiringSoon && !_hasDeparted)
-                  _Chip(
-                    label: 'Expires soon',
-                    bgColor: AppColors.red.withValues(alpha: 0.12),
-                    textColor: AppColors.red,
-                  ),
-              ],
-            ),
-          ],
+                  // Recurring tag
+                  if (isRecurring)
+                    _Chip(
+                      label: 'Daily',
+                      bgColor: AppColors.accentGlow,
+                      textColor: AppColors.accent,
+                    ),
+
+                  // Expiring warning
+                  if (_isExpiringSoon && !_hasDeparted)
+                    _Chip(
+                      label: 'Expires soon',
+                      bgColor: AppColors.red.withValues(alpha: 0.12),
+                      textColor: AppColors.red,
+                    ),
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
       ),
     );
   }

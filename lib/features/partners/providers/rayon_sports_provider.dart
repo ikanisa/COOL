@@ -7,6 +7,7 @@ import '../../../core/providers/hive_providers.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../../core/providers/supabase_client_provider.dart';
 import '../rayon/models/rs_models.dart';
+import '../rayon/rs_membership_package.dart';
 
 import '../rayon/rayon_payment.dart';
 import '../repositories/rayon_sports_repository.dart';
@@ -139,6 +140,13 @@ final rayonUserTicketByIdProvider =
 final rayonMembershipProvider = Provider<AsyncValue<RsFanMembership?>>((ref) {
   return ref.watch(rayonUserMembershipProvider);
 });
+
+final rayonMembershipPackagesProvider =
+    FutureProvider.autoDispose<List<RsMembershipPackage>>((ref) async {
+      final partnerId = await ref.watch(rayonPartnerIdProvider.future);
+      final repository = ref.watch(rayonSportsRepositoryProvider);
+      return repository.getMembershipPackages(partnerId: partnerId);
+    });
 
 final rayonAchievementsProvider = Provider<AsyncValue<List<RsAchievement>>>((
   ref,

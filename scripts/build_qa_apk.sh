@@ -26,7 +26,7 @@ echo "🔨 Validating env vars and building release APK…"
 
 build_android_release apk
 
-APK_PATH="build/app/outputs/flutter-apk/app-release.apk"
+APK_PATH="build/app/outputs/flutter-apk/app-production-release.apk"
 
 if [[ -f "$APK_PATH" ]]; then
   echo ""

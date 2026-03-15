@@ -148,7 +148,7 @@ class _EditPartnerPaymentRouteSheetState
 
   @override
   Widget build(BuildContext context) => Container(
-    decoration: const BoxDecoration(
+    decoration: BoxDecoration(
       color: AppColors.surface,
       borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
     ),
@@ -440,7 +440,7 @@ class _EditMobilitySubscriptionCodeSheetState
 
   @override
   Widget build(BuildContext context) => Container(
-    decoration: const BoxDecoration(
+    decoration: BoxDecoration(
       color: AppColors.surface,
       borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
     ),
@@ -648,7 +648,7 @@ class _EditConfigSheetState extends State<EditConfigSheet> {
 
   @override
   Widget build(BuildContext context) => Container(
-    decoration: const BoxDecoration(
+    decoration: BoxDecoration(
       color: AppColors.surface,
       borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
     ),
@@ -837,7 +837,7 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),

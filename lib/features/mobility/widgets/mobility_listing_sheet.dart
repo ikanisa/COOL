@@ -604,11 +604,9 @@ class _UnavailableHint extends StatelessWidget {
 }
 
 class _SheetChip extends StatelessWidget {
-  const _SheetChip({
-    required this.label,
-    this.bgColor = AppColors.surface3,
-    this.textColor = AppColors.text2,
-  });
+  _SheetChip({required this.label, Color? bgColor, Color? textColor})
+    : bgColor = bgColor ?? AppColors.surface3,
+      textColor = textColor ?? AppColors.text2;
 
   final String label;
   final Color bgColor;

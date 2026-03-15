@@ -38,28 +38,59 @@ class TestableAdminRepository extends AdminRepository {
 
 void main() {
   group('AdminRepository fallback paths', () {
-    test('_catalogCountryReferenceRows returns non-empty list with expected keys', () {
-      // This tests the terminal fallback that fetchCountries() uses when
-      // BOTH the view and the base table are unavailable.
-      // ignore: unused_local_variable
-      final repo = TestableAdminRepository();
+    test(
+      'normalizeUserRowForAppMarket locks admin users to Rwanda English',
+      () {
+        final repo = TestableAdminRepository();
 
-      // We can't easily mock the chained Supabase calls, but we CAN
-      // verify the catalog fallback directly since it's a pure function
-      // that reads from CoolCountryCatalog.all.
-      // The catalog must have entries.
-      expect(CoolCountryCatalog.all, isNotEmpty);
+        final row = repo.normalizeUserRowForAppMarket(<String, dynamic>{
+          'id': 'user-1',
+          'public_user_id': ' cool-user-1 ',
+          'full_name': ' Alice ',
+          'phone': ' +250788000111 ',
+          'country': 'UG',
+          'language_code': 'sw',
+          'momo_provider': ' MTN ',
+          'vehicle_type': ' bike ',
+          'mock_batch': ' batch-1 ',
+        });
 
-      // Verify each catalog entry has the required keys that the admin
-      // screen expects.
-      for (final country in CoolCountryCatalog.all) {
-        expect(country.isoCode, isNotEmpty);
-        expect(country.name, isNotEmpty);
-        expect(country.flagEmoji, isNotEmpty);
-        expect(country.dialCode, isNotEmpty);
-        expect(country.currencyCode, isNotEmpty);
-      }
-    });
+        expect(row['country'], 'RW');
+        expect(row['language_code'], 'en');
+        expect(row['momo_provider'], 'mtn');
+        expect(row['full_name'], 'Alice');
+        expect(row['phone'], '+250788000111');
+        expect(row['public_user_id'], 'cool-user-1');
+        expect(row['vehicle_type'], 'bike');
+        expect(row['mock_batch'], 'batch-1');
+      },
+    );
+
+    test(
+      '_catalogCountryReferenceRows returns non-empty list with expected keys',
+      () {
+        // This tests the terminal fallback that fetchCountries() uses when
+        // BOTH the view and the base table are unavailable.
+        // ignore: unused_local_variable
+        final repo = TestableAdminRepository();
+
+        // We can't easily mock the chained Supabase calls, but we CAN
+        // verify the catalog fallback directly since it's a pure function
+        // that reads from CoolCountryCatalog.all.
+        // The catalog must have entries.
+        expect(CoolCountryCatalog.all, isNotEmpty);
+
+        // Verify each catalog entry has the required keys that the admin
+        // screen expects.
+        for (final country in CoolCountryCatalog.all) {
+          expect(country.isoCode, isNotEmpty);
+          expect(country.name, isNotEmpty);
+          expect(country.flagEmoji, isNotEmpty);
+          expect(country.dialCode, isNotEmpty);
+          expect(country.currencyCode, isNotEmpty);
+        }
+      },
+    );
 
     test('_isMissingSchemaObjectError recognizes PGRST205 code', () {
       // Verify the error detection logic works for the exact error code
@@ -72,10 +103,7 @@ void main() {
       // The method is private, so we test it indirectly by checking
       // that fetchCountries would trigger fallback logic for this code.
       expect(error.code, equals('PGRST205'));
-      expect(
-        error.code == 'PGRST205' || error.code == 'PGRST202',
-        isTrue,
-      );
+      expect(error.code == 'PGRST205' || error.code == 'PGRST202', isTrue);
     });
 
     test('_isMissingSchemaObjectError recognizes PGRST202 code', () {
@@ -85,10 +113,7 @@ void main() {
       );
 
       expect(error.code, equals('PGRST202'));
-      expect(
-        error.code == 'PGRST205' || error.code == 'PGRST202',
-        isTrue,
-      );
+      expect(error.code == 'PGRST205' || error.code == 'PGRST202', isTrue);
     });
 
     test('catalog fallback produces well-formed country rows', () {
@@ -123,31 +148,34 @@ void main() {
       }
     });
 
-    test('_deriveMomoValidationIssuesLocally fallback produces valid issue shape', () {
-      // The issue row shape must match the admin validation diagnostics view.
-      // We verify the _issueRow structure by creating a representative one.
-      final issueRow = <String, dynamic>{
-        'record_type': 'user',
-        'record_id': 'test-id',
-        'country': 'RW',
-        'country_name': 'Rwanda',
-        'route_type': null,
-        'issue_code': 'invalid_momo_number',
-        'issue_message': 'User MoMo number is invalid.',
-        'momo_number': '+250780000000',
-        'momo_code': null,
-        'expected_phone_example': '+250788123456',
-        'expected_code_example': '12345',
-        'phone_ussd_example': '*182*8*1*0788123456#',
-        'code_ussd_example': null,
-        'repair_supported': false,
-      };
+    test(
+      '_deriveMomoValidationIssuesLocally fallback produces valid issue shape',
+      () {
+        // The issue row shape must match the admin validation diagnostics view.
+        // We verify the _issueRow structure by creating a representative one.
+        final issueRow = <String, dynamic>{
+          'record_type': 'user',
+          'record_id': 'test-id',
+          'country': 'RW',
+          'country_name': 'Rwanda',
+          'route_type': null,
+          'issue_code': 'invalid_momo_number',
+          'issue_message': 'User MoMo number is invalid.',
+          'momo_number': '+250780000000',
+          'momo_code': null,
+          'expected_phone_example': '+250788123456',
+          'expected_code_example': '12345',
+          'phone_ussd_example': '*182*8*1*0788123456#',
+          'code_ussd_example': null,
+          'repair_supported': false,
+        };
 
-      expect(issueRow['record_type'], isNotNull);
-      expect(issueRow['record_id'], isNotNull);
-      expect(issueRow['issue_code'], isNotNull);
-      expect(issueRow['issue_message'], isNotNull);
-      expect(issueRow.containsKey('repair_supported'), isTrue);
-    });
+        expect(issueRow['record_type'], isNotNull);
+        expect(issueRow['record_id'], isNotNull);
+        expect(issueRow['issue_code'], isNotNull);
+        expect(issueRow['issue_message'], isNotNull);
+        expect(issueRow.containsKey('repair_supported'), isTrue);
+      },
+    );
   });
 }

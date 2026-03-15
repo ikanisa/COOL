@@ -213,8 +213,6 @@ class EngagementFeatureFlags {
   }
 }
 
-
-
 bool _coerceBool(Object? value, {required bool fallback}) {
   if (value is bool) {
     return value;

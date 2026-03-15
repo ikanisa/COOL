@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_palette.dart';
 
 /// Standardized toast/snackbar for the Cool app.
 ///
@@ -38,32 +39,45 @@ abstract final class CoolToast {
     // Dismiss any existing snackbar first.
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
+    final palette = context.coolPalette;
     final config = _config(variant);
+    final direction = Directionality.of(context);
 
     // Haptic feedback for success and error.
     if (variant == _Variant.success || variant == _Variant.error) {
       HapticFeedback.lightImpact();
     }
 
+    if (MediaQuery.supportsAnnounceOf(context)) {
+      SemanticsService.sendAnnouncement(View.of(context), message, direction);
+    }
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Row(
-          children: [
-            Icon(config.icon, color: config.color, size: 20),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                message,
-                style: GoogleFonts.dmSans(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.text,
+        content: Semantics(
+          container: true,
+          liveRegion: true,
+          label: message,
+          child: ExcludeSemantics(
+            child: Row(
+              children: [
+                Icon(config.icon, color: config.color, size: 20),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    message,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: palette.text,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
-        backgroundColor: AppColors.surface2,
+        backgroundColor: palette.surface2,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
@@ -80,17 +94,17 @@ abstract final class CoolToast {
 
   static _VariantConfig _config(_Variant variant) {
     return switch (variant) {
-      _Variant.success => const _VariantConfig(
+      _Variant.success => _VariantConfig(
         icon: Icons.check_circle_outline_rounded,
-        color: AppColors.accent,
+        color: CoolPalette.dark.accent,
       ),
-      _Variant.error => const _VariantConfig(
+      _Variant.error => _VariantConfig(
         icon: Icons.error_outline_rounded,
-        color: AppColors.red,
+        color: CoolPalette.dark.red,
       ),
-      _Variant.info => const _VariantConfig(
+      _Variant.info => _VariantConfig(
         icon: Icons.info_outline_rounded,
-        color: AppColors.blue,
+        color: CoolPalette.dark.blue,
       ),
     };
   }

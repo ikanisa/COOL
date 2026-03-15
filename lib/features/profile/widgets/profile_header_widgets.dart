@@ -4,7 +4,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../core/config/app_market.dart';
 import '../../../core/l10n/l10n.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../core/utils/phone_validator.dart';
 import '../../../shared/widgets/cool_card.dart';
 import 'profile_data.dart';
@@ -17,8 +17,9 @@ class ProfileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return CoolCard(
-      backgroundColor: AppColors.surface,
+      backgroundColor: palette.surface,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -26,7 +27,7 @@ class ProfileHeader extends StatelessWidget {
             width: 60,
             height: 60,
             decoration: BoxDecoration(
-              color: AppColors.surface2,
+              color: palette.surface2,
               borderRadius: BorderRadius.circular(18),
             ),
             alignment: Alignment.center,
@@ -35,7 +36,7 @@ class ProfileHeader extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
-                color: AppColors.accent,
+                color: palette.accent,
               ),
             ),
           ),
@@ -49,7 +50,7 @@ class ProfileHeader extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -58,7 +59,7 @@ class ProfileHeader extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
+                    color: palette.text2,
                   ),
                 ),
               ],
@@ -83,6 +84,7 @@ class ProfileMomoQrCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final l10n = context.l10n;
     final country = AppMarket.country;
     final qrData = PhoneValidator.generateMomoQrData(
@@ -94,7 +96,7 @@ class ProfileMomoQrCard extends StatelessWidget {
     final providerLabel = PhoneValidator.providerLabel(momoNumber, countryCode);
 
     return CoolCard(
-      backgroundColor: AppColors.surface,
+      backgroundColor: palette.surface,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -103,7 +105,7 @@ class ProfileMomoQrCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 15,
               fontWeight: FontWeight.w700,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
           const SizedBox(height: 6),
@@ -112,7 +114,7 @@ class ProfileMomoQrCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w400,
-              color: AppColors.text2,
+              color: palette.text2,
               height: 1.4,
             ),
           ),
@@ -120,6 +122,8 @@ class ProfileMomoQrCard extends StatelessWidget {
           Center(
             child: Container(
               decoration: BoxDecoration(
+                // Keep the QR payload on a white surface for reliable scanning
+                // regardless of the surrounding app theme.
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
               ),
@@ -150,7 +154,7 @@ class ProfileMomoQrCard extends StatelessWidget {
                   vertical: 4,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.accentGlow,
+                  color: palette.accentGlow,
                   borderRadius: BorderRadius.circular(999),
                 ),
                 child: Text(
@@ -158,7 +162,7 @@ class ProfileMomoQrCard extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.accent,
+                    color: palette.accent,
                   ),
                 ),
               ),
@@ -178,9 +182,10 @@ class ProfileSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
+      decoration: BoxDecoration(
+        color: palette.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
@@ -194,7 +199,7 @@ class ProfileSheet extends StatelessWidget {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: AppColors.border2,
+                  color: palette.border2,
                   borderRadius: BorderRadius.circular(999),
                 ),
               ),

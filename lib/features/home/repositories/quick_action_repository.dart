@@ -4,8 +4,7 @@ import '../models/quick_action.dart';
 
 /// Fetches quick action cards from the `quick_actions` Supabase table.
 class QuickActionRepository {
-  QuickActionRepository({required SupabaseClient client})
-    : _client = client;
+  QuickActionRepository({required SupabaseClient client}) : _client = client;
 
   final SupabaseClient _client;
 

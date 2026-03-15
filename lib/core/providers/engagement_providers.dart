@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../config/app_config_repository.dart';
 import '../models/engagement_feature_flags.dart';
 import '../providers/supabase_client_provider.dart';
+import '../services/app_update_service.dart';
 import '../services/crashlytics_service.dart';
 import '../services/engagement_tracker.dart';
 import 'hive_providers.dart';
@@ -11,6 +12,10 @@ import '../services/feature_flags_service.dart';
 import '../services/firebase_bootstrap_service.dart';
 import '../services/performance_service.dart';
 import '../services/screen_security_service.dart';
+
+final appUpdateServiceProvider = Provider<AppUpdateService>((ref) {
+  return AppUpdateService(ref.read(engagementTrackerProvider));
+});
 
 final firebaseBootstrapServiceProvider = Provider<FirebaseBootstrapService>((
   ref,
@@ -22,7 +27,9 @@ final featureFlagsServiceProvider = Provider<FeatureFlagsService>((ref) {
   return FeatureFlagsService(
     bootstrapService: ref.read(firebaseBootstrapServiceProvider),
     loadAppConfigOverrides: (knownKeys) async {
-      final repo = AppConfigRepository(client: ref.read(supabaseClientProvider));
+      final repo = AppConfigRepository(
+        client: ref.read(supabaseClientProvider),
+      );
       final values = await repo.getAll();
       return Map<String, Object?>.fromEntries(
         values.entries.where((entry) => knownKeys.contains(entry.key)),
@@ -55,9 +62,7 @@ final fcmServiceProvider = Provider<FcmService>((ref) {
     preferenceStore: HiveFcmPreferenceStore(
       openBox: ref.read(hiveOpenBoxProvider),
     ),
-    tokenRepository: SupabaseFcmTokenRepository(
-      clientFactory: () => client,
-    ),
+    tokenRepository: SupabaseFcmTokenRepository(clientFactory: () => client),
   );
   ref.onDispose(service.dispose);
   return service;

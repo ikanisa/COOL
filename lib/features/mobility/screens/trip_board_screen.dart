@@ -8,8 +8,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../auth/providers/auth_provider.dart';
 import '../../../core/services/whatsapp_contact_service.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_toast.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 import '../providers/mobility_location_provider.dart';
 import '../providers/trip_board_provider.dart';
 import '../services/mobility_whatsapp_service.dart';
@@ -99,8 +100,7 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
     return showTripListingSheet(
       context,
       trip: trip,
-      buttonLabel:
-          hasContactPhone(trip) ? 'Open WhatsApp' : 'No contact yet',
+      buttonLabel: hasContactPhone(trip) ? 'Open WhatsApp' : 'No contact yet',
       onOpenWhatsApp: hasContactPhone(trip)
           ? () {
               unawaited(_openWhatsApp(trip));
@@ -142,56 +142,59 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
 
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: AppColors.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-          side: const BorderSide(color: AppColors.border),
-        ),
-        title: Text(
-          'Delete Trip?',
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: AppColors.text,
+      builder: (context) {
+        final palette = context.coolPalette;
+        return AlertDialog(
+          backgroundColor: palette.surface,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+            side: BorderSide(color: palette.border),
           ),
-        ),
-        content: Text(
-          'This will permanently delete the trip from '
-          '${trip.fromLocation} to ${trip.toLocation}. '
-          'This action cannot be undone.',
-          style: GoogleFonts.dmSans(
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: AppColors.text2,
-            height: 1.5,
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: Text(
-              'Cancel',
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: AppColors.text2,
-              ),
+          title: Text(
+            'Delete Trip?',
+            style: GoogleFonts.dmSans(
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+              color: palette.text,
             ),
           ),
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: Text(
-              'Delete',
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-                color: AppColors.red,
-              ),
+          content: Text(
+            'This will permanently delete the trip from '
+            '${trip.fromLocation} to ${trip.toLocation}. '
+            'This action cannot be undone.',
+            style: GoogleFonts.dmSans(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: palette.text2,
+              height: 1.5,
             ),
           ),
-        ],
-      ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text(
+                'Cancel',
+                style: GoogleFonts.dmSans(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: palette.text2,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: Text(
+                'Delete',
+                style: GoogleFonts.dmSans(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: palette.red,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
 
     if (confirmed != true || !mounted) return;
@@ -267,11 +270,12 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
 
     await showModalBottomSheet<void>(
       context: context,
-      backgroundColor: AppColors.surface,
+      backgroundColor: Colors.transparent,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       builder: (context) {
+        final palette = context.coolPalette;
         return SafeArea(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(18, 18, 18, 24),
@@ -284,7 +288,7 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
                   style: GoogleFonts.dmSans(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
                 const SizedBox(height: 6),
@@ -293,29 +297,29 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
                   style: GoogleFonts.dmSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
+                    color: palette.text2,
                   ),
                 ),
                 const SizedBox(height: 18),
                 if (isActive) ...[
                   ListTile(
                     contentPadding: EdgeInsets.zero,
-                    leading: const Icon(
+                    leading: Icon(
                       Icons.pause_circle_outline_rounded,
-                      color: AppColors.orange,
+                      color: palette.orange,
                     ),
                     title: Text(
                       'Pause Trip',
                       style: GoogleFonts.dmSans(
                         fontWeight: FontWeight.w600,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     subtitle: Text(
                       'Temporarily hide from others',
                       style: GoogleFonts.dmSans(
                         fontSize: 12,
-                        color: AppColors.text3,
+                        color: palette.text3,
                       ),
                     ),
                     onTap: () {
@@ -323,18 +327,15 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
                       unawaited(_pauseTrip(trip));
                     },
                   ),
-                  const Divider(color: AppColors.border),
+                  Divider(color: palette.border),
                   ListTile(
                     contentPadding: EdgeInsets.zero,
-                    leading: const Icon(
-                      Icons.cancel_outlined,
-                      color: AppColors.red,
-                    ),
+                    leading: Icon(Icons.cancel_outlined, color: palette.red),
                     title: Text(
                       'Cancel Trip',
                       style: GoogleFonts.dmSans(
                         fontWeight: FontWeight.w600,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     onTap: () {
@@ -342,27 +343,27 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
                       unawaited(_cancelTrip(trip));
                     },
                   ),
-                  const Divider(color: AppColors.border),
+                  Divider(color: palette.border),
                 ],
                 if (isPaused) ...[
                   ListTile(
                     contentPadding: EdgeInsets.zero,
-                    leading: const Icon(
+                    leading: Icon(
                       Icons.play_circle_outline_rounded,
-                      color: AppColors.accent,
+                      color: palette.accent,
                     ),
                     title: Text(
                       'Repost Trip',
                       style: GoogleFonts.dmSans(
                         fontWeight: FontWeight.w600,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     subtitle: Text(
                       'Make visible to others again',
                       style: GoogleFonts.dmSans(
                         fontSize: 12,
-                        color: AppColors.text3,
+                        color: palette.text3,
                       ),
                     ),
                     onTap: () {
@@ -370,19 +371,19 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
                       unawaited(_repostTrip(trip));
                     },
                   ),
-                  const Divider(color: AppColors.border),
+                  Divider(color: palette.border),
                 ],
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  leading: const Icon(
+                  leading: Icon(
                     Icons.delete_outline_rounded,
-                    color: AppColors.red,
+                    color: palette.red,
                   ),
                   title: Text(
                     'Delete Trip',
                     style: GoogleFonts.dmSans(
                       fontWeight: FontWeight.w600,
-                      color: AppColors.text,
+                      color: palette.text,
                     ),
                   ),
                   onTap: () {
@@ -402,76 +403,138 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
     CoolToast.info(context, message);
   }
 
+  Future<void> _openTripTypeSheet() async {
+    final activeTab = ref.read(tripBoardActiveTabProvider);
+    final nextTab = await showModalBottomSheet<TripBoardTab>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) => TripBoardTripTypeSheet(activeTab: activeTab),
+    );
+
+    if (nextTab == null || !mounted || nextTab == activeTab) {
+      return;
+    }
+
+    await ref.read(tripBoardProvider.notifier).setActiveTab(nextTab);
+  }
+
+  Future<void> _openVehicleFilterSheet() async {
+    final selectedVehicle = ref.read(tripBoardSelectedVehicleProvider);
+    final nextVehicle = await showModalBottomSheet<String>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) =>
+          TripBoardVehicleFilterSheet(selectedVehicle: selectedVehicle),
+    );
+
+    if (nextVehicle == null || !mounted || nextVehicle == selectedVehicle) {
+      return;
+    }
+
+    await ref.read(tripBoardProvider.notifier).setVehicleFilter(nextVehicle);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: palette.bg,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         leading: IconButton(
-          tooltip: 'Back',
           onPressed: () => context.pop(),
-          icon: const Icon(Icons.arrow_back_rounded),
-        ),
-        title: Text(
-          'Trip board',
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: AppColors.text,
-          ),
+          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
       ),
-      body: RefreshIndicator(
-        color: AppColors.accent,
-        backgroundColor: AppColors.surface,
-        onRefresh: _refreshTrips,
-        child: CustomScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          slivers: [
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(18, 8, 18, 0),
-              sliver: SliverToBoxAdapter(
-                child: TripBoardModeSwitcher(
-                  activeView: _activeView,
-                  onChanged: (view) {
-                    setState(() => _activeView = view);
-                  },
+      body: CoolScreenBackground(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(18, 0, 18, 24),
+              child: Text(
+                'Trip Board',
+                style: GoogleFonts.dmSans(
+                  fontSize: 34,
+                  fontWeight: FontWeight.w800,
+                  color: palette.text,
+                  height: 1.1,
                 ),
               ),
             ),
-            if (_activeView == TripBoardViewMode.explore) ...[
-              SliverPadding(
-                padding: const EdgeInsets.fromLTRB(18, 14, 18, 0),
-                sliver: SliverToBoxAdapter(
-                  child: TripBoardExploreHeaderCard(
-                    onPostTrip: () => context.push('/mobility/schedule'),
-                  ),
+            Expanded(
+              child: RefreshIndicator(
+                color: palette.accent,
+                backgroundColor: palette.surface,
+                onRefresh: _refreshTrips,
+                child: CustomScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  slivers: [
+                    SliverPadding(
+                      padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
+                      sliver: SliverToBoxAdapter(
+                        child: TripBoardModeSwitcher(
+                          activeView: _activeView,
+                          onChanged: (view) {
+                            setState(() => _activeView = view);
+                          },
+                        ),
+                      ),
+                    ),
+                    if (_activeView == TripBoardViewMode.explore) ...[
+                      SliverPadding(
+                        padding: const EdgeInsets.fromLTRB(18, 14, 18, 0),
+                        sliver: SliverToBoxAdapter(
+                          child: TripBoardExploreHeaderCard(
+                            onPostTrip: () =>
+                                context.push('/mobility/schedule'),
+                          ),
+                        ),
+                      ),
+                      SliverPadding(
+                        padding: const EdgeInsets.fromLTRB(18, 12, 18, 0),
+                        sliver: SliverToBoxAdapter(
+                          child: TripBoardExploreControlsCard(
+                            onOpenTripType: () {
+                              unawaited(_openTripTypeSheet());
+                            },
+                            onOpenVehicleFilter: () {
+                              unawaited(_openVehicleFilterSheet());
+                            },
+                          ),
+                        ),
+                      ),
+                      TripBoardPublicTripsSliver(
+                        onPreviewTap: (trip) {
+                          unawaited(_showTripPreview(trip));
+                        },
+                        onWhatsAppTap: (trip) {
+                          unawaited(_openWhatsApp(trip));
+                        },
+                      ),
+                    ] else ...[
+                      SliverPadding(
+                        padding: const EdgeInsets.fromLTRB(18, 14, 18, 0),
+                        sliver: SliverToBoxAdapter(
+                          child: TripBoardMyTripsHeaderCard(
+                            onPostTrip: () =>
+                                context.push('/mobility/schedule'),
+                          ),
+                        ),
+                      ),
+                      TripBoardMyTripsSliver(
+                        onShowActions: (trip) {
+                          unawaited(_showTripActions(trip));
+                        },
+                      ),
+                    ],
+                    const SliverToBoxAdapter(child: SizedBox(height: 96)),
+                  ],
                 ),
               ),
-              TripBoardPublicTripsSliver(
-                onPreviewTap: (trip) {
-                  unawaited(_showTripPreview(trip));
-                },
-                onWhatsAppTap: (trip) {
-                  unawaited(_openWhatsApp(trip));
-                },
-              ),
-            ] else ...[
-              SliverPadding(
-                padding: const EdgeInsets.fromLTRB(18, 14, 18, 0),
-                sliver: SliverToBoxAdapter(
-                  child: TripBoardMyTripsHeaderCard(
-                    onPostTrip: () => context.push('/mobility/schedule'),
-                  ),
-                ),
-              ),
-              TripBoardMyTripsSliver(
-                onShowActions: (trip) {
-                  unawaited(_showTripActions(trip));
-                },
-              ),
-            ],
-            const SliverToBoxAdapter(child: SizedBox(height: 96)),
+            ),
           ],
         ),
       ),

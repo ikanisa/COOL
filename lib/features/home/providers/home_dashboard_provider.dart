@@ -5,7 +5,9 @@ import '../../../core/providers/supabase_client_provider.dart';
 import '../models/home_dashboard_data.dart';
 import '../repositories/home_dashboard_repository.dart';
 
-final homeDashboardRepositoryProvider = Provider<HomeDashboardRepository>((ref) {
+final homeDashboardRepositoryProvider = Provider<HomeDashboardRepository>((
+  ref,
+) {
   return HomeDashboardRepository(client: ref.read(supabaseClientProvider));
 });
 

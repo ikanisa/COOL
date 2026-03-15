@@ -328,10 +328,15 @@ flutter run \
   --dart-define=SUPABASE_URL=https://your-project.supabase.co \
   --dart-define=SUPABASE_ANON_KEY=your-anon-key \
   --dart-define=ENABLE_ANDROID_MOMO_SMS_AUTOREAD=true \
-  --dart-define=COOL_PRIVACY_POLICY_URL=https://gen-lang-client-0172279957.web.app/privacy \
-  --dart-define=COOL_TERMS_OF_SERVICE_URL=https://gen-lang-client-0172279957.web.app/terms \
-  --dart-define=COOL_ACCOUNT_DELETION_URL=https://gen-lang-client-0172279957.web.app/account-deletion
+  --dart-define=COOL_PRIVACY_POLICY_URL=https://cool.ikanisa.com/privacy \
+  --dart-define=COOL_TERMS_OF_SERVICE_URL=https://cool.ikanisa.com/terms \
+  --dart-define=COOL_ACCOUNT_DELETION_URL=https://cool.ikanisa.com/account-deletion
 ```
+
+For full mobile feature parity, prefer `--dart-define-from-file=.env.json`.
+That file should include the platform `FIREBASE_*` values from
+[.env.example](/Volumes/PRO-G40/COOL/.env.example); the staging and production
+build scripts now fail fast when those platform Firebase defines are missing.
 
 Mobility subscription recipient codes are managed in Admin > App Config, not
 through `--dart-define`.

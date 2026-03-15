@@ -74,7 +74,11 @@ class RsMembershipCard extends StatelessWidget {
                         style: RsTextStyles.badge(color: RsColors.rsGoldLight),
                       ),
                       const Spacer(),
-                      const Icon(Icons.favorite_rounded, size: 20, color: AppColors.accent),
+                      const Icon(
+                        Icons.favorite_rounded,
+                        size: 20,
+                        color: AppColors.accent,
+                      ),
                     ],
                   ),
                   const SizedBox(height: 14),

@@ -40,7 +40,7 @@ StatementDateRange resolveStatementDateRange({
       );
     case StatementPeriodPreset.year:
       return StatementDateRange(
-        startDate: today.subtract(const Duration(days: 364)),
+        startDate: today.subtract(const Duration(days: 30)),
         endDate: today,
       );
     case StatementPeriodPreset.custom:

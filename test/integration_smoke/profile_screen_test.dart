@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import 'package:cool_app/core/providers/engagement_providers.dart';
 import 'package:cool_app/core/services/fcm_service.dart';
+import 'package:cool_app/core/router/app_routes.dart';
 import 'package:cool_app/core/status/models/cool_status.dart';
 import 'package:cool_app/core/status/providers/cool_status_provider.dart';
 import 'package:cool_app/core/status/repositories/cool_status_repository.dart';
@@ -85,45 +87,8 @@ void main() {
       ];
     }
 
-    testWidgets('shows primary actions and hides secondary tools by default', (
-      tester,
-    ) async {
-      await pumpScopedApp(
-        tester,
-        child: const ProfileScreen(),
-        session: fakeSession(),
-        user: fakeUser().copyWith(
-          publicUserId: '123456',
-          officialName: 'Alex Fan',
-          officialPhone: '+250788123456',
-          kycStatus: 'verified',
-        ),
-        overrides: overrides(),
-      );
-
-      await settleTestApp(tester);
-
-      expect(find.text('Profile'), findsOneWidget);
-      expect(find.text('User ID'), findsOneWidget);
-      expect(find.text('Country'), findsOneWidget);
-      expect(find.text('Identity'), findsOneWidget);
-      expect(find.text('123456'), findsWidgets);
-      expect(find.text('Travel role'), findsOneWidget);
-      expect(find.text('Passenger'), findsNothing);
-      expect(find.text('Passenger role'), findsNothing);
-      expect(find.text('Driver role'), findsNothing);
-      expect(find.text('Mobile Money'), findsOneWidget);
-      expect(find.text('Credit score'), findsOneWidget);
-      expect(find.text('Preferences'), findsOneWidget);
-      expect(find.text('More tools'), findsOneWidget);
-
-      expect(find.text('Credit readiness'), findsNothing);
-      expect(find.text('MoMo QR'), findsNothing);
-      expect(find.text('COOL status'), findsNothing);
-    });
-
     testWidgets(
-      'keeps passenger as default and exposes driver setup from one card',
+      'shows clear primary sections and hides secondary tools by default',
       (tester) async {
         await pumpScopedApp(
           tester,
@@ -140,32 +105,92 @@ void main() {
 
         await settleTestApp(tester);
 
+        expect(find.text('Profile'), findsOneWidget);
+        expect(find.text('Account'), findsOneWidget);
         expect(find.text('Travel role'), findsOneWidget);
-        expect(find.text('Become a driver'), findsNothing);
+        expect(find.text('Passenger'), findsOneWidget);
+        expect(find.text('Mobile Money'), findsOneWidget);
+        expect(find.text('Credit score'), findsOneWidget);
+        expect(find.text('More tools'), findsOneWidget);
 
-        await tester.tap(find.text('Travel role'));
-        await settleTestApp(tester);
 
-        expect(find.text('Passenger'), findsWidgets);
-        expect(find.text('Switch to driver'), findsOneWidget);
-
-        await tester.tapAt(const Offset(20, 20));
-        await settleTestApp(tester);
-
-        await tester.ensureVisible(find.byType(ProfileSectionToggleCard));
-        await tester.tap(find.byType(ProfileSectionToggleCard));
-        await settleTestApp(tester);
-
-        expect(find.text('Become a driver'), findsNothing);
+        expect(find.text('App access'), findsNothing);
+        expect(find.text('Support'), findsNothing);
+        expect(find.text('Credit readiness'), findsNothing);
+        expect(find.text('MoMo QR'), findsNothing);
+        expect(find.text('COOL status'), findsNothing);
       },
     );
 
-    testWidgets('shows driver label when the user already has driver mode', (
+    testWidgets(
+      'opens a dedicated travel role route with passenger and driver actions',
+      (tester) async {
+        await pumpRouterApp(
+          tester,
+          initialLocation: AppRoutes.profile,
+          session: fakeSession(),
+          user: fakeUser().copyWith(
+            publicUserId: '123456',
+            officialName: 'Alex Fan',
+            officialPhone: '+250788123456',
+            kycStatus: 'verified',
+          ),
+          overrides: overrides(),
+        );
+
+        await settleTestApp(tester);
+
+        expect(find.text('Travel role'), findsOneWidget);
+
+        await tester.tap(find.text('Travel role'));
+        await tester.pumpAndSettle();
+
+        expect(find.text('Passenger'), findsAtLeastNWidgets(1));
+        expect(find.text('Switch to driver'), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'opens dedicated wallet and identity routes from primary rows',
+      (tester) async {
+        await pumpRouterApp(
+          tester,
+          initialLocation: AppRoutes.profile,
+          session: fakeSession(),
+          user: fakeUser().copyWith(
+            publicUserId: '123456',
+            officialName: 'Alex Fan',
+            officialPhone: '+250788123456',
+            kycStatus: 'verified',
+          ),
+          overrides: overrides(),
+        );
+
+        await settleTestApp(tester);
+
+        await tester.tap(find.text('Mobile Money'));
+        await tester.pumpAndSettle();
+
+        expect(find.text('Edit MoMo Info'), findsOneWidget);
+        expect(find.text('DEFAULT RECEIVE ROUTE'), findsOneWidget);
+
+        await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.text('Official identity'));
+        await tester.pumpAndSettle();
+
+        expect(find.text('KYC status'), findsOneWidget);
+        expect(find.text('Legal name for reports'), findsOneWidget);
+      },
+    );
+
+    testWidgets('shows driver setup state on the travel role route', (
       tester,
     ) async {
-      await pumpScopedApp(
+      await pumpRouterApp(
         tester,
-        child: const ProfileScreen(),
+        initialLocation: AppRoutes.profile,
         session: fakeSession(),
         user: fakeUser(isDriver: true, vehicleType: 'Cab').copyWith(
           publicUserId: '123456',
@@ -181,7 +206,7 @@ void main() {
       expect(find.text('Travel role'), findsOneWidget);
 
       await tester.tap(find.text('Travel role'));
-      await settleTestApp(tester);
+      await tester.pumpAndSettle();
 
       expect(find.text('Driver setup'), findsOneWidget);
       expect(find.text('Switch to driver'), findsNothing);
@@ -207,9 +232,81 @@ void main() {
       await tester.tap(find.byType(ProfileSectionToggleCard));
       await settleTestApp(tester);
 
+      expect(find.text('App access'), findsOneWidget);
+      expect(find.text('Support'), findsOneWidget);
       expect(find.text('Credit readiness'), findsOneWidget);
       expect(find.text('MoMo QR'), findsOneWidget);
       expect(find.text('COOL status'), findsOneWidget);
+    });
+
+    testWidgets(
+      'keeps admin panel in overflow instead of the main tools list',
+      (tester) async {
+        await pumpScopedApp(
+          tester,
+          child: const ProfileScreen(),
+          session: fakeSession(),
+          user: fakeUser(isAdmin: true).copyWith(
+            publicUserId: '123456',
+            officialName: 'Alex Fan',
+            officialPhone: '+250788123456',
+            kycStatus: 'verified',
+          ),
+          overrides: overrides(),
+        );
+
+        await settleTestApp(tester);
+
+        expect(find.byIcon(Icons.more_horiz_rounded), findsOneWidget);
+        expect(find.text('Admin panel'), findsNothing);
+
+        await tester.ensureVisible(find.byType(ProfileSectionToggleCard));
+        await tester.tap(find.byType(ProfileSectionToggleCard));
+        await settleTestApp(tester);
+
+        expect(find.text('Admin panel'), findsNothing);
+
+        await tester.tap(find.byIcon(Icons.more_horiz_rounded));
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.text('More tools'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Admin panel'), findsOneWidget);
+      },
+    );
+
+    testWidgets('shows the admin overflow entry for partner admin access', (
+      tester,
+    ) async {
+      await pumpScopedApp(
+        tester,
+        child: const ProfileScreen(),
+        session: fakeSession(
+          appMetadata: const <String, dynamic>{
+            'partner_admin_ids': ['partner-rayon'],
+          },
+        ),
+        user: fakeUser().copyWith(
+          publicUserId: '123456',
+          officialName: 'Alex Fan',
+          officialPhone: '+250788123456',
+          kycStatus: 'verified',
+        ),
+        overrides: overrides(),
+      );
+
+      await settleTestApp(tester);
+
+      expect(find.byIcon(Icons.more_horiz_rounded), findsOneWidget);
+
+      await tester.tap(find.byIcon(Icons.more_horiz_rounded));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('More tools'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Admin panel'), findsOneWidget);
     });
 
     testWidgets('shows local momo number when stored value is E.164', (

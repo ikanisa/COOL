@@ -5,6 +5,7 @@ import '../../../core/services/momo_service.dart';
 import '../../../core/services/operational_health_service.dart';
 import '../../../core/services/hive_runtime.dart';
 import '../rayon/models/rs_models.dart';
+import '../rayon/rs_membership_package.dart';
 import '../rayon/rayon_payment.dart';
 import '../rayon/rayon_ticket_qr.dart';
 import 'rayon_sports_checkout.dart';
@@ -24,8 +25,7 @@ class RayonSportsRepository {
     OperationalHealthService? operationalHealthService,
   }) : _client = client,
        _momoService =
-           momoService ??
-           MomoService(client: client, openBox: openBox),
+           momoService ?? MomoService(client: client, openBox: openBox),
        _operationalHealthService =
            operationalHealthService ??
            OperationalHealthService(client: client) {
@@ -281,6 +281,51 @@ class RayonSportsRepository {
     return RayonSportsAdminRepository(this).setMemberPoints(userId, points);
   }
 
+  Future<List<PartnerPaymentRoute>> adminGetPaymentRoutes() =>
+      RayonSportsAdminRepository(this).adminGetPaymentRoutes();
+
+  Future<PartnerPaymentRoute> upsertPaymentRoute({
+    required String countryCode,
+    required String providerId,
+    required String recipientCode,
+    required String reconciliationLabel,
+    required PartnerPaymentRouteStatus status,
+  }) {
+    return RayonSportsAdminRepository(this).upsertPaymentRoute(
+      countryCode: countryCode,
+      providerId: providerId,
+      recipientCode: recipientCode,
+      reconciliationLabel: reconciliationLabel,
+      status: status,
+    );
+  }
+
+  Future<void> deletePaymentRoute(String routeId) =>
+      RayonSportsAdminRepository(this).deletePaymentRoute(routeId);
+
+  Future<List<RsMembershipPackage>> adminGetMembershipPackages() =>
+      RayonSportsAdminRepository(this).adminGetMembershipPackages();
+
+  Future<RsMembershipPackage> upsertMembershipPackage({
+    required FanTier tier,
+    required String title,
+    required String subtitle,
+    required String description,
+    required List<RsMembershipPackageBenefit> benefits,
+    required bool isActive,
+    required int sortOrder,
+  }) {
+    return RayonSportsAdminRepository(this).upsertMembershipPackage(
+      tier: tier,
+      title: title,
+      subtitle: subtitle,
+      description: description,
+      benefits: benefits,
+      isActive: isActive,
+      sortOrder: sortOrder,
+    );
+  }
+
   // Public instance wrappers keep the repository mockable in tests even though
   // most implementation currently lives in extension parts.
   Future<RayonSportsData> loadData({String? userId}) =>
@@ -301,6 +346,14 @@ class RayonSportsRepository {
   Future<PartnerPaymentRoute> getActivePaymentRoute({
     bool forceRefresh = false,
   }) => _membershipRepository.getActivePaymentRoute(forceRefresh: forceRefresh);
+
+  Future<List<RsMembershipPackage>> getMembershipPackages({
+    String? partnerId,
+    bool includeInactive = false,
+  }) => _membershipRepository.getMembershipPackages(
+    partnerId: partnerId,
+    includeInactive: includeInactive,
+  );
 
   Future<bool> isGoogleWalletOperationallyReady() =>
       _membershipRepository.isGoogleWalletOperationallyReady();

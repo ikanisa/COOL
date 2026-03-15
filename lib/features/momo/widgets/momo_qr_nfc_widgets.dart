@@ -17,7 +17,7 @@ import '../../../core/providers/app_access_provider.dart';
 import '../../../core/services/app_access_service.dart';
 import '../../../core/services/momo_service.dart';
 import '../../../core/services/whatsapp_contact_service.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../core/utils/phone_validator.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
@@ -45,9 +45,10 @@ class MomoQrSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
+      decoration: BoxDecoration(
+        color: palette.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
@@ -61,7 +62,7 @@ class MomoQrSheet extends StatelessWidget {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: AppColors.border2,
+                  color: palette.border2,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -159,8 +160,8 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
   String get _qrData => _payload.toQrData(widget.country);
 
   String get _qrGuidance => _paymentRequestActive
-      ? 'Manual payment QR is active. When another phone scans it, the dialer opens with ${widget.country.name} MoMo USSD already prepared.'
-      : 'Recipient profile QR is active. Enter an amount, then tap Generate payment QR when you want a scanner to open the USSD dialer automatically.';
+      ? 'Payment QR is active. When someone scans it, their phone opens the ${widget.country.name} MoMo dialer with the amount already prepared.'
+      : 'Your receive QR is active. Add an amount only when you want to generate a payment-ready QR for someone to scan.';
 
   String get _amountLabel {
     final amount = _paymentRequestAmount;
@@ -181,9 +182,9 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
   @override
   void initState() {
     super.initState();
-    _recipientType = _hasCode
-        ? MomoRecipientType.code
-        : MomoRecipientType.phoneNumber;
+    _recipientType = _hasNumber
+        ? MomoRecipientType.phoneNumber
+        : MomoRecipientType.code;
     _amountController.addListener(_handleAmountChanged);
   }
 
@@ -219,7 +220,7 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
   Future<void> _sharePayload() {
     final shareText = _payload.canLaunchImmediately
         ? 'Pay $_amountLabel via ${widget.country.name} MoMo using $_routeLabel $_displayRecipient.\n$_qrData'
-        : 'Pay me via ${widget.country.name} MoMo on COOL using $_routeLabel $_displayRecipient.\n${_payload.toAppLinkUri()}';
+        : 'Pay me on ${widget.country.name} MoMo using $_routeLabel $_displayRecipient.\n${_payload.toAppLinkUri()}';
     return SharePlus.instance.share(
       ShareParams(
         text: shareText,
@@ -232,6 +233,7 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return CoolCard(
       child: Padding(
         padding: const EdgeInsets.all(22),
@@ -243,14 +245,14 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: AppColors.accent.withValues(alpha: 0.12),
+                    color: palette.accent.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   alignment: Alignment.center,
-                  child: const Icon(
+                  child: Icon(
                     Icons.qr_code_2_rounded,
                     size: 20,
-                    color: AppColors.accent,
+                    color: palette.accent,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -259,20 +261,20 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'My QR code',
+                        'Get paid by QR',
                         style: GoogleFonts.dmSans(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.text,
+                          color: palette.text,
                         ),
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        'Bright-light, long-range QR for receive and manual pay requests',
+                        'Generate a Rwanda-first receive QR for your MoMo number or code',
                         style: GoogleFonts.dmSans(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
-                          color: AppColors.text2,
+                          color: palette.text2,
                         ),
                       ),
                     ],
@@ -286,22 +288,22 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
                 children: [
                   Expanded(
                     child: _NfcRouteTypeChip(
-                      label: 'MoMo Code',
-                      isActive: _recipientType == MomoRecipientType.code,
-                      onTap: () {
-                        setState(() => _recipientType = MomoRecipientType.code);
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: _NfcRouteTypeChip(
                       label: 'MoMo Number',
                       isActive: _recipientType == MomoRecipientType.phoneNumber,
                       onTap: () {
                         setState(
                           () => _recipientType = MomoRecipientType.phoneNumber,
                         );
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: _NfcRouteTypeChip(
+                      label: 'MoMo Code',
+                      isActive: _recipientType == MomoRecipientType.code,
+                      onTap: () {
+                        setState(() => _recipientType = MomoRecipientType.code);
                       },
                     ),
                   ),
@@ -313,9 +315,9 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
               width: double.infinity,
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: AppColors.surface3,
+                color: palette.surface2,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: palette.border),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -325,7 +327,7 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
                     style: GoogleFonts.dmSans(
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.text2,
+                      color: palette.text2,
                       letterSpacing: 0.2,
                     ),
                   ),
@@ -335,7 +337,7 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
                     style: GoogleFonts.dmMono(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.accent,
+                      color: palette.accent,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -344,7 +346,7 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
                     style: GoogleFonts.dmSans(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: AppColors.text2,
+                      color: palette.text2,
                     ),
                   ),
                 ],
@@ -365,13 +367,13 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: _needsPaymentQrGeneration
-                    ? AppColors.accentGlow
-                    : AppColors.surface3,
+                    ? palette.accentGlow
+                    : palette.surface2,
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(
                   color: _needsPaymentQrGeneration
-                      ? AppColors.accent
-                      : AppColors.border,
+                      ? palette.accent
+                      : palette.border,
                 ),
               ),
               child: Text(
@@ -382,8 +384,8 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
                   color: _needsPaymentQrGeneration
-                      ? AppColors.accent
-                      : AppColors.text2,
+                      ? palette.accent
+                      : palette.text2,
                 ),
               ),
             ),
@@ -393,8 +395,8 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
                 Expanded(
                   child: CoolButton(
                     label: _paymentRequestActive
-                        ? 'Use profile QR'
-                        : 'Profile QR',
+                        ? 'Use receive QR'
+                        : 'Receive QR',
                     variant: CoolButtonVariant.secondary,
                     onTap: _useProfileQr,
                   ),
@@ -418,13 +420,13 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: _paymentRequestActive
-                    ? AppColors.accentGlow
-                    : AppColors.surface3,
+                    ? palette.accentGlow
+                    : palette.surface2,
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(
                   color: _paymentRequestActive
-                      ? AppColors.accent
-                      : AppColors.border,
+                      ? palette.accent
+                      : palette.border,
                 ),
               ),
               child: Row(
@@ -436,8 +438,8 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
                         : Icons.qr_code_2_rounded,
                     size: 18,
                     color: _paymentRequestActive
-                        ? AppColors.accent
-                        : AppColors.text2,
+                        ? palette.accent
+                        : palette.text2,
                   ),
                   const SizedBox(width: 10),
                   Expanded(
@@ -447,8 +449,8 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         color: _paymentRequestActive
-                            ? AppColors.accent
-                            : AppColors.text2,
+                            ? palette.accent
+                            : palette.text2,
                         height: 1.45,
                       ),
                     ),
@@ -457,13 +459,14 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
               ),
             ),
             const SizedBox(height: 18),
+            // Keep a fixed high-contrast QR canvas for scan reliability.
             Container(
               padding: const EdgeInsets.all(18),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(24),
                 border: Border.all(
-                  color: AppColors.border.withValues(alpha: 0.7),
+                  color: palette.border.withValues(alpha: 0.7),
                 ),
                 boxShadow: [
                   BoxShadow(
@@ -496,17 +499,17 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
               style: GoogleFonts.dmMono(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
-                color: AppColors.accent,
+                color: palette.accent,
               ),
             ),
             Text(
               _paymentRequestActive
-                  ? 'Manual payment QR · ${widget.country.name} · ${widget.country.currencyCode}'
-                  : 'Recipient profile QR · ${widget.country.name} · ${widget.country.currencyCode}',
+                  ? 'Payment QR · ${widget.country.name} · ${widget.country.currencyCode}'
+                  : 'Receive QR · ${widget.country.name} · ${widget.country.currencyCode}',
               style: GoogleFonts.dmSans(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
-                color: AppColors.text2,
+                color: palette.text2,
               ),
             ),
             const SizedBox(height: 18),
@@ -544,7 +547,8 @@ class MomoPaymentRequestSheet extends ConsumerStatefulWidget {
       _MomoPaymentRequestSheetState();
 }
 
-class _MomoPaymentRequestSheetState extends ConsumerState<MomoPaymentRequestSheet> {
+class _MomoPaymentRequestSheetState
+    extends ConsumerState<MomoPaymentRequestSheet> {
   final _payerController = TextEditingController();
   final _amountController = TextEditingController();
   late MomoRecipientType _recipientType;
@@ -627,9 +631,9 @@ class _MomoPaymentRequestSheetState extends ConsumerState<MomoPaymentRequestShee
   @override
   void initState() {
     super.initState();
-    _recipientType = _hasCode
-        ? MomoRecipientType.code
-        : MomoRecipientType.phoneNumber;
+    _recipientType = _hasNumber
+        ? MomoRecipientType.phoneNumber
+        : MomoRecipientType.code;
   }
 
   @override
@@ -701,10 +705,11 @@ class _MomoPaymentRequestSheetState extends ConsumerState<MomoPaymentRequestShee
   Widget build(BuildContext context) {
     final amount = _amount;
     final requestReady = _canShare;
+    final palette = context.coolPalette;
 
     return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
+      decoration: BoxDecoration(
+        color: palette.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
@@ -726,7 +731,7 @@ class _MomoPaymentRequestSheetState extends ConsumerState<MomoPaymentRequestShee
                     width: 40,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: AppColors.border2,
+                      color: palette.border2,
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -737,7 +742,7 @@ class _MomoPaymentRequestSheetState extends ConsumerState<MomoPaymentRequestShee
                   style: GoogleFonts.dmSans(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
                 const SizedBox(height: 6),
@@ -746,7 +751,7 @@ class _MomoPaymentRequestSheetState extends ConsumerState<MomoPaymentRequestShee
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
+                    color: palette.text2,
                     height: 1.45,
                   ),
                 ),
@@ -754,18 +759,6 @@ class _MomoPaymentRequestSheetState extends ConsumerState<MomoPaymentRequestShee
                   const SizedBox(height: 16),
                   Row(
                     children: [
-                      Expanded(
-                        child: _NfcRouteTypeChip(
-                          label: 'MoMo Code',
-                          isActive: _recipientType == MomoRecipientType.code,
-                          onTap: () {
-                            setState(
-                              () => _recipientType = MomoRecipientType.code,
-                            );
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 10),
                       Expanded(
                         child: _NfcRouteTypeChip(
                           label: 'MoMo Number',
@@ -779,6 +772,18 @@ class _MomoPaymentRequestSheetState extends ConsumerState<MomoPaymentRequestShee
                           },
                         ),
                       ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: _NfcRouteTypeChip(
+                          label: 'MoMo Code',
+                          isActive: _recipientType == MomoRecipientType.code,
+                          onTap: () {
+                            setState(
+                              () => _recipientType = MomoRecipientType.code,
+                            );
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -787,9 +792,9 @@ class _MomoPaymentRequestSheetState extends ConsumerState<MomoPaymentRequestShee
                   width: double.infinity,
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: AppColors.surface3,
+                    color: palette.surface2,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColors.border),
+                    border: Border.all(color: palette.border),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -799,7 +804,7 @@ class _MomoPaymentRequestSheetState extends ConsumerState<MomoPaymentRequestShee
                         style: GoogleFonts.dmSans(
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.text2,
+                          color: palette.text2,
                           letterSpacing: 0.2,
                         ),
                       ),
@@ -809,7 +814,7 @@ class _MomoPaymentRequestSheetState extends ConsumerState<MomoPaymentRequestShee
                         style: GoogleFonts.dmMono(
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.accent,
+                          color: palette.accent,
                         ),
                       ),
                     ],
@@ -828,7 +833,7 @@ class _MomoPaymentRequestSheetState extends ConsumerState<MomoPaymentRequestShee
                 const SizedBox(height: 14),
                 CoolTextField(
                   label: 'Payer phone number',
-                  hint: '${widget.country.dialCode} 78 123 4567',
+                  hint: widget.country.phoneExampleHint(),
                   controller: _payerController,
                   keyboardType: TextInputType.phone,
                   prefixIcon: Icons.person_rounded,
@@ -843,7 +848,7 @@ class _MomoPaymentRequestSheetState extends ConsumerState<MomoPaymentRequestShee
                     style: GoogleFonts.dmSans(
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
-                      color: AppColors.red,
+                      color: palette.red,
                     ),
                   ),
                 ],
@@ -860,12 +865,10 @@ class _MomoPaymentRequestSheetState extends ConsumerState<MomoPaymentRequestShee
                   width: double.infinity,
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: requestReady
-                        ? AppColors.accentGlow
-                        : AppColors.surface3,
+                    color: requestReady ? palette.accentGlow : palette.surface2,
                     borderRadius: BorderRadius.circular(14),
                     border: Border.all(
-                      color: requestReady ? AppColors.accent : AppColors.border,
+                      color: requestReady ? palette.accent : palette.border,
                     ),
                   ),
                   child: Column(
@@ -878,9 +881,7 @@ class _MomoPaymentRequestSheetState extends ConsumerState<MomoPaymentRequestShee
                         style: GoogleFonts.dmSans(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
-                          color: requestReady
-                              ? AppColors.accent
-                              : AppColors.text2,
+                          color: requestReady ? palette.accent : palette.text2,
                         ),
                       ),
                       if (requestReady && amount != null) ...[
@@ -890,7 +891,7 @@ class _MomoPaymentRequestSheetState extends ConsumerState<MomoPaymentRequestShee
                           style: GoogleFonts.dmMono(
                             fontSize: 11,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.text,
+                            color: palette.text,
                           ),
                         ),
                       ],
@@ -947,9 +948,10 @@ class MomoNfcSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
+      decoration: BoxDecoration(
+        color: palette.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
@@ -963,7 +965,7 @@ class MomoNfcSheet extends StatelessWidget {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: AppColors.border2,
+                  color: palette.border2,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -1149,76 +1151,76 @@ class _MomoNfcCardState extends State<MomoNfcCard> with WidgetsBindingObserver {
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (_) => Container(
-        decoration: const BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-        ),
-        padding: const EdgeInsets.fromLTRB(22, 16, 22, 32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: AppColors.border2,
-                borderRadius: BorderRadius.circular(2),
+      builder: (context) {
+        final palette = context.coolPalette;
+        return Container(
+          decoration: BoxDecoration(
+            color: palette.surface,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+          ),
+          padding: const EdgeInsets.fromLTRB(22, 16, 22, 32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: palette.border2,
+                  borderRadius: BorderRadius.circular(2),
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            const Icon(
-              Icons.check_circle_rounded,
-              size: 36,
-              color: AppColors.accent,
-            ),
-            const SizedBox(height: 12),
-            Text(
-              result.hasPaymentData ? 'Payment Tag Found' : 'Tag Read',
-              style: GoogleFonts.dmSans(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: AppColors.text,
-              ),
-            ),
-            const SizedBox(height: 12),
-            if (result.hasPaymentData) ...[
-              _nfcInfoRow(recipientLabel, result.recipientValue!),
-              const SizedBox(height: 8),
-              _nfcInfoRow(
-                'Amount',
-                '${result.amount} ${widget.country.currencyCode}',
-              ),
-            ] else if (result.rawText != null)
-              _nfcInfoRow('Data', result.rawText!)
-            else
+              const SizedBox(height: 20),
+              Icon(Icons.check_circle_rounded, size: 36, color: palette.accent),
+              const SizedBox(height: 12),
               Text(
-                'No readable data on this tag',
-                style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text2),
+                result.hasPaymentData ? 'Payment Tag Found' : 'Tag Read',
+                style: GoogleFonts.dmSans(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: palette.text,
+                ),
               ),
-            const SizedBox(height: 18),
-            if (result.hasPaymentData)
-              CoolButton(
-                label: 'Pay via USSD',
-                onTap: () async {
-                  Navigator.pop(context);
-                  await _launchPaymentFromTag(result);
-                },
-              ),
-          ],
-        ),
-      ),
+              const SizedBox(height: 12),
+              if (result.hasPaymentData) ...[
+                _nfcInfoRow(recipientLabel, result.recipientValue!),
+                const SizedBox(height: 8),
+                _nfcInfoRow(
+                  'Amount',
+                  '${result.amount} ${widget.country.currencyCode}',
+                ),
+              ] else if (result.rawText != null)
+                _nfcInfoRow('Data', result.rawText!)
+              else
+                Text(
+                  'No readable data on this tag',
+                  style: GoogleFonts.dmSans(fontSize: 14, color: palette.text2),
+                ),
+              const SizedBox(height: 18),
+              if (result.hasPaymentData)
+                CoolButton(
+                  label: 'Pay via USSD',
+                  onTap: () async {
+                    Navigator.pop(context);
+                    await _launchPaymentFromTag(result);
+                  },
+                ),
+            ],
+          ),
+        );
+      },
     );
   }
 
   Widget _nfcInfoRow(String label, String value) {
+    final palette = context.coolPalette;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: AppColors.surface2,
+        color: palette.surface2,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: Row(
         children: [
@@ -1227,7 +1229,7 @@ class _MomoNfcCardState extends State<MomoNfcCard> with WidgetsBindingObserver {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: AppColors.text2,
+              color: palette.text2,
             ),
           ),
           const Spacer(),
@@ -1237,7 +1239,7 @@ class _MomoNfcCardState extends State<MomoNfcCard> with WidgetsBindingObserver {
               style: GoogleFonts.dmMono(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
-                color: AppColors.accent,
+                color: palette.accent,
               ),
               overflow: TextOverflow.ellipsis,
             ),
@@ -1266,9 +1268,10 @@ class _MomoNfcCardState extends State<MomoNfcCard> with WidgetsBindingObserver {
         var isWriting = false;
         return StatefulBuilder(
           builder: (context, setSheetState) {
+            final palette = context.coolPalette;
             return Container(
-              decoration: const BoxDecoration(
-                color: AppColors.surface,
+              decoration: BoxDecoration(
+                color: palette.surface,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
               ),
               padding: EdgeInsets.fromLTRB(
@@ -1286,7 +1289,7 @@ class _MomoNfcCardState extends State<MomoNfcCard> with WidgetsBindingObserver {
                       width: 40,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: AppColors.border2,
+                        color: palette.border2,
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
@@ -1297,7 +1300,7 @@ class _MomoNfcCardState extends State<MomoNfcCard> with WidgetsBindingObserver {
                     style: GoogleFonts.dmSans(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.text,
+                      color: palette.text,
                     ),
                   ),
                   const SizedBox(height: 6),
@@ -1308,7 +1311,7 @@ class _MomoNfcCardState extends State<MomoNfcCard> with WidgetsBindingObserver {
                     style: GoogleFonts.dmSans(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
-                      color: AppColors.text2,
+                      color: palette.text2,
                       height: 1.45,
                     ),
                   ),
@@ -1349,9 +1352,9 @@ class _MomoNfcCardState extends State<MomoNfcCard> with WidgetsBindingObserver {
                     width: double.infinity,
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: AppColors.surface3,
+                      color: palette.surface2,
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: AppColors.border),
+                      border: Border.all(color: palette.border),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1363,7 +1366,7 @@ class _MomoNfcCardState extends State<MomoNfcCard> with WidgetsBindingObserver {
                           style: GoogleFonts.dmSans(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.text2,
+                            color: palette.text2,
                           ),
                         ),
                         const SizedBox(height: 6),
@@ -1377,7 +1380,7 @@ class _MomoNfcCardState extends State<MomoNfcCard> with WidgetsBindingObserver {
                           style: GoogleFonts.dmMono(
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.accent,
+                            color: palette.accent,
                           ),
                         ),
                       ],
@@ -1466,6 +1469,7 @@ class _MomoNfcCardState extends State<MomoNfcCard> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final showWrite = !kIsWeb && Platform.isAndroid;
     final nfcAccess = _nfcAccess;
     final accessReady = nfcAccess?.isReady == true;
@@ -1491,14 +1495,14 @@ class _MomoNfcCardState extends State<MomoNfcCard> with WidgetsBindingObserver {
         padding: const EdgeInsets.all(22),
         child: Column(
           children: [
-            const Icon(Icons.nfc_rounded, size: 36, color: AppColors.text),
+            Icon(Icons.nfc_rounded, size: 36, color: palette.text),
             const SizedBox(height: 12),
             Text(
               'NFC tools',
               style: GoogleFonts.dmSans(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
-                color: AppColors.text,
+                color: palette.text,
               ),
             ),
             const SizedBox(height: 6),
@@ -1508,7 +1512,7 @@ class _MomoNfcCardState extends State<MomoNfcCard> with WidgetsBindingObserver {
               style: GoogleFonts.dmSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
-                color: AppColors.text2,
+                color: palette.text2,
                 height: 1.5,
               ),
             ),
@@ -1614,7 +1618,7 @@ class _MomoNfcCardState extends State<MomoNfcCard> with WidgetsBindingObserver {
                   style: GoogleFonts.dmSans(
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.text3,
+                    color: palette.text3,
                   ),
                 ),
               ],
@@ -1626,7 +1630,7 @@ class _MomoNfcCardState extends State<MomoNfcCard> with WidgetsBindingObserver {
                     style: GoogleFonts.dmSans(
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
-                      color: AppColors.text3,
+                      color: palette.text3,
                     ),
                   ),
                 ),
@@ -1651,6 +1655,7 @@ class _NfcRouteTypeChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Semantics(
       button: true,
       selected: isActive,
@@ -1660,10 +1665,10 @@ class _NfcRouteTypeChip extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           decoration: BoxDecoration(
-            color: isActive ? AppColors.accentGlow : AppColors.surface3,
+            color: isActive ? palette.accentGlow : palette.surface2,
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
-              color: isActive ? AppColors.accent : AppColors.border,
+              color: isActive ? palette.accent : palette.border,
             ),
           ),
           alignment: Alignment.center,
@@ -1672,7 +1677,7 @@ class _NfcRouteTypeChip extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w700,
-              color: isActive ? AppColors.accent : AppColors.text2,
+              color: isActive ? palette.accent : palette.text2,
             ),
           ),
         ),

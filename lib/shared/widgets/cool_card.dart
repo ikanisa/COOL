@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_palette.dart';
 
-/// A reusable dark-surface card used throughout the Cool app.
+/// A reusable themed card used throughout the Cool app.
 ///
 /// Cards default to a flatter surface so screens can carry more content
 /// without feeling overly decorative.
@@ -35,20 +35,22 @@ class CoolCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+    final isLight = Theme.of(context).brightness == Brightness.light;
     final radius = borderRadius ?? _defaultRadius;
     final shape = RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(radius),
-      side: BorderSide(color: borderColor ?? AppColors.border),
+      side: BorderSide(color: borderColor ?? palette.border),
     );
     final decoration = ShapeDecoration(
       shape: shape,
-      color: gradient == null ? (backgroundColor ?? AppColors.surface2) : null,
+      color: gradient == null ? (backgroundColor ?? palette.surface2) : null,
       gradient: gradient,
       shadows: [
         BoxShadow(
-          color: Colors.black.withValues(alpha: 0.06),
-          blurRadius: 6,
-          offset: const Offset(0, 2),
+          color: Colors.black.withValues(alpha: isLight ? 0.08 : 0.06),
+          blurRadius: isLight ? 12 : 8,
+          offset: const Offset(0, 3),
         ),
       ],
     );
@@ -70,7 +72,7 @@ class CoolCard extends StatelessWidget {
             decoration: decoration,
             child: InkWell(
               onTap: onTap,
-              splashColor: AppColors.accent.withValues(alpha: 0.08),
+              splashColor: palette.accent.withValues(alpha: 0.08),
               highlightColor: Colors.transparent,
               child: content,
             ),

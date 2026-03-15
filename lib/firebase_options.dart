@@ -12,8 +12,7 @@ class DefaultFirebaseOptions {
     final options = switch (defaultTargetPlatform) {
       TargetPlatform.android =>
         flavor == 'production' ? androidProduction : androidStaging,
-      TargetPlatform.iOS =>
-        flavor == 'production' ? iosProduction : iosStaging,
+      TargetPlatform.iOS => flavor == 'production' ? iosProduction : iosStaging,
       _ => throw UnsupportedError(
         'DefaultFirebaseOptions are not configured for '
         '${defaultTargetPlatform.name}.',

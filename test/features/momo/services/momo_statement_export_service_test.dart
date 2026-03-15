@@ -137,6 +137,44 @@ void main() {
     expect(text, contains('01 Mar 2026 - 11 Mar 2026'));
     expect(text, contains('Kigali Women Traders'));
   });
+
+  test('payee ledger Excel export returns an xlsx workbook', () async {
+    final export = await service.buildPayeeLedgerExport(
+      format: StatementExportFormat.excel,
+      entries: <PayeePaymentLedgerEntry>[
+        PayeePaymentLedgerEntry(
+          ledgerId: 'ledger-1',
+          payerUserId: 'user-1',
+          payerName: 'Jean Bosco',
+          amount: 32000,
+          currency: 'RWF',
+          occurredAt: DateTime(2026, 3, 10, 12, 45),
+          txCategory: 'group_contribution',
+          cashflowBucket: 'savings',
+          label: 'Weekly savings contribution',
+          targetTable: 'group_contributions',
+          reference: 'MOMO-9001',
+        ),
+      ],
+      metadata: StatementExportMetadata(
+        statementTitle: 'Group Payment Ledger',
+        fileStem: 'cool_group_payment_ledger',
+        userName: 'Jean Bosco',
+        officialPhone: '+250788000111',
+        generatedAt: DateTime(2026, 3, 11, 14, 30),
+        periodLabel: 'All posted entries in view',
+        filterLabel: 'Group payment ledger',
+        sortLabel: 'Newest first',
+      ),
+    );
+
+    expect(export.fileName, endsWith('.xlsx'));
+    expect(
+      export.mimeType,
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    );
+    expect(ascii.decode(export.bytes.sublist(0, 2), allowInvalid: true), 'PK');
+  });
 }
 
 class _TestAssetBundle extends CachingAssetBundle {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 
 /// Shared step enum used across schedule-trip widget files.
@@ -15,18 +15,22 @@ class ScheduleTripInfoBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: AppColors.accentGlow,
+        color: palette.accentGlow,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.accent.withValues(alpha: 0.28)),
+        border: Border.all(color: palette.accent.withValues(alpha: 0.28)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.lightbulb_outline_rounded,
-              size: 18, color: AppColors.accent),
+          Icon(
+            Icons.lightbulb_outline_rounded,
+            size: 18,
+            color: palette.accent,
+          ),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
@@ -34,7 +38,7 @@ class ScheduleTripInfoBanner extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: AppColors.accent,
+                color: palette.accent,
                 height: 1.4,
               ),
             ),
@@ -53,6 +57,7 @@ class ScheduleTripStepper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     const labels = <String>['Route', 'Time', 'Options', 'Review'];
     final activeIndex = ScheduleTripStep.values.indexOf(activeStep);
 
@@ -69,17 +74,17 @@ class ScheduleTripStepper extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               decoration: BoxDecoration(
                 color: isActive
-                    ? AppColors.accentGlow
+                    ? palette.accentGlow
                     : isComplete
-                        ? AppColors.surface2
-                        : AppColors.surface,
+                    ? palette.surface2
+                    : palette.surface,
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(
                   color: isActive
-                      ? AppColors.accent
+                      ? palette.accent
                       : isComplete
-                          ? AppColors.border2
-                          : AppColors.border,
+                      ? palette.border2
+                      : palette.border,
                 ),
               ),
               child: Column(
@@ -90,10 +95,10 @@ class ScheduleTripStepper extends StatelessWidget {
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
                       color: isActive
-                          ? AppColors.accent
+                          ? palette.accent
                           : isComplete
-                              ? AppColors.text
-                              : AppColors.text3,
+                          ? palette.text
+                          : palette.text3,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -103,7 +108,7 @@ class ScheduleTripStepper extends StatelessWidget {
                     style: GoogleFonts.dmSans(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
-                      color: isActive ? AppColors.text : AppColors.text2,
+                      color: isActive ? palette.text : palette.text2,
                     ),
                   ),
                 ],
@@ -167,12 +172,13 @@ class ScheduleTripFieldLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Text(
       label,
       style: GoogleFonts.dmSans(
         fontSize: 13,
         fontWeight: FontWeight.w500,
-        color: AppColors.text2,
+        color: palette.text2,
       ),
     );
   }
@@ -224,8 +230,9 @@ class ScheduleTripPickerField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Material(
-      color: AppColors.surface2,
+      color: palette.surface2,
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         onTap: onTap,
@@ -234,7 +241,7 @@ class ScheduleTripPickerField extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: palette.border),
           ),
           child: Row(
             children: [
@@ -246,14 +253,14 @@ class ScheduleTripPickerField extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
               ),
-              const Icon(
+              Icon(
                 Icons.keyboard_arrow_down_rounded,
                 size: 20,
-                color: AppColors.text3,
+                color: palette.text3,
               ),
             ],
           ),
@@ -282,18 +289,19 @@ class ScheduleTripToggleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Material(
-      color: AppColors.surface3,
+      color: palette.surface3,
       borderRadius: BorderRadius.circular(16),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: palette.border),
         ),
         child: Row(
           children: [
-            Icon(icon, size: 22, color: AppColors.text2),
+            Icon(icon, size: 22, color: palette.text2),
             const SizedBox(width: 12),
             Expanded(
               child: Column(
@@ -304,7 +312,7 @@ class ScheduleTripToggleCard extends StatelessWidget {
                     style: GoogleFonts.dmSans(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.text,
+                      color: palette.text,
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -313,7 +321,7 @@ class ScheduleTripToggleCard extends StatelessWidget {
                     style: GoogleFonts.dmSans(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
-                      color: AppColors.text2,
+                      color: palette.text2,
                     ),
                   ),
                 ],
@@ -321,9 +329,9 @@ class ScheduleTripToggleCard extends StatelessWidget {
             ),
             Switch.adaptive(
               value: value,
-              activeTrackColor: AppColors.accent,
-              activeThumbColor: Colors.black,
-              inactiveTrackColor: AppColors.surface2,
+              activeTrackColor: palette.accent,
+              activeThumbColor: Theme.of(context).colorScheme.onPrimary,
+              inactiveTrackColor: palette.surface2,
               onChanged: onChanged,
             ),
           ],
@@ -348,8 +356,9 @@ class ScheduleTripSelectionChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Material(
-      color: selected ? AppColors.accentGlow : AppColors.surface2,
+      color: selected ? palette.accentGlow : palette.surface2,
       borderRadius: BorderRadius.circular(30),
       child: InkWell(
         onTap: onTap,
@@ -359,7 +368,7 @@ class ScheduleTripSelectionChip extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
             border: Border.all(
-              color: selected ? AppColors.accent : AppColors.border,
+              color: selected ? palette.accent : palette.border,
             ),
           ),
           child: Text(
@@ -367,7 +376,7 @@ class ScheduleTripSelectionChip extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: selected ? AppColors.accent : AppColors.text2,
+              color: selected ? palette.accent : palette.text2,
             ),
           ),
         ),
@@ -391,8 +400,9 @@ class ScheduleTripSeatChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Material(
-      color: selected ? AppColors.accentGlow : AppColors.surface2,
+      color: selected ? palette.accentGlow : palette.surface2,
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         onTap: onTap,
@@ -404,7 +414,7 @@ class ScheduleTripSeatChip extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: selected ? AppColors.accent : AppColors.border,
+              color: selected ? palette.accent : palette.border,
             ),
           ),
           child: Text(
@@ -412,7 +422,7 @@ class ScheduleTripSeatChip extends StatelessWidget {
             style: GoogleFonts.dmMono(
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: selected ? AppColors.accent : AppColors.text2,
+              color: selected ? palette.accent : palette.text2,
             ),
           ),
         ),
@@ -436,8 +446,9 @@ class ScheduleTripDayChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Material(
-      color: selected ? AppColors.accentGlow : AppColors.surface2,
+      color: selected ? palette.accentGlow : palette.surface2,
       borderRadius: BorderRadius.circular(10),
       child: InkWell(
         onTap: onTap,
@@ -449,7 +460,7 @@ class ScheduleTripDayChip extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: selected ? AppColors.accent : AppColors.border,
+              color: selected ? palette.accent : palette.border,
             ),
           ),
           child: Text(
@@ -457,7 +468,7 @@ class ScheduleTripDayChip extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 12,
               fontWeight: FontWeight.w600,
-              color: selected ? AppColors.accent : AppColors.text3,
+              color: selected ? palette.accent : palette.text3,
             ),
           ),
         ),

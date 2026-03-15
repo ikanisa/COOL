@@ -41,10 +41,7 @@ class RsTierBadge extends StatelessWidget {
               Icon(Icons.star_rounded, size: 12, color: color),
               const SizedBox(width: 4),
             ],
-            Text(
-              _label,
-              style: RsTextStyles.badge(color: color),
-            ),
+            Text(_label, style: RsTextStyles.badge(color: color)),
           ],
         ),
       ),

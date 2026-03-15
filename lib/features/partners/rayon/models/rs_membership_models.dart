@@ -256,10 +256,7 @@ class RsRegistryMember {
   }
 }
 
-String _resolveMembershipDisplayName(
-  RsJsonMap json, {
-  required String userId,
-}) {
+String _resolveMembershipDisplayName(RsJsonMap json, {required String userId}) {
   final explicitDisplayName = _asString(
     json['display_name'] ?? json['displayName'],
   );

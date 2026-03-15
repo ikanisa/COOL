@@ -8,9 +8,9 @@ Cool repo.
 ## Current State
 
 - Public legal pages are live on Firebase Hosting:
-  - `https://gen-lang-client-0172279957.web.app/privacy`
-  - `https://gen-lang-client-0172279957.web.app/terms`
-  - `https://gen-lang-client-0172279957.web.app/account-deletion`
+  - `https://cool.ikanisa.com/privacy`
+  - `https://cool.ikanisa.com/terms`
+  - `https://cool.ikanisa.com/account-deletion`
 - The app is still primarily auth-gated behind WhatsApp OTP.
 - `send-otp` now supports an optional review bypass driven by Supabase Edge
   Function secrets:

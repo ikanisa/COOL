@@ -5,8 +5,9 @@ import 'dart:io';
 void main(List<String> args) {
   final command = _parseCommand(args);
   final repoRoot = Directory.current;
+  final overrides = _loadReleaseMetadataOverrides(repoRoot);
   final metadataErrors = <String>[];
-  final metadata = _loadReleaseMetadata(repoRoot, metadataErrors);
+  final metadata = _loadReleaseMetadata(repoRoot, metadataErrors, overrides);
 
   if (command.generate && metadata != null) {
     final warnings = _generateReleaseAssets(repoRoot, metadata);
@@ -75,7 +76,7 @@ List<String> _generateReleaseAssets(
     );
   } else {
     warnings.add(
-      'Skipped apple-app-site-association generation because deeplinks/release_metadata.json is missing ios.teamId.',
+      'Skipped apple-app-site-association generation because resolved release metadata is missing ios.teamId.',
     );
   }
 
@@ -157,7 +158,7 @@ List<String> _validateIosAssociation(
   final expectedAssociation = _buildExpectedIosAssociation(metadata);
   if (!_jsonDeepEquals(decoded, expectedAssociation)) {
     errors.add(
-      'apple-app-site-association does not match deeplinks/release_metadata.json. Run dart tool/deep_link_release_assets.dart --generate.',
+      'apple-app-site-association does not match the resolved release metadata. Run dart tool/deep_link_release_assets.dart --generate.',
     );
   }
 
@@ -177,7 +178,7 @@ List<String> _validateStoreLinkConfig(
   } else if (configFile.readAsStringSync() !=
       _buildExpectedStoreLinksScript(metadata)) {
     errors.add(
-      'deeplinks/site/assets/store-links.js does not match deeplinks/release_metadata.json. Run dart tool/deep_link_release_assets.dart --generate.',
+      'deeplinks/site/assets/store-links.js does not match the resolved release metadata. Run dart tool/deep_link_release_assets.dart --generate.',
     );
   }
 
@@ -211,7 +212,7 @@ List<String> _validateAndroidAssetLinks(
   final errors = <String>[];
   if (!metadata.hasAndroidPlayAppSigningFingerprint) {
     errors.add(
-      'deeplinks/release_metadata.json is missing android.playAppSigningSha256CertFingerprint; final Play-distributed app links are not release-ready.',
+      'Resolved release metadata is missing android.playAppSigningSha256CertFingerprint; set COOL_ANDROID_PLAY_APP_SIGNING_SHA256_CERT_FINGERPRINT or populate deeplinks/release_metadata.json.',
     );
   }
   final siteFile = File(
@@ -239,12 +240,12 @@ List<String> _validateAndroidAssetLinks(
   final expectedAssetLinks = _buildExpectedAndroidAssetLinks(metadata);
   if (!_jsonDeepEquals(siteDecoded, expectedAssetLinks)) {
     errors.add(
-      'deeplinks/site/.well-known/assetlinks.json does not match deeplinks/release_metadata.json. Run dart tool/deep_link_release_assets.dart --generate.',
+      'deeplinks/site/.well-known/assetlinks.json does not match the resolved release metadata. Run dart tool/deep_link_release_assets.dart --generate.',
     );
   }
   if (!_jsonDeepEquals(hostingDecoded, expectedAssetLinks)) {
     errors.add(
-      'hosting/.well-known/assetlinks.json does not match deeplinks/release_metadata.json. Run dart tool/deep_link_release_assets.dart --generate.',
+      'hosting/.well-known/assetlinks.json does not match the resolved release metadata. Run dart tool/deep_link_release_assets.dart --generate.',
     );
   }
   if (!_jsonDeepEquals(siteDecoded, hostingDecoded)) {
@@ -368,12 +369,12 @@ List<String> _iosMetadataErrors(_ReleaseMetadata metadata) {
   final errors = <String>[];
   if (!metadata.hasIosAssociationMetadata) {
     errors.add(
-      'deeplinks/release_metadata.json is missing ios.teamId; apple-app-site-association cannot be generated.',
+      'Resolved release metadata is missing ios.teamId; set COOL_IOS_TEAM_ID or populate deeplinks/release_metadata.json.',
     );
   }
   if (!metadata.hasIosStoreMetadata) {
     errors.add(
-      'deeplinks/release_metadata.json is missing ios.appStoreId; iPhone store fallback is not production-ready.',
+      'Resolved release metadata is missing ios.appStoreId; set COOL_IOS_APP_STORE_ID or populate deeplinks/release_metadata.json.',
     );
   }
   return errors;
@@ -382,6 +383,7 @@ List<String> _iosMetadataErrors(_ReleaseMetadata metadata) {
 _ReleaseMetadata? _loadReleaseMetadata(
   Directory repoRoot,
   List<String> errors,
+  _ReleaseMetadataOverrides overrides,
 ) {
   final file = File('${repoRoot.path}/deeplinks/release_metadata.json');
   final decoded = _decodeJsonFile(
@@ -431,9 +433,9 @@ _ReleaseMetadata? _loadReleaseMetadata(
     }
   }
 
-  final playAppSigningFingerprint = _normalizeString(
-    android['playAppSigningSha256CertFingerprint'],
-  );
+  final playAppSigningFingerprint =
+      overrides.androidPlayAppSigningFingerprint ??
+      _normalizeString(android['playAppSigningSha256CertFingerprint']);
   if (playAppSigningFingerprint != null) {
     if (_containsPlaceholder(playAppSigningFingerprint)) {
       errors.add(
@@ -459,14 +461,15 @@ _ReleaseMetadata? _loadReleaseMetadata(
     );
   }
 
-  final teamId = _normalizeString(ios['teamId']);
+  final teamId = overrides.iosTeamId ?? _normalizeString(ios['teamId']);
   if (teamId != null && _containsPlaceholder(teamId)) {
     errors.add(
       'deeplinks/release_metadata.json contains a placeholder iOS teamId: $teamId',
     );
   }
 
-  final appStoreId = _normalizeString(ios['appStoreId']);
+  final appStoreId =
+      overrides.iosAppStoreId ?? _normalizeString(ios['appStoreId']);
   if (appStoreId != null &&
       (_containsPlaceholder(appStoreId) ||
           !_numericIdentifierPattern.hasMatch(appStoreId))) {
@@ -489,6 +492,91 @@ _ReleaseMetadata? _loadReleaseMetadata(
     iosTeamId: teamId,
     iosAppStoreId: appStoreId,
   );
+}
+
+_ReleaseMetadataOverrides _loadReleaseMetadataOverrides(Directory repoRoot) {
+  final values = <String, String>{
+    ..._loadDotEnvFile(File('${repoRoot.path}/.env')),
+    ..._loadDotEnvJsonFile(File('${repoRoot.path}/.env.json')),
+    ...Platform.environment,
+  };
+
+  return _ReleaseMetadataOverrides(
+    androidPlayAppSigningFingerprint: _readFirstEnvValue(values, const <String>[
+      'COOL_ANDROID_PLAY_APP_SIGNING_SHA256_CERT_FINGERPRINT',
+      'ANDROID_PLAY_APP_SIGNING_SHA256_CERT_FINGERPRINT',
+    ]),
+    iosTeamId: _readFirstEnvValue(values, const <String>[
+      'COOL_IOS_TEAM_ID',
+      'IOS_TEAM_ID',
+    ]),
+    iosAppStoreId: _readFirstEnvValue(values, const <String>[
+      'COOL_IOS_APP_STORE_ID',
+      'IOS_APP_STORE_ID',
+    ]),
+  );
+}
+
+Map<String, String> _loadDotEnvFile(File file) {
+  if (!file.existsSync()) {
+    return const <String, String>{};
+  }
+
+  final values = <String, String>{};
+  for (final rawLine in file.readAsLinesSync()) {
+    final line = rawLine.trim();
+    if (line.isEmpty || line.startsWith('#') || !line.contains('=')) {
+      continue;
+    }
+
+    final separatorIndex = line.indexOf('=');
+    final key = line.substring(0, separatorIndex).trim();
+    final value = line
+        .substring(separatorIndex + 1)
+        .trim()
+        .replaceAll(RegExp("^['\"]|['\"]\$"), '');
+    if (key.isEmpty || value.isEmpty) {
+      continue;
+    }
+    values[key] = value;
+  }
+
+  return values;
+}
+
+Map<String, String> _loadDotEnvJsonFile(File file) {
+  if (!file.existsSync()) {
+    return const <String, String>{};
+  }
+
+  try {
+    final decoded = jsonDecode(file.readAsStringSync());
+    if (decoded is! Map<String, dynamic>) {
+      return const <String, String>{};
+    }
+
+    final values = <String, String>{};
+    for (final entry in decoded.entries) {
+      final value = '${entry.value}'.trim();
+      if (entry.key.trim().isEmpty || value.isEmpty || value == 'null') {
+        continue;
+      }
+      values[entry.key] = value;
+    }
+    return values;
+  } on FormatException {
+    return const <String, String>{};
+  }
+}
+
+String? _readFirstEnvValue(Map<String, String> values, List<String> keys) {
+  for (final key in keys) {
+    final value = _normalizeString(values[key]);
+    if (value != null) {
+      return value;
+    }
+  }
+  return null;
 }
 
 List<String> _requireStringList(
@@ -622,6 +710,18 @@ final class _Command {
 
   final bool check;
   final bool generate;
+}
+
+final class _ReleaseMetadataOverrides {
+  const _ReleaseMetadataOverrides({
+    required this.androidPlayAppSigningFingerprint,
+    required this.iosTeamId,
+    required this.iosAppStoreId,
+  });
+
+  final String? androidPlayAppSigningFingerprint;
+  final String? iosTeamId;
+  final String? iosAppStoreId;
 }
 
 final class _ReleaseMetadata {

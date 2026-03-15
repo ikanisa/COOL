@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/config/app_market.dart';
@@ -5,8 +6,7 @@ import '../../../core/config/country_catalog.dart';
 
 /// Central repository for admin CRUD operations across all dynamic content tables.
 class AdminRepository {
-  AdminRepository({required SupabaseClient client})
-    : _client = client;
+  AdminRepository({required SupabaseClient client}) : _client = client;
 
   final SupabaseClient _client;
   static const String _countryReferenceSelect =
@@ -35,7 +35,9 @@ class AdminRepository {
         )
         .order('is_mock', ascending: false)
         .order('created_at', ascending: false);
-    return List<Map<String, dynamic>>.from(data);
+    return _asListOfMaps(
+      data,
+    ).map(normalizeUserRowForAppMarket).toList(growable: false);
   }
 
   Future<Map<String, dynamic>> purgeMockBatch(String batch) async {
@@ -231,9 +233,7 @@ class AdminRepository {
   }
 
   Future<void> upsertVehicleType(Map<String, dynamic> type) async {
-    await _client
-        .from('vehicle_types')
-        .upsert(_lockCountryScopeToRwanda(type));
+    await _client.from('vehicle_types').upsert(_lockCountryScopeToRwanda(type));
   }
 
   Future<void> deleteVehicleType(String id) async {
@@ -362,9 +362,7 @@ class AdminRepository {
     }
     await _client
         .from('app_config')
-        .upsert(
-          configs.map(_lockCountryScopeToRwanda).toList(growable: false),
-        );
+        .upsert(configs.map(_lockCountryScopeToRwanda).toList(growable: false));
   }
 
   Future<void> deleteAppConfig(String key) async {
@@ -664,6 +662,22 @@ class AdminRepository {
   Map<String, dynamic> _lockCountryScopeToRwanda(Map<String, dynamic> data) {
     final normalized = Map<String, dynamic>.from(data);
     normalized['country'] = AppMarket.countryCode;
+    return normalized;
+  }
+
+  /// Admin consumers should never receive off-market or non-English user
+  /// scope, even if legacy rows still exist in storage.
+  @visibleForTesting
+  Map<String, dynamic> normalizeUserRowForAppMarket(Map<String, dynamic> row) {
+    final normalized = Map<String, dynamic>.from(row);
+    normalized['country'] = AppMarket.countryCode;
+    normalized['language_code'] = AppMarket.languageCode;
+    normalized['momo_provider'] = _trimmed(row['momo_provider'])?.toLowerCase();
+    normalized['full_name'] = _trimmed(row['full_name']);
+    normalized['phone'] = _trimmed(row['phone']);
+    normalized['public_user_id'] = _trimmed(row['public_user_id']);
+    normalized['vehicle_type'] = _trimmed(row['vehicle_type']);
+    normalized['mock_batch'] = _trimmed(row['mock_batch']);
     return normalized;
   }
 

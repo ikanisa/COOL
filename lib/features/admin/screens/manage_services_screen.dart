@@ -33,7 +33,7 @@ class ManageServicesScreen extends ConsumerWidget {
             color: AppColors.text,
           ),
         ),
-        iconTheme: const IconThemeData(color: AppColors.text),
+        iconTheme: IconThemeData(color: AppColors.text),
       ),
       floatingActionButton: Semantics(
         button: true,
@@ -186,11 +186,7 @@ class _ServiceTile extends StatelessWidget {
           hint: 'Opens the service editor',
           child: GestureDetector(
             onTap: onEdit,
-            child: const Icon(
-              Icons.edit_rounded,
-              size: 18,
-              color: AppColors.text3,
-            ),
+            child: Icon(Icons.edit_rounded, size: 18, color: AppColors.text3),
           ),
         ),
       ),
@@ -295,7 +291,7 @@ class _EditServiceSheetState extends State<_EditServiceSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),

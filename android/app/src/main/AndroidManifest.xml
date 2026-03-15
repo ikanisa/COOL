@@ -59,7 +59,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <!-- Deep links: cool.app -->
+            <!-- Deep links: cool.app (plus legacy cool.ikanisa.com support) -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -70,6 +70,9 @@
                 <data
                     android:scheme="https"
                     android:host="www.cool.app" />
+                <data
+                    android:scheme="https"
+                    android:host="cool.ikanisa.com" />
             </intent-filter>
 
             <!-- Custom scheme: cool:// -->

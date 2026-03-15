@@ -1,69 +1,154 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_card.dart';
 
 /// Summary card displayed on the review step of Schedule Trip.
 class ScheduleTripReviewCard extends StatelessWidget {
   const ScheduleTripReviewCard({
+    required this.title,
+    required this.subtitle,
+    required this.roleFieldLabel,
     required this.roleLabel,
     required this.routeLabel,
     required this.departureLabel,
     required this.vehicleLabel,
+    required this.seatsFieldLabel,
     required this.seatsLabel,
     required this.returnLabel,
     required this.recurringLabel,
+    required this.detailsFieldLabel,
     required this.detailsLabel,
     required this.previewLabel,
     super.key,
   });
 
+  final String title;
+  final String subtitle;
+  final String roleFieldLabel;
   final String roleLabel;
   final String routeLabel;
   final String departureLabel;
   final String vehicleLabel;
+  final String seatsFieldLabel;
   final String seatsLabel;
   final String returnLabel;
   final String recurringLabel;
+  final String detailsFieldLabel;
   final String detailsLabel;
   final String previewLabel;
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return CoolCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Review',
+            title,
             style: GoogleFonts.dmSans(
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
           const SizedBox(height: 6),
           Text(
-            'Check the main trip details before posting.',
+            subtitle,
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w400,
-              color: AppColors.text2,
+              color: palette.text2,
               height: 1.4,
             ),
           ),
           const SizedBox(height: 16),
-          _TripReviewItem(label: 'Role', value: roleLabel),
+          _TripReviewItem(label: roleFieldLabel, value: roleLabel),
           _TripReviewItem(label: 'Route', value: routeLabel),
           _TripReviewItem(label: 'Departure', value: departureLabel),
           _TripReviewItem(label: 'Vehicle', value: vehicleLabel),
-          _TripReviewItem(label: 'Seats', value: seatsLabel),
+          _TripReviewItem(label: seatsFieldLabel, value: seatsLabel),
           _TripReviewItem(label: 'Return', value: returnLabel),
           _TripReviewItem(label: 'Repeat', value: recurringLabel),
-          _TripReviewItem(label: 'Details', value: detailsLabel),
+          _TripReviewItem(label: detailsFieldLabel, value: detailsLabel),
           _TripReviewItem(label: 'Preview', value: previewLabel, isLast: true),
         ],
+      ),
+    );
+  }
+}
+
+class ScheduleTripPostingGuideCard extends StatelessWidget {
+  const ScheduleTripPostingGuideCard({
+    required this.title,
+    required this.subtitle,
+    required this.visibilityLabel,
+    required this.visibilityValue,
+    required this.precisionLabel,
+    required this.precisionValue,
+    required this.coordinationLabel,
+    required this.coordinationValue,
+    required this.offlineLabel,
+    required this.offlineValue,
+    super.key,
+  });
+
+  final String title;
+  final String subtitle;
+  final String visibilityLabel;
+  final String visibilityValue;
+  final String precisionLabel;
+  final String precisionValue;
+  final String coordinationLabel;
+  final String coordinationValue;
+  final String offlineLabel;
+  final String offlineValue;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+    return Semantics(
+      container: true,
+      label:
+          '$title. $visibilityLabel: $visibilityValue. $precisionLabel: $precisionValue. '
+          '$coordinationLabel: $coordinationValue. $offlineLabel: $offlineValue.',
+      child: CoolCard(
+        backgroundColor: palette.surface,
+        borderColor: palette.accent.withValues(alpha: 0.16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: GoogleFonts.dmSans(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: palette.text,
+              ),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              subtitle,
+              style: GoogleFonts.dmSans(
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+                color: palette.text2,
+                height: 1.4,
+              ),
+            ),
+            const SizedBox(height: 16),
+            _TripReviewItem(label: visibilityLabel, value: visibilityValue),
+            _TripReviewItem(label: precisionLabel, value: precisionValue),
+            _TripReviewItem(label: coordinationLabel, value: coordinationValue),
+            _TripReviewItem(
+              label: offlineLabel,
+              value: offlineValue,
+              isLast: true,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -82,6 +167,7 @@ class _TripReviewItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Padding(
       padding: EdgeInsets.only(bottom: isLast ? 0 : 12),
       child: Row(
@@ -94,7 +180,7 @@ class _TripReviewItem extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: AppColors.text3,
+                color: palette.text3,
               ),
             ),
           ),
@@ -104,7 +190,7 @@ class _TripReviewItem extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: AppColors.text,
+                color: palette.text,
                 height: 1.4,
               ),
             ),

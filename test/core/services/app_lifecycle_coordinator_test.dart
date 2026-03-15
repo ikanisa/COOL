@@ -1,5 +1,6 @@
 import 'package:cool_app/core/services/app_lifecycle_coordinator.dart';
 import 'package:cool_app/core/services/app_session_coordinator.dart';
+import 'package:cool_app/core/services/app_update_service.dart';
 import 'package:cool_app/core/services/crashlytics_service.dart';
 import 'package:cool_app/core/services/deep_link_coordinator.dart';
 import 'package:cool_app/core/services/engagement_tracker.dart';
@@ -27,6 +28,8 @@ class MockDeepLinkCoordinator extends Mock implements DeepLinkCoordinator {}
 
 class MockTripSyncCoordinator extends Mock implements TripSyncCoordinator {}
 
+class MockAppUpdateService extends Mock implements AppUpdateService {}
+
 class MockMomoSmsAutoreadService extends Mock
     implements MomoSmsAutoreadService {}
 
@@ -44,6 +47,7 @@ void main() {
     late MockAppSessionCoordinator sessionCoordinator;
     late MockDeepLinkCoordinator deepLinkCoordinator;
     late MockTripSyncCoordinator tripSyncCoordinator;
+    late MockAppUpdateService appUpdateService;
     late MockMomoSmsAutoreadService momoSmsAutoreadService;
     late List<String> events;
     late auth.AuthState authState;
@@ -56,6 +60,7 @@ void main() {
       sessionCoordinator = MockAppSessionCoordinator();
       deepLinkCoordinator = MockDeepLinkCoordinator();
       tripSyncCoordinator = MockTripSyncCoordinator();
+      appUpdateService = MockAppUpdateService();
       momoSmsAutoreadService = MockMomoSmsAutoreadService();
       events = <String>[];
       authState = auth.AuthState(session: _fakeSession(), user: _fakeUser());
@@ -94,6 +99,7 @@ void main() {
         events.add('deepLink.dispose');
       });
       when(() => momoSmsAutoreadService.refresh()).thenAnswer((_) async {});
+      when(() => appUpdateService.checkForUpdate()).thenAnswer((_) async {});
 
       coordinator = AppLifecycleCoordinator(
         refreshFeatureFlags: () async {
@@ -108,6 +114,7 @@ void main() {
         tripSyncCoordinator: tripSyncCoordinator,
         momoSmsAutoreadService: momoSmsAutoreadService,
         momoService: _buildTestMomoService(),
+        appUpdateService: appUpdateService,
       );
     });
 
@@ -128,6 +135,7 @@ void main() {
       verify(() => sessionCoordinator.bootstrap(authState)).called(1);
       verify(() => deepLinkCoordinator.start()).called(1);
       verify(() => tripSyncCoordinator.start()).called(1);
+      verify(() => appUpdateService.checkForUpdate()).called(1);
     });
 
     test('auth changes and resume events are delegated', () async {
@@ -141,6 +149,7 @@ void main() {
         () => sessionCoordinator.handleAuthStateChanged(previous, next),
       ).called(1);
       verify(() => tripSyncCoordinator.onAppResumed()).called(1);
+      verify(() => appUpdateService.checkForUpdate()).called(1);
     });
 
     test('dispose tears down child coordinators and allows restart', () async {

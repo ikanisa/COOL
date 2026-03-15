@@ -6,8 +6,7 @@ enum OperationalHealthStatus { ok, warn, error }
 enum OperationalHealthSeverity { info, warning, critical }
 
 class OperationalHealthService {
-  OperationalHealthService({required SupabaseClient client})
-    : _client = client;
+  OperationalHealthService({required SupabaseClient client}) : _client = client;
 
   final SupabaseClient _client;
 
@@ -42,7 +41,8 @@ class OperationalHealthService {
           'subjectType': _normalize(subjectType),
           'subjectId': _normalize(subjectId),
           'metadata': metadata,
-          'occurredAt': (occurredAt ?? DateTime.now().toUtc()).toIso8601String(),
+          'occurredAt': (occurredAt ?? DateTime.now().toUtc())
+              .toIso8601String(),
         },
       );
       final data = response.data;

@@ -18,6 +18,8 @@ abstract final class AppRoutes {
   static const mobilitySchedule = '/mobility/schedule';
   static const mobilityTrips = '/mobility/trips';
   static const mobilityDriver = '/mobility/driver';
+  static const mobilityDriverVehicle = '/mobility/driver/vehicle';
+  static const mobilityDriverSubscription = '/mobility/driver/subscription';
   static const partners = '/partners';
   static const rayonHome = '/partners/rayon-sports';
   static const rayonProfile = '/partners/rayon-sports/profile';
@@ -38,10 +40,14 @@ abstract final class AppRoutes {
   static const creditReadiness = '/credit/readiness';
   static const missions = '/missions';
   static const profile = '/profile';
+  static const profileWallet = '/profile/wallet';
+  static const profileIdentity = '/profile/identity';
+  static const profileTravelRole = '/profile/travel-role';
 
   static const scanner = '/scanner';
 
   static const admin = '/admin';
+  static const adminPlatform = '/admin/platform';
   static const adminUsers = '/admin/users';
   static const adminPartners = '/admin/partners';
   static const adminServices = '/admin/services';
@@ -49,6 +55,8 @@ abstract final class AppRoutes {
   static const adminVehicleTypes = '/admin/vehicle-types';
   static const adminAppConfig = '/admin/app-config';
   static const adminOperations = '/admin/operations';
+  static const adminPartnerWorkspace = '/admin/partners/:partnerId';
+  static const adminBankWorkspace = '/admin/banks/:partnerId';
 
   static const adminRayon = '/admin/rayon';
   static const adminRayonMatches = '/admin/rayon/matches';
@@ -56,7 +64,8 @@ abstract final class AppRoutes {
   static const adminRayonShop = '/admin/rayon/shop';
   static const adminRayonOrders = '/admin/rayon/orders';
   static const adminRayonMembers = '/admin/rayon/members';
-  static const adminRayonFanClubs = '/admin/rayon/fan-clubs';
+  static const adminRayonPackages = '/admin/rayon/packages';
+  static const adminRayonFinance = '/admin/rayon/finance';
   static const adminRayonInitiatives = '/admin/rayon/initiatives';
 
   static String onboardingLocation({String? redirect}) {
@@ -101,6 +110,14 @@ abstract final class AppRoutes {
 
   static String rayonSupportDetailLocation(String id) {
     return '/partners/rayon-sports/support/$id';
+  }
+
+  static String adminPartnerWorkspaceLocation(String partnerId) {
+    return '/admin/partners/${partnerId.trim()}';
+  }
+
+  static String adminBankWorkspaceLocation(String partnerId) {
+    return '/admin/banks/${partnerId.trim()}';
   }
 
   static String _location(

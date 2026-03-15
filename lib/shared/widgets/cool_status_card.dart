@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../features/partners/rayon/models/rs_models.dart';
-import '../../core/theme/app_colors.dart';
 import '../../core/status/models/cool_status.dart';
+import '../../core/theme/cool_palette.dart';
+import '../../features/partners/rayon/models/rs_models.dart';
 
 /// Compact status card showing unified COOL tier, points, streak,
 /// and progress to the next tier.
@@ -16,136 +16,136 @@ class CoolStatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final tier = status.tier;
 
     return Semantics(
-      label: '${tier.label} member. ${status.totalPoints} points. '
+      label:
+          '${tier.label} member. ${status.totalPoints} points. '
           '${status.currentStreak} day streak.',
       excludeSemantics: true,
       child: Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            tier.color.withValues(alpha: 0.18),
-            tier.color.withValues(alpha: 0.06),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: tier.color.withValues(alpha: 0.28),
-        ),
-      ),
-      padding: const EdgeInsets.all(18),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // ─── Header: tier badge + label ─────────────────────
-          Row(
-            children: [
-              _TierDot(tier: tier),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'COOL Status',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.text3,
-                        letterSpacing: 0.8,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      '${tier.label} Member',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.text,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              // Points pill
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  color: tier.color.withValues(alpha: 0.16),
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: Text(
-                  '${status.totalPoints} pts',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    color: tier.color,
-                  ),
-                ),
-              ),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              tier.color.withValues(alpha: 0.18),
+              tier.color.withValues(alpha: 0.06),
             ],
           ),
-
-          const SizedBox(height: 16),
-
-          // ─── Progress bar ──────────────────────────────────
-          if (tier != FanTier.platinum) ...[
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: tier.color.withValues(alpha: 0.28)),
+        ),
+        padding: const EdgeInsets.all(18),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // ─── Header: tier badge + label ─────────────────────
             Row(
               children: [
+                _TierDot(tier: tier),
+                const SizedBox(width: 10),
                 Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(6),
-                    child: LinearProgressIndicator(
-                      value: status.progressToNextTier,
-                      minHeight: 6,
-                      backgroundColor: AppColors.surface3,
-                      valueColor: AlwaysStoppedAnimation<Color>(tier.color),
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'COOL Status',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: palette.text3,
+                          letterSpacing: 0.8,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        '${tier.label} Member',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700,
+                          color: palette.text,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(width: 10),
-                Text(
-                  '${status.pointsToNextTier} to ${_nextTierLabel(tier)}',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.text3,
+                // Points pill
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: tier.color.withValues(alpha: 0.16),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Text(
+                    '${status.totalPoints} pts',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: tier.color,
+                    ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 14),
-          ],
 
-          // ─── Streak row ────────────────────────────────────
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _StatPill(
-                icon: Icons.local_fire_department_rounded,
-                label: '${status.currentStreak} streak',
+            const SizedBox(height: 16),
+
+            // ─── Progress bar ──────────────────────────────────
+            if (tier != FanTier.platinum) ...[
+              Row(
+                children: [
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(6),
+                      child: LinearProgressIndicator(
+                        value: status.progressToNextTier,
+                        minHeight: 6,
+                        backgroundColor: palette.surface3,
+                        valueColor: AlwaysStoppedAnimation<Color>(tier.color),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    '${status.pointsToNextTier} to ${_nextTierLabel(tier)}',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
+                      color: palette.text3,
+                    ),
+                  ),
+                ],
               ),
-              _StatPill(
-                icon: Icons.emoji_events_rounded,
-                label: '${status.longestStreak} best',
-              ),
-              if (status.streakGraceRemaining > 0)
-                _StatPill(
-                  icon: Icons.shield_rounded,
-                  label: '${status.streakGraceRemaining} grace',
-                ),
+              const SizedBox(height: 14),
             ],
-          ),
-        ],
-      ),
+
+            // ─── Streak row ────────────────────────────────────
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                _StatPill(
+                  icon: Icons.local_fire_department_rounded,
+                  label: '${status.currentStreak} streak',
+                ),
+                _StatPill(
+                  icon: Icons.emoji_events_rounded,
+                  label: '${status.longestStreak} best',
+                ),
+                if (status.streakGraceRemaining > 0)
+                  _StatPill(
+                    icon: Icons.shield_rounded,
+                    label: '${status.streakGraceRemaining} grace',
+                  ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -175,19 +175,11 @@ class _TierDot extends StatelessWidget {
           colors: [tier.color, tier.color.withValues(alpha: 0.3)],
         ),
         boxShadow: [
-          BoxShadow(
-            color: tier.glowColor,
-            blurRadius: 10,
-            spreadRadius: 1,
-          ),
+          BoxShadow(color: tier.glowColor, blurRadius: 10, spreadRadius: 1),
         ],
       ),
       child: Center(
-        child: Icon(
-          _tierIcon(tier),
-          size: 18,
-          color: Colors.white,
-        ),
+        child: Icon(_tierIcon(tier), size: 18, color: Colors.white),
       ),
     );
   }
@@ -207,23 +199,24 @@ class _StatPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: AppColors.surface3,
+        color: palette.surface3,
         borderRadius: BorderRadius.circular(30),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 13, color: AppColors.text2),
+          Icon(icon, size: 13, color: palette.text2),
           const SizedBox(width: 4),
           Text(
             label,
             style: GoogleFonts.dmSans(
               fontSize: 11,
               fontWeight: FontWeight.w600,
-              color: AppColors.text2,
+              color: palette.text2,
             ),
           ),
         ],

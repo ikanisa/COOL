@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'app_colors.dart';
+import 'cool_palette.dart';
 
-/// Global dark [ThemeData] for the Cool app.
+/// Global [ThemeData] definitions for the Cool app.
 ///
-/// Uses DM Sans as the default font, with AppColors for every surface,
-/// text style, component theme, and input decoration.
+/// Uses DM Sans as the default font, with [CoolPalette] providing semantic
+/// colors for text, surfaces, and component states.
 abstract final class AppTheme {
   // ── Typography constants ────────────────────────────────────────────
   static const _bold = FontWeight.w700;
@@ -26,201 +26,221 @@ abstract final class AppTheme {
   // ── Public theme getter ─────────────────────────────────────────────
 
   static ThemeData get dark {
-    final baseTextTheme = GoogleFonts.dmSansTextTheme(
-      ThemeData.dark().textTheme,
+    return _buildTheme(brightness: Brightness.dark, palette: CoolPalette.dark);
+  }
+
+  static ThemeData get light {
+    return _buildTheme(
+      brightness: Brightness.light,
+      palette: CoolPalette.light,
     );
+  }
+
+  static ThemeData _buildTheme({
+    required Brightness brightness,
+    required CoolPalette palette,
+  }) {
+    final baseTheme = brightness == Brightness.dark
+        ? ThemeData.dark()
+        : ThemeData.light();
+    final baseTextTheme = GoogleFonts.dmSansTextTheme(baseTheme.textTheme);
 
     final textTheme = baseTextTheme.copyWith(
-      // Display
       displayLarge: baseTextTheme.displayLarge?.copyWith(
         fontSize: _display,
         fontWeight: _bold,
-        color: AppColors.text,
+        color: palette.text,
         height: 1.2,
       ),
       displayMedium: baseTextTheme.displayMedium?.copyWith(
         fontSize: _display,
         fontWeight: _semibold,
-        color: AppColors.text,
+        color: palette.text,
         height: 1.2,
       ),
       displaySmall: baseTextTheme.displaySmall?.copyWith(
         fontSize: _display,
         fontWeight: _medium,
-        color: AppColors.text,
+        color: palette.text,
         height: 1.2,
       ),
-      // Title
       headlineLarge: baseTextTheme.headlineLarge?.copyWith(
         fontSize: _title,
         fontWeight: _bold,
-        color: AppColors.text,
+        color: palette.text,
         height: 1.3,
       ),
       headlineMedium: baseTextTheme.headlineMedium?.copyWith(
         fontSize: _heading,
         fontWeight: _semibold,
-        color: AppColors.text,
+        color: palette.text,
         height: 1.3,
       ),
       titleLarge: baseTextTheme.titleLarge?.copyWith(
         fontSize: _title,
         fontWeight: _bold,
-        color: AppColors.text,
+        color: palette.text,
         height: 1.3,
       ),
       titleMedium: baseTextTheme.titleMedium?.copyWith(
         fontSize: _title,
         fontWeight: _semibold,
-        color: AppColors.text,
+        color: palette.text,
         height: 1.3,
       ),
       titleSmall: baseTextTheme.titleSmall?.copyWith(
         fontSize: _heading,
         fontWeight: _semibold,
-        color: AppColors.text,
+        color: palette.text,
         height: 1.3,
       ),
-      // Heading → headlineSmall
       headlineSmall: baseTextTheme.headlineSmall?.copyWith(
         fontSize: _heading,
         fontWeight: _semibold,
-        color: AppColors.text,
+        color: palette.text,
         height: 1.3,
       ),
-      // Body
       bodyLarge: baseTextTheme.bodyLarge?.copyWith(
         fontSize: _body,
         fontWeight: _medium,
-        color: AppColors.text,
+        color: palette.text,
         height: 1.5,
       ),
       bodyMedium: baseTextTheme.bodyMedium?.copyWith(
         fontSize: _body,
         fontWeight: _regular,
-        color: AppColors.text,
+        color: palette.text,
         height: 1.5,
       ),
       bodySmall: baseTextTheme.bodySmall?.copyWith(
         fontSize: _small,
         fontWeight: _regular,
-        color: AppColors.text2,
+        color: palette.text2,
         height: 1.4,
       ),
-      // Small / Tiny → labels
       labelLarge: baseTextTheme.labelLarge?.copyWith(
         fontSize: _small,
         fontWeight: _semibold,
-        color: AppColors.text,
+        color: palette.text,
         height: 1.4,
       ),
       labelMedium: baseTextTheme.labelMedium?.copyWith(
         fontSize: _small,
         fontWeight: _medium,
-        color: AppColors.text2,
+        color: palette.text2,
         height: 1.4,
       ),
       labelSmall: baseTextTheme.labelSmall?.copyWith(
         fontSize: _tiny,
         fontWeight: _regular,
-        color: AppColors.text3,
+        color: palette.text3,
         letterSpacing: 0.4,
         height: 1.4,
       ),
     );
 
+    final isDark = brightness == Brightness.dark;
+    final colorScheme = isDark
+        ? ColorScheme.dark(
+            surface: palette.surface,
+            primary: palette.accent,
+            secondary: palette.accent2,
+            error: palette.red,
+            onPrimary: Colors.black,
+            onSurface: palette.text,
+            onError: Colors.white,
+          )
+        : ColorScheme.light(
+            surface: palette.surface,
+            primary: palette.accent,
+            secondary: palette.accent2,
+            error: palette.red,
+            onPrimary: Colors.black,
+            onSurface: palette.text,
+            onError: Colors.white,
+          );
+    final overlayStyle = isDark
+        ? SystemUiOverlayStyle.light
+        : SystemUiOverlayStyle.dark;
+
     return ThemeData(
       useMaterial3: true,
-      brightness: Brightness.dark,
+      brightness: brightness,
       fontFamily: GoogleFonts.dmSans().fontFamily,
-
-      // ── Colours ───────────────────────────────────────────────────
-      scaffoldBackgroundColor: AppColors.bg,
-      colorScheme: const ColorScheme.dark(
-        surface: AppColors.surface,
-        primary: AppColors.accent,
-        secondary: AppColors.accent2,
-        error: AppColors.red,
-        onPrimary: Colors.black,
-        onSurface: AppColors.text,
-        onError: Colors.white,
-      ),
-
-      // ── Text ──────────────────────────────────────────────────────
+      materialTapTargetSize: MaterialTapTargetSize.padded,
+      visualDensity: VisualDensity.standard,
+      scaffoldBackgroundColor: palette.bg,
+      colorScheme: colorScheme,
+      extensions: <ThemeExtension<dynamic>>[palette],
       textTheme: textTheme,
-
-      // ── AppBar ────────────────────────────────────────────────────
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: true,
-        systemOverlayStyle: SystemUiOverlayStyle.light,
+        systemOverlayStyle: overlayStyle,
         titleTextStyle: textTheme.titleLarge?.copyWith(
           fontSize: _heading,
           fontWeight: _semibold,
         ),
-        iconTheme: const IconThemeData(color: AppColors.text, size: 22),
+        iconTheme: IconThemeData(color: palette.text, size: 22),
       ),
-
-      // ── Card ──────────────────────────────────────────────────────
       cardTheme: CardThemeData(
-        color: AppColors.surface2,
+        color: palette.surface2,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
-          side: const BorderSide(color: AppColors.border),
+          side: BorderSide(color: palette.border),
         ),
       ),
-
-      bottomAppBarTheme: const BottomAppBarThemeData(
-        color: AppColors.surface,
+      bottomAppBarTheme: BottomAppBarThemeData(
+        color: palette.surface,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
       ),
-
-      // ── Bottom Navigation Bar ─────────────────────────────────────
-      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: AppColors.surface,
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: palette.surface,
         elevation: 0,
-        selectedItemColor: AppColors.accent,
-        unselectedItemColor: AppColors.text3,
+        selectedItemColor: palette.accent,
+        unselectedItemColor: palette.text3,
         type: BottomNavigationBarType.fixed,
         showSelectedLabels: true,
         showUnselectedLabels: true,
-        selectedLabelStyle: TextStyle(fontSize: _tiny, fontWeight: _medium),
-        unselectedLabelStyle: TextStyle(fontSize: _tiny, fontWeight: _regular),
+        selectedLabelStyle: const TextStyle(
+          fontSize: _tiny,
+          fontWeight: _medium,
+        ),
+        unselectedLabelStyle: const TextStyle(
+          fontSize: _tiny,
+          fontWeight: _regular,
+        ),
       ),
-
-      // ── NavigationBar (Material 3) ────────────────────────────────
       navigationBarTheme: NavigationBarThemeData(
-        backgroundColor: AppColors.surface,
+        backgroundColor: palette.surface,
         elevation: 0,
         height: 76,
-        indicatorColor: AppColors.accentGlow,
+        indicatorColor: palette.accentGlow,
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           final isSelected = states.contains(WidgetState.selected);
           return TextStyle(
             fontSize: _tiny,
             fontWeight: isSelected ? _medium : _regular,
-            color: isSelected ? AppColors.accent : AppColors.text3,
+            color: isSelected ? palette.accent : palette.text3,
           );
         }),
         iconTheme: WidgetStateProperty.resolveWith((states) {
           final isSelected = states.contains(WidgetState.selected);
           return IconThemeData(
             size: 22,
-            color: isSelected ? AppColors.accent : AppColors.text3,
+            color: isSelected ? palette.accent : palette.text3,
           );
         }),
       ),
-
-      // ── Input Decoration ──────────────────────────────────────────
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.surface2,
+        fillColor: palette.surface2,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 18,
           vertical: 16,
@@ -228,42 +248,40 @@ abstract final class AppTheme {
         hintStyle: GoogleFonts.dmSans(
           fontSize: _body,
           fontWeight: _regular,
-          color: AppColors.text3,
+          color: palette.text3,
         ),
         labelStyle: GoogleFonts.dmSans(
           fontSize: _small,
           fontWeight: _medium,
-          color: AppColors.text2,
+          color: palette.text2,
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: palette.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: palette.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.accent, width: 1.5),
+          borderSide: BorderSide(color: palette.accent, width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.red),
+          borderSide: BorderSide(color: palette.red),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.red, width: 1.5),
+          borderSide: BorderSide(color: palette.red, width: 1.5),
         ),
       ),
-
-      // ── Elevated Button ───────────────────────────────────────────
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.accent,
+          backgroundColor: palette.accent,
           foregroundColor: Colors.black,
-          disabledBackgroundColor: AppColors.surface3,
-          disabledForegroundColor: AppColors.text3,
+          disabledBackgroundColor: palette.surface3,
+          disabledForegroundColor: palette.text3,
           elevation: 0,
           minimumSize: const Size(double.infinity, 56),
           shape: RoundedRectangleBorder(
@@ -273,12 +291,10 @@ abstract final class AppTheme {
           splashFactory: NoSplash.splashFactory,
         ),
       ),
-
-      // ── Outlined Button ───────────────────────────────────────────
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.accent,
-          side: const BorderSide(color: AppColors.border2),
+          foregroundColor: palette.accent,
+          side: BorderSide(color: palette.border2),
           elevation: 0,
           minimumSize: const Size(double.infinity, 56),
           shape: RoundedRectangleBorder(
@@ -288,90 +304,74 @@ abstract final class AppTheme {
           splashFactory: NoSplash.splashFactory,
         ),
       ),
-
-      // ── Text Button ───────────────────────────────────────────────
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: AppColors.accent,
+          foregroundColor: palette.accent,
           textStyle: GoogleFonts.dmSans(fontSize: _body, fontWeight: _semibold),
           splashFactory: NoSplash.splashFactory,
         ),
       ),
-
-      // ── Floating Action Button ────────────────────────────────────
-      floatingActionButtonTheme: const FloatingActionButtonThemeData(
-        backgroundColor: AppColors.accent,
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: palette.accent,
         foregroundColor: Colors.black,
         elevation: 0,
         highlightElevation: 0,
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
       ),
-
-      // ── Bottom Sheet ──────────────────────────────────────────────
-      bottomSheetTheme: const BottomSheetThemeData(
-        backgroundColor: AppColors.surface,
-        modalBackgroundColor: AppColors.surface,
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: palette.surface,
+        modalBackgroundColor: palette.surface,
         surfaceTintColor: Colors.transparent,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),
       ),
-
-      // ── Dialog ────────────────────────────────────────────────────
       dialogTheme: DialogThemeData(
-        backgroundColor: AppColors.surface2,
+        backgroundColor: palette.surface2,
         surfaceTintColor: Colors.transparent,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         titleTextStyle: GoogleFonts.dmSans(
           fontSize: _heading,
           fontWeight: _semibold,
-          color: AppColors.text,
+          color: palette.text,
         ),
         contentTextStyle: GoogleFonts.dmSans(
           fontSize: _body,
           fontWeight: _regular,
-          color: AppColors.text2,
+          color: palette.text2,
         ),
       ),
-
-      // ── Divider ───────────────────────────────────────────────────
-      dividerTheme: const DividerThemeData(
-        color: AppColors.border,
+      dividerTheme: DividerThemeData(
+        color: palette.border,
         thickness: 1,
         space: 0,
       ),
-
-      // ── Chip ──────────────────────────────────────────────────────
       chipTheme: ChipThemeData(
-        backgroundColor: AppColors.surface2,
-        selectedColor: AppColors.accentGlow,
-        side: const BorderSide(color: AppColors.border),
+        backgroundColor: palette.surface2,
+        selectedColor: palette.accentGlow,
+        side: BorderSide(color: palette.border),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         labelStyle: GoogleFonts.dmSans(
           fontSize: _small,
           fontWeight: _medium,
-          color: AppColors.text,
+          color: palette.text,
         ),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       ),
-
-      // ── Snack Bar ─────────────────────────────────────────────────
       snackBarTheme: SnackBarThemeData(
-        backgroundColor: AppColors.surface3,
+        backgroundColor: palette.surface3,
         contentTextStyle: GoogleFonts.dmSans(
           fontSize: _small,
           fontWeight: _medium,
-          color: AppColors.text,
+          color: palette.text,
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         behavior: SnackBarBehavior.floating,
       ),
-
-      // ── Tab Bar ───────────────────────────────────────────────────
       tabBarTheme: TabBarThemeData(
-        labelColor: AppColors.accent,
-        unselectedLabelColor: AppColors.text3,
-        indicatorColor: AppColors.accent,
+        labelColor: palette.accent,
+        unselectedLabelColor: palette.text3,
+        indicatorColor: palette.accent,
         labelStyle: GoogleFonts.dmSans(fontSize: _small, fontWeight: _semibold),
         unselectedLabelStyle: GoogleFonts.dmSans(
           fontSize: _small,
@@ -379,58 +379,55 @@ abstract final class AppTheme {
         ),
         dividerColor: Colors.transparent,
       ),
-
-      // ── Splash / Highlight suppression ────────────────────────────
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       splashFactory: NoSplash.splashFactory,
-
-      // ── Icon ──────────────────────────────────────────────────────
-      iconTheme: const IconThemeData(color: AppColors.text2, size: 22),
-
-      // ── Tooltip ───────────────────────────────────────────────────
+      iconTheme: IconThemeData(color: palette.text2, size: 22),
+      iconButtonTheme: IconButtonThemeData(
+        style: IconButton.styleFrom(
+          minimumSize: const Size.square(48),
+          padding: const EdgeInsets.all(12),
+          tapTargetSize: MaterialTapTargetSize.padded,
+        ),
+      ),
       tooltipTheme: TooltipThemeData(
         decoration: BoxDecoration(
-          color: AppColors.surface3,
+          color: palette.surface3,
           borderRadius: BorderRadius.circular(8),
         ),
-        textStyle: GoogleFonts.dmSans(fontSize: _small, color: AppColors.text),
+        textStyle: GoogleFonts.dmSans(fontSize: _small, color: palette.text),
       ),
-
-      // ── Progress Indicator ────────────────────────────────────────
-      progressIndicatorTheme: const ProgressIndicatorThemeData(
-        color: AppColors.accent,
-        linearTrackColor: AppColors.surface3,
+      progressIndicatorTheme: ProgressIndicatorThemeData(
+        color: palette.accent,
+        linearTrackColor: palette.surface3,
       ),
-
-      // ── Switch / Checkbox / Radio ─────────────────────────────────
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.resolveWith((states) {
           return states.contains(WidgetState.selected)
-              ? AppColors.accent
-              : AppColors.text3;
+              ? palette.accent
+              : palette.text3;
         }),
         trackColor: WidgetStateProperty.resolveWith((states) {
           return states.contains(WidgetState.selected)
-              ? AppColors.accentGlow
-              : AppColors.surface3;
+              ? palette.accentGlow
+              : palette.surface3;
         }),
       ),
       checkboxTheme: CheckboxThemeData(
         fillColor: WidgetStateProperty.resolveWith((states) {
           return states.contains(WidgetState.selected)
-              ? AppColors.accent
+              ? palette.accent
               : Colors.transparent;
         }),
         checkColor: WidgetStateProperty.all(Colors.black),
-        side: const BorderSide(color: AppColors.text3, width: 1.5),
+        side: BorderSide(color: palette.text3, width: 1.5),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
       ),
       radioTheme: RadioThemeData(
         fillColor: WidgetStateProperty.resolveWith((states) {
           return states.contains(WidgetState.selected)
-              ? AppColors.accent
-              : AppColors.text3;
+              ? palette.accent
+              : palette.text3;
         }),
       ),
     );

@@ -33,17 +33,13 @@ class ManageAppConfigScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.bg,
       appBar: AppBar(
-        backgroundColor: AppColors.surface,
+        automaticallyImplyLeading: true,
+        backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
-          'App Config',
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: AppColors.text,
-          ),
+        leading: IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
-        iconTheme: const IconThemeData(color: AppColors.text),
       ),
       floatingActionButton: Semantics(
         button: true,
@@ -55,178 +51,184 @@ class ManageAppConfigScreen extends ConsumerWidget {
           child: const Icon(Icons.add_rounded, color: Colors.black),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: CoolAsyncView<List<Map<String, dynamic>>>(
-          value: configAsync,
-          onRetry: () => ref.invalidate(adminAppConfigProvider),
-          emptyCheck: (_) => false,
-          builder: (configs) {
-            final viewModel = ManageAppConfigViewModel.fromEntries(configs);
-            final partnerRoutes = partnerRoutesAsync.valueOrNull ?? const [];
-            final partners = partnersAsync.valueOrNull ?? const [];
-            return ListView(
-              children: [
-                AppConfigSectionHeader(
-                  title: 'Rollout Governance',
-                  subtitle:
-                      'Manage kill switches, rollout stage, and operator-only access for the Rwanda app shell.',
+      body: CoolAsyncView<List<Map<String, dynamic>>>(
+        value: configAsync,
+        onRetry: () => ref.invalidate(adminAppConfigProvider),
+        emptyCheck: (_) => false,
+        builder: (configs) {
+          final viewModel = ManageAppConfigViewModel.fromEntries(configs);
+          final partnerRoutes = partnerRoutesAsync.valueOrNull ?? const [];
+          final partners = partnersAsync.valueOrNull ?? const [];
+          return ListView(
+            padding: const EdgeInsets.fromLTRB(18, 0, 18, 96),
+            children: [
+              Text(
+                'App Config',
+                style: GoogleFonts.dmSans(
+                  fontSize: 34,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.text,
+                  height: 1.1,
                 ),
-                const SizedBox(height: 12),
-                ...viewModel.rollouts.map(
-                  (rollout) => Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: RolloutCard(
-                      rollout: rollout,
-                      onEdit: () =>
-                          _showRolloutSheet(context, ref, rollout, countries),
-                    ),
+              ),
+              const SizedBox(height: 24),
+              const AppConfigSectionHeader(
+                title: 'Rollout Governance',
+                subtitle:
+                    'Manage kill switches, rollout stage, and operator-only access for the Rwanda app shell.',
+              ),
+              const SizedBox(height: 12),
+              ...viewModel.rollouts.map(
+                (rollout) => Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: RolloutCard(
+                    rollout: rollout,
+                    onEdit:
+                        () =>
+                            _showRolloutSheet(context, ref, rollout, countries),
                   ),
                 ),
-                const SizedBox(height: 12),
-                AppConfigSectionHeader(
-                  title: 'Mobility Subscription Recipient',
-                  subtitle:
-                      'Set the MoMo code that receives Rwanda mobility subscription payments without shipping a new build.',
-                ),
-                const SizedBox(height: 12),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: OutlinedButton.icon(
-                    onPressed: () => _showMobilitySubscriptionSheet(
-                      context,
-                      ref,
-                      null,
-                      countries,
+              ),
+              const SizedBox(height: 12),
+              const AppConfigSectionHeader(
+                title: 'Mobility Subscription Recipient',
+                subtitle:
+                    'Set the MoMo code that receives Rwanda mobility subscription payments without shipping a new build.',
+              ),
+              const SizedBox(height: 12),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: OutlinedButton.icon(
+                  onPressed: () => _showMobilitySubscriptionSheet(
+                    context,
+                    ref,
+                    null,
+                    countries,
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: AppColors.text,
+                    side: BorderSide(color: AppColors.border),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.text,
-                      side: BorderSide(color: AppColors.border),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
+                  ),
+                  icon: const Icon(Icons.add_rounded, size: 18),
+                  label: const Text('Add Recipient'),
+                ),
+              ),
+              const SizedBox(height: 12),
+              if (viewModel.mobilitySubscriptionConfigs.isEmpty)
+                const EmptyConfigCard(
+                  message:
+                      'No mobility subscription MoMo code is configured yet. Add one before drivers can pay subscriptions.',
+                )
+              else
+                ...viewModel.mobilitySubscriptionConfigs.map(
+                  (config) => Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: MobilitySubscriptionConfigTile(
+                      config: config,
+                      countries: countries,
+                      onEdit: () => _showMobilitySubscriptionSheet(
+                        context,
+                        ref,
+                        config,
+                        countries,
                       ),
                     ),
-                    icon: const Icon(Icons.add_rounded, size: 18),
-                    label: Text(
-                      'Add code',
-                      style: GoogleFonts.dmSans(fontWeight: FontWeight.w600),
-                    ),
                   ),
                 ),
-                const SizedBox(height: 12),
-                if (viewModel.mobilitySubscriptionConfigs.isEmpty)
-                  const EmptyConfigCard(
-                    message:
-                        'No mobility subscription MoMo code is configured yet. Add one before drivers can pay subscriptions.',
-                  )
-                else
-                  ...viewModel.mobilitySubscriptionConfigs.map(
-                    (config) => Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: MobilitySubscriptionConfigTile(
-                        config: config,
-                        countries: countries,
-                        onEdit: () => _showMobilitySubscriptionSheet(
-                          context,
-                          ref,
-                          config,
-                          countries,
-                        ),
-                      ),
-                    ),
-                  ),
-                const SizedBox(height: 12),
-                AppConfigSectionHeader(
-                  title: 'Partner Payment Routes',
-                  subtitle:
-                      'Manage Rwanda partner checkout merchant codes, providers, reconciliation labels, and active status without shipping a new build.',
-                ),
-                const SizedBox(height: 12),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: OutlinedButton.icon(
-                    onPressed: partners.isEmpty
-                        ? null
-                        : () => _showPartnerPaymentRouteSheet(
+              const SizedBox(height: 12),
+              const AppConfigSectionHeader(
+                title: 'Partner Payment Routes',
+                subtitle:
+                    'Manage Rwanda partner checkout merchant codes, providers, reconciliation labels, and active status without shipping a new build.',
+              ),
+              const SizedBox(height: 12),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: OutlinedButton.icon(
+                  onPressed: partners.isEmpty
+                      ? null
+                      : () => _showPartnerPaymentRouteSheet(
                             context,
                             ref,
                             null,
                             countries,
                             partners,
                           ),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.text,
-                      side: BorderSide(color: AppColors.border),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: AppColors.text,
+                    side: BorderSide(color: AppColors.border),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
                     ),
-                    icon: const Icon(Icons.add_rounded, size: 18),
-                    label: Text(
-                      'Add route',
-                      style: GoogleFonts.dmSans(fontWeight: FontWeight.w600),
+                  ),
+                  icon: const Icon(Icons.add_rounded, size: 18),
+                  label: Text(
+                    'Add route',
+                    style: GoogleFonts.dmSans(fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              if (partnerRoutesAsync.isLoading && partnerRoutes.isEmpty)
+                const EmptyConfigCard(
+                  message: 'Loading partner payment routes…',
+                )
+              else if (partnerRoutesAsync.hasError)
+                EmptyConfigCard(
+                  message:
+                      'Could not load partner payment routes. ${partnerRoutesAsync.error}',
+                )
+              else if (partnerRoutes.isEmpty)
+                const EmptyConfigCard(
+                  message:
+                      'No partner payment routes are configured yet. Add an active merchant-code route before partner checkout goes live.',
+                )
+              else
+                ...partnerRoutes.map(
+                  (route) => Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: PartnerPaymentRouteConfigTile(
+                      config: route,
+                      countries: countries,
+                      onEdit: () => _showPartnerPaymentRouteSheet(
+                        context,
+                        ref,
+                        route,
+                        countries,
+                        partners,
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
-                if (partnerRoutesAsync.isLoading && partnerRoutes.isEmpty)
-                  const EmptyConfigCard(
-                    message: 'Loading partner payment routes…',
-                  )
-                else if (partnerRoutesAsync.hasError)
-                  EmptyConfigCard(
-                    message:
-                        'Could not load partner payment routes. ${partnerRoutesAsync.error}',
-                  )
-                else if (partnerRoutes.isEmpty)
-                  const EmptyConfigCard(
-                    message:
-                        'No partner payment routes are configured yet. Add an active merchant-code route before partner checkout goes live.',
-                  )
-                else
-                  ...partnerRoutes.map(
-                    (route) => Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: PartnerPaymentRouteConfigTile(
-                        config: route,
-                        countries: countries,
-                        onEdit: () => _showPartnerPaymentRouteSheet(
-                          context,
-                          ref,
-                          route,
-                          countries,
-                          partners,
-                        ),
-                      ),
+              const SizedBox(height: 12),
+              const AppConfigSectionHeader(
+                title: 'Additional Config',
+                subtitle:
+                    'Use the generic config editor for Rwanda operational settings and non-rollout keys.',
+              ),
+              const SizedBox(height: 12),
+              if (viewModel.genericConfigs.isEmpty)
+                const EmptyConfigCard(
+                  message:
+                      'No non-rollout config entries yet. Use the add button to create one.',
+                )
+              else
+                ...viewModel.genericConfigs.map(
+                  (config) => Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: ConfigTile(
+                      config: config,
+                      onEdit: () =>
+                          _showEditSheet(context, ref, config, countries),
                     ),
                   ),
-                const SizedBox(height: 12),
-                AppConfigSectionHeader(
-                  title: 'Additional Config',
-                  subtitle:
-                      'Use the generic config editor for Rwanda operational settings and non-rollout keys.',
                 ),
-                const SizedBox(height: 12),
-                if (viewModel.genericConfigs.isEmpty)
-                  const EmptyConfigCard(
-                    message:
-                        'No non-rollout config entries yet. Use the add button to create one.',
-                  )
-                else
-                  ...viewModel.genericConfigs.map(
-                    (config) => Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: ConfigTile(
-                        config: config,
-                        onEdit: () =>
-                            _showEditSheet(context, ref, config, countries),
-                      ),
-                    ),
-                  ),
-              ],
-            );
-          },
-        ),
+            ],
+          );
+        },
       ),
     );
   }

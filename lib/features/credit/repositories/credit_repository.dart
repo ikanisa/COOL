@@ -5,8 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/credit_dashboard.dart';
 
 class CreditRepository {
-  CreditRepository({required SupabaseClient client})
-    : _client = client;
+  CreditRepository({required SupabaseClient client}) : _client = client;
 
   final SupabaseClient _client;
 
@@ -30,10 +29,26 @@ class CreditRepository {
     // Build factors directly from the score row columns
     final factors = <CreditFactor>[];
     final factorSpecs = <({String key, String label, IconData icon})>[
-      (key: 'cashflow_stability', label: 'Wallet Cashflow', icon: Icons.account_balance_wallet_rounded),
-      (key: 'savings_discipline', label: 'Savings Discipline', icon: Icons.savings_rounded),
-      (key: 'group_reliability', label: 'Group Reliability', icon: Icons.group_rounded),
-      (key: 'profile_strength', label: 'Profile Strength', icon: Icons.badge_rounded),
+      (
+        key: 'cashflow_stability',
+        label: 'Wallet Cashflow',
+        icon: Icons.account_balance_wallet_rounded,
+      ),
+      (
+        key: 'savings_discipline',
+        label: 'Savings Discipline',
+        icon: Icons.savings_rounded,
+      ),
+      (
+        key: 'group_reliability',
+        label: 'Group Reliability',
+        icon: Icons.group_rounded,
+      ),
+      (
+        key: 'profile_strength',
+        label: 'Profile Strength',
+        icon: Icons.badge_rounded,
+      ),
     ];
     for (final spec in factorSpecs) {
       final value = _tryAsInt(latest[spec.key]);

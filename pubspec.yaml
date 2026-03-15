@@ -76,6 +76,8 @@ dependencies:
   syncfusion_flutter_xlsio: ^32.2.9
   file_saver: ^0.3.1
   flutter_contacts: ^2.0.0
+  in_app_review: ^2.0.11
+  in_app_update: ^4.2.5
 
 dev_dependencies:
   flutter_test:
@@ -109,12 +111,12 @@ flutter_launcher_icons:
   remove_alpha_ios: true
 
 flutter_native_splash:
-  color: "#0A0A0F"
+  color: "#F7F8FC"
   color_dark: "#0A0A0F"
   image: assets/images/cool_logo_mark_splash.png
   image_dark: assets/images/cool_logo_mark_splash.png
   android_12:
-    color: "#0A0A0F"
+    color: "#F7F8FC"
     color_dark: "#0A0A0F"
     image: assets/images/cool_logo_mark_splash.png
     image_dark: assets/images/cool_logo_mark_splash.png

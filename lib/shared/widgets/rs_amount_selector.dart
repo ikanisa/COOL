@@ -59,11 +59,13 @@ class _RsAmountSelectorState extends State<RsAmountSelector> {
   @override
   Widget build(BuildContext context) {
     final chips = <Widget>[
-      ...widget.amounts.map((amount) => _Chip(
-        label: '${amount.toString()} RWF',
-        isSelected: widget.selectedAmount == amount,
-        onTap: () => _selectPreset(amount),
-      )),
+      ...widget.amounts.map(
+        (amount) => _Chip(
+          label: '${amount.toString()} RWF',
+          isSelected: widget.selectedAmount == amount,
+          onTap: () => _selectPreset(amount),
+        ),
+      ),
       if (widget.allowCustom)
         _Chip(
           label: 'Custom ✏️',
@@ -113,13 +115,11 @@ class _RsAmountSelectorState extends State<RsAmountSelector> {
                     fillColor: AppColors.surface2,
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: AppColors.border),
+                      borderSide: BorderSide(color: AppColors.border),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(
-                        color: RsColors.rsBlueLight,
-                      ),
+                      borderSide: const BorderSide(color: RsColors.rsBlueLight),
                     ),
                   ),
                   onSubmitted: (_) => _submitCustom(),
