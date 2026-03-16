@@ -22,7 +22,7 @@ class RsClubCard extends StatelessWidget {
     return Semantics(
       button: true,
       label:
-          '${club.name}. ${club.region}. '
+          '${club.name}. ${club.region}.'
           '${joined ? 'Joined' : 'Not joined'}. '
           '${club.memberCount} members.',
       excludeSemantics: true,

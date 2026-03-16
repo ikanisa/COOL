@@ -216,7 +216,7 @@ class ScoreFactors extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(18),
           child: Text(
-            'Factors appear after your first report.',
+            'Factors appear after your',
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,
@@ -302,7 +302,7 @@ class ScoreHistoryChart extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(18),
           child: Text(
-            'History appears after multiple reports.',
+            'History appears after multiple',
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,

@@ -118,7 +118,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
-                                  'We could not restore your profile',
+                                  'We could not restore',
                                   style: GoogleFonts.dmSans(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,

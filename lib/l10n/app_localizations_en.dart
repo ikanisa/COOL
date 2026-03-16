@@ -27,21 +27,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get welcomeTitle => 'Welcome to Cool';
 
   @override
-  String get welcomeSubtitle =>
-      'Community savings, group funds & mobility — all in one simple app for Rwanda.';
+  String get welcomeSubtitle => 'Community savings group funds';
 
   @override
   String get getStarted => 'Get Started';
 
   @override
-  String get signIn => 'Already have an account? Sign In';
+  String get signIn => 'Already have an account?';
 
   @override
   String get verifyWhatsapp => 'Verify via WhatsApp';
 
   @override
-  String get verifyWhatsappSubtitle =>
-      'We\'ll send a one-time code to your WhatsApp number.';
+  String get verifyWhatsappSubtitle => 'We\'ll send a one-time';
 
   @override
   String get phoneLabel => 'Phone Number';
@@ -56,8 +54,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enterCode => 'Enter Code';
 
   @override
-  String get enterCodeSubtitle =>
-      'Enter the 6-digit code sent to your WhatsApp.';
+  String get enterCodeSubtitle => 'Enter the 6-digit code';
 
   @override
   String get verifyButton => 'Verify & Continue';
@@ -71,7 +68,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get invalidCode => 'Invalid code. Please try again.';
+  String get invalidCode => 'Invalid code Please try';
 
   @override
   String get codeSent => 'Code sent to WhatsApp.';
@@ -95,7 +92,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get momoNumberLabel => 'MOMO Number';
 
   @override
-  String get momoNumberHint => 'e.g. 0788 123 456';
+  String get momoNumberHint => 'e g 0788 123';
 
   @override
   String get totalBalance => 'Total Balance';
@@ -119,7 +116,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get recentActivity => 'Recent Activity';
 
   @override
-  String get noActivity => 'No recent activity to show.';
+  String get noActivity => 'No recent activity to';
 
   @override
   String get viewAll => 'View All';
@@ -128,7 +125,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sendMoneyTitle => 'Send Money';
 
   @override
-  String get sendMoneyHint => 'Transfer instantly to a member ID';
+  String get sendMoneyHint => 'Transfer instantly to a';
 
   @override
   String get sendAction => 'Send';
@@ -226,7 +223,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get discoverGroups => 'Discover Groups';
 
   @override
-  String get noGroupsYet => 'You haven\'t joined any groups yet.';
+  String get noGroupsYet => 'You haven\'t joined any';
 
   @override
   String get noPublicGroups => 'No public groups available.';
@@ -261,8 +258,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get payViaUssd => 'Pay via MOMO USSD';
 
   @override
-  String get momoDialerError =>
-      'Unable to open the USSD dialer. Please try again.';
+  String get momoDialerError => 'open the USSD failed';
 
   @override
   String get mobilityTitle => 'Mobility';
@@ -295,7 +291,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get returnTrips => 'Return';
 
   @override
-  String get noTripsAvailable => 'No trips available right now.';
+  String get noTripsAvailable => 'No trips available right';
 
   @override
   String get noDriversNearby => 'No drivers nearby.';
@@ -325,8 +321,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scheduleTripTitle => 'Schedule a Trip';
 
   @override
-  String get scheduleTripInfoBanner =>
-      'Schedule ahead to find the best matches — drivers can offer return trips at lower prices!';
+  String get scheduleTripInfoBanner => 'Schedule ahead to find!';
 
   @override
   String get scheduleTripDetailsTitle => 'Trip Details';
@@ -335,7 +330,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scheduleTripFromHint => '📍 From — e.g. Nyamirambo';
 
   @override
-  String get scheduleTripToHint => '🎯 To — e.g. Kigali Downtown';
+  String get scheduleTripToHint => 'To e g Kigali';
 
   @override
   String get scheduleTripDateTimeLabel => 'Date & Time';
@@ -350,8 +345,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scheduleTripReturnTitle => 'Return Trip';
 
   @override
-  String get scheduleTripReturnSubtitle =>
-      'Drivers offer discounts on return trips';
+  String get scheduleTripReturnSubtitle => 'Drivers offer discounts on';
 
   @override
   String get scheduleTripReturnFieldsLabel => 'Return Date & Time';
@@ -369,8 +363,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scheduleTripExpiryTitle => 'Trip expires automatically';
 
   @override
-  String get scheduleTripExpirySubtitle =>
-      'Trips are removed 60 min after departure time if unfilled.';
+  String get scheduleTripExpirySubtitle => 'Trips are removed 60';
 
   @override
   String get scheduleTripPostCta => 'Post Trip on Board';
@@ -379,15 +372,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scheduleTripPostedSuccess => 'Trip posted successfully.';
 
   @override
-  String get scheduleTripPostedPendingSync =>
-      'Trip saved offline and will sync when a connection is available.';
+  String get scheduleTripPostedPendingSync => 'Trip saved offline and';
 
   @override
   String get scheduleTripPostingGuideTitle => 'Posting behavior';
 
   @override
-  String get scheduleTripPostingGuideSubtitle =>
-      'Make sure the trip details are honest before you post. Coordination and final pickup details happen after the listing goes live.';
+  String get scheduleTripPostingGuideSubtitle => 'Make sure the trip';
 
   @override
   String get scheduleTripPostingVisibilityLabel => 'Visible to others';
@@ -402,36 +393,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scheduleTripPostingOfflineLabel => 'Offline fallback';
 
   @override
-  String get scheduleTripPostingPassengerVisibility =>
-      'Drivers see your route, timing, seats, and note.';
+  String get scheduleTripPostingPassengerVisibility => 'Drivers see your route';
 
   @override
-  String get scheduleTripPostingDriverVisibility =>
-      'Riders see your route, timing, seats, vehicle, and rider note.';
+  String get scheduleTripPostingDriverVisibility => 'Riders see your route';
 
   @override
   String get scheduleTripPostingPrecisionExact =>
-      'Exact pickup and destination pins are attached.';
+      'Exact pickup and destination';
 
   @override
-  String get scheduleTripPostingPrecisionPartial =>
-      'One place pin is attached. Confirm the other stop in chat.';
+  String get scheduleTripPostingPrecisionPartial => 'One place pin is';
 
   @override
-  String get scheduleTripPostingPrecisionTextOnly =>
-      'Text route only. Confirm the exact pickup in chat.';
+  String get scheduleTripPostingPrecisionTextOnly => 'Text route only Confirm';
 
   @override
   String get scheduleTripPostingPassengerCoordination =>
-      'Drivers contact you after posting. Final pickup, fare, and timing are agreed in WhatsApp.';
+      'Drivers contact you after';
 
   @override
   String get scheduleTripPostingDriverCoordination =>
-      'Riders contact you after posting. Final pickup, fare, and timing are agreed in WhatsApp.';
+      'Riders contact you after';
 
   @override
-  String get scheduleTripPostingOfflineBehavior =>
-      'If the network drops, COOL saves this trip on device and syncs it later.';
+  String get scheduleTripPostingOfflineBehavior => 'If the network drops';
 
   @override
   String get scheduleTripFromRequired => 'Enter a departure point.';
@@ -440,15 +426,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scheduleTripToRequired => 'Enter a destination.';
 
   @override
-  String get scheduleTripRouteSameError =>
-      'Departure and destination must be different.';
+  String get scheduleTripRouteSameError => 'Departure and destination must';
 
   @override
-  String get scheduleTripReturnInvalidError =>
-      'Return date and time must be after departure.';
+  String get scheduleTripReturnInvalidError => 'Return date and time';
 
   @override
-  String get scheduleTripRecurringDaysError => 'Pick at least one repeat day.';
+  String get scheduleTripRecurringDaysError => 'Pick at least one';
 
   @override
   String get scheduleTripDateFieldPrefix => '📅';
@@ -460,12 +444,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get driverMode => 'Driver Mode';
 
   @override
-  String get driverOnlineMessage =>
-      'You are online and visible to nearby passengers.';
+  String get driverOnlineMessage => 'Online now';
 
   @override
-  String get driverOfflineMessage =>
-      'You are offline. Turn on driver mode to receive trips.';
+  String get driverOfflineMessage => 'Offline now';
 
   @override
   String get online => 'Online';
@@ -523,7 +505,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String tripsUsedMessage(int used, int remaining) {
-    return 'You have used $used trips so far and only $remaining free trips remain.';
+    return 'You have used $used';
   }
 
   @override
@@ -700,26 +682,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get payViaMomoUssd => 'Pay via MOMO';
 
   @override
-  String get whatsappConfirmation =>
-      '📱 WhatsApp confirmation will be sent after payment';
+  String get whatsappConfirmation => 'WhatsApp confirmation will be';
 
   @override
   String get viewTicket => 'View';
 
   @override
-  String get showAtGate => 'Show this at the gate';
+  String get showAtGate => 'Show this at the';
 
   @override
   String get addToCart => 'Add to Cart';
 
   @override
-  String get goldDiscount => '🌟 Gold Members get 10% off';
+  String get goldDiscount => 'Gold Members get 10';
 
   @override
   String get noTicketsYet => 'No tickets yet';
 
   @override
-  String get buyTicketsToUpcomingMatches => 'Buy tickets to upcoming matches';
+  String get buyTicketsToUpcomingMatches => 'Buy tickets to upcoming';
 
   @override
   String cartItemCount(int count) {
@@ -763,13 +744,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get howToImprove => '💡 How to Improve';
 
   @override
-  String get improveOnTime => 'Contribute on time every month';
+  String get improveOnTime => 'Contribute on time every';
 
   @override
   String get improveJoinGroups => 'Join 2+ savings groups';
 
   @override
-  String get improveCommunityFunds => 'Contribute to 3 community funds';
+  String get improveCommunityFunds => 'Contribute to 3 community';
 
   @override
   String get improveConsecutiveMonths => '6 consecutive months saving';
@@ -829,8 +810,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signOutConfirmTitle => 'Sign Out';
 
   @override
-  String get signOutConfirmMessage =>
-      'Are you sure you want to sign out? You will need to verify your WhatsApp OTP again to log back in.';
+  String get signOutConfirmMessage => 'Sign out now?';
 
   @override
   String get cancel => 'Cancel';
@@ -862,7 +842,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noConnection => 'No internet connection.';
 
   @override
-  String get offlineNotice => 'You\'re offline. Showing cached data.';
+  String get offlineNotice => 'You\'re offline Showing cached';
 
   @override
   String goodMorningUser(String name) {
@@ -870,7 +850,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get memberIdPrefix => 'ID: ';
+  String get memberIdPrefix => 'ID:';
 
   @override
   String get recent => 'Recent';
@@ -884,7 +864,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get scanQrOrShareLink => 'Scan QR or share the link';
+  String get scanQrOrShareLink => 'Scan QR or share';
 
   @override
   String get shareViaWhatsapp => 'Share via WhatsApp';
@@ -979,7 +959,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get search => 'Search';
 
   @override
-  String get noResults => 'No results found.';
+  String get noResults => 'No results found';
 
   @override
   String get seeMore => 'See More';
@@ -1006,26 +986,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appearanceLabel => 'Appearance';
 
   @override
-  String get appearanceSheetSubtitle => 'Choose how Cool looks on this device.';
+  String get appearanceSheetSubtitle => 'Choose how Cool looks';
 
   @override
   String get appearanceSystemLabel => 'System';
 
   @override
-  String get appearanceSystemDescription =>
-      'Follow your phone\'s light or dark setting.';
+  String get appearanceSystemDescription => 'Follow your phone\'s light';
 
   @override
   String get appearanceLightLabel => 'Light';
 
   @override
-  String get appearanceLightDescription => 'Always use the light theme.';
+  String get appearanceLightDescription => 'Always use the light';
 
   @override
   String get appearanceDarkLabel => 'Dark';
 
   @override
-  String get appearanceDarkDescription => 'Always use the dark theme.';
+  String get appearanceDarkDescription => 'Always use the dark';
 
   @override
   String get notificationsLabel => 'Notifications';
@@ -1067,8 +1046,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get otpUseWhatsappTitle => 'Use your WhatsApp number';
 
   @override
-  String get otpUseWhatsappSubtitle =>
-      'We will send a 6-digit code to your WhatsApp.';
+  String get otpUseWhatsappSubtitle => 'We will send a';
 
   @override
   String get otpPhoneRequired => 'Enter your phone number';
@@ -1077,16 +1055,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get otpContinue => 'Continue';
 
   @override
-  String get otpGenericError => 'Something went wrong. Please try again.';
+  String get otpGenericError => 'Something went wrong Please';
 
   @override
-  String get openLinkError => 'Could not open link';
+  String get openLinkError => 'Open link failed';
 
   @override
-  String get otpLegalPrefix => 'By continuing, you accept the ';
+  String get otpLegalPrefix => 'By continuing you accept';
 
   @override
-  String get otpLegalAnd => ' and ';
+  String get otpLegalAnd => 'and';
 
   @override
   String get termsLabel => 'Terms';
@@ -1125,29 +1103,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homePriorityGroupsTitle => 'Start with a group';
 
   @override
-  String get homePriorityGroupsSubtitle =>
-      'Create or join a group to build trusted activity on Cool.';
+  String get homePriorityGroupsSubtitle => 'Create or join a';
 
   @override
   String get homePriorityMomoTitle => 'Open Mobile Money';
 
   @override
-  String get homePriorityMomoSubtitle =>
-      'Send, request, or receive so your latest wallet activity shows up here.';
+  String get homePriorityMomoSubtitle => 'Send request or receive';
 
   @override
   String get homePriorityStatementsTitle => 'Review statements';
 
   @override
-  String get homePriorityStatementsSubtitle =>
-      'Your monthly trend is down. Check recent activity before you send more money.';
+  String get homePriorityStatementsSubtitle => 'Your monthly trend is';
 
   @override
   String get homePriorityMomentumTitle => 'Keep contributions moving';
 
   @override
-  String get homePriorityMomentumSubtitle =>
-      'You have active group activity this month. Open Groups to keep momentum.';
+  String get homePriorityMomentumSubtitle => 'You have active group';
 
   @override
   String homeActiveCount(int count) {
@@ -1164,7 +1138,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeLoadErrorTitle => 'Couldn\'t load this section';
 
   @override
-  String get homeLoadErrorMessage => 'Pull to refresh or try again.';
+  String get homeLoadErrorMessage => 'Pull to refresh';
 
   @override
   String get profileMobileMoney => 'Mobile Money';
@@ -1182,7 +1156,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileDriverTools => 'Driver tools';
 
   @override
-  String get profileCoolStatus => 'COOL status';
+  String get profileCoolStatus => 'Cool Tokens';
 
   @override
   String get profileAdminPanel => 'Admin panel';
@@ -1203,12 +1177,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get moreToolsSectionTitle => 'More tools';
 
   @override
-  String get profileMoreToolsShowSubtitle =>
-      'Show extra actions and secondary shortcuts.';
+  String get profileMoreToolsShowSubtitle => 'Show extra actions and';
 
   @override
-  String get profileMoreToolsHideSubtitle =>
-      'Hide QR, driver, and status shortcuts.';
+  String get profileMoreToolsHideSubtitle => 'Hide QR driver and';
 
   @override
   String get vehicleLabel => 'Vehicle';
@@ -1226,18 +1198,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteAccountQuestion => 'Delete account?';
 
   @override
-  String get deleteAccountMessage =>
-      'This permanently removes your account and data.';
+  String get deleteAccountMessage => 'This permanently removes your';
 
   @override
-  String get signOutMessage =>
-      'You\'ll need to verify your number again to log back in.';
+  String get signOutMessage => 'You\'ll need to verify';
 
   @override
   String get completeProfileTitle => 'Complete your profile';
 
   @override
-  String get completeProfileSubtitle => 'Finish setup to unlock all features.';
+  String get completeProfileSubtitle => 'Finish setup to unlock';
 
   @override
   String get profileSavingMomoInfo => 'Saving MoMo info...';
@@ -1249,14 +1219,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileMomoUpdated => 'MoMo info updated';
 
   @override
-  String get profileMomoUpdateFailed => 'Failed to update MoMo info';
+  String get profileMomoUpdateFailed => 'Failed to update MoMo';
 
   @override
-  String get profileSupportOpenError =>
-      'Could not open WhatsApp. Please try again.';
+  String get profileSupportOpenError => 'Open WhatsApp Please failed';
 
   @override
-  String get profileSupportUnavailable => 'Support is unavailable right now.';
+  String get profileSupportUnavailable => 'Support is unavailable right';
 
   @override
   String get profileMomoQrTitle => 'MoMo QR';
@@ -1270,8 +1239,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileEditMomoInfo => 'Edit MoMo Info';
 
   @override
-  String get profileEditMomoSubtitle =>
-      'This number will be used for Mobile Money payments';
+  String get profileEditMomoSubtitle => 'This number will be';
 
   @override
   String get profileMomoCodeOptional => 'MOMO CODE (OPTIONAL)';
@@ -1289,7 +1257,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notSetLabel => 'Not set';
 
   @override
-  String get momoStatementsTitle => 'Statements & Ledger';
+  String get momoStatementsTitle => 'Statements';
 
   @override
   String get momoRefreshStatements => 'Refresh statements';
@@ -1307,28 +1275,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get walletEmptyTitle => 'No wallet entries yet';
 
   @override
-  String get walletEmptyMessage => 'Wallet activity will appear here.';
+  String get walletEmptyMessage => 'Wallet activity will appear';
 
   @override
   String get walletLedgerTitle => 'Wallet ledger';
 
   @override
   String walletLedgerSubtitle(int shown, int total) {
-    return 'Showing $shown of $total wallet entries.';
+    return '$shown/$total shown';
   }
 
   @override
   String get savingsEmptyTitle => 'No savings entries yet';
 
   @override
-  String get savingsEmptyMessage => 'Savings contributions will appear here.';
+  String get savingsEmptyMessage => 'Savings contributions will appear';
 
   @override
   String get savingsStatementTitle => 'Savings statement';
 
   @override
   String savingsStatementSubtitle(int shown, int total) {
-    return 'Showing $shown of $total group contribution records.';
+    return '$shown/$total shown';
   }
 
   @override
@@ -1373,7 +1341,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get momoStatementsWalletFilteredEmptyMessage =>
-      'Try adjusting your filters or date range.';
+      'Try adjusting your filters';
 
   @override
   String get momoStatementsSavingsFilteredEmptyTitle =>
@@ -1381,7 +1349,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get momoStatementsSavingsFilteredEmptyMessage =>
-      'Try adjusting your filters or date range.';
+      'Try adjusting your filters';
 
   @override
   String get fansScreenUnavailableTitle => 'Fan Hub Moved';
@@ -1391,24 +1359,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String fansScreenBody(String clubName) {
-    return 'Fan features for $clubName are now consolidated in the partner hub.';
+    return 'Fan features for $clubName';
   }
 
   @override
   String get fansScreenMembershipUnavailable =>
-      'Membership features live inside Rayon Sports.';
+      'Membership features live inside';
 
   @override
-  String get fansScreenClubsUnavailable =>
-      'Fan clubs are now managed inside Rayon Sports.';
+  String get fansScreenClubsUnavailable => 'Fan clubs are now';
 
   @override
-  String get fansScreenRayonDedicatedHub =>
-      'Rayon Sports has a dedicated fan hub.';
+  String get fansScreenRayonDedicatedHub => 'Rayon Sports has a';
 
   @override
-  String get fansScreenRouteKeptReachable =>
-      'This route is kept reachable for deep links.';
+  String get fansScreenRouteKeptReachable => 'Legacy route';
 
   @override
   String get fansScreenBackToPartners => 'Back to Partners';
@@ -1420,11 +1385,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ticketWalletInvalidLink => 'Invalid Google Wallet link.';
 
   @override
-  String get ticketWalletUnavailable =>
-      'Google Wallet is not available on this device.';
+  String get ticketWalletUnavailable => 'Google Wallet is not';
 
   @override
-  String get ticketWalletOpenFailed => 'Could not open Google Wallet.';
+  String get ticketWalletOpenFailed => 'Open Google Wallet failed';
 
   @override
   String get ticketConfirmationScreenTitle => 'Ticket';
@@ -1443,7 +1407,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String ticketShareMatchText(String matchTitle) {
-    return 'Check out $matchTitle on Cool!';
+    return 'Check out $matchTitle on!';
   }
 
   @override
@@ -1453,38 +1417,34 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ticketStatusPendingSubtitle => 'Waiting for MoMo confirmation.';
 
   @override
-  String get ticketStatusPendingNote =>
-      'Your ticket is reserved. Complete the MoMo payment to activate it.';
+  String get ticketStatusPendingNote => 'Ticket reserved';
 
   @override
   String get ticketStatusValidTitle => 'Valid Ticket';
 
   @override
-  String get ticketStatusValidSubtitle => 'Show this at the gate.';
+  String get ticketStatusValidSubtitle => 'Show this at the';
 
   @override
-  String get ticketStatusValidNote =>
-      'Present the QR code below at the stadium entrance.';
+  String get ticketStatusValidNote => 'Present the QR code';
 
   @override
   String get ticketStatusUsedTitle => 'Ticket Used';
 
   @override
-  String get ticketStatusUsedSubtitle => 'This ticket has been scanned.';
+  String get ticketStatusUsedSubtitle => 'Ticket already scanned';
 
   @override
-  String get ticketStatusUsedNote =>
-      'This ticket was validated at the gate. It cannot be used again.';
+  String get ticketStatusUsedNote => 'Ticket already used';
 
   @override
   String get ticketStatusCancelledTitle => 'Ticket Cancelled';
 
   @override
-  String get ticketStatusCancelledSubtitle => 'This ticket is no longer valid.';
+  String get ticketStatusCancelledSubtitle => 'Ticket invalid';
 
   @override
-  String get ticketStatusCancelledNote =>
-      'Contact support if you believe this is an error.';
+  String get ticketStatusCancelledNote => 'Contact support';
 
   @override
   String get partnersHomeTooltip => 'Partners Home';
@@ -1496,8 +1456,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get partnersRayonWelcomeTitle => 'Welcome to Rayon Sports!';
 
   @override
-  String get partnersRayonWelcomeSubtitle =>
-      'Your fan membership has been created. Enjoy exclusive perks, tickets, and club updates.';
+  String get partnersRayonWelcomeSubtitle => 'Your fan membership has';
 
   @override
   String get partnersOpenRayonSports => 'Open Rayon Sports';
@@ -1527,8 +1486,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get partnersMembershipPerkExclusiveEvents => 'Exclusive events';
 
   @override
-  String get partnersNoFootballPartners =>
-      'No football partners available yet.';
+  String get partnersNoFootballPartners => 'No football partners yet';
 
   @override
   String partnersComingSoonMessage(String partnerName) {
@@ -1545,25 +1503,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get partnersLoadingMessage => 'Loading partners…';
 
   @override
-  String get partnersNoFinancePartners => 'No finance partners available yet.';
+  String get partnersNoFinancePartners => 'No finance partners yet';
 
   @override
   String get partnersFinancePrepTitle => 'Financial Readiness';
 
   @override
-  String get partnersFinancePrepSubtitle =>
-      'Check your credit readiness and prepare for financial services from our partners.';
+  String get partnersFinancePrepSubtitle => 'Check your credit readiness';
 
   @override
   String get partnersReadinessChecklistCta => 'Credit Readiness Checklist';
 
   @override
   String partnersWhatsappMessage(String partnerName) {
-    return 'Hi, I\'d like to learn more about $partnerName on Cool.';
+    return 'Hi I\'d like to';
   }
 
   @override
-  String get partnersNoServicePartners => 'No service partners available yet.';
+  String get partnersNoServicePartners => 'No service partners yet';
 
   @override
   String get partnersInsurancePartnerBadge => 'Insurance Partner';
@@ -1575,11 +1532,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get partnersServicePartnerBadge => 'Service Partner';
 
   @override
-  String get partnersLoadErrorTitle => 'Could not load partners';
+  String get partnersLoadErrorTitle => 'Load partners failed';
 
   @override
-  String get partnersEmptyMessage =>
-      'Partners will appear here once available.';
+  String get partnersEmptyMessage => 'Partners will appear here';
 
   @override
   String get partnersClubShopSubtitle => 'Official merchandise';
@@ -1600,7 +1556,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get momoLaunchingUssd => 'Launching USSD…';
 
   @override
-  String get momoNfcLaunchFailed => 'NFC launch failed. Please try again.';
+  String get momoNfcLaunchFailed => 'NFC launch failed Please';
 
   @override
   String get momoScreenTitle => 'Mobile Money';
@@ -1609,12 +1565,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get momoNfcLaunchingOverlay => 'Launching MoMo…';
 
   @override
-  String get momoSendValidationError =>
-      'Please enter a valid recipient and amount.';
+  String get momoSendValidationError => 'Please enter a valid';
 
   @override
   String momoSendLaunchFailed(String countryName) {
-    return 'Could not launch MoMo payment for $countryName.';
+    return 'Launch MoMo payment failed';
   }
 
   @override
@@ -1641,7 +1596,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String momoSendCompletesViaUssd(String countryName) {
-    return 'Completes via USSD on your $countryName SIM.';
+    return 'Completes via USSD on';
   }
 
   @override
@@ -1651,29 +1606,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get momoTrustCardTitle => 'Before you pay';
 
   @override
-  String get momoTrustCardSubtitle =>
-      'COOL opens the network prompt, but you still approve the payment on your own line.';
+  String get momoTrustCardSubtitle => 'COOL opens the network';
 
   @override
   String get momoTrustFeesTitle => 'Fees show before confirmation';
 
   @override
-  String get momoTrustFeesSubtitle =>
-      'The USSD prompt displays the amount and any network charges before you enter your PIN.';
+  String get momoTrustFeesSubtitle => 'The USSD prompt displays';
 
   @override
-  String get momoTrustApprovalTitle => 'You approve on your phone';
+  String get momoTrustApprovalTitle => 'You approve on your';
 
   @override
-  String get momoTrustApprovalSubtitle =>
-      'COOL never completes the transfer for you. You confirm it inside the MoMo flow.';
+  String get momoTrustApprovalSubtitle => 'COOL never completes the';
 
   @override
   String get momoTrustReceiptTitle => 'Receipts land in statements';
 
   @override
-  String get momoTrustReceiptSubtitle =>
-      'Matching Mobile Money SMS confirmations sync back into Statements for later review.';
+  String get momoTrustReceiptSubtitle => 'Matching Mobile Money SMS';
 
   @override
   String get momoReviewTitle => 'Review before USSD';
@@ -1701,16 +1652,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String momoWhatHappensNextOpen(String countryName) {
-    return 'COOL opens the $countryName USSD prompt.';
+    return 'COOL opens the $countryName';
   }
 
   @override
-  String get momoWhatHappensNextConfirm =>
-      'You confirm the amount, fees, and PIN on your own line.';
+  String get momoWhatHappensNextConfirm => 'You confirm the amount';
 
   @override
-  String get momoWhatHappensNextReceipt =>
-      'A matching SMS confirmation updates your statements history.';
+  String get momoWhatHappensNextReceipt => 'A matching SMS confirmation';
 
   @override
   String get momoConfirmSendLabel => 'Send Money';
@@ -1788,7 +1737,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String groupsShareText(String groupName, String inviteUrl) {
-    return 'Join $groupName on Cool: $inviteUrl';
+    return 'Join $groupName on Cool';
   }
 
   @override
@@ -1801,12 +1750,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get groupsEmptyPublicTitle => 'No public groups found';
 
   @override
-  String get groupsEmptyPublicMessage =>
-      'Pull to refresh or check your groups.';
+  String get groupsEmptyPublicMessage => 'Pull to refresh';
 
   @override
-  String get groupsEmptyPrivateMessage =>
-      'Create a group or browse public ones.';
+  String get groupsEmptyPrivateMessage => 'Create a group or';
 
   @override
   String groupsBankCustodianMeta(String partnerName) {
@@ -1852,7 +1799,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileIdentityUpdated => 'Identity details updated';
 
   @override
-  String get profileIdentityUpdateFailed => 'Failed to update identity details';
+  String get profileIdentityUpdateFailed => 'Failed to update identity';
 
   @override
   String get profileAppAccess => 'App access';
@@ -1915,59 +1862,52 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get mobilityNoWhatsappAvailable =>
-      'No WhatsApp contact available yet.';
+  String get mobilityNoWhatsappAvailable => 'No WhatsApp contact yet';
 
   @override
   String get mobilityNoContactYet => 'No contact yet';
 
   @override
   String get mobilityLocationRequiredDriverMode =>
-      'Location is required before turning on driver mode.';
+      'Location is required before';
 
   @override
   String momoSendMoneyOpensUssd(String countryName) {
-    return 'Open $countryName MoMo USSD to send money.';
+    return 'Open $countryName MoMo USSD';
   }
 
   @override
-  String get momoMoreToolsSubtitle =>
-      'Statements, QR, and NFC tools for your route.';
+  String get momoMoreToolsSubtitle => 'Statements QR and NFC';
 
   @override
-  String get momoStatementsToolSubtitle => 'Review wallet and savings history.';
+  String get momoStatementsToolSubtitle => 'Review wallet and savings';
 
   @override
   String get momoNfcToolsTitle => 'NFC tools';
 
   @override
-  String get momoNfcToolsSubtitle => 'Tap-to-pay and share route details.';
+  String get momoNfcToolsSubtitle => 'Tap-to-pay and share route';
 
   @override
   String get basketScreenTitle => 'Basket';
 
   @override
-  String get basketScreenHeadline => 'Basket is not live right now';
+  String get basketScreenHeadline => 'Basket is not live';
 
   @override
-  String get basketScreenBody =>
-      'This route stays available for compatibility, but basket balances and creation flows are not active in this build.';
+  String get basketScreenBody => 'Legacy route';
 
   @override
-  String get basketScreenCardBody =>
-      'Basket products are paused while the team finishes the next release.';
+  String get basketScreenCardBody => 'Basket products are paused';
 
   @override
-  String get basketScreenExpectationBalances =>
-      'No live basket balances are shown here.';
+  String get basketScreenExpectationBalances => 'No live basket balances';
 
   @override
-  String get basketScreenExpectationCreation =>
-      'New basket creation is currently disabled.';
+  String get basketScreenExpectationCreation => 'New basket creation is';
 
   @override
-  String get basketScreenExpectationLinks =>
-      'Existing deep links still land on this placeholder.';
+  String get basketScreenExpectationLinks => 'Existing deep links still';
 
   @override
   String get basketScreenBackHome => 'Back Home';

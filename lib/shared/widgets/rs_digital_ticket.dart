@@ -34,7 +34,7 @@ class RsDigitalTicket extends StatelessWidget {
 
     return Semantics(
       label:
-          '${ticket.matchTitle}. ${ticket.seatType.value} seat. '
+          '${ticket.matchTitle}. ${ticket.seatType.value} seat.'
           'Status: ${ticket.status.label}. ${ticket.venue}.',
       excludeSemantics: true,
       child: DecoratedBox(

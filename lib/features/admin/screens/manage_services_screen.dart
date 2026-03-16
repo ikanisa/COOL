@@ -38,7 +38,7 @@ class ManageServicesScreen extends ConsumerWidget {
       floatingActionButton: Semantics(
         button: true,
         label: 'Add service',
-        hint: 'Opens the new service form',
+        hint: 'New service',
         child: FloatingActionButton(
           backgroundColor: AppColors.accent,
           onPressed: () => _showEditSheet(context, ref, null, partners),
@@ -53,7 +53,7 @@ class ManageServicesScreen extends ConsumerWidget {
           loadingWidget: const CoolSkeletonList(itemCount: 4),
           emptyCheck: (s) => s.isEmpty,
           emptyWidget: const CoolEmptyView(
-            message: 'No services are configured yet.',
+            message: 'No services are yet',
             icon: Icons.assignment_outlined,
           ),
           builder: (services) => ListView.separated(
@@ -120,7 +120,7 @@ class _ServiceTile extends StatelessWidget {
     return Semantics(
       container: true,
       label:
-          'Service $title. Partner $partnerName. Category $category. Market $marketName.'
+          'Service title Partner partnerName'
           '${isMock ? ' Mock service.' : ''}'
           '${mockBatch.isNotEmpty ? ' Batch $mockBatch.' : ''}',
       child: ListTile(
@@ -375,7 +375,7 @@ class _EditServiceSheetState extends State<_EditServiceSheet> {
     child: Semantics(
       textField: true,
       label: label,
-      hint: 'Double tap to enter $label',
+      hint: 'Enter $label',
       child: TextField(
         controller: ctl,
         style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
@@ -398,7 +398,7 @@ class _EditServiceSheetState extends State<_EditServiceSheet> {
       padding: const EdgeInsets.only(bottom: 10),
       child: Semantics(
         label: 'Partner selector',
-        hint: 'Double tap to choose a partner',
+        hint: 'Choose partner',
         child: DropdownButtonFormField<String>(
           initialValue: _selectedPartnerId,
           dropdownColor: AppColors.surface2,

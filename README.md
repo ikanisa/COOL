@@ -83,8 +83,7 @@ Current recipient sources in this repo:
   `public.groups.momo_number`
 - Mobility subscriptions use `public.app_config.key = mobility_subscription_momo_code`
 - Rayon Sports currently uses a hardcoded MTN MoMo code: `008000`
-- Saving groups store a `bank_partner` label, but partner-specific MoMo routing
-  is not yet modeled in `public.partners`
+
 
 ## Core UX Principles
 
@@ -96,6 +95,28 @@ Current recipient sources in this repo:
 - Scrollable screens use safe bottom spacing for the shell nav
 - English localization via ARB files
 - Cached/offline-friendly behavior where possible
+
+## Critical UI Copy Guardrail
+
+This rule is mandatory for every user-facing screen, widget, sheet, dialog,
+state view, and partner/admin surface.
+
+- No visible UI copy may exceed 4 words.
+- Applies to titles, headings, labels, hints, helper text, descriptions,
+  button text, toasts, banners, empty states, and error messages.
+- Do not add fallback exceptions for subtitles, helper copy, or long states.
+- The repository enforces this with `dart tool/ui_copy_guard.dart` and
+  `test/docs/ui_copy_guard_test.dart`.
+
+## Critical Layout Guardrail
+
+This rule is mandatory for every non-home screen.
+
+- Every non-home page must have one primary card.
+- Do not stack two top-level cards.
+- Merge tabs, filters, stats, and actions.
+- Use sections inside one card.
+- Sheets and QR pages must expose a clear back or close path.
 
 ## Tech Stack
 
@@ -121,9 +142,8 @@ Current recipient sources in this repo:
 - Mobile Money USSD via `url_launcher`
 - Android SMS verification via `another_telephony`
 
-### Maps and Device Features
+### Location and Device Features
 
-- `google_maps_flutter`
 - `geolocator`
 - `permission_handler`
 - `flutter_nfc_kit`
@@ -447,11 +467,6 @@ the production go-live phase when wallet support is actually activated.
 `GEMINI_API_KEY` for mobility autocomplete, place details, text geocoding,
 reverse geocoding, and route preview if that shared Google credential already
 has the required Maps Platform APIs enabled.
-
-Client `GOOGLE_MAPS_ANDROID_API_KEY` / `GOOGLE_MAPS_IOS_API_KEY` values are
-optional in this repo. They only enable embedded `google_maps_flutter`
-surfaces. If they are absent, the app still ships and mobility falls back to
-non-map route summary and list states.
 
 ## SMS and Permissions
 

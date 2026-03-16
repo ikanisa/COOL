@@ -93,20 +93,20 @@ class RsMembershipPackage {
       const RsMembershipPackage(
         tier: FanTier.blue,
         title: 'Blue Membership',
-        subtitle: 'Free - every fan starts here',
-        description: 'Entry tier for all Rayon Sports supporters.',
+        subtitle: 'Free every fan starts',
+        description: 'Entry tier for all',
         benefits: <RsMembershipPackageBenefit>[
           RsMembershipPackageBenefit(
             title: 'Standard Tickets',
-            description: 'Buy match tickets at regular pricing.',
+            description: 'Buy match tickets at',
           ),
           RsMembershipPackageBenefit(
             title: 'Club Shop Access',
-            description: 'Browse and purchase official Rayon merch.',
+            description: 'Browse and purchase official',
           ),
           RsMembershipPackageBenefit(
             title: 'Fan Points',
-            description: 'Earn points from attendance, purchases, and support.',
+            description: 'Earn points from attendance',
           ),
         ],
         sortOrder: 0,
@@ -114,21 +114,21 @@ class RsMembershipPackage {
       const RsMembershipPackage(
         tier: FanTier.silver,
         title: 'Silver Membership',
-        subtitle: '1,000 pts - dedicated supporter',
+        subtitle: '1 000 pts dedicated',
         description:
-            'Priority access and profile recognition for active supporters.',
+            'Priority access and profile',
         benefits: <RsMembershipPackageBenefit>[
           RsMembershipPackageBenefit(
             title: '5% Ticket Discount',
-            description: 'Save on every match ticket purchase.',
+            description: 'Save on every match',
           ),
           RsMembershipPackageBenefit(
             title: 'Priority Queue',
-            description: 'Jump the queue when tickets open for big matches.',
+            description: 'Jump the queue when',
           ),
           RsMembershipPackageBenefit(
             title: 'Silver Badge',
-            description: 'Exclusive silver badge on your fan profile.',
+            description: 'Exclusive silver badge on',
           ),
         ],
         sortOrder: 1,
@@ -136,21 +136,21 @@ class RsMembershipPackage {
       const RsMembershipPackage(
         tier: FanTier.gold,
         title: 'Gold Membership',
-        subtitle: '2,000 pts - elite supporter',
+        subtitle: '2 000 pts elite',
         description:
-            'Higher-value supporter benefits for loyal matchday and shop activity.',
+            'Higher-value supporter benefits for',
         benefits: <RsMembershipPackageBenefit>[
           RsMembershipPackageBenefit(
             title: 'Priority Tickets',
-            description: 'Get earlier access to on-sale match entries.',
+            description: 'Get earlier access to',
           ),
           RsMembershipPackageBenefit(
             title: '10% Shop Discount',
-            description: 'Unlock supporter pricing on official club gear.',
+            description: 'Unlock supporter pricing on',
           ),
           RsMembershipPackageBenefit(
             title: 'VIP Events',
-            description: 'Access select fan sessions and special event queues.',
+            description: 'Access select fan sessions',
           ),
         ],
         sortOrder: 2,
@@ -158,26 +158,26 @@ class RsMembershipPackage {
       const RsMembershipPackage(
         tier: FanTier.platinum,
         title: 'Platinum Membership',
-        subtitle: '5,000 pts - ultimate fan',
+        subtitle: '5 000 pts ultimate',
         description:
-            'Top-tier supporter access across tickets, events, and season recognition.',
+            'Top-tier supporter access across',
         benefits: <RsMembershipPackageBenefit>[
           RsMembershipPackageBenefit(
             title: 'Priority Tickets + 15% Off',
-            description: 'Best pricing and first access to all matches.',
+            description: 'Best pricing and first',
           ),
           RsMembershipPackageBenefit(
             title: 'Meet & Greet',
-            description: 'Join premium player and club meetups when available.',
+            description: 'Join premium player and',
           ),
           RsMembershipPackageBenefit(
             title: 'Free Kit',
-            description: 'Receive one complimentary official kit each season.',
+            description: 'Receive one complimentary official',
           ),
           RsMembershipPackageBenefit(
             title: 'All Gold Benefits',
             description:
-                'VIP events, shop discounts, and everything from lower tiers.',
+                'VIP events shop discounts',
           ),
         ],
         sortOrder: 3,

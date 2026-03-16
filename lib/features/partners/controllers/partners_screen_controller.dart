@@ -85,7 +85,7 @@ extension _PartnersScreenController on _PartnersScreenState {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Your membership is ready. Track tickets, supporters clubs, shop drops, and match-day activity from one place.',
+                    'Membership active Tickets clubs',
                     style: GoogleFonts.barlow(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,

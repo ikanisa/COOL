@@ -55,7 +55,7 @@ class MissionsScreen extends ConsumerWidget {
                 _ActiveMissionsSliver(userId: userId)
               else
                 const SliverToBoxAdapter(
-                  child: _EmptyState(message: 'Sign in to see missions'),
+                  child: _EmptyState(message: 'Sign in'),
                 ),
 
               // ─── Upcoming missions ───────────────────────
@@ -92,7 +92,7 @@ class _ActiveMissionsSliver extends ConsumerWidget {
       data: (missions) {
         if (missions.isEmpty) {
           return const SliverToBoxAdapter(
-            child: _EmptyState(message: 'No active missions right now'),
+            child: _EmptyState(message: 'No active missions right'),
           );
         }
         return SliverPadding(

@@ -216,8 +216,8 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
           _DriverSectionIntro(
             title: todaysTrips.isNotEmpty ? 'Today\'s trips' : 'Upcoming trips',
             subtitle: visibleTrips.isEmpty
-                ? 'Your next posted rides will show here.'
-                : 'Keep the next rides visible and current.',
+                ? 'No trips posted yet.'
+                : '',
           ),
           const SizedBox(height: 10),
           ScheduledTripsCard(trips: visibleTrips),
@@ -336,8 +336,8 @@ class _DriverDashboardCard extends StatelessWidget {
             ),
             child: Text(
               driver.isOnline
-                  ? 'Driver mode is live. Nearby riders can see you now.'
-                  : 'Driver mode is off. Go live when you are ready to take requests.',
+                  ? 'Live — riders can see you.'
+                  : 'Offline — go live to take requests.',
               style: GoogleFonts.dmSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,

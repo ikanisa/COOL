@@ -31,6 +31,85 @@ const tripBoardVehicleFilters = [
 /// View mode for the trip board tabs.
 enum TripBoardViewMode { explore, myTrips }
 
+class TripBoardTopCard extends ConsumerWidget {
+  const TripBoardTopCard({
+    required this.activeView,
+    required this.onViewChanged,
+    required this.onPostTrip,
+    required this.onOpenTripType,
+    super.key,
+  });
+
+  final TripBoardViewMode activeView;
+  final ValueChanged<TripBoardViewMode> onViewChanged;
+  final VoidCallback onPostTrip;
+  final VoidCallback onOpenTripType;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
+    final activeTab = ref.watch(tripBoardActiveTabProvider);
+    final selectedVehicle = ref.watch(tripBoardSelectedVehicleProvider);
+    final isExplore = activeView == TripBoardViewMode.explore;
+
+    return CoolCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TripBoardModeSwitcher(
+            activeView: activeView,
+            onChanged: onViewChanged,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            isExplore ? 'Explore trips' : 'Manage your trips',
+            style: GoogleFonts.dmSans(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: palette.text,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            isExplore ? 'Find rides nearby.' : 'Manage your posted trips.',
+            style: GoogleFonts.dmSans(
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+              color: palette.text2,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 14),
+          SizedBox(
+            width: double.infinity,
+            child: CoolButton(label: 'Post trip', onTap: onPostTrip),
+          ),
+          if (isExplore) ...[
+            const SizedBox(height: 14),
+            Text(
+              '${tripBoardTabLabel(activeTab)} · ${tripBoardVehicleSummary(selectedVehicle)}',
+              style: GoogleFonts.dmSans(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: palette.text2,
+                height: 1.4,
+              ),
+            ),
+            const SizedBox(height: 12),
+            CoolButton(
+              label: 'Trip type',
+              onTap: onOpenTripType,
+              variant: CoolButtonVariant.secondary,
+            ),
+            const SizedBox(height: 12),
+            const TripBoardFilterBar(),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
 /// Reusable header card with title, subtitle, primary button, and optional child.
 class TripBoardHeaderCard extends StatelessWidget {
   const TripBoardHeaderCard({
@@ -95,7 +174,7 @@ class TripBoardExploreHeaderCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return TripBoardHeaderCard(
       title: 'Explore trips',
-      subtitle: 'Find a nearby ride, then continue on WhatsApp if it fits.',
+      subtitle: 'Find a ride nearby.',
       primaryLabel: 'Post trip',
       onPrimaryTap: onPostTrip,
     );
@@ -103,14 +182,9 @@ class TripBoardExploreHeaderCard extends ConsumerWidget {
 }
 
 class TripBoardExploreControlsCard extends ConsumerWidget {
-  const TripBoardExploreControlsCard({
-    required this.onOpenTripType,
-    required this.onOpenVehicleFilter,
-    super.key,
-  });
+  const TripBoardExploreControlsCard({required this.onOpenTripType, super.key});
 
   final VoidCallback onOpenTripType;
-  final VoidCallback onOpenVehicleFilter;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -141,25 +215,13 @@ class TripBoardExploreControlsCard extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 14),
-          Row(
-            children: [
-              Expanded(
-                child: CoolButton(
-                  label: 'Trip type',
-                  onTap: onOpenTripType,
-                  variant: CoolButtonVariant.secondary,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: CoolButton(
-                  label: 'Filters',
-                  onTap: onOpenVehicleFilter,
-                  variant: CoolButtonVariant.secondary,
-                ),
-              ),
-            ],
+          CoolButton(
+            label: 'Trip type',
+            onTap: onOpenTripType,
+            variant: CoolButtonVariant.secondary,
           ),
+          const SizedBox(height: 12),
+          const TripBoardFilterBar(),
         ],
       ),
     );
@@ -176,7 +238,7 @@ class TripBoardMyTripsHeaderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return TripBoardHeaderCard(
       title: 'Manage your trips',
-      subtitle: 'Pause, repost, or delete what you already posted.',
+      subtitle: 'Manage your posted trips.',
       primaryLabel: 'Post trip',
       onPrimaryTap: onPostTrip,
     );
@@ -377,9 +439,7 @@ String tripBoardTabLabel(TripBoardTab tab) {
 }
 
 String tripBoardVehicleSummary(String selectedVehicle) {
-  return selectedVehicle == 'All'
-      ? 'All vehicle types'
-      : '$selectedVehicle only';
+  return selectedVehicle == 'All' ? 'Any type' : '$selectedVehicle only';
 }
 
 class TripBoardTripTypeSheet extends StatelessWidget {
@@ -391,44 +451,19 @@ class TripBoardTripTypeSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return _TripBoardSelectionSheet<TripBoardTab>(
       title: 'Trip type',
-      subtitle: 'Choose which type of trip to show first.',
+      subtitle: 'Filter by trip type.',
       value: activeTab,
       options: const <({TripBoardTab value, String label, String subtitle})>[
         (
           value: TripBoardTab.passengerTrips,
           label: 'Passenger trips',
-          subtitle: 'Regular rides near your current location.',
+          subtitle: 'Rides near you.',
         ),
         (
           value: TripBoardTab.driverReturnTrips,
           label: 'Driver returns',
-          subtitle: 'Drivers heading back with seats available.',
+          subtitle: 'Drivers with available seats.',
         ),
-      ],
-    );
-  }
-}
-
-class TripBoardVehicleFilterSheet extends StatelessWidget {
-  const TripBoardVehicleFilterSheet({required this.selectedVehicle, super.key});
-
-  final String selectedVehicle;
-
-  @override
-  Widget build(BuildContext context) {
-    return _TripBoardSelectionSheet<String>(
-      title: 'Vehicle filter',
-      subtitle: 'Keep vehicle filtering secondary unless you need it.',
-      value: selectedVehicle,
-      options: [
-        for (final filter in tripBoardVehicleFilters)
-          (
-            value: filter.value,
-            label: filter.label,
-            subtitle: filter.value == 'All'
-                ? 'Show every available vehicle type.'
-                : 'Only show ${filter.label.toLowerCase()} trips.',
-          ),
       ],
     );
   }

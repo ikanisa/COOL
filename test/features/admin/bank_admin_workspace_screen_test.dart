@@ -155,8 +155,6 @@ void main() {
             memberCount: 3,
             monthlyContribution: 15000,
             description: 'Weekly market vendors savings circle.',
-            bankPartner: 'Custody Bank',
-            institutionId: 'bank-1',
             inviteCode: 'KGLM2026',
             frequency: 'weekly',
           ),
@@ -276,9 +274,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(
-      find.text(
-        'Linked group profile, active members, and recent custodial contributions.',
-      ),
+      find.textContaining('Linked group profile'),
       findsOneWidget,
     );
     expect(find.text('Jean Bosco'), findsAtLeastNWidgets(1));

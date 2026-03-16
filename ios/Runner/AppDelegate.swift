@@ -1,5 +1,4 @@
 import Flutter
-import GoogleMaps
 import UIKit
 
 @main
@@ -8,12 +7,6 @@ import UIKit
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-    // Google Maps (optional API key from Info.plist)
-    if let apiKey = Bundle.main.object(forInfoDictionaryKey: "GoogleMapsApiKey") as? String,
-      !apiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-      GMSServices.provideAPIKey(apiKey)
-    }
-
     GeneratedPluginRegistrant.register(with: self)
 
     // APNs registration for FCM on iOS

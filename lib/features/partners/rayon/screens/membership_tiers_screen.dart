@@ -159,57 +159,54 @@ class _IntroCard extends StatelessWidget {
     return CoolCard(
       gradient: AppColors.cardGradient,
       borderColor: RsColors.rsBlueBorder,
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                RsTierBadge(tier: currentTier),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    'You are a ${currentTier.label} Member',
-                    style: GoogleFonts.barlow(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.rsWhite,
-                    ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              RsTierBadge(tier: currentTier),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  'You are a ${currentTier.label}',
+                  style: GoogleFonts.barlow(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.rsWhite,
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 14),
-            Text(
-              '$currentPoints fan points earned',
-              style: GoogleFonts.dmMono(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: RsColors.rsGoldLight,
-              ),
-            ),
-            if (nextTier != null) ...[
-              const SizedBox(height: 14),
-              _ProgressToNext(
-                currentPoints: currentPoints,
-                currentTier: currentTier,
-                nextTier: nextTier,
-              ),
-            ] else ...[
-              const SizedBox(height: 10),
-              Text(
-                'You have reached the highest tier — enjoy all benefits!',
-                style: GoogleFonts.barlow(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.text2,
-                  height: 1.45,
                 ),
               ),
             ],
+          ),
+          const SizedBox(height: 14),
+          Text(
+            '$currentPoints fan points earned',
+            style: GoogleFonts.dmMono(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: RsColors.rsGoldLight,
+            ),
+          ),
+          if (nextTier != null) ...[
+            const SizedBox(height: 14),
+            _ProgressToNext(
+              currentPoints: currentPoints,
+              currentTier: currentTier,
+              nextTier: nextTier,
+            ),
+          ] else ...[
+            const SizedBox(height: 10),
+            Text(
+              'Top tier reached!',
+              style: GoogleFonts.barlow(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: AppColors.text2,
+                height: 1.45,
+              ),
+            ),
           ],
-        ),
+        ],
       ),
     );
   }

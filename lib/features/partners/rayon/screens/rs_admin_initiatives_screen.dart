@@ -24,6 +24,8 @@ class RsAdminInitiativesScreen extends ConsumerStatefulWidget {
 
 class _RsAdminInitiativesScreenState
     extends ConsumerState<RsAdminInitiativesScreen> {
+  String _categoryFilter = 'all';
+
   @override
   Widget build(BuildContext context) {
     final initAsync = ref.watch(rsAdminInitiativesProvider);
@@ -31,11 +33,11 @@ class _RsAdminInitiativesScreenState
     return RsAdminShell(
       title: 'Initiatives',
       subtitle:
-          'Track live causes, funding progress, and activation state without extra dashboard chrome.',
+          'Track and manage community causes',
       floatingActionButton: Semantics(
         button: true,
         label: 'Add initiative',
-        hint: 'Opens the new initiative form',
+        hint: 'New initiative',
         child: FloatingActionButton(
           backgroundColor: AppColors.rsBlue,
           onPressed: () => _showForm(context),
@@ -58,6 +60,58 @@ class _RsAdminInitiativesScreenState
               '...',
         ),
       ],
+      controls: SizedBox(
+        height: 36,
+        child: initAsync.whenOrNull(
+          data: (items) {
+            final categories = <String>{'all'};
+            for (final i in items) {
+              categories.add(i.category.value);
+            }
+            return ListView(
+              scrollDirection: Axis.horizontal,
+              children: categories.map((cat) {
+                final label = cat == 'all'
+                    ? 'All'
+                    : '${cat[0].toUpperCase()}${cat.substring(1)}';
+                return Padding(
+                  padding: const EdgeInsets.only(right: 6),
+                  child: GestureDetector(
+                    onTap: () => setState(() => _categoryFilter = cat),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: _categoryFilter == cat
+                            ? AppColors.rsBlue
+                            : AppColors.surface,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: _categoryFilter == cat
+                              ? AppColors.rsBlue
+                              : AppColors.border,
+                        ),
+                      ),
+                      child: Text(
+                        label,
+                        style: GoogleFonts.dmSans(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: _categoryFilter == cat
+                              ? Colors.white
+                              : AppColors.text2,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+            );
+          },
+        ) ?? const SizedBox.shrink(),
+      ),
       child: CoolAsyncView<List<RsInitiative>>(
         value: initAsync,
         onRetry: () => ref.invalidate(rsAdminInitiativesProvider),
@@ -67,22 +121,38 @@ class _RsAdminInitiativesScreenState
         ),
         emptyCheck: (initiatives) => initiatives.isEmpty,
         emptyWidget: const CoolEmptyView(
-          message: 'No initiatives have been created yet.',
+          message: 'No initiatives created yet',
           icon: Icons.flag_outlined,
         ),
-        builder: (initiatives) => ListView.separated(
-          padding: EdgeInsets.zero,
-          itemCount: initiatives.length,
-          separatorBuilder: (context, index) => const SizedBox(height: 10),
-          itemBuilder: (context, index) {
-            final init = initiatives[index];
-            return _InitiativeTile(
-              initiative: init,
-              onToggleActive: () => _toggleActive(init),
-              onEdit: () => _showForm(context, initiative: init),
+        builder: (initiatives) {
+          final filtered = _categoryFilter == 'all'
+              ? initiatives
+              : initiatives
+                    .where((i) => i.category.value == _categoryFilter)
+                    .toList();
+          if (filtered.isEmpty) {
+            return const CoolEmptyView(
+              message: 'No initiatives in this category',
+              icon: Icons.filter_list_off_rounded,
             );
-          },
-        ),
+          }
+          return ListView.separated(
+            padding: EdgeInsets.zero,
+            itemCount: filtered.length,
+            separatorBuilder: (context, index) => const SizedBox(height: 10),
+            itemBuilder: (context, index) {
+              final init = filtered[index];
+              return _InitiativeTile(
+                initiative: init,
+                onToggleActive: () => _toggleActive(init),
+                onEdit: () => _showForm(context, initiative: init),
+                onViewContributors: () =>
+                    _showContributors(context, init),
+                onDelete: () => _deleteInitiative(init),
+              );
+            },
+          );
+        },
       ),
     );
   }
@@ -91,6 +161,66 @@ class _RsAdminInitiativesScreenState
     final repo = ref.read(rayonSportsRepositoryProvider);
     await repo.toggleInitiativeActive(init.id, isActive: !init.isActive);
     ref.invalidate(rsAdminInitiativesProvider);
+  }
+
+  Future<void> _deleteInitiative(RsInitiative init) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: AppColors.surface,
+        title: Text(
+          'Delete Initiative?',
+          style: GoogleFonts.dmSans(
+            fontWeight: FontWeight.w700,
+            color: AppColors.text,
+          ),
+        ),
+        content: Text(
+          'Delete "${init.title}"? This cannot be undone.',
+          style: GoogleFonts.dmSans(color: AppColors.text2),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(backgroundColor: AppColors.red),
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed == true) {
+      final repo = ref.read(rayonSportsRepositoryProvider);
+      await repo.deleteInitiative(init.id);
+      ref.invalidate(rsAdminInitiativesProvider);
+      if (mounted) HapticFeedback.mediumImpact();
+    }
+  }
+
+
+
+  void _showContributors(BuildContext context, RsInitiative initiative) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: AppColors.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) => DraggableScrollableSheet(
+        initialChildSize: 0.5,
+        minChildSize: 0.3,
+        maxChildSize: 0.85,
+        expand: false,
+        builder: (ctx, scrollCtrl) => _ContributorsSheet(
+          initiative: initiative,
+          scrollController: scrollCtrl,
+        ),
+      ),
+    );
   }
 
   void _showForm(BuildContext context, {RsInitiative? initiative}) {
@@ -188,10 +318,14 @@ class _InitiativeTile extends StatelessWidget {
     required this.initiative,
     required this.onToggleActive,
     required this.onEdit,
+    required this.onViewContributors,
+    required this.onDelete,
   });
   final RsInitiative initiative;
   final VoidCallback onToggleActive;
   final VoidCallback onEdit;
+  final VoidCallback onViewContributors;
+  final VoidCallback onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -207,7 +341,7 @@ class _InitiativeTile extends StatelessWidget {
     return Semantics(
       container: true,
       label:
-          'Initiative ${initiative.title}. ${initiative.isActive ? 'Active' : 'Inactive'}. '
+          'Initiative ${initiative.title}. ${initiative.isActive ?'Active' : 'Inactive'}. '
           '$fmtRaised of $fmtTarget Rwandan francs raised. '
           '${initiative.supporterCount} supporters. Ends $endsStr.',
       child: Container(
@@ -275,7 +409,7 @@ class _InitiativeTile extends StatelessWidget {
             const SizedBox(height: 8),
             Semantics(
               label:
-                  'Progress ${(progress * 100).round()} percent. '
+                  'Progress ${(progress * 100).round()} percent.'
                   '$fmtRaised raised of $fmtTarget Rwandan francs target.',
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(4),
@@ -291,7 +425,7 @@ class _InitiativeTile extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              '$fmtRaised / $fmtTarget RWF · ${initiative.supporterCount} supporters · Ends $endsStr',
+              '$fmtRaised / $fmtTarget RWF · ${initiative.supporterCount} supporters',
               style: GoogleFonts.dmSans(fontSize: 10, color: AppColors.text3),
             ),
             const SizedBox(height: 8),
@@ -304,6 +438,19 @@ class _InitiativeTile extends StatelessWidget {
                 ),
                 const SizedBox(width: 12),
                 _Btn(icon: Icons.edit, label: 'Edit', onTap: onEdit),
+                const SizedBox(width: 12),
+                _Btn(
+                  icon: Icons.people_outline_rounded,
+                  label: '${initiative.supporterCount} supporters',
+                  onTap: onViewContributors,
+                ),
+                const SizedBox(width: 12),
+                _Btn(
+                  icon: Icons.delete_outline,
+                  label: 'Delete',
+                  onTap: onDelete,
+                  color: AppColors.red,
+                ),
               ],
             ),
           ],
@@ -314,17 +461,19 @@ class _InitiativeTile extends StatelessWidget {
 }
 
 class _Btn extends StatelessWidget {
-  const _Btn({required this.icon, required this.label, required this.onTap});
+  const _Btn({required this.icon, required this.label, required this.onTap, this.color});
   final IconData icon;
   final String label;
   final VoidCallback onTap;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
+    final c = color ?? AppColors.text2;
     return Semantics(
       button: true,
       label: label,
-      hint: 'Double tap to ${label.toLowerCase()} this initiative',
+      hint: '${label.toLowerCase()} initiative',
       excludeSemantics: true,
       child: GestureDetector(
         onTap: () {
@@ -334,11 +483,11 @@ class _Btn extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 14, color: AppColors.text2),
+            Icon(icon, size: 14, color: c),
             const SizedBox(width: 3),
             Text(
               label,
-              style: GoogleFonts.dmSans(fontSize: 10, color: AppColors.text2),
+              style: GoogleFonts.dmSans(fontSize: 10, color: c),
             ),
           ],
         ),
@@ -366,7 +515,7 @@ class _Field extends StatelessWidget {
       child: Semantics(
         textField: true,
         label: label,
-        hint: 'Double tap to enter $label',
+        hint: 'Enter $label',
         child: TextField(
           controller: controller,
           keyboardType: keyboardType,
@@ -390,6 +539,135 @@ class _Field extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _ContributorsSheet extends ConsumerWidget {
+  const _ContributorsSheet({
+    required this.initiative,
+    required this.scrollController,
+  });
+  final RsInitiative initiative;
+  final ScrollController scrollController;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final contributionsAsync =
+        ref.watch(rsAdminInitiativeContributionsProvider(initiative.id));
+    final moneyFmt = NumberFormat.compact();
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: AppColors.border,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            initiative.title,
+            style: GoogleFonts.dmSans(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: AppColors.text,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            '${initiative.supporterCount} supporters · ${moneyFmt.format(initiative.raisedAmount)} RWF raised',
+            style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Recent Contributions',
+            style: GoogleFonts.dmSans(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: AppColors.text,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Expanded(
+            child: contributionsAsync.when(
+              loading: () =>
+                  const Center(child: CircularProgressIndicator()),
+              error: (e, _) => Center(
+                child: Text(
+                  'Failed to load contributions',
+                  style: GoogleFonts.dmSans(color: AppColors.text3),
+                ),
+              ),
+              data: (contributions) {
+                if (contributions.isEmpty) {
+                  return Center(
+                    child: Text(
+                      'No contributions yet',
+                      style: GoogleFonts.dmSans(color: AppColors.text3),
+                    ),
+                  );
+                }
+                return ListView.separated(
+                  controller: scrollController,
+                  itemCount: contributions.length,
+                  separatorBuilder: (_, _) => const Divider(height: 1),
+                  itemBuilder: (context, index) {
+                    final c = contributions[index];
+                    final dateStr =
+                        DateFormat('d MMM, HH:mm').format(c.createdAt);
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  c.supporterName ?? 'Anonymous',
+                                  style: GoogleFonts.dmSans(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.text,
+                                  ),
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  dateStr,
+                                  style: GoogleFonts.dmSans(
+                                    fontSize: 11,
+                                    color: AppColors.text3,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Text(
+                            '${moneyFmt.format(c.amount)} RWF',
+                            style: GoogleFonts.dmSans(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.accent,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -45,7 +45,7 @@ class DriverSubscriptionBanner extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            '$tripsUsedCount trips posted · $freeTripsRemaining credits remaining.',
+            'tripsUsedCount trips posted freeTripsRemaining',
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w400,
@@ -234,7 +234,7 @@ class ActiveSubscriptionCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      '${formatAmount(subscription.plan.amountRwf)} RWF · '
+                      '${formatAmount(subscription.plan.amountRwf)} RWF ·'
                       'Expires ${formatDate(subscription.expiresAt)}',
                       style: GoogleFonts.dmSans(
                         fontSize: 12,

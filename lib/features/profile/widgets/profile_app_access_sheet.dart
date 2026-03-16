@@ -7,6 +7,8 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../../core/providers/app_access_provider.dart';
 import '../../../core/providers/notification_settings_provider.dart';
 import '../../../core/providers/app_lifecycle_providers.dart';
+import '../../mobility/providers/mobility_location_provider.dart';
+import '../../../core/services/fcm_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../core/services/app_access_service.dart';
@@ -124,6 +126,22 @@ class _ProfileAppAccessSheetState extends ConsumerState<ProfileAppAccessSheet>
       _snapshots[permission] = snapshot;
       _busy.remove(permission);
     });
+
+    // Active teardown for features that keep running in the background.
+    if (!enabled) {
+      switch (permission) {
+        case AppAccessPermission.sms:
+          await ref.read(momoSmsAutoreadServiceProvider).stop();
+          break;
+        case AppAccessPermission.location:
+          ref.read(mobilityLocationProvider.notifier).stopTracking();
+          break;
+        case AppAccessPermission.contacts:
+        case AppAccessPermission.camera:
+        case AppAccessPermission.nfc:
+          break;
+      }
+    }
     if (permission == AppAccessPermission.sms) {
       await ref.read(momoSmsAutoreadServiceProvider).refresh();
     }
@@ -141,7 +159,7 @@ class _ProfileAppAccessSheetState extends ConsumerState<ProfileAppAccessSheet>
     }
     setState(() => _busy.remove(permission));
     if (!opened) {
-      CoolToast.error(context, 'Could not open device settings.');
+      CoolToast.error(context, 'Settings unavailable');
     }
   }
 
@@ -153,7 +171,7 @@ class _ProfileAppAccessSheetState extends ConsumerState<ProfileAppAccessSheet>
     }
     if (!opened) {
       _refreshOnResume = false;
-      CoolToast.error(context, 'Could not open device settings.');
+      CoolToast.error(context, 'Settings unavailable');
     }
   }
 
@@ -218,7 +236,7 @@ class _ProfileAppAccessSheetState extends ConsumerState<ProfileAppAccessSheet>
               ),
               const SizedBox(height: 8),
               Text(
-                'Turn feature access on or off inside COOL. When a toggle is off here, linked features stay blocked even if Android already granted the system permission.',
+                'Toggle feature access',
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
@@ -307,7 +325,7 @@ class _SummaryBanner extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '$readyCount of $totalCount access controls are ready',
+                  '$readyCount/$totalCount ready',
                   style: GoogleFonts.dmSans(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
@@ -316,7 +334,7 @@ class _SummaryBanner extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'SMS payment sync, contacts, mobility, scanner, NFC receive, and notifications all read from here.',
+                  'All access controls',
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
@@ -346,22 +364,27 @@ class _NotificationAccessCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isBlockedInSystem =
+        settings.status.authorizationStatus == FcmAuthorizationStatus.denied;
     final statusLabel = settings.status.preferenceEnabled
-        ? (settings.status.isAuthorized ? 'Ready' : 'Blocked in system')
-        : 'Off in COOL';
-    final canOpenSettings =
-        settings.status.preferenceEnabled && !settings.status.isAuthorized;
+        ? (settings.status.isAuthorized ? 'Ready' : 'Needs system access')
+        : (isBlockedInSystem ? 'Blocked in system' : 'Off in COOL');
+    final statusColor =
+        settings.status.preferenceEnabled && settings.status.isAuthorized
+        ? AppColors.accent
+        : isBlockedInSystem
+        ? AppColors.red
+        : settings.status.preferenceEnabled
+        ? AppColors.orange
+        : AppColors.text2;
+    final canOpenSettings = isBlockedInSystem;
 
     return _AccessCardShell(
       icon: Icons.notifications_outlined,
       title: 'Notifications',
-      subtitle:
-          'Payment updates, group activity, mobility alerts, and partner announcements.',
+      subtitle: 'Payment and activity alerts',
       statusLabel: statusLabel,
-      statusColor:
-          settings.status.preferenceEnabled && settings.status.isAuthorized
-          ? AppColors.accent
-          : AppColors.orange,
+      statusColor: statusColor,
       linkedFeatures: const [
         'MoMo updates',
         'Groups activity',
@@ -379,10 +402,11 @@ class _NotificationAccessCard extends StatelessWidget {
               onTap: () => onOpenSettings(),
             )
           : null,
-      helperText:
-          settings.status.preferenceEnabled && !settings.status.isAuthorized
-          ? 'COOL wants notifications on, but Android is still blocking them.'
-          : 'Disable this any time to stop COOL from registering the device for push.',
+      helperText: isBlockedInSystem
+          ? 'Blocked in system'
+          : settings.status.preferenceEnabled
+          ? 'Enabled'
+          : 'Disabled',
     );
   }
 }
@@ -701,7 +725,7 @@ class _SmsPolicyNotice extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Android SMS is a core payment feature',
+                  'SMS sync opt-in',
                   style: GoogleFonts.dmSans(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
@@ -710,7 +734,7 @@ class _SmsPolicyNotice extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'COOL uses Android SMS access to import M-Money inbox messages for the last 12 months on first setup, keep listening for new M-Money SMS, and let you rescan the inbox with Sync SMS if anything was missed. iOS cannot read inbox SMS, so this payment path is Android-only.',
+                  'If you turn this',
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
@@ -749,7 +773,7 @@ _PermissionMetadata _metadataFor(AppAccessPermission permission) {
       icon: Icons.sms_outlined,
       title: 'SMS payment sync',
       subtitle:
-          'Required on Android so COOL can import M-Money inbox SMS, forward new ones to Supabase, and rebuild statements from the device inbox.',
+          'Optional on Android so',
       linkedFeatures: ['MoMo verification', 'Transaction recording'],
       serviceActionLabel: 'Open system settings',
     ),
@@ -757,7 +781,7 @@ _PermissionMetadata _metadataFor(AppAccessPermission permission) {
       icon: Icons.location_on_outlined,
       title: 'Location',
       subtitle:
-          'Needed for nearby mobility matching, maps, pickup autofill, and local trip discovery.',
+          'Needed for nearby mobility',
       linkedFeatures: ['Mobility nearby', 'Trip pickup', 'Driver discovery'],
       serviceActionLabel: 'Open location settings',
     ),
@@ -765,7 +789,7 @@ _PermissionMetadata _metadataFor(AppAccessPermission permission) {
       icon: Icons.camera_alt_outlined,
       title: 'Camera',
       subtitle:
-          'Used for MoMo QR scanning and Rayon ticket verification on the device.',
+          'Used for MoMo QR',
       linkedFeatures: ['MoMo QR scan', 'Ticket scan'],
       serviceActionLabel: 'Open system settings',
     ),
@@ -773,7 +797,7 @@ _PermissionMetadata _metadataFor(AppAccessPermission permission) {
       icon: Icons.contacts_outlined,
       title: 'Contacts',
       subtitle:
-          'Used when inviting group members or sharing to saved contacts instead of manual typing.',
+          'Used when inviting group',
       linkedFeatures: ['Group invites', 'Share via contacts'],
       serviceActionLabel: 'Open system settings',
     ),
@@ -781,7 +805,7 @@ _PermissionMetadata _metadataFor(AppAccessPermission permission) {
       icon: Icons.nfc_outlined,
       title: 'NFC',
       subtitle:
-          'Controls NFC receive/read flows for Mobile Money tap interactions and payment tags.',
+          'Controls NFC receive/read flows',
       linkedFeatures: ['MoMo receive tap', 'NFC payment tags'],
       serviceActionLabel: 'Open NFC settings',
     ),
@@ -816,19 +840,11 @@ _PermissionMetadata _metadataFor(AppAccessPermission permission) {
 
 String _helperText(AppAccessSnapshot snapshot, _PermissionMetadata metadata) {
   return switch (snapshot.kind) {
-    AppAccessStateKind.ready =>
-      'Linked features can use this access immediately.',
-    AppAccessStateKind.disabledInApp =>
-      '${metadata.title} is turned off inside COOL. Linked features stay blocked until you re-enable it here.',
-    AppAccessStateKind.needsSystemPermission =>
-      'COOL is allowed to use ${metadata.title.toLowerCase()}, but Android still needs you to grant the system permission.',
-    AppAccessStateKind.blockedInSystem =>
-      'Android is blocking ${metadata.title.toLowerCase()}. Open system settings to grant it again.',
-    AppAccessStateKind.serviceDisabled =>
-      metadata.title == 'NFC'
-          ? 'Device NFC is turned off. Turn it on in system settings before using tap-based receive or read flows.'
-          : 'The device-level service behind ${metadata.title.toLowerCase()} is off. Turn it on in settings to continue.',
-    AppAccessStateKind.notAvailable =>
-      '${metadata.title} is not available on this device or platform.',
+    AppAccessStateKind.ready => 'Ready',
+    AppAccessStateKind.disabledInApp => 'Off in COOL',
+    AppAccessStateKind.needsSystemPermission => 'Needs Android access',
+    AppAccessStateKind.blockedInSystem => 'Blocked in system',
+    AppAccessStateKind.serviceDisabled => 'Service off',
+    AppAccessStateKind.notAvailable => 'Not available',
   };
 }

@@ -28,6 +28,20 @@ class NfcHceService {
     }
   }
 
+  Future<Uri?> getPaymentRequestUri() async {
+    try {
+      final rawUri = await _channel.invokeMethod<String>(
+        'getPaymentRequestUri',
+      );
+      if (rawUri == null || rawUri.trim().isEmpty) {
+        return null;
+      }
+      return Uri.tryParse(rawUri);
+    } catch (_) {
+      return null;
+    }
+  }
+
   Future<void> startPaymentRequest({required Uri uri}) {
     return _channel.invokeMethod<void>('startPaymentRequest', <String, dynamic>{
       'uri': uri.toString(),

@@ -37,7 +37,7 @@ class RsShopItem extends StatelessWidget {
 
     return Semantics(
       label:
-          '${product.name}. '
+          '${product.name}.'
           '${NumberFormat.decimalPattern('en').format(discountedPrice)} RWF. '
           '${quantity > 0 ? '$quantity in cart.' : ''}',
       excludeSemantics: true,
@@ -161,10 +161,7 @@ class RsShopItem extends StatelessWidget {
                 children: [
                   _MetaPill(label: product.category.label),
                   if (product.availableSizes.isNotEmpty)
-                    _MetaPill(
-                      label:
-                          'Sizes ${product.availableSizes.take(4).join(' · ')}',
-                    ),
+                    _MetaPill(label: '${product.availableSizes.length} sizes'),
                 ],
               ),
               const Spacer(),

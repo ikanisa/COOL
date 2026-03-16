@@ -17,6 +17,11 @@ class ProfileData {
     required this.userId,
     required this.phone,
     required this.officialPhone,
+    this.dateOfBirth,
+    this.nationalIdNumber,
+    this.kycDocumentType,
+    this.officialGender,
+    this.officialNationality,
     this.momoNumber = '',
     this.momoCode,
     this.momoRouteType,
@@ -27,6 +32,7 @@ class ProfileData {
     String? languageCode = AppMarket.languageCode,
     required this.notificationsEnabled,
     required this.creditScoreLabel,
+    this.momoStatementCount = 0,
     required this.kycStatus,
     required this.showCompletionBanner,
     this.setupItems = const <ProfileSetupItem>[],
@@ -38,6 +44,7 @@ class ProfileData {
     this.driverPlateNumber,
     this.subscriptionLabel,
     this.subscriptionExpiring = false,
+    this.createdAt,
   }) : languageCode = AppMarket.languageCode;
 
   final String name;
@@ -45,6 +52,11 @@ class ProfileData {
   final String userId;
   final String phone;
   final String officialPhone;
+  final String? dateOfBirth;
+  final String? nationalIdNumber;
+  final String? kycDocumentType;
+  final String? officialGender;
+  final String? officialNationality;
   final String momoNumber;
   final String? momoCode;
   final MomoRecipientType? momoRouteType;
@@ -55,6 +67,7 @@ class ProfileData {
   final String languageCode;
   final bool notificationsEnabled;
   final String creditScoreLabel;
+  final int momoStatementCount;
   final String kycStatus;
   final bool showCompletionBanner;
   final List<ProfileSetupItem> setupItems;
@@ -67,6 +80,14 @@ class ProfileData {
   final String? driverPlateNumber;
   final String? subscriptionLabel;
   final bool subscriptionExpiring;
+  final DateTime? createdAt;
+
+  /// Fraction of setup items completed (0.0–1.0).
+  double get completionFraction {
+    if (setupItems.isEmpty) return 1.0;
+    final done = setupItems.where((i) => i.isComplete).length;
+    return done / setupItems.length;
+  }
 
   AppLocalizations get _l10n =>
       lookupAppLocalizations(const Locale(AppMarket.languageCode));
@@ -110,6 +131,44 @@ class ProfileData {
       MomoRecipientType.code => l10n.momoRouteCodeLabel,
       null => l10n.profileWalletLabel,
     };
+  }
+
+  String get officialIdentitySummary {
+    if (kycDocumentType?.trim().isNotEmpty == true) {
+      return _humanizeDocumentType(kycDocumentType!);
+    }
+    return 'Not set';
+  }
+
+  String? get maskedNationalId {
+    final raw = nationalIdNumber?.replaceAll(RegExp(r'\s+'), '');
+    if (raw == null || raw.isEmpty) {
+      return null;
+    }
+    if (raw.length <= 4) {
+      return raw;
+    }
+    return '${'•' * (raw.length - 4)}${raw.substring(raw.length - 4)}';
+  }
+
+  String get mobileMoneyActivityLabel {
+    if (momoStatementCount > 0) {
+      return '$momoStatementCount statements';
+    }
+    if (momoLinked) {
+      return 'Linked';
+    }
+    return 'Not linked';
+  }
+
+  String get creditInsightLabel {
+    if (momoStatementCount > 0 && creditScoreLabel != '--') {
+      return 'Active';
+    }
+    if (momoStatementCount > 0) {
+      return 'Analyzing';
+    }
+    return 'Not started';
   }
 
   bool get canShowMomoQr =>
@@ -200,6 +259,11 @@ class ProfileData {
       userId: userId,
       phone: phone,
       officialPhone: officialPhone,
+      dateOfBirth: dateOfBirth,
+      nationalIdNumber: nationalIdNumber,
+      kycDocumentType: kycDocumentType,
+      officialGender: officialGender,
+      officialNationality: officialNationality,
       momoNumber: momoNumber,
       momoCode: momoCode,
       momoRouteType: momoRouteType,
@@ -210,6 +274,7 @@ class ProfileData {
       languageCode: AppMarket.languageCode,
       notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
       creditScoreLabel: creditScoreLabel,
+      momoStatementCount: momoStatementCount,
       kycStatus: kycStatus,
       showCompletionBanner: showCompletionBanner,
       setupItems: setupItems,
@@ -221,6 +286,7 @@ class ProfileData {
       driverPlateNumber: driverPlateNumber,
       subscriptionLabel: subscriptionLabel,
       subscriptionExpiring: subscriptionExpiring,
+      createdAt: createdAt,
     );
   }
 
@@ -230,16 +296,33 @@ class ProfileData {
     userId: '000000',
     phone: '',
     officialPhone: '',
+    dateOfBirth: null,
+    nationalIdNumber: null,
+    kycDocumentType: null,
+    officialGender: null,
+    officialNationality: null,
     country: 'Rwanda',
     currencyCode: 'RWF',
     momoLinked: false,
     languageCode: AppMarket.languageCode,
     notificationsEnabled: true,
     creditScoreLabel: '--',
+    momoStatementCount: 0,
     kycStatus: 'unverified',
     showCompletionBanner: false,
     isDriver: false,
+    createdAt: null,
   );
+}
+
+String _humanizeDocumentType(String value) {
+  return switch (value.trim().toLowerCase()) {
+    'national_id' => 'National ID',
+    'passport' => 'Passport',
+    'driving_license' => 'Driving licence',
+    'residence_permit' => 'Residence permit',
+    _ => value,
+  };
 }
 
 class ProfileSetupItem {

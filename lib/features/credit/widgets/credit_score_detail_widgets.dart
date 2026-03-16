@@ -252,7 +252,7 @@ class ScoreExplanationCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(18),
           child: Text(
-            'Sign in to view details.',
+            'Sign in',
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,
@@ -269,7 +269,7 @@ class ScoreExplanationCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(18),
           child: Text(
-            'Details appear after your first report.',
+            'Details appear after your',
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,
@@ -337,7 +337,7 @@ class ScoreExplanationCard extends StatelessWidget {
                 _SnapshotStatTile(
                   label: 'Average Save',
                   value:
-                      '${_formatCurrency(data.averageGroupContribution)} RWF\n${data.activeMonthCount} active months',
+                      '${_formatCurrency(data.averageGroupContribution)} RWF\n${data.activeMonthCount} months',
                   color: AppColors.purple,
                 ),
               ],
@@ -601,7 +601,7 @@ ReasonInsight _reasonInsightFor(String code, CreditDashboard dashboard) {
     case 'wallet_activity_low':
       return ReasonInsight(
         code: code,
-        title: 'Wallet history is still thin',
+        title: 'Wallet history is still',
         detail:
             'Only ${dashboard.statementCount} posted wallet entries were counted in this scoring window. More verified M-Money activity makes the score more dependable.',
         action:
@@ -612,7 +612,7 @@ ReasonInsight _reasonInsightFor(String code, CreditDashboard dashboard) {
     case 'income_history_thin':
       return ReasonInsight(
         code: code,
-        title: 'Incoming cashflow needs more history',
+        title: 'Incoming cashflow needs more',
         detail:
             '${dashboard.creditEntryCount} incoming wallet entries were detected. Regular incoming transfers over multiple months improve cashflow stability.',
         action:
@@ -623,7 +623,7 @@ ReasonInsight _reasonInsightFor(String code, CreditDashboard dashboard) {
     case 'savings_pattern_thin':
       return ReasonInsight(
         code: code,
-        title: 'Savings pattern is not yet consistent',
+        title: 'Savings pattern is not',
         detail:
             'Confirmed savings total is ${_formatCurrency(dashboard.groupTotal)} RWF with an average contribution of ${_formatCurrency(dashboard.averageGroupContribution)} RWF.',
         action:
@@ -634,7 +634,7 @@ ReasonInsight _reasonInsightFor(String code, CreditDashboard dashboard) {
     case 'group_savings_missing':
       return ReasonInsight(
         code: code,
-        title: 'No confirmed group savings found',
+        title: 'No confirmed group found',
         detail:
             'The model did not find confirmed group-savings contributions inside the scoring window, so that reliability factor stayed limited.',
         action:
@@ -645,7 +645,7 @@ ReasonInsight _reasonInsightFor(String code, CreditDashboard dashboard) {
     case 'group_activity_low':
       return ReasonInsight(
         code: code,
-        title: 'Group contribution activity is still light',
+        title: 'Group contribution activity is',
         detail:
             '${dashboard.groupContributionCount} confirmed contributions were counted. More months with group contributions strengthen group reliability.',
         action:
@@ -656,7 +656,7 @@ ReasonInsight _reasonInsightFor(String code, CreditDashboard dashboard) {
     case 'profile_verification_needed':
       return ReasonInsight(
         code: code,
-        title: 'Profile verification is holding the score back',
+        title: 'Profile verification is holding',
         detail:
             'Official identity signals are not fully complete yet. Current KYC status is ${_kycStatusLabel(dashboard.kycStatus).toLowerCase()}.',
         action: 'Complete official-name, phone, and KYC verification.',

@@ -68,6 +68,10 @@ final mobilityActiveTabProvider = Provider<int>((ref) {
   return ref.watch(mobilityProvider.select((state) => state.activeTab));
 });
 
+final mobilityTripRoleProvider = Provider<int>((ref) {
+  return ref.watch(mobilityProvider.select((state) => state.tripRoleFilter));
+});
+
 final mobilityDiscoveryLoadingProvider = Provider<bool>((ref) {
   return ref.watch(
     mobilityProvider.select((state) => state.isDiscoveryLoading),
@@ -98,6 +102,7 @@ class MobilityState {
     this.userLocation,
     this.selectedVehicle = 'All',
     this.activeTab = 0,
+    this.tripRoleFilter = 0,
     this.isLoadingNearbyDrivers = false,
     this.isLoadingScheduledTrips = false,
     this.isSubmittingTrip = false,
@@ -114,6 +119,8 @@ class MobilityState {
   final GeoPoint? userLocation;
   final String selectedVehicle;
   final int activeTab;
+  /// 0 = passenger trips, 1 = driver trips.
+  final int tripRoleFilter;
   final bool isLoadingNearbyDrivers;
   final bool isLoadingScheduledTrips;
   final bool isSubmittingTrip;
@@ -135,6 +142,7 @@ class MobilityState {
     Object? userLocation = _sentinel,
     String? selectedVehicle,
     int? activeTab,
+    int? tripRoleFilter,
     bool? isLoadingNearbyDrivers,
     bool? isLoadingScheduledTrips,
     bool? isSubmittingTrip,
@@ -151,6 +159,7 @@ class MobilityState {
           : userLocation as GeoPoint?,
       selectedVehicle: selectedVehicle ?? this.selectedVehicle,
       activeTab: activeTab ?? this.activeTab,
+      tripRoleFilter: tripRoleFilter ?? this.tripRoleFilter,
       isLoadingNearbyDrivers:
           isLoadingNearbyDrivers ?? this.isLoadingNearbyDrivers,
       isLoadingScheduledTrips:
@@ -272,7 +281,7 @@ class MobilityNotifier extends StateNotifier<MobilityState> {
         location.latitude,
         location.longitude,
         _vehicleQueryValue(state.selectedVehicle),
-        state.activeTab == 1 ? TripType.driverReturn : TripType.passenger,
+        state.tripRoleFilter == 1 ? TripType.driverReturn : TripType.passenger,
         _currentCountry,
       ),
     );
@@ -509,6 +518,16 @@ class MobilityNotifier extends StateNotifier<MobilityState> {
       toTab: _tabLabel(tab),
     );
     state = state.copyWith(activeTab: tab, discoveryError: null);
+    if (tab == 1) {
+      await loadScheduledTrips();
+    }
+  }
+
+  Future<void> setTripRoleFilter(int role) async {
+    if (state.tripRoleFilter == role) {
+      return;
+    }
+    state = state.copyWith(tripRoleFilter: role, discoveryError: null);
     await loadScheduledTrips();
   }
 

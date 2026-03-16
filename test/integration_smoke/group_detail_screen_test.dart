@@ -29,7 +29,6 @@ void main() {
         targetAmount: 150000,
         memberCount: 5,
         country: 'RW',
-        bankPartner: 'BK Rwanda',
         frequency: 'monthly',
         description: 'Emergency savings for the household.',
       ),
@@ -122,7 +121,6 @@ void main() {
 
         expect(find.text('+ Contribute'), findsOneWidget);
         expect(find.text('More'), findsOneWidget);
-        expect(find.text('Group facts'), findsOneWidget);
         expect(find.text('Recent contributions'), findsOneWidget);
         expect(find.text('Share / QR'), findsNothing);
         expect(find.text('Invite from Contacts'), findsNothing);

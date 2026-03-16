@@ -113,30 +113,6 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
                 padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
-                    Text(
-                      'Choose your match.',
-                      style: GoogleFonts.barlowCondensed(
-                        fontSize: 34,
-                        fontWeight: FontWeight.w900,
-                        color: AppColors.rsWhite,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Buy official Rayon Sports tickets without the extra noise.',
-                      style: GoogleFonts.barlow(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.text2,
-                        height: 1.4,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    _TicketAccessSummaryCard(
-                      isGoldPlus: isGoldPlus,
-                      paymentRoute: paymentRoute,
-                    ),
-                    const SizedBox(height: 16),
                     DecoratedBox(
                       decoration: BoxDecoration(
                         color: AppColors.surface2,
@@ -223,7 +199,7 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
       groupName: 'Rayon Tickets',
       inviteUrl: shareUri.toString(),
       sheetTitle: 'Share Ticket Hub',
-      sheetSubtitle: 'Invite supporters to buy Rayon Sports tickets.',
+      sheetSubtitle: 'Invite supporters to buy',
       shareText: 'Buy Rayon Sports tickets on Cool: ${shareUri.toString()}',
       analyticsTargetType: 'rayon_tickets',
     );
@@ -402,106 +378,7 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
   }
 }
 
-class _TicketAccessSummaryCard extends StatelessWidget {
-  const _TicketAccessSummaryCard({
-    required this.isGoldPlus,
-    required this.paymentRoute,
-  });
 
-  final bool isGoldPlus;
-  final PartnerPaymentRoute? paymentRoute;
-
-  @override
-  Widget build(BuildContext context) {
-    final paymentLabel = paymentRoute?.payToLabel;
-
-    return CoolCard(
-      borderColor: AppColors.border2,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            isGoldPlus ? 'Gold access active' : 'Public sale access',
-            style: GoogleFonts.barlow(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: AppColors.text,
-            ),
-          ),
-          const SizedBox(height: 12),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _TicketSummaryPill(
-                icon: isGoldPlus
-                    ? Icons.star_rounded
-                    : Icons.confirmation_number_outlined,
-                label: isGoldPlus
-                    ? 'Gold members buy before public sale'
-                    : 'Standard ticket access',
-                highlight: isGoldPlus,
-              ),
-              _TicketSummaryPill(
-                icon: Icons.payments_outlined,
-                label: paymentLabel == null
-                    ? 'Checkout unavailable'
-                    : 'Pay to $paymentLabel',
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _TicketSummaryPill extends StatelessWidget {
-  const _TicketSummaryPill({
-    required this.icon,
-    required this.label,
-    this.highlight = false,
-  });
-
-  final IconData icon;
-  final String label;
-  final bool highlight;
-
-  @override
-  Widget build(BuildContext context) {
-    final foreground = highlight ? RsColors.rsGoldLight : AppColors.text2;
-    final background = highlight
-        ? RsColors.rsGold.withValues(alpha: 0.12)
-        : AppColors.surface2;
-    final border = highlight
-        ? RsColors.rsGold.withValues(alpha: 0.28)
-        : AppColors.border;
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-      decoration: BoxDecoration(
-        color: background,
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: border),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 14, color: foreground),
-          const SizedBox(width: 6),
-          Text(
-            label,
-            style: GoogleFonts.barlow(
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-              color: foreground,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 // ── Compact ticket row (for My Tickets tab) ──────────────────────────
 
@@ -779,7 +656,7 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Total: ',
+                'Total:',
                 style: GoogleFonts.barlow(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,

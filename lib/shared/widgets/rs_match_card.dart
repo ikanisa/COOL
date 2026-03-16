@@ -89,7 +89,7 @@ class _RsMatchCardState extends State<RsMatchCard> {
 
     return Semantics(
       label:
-          '${match.homeTeam} vs ${match.awayTeam}. '
+          '${match.homeTeam} vs ${match.awayTeam}.'
           '${DateFormat('d MMM').format(match.matchDate)} at ${match.kickoffTime}. '
           '${match.venue}. $buttonLabel.',
       excludeSemantics: true,
@@ -338,7 +338,7 @@ class _VsBlock extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            '$dateLabel\n$kickoffTime',
+            '$dateLabel $kickoffTime',
             textAlign: TextAlign.center,
             style: GoogleFonts.dmMono(
               fontSize: isCompact ? 10 : 11,

@@ -5,120 +5,102 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import 'package:cool_app/features/credit/models/credit_dashboard.dart';
-import 'package:cool_app/features/credit/providers/credit_provider.dart';
-import 'package:cool_app/features/credit/repositories/credit_repository.dart';
+import 'package:cool_app/features/groups/models/group.dart';
+import 'package:cool_app/features/groups/providers/groups_provider.dart';
+import 'package:cool_app/features/momo/models/momo_statement.dart';
+import 'package:cool_app/features/momo/providers/momo_statement_providers.dart';
 import 'package:cool_app/features/credit/screens/credit_score_screen.dart';
 
 import 'test_harness.dart';
 
-class MockCreditRepository extends Mock implements CreditRepository {}
-
 void main() {
   group('Credit score smoke', () {
-    testWidgets('renders score ring and factor cards with mock data', (
+    testWidgets('renders readiness checklist with mock data', (
       tester,
     ) async {
-      final repository = MockCreditRepository();
-      const dashboard = CreditDashboard(
-        statementCount: 24,
-        groupContributionCount: 6,
-        activeMonthCount: 8,
-        score: 720,
-        scoreVersion: 'v2',
-        scoreBand: 'good',
-        summary:
-            'Strong transaction history. Consistent group savings improve your profile.',
-        creditEntryCount: 120,
-        debitEntryCount: 90,
-        creditTotal: 2500000,
-        debitTotal: 1800000,
-        groupTotal: 360000,
-        averageGroupContribution: 5000,
-        factors: <CreditFactor>[
-          CreditFactor(
-            key: 'tx_volume',
-            label: 'Transaction Volume',
-            icon: Icons.payments_rounded,
-            score: 85,
-          ),
-          CreditFactor(
-            key: 'group_save',
-            label: 'Group Savings',
-            icon: Icons.savings_rounded,
-            score: 72,
-          ),
-        ],
-      );
-
-      when(
-        () => repository.loadDashboard(any()),
-      ).thenAnswer((_) async => dashboard);
-
       await pumpScopedApp(
         tester,
         child: const CreditScoreScreen(),
         session: fakeSession(),
         user: fakeUser(),
         overrides: <Override>[
-          creditRepositoryProvider.overrideWithValue(repository),
+          groupsListProvider.overrideWith((ref) => [
+            const Group(
+              id: 'g1',
+              creatorId: 'u1',
+              name: 'Test Group',
+              type: 'saving',
+              visibility: 'public',
+              amount: 10000,
+              targetAmount: 50000,
+              memberCount: 5,
+              country: 'RW',
+              frequency: 'monthly',
+            ),
+          ]),
+          momoStatementBundleProvider(const MomoStatementQuery()).overrideWith(
+            (ref) => Future.value(
+              MomoStatementBundle(
+                walletEntries: [
+                  MomoWalletEntry(
+                    id: 'e1',
+                    amount: 5000,
+                    entryType: 'credit',
+                    ledgerStatus: 'confirmed',
+                    occurredAt: DateTime.parse('2026-03-12T10:00:00Z'),
+                    currency: 'RWF',
+                    txCategory: 'transfer',
+                    cashflowBucket: 'wallet',
+                    label: 'Transfer',
+                  ),
+                ],
+                savingsEntries: [],
+                walletTotalCount: 1,
+                savingsTotalCount: 0,
+              ),
+            ),
+          ),
         ],
       );
+
+      await settleTestApp(tester);
 
       // The screen title should be present
       expect(find.text('Credit'), findsOneWidget);
 
-      // Score band should render
-      expect(find.textContaining('Good Standing'), findsWidgets);
-
-      // Factor cards should render
-      expect(find.text('Transaction Volume'), findsOneWidget);
-      expect(find.text('Group Savings'), findsOneWidget);
+      // Readiness checklist should render
+      expect(find.text('Credit ready'), findsOneWidget);
+      expect(find.text('Readiness checklist'), findsOneWidget);
+      expect(find.text('Savings group'), findsOneWidget);
+      expect(find.text('MoMo statements'), findsOneWidget);
+      expect(find.text('You meet all requirements'), findsOneWidget);
     });
 
-    testWidgets('shows empty state when no report exists', (tester) async {
-      final repository = MockCreditRepository();
-      const dashboard = CreditDashboard(statementCount: 0);
-
-      when(
-        () => repository.loadDashboard(any()),
-      ).thenAnswer((_) async => dashboard);
-
+    testWidgets('shows not ready state when checklist is incomplete', (tester) async {
       await pumpScopedApp(
         tester,
         child: const CreditScoreScreen(),
         session: fakeSession(),
         user: fakeUser(),
         overrides: <Override>[
-          creditRepositoryProvider.overrideWithValue(repository),
+          groupsListProvider.overrideWith((ref) => []),
+          momoStatementBundleProvider(const MomoStatementQuery()).overrideWith(
+            (ref) => Future.value(
+              const MomoStatementBundle(
+                walletEntries: [],
+                savingsEntries: [],
+              ),
+            ),
+          ),
         ],
       );
 
+      await settleTestApp(tester);
+
       expect(find.text('Credit'), findsOneWidget);
-      // No score ring expected — we just verify it doesn't crash
-    });
-
-    testWidgets('shows loading state when dashboard takes time', (
-      tester,
-    ) async {
-      final repository = MockCreditRepository();
-
-      when(
-        () => repository.loadDashboard(any()),
-      ).thenAnswer((_) => Completer<CreditDashboard>().future);
-
-      await pumpScopedApp(
-        tester,
-        child: const CreditScoreScreen(),
-        session: fakeSession(),
-        user: fakeUser(),
-        overrides: <Override>[
-          creditRepositoryProvider.overrideWithValue(repository),
-        ],
-      );
-
-      // Should have loading indicator or skeletons, not crash
-      expect(find.text('Credit'), findsOneWidget);
+      expect(find.text('Not ready yet'), findsOneWidget);
+      expect(find.text('Join or create a savings group'), findsOneWidget);
+      expect(find.text('Link your mobile money activity'), findsOneWidget);
     });
   });
 }

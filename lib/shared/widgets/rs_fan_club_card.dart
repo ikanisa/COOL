@@ -45,7 +45,7 @@ class RsFanClubCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       label:
-          '${club.name}. ${club.region}. '
+          '${club.name}. ${club.region}.'
           '${isJoined ? 'Joined' : 'Not joined'}. '
           '${club.memberCount} members.',
       excludeSemantics: true,

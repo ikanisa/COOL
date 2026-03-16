@@ -64,6 +64,20 @@ void main() {
     expect(nfcHceService.stopCalls, 1);
     expect(nfcHceService.active, isFalse);
   });
+
+  test(
+    'sms access defaults off inside COOL until explicitly enabled',
+    () async {
+      final service = AppAccessService(
+        openBox: Hive.openBox<bool>,
+        locationService: _FakeLocationService(),
+        deviceSettingsService: _FakeDeviceSettingsService(),
+        nfcHceService: _FakeNfcHceService(supported: true),
+      );
+
+      expect(await service.isEnabled(AppAccessPermission.sms), isFalse);
+    },
+  );
 }
 
 class _FakeDeviceSettingsService extends DeviceSettingsService {

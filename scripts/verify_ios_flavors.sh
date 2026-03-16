@@ -3,16 +3,10 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
-# shellcheck source=scripts/_ios_release_env.sh
-source "$ROOT_DIR/scripts/_ios_release_env.sh"
 
 if [[ "$(uname -s)" != "Darwin" ]]; then
   echo "==> skipping iOS flavor verification (macOS required)"
   exit 0
-fi
-
-if ! has_ios_maps_key; then
-  echo "==> iOS embedded Google Maps key not set; map widgets will stay hidden in this build"
 fi
 
 echo "==> iOS schemes"

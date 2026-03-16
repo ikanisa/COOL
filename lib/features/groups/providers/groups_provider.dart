@@ -163,8 +163,6 @@ class GroupCreateData {
     required this.targetAmountRwf,
     this.country,
     this.monthlyContributionRwf,
-    this.bankPartner,
-    this.bankPartnerId,
     this.momoNumber,
     this.momoRouteType,
     this.description,
@@ -178,8 +176,6 @@ class GroupCreateData {
   final int targetAmountRwf;
   final String? country;
   final int? monthlyContributionRwf;
-  final String? bankPartner;
-  final String? bankPartnerId;
   final String? momoNumber;
   final String? momoRouteType;
   final String? description;
@@ -337,8 +333,6 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
           country: data.country ?? _defaultCountry,
           monthlyContribution: data.monthlyContributionRwf,
           description: data.description,
-          bankPartner: data.bankPartner,
-          institutionId: data.bankPartnerId,
           momoNumber: data.momoNumber,
           momoRouteType: data.momoRouteType,
           frequency: data.frequency,
@@ -495,6 +489,15 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
     );
 
     return joinResult;
+  }
+
+  /// Update editable fields of a group (name, description, etc.).
+  Future<void> updateGroup(
+    String groupId,
+    Map<String, dynamic> updates,
+  ) async {
+    await _repository.updateGroup(groupId, updates);
+    unawaited(loadMyGroups());
   }
 
   void filterGroups(String? type, String? visibility) {

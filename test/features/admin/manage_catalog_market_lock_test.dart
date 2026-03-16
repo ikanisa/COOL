@@ -144,20 +144,20 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('urwego · bank · Rwanda'), findsOneWidget);
+    expect(find.text('urwego · bank'), findsOneWidget);
 
     await tester.tap(find.byType(FloatingActionButton));
     await tester.pumpAndSettle();
 
     expect(_dropdownFieldWithLabel('Market'), findsNothing);
-    expect(_inputDecoratorWithLabel('Market'), findsOneWidget);
+    expect(_inputDecoratorWithLabel('Market (auto)'), findsOneWidget);
 
-    await tester.enterText(_textFieldWithLabel('Name'), 'Rayon Tickets');
-    await tester.enterText(_textFieldWithLabel('Slug'), 'rayon-tickets');
+    await tester.enterText(_textFieldWithLabel('Name *'), 'Rayon Tickets');
+    await tester.enterText(_textFieldWithLabel('Slug *'), 'rayon-tickets');
     await tester.enterText(_textFieldWithLabel('Emoji'), '🎟️');
     await tester.enterText(_textFieldWithLabel('Subtitle'), 'Local ticketing');
-    await tester.enterText(_textFieldWithLabel('Category'), 'tickets');
-    await tester.enterText(_textFieldWithLabel('WhatsApp #'), '+250788123456');
+    // Category is a dropdown, not a text field
+    await tester.enterText(_textFieldWithLabel('WhatsApp Number'), '+250788123456');
     await tester.ensureVisible(find.text('Save'));
     await tester.tap(find.text('Save'));
     await tester.pumpAndSettle();

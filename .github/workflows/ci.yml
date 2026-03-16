@@ -14,15 +14,151 @@ concurrency:
 permissions:
   contents: read
 
-jobs:
-  release-readiness:
-    name: Release readiness
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
+# ── Shared setup anchor ───────────────────────────────────────────────
+# Re-used across parallel jobs via composite actions isn't needed here;
+# each job declares its own setup for clarity and cache independence.
 
+jobs:
+  # ── 1. Static analysis (fast ~30s) ─────────────────────────────────
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+
+      - name: Read pinned Flutter version
+        id: flutter-version
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+
+          with open(".fvmrc", "r", encoding="utf-8") as handle:
+              config = json.load(handle)
+
+          print(f"version={config['flutter']}")
+          PY
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ steps.flutter-version.outputs.version }}
+          cache: true
+
+      - run: flutter pub get
+      - run: flutter analyze --fatal-infos
+
+  # ── 2. Tests (medium ~2.5min) ──────────────────────────────────────
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read pinned Flutter version
+        id: flutter-version
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+
+          with open(".fvmrc", "r", encoding="utf-8") as handle:
+              config = json.load(handle)
+
+          print(f"version={config['flutter']}")
+          PY
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ steps.flutter-version.outputs.version }}
+          cache: true
+
+      - run: flutter pub get
+
+      - name: Run unit + widget tests
+        run: flutter test --concurrency=4 --exclude-tags=integration --file-reporter json:test-results.json
+
+      - name: Run integration smoke tests
+        run: flutter test --concurrency=4 test/integration_smoke
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results.json
+          retention-days: 14
+
+  # ── 3. Governance docs + deep-link checks (fast ~15s) ──────────────
+  docs-check:
+    name: Docs sync
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read pinned Flutter version
+        id: flutter-version
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+
+          with open(".fvmrc", "r", encoding="utf-8") as handle:
+              config = json.load(handle)
+
+          print(f"version={config['flutter']}")
+          PY
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ steps.flutter-version.outputs.version }}
+          cache: true
+
+      - run: flutter pub get
+      - run: dart tool/governance_docs.dart --check
+      - run: dart tool/deep_link_release_assets.dart --generate --check
+
+  # ── 4. Deno checks (fast ~15s) ─────────────────────────────────────
+  deno-check:
+    name: Deno (edge functions)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version-file: .dvmrc
+          cache: true
+
+      - name: Run edge function tests
+        run: |
+          deno test \
+            supabase/functions/parse-momo-sms/ai_parser_test.ts \
+            supabase/functions/parse-momo-sms/rayon_confirmation_test.ts
+
+      - name: Type-check edge functions
+        run: |
+          deno_files=()
+          while IFS= read -r file; do
+            deno_files+=("$file")
+          done < <(find supabase/functions -type f -name '*.ts' | sort)
+          deno check "${deno_files[@]}"
+
+  # ── 5. APK size gate (slow ~5min, depends on analyze) ──────────────
+  apk-size:
+    name: APK size check
+    runs-on: ubuntu-latest
+    needs: [analyze]
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -50,19 +186,8 @@ jobs:
           flutter-version: ${{ steps.flutter-version.outputs.version }}
           cache: true
 
-      - name: Set up Deno
-        uses: denoland/setup-deno@v2
-        with:
-          deno-version-file: .dvmrc
-          cache: true
+      - run: flutter pub get
 
-      - name: Install Flutter dependencies
-        run: flutter pub get
-
-      - name: Run release readiness checks
-        run: bash scripts/release_readiness.sh
-
-      # ── APK Size Gate ───────────────────────────────────────
       - name: Build release APK (size check)
         run: flutter build apk --release --no-pub --flavor production --dart-define=FLAVOR=production
 

@@ -36,11 +36,21 @@ class _BankAdminWorkspaceScreenState
   bool _isExportingLedger = false;
   String? _activeReviewId;
   String? _activeReviewAction;
+  String _groupSearch = '';
+  String _contribStatusFilter = 'all';
+  String? _contribGroupFilter;
+  String _loanStatusFilter = 'all';
+  String _basketStatusFilter = 'all';
+  String _allocationStatusFilter = 'all';
+  bool _isAiRunning = false;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 5, vsync: this);
+    _tabController = TabController(length: 7, vsync: this);
+    _tabController.addListener(() {
+      if (!_tabController.indexIsChanging) setState(() {});
+    });
   }
 
   @override
@@ -137,7 +147,7 @@ class _BankAdminWorkspaceScreenState
           officialPhone:
               authState.user?.officialPhone ??
               authState.user?.phone ??
-              group.group.bankPartner ??
+              group.group.momoNumber ??
               '',
           generatedAt: DateTime.now(),
           periodLabel: 'All posted entries in view',
@@ -224,7 +234,7 @@ class _BankAdminWorkspaceScreenState
       builder: (dialogContext) => AlertDialog(
         title: const Text('Reject allocation'),
         content: Text(
-          'This will remove the payment from the manual review queue for ${item.groupName}.',
+          'This will remove the',
         ),
         actions: [
           TextButton(
@@ -272,6 +282,57 @@ class _BankAdminWorkspaceScreenState
     }
   }
 
+  Future<void> _acceptSuggestion(BankAdminAllocationReviewItem item) async {
+    if (_activeReviewId != null) return;
+    setState(() {
+      _activeReviewId = item.reviewId;
+      _activeReviewAction = 'accept';
+    });
+    try {
+      final repository = ref.read(bankAdminRepositoryProvider);
+      await repository.acceptSuggestedAllocation(
+        partnerId: widget.partnerId,
+        reviewId: item.reviewId,
+      );
+      ref.invalidate(bankAdminWorkspaceProvider(widget.partnerId));
+      if (mounted) {
+        CoolToast.success(context, 'AI suggestion accepted — payment allocated.');
+      }
+    } catch (_) {
+      if (mounted) {
+        CoolToast.error(context, 'Could not accept suggestion.');
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _activeReviewId = null;
+          _activeReviewAction = null;
+        });
+      }
+    }
+  }
+
+  Future<void> _triggerAiAllocation() async {
+    if (_isAiRunning) return;
+    setState(() => _isAiRunning = true);
+    try {
+      final repository = ref.read(bankAdminRepositoryProvider);
+      await repository.triggerAiAllocation(widget.partnerId);
+      ref.invalidate(bankAdminWorkspaceProvider(widget.partnerId));
+      if (mounted) {
+        CoolToast.success(context, 'AI allocation complete — check suggestions.');
+      }
+    } catch (_) {
+      if (mounted) {
+        CoolToast.error(context, 'AI allocation failed.');
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isAiRunning = false);
+      }
+    }
+  }
+
   Future<void> _showAllocationSheet(
     BankAdminAllocationReviewItem item,
     BankAdminWorkspaceSnapshot snapshot,
@@ -286,6 +347,14 @@ class _BankAdminWorkspaceScreenState
         ? item.groupId
         : groups.first.id;
 
+    // If AI suggestion exists, prefer suggested group
+    if (item.isSuggested && item.suggestedGroupId != null) {
+      final suggestedExists = groups.any((g) => g.id == item.suggestedGroupId);
+      if (suggestedExists) {
+        selectedGroupId = item.suggestedGroupId!;
+      }
+    }
+
     List<BankAdminMemberRecord> membersFor(String groupId) {
       return snapshot.members.entries
           .where((member) => member.groupId == groupId)
@@ -294,20 +363,27 @@ class _BankAdminWorkspaceScreenState
 
     String? initialMemberId() {
       final scopedMembers = membersFor(selectedGroupId);
-      if (scopedMembers.isEmpty) {
-        return null;
+      if (scopedMembers.isEmpty) return null;
+      // Prefer AI suggestion
+      if (item.isSuggested && item.suggestedMemberUserId != null) {
+        final match = scopedMembers.where(
+          (m) => m.userId == item.suggestedMemberUserId,
+        );
+        if (match.isNotEmpty) return match.first.userId;
       }
-
       final matchedMember = scopedMembers.where(
         (member) => member.userId == item.payerUserId,
       );
-      if (matchedMember.isNotEmpty) {
-        return matchedMember.first.userId;
-      }
+      if (matchedMember.isNotEmpty) return matchedMember.first.userId;
       return scopedMembers.first.userId;
     }
 
     String? selectedMemberId = initialMemberId();
+    String memberSearchQuery = '';
+    bool showCreateMember = false;
+    final phoneCtrl = TextEditingController();
+    final nameCtrl = TextEditingController();
+    bool isCreatingMember = false;
 
     await showModalBottomSheet<void>(
       context: context,
@@ -318,7 +394,14 @@ class _BankAdminWorkspaceScreenState
       ),
       builder: (context) => StatefulBuilder(
         builder: (context, setModalState) {
-          final scopedMembers = membersFor(selectedGroupId);
+          var scopedMembers = membersFor(selectedGroupId);
+          // Apply search filter
+          if (memberSearchQuery.isNotEmpty) {
+            final q = memberSearchQuery.toLowerCase();
+            scopedMembers = scopedMembers
+                .where((m) => m.displayName.toLowerCase().contains(q))
+                .toList(growable: false);
+          }
           if (selectedMemberId != null &&
               scopedMembers.every(
                 (member) => member.userId != selectedMemberId,
@@ -337,109 +420,273 @@ class _BankAdminWorkspaceScreenState
                 top: 20,
                 bottom: MediaQuery.of(context).viewInsets.bottom + 20,
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: Container(
-                      width: 42,
-                      height: 4,
-                      decoration: BoxDecoration(
-                        color: AppColors.border,
-                        borderRadius: BorderRadius.circular(999),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Container(
+                        width: 42,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: AppColors.border,
+                          borderRadius: BorderRadius.circular(999),
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 18),
-                  Text(
-                    'Allocate payment',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.text,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    '${NumberFormat.decimalPattern('en_US').format(item.amount)} RWF · ${item.groupName}',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.text2,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  DropdownButtonFormField<String>(
-                    initialValue: selectedGroupId,
-                    decoration: const InputDecoration(labelText: 'Group'),
-                    items: groups
-                        .map(
-                          (group) => DropdownMenuItem<String>(
-                            value: group.id,
-                            child: Text(group.group.name),
-                          ),
-                        )
-                        .toList(growable: false),
-                    onChanged: (value) {
-                      if (value == null) {
-                        return;
-                      }
-                      setModalState(() {
-                        selectedGroupId = value;
-                        final nextMembers = membersFor(value);
-                        selectedMemberId = nextMembers.isEmpty
-                            ? null
-                            : nextMembers.first.userId;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 14),
-                  DropdownButtonFormField<String>(
-                    initialValue: selectedMemberId,
-                    decoration: const InputDecoration(labelText: 'Member'),
-                    items: scopedMembers
-                        .map(
-                          (member) => DropdownMenuItem<String>(
-                            value: member.userId,
-                            child: Text(member.displayName),
-                          ),
-                        )
-                        .toList(growable: false),
-                    onChanged: scopedMembers.isEmpty
-                        ? null
-                        : (value) =>
-                              setModalState(() => selectedMemberId = value),
-                  ),
-                  if (scopedMembers.isEmpty) ...[
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 18),
                     Text(
-                      'No visible members are linked to the selected group.',
+                      'Allocate payment',
+                      style: GoogleFonts.dmSans(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.text,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      '${NumberFormat.decimalPattern('en_US').format(item.amount)} RWF · ${item.groupName}',
                       style: GoogleFonts.dmSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.orange,
+                        color: AppColors.text2,
                       ),
                     ),
-                  ],
-                  const SizedBox(height: 18),
-                  SizedBox(
-                    width: double.infinity,
-                    child: FilledButton(
-                      onPressed: selectedMemberId == null
-                          ? null
-                          : () async {
-                              Navigator.of(context).pop();
-                              await _allocateManualReview(
-                                item: item,
-                                groupId: selectedGroupId,
-                                memberUserId: selectedMemberId!,
-                              );
-                            },
-                      child: const Text('Allocate to member'),
+                    // ── AI suggestion banner ──
+                    if (item.isSuggested) ...[
+                      const SizedBox(height: 12),
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: AppColors.accent.withValues(alpha: 0.08),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: AppColors.accent.withValues(alpha: 0.3)),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(Icons.auto_awesome, size: 16, color: AppColors.accent),
+                                const SizedBox(width: 6),
+                                Text(
+                                  'AI Suggestion · ${(item.suggestedConfidence ?? 0).toStringAsFixed(0)}% match',
+                                  style: GoogleFonts.dmSans(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.accent,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            if (item.suggestedMemberName != null) ...[
+                              const SizedBox(height: 4),
+                              Text(
+                                'Suggested member: ${item.suggestedMemberName}',
+                                style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text2),
+                              ),
+                            ],
+                            if (item.aiReasoning != null) ...[
+                              const SizedBox(height: 4),
+                              Text(
+                                item.aiReasoning!,
+                                style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                    ],
+                    const SizedBox(height: 16),
+                    // ── Group selector ──
+                    DropdownButtonFormField<String>(
+                      value: selectedGroupId,
+                      decoration: const InputDecoration(labelText: 'Group'),
+                      items: groups
+                          .map(
+                            (group) => DropdownMenuItem<String>(
+                              value: group.id,
+                              child: Text(group.group.name),
+                            ),
+                          )
+                          .toList(growable: false),
+                      onChanged: (value) {
+                        if (value == null) return;
+                        setModalState(() {
+                          selectedGroupId = value;
+                          memberSearchQuery = '';
+                          final nextMembers = membersFor(value);
+                          selectedMemberId = nextMembers.isEmpty
+                              ? null
+                              : nextMembers.first.userId;
+                        });
+                      },
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 14),
+                    // ── Member search ──
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Search member',
+                        prefixIcon: const Icon(Icons.search, size: 20),
+                        suffixIcon: memberSearchQuery.isNotEmpty
+                            ? IconButton(
+                                icon: const Icon(Icons.clear, size: 18),
+                                onPressed: () => setModalState(() {
+                                  memberSearchQuery = '';
+                                }),
+                              )
+                            : null,
+                      ),
+                      onChanged: (v) => setModalState(() => memberSearchQuery = v),
+                    ),
+                    const SizedBox(height: 8),
+                    // ── Member dropdown ──
+                    if (scopedMembers.isNotEmpty)
+                      DropdownButtonFormField<String>(
+                        value: selectedMemberId,
+                        decoration: const InputDecoration(labelText: 'Member'),
+                        items: scopedMembers
+                            .map(
+                              (member) => DropdownMenuItem<String>(
+                                value: member.userId,
+                                child: Text(member.displayName),
+                              ),
+                            )
+                            .toList(growable: false),
+                        onChanged: (value) =>
+                            setModalState(() => selectedMemberId = value),
+                      ),
+                    if (scopedMembers.isEmpty && !showCreateMember) ...[
+                      const SizedBox(height: 10),
+                      Text(
+                        memberSearchQuery.isNotEmpty
+                            ? 'No members match "$memberSearchQuery"'
+                            : 'No members in this group',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.orange,
+                        ),
+                      ),
+                    ],
+                    const SizedBox(height: 12),
+                    // ── Create new member toggle ──
+                    GestureDetector(
+                      onTap: () => setModalState(() => showCreateMember = !showCreateMember),
+                      child: Row(
+                        children: [
+                          Icon(
+                            showCreateMember ? Icons.remove_circle_outline : Icons.add_circle_outline,
+                            size: 18,
+                            color: AppColors.accent,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            showCreateMember ? 'Cancel new member' : 'Create new member',
+                            style: GoogleFonts.dmSans(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.accent,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    // ── Create member form ──
+                    if (showCreateMember) ...[
+                      const SizedBox(height: 12),
+                      TextField(
+                        controller: phoneCtrl,
+                        decoration: const InputDecoration(
+                          labelText: 'Phone number',
+                          hintText: '07XXXXXXXX',
+                          prefixIcon: Icon(Icons.phone, size: 18),
+                        ),
+                        keyboardType: TextInputType.phone,
+                      ),
+                      const SizedBox(height: 10),
+                      TextField(
+                        controller: nameCtrl,
+                        decoration: const InputDecoration(
+                          labelText: 'Display name (optional)',
+                          prefixIcon: Icon(Icons.person, size: 18),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton.icon(
+                          onPressed: isCreatingMember || phoneCtrl.text.trim().isEmpty
+                              ? null
+                              : () async {
+                                  setModalState(() => isCreatingMember = true);
+                                  try {
+                                    final repo = ref.read(bankAdminRepositoryProvider);
+                                    final result = await repo.addMemberToGroup(
+                                      partnerId: widget.partnerId,
+                                      groupId: selectedGroupId,
+                                      phone: phoneCtrl.text.trim(),
+                                      displayName: nameCtrl.text.trim().isEmpty
+                                          ? null
+                                          : nameCtrl.text.trim(),
+                                    );
+                                    final newUserId = result['member_user_id']?.toString();
+                                    if (newUserId != null && newUserId.isNotEmpty) {
+                                      // Refresh snapshot and allocate
+                                      ref.invalidate(bankAdminWorkspaceProvider(widget.partnerId));
+                                      if (mounted) {
+                                        Navigator.of(context).pop();
+                                        await _allocateManualReview(
+                                          item: item,
+                                          groupId: selectedGroupId,
+                                          memberUserId: newUserId,
+                                        );
+                                      }
+                                    }
+                                  } catch (e) {
+                                    if (mounted) {
+                                      CoolToast.error(context, e.toString().replaceAll('Exception: ', ''));
+                                    }
+                                  } finally {
+                                    if (context.mounted) {
+                                      setModalState(() => isCreatingMember = false);
+                                    }
+                                  }
+                                },
+                          icon: isCreatingMember
+                              ? const SizedBox(
+                                  width: 16, height: 16,
+                                  child: CircularProgressIndicator(strokeWidth: 2),
+                                )
+                              : const Icon(Icons.person_add, size: 18),
+                          label: Text(isCreatingMember ? 'Creating...' : 'Add member & allocate'),
+                        ),
+                      ),
+                    ],
+                    if (!showCreateMember) ...[
+                      const SizedBox(height: 18),
+                      SizedBox(
+                        width: double.infinity,
+                        child: FilledButton(
+                          onPressed: selectedMemberId == null
+                              ? null
+                              : () async {
+                                  Navigator.of(context).pop();
+                                  await _allocateManualReview(
+                                    item: item,
+                                    groupId: selectedGroupId,
+                                    memberUserId: selectedMemberId!,
+                                  );
+                                },
+                          child: const Text('Allocate to member'),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
               ),
             ),
           );
@@ -493,6 +740,10 @@ class _BankAdminWorkspaceScreenState
                           )
                         : ref.watch(groupPaymentLedgerProvider(ledgerQuery));
 
+                    final analyticsAsync = ref.watch(
+                      bankAnalyticsProvider(widget.partnerId),
+                    );
+
                     return ListView(
                       padding: const EdgeInsets.fromLTRB(18, 0, 18, 32),
                       children: [
@@ -509,6 +760,7 @@ class _BankAdminWorkspaceScreenState
                         _WorkspaceHero(
                           partnerName: partnerName,
                           snapshot: snapshot,
+                          analyticsAsync: analyticsAsync,
                         ),
                         const SizedBox(height: 24),
                         DecoratedBox(
@@ -541,6 +793,8 @@ class _BankAdminWorkspaceScreenState
                               Tab(text: 'Contributions'),
                               Tab(text: 'Ledgers'),
                               Tab(text: 'Allocations'),
+                              Tab(text: 'Loans'),
+                              Tab(text: 'Baskets'),
                             ],
                           ),
                         ),
@@ -556,6 +810,8 @@ class _BankAdminWorkspaceScreenState
                                 onOpenGroup: (group) =>
                                     _openGroupDetail(group, snapshot),
                                 onOpenLedger: _openLedgerTab,
+                                search: _groupSearch,
+                                onSearchChanged: (v) => setState(() => _groupSearch = v),
                               ),
                               _MembersTab(
                                 members: snapshot.members.entries,
@@ -564,6 +820,11 @@ class _BankAdminWorkspaceScreenState
                               _ContributionsTab(
                                 contributions: snapshot.contributions.entries,
                                 totalCount: snapshot.contributions.totalCount,
+                                statusFilter: _contribStatusFilter,
+                                onStatusFilterChanged: (v) => setState(() => _contribStatusFilter = v),
+                                groupFilter: _contribGroupFilter,
+                                onGroupFilterChanged: (v) => setState(() => _contribGroupFilter = v),
+                                groups: snapshot.groups.entries,
                               ),
                               _LedgersTab(
                                 groups: snapshot.groups.entries,
@@ -593,9 +854,24 @@ class _BankAdminWorkspaceScreenState
                                 totalCount: snapshot.allocations.totalCount,
                                 activeReviewId: _activeReviewId,
                                 activeAction: _activeReviewAction,
+                                statusFilter: _allocationStatusFilter,
+                                onStatusFilterChanged: (v) => setState(() => _allocationStatusFilter = v),
                                 onAllocate: (item) =>
                                     _showAllocationSheet(item, snapshot),
                                 onReject: _rejectManualReview,
+                                onAcceptSuggestion: _acceptSuggestion,
+                                onTriggerAi: _triggerAiAllocation,
+                                isAiRunning: _isAiRunning,
+                              ),
+                              _LoansTab(
+                                partnerId: widget.partnerId,
+                                statusFilter: _loanStatusFilter,
+                                onStatusFilterChanged: (v) => setState(() => _loanStatusFilter = v),
+                              ),
+                              _BasketsTab(
+                                partnerId: widget.partnerId,
+                                statusFilter: _basketStatusFilter,
+                                onStatusFilterChanged: (v) => setState(() => _basketStatusFilter = v),
                               ),
                             ],
                           ),
@@ -609,7 +885,7 @@ class _BankAdminWorkspaceScreenState
             loading: () => const AdminLoadingScaffold(title: 'Bank Admin'),
             error: (_, _) => const AdminAccessDeniedScaffold(
               title: 'Bank Admin',
-              message: 'The bank workspace could not be loaded.',
+              message: 'The bank workspace could',
             ),
           ),
     );
@@ -617,13 +893,19 @@ class _BankAdminWorkspaceScreenState
 }
 
 class _WorkspaceHero extends StatelessWidget {
-  const _WorkspaceHero({required this.partnerName, required this.snapshot});
+  const _WorkspaceHero({
+    required this.partnerName,
+    required this.snapshot,
+    required this.analyticsAsync,
+  });
 
   final String partnerName;
   final BankAdminWorkspaceSnapshot snapshot;
+  final AsyncValue<Map<String, dynamic>> analyticsAsync;
 
   @override
   Widget build(BuildContext context) {
+    final moneyFormat = NumberFormat.decimalPattern('en_US');
     return CoolCard(
       backgroundColor: AppColors.surface,
       borderColor: AppColors.border,
@@ -640,7 +922,7 @@ class _WorkspaceHero extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Custodian workspace for group savings oversight, contribution review, payment ledgers, and manual allocation follow-up.',
+            'Custodian workspace for group savings and loans.',
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,
@@ -670,6 +952,59 @@ class _WorkspaceHero extends StatelessWidget {
                 value: snapshot.allocations.totalCount.toString(),
               ),
             ],
+          ),
+          analyticsAsync.when(
+            loading: () => const SizedBox.shrink(),
+            error: (_, _) => const SizedBox.shrink(),
+            data: (data) {
+              if (data.isEmpty) return const SizedBox.shrink();
+              final totalAum = (data['total_aum'] as num?)?.toDouble() ?? 0;
+              final loansOutstanding = (data['loans_outstanding'] as num?)?.toDouble() ?? 0;
+              final activeBasketsCount = (data['active_baskets_count'] as num?)?.toInt() ?? 0;
+              final activeLoansCount = (data['active_loans_count'] as num?)?.toInt() ?? 0;
+              if (totalAum == 0 && loansOutstanding == 0 && activeBasketsCount == 0) {
+                return const SizedBox.shrink();
+              }
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 16),
+                  Divider(color: AppColors.border, height: 1),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Financial Summary',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.text,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Wrap(
+                    spacing: 12,
+                    runSpacing: 12,
+                    children: [
+                      _MetricChip(
+                        label: 'AUM',
+                        value: '${moneyFormat.format(totalAum)} RWF',
+                      ),
+                      _MetricChip(
+                        label: 'loans out',
+                        value: '${moneyFormat.format(loansOutstanding)} RWF',
+                      ),
+                      _MetricChip(
+                        label: 'active loans',
+                        value: activeLoansCount.toString(),
+                      ),
+                      _MetricChip(
+                        label: 'active baskets',
+                        value: activeBasketsCount.toString(),
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),
@@ -710,141 +1045,169 @@ class _GroupsTab extends StatelessWidget {
     required this.totalCount,
     required this.onOpenGroup,
     required this.onOpenLedger,
+    required this.search,
+    required this.onSearchChanged,
   });
 
   final List<BankAdminGroupSummary> groups;
   final int totalCount;
   final ValueChanged<BankAdminGroupSummary> onOpenGroup;
   final ValueChanged<String> onOpenLedger;
+  final String search;
+  final ValueChanged<String> onSearchChanged;
 
   @override
   Widget build(BuildContext context) {
     final moneyFormat = NumberFormat.decimalPattern('en_US');
     final dateFormat = DateFormat('dd MMM yyyy');
+    final lowerSearch = search.toLowerCase();
+    final filtered = search.isEmpty
+        ? groups
+        : groups.where((g) => g.group.name.toLowerCase().contains(lowerSearch)).toList();
 
-    if (groups.isEmpty) {
-      return const CoolEmptyView(
-        message: 'No custodial groups are linked to this bank yet.',
-        compact: true,
-      );
-    }
-
-    return ListView.separated(
-      itemCount: groups.length,
-      separatorBuilder: (_, _) => const SizedBox(height: 12),
-      itemBuilder: (context, index) {
-        final item = groups[index];
-        return CoolCard(
-          backgroundColor: AppColors.surface,
-          borderColor: AppColors.border,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          item.group.name,
-                          style: GoogleFonts.dmSans(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.text,
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: TextField(
+            decoration: InputDecoration(
+              hintText: 'Search groups...',
+              prefixIcon: const Icon(Icons.search, size: 20),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              isDense: true,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            ),
+            onChanged: onSearchChanged,
+          ),
+        ),
+        if (filtered.isEmpty)
+          const Expanded(
+            child: CoolEmptyView(
+              message: 'No custodial groups found',
+              compact: true,
+            ),
+          )
+        else
+          Expanded(
+            child: ListView.separated(
+              itemCount: filtered.length,
+              separatorBuilder: (_, _) => const SizedBox(height: 12),
+              itemBuilder: (context, index) {
+                final item = filtered[index];
+                return CoolCard(
+                  backgroundColor: AppColors.surface,
+                  borderColor: AppColors.border,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  item.group.name,
+                                  style: GoogleFonts.dmSans(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.text,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  '${_title(item.group.type)} · ${_title(item.group.visibility)}',
+                                  style: GoogleFonts.dmSans(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.text3,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 4),
+                        ],
+                      ),
+                      if ((item.group.description?.trim().isNotEmpty ?? false)) ...[
+                        const SizedBox(height: 8),
                         Text(
-                          '${_title(item.group.type)} · ${_title(item.group.visibility)}',
+                          item.group.description!.trim(),
                           style: GoogleFonts.dmSans(
                             fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.text2,
+                            height: 1.4,
+                          ),
+                        ),
+                      ],
+                      const SizedBox(height: 14),
+                      Wrap(
+                        spacing: 10,
+                        runSpacing: 10,
+                        children: [
+                          _InfoPill(
+                            label: 'Balance',
+                            value: '${moneyFormat.format(item.group.amount)} RWF',
+                          ),
+                          _InfoPill(
+                            label: 'Members',
+                            value: item.group.memberCount.toString(),
+                          ),
+                          _InfoPill(label: 'Admins', value: item.adminCount.toString()),
+                          _InfoPill(
+                            label: 'Contributions',
+                            value: item.contributionCount.toString(),
+                          ),
+                          _InfoPill(
+                            label: 'Monthly',
+                            value: item.group.monthlyContribution == null
+                                ? '-'
+                                : '${moneyFormat.format(item.group.monthlyContribution)} RWF',
+                          ),
+                          _InfoPill(
+                            label: 'Last activity',
+                            value: item.lastContributionAt == null
+                                ? '-'
+                                : dateFormat.format(item.lastContributionAt!),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 14),
+                      Wrap(
+                        spacing: 12,
+                        runSpacing: 8,
+                        children: [
+                          OutlinedButton(
+                            onPressed: () => onOpenGroup(item),
+                            child: const Text('View details'),
+                          ),
+                          TextButton(
+                            onPressed: item.id.isEmpty
+                                ? null
+                                : () => onOpenLedger(item.id),
+                            child: const Text('View ledger'),
+                          ),
+                        ],
+                      ),
+                      if (index == 0 && totalCount > filtered.length) ...[
+                        const SizedBox(height: 12),
+                        Text(
+                          '${filtered.length}/$totalCount shown',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 11,
                             fontWeight: FontWeight.w600,
                             color: AppColors.text3,
                           ),
                         ),
                       ],
-                    ),
+                    ],
                   ),
-                ],
-              ),
-              if ((item.group.description?.trim().isNotEmpty ?? false)) ...[
-                const SizedBox(height: 8),
-                Text(
-                  item.group.description!.trim(),
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
-                    height: 1.4,
-                  ),
-                ),
-              ],
-              const SizedBox(height: 14),
-              Wrap(
-                spacing: 10,
-                runSpacing: 10,
-                children: [
-                  _InfoPill(
-                    label: 'Balance',
-                    value: '${moneyFormat.format(item.group.amount)} RWF',
-                  ),
-                  _InfoPill(
-                    label: 'Members',
-                    value: item.group.memberCount.toString(),
-                  ),
-                  _InfoPill(label: 'Admins', value: item.adminCount.toString()),
-                  _InfoPill(
-                    label: 'Contributions',
-                    value: item.contributionCount.toString(),
-                  ),
-                  _InfoPill(
-                    label: 'Monthly',
-                    value: item.group.monthlyContribution == null
-                        ? '-'
-                        : '${moneyFormat.format(item.group.monthlyContribution)} RWF',
-                  ),
-                  _InfoPill(
-                    label: 'Last activity',
-                    value: item.lastContributionAt == null
-                        ? '-'
-                        : dateFormat.format(item.lastContributionAt!),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 14),
-              Wrap(
-                spacing: 12,
-                runSpacing: 8,
-                children: [
-                  OutlinedButton(
-                    onPressed: () => onOpenGroup(item),
-                    child: const Text('View details'),
-                  ),
-                  TextButton(
-                    onPressed: item.id.isEmpty
-                        ? null
-                        : () => onOpenLedger(item.id),
-                    child: const Text('View ledger'),
-                  ),
-                ],
-              ),
-              if (index == 0 && totalCount > groups.length) ...[
-                const SizedBox(height: 12),
-                Text(
-                  'Showing ${groups.length} of $totalCount linked groups.',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.text3,
-                  ),
-                ),
-              ],
-            ],
+                );
+              },
+            ),
           ),
-        );
-      },
+      ],
     );
   }
 }
@@ -901,7 +1264,7 @@ class _GroupDetailSheet extends StatelessWidget {
               ),
               const SizedBox(height: 6),
               Text(
-                'Linked group profile, active members, and recent custodial contributions.',
+                'Linked group profile active',
                 style: GoogleFonts.dmSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
@@ -951,7 +1314,7 @@ class _GroupDetailSheet extends StatelessWidget {
               const SizedBox(height: 10),
               if (members.isEmpty)
                 const CoolEmptyView(
-                  message: 'No member records are visible for this group yet.',
+                  message: 'No member records are',
                   compact: true,
                 )
               else
@@ -1015,7 +1378,7 @@ class _GroupDetailSheet extends StatelessWidget {
               if (contributions.isEmpty)
                 const CoolEmptyView(
                   message:
-                      'No contribution records are visible for this group yet.',
+                      'No contribution records are',
                   compact: true,
                 )
               else
@@ -1113,7 +1476,7 @@ class _MembersTab extends StatelessWidget {
 
     if (members.isEmpty) {
       return const CoolEmptyView(
-        message: 'No members are visible for this bank workspace yet.',
+        message: 'No members are visible',
         compact: true,
       );
     }
@@ -1190,99 +1553,171 @@ class _ContributionsTab extends StatelessWidget {
   const _ContributionsTab({
     required this.contributions,
     required this.totalCount,
+    required this.statusFilter,
+    required this.onStatusFilterChanged,
+    required this.groupFilter,
+    required this.onGroupFilterChanged,
+    required this.groups,
   });
 
   final List<BankAdminContributionRecord> contributions;
   final int totalCount;
+  final String statusFilter;
+  final ValueChanged<String> onStatusFilterChanged;
+  final String? groupFilter;
+  final ValueChanged<String?> onGroupFilterChanged;
+  final List<BankAdminGroupSummary> groups;
+
+  static const _statuses = ['all', 'confirmed', 'pending'];
 
   @override
   Widget build(BuildContext context) {
     final moneyFormat = NumberFormat.decimalPattern('en_US');
     final dateFormat = DateFormat('dd MMM yyyy, HH:mm');
 
-    if (contributions.isEmpty) {
-      return const CoolEmptyView(
-        message: 'No custodial contributions are visible yet.',
-        compact: true,
-      );
+    var filtered = contributions;
+    if (statusFilter != 'all') {
+      filtered = filtered.where((c) => c.status == statusFilter).toList();
+    }
+    if (groupFilter != null && groupFilter!.isNotEmpty) {
+      filtered = filtered.where((c) => c.groupId == groupFilter).toList();
     }
 
-    return ListView.separated(
-      itemCount: contributions.length,
-      separatorBuilder: (_, _) => const SizedBox(height: 12),
-      itemBuilder: (context, index) {
-        final contribution = contributions[index];
-        return CoolCard(
-          backgroundColor: AppColors.surface,
-          borderColor: AppColors.border,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      contribution.contributorName,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.text,
-                      ),
-                    ),
-                  ),
-                  _StatusTag(
-                    label: _title(contribution.status),
-                    backgroundColor: contribution.status == 'confirmed'
-                        ? AppColors.accent.withValues(alpha: 0.12)
-                        : AppColors.orange.withValues(alpha: 0.12),
-                    foregroundColor: contribution.status == 'confirmed'
-                        ? AppColors.accent
-                        : AppColors.orange,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 4),
-              Text(
-                contribution.groupName,
-                style: GoogleFonts.dmSans(
+    return Column(
+      children: [
+        // Status filter chips
+        SizedBox(
+          height: 36,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: _statuses.length,
+            separatorBuilder: (_, _) => const SizedBox(width: 8),
+            itemBuilder: (context, index) {
+              final status = _statuses[index];
+              final isActive = status == statusFilter;
+              return FilterChip(
+                label: Text(_title(status)),
+                selected: isActive,
+                onSelected: (_) => onStatusFilterChanged(status),
+                backgroundColor: AppColors.surface2,
+                selectedColor: AppColors.accent.withValues(alpha: 0.15),
+                labelStyle: GoogleFonts.dmSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.text3,
+                  color: isActive ? AppColors.accent : AppColors.text2,
                 ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                '${moneyFormat.format(contribution.amount)} RWF',
-                style: GoogleFonts.dmSans(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.text,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                dateFormat.format(contribution.createdAt),
-                style: GoogleFonts.dmSans(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.text2,
-                ),
-              ),
-              if ((contribution.reference?.trim().isNotEmpty ?? false)) ...[
-                const SizedBox(height: 4),
-                Text(
-                  'Reference: ${contribution.reference}',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
-                  ),
-                ),
-              ],
-            ],
+              );
+            },
           ),
-        );
-      },
+        ),
+        if (groups.isNotEmpty) ...[
+          const SizedBox(height: 8),
+          DropdownButtonFormField<String?>(
+            value: groupFilter,
+            decoration: const InputDecoration(
+              labelText: 'Filter by group',
+              border: OutlineInputBorder(),
+              isDense: true,
+            ),
+            items: [
+              const DropdownMenuItem<String?>(value: null, child: Text('All groups')),
+              ...groups.map((g) => DropdownMenuItem<String?>(
+                value: g.id,
+                child: Text(g.group.name),
+              )),
+            ],
+            onChanged: onGroupFilterChanged,
+          ),
+        ],
+        const SizedBox(height: 12),
+        if (filtered.isEmpty)
+          const Expanded(
+            child: CoolEmptyView(
+              message: 'No contributions match the selected filters',
+              compact: true,
+            ),
+          )
+        else
+          Expanded(
+            child: ListView.separated(
+              itemCount: filtered.length,
+              separatorBuilder: (_, _) => const SizedBox(height: 12),
+              itemBuilder: (context, index) {
+                final contribution = filtered[index];
+                return CoolCard(
+                  backgroundColor: AppColors.surface,
+                  borderColor: AppColors.border,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              contribution.contributorName,
+                              style: GoogleFonts.dmSans(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.text,
+                              ),
+                            ),
+                          ),
+                          _StatusTag(
+                            label: _title(contribution.status),
+                            backgroundColor: contribution.status == 'confirmed'
+                                ? AppColors.accent.withValues(alpha: 0.12)
+                                : AppColors.orange.withValues(alpha: 0.12),
+                            foregroundColor: contribution.status == 'confirmed'
+                                ? AppColors.accent
+                                : AppColors.orange,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        contribution.groupName,
+                        style: GoogleFonts.dmSans(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.text3,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        '${moneyFormat.format(contribution.amount)} RWF',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.text,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        dateFormat.format(contribution.createdAt),
+                        style: GoogleFonts.dmSans(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.text2,
+                        ),
+                      ),
+                      if ((contribution.reference?.trim().isNotEmpty ?? false)) ...[
+                        const SizedBox(height: 4),
+                        Text(
+                          'Reference: ${contribution.reference}',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.text2,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+      ],
     );
   }
 }
@@ -1311,7 +1746,7 @@ class _LedgersTab extends StatelessWidget {
   Widget build(BuildContext context) {
     if (groups.isEmpty) {
       return const CoolEmptyView(
-        message: 'Link at least one custodial group to browse ledgers.',
+        message: 'Link at least one',
         compact: true,
       );
     }
@@ -1338,7 +1773,7 @@ class _LedgersTab extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                'Select a group to inspect its posted payment ledger and export the current ledger view to Excel.',
+                'Select a group to',
                 style: GoogleFonts.dmSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
@@ -1375,7 +1810,7 @@ class _LedgersTab extends StatelessWidget {
             emptyCheck: (page) => page.entries.isEmpty,
             emptyWidget: const CoolEmptyView(
               message:
-                  'No posted ledger entries are visible for the selected group yet.',
+                  'No posted ledger entries',
               compact: true,
             ),
             builder: (page) => Column(
@@ -1511,158 +1946,332 @@ class _AllocationsTab extends StatelessWidget {
     required this.totalCount,
     required this.activeReviewId,
     required this.activeAction,
+    required this.statusFilter,
+    required this.onStatusFilterChanged,
     required this.onAllocate,
     required this.onReject,
+    required this.onAcceptSuggestion,
+    required this.onTriggerAi,
+    required this.isAiRunning,
   });
 
   final List<BankAdminAllocationReviewItem> items;
   final int totalCount;
   final String? activeReviewId;
   final String? activeAction;
+  final String statusFilter;
+  final ValueChanged<String> onStatusFilterChanged;
   final ValueChanged<BankAdminAllocationReviewItem> onAllocate;
   final ValueChanged<BankAdminAllocationReviewItem> onReject;
+  final ValueChanged<BankAdminAllocationReviewItem> onAcceptSuggestion;
+  final VoidCallback onTriggerAi;
+  final bool isAiRunning;
+
+  static const _filters = [
+    ('all', 'All'),
+    ('suggested', 'Suggested'),
+    ('manual_review', 'Manual'),
+    ('pending_review', 'Pending'),
+    ('rejected', 'Rejected'),
+  ];
+
+  Color _statusColor(String status) {
+    switch (status) {
+      case 'suggested':
+        return const Color(0xFF6366F1); // indigo
+      case 'manual_review':
+        return AppColors.orange;
+      case 'pending_review':
+        return AppColors.yellow;
+      case 'rejected':
+        return AppColors.red;
+      case 'matched':
+        return AppColors.accent;
+      default:
+        return AppColors.text3;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final moneyFormat = NumberFormat.decimalPattern('en_US');
     final dateFormat = DateFormat('dd MMM yyyy, HH:mm');
 
-    if (items.isEmpty) {
-      return const CoolEmptyView(
-        message:
-            'No unresolved allocations are currently queued for this bank.',
-        compact: true,
-      );
-    }
+    final filtered = statusFilter == 'all'
+        ? items
+        : items.where((i) => i.matchStatus == statusFilter).toList();
 
-    return ListView.separated(
-      itemCount: items.length,
-      separatorBuilder: (_, _) => const SizedBox(height: 12),
-      itemBuilder: (context, index) {
-        final item = items[index];
-        return CoolCard(
-          backgroundColor: AppColors.surface,
-          borderColor: AppColors.border,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      item.groupName,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.text,
-                      ),
+    return Stack(
+      children: [
+        Column(
+          children: [
+            // ── Status filter chips ──
+            SizedBox(
+              height: 44,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                itemCount: _filters.length,
+                separatorBuilder: (_, _) => const SizedBox(width: 8),
+                itemBuilder: (context, index) {
+                  final (value, label) = _filters[index];
+                  final selected = statusFilter == value;
+                  final count = value == 'all'
+                      ? items.length
+                      : items.where((i) => i.matchStatus == value).length;
+                  return FilterChip(
+                    label: Text('$label${count > 0 ? ' ($count)' : ''}'),
+                    selected: selected,
+                    onSelected: (_) => onStatusFilterChanged(value),
+                    backgroundColor: AppColors.surface,
+                    selectedColor: AppColors.accent.withValues(alpha: 0.12),
+                    labelStyle: GoogleFonts.dmSans(
+                      fontSize: 12,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                      color: selected ? AppColors.accent : AppColors.text2,
                     ),
-                  ),
-                  _StatusTag(
-                    label: _title(item.matchStatus),
-                    backgroundColor: AppColors.orange.withValues(alpha: 0.12),
-                    foregroundColor: AppColors.orange,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 6),
-              Text(
-                item.payerName,
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.text2,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                '${moneyFormat.format(item.amount)} RWF',
-                style: GoogleFonts.dmSans(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.text,
-                ),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                'Reason: ${_title(item.reason)}',
-                style: GoogleFonts.dmSans(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.text2,
-                ),
-              ),
-              if ((item.reference?.trim().isNotEmpty ?? false))
-                Text(
-                  'Reference: ${item.reference}',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
-                  ),
-                ),
-              if ((item.payeeDigits?.trim().isNotEmpty ?? false))
-                Text(
-                  'Payee route: ${item.payeeDigits}',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
-                  ),
-                ),
-              const SizedBox(height: 12),
-              Wrap(
-                spacing: 12,
-                runSpacing: 8,
-                children: [
-                  OutlinedButton(
-                    onPressed: activeReviewId == item.reviewId
-                        ? null
-                        : () => onAllocate(item),
-                    child: Text(
-                      activeReviewId == item.reviewId &&
-                              activeAction == 'allocate'
-                          ? 'Allocating...'
-                          : 'Allocate',
+                    side: BorderSide(
+                      color: selected ? AppColors.accent : AppColors.border,
                     ),
-                  ),
-                  TextButton(
-                    onPressed: activeReviewId == item.reviewId
-                        ? null
-                        : () => onReject(item),
-                    child: Text(
-                      activeReviewId == item.reviewId &&
-                              activeAction == 'reject'
-                          ? 'Rejecting...'
-                          : 'Reject',
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                  ),
-                ],
+                    visualDensity: VisualDensity.compact,
+                  );
+                },
               ),
-              const SizedBox(height: 6),
-              Text(
-                'Updated ${dateFormat.format(item.updatedAt)}',
-                style: GoogleFonts.dmSans(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.text3,
-                ),
+            ),
+            const SizedBox(height: 8),
+            // ── List ──
+            Expanded(
+              child: filtered.isEmpty
+                  ? CoolEmptyView(
+                      message: statusFilter == 'all'
+                          ? 'No unresolved allocations. Tap the AI button to run auto-matching.'
+                          : 'No ${statusFilter.replaceAll('_', ' ')} allocations.',
+                      compact: true,
+                    )
+                  : ListView.separated(
+                      padding: const EdgeInsets.only(bottom: 80),
+                      itemCount: filtered.length,
+                      separatorBuilder: (_, _) => const SizedBox(height: 12),
+                      itemBuilder: (context, index) {
+                        final item = filtered[index];
+                        final isActive = activeReviewId == item.reviewId;
+                        final color = _statusColor(item.matchStatus);
+
+                        return CoolCard(
+                          backgroundColor: AppColors.surface,
+                          borderColor: item.isSuggested
+                              ? const Color(0xFF6366F1).withValues(alpha: 0.3)
+                              : AppColors.border,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      item.groupName,
+                                      style: GoogleFonts.dmSans(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColors.text,
+                                      ),
+                                    ),
+                                  ),
+                                  _StatusTag(
+                                    label: _title(item.matchStatus),
+                                    backgroundColor: color.withValues(alpha: 0.12),
+                                    foregroundColor: color,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 6),
+                              Text(
+                                item.payerName,
+                                style: GoogleFonts.dmSans(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.text2,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                '${moneyFormat.format(item.amount)} RWF',
+                                style: GoogleFonts.dmSans(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.text,
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              Text(
+                                'Reason: ${_title(item.reason)}',
+                                style: GoogleFonts.dmSans(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.text2,
+                                ),
+                              ),
+                              if ((item.reference?.trim().isNotEmpty ?? false))
+                                Text(
+                                  'Reference: ${item.reference}',
+                                  style: GoogleFonts.dmSans(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.text2,
+                                  ),
+                                ),
+                              if ((item.payeeDigits?.trim().isNotEmpty ?? false))
+                                Text(
+                                  'Payee: ${item.payeeDigits}',
+                                  style: GoogleFonts.dmSans(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.text2,
+                                  ),
+                                ),
+                              // ── AI suggestion banner ──
+                              if (item.isSuggested) ...[
+                                const SizedBox(height: 10),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF6366F1).withValues(alpha: 0.06),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      const Icon(Icons.auto_awesome, size: 16, color: Color(0xFF6366F1)),
+                                      const SizedBox(width: 6),
+                                      Expanded(
+                                        child: Text(
+                                          '→ ${item.suggestedMemberName ?? 'Suggested member'} · ${(item.suggestedConfidence ?? 0).toStringAsFixed(0)}%',
+                                          style: GoogleFonts.dmSans(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600,
+                                            color: const Color(0xFF6366F1),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                if (item.aiReasoning != null) ...[
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    item.aiReasoning!,
+                                    style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ],
+                              const SizedBox(height: 12),
+                              // ── Action buttons ──
+                              Wrap(
+                                spacing: 8,
+                                runSpacing: 8,
+                                children: [
+                                  if (item.isSuggested)
+                                    FilledButton.icon(
+                                      onPressed: isActive ? null : () => onAcceptSuggestion(item),
+                                      icon: isActive && activeAction == 'accept'
+                                          ? const SizedBox(
+                                              width: 14, height: 14,
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 2, color: Colors.white,
+                                              ),
+                                            )
+                                          : const Icon(Icons.check, size: 16),
+                                      label: Text(
+                                        isActive && activeAction == 'accept'
+                                            ? 'Accepting...'
+                                            : 'Accept',
+                                      ),
+                                      style: FilledButton.styleFrom(
+                                        backgroundColor: const Color(0xFF6366F1),
+                                        textStyle: GoogleFonts.dmSans(
+                                          fontSize: 12, fontWeight: FontWeight.w600,
+                                        ),
+                                        visualDensity: VisualDensity.compact,
+                                      ),
+                                    ),
+                                  OutlinedButton(
+                                    onPressed: isActive ? null : () => onAllocate(item),
+                                    child: Text(
+                                      isActive && activeAction == 'allocate'
+                                          ? 'Allocating...'
+                                          : item.isSuggested
+                                              ? 'Override'
+                                              : 'Allocate',
+                                    ),
+                                  ),
+                                  if (item.matchStatus != 'rejected')
+                                    TextButton(
+                                      onPressed: isActive ? null : () => onReject(item),
+                                      child: Text(
+                                        isActive && activeAction == 'reject'
+                                            ? 'Rejecting...'
+                                            : 'Reject',
+                                      ),
+                                    ),
+                                ],
+                              ),
+                              const SizedBox(height: 6),
+                              Text(
+                                'Updated ${dateFormat.format(item.updatedAt)}',
+                                style: GoogleFonts.dmSans(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.text3,
+                                ),
+                              ),
+                              if (index == 0 && totalCount > filtered.length) ...[
+                                const SizedBox(height: 10),
+                                Text(
+                                  '${filtered.length}/$totalCount shown',
+                                  style: GoogleFonts.dmSans(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.text3,
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+            ),
+          ],
+        ),
+        // ── Run AI Allocation FAB ──
+        Positioned(
+          right: 12,
+          bottom: 16,
+          child: FloatingActionButton.extended(
+            heroTag: 'ai_allocation',
+            onPressed: isAiRunning ? null : onTriggerAi,
+            backgroundColor: const Color(0xFF6366F1),
+            icon: isAiRunning
+                ? const SizedBox(
+                    width: 18, height: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                  )
+                : const Icon(Icons.auto_awesome, size: 18, color: Colors.white),
+            label: Text(
+              isAiRunning ? 'Running...' : 'Run AI',
+              style: GoogleFonts.dmSans(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
               ),
-              if (index == 0 && totalCount > items.length) ...[
-                const SizedBox(height: 10),
-                Text(
-                  'Showing ${items.length} of $totalCount unresolved items.',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.text3,
-                  ),
-                ),
-              ],
-            ],
+            ),
           ),
-        );
-      },
+        ),
+      ],
     );
   }
 }
@@ -1742,4 +2351,358 @@ String _fileSafe(String raw) {
       .replaceAll(RegExp(r'[^a-z0-9]+'), '_')
       .replaceAll(RegExp(r'_+'), '_')
       .replaceAll(RegExp(r'^_|_$'), '');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Loans Tab
+// ═══════════════════════════════════════════════════════════════
+
+class _LoansTab extends ConsumerWidget {
+  const _LoansTab({
+    required this.partnerId,
+    required this.statusFilter,
+    required this.onStatusFilterChanged,
+  });
+  final String partnerId;
+  final String statusFilter;
+  final ValueChanged<String> onStatusFilterChanged;
+
+  static const _statuses = ['all', 'pending', 'approved', 'disbursed', 'repaying', 'completed', 'defaulted', 'rejected'];
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final loansAsync = ref.watch(bankLoansProvider(partnerId));
+    final moneyFmt = NumberFormat.decimalPattern('en_US');
+
+    return Column(
+      children: [
+        SizedBox(
+          height: 36,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: _statuses.length,
+            separatorBuilder: (_, _) => const SizedBox(width: 8),
+            itemBuilder: (context, index) {
+              final s = _statuses[index];
+              final active = s == statusFilter;
+              return FilterChip(
+                label: Text(_title(s)),
+                selected: active,
+                onSelected: (_) => onStatusFilterChanged(s),
+                backgroundColor: AppColors.surface2,
+                selectedColor: AppColors.accent.withValues(alpha: 0.15),
+                labelStyle: GoogleFonts.dmSans(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: active ? AppColors.accent : AppColors.text2,
+                ),
+              );
+            },
+          ),
+        ),
+        const SizedBox(height: 12),
+        Expanded(
+          child: loansAsync.when(
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (e, _) => Center(child: Text('Error: \$e')),
+            data: (loans) {
+              final filtered = statusFilter == 'all'
+                  ? loans
+                  : loans.where((l) => (l['status']?.toString() ?? '') == statusFilter).toList();
+              if (filtered.isEmpty) {
+                return const CoolEmptyView(
+                  message: 'No loans match filter',
+                  compact: true,
+                );
+              }
+        return ListView.separated(
+          itemCount: filtered.length,
+          separatorBuilder: (_, __) => const SizedBox(height: 10),
+          itemBuilder: (context, index) {
+            final loan = filtered[index];
+            final amount = (loan['amount'] as num?)?.toDouble() ?? 0;
+            final repaid = (loan['repaid_amount'] as num?)?.toDouble() ?? 0;
+            final status = loan['status']?.toString() ?? 'pending';
+            final memberName = loan['member_name']?.toString() ?? '—';
+            final groupName = loan['group_name']?.toString() ?? '—';
+
+            return CoolCard(
+              backgroundColor: AppColors.surface,
+              borderColor: AppColors.border,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          memberName,
+                          style: GoogleFonts.dmSans(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.text,
+                          ),
+                        ),
+                      ),
+                      _StatusTag(
+                        label: _title(status),
+                        backgroundColor: _loanStatusColor(status).withValues(alpha: 0.15),
+                        foregroundColor: _loanStatusColor(status),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    groupName,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 12,
+                      color: AppColors.text3,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      _InfoPill(
+                        label: 'Amount',
+                        value: '${moneyFmt.format(amount)} RWF',
+                      ),
+                      const SizedBox(width: 8),
+                      _InfoPill(
+                        label: 'Repaid',
+                        value: '${moneyFmt.format(repaid)} RWF',
+                      ),
+                    ],
+                  ),
+                  if (status == 'pending') ...[
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: FilledButton(
+                            onPressed: () async {
+                              await ref.read(bankAdminRepositoryProvider).updateLoanStatus(
+                                loanId: loan['id'].toString(),
+                                status: 'approved',
+                              );
+                              ref.invalidate(bankLoansProvider(partnerId));
+                            },
+                            child: const Text('Approve'),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: OutlinedButton(
+                            onPressed: () async {
+                              await ref.read(bankAdminRepositoryProvider).updateLoanStatus(
+                                loanId: loan['id'].toString(),
+                                status: 'rejected',
+                              );
+                              ref.invalidate(bankLoansProvider(partnerId));
+                            },
+                            child: const Text('Reject'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                  if (status == 'approved') ...[
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      width: double.infinity,
+                      child: FilledButton.icon(
+                        icon: const Icon(Icons.send_rounded, size: 16),
+                        onPressed: () async {
+                          await ref.read(bankAdminRepositoryProvider).updateLoanStatus(
+                            loanId: loan['id'].toString(),
+                            status: 'disbursed',
+                          );
+                          ref.invalidate(bankLoansProvider(partnerId));
+                        },
+                        label: const Text('Mark Disbursed'),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            );
+          },
+        );
+      },
+    ),
+  ),
+],
+);
+  }
+}
+
+Color _loanStatusColor(String status) {
+  switch (status) {
+    case 'approved':
+    case 'completed':
+      return Colors.green;
+    case 'disbursed':
+    case 'repaying':
+      return Colors.blue;
+    case 'defaulted':
+      return Colors.red;
+    case 'rejected':
+      return Colors.orange;
+    default:
+      return Colors.grey;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Baskets Tab
+// ═══════════════════════════════════════════════════════════════
+
+class _BasketsTab extends ConsumerWidget {
+  const _BasketsTab({
+    required this.partnerId,
+    required this.statusFilter,
+    required this.onStatusFilterChanged,
+  });
+  final String partnerId;
+  final String statusFilter;
+  final ValueChanged<String> onStatusFilterChanged;
+
+  static const _statuses = ['all', 'active', 'completed', 'closed'];
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final basketsAsync = ref.watch(bankBasketsProvider(partnerId));
+    final moneyFmt = NumberFormat.decimalPattern('en_US');
+
+    return Column(
+      children: [
+        SizedBox(
+          height: 36,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: _statuses.length,
+            separatorBuilder: (_, _) => const SizedBox(width: 8),
+            itemBuilder: (context, index) {
+              final s = _statuses[index];
+              final active = s == statusFilter;
+              return FilterChip(
+                label: Text(_title(s)),
+                selected: active,
+                onSelected: (_) => onStatusFilterChanged(s),
+                backgroundColor: AppColors.surface2,
+                selectedColor: AppColors.accent.withValues(alpha: 0.15),
+                labelStyle: GoogleFonts.dmSans(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: active ? AppColors.accent : AppColors.text2,
+                ),
+              );
+            },
+          ),
+        ),
+        const SizedBox(height: 12),
+        Expanded(
+          child: basketsAsync.when(
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (e, _) => Center(child: Text('Error: $e')),
+            data: (baskets) {
+              final filtered = statusFilter == 'all'
+                  ? baskets
+                  : baskets.where((b) => (b['status']?.toString() ?? '') == statusFilter).toList();
+              if (filtered.isEmpty) {
+                return const CoolEmptyView(
+                  message: 'No baskets match filter',
+                  compact: true,
+                );
+              }
+        return ListView.separated(
+          itemCount: filtered.length,
+          separatorBuilder: (_, __) => const SizedBox(height: 10),
+          itemBuilder: (context, index) {
+            final basket = filtered[index];
+            final name = basket['name']?.toString() ?? 'Basket';
+            final groupName = basket['group_name']?.toString() ?? '—';
+            final targetAmount = (basket['target_amount'] as num?)?.toDouble() ?? 0;
+            final currentAmount = (basket['current_amount'] as num?)?.toDouble() ?? 0;
+            final progressPct = (basket['progress_pct'] as num?)?.toDouble() ?? 0;
+            final status = basket['status']?.toString() ?? 'active';
+
+            return CoolCard(
+              backgroundColor: AppColors.surface,
+              borderColor: AppColors.border,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          name,
+                          style: GoogleFonts.dmSans(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.text,
+                          ),
+                        ),
+                      ),
+                      _StatusTag(
+                        label: _title(status),
+                        backgroundColor: status == 'completed'
+                            ? Colors.green.withValues(alpha: 0.15)
+                            : AppColors.surface2,
+                        foregroundColor: status == 'completed'
+                            ? Colors.green
+                            : AppColors.text3,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    groupName,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 12,
+                      color: AppColors.text3,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(6),
+                    child: LinearProgressIndicator(
+                      value: (progressPct / 100).clamp(0.0, 1.0),
+                      backgroundColor: AppColors.surface2,
+                      color: progressPct >= 100 ? Colors.green : AppColors.blue,
+                      minHeight: 8,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '${moneyFmt.format(currentAmount)} / ${moneyFmt.format(targetAmount)} RWF',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.text2,
+                        ),
+                      ),
+                      Text(
+                        '${progressPct.toStringAsFixed(1)}%',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: progressPct >= 100 ? Colors.green : AppColors.text,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+            },
+          ),
+        ),
+      ],
+    );
+  }
 }

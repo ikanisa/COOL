@@ -526,6 +526,102 @@ class AuthNotifier extends StateNotifier<AuthState> {
     return success;
   }
 
+  /// Updates profile with KYC OCR-extracted data from an ID card scan.
+  Future<bool> updateProfileFromKyc({
+    required String officialName,
+    String? dateOfBirth,
+    String? nationalIdNumber,
+    String? kycIdPhotoUrl,
+  }) async {
+    final user = state.user;
+    if (user == null) {
+      state = state.copyWith(error: 'No user profile loaded.');
+      return false;
+    }
+
+    final updatedProfile = user.copyWith(
+      officialName: officialName.trim().isEmpty ? null : officialName.trim(),
+      dateOfBirth: dateOfBirth,
+      nationalIdNumber: nationalIdNumber,
+      kycIdPhotoUrl: kycIdPhotoUrl,
+      kycStatus: 'pending_review',
+    );
+
+    state = state.copyWith(isLoading: true, error: null);
+
+    final result = await AsyncValue.guard(
+      () => _repository.updateProfile(updatedProfile),
+    );
+
+    var success = false;
+    result.when(
+      data: (value) {
+        success = true;
+        state = state.copyWith(user: value, isLoading: false, error: null);
+      },
+      error: (error, stack) {
+        _crashlytics.recordError(
+          error,
+          stackTrace: stack,
+          reason: 'update_profile_from_kyc',
+        );
+        state = state.copyWith(isLoading: false, error: _errorMessage(error));
+      },
+      loading: () {},
+    );
+
+    return success;
+  }
+
+  Future<({UserProfile profile, Map<String, Object?> extracted})?>
+  submitKycDocument({
+    required String documentType,
+    required String frontImageBase64,
+    required String frontMimeType,
+    String? backImageBase64,
+    String? backMimeType,
+  }) async {
+    if (state.user == null) {
+      state = state.copyWith(error: 'No user profile loaded.');
+      return null;
+    }
+
+    state = state.copyWith(isLoading: true, error: null);
+
+    final result = await AsyncValue.guard(
+      () => _repository.submitKycDocument(
+        documentType: documentType,
+        frontImageBase64: frontImageBase64,
+        frontMimeType: frontMimeType,
+        backImageBase64: backImageBase64,
+        backMimeType: backMimeType,
+      ),
+    );
+
+    ({UserProfile profile, Map<String, Object?> extracted})? submission;
+    result.when(
+      data: (value) {
+        submission = value;
+        state = state.copyWith(
+          user: value.profile,
+          isLoading: false,
+          error: null,
+        );
+      },
+      error: (error, stack) {
+        _crashlytics.recordError(
+          error,
+          stackTrace: stack,
+          reason: 'submit_kyc_document',
+        );
+        state = state.copyWith(isLoading: false, error: _errorMessage(error));
+      },
+      loading: () {},
+    );
+
+    return submission;
+  }
+
   Future<bool> updateProfile(UserProfile profile) async {
     state = state.copyWith(isLoading: true, error: null);
 

@@ -4,9 +4,9 @@ Generated from [`lib/core/router/app_router.dart`](../lib/core/router/app_router
 
 Current router shape:
 
-- `61` `GoRoute` declarations
+- `71` `GoRoute` declarations
 - `4` shell branches
-- `59` screen files under `lib/features/**/screens/*.dart`
+- `70` screen files under `lib/features/**/screens/*.dart`
 
 Change policy:
 
@@ -51,9 +51,11 @@ Change policy:
 |---|---|---|
 | `/credit` | [`CreditScoreScreen`](../lib/features/credit/screens/credit_score_screen.dart) | No |
 | `/credit/readiness` | [`CreditReadinessScreen`](../lib/features/credit/screens/credit_readiness_screen.dart) | No |
+| `/kyc/selfie` | [`KycSelfieScreen`](../lib/features/profile/screens/kyc_selfie_screen.dart) | No |
 | `/missions` | [`MissionsScreen`](../lib/core/status/screens/missions_screen.dart) | No |
 | `/momo` | [`MomoScreen`](../lib/features/momo/screens/momo_screen.dart) | No |
 | `/momo/statements` | [`MomoStatementsScreen`](../lib/features/momo/screens/momo_statements_screen.dart) | No |
+| `/tokens` | [`CoolTokensScreen`](../lib/core/status/screens/cool_tokens_screen.dart) | No |
 
 ## Partner And Rayon Consumer Routes
 
@@ -61,6 +63,7 @@ Change policy:
 |---|---|---|
 | `/partners` | [`PartnersScreen`](../lib/features/partners/screens/partners_screen.dart) | No |
 | `/partners/:id` | [`BankPartnerScreen`](../lib/features/partners/screens/bank_partner_screen.dart), [`PrismaPartnerScreen`](../lib/features/partners/screens/prisma_partner_screen.dart), [`RadiantPartnerScreen`](../lib/features/partners/screens/radiant_partner_screen.dart) | No |
+| `/partners/:id/onboarding/:type` | [`BankOnboardingScreen`](../lib/features/partners/bank_onboarding/screens/bank_onboarding_screen.dart) | No |
 | `/partners/rayon-sports` | [`RayonHomeScreen`](../lib/features/partners/rayon/screens/rayon_home_screen.dart) | No |
 | `/partners/rayon-sports/clubs` | [`FanClubsScreen`](../lib/features/partners/screens/rayon/fan_clubs_screen.dart) | No |
 | `/partners/rayon-sports/clubs/:clubId` | [`FanClubDetailScreen`](../lib/features/partners/screens/rayon/fan_club_detail_screen.dart) | No |
@@ -80,14 +83,20 @@ Change policy:
 | Path | Target | Shell |
 |---|---|---|
 | `/admin` | [`AdminWorkspacesScreen`](../lib/features/admin/screens/admin_workspaces_screen.dart) | No |
+| `/admin/analytics` | [`SystemAnalyticsScreen`](../lib/features/admin/screens/system_analytics_screen.dart) | No |
 | `/admin/app-config` | [`ManageAppConfigScreen`](../lib/features/admin/screens/manage_app_config_screen.dart) | No |
+| `/admin/audit-log` | [`AuditLogScreen`](../lib/features/admin/screens/audit_log_screen.dart) | No |
 | `/admin/banks/:partnerId` | [`BankAdminWorkspaceScreen`](../lib/features/admin/screens/bank_admin_workspace_screen.dart) | No |
+| `/admin/missions` | [`ManageMissionsScreen`](../lib/features/admin/screens/manage_missions_screen.dart) | No |
 | `/admin/operations` | [`OperationalDashboardScreen`](../lib/features/admin/screens/operational_dashboard_screen.dart) | No |
 | `/admin/partners` | [`ManagePartnersScreen`](../lib/features/admin/screens/manage_partners_screen.dart) | No |
 | `/admin/partners/:partnerId` | [`PartnerAdminWorkspaceScreen`](../lib/features/admin/screens/partner_admin_workspace_screen.dart) | No |
 | `/admin/platform` | [`AdminDashboardScreen`](../lib/features/admin/screens/admin_dashboard_screen.dart) | No |
 | `/admin/quick-actions` | [`ManageQuickActionsScreen`](../lib/features/admin/screens/manage_quick_actions_screen.dart) | No |
+| `/admin/roles` | [`ManageAdminRolesScreen`](../lib/features/admin/screens/manage_admin_roles_screen.dart) | No |
+| `/admin/seasons` | [`ManageSeasonsScreen`](../lib/features/admin/screens/manage_seasons_screen.dart) | No |
 | `/admin/services` | [`ManageServicesScreen`](../lib/features/admin/screens/manage_services_screen.dart) | No |
+| `/admin/special-products` | [`ManageSpecialProductsScreen`](../lib/features/admin/screens/manage_special_products_screen.dart) | No |
 | `/admin/users` | [`ManageUsersScreen`](../lib/features/admin/screens/manage_users_screen.dart) | No |
 | `/admin/vehicle-types` | [`ManageVehicleTypesScreen`](../lib/features/admin/screens/manage_vehicle_types_screen.dart) | No |
 
@@ -96,6 +105,7 @@ Change policy:
 | Path | Target | Shell |
 |---|---|---|
 | `/admin/rayon` | [`RsAdminDashboardScreen`](../lib/features/partners/rayon/screens/rs_admin_dashboard_screen.dart) | No |
+| `/admin/rayon/analytics` | [`RsAdminAnalyticsScreen`](../lib/features/partners/rayon/screens/rs_admin_analytics_screen.dart) | No |
 | `/admin/rayon/finance` | [`RsAdminFinanceScreen`](../lib/features/partners/rayon/screens/rs_admin_finance_screen.dart) | No |
 | `/admin/rayon/initiatives` | [`RsAdminInitiativesScreen`](../lib/features/partners/rayon/screens/rs_admin_initiatives_screen.dart) | No |
 | `/admin/rayon/matches` | [`RsAdminMatchesScreen`](../lib/features/partners/rayon/screens/rs_admin_matches_screen.dart) | No |

@@ -67,12 +67,17 @@ class AppAccessService {
 
   Future<bool> isEnabled(AppAccessPermission permission) async {
     final box = await _openBox(boxName);
-    return box.get(permission.name, defaultValue: true) ?? true;
+    final defaultEnabled = _defaultEnabled(permission);
+    return box.get(permission.name, defaultValue: defaultEnabled) ??
+        defaultEnabled;
   }
 
   Future<void> setEnabled(AppAccessPermission permission, bool enabled) async {
     final box = await _openBox(boxName);
-    final current = box.get(permission.name, defaultValue: true) ?? true;
+    final defaultEnabled = _defaultEnabled(permission);
+    final current =
+        box.get(permission.name, defaultValue: defaultEnabled) ??
+        defaultEnabled;
     if (current == enabled) {
       return;
     }
@@ -81,6 +86,15 @@ class AppAccessService {
   }
 
   Future<AppAccessSnapshot> getSnapshot(AppAccessPermission permission) async {
+    if (permission == AppAccessPermission.sms && !_supportsSmsPermission) {
+      return AppAccessSnapshot(
+        permission: permission,
+        kind: AppAccessStateKind.notAvailable,
+        enabledInApp: false,
+        supportedOnDevice: false,
+      );
+    }
+
     final enabledInApp = await isEnabled(permission);
     if (!enabledInApp) {
       return AppAccessSnapshot(
@@ -299,5 +313,12 @@ class AppAccessService {
       return false;
     }
     return Platform.isAndroid;
+  }
+
+  bool _defaultEnabled(AppAccessPermission permission) {
+    return switch (permission) {
+      AppAccessPermission.sms => false,
+      _ => true,
+    };
   }
 }

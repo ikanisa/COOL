@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
-    <!-- Location (for mobility maps, nearby drivers, and trip discovery) -->
+    <!-- Location (for nearby drivers and trip discovery) -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
@@ -35,8 +35,8 @@
         android:enableOnBackInvokedCallback="true">
 
         <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="${GOOGLE_MAPS_ANDROID_API_KEY}" />
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/cool_default_notification_channel_id" />
 
         <activity
             android:name=".MainActivity"

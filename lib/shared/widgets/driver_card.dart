@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/identity/public_user_identity.dart';
 import '../../core/theme/app_colors.dart';
-import 'status_badge.dart';
+
 import 'wa_button.dart';
 
 /// A card displaying driver information for the mobility feature.
@@ -19,13 +19,6 @@ class DriverCard extends StatelessWidget {
     required this.distanceKm,
     required this.isOnline,
     required this.onWhatsAppTap,
-    this.rating,
-    this.tripCount,
-    this.scheduledRoute,
-    this.hasReturnTrip = false,
-    this.baseLocation,
-    this.vehicleStatus,
-    this.isRegularDriver = false,
     this.onTap,
     super.key,
   });
@@ -36,13 +29,6 @@ class DriverCard extends StatelessWidget {
   final double distanceKm;
   final bool isOnline;
   final VoidCallback onWhatsAppTap;
-  final double? rating;
-  final int? tripCount;
-  final String? scheduledRoute;
-  final bool hasReturnTrip;
-  final String? baseLocation;
-  final String? vehicleStatus;
-  final bool isRegularDriver;
   final VoidCallback? onTap;
 
   String get _initials {
@@ -79,183 +65,67 @@ class DriverCard extends StatelessWidget {
     );
     final content = Semantics(
       label:
-          '$name. $vehicleType. $_distanceLabel away. '
+          '$name. $vehicleType. $_distanceLabel away.'
           '${isOnline ? 'Online' : 'Offline'}.',
       excludeSemantics: true,
       child: Container(
-        padding: const EdgeInsets.all(18),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
           color: AppColors.surface2,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(color: AppColors.border),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // ── Top row: avatar + info + WA ──────────────────────────
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Avatar
-                _Avatar(initials: _initials, isOnline: isOnline),
-                const SizedBox(width: 12),
+            // Avatar
+            _Avatar(initials: _initials, isOnline: isOnline),
+            const SizedBox(width: 10),
 
-                // Info column
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+            // Info column — compact
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
                     children: [
-                      Text(
-                        name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.text,
+                      Expanded(
+                        child: Text(
+                          name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.dmSans(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.text,
+                          ),
                         ),
                       ),
-                      const SizedBox(height: 6),
-                      // Status badge
-                      if (isOnline) const StatusBadge.online() else const StatusBadge.offline(),
-                      const SizedBox(height: 8),
-
-                      // Vehicle chip
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
                       _VehicleChip(
                         icon: _vehicleIconFromType(vehicleType),
                         type: vehicleType,
                       ),
-                      const SizedBox(height: 6),
-
-                      // Distance + rating row
-                      Row(
-                        children: [
-                          _InfoChip(
-                            icon: Icons.near_me_rounded,
-                            label: _distanceLabel,
-                          ),
-                          if (rating != null) ...[
-                            const SizedBox(width: 8),
-                            _InfoChip(
-                              icon: Icons.star_rounded,
-                              label: rating!.toStringAsFixed(1),
-                              iconColor: AppColors.yellow,
-                            ),
-                          ],
-                          if (tripCount != null) ...[
-                            const SizedBox(width: 8),
-                            _InfoChip(
-                              icon: Icons.route_rounded,
-                              label: '$tripCount',
-                            ),
-                          ],
-                        ],
+                      const SizedBox(width: 6),
+                      _InfoChip(
+                        icon: Icons.near_me_rounded,
+                        label: _distanceLabel,
                       ),
-                      if (baseLocation != null &&
-                          baseLocation!.trim().isNotEmpty) ...[
-                        const SizedBox(height: 8),
-                        Text(
-                          baseLocation!,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.dmSans(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.text2,
-                          ),
-                        ),
-                      ],
                     ],
                   ),
-                ),
-              ],
-            ),
-
-            // ── Scheduled route / trust metadata ────────────────────
-            if (scheduledRoute != null ||
-                isRegularDriver ||
-                (vehicleStatus?.trim().isNotEmpty ?? false)) ...[
-              const SizedBox(height: 12),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.surface3,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.schedule_rounded,
-                      size: 14,
-                      color: AppColors.text3,
-                    ),
-                    const SizedBox(width: 6),
-                    Expanded(
-                      child: Text(
-                        scheduledRoute ??
-                            (isRegularDriver
-                                ? 'Regular driver'
-                                : _vehicleStatusLabel(vehicleStatus)),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.text2,
-                        ),
-                      ),
-                    ),
-                    if (hasReturnTrip || isRegularDriver) ...[
-                      const SizedBox(width: 8),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 2,
-                        ),
-                        decoration: BoxDecoration(
-                          color: isRegularDriver
-                              ? AppColors.blueGlow
-                              : AppColors.purple.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: Text(
-                          isRegularDriver ? 'Trusted' : 'Return',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: isRegularDriver
-                                ? AppColors.blue
-                                : AppColors.purple,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ],
-                ),
+                ],
               ),
-            ],
-
-            const SizedBox(height: 12),
-
-            // ── Footer action ───────────────────────────────────────
-            Row(
-              children: [
-                if (onTap != null)
-                  Text(
-                    'Tap for details',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.text3,
-                    ),
-                  ),
-                const Spacer(),
-                WaButton(onTap: onWhatsAppTap),
-              ],
             ),
+
+            const SizedBox(width: 8),
+
+            // WA button — inline right
+            WaButton(onTap: onWhatsAppTap),
           ],
         ),
       ),
@@ -281,21 +151,7 @@ IconData _vehicleIconFromType(String vehicleType) {
   return Icons.directions_car_rounded;
 }
 
-String _vehicleStatusLabel(String? value) {
-  final normalized = value?.trim();
-  if (normalized == null || normalized.isEmpty) {
-    return 'Driver listing';
-  }
 
-  return normalized
-      .replaceAll('_', ' ')
-      .split(RegExp(r'\s+'))
-      .where((word) => word.isNotEmpty)
-      .map(
-        (word) => '${word[0].toUpperCase()}${word.substring(1).toLowerCase()}',
-      )
-      .join(' ');
-}
 
 // ── Avatar with online indicator ────────────────────────────────────────
 

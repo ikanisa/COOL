@@ -40,40 +40,79 @@ class PartnerAdminWorkspaceScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-                body: ListView(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
-                  children: [
-                    _ScopeCard(
-                      title: partner?.name ?? 'Partner workspace',
-                      subtitle:
-                          'This route is the generic partner-admin foundation for future partner-specific operations.',
+                body: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(32),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: 64,
+                          height: 64,
+                          decoration: BoxDecoration(
+                            color: AppColors.blue.withValues(alpha: 0.12),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Icon(
+                            Icons.construction_rounded,
+                            size: 32,
+                            color: AppColors.blue,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          'Coming Soon',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w800,
+                            color: AppColors.text,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          '${partner?.name ?? 'Partner'} workspace is under development. '
+                          'Partner-specific admin tools will be available here once ready.',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.dmSans(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.text2,
+                            height: 1.5,
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        OutlinedButton.icon(
+                          onPressed: () => context.go(AppRoutes.admin),
+                          icon: const Icon(Icons.arrow_back_rounded, size: 16),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: AppColors.text2,
+                            side: BorderSide(color: AppColors.border),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 12,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                          ),
+                          label: Text(
+                            'Back to workspaces',
+                            style: GoogleFonts.dmSans(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 20),
-                    const _SectionCard(
-                      title: 'Overview',
-                      description:
-                          'Partner summary metrics and operational health.',
-                    ),
-                    const SizedBox(height: 12),
-                    const _SectionCard(
-                      title: 'Catalog',
-                      description:
-                          'Partner-owned products, services, or packages.',
-                    ),
-                    const SizedBox(height: 12),
-                    const _SectionCard(
-                      title: 'Orders and Payments',
-                      description:
-                          'Transaction monitoring, finance, and reconciliation queues.',
-                    ),
-                  ],
+                  ),
                 ),
               );
             },
             loading: () => const AdminLoadingScaffold(title: 'Partner Admin'),
             error: (_, _) => const AdminAccessDeniedScaffold(
               title: 'Partner Admin',
-              message: 'The partner workspace could not be loaded.',
+              message: 'The partner workspace could not be loaded. Please try again.',
             ),
           ),
     );
@@ -107,7 +146,7 @@ class _RayonForwardingView extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Rayon Sports uses its dedicated admin workspace.',
+                'Rayon Sports uses its',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.dmSans(
                   fontSize: 16,
@@ -128,86 +167,5 @@ class _RayonForwardingView extends StatelessWidget {
   }
 }
 
-class _ScopeCard extends StatelessWidget {
-  const _ScopeCard({required this.title, required this.subtitle});
 
-  final String title;
-  final String subtitle;
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: GoogleFonts.dmSans(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: AppColors.text,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            subtitle,
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: AppColors.text2,
-              height: 1.45,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _SectionCard extends StatelessWidget {
-  const _SectionCard({required this.title, required this.description});
-
-  final String title;
-  final String description;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: GoogleFonts.dmSans(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: AppColors.text,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            description,
-            style: GoogleFonts.dmSans(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: AppColors.text2,
-              height: 1.4,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}

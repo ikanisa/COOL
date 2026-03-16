@@ -47,3 +47,5 @@ linter:
     # ── Performance ───────────────────────────────────────────────
     avoid_unnecessary_containers: true
     prefer_if_elements_to_conditional_expressions: true
+    use_key_in_widget_constructors: true
+    avoid_slow_async_io: true

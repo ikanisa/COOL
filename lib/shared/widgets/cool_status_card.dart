@@ -21,7 +21,7 @@ class CoolStatusCard extends StatelessWidget {
 
     return Semantics(
       label:
-          '${tier.label} member. ${status.totalPoints} points. '
+          '${tier.label} member. ${status.totalPoints} points.'
           '${status.currentStreak} day streak.',
       excludeSemantics: true,
       child: Container(
@@ -51,7 +51,7 @@ class CoolStatusCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'COOL Status',
+                        'Cool Tokens',
                         style: GoogleFonts.dmSans(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,

@@ -82,7 +82,7 @@ CreditReadinessReport buildCreditReadinessReport({
       label: 'Official name on file',
       detail: hasOfficialName
           ? officialName
-          : 'Add the user legal or official name used for lending and bank onboarding.',
+          : 'Add legal name',
       isComplete: hasOfficialName,
       isBlocking: true,
     ),
@@ -91,7 +91,7 @@ CreditReadinessReport buildCreditReadinessReport({
       label: 'Official phone confirmed',
       detail: hasOfficialPhone
           ? officialPhone
-          : 'Capture the official phone number used for account opening and application follow-up.',
+          : 'Add official phone',
       isComplete: hasOfficialPhone,
       isBlocking: true,
     ),
@@ -114,7 +114,7 @@ CreditReadinessReport buildCreditReadinessReport({
       label: 'Credit report generated',
       detail: hasScore
           ? 'Current score ${dashboard!.score} with ${scoreBand.replaceAll('_', ' ')} standing.'
-          : 'Build more verified wallet and savings activity to generate a score.',
+          : 'Build more activity',
       isComplete: hasScore,
       isBlocking: true,
     ),
@@ -139,7 +139,7 @@ CreditReadinessReport buildCreditReadinessReport({
       label: 'Savings and group evidence',
       detail: hasSavingsEvidence
           ? '$groupContributionCount confirmed savings contributions were detected.'
-          : 'No confirmed savings pattern is visible yet in the current window.',
+          : 'No savings pattern yet',
       isComplete: hasSavingsEvidence,
     ),
   ];
@@ -179,9 +179,9 @@ CreditReadinessJourney _buildAccountOpeningJourney({
       title: 'Bank Account Opening',
       state: CreditReadinessState.actionNeeded,
       summary:
-          'Official identity details are still incomplete, so partner onboarding would stall.',
+          'Identity incomplete',
       nextStep:
-          'Complete the official name and phone fields before starting a bank handoff.',
+          'Complete name and phone',
     );
   }
 
@@ -190,33 +190,33 @@ CreditReadinessJourney _buildAccountOpeningJourney({
       title: 'Bank Account Opening',
       state: CreditReadinessState.ready,
       summary:
-          'Official profile data and identity verification are in place for partner onboarding.',
+          'Identity verified',
       nextStep:
-          'Open a partner page and proceed with account-opening or savings onboarding.',
+          'Proceed with partner',
     ),
     'pending_review' => const CreditReadinessJourney(
       title: 'Bank Account Opening',
       state: CreditReadinessState.nearlyReady,
       summary:
-          'Official identity is captured and KYC is already in review, but final opening still depends on approval.',
+          'KYC pending approval',
       nextStep:
-          'Shortlist a partner now and finish the handoff once KYC is verified.',
+          'Finish after KYC approval',
     ),
     'rejected' => const CreditReadinessJourney(
       title: 'Bank Account Opening',
       state: CreditReadinessState.actionNeeded,
       summary:
-          'The current KYC result was rejected, so a partner would require corrected identity data first.',
+          'KYC rejected',
       nextStep:
-          'Correct the official identity data and restart KYC before opening an account.',
+          'Correct identity data',
     ),
     _ => const CreditReadinessJourney(
       title: 'Bank Account Opening',
       state: CreditReadinessState.building,
       summary:
-          'Official profile details are captured, but identity verification has not started yet.',
+          'KYC not started',
       nextStep:
-          'Start KYC review before moving into partner account-opening flows.',
+          'Start KYC first',
     ),
   };
 }
@@ -237,9 +237,9 @@ CreditReadinessJourney _buildLoanApplicationJourney({
       title: 'Loan Application',
       state: CreditReadinessState.actionNeeded,
       summary:
-          'Loan preparation cannot start until the official identity profile is complete.',
+          'Identity incomplete',
       nextStep:
-          'Complete the official name and phone fields used in formal applications.',
+          'Complete name and phone',
     );
   }
 
@@ -248,9 +248,9 @@ CreditReadinessJourney _buildLoanApplicationJourney({
       title: 'Loan Application',
       state: CreditReadinessState.actionNeeded,
       summary:
-          'Identity verification must be corrected before any lending handoff can be considered.',
+          'KYC needs correction',
       nextStep:
-          'Resolve the rejected KYC result first, then refresh the credit report.',
+          'Fix KYC first',
     );
   }
 
@@ -259,9 +259,9 @@ CreditReadinessJourney _buildLoanApplicationJourney({
       title: 'Loan Application',
       state: CreditReadinessState.actionNeeded,
       summary:
-          'There is no current credit report yet, so the user is not ready for a formal lending handoff.',
+          'No credit report yet',
       nextStep:
-          'Keep wallet and savings activity flowing until a credit report is generated.',
+          'Build more activity',
     );
   }
 
@@ -274,9 +274,9 @@ CreditReadinessJourney _buildLoanApplicationJourney({
       title: 'Loan Application',
       state: CreditReadinessState.ready,
       summary:
-          'The user has a strong report, verified identity, and enough transaction depth for a serious partner conversation.',
+          'Strong profile ready',
       nextStep:
-          'Review partner credit products and prepare the formal application package.',
+          'Review credit products',
     );
   }
 
@@ -288,9 +288,9 @@ CreditReadinessJourney _buildLoanApplicationJourney({
       title: 'Loan Application',
       state: CreditReadinessState.nearlyReady,
       summary:
-          'The score and transaction history are credible, but final lending readiness still depends on KYC approval.',
+          'Pending KYC approval',
       nextStep:
-          'Keep activity consistent and move forward once KYC changes to verified.',
+          'Wait for KYC',
     );
   }
 
@@ -303,9 +303,9 @@ CreditReadinessJourney _buildLoanApplicationJourney({
       title: 'Loan Application',
       state: CreditReadinessState.building,
       summary:
-          'The profile shows promising signals, but the file is still too thin or uneven for a strong lending handoff.',
+          'File still thin',
       nextStep:
-          'Build more active months, savings consistency, and posted wallet activity before applying.',
+          'Build more history',
     );
   }
 
@@ -313,9 +313,9 @@ CreditReadinessJourney _buildLoanApplicationJourney({
     title: 'Loan Application',
     state: CreditReadinessState.actionNeeded,
     summary:
-        'The user needs a stronger verified history before entering a partner loan flow.',
+        'History too thin',
     nextStep:
-        'Start with wallet activity, group savings, and KYC completion before pursuing credit.',
+        'Start with basics',
   );
 }
 
@@ -338,17 +338,17 @@ String _effectiveOfficialPhone(UserProfile user) {
 String _kycReviewDetail(String kycStatus) {
   return switch (kycStatus) {
     'verified' => 'KYC is already verified.',
-    'pending_review' => 'KYC has been submitted and is pending review.',
-    'rejected' => 'KYC was rejected and needs correction.',
+    'pending_review' => 'KYC pending review',
+    'rejected' => 'KYC rejected',
     _ => 'KYC has not been started yet.',
   };
 }
 
 String _kycVerifiedDetail(String kycStatus) {
   return switch (kycStatus) {
-    'verified' => 'Identity verification is complete.',
-    'pending_review' => 'Verification is underway but not approved yet.',
+    'verified' => 'Identity verified',
+    'pending_review' => 'Verification pending',
     'rejected' => 'Verification was rejected.',
-    _ => 'Identity verification is still missing.',
+    _ => 'Identity missing',
   };
 }

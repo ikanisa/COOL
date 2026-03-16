@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'app.dart';
@@ -28,6 +29,9 @@ Future<void> main() async {
   runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
+
+      // ── Disable runtime font fetching (fonts bundled in assets) ──────
+      GoogleFonts.config.allowRuntimeFetching = false;
 
       // ── Env validation ──────────────────────────────────────────────
       EnvConfig.logWarnings();
@@ -231,7 +235,7 @@ class ConfigErrorApp extends ConsumerWidget {
                             ),
                             const SizedBox(height: 16),
                             Text(
-                              'Local runs usually need: flutter run '
+                              'Local runs usually need'
                               '--dart-define-from-file=.env.json',
                               style: TextStyle(
                                 color: palette.text3,

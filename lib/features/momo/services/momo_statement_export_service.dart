@@ -1070,8 +1070,7 @@ class MomoStatementExportService {
           children: [
             pw.TextSpan(
               text: '$label: ',
-              style: pw.TextStyle(
-                color: PdfColor.fromHex('#7C8794'),
+              style: pw.TextStyle(color: PdfColor.fromHex('#7C8794'),
                 fontSize: 8,
               ),
             ),

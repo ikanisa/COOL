@@ -21,11 +21,20 @@ final mobilityLocationProvider =
     ) {
       final service = ref.watch(locationServiceProvider);
       final appAccess = ref.watch(appAccessServiceProvider);
-      return MobilityLocationNotifier(
+      final notifier = MobilityLocationNotifier(
         service: service,
         openBox: ref.read(hiveOpenBoxProvider),
         appAccessService: appAccess,
       );
+      void handleAppAccessChanged() {
+        unawaited(notifier.handleAppAccessChanged());
+      }
+
+      appAccess.changes.addListener(handleAppAccessChanged);
+      ref.onDispose(() {
+        appAccess.changes.removeListener(handleAppAccessChanged);
+      });
+      return notifier;
     });
 
 enum MobilityLocationStatus {
@@ -174,6 +183,30 @@ class MobilityLocationNotifier extends StateNotifier<MobilityLocationState> {
     await _service.openLocationSettings();
   }
 
+  Future<void> handleAppAccessChanged() async {
+    final appAccessEnabled = await _appAccessService.isEnabled(
+      AppAccessPermission.location,
+    );
+    if (appAccessEnabled) {
+      return;
+    }
+
+    _trackingRetainers = 0;
+    _mobilityBranchActive = false;
+    await _service.stopLocationUpdates();
+    await _clearCachedPosition();
+    state = state.copyWith(
+      status: MobilityLocationStatus.accessDisabled,
+      position: null,
+      updatedAt: null,
+      accuracyMeters: null,
+      isTracking: false,
+      isStale: false,
+      error:
+          'Location is turned off in COOL profile settings for mobility features.',
+    );
+  }
+
   Future<void> _resolveLocation({
     required bool requestIfNeeded,
     bool shouldStartTracking = false,
@@ -306,6 +339,7 @@ class MobilityLocationNotifier extends StateNotifier<MobilityLocationState> {
   bool get _shouldTrack => _mobilityBranchActive && _trackingRetainers > 0;
 
   Future<void> _syncTrackingState() async {
+    if (!mounted) return;
     if (_shouldTrack) {
       await _resolveLocation(requestIfNeeded: false, shouldStartTracking: true);
       return;
@@ -371,6 +405,11 @@ class MobilityLocationNotifier extends StateNotifier<MobilityLocationState> {
       'updated_at': position.timestamp.toIso8601String(),
       'is_approximate': isApproximate,
     });
+  }
+
+  Future<void> _clearCachedPosition() async {
+    final box = await _openBox(_cacheBoxName);
+    await box.delete(_cacheKey);
   }
 
   Future<_CachedMobilityPosition?> _readCachedPosition() async {

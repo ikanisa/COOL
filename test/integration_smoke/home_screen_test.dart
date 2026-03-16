@@ -79,9 +79,6 @@ void main() {
           expect(find.text('Home'), findsOneWidget);
           expect(find.text('Quick Actions'), findsOneWidget);
           expect(find.text('Recent Activity'), findsOneWidget);
-          expect(find.text('Today'), findsOneWidget);
-          expect(find.text('Keep contributions moving'), findsOneWidget);
-          expect(find.byType(GridView), findsNothing);
           expect(find.byType(CoolCard), findsNWidgets(3));
           expect(find.text('Groups'), findsWidgets);
           expect(find.text('MoMo'), findsOneWidget);
@@ -129,14 +126,7 @@ void main() {
 
           await settleTestApp(tester);
 
-          expect(find.text('Today'), findsOneWidget);
-          expect(find.text('Start with a group'), findsOneWidget);
-          expect(
-            find.text(
-              'Create or join a group to build trusted activity on Cool.',
-            ),
-            findsOneWidget,
-          );
+          expect(find.text('Activity will appear here.'), findsOneWidget);
           expect(find.text('Groups'), findsWidgets);
         } finally {
           ErrorWidget.builder = originalErrorWidgetBuilder;

@@ -1,199 +1,262 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 
+import '../../../core/router/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
-import '../../../shared/widgets/cool_toast.dart';
-import '../../../shared/widgets/section_title.dart';
-import '../models/credit_dashboard.dart';
-import '../providers/credit_provider.dart';
-import '../widgets/credit_score_detail_widgets.dart';
-import '../widgets/credit_score_display_widgets.dart';
+import '../../groups/providers/groups_provider.dart';
+import '../../momo/models/momo_statement.dart';
+import '../../momo/providers/momo_statement_providers.dart';
 
-class CreditScoreScreen extends ConsumerStatefulWidget {
+/// Simplified credit readiness screen.
+///
+/// Shows a two-item checklist:
+///  1. Is the user a member of a savings group?
+///  2. Has the user linked MoMo statements?
+///
+/// When both are checked, credit readiness is complete.
+class CreditScoreScreen extends ConsumerWidget {
   const CreditScoreScreen({super.key});
 
   @override
-  ConsumerState<CreditScoreScreen> createState() => _CreditScoreScreenState();
-}
-
-class _CreditScoreScreenState extends ConsumerState<CreditScoreScreen>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _ringController;
-  late final Animation<double> _ringAnimation;
-  bool _isRefreshing = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _ringController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1000),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
+    final groups = ref.watch(groupsListProvider);
+    final statementsAsync = ref.watch(
+      momoStatementBundleProvider(const MomoStatementQuery()),
     );
-    _ringAnimation = CurvedAnimation(
-      parent: _ringController,
-      curve: Curves.easeOutCubic,
-    );
-    _ringController.forward();
-  }
 
-  @override
-  void dispose() {
-    _ringController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final dashboardAsync = ref.watch(creditDashboardProvider);
-    final canRefresh = ref.watch(creditDashboardProvider).valueOrNull != null;
+    final hasSavingsGroup = groups.isNotEmpty;
+    final hasMomoStatements = statementsAsync.valueOrNull != null &&
+        (statementsAsync.valueOrNull!.walletEntries.isNotEmpty ||
+            statementsAsync.valueOrNull!.savingsEntries.isNotEmpty);
+    final allReady = hasSavingsGroup && hasMomoStatements;
 
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: palette.bg,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           onPressed: () => context.pop(),
-          icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
+          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
-        actions: [
-          IconButton(
-            tooltip: 'Refresh credit report',
-            onPressed: !_isRefreshing && canRefresh ? _refreshReport : null,
-            icon: _isRefreshing
-                ? const SizedBox(
-                    width: 18,
-                    height: 18,
-                    child: CupertinoActivityIndicator(radius: 9),
-                  )
-                : Icon(Icons.refresh_rounded, color: AppColors.text),
+        title: Text(
+          'Credit',
+          style: GoogleFonts.dmSans(
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            color: palette.text,
           ),
-        ],
+        ),
+        centerTitle: false,
       ),
       body: CoolScreenBackground(
-        primaryColor: AppColors.purple,
-        secondaryColor: AppColors.yellow,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(18, 0, 18, 24),
-              child: Text(
-                'Credit',
-                style: GoogleFonts.dmSans(
-                  fontSize: 34,
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.text,
-                  height: 1.1,
+        child: SafeArea(
+          top: false,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(18, 18, 18, 96),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // ── Status banner ──────────────────────────────
+                _StatusBanner(allReady: allReady),
+                const SizedBox(height: 20),
+
+                // ── Checklist ─────────────────────────────────
+                Text(
+                  'Readiness checklist',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: palette.text,
+                  ),
                 ),
-              ),
-            ),
-            Expanded(
-              child: dashboardAsync.when(
-                data: (dashboard) => _CreditScoreBody(
-                  dashboard: dashboard,
-                  ringAnimation: _ringAnimation,
+                const SizedBox(height: 12),
+                _ChecklistItem(
+                  checked: hasSavingsGroup,
+                  icon: Icons.group_rounded,
+                  title: 'Savings group',
+                  subtitle: hasSavingsGroup
+                      ? 'Member of ${groups.length} group${groups.length > 1 ? 's' : ''}'
+                      : 'Join or create a savings group',
+                  onTap: hasSavingsGroup
+                      ? null
+                      : () => context.go(AppRoutes.groups),
                 ),
-                loading: () => const CreditScoreLoadingState(),
-                error:
-                    (error, _) =>
-                        CreditScoreErrorState(error: error.toString()),
-              ),
+                const SizedBox(height: 10),
+                _ChecklistItem(
+                  checked: hasMomoStatements,
+                  icon: Icons.receipt_long_rounded,
+                  title: 'MoMo statements',
+                  subtitle: hasMomoStatements
+                      ? 'Statements linked'
+                      : 'Link your mobile money activity',
+                  onTap: hasMomoStatements
+                      ? null
+                      : () => context.push(AppRoutes.momo),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
-
-  Future<void> _refreshReport() async {
-    if (_isRefreshing) return;
-
-    setState(() => _isRefreshing = true);
-    try {
-      await ref.read(creditRepositoryProvider).refreshMyScore();
-      ref.invalidate(creditDashboardProvider);
-      if (mounted) {
-        CoolToast.success(context, 'Credit report refreshed.');
-      }
-    } catch (error) {
-      if (mounted) {
-        CoolToast.error(context, 'Could not refresh report: $error');
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _isRefreshing = false);
-      }
-    }
-  }
 }
 
-class _CreditScoreBody extends StatelessWidget {
-  const _CreditScoreBody({
-    required this.dashboard,
-    required this.ringAnimation,
-  });
+// ─── Status banner ─────────────────────────────────────────────────
 
-  final CreditDashboard? dashboard;
-  final Animation<double> ringAnimation;
+class _StatusBanner extends StatelessWidget {
+  const _StatusBanner({required this.allReady});
+
+  final bool allReady;
 
   @override
   Widget build(BuildContext context) {
-    final data = dashboard;
-    final hasReport = data?.hasReport == true;
+    final palette = context.coolPalette;
+    final color = allReady ? AppColors.accent : AppColors.yellow;
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(18, 8, 18, 96),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return CoolCard(
+      child: Row(
         children: [
-          const SizedBox(height: 8),
-          if (!hasReport)
-            const CreditInfoBanner(
-              icon: Icons.credit_score_outlined,
-              message: 'Score available after verified activity.',
-            )
-          else if (data?.lastUpdated != null)
-            CreditInfoBanner(
-              icon: Icons.check_circle_outline_rounded,
-              message:
-                  'Updated ${DateFormat('d MMM yyyy').format(data!.lastUpdated!.toLocal())}.',
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: color.withValues(alpha: 0.14),
             ),
-          const SizedBox(height: 12),
-          ScoreHeroCard(dashboard: data, animation: ringAnimation),
-          const SizedBox(height: 22),
-          HowToImproveCard(dashboard: data),
-          const SizedBox(height: 22),
-          if (hasReport) ...[
-            const SectionTitle(title: 'Top factors'),
-            const SizedBox(height: 10),
-            ScoreFactors(
-              factors: (data?.factors ?? const [])
-                  .take(3)
-                  .toList(growable: false),
+            child: Icon(
+              allReady
+                  ? Icons.check_circle_rounded
+                  : Icons.hourglass_top_rounded,
+              size: 22,
+              color: color,
             ),
-            const SizedBox(height: 22),
-            const SectionTitle(title: 'Report details'),
-            const SizedBox(height: 10),
-            ScoreExplanationCard(dashboard: data),
-            const SizedBox(height: 22),
-          ],
-          const SectionTitle(title: 'Readiness'),
-          const SizedBox(height: 10),
-          ApplicationReadinessEntryCard(dashboard: data),
-          if (hasReport && (data?.history.isNotEmpty ?? false)) ...[
-            const SizedBox(height: 22),
-            const SectionTitle(title: 'History'),
-            const SizedBox(height: 10),
-            ScoreHistoryChart(history: data?.history ?? const []),
-          ],
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  allReady ? 'Credit ready' : 'Not ready yet',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w800,
+                    color: palette.text,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  allReady
+                      ? 'You meet all requirements'
+                      : 'Complete the checklist below',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: palette.text2,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
+      ),
+    );
+  }
+}
+
+// ─── Checklist item ────────────────────────────────────────────────
+
+class _ChecklistItem extends StatelessWidget {
+  const _ChecklistItem({
+    required this.checked,
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    this.onTap,
+  });
+
+  final bool checked;
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: palette.surface,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: checked
+                ? AppColors.accent.withValues(alpha: 0.3)
+                : palette.border,
+          ),
+        ),
+        child: Row(
+          children: [
+            // Check circle
+            Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: checked
+                    ? AppColors.accent.withValues(alpha: 0.14)
+                    : palette.surface2,
+              ),
+              child: Icon(
+                checked ? Icons.check_rounded : icon,
+                size: 18,
+                color: checked ? AppColors.accent : palette.text3,
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: palette.text,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: checked ? AppColors.accent : palette.text3,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (!checked && onTap != null)
+              Icon(
+                Icons.arrow_forward_ios_rounded,
+                size: 14,
+                color: palette.text3,
+              ),
+          ],
+        ),
       ),
     );
   }

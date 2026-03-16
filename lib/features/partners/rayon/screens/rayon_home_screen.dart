@@ -12,12 +12,11 @@ import '../../../../features/auth/providers/auth_provider.dart';
 import '../../../../shared/widgets/cool_button.dart';
 import '../../../../shared/widgets/cool_toast.dart';
 import '../../../../shared/widgets/cool_card.dart';
-import '../../../../shared/widgets/cool_screen_background.dart';
 import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../../../shared/widgets/rs_match_card.dart';
 import '../models/rs_models.dart';
 import '../../providers/rayon_sports_provider.dart';
-import '../../widgets/partner_navigation.dart';
+import '../../widgets/rayon_screen_scaffold.dart';
 
 class RayonHomeScreen extends StatelessWidget {
   const RayonHomeScreen({super.key});
@@ -32,180 +31,143 @@ class RayonHomeScreen extends StatelessWidget {
         final user = ref.watch(currentUserProvider);
         final isRecoveringMembership = ref.watch(rayonActionLoadingProvider);
 
-        return Scaffold(
-          backgroundColor: AppColors.bg,
-          body: CoolScreenBackground(
-            primaryColor: RsColors.rsBlue,
-            secondaryColor: RsColors.rsGold,
-            child: CustomScrollView(
-              slivers: [
-                SliverAppBar(
-                  pinned: true,
-                  expandedHeight: 0,
-                  backgroundColor: Colors.transparent,
-                  surfaceTintColor: Colors.transparent,
-                  elevation: 0,
-                  scrolledUnderElevation: 0,
-                  leading: buildPartnerBackButton(
-                    context,
-                    fallbackLocation: AppRoutes.partners,
-                    color: RsColors.rsWhite,
-                  ),
-                  actions: buildPartnerAppBarActions(
-                    context,
-                    homeColor: RsColors.rsWhite,
-                    actions: const [_NotificationAction(), SizedBox(width: 8)],
-                  ),
-                ),
-                SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(18, 12, 18, 0),
-                  sliver: SliverToBoxAdapter(
-                    child: Text(
-                      'Rayon Sports',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 34,
-                        fontWeight: FontWeight.w800,
-                        color: RsColors.rsWhite,
-                        height: 1.1,
+        return RayonScreenScaffold(
+          title: 'Rayon Sports',
+          fallbackLocation: AppRoutes.partners,
+          scrollable: false,
+          showHomeButton: true,
+          actions: const [_NotificationAction(), SizedBox(width: 8)],
+          child: CustomScrollView(
+            slivers: [
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(18, 18, 18, 96),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate([
+                    membership.when(
+                      data: (fanMembership) => _HomeOverviewCard(
+                        membership: fanMembership,
+                        user: user,
+                        isRecoveringMembership: isRecoveringMembership,
+                        onRecoverMembership: () =>
+                            _ensureMembership(context, ref),
+                      ),
+                      loading: () => const CoolSkeleton.card(),
+                      error: (error, _) => _HomeOverviewCard(
+                        membership: null,
+                        user: user,
+                        isRecoveringMembership: isRecoveringMembership,
+                        onRecoverMembership: () =>
+                            _ensureMembership(context, ref),
                       ),
                     ),
-                  ),
-                ),
-                SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(18, 24, 18, 96),
-                  sliver: SliverList(
-                    delegate: SliverChildListDelegate([
-                      membership.when(
-                        data: (fanMembership) => _HomeOverviewCard(
-                          membership: fanMembership,
-                          user: user,
-                          isRecoveringMembership: isRecoveringMembership,
-                          onRecoverMembership: () =>
-                              _ensureMembership(context, ref),
-                        ),
-                        loading: () => const CoolSkeleton.card(),
-                        error: (error, _) => _HomeOverviewCard(
-                          membership: null,
-                          user: user,
-                          isRecoveringMembership: isRecoveringMembership,
-                          onRecoverMembership: () =>
-                              _ensureMembership(context, ref),
-                        ),
+                    const SizedBox(height: 24),
+                    const _RsSectionTitle(title: 'Explore'),
+                    const SizedBox(height: 14),
+                    rayon.when(
+                      data: (data) => Column(
+                        children: [
+                          _HomeLinkCard(
+                            icon: Icons.people_rounded,
+                            title: 'Member Registry',
+                            meta:
+                                '${_formatCount(data.registryMembers.length)} members',
+                            accentColor: RsColors.rsBlue,
+                            onTap: () => context.push(
+                              '/partners/rayon-sports/registry',
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          _HomeLinkCard(
+                            icon: Icons.groups_rounded,
+                            title: 'Fan Clubs',
+                            meta: '${data.clubs.length} active',
+                            accentColor: AppColors.orange,
+                            onTap: () =>
+                                context.push('/partners/rayon-sports/clubs'),
+                          ),
+                          const SizedBox(height: 12),
+                          _HomeLinkCard(
+                            icon: Icons.shopping_bag_rounded,
+                            title: 'Club Shop',
+                            meta: '${data.products.length} items',
+                            accentColor: AppColors.accent,
+                            onTap: () =>
+                                context.push('/partners/rayon-sports/shop'),
+                          ),
+                          const SizedBox(height: 12),
+                          _HomeLinkCard(
+                            icon: Icons.handshake_rounded,
+                            title: 'Support Club',
+                            meta: '${data.initiatives.length} causes',
+                            accentColor: RsColors.rsGold,
+                            onTap: () => context.push(
+                              '/partners/rayon-sports/support',
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          _HomeLinkCard(
+                            icon: Icons.confirmation_number_rounded,
+                            title: 'Tickets',
+                            meta:
+                                '${data.matches.where((m) => m.isOnSale).length} on sale',
+                            accentColor: AppColors.red,
+                            onTap: () => context.push(
+                              '/partners/rayon-sports/tickets',
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 24),
-                      const _RsSectionTitle(title: 'Explore'),
-                      const SizedBox(height: 14),
-                      rayon.when(
-                        data: (data) => Column(
-                          children: [
-                            _HomeLinkCard(
-                              icon: Icons.people_rounded,
-                              title: 'Member Registry',
-                              subtitle: 'View registered supporters.',
-                              meta:
-                                  '${_formatCount(data.registryMembers.length)} members',
-                              accentColor: RsColors.rsBlue,
-                              onTap: () => context.push(
-                                '/partners/rayon-sports/registry',
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-                            _HomeLinkCard(
-                              icon: Icons.groups_rounded,
-                              title: 'Fan Clubs',
-                              subtitle: 'Join a local chapter.',
-                              meta: '${data.clubs.length} active clubs',
-                              accentColor: AppColors.orange,
-                              onTap: () =>
-                                  context.push('/partners/rayon-sports/clubs'),
-                            ),
-                            const SizedBox(height: 12),
-                            _HomeLinkCard(
-                              icon: Icons.shopping_bag_rounded,
-                              title: 'Club Shop',
-                              subtitle: 'Official kits and merch.',
-                              meta: '${data.products.length} items',
-                              accentColor: AppColors.accent,
-                              onTap: () =>
-                                  context.push('/partners/rayon-sports/shop'),
-                            ),
-                            const SizedBox(height: 12),
-                            _HomeLinkCard(
-                              icon: Icons.handshake_rounded,
-                              title: 'Support Club',
-                              subtitle: 'Back active projects.',
-                              meta: '${data.initiatives.length} active causes',
-                              accentColor: RsColors.rsGold,
-                              onTap: () => context.push(
-                                '/partners/rayon-sports/support',
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-                            _HomeLinkCard(
-                              icon: Icons.confirmation_number_rounded,
-                              title: 'Tickets',
-                              subtitle: 'Buy match tickets.',
-                              meta:
-                                  '${data.matches.where((m) => m.isOnSale).length} on sale',
-                              accentColor: AppColors.red,
-                              onTap: () => context.push(
-                                '/partners/rayon-sports/tickets',
-                              ),
-                            ),
-                          ],
-                        ),
-                        loading: () => const CoolSkeletonList(itemCount: 3),
-                        error: (_, stackTrace) => const Column(
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(child: CoolSkeleton.card()),
-                                SizedBox(width: 12),
-                                Expanded(child: CoolSkeleton.card()),
-                              ],
-                            ),
-                            SizedBox(height: 12),
-                            Row(
-                              children: [
-                                Expanded(child: CoolSkeleton.card()),
-                                SizedBox(width: 12),
-                                Expanded(child: CoolSkeleton.card()),
-                              ],
-                            ),
-                            SizedBox(height: 12),
-                            CoolSkeleton.card(),
-                          ],
-                        ),
+                      loading: () => const CoolSkeletonList(itemCount: 3),
+                      error: (_, stackTrace) => const Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(child: CoolSkeleton.card()),
+                              SizedBox(width: 12),
+                              Expanded(child: CoolSkeleton.card()),
+                            ],
+                          ),
+                          SizedBox(height: 12),
+                          Row(
+                            children: [
+                              Expanded(child: CoolSkeleton.card()),
+                              SizedBox(width: 12),
+                              Expanded(child: CoolSkeleton.card()),
+                            ],
+                          ),
+                          SizedBox(height: 12),
+                          CoolSkeleton.card(),
+                        ],
                       ),
-                      const SizedBox(height: 24),
-                      const _RsSectionTitle(title: 'Next Match'),
-                      const SizedBox(height: 14),
-                      nextMatch.when(
-                        loading: () => const CoolSkeleton.card(),
-                        error: (_, stackTrace) => _EmptyMatchCard(
-                          onTap: () =>
-                              context.push('/partners/rayon-sports/tickets'),
-                        ),
-                        data: (match) {
-                          if (match == null) {
-                            return _EmptyMatchCard(
-                              onTap: () => context.push(
-                                '/partners/rayon-sports/tickets',
-                              ),
-                            );
-                          }
-                          return RsMatchCard(
-                            match: match,
-                            onBuyTap: () =>
-                                context.push('/partners/rayon-sports/tickets'),
+                    ),
+                    const SizedBox(height: 24),
+                    const _RsSectionTitle(title: 'Next Match'),
+                    const SizedBox(height: 14),
+                    nextMatch.when(
+                      loading: () => const CoolSkeleton.card(),
+                      error: (_, stackTrace) => _EmptyMatchCard(
+                        onTap: () =>
+                            context.push('/partners/rayon-sports/tickets'),
+                      ),
+                      data: (match) {
+                        if (match == null) {
+                          return _EmptyMatchCard(
+                            onTap: () => context.push(
+                              '/partners/rayon-sports/tickets',
+                            ),
                           );
-                        },
-                      ),
-                    ]),
-                  ),
+                        }
+                        return RsMatchCard(
+                          match: match,
+                          onBuyTap: () =>
+                              context.push('/partners/rayon-sports/tickets'),
+                        );
+                      },
+                    ),
+                  ]),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },
@@ -250,8 +212,6 @@ class _HomeOverviewCard extends StatelessWidget {
         membership?.displayName ?? user?.displayUserId ?? 'Rayon Fan';
     final fanId = _displayId(user, membership);
     final tier = membership?.tier ?? FanTier.blue;
-    final chapter = membership?.chapter ?? 'Official membership pending';
-    final points = membership?.points ?? 0;
 
     return CoolCard(
       borderColor: AppColors.border2,
@@ -259,18 +219,9 @@ class _HomeOverviewCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Rayon Sports',
-            style: GoogleFonts.barlowCondensed(
-              fontSize: 30,
-              fontWeight: FontWeight.w900,
-              color: RsColors.rsWhite,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
             membership == null
-                ? 'Create your official fan membership to unlock supporter perks.'
-                : 'Membership ready for matchdays, shop benefits, and club access.',
+                ? 'Create membership to unlock perks'
+                : 'Membership active',
             style: GoogleFonts.barlow(
               fontSize: 14,
               fontWeight: FontWeight.w500,
@@ -305,36 +256,22 @@ class _HomeOverviewCard extends StatelessWidget {
                   ],
                 ),
               ),
-              _HomeMetaPill(
-                label: tier.label.toUpperCase(),
-                foregroundColor: tier == FanTier.silver
-                    ? AppColors.bg
-                    : AppColors.rsWhite,
-                backgroundColor: tier.color.withValues(alpha: 0.2),
-                borderColor: tier.color.withValues(alpha: 0.3),
-              ),
-            ],
-          ),
-          const SizedBox(height: 14),
-          Row(
-            children: [
-              Expanded(
-                child: _HomeMetric(
-                  value: chapter,
-                  label: 'Chapter',
-                  mono: false,
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(
+                  color: tier.color.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(999),
+                  border: Border.all(color: tier.color.withValues(alpha: 0.3)),
                 ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _HomeMetric(value: '$points', label: 'Points'),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _HomeMetric(
-                  value: membership == null ? 'Pending' : 'Active',
-                  label: 'Status',
-                  mono: false,
+                child: Text(
+                  tier.label.toUpperCase(),
+                  style: GoogleFonts.dmMono(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                    color: tier == FanTier.silver
+                        ? AppColors.bg
+                        : AppColors.rsWhite,
+                  ),
                 ),
               ),
             ],
@@ -380,93 +317,12 @@ class _HomeOverviewCard extends StatelessWidget {
   }
 }
 
-class _HomeMetric extends StatelessWidget {
-  const _HomeMetric({
-    required this.value,
-    required this.label,
-    this.mono = true,
-  });
 
-  final String value;
-  final String label;
-  final bool mono;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: AppColors.surface2,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border2),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            value,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: (mono ? GoogleFonts.dmMono : GoogleFonts.barlow)(
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-              color: RsColors.rsWhite,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            label,
-            style: GoogleFonts.barlow(
-              fontSize: 11,
-              fontWeight: FontWeight.w500,
-              color: AppColors.text3,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _HomeMetaPill extends StatelessWidget {
-  const _HomeMetaPill({
-    required this.label,
-    required this.foregroundColor,
-    required this.backgroundColor,
-    required this.borderColor,
-  });
-
-  final String label;
-  final Color foregroundColor;
-  final Color backgroundColor;
-  final Color borderColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: borderColor),
-      ),
-      child: Text(
-        label,
-        style: GoogleFonts.dmMono(
-          fontSize: 11,
-          fontWeight: FontWeight.w700,
-          color: foregroundColor,
-        ),
-      ),
-    );
-  }
-}
 
 class _HomeLinkCard extends StatelessWidget {
   const _HomeLinkCard({
     required this.icon,
     required this.title,
-    required this.subtitle,
     required this.meta,
     required this.accentColor,
     required this.onTap,
@@ -474,7 +330,6 @@ class _HomeLinkCard extends StatelessWidget {
 
   final IconData icon;
   final String title;
-  final String subtitle;
   final String meta;
   final Color accentColor;
   final VoidCallback onTap;
@@ -483,7 +338,7 @@ class _HomeLinkCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       button: true,
-      label: '$title. $subtitle. $meta',
+      label: '$title. $meta',
       child: GestureDetector(
         onTap: onTap,
         child: CoolCard(
@@ -517,16 +372,6 @@ class _HomeLinkCard extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    Text(
-                      subtitle,
-                      style: GoogleFonts.barlow(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.text2,
-                        height: 1.35,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
                     Text(
                       meta,
                       style: GoogleFonts.dmMono(
@@ -575,7 +420,7 @@ class _EmptyMatchCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       button: true,
-      label: 'No match on sale yet',
+      label: 'No match on sale',
       child: Material(
         color: Colors.transparent,
         child: InkWell(
@@ -592,12 +437,12 @@ class _EmptyMatchCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'No match on sale yet',
+                  'No match on sale',
                   style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Ticket sales will appear here as soon as the next fixture opens.',
+                  'Ticket sales will appear',
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,

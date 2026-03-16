@@ -35,7 +35,7 @@ class RsInitiativeCard extends StatelessWidget {
 
     return Semantics(
       label:
-          '${initiative.title}. '
+          '${initiative.title}.'
           '${(initiative.progress * 100).round()}% funded. '
           '${initiative.supporterCount} supporters.',
       excludeSemantics: true,

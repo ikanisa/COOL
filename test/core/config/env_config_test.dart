@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter/foundation.dart';
 
 import 'package:cool_app/core/config/env_config.dart';
 
@@ -44,35 +43,6 @@ void main() {
 
       expect(error, isNotNull);
       expect(error, contains('SUPABASE_ANON_KEY'));
-    });
-  });
-
-  group('EnvConfig.hasGoogleMapsApiKeyForPlatform', () {
-    test('accepts a real Android Maps key', () {
-      expect(
-        EnvConfig.hasGoogleMapsApiKeyForPlatform(
-          TargetPlatform.android,
-          androidApiKey: 'AIzaSyRealMapsKey123',
-        ),
-        isTrue,
-      );
-    });
-
-    test('rejects placeholder Android Maps keys', () {
-      expect(
-        EnvConfig.hasGoogleMapsApiKeyForPlatform(
-          TargetPlatform.android,
-          androidApiKey: 'your_google_maps_android_api_key',
-        ),
-        isFalse,
-      );
-    });
-
-    test('reports embedded maps unavailable without a platform key', () {
-      expect(
-        EnvConfig.embeddedGoogleMapsUnavailableReason(TargetPlatform.android),
-        isNotNull,
-      );
     });
   });
 }

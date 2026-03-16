@@ -70,3 +70,17 @@ final adminRecentOperationalHealthEventsProvider =
           .read(adminRepositoryProvider)
           .fetchRecentOperationalHealthEvents();
     });
+
+final platformAnalyticsProvider =
+    FutureProvider<Map<String, dynamic>>((ref) async {
+      return ref.read(adminRepositoryProvider).fetchPlatformAnalytics();
+    });
+
+final adminAuditLogProvider =
+    FutureProvider.family<List<Map<String, dynamic>>, String?>(
+      (ref, actionFilter) async {
+        return ref.read(adminRepositoryProvider).fetchAuditLog(
+          action: actionFilter,
+        );
+      },
+    );

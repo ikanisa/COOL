@@ -400,7 +400,7 @@ class DriverSubscriptionSummaryCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  '$freeTripsRemaining credits left · $tripsUsedThisMonth posted this month.',
+                  'freeTripsRemaining credits left tripsUsedThisMonth',
                   style: GoogleFonts.dmSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w400,

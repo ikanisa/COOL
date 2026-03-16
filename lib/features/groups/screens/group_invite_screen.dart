@@ -215,7 +215,7 @@ class _GroupInviteScreenState extends ConsumerState<GroupInviteScreen> {
                               border: Border.all(color: AppColors.accent),
                             ),
                             child: Text(
-                              'You\'ll join this group immediately.',
+                              'You\'ll join this group',
                               style: GoogleFonts.dmSans(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,

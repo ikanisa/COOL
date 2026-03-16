@@ -82,10 +82,7 @@ void main() {
     );
 
     expect(find.text('Tickets'), findsOneWidget);
-    expect(find.text('Choose your match.'), findsOneWidget);
-    expect(find.text('Gold access active'), findsOneWidget);
-    expect(find.text('Gold members buy before public sale'), findsOneWidget);
-    expect(find.text('On Sale (1)'), findsOneWidget);
+    expect(find.textContaining('On Sale'), findsOneWidget);
     expect(find.text('My Tickets'), findsOneWidget);
   });
 

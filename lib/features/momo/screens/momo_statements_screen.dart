@@ -161,8 +161,12 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
                     fontWeight: FontWeight.w600,
                   ),
                   tabs: [
-                    Tab(text: l10n.walletLabel),
-                    Tab(text: l10n.savingsLabel),
+                    Tab(
+                      icon: Icon(Icons.account_balance_wallet_rounded, size: 20),
+                    ),
+                    Tab(
+                      icon: Icon(Icons.savings_rounded, size: 20),
+                    ),
                   ],
                 ),
               ),
@@ -185,33 +189,6 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
                     child: Column(
                       children: [
                         StatementOverviewCard(
-                          title: _isWalletTab
-                              ? l10n.walletLedgerTitle
-                              : l10n.savingsStatementTitle,
-                          headlineValue: '$visibleCount',
-                          headlineLabel: _isWalletTab
-                              ? visibleCount == 1
-                                    ? 'wallet entry in view'
-                                    : 'wallet entries in view'
-                              : visibleCount == 1
-                              ? 'savings entry in view'
-                              : 'savings entries in view',
-                          supportingLabel: _periodLabel(dateFormat),
-                          primaryMetricLabel: _isWalletTab
-                              ? l10n.incomingLabel
-                              : 'Saved',
-                          primaryMetricValue: _isWalletTab
-                              ? moneyFormat.format(viewModel.incomingTotal)
-                              : moneyFormat.format(viewModel.savingsTotal),
-                          secondaryMetricLabel: _isWalletTab
-                              ? l10n.outgoingLabel
-                              : l10n.navGroups,
-                          secondaryMetricValue: _isWalletTab
-                              ? moneyFormat.format(viewModel.outgoingTotal)
-                              : '${viewModel.activeSavingsGroups}',
-                        ),
-                        const SizedBox(height: 12),
-                        StatementToolbarCard(
                           selectedPeriod: _periodPreset,
                           periodSummary: _periodLabel(dateFormat),
                           optionsSummary: _optionsSummary(

@@ -93,8 +93,13 @@ class NotificationSettingsNotifier
     }
 
     state = state.copyWith(isLoading: true, error: null);
-    var status = await _service.initialize(userId: userId);
-    status = await _service.syncTopics();
+    var status = await _service.status();
+    if (status.preferenceEnabled) {
+      status = await _service.initialize(userId: userId);
+      if (status.preferenceEnabled && status.isAuthorized) {
+        status = await _service.syncTopics();
+      }
+    }
     state = state.copyWith(
       status: status,
       isLoading: false,

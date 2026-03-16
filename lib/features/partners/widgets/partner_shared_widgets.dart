@@ -511,7 +511,7 @@ class PartnerEmptyServicesCard extends StatelessWidget {
     return CoolCard(
       child: CoolEmptyView(
         message:
-            'Services for $partnerName will appear here once they are configured by an admin.',
+            'Services for partnerName will',
         compact: true,
         icon: Icons.assignment_outlined,
       ),

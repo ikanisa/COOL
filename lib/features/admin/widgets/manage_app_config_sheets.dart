@@ -186,7 +186,7 @@ class _EditPartnerPaymentRouteSheetState
               ),
               const SizedBox(height: 8),
               Text(
-                'Manage the live MoMo merchant code and reconciliation label used by partner checkout flows.',
+                'Manage the live MoMo',
                 style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
                 textAlign: TextAlign.center,
               ),
@@ -263,7 +263,7 @@ class _EditPartnerPaymentRouteSheetState
     child: Semantics(
       textField: true,
       label: label,
-      hint: 'Double tap to enter $label',
+      hint: 'Enter $label',
       child: TextField(
         controller: ctl,
         maxLines: 1,
@@ -286,7 +286,7 @@ class _EditPartnerPaymentRouteSheetState
     padding: const EdgeInsets.only(bottom: 10),
     child: Semantics(
       label: 'Partner selector',
-      hint: 'Double tap to choose a partner',
+      hint: 'Choose partner',
       child: DropdownButtonFormField<String>(
         initialValue: _selectedPartnerId,
         dropdownColor: AppColors.surface2,
@@ -342,7 +342,7 @@ class _EditPartnerPaymentRouteSheetState
     padding: const EdgeInsets.only(bottom: 10),
     child: Semantics(
       label: 'Status selector',
-      hint: 'Double tap to choose the route status',
+      hint: 'Choose route status',
       child: DropdownButtonFormField<String>(
         initialValue: _status,
         dropdownColor: AppColors.surface2,
@@ -478,7 +478,7 @@ class _EditMobilitySubscriptionCodeSheetState
               ),
               const SizedBox(height: 8),
               Text(
-                'This code receives Rwanda mobility subscription payments for the local app market.',
+                'This code receives Rwanda',
                 style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
                 textAlign: TextAlign.center,
               ),
@@ -525,7 +525,7 @@ class _EditMobilitySubscriptionCodeSheetState
     child: Semantics(
       textField: true,
       label: label,
-      hint: 'Double tap to enter $label',
+      hint: 'Enter $label',
       child: TextField(
         controller: ctl,
         maxLines: 1,
@@ -733,7 +733,7 @@ class _EditConfigSheetState extends State<EditConfigSheet> {
       textField: true,
       label: label,
       enabled: enabled,
-      hint: enabled ? 'Double tap to enter $label' : '$label is read only',
+      hint: enabled ? 'Enter $label' : '$label is read only',
       child: TextField(
         controller: ctl,
         enabled: enabled,
@@ -929,7 +929,7 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
                     ),
                   ),
                   subtitle: Text(
-                    'Immediately blocks the feature regardless of rollout stage.',
+                    'Immediately blocks the feature',
                     style: GoogleFonts.dmSans(
                       fontSize: 12,
                       color: AppColors.text3,
@@ -952,7 +952,7 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
                     ),
                   ),
                   subtitle: Text(
-                    'Requires admin access even when the stage would otherwise allow users in.',
+                    'Requires admin access even',
                     style: GoogleFonts.dmSans(
                       fontSize: 12,
                       color: AppColors.text3,
@@ -970,7 +970,7 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'This app is restricted to the Rwanda market.',
+                  'This app is restricted',
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     color: AppColors.text3,

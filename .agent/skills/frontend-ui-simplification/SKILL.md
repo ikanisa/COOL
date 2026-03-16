@@ -102,10 +102,11 @@ If the system is already reasonably restrained, spend effort on screen compositi
 - Max 1 local navigation model in the body.
 - No stacked hero, quick actions, stats, and list all competing before scroll.
 - No duplicate action path unless the card tap and button perform meaningfully different actions.
+- **Single-card rule**: except Home, every screen/sheet uses one card per section. No stacked dual-cards — merge related content into one card with dividers.
 
 ### Copy Budgets
 
-- Headline: 2 to 6 words.
+- Headline: 2 to 4 words.
 - Above-the-fold helper copy: 1 short sentence max.
 - Use user language, not implementation language.
 - If text explains sync behavior, backend source, internal workflow, or policy nuance, move it out of the main path.

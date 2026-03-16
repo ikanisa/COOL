@@ -158,11 +158,11 @@ class FanClubDetailScreen extends ConsumerWidget {
                     ShareCard(
                       title: 'Invite supporters',
                       icon: Icons.campaign_rounded,
-                      subtitle: 'Bring more fans into ${club.name}.',
+                      subtitle: 'Bring more fans into',
                       shareUrl: DeepLinkConfig.clubUri(club.id).toString(),
                       shareText: 'Join ${club.name} on Cool.',
                       sheetTitle: 'Share Fan Club',
-                      sheetSubtitle: 'Invite supporters to join ${club.name}.',
+                      sheetSubtitle: 'Invite supporters to join',
                       analyticsTargetType: 'rayon_club',
                       resolveShareUrl: () => _buildShareUrl(ref, club.id),
                     ),

@@ -109,7 +109,9 @@ class MomoQrPayload {
       amount: amount!,
       recipientType: recipientType,
     );
-    return Uri.parse('tel:${Uri.encodeComponent(ussdCode)}');
+    // Android requires # to be %23 in tel: URIs; raw # is parsed as fragment.
+    final encoded = ussdCode.replaceAll('#', '%23');
+    return Uri.parse('tel:$encoded');
   }
 
   String toQrData(CoolCountry country, {bool preferDirectDial = true}) {

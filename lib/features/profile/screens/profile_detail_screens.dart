@@ -9,6 +9,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/providers/auth_provider.dart';
+import 'kyc_id_scan_screen.dart';
 import '../providers/profile_view_provider.dart';
 import '../widgets/profile_dialogs.dart';
 import '../widgets/profile_travel_role_sheet.dart';
@@ -68,49 +69,7 @@ class ProfileIdentityScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final profile = ref.watch(profileViewProvider);
-    final user = ref.watch(authProvider).user;
-
-    return _ProfileDetailScaffold(
-      title: context.l10n.profileOfficialIdentityLabel,
-      child: ProfileOfficialIdentityEditSheet(
-        currentOfficialName: profile.officialName,
-        currentOfficialPhone: profile.officialPhone,
-        country: AppMarket.country,
-        kycLabel: profile.kycLabel,
-        kycValueColor: profile.kycValueColor,
-        kycVerifiedAt: user?.kycVerifiedAt,
-        onSubmitted: (result) async {
-          showDialog<void>(
-            context: context,
-            barrierDismissible: false,
-            builder: (_) => ProfileBlockingProgressDialog(
-              message: context.l10n.profileSavingIdentity,
-            ),
-          );
-
-          final success = await ref
-              .read(authProvider.notifier)
-              .updateOfficialIdentity(
-                officialName: result.officialName,
-                officialPhone: result.officialPhone,
-              );
-
-          if (!context.mounted) {
-            return;
-          }
-          Navigator.of(context, rootNavigator: true).pop();
-
-          if (success) {
-            CoolToast.success(context, context.l10n.profileIdentityUpdated);
-            context.pop();
-          } else {
-            CoolToast.error(context, context.l10n.profileIdentityUpdateFailed);
-          }
-        },
-        showSheetChrome: false,
-      ),
-    );
+    return const KycIdScanScreen();
   }
 }
 

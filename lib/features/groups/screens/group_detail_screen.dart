@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../auth/providers/auth_provider.dart';
+
 import '../../../core/config/deep_link_config.dart';
 import '../../../core/providers/app_access_provider.dart';
 import '../../../core/providers/referral_providers.dart';
@@ -59,6 +61,10 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
           onPressed: () => context.pop(),
           icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
+        actions: [
+          if (detailAsync.valueOrNull != null)
+            _buildSettingsButton(context, detailAsync.value!),
+        ],
       ),
       body: CoolScreenBackground(
         primaryColor: AppColors.accent,
@@ -146,7 +152,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
       appAccessService: ref.read(appAccessServiceProvider),
       multiSelect: true,
       title: 'Invite to ${detail.group.name}',
-      subtitle: 'Select contacts to send the invite link',
+      subtitle: 'Select contacts to send',
     );
 
     if (contacts.isEmpty || !mounted) return;
@@ -215,13 +221,6 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
         ? contributions
         : contributions.take(3).toList();
 
-    final custodianLabel = group.bankPartner != null
-        ? '${group.bankPartner} Custodian'
-        : group.momoNumber != null
-        ? 'MOMO collection route'
-        : group.type == 'saving'
-        ? 'Saving group'
-        : 'Community fund';
 
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(18, 8, 18, 96),
@@ -301,12 +300,33 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
 
                   // Progress label
                   Text(
-                    '$percent% reached · $custodianLabel',
+                    '$percent% reached',
                     style: GoogleFonts.dmSans(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                       color: AppColors.text2,
                     ),
+                  ),
+                  const SizedBox(height: 14),
+
+                  // Member count + frequency chips (merged from Group Facts)
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      _HeroInfoChip(
+                        icon: Icons.groups_2_outlined,
+                        label: members.length == 1
+                            ? '1 member'
+                            : '${members.length} members',
+                      ),
+                      if (group.frequency != null &&
+                          group.frequency!.isNotEmpty)
+                        _HeroInfoChip(
+                          icon: Icons.event_repeat_rounded,
+                          label: _formatFrequency(group.frequency!),
+                        ),
+                    ],
                   ),
                 ],
               ),
@@ -342,16 +362,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
             ],
           ),
           const SizedBox(height: 16),
-          _GroupFactsCard(
-            memberCount: members.length,
-            cadenceLabel: group.frequency != null && group.frequency!.isNotEmpty
-                ? '${_formatFrequency(group.frequency!)} cadence'
-                : 'Flexible contributions',
-            routeLabel: custodianLabel,
-            description: group.description?.trim(),
-            showMomoTag: group.type == 'community',
-          ),
-          const SizedBox(height: 28),
+          const SizedBox(height: 16),
 
           // ═══════════════════════════════════════════════════════
           // MEMBERS SECTION
@@ -496,85 +507,52 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
         return 'Monthly';
     }
   }
+
+  Widget _buildSettingsButton(
+    BuildContext context,
+    GroupDetail detail,
+  ) {
+    final currentUserId = ref.read(currentUserProvider)?.id;
+    final isCreator = currentUserId != null &&
+        currentUserId == detail.group.creatorId;
+    final isAdmin = detail.members.any(
+      (m) => m.userId == currentUserId && m.isAdmin,
+    );
+
+    if (!isCreator && !isAdmin) return const SizedBox.shrink();
+
+    return IconButton(
+      onPressed: () => _openGroupSettings(context, detail),
+      icon: Icon(Icons.settings_outlined, color: AppColors.text2, size: 22),
+      tooltip: 'Group settings',
+    );
+  }
+
+  void _openGroupSettings(BuildContext context, GroupDetail detail) {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (_) => _GroupSettingsSheet(
+        detail: detail,
+        onDismiss: () {
+          ref.invalidate(groupDetailProvider(widget.groupId));
+        },
+      ),
+    );
+  }
 }
 
 // ═════════════════════════════════════════════════════════════════════════
 // Facts card and more-actions sheet
 // ═════════════════════════════════════════════════════════════════════════
 
-class _GroupFactsCard extends StatelessWidget {
-  const _GroupFactsCard({
-    required this.memberCount,
-    required this.cadenceLabel,
-    required this.routeLabel,
-    required this.showMomoTag,
-    this.description,
-  });
+// ═════════════════════════════════════════════════════════════════════════
+// Hero info chip (inline in hero card)
+// ═════════════════════════════════════════════════════════════════════════
 
-  final int memberCount;
-  final String cadenceLabel;
-  final String routeLabel;
-  final String? description;
-  final bool showMomoTag;
-
-  @override
-  Widget build(BuildContext context) {
-    return CoolCard(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Group facts',
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-                color: AppColors.text,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: [
-                _GroupFactChip(
-                  icon: Icons.groups_2_outlined,
-                  label: memberCount == 1 ? '1 member' : '$memberCount members',
-                ),
-                _GroupFactChip(
-                  icon: Icons.event_repeat_rounded,
-                  label: cadenceLabel,
-                ),
-                _GroupFactChip(
-                  icon: showMomoTag
-                      ? Icons.phone_android_rounded
-                      : Icons.account_balance_wallet_outlined,
-                  label: routeLabel,
-                ),
-              ],
-            ),
-            if (description?.isNotEmpty ?? false) ...[
-              const SizedBox(height: 14),
-              Text(
-                description!,
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.text2,
-                  height: 1.45,
-                ),
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _GroupFactChip extends StatelessWidget {
-  const _GroupFactChip({required this.icon, required this.label});
+class _HeroInfoChip extends StatelessWidget {
+  const _HeroInfoChip({required this.icon, required this.label});
 
   final IconData icon;
   final String label;
@@ -582,23 +560,22 @@ class _GroupFactChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: AppColors.surface2,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border),
+        color: AppColors.surface2.withValues(alpha: 0.6),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 16, color: AppColors.text2),
-          const SizedBox(width: 8),
+          Icon(icon, size: 14, color: AppColors.text2),
+          const SizedBox(width: 6),
           Text(
             label,
             style: GoogleFonts.dmSans(
-              fontSize: 12,
+              fontSize: 11,
               fontWeight: FontWeight.w600,
-              color: AppColors.text,
+              color: AppColors.text2,
             ),
           ),
         ],
@@ -649,7 +626,7 @@ class _GroupMoreActionsSheet extends StatelessWidget {
               ),
               const SizedBox(height: 6),
               Text(
-                'Keep sharing and invite tools here so the main action stays clear.',
+                'Keep sharing and invite',
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
@@ -882,7 +859,7 @@ class _ContributeSheetState extends ConsumerState<_ContributeSheet> {
               ),
               const SizedBox(height: 4),
               Text(
-                '${_GroupDetailScreenState._formatFrequency(widget.frequency)}: '
+                '${_GroupDetailScreenState._formatFrequency(widget.frequency)}:'
                 'RWF ${_GroupDetailScreenState._formatAmount(full)}',
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
@@ -904,8 +881,8 @@ class _ContributeSheetState extends ConsumerState<_ContributeSheet> {
               const SizedBox(height: 8),
               Semantics(
                 textField: true,
-                label: 'Contribution amount in Rwandan francs',
-                hint: 'Double tap to enter the contribution amount',
+                label: 'Contribution amount in Rwandan',
+                hint: 'Enter amount',
                 child: TextField(
                   controller: _amountController,
                   keyboardType: TextInputType.number,
@@ -917,7 +894,7 @@ class _ContributeSheetState extends ConsumerState<_ContributeSheet> {
                   cursorColor: AppColors.accent,
                   decoration: InputDecoration(
                     prefix: Text(
-                      'RWF  ',
+                      'RWF',
                       style: GoogleFonts.dmSans(
                         fontSize: 15,
                         fontWeight: FontWeight.w400,
@@ -1007,7 +984,7 @@ class _ContributeSheetState extends ConsumerState<_ContributeSheet> {
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        'You\'ll be redirected to MOMO USSD to confirm payment. No card needed.',
+                        'You\'ll be redirected to',
                         style: GoogleFonts.dmSans(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
@@ -1070,6 +1047,392 @@ class _AmountChip extends StatelessWidget {
               fontWeight: FontWeight.w600,
               color: isSelected ? AppColors.accent : AppColors.text2,
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ═════════════════════════════════════════════════════════════════════════
+// Group Settings Sheet (admin / creator only)
+// ═════════════════════════════════════════════════════════════════════════
+
+class _GroupSettingsSheet extends ConsumerStatefulWidget {
+  const _GroupSettingsSheet({required this.detail, this.onDismiss});
+
+  final GroupDetail detail;
+  final VoidCallback? onDismiss;
+
+  @override
+  ConsumerState<_GroupSettingsSheet> createState() =>
+      _GroupSettingsSheetState();
+}
+
+class _GroupSettingsSheetState extends ConsumerState<_GroupSettingsSheet> {
+  late TextEditingController _nameController;
+  late TextEditingController _descController;
+  late TextEditingController _targetController;
+  late String _frequency;
+  late String _visibility;
+  bool _isSaving = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final group = widget.detail.group;
+    _nameController = TextEditingController(text: group.name);
+    _descController = TextEditingController(text: group.description ?? '');
+    _targetController = TextEditingController(
+      text: group.targetAmount.toString(),
+    );
+    _frequency = group.frequency ?? 'monthly';
+    _visibility = group.visibility;
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _descController.dispose();
+    _targetController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _saveChanges() async {
+    if (_isSaving) return;
+    setState(() => _isSaving = true);
+
+    try {
+      final groupId = widget.detail.group.id;
+      if (groupId == null) return;
+
+      final updates = <String, dynamic>{
+        'name': _nameController.text.trim(),
+        'description': _descController.text.trim(),
+        'target_amount': int.tryParse(_targetController.text.trim()) ?? 0,
+        'frequency': _frequency,
+        'visibility': _visibility,
+      };
+
+      await ref
+          .read(groupsProvider.notifier)
+          .updateGroup(groupId, updates);
+
+      widget.onDismiss?.call();
+      if (mounted) {
+        Navigator.of(context).pop();
+        CoolToast.success(context, 'Group updated');
+      }
+    } catch (e) {
+      if (mounted) {
+        CoolToast.error(context, 'Failed to save: $e');
+      }
+    } finally {
+      if (mounted) setState(() => _isSaving = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final currentUserId = ref.read(currentUserProvider)?.id;
+    final members = widget.detail.members;
+    final admins = members.where((m) => m.isAdmin).toList();
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+      ),
+      child: SafeArea(
+        top: false,
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.75,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(22, 12, 22, 22),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Handle
+                Center(
+                  child: Container(
+                    width: 40,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: AppColors.border2,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // Title
+                Text(
+                  'Group Settings',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.text,
+                  ),
+                ),
+                const SizedBox(height: 24),
+
+                // ── Name ──
+                _SettingsLabel('Group name'),
+                const SizedBox(height: 6),
+                _SettingsInput(controller: _nameController),
+                const SizedBox(height: 20),
+
+                // ── Description ──
+                _SettingsLabel('Description'),
+                const SizedBox(height: 6),
+                _SettingsInput(
+                  controller: _descController,
+                  maxLines: 3,
+                  hint: 'Optional description',
+                ),
+                const SizedBox(height: 20),
+
+                // ── Target amount ──
+                _SettingsLabel('Target amount (RWF)'),
+                const SizedBox(height: 6),
+                _SettingsInput(
+                  controller: _targetController,
+                  keyboardType: TextInputType.number,
+                ),
+                const SizedBox(height: 20),
+
+                // ── Frequency ──
+                _SettingsLabel('Contribution frequency'),
+                const SizedBox(height: 6),
+                _FrequencySelector(
+                  value: _frequency,
+                  onChanged: (v) => setState(() => _frequency = v),
+                ),
+                const SizedBox(height: 20),
+
+                // ── Visibility ──
+                _SettingsLabel('Visibility'),
+                const SizedBox(height: 6),
+                Row(
+                  children: [
+                    _SettingsToggle(
+                      label: 'Private',
+                      isSelected: _visibility == 'private',
+                      onTap: () => setState(() => _visibility = 'private'),
+                    ),
+                    const SizedBox(width: 8),
+                    _SettingsToggle(
+                      label: 'Public',
+                      isSelected: _visibility == 'public',
+                      onTap: () => setState(() => _visibility = 'public'),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 28),
+
+                // ── Admins ──
+                _SettingsLabel(
+                  'Admins (${admins.length})',
+                ),
+                const SizedBox(height: 8),
+                ...admins.map(
+                  (a) => Padding(
+                    padding: const EdgeInsets.only(bottom: 4),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.admin_panel_settings_outlined,
+                          size: 18,
+                          color: AppColors.accent,
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            a.displayName ?? '#${a.userId.substring(0, 6)}',
+                            style: GoogleFonts.dmSans(
+                              fontSize: 14,
+                              color: AppColors.text,
+                            ),
+                          ),
+                        ),
+                        if (a.userId != currentUserId)
+                          IconButton(
+                            icon: Icon(
+                              Icons.remove_circle_outline,
+                              size: 18,
+                              color: AppColors.red,
+                            ),
+                            onPressed: () {
+                              // TODO: remove admin
+                            },
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                TextButton.icon(
+                  onPressed: () {
+                    // TODO: add admin — pick from members list
+                  },
+                  icon: Icon(
+                    Icons.person_add_alt_1_rounded,
+                    size: 18,
+                    color: AppColors.accent,
+                  ),
+                  label: Text(
+                    'Add admin',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.accent,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 32),
+
+                // ── Save ──
+                SizedBox(
+                  width: double.infinity,
+                  child: CoolButton(
+                    label: 'Save changes',
+                    isLoading: _isSaving,
+                    onTap: _saveChanges,
+                  ),
+                ),
+                const SizedBox(height: 12),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ── Tiny helper widgets for settings ──
+
+class _SettingsLabel extends StatelessWidget {
+  const _SettingsLabel(this.text);
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: GoogleFonts.dmSans(
+        fontSize: 12,
+        fontWeight: FontWeight.w700,
+        color: AppColors.text2,
+        letterSpacing: 0.4,
+      ),
+    );
+  }
+}
+
+class _SettingsInput extends StatelessWidget {
+  const _SettingsInput({
+    required this.controller,
+    this.maxLines = 1,
+    this.hint,
+    this.keyboardType,
+  });
+
+  final TextEditingController controller;
+  final int maxLines;
+  final String? hint;
+  final TextInputType? keyboardType;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+      maxLines: maxLines,
+      keyboardType: keyboardType,
+      style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
+      decoration: InputDecoration(
+        hintText: hint,
+        hintStyle: GoogleFonts.dmSans(fontSize: 13, color: AppColors.text3),
+        filled: true,
+        fillColor: AppColors.surface2,
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: AppColors.border),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: AppColors.border),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: AppColors.accent, width: 1.5),
+        ),
+      ),
+    );
+  }
+}
+
+class _FrequencySelector extends StatelessWidget {
+  const _FrequencySelector({
+    required this.value,
+    required this.onChanged,
+  });
+
+  final String value;
+  final ValueChanged<String> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    const options = ['daily', 'weekly', 'monthly'];
+    return Row(
+      children: [
+        for (final opt in options) ...[
+          _SettingsToggle(
+            label: opt[0].toUpperCase() + opt.substring(1),
+            isSelected: value == opt,
+            onTap: () => onChanged(opt),
+          ),
+          if (opt != options.last) const SizedBox(width: 8),
+        ],
+      ],
+    );
+  }
+}
+
+class _SettingsToggle extends StatelessWidget {
+  const _SettingsToggle({
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        decoration: BoxDecoration(
+          color: isSelected ? AppColors.accentGlow : AppColors.surface2,
+          borderRadius: BorderRadius.circular(30),
+          border: Border.all(
+            color: isSelected ? AppColors.accent : AppColors.border,
+          ),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          label,
+          style: GoogleFonts.dmSans(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: isSelected ? AppColors.accent : AppColors.text2,
           ),
         ),
       ),

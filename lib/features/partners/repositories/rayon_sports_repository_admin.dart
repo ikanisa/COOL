@@ -481,4 +481,43 @@ extension RayonSportsAdminRepository on RayonSportsRepository {
     ).first;
     return RsMembershipPackage.fromJson(row);
   }
+
+  /// Quick stock adjustment: adds [delta] (can be negative) to product stock.
+  Future<RsProduct> adminAdjustStock(String productId, int delta) async {
+    // Read current stock, apply delta, clamp to 0.
+    final current = _asListOfMaps(
+      await _client
+          .from('rs_shop_products')
+          .select('stock')
+          .eq('id', productId),
+    ).first;
+    final currentStock = (current['stock'] as num?)?.toInt() ?? 0;
+    final newStock = (currentStock + delta).clamp(0, 999999);
+    return updateProduct(productId, <String, Object?>{'stock': newStock});
+  }
+
+  /// Renew a fan membership by setting [newExpiry].
+  Future<FanMembership> renewMembership(
+    String userId,
+    DateTime newExpiry,
+  ) async {
+    final partnerId = await _resolvePartnerId();
+    if (partnerId == null) throw StateError('Rayon Sports partner not found.');
+    final row = _asListOfMaps(
+      await _client
+          .from('rs_fan_memberships')
+          .update(<String, Object?>{
+            'expires_at': newExpiry.toIso8601String(),
+          })
+          .eq('partner_id', partnerId)
+          .eq('user_id', userId)
+          .select(),
+    ).first;
+    return FanMembership.fromJson(_withResolvedDisplayName(row));
+  }
+
+  /// Delete an initiative by [initiativeId].
+  Future<void> deleteInitiative(String initiativeId) async {
+    await _client.from('rs_initiatives').delete().eq('id', initiativeId);
+  }
 }

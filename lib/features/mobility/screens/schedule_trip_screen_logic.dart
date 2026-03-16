@@ -67,7 +67,7 @@ extension on _ScheduleTripScreenState {
         _routePreview = preview;
         _loadingRoutePreview = false;
         _routePreviewError = preview == null
-            ? 'Route preview unavailable. Coordinates still attached.'
+            ? 'Route data unavailable'
             : null;
       });
     } catch (_) {
@@ -77,7 +77,7 @@ extension on _ScheduleTripScreenState {
         _loadingRoutePreview = false;
         _routePreview = null;
         _routePreviewError =
-            'Route preview failed. You can still post with pinned coordinates.';
+            'Route preview failed';
       });
     }
   }
@@ -193,7 +193,7 @@ extension on _ScheduleTripScreenState {
 
   // ── Location helpers ────────────────────────────────────────────
 
-  int get _activeStepIndex => ScheduleTripStep.values.indexOf(_activeStep);
+
 
   bool _shouldShowLocationAttachmentCard(MobilityLocationState locationState) {
     return switch (locationState.status) {
@@ -259,29 +259,8 @@ extension on _ScheduleTripScreenState {
     return true;
   }
 
-  // ── Step navigation ─────────────────────────────────────────────
-
-  void _goToPreviousStep() {
-    if (_activeStepIndex == 0) return;
-    _updateState(() {
-      _activeStep = ScheduleTripStep.values[_activeStepIndex - 1];
-    });
-  }
-
-  Future<void> _goToNextStep() async {
-    if (_activeStep == ScheduleTripStep.route) {
-      final isValid = _formKey.currentState?.validate() ?? false;
-      if (!_validateRouteStep() || !isValid) return;
-      await _resolveTypedRouteSelections();
-    }
-    if (_activeStep == ScheduleTripStep.timing && !_validateTimingStep()) {
-      return;
-    }
-    if (_activeStepIndex >= ScheduleTripStep.values.length - 1) return;
-    _updateState(() {
-      _activeStep = ScheduleTripStep.values[_activeStepIndex + 1];
-    });
-  }
+  // Step navigation removed — single-screen layout.
+  // _activeStep kept for legacy compatibility (e.g. role card references).
 
   Future<void> _openRoleSheet(bool canScheduleAsDriver) async {
     final nextRole = await showModalBottomSheet<ScheduleTripPostingRole>(
@@ -405,7 +384,7 @@ extension on _ScheduleTripScreenState {
     if (failedFields.isNotEmpty && mounted) {
       _showSnackBar(
         message:
-            'Google could not pin ${failedFields.join(' and ')} exactly. You can continue with text only, or use search to choose a place.',
+            'Could not pin exactly',
         kind: _ScheduleTripToastKind.info,
       );
     }
@@ -427,7 +406,7 @@ extension on _ScheduleTripScreenState {
       _showSnackBar(
         message:
             locationState.error ??
-            'Current location is unavailable. Search for a place instead.',
+            'Location unavailable',
         kind: _ScheduleTripToastKind.error,
       );
       return;
@@ -471,7 +450,7 @@ extension on _ScheduleTripScreenState {
       unawaited(_refreshRoutePreview());
       _showSnackBar(
         message:
-            'Pickup coordinates were attached, but the address could not be resolved.',
+            'Pickup coordinates were attached',
         kind: _ScheduleTripToastKind.info,
       );
     } finally {
@@ -536,23 +515,20 @@ extension on _ScheduleTripScreenState {
     final isDriverReturnTrip = _postingRole == ScheduleTripPostingRole.driver;
     if (isDriverReturnTrip && !canScheduleAsDriver) {
       _showSnackBar(
-        message: 'Finish driver setup before posting as a driver.',
+        message: 'Finish driver setup before',
         kind: _ScheduleTripToastKind.error,
       );
       return;
     }
     final tripRole = isDriverReturnTrip ? 'DRIVER' : 'PASSENGER';
     if (!_validateRouteStep()) {
-      _updateState(() => _activeStep = ScheduleTripStep.route);
       return;
     }
     if (!_validateTimingStep()) {
-      _updateState(() => _activeStep = ScheduleTripStep.timing);
       return;
     }
     final isValid = _formKey.currentState?.validate() ?? false;
     if (!isValid) {
-      _updateState(() => _activeStep = ScheduleTripStep.route);
       return;
     }
 

@@ -67,10 +67,6 @@ if (!project.hasProperty("dart-defines")) {
     listOf(
         "SUPABASE_URL",
         "SUPABASE_ANON_KEY",
-        "GOOGLE_MAPS_ANDROID_API_KEY",
-        "GOOGLE_MAPS_IOS_API_KEY",
-        "GOOGLE_MAPS_ANDROID_MAP_ID",
-        "GOOGLE_MAPS_IOS_MAP_ID",
         "FLAVOR",
     ).forEach { key ->
         val value = buildConfigValue(key)
@@ -90,8 +86,6 @@ if (!project.hasProperty("dart-defines")) {
         )
     }
 }
-
-val googleMapsAndroidApiKey = buildConfigValue("GOOGLE_MAPS_ANDROID_API_KEY")
 
 android {
     namespace = "app.cool.mobile"
@@ -114,7 +108,6 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-        manifestPlaceholders["GOOGLE_MAPS_ANDROID_API_KEY"] = googleMapsAndroidApiKey
     }
 
     flavorDimensions += "environment"

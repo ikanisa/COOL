@@ -46,7 +46,7 @@ class GroupCard extends StatelessWidget {
     return Semantics(
       button: true,
       label:
-          '$name. ${_isSaving ? 'Saving' : 'Community'} group. '
+          '$name. ${_isSaving ?'Saving' : 'Community'} group. '
           '${GroupCard._formatAmount(amount)} RWF. $memberCount members.',
       excludeSemantics: true,
       child: GestureDetector(

@@ -113,7 +113,9 @@ class MomoService {
       recipientType: recipientType,
     );
 
-    final encoded = Uri.encodeComponent(ussdCode);
+    // Android requires # to be encoded as %23 in tel: URIs, otherwise it is
+    // treated as a URI fragment delimiter and silently stripped.
+    final encoded = ussdCode.replaceAll('#', '%23');
     final launched = await launchUrl(
       Uri.parse('tel:$encoded'),
       mode: LaunchMode.externalApplication,

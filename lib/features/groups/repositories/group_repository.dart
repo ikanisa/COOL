@@ -170,38 +170,49 @@ class GroupRepository {
       throw StateError('No authenticated user is available.');
     }
 
-    final country = AppMarket.country;
-    final routeType = group.type == 'community'
-        ? (_parseRecipientType(group.momoRouteType) ??
-              _inferRecipientType(country, group.momoNumber ?? ''))
-        : null;
-    final normalizedRecipient =
-        group.type != 'community' || (group.momoNumber?.trim().isEmpty ?? true)
-        ? null
-        : routeType == MomoRecipientType.code
-        ? country.normalizeMerchantCode(group.momoNumber!)
-        : country.buildE164Phone(group.momoNumber!);
+
+    // ── Map client types → RPC params ──
+    // Client type 'saving' → fund_purpose GROUP_SAVINGS
+    // Client type 'community' → fund_purpose COMMUNITY_COLLECTION
+    final purpose = group.type == 'community'
+        ? 'COMMUNITY_COLLECTION'
+        : 'GROUP_SAVINGS';
+
+    // Client visibility 'public'/'private' → RPC p_type 'PUBLIC'/'PRIVATE'
+    final rpcType = group.visibility == 'public' ? 'PUBLIC' : 'PRIVATE';
+
+    // Community collection needs a MoMo code/number
+    String? externalMomoCode;
+    if (group.type == 'community') {
+      final country = AppMarket.country;
+      final recipientValue = group.momoNumber?.trim() ?? '';
+      if (recipientValue.isNotEmpty) {
+        final routeType = _parseRecipientType(group.momoRouteType) ??
+            _inferRecipientType(country, recipientValue);
+        externalMomoCode = routeType == MomoRecipientType.code
+            ? country.normalizeMerchantCode(recipientValue)
+            : country.buildE164Phone(recipientValue);
+      }
+    }
+
+    // Contribution amount (monthly or target, whichever is provided)
+    final contributionAmount = group.monthlyContribution ?? group.targetAmount;
+
+    // Frequency mapping
+    final frequency = (group.frequency?.trim().toUpperCase().isNotEmpty ?? false)
+        ? group.frequency!.trim().toUpperCase()
+        : 'MONTHLY';
 
     final response = await _client.rpc(
       'create_group_atomic',
       params: <String, dynamic>{
         'p_name': group.name,
-        'p_visibility': group.visibility,
-        'p_type': group.type,
+        'p_type': rpcType,
+        'p_contribution_amount': contributionAmount,
+        'p_frequency': frequency,
         'p_description': group.description,
-        'p_country': AppMarket.countryCode,
-        'p_target_amount': group.targetAmount,
-        'p_monthly_contribution': group.monthlyContribution,
-        'p_cycle_days': _cycleDaysForFrequency(group.frequency),
-        'p_bank_partner': group.bankPartner,
-        'p_institution_id': group.institutionId,
-        'p_momo_number': routeType == MomoRecipientType.phoneNumber
-            ? normalizedRecipient
-            : null,
-        'p_receiving_momo_code': normalizedRecipient,
-        'p_receiving_momo_route_type': routeType == null
-            ? null
-            : _recipientTypeValue(routeType),
+        'p_purpose': purpose,
+        'p_external_collection_momo_code': externalMomoCode,
       },
     );
 
@@ -401,16 +412,6 @@ class GroupRepository {
     ).map((row) => Group.fromJson(row)).toList(growable: false);
   }
 
-  int _cycleDaysForFrequency(String? frequency) {
-    switch (frequency?.trim().toLowerCase()) {
-      case 'daily':
-        return 1;
-      case 'weekly':
-        return 7;
-      default:
-        return 30;
-    }
-  }
 
   String _normalizeInviteCode(String inviteCode) {
     return inviteCode.trim().toUpperCase();
@@ -474,6 +475,15 @@ class GroupRepository {
 
     return contributorNames;
   }
+
+  /// Update editable group fields (name, description, target_amount, etc.).
+  Future<void> updateGroup(
+    String groupId,
+    Map<String, dynamic> updates,
+  ) async {
+    if (updates.isEmpty) return;
+    await _client.from('groups').update(updates).eq('id', groupId);
+  }
 }
 
 MomoRecipientType? _parseRecipientType(String? value) {
@@ -527,12 +537,6 @@ MomoRecipientType _inferRecipientType(CoolCountry country, String value) {
   return MomoRecipientType.code;
 }
 
-String _recipientTypeValue(MomoRecipientType recipientType) {
-  return switch (recipientType) {
-    MomoRecipientType.phoneNumber => 'phone_number',
-    MomoRecipientType.code => 'code',
-  };
-}
 
 Map<String, dynamic> _asMap(dynamic value) {
   if (value == null) {

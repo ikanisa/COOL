@@ -27,11 +27,11 @@ DECLARE
   _request_id      BIGINT;
 BEGIN
   -- Only fire when transitioning TO completed.
-  IF NEW.completed IS NOT TRUE THEN
+  IF NEW.completed_at IS NULL THEN
     RETURN NEW;
   END IF;
 
-  IF TG_OP = 'UPDATE' AND OLD.completed IS TRUE THEN
+  IF TG_OP = 'UPDATE' AND OLD.completed_at IS NOT NULL THEN
     RETURN NEW;
   END IF;
 
@@ -85,10 +85,10 @@ $$;
 DROP TRIGGER IF EXISTS trg_notify_mission_completed ON public.cool_mission_progress;
 
 CREATE TRIGGER trg_notify_mission_completed
-  AFTER INSERT OR UPDATE OF completed
+  AFTER INSERT OR UPDATE OF completed_at
   ON public.cool_mission_progress
   FOR EACH ROW
-  WHEN (NEW.completed = TRUE)
+  WHEN (NEW.completed_at IS NOT NULL)
   EXECUTE FUNCTION public.notify_mission_completed();
 
 -- Add a comment for documentation.

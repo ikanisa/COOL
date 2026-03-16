@@ -32,6 +32,8 @@ final profileViewProvider = Provider<ProfileData>((ref) {
   final hasDriverRole = user.isDriver || driverSnapshot.hasProfile;
   final officialName = user.officialName?.trim() ?? '';
   final officialPhone = user.officialPhone?.trim() ?? '';
+  final dateOfBirth = user.dateOfBirth?.trim();
+  final nationalIdNumber = user.nationalIdNumber?.trim();
   final walletConfigured = user.hasMomoRecipient;
   final showCompletionBanner =
       !user.hasBasicProfile ||
@@ -53,7 +55,7 @@ final profileViewProvider = Provider<ProfileData>((ref) {
     ProfileSetupItem(
       id: 'official_identity',
       label: l10n.profileOfficialIdentityLabel,
-      isComplete: officialName.isNotEmpty && officialPhone.isNotEmpty,
+      isComplete: user.hasOfficialIdentity,
     ),
     ProfileSetupItem(
       id: 'travel_role',
@@ -70,6 +72,11 @@ final profileViewProvider = Provider<ProfileData>((ref) {
     userId: user.displayUserId,
     phone: user.phone,
     officialPhone: officialPhone,
+    dateOfBirth: dateOfBirth,
+    nationalIdNumber: nationalIdNumber,
+    kycDocumentType: user.kycDocumentType,
+    officialGender: user.identityData['gender']?.toString(),
+    officialNationality: user.identityData['nationality']?.toString(),
     momoNumber: user.momoNumber,
     momoCode: user.momoCode,
     momoRouteType: user.effectiveMomoRouteType,
@@ -80,6 +87,7 @@ final profileViewProvider = Provider<ProfileData>((ref) {
     languageCode: AppMarket.languageCode,
     notificationsEnabled: notificationSettings.status.preferenceEnabled,
     creditScoreLabel: creditDashboard?.score?.toString() ?? '--',
+    momoStatementCount: creditDashboard?.statementCount ?? 0,
     kycStatus: user.kycStatus,
     showCompletionBanner: showCompletionBanner,
     setupItems: setupItems,
@@ -91,5 +99,6 @@ final profileViewProvider = Provider<ProfileData>((ref) {
     driverPlateNumber: driverSnapshot.plateNumber,
     subscriptionLabel: driverSnapshot.subscriptionLabel,
     subscriptionExpiring: driverSnapshot.subscriptionExpiring,
+    createdAt: user.createdAt,
   );
 });

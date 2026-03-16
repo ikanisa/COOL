@@ -1,13 +1,26 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:cool_app/core/providers/app_access_provider.dart';
+import 'package:cool_app/core/services/app_access_service.dart';
 import 'package:cool_app/features/momo/screens/momo_screen.dart';
-import 'package:cool_app/shared/widgets/cool_button.dart';
 
+import '../helpers/fake_app_access_service.dart';
 import 'test_harness.dart';
 
 void main() {
+  const nfcHceChannel = MethodChannel('app.cool.mobile/nfc_hce');
+  final messenger =
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+
+  tearDown(() {
+    messenger.setMockMethodCallHandler(nfcHceChannel, null);
+  });
+
   group('MoMo screen', () {
-    testWidgets('shows receive QR first with send and tools secondary', (
+    testWidgets('opens receive QR as a full page and returns cleanly', (
       tester,
     ) async {
       await pumpScopedApp(
@@ -15,37 +28,89 @@ void main() {
         child: const MomoScreen(),
         session: fakeSession(),
         user: fakeUser(momoNumber: '788123456'),
+        overrides: [
+          appAccessServiceProvider.overrideWithValue(
+            FakeAppAccessService(
+              snapshots: {
+                AppAccessPermission.nfc: AppAccessSnapshot(
+                  permission: AppAccessPermission.nfc,
+                  kind: AppAccessStateKind.ready,
+                  enabledInApp: true,
+                  supportedOnDevice: true,
+                  systemGranted: true,
+                ),
+              },
+            ),
+          ),
+        ],
       );
 
-      expect(find.text('Get paid by QR'), findsOneWidget);
-      expect(find.text('Receive QR · Rwanda · RWF'), findsOneWidget);
-      expect(find.text('Send Money'), findsWidgets);
-      expect(find.text('Before you pay'), findsOneWidget);
-      final moreTools = find.text('Extra Tools');
-      expect(moreTools, findsOneWidget);
-      await tester.tap(moreTools);
+      expect(find.text('MOMO QR'), findsOneWidget);
+      expect(find.text('Statements'), findsOneWidget);
+      expect(find.text('NFC pay'), findsOneWidget);
+
+      await tester.tap(find.text('MOMO QR'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('MOMO QR'), findsWidgets);
+      expect(find.text('Share link'), findsOneWidget);
+
+      await tester.tap(find.byIcon(Icons.arrow_back_rounded).last);
       await tester.pumpAndSettle();
 
       expect(find.text('Statements'), findsOneWidget);
-      expect(find.text('Full-screen QR'), findsOneWidget);
-      expect(find.text('NFC tools'), findsOneWidget);
-      expect(find.textContaining('From'), findsOneWidget);
+      expect(find.text('Get paid by QR'), findsNothing);
     });
 
-    testWidgets('Send money sheet validates inputs', (tester) async {
+    testWidgets('opens NFC pay as a full page and returns cleanly', (
+      tester,
+    ) async {
+      messenger.setMockMethodCallHandler(nfcHceChannel, (call) async {
+        switch (call.method) {
+          case 'isSupported':
+            return false;
+          case 'isPaymentRequestActive':
+            return false;
+          case 'getPaymentRequestUri':
+            return null;
+        }
+        return null;
+      });
+
       await pumpScopedApp(
         tester,
         child: const MomoScreen(),
         session: fakeSession(),
         user: fakeUser(momoNumber: '788123456'),
+        overrides: [
+          appAccessServiceProvider.overrideWithValue(
+            FakeAppAccessService(
+              snapshots: {
+                AppAccessPermission.nfc: AppAccessSnapshot(
+                  permission: AppAccessPermission.nfc,
+                  kind: AppAccessStateKind.ready,
+                  enabledInApp: true,
+                  supportedOnDevice: true,
+                  systemGranted: true,
+                ),
+              },
+            ),
+          ),
+        ],
       );
 
-      await tester.tap(find.widgetWithText(CoolButton, 'Send Money'));
-      await settleTestApp(tester);
-      await tester.tap(find.text('Continue to USSD'));
-      await settleTestApp(tester);
+      await tester.tap(find.text('NFC pay'));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 400));
 
-      expect(find.textContaining('valid recipient'), findsOneWidget);
+      expect(find.text('NFC pay'), findsWidgets);
+      expect(find.text('Read tag'), findsWidgets);
+
+      await tester.tap(find.byIcon(Icons.arrow_back_rounded).last);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 400));
+
+      expect(find.text('Statements'), findsOneWidget);
     });
   });
 }

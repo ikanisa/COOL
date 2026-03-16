@@ -48,7 +48,7 @@ class MyTicketsScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          'Your confirmed match entries will appear here with QR codes.',
+                          'Your confirmed match entries',
                           textAlign: TextAlign.center,
                           style: GoogleFonts.barlow(
                             fontSize: 14,
@@ -97,9 +97,9 @@ class MyTicketsScreen extends ConsumerWidget {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        paymentRoute == null
-                            ? 'These orders are waiting for payment confirmation. QR entry unlocks automatically after SMS reconciliation.'
-                            : 'These orders are waiting for ${paymentRoute.payToLabel} confirmation. QR entry unlocks after SMS reconciliation for ${paymentRoute.reconciliationLabel}.',
+                         paymentRoute == null
+                            ? 'Awaiting payment. QR unlocks after confirmation.'
+                            : 'Awaiting ${paymentRoute.payToLabel} confirmation.',
                         style: GoogleFonts.barlow(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,

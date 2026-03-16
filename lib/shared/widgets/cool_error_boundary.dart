@@ -142,7 +142,7 @@ class _BrandedErrorFallback extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'An unexpected error occurred.\nPlease try again.',
+              'An unexpected error occurred',
               textAlign: TextAlign.center,
               style: GoogleFonts.dmSans(
                 fontSize: 14,

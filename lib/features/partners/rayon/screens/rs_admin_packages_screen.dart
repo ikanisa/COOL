@@ -86,7 +86,7 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      'Supporter-facing tier copy and benefits shown on the membership plans screen.',
+                      'Supporter-facing tier copy and',
                       style: GoogleFonts.dmSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
@@ -119,7 +119,7 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
                       decoration: const InputDecoration(
                         labelText: 'Benefits',
                         helperText:
-                            'One line per benefit. Use "Title | Description".',
+                            'One line per benefit',
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -127,7 +127,7 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
                       contentPadding: EdgeInsets.zero,
                       title: const Text('Package active'),
                       subtitle: const Text(
-                        'Inactive packages remain hidden from supporter-facing plans.',
+                        'Inactive packages remain hidden',
                       ),
                       value: isActive,
                       onChanged: (value) =>
@@ -275,7 +275,7 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
     return RsAdminShell(
       title: 'Membership Packages',
       subtitle:
-          'Manage supporter-facing tier copy and benefits without changing the underlying points engine.',
+          'Manage supporter-facing tier copy',
       metrics: [
         RsAdminMetric(
           label: 'plans',
@@ -297,7 +297,7 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
         value: packagesAsync,
         emptyCheck: (packages) => packages.isEmpty,
         emptyWidget: const CoolEmptyView(
-          message: 'No membership packages are configured yet.',
+          message: 'No membership packages yet',
           compact: true,
         ),
         builder: (packages) => ListView(

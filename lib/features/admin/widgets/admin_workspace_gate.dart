@@ -120,7 +120,7 @@ class PlatformAdminGate extends ConsumerWidget {
     }
     return const AdminAccessDeniedScaffold(
       title: 'Platform Admin',
-      message: 'This workspace is reserved for platform administrators.',
+      message: 'This workspace is reserved',
     );
   }
 }
@@ -144,7 +144,7 @@ class PartnerAdminGate extends ConsumerWidget {
     return const AdminAccessDeniedScaffold(
       title: 'Partner Admin',
       message:
-          'You do not have access to this partner workspace with the current account.',
+          'You do not have',
     );
   }
 }
@@ -164,7 +164,7 @@ class BankAdminGate extends ConsumerWidget {
     return const AdminAccessDeniedScaffold(
       title: 'Bank Admin',
       message:
-          'You do not have access to this bank custodian workspace with the current account.',
+          'You do not have',
     );
   }
 }
@@ -185,13 +185,13 @@ class RayonAdminGate extends ConsumerWidget {
         return const AdminAccessDeniedScaffold(
           title: 'Rayon Sports Admin',
           message:
-              'You do not have access to the Rayon Sports admin workspace with the current account.',
+              'You do not have',
         );
       },
       loading: () => const AdminLoadingScaffold(title: 'Rayon Sports Admin'),
       error: (_, _) => const AdminAccessDeniedScaffold(
         title: 'Rayon Sports Admin',
-        message: 'The Rayon Sports admin access check could not be completed.',
+        message: 'The Rayon Sports admin',
       ),
     );
   }

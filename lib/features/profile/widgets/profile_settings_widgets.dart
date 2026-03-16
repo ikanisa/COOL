@@ -299,7 +299,7 @@ class ProfileSettingsRow extends StatelessWidget {
     return Semantics(
       button: true,
       label: semanticsLabel,
-      hint: 'Double tap to open $label',
+      hint: 'Open $label',
       child: InkWell(
         onTap: onTap,
         splashColor: palette.accentGlow,
@@ -330,10 +330,10 @@ class ProfileSectionToggleCard extends StatelessWidget {
     final palette = context.coolPalette;
     return Semantics(
       button: true,
-      label: '$title. $subtitle. ${isExpanded ? 'Expanded' : 'Collapsed'}',
+      label: '$title. $subtitle. ${isExpanded ?'Expanded' : 'Collapsed'}',
       hint: isExpanded
-          ? 'Double tap to collapse this section'
-          : 'Double tap to expand this section',
+          ? 'Collapse section'
+          : 'Expand section',
       child: ExcludeSemantics(
         child: CoolCard(
           backgroundColor: palette.surface,
@@ -485,16 +485,6 @@ class ProfileAppearanceSheet extends StatelessWidget {
             color: palette.text,
           ),
         ),
-        const SizedBox(height: 6),
-        Text(
-          l10n.appearanceSheetSubtitle,
-          style: GoogleFonts.dmSans(
-            fontSize: 13,
-            fontWeight: FontWeight.w400,
-            color: palette.text2,
-            height: 1.4,
-          ),
-        ),
         const SizedBox(height: 16),
         CoolCard(
           backgroundColor: palette.surface,
@@ -543,15 +533,6 @@ class _ProfileAppearanceOption extends StatelessWidget {
     };
   }
 
-  String _subtitle(BuildContext context) {
-    final l10n = context.l10n;
-    return switch (preference) {
-      AppThemePreference.system => l10n.appearanceSystemDescription,
-      AppThemePreference.light => l10n.appearanceLightDescription,
-      AppThemePreference.dark => l10n.appearanceDarkDescription,
-    };
-  }
-
   IconData _icon() {
     return switch (preference) {
       AppThemePreference.system => Icons.brightness_auto_rounded,
@@ -567,7 +548,7 @@ class _ProfileAppearanceOption extends StatelessWidget {
     return Semantics(
       button: true,
       selected: isSelected,
-      label: '${_label(context)}. ${_subtitle(context)}',
+      label: _label(context),
       child: InkWell(
         onTap: onTap,
         splashColor: palette.accentGlow,
@@ -588,28 +569,13 @@ class _ProfileAppearanceOption extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _label(context),
-                      style: GoogleFonts.dmSans(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: palette.text,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      _subtitle(context),
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: palette.text2,
-                        height: 1.35,
-                      ),
-                    ),
-                  ],
+                child: Text(
+                  _label(context),
+                  style: GoogleFonts.dmSans(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: palette.text,
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
@@ -637,8 +603,8 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
     final l10n = context.l10n;
     return Semantics(
       button: true,
-      label: '${l10n.completeProfileTitle}. ${l10n.completeProfileSubtitle}',
-      hint: 'Double tap to complete your profile',
+      label: l10n.completeProfileTitle,
+      hint: 'Complete your profile',
       child: GestureDetector(
         onTap: () => context.push(AppRoutes.registerLocation(phone: phone)),
         child: ExcludeSemantics(
@@ -664,28 +630,13 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
                   ),
                   const SizedBox(width: 14),
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          l10n.completeProfileTitle,
-                          style: GoogleFonts.dmSans(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: palette.text,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          l10n.completeProfileSubtitle,
-                          style: GoogleFonts.dmSans(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: palette.text2,
-                            height: 1.35,
-                          ),
-                        ),
-                      ],
+                    child: Text(
+                      l10n.completeProfileTitle,
+                      style: GoogleFonts.dmSans(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: palette.text,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 8),

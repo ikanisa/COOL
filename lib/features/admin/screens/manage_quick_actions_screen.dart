@@ -64,7 +64,7 @@ class _ManageQuickActionsScreenState
       floatingActionButton: Semantics(
         button: true,
         label: 'Add quick action',
-        hint: 'Opens the new quick action form',
+        hint: 'New action',
         child: FloatingActionButton(
           backgroundColor: AppColors.accent,
           onPressed: () => _showEditSheet(context, ref, null),
@@ -79,7 +79,7 @@ class _ManageQuickActionsScreenState
           loadingWidget: const CoolSkeletonList(itemCount: 4),
           emptyCheck: (a) => a.isEmpty,
           emptyWidget: const CoolEmptyView(
-            message: 'No quick actions are configured yet.',
+            message: 'No quick actions yet',
             icon: Icons.bolt_rounded,
           ),
           builder: (actions) {
@@ -130,7 +130,7 @@ class _ManageQuickActionsScreenState
                         trailing: Semantics(
                           button: true,
                           label: 'Edit quick action ${a['title'] ?? ''}',
-                          hint: 'Opens the quick action editor',
+                          hint: 'Edit action',
                           child: GestureDetector(
                             onTap: () => _showEditSheet(context, ref, a),
                             child: Icon(
@@ -318,7 +318,7 @@ class _EditQuickActionSheetState extends State<_EditQuickActionSheet> {
     child: Semantics(
       textField: true,
       label: label,
-      hint: 'Double tap to enter $label',
+      hint: 'Enter $label',
       child: TextField(
         controller: ctl,
         style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),

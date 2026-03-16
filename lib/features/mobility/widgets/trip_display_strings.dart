@@ -40,14 +40,14 @@ String tripNoteLabel(Trip trip) {
 
 String tripChatFlowLabel(Trip trip) {
   return trip.isDriverReturnTrip
-      ? 'Pickup, fare, and timing are confirmed with the driver in WhatsApp.'
-      : 'Pickup, fare, and timing are confirmed after you connect in WhatsApp.';
+      ? 'Confirm via WhatsApp'
+      : 'Confirm via WhatsApp';
 }
 
 String tripMarketplaceHint(Trip trip) {
   return trip.isDriverReturnTrip
-      ? 'COOL introduces riders to drivers. Final fare, pickup, and timing are confirmed in WhatsApp.'
-      : 'COOL introduces both sides. Final fare, pickup, and timing are confirmed in WhatsApp.';
+      ? 'Confirm via WhatsApp'
+      : 'Confirm via WhatsApp';
 }
 
 String tripShareTitle(Trip trip) {
@@ -59,6 +59,6 @@ String tripShareTitle(Trip trip) {
 String tripShareText(Trip trip) {
   final route = '${trip.fromLocation} to ${trip.toLocation}';
   return trip.isDriverReturnTrip
-      ? 'Check out this driver return from $route on Cool!'
-      : 'Check out this trip from $route on Cool!';
+      ? 'Check out this trip!'
+      : 'Check out this trip!';
 }

@@ -123,6 +123,11 @@ class BankAdminAllocationReviewItem {
     this.reference,
     this.provider,
     this.payeeDigits,
+    this.suggestedGroupId,
+    this.suggestedMemberUserId,
+    this.suggestedMemberName,
+    this.suggestedConfidence,
+    this.aiReasoning,
   });
 
   final String reviewId;
@@ -138,8 +143,28 @@ class BankAdminAllocationReviewItem {
   final String? reference;
   final String? provider;
   final String? payeeDigits;
+  // AI suggestion fields
+  final String? suggestedGroupId;
+  final String? suggestedMemberUserId;
+  final String? suggestedMemberName;
+  final double? suggestedConfidence;
+  final String? aiReasoning;
+
+  bool get isSuggested =>
+      matchStatus == 'suggested' &&
+      suggestedGroupId != null &&
+      suggestedMemberUserId != null;
 
   factory BankAdminAllocationReviewItem.fromJson(Map<String, dynamic> json) {
+    final metadata = json['metadata'];
+    final metaMap = metadata is Map<String, dynamic> ? metadata : <String, dynamic>{};
+
+    double? parseConfidence(dynamic v) {
+      if (v == null) return null;
+      if (v is num) return v.toDouble();
+      return double.tryParse(v.toString());
+    }
+
     return BankAdminAllocationReviewItem(
       reviewId: json['review_id']?.toString() ?? '',
       groupId: json['group_id']?.toString() ?? '',
@@ -157,6 +182,11 @@ class BankAdminAllocationReviewItem {
       reference: _nonEmpty(json['matched_reference']),
       provider: _nonEmpty(json['provider']),
       payeeDigits: _nonEmpty(json['payee_digits']),
+      suggestedGroupId: _nonEmpty(metaMap['suggested_group_id']),
+      suggestedMemberUserId: _nonEmpty(metaMap['suggested_member_user_id']),
+      suggestedMemberName: _nonEmpty(metaMap['suggested_member_name']),
+      suggestedConfidence: parseConfidence(metaMap['suggested_confidence']),
+      aiReasoning: _nonEmpty(metaMap['ai_reasoning']),
     );
   }
 }

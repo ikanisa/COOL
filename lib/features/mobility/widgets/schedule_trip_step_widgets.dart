@@ -8,8 +8,8 @@ import '../models/mobility_route_preview.dart';
 import '../models/trip_post_request.dart';
 import '../providers/mobility_location_provider.dart';
 import '../services/place_search_service.dart';
-import 'schedule_trip_map_preview.dart';
-import 'schedule_trip_review_card.dart';
+import 'schedule_trip_route_preview.dart';
+
 import 'schedule_trip_route_widgets.dart';
 import 'schedule_trip_shared.dart';
 
@@ -76,7 +76,6 @@ class ScheduleTripRouteStep extends StatelessWidget {
     required this.onEnableLocation,
     required this.onOpenAppSettings,
     required this.onOpenLocationSettings,
-    required this.onContinue,
     required this.fromValidator,
     required this.toValidator,
     super.key,
@@ -100,7 +99,6 @@ class ScheduleTripRouteStep extends StatelessWidget {
   final VoidCallback onEnableLocation;
   final VoidCallback onOpenAppSettings;
   final VoidCallback onOpenLocationSettings;
-  final VoidCallback onContinue;
   final String? Function(String?) fromValidator;
   final String? Function(String?) toValidator;
 
@@ -109,9 +107,6 @@ class ScheduleTripRouteStep extends StatelessWidget {
     final palette = context.coolPalette;
     final l10n = context.l10n;
     final title = isDriverPosting ? 'Return route' : 'Pickup and destination';
-    final subtitle = isDriverPosting
-        ? 'Set where you are leaving from and where riders are headed. Use Google Places search for exact pins when possible.'
-        : 'Enter both stops. Use Google Places search for exact pins, or use your current location for pickup.';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,16 +121,6 @@ class ScheduleTripRouteStep extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                   color: palette.text,
-                ),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                subtitle,
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: palette.text2,
-                  height: 1.4,
                 ),
               ),
               const SizedBox(height: 16),
@@ -174,7 +159,7 @@ class ScheduleTripRouteStep extends StatelessWidget {
               ? const SizedBox.shrink()
               : Padding(
                   padding: const EdgeInsets.only(top: 12),
-                  child: ScheduleTripMapPreview(
+                  child: ScheduleTripRoutePreview(
                     originLabel:
                         fromSelection?.primaryText ??
                         fromController.text.trim(),
@@ -197,12 +182,6 @@ class ScheduleTripRouteStep extends StatelessWidget {
             onOpenLocationSettings: onOpenLocationSettings,
           ),
         ],
-        const SizedBox(height: 20),
-        ScheduleTripStepActionBar(
-          primaryLabel: 'Continue',
-          onPrimary: onContinue,
-          isPrimaryLoading: resolvingTypedRoute,
-        ),
       ],
     );
   }
@@ -230,8 +209,6 @@ class ScheduleTripTimingStep extends StatelessWidget {
     required this.onReturnTripToggled,
     required this.onRecurringTripToggled,
     required this.onRecurringDayToggled,
-    required this.onBack,
-    required this.onContinue,
     super.key,
   });
 
@@ -252,8 +229,6 @@ class ScheduleTripTimingStep extends StatelessWidget {
   final ValueChanged<bool> onReturnTripToggled;
   final ValueChanged<bool> onRecurringTripToggled;
   final void Function(TripWeekday) onRecurringDayToggled;
-  final VoidCallback onBack;
-  final VoidCallback onContinue;
 
   @override
   Widget build(BuildContext context) {
@@ -261,9 +236,6 @@ class ScheduleTripTimingStep extends StatelessWidget {
     final l10n = context.l10n;
     final dayOptions = buildDayOptions(context);
     final title = isDriverPosting ? 'Departure timing' : 'When';
-    final subtitle = isDriverPosting
-        ? 'Set when this driver return leaves. Add a second leg or repeat only if this route runs regularly.'
-        : 'Set departure first. Add a return or repeat only if needed.';
     final extraTitle = isDriverPosting
         ? 'Extra scheduling'
         : 'Return or repeat';
@@ -281,16 +253,6 @@ class ScheduleTripTimingStep extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                   color: palette.text,
-                ),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                subtitle,
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: palette.text2,
-                  height: 1.4,
                 ),
               ),
               const SizedBox(height: 16),
@@ -399,13 +361,6 @@ class ScheduleTripTimingStep extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 20),
-        ScheduleTripStepActionBar(
-          showBack: true,
-          onBack: onBack,
-          primaryLabel: 'Continue',
-          onPrimary: onContinue,
-        ),
       ],
     );
   }
@@ -425,8 +380,6 @@ class ScheduleTripOptionsStep extends StatelessWidget {
     required this.onVehicleChanged,
     required this.onSeatChanged,
     required this.onToggleDetails,
-    required this.onBack,
-    required this.onContinue,
     super.key,
   });
 
@@ -439,8 +392,6 @@ class ScheduleTripOptionsStep extends StatelessWidget {
   final void Function(TripVehiclePreference) onVehicleChanged;
   final ValueChanged<int> onSeatChanged;
   final VoidCallback onToggleDetails;
-  final VoidCallback onBack;
-  final VoidCallback onContinue;
 
   @override
   Widget build(BuildContext context) {
@@ -450,16 +401,10 @@ class ScheduleTripOptionsStep extends StatelessWidget {
     final normalizedVehicle = driverVehicleLabel?.trim() ?? '';
     final hasDriverVehicle = isDriverPosting && normalizedVehicle.isNotEmpty;
     final headerTitle = isDriverPosting ? 'Driver return setup' : 'Trip setup';
-    final headerSubtitle = isDriverPosting
-        ? 'Use your driver setup defaults and adjust only what riders need to know.'
-        : 'Choose the ride, seats, and any optional note.';
     final seatsLabel = isDriverPosting
         ? 'Seats available'
         : l10n.scheduleTripSeatsLabel;
     final detailsTitle = isDriverPosting ? 'Rider note' : 'Add details';
-    final detailsSubtitle = isDriverPosting
-        ? 'Fare notes and posting expiry are optional.'
-        : 'Price notes and expiry are optional.';
     final noteFieldLabel = isDriverPosting
         ? 'Rider note (optional)'
         : 'Price note (optional)';
@@ -480,16 +425,6 @@ class ScheduleTripOptionsStep extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                   color: palette.text,
-                ),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                headerSubtitle,
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: palette.text2,
-                  height: 1.4,
                 ),
               ),
               if (hasDriverVehicle) ...[
@@ -523,14 +458,12 @@ class ScheduleTripOptionsStep extends StatelessWidget {
                                 color: palette.text,
                               ),
                             ),
-                            const SizedBox(height: 4),
                             Text(
-                              '$normalizedVehicle from your driver setup. Update it from the Driver > Vehicle screen if it changed.',
+                              normalizedVehicle,
                               style: GoogleFonts.dmSans(
                                 fontSize: 13,
-                                fontWeight: FontWeight.w400,
+                                fontWeight: FontWeight.w500,
                                 color: palette.text2,
-                                height: 1.4,
                               ),
                             ),
                           ],
@@ -593,16 +526,6 @@ class ScheduleTripOptionsStep extends StatelessWidget {
                     child: Text(showAdditionalDetails ? 'Hide' : 'Show'),
                   ),
                 ],
-              ),
-              const SizedBox(height: 4),
-              Text(
-                detailsSubtitle,
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: palette.text2,
-                  height: 1.4,
-                ),
               ),
               AnimatedCrossFade(
                 duration: const Duration(milliseconds: 220),
@@ -705,120 +628,6 @@ class ScheduleTripOptionsStep extends StatelessWidget {
               ),
             ],
           ),
-        ),
-        const SizedBox(height: 20),
-        ScheduleTripStepActionBar(
-          showBack: true,
-          onBack: onBack,
-          primaryLabel: 'Review',
-          onPrimary: onContinue,
-        ),
-      ],
-    );
-  }
-}
-
-// ── Review step ──────────────────────────────────────────────────
-
-/// Step 4: Review – trip summary and submit.
-class ScheduleTripReviewStep extends StatelessWidget {
-  const ScheduleTripReviewStep({
-    required this.title,
-    required this.subtitle,
-    required this.postingGuideTitle,
-    required this.postingGuideSubtitle,
-    required this.roleFieldLabel,
-    required this.seatsFieldLabel,
-    required this.detailsFieldLabel,
-    required this.roleLabel,
-    required this.visibilityValue,
-    required this.precisionValue,
-    required this.coordinationValue,
-    required this.offlineValue,
-    required this.fromText,
-    required this.toText,
-    required this.departureLabel,
-    required this.vehicleLabel,
-    required this.seatsLabel,
-    required this.returnLabel,
-    required this.recurringLabel,
-    required this.detailsLabel,
-    required this.previewLabel,
-    required this.isSubmitting,
-    required this.submitLabel,
-    required this.onBack,
-    required this.onSubmit,
-    super.key,
-  });
-
-  final String title;
-  final String subtitle;
-  final String postingGuideTitle;
-  final String postingGuideSubtitle;
-  final String roleFieldLabel;
-  final String seatsFieldLabel;
-  final String detailsFieldLabel;
-  final String roleLabel;
-  final String visibilityValue;
-  final String precisionValue;
-  final String coordinationValue;
-  final String offlineValue;
-  final String fromText;
-  final String toText;
-  final String departureLabel;
-  final String vehicleLabel;
-  final String seatsLabel;
-  final String returnLabel;
-  final String recurringLabel;
-  final String detailsLabel;
-  final String previewLabel;
-  final bool isSubmitting;
-  final String submitLabel;
-  final VoidCallback onBack;
-  final VoidCallback onSubmit;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ScheduleTripReviewCard(
-          title: title,
-          subtitle: subtitle,
-          roleFieldLabel: roleFieldLabel,
-          roleLabel: roleLabel,
-          routeLabel: '$fromText → $toText',
-          departureLabel: departureLabel,
-          vehicleLabel: vehicleLabel,
-          seatsFieldLabel: seatsFieldLabel,
-          seatsLabel: seatsLabel,
-          returnLabel: returnLabel,
-          recurringLabel: recurringLabel,
-          detailsFieldLabel: detailsFieldLabel,
-          detailsLabel: detailsLabel,
-          previewLabel: previewLabel,
-        ),
-        const SizedBox(height: 12),
-        ScheduleTripPostingGuideCard(
-          title: postingGuideTitle,
-          subtitle: postingGuideSubtitle,
-          visibilityLabel: l10n.scheduleTripPostingVisibilityLabel,
-          visibilityValue: visibilityValue,
-          precisionLabel: l10n.scheduleTripPostingPrecisionLabel,
-          precisionValue: precisionValue,
-          coordinationLabel: l10n.scheduleTripPostingCoordinationLabel,
-          coordinationValue: coordinationValue,
-          offlineLabel: l10n.scheduleTripPostingOfflineLabel,
-          offlineValue: offlineValue,
-        ),
-        const SizedBox(height: 20),
-        ScheduleTripStepActionBar(
-          showBack: true,
-          onBack: onBack,
-          primaryLabel: submitLabel,
-          onPrimary: onSubmit,
-          isPrimaryLoading: isSubmitting,
         ),
       ],
     );

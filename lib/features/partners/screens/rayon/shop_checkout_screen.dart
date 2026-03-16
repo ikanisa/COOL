@@ -149,7 +149,7 @@ class _ShopCheckoutScreenState extends ConsumerState<ShopCheckoutScreen>
                                     quantities: shop.cart,
                                     deliveryAddress:
                                         _addressController.text.trim().isEmpty
-                                        ? 'Pickup at Kigali Pele Stadium'
+                                        ? 'Kigali Pele pickup'
                                         : _addressController.text.trim(),
                                     referralInviteId: referralInviteId,
                                   );
@@ -293,7 +293,7 @@ class _ShopCheckoutOverviewCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      '$itemCount items across ${products.length} products.',
+                      '$itemCount item${itemCount == 1 ?'' : 's'} · ${products.length} product${products.length == 1 ? '' : 's'}',
                       style: GoogleFonts.barlow(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
@@ -482,7 +482,7 @@ class _ShopCheckoutActionCard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            'Leave the field empty to collect from Kigali Pele Stadium.',
+            'Leave the field empty',
             style: GoogleFonts.barlow(
               fontSize: 13,
               fontWeight: FontWeight.w500,
@@ -494,7 +494,7 @@ class _ShopCheckoutActionCard extends StatelessWidget {
           CoolTextField(
             controller: addressController,
             label: 'Address',
-            hint: 'Pickup at Kigali Pele Stadium',
+            hint: 'Kigali Pele pickup',
             maxLines: 2,
           ),
           const SizedBox(height: 14),
@@ -676,7 +676,7 @@ class _OrderSummary extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Order record is still syncing.',
+            'Order syncing',
             style: GoogleFonts.barlow(
               fontSize: 14,
               fontWeight: FontWeight.w700,
@@ -685,7 +685,7 @@ class _OrderSummary extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            'Order ID $fallbackOrderId was created, but the latest backend state is still loading.',
+            'Order created',
             style: GoogleFonts.barlow(
               fontSize: 12,
               fontWeight: FontWeight.w500,
@@ -731,7 +731,7 @@ class _OrderSummary extends StatelessWidget {
         if (orderValue.status == OrderStatus.pending) ...[
           const SizedBox(height: 6),
           Text(
-            'Fulfillment starts only after SMS reconciliation confirms this order.',
+            'Fulfillment starts after payment',
             style: GoogleFonts.barlow(
               fontSize: 12,
               fontWeight: FontWeight.w600,
@@ -765,7 +765,7 @@ class _OrderSummaryLoading extends StatelessWidget {
         ),
         const SizedBox(height: 6),
         Text(
-          'Order ID $orderId has been created. We are loading its latest payment status.',
+          'Order created',
           style: GoogleFonts.barlow(
             fontSize: 12,
             fontWeight: FontWeight.w500,
@@ -802,7 +802,7 @@ class _OrderSummaryError extends StatelessWidget {
         ),
         const SizedBox(height: 6),
         Text(
-          'Order ID $orderId exists, but the latest backend status could not be loaded yet.',
+          'Order created',
           style: GoogleFonts.barlow(
             fontSize: 12,
             fontWeight: FontWeight.w500,
@@ -877,7 +877,7 @@ class _EmptyCheckout extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Add products from the Rayon shop before starting checkout.',
+              'Add products from the',
               textAlign: TextAlign.center,
               style: GoogleFonts.barlow(
                 fontSize: 14,
@@ -968,12 +968,12 @@ String _statusBody(
     OrderStatus.pending =>
       '$openedMessage Approve payment to $paymentDetails for $amountLabel. Fees ${paymentRoute?.feesLabel() ?? '0 RWF'}. We issue the receipt after $receiptLogic.',
     OrderStatus.confirmed =>
-      'Payment confirmation has arrived. Your Rayon Sports order is now in the fulfillment queue.',
+      'Payment confirmed. Order is in the fulfillment queue.',
     OrderStatus.shipped =>
       'This order has been confirmed and handed over for delivery.',
     OrderStatus.delivered =>
       'This Rayon Sports order has been marked as delivered.',
     OrderStatus.cancelled =>
-      'This order is no longer active. If you completed payment, refresh the status or contact support.',
+      'Order cancelled. Refresh or contact support if you paid.',
   };
 }

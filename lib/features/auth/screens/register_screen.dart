@@ -27,7 +27,6 @@ class RegisterScreen extends ConsumerStatefulWidget {
 }
 
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
-  final _nameController = TextEditingController();
   late final TextEditingController _momoController;
   late final TextEditingController _momoCodeController;
   final _formKey = GlobalKey<FormState>();
@@ -59,7 +58,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   @override
   void dispose() {
-    _nameController.dispose();
     _momoController.dispose();
     _momoCodeController.dispose();
     super.dispose();
@@ -124,7 +122,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         .read(authProvider.notifier)
         .createProfile(
           AuthProfileData(
-            fullName: _nameController.text.trim(),
+            fullName: '',
             momoNumber: _momoController.text.trim(),
             momoCode:
                 !selectedCountry.supportsMomoCode ||
@@ -191,7 +189,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  'Setup your account to start using Cool.',
+                  'Setup your account to',
                   style: GoogleFonts.dmSans(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
@@ -204,19 +202,37 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   _VerifiedPhoneCard(phoneNumber: widget.phone),
                   const SizedBox(height: 24),
                 ],
-
-                // ── Full Name ──────────────────────────────────────────
-                CoolTextField(
-                  label: 'Full Name',
-                  hint: 'Jean Baptiste',
-                  controller: _nameController,
-                  textInputAction: TextInputAction.next,
-                  validator: (v) {
-                    if (v == null || v.trim().isEmpty) {
-                      return 'Name is required';
-                    }
-                    return null;
-                  },
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: AppColors.blueGlow,
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: AppColors.blue.withValues(alpha: 0.18),
+                    ),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Icon(
+                        Icons.badge_outlined,
+                        color: AppColors.blue,
+                        size: 20,
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                           'Your name will be',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.text,
+                            height: 1.45,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 20),
 
@@ -248,7 +264,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        '${selectedCountry.name}  ${selectedCountry.dialCode}',
+                        '${selectedCountry.name} ${selectedCountry.dialCode}',
                         style: GoogleFonts.dmSans(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
@@ -379,15 +395,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           },
                         ),
                         const SizedBox(height: 8),
-                        Text(
-                          'Choose whether payments should come to your MoMo number or your MoMo code by default.',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.text3,
-                            height: 1.4,
-                          ),
-                        ),
+                        const SizedBox.shrink(),
                       ],
                     ],
                   ),

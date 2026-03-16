@@ -23,20 +23,20 @@ const prismaCategoryMeta = <String, CategoryMeta>{
   'rwanda_agent': CategoryMeta(
     title: 'Rwanda Agents',
     description:
-        'Rwanda-only specialists for legal, tax, finance, audit, NGO, and marketplace work.',
+        'Rwanda-only specialists for legal',
     icon: Icons.flag_rounded,
     accent: AppColors.accent,
   ),
   'capability': CategoryMeta(
     title: 'Rwanda Platform Coverage',
     description:
-        'Rwanda-local service coverage across legal, tax, accounting, audit, insurance, NGO, and marketplace workflows.',
+        'Rwanda-local service coverage across',
     icon: Icons.dashboard_customize_outlined,
     accent: AppColors.orange,
   ),
   'support': CategoryMeta(
     title: 'Onboarding & Contact',
-    description: 'Direct channels for starting with the Rwanda desk.',
+    description: 'Direct channels for starting',
     icon: Icons.support_agent_rounded,
     accent: AppColors.whatsapp,
   ),
@@ -47,31 +47,31 @@ const prismaValues = <({IconData icon, String title, String description})>[
     icon: Icons.gpp_good_outlined,
     title: 'Zero Hallucination',
     description:
-        'Corpus-backed and citation-gated outputs rather than generic assistant responses.',
+        'Corpus-backed and citation-gated outputs',
   ),
   (
     icon: Icons.lock_outline_rounded,
     title: 'Jurisdiction Locked',
     description:
-        'Jurisdiction-locked to Rwandan law and regulatory frameworks.',
+        'Jurisdiction-locked to Rwandan law',
   ),
   (
     icon: Icons.library_books_outlined,
     title: '28,000+ Indexed Documents',
     description:
-        'Laws, guidance, professional standards, and source material are searchable and citable.',
+        'Laws guidance professional standards',
   ),
   (
     icon: Icons.fact_check_outlined,
     title: 'Quality-Gated Outputs',
     description:
-        'Outputs are reviewed for citation completeness, source tracing, and law-in-force checks.',
+        'Outputs are reviewed for',
   ),
   (
     icon: Icons.account_balance_outlined,
     title: 'Rwanda Professional Standards',
     description:
-        'Aligned with ICPAR, RRA, RDB, and Rwanda Bar Association frameworks.',
+        'Aligned with ICPAR RRA',
   ),
 ];
 
@@ -160,13 +160,13 @@ Future<void> launchPrismaAction(
         mode: LaunchMode.externalApplication,
       );
       if (!launched && context.mounted) {
-        CoolToast.error(context, 'Could not open the IKANISA website.');
+        CoolToast.error(context, 'Website unavailable');
       }
     } catch (_) {
       if (context.mounted) {
         CoolToast.error(
           context,
-          'Could not launch the IKANISA website right now.',
+          'Website unavailable',
         );
       }
     }
@@ -180,11 +180,11 @@ Future<void> launchPrismaAction(
         mode: LaunchMode.externalApplication,
       );
       if (!launched && context.mounted) {
-        CoolToast.error(context, 'No mail app is available on this device.');
+        CoolToast.error(context, 'No mail app');
       }
     } catch (_) {
       if (context.mounted) {
-        CoolToast.error(context, 'Could not open the email app right now.');
+        CoolToast.error(context, 'Mail app failed');
       }
     }
     return;

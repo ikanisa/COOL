@@ -499,6 +499,61 @@ class RayonSportsRepository {
   ) => RayonSportsInitiativeRepository(
     this,
   ).getRecentContributionActivity(initiativeId, limit);
+
+  // ═══════════════════════════════════════════════════════════════
+  // Phase 4: Notifications, Analytics, Batch Ticket Ops
+  // ═══════════════════════════════════════════════════════════════
+
+  Future<Map<String, dynamic>> fetchRsFanAnalytics() async {
+    final result = await _client.rpc('get_rs_fan_analytics');
+    if (result is Map<String, dynamic>) return result;
+    return const <String, dynamic>{};
+  }
+
+  Future<List<Map<String, dynamic>>> fetchRsNotifications({
+    String? matchId,
+  }) async {
+    final result = await _client.rpc('get_rs_notifications', params: {
+      'p_match_id': matchId,
+    });
+    return _asListOfMaps(result);
+  }
+
+  Future<String> sendMatchNotification({
+    required String matchId,
+    required String title,
+    required String body,
+  }) async {
+    final result = await _client.rpc('send_rs_match_notification', params: {
+      'p_match_id': matchId,
+      'p_title': title,
+      'p_body': body,
+    });
+    return result.toString();
+  }
+
+  Future<int> bulkVoidTickets(List<String> ticketIds) async {
+    final result = await _client.rpc('bulk_void_rs_tickets', params: {
+      'p_ticket_ids': ticketIds,
+    });
+    return (result as num?)?.toInt() ?? 0;
+  }
+
+  Future<int> bulkRefundTickets(List<String> ticketIds) async {
+    final result = await _client.rpc('bulk_refund_rs_tickets', params: {
+      'p_ticket_ids': ticketIds,
+    });
+    return (result as num?)?.toInt() ?? 0;
+  }
+
+  Future<RsProduct> adminAdjustStock(String productId, int delta) =>
+      RayonSportsAdminRepository(this).adminAdjustStock(productId, delta);
+
+  Future<FanMembership> renewMembership(String userId, DateTime newExpiry) =>
+      RayonSportsAdminRepository(this).renewMembership(userId, newExpiry);
+
+  Future<void> deleteInitiative(String initiativeId) =>
+      RayonSportsAdminRepository(this).deleteInitiative(initiativeId);
 }
 
 List<RsJsonMap> _asListOfMaps(Object? value) {

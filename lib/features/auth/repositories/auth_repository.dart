@@ -89,6 +89,44 @@ class AuthRepository {
     return result;
   }
 
+  Future<({UserProfile profile, Map<String, Object?> extracted})>
+  submitKycDocument({
+    required String documentType,
+    required String frontImageBase64,
+    required String frontMimeType,
+    String? backImageBase64,
+    String? backMimeType,
+  }) async {
+    final response = await _client.functions.invoke(
+      'kyc-ocr',
+      body: <String, Object?>{
+        'documentType': documentType,
+        'frontImage': frontImageBase64,
+        'frontMimeType': frontMimeType,
+        if (backImageBase64 != null && backImageBase64.trim().isNotEmpty)
+          'backImage': backImageBase64,
+        if (backMimeType != null && backMimeType.trim().isNotEmpty)
+          'backMimeType': backMimeType,
+      },
+    );
+
+    final payload = jh.asMap(response.data);
+    if (payload['success'] != true) {
+      throw StateError(
+        payload['message']?.toString() ??
+            'Could not extract identity details from the document.',
+      );
+    }
+
+    final data = jh.asMap(payload['data']);
+    final extracted = jh.asMap(data['extracted']);
+    final profile = UserProfile.fromJson(
+      _lockProfileMarket(jh.asMap(data['profile'])),
+    );
+    await _persistProfileMetadata(profile);
+    return (profile: profile, extracted: extracted);
+  }
+
   /// Partial update: only touches wallet routing fields.
   /// Prevents the full-profile upsert from writing privileged fields like
   /// is_admin back into the DB (audit fix P0 #3).

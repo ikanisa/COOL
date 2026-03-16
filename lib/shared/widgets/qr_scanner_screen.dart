@@ -173,7 +173,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
       return const _TicketScanResult(
         isValid: false,
         status: 'error',
-        message: 'Unable to verify this ticket right now.',
+        message: 'verify this ticket failed',
       );
     }
   }
@@ -299,7 +299,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Ticket scanning is limited to authorized admins and partner gate staff.',
+                  'Ticket scanning is limited',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.dmSans(
                     fontSize: 15,
@@ -332,29 +332,29 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
     if (!cameraAccess.isReady) {
       final gate = switch (cameraAccess.kind) {
         AppAccessStateKind.disabledInApp => (
-          title: 'Camera is off in COOL',
+          title: 'Camera is off in',
           message:
-              'Turn camera access back on to scan MoMo QR codes or signed tickets.',
+              'Enable camera access',
           actionLabel: 'Enable Camera',
           onTap: _enableCameraAccess,
         ),
         AppAccessStateKind.blockedInSystem => (
-          title: 'Camera is blocked in Android',
-          message: 'Open system settings to allow the scanner again.',
+          title: 'Camera is blocked in',
+          message: 'Open system settings',
           actionLabel: 'Open Settings',
           onTap: _openCameraSettings,
         ),
         AppAccessStateKind.notAvailable => (
           title: 'Camera not available',
           message:
-              'This device does not expose a usable camera for the scanner.',
+              'This device does not',
           actionLabel: 'Go Back',
           onTap: () => Navigator.of(context).pop(),
         ),
         _ => (
           title: 'Allow camera access',
           message:
-              'COOL needs camera access to scan MoMo QR codes and signed tickets.',
+              'COOL needs camera access',
           actionLabel: 'Allow Camera',
           onTap: _enableCameraAccess,
         ),

@@ -391,8 +391,8 @@ class ScheduleTripLocationAttachmentCard extends StatelessWidget {
         icon = Icons.pin_drop_rounded;
         title = 'Current location is ready';
         subtitle = locationState.isApproximate
-            ? 'Use it to fill the pickup field with an approximate current area.'
-            : 'Use it to fill the pickup field or bias place search around you.';
+            ? 'Fill pickup field'
+            : 'Bias place search';
         break;
       case MobilityLocationStatus.checking:
       case MobilityLocationStatus.requesting:
@@ -400,22 +400,22 @@ class ScheduleTripLocationAttachmentCard extends StatelessWidget {
         icon = Icons.satellite_alt_rounded;
         title = 'Checking current location';
         subtitle =
-            'If a location fix is available, you can use it for pickup and nearby search.';
+            'Location fix available';
         break;
       case MobilityLocationStatus.accessDisabled:
         icon = Icons.admin_panel_settings_outlined;
         title = 'Location is off in COOL';
         subtitle =
-            'Enable location from Profile settings to use current-location pickup or nearby search.';
+            'Enable in Profile';
         actionLabel = 'Enable Location';
         action = onEnableLocation;
         break;
       case MobilityLocationStatus.needsPermission:
       case MobilityLocationStatus.denied:
         icon = Icons.pin_drop_rounded;
-        title = 'Allow location to improve nearby matching';
+        title = 'Allow location';
         subtitle =
-            'You can still post with text only, but nearby riders and drivers will not match as accurately.';
+            'Text-only mode available';
         actionLabel = 'Allow Location';
         action = onEnableLocation;
         break;
@@ -423,7 +423,7 @@ class ScheduleTripLocationAttachmentCard extends StatelessWidget {
         icon = Icons.settings_rounded;
         title = 'Location access is blocked';
         subtitle =
-            'Open app settings to use current location for pickup or nearby search.';
+            'Open settings to allow';
         actionLabel = 'Open Settings';
         action = onOpenAppSettings;
         break;
@@ -431,7 +431,7 @@ class ScheduleTripLocationAttachmentCard extends StatelessWidget {
         icon = Icons.satellite_alt_rounded;
         title = 'Turn on device location';
         subtitle =
-            'Location services are off, so current-location pickup cannot be used.';
+            'Location services off';
         actionLabel = 'Turn On Location';
         action = onOpenLocationSettings;
         break;
@@ -440,7 +440,7 @@ class ScheduleTripLocationAttachmentCard extends StatelessWidget {
         title = 'Location could not be attached';
         subtitle =
             locationState.error ??
-            'The trip can still be posted, but current-location pickup is unavailable.';
+            'Pickup location unavailable';
         actionLabel = 'Try Again';
         action = onEnableLocation;
         break;

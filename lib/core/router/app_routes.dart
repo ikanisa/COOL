@@ -39,12 +39,16 @@ abstract final class AppRoutes {
   static const credit = '/credit';
   static const creditReadiness = '/credit/readiness';
   static const missions = '/missions';
+  static const tokens = '/tokens';
   static const profile = '/profile';
   static const profileWallet = '/profile/wallet';
   static const profileIdentity = '/profile/identity';
   static const profileTravelRole = '/profile/travel-role';
 
   static const scanner = '/scanner';
+  static const kycSelfie = '/kyc/selfie';
+
+  static const bankOnboarding = '/partners/bank/:slug/onboarding/:type';
 
   static const admin = '/admin';
   static const adminPlatform = '/admin/platform';
@@ -54,9 +58,16 @@ abstract final class AppRoutes {
   static const adminQuickActions = '/admin/quick-actions';
   static const adminVehicleTypes = '/admin/vehicle-types';
   static const adminAppConfig = '/admin/app-config';
+  static const adminSpecialProducts = '/admin/special-products';
   static const adminOperations = '/admin/operations';
   static const adminPartnerWorkspace = '/admin/partners/:partnerId';
   static const adminBankWorkspace = '/admin/banks/:partnerId';
+
+  static const adminMissions = '/admin/missions';
+  static const adminSeasons = '/admin/seasons';
+  static const adminRoles = '/admin/roles';
+  static const adminAnalytics = '/admin/analytics';
+  static const adminAuditLog = '/admin/audit-log';
 
   static const adminRayon = '/admin/rayon';
   static const adminRayonMatches = '/admin/rayon/matches';

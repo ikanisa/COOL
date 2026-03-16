@@ -7,16 +7,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/config/app_config_provider.dart';
-import '../../../core/config/app_market.dart';
 import '../../../core/l10n/l10n.dart';
-import '../../../core/providers/notification_settings_provider.dart';
 import '../../../core/router/app_routes.dart';
-import '../../../core/status/models/cool_status.dart';
+
 import '../../../core/status/providers/cool_status_provider.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/theme_preference.dart';
+import '../../../core/theme/theme_preference_provider.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
-import '../../../shared/widgets/cool_status_card.dart';
+
 import '../../../shared/widgets/cool_toast.dart';
+import '../../admin/providers/admin_workspace_access_provider.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../credit/providers/credit_provider.dart';
 import '../../mobility/providers/driver_provider.dart';
@@ -27,7 +28,7 @@ import '../widgets/profile_app_access_sheet.dart';
 import '../widgets/profile_dialogs.dart';
 import '../widgets/profile_header_widgets.dart';
 import '../widgets/profile_settings_widgets.dart';
-import '../widgets/profile_travel_role_sheet.dart';
+import '../widgets/profile_theme_sheet.dart';
 
 /// User profile and settings hub.
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -40,7 +41,6 @@ class ProfileScreen extends ConsumerStatefulWidget {
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   late final ProviderSubscription<AuthState> _authSubscription;
   bool _didRequestDriverProfile = false;
-  bool _showMoreTools = false;
 
   String _tierLabel(FanTier tier) {
     final l10n = context.l10n;
@@ -98,6 +98,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
   Future<void> _showAppAccessSheet() {
     return ProfileAppAccessSheet.show(context);
+  }
+
+  Future<void> _showThemeSheet() {
+    return ProfileThemeSheet.show(context);
   }
 
   // ── Sign out ──────────────────────────────────────────────────────────
@@ -168,66 +172,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     context.go(AppRoutes.onboarding);
   }
 
-  // ── Notifications toggle ──────────────────────────────────────────────
 
-  Future<void> _toggleNotifications(bool value) async {
-    await ref.read(notificationSettingsProvider.notifier).setEnabled(value);
-    if (!mounted) {
-      return;
-    }
-
-    final error = ref.read(notificationSettingsProvider).error;
-    if (error != null && error.isNotEmpty) {
-      CoolToast.error(context, error);
-    }
-  }
-
-  // ── MoMo edit sheet ───────────────────────────────────────────────────
-
-  Future<void> _showMomoEditSheet(ProfileData profile) async {
-    final country = AppMarket.country;
-    final result = await showModalBottomSheet<ProfileMomoEditResult>(
-      context: context,
-      useRootNavigator: true,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (_) => ProfileMomoEditSheet(
-        currentMomoNumber: profile.momoNumber,
-        currentMomoCode: profile.momoCode,
-        currentMomoRouteType: profile.effectiveMomoRouteType,
-        country: country,
-      ),
-    );
-
-    if (result == null || !mounted) return;
-
-    // Show loading overlay while saving (Fix #5)
-    showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => ProfileBlockingProgressDialog(
-        message: context.l10n.profileSavingMomoInfo,
-      ),
-    );
-
-    final success = await ref
-        .read(authProvider.notifier)
-        .updateMomoInfo(
-          momoNumber: result.momoNumber,
-          momoCode: result.momoCode,
-          momoRouteType: result.momoRouteType,
-          country: result.countryCode,
-        );
-
-    if (!mounted) return;
-    Navigator.of(context, rootNavigator: true).pop(); // dismiss loading
-
-    if (success) {
-      CoolToast.success(context, context.l10n.profileMomoUpdated);
-    } else {
-      CoolToast.error(context, context.l10n.profileMomoUpdateFailed);
-    }
-  }
 
   Future<void> _showMomoQrSheet(ProfileData profile) async {
     await showModalBottomSheet<void>(
@@ -244,104 +189,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     );
   }
 
-  Future<void> _showOfficialIdentitySheet(ProfileData profile) async {
-    final user = ref.read(authProvider).user;
-    if (user == null) {
-      return;
-    }
 
-    final country = AppMarket.country;
-
-    final result =
-        await showModalBottomSheet<ProfileOfficialIdentityEditResult>(
-          context: context,
-          useRootNavigator: true,
-          backgroundColor: Colors.transparent,
-          isScrollControlled: true,
-          builder: (_) => ProfileOfficialIdentityEditSheet(
-            currentOfficialName: profile.officialName,
-            currentOfficialPhone: profile.officialPhone,
-            country: country,
-            kycLabel: profile.kycLabel,
-            kycValueColor: profile.kycValueColor,
-            kycVerifiedAt: user.kycVerifiedAt,
-          ),
-        );
-
-    if (result == null || !mounted) {
-      return;
-    }
-
-    showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => ProfileBlockingProgressDialog(
-        message: context.l10n.profileSavingIdentity,
-      ),
-    );
-
-    final success = await ref
-        .read(authProvider.notifier)
-        .updateOfficialIdentity(
-          officialName: result.officialName,
-          officialPhone: result.officialPhone,
-        );
-
-    if (!mounted) {
-      return;
-    }
-    Navigator.of(context, rootNavigator: true).pop();
-
-    if (success) {
-      CoolToast.success(context, context.l10n.profileIdentityUpdated);
-    } else {
-      CoolToast.error(context, context.l10n.profileIdentityUpdateFailed);
-    }
-  }
-
-  Future<void> _showStatusSheet(CoolStatus status) async {
-    await showModalBottomSheet<void>(
-      context: context,
-      useRootNavigator: true,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (_) => ProfileSheet(child: CoolStatusCard(status: status)),
-    );
-  }
-
-  Future<void> _showTravelRoleSheet(ProfileData profile) async {
-    await showModalBottomSheet<void>(
-      context: context,
-      useRootNavigator: true,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (sheetContext) => ProfileSheet(
-        child: ProfileTravelRoleSheet(
-          profile: profile,
-          onOpenPassengerTools: profile.momoLinked
-              ? null
-              : () {
-                  Navigator.of(sheetContext).pop();
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    if (!mounted) {
-                      return;
-                    }
-                    unawaited(_showMomoEditSheet(profile));
-                  });
-                },
-          onOpenDriverSetup: () {
-            Navigator.of(sheetContext).pop();
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              if (!mounted) {
-                return;
-              }
-              context.push(AppRoutes.mobilityDriver);
-            });
-          },
-        ),
-      ),
-    );
-  }
 
   Future<void> _openSupportWhatsApp() async {
     try {
@@ -369,56 +217,66 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final authState = ref.watch(authProvider);
-    final notificationSettings = ref.watch(notificationSettingsProvider);
+    final themePreference = ref.watch(themePreferenceProvider);
     final profile = ref.watch(profileViewProvider);
     final status = ref.watch(coolStatusProvider).valueOrNull;
+    final adminAccess = ref.watch(adminWorkspaceAccessProvider);
     const profileBottomPadding = 140.0;
-    final moneyRows = <ProfileSettingsRow>[
+
+    // ── Account rows ───────────────────────────────────────────────
+    final accountRows = <ProfileSettingsRow>[
       ProfileSettingsRow(
         icon: Icons.account_balance_wallet_outlined,
-        label: l10n.profileMobileMoney,
+        label: 'Wallet',
         value: profile.momoLinked
             ? profile.momoDisplayLabel
-            : l10n.profileNotLinked,
+            : 'Link wallet',
         valueColor: profile.momoLinked ? AppColors.accent : AppColors.text3,
-        onTap: () => _showMomoEditSheet(profile),
+        onTap: () => context.push(AppRoutes.profileWallet),
       ),
-      ProfileSettingsRow(
-        icon: Icons.insights_outlined,
-        label: l10n.profileCreditScore,
-        value: profile.creditScoreLabel,
-        valueColor: AppColors.blue,
-        onTap: () => context.push(AppRoutes.credit),
-      ),
-    ];
-    final supportAndAccessRows = <ProfileSettingsRow>[
-      ProfileSettingsRow(
-        icon: Icons.help_outline_rounded,
-        label: l10n.supportLabel,
-        value: l10n.whatsapp,
-        onTap: _openSupportWhatsApp,
-      ),
-      ProfileSettingsRow(
-        icon: Icons.admin_panel_settings_outlined,
-        label: l10n.profileAppAccess,
-        value: l10n.profileManageAction,
-        onTap: _showAppAccessSheet,
-      ),
-    ];
-    final preferenceRows = <ProfileSettingsRow>[
-      ProfileSettingsRow(
-        icon: Icons.notifications_outlined,
-        label: l10n.notificationsLabel,
-        trailing: ProfileNotificationToggle(
-          value: profile.notificationsEnabled,
-          isLoading: notificationSettings.isLoading,
-          onChanged: _toggleNotifications,
+      if (status != null)
+        ProfileSettingsRow(
+          icon: Icons.token_rounded,
+          label: 'Cool Tokens',
+          value: '${_tierLabel(status.tier)} · ${status.totalPoints} pts',
+          valueColor: AppColors.accent,
+          onTap: () => context.push(AppRoutes.tokens),
         ),
-        showArrow: false,
+      ProfileSettingsRow(
+        icon: Icons.swap_horiz_rounded,
+        label: 'Mobility',
+        value: profile.isDriver ? 'Driver' : 'Passenger',
+        valueColor: profile.travelRoleValueColor,
+        onTap: () => context.push(AppRoutes.profileTravelRole),
+      ),
+      ProfileSettingsRow(
+        icon: Icons.sms_outlined,
+        label: 'MoMo Statements',
+        value: profile.mobileMoneyActivityLabel,
+        valueColor: profile.momoStatementCount > 0
+            ? AppColors.blue
+            : AppColors.text3,
+        onTap: () => context.push(
+          profile.momoStatementCount > 0
+              ? AppRoutes.momoStatements
+              : AppRoutes.momo,
+        ),
+      ),
+      ProfileSettingsRow(
+        icon: Icons.person_outlined,
+        label: 'Personal Info',
+        value: profile.officialName.isNotEmpty
+            ? '${profile.officialName} · ${profile.creditScoreLabel}'
+            : profile.kycLabel,
+        valueColor: profile.officialName.isNotEmpty
+            ? AppColors.blue
+            : profile.kycValueColor,
+        onTap: () => context.push(AppRoutes.profileIdentity),
       ),
     ];
-    final moreToolRows = <ProfileSettingsRow>[
+
+    // ── Settings rows ──────────────────────────────────────────────
+    final settingsRows = <ProfileSettingsRow>[
       if (profile.canShowMomoQr)
         ProfileSettingsRow(
           icon: Icons.qr_code_rounded,
@@ -427,40 +285,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           valueColor: AppColors.accent,
           onTap: () => _showMomoQrSheet(profile),
         ),
-      ProfileSettingsRow(
-        icon: Icons.rule_folder_outlined,
-        label: l10n.profileCreditReadiness,
-        value: profile.kycLabel,
-        valueColor: AppColors.text2,
-        onTap: () => context.push(AppRoutes.creditReadiness),
-      ),
-    ];
-    if (profile.isDriver) {
-      moreToolRows.add(
-        ProfileSettingsRow(
-          icon: Icons.directions_car_outlined,
-          label: l10n.profileDriverTools,
-          value: profile.driverSummary,
-          onTap: () => context.push(AppRoutes.mobilityDriver),
-        ),
-      );
-    }
-    if (status != null) {
-      moreToolRows.add(
-        ProfileSettingsRow(
-          icon: Icons.stars_rounded,
-          label: l10n.profileCoolStatus,
-          value: l10n.profileCoolStatusValue(
-            _tierLabel(status.tier),
-            status.totalPoints,
-          ),
-          valueColor: AppColors.accent,
-          onTap: () => _showStatusSheet(status),
-        ),
-      );
-    }
-    if (authState.user?.isAdmin == true) {
-      moreToolRows.add(
+      if (adminAccess.hasAnyAdminAccess)
         ProfileSettingsRow(
           icon: Icons.admin_panel_settings_outlined,
           iconColor: AppColors.purple,
@@ -469,8 +294,29 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           valueColor: AppColors.purple,
           onTap: () => context.push(AppRoutes.admin),
         ),
-      );
-    }
+      ProfileSettingsRow(
+        icon: Icons.brightness_6_outlined,
+        label: 'Theme',
+        value: switch (themePreference) {
+          AppThemePreference.system => 'System',
+          AppThemePreference.light => 'Light',
+          AppThemePreference.dark => 'Dark',
+        },
+        onTap: _showThemeSheet,
+      ),
+      ProfileSettingsRow(
+        icon: Icons.help_outline_rounded,
+        label: l10n.supportLabel,
+        value: l10n.whatsapp,
+        onTap: _openSupportWhatsApp,
+      ),
+      ProfileSettingsRow(
+        icon: Icons.security_outlined,
+        label: l10n.profileAppAccess,
+        value: l10n.profileManageAction,
+        onTap: _showAppAccessSheet,
+      ),
+    ];
 
     return Scaffold(
       backgroundColor: AppColors.bg,
@@ -497,98 +343,36 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       ),
                     ),
                     const SizedBox(height: 18),
-                    if (authState.user != null &&
-                        profile.showCompletionBanner) ...[
-                      ProfileCompleteProfileBanner(
-                        phone: authState.user!.phone,
-                      ),
-                      const SizedBox(height: 18),
-                    ],
                     ProfileHeader(profile: profile),
-                    const SizedBox(height: 18),
-                    
-                    ProfileSettingsSection(
-                      title: l10n.account,
-                      rows: [
-                        ...profile.setupItems.map((item) {
-                          final onTap = switch (item.id) {
-                            'account' => () => context.push(
-                              AppRoutes.registerLocation(
-                                phone: authState.user?.phone,
-                              ),
-                            ),
-                            'wallet' => () => _showMomoEditSheet(profile),
-                            'official_identity' =>
-                              () => _showOfficialIdentitySheet(profile),
-                            'travel_role' => () => _showTravelRoleSheet(
-                              profile,
-                            ),
-                            _ => null,
-                          };
-
-                          return ProfileSettingsRow(
-                            icon: switch (item.id) {
-                              'wallet' =>
-                                Icons.account_balance_wallet_outlined,
-                              'official_identity' =>
-                                Icons.verified_user_outlined,
-                              'travel_role' => Icons.swap_horiz_rounded,
-                              _ => Icons.badge_outlined,
-                            },
-                            label: item.label,
-                            onTap: onTap,
-                            showArrow: onTap != null,
-                          );
-                        }),
-                        ...moneyRows,
-                      ],
-                    ),
-                    const SizedBox(height: 14),
-                    ProfileSettingsSection(
-                      title: l10n.preferencesSectionTitle,
-                      rows: preferenceRows,
-                    ),
-                    const SizedBox(height: 14),
-                    ProfileSettingsSection(
-                      title: l10n.supportLabel,
-                      rows: supportAndAccessRows,
-                    ),
-                    if (moreToolRows.isNotEmpty) ...[
-                      const SizedBox(height: 14),
-                      ProfileSectionToggleCard(
-                        title: l10n.moreToolsSectionTitle,
-                        subtitle: _showMoreTools
-                            ? l10n.profileMoreToolsHideSubtitle
-                            : l10n.profileMoreToolsShowSubtitle,
-                        isExpanded: _showMoreTools,
-                        onTap: () {
-                          setState(() {
-                            _showMoreTools = !_showMoreTools;
-                          });
-                        },
-                      ),
-                      AnimatedSwitcher(
-                        duration:
-                            MediaQuery.maybeOf(context)?.disableAnimations ??
-                                false
-                            ? Duration.zero
-                            : const Duration(milliseconds: 200),
-                        child: _showMoreTools
-                            ? Padding(
-                                key: const ValueKey('profile-more-tools'),
-                                padding: const EdgeInsets.only(top: 14),
-                                child: ProfileSettingsSection(
-                                  title: l10n.moreToolsSectionTitle,
-                                  rows: moreToolRows,
-                                ),
-                              )
-                            : const SizedBox.shrink(),
-                      ),
+                    // ── Completion progress ─────────────────────
+                    if (profile.showCompletionBanner) ...[
+                      const SizedBox(height: 10),
+                      _ProfileCompletionBar(profile: profile),
                     ],
+                    const SizedBox(height: 14),
+                    ProfileSettingsSection(
+                      title: 'Account',
+                      rows: accountRows,
+                    ),
+                    const SizedBox(height: 14),
+                    ProfileSettingsSection(
+                      title: 'Settings',
+                      rows: settingsRows,
+                    ),
                     const SizedBox(height: 14),
                     ProfileDangerZone(
                       onDeleteAccount: _confirmDeleteAccount,
                       onSignOut: _confirmSignOut,
+                    ),
+                    const SizedBox(height: 24),
+                    Center(
+                      child: Text(
+                        'Cool v1.0.0',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 11,
+                          color: AppColors.text3,
+                        ),
+                      ),
                     ),
                   ]),
                 ),
@@ -596,6 +380,96 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Shows profile completion progress when setup is incomplete.
+class _ProfileCompletionBar extends StatelessWidget {
+  const _ProfileCompletionBar({required this.profile});
+  final ProfileData profile;
+
+  @override
+  Widget build(BuildContext context) {
+    final fraction = profile.completionFraction;
+    final done = profile.setupItems.where((i) => i.isComplete).length;
+    final total = profile.setupItems.length;
+
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.accent.withValues(alpha: 0.2)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.checklist_rounded, size: 16, color: AppColors.accent),
+              const SizedBox(width: 8),
+              Text(
+                'Profile Setup',
+                style: GoogleFonts.dmSans(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.text,
+                ),
+              ),
+              const Spacer(),
+              Text(
+                '$done / $total',
+                style: GoogleFonts.dmSans(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.accent,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: LinearProgressIndicator(
+              value: fraction,
+              minHeight: 6,
+              backgroundColor: AppColors.surface2,
+              valueColor: const AlwaysStoppedAnimation(AppColors.accent),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 4,
+            children: profile.setupItems.map((item) {
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    item.isComplete
+                        ? Icons.check_circle_rounded
+                        : Icons.radio_button_unchecked,
+                    size: 14,
+                    color: item.isComplete ? AppColors.accent : AppColors.text3,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    item.label,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
+                      color: item.isComplete ? AppColors.text2 : AppColors.text3,
+                      decoration:
+                          item.isComplete ? TextDecoration.lineThrough : null,
+                    ),
+                  ),
+                ],
+              );
+            }).toList(),
+          ),
+        ],
       ),
     );
   }

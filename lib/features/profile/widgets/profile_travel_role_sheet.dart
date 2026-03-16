@@ -21,7 +21,7 @@ class ProfileTravelRoleSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final driverValue = profile.isDriver
         ? profile.driverSummary
-        : 'Open driver setup to add vehicle type, plate number, and base.';
+        : 'Setup driver profile';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,7 +36,7 @@ class ProfileTravelRoleSheet extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          'Passenger stays available by default. Open driver mode only when you want to post as a driver.',
+          'Passenger stays available by',
           style: GoogleFonts.dmSans(
             fontSize: 13,
             fontWeight: FontWeight.w400,
@@ -52,8 +52,8 @@ class ProfileTravelRoleSheet extends StatelessWidget {
               icon: Icons.route_outlined,
               label: 'Passenger',
               value: profile.momoLinked
-                  ? 'Default role for trip requests and bookings.'
-                  : 'Default role. Add a wallet route before booking trips.',
+                  ? 'Default travel role'
+                  : 'Add wallet first',
               valueColor: profile.momoLinked
                   ? AppColors.accent
                   : AppColors.text2,

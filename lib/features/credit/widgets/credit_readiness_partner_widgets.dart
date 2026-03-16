@@ -35,7 +35,7 @@ class PartnerHandoffSection extends StatelessWidget {
   Widget build(BuildContext context) {
     if (partners.isEmpty) {
       return const CoolEmptyView(
-        message: 'No active finance partners found.',
+        message: 'No active finance found',
         compact: true,
         icon: Icons.account_balance_outlined,
       );
@@ -254,7 +254,7 @@ class _ApplicationHistoryCard extends StatelessWidget {
                   if (handoffAt != null) ...[
                     const SizedBox(height: 8),
                     Text(
-                      'Latest handoff: ${dateFormatter.format(handoffAt)} via ${_displayHandoffChannel(application.lastHandoffChannel)}',
+                      'Latest handoff ${dateFormatter.format(handoffAt)} via',
                       style: GoogleFonts.dmSans(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
@@ -308,10 +308,10 @@ class _PartnerReadinessCard extends StatelessWidget {
         accountState == CreditReadinessState.nearlyReady;
 
     final recommendation = canDiscussLoans
-        ? 'Best fit: review lending products.'
+        ? 'Review lending products'
         : canStartAccount
-        ? 'Best fit: start with account or savings onboarding.'
-        : 'Best fit: resolve profile and KYC blockers first.';
+        ? 'Start savings onboarding'
+        : 'Resolve profile blockers';
     final buttonLabel = canDiscussLoans
         ? 'Open lending'
         : canStartAccount
@@ -551,7 +551,7 @@ class _PartnerApplicationComposerSheetState
                 enabled: !_isSavingDraft && !_isSubmitting,
                 decoration: _sheetInputDecoration(
                   label: 'Requested product',
-                  hint: 'Example: group loan, savings account',
+                  hint: 'e.g. group loan',
                 ),
               ),
               const SizedBox(height: 12),
@@ -561,13 +561,13 @@ class _PartnerApplicationComposerSheetState
                 maxLines: 3,
                 decoration: _sheetInputDecoration(
                   label: 'Internal note',
-                  hint: 'Anything the partner handoff should remember',
+                  hint: 'Partner handoff notes',
                 ),
               ),
               if (!_canRouteNow) ...[
                 const SizedBox(height: 12),
                 Text(
-                  'Not ready for partner routing. Save as draft and continue.',
+                  'Not ready for partner',
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
@@ -641,14 +641,14 @@ class _PartnerApplicationComposerSheetState
       if (!mounted) return;
       if (mounted) {
         final msg = submitNow
-            ? 'Application saved and partner handoff recorded.'
+            ? 'Application saved'
             : 'Application draft saved.';
         CoolToast.success(context, msg);
       }
       Navigator.of(context).pop(submitNow);
     } catch (error) {
       if (mounted) {
-        CoolToast.error(context, 'Could not save application: $error');
+        CoolToast.error(context, 'Save failed');
       }
     } finally {
       if (mounted) {

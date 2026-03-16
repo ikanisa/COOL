@@ -44,7 +44,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
       floatingActionButton: Semantics(
         button: true,
         label: 'Add config entry',
-        hint: 'Opens the new configuration form',
+        hint: 'New config',
         child: FloatingActionButton(
           backgroundColor: AppColors.accent,
           onPressed: () => _showEditSheet(context, ref, null, countries),
@@ -75,7 +75,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
               const AppConfigSectionHeader(
                 title: 'Rollout Governance',
                 subtitle:
-                    'Manage kill switches, rollout stage, and operator-only access for the Rwanda app shell.',
+                    'Manage kill switches rollout',
               ),
               const SizedBox(height: 12),
               ...viewModel.rollouts.map(
@@ -93,7 +93,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
               const AppConfigSectionHeader(
                 title: 'Mobility Subscription Recipient',
                 subtitle:
-                    'Set the MoMo code that receives Rwanda mobility subscription payments without shipping a new build.',
+                    'Set the MoMo code',
               ),
               const SizedBox(height: 12),
               Align(
@@ -120,7 +120,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
               if (viewModel.mobilitySubscriptionConfigs.isEmpty)
                 const EmptyConfigCard(
                   message:
-                      'No mobility subscription MoMo code is configured yet. Add one before drivers can pay subscriptions.',
+                      'No mobility subscription MoMo',
                 )
               else
                 ...viewModel.mobilitySubscriptionConfigs.map(
@@ -142,7 +142,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
               const AppConfigSectionHeader(
                 title: 'Partner Payment Routes',
                 subtitle:
-                    'Manage Rwanda partner checkout merchant codes, providers, reconciliation labels, and active status without shipping a new build.',
+                    'Manage Rwanda partner checkout',
               ),
               const SizedBox(height: 12),
               Align(
@@ -179,12 +179,12 @@ class ManageAppConfigScreen extends ConsumerWidget {
               else if (partnerRoutesAsync.hasError)
                 EmptyConfigCard(
                   message:
-                      'Could not load partner payment routes. ${partnerRoutesAsync.error}',
+                      'Load partner payment failed',
                 )
               else if (partnerRoutes.isEmpty)
                 const EmptyConfigCard(
                   message:
-                      'No partner payment routes are configured yet. Add an active merchant-code route before partner checkout goes live.',
+                      'No partner payment routes',
                 )
               else
                 ...partnerRoutes.map(
@@ -207,13 +207,13 @@ class ManageAppConfigScreen extends ConsumerWidget {
               const AppConfigSectionHeader(
                 title: 'Additional Config',
                 subtitle:
-                    'Use the generic config editor for Rwanda operational settings and non-rollout keys.',
+                    'Use the generic config',
               ),
               const SizedBox(height: 12),
               if (viewModel.genericConfigs.isEmpty)
                 const EmptyConfigCard(
                   message:
-                      'No non-rollout config entries yet. Use the add button to create one.',
+                      'No non-rollout config entries',
                 )
               else
                 ...viewModel.genericConfigs.map(

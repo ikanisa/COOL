@@ -130,15 +130,15 @@ class CreditRepository {
     int building = 560,
   }) {
     if (score >= excellent) {
-      return 'Strong verified wallet and savings behaviour.';
+      return 'Strong verified history';
     }
     if (score >= good) {
-      return 'Healthy activity with room to strengthen consistency.';
+      return 'Healthy with room';
     }
     if (score >= building) {
-      return 'The credit file is forming, but it is still thin.';
+      return 'File still forming';
     }
-    return 'Limited verified history is available right now.';
+    return 'Limited history available';
   }
 
   Future<int> _loadAnalyzedTransactionCount(String userId) async {

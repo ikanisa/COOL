@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -9,6 +10,7 @@ import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/status/providers/home_status_providers.dart';
 import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/rs_colors.dart';
 import '../../../core/utils/intl_locale.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_error_boundary.dart';
@@ -19,8 +21,14 @@ import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/quest_card.dart';
 import '../../../shared/widgets/season_banner.dart';
 import '../../../shared/widgets/section_title.dart';
+import '../../partners/providers/rayon_sports_provider.dart';
+import '../../partners/rayon/models/rs_models.dart';
+import '../../admin/providers/special_products_provider.dart';
+import '../../mobility/providers/mobility_provider.dart';
+import '../../auth/providers/auth_provider.dart';
 import '../models/home_dashboard_data.dart';
 import '../providers/home_dashboard_provider.dart';
+import '../widgets/special_product_card.dart';
 import '../providers/quick_action_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -57,23 +65,35 @@ class HomeScreen extends ConsumerWidget {
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.fromLTRB(18, 18, 18, 110),
                 children: [
-                  Text(
-                    l10n.navHome,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 34,
-                      fontWeight: FontWeight.w800,
-                      color: palette.text,
-                    ),
-                  ),
+                  _HomeHeader(ref: ref, palette: palette, l10n: l10n),
                   const SizedBox(height: 24),
+                  _RayonSportCard(
+                    membershipAsync: ref.watch(rayonMembershipProvider),
+                    clubsAsync: ref.watch(rayonFanClubsProvider),
+                    matchesAsync: ref.watch(rayonMatchesProvider),
+                    initiativesAsync: ref.watch(rayonInitiativesProvider),
+                  ),
+                  const SizedBox(height: 14),
                   dashboardAsync.when(
-                    data: (dashboard) => _OverviewCard(data: dashboard),
+                    data: (dashboard) => _GroupSavingsCard(data: dashboard),
                     loading: () => const _OverviewLoadingCard(),
                     error: (_, _) => _OverviewErrorCard(
                       onRetry: () => ref.invalidate(homeDashboardProvider),
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 14),
+                  ...ref
+                      .watch(activeSpecialProductsProvider)
+                      .maybeWhen(
+                        data: (products) => products.map(
+                          (p) => Padding(
+                            padding: const EdgeInsets.only(bottom: 14),
+                            child: SpecialProductCard(product: p),
+                          ),
+                        ),
+                        orElse: () => [const SizedBox.shrink()],
+                      ),
+                  const SizedBox(height: 10),
                   SectionTitle(title: l10n.quickActions),
                   const SizedBox(height: 12),
                   Builder(
@@ -164,78 +184,417 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
-class _OverviewCard extends StatelessWidget {
-  const _OverviewCard({required this.data});
+// ─── Home Header: Title + Scanner + Driver Toggle ──────────────────────────
+
+class _HomeHeader extends StatelessWidget {
+  const _HomeHeader({
+    required this.ref,
+    required this.palette,
+    required this.l10n,
+  });
+
+  final WidgetRef ref;
+  final CoolPalette palette;
+  final AppLocalizations l10n;
+
+  @override
+  Widget build(BuildContext context) {
+    final user = ref.watch(authProvider).user;
+    final isDriver = user?.isDriver ?? false;
+    final mobilityState = ref.watch(mobilityProvider);
+    final isOnline = mobilityState.isDriverOnline;
+    final isUpdating = mobilityState.isUpdatingDriverStatus;
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Text(
+            l10n.navHome,
+            style: GoogleFonts.dmSans(
+              fontSize: 34,
+              fontWeight: FontWeight.w800,
+              color: palette.text,
+            ),
+          ),
+        ),
+
+        // ── QR Scanner Icon ──
+        Semantics(
+          button: true,
+          label: 'Scan QR code',
+          hint: 'Opens MoMo QR scanner',
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(14),
+              onTap: () => context.push('${AppRoutes.scanner}?mode=momo'),
+              child: Container(
+                width: 42,
+                height: 42,
+                decoration: BoxDecoration(
+                  color: palette.surface2,
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: palette.border),
+                ),
+                alignment: Alignment.center,
+                child: Icon(
+                  Icons.qr_code_scanner_rounded,
+                  size: 22,
+                  color: palette.accent,
+                ),
+              ),
+            ),
+          ),
+        ),
+
+        // ── Driver On/Off Toggle ──
+        if (isDriver) ...[
+          const SizedBox(width: 10),
+          Semantics(
+            button: true,
+            label: isOnline ? 'Go offline' : 'Go online',
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(999),
+                onTap: isUpdating
+                    ? null
+                    : () => ref
+                          .read(mobilityProvider.notifier)
+                          .toggleDriverOnline(),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 250),
+                  curve: Curves.easeInOut,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: isOnline
+                        ? const Color(0xFF22C55E).withValues(alpha: 0.15)
+                        : palette.surface2,
+                    borderRadius: BorderRadius.circular(999),
+                    border: Border.all(
+                      color: isOnline
+                          ? const Color(0xFF22C55E).withValues(alpha: 0.5)
+                          : palette.border,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (isUpdating)
+                        const SizedBox(
+                          width: 14,
+                          height: 14,
+                          child: CupertinoActivityIndicator(radius: 7),
+                        )
+                      else
+                        AnimatedContainer(
+                          duration: const Duration(milliseconds: 250),
+                          width: 10,
+                          height: 10,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isOnline
+                                ? const Color(0xFF22C55E)
+                                : palette.text3,
+                          ),
+                        ),
+                      const SizedBox(width: 6),
+                      Text(
+                        isOnline ? 'Online' : 'Offline',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: isOnline
+                              ? const Color(0xFF22C55E)
+                              : palette.text2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+// ─── Card 1: Rayon Sport Fan Card ──────────────────────────────────────────
+
+class _RayonSportCard extends StatelessWidget {
+  const _RayonSportCard({
+    required this.membershipAsync,
+    required this.clubsAsync,
+    required this.matchesAsync,
+    required this.initiativesAsync,
+  });
+
+  final AsyncValue<RsFanMembership?> membershipAsync;
+  final AsyncValue<List<RsFanClub>> clubsAsync;
+  final AsyncValue<List<RsMatch>> matchesAsync;
+  final AsyncValue<List<RsInitiative>> initiativesAsync;
+
+  @override
+  Widget build(BuildContext context) {
+    final membership = membershipAsync.valueOrNull;
+    final clubs = clubsAsync.valueOrNull ?? const <RsFanClub>[];
+    final matches = matchesAsync.valueOrNull ?? const <RsMatch>[];
+    final initiatives = initiativesAsync.valueOrNull ?? const <RsInitiative>[];
+
+    final isMember = membership != null;
+    final totalFans = clubs.fold<int>(0, (sum, c) => sum + c.memberCount);
+    final onSaleMatches = matches.where((m) => m.isOnSale).toList();
+    final hasOpenTickets = onSaleMatches.isNotEmpty;
+    final hasInitiatives = initiatives.isNotEmpty;
+
+    return Container(
+      decoration: BoxDecoration(
+        gradient: RsColors.rsCardGradient,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: RsColors.rsBlueBorder),
+      ),
+      padding: const EdgeInsets.all(18),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: RsColors.rsBlue.withValues(alpha: 0.3),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                alignment: Alignment.center,
+                child: const Text('⚽', style: TextStyle(fontSize: 20)),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  'Rayon Sports FC',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                    color: RsColors.rsWhite,
+                  ),
+                ),
+              ),
+              if (isMember)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
+                  decoration: BoxDecoration(
+                    color: RsColors.rsGold.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(999),
+                    border: Border.all(
+                      color: RsColors.rsGold.withValues(alpha: 0.5),
+                    ),
+                  ),
+                  child: Text(
+                    membership.tier.label,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                      color: RsColors.rsGoldLight,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              _HomeStatPill(
+                label: 'Fans',
+                value: NumberFormat.compact().format(totalFans),
+                valueColor: RsColors.rsGoldLight,
+                bgColor: RsColors.rsBlue.withValues(alpha: 0.25),
+                borderColor: RsColors.rsBlueBorder,
+              ),
+              if (hasInitiatives)
+                _HomeCtaChip(
+                  label: 'Contribute',
+                  icon: Icons.volunteer_activism_rounded,
+                  onTap: () => context.push(AppRoutes.rayonSupport),
+                  color: RsColors.rsGoldLight,
+                ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              if (!isMember)
+                _HomeCtaChip(
+                  label: 'Join',
+                  icon: Icons.person_add_alt_1_rounded,
+                  onTap: () => context.push(AppRoutes.rayonHome),
+                  color: RsColors.rsGold,
+                ),
+              if (isMember && hasOpenTickets)
+                _HomeCtaChip(
+                  label: 'Buy Tickets',
+                  icon: Icons.confirmation_num_outlined,
+                  onTap: () => context.push(AppRoutes.rayonTickets),
+                  color: RsColors.rsBluePale,
+                ),
+              if (isMember)
+                _HomeCtaChip(
+                  label: 'Shop',
+                  icon: Icons.shopping_bag_outlined,
+                  onTap: () => context.push(AppRoutes.rayonShop),
+                  color: RsColors.rsWhite,
+                ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Card 2: Group Savings Promotion Card ─────────────────────────────────
+
+class _GroupSavingsCard extends StatelessWidget {
+  const _GroupSavingsCard({required this.data});
 
   final HomeDashboardData? data;
 
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
-    final l10n = context.l10n;
     final localeName = resolveIntlLocale(context);
     final totalBalance = data?.totalBalance ?? 0;
-    final monthlyNetChange = data?.monthlyNetChange ?? 0;
     final memberCount = data?.memberCount ?? 0;
-    final recommendation = _buildHomePriorityRecommendation(data, l10n);
-    final netColor = monthlyNetChange >= 0 ? palette.accent : palette.orange;
 
-    return Semantics(
-      container: true,
-      label:
-          'Home overview. Total balance ${_spokenCurrency(totalBalance, localeName)}. '
-          '${l10n.homeMonthlyNet} ${_signedSpokenCurrency(monthlyNetChange, localeName)}. '
-          '${l10n.navGroups} ${l10n.homeActiveCount(memberCount)}.',
-      child: CoolCard(
-        backgroundColor: palette.surface,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              l10n.totalBalance,
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: palette.text3,
-                letterSpacing: 0.2,
+    return CoolCard(
+      backgroundColor: palette.surface,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: palette.accentGlow,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                alignment: Alignment.center,
+                child: Icon(
+                  Icons.people_alt_outlined,
+                  size: 20,
+                  color: palette.accent,
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            Semantics(
-              label:
-                  '${l10n.totalBalance}: ${_spokenCurrency(totalBalance, localeName)}',
-              child: ExcludeSemantics(
+              const SizedBox(width: 12),
+              Expanded(
                 child: Text(
-                  _formatCurrency(totalBalance, localeName),
-                  style: GoogleFonts.dmMono(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w700,
+                  'Group Savings',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
                     color: palette.text,
-                    height: 1.1,
                   ),
                 ),
               ),
-            ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            children: [
+              _HomeStatPill(
+                label: 'Saved',
+                value: _formatCurrency(totalBalance, localeName),
+                valueColor: palette.accent,
+                bgColor: palette.surface2,
+                borderColor: palette.border,
+              ),
+              _HomeStatPill(
+                label: 'Groups',
+                value: '$memberCount',
+                valueColor: palette.text,
+                bgColor: palette.surface2,
+                borderColor: palette.border,
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          _HomeCtaChip(
+            label: 'Explore',
+            icon: Icons.search_rounded,
+            onTap: () => context.push(AppRoutes.groups),
+            color: palette.accent,
+          ),
+        ],
+      ),
+    );
+  }
+}
 
-            const SizedBox(height: 18),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: [
-                _MetricPill(
-                  label: l10n.homeMonthlyNet,
-                  value: _signedCurrency(monthlyNetChange, localeName),
-                  valueColor: netColor,
-                ),
-                _MetricPill(
-                  label: l10n.navGroups,
-                  value: l10n.homeActiveCount(memberCount),
-                  valueColor: palette.text,
-                ),
-              ],
+// ─── Shared: Stat Pill & CTA Chip ─────────────────────────────────────────
+
+class _HomeStatPill extends StatelessWidget {
+  const _HomeStatPill({
+    required this.label,
+    required this.value,
+    required this.valueColor,
+    required this.bgColor,
+    required this.borderColor,
+  });
+
+  final String label;
+  final String value;
+  final Color valueColor;
+  final Color bgColor;
+  final Color borderColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: borderColor),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              label,
+              style: GoogleFonts.dmSans(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: valueColor.withValues(alpha: 0.6),
+              ),
             ),
-            const SizedBox(height: 18),
-            _HomePriorityStrip(recommendation: recommendation),
+            const SizedBox(width: 8),
+            Text(
+              value,
+              style: GoogleFonts.dmSans(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: valueColor,
+              ),
+            ),
           ],
         ),
       ),
@@ -243,230 +602,46 @@ class _OverviewCard extends StatelessWidget {
   }
 }
 
-class _HomePriorityStrip extends StatelessWidget {
-  const _HomePriorityStrip({required this.recommendation});
-
-  final _HomePriorityRecommendation recommendation;
-
-  @override
-  Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    final l10n = context.l10n;
-    return Semantics(
-      button: true,
-      label:
-          '${l10n.homePriorityLabel}. ${recommendation.title}. ${recommendation.subtitle}. ${recommendation.ctaLabel}.',
-      hint: 'Double tap to open ${recommendation.ctaLabel}',
-      child: ExcludeSemantics(
-        child: Material(
-          color: Colors.transparent,
-          borderRadius: BorderRadius.circular(18),
-          child: Ink(
-            decoration: BoxDecoration(
-              color: palette.surface2,
-              borderRadius: BorderRadius.circular(18),
-              border: Border.all(color: palette.border),
-            ),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(18),
-              onTap: () => openQuickActionRoute(context, recommendation.route),
-              child: Padding(
-                padding: const EdgeInsets.all(14),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 42,
-                      height: 42,
-                      decoration: BoxDecoration(
-                        color: palette.accentGlow,
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      alignment: Alignment.center,
-                      child: Icon(
-                        recommendation.icon,
-                        size: 20,
-                        color: palette.accent,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            l10n.homePriorityLabel,
-                            style: GoogleFonts.dmSans(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w600,
-                              color: palette.text3,
-                              letterSpacing: 0.3,
-                            ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            recommendation.title,
-                            style: GoogleFonts.dmSans(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                              color: palette.text,
-                            ),
-                          ),
-                          const SizedBox(height: 3),
-                          Text(
-                            recommendation.subtitle,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.dmSans(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: palette.text2,
-                              height: 1.35,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: palette.surface3,
-                        borderRadius: BorderRadius.circular(999),
-                        border: Border.all(color: palette.border),
-                      ),
-                      child: Text(
-                        recommendation.ctaLabel,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                          color: palette.text,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _HomePriorityRecommendation {
-  const _HomePriorityRecommendation({
-    required this.title,
-    required this.subtitle,
-    required this.ctaLabel,
-    required this.route,
-    required this.icon,
-  });
-
-  final String title;
-  final String subtitle;
-  final String ctaLabel;
-  final String route;
-  final IconData icon;
-}
-
-_HomePriorityRecommendation _buildHomePriorityRecommendation(
-  HomeDashboardData? data,
-  AppLocalizations l10n,
-) {
-  final memberCount = data?.memberCount ?? 0;
-  final monthlyNetChange = data?.monthlyNetChange ?? 0;
-  final hasRecentTransactions = (data?.recentTransactions.isNotEmpty ?? false);
-
-  if (memberCount == 0) {
-    return _HomePriorityRecommendation(
-      title: l10n.homePriorityGroupsTitle,
-      subtitle: l10n.homePriorityGroupsSubtitle,
-      ctaLabel: l10n.navGroups,
-      route: AppRoutes.groups,
-      icon: Icons.people_alt_outlined,
-    );
-  }
-
-  if (!hasRecentTransactions) {
-    return _HomePriorityRecommendation(
-      title: l10n.homePriorityMomoTitle,
-      subtitle: l10n.homePriorityMomoSubtitle,
-      ctaLabel: l10n.homeActionPay,
-      route: AppRoutes.momo,
-      icon: Icons.account_balance_wallet_outlined,
-    );
-  }
-
-  if (monthlyNetChange < 0) {
-    return _HomePriorityRecommendation(
-      title: l10n.homePriorityStatementsTitle,
-      subtitle: l10n.homePriorityStatementsSubtitle,
-      ctaLabel: l10n.statementsLabel,
-      route: AppRoutes.momoStatements,
-      icon: Icons.receipt_long_rounded,
-    );
-  }
-
-  return _HomePriorityRecommendation(
-    title: l10n.homePriorityMomentumTitle,
-    subtitle: l10n.homePriorityMomentumSubtitle,
-    ctaLabel: l10n.navGroups,
-    route: AppRoutes.groups,
-    icon: Icons.trending_up_rounded,
-  );
-}
-
-class _MetricPill extends StatelessWidget {
-  const _MetricPill({
+class _HomeCtaChip extends StatelessWidget {
+  const _HomeCtaChip({
     required this.label,
-    required this.value,
-    required this.valueColor,
+    required this.icon,
+    required this.onTap,
+    required this.color,
   });
 
   final String label;
-  final String value;
-  final Color valueColor;
+  final IconData icon;
+  final VoidCallback onTap;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    return Semantics(
-      label: '$label: $value',
-      child: ExcludeSemantics(
-        child: DecoratedBox(
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(999),
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
           decoration: BoxDecoration(
-            color: palette.surface2,
             borderRadius: BorderRadius.circular(999),
-            border: Border.all(color: palette.border),
+            border: Border.all(color: color.withValues(alpha: 0.4)),
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  label,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: palette.text3,
-                  ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, size: 16, color: color),
+              const SizedBox(width: 6),
+              Text(
+                label,
+                style: GoogleFonts.dmSans(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: color,
                 ),
-                const SizedBox(width: 8),
-                Text(
-                  value,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    color: valueColor,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

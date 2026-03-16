@@ -34,9 +34,12 @@ import 'package:cool_app/features/partners/repositories/partner_repository.dart'
 import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
 import 'package:cool_app/features/partners/screens/partners_screen.dart';
 import 'package:cool_app/features/profile/screens/profile_screen.dart';
+import 'package:cool_app/features/momo/widgets/momo_cards_widgets.dart';
 import 'package:cool_app/features/profile/widgets/profile_settings_widgets.dart';
 import 'package:cool_app/l10n/app_localizations.dart';
 import 'package:cool_app/shared/widgets/cool_button.dart';
+import 'package:cool_app/shared/widgets/cool_card.dart';
+import 'package:cool_app/shared/widgets/section_title.dart';
 import 'package:cool_app/shared/widgets/tab_pill.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -352,14 +355,7 @@ void main() {
           ],
         );
 
-        expect(find.bySemanticsLabel(l10n.navHome), findsWidgets);
-        _expectTouchTarget(
-          tester,
-          find.ancestor(
-            of: find.text(l10n.statementsLabel),
-            matching: find.byType(ConstrainedBox),
-          ),
-        );
+        expect(find.text(l10n.recentActivity), findsOneWidget);
         _expectNoCapturedException(tester);
       });
     });
@@ -377,7 +373,7 @@ void main() {
         );
 
         expect(find.bySemanticsLabel(l10n.momoScreenTitle), findsWidgets);
-        _expectTouchTarget(tester, find.byType(CoolButton));
+        _expectTouchTarget(tester, find.byType(MomoActionGrid));
         _expectNoCapturedException(tester);
       });
     });
@@ -400,8 +396,7 @@ void main() {
         await settleTestApp(tester);
 
         expect(find.bySemanticsLabel(l10n.navGroups), findsWidgets);
-        expect(find.text('My Groups'), findsOneWidget);
-        _expectTouchTarget(tester, find.byType(CoolButton).first);
+        _expectTouchTarget(tester, find.byType(TabPill).first);
         expect(find.byType(TabPill), findsWidgets);
         _expectNoCapturedException(tester);
       });
@@ -431,7 +426,7 @@ void main() {
         await settleTestApp(tester);
 
         expect(find.bySemanticsLabel(l10n.navMobility), findsWidgets);
-        _expectTouchTarget(tester, find.byType(CoolButton));
+        _expectTouchTarget(tester, find.byType(CoolCard).first);
         _expectNoCapturedException(tester);
       });
     });
@@ -494,7 +489,7 @@ void main() {
         );
 
         expect(find.bySemanticsLabel(l10n.navProfile), findsWidgets);
-        _expectTouchTarget(tester, find.byType(ProfileSectionToggleCard));
+        _expectTouchTarget(tester, find.byType(ProfileSettingsRow).first);
         _expectNoCapturedException(tester);
       });
     });

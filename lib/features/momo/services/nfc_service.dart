@@ -203,7 +203,7 @@ class NfcService {
       // Start polling for an NFC tag (timeout after 30s).
       await FlutterNfcKit.poll(
         timeout: const Duration(seconds: 30),
-        iosAlertMessage: 'Hold your phone near the NFC tag',
+        iosAlertMessage: 'Tap NFC tag',
       );
 
       // Read NDEF records from the tag.

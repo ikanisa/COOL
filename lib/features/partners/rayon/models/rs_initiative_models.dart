@@ -1,4 +1,7 @@
-part of 'rs_models.dart';
+import 'package:equatable/equatable.dart';
+import 'rs_models.dart';
+
+const Object _unset = Object();
 
 class RsInitiative extends Equatable {
   const RsInitiative({
@@ -43,18 +46,18 @@ class RsInitiative extends Equatable {
 
   factory RsInitiative.fromJson(RsJsonMap json) {
     return RsInitiative(
-      id: _asString(json['id']),
-      partnerId: _asString(json['partner_id'] ?? json['partnerId']),
-      title: _asString(json['title'], fallback: 'Club Initiative'),
-      description: _asString(json['description']),
+      id: json['id']?.toString() ?? '',
+      partnerId: (json['partner_id'] ?? json['partnerId'])?.toString() ?? '',
+      title: (json['title'] ?? 'Club Initiative').toString(),
+      description: json['description']?.toString() ?? '',
       category: InitiativeCategoryX.fromValue(
         (json['category'] ?? json['initiative_category'])?.toString(),
       ),
-      targetAmount: _asInt(json['target_amount'] ?? json['targetAmount']),
-      raisedAmount: _asInt(json['raised_amount'] ?? json['raisedAmount']),
-      supporterCount: _asInt(json['supporter_count'] ?? json['supporterCount']),
-      isActive: _asBool(json['is_active'] ?? json['isActive'], fallback: true),
-      endsAt: _asDateTime(json['ends_at'] ?? json['endsAt']),
+      targetAmount: int.tryParse((json['target_amount'] ?? json['targetAmount'] ?? '0').toString().replaceAll(',', '')) ?? 0,
+      raisedAmount: int.tryParse((json['raised_amount'] ?? json['raisedAmount'] ?? '0').toString().replaceAll(',', '')) ?? 0,
+      supporterCount: int.tryParse((json['supporter_count'] ?? json['supporterCount'] ?? '0').toString().replaceAll(',', '')) ?? 0,
+      isActive: (json['is_active'] ?? json['isActive'] ?? true) as bool,
+      endsAt: json['ends_at'] != null ? DateTime.tryParse(json['ends_at'].toString()) : null,
     );
   }
 
@@ -137,18 +140,16 @@ class RsInitiativeContribution extends Equatable {
 
   factory RsInitiativeContribution.fromJson(RsJsonMap json) {
     return RsInitiativeContribution(
-      id: _asString(json['id']),
-      initiativeId: _asString(json['initiative_id'] ?? json['initiativeId']),
-      userId: _asString(json['user_id'] ?? json['userId']),
-      amount: _asInt(json['amount']),
-      momoReference: _asString(json['momo_reference'] ?? json['momoReference']),
-      status: _asString(json['status'], fallback: 'pending'),
-      createdAt:
-          _asDateTime(json['created_at'] ?? json['createdAt']) ??
-          DateTime.now(),
-      supporterName: _asNullableString(
-        json['supporter_name'] ?? json['supporterName'] ?? json['name'],
-      ),
+      id: json['id']?.toString() ?? '',
+      initiativeId: (json['initiative_id'] ?? json['initiativeId'])?.toString() ?? '',
+      userId: (json['user_id'] ?? json['userId'])?.toString() ?? '',
+      amount: int.tryParse((json['amount'] ?? '0').toString().replaceAll(',', '')) ?? 0,
+      momoReference: (json['momo_reference'] ?? json['momoReference'] ?? '').toString(),
+      status: (json['status'] ?? 'pending').toString(),
+      createdAt: json['created_at'] != null 
+          ? (DateTime.tryParse(json['created_at'].toString()) ?? DateTime.now())
+          : DateTime.now(),
+      supporterName: (json['supporter_name'] ?? json['supporterName'] ?? json['name'])?.toString(),
     );
   }
 

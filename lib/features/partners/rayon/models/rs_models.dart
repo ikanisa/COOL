@@ -6,9 +6,11 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../rayon_ticket_qr.dart';
 
+import 'rs_initiative_models.dart';
+export 'rs_initiative_models.dart';
+
 part 'rs_achievement_models.dart';
 part 'rs_data_models.dart';
-part 'rs_initiative_models.dart';
 part 'rs_membership_models.dart';
 part 'rs_shop_models.dart';
 part 'rs_ticket_models.dart';

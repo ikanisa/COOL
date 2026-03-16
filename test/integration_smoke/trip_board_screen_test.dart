@@ -135,10 +135,10 @@ void main() {
       expect(find.text('Trip Board'), findsOneWidget);
       expect(find.text('Explore'), findsOneWidget);
       expect(find.text('My trips'), findsOneWidget);
-      expect(find.text('Results'), findsOneWidget);
+      expect(find.text('Explore trips'), findsOneWidget);
       expect(find.textContaining('Passenger trips'), findsOneWidget);
       expect(find.text('Trip type'), findsOneWidget);
-      expect(find.text('Filters'), findsOneWidget);
+      expect(find.text('Moto'), findsOneWidget);
       expect(
         find.text('Browse trips, then continue on WhatsApp.'),
         findsNothing,
@@ -151,13 +151,8 @@ void main() {
       await tester.tap(find.text('Driver returns').last);
       await settleTestApp(tester);
 
-      expect(find.text('Driver returns · All vehicle types'), findsOneWidget);
-
-      await tester.tap(find.text('Filters'));
-      await settleTestApp(tester);
-
-      expect(find.text('Vehicle filter'), findsOneWidget);
-      await tester.tap(find.text('Moto').last);
+      expect(find.text('Driver returns · Any type'), findsOneWidget);
+      await tester.tap(find.text('Moto'));
       await settleTestApp(tester);
 
       expect(find.text('Driver returns · Moto only'), findsOneWidget);

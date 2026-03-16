@@ -20,7 +20,7 @@ class _FootballTab extends ConsumerWidget {
       data: (partners) {
         if (partners.isEmpty) {
           return const _EmptyState(
-            label: 'No football partners available yet.',
+            label: 'No football partners yet',
           );
         }
 
@@ -71,7 +71,7 @@ class _FootballTab extends ConsumerWidget {
                       key: const ValueKey('partner_feature_club_shop'),
                       icon: Icons.shopping_bag_rounded,
                       title: l10n.clubShop,
-                      subtitle: 'Jerseys, fan gear, and match-day drops',
+                      subtitle: 'Jerseys fan gear and',
                       onTap: () => context.push(AppRoutes.rayonShop),
                     ),
                   ],
@@ -362,7 +362,7 @@ class _BanksTab extends ConsumerWidget {
       ),
       data: (partners) {
         if (partners.isEmpty) {
-          return const _EmptyState(label: 'No finance partners available yet.');
+          return const _EmptyState(label: 'No finance partners yet');
         }
 
         return Column(
@@ -382,7 +382,7 @@ class _BanksTab extends ConsumerWidget {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    'Review your savings activity and profile details before applying for lending or advanced financial products.',
+                    'Check your savings and',
                     style: GoogleFonts.dmSans(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
@@ -558,7 +558,7 @@ class _OrgsTab extends ConsumerWidget {
       context,
       phoneNumber: phone,
       message:
-          'Hello ${partner.name}, I would like to learn more about your services on COOL.',
+          'Hello ${partner.name} I would',
     );
   }
 
@@ -576,7 +576,7 @@ class _OrgsTab extends ConsumerWidget {
       ),
       data: (partners) {
         if (partners.isEmpty) {
-          return const _EmptyState(label: 'No service partners available yet.');
+          return const _EmptyState(label: 'No service partners yet');
         }
 
         return Column(
@@ -734,7 +734,7 @@ class _ErrorState extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24),
       child: CoolStateView.error(
-        title: 'Unable to load partners',
+        title: 'load partners failed',
         message: error,
         actionLabel: context.l10n.retryAction,
         onAction: onRetry,
@@ -755,7 +755,7 @@ class _EmptyState extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 24),
       child: CoolStateView.empty(
         title: label,
-        message: 'Check back later for more partner options.',
+        message: 'Check back later for',
         icon: Icons.handshake_outlined,
         compact: true,
       ),

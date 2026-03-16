@@ -15,7 +15,7 @@ import '../models/driver_info.dart';
 import '../models/mobility_route_preview.dart';
 import '../models/trip.dart';
 import '../services/place_search_service.dart';
-import 'schedule_trip_map_preview.dart';
+import 'schedule_trip_route_preview.dart';
 
 Future<void> showTripListingSheet(
   BuildContext context, {
@@ -147,9 +147,7 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
       setState(() {
         _routePreview = preview;
         _loadingRoutePreview = false;
-        _routePreviewError = preview == null
-            ? 'Route data is not available for this listing yet.'
-            : null;
+        _routePreviewError = preview == null ? 'Route data unavailable' : null;
       });
     } catch (_) {
       if (!mounted || requestId != _routePreviewRequestId) {
@@ -159,8 +157,7 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
       setState(() {
         _routePreview = null;
         _loadingRoutePreview = false;
-        _routePreviewError =
-            'The route preview could not be loaded right now. Coordinates are still attached.';
+        _routePreviewError = 'Route preview unavailable';
       });
     }
   }
@@ -237,7 +234,7 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
         ),
         if (_tripOrigin != null && _tripDestination != null) ...[
           const SizedBox(height: 14),
-          ScheduleTripMapPreview(
+          ScheduleTripRoutePreview(
             originLabel: trip.fromLocation,
             destinationLabel: trip.toLocation,
             origin: _tripOrigin,
@@ -258,17 +255,11 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
                     : 'Pinned with Google route preview'
               : 'Text route only',
         ),
-        const _DetailRow(
-          label: 'Chat flow',
-          value: 'Price and pickup are agreed on WhatsApp after you connect.',
-        ),
+        const _DetailRow(label: 'Chat flow', value: 'Agree via WhatsApp.'),
         if (trip.priceNote?.trim().isNotEmpty ?? false)
           _DetailRow(label: 'Price note', value: trip.priceNote!.trim()),
         const SizedBox(height: 18),
-        const _MarketplaceHint(
-          text:
-              'This app introduces both sides. Final price, exact pickup, and timing are confirmed in WhatsApp.',
-        ),
+        const _MarketplaceHint(text: 'Confirmed via WhatsApp'),
         if (trip.id != null) ...[
           const SizedBox(height: 14),
           ShareCard(
@@ -285,7 +276,6 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
           Align(
             alignment: Alignment.centerRight,
             child: WaButton(
-              label: widget.buttonLabel,
               onTap: () {
                 Navigator.of(context).pop();
                 widget.onOpenWhatsApp!();
@@ -293,9 +283,7 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
             ),
           )
         else
-          const _UnavailableHint(
-            text: 'WhatsApp contact is not available for this listing yet.',
-          ),
+          const _UnavailableHint(text: 'WhatsApp unavailable.'),
       ],
     );
   }
@@ -415,21 +403,14 @@ class _DriverListingSheetBody extends StatelessWidget {
             value: _titleCase(driver.vehicleStatus!),
           ),
         _DetailRow(label: 'Last active', value: lastActive),
-        const _DetailRow(
-          label: 'Chat flow',
-          value: 'Price and pickup are agreed directly in WhatsApp.',
-        ),
+        const _DetailRow(label: 'Chat flow', value: 'Agree via WhatsApp'),
         const SizedBox(height: 18),
-        const _MarketplaceHint(
-          text:
-              'The app helps you discover nearby drivers. You agree on fare, pickup, and exact timing in WhatsApp.',
-        ),
+        const _MarketplaceHint(text: 'Agreed via WhatsApp'),
         const SizedBox(height: 18),
         if (onOpenWhatsApp != null)
           Align(
             alignment: Alignment.centerRight,
             child: WaButton(
-              label: buttonLabel,
               onTap: () {
                 Navigator.of(context).pop();
                 onOpenWhatsApp!();
@@ -437,9 +418,7 @@ class _DriverListingSheetBody extends StatelessWidget {
             ),
           )
         else
-          const _UnavailableHint(
-            text: 'WhatsApp contact is not available for this driver yet.',
-          ),
+          const _UnavailableHint(text: 'WhatsApp unavailable.'),
       ],
     );
   }

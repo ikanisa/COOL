@@ -24,11 +24,17 @@ import '../../features/mobility/screens/driver_profile_screen.dart';
 import '../../features/mobility/screens/mobility_home_screen.dart';
 import '../../features/mobility/screens/schedule_trip_screen.dart';
 import '../../features/mobility/screens/trip_board_screen.dart';
-
 import '../../features/momo/screens/momo_screen.dart';
 import '../../features/momo/screens/momo_statements_screen.dart';
+import '../../features/partners/bank_onboarding/screens/bank_onboarding_screen.dart';
+import '../../features/admin/screens/manage_special_products_screen.dart';
+import '../../features/admin/screens/manage_missions_screen.dart';
+import '../../features/admin/screens/manage_seasons_screen.dart';
 import '../../features/partners/screens/bank_partner_screen.dart';
 import '../../features/partners/screens/partners_screen.dart';
+import '../../features/profile/screens/kyc_selfie_screen.dart';
+import '../../features/profile/screens/profile_detail_screens.dart';
+
 import '../../features/partners/screens/prisma_partner_screen.dart';
 import '../../features/partners/screens/radiant_partner_screen.dart';
 import '../../features/partners/screens/rayon/club_shop_screen.dart';
@@ -44,7 +50,6 @@ import '../../features/partners/screens/rayon/ticket_confirmation_screen.dart';
 import '../../features/partners/rayon/screens/support_detail_screen.dart';
 import '../../features/partners/rayon/screens/support_screen.dart';
 import '../../features/partners/screens/rayon/tickets_screen.dart';
-import '../../features/profile/screens/profile_detail_screens.dart';
 import '../../features/profile/screens/profile_screen.dart';
 import '../../shared/widgets/qr_scanner_screen.dart';
 import '../../features/admin/screens/admin_dashboard_screen.dart';
@@ -58,6 +63,7 @@ import '../../features/partners/rayon/screens/rs_admin_orders_screen.dart';
 import '../../features/partners/rayon/screens/rs_admin_members_screen.dart';
 import '../../features/partners/rayon/screens/rs_admin_packages_screen.dart';
 import '../../features/partners/rayon/screens/rs_admin_finance_screen.dart';
+import '../../features/partners/rayon/screens/rs_admin_analytics_screen.dart';
 import '../../features/partners/rayon/screens/rs_admin_initiatives_screen.dart';
 import '../../features/admin/screens/partner_admin_workspace_screen.dart';
 import '../../features/admin/models/admin_workspace_access.dart';
@@ -69,7 +75,11 @@ import '../../features/admin/screens/manage_quick_actions_screen.dart';
 import '../../features/admin/screens/manage_vehicle_types_screen.dart';
 import '../../features/admin/screens/manage_app_config_screen.dart';
 import '../../features/admin/screens/operational_dashboard_screen.dart';
+import '../../features/admin/screens/manage_admin_roles_screen.dart';
+import '../../features/admin/screens/system_analytics_screen.dart';
+import '../../features/admin/screens/audit_log_screen.dart';
 import '../../features/admin/widgets/admin_workspace_gate.dart';
+import '../status/screens/cool_tokens_screen.dart';
 import '../status/screens/missions_screen.dart';
 import '../../shared/widgets/kill_switch_gate.dart';
 import '../../shared/widgets/secure_screen_wrapper.dart';
@@ -249,6 +259,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           );
         },
       ),
+      GoRoute(
+        path: AppRoutes.kycSelfie,
+        builder: (context, state) => const KycSelfieScreen(),
+      ),
 
       // ── Main app (shell with bottom nav) ──────────────────────
       StatefulShellRoute.indexedStack(
@@ -281,7 +295,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 routes: [
                   GoRoute(
                     path: 'create',
-                    builder: (context, state) => const CreateGroupScreen(),
+                    builder: (context, state) {
+                      return const CreateGroupScreen();
+                    },
                   ),
                   GoRoute(
                     path: ':id',
@@ -498,6 +514,19 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 _ => BankPartnerScreen(bankId: id),
               };
             },
+            routes: [
+              GoRoute(
+                path: 'onboarding/:type',
+                builder: (context, state) {
+                  final slug = state.pathParameters['id'] ?? '';
+                  final typeStr = state.pathParameters['type'] ?? 'loan';
+                  final type = typeStr == 'account'
+                      ? BankOnboardingType.account
+                      : BankOnboardingType.loan;
+                  return BankOnboardingScreen(slug: slug, type: type);
+                },
+              ),
+            ],
           ),
         ],
       ),
@@ -536,6 +565,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.missions,
         builder: (context, state) => const MissionsScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.tokens,
+        builder: (context, state) => const CoolTokensScreen(),
       ),
 
       // ── Admin routes (nested under /admin) ─────────────────────
@@ -585,9 +618,39 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 const PlatformAdminGate(child: ManageAppConfigScreen()),
           ),
           GoRoute(
+            path: 'special-products',
+            builder: (context, state) =>
+                const PlatformAdminGate(child: ManageSpecialProductsScreen()),
+          ),
+          GoRoute(
+            path: 'missions',
+            builder: (context, state) =>
+                const PlatformAdminGate(child: ManageMissionsScreen()),
+          ),
+          GoRoute(
+            path: 'seasons',
+            builder: (context, state) =>
+                const PlatformAdminGate(child: ManageSeasonsScreen()),
+          ),
+          GoRoute(
             path: 'operations',
             builder: (context, state) =>
                 const PlatformAdminGate(child: OperationalDashboardScreen()),
+          ),
+          GoRoute(
+            path: 'roles',
+            builder: (context, state) =>
+                const PlatformAdminGate(child: ManageAdminRolesScreen()),
+          ),
+          GoRoute(
+            path: 'analytics',
+            builder: (context, state) =>
+                const PlatformAdminGate(child: SystemAnalyticsScreen()),
+          ),
+          GoRoute(
+            path: 'audit-log',
+            builder: (context, state) =>
+                const PlatformAdminGate(child: AuditLogScreen()),
           ),
           GoRoute(
             path: 'banks/:partnerId',
@@ -640,6 +703,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 path: 'initiatives',
                 builder: (context, state) =>
                     const RayonAdminGate(child: RsAdminInitiativesScreen()),
+              ),
+              GoRoute(
+                path: 'analytics',
+                builder: (context, state) =>
+                    const RayonAdminGate(child: RsAdminAnalyticsScreen()),
               ),
             ],
           ),

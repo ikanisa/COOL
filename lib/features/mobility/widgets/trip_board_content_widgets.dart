@@ -123,7 +123,7 @@ class TripBoardPublicTripsSliver extends ConsumerWidget {
         sliver: SliverToBoxAdapter(
           child: TripBoardEmptyState(
             icon: Icons.warning_amber_rounded,
-            title: 'Could not load nearby trips',
+            title: 'Load nearby trips failed',
             subtitle: error,
           ),
         ),
@@ -183,7 +183,7 @@ class TripBoardMyTripsSliver extends ConsumerWidget {
             SliverToBoxAdapter(
               child: TripBoardEmptyState(
                 icon: Icons.warning_amber_rounded,
-                title: 'Could not load your trips',
+                title: 'Load your trips failed',
                 subtitle: error,
               ),
             )
@@ -192,7 +192,7 @@ class TripBoardMyTripsSliver extends ConsumerWidget {
               child: TripBoardEmptyState(
                 icon: Icons.folder_open_rounded,
                 title: 'No trips posted yet',
-                subtitle: 'Post a trip to see it here.',
+                subtitle: 'Post a trip to',
               ),
             )
           else
@@ -280,7 +280,7 @@ class _DriverReturnTripsSliver extends StatelessWidget {
             child: TripBoardEmptyState(
               icon: Icons.repeat_rounded,
               title: 'No driver returns available',
-              subtitle: 'Try another vehicle type or check again later.',
+              subtitle: 'Try another vehicle type',
             ),
           )
         else
@@ -326,17 +326,6 @@ class TripBoardTripTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasPinnedPickup = trip.latitude != null && trip.longitude != null;
-    final hasRoutePreview =
-        hasPinnedPickup &&
-        trip.destinationLatitude != null &&
-        trip.destinationLongitude != null;
-    final distanceLabel = trip.distanceKm == null
-        ? null
-        : trip.distanceKm! < 1
-        ? '${(trip.distanceKm! * 1000).round()} m away'
-        : '${trip.distanceKm!.toStringAsFixed(1)} km away';
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -352,70 +341,11 @@ class TripBoardTripTile extends StatelessWidget {
           isDriverReturnTrip: trip.isDriverReturnTrip,
         ),
         const SizedBox(height: 8),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4),
-          child: Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              if (distanceLabel != null)
-                _TripMetaLabel(
-                  icon: Icons.near_me_rounded,
-                  label: distanceLabel,
-                ),
-              _TripMetaLabel(
-                icon: hasRoutePreview
-                    ? Icons.route_rounded
-                    : hasPinnedPickup
-                    ? Icons.location_on_outlined
-                    : Icons.route_outlined,
-                label: hasRoutePreview
-                    ? 'Google route preview'
-                    : hasPinnedPickup
-                    ? 'Google pickup pin'
-                    : 'Text route',
-              ),
-            ],
-          ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: WaButton(label: buttonLabel, onTap: onWhatsAppTap),
         ),
-        const SizedBox(height: 8),
-        WaButton(label: buttonLabel, onTap: onWhatsAppTap),
       ],
-    );
-  }
-}
-
-class _TripMetaLabel extends StatelessWidget {
-  const _TripMetaLabel({required this.icon, required this.label});
-
-  final IconData icon;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: palette.surface2,
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: palette.border),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 13, color: palette.text3),
-          const SizedBox(width: 6),
-          Text(
-            label,
-            style: GoogleFonts.dmSans(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              color: palette.text2,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
@@ -748,38 +678,34 @@ class TripBoardLocationStateCard extends StatelessWidget {
       case MobilityLocationStatus.idle:
         icon = Icons.satellite_alt_rounded;
         title = 'Checking your location';
-        subtitle = 'Nearby trip matching needs your current area.';
+        subtitle = 'Location access needed';
         break;
       case MobilityLocationStatus.accessDisabled:
         icon = Icons.admin_panel_settings_outlined;
         title = 'Location is off in COOL';
-        subtitle =
-            'Nearby matching is disabled from Profile settings until you turn location back on.';
+        subtitle = 'Location off in Profile';
         actionLabel = 'Enable Location';
         action = onEnableLocation;
         break;
       case MobilityLocationStatus.needsPermission:
       case MobilityLocationStatus.denied:
         icon = Icons.pin_drop_rounded;
-        title = 'Enable location for nearby trips';
-        subtitle =
-            'You can still post and manage your own trips, but nearby matching needs location access.';
+        title = 'Enable location';
+        subtitle = 'Nearby matching needs access';
         actionLabel = 'Allow Location';
         action = onEnableLocation;
         break;
       case MobilityLocationStatus.deniedForever:
         icon = Icons.settings_rounded;
-        title = 'Location is blocked in settings';
-        subtitle =
-            'Open app settings to allow location again for nearby trip discovery.';
+        title = 'Location blocked';
+        subtitle = 'Open settings to allow';
         actionLabel = 'Open Settings';
         action = onOpenAppSettings;
         break;
       case MobilityLocationStatus.serviceDisabled:
         icon = Icons.satellite_alt_rounded;
         title = 'Turn on device location';
-        subtitle =
-            'Location services are off, so nearby trips cannot be calculated yet.';
+        subtitle = 'Location services off';
         actionLabel = 'Turn On Location';
         action = onOpenLocationSettings;
         break;
@@ -787,14 +713,12 @@ class TripBoardLocationStateCard extends StatelessWidget {
       case MobilityLocationStatus.approximateReady:
         icon = Icons.pin_drop_rounded;
         title = 'Location ready';
-        subtitle = 'Nearby trip matching is available.';
+        subtitle = 'Nearby matching available';
         break;
       case MobilityLocationStatus.error:
         icon = Icons.warning_amber_rounded;
         title = 'Location could not be resolved';
-        subtitle =
-            locationState.error ??
-            'Try refreshing or enable location again to load nearby trips.';
+        subtitle = locationState.error ?? 'Refresh or enable location';
         actionLabel = 'Try Again';
         action = onEnableLocation;
         break;

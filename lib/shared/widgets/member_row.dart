@@ -43,9 +43,10 @@ class MemberRow extends StatelessWidget {
     final name = isAnonymous ? resolvedIdentity : resolvedIdentity;
     final roleLabel = isAdmin ? ' Admin.' : '';
 
-    return Semantics(
+    return RepaintBoundary(
+      child: Semantics(
       label:
-          '$name.$roleLabel '
+          '$name.$roleLabel'
           '${MemberRow._formatAmount(contributionAmount)} RWF contributed.',
       excludeSemantics: true,
       child: Padding(
@@ -119,6 +120,7 @@ class MemberRow extends StatelessWidget {
               ),
             ),
           ],
+        ),
         ),
       ),
     );

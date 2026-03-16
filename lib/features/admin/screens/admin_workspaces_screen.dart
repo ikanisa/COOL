@@ -22,7 +22,7 @@ class AdminWorkspacesScreen extends ConsumerWidget {
     if (!access.hasAnyAdminAccess) {
       return const AdminAccessDeniedScaffold(
         title: 'Admin Workspaces',
-        message: 'This account does not have access to any admin workspace.',
+        message: 'This account does not',
         fallbackLocation: AppRoutes.home,
       );
     }
@@ -61,13 +61,13 @@ class AdminWorkspacesScreen extends ConsumerWidget {
             const _SectionHeader(
               title: 'Platform',
               subtitle:
-                  'Global app operations, content, configuration, and control surfaces.',
+                  'Global app operations content',
             ),
             const SizedBox(height: 12),
             _WorkspaceCard(
               title: 'Platform Admin',
               subtitle:
-                  'Users, partners, services, app config, and operations.',
+                  'Users partners services app',
               icon: Icons.admin_panel_settings_outlined,
               onTap: () => context.push(AppRoutes.adminPlatform),
             ),
@@ -77,14 +77,14 @@ class AdminWorkspacesScreen extends ConsumerWidget {
             const _SectionHeader(
               title: 'Partner Workspaces',
               subtitle:
-                  'Partner-scoped admin surfaces for club or commercial operations.',
+                  'Partner-scoped admin surfaces for',
             ),
             const SizedBox(height: 12),
             partnerWorkspacesAsync.when(
               data: (partners) => partners.isEmpty
                   ? const _EmptyWorkspaceCard(
                       message:
-                          'No explicit partner workspace ids are available for this account yet.',
+                          'No explicit partner workspace',
                     )
                   : Column(
                       children: partners
@@ -113,7 +113,7 @@ class AdminWorkspacesScreen extends ConsumerWidget {
                 message: 'Loading partner workspaces...',
               ),
               error: (error, _) => _EmptyWorkspaceCard(
-                message: 'Could not load partner workspaces. $error',
+                message: 'Load partner workspaces failed',
               ),
             ),
           ],
@@ -122,14 +122,14 @@ class AdminWorkspacesScreen extends ConsumerWidget {
             const _SectionHeader(
               title: 'Bank Custodian Workspaces',
               subtitle:
-                  'Group savings oversight, ledgers, allocations, and exports.',
+                  'Group savings oversight ledgers',
             ),
             const SizedBox(height: 12),
             bankWorkspacesAsync.when(
               data: (banks) => banks.isEmpty
                   ? const _EmptyWorkspaceCard(
                       message:
-                          'No explicit bank workspace ids are available for this account yet.',
+                          'No explicit bank workspace',
                     )
                   : Column(
                       children: banks
@@ -139,7 +139,7 @@ class AdminWorkspacesScreen extends ConsumerWidget {
                               child: _WorkspaceCard(
                                 title: bank.name,
                                 subtitle:
-                                    'Open the bank custodian admin workspace foundation.',
+                                    'Open the bank custodian',
                                 icon: Icons.account_balance_rounded,
                                 onTap: () => context.push(
                                   AppRoutes.adminBankWorkspaceLocation(bank.id),
@@ -153,7 +153,7 @@ class AdminWorkspacesScreen extends ConsumerWidget {
                 message: 'Loading bank workspaces...',
               ),
               error: (error, _) => _EmptyWorkspaceCard(
-                message: 'Could not load bank workspaces. $error',
+                message: 'Load bank workspaces failed',
               ),
             ),
           ],
@@ -187,7 +187,7 @@ class _IntroCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Open the right workspace for the job.',
+            'Open the right workspace',
             style: GoogleFonts.dmSans(
               fontSize: 18,
               fontWeight: FontWeight.w700,
@@ -196,7 +196,7 @@ class _IntroCard extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'This account currently has ${roles.join(', ')} access.',
+            'Roles: ${roles.join(', ')}',
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,

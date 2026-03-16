@@ -170,6 +170,127 @@ class BankAdminRepository {
       },
     );
   }
+
+  // ═══════════════════════════════════════════════════════════════
+  // Loans
+  // ═══════════════════════════════════════════════════════════════
+
+  Future<List<Map<String, dynamic>>> fetchLoans(
+    String partnerId, {
+    String? status,
+    int limit = 100,
+    int offset = 0,
+  }) async {
+    final result = await _client.rpc('get_bank_loans', params: {
+      'p_partner_id': partnerId,
+      'p_status': _trimToNull(status),
+      'p_limit': limit,
+      'p_offset': offset,
+    });
+    return _asListOfMaps(result);
+  }
+
+  Future<void> updateLoanStatus({
+    required String loanId,
+    required String status,
+    String? notes,
+  }) async {
+    await _client.rpc('update_bank_loan_status', params: {
+      'p_loan_id': loanId,
+      'p_status': status,
+      'p_notes': _trimToNull(notes),
+    });
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // Baskets
+  // ═══════════════════════════════════════════════════════════════
+
+  Future<List<Map<String, dynamic>>> fetchBaskets(
+    String partnerId, {
+    String? status,
+    int limit = 100,
+    int offset = 0,
+  }) async {
+    final result = await _client.rpc('get_bank_baskets', params: {
+      'p_partner_id': partnerId,
+      'p_status': _trimToNull(status),
+      'p_limit': limit,
+      'p_offset': offset,
+    });
+    return _asListOfMaps(result);
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // Analytics
+  // ═══════════════════════════════════════════════════════════════
+
+  Future<Map<String, dynamic>> fetchBankAnalytics(String partnerId) async {
+    final result = await _client.rpc('get_bank_analytics_summary', params: {
+      'p_partner_id': partnerId,
+    });
+    if (result is Map<String, dynamic>) return result;
+    return const <String, dynamic>{};
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // AI Allocation Support
+  // ═══════════════════════════════════════════════════════════════
+
+  /// Accepts an AI-suggested allocation by reading metadata from the
+  /// reconciliation and delegating to the existing allocation RPC.
+  Future<void> acceptSuggestedAllocation({
+    required String partnerId,
+    required String reviewId,
+    String? note,
+  }) async {
+    await _client.rpc('bank_accept_suggested_allocation', params: {
+      'p_partner_id': partnerId,
+      'p_review_id': reviewId,
+      'p_note': _trimToNull(note),
+    });
+  }
+
+  /// Adds a new member to a group by phone number.
+  /// Returns the new member's user_id and display_name.
+  Future<Map<String, dynamic>> addMemberToGroup({
+    required String partnerId,
+    required String groupId,
+    required String phone,
+    String? displayName,
+  }) async {
+    final result = await _client.rpc('bank_add_member_to_group', params: {
+      'p_partner_id': partnerId,
+      'p_group_id': groupId,
+      'p_phone': phone,
+      'p_display_name': _trimToNull(displayName),
+    });
+    final rows = _asListOfMaps(result);
+    return rows.isNotEmpty ? rows.first : const <String, dynamic>{};
+  }
+
+  /// Searches group members for the allocation modal type-ahead.
+  Future<List<BankAdminMemberRecord>> searchMembers(
+    String partnerId, {
+    String? groupId,
+    required String search,
+  }) async {
+    final page = await loadCustodyMembersPage(
+      partnerId,
+      groupId: groupId,
+      search: search,
+      limit: 20,
+    );
+    return page.entries;
+  }
+
+  /// Triggers the AI allocation Edge Function.
+  Future<void> triggerAiAllocation(String partnerId) async {
+    await _client.functions.invoke(
+      'allocate-contributions',
+      body: {'partner_id': partnerId},
+    );
+  }
 }
 
 List<Map<String, dynamic>> _asListOfMaps(dynamic value) {

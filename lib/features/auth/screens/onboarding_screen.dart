@@ -55,7 +55,7 @@ class OnboardingScreen extends ConsumerWidget {
                 SizedBox(
                   width: 300,
                   child: Text(
-                    'Save, pay, and move in Rwanda.',
+                    'Save pay and move',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.dmSans(
                       fontSize: 15,

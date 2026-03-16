@@ -3,8 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme/app_colors.dart';
 
-/// A card showing trip details: route (from → to), departure time,
-/// vehicle info, and optional return / recurring indicators.
+/// A card showing the route, departure time, and the key trip chips.
 ///
 /// Tapping the card triggers [onTap].
 class TripCard extends StatelessWidget {
@@ -33,29 +32,16 @@ class TripCard extends StatelessWidget {
 
   // ── Helpers ─────────────────────────────────────────────────────────
 
-  /// Formatted departure string: "Thu 12 Mar / 08:30 AM / in 18h"
+  /// Formatted departure string: "Thu 12 Mar · 08:30 AM"
   String get _formattedDeparture {
-    final now = DateTime.now();
-    final diff = departureTime.difference(now);
-
     final dayName = _weekday(departureTime.weekday);
     final month = _month(departureTime.month);
     final day = departureTime.day;
     final hour = departureTime.hour % 12 == 0 ? 12 : departureTime.hour % 12;
     final minute = departureTime.minute.toString().padLeft(2, '0');
     final period = departureTime.hour >= 12 ? 'PM' : 'AM';
-
-    final relativeStr = _relativeTime(diff);
-
-    return '$dayName $day $month / $hour:$minute $period / $relativeStr';
+    return '$dayName $day $month · $hour:$minute $period';
   }
-
-  bool get _isExpiringSoon {
-    final diff = departureTime.difference(DateTime.now());
-    return diff.inMinutes > 0 && diff.inMinutes < 60;
-  }
-
-  bool get _hasDeparted => departureTime.isBefore(DateTime.now());
 
   static String _weekday(int w) =>
       const ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][w - 1];
@@ -75,20 +61,11 @@ class TripCard extends StatelessWidget {
     'Dec',
   ][m - 1];
 
-  static String _relativeTime(Duration diff) {
-    if (diff.isNegative) return 'departed';
-    if (diff.inMinutes < 60) return 'in ${diff.inMinutes}min';
-    if (diff.inHours < 24) return 'in ${diff.inHours}h';
-    return 'in ${diff.inDays}d';
-  }
-
   @override
   Widget build(BuildContext context) {
     return Semantics(
       button: true,
-      label:
-          'Trip from $fromLocation to $toLocation. '
-          '$vehicleType. $_formattedDeparture.',
+      label: 'Trip card',
       excludeSemantics: true,
       child: GestureDetector(
         onTap: onTap,
@@ -121,9 +98,7 @@ class TripCard extends StatelessWidget {
                   Icon(
                     Icons.access_time_rounded,
                     size: 14,
-                    color: _isExpiringSoon || _hasDeparted
-                        ? AppColors.red
-                        : AppColors.text3,
+                    color: AppColors.text3,
                   ),
                   const SizedBox(width: 6),
                   Expanded(
@@ -132,9 +107,7 @@ class TripCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
-                        color: _isExpiringSoon || _hasDeparted
-                            ? AppColors.red
-                            : AppColors.text2,
+                        color: AppColors.text2,
                       ),
                     ),
                   ),
@@ -162,28 +135,17 @@ class TripCard extends StatelessWidget {
                       textColor: AppColors.text2,
                     ),
 
-                  // Return tag
                   if (isReturn || isDriverReturnTrip)
                     _Chip(
                       label: 'Return',
                       bgColor: AppColors.purple.withValues(alpha: 0.15),
                       textColor: AppColors.purple,
                     ),
-
-                  // Recurring tag
                   if (isRecurring)
                     const _Chip(
-                      label: 'Daily',
+                      label: 'Repeat',
                       bgColor: AppColors.accentGlow,
                       textColor: AppColors.accent,
-                    ),
-
-                  // Expiring warning
-                  if (_isExpiringSoon && !_hasDeparted)
-                    _Chip(
-                      label: 'Expires soon',
-                      bgColor: AppColors.red.withValues(alpha: 0.12),
-                      textColor: AppColors.red,
                     ),
                 ],
               ),

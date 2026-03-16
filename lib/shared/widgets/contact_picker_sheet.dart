@@ -115,6 +115,60 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
       return;
     }
 
+    // Check current permission status before requesting — show rationale first
+    // if the user hasn't been asked yet, matching camera & location UX.
+    final currentStatus = await Permission.contacts.status;
+
+    if (currentStatus.isPermanentlyDenied) {
+      setState(() {
+        _isLoading = false;
+        _permanentlyDenied = true;
+      });
+      return;
+    }
+
+    if (currentStatus.isDenied) {
+      // First time or previously denied (but not permanently): show rationale
+      // instead of immediately firing the system dialog.
+      setState(() {
+        _isLoading = false;
+        _permissionDenied = true;
+      });
+      return;
+    }
+
+    if (!currentStatus.isGranted) {
+      // This case should ideally be covered by isDenied/isUndetermined,
+      // but handles other non-granted states like restricted/limited.
+      setState(() {
+        _isLoading = false;
+        _permissionDenied = true;
+      });
+      return;
+    }
+
+    // Permission already granted — fetch contacts directly.
+    try {
+      final contacts = await _service.fetchContacts();
+      setState(() {
+        _allContacts = contacts;
+        _filtered = contacts;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+        _error = 'Could not load contacts.';
+      });
+    }
+  }
+
+  Future<void> _requestContactsPermission() async {
+    setState(() {
+      _isLoading = true;
+      _permissionDenied = false;
+    });
+
     final status = await _service.requestPermission();
 
     if (status.isPermanentlyDenied) {
@@ -133,19 +187,8 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
       return;
     }
 
-    try {
-      final contacts = await _service.fetchContacts();
-      setState(() {
-        _allContacts = contacts;
-        _filtered = contacts;
-        _isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        _isLoading = false;
-        _error = 'Could not load contacts.';
-      });
-    }
+    // Permission granted — reload contacts
+    await _loadContacts();
   }
 
   Future<void> _enableContactsAccess() async {
@@ -299,7 +342,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                     textField: true,
                     label: 'Search contacts',
                     hint:
-                        'Double tap to search by contact name or phone number',
+                        'Search name or phone',
                     child: TextField(
                       controller: _searchController,
                       onChanged: _onSearch,
@@ -309,7 +352,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                       ),
                       cursorColor: AppColors.accent,
                       decoration: InputDecoration(
-                        hintText: 'Search by name or phone…',
+                        hintText: 'Search by name or',
                         hintStyle: GoogleFonts.dmSans(
                           fontSize: 14,
                           color: AppColors.text3,
@@ -362,7 +405,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
         icon: Icons.lock_rounded,
         title: 'Contacts access denied',
         message:
-            'You\'ve permanently denied contacts access. Open Settings to allow Cool to read your contacts.',
+            'You\'ve permanently denied contacts',
         actionLabel: 'Open Settings',
         onAction: _openContactsSettings,
       );
@@ -371,9 +414,9 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
     if (_accessDisabledInApp) {
       return _PermissionState(
         icon: Icons.admin_panel_settings_outlined,
-        title: 'Contacts are off in COOL',
+        title: 'Contacts are off in',
         message:
-            'Contacts access is currently disabled from Profile settings, so invite and share flows stay blocked until you turn it back on.',
+            'Contacts access is currently',
         actionLabel: 'Enable Contacts',
         onAction: _enableContactsAccess,
       );
@@ -385,9 +428,9 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
         icon: Icons.contacts_rounded,
         title: 'Contacts access needed',
         message:
-            'Cool needs access to your contacts to invite friends or share content.',
+            'Cool needs access to',
         actionLabel: 'Allow Access',
-        onAction: _loadContacts,
+        onAction: _requestContactsPermission,
       );
     }
 

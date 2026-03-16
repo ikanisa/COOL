@@ -95,7 +95,7 @@ Use this checklist for every screen review. A screen should fail if more than 4 
 
 ### 2. Copy And Labeling
 
-- Is the headline 2 to 6 words?
+- Is the headline at most 4 words?
 - Is the supporting copy 1 short sentence max above the fold?
 - Are labels broad and scan-friendly instead of technical or internal?
 - Are disclaimers, caveats, and backend explanations moved out of the main path?

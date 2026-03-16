@@ -155,7 +155,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'A one-time code will be sent to your WhatsApp.',
+                      'A one-time code will',
                       style: GoogleFonts.dmSans(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,

@@ -1,6 +1,7 @@
 import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
 import '../../../core/identity/public_user_identity.dart';
+import '../../../core/utils/json_helpers.dart' as jh;
 
 class UserProfile {
   const UserProfile({
@@ -20,6 +21,14 @@ class UserProfile {
     this.avatarUrl,
     this.officialName,
     this.officialPhone,
+    this.dateOfBirth,
+    this.nationalIdNumber,
+    this.kycDocumentType,
+    this.kycExtractedAt,
+    this.kycExtractionProvider,
+    this.identityData = const <String, Object?>{},
+    this.kycSelfieUrl,
+    this.kycIdPhotoUrl,
     this.kycStatus = 'unverified',
     this.kycVerifiedAt,
     this.creditConsentGrantedAt,
@@ -45,6 +54,14 @@ class UserProfile {
   final String? avatarUrl;
   final String? officialName;
   final String? officialPhone;
+  final String? dateOfBirth;
+  final String? nationalIdNumber;
+  final String? kycDocumentType;
+  final DateTime? kycExtractedAt;
+  final String? kycExtractionProvider;
+  final Map<String, Object?> identityData;
+  final String? kycSelfieUrl;
+  final String? kycIdPhotoUrl;
   final String kycStatus;
   final DateTime? kycVerifiedAt;
   final DateTime? creditConsentGrantedAt;
@@ -60,7 +77,8 @@ class UserProfile {
 
   bool get hasOfficialIdentity =>
       (officialName?.trim().isNotEmpty ?? false) &&
-      (officialPhone?.trim().isNotEmpty ?? false);
+      (dateOfBirth?.trim().isNotEmpty ?? false) &&
+      (nationalIdNumber?.trim().isNotEmpty ?? false);
 
   /// A user is minimally ready for in-app flows when the public profile and
   /// wallet receive route are both configured.
@@ -150,6 +168,14 @@ class UserProfile {
       avatarUrl: _asNonEmptyString(json['avatar_url']),
       officialName: _asNonEmptyString(json['official_name']),
       officialPhone: _asNonEmptyString(json['official_phone']),
+      dateOfBirth: _asNonEmptyString(json['date_of_birth']),
+      nationalIdNumber: _asNonEmptyString(json['national_id_number']),
+      kycDocumentType: _asNonEmptyString(json['kyc_document_type']),
+      kycExtractedAt: _parseDateTime(json['kyc_extracted_at']),
+      kycExtractionProvider: _asNonEmptyString(json['kyc_extraction_provider']),
+      identityData: _asJsonMap(json['identity_data']),
+      kycSelfieUrl: _asNonEmptyString(json['kyc_selfie_url']),
+      kycIdPhotoUrl: _asNonEmptyString(json['kyc_id_photo_url']),
       kycStatus: _asNonEmptyString(json['kyc_status']) ?? 'unverified',
       kycVerifiedAt: _parseDateTime(json['kyc_verified_at']),
       creditConsentGrantedAt: _parseDateTime(json['credit_consent_granted_at']),
@@ -194,11 +220,20 @@ class UserProfile {
       'avatar_url': _asNonEmptyString(avatarUrl),
       'official_name': _asNonEmptyString(officialName),
       'official_phone': _asNonEmptyString(officialPhone),
+      'date_of_birth': _asNonEmptyString(dateOfBirth),
+      'national_id_number': _asNonEmptyString(nationalIdNumber),
+      'kyc_document_type': _asNonEmptyString(kycDocumentType),
+      'kyc_extracted_at': kycExtractedAt?.toIso8601String(),
+      'kyc_extraction_provider': _asNonEmptyString(kycExtractionProvider),
+      'identity_data': identityData,
+      'kyc_selfie_url': _asNonEmptyString(kycSelfieUrl),
+      'kyc_id_photo_url': _asNonEmptyString(kycIdPhotoUrl),
       'kyc_status': kycStatus,
       'kyc_verified_at': kycVerifiedAt?.toIso8601String(),
       'credit_consent_granted_at': creditConsentGrantedAt?.toIso8601String(),
       'theme_preference': themePreference,
-      'theme_preference_updated_at': themePreferenceUpdatedAt?.toIso8601String(),
+      'theme_preference_updated_at': themePreferenceUpdatedAt
+          ?.toIso8601String(),
       'created_at': createdAt?.toIso8601String(),
       'updated_at': updatedAt?.toIso8601String(),
     };
@@ -224,6 +259,14 @@ class UserProfile {
     String? avatarUrl,
     String? officialName,
     String? officialPhone,
+    String? dateOfBirth,
+    String? nationalIdNumber,
+    String? kycDocumentType,
+    DateTime? kycExtractedAt,
+    String? kycExtractionProvider,
+    Map<String, Object?>? identityData,
+    String? kycSelfieUrl,
+    String? kycIdPhotoUrl,
     String? kycStatus,
     DateTime? kycVerifiedAt,
     DateTime? creditConsentGrantedAt,
@@ -264,6 +307,15 @@ class UserProfile {
       avatarUrl: avatarUrl ?? this.avatarUrl,
       officialName: officialName ?? this.officialName,
       officialPhone: officialPhone ?? this.officialPhone,
+      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+      nationalIdNumber: nationalIdNumber ?? this.nationalIdNumber,
+      kycDocumentType: kycDocumentType ?? this.kycDocumentType,
+      kycExtractedAt: kycExtractedAt ?? this.kycExtractedAt,
+      kycExtractionProvider:
+          kycExtractionProvider ?? this.kycExtractionProvider,
+      identityData: identityData ?? this.identityData,
+      kycSelfieUrl: kycSelfieUrl ?? this.kycSelfieUrl,
+      kycIdPhotoUrl: kycIdPhotoUrl ?? this.kycIdPhotoUrl,
       kycStatus: kycStatus ?? this.kycStatus,
       kycVerifiedAt: kycVerifiedAt ?? this.kycVerifiedAt,
       creditConsentGrantedAt:
@@ -304,6 +356,13 @@ String? _asNonEmptyString(dynamic value) {
   }
   final normalized = value.toString().trim();
   return normalized.isEmpty ? null : normalized;
+}
+
+Map<String, Object?> _asJsonMap(dynamic value) {
+  final map = jh.asMapOrNull(value);
+  return map == null
+      ? const <String, Object?>{}
+      : Map<String, Object?>.from(map);
 }
 
 MomoRecipientType? _parseMomoRecipientType(String? value) {

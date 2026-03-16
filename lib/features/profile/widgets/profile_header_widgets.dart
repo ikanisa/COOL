@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../core/config/app_market.dart';
@@ -9,19 +10,50 @@ import '../../../core/utils/phone_validator.dart';
 import '../../../shared/widgets/cool_card.dart';
 import 'profile_data.dart';
 
-/// Top-of-screen card showing user name, initials, and country/currency.
+/// Top-of-screen card showing user name, phone, KYC badge, and member since.
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({required this.profile, super.key});
 
   final ProfileData profile;
 
+  Color _kycColor(CoolPalette palette) {
+    return switch (profile.kycStatus) {
+      'verified' => palette.accent,
+      'pending_review' => const Color(0xFFF59E0B),
+      'rejected' => palette.red,
+      _ => palette.text3,
+    };
+  }
+
+  String _kycLabel() {
+    return switch (profile.kycStatus) {
+      'verified' => 'Verified',
+      'pending_review' => 'Pending',
+      'rejected' => 'Update needed',
+      _ => 'Unverified',
+    };
+  }
+
+  IconData _kycIcon() {
+    return switch (profile.kycStatus) {
+      'verified' => Icons.verified_rounded,
+      'pending_review' => Icons.schedule_rounded,
+      'rejected' => Icons.error_outline_rounded,
+      _ => Icons.shield_outlined,
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
+    final memberSince = profile.createdAt != null
+        ? DateFormat('MMM yyyy').format(profile.createdAt!)
+        : null;
+
     return CoolCard(
       backgroundColor: palette.surface,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
             width: 60,
@@ -53,14 +85,63 @@ class ProfileHeader extends StatelessWidget {
                     color: palette.text,
                   ),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  '${profile.country} · ${profile.currencyCode}',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: palette.text2,
+                if (profile.phone.isNotEmpty) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    profile.phone,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: palette.text2,
+                    ),
                   ),
+                ],
+                const SizedBox(height: 6),
+                Row(
+                  children: [
+                    // KYC badge
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color: _kycColor(palette).withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            _kycIcon(),
+                            size: 12,
+                            color: _kycColor(palette),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            _kycLabel(),
+                            style: GoogleFonts.dmSans(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w600,
+                              color: _kycColor(palette),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    // Member since
+                    if (memberSince != null) ...[
+                      const SizedBox(width: 8),
+                      Text(
+                        'Since $memberSince',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
+                          color: palette.text3,
+                        ),
+                      ),
+                    ],
+                  ],
                 ),
               ],
             ),
@@ -92,7 +173,6 @@ class ProfileMomoQrCard extends StatelessWidget {
       country,
       preferDirectDial: false,
     );
-    final displayNumber = PhoneValidator.formatMomoDisplay(momoNumber, country);
     final providerLabel = PhoneValidator.providerLabel(momoNumber, countryCode);
 
     return CoolCard(
@@ -108,17 +188,7 @@ class ProfileMomoQrCard extends StatelessWidget {
               color: palette.text,
             ),
           ),
-          const SizedBox(height: 6),
-          Text(
-            l10n.profileMomoQrSubtitle(displayNumber),
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w400,
-              color: palette.text2,
-              height: 1.4,
-            ),
-          ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 14),
           Center(
             child: Container(
               decoration: BoxDecoration(

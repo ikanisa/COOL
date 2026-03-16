@@ -54,16 +54,6 @@ class ScheduleTripReviewCard extends StatelessWidget {
               color: palette.text,
             ),
           ),
-          const SizedBox(height: 6),
-          Text(
-            subtitle,
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w400,
-              color: palette.text2,
-              height: 1.4,
-            ),
-          ),
           const SizedBox(height: 16),
           _TripReviewItem(label: roleFieldLabel, value: roleLabel),
           _TripReviewItem(label: 'Route', value: routeLabel),
@@ -112,7 +102,7 @@ class ScheduleTripPostingGuideCard extends StatelessWidget {
     return Semantics(
       container: true,
       label:
-          '$title. $visibilityLabel: $visibilityValue. $precisionLabel: $precisionValue. '
+          'title visibilityLabel visibilityValue precisionLabel'
           '$coordinationLabel: $coordinationValue. $offlineLabel: $offlineValue.',
       child: CoolCard(
         backgroundColor: palette.surface,
@@ -126,16 +116,6 @@ class ScheduleTripPostingGuideCard extends StatelessWidget {
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
                 color: palette.text,
-              ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              subtitle,
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w400,
-                color: palette.text2,
-                height: 1.4,
               ),
             ),
             const SizedBox(height: 16),

@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../features/auth/providers/auth_provider.dart';
 import '../../features/momo/providers/momo_service_provider.dart';
+import '../../features/momo/providers/momo_sms_rationale_provider.dart';
 import '../../features/momo/services/momo_sms_autoread_service.dart';
 import '../../features/mobility/services/trip_sync_service.dart';
 import '../router/app_router.dart';
@@ -37,6 +38,7 @@ final momoSmsAutoreadServiceProvider = Provider<MomoSmsAutoreadService>((ref) {
     client: ref.read(supabaseClientProvider),
     appAccessService: ref.read(appAccessServiceProvider),
     crashlytics: ref.read(crashlyticsServiceProvider),
+    consentCallback: () => ref.read(momoSmsRationaleProvider).requestRationale(),
   );
   ref.onDispose(service.dispose);
   return service;

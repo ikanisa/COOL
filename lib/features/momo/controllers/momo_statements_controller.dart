@@ -191,7 +191,7 @@ extension _MomoStatementsController on _MomoStatementsScreenState {
         ? const <SavingsStatementEntry>[]
         : savingsEntries;
     if (activeWalletEntries.isEmpty && activeSavingsEntries.isEmpty) {
-      CoolToast.info(context, 'Nothing to download for the current filters.');
+      CoolToast.info(context, 'Nothing to download');
       return;
     }
 

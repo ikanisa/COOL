@@ -186,10 +186,12 @@ void main() {
         expect(find.text('Vehicle details'), findsNothing);
 
         await tester.tap(find.text('Add return trip'));
-        await tester.pumpAndSettle();
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 400));
+        await settleTestApp(tester);
 
-        expect(find.text('Set your return route'), findsOneWidget);
-        expect(find.text('Posting as Driver'), findsOneWidget);
+        expect(find.text('Posting as driver'), findsOneWidget);
+
         expect(find.text('Pickup and destination'), findsNothing);
 
         app.router.pop();

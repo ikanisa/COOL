@@ -269,7 +269,6 @@ class QrShareSheet extends ConsumerWidget {
 
               // ── WhatsApp share button ───────────────────────────────
               WaButton(
-                label: 'Share via WhatsApp',
                 onTap: () => _shareViaWhatsApp(context, ref),
               ),
             ],

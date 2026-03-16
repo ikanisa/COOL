@@ -22,10 +22,7 @@ void main() {
   });
 
   setUp(() async {
-    await appAccessService.setEnabled(
-      AppAccessPermission.location,
-      true,
-    );
+    await appAccessService.setEnabled(AppAccessPermission.location, true);
   });
 
   tearDown(() async {
@@ -48,10 +45,7 @@ void main() {
   test(
     'bootstrap respects the in-app location access toggle from profile settings',
     () async {
-      await appAccessService.setEnabled(
-        AppAccessPermission.location,
-        false,
-      );
+      await appAccessService.setEnabled(AppAccessPermission.location, false);
       final notifier = MobilityLocationNotifier(
         service: FakeLocationService(permission: LocationPermission.whileInUse),
         openBox: Hive.openBox<dynamic>,
@@ -138,6 +132,31 @@ void main() {
 
       expect(notifier.state.status, MobilityLocationStatus.serviceDisabled);
       expect(notifier.state.hasLocation, isFalse);
+    },
+  );
+
+  test(
+    'disabling app access clears cached location and stops tracking immediately',
+    () async {
+      final notifier = MobilityLocationNotifier(
+        service: FakeLocationService(
+          permission: LocationPermission.whileInUse,
+          currentPosition: fakePosition(latitude: -1.95, longitude: 30.06),
+        ),
+        openBox: Hive.openBox<dynamic>,
+        appAccessService: appAccessService,
+      );
+
+      await notifier.bootstrap();
+      expect(notifier.state.hasLocation, isTrue);
+
+      await appAccessService.setEnabled(AppAccessPermission.location, false);
+      await notifier.handleAppAccessChanged();
+
+      final box = await Hive.openBox<dynamic>('mobility_location_cache');
+      expect(notifier.state.status, MobilityLocationStatus.accessDisabled);
+      expect(notifier.state.position, isNull);
+      expect(box.get('latest_position'), isNull);
     },
   );
 }

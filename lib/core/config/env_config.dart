@@ -25,22 +25,6 @@ class EnvConfig {
 
   static const supabaseAnonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
 
-  static const googleMapsAndroidApiKey = String.fromEnvironment(
-    'GOOGLE_MAPS_ANDROID_API_KEY',
-  );
-
-  static const googleMapsIosApiKey = String.fromEnvironment(
-    'GOOGLE_MAPS_IOS_API_KEY',
-  );
-
-  static const googleMapsAndroidMapId = String.fromEnvironment(
-    'GOOGLE_MAPS_ANDROID_MAP_ID',
-  );
-
-  static const googleMapsIosMapId = String.fromEnvironment(
-    'GOOGLE_MAPS_IOS_MAP_ID',
-  );
-
   static const deepLinkHost = String.fromEnvironment(
     'COOL_DEEP_LINK_HOST',
     defaultValue: 'cool.app',
@@ -92,12 +76,6 @@ class EnvConfig {
     'anon-key',
     'your_supabase_anon_key',
     'your-anon-key',
-  };
-
-  static const _placeholderGoogleMapsApiKeyValues = <String>{
-    'your_google_maps_android_api_key',
-    'your_google_maps_ios_api_key',
-    'google_maps_api_key',
   };
 
   static String? get criticalConfigurationError =>
@@ -165,69 +143,7 @@ class EnvConfig {
         'set for production domain if deploying',
       );
     }
-    if (!hasGoogleMapsApiKeyForPlatform(TargetPlatform.android) &&
-        !hasGoogleMapsApiKeyForPlatform(TargetPlatform.iOS)) {
-      warnings.add(
-        'INFO: Google Maps API keys are not set — embedded maps stay hidden '
-        'until GOOGLE_MAPS_ANDROID_API_KEY / GOOGLE_MAPS_IOS_API_KEY are '
-        'provided.',
-      );
-    }
-    if (googleMapsAndroidMapId.isEmpty && googleMapsIosMapId.isEmpty) {
-      warnings.add(
-        'INFO: Google Maps map IDs are not set — branded map styling will '
-        'stay on the default map until GOOGLE_MAPS_ANDROID_MAP_ID / '
-        'GOOGLE_MAPS_IOS_MAP_ID are provided.',
-      );
-    }
     return warnings;
-  }
-
-  static String? googleMapsMapIdForPlatform(TargetPlatform platform) {
-    final raw = switch (platform) {
-      TargetPlatform.android => googleMapsAndroidMapId,
-      TargetPlatform.iOS => googleMapsIosMapId,
-      _ => '',
-    };
-    final trimmed = raw.trim();
-    return trimmed.isEmpty ? null : trimmed;
-  }
-
-  static bool hasGoogleMapsApiKeyForPlatform(
-    TargetPlatform platform, {
-    String? androidApiKey,
-    String? iosApiKey,
-  }) {
-    final raw = switch (platform) {
-      TargetPlatform.android => androidApiKey ?? googleMapsAndroidApiKey,
-      TargetPlatform.iOS => iosApiKey ?? googleMapsIosApiKey,
-      _ => '',
-    };
-    final trimmed = raw.trim();
-    return trimmed.isNotEmpty &&
-        !_looksLikePlaceholderValue(
-          value: trimmed,
-          placeholders: _placeholderGoogleMapsApiKeyValues,
-        );
-  }
-
-  static bool hasEmbeddedGoogleMapsSupport(TargetPlatform platform) {
-    return switch (platform) {
-      TargetPlatform.android ||
-      TargetPlatform.iOS => hasGoogleMapsApiKeyForPlatform(platform),
-      _ => false,
-    };
-  }
-
-  static String? embeddedGoogleMapsUnavailableReason(TargetPlatform platform) {
-    if (hasEmbeddedGoogleMapsSupport(platform)) {
-      return null;
-    }
-    return switch (platform) {
-      TargetPlatform.android ||
-      TargetPlatform.iOS => 'Embedded maps are unavailable in this build.',
-      _ => 'Embedded maps are unavailable on this platform.',
-    };
   }
 
   /// Whether critical env vars are present.

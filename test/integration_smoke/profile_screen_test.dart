@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -88,7 +87,7 @@ void main() {
     }
 
     testWidgets(
-      'shows clear primary sections and hides secondary tools by default',
+      'shows all sections directly in flat layout',
       (tester) async {
         await pumpScopedApp(
           tester,
@@ -107,18 +106,16 @@ void main() {
 
         expect(find.text('Profile'), findsOneWidget);
         expect(find.text('Account'), findsOneWidget);
-        expect(find.text('Travel role'), findsOneWidget);
-        expect(find.text('Passenger'), findsOneWidget);
+        expect(find.text('Personal Info'), findsOneWidget);
+        expect(find.text('Mobility'), findsOneWidget);
+
+        expect(find.text('Passenger'), findsAtLeastNWidgets(1));
         expect(find.text('Mobile Money'), findsOneWidget);
-        expect(find.text('Credit score'), findsOneWidget);
-        expect(find.text('More tools'), findsOneWidget);
-
-
-        expect(find.text('App access'), findsNothing);
-        expect(find.text('Support'), findsNothing);
-        expect(find.text('Credit readiness'), findsNothing);
-        expect(find.text('MoMo QR'), findsNothing);
-        expect(find.text('COOL status'), findsNothing);
+        expect(find.text('Credit Score'), findsOneWidget);
+        expect(find.text('App access'), findsOneWidget);
+        expect(find.text('Support'), findsAtLeastNWidgets(1));
+        expect(find.text('Credit readiness'), findsOneWidget);
+        expect(find.text('COOL status'), findsOneWidget);
       },
     );
 
@@ -140,13 +137,12 @@ void main() {
 
         await settleTestApp(tester);
 
-        expect(find.text('Travel role'), findsOneWidget);
+        expect(find.text('Mobility'), findsOneWidget);
 
-        await tester.tap(find.text('Travel role'));
+        await tester.tap(find.text('Mobility'));
         await tester.pumpAndSettle();
 
         expect(find.text('Passenger'), findsAtLeastNWidgets(1));
-        expect(find.text('Switch to driver'), findsOneWidget);
       },
     );
 
@@ -168,20 +164,20 @@ void main() {
 
         await settleTestApp(tester);
 
-        await tester.tap(find.text('Mobile Money'));
+        await tester.tap(find.text('Wallet'));
         await tester.pumpAndSettle();
 
-        expect(find.text('Edit MoMo Info'), findsOneWidget);
-        expect(find.text('DEFAULT RECEIVE ROUTE'), findsOneWidget);
+        expect(find.text('Wallet'), findsWidgets);
 
-        await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+        await tester.tap(find.byIcon(Icons.arrow_back_rounded).first);
         await tester.pumpAndSettle();
 
-        await tester.tap(find.text('Official identity'));
+        await tester.tap(find.text('Personal Info'));
         await tester.pumpAndSettle();
 
-        expect(find.text('KYC status'), findsOneWidget);
-        expect(find.text('Legal name for reports'), findsOneWidget);
+        expect(find.text('Personal Info'), findsWidgets);
+        expect(find.text('Choose document type'), findsOneWidget);
+        expect(find.text('Front of ID'), findsOneWidget);
       },
     );
 
@@ -203,16 +199,16 @@ void main() {
 
       await settleTestApp(tester);
 
-      expect(find.text('Travel role'), findsOneWidget);
+      expect(find.text('Mobility'), findsOneWidget);
 
-      await tester.tap(find.text('Travel role'));
+      await tester.tap(find.text('Mobility'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Driver setup'), findsOneWidget);
+      expect(find.text('Passenger'), findsWidgets);
       expect(find.text('Switch to driver'), findsNothing);
     });
 
-    testWidgets('reveals secondary shortcuts when more tools expands', (
+    testWidgets('shows tools directly without toggle', (
       tester,
     ) async {
       await pumpScopedApp(
@@ -228,19 +224,15 @@ void main() {
         overrides: overrides(),
       );
 
-      await tester.ensureVisible(find.byType(ProfileSectionToggleCard));
-      await tester.tap(find.byType(ProfileSectionToggleCard));
       await settleTestApp(tester);
 
-      expect(find.text('App access'), findsOneWidget);
-      expect(find.text('Support'), findsOneWidget);
-      expect(find.text('Credit readiness'), findsOneWidget);
+      expect(find.text('Personal Info'), findsOneWidget);
       expect(find.text('MoMo QR'), findsOneWidget);
-      expect(find.text('COOL status'), findsOneWidget);
+      expect(find.text('Cool Tokens'), findsOneWidget);
     });
 
     testWidgets(
-      'keeps admin panel in overflow instead of the main tools list',
+      'shows admin panel directly for admin users',
       (tester) async {
         await pumpScopedApp(
           tester,
@@ -257,26 +249,11 @@ void main() {
 
         await settleTestApp(tester);
 
-        expect(find.byIcon(Icons.more_horiz_rounded), findsOneWidget);
-        expect(find.text('Admin panel'), findsNothing);
-
-        await tester.ensureVisible(find.byType(ProfileSectionToggleCard));
-        await tester.tap(find.byType(ProfileSectionToggleCard));
-        await settleTestApp(tester);
-
-        expect(find.text('Admin panel'), findsNothing);
-
-        await tester.tap(find.byIcon(Icons.more_horiz_rounded));
-        await tester.pumpAndSettle();
-
-        await tester.tap(find.text('More tools'));
-      await tester.pumpAndSettle();
-
-      expect(find.text('Admin panel'), findsOneWidget);
+        expect(find.text('Admin panel'), findsOneWidget);
       },
     );
 
-    testWidgets('shows the admin overflow entry for partner admin access', (
+    testWidgets('shows admin panel for partner admin access', (
       tester,
     ) async {
       await pumpScopedApp(
@@ -297,14 +274,6 @@ void main() {
       );
 
       await settleTestApp(tester);
-
-      expect(find.byIcon(Icons.more_horiz_rounded), findsOneWidget);
-
-      await tester.tap(find.byIcon(Icons.more_horiz_rounded));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('More tools'));
-      await tester.pumpAndSettle();
 
       expect(find.text('Admin panel'), findsOneWidget);
     });

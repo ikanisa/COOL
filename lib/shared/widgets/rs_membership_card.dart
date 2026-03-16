@@ -20,7 +20,7 @@ class RsMembershipCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       label:
-          'Rayon Sports membership. ${membership.displayName}. '
+          'Rayon Sports membership. ${membership.displayName}.'
           '${membership.tier.label} tier. '
           '${showPoints ? '${membership.points} points.' : ''}',
       excludeSemantics: true,

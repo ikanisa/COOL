@@ -40,9 +40,8 @@ the remaining Google Play and Firebase work.
   - `receiving_momo_route_type`
   - `momo_number`
 - Partner routing is only partially dynamic today:
-  - saving groups store `bank_partner`, but `public.partners` does not yet
-    carry a MoMo recipient/code field
   - Rayon Sports still uses a hardcoded MoMo code in app code: `008000`
+  - Bank/saving group collection routes are not yet modeled in `public.partners`
 
 ## Official Requirement Summary
 
@@ -121,8 +120,8 @@ the remaining Google Play and Firebase work.
 5. Partner-routing implementation is not fully aligned with the intended
    dynamic recipient architecture.
    - Community groups already store their own recipient route in Supabase.
-   - Saving groups only store a `bank_partner` label today.
    - Rayon Sports still uses a hardcoded app-side MoMo code.
+   - Bank/saving group collection routes remain static or unmapped in `public.partners`.
    - Result: if production requires all bank/partner recipients to be managed
      from Supabase partner records, that implementation remains open.
 

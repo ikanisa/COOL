@@ -324,7 +324,7 @@ class _MomoSendReviewCard extends StatelessWidget {
     return Semantics(
       container: true,
       label:
-          '${l10n.momoReviewTitle}. ${l10n.momoReviewRecipientLabel}: ${recipient.isEmpty ? l10n.momoReviewMissingRecipient : recipient}. '
+          '${l10n.momoReviewTitle}. ${l10n.momoReviewRecipientLabel}: ${recipient.isEmpty ? l10n.momoReviewMissingRecipient : recipient}.'
           '${l10n.momoReviewAmountLabel}: ${amount == null ? l10n.momoReviewMissingAmount : _formatAmount(amount!, country.currencyCode, localeTag)}.',
       child: CoolCard(
         backgroundColor: palette.surface2,

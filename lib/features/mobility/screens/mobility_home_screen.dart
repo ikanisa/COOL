@@ -8,7 +8,6 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../auth/providers/auth_provider.dart';
-import '../../../core/config/env_config.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/services/whatsapp_contact_service.dart';
@@ -23,7 +22,6 @@ import '../providers/mobility_location_provider.dart';
 import '../providers/mobility_provider.dart';
 import '../widgets/mobility_list_widgets.dart';
 import '../widgets/mobility_listing_sheet.dart';
-import '../widgets/mobility_map_widgets.dart';
 
 class MobilityHomeScreen extends ConsumerStatefulWidget {
   const MobilityHomeScreen({super.key});
@@ -35,7 +33,6 @@ class MobilityHomeScreen extends ConsumerStatefulWidget {
 class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
   late final ProviderSubscription<MobilityLocationState> _locationSubscription;
   late final MobilityLocationNotifier _locationNotifier;
-  bool _showMap = false;
 
   @override
   void initState() {
@@ -195,11 +192,7 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
     final driverProfile = ref.watch(
       driverProvider.select((state) => state.profile),
     );
-    final activeTab = ref.watch(mobilityActiveTabProvider);
     final isDriver = (currentUser?.isDriver ?? false) || driverProfile != null;
-    final supportsEmbeddedMaps = EnvConfig.hasEmbeddedGoogleMapsSupport(
-      Theme.of(context).platform,
-    );
 
     return Scaffold(
       backgroundColor: palette.bg,
@@ -239,24 +232,8 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
                 sliver: SliverToBoxAdapter(
                   child: MobilityTopActionsCard(
                     isDriver: isDriver,
-                    onOpenTrips: () => context.push(AppRoutes.mobilityTrips),
                     onScheduleTrip: () =>
                         context.push(AppRoutes.mobilitySchedule),
-                    onOpenDriverTools: isDriver
-                        ? () => context.push(AppRoutes.mobilityDriver)
-                        : null,
-                  ),
-                ),
-              ),
-              SliverPadding(
-                padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
-                sliver: SliverToBoxAdapter(
-                  child: MobilityBrowseControlsCard(
-                    supportsEmbeddedMaps: supportsEmbeddedMaps,
-                    showMap: _showMap,
-                    onToggleMap: () {
-                      setState(() => _showMap = !_showMap);
-                    },
                   ),
                 ),
               ),
@@ -271,17 +248,6 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
                   unawaited(_showTripPreview(trip));
                 },
               ),
-              if (activeTab == 0 && supportsEmbeddedMaps && _showMap)
-                SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(18, 12, 18, 0),
-                  sliver: SliverToBoxAdapter(
-                    child: MobilityMapSection(
-                      onDriverTap: (driver) {
-                        unawaited(_showDriverPreview(driver));
-                      },
-                    ),
-                  ),
-                ),
               const SliverToBoxAdapter(child: SizedBox(height: 96)),
             ],
           ),

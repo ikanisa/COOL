@@ -12,6 +12,14 @@ import {
 } from "../_shared/observability.ts";
 import { normalizePhone, PhoneValidationError } from "../_shared/phone.ts";
 import { createAdminClient, createUserClient } from "../_shared/supabase.ts";
+import {
+  asString,
+  buildDeviceMessageKey,
+  isApprovedSender,
+  normalizeIngestionSource,
+  normalizeWhitespace,
+  parseReceivedAt,
+} from "./rules.ts";
 
 type SmsIngestRequest = {
   sender?: string;
@@ -22,38 +30,6 @@ type SmsIngestRequest = {
 };
 
 const parseSkippedStatuses = new Set(["processing", "parsed", "ignored"]);
-
-function asString(value: unknown): string | null {
-  if (typeof value === "string") {
-    const trimmed = value.trim();
-    return trimmed.length > 0 ? trimmed : null;
-  }
-
-  if (typeof value === "number" || typeof value === "boolean") {
-    return String(value);
-  }
-
-  return null;
-}
-
-function normalizeWhitespace(value: string): string {
-  return value.replaceAll(/\s+/g, " ").trim();
-}
-
-function normalizeSender(value: string): string {
-  return value.toLowerCase().trim().replaceAll(/[^a-z0-9]/g, "");
-}
-
-function parseReceivedAt(value: string | null): string {
-  if (!value) {
-    return new Date().toISOString();
-  }
-
-  const parsed = new Date(value);
-  return Number.isNaN(parsed.getTime())
-    ? new Date().toISOString()
-    : parsed.toISOString();
-}
 
 function normalizeOptionalPhone(value: unknown): string | null {
   const raw = asString(value);
@@ -69,26 +45,6 @@ function normalizeOptionalPhone(value: unknown): string | null {
     }
     throw error;
   }
-}
-
-async function buildDeviceMessageKey(options: {
-  sender: string;
-  smsBody: string;
-  smsReceivedAt: string;
-}) {
-  const payload = [
-    normalizeSender(options.sender),
-    options.smsReceivedAt,
-    normalizeWhitespace(options.smsBody),
-  ].join("|");
-  const digest = await crypto.subtle.digest(
-    "SHA-256",
-    new TextEncoder().encode(payload),
-  );
-
-  return Array.from(new Uint8Array(digest))
-    .map((byte) => byte.toString(16).padStart(2, "0"))
-    .join("");
 }
 
 async function queueParseIfNeeded(options: {
@@ -155,6 +111,9 @@ Deno.serve(async (request: Request) => {
     if (!sender || smsBody.length === 0) {
       return errorResponse("sender and smsBody are required", 400);
     }
+    if (!isApprovedSender(sender)) {
+      return errorResponse("Unsupported SMS sender", 400);
+    }
 
     const smsReceivedAt = parseReceivedAt(asString(body.smsReceivedAt));
     const deviceMessageKey = await buildDeviceMessageKey({
@@ -162,8 +121,7 @@ Deno.serve(async (request: Request) => {
       smsBody,
       smsReceivedAt,
     });
-    const ingestionSource = asString(body.ingestionSource) ??
-      "android_sms_listener";
+    const ingestionSource = normalizeIngestionSource(body.ingestionSource);
 
     const appUserResult = await adminClient
       .from("users")

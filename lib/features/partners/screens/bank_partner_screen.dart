@@ -8,7 +8,6 @@ import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../models/partner.dart';
 import '../providers/partner_provider.dart';
-import '../providers/partner_service_provider.dart';
 import '../widgets/bank_partner_config.dart';
 import '../widgets/bank_partner_widgets.dart';
 import '../widgets/partner_navigation.dart';
@@ -90,9 +89,6 @@ class _BankBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final config = bankConfigForSlug(partner.slug);
-    final servicesAsync = ref.watch(
-      currentCountryPartnerServicesProvider(partner.id),
-    );
 
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
@@ -102,53 +98,6 @@ class _BankBody extends ConsumerWidget {
           BankHero(partner: partner, config: config),
           const SizedBox(height: 16),
           BankQuickActionGrid(partner: partner, config: config),
-          const SizedBox(height: 16),
-          BankSourceCard(config: config),
-          const SizedBox(height: 18),
-          servicesAsync.when(
-            loading: () => const CoolSkeletonList(itemCount: 5),
-            error: (e, _) => PartnerErrorCard(message: e.toString()),
-            data: (services) {
-              if (services.isEmpty) {
-                return PartnerEmptyServicesCard(partnerName: partner.name);
-              }
-
-              final grouped = groupBankServices(services);
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  for (final group in grouped) ...[
-                    PartnerSectionHeader(
-                      category: group.key,
-                      categoryMeta: bankCategoryMeta,
-                    ),
-                    const SizedBox(height: 12),
-                    for (final service in group.value) ...[
-                      PartnerServiceCard(
-                        service: service,
-                        partner: partner,
-                        categoryMeta: bankCategoryMeta,
-                        normalizeCategory: normalizeBankCategory,
-                        onCtaTap: (ctx, {required action, topic}) =>
-                            launchPartnerAction(
-                              ctx,
-                              partner,
-                              action: action,
-                              topic: topic,
-                            ),
-                        gradientWhen: (cat) =>
-                            cat == 'digital' ? AppColors.blueGradient : null,
-                      ),
-                      const SizedBox(height: 12),
-                    ],
-                    const SizedBox(height: 6),
-                  ],
-                ],
-              );
-            },
-          ),
-          const SizedBox(height: 8),
-          BankSupportCard(partner: partner, config: config),
         ],
       ),
     );

@@ -11,6 +11,8 @@ class FanMembership extends Equatable {
     required this.chapter,
     required this.membershipNumber,
     required this.joinedAt,
+    this.expiresAt,
+    this.renewedAt,
   });
 
   final String id;
@@ -22,6 +24,11 @@ class FanMembership extends Equatable {
   final String chapter;
   final String membershipNumber;
   final DateTime joinedAt;
+  final DateTime? expiresAt;
+  final DateTime? renewedAt;
+
+  bool get isExpired =>
+      expiresAt != null && expiresAt!.isBefore(DateTime.now());
 
   int get nextTierPoints => switch (tier) {
     FanTier.blue => 1000,
@@ -74,6 +81,8 @@ class FanMembership extends Equatable {
       ),
       joinedAt:
           _asDateTime(json['joined_at'] ?? json['joinedAt']) ?? DateTime.now(),
+      expiresAt: _asDateTime(json['expires_at'] ?? json['expiresAt']),
+      renewedAt: _asDateTime(json['renewed_at'] ?? json['renewedAt']),
     );
   }
 
@@ -88,6 +97,8 @@ class FanMembership extends Equatable {
       'chapter': chapter,
       'membership_number': membershipNumber,
       'joined_at': joinedAt.toIso8601String(),
+      if (expiresAt != null) 'expires_at': expiresAt!.toIso8601String(),
+      if (renewedAt != null) 'renewed_at': renewedAt!.toIso8601String(),
     };
   }
 
@@ -101,6 +112,8 @@ class FanMembership extends Equatable {
     String? chapter,
     String? membershipNumber,
     DateTime? joinedAt,
+    Object? expiresAt = _unset,
+    Object? renewedAt = _unset,
   }) {
     return FanMembership(
       id: id ?? this.id,
@@ -112,6 +125,12 @@ class FanMembership extends Equatable {
       chapter: chapter ?? this.chapter,
       membershipNumber: membershipNumber ?? this.membershipNumber,
       joinedAt: joinedAt ?? this.joinedAt,
+      expiresAt: identical(expiresAt, _unset)
+          ? this.expiresAt
+          : expiresAt as DateTime?,
+      renewedAt: identical(renewedAt, _unset)
+          ? this.renewedAt
+          : renewedAt as DateTime?,
     );
   }
 
@@ -126,6 +145,8 @@ class FanMembership extends Equatable {
     chapter,
     membershipNumber,
     joinedAt,
+    expiresAt,
+    renewedAt,
   ];
 }
 

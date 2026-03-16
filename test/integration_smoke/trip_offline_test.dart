@@ -1,13 +1,11 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mocktail/mocktail.dart';
 
-import 'package:cool_app/core/config/env_config.dart';
 import 'package:cool_app/core/services/app_access_service.dart';
 import 'package:cool_app/core/services/location_service.dart';
 import 'package:cool_app/features/mobility/models/subscription_status.dart';
@@ -177,23 +175,19 @@ void main() {
       );
 
       expect(find.text('Mobility'), findsOneWidget);
-      expect(find.text('Find or post a ride'), findsOneWidget);
-      expect(find.text('Nearby drivers'), findsOneWidget);
-      expect(find.text('All vehicle types'), findsOneWidget);
-      expect(find.text('Filters'), findsOneWidget);
+      expect(find.text('Plan a trip'), findsOneWidget);
+      expect(find.text('Nearby Drivers'), findsOneWidget);
+      expect(find.text('Scheduled Trips'), findsOneWidget);
+      expect(find.text('All'), findsOneWidget);
       expect(find.text('Schedule trip'), findsOneWidget);
       expect(find.text('Manage driver mode'), findsOneWidget);
-      expect(
-        find.text('Show map'),
-        EnvConfig.hasEmbeddedGoogleMapsSupport(TargetPlatform.android)
-            ? findsOneWidget
-            : findsNothing,
-      );
+      expect(find.text('Show map'), findsNothing);
+      expect(find.text('Filters'), findsNothing);
 
       await tester.tap(find.text('Scheduled Trips'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Scheduled trips'), findsOneWidget);
+      expect(find.text('Scheduled Trips'), findsOneWidget);
       expect(find.text('Show map'), findsNothing);
     },
   );

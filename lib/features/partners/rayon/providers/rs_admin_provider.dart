@@ -81,3 +81,31 @@ final rsAdminMembershipPackagesProvider =
       final repo = ref.watch(rayonSportsRepositoryProvider);
       return repo.adminGetMembershipPackages();
     });
+
+/// Contributors for a specific initiative (admin).
+final rsAdminInitiativeContributorsProvider = FutureProvider.autoDispose
+    .family<List<Map<String, dynamic>>, String>((ref, initiativeId) async {
+      final repo = ref.watch(rayonSportsRepositoryProvider);
+      return repo.getRecentContributors(initiativeId, 50);
+    });
+
+/// Recent contributions for a specific initiative (admin).
+final rsAdminInitiativeContributionsProvider = FutureProvider.autoDispose
+    .family<List<RsInitiativeContribution>, String>((ref, initiativeId) async {
+      final repo = ref.watch(rayonSportsRepositoryProvider);
+      return repo.getRecentContributionActivity(initiativeId, 20);
+    });
+
+/// Fan engagement analytics summary.
+final rsAdminFanAnalyticsProvider =
+    FutureProvider.autoDispose<Map<String, dynamic>>((ref) async {
+  final repo = ref.watch(rayonSportsRepositoryProvider);
+  return repo.fetchRsFanAnalytics();
+});
+
+/// Notification history.
+final rsAdminNotificationsProvider = FutureProvider.autoDispose
+    .family<List<Map<String, dynamic>>, String?>((ref, matchId) async {
+  final repo = ref.watch(rayonSportsRepositoryProvider);
+  return repo.fetchRsNotifications(matchId: matchId);
+});

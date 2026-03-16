@@ -54,12 +54,12 @@ class ReadinessNextMoveCard extends StatelessWidget {
         ? 'Tighten the profile first'
         : partnerReady
         ? 'The user can move to partners'
-        : 'Keep building verified financial history';
+        : 'Build financial history';
     final detail = needsProfileWork
         ? report.accountOpening.nextStep
         : partnerReady
         ? report.loanApplication.nextStep
-        : 'Let wallet, savings, and KYC evidence mature first.';
+        : 'Let evidence mature';
 
     return CoolCard(
       borderColor: AppColors.purple.withValues(alpha: 0.25),
@@ -389,7 +389,7 @@ class ReadinessEmptyState extends StatelessWidget {
       child: CoolCard(
         child: CoolEmptyView(
           message:
-              'Sign in to review formal profile, credit, and bank-onboarding readiness.',
+              'Sign in',
           compact: true,
           icon: Icons.credit_score_outlined,
         ),

@@ -98,7 +98,7 @@ class _DriverVehicleScreenState extends ConsumerState<DriverVehicleScreen> {
           const _DriverDetailIntroCard(
             title: 'Vehicle details',
             subtitle:
-                'Keep your vehicle type, plate number, and base location current so riders see the right setup.',
+                'Keep your vehicle info',
           ),
           const SizedBox(height: 16),
           _VehicleSummaryCard(vehicle: vehicle, onEdit: _openVehicleEditor),
@@ -218,7 +218,7 @@ class _DriverSubscriptionScreenState
           const _DriverDetailIntroCard(
             title: 'Subscription access',
             subtitle:
-                'Review trip credits, active plan status, and upgrade options without mixing them into your driving dashboard.',
+                'Credits plan status and',
           ),
           const SizedBox(height: 16),
           _SubscriptionAccessCard(
@@ -235,8 +235,8 @@ class _DriverSubscriptionScreenState
             _DriverDetailNoteCard(
               title: 'Renewal note',
               message:
-                  'Your ${activeSubscription.plan.displayName} access stays active until '
-                  '${formatDate(activeSubscription.expiresAt)}. Renew near expiry if your vehicle setup changes.',
+                  'Active until ${formatDate(activeSubscription.expiresAt)}.',
+              // ignore: unused_field
               icon: Icons.schedule_rounded,
               accentColor: AppColors.blue,
             ),
@@ -255,8 +255,7 @@ class _DriverSubscriptionScreenState
             _DriverDetailNoteCard(
               title: 'Selected plan',
               message:
-                  '${_selectedPlan.displayName} costs ${formatAmount(_selectedPlan.amountRwf)} RWF per month. '
-                  'Payment opens the MOMO USSD flow on your phone.',
+                  '${_selectedPlan.displayName} ${formatAmount(_selectedPlan.amountRwf)} RWF/month via',
               icon: Icons.phone_forwarded_rounded,
               accentColor: AppColors.accent,
             ),
@@ -393,7 +392,7 @@ class _VehicleReadinessCard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            'These details shape how riders recognise and trust your vehicle before they book.',
+            'Riders see these before',
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w400,
@@ -780,15 +779,15 @@ String _subscriptionAccessMessage({
     return 'Unlimited trip posting is active until ${formatDate(activeSubscription.expiresAt)}.';
   }
   if (hasExpiredSubscription) {
-    return 'Your previous paid plan expired. Pick a new plan below to restore unlimited posting.';
+    return 'Previous plan expired. Resubscribe below.';
   }
   if (freeTripsRemaining <= 0) {
-    return 'Your free driver credits are finished. Choose a plan below to keep posting trips.';
+    return 'Free credits used. Subscribe to keep posting.';
   }
   if (freeTripsRemaining < 5) {
-    return 'Your free driver credits are getting low. Upgrade now to avoid interruptions.';
+    return 'Credits running low. Upgrade soon.';
   }
-  return 'You can keep using free credits for now, or switch to unlimited posting at any time.';
+  return 'Free credits available. Upgrade anytime.';
 }
 
 class _StatusChip extends StatelessWidget {

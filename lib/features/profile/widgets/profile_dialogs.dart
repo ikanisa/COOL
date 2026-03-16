@@ -294,7 +294,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
       numErr = PhoneValidator.validateMomoNumberForCountry(number, country);
     } else if (selectedRouteType == MomoRecipientType.phoneNumber) {
       numErr = country.supportsMomoCode
-          ? 'MoMo number is required for the selected default route'
+          ? 'MoMo number required'
           : 'MoMo number is required';
     }
 
@@ -303,7 +303,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
       codeErr = PhoneValidator.validateMomoCode(code, country: country);
     } else if (country.supportsMomoCode &&
         selectedRouteType == MomoRecipientType.code) {
-      codeErr = 'MoMo code is required for the selected default route';
+      codeErr = 'MoMo code required';
     }
 
     setState(() {
@@ -373,51 +373,6 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
               color: AppColors.text,
             ),
           ),
-          const SizedBox(height: 6),
-          Text(
-            l10n.profileEditMomoSubtitle,
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w400,
-              color: AppColors.text3,
-            ),
-          ),
-          const SizedBox(height: 20),
-
-          Text(
-            l10n.countryLabel.toUpperCase(),
-            style: GoogleFonts.dmSans(
-              fontSize: 11,
-              fontWeight: FontWeight.w700,
-              color: AppColors.text3,
-              letterSpacing: 1.2,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-            decoration: BoxDecoration(
-              color: AppColors.surface2,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.border),
-            ),
-            child: Row(
-              children: [
-                Text(country.flagEmoji, style: const TextStyle(fontSize: 20)),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    '${country.name}  ·  ${country.currencyCode}  ·  ${country.dialCode}',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.text,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
           const SizedBox(height: 20),
 
           Text(
@@ -433,7 +388,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
           Semantics(
             textField: true,
             label: l10n.momoNumberLabel,
-            hint: 'Double tap to enter your Mobile Money number',
+            hint: 'Enter MoMo number',
             child: TextField(
               controller: _numberController,
               keyboardType: TextInputType.phone,
@@ -499,7 +454,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
             Semantics(
               textField: true,
               label: l10n.profileMomoCodeOptional,
-              hint: 'Double tap to enter your Mobile Money merchant code',
+              hint: 'Enter merchant code',
               child: TextField(
                 controller: _codeController,
                 keyboardType: TextInputType.number,
@@ -549,16 +504,6 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
                   _codeError = null;
                 });
               },
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Choose how to receive payments when both fields are saved.',
-              style: GoogleFonts.dmSans(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: AppColors.text3,
-                height: 1.4,
-              ),
             ),
           ],
 
@@ -677,15 +622,15 @@ class _ProfileOfficialIdentityEditSheetState
     String? nameError;
     String? phoneError;
     if (hasName != hasPhone) {
-      nameError = hasName ? null : 'Add the legal name used for KYC.';
-      phoneError = hasPhone ? null : 'Add the phone used for KYC reports.';
+      nameError = hasName ? null : 'Name required';
+      phoneError = hasPhone ? null : 'Phone required';
     } else if (hasPhone) {
       try {
         widget.country.normalizeNationalPhone(officialPhone);
       } on FormatException catch (error) {
         final message = error.message.toString().trim();
         phoneError = message.isEmpty
-            ? 'Enter a valid ${widget.country.name} phone number.'
+            ? 'Invalid phone number'
             : message;
       }
     }
@@ -759,17 +704,6 @@ class _ProfileOfficialIdentityEditSheetState
               fontSize: 18,
               fontWeight: FontWeight.w700,
               color: AppColors.text,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            'Used only for KYC, partner statements, and formal reports. '
-            'The app still shows your 6-digit user ID everywhere else.',
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w400,
-              color: AppColors.text3,
-              height: 1.45,
             ),
           ),
           const SizedBox(height: 18),
@@ -851,7 +785,7 @@ class _ProfileOfficialIdentityEditSheetState
           Semantics(
             textField: true,
             label: l10n.nameLabel,
-            hint: 'Double tap to enter your legal name',
+            hint: 'Enter legal name',
             child: TextField(
               controller: _nameController,
               textCapitalization: TextCapitalization.words,
@@ -895,7 +829,7 @@ class _ProfileOfficialIdentityEditSheetState
           Semantics(
             textField: true,
             label: l10n.phoneLabel,
-            hint: 'Double tap to enter your phone number',
+            hint: 'Enter phone number',
             child: TextField(
               controller: _phoneController,
               keyboardType: TextInputType.phone,
@@ -923,7 +857,7 @@ class _ProfileOfficialIdentityEditSheetState
                 ),
                 errorText: _phoneError,
                 helperText:
-                    'Use the real phone number that should appear in formal statements.',
+                    'Use the real phone',
                 helperMaxLines: 2,
               ),
             ),

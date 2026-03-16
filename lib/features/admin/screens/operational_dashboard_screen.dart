@@ -62,7 +62,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
             const _SectionHeader(
               title: 'Release Dashboard',
               subtitle:
-                  'Live health by monitored surface so release blockers show up before user reports do.',
+                  'Live health by monitored',
             ),
             const SizedBox(height: 12),
             CoolAsyncView<List<Map<String, dynamic>>>(
@@ -71,7 +71,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
               loadingWidget: const CoolSkeletonList(itemCount: 3),
               emptyCheck: (rows) => rows.isEmpty,
               emptyWidget: const CoolEmptyView(
-                message: 'No operational dashboard rows are available yet.',
+                message: 'No operational dashboard yet',
                 icon: Icons.monitor_heart_outlined,
               ),
               builder: (rows) => Column(
@@ -89,7 +89,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
             const _SectionHeader(
               title: 'Triage Queue',
               subtitle:
-                  'Focused on failed payment sync, failed function invocation, and stale config.',
+                  'Focused on failed payment',
             ),
             const SizedBox(height: 12),
             CoolAsyncView<List<Map<String, dynamic>>>(
@@ -99,7 +99,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
               emptyCheck: (rows) => rows.isEmpty,
               emptyWidget: const CoolEmptyView(
                 message:
-                    'No release-blocking operational issues need triage right now.',
+                    'No release-blocking operational issues',
                 icon: Icons.fact_check_outlined,
               ),
               builder: (rows) => Column(
@@ -117,7 +117,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
             const _SectionHeader(
               title: 'Recent Signals',
               subtitle:
-                  'Raw health events from mobile and Edge Function instrumentation.',
+                  'Raw health events from',
             ),
             const SizedBox(height: 12),
             CoolAsyncView<List<Map<String, dynamic>>>(
@@ -126,7 +126,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
               loadingWidget: const CoolSkeletonList(itemCount: 3),
               emptyCheck: (rows) => rows.isEmpty,
               emptyWidget: const CoolEmptyView(
-                message: 'No operational health events have been recorded yet.',
+                message: 'No operational health yet',
                 icon: Icons.sensors_outlined,
               ),
               builder: (rows) => Column(
@@ -462,10 +462,7 @@ class _FactLine extends StatelessWidget {
           children: [
             TextSpan(
               text: '$label: ',
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                color: AppColors.text,
-              ),
+              style: const TextStyle(fontWeight: FontWeight.w700),
             ),
             TextSpan(text: value),
           ],
@@ -486,8 +483,9 @@ class _Badge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
+        color: color.withValues(alpha: 0.16),
         borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: color.withValues(alpha: 0.35)),
       ),
       child: Text(
         label,

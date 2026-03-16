@@ -152,23 +152,13 @@ It does not support:
 - admin exports
 - admin summaries
 
-### 5. Group-bank linkage is not strong enough yet
+### 5. Group-bank linkage removed from mobile contract
 
-The group model currently carries:
-
+The group model previously carried:
 - `bankPartner` as a display string
 - `institutionId` as an optional field
 
-Evidence:
-
-- `lib/features/groups/models/group.dart`
-- `lib/features/groups/screens/create_group_screen.dart`
-
-But in practice:
-
-- the create flow selects a bank by visible partner name
-- `institution_id` is present in the model and migrations, but is not meaningfully used by the app
-- there is no enforced foreign-key-driven admin scoping from a bank partner to the groups it custodians
+These have been removed from the mobile model and the create-group contract to focus on direct collection and to avoid unverified partner labeling.
 
 This is the second critical mismatch.
 

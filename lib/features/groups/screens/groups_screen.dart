@@ -67,24 +67,17 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
 
   Future<void> _refreshActiveView() => _loadActiveView();
 
-  Future<void> _openFiltersSheet() async {
-    final selection = await showModalBottomSheet<_GroupFilterSelection>(
-      context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (_) => _GroupsFilterSheet(
-        typeFilter: _typeFilter,
-        visibilityFilter: _visibilityFilter,
-      ),
-    );
-
-    if (!mounted || selection == null) {
-      return;
-    }
-
+  Future<void> _toggleTypeFilter(_GroupTypeFilter filter) async {
     setState(() {
-      _typeFilter = selection.typeFilter;
-      _visibilityFilter = selection.visibilityFilter;
+      _typeFilter = _typeFilter == filter ? _GroupTypeFilter.all : filter;
+    });
+    await _loadActiveView();
+  }
+
+  Future<void> _toggleVisibilityFilter(_GroupVisibilityFilter filter) async {
+    setState(() {
+      _visibilityFilter =
+          _visibilityFilter == filter ? _GroupVisibilityFilter.all : filter;
     });
     await _loadActiveView();
   }
@@ -144,22 +137,18 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                           children: [
                             _GroupsHeroCard(
                               activeView: _activeView,
-                              count: groups.length,
-                              filterSummary: _filterSummary(),
+                              typeFilter: _typeFilter,
+                              visibilityFilter: _visibilityFilter,
                               createLabel: l10n.groupsCreateNewTitle,
+                              onViewChanged: (view) =>
+                                  unawaited(_setActiveView(view)),
+                              onToggleType: (f) =>
+                                  unawaited(_toggleTypeFilter(f)),
+                              onToggleVisibility: (f) =>
+                                  unawaited(_toggleVisibilityFilter(f)),
                               onCreate: isDiscover
                                   ? null
                                   : () => context.push(AppRoutes.groupCreate),
-                            ),
-                            const SizedBox(height: 16),
-                            _GroupsControlsCard(
-                              activeView: _activeView,
-                              filterSummary: _filterSummary(),
-                              onViewChanged: (view) =>
-                                  unawaited(_setActiveView(view)),
-                              onOpenFilters: isDiscover
-                                  ? null
-                                  : () => unawaited(_openFiltersSheet()),
                             ),
                             const SizedBox(height: 20),
                           ],
@@ -192,36 +181,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
     );
   }
 
-  String _filterSummary() {
-    if (_activeView == _GroupsView.discover) {
-      return 'Browse public groups you can join.';
-    }
 
-    final parts = <String>[];
-    switch (_typeFilter) {
-      case _GroupTypeFilter.all:
-        break;
-      case _GroupTypeFilter.saving:
-        parts.add('Saving groups');
-      case _GroupTypeFilter.community:
-        parts.add('Community funds');
-    }
-
-    switch (_visibilityFilter) {
-      case _GroupVisibilityFilter.all:
-        break;
-      case _GroupVisibilityFilter.privateOnly:
-        parts.add('Private only');
-      case _GroupVisibilityFilter.publicOnly:
-        parts.add('Public only');
-    }
-
-    if (parts.isEmpty) {
-      return 'All of your groups';
-    }
-
-    return parts.join(' · ');
-  }
 }
 
 extension on _GroupTypeFilter {
@@ -233,13 +193,6 @@ extension on _GroupTypeFilter {
     };
   }
 
-  String get label {
-    return switch (this) {
-      _GroupTypeFilter.all => 'All types',
-      _GroupTypeFilter.saving => 'Saving',
-      _GroupTypeFilter.community => 'Community',
-    };
-  }
 }
 
 extension on _GroupVisibilityFilter {
@@ -251,169 +204,39 @@ extension on _GroupVisibilityFilter {
     };
   }
 
-  String get label {
-    return switch (this) {
-      _GroupVisibilityFilter.all => 'Any visibility',
-      _GroupVisibilityFilter.privateOnly => 'Private only',
-      _GroupVisibilityFilter.publicOnly => 'Public only',
-    };
-  }
 }
 
-class _GroupFilterSelection {
-  const _GroupFilterSelection({
-    required this.typeFilter,
-    required this.visibilityFilter,
-  });
 
-  final _GroupTypeFilter typeFilter;
-  final _GroupVisibilityFilter visibilityFilter;
-}
 
 class _GroupsHeroCard extends StatelessWidget {
   const _GroupsHeroCard({
     required this.activeView,
-    required this.count,
-    required this.filterSummary,
+    required this.typeFilter,
+    required this.visibilityFilter,
     required this.createLabel,
+    required this.onViewChanged,
+    required this.onToggleType,
+    required this.onToggleVisibility,
     this.onCreate,
   });
 
   final _GroupsView activeView;
-  final int count;
-  final String filterSummary;
+  final _GroupTypeFilter typeFilter;
+  final _GroupVisibilityFilter visibilityFilter;
   final String createLabel;
+  final ValueChanged<_GroupsView> onViewChanged;
+  final ValueChanged<_GroupTypeFilter> onToggleType;
+  final ValueChanged<_GroupVisibilityFilter> onToggleVisibility;
   final VoidCallback? onCreate;
 
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
     final isDiscover = activeView == _GroupsView.discover;
-    final title = isDiscover ? 'Discover groups' : 'My groups';
-    final subtitle = isDiscover
-        ? 'Browse public savings circles and community funds without the extra dashboard noise.'
-        : 'Keep your active circles, goals, and contribution progress in one calm list.';
-    final tint = (isDiscover ? palette.blue : palette.accent).withValues(
-      alpha: Theme.of(context).brightness == Brightness.light ? 0.10 : 0.16,
-    );
 
     return CoolCard(
-      gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: <Color>[palette.surface, palette.surface2, tint],
-      ),
       child: Padding(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: GoogleFonts.dmSans(
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
-                color: palette.text,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              subtitle,
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w400,
-                color: palette.text2,
-                height: 1.45,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                _HeroStatChip(
-                  label: count == 1 ? '1 group' : '$count groups',
-                  icon: Icons.groups_2_outlined,
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    filterSummary,
-                    textAlign: TextAlign.right,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: palette.text2,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            if (!isDiscover && onCreate != null) ...[
-              const SizedBox(height: 18),
-              CoolButton(label: createLabel, onTap: onCreate!),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _HeroStatChip extends StatelessWidget {
-  const _HeroStatChip({required this.label, required this.icon});
-
-  final String label;
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: BoxDecoration(
-        color: palette.surface.withValues(alpha: 0.82),
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: palette.border),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 16, color: palette.text2),
-          const SizedBox(width: 8),
-          Text(
-            label,
-            style: GoogleFonts.dmSans(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: palette.text,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _GroupsControlsCard extends StatelessWidget {
-  const _GroupsControlsCard({
-    required this.activeView,
-    required this.filterSummary,
-    required this.onViewChanged,
-    this.onOpenFilters,
-  });
-
-  final _GroupsView activeView;
-  final String filterSummary;
-  final ValueChanged<_GroupsView> onViewChanged;
-  final VoidCallback? onOpenFilters;
-
-  @override
-  Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    final isDiscover = activeView == _GroupsView.discover;
-
-    return CoolCard(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -436,255 +259,86 @@ class _GroupsControlsCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 14),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Text(
-                    filterSummary,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                      color: palette.text2,
-                      height: 1.4,
-                    ),
-                  ),
-                ),
-                if (!isDiscover && onOpenFilters != null) ...[
-                  const SizedBox(width: 12),
-                  CoolButton(
-                    label: 'Filters',
-                    onTap: onOpenFilters!,
-                    variant: CoolButtonVariant.secondary,
-                    fullWidth: false,
-                  ),
-                ],
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _GroupsFilterSheet extends StatefulWidget {
-  const _GroupsFilterSheet({
-    required this.typeFilter,
-    required this.visibilityFilter,
-  });
-
-  final _GroupTypeFilter typeFilter;
-  final _GroupVisibilityFilter visibilityFilter;
-
-  @override
-  State<_GroupsFilterSheet> createState() => _GroupsFilterSheetState();
-}
-
-class _GroupsFilterSheetState extends State<_GroupsFilterSheet> {
-  late _GroupTypeFilter _typeFilter;
-  late _GroupVisibilityFilter _visibilityFilter;
-
-  @override
-  void initState() {
-    super.initState();
-    _typeFilter = widget.typeFilter;
-    _visibilityFilter = widget.visibilityFilter;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(22, 12, 22, 22),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Container(
-                  width: 40,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: palette.border2,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                'My group filters',
-                style: GoogleFonts.dmSans(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: palette.text,
-                ),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                'Keep advanced filters here instead of always visible on the route.',
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: palette.text2,
-                  height: 1.45,
-                ),
-              ),
-              const SizedBox(height: 20),
-              _FilterSection<_GroupTypeFilter>(
-                title: 'Type',
-                options: _GroupTypeFilter.values,
-                selected: _typeFilter,
-                labelBuilder: (value) => value.label,
-                onSelected: (value) => setState(() => _typeFilter = value),
-              ),
-              const SizedBox(height: 18),
-              _FilterSection<_GroupVisibilityFilter>(
-                title: 'Visibility',
-                options: _GroupVisibilityFilter.values,
-                selected: _visibilityFilter,
-                labelBuilder: (value) => value.label,
-                onSelected: (value) =>
-                    setState(() => _visibilityFilter = value),
-              ),
-              const SizedBox(height: 22),
+            if (!isDiscover) ...[
+              const SizedBox(height: 16),
               Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: CoolButton(
-                      label: 'Reset',
-                      variant: CoolButtonVariant.secondary,
-                      onTap: () {
-                        Navigator.of(context).pop(
-                          const _GroupFilterSelection(
-                            typeFilter: _GroupTypeFilter.all,
-                            visibilityFilter: _GroupVisibilityFilter.all,
-                          ),
-                        );
-                      },
-                    ),
+                  _FilterIconButton(
+                    icon: Icons.savings_outlined,
+                    isActive: typeFilter == _GroupTypeFilter.saving,
+                    onTap: () => onToggleType(_GroupTypeFilter.saving),
                   ),
                   const SizedBox(width: 12),
-                  Expanded(
-                    child: CoolButton(
-                      label: 'Apply',
-                      onTap: () {
-                        Navigator.of(context).pop(
-                          _GroupFilterSelection(
-                            typeFilter: _typeFilter,
-                            visibilityFilter: _visibilityFilter,
-                          ),
-                        );
-                      },
-                    ),
+                  _FilterIconButton(
+                    icon: Icons.people_outline_rounded,
+                    isActive: typeFilter == _GroupTypeFilter.community,
+                    onTap: () => onToggleType(_GroupTypeFilter.community),
+                  ),
+                  const SizedBox(width: 12),
+                  _FilterIconButton(
+                    icon: Icons.lock_outline_rounded,
+                    isActive: visibilityFilter == _GroupVisibilityFilter.privateOnly,
+                    onTap: () => onToggleVisibility(_GroupVisibilityFilter.privateOnly),
+                  ),
+                  const SizedBox(width: 12),
+                  _FilterIconButton(
+                    icon: Icons.public_rounded,
+                    isActive: visibilityFilter == _GroupVisibilityFilter.publicOnly,
+                    onTap: () => onToggleVisibility(_GroupVisibilityFilter.publicOnly),
                   ),
                 ],
               ),
             ],
-          ),
+            if (!isDiscover && onCreate != null) ...[
+              const SizedBox(height: 16),
+              CoolButton(label: createLabel, onTap: onCreate!),
+            ],
+          ],
         ),
       ),
     );
   }
 }
 
-class _FilterSection<T> extends StatelessWidget {
-  const _FilterSection({
-    required this.title,
-    required this.options,
-    required this.selected,
-    required this.labelBuilder,
-    required this.onSelected,
-  });
-
-  final String title;
-  final List<T> options;
-  final T selected;
-  final String Function(T value) labelBuilder;
-  final ValueChanged<T> onSelected;
-
-  @override
-  Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: GoogleFonts.dmSans(
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-            color: palette.text2,
-          ),
-        ),
-        const SizedBox(height: 8),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: [
-            for (final option in options)
-              _FilterChipButton(
-                label: labelBuilder(option),
-                isSelected: option == selected,
-                onTap: () => onSelected(option),
-              ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class _FilterChipButton extends StatelessWidget {
-  const _FilterChipButton({
-    required this.label,
-    required this.isSelected,
+class _FilterIconButton extends StatelessWidget {
+  const _FilterIconButton({
+    required this.icon,
+    required this.isActive,
     required this.onTap,
   });
 
-  final String label;
-  final bool isSelected;
+  final IconData icon;
+  final bool isActive;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
-    return Semantics(
-      button: true,
-      selected: isSelected,
-      child: GestureDetector(
-        onTap: onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 180),
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-          decoration: BoxDecoration(
-            color: isSelected ? palette.accentGlow : palette.surface2,
-            borderRadius: BorderRadius.circular(999),
-            border: Border.all(
-              color: isSelected ? palette.accent : palette.border,
-            ),
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 160),
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          color: isActive ? palette.accentGlow : palette.surface2,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isActive ? palette.accent : palette.border,
           ),
-          child: Text(
-            label,
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: isSelected ? palette.accent : palette.text2,
-            ),
-          ),
+        ),
+        child: Icon(
+          icon,
+          size: 20,
+          color: isActive ? palette.accent : palette.text3,
         ),
       ),
     );
   }
 }
+
+
 
 class _EmptyState extends StatelessWidget {
   const _EmptyState({required this.isDiscover});
@@ -717,9 +371,7 @@ class _GroupListItem extends StatelessWidget {
         ? (group.amount / group.targetAmount).clamp(0.0, 1.0)
         : 0.0;
     final percent = (progress * 100).round();
-    final meta = group.bankPartner != null
-        ? l10n.groupsBankCustodianMeta(group.bankPartner!)
-        : group.momoNumber != null
+    final meta = group.momoNumber != null
         ? l10n.groupsMomoRouteMeta(group.momoNumber!)
         : group.type == 'saving'
         ? l10n.groupsSavingGroupMeta
@@ -836,7 +488,7 @@ class _ErrorState extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 18),
         child: CoolStateView.error(
-          title: 'Could not load groups',
+          title: 'Load groups failed',
           message: error,
           actionLabel: 'Try again',
           onAction: () => unawaited(onRetry()),

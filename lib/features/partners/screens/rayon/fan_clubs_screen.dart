@@ -72,12 +72,6 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
                 padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
-                    _FanClubsOverviewCard(
-                      totalClubs: directory.clubs.length,
-                      joinedClubs: myClub.length,
-                      selectedRegion: _selectedRegion,
-                    ),
-                    const SizedBox(height: 16),
                     SizedBox(
                       height: 36,
                       child: ListView.separated(
@@ -271,106 +265,6 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
   }
 }
 
-class _FanClubsOverviewCard extends StatelessWidget {
-  const _FanClubsOverviewCard({
-    required this.totalClubs,
-    required this.joinedClubs,
-    required this.selectedRegion,
-  });
-
-  final int totalClubs;
-  final int joinedClubs;
-  final String selectedRegion;
-
-  @override
-  Widget build(BuildContext context) {
-    return CoolCard(
-      borderColor: AppColors.border2,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Local chapters, louder stands.',
-            style: GoogleFonts.barlowCondensed(
-              fontSize: 30,
-              fontWeight: FontWeight.w900,
-              color: AppColors.rsWhite,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Filter by region, join a chapter, and organize matchday support.',
-            style: GoogleFonts.barlow(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: AppColors.text2,
-              height: 1.4,
-            ),
-          ),
-          const SizedBox(height: 12),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _FanClubMetaPill(
-                label: '$totalClubs clubs',
-                foregroundColor: AppColors.rsWhite,
-                backgroundColor: RsColors.rsBlue.withValues(alpha: 0.14),
-                borderColor: RsColors.rsBlueBorder,
-              ),
-              _FanClubMetaPill(
-                label: '$joinedClubs joined',
-                foregroundColor: RsColors.rsGoldLight,
-                backgroundColor: RsColors.rsGold.withValues(alpha: 0.14),
-                borderColor: RsColors.rsGold.withValues(alpha: 0.28),
-              ),
-              _FanClubMetaPill(
-                label: selectedRegion == 'All' ? 'All regions' : selectedRegion,
-                foregroundColor: AppColors.text2,
-                backgroundColor: AppColors.surface2,
-                borderColor: AppColors.border,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _FanClubMetaPill extends StatelessWidget {
-  const _FanClubMetaPill({
-    required this.label,
-    required this.foregroundColor,
-    required this.backgroundColor,
-    required this.borderColor,
-  });
-
-  final String label;
-  final Color foregroundColor;
-  final Color backgroundColor;
-  final Color borderColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: borderColor),
-      ),
-      child: Text(
-        label,
-        style: GoogleFonts.dmMono(
-          fontSize: 11,
-          fontWeight: FontWeight.w700,
-          color: foregroundColor,
-        ),
-      ),
-    );
-  }
-}
 
 // ── Create Club Sheet ────────────────────────────────────────────────
 
@@ -492,7 +386,7 @@ class _CreateClubSheetState extends State<_CreateClubSheet> {
           ),
           const SizedBox(height: 14),
           CoolTextField(
-            hint: 'What does your club do?',
+            hint: 'Club purpose?',
             label: 'Description',
             controller: _descController,
             maxLines: 3,

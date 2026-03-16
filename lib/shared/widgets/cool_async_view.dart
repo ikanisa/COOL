@@ -15,7 +15,7 @@ import 'cool_skeleton.dart';
 ///   value: ref.watch(tripsProvider),
 ///   builder: (trips) => TripList(trips: trips),
 ///   emptyCheck: (trips) => trips.isEmpty,
-///   emptyMessage: 'No trips scheduled yet',
+///   emptyMessage: 'No trips yet',
 ///   onRetry: () => ref.invalidate(tripsProvider),
 /// )
 /// ```

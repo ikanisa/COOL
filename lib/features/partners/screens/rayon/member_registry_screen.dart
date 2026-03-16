@@ -53,7 +53,7 @@ class _MemberRegistryScreenState extends ConsumerState<MemberRegistryScreen> {
             data: (partnerId) {
               if (partnerId.isEmpty) {
                 return RayonErrorView(
-                  message: 'Rayon Sports partner not found.',
+                  message: 'Rayon Sports partner not',
                   onRetry: _retryPartnerLookup,
                 );
               }
@@ -301,7 +301,7 @@ class _RegistryOverviewCard extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Search by supporter name, membership number, or tier.',
+            'Search by supporter name',
             style: GoogleFonts.barlow(
               fontSize: 13,
               fontWeight: FontWeight.w500,
@@ -468,7 +468,7 @@ class _TopFanSpotlight extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  '#${member.membershipNumber}  ·  ${_formatPoints(member.points)} pts',
+                  '#${member.membershipNumber} · ${_formatPoints(member.points)} pts',
                   style: GoogleFonts.dmMono(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,

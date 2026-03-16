@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../features/momo/providers/momo_sms_rationale_provider.dart';
+import '../../features/momo/widgets/momo_sms_rationale_sheet.dart';
 import '../../features/mobility/providers/mobility_location_provider.dart';
 import '../l10n/l10n.dart';
 import '../theme/cool_palette.dart';
@@ -94,6 +96,17 @@ class _AppShellState extends ConsumerState<AppShell> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(momoSmsRationaleProvider, (previous, next) {
+      if (next.isRequestPending &&
+          (previous == null || !previous.isRequestPending)) {
+        MomoSmsRationaleSheet.show(
+          context,
+          onAccept: () => next.completeRequest(true),
+          onDecline: () => next.completeRequest(false),
+        );
+      }
+    });
+
     final palette = context.coolPalette;
     final onPrimary = Theme.of(context).colorScheme.onPrimary;
     final index = _currentIndex();

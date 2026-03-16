@@ -13,10 +13,8 @@ class Group {
     this.memberCount = 0,
     this.monthlyContribution,
     this.description,
-    this.bankPartner,
     this.momoNumber,
     this.momoRouteType,
-    this.institutionId,
     this.inviteCode,
     this.frequency,
     this.createdAt,
@@ -34,10 +32,8 @@ class Group {
   final int memberCount;
   final int? monthlyContribution;
   final String? description;
-  final String? bankPartner;
   final String? momoNumber;
   final String? momoRouteType;
-  final String? institutionId;
   final String? inviteCode;
   final String? frequency;
   final DateTime? createdAt;
@@ -87,13 +83,10 @@ class Group {
       description:
           json['description']?.toString() ??
           json['group_description']?.toString(),
-      bankPartner:
-          json['bank_partner']?.toString() ?? json['bank_ref']?.toString(),
       momoNumber:
           json['momo_number']?.toString() ??
           json['receiving_momo_code']?.toString(),
       momoRouteType: json['receiving_momo_route_type']?.toString(),
-      institutionId: json['institution_id']?.toString(),
       inviteCode: json['invite_code']?.toString(),
       frequency: _normalizeFrequency(json['frequency'], json['cycle_days']),
       createdAt: _parseDateTime(json['created_at']),
@@ -117,10 +110,8 @@ class Group {
       'member_count': memberCount,
       'monthly_contribution': monthlyContribution,
       'description': description,
-      'bank_partner': bankPartner,
       'momo_number': momoNumber,
       'receiving_momo_route_type': momoRouteType,
-      'institution_id': institutionId,
       'invite_code': inviteCode,
       'frequency': frequency,
       'created_at': createdAt?.toIso8601String(),
@@ -145,10 +136,8 @@ class Group {
       'country': normalizedCountry,
       'monthly_contribution': monthlyContribution,
       'description': description,
-      'bank_partner': bankPartner,
       'momo_number': momoNumber,
       'receiving_momo_route_type': momoRouteType,
-      'institution_id': institutionId,
       'invite_code': inviteCode,
       'frequency': frequency,
     };
@@ -169,10 +158,8 @@ class Group {
     int? memberCount,
     int? monthlyContribution,
     String? description,
-    String? bankPartner,
     String? momoNumber,
     String? momoRouteType,
-    String? institutionId,
     String? inviteCode,
     String? frequency,
     DateTime? createdAt,
@@ -194,10 +181,8 @@ class Group {
       memberCount: memberCount ?? this.memberCount,
       monthlyContribution: monthlyContribution ?? this.monthlyContribution,
       description: description ?? this.description,
-      bankPartner: bankPartner ?? this.bankPartner,
       momoNumber: momoNumber ?? this.momoNumber,
       momoRouteType: momoRouteType ?? this.momoRouteType,
-      institutionId: institutionId ?? this.institutionId,
       inviteCode: inviteCode ?? this.inviteCode,
       frequency: frequency ?? this.frequency,
       createdAt: createdAt ?? this.createdAt,

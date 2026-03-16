@@ -37,94 +37,28 @@ MomoService _buildTestMomoService() {
 Future<Box<T>> _noOpOpenBox<T>(String name) =>
     throw UnimplementedError('Hive disabled in widget tests');
 
-void _noop() {}
-
 // ── tests ─────────────────────────────────────────────────────────────────
 
 void main() {
-  group('MomoSendMoneyCard', () {
-    testWidgets('renders country info and momo number', (tester) async {
+  group('MomoActionGrid', () {
+    testWidgets('renders all tool actions', (tester) async {
       await tester.pumpWidget(
         _wrap(
-          MomoSendMoneyCard(
-            country: _rwanda,
-            momoNumber: '0781234567',
-            onSendTap: () {},
-          ),
-        ),
-      );
-
-      expect(find.text('Send Money'), findsWidgets);
-      expect(
-        find.text('Launches Rwanda MoMo USSD to complete the transfer.'),
-        findsOneWidget,
-      );
-      expect(find.textContaining('RWF'), findsOneWidget);
-      expect(find.text('From 0781234567'), findsOneWidget);
-    });
-
-    testWidgets('calls onSendTap when button is pressed', (tester) async {
-      var tapped = false;
-
-      await tester.pumpWidget(
-        _wrap(
-          MomoSendMoneyCard(
-            country: _rwanda,
-            momoNumber: '0781234567',
-            onSendTap: () => tapped = true,
-          ),
-        ),
-      );
-
-      // Find and tap the CoolButton with label 'Send money'
-      final buttons = find.text('Send Money');
-      // The button text may appear multiple times (heading + button)
-      await tester.tap(buttons.last);
-      await tester.pump();
-      expect(tapped, isTrue);
-    });
-
-    testWidgets('shows local display when momo number is stored in E.164', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        _wrap(
-          MomoSendMoneyCard(
-            country: _rwanda,
-            momoNumber: '+250781234567',
-            onSendTap: () {},
-          ),
-        ),
-      );
-
-      expect(find.text('From 0781234567'), findsOneWidget);
-      expect(find.text('From +250781234567'), findsNothing);
-    });
-  });
-
-  group('MomoToolsCard', () {
-    testWidgets('renders all 5 tool rows', (tester) async {
-      await tester.pumpWidget(
-        _wrap(
-          MomoToolsCard(
-            country: _rwanda,
-            momoNumber: '0781234567',
+          MomoActionGrid(
             onOpenStatements: () {},
+            onScanQr: () {},
             onOpenQrCode: () {},
             onRequestPayment: () {},
-            onScanQr: () {},
             onOpenNfcTools: () {},
           ),
         ),
       );
 
-      expect(find.text('More tools'), findsOneWidget);
       expect(find.text('Statements'), findsOneWidget);
-      expect(find.text('Full-screen QR'), findsOneWidget);
-      expect(find.text('Request payment'), findsOneWidget);
       expect(find.text('Scan QR'), findsOneWidget);
-      expect(find.text('NFC tools'), findsOneWidget);
-      expect(find.text('Open your receive QR for 0781234567.'), findsOneWidget);
+      expect(find.text('Receive QR'), findsOneWidget);
+      expect(find.text('Request'), findsOneWidget);
+      expect(find.text('NFC pay'), findsOneWidget);
     });
 
     testWidgets('calls correct callback for each row', (tester) async {
@@ -132,13 +66,11 @@ void main() {
 
       await tester.pumpWidget(
         _wrap(
-          MomoToolsCard(
-            country: _rwanda,
-            momoNumber: '0781234567',
+          MomoActionGrid(
             onOpenStatements: () => tappedRow = 'statements',
+            onScanQr: () => tappedRow = 'scan',
             onOpenQrCode: () => tappedRow = 'qr',
             onRequestPayment: () => tappedRow = 'request',
-            onScanQr: () => tappedRow = 'scan',
             onOpenNfcTools: () => tappedRow = 'nfc',
           ),
         ),
@@ -148,110 +80,25 @@ void main() {
       await tester.pump();
       expect(tappedRow, 'statements');
 
-      await tester.tap(find.text('Full-screen QR'));
-      await tester.pump();
-      expect(tappedRow, 'qr');
-
-      await tester.tap(find.text('Request payment'));
-      await tester.pump();
-      expect(tappedRow, 'request');
-
+      await tester.ensureVisible(find.text('Scan QR'));
       await tester.tap(find.text('Scan QR'));
       await tester.pump();
       expect(tappedRow, 'scan');
 
-      await tester.tap(find.text('NFC tools'));
+      await tester.ensureVisible(find.text('Receive QR'));
+      await tester.tap(find.text('Receive QR'));
+      await tester.pump();
+      expect(tappedRow, 'qr');
+
+      await tester.ensureVisible(find.text('Request'));
+      await tester.tap(find.text('Request'));
+      await tester.pump();
+      expect(tappedRow, 'request');
+
+      await tester.ensureVisible(find.text('NFC pay'));
+      await tester.tap(find.text('NFC pay'));
       await tester.pump();
       expect(tappedRow, 'nfc');
-    });
-
-    testWidgets('shows local QR subtitle when momo number is stored in E.164', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        _wrap(
-          MomoToolsCard(
-            country: _rwanda,
-            momoNumber: '+250781234567',
-            onOpenStatements: () {},
-            onOpenQrCode: () {},
-            onRequestPayment: () {},
-            onScanQr: () {},
-            onOpenNfcTools: () {},
-          ),
-        ),
-      );
-
-      expect(find.text('Open your receive QR for 0781234567.'), findsOneWidget);
-      expect(find.text('+250781234567'), findsNothing);
-    });
-  });
-
-  group('MomoPaymentSafetyCard', () {
-    testWidgets('renders trust cues for fees approval and receipts', (
-      tester,
-    ) async {
-      await tester.pumpWidget(_wrap(const MomoPaymentSafetyCard()));
-
-      expect(find.text('Before you pay'), findsOneWidget);
-      expect(find.text('Fees show before confirmation'), findsOneWidget);
-      expect(find.text('You approve on your phone'), findsOneWidget);
-      expect(find.text('Receipts land in statements'), findsOneWidget);
-    });
-  });
-
-  group('MomoInboxSyncCard', () {
-    testWidgets('renders the inbox-backed sync architecture clearly', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        _wrap(
-          const MomoInboxSyncCard(
-            isAndroidSmsAvailable: true,
-            isSyncing: false,
-            onSyncTap: _noop,
-          ),
-        ),
-      );
-
-      expect(find.text('Inbox-backed sync'), findsOneWidget);
-      expect(
-        find.text('Import M-Money SMS from the last 12 months.'),
-        findsOneWidget,
-      );
-      expect(
-        find.text('Each new M-Money SMS is sent to Supabase right away.'),
-        findsOneWidget,
-      );
-      expect(find.text('Sync SMS'), findsOneWidget);
-    });
-
-    testWidgets('disables sync action on non-Android platforms', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        _wrap(
-          const MomoInboxSyncCard(
-            isAndroidSmsAvailable: false,
-            isSyncing: false,
-            onSyncTap: _noop,
-          ),
-        ),
-      );
-
-      expect(find.text('Inbox sync is Android-only'), findsOneWidget);
-      expect(find.text('Sync SMS'), findsOneWidget);
-      expect(
-        tester
-            .widget<AbsorbPointer>(
-              find.descendant(
-                of: find.byType(MomoInboxSyncCard),
-                matching: find.byType(AbsorbPointer),
-              ),
-            )
-            .absorbing,
-        isTrue,
-      );
     });
   });
 
@@ -343,14 +190,15 @@ void main() {
       expect(find.text('MoMo Number'), findsWidgets);
       expect(find.text('0781234567'), findsWidgets);
       expect(find.text('Receive QR · Rwanda · RWF'), findsOneWidget);
-      expect(find.text('Generate payment QR'), findsOneWidget);
+      expect(find.text('Share link'), findsOneWidget);
 
       await tester.enterText(find.byType(TextFormField).last, '5000');
       await tester.pump();
 
-      expect(find.text('Receive QR · Rwanda · RWF'), findsOneWidget);
+      expect(find.text('Payment QR · Rwanda · RWF'), findsOneWidget);
 
-      await tester.tap(find.text('Generate payment QR'));
+      await tester.ensureVisible(find.text('Share payment link'));
+      await tester.tap(find.text('Share payment link'));
       await tester.pump();
 
       expect(find.text('Payment QR · Rwanda · RWF'), findsOneWidget);

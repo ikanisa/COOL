@@ -303,7 +303,7 @@ void main() {
     );
     await tester.pumpAndSettle();
     expect(find.text('Mobility Subscription Recipient'), findsOneWidget);
-    await tester.tap(find.text('Add code'));
+    await tester.tap(find.text('Add Recipient'));
     await tester.pumpAndSettle();
 
     expect(_dropdownFieldWithLabel('Country scope'), findsNothing);

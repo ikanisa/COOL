@@ -82,7 +82,7 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
     final phoneNumber =
         trip.whatsappNumber?.trim() ?? trip.contactPhone?.trim() ?? '';
     if (phoneNumber.isEmpty) {
-      _showSnackBar('Contact details are not available for this trip yet.');
+      _showSnackBar('Contact unavailable');
       return;
     }
 
@@ -112,7 +112,7 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
   Future<void> _cancelTrip(Trip trip) async {
     final tripId = trip.id;
     if (tripId == null) {
-      _showSnackBar('This trip cannot be canceled right now.');
+      _showSnackBar('Cancel failed');
       return;
     }
 
@@ -136,7 +136,7 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
   Future<void> _deleteTrip(Trip trip) async {
     final tripId = trip.id;
     if (tripId == null) {
-      _showSnackBar('This trip cannot be deleted right now.');
+      _showSnackBar('Delete failed');
       return;
     }
 
@@ -159,7 +159,7 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
             ),
           ),
           content: Text(
-            'This will permanently delete the trip from '
+            'This will permanently delete'
             '${trip.fromLocation} to ${trip.toLocation}. '
             'This action cannot be undone.',
             style: GoogleFonts.dmSans(
@@ -219,7 +219,7 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
   Future<void> _pauseTrip(Trip trip) async {
     final tripId = trip.id;
     if (tripId == null) {
-      _showSnackBar('This trip cannot be paused right now.');
+      _showSnackBar('Pause failed');
       return;
     }
 
@@ -230,7 +230,7 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
     if (!mounted) return;
 
     if (succeeded) {
-      _showSnackBar('Trip paused. It will no longer appear to others.');
+      _showSnackBar('Trip paused');
       return;
     }
 
@@ -243,7 +243,7 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
   Future<void> _repostTrip(Trip trip) async {
     final tripId = trip.id;
     if (tripId == null) {
-      _showSnackBar('This trip cannot be reposted right now.');
+      _showSnackBar('Repost failed');
       return;
     }
 
@@ -254,7 +254,7 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
     if (!mounted) return;
 
     if (succeeded) {
-      _showSnackBar('Trip reposted and visible again.');
+      _showSnackBar('Trip reposted');
       return;
     }
 
@@ -360,7 +360,7 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
                       ),
                     ),
                     subtitle: Text(
-                      'Make visible to others again',
+                      'Make visible to others',
                       style: GoogleFonts.dmSans(
                         fontSize: 12,
                         color: palette.text3,
@@ -418,22 +418,6 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
     await ref.read(tripBoardProvider.notifier).setActiveTab(nextTab);
   }
 
-  Future<void> _openVehicleFilterSheet() async {
-    final selectedVehicle = ref.read(tripBoardSelectedVehicleProvider);
-    final nextVehicle = await showModalBottomSheet<String>(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (_) =>
-          TripBoardVehicleFilterSheet(selectedVehicle: selectedVehicle),
-    );
-
-    if (nextVehicle == null || !mounted || nextVehicle == selectedVehicle) {
-      return;
-    }
-
-    await ref.read(tripBoardProvider.notifier).setVehicleFilter(nextVehicle);
-  }
-
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
@@ -475,37 +459,19 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
                     SliverPadding(
                       padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
                       sliver: SliverToBoxAdapter(
-                        child: TripBoardModeSwitcher(
+                        child: TripBoardTopCard(
                           activeView: _activeView,
-                          onChanged: (view) {
+                          onViewChanged: (view) {
                             setState(() => _activeView = view);
+                          },
+                          onPostTrip: () => context.push('/mobility/schedule'),
+                          onOpenTripType: () {
+                            unawaited(_openTripTypeSheet());
                           },
                         ),
                       ),
                     ),
                     if (_activeView == TripBoardViewMode.explore) ...[
-                      SliverPadding(
-                        padding: const EdgeInsets.fromLTRB(18, 14, 18, 0),
-                        sliver: SliverToBoxAdapter(
-                          child: TripBoardExploreHeaderCard(
-                            onPostTrip: () =>
-                                context.push('/mobility/schedule'),
-                          ),
-                        ),
-                      ),
-                      SliverPadding(
-                        padding: const EdgeInsets.fromLTRB(18, 12, 18, 0),
-                        sliver: SliverToBoxAdapter(
-                          child: TripBoardExploreControlsCard(
-                            onOpenTripType: () {
-                              unawaited(_openTripTypeSheet());
-                            },
-                            onOpenVehicleFilter: () {
-                              unawaited(_openVehicleFilterSheet());
-                            },
-                          ),
-                        ),
-                      ),
                       TripBoardPublicTripsSliver(
                         onPreviewTap: (trip) {
                           unawaited(_showTripPreview(trip));
@@ -515,15 +481,6 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
                         },
                       ),
                     ] else ...[
-                      SliverPadding(
-                        padding: const EdgeInsets.fromLTRB(18, 14, 18, 0),
-                        sliver: SliverToBoxAdapter(
-                          child: TripBoardMyTripsHeaderCard(
-                            onPostTrip: () =>
-                                context.push('/mobility/schedule'),
-                          ),
-                        ),
-                      ),
                       TripBoardMyTripsSliver(
                         onShowActions: (trip) {
                           unawaited(_showTripActions(trip));

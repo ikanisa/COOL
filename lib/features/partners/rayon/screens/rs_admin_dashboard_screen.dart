@@ -3,6 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+
+import '../models/rs_models.dart';
 
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -63,6 +66,12 @@ class RsAdminDashboardScreen extends ConsumerWidget {
       '/admin/rayon/initiatives',
       'Community causes',
     ),
+    _Section(
+      'Analytics',
+      Icons.analytics_rounded,
+      '/admin/rayon/analytics',
+      'Fan engagement overview',
+    ),
   ];
 
   @override
@@ -70,11 +79,12 @@ class RsAdminDashboardScreen extends ConsumerWidget {
     final matchesAsync = ref.watch(rsAdminMatchesProvider);
     final membersAsync = ref.watch(rsAdminMembersProvider);
     final productsAsync = ref.watch(rsAdminProductsProvider);
+    final analyticsAsync = ref.watch(rsAdminFanAnalyticsProvider);
 
     return RsAdminShell(
       title: 'Rayon Sports Admin',
       subtitle:
-          'Open one workspace at a time for matchday, ticketing, shop, member, and cause operations.',
+          'Manage matches, shop, members & community',
       fallbackLocation: AppRoutes.admin,
       expandBody: false,
       metrics: [
@@ -100,14 +110,104 @@ class RsAdminDashboardScreen extends ConsumerWidget {
         ),
       ],
       child: Column(
-        children: _sections
-            .map(
-              (section) => Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: _AdminCard(section: section),
+        children: [
+          // ── Revenue Summary Row ──
+          analyticsAsync.whenOrNull(
+            data: (analytics) {
+              final moneyFmt = NumberFormat.compact();
+              final ticketRev = (analytics['ticket_revenue'] as num?) ?? 0;
+              final shopRev = (analytics['shop_revenue'] as num?) ?? 0;
+              final totalRev = ticketRev + shopRev;
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: Row(
+                  children: [
+                    _RevenueCard(
+                      label: 'Ticket Revenue',
+                      value: '${moneyFmt.format(ticketRev)} RWF',
+                      icon: Icons.confirmation_number_outlined,
+                    ),
+                    const SizedBox(width: 8),
+                    _RevenueCard(
+                      label: 'Shop Revenue',
+                      value: '${moneyFmt.format(shopRev)} RWF',
+                      icon: Icons.shopping_bag_outlined,
+                    ),
+                    const SizedBox(width: 8),
+                    _RevenueCard(
+                      label: 'Total',
+                      value: '${moneyFmt.format(totalRev)} RWF',
+                      icon: Icons.account_balance_wallet_outlined,
+                    ),
+                  ],
+                ),
+              );
+            },
+          ) ?? const SizedBox.shrink(),
+
+          // ── Tier Breakdown Row ──
+          membersAsync.whenOrNull(
+            data: (members) {
+              final tierCounts = <FanTier, int>{};
+              for (final m in members) {
+                tierCounts[m.tier] = (tierCounts[m.tier] ?? 0) + 1;
+              }
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: Row(
+                  children: [
+                    _TierChip('💙', 'Blue', tierCounts[FanTier.blue] ?? 0),
+                    const SizedBox(width: 6),
+                    _TierChip('🥈', 'Silver', tierCounts[FanTier.silver] ?? 0),
+                    const SizedBox(width: 6),
+                    _TierChip('🥇', 'Gold', tierCounts[FanTier.gold] ?? 0),
+                    const SizedBox(width: 6),
+                    _TierChip('💎', 'Plat', tierCounts[FanTier.platinum] ?? 0),
+                  ],
+                ),
+              );
+            },
+          ) ?? const SizedBox.shrink(),
+
+          // ── Quick Actions ──
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: SizedBox(
+              height: 36,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  _QuickAction(
+                    icon: Icons.sports_soccer_rounded,
+                    label: 'Add Match',
+                    onTap: () => context.push('/admin/rayon/matches'),
+                  ),
+                  const SizedBox(width: 8),
+                  _QuickAction(
+                    icon: Icons.add_shopping_cart_rounded,
+                    label: 'Add Product',
+                    onTap: () => context.push('/admin/rayon/shop'),
+                  ),
+                  const SizedBox(width: 8),
+                  _QuickAction(
+                    icon: Icons.campaign_rounded,
+                    label: 'Send Notification',
+                    onTap: () => context.push('/admin/rayon/analytics'),
+                  ),
+                ],
               ),
-            )
-            .toList(growable: false),
+            ),
+          ),
+
+          // ── Navigation Cards ──
+          ..._sections
+              .map(
+                (section) => Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: _AdminCard(section: section),
+                ),
+              ),
+        ],
       ),
     );
   }
@@ -130,7 +230,7 @@ class _AdminCard extends StatelessWidget {
     return Semantics(
       button: true,
       label: '${section.title}. ${section.subtitle}',
-      hint: 'Double tap to open ${section.title.toLowerCase()} management',
+      hint: 'Open ${section.title.toLowerCase()}',
       excludeSemantics: true,
       child: CoolCard(
         onTap: () {
@@ -180,6 +280,140 @@ class _AdminCard extends StatelessWidget {
             ),
             const SizedBox(width: 12),
             Icon(Icons.arrow_forward_rounded, size: 18, color: AppColors.text2),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _RevenueCard extends StatelessWidget {
+  const _RevenueCard({
+    required this.label,
+    required this.value,
+    required this.icon,
+  });
+  final String label;
+  final String value;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppColors.border),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(icon, size: 16, color: AppColors.accent),
+            const SizedBox(height: 6),
+            Text(
+              value,
+              style: GoogleFonts.dmSans(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: AppColors.text,
+              ),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              label,
+              style: GoogleFonts.dmSans(
+                fontSize: 10,
+                color: AppColors.text3,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _QuickAction extends StatelessWidget {
+  const _QuickAction({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        HapticFeedback.selectionClick();
+        onTap();
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        decoration: BoxDecoration(
+          color: AppColors.rsBlue.withValues(alpha: 0.15),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.rsBlue.withValues(alpha: 0.3)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 14, color: AppColors.rsBlue),
+            const SizedBox(width: 6),
+            Text(
+              label,
+              style: GoogleFonts.dmSans(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: AppColors.rsBlue,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _TierChip extends StatelessWidget {
+  const _TierChip(this.emoji, this.label, this.count);
+  final String emoji;
+  final String label;
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: AppColors.border),
+        ),
+        child: Column(
+          children: [
+            Text(emoji, style: const TextStyle(fontSize: 16)),
+            const SizedBox(height: 2),
+            Text(
+              '$count',
+              style: GoogleFonts.dmSans(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: AppColors.text,
+              ),
+            ),
+            Text(
+              label,
+              style: GoogleFonts.dmSans(
+                fontSize: 10,
+                color: AppColors.text3,
+              ),
+            ),
           ],
         ),
       ),

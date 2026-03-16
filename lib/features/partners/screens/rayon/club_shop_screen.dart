@@ -117,13 +117,6 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
                         padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
                         sliver: SliverList(
                           delegate: SliverChildListDelegate([
-                            _ShopSummaryCard(
-                              itemCount: shop.products.length,
-                              collectionCount: categoryOptions.length - 1,
-                              hasMemberDiscount: hasMemberDiscount,
-                              paymentRoute: paymentRoute,
-                            ),
-                            const SizedBox(height: 16),
                             SizedBox(
                               height: 36,
                               child: ListView.separated(
@@ -318,146 +311,6 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
   }
 }
 
-class _ShopSummaryCard extends StatelessWidget {
-  const _ShopSummaryCard({
-    required this.itemCount,
-    required this.collectionCount,
-    required this.hasMemberDiscount,
-    this.paymentRoute,
-  });
-
-  final int itemCount;
-  final int collectionCount;
-  final bool hasMemberDiscount;
-  final PartnerPaymentRoute? paymentRoute;
-
-  @override
-  Widget build(BuildContext context) {
-    final checkoutNote = paymentRoute == null
-        ? 'Checkout opens once partner payment routing is active.'
-        : 'Pay to ${paymentRoute!.payToLabel} during checkout.';
-
-    return CoolCard(
-      borderColor: AppColors.border2,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Official gear, real colors.',
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.barlowCondensed(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.rsWhite,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      '$itemCount items across $collectionCount collections.',
-                      style: GoogleFonts.barlow(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.text2,
-                        height: 1.35,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: RsColors.rsBlue.withValues(alpha: 0.14),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: RsColors.rsBlueBorder),
-                ),
-                alignment: Alignment.center,
-                child: const Icon(
-                  Icons.shopping_bag_rounded,
-                  size: 20,
-                  color: AppColors.rsWhite,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 14),
-          Text(
-            checkoutNote,
-            style: GoogleFonts.barlow(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: AppColors.text2,
-              height: 1.4,
-            ),
-          ),
-          const SizedBox(height: 12),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              if (hasMemberDiscount)
-                _ShopMetaPill(
-                  label: 'Gold -10%',
-                  foregroundColor: RsColors.rsGoldLight,
-                  backgroundColor: RsColors.rsGold.withValues(alpha: 0.14),
-                  borderColor: RsColors.rsGold.withValues(alpha: 0.28),
-                ),
-              _ShopMetaPill(
-                label: paymentRoute?.providerLabel ?? 'Route pending',
-                foregroundColor: AppColors.rsWhite,
-                backgroundColor: RsColors.rsBlue.withValues(alpha: 0.14),
-                borderColor: RsColors.rsBlueBorder,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ShopMetaPill extends StatelessWidget {
-  const _ShopMetaPill({
-    required this.label,
-    required this.foregroundColor,
-    required this.backgroundColor,
-    required this.borderColor,
-  });
-
-  final String label;
-  final Color foregroundColor;
-  final Color backgroundColor;
-  final Color borderColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: borderColor),
-      ),
-      child: Text(
-        label,
-        style: GoogleFonts.dmMono(
-          fontSize: 11,
-          fontWeight: FontWeight.w700,
-          color: foregroundColor,
-        ),
-      ),
-    );
-  }
-}
 
 class _CheckoutFooterBar extends StatelessWidget {
   const _CheckoutFooterBar({
@@ -586,7 +439,7 @@ class _EmptyFilteredCatalog extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'No items in $categoryLabel yet.',
+            'No items in $categoryLabel',
             style: GoogleFonts.barlow(
               fontSize: 18,
               fontWeight: FontWeight.w700,
@@ -595,7 +448,7 @@ class _EmptyFilteredCatalog extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Switch back to the full catalog to keep shopping.',
+            'Switch to All to see everything',
             style: GoogleFonts.barlow(
               fontSize: 13,
               fontWeight: FontWeight.w500,

@@ -262,4 +262,22 @@ void main() {
     expect(tokenRepository.upserts, isEmpty);
     expect(messagingClient.subscribedTopics, isEmpty);
   });
+
+  test(
+    'status revokes registration when system notifications become denied',
+    () async {
+      await service.enable(userId: 'user-1');
+      messagingClient.authorizationStatus = FcmAuthorizationStatus.denied;
+
+      final status = await service.status();
+
+      expect(status.preferenceEnabled, isFalse);
+      expect(status.isInitialized, isFalse);
+      expect(tokenRepository.deletes, hasLength(1));
+      expect(tokenRepository.deletes.single.userId, 'user-1');
+      expect(tokenRepository.deletes.single.token, 'token-1');
+      expect(messagingClient.unsubscribedTopics, contains('market_RW'));
+      expect(messagingClient.deleteTokenCalled, isTrue);
+    },
+  );
 }

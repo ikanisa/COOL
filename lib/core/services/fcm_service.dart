@@ -31,7 +31,7 @@ enum FcmAuthorizationStatus {
 
 class FcmStatus {
   const FcmStatus({
-    this.preferenceEnabled = true,
+    this.preferenceEnabled = false,
     this.authorizationStatus = FcmAuthorizationStatus.unknown,
     this.isInitialized = false,
     this.activeMarketTopic,
@@ -91,7 +91,7 @@ class HiveFcmPreferenceStore implements FcmPreferenceStore {
   @override
   Future<bool> readEnabled() async {
     final box = await _openBox(boxName);
-    return box.get(enabledKey, defaultValue: true) as bool;
+    return box.get(enabledKey, defaultValue: false) as bool;
   }
 
   @override
@@ -273,6 +273,11 @@ class FcmService {
         authorizationStatus == FcmAuthorizationStatus.denied) {
       preferenceEnabled = false;
       await _safeWritePreference(false);
+      await _captureCurrentToken();
+      await _clearTopicSubscription();
+      await _deleteStoredToken();
+      await _safeDeleteDeviceToken();
+      _isInitialized = false;
     }
 
     return _setStatus(
@@ -303,6 +308,10 @@ class FcmService {
     if (authorizationStatus == FcmAuthorizationStatus.denied) {
       _isInitialized = false;
       await _safeWritePreference(false);
+      await _captureCurrentToken();
+      await _clearTopicSubscription();
+      await _deleteStoredToken(userId: userId);
+      await _safeDeleteDeviceToken();
       return _setStatus(
         current.copyWith(
           preferenceEnabled: false,
@@ -443,7 +452,7 @@ class FcmService {
       return await _preferenceStore.readEnabled();
     } catch (error) {
       debugPrint('[FCM] Failed to read notification preference: $error');
-      return true;
+      return false;
     }
   }
 
@@ -637,8 +646,10 @@ class FcmService {
                     const SizedBox(height: 2),
                     Text(
                       notification.body!,
-                      style:
-                          const TextStyle(color: Colors.white70, fontSize: 13),
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 13,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

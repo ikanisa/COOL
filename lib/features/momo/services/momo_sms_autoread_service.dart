@@ -40,20 +40,23 @@ class MomoSmsAutoreadService {
     Telephony? telephony,
     MomoSmsIngestionRepository? ingestionRepository,
     CrashlyticsService? crashlytics,
+    Future<bool> Function()? consentCallback,
   }) : _client = client,
        _appAccessService = appAccessService,
        _telephony = telephony ?? Telephony.instance,
        _ingestionRepository =
            ingestionRepository ?? MomoSmsIngestionRepository(client: client),
-       _crashlytics = crashlytics;
+       _crashlytics = crashlytics,
+       _consentCallback = consentCallback;
 
   final SupabaseClient _client;
   final AppAccessService _appAccessService;
   final Telephony _telephony;
   final MomoSmsIngestionRepository _ingestionRepository;
   final CrashlyticsService? _crashlytics;
+  final Future<bool> Function()? _consentCallback;
 
-  static const _initialInboxSyncLookback = Duration(days: 30);
+  static const _initialInboxSyncLookback = Duration(days: 365);
 
   bool _isListening = false;
   bool _isSyncingInbox = false;
@@ -61,7 +64,10 @@ class MomoSmsAutoreadService {
   String? _activeUserId;
   String? _initialSyncCompletedForUserId;
 
-  Future<void> refresh({bool forcePermissionRequest = false}) async {
+  Future<void> refresh({
+    bool forcePermissionRequest = false,
+    Future<bool> Function()? onShowRationale,
+  }) async {
     if (!_supportsSmsAutoread) {
       await stop();
       return;
@@ -88,6 +94,7 @@ class MomoSmsAutoreadService {
 
     final permissionGranted = await _ensureSmsPermission(
       forceRequest: forcePermissionRequest,
+      onShowRationale: onShowRationale ?? _consentCallback,
     );
     if (!permissionGranted) {
       await stop();
@@ -130,7 +137,10 @@ class MomoSmsAutoreadService {
     unawaited(stop());
   }
 
-  Future<bool> _ensureSmsPermission({required bool forceRequest}) async {
+  Future<bool> _ensureSmsPermission({
+    required bool forceRequest,
+    Future<bool> Function()? onShowRationale,
+  }) async {
     final status = await Permission.sms.status;
     if (status.isGranted) {
       return true;
@@ -142,6 +152,14 @@ class MomoSmsAutoreadService {
 
     if (!forceRequest && _requestedPermissionThisLaunch) {
       return false;
+    }
+
+    // Show pre-permission consent disclosure (Google Play requirement).
+    if (onShowRationale != null) {
+      final confirmed = await onShowRationale();
+      if (!confirmed) {
+        return false;
+      }
     }
 
     _requestedPermissionThisLaunch = true;
@@ -177,19 +195,19 @@ class MomoSmsAutoreadService {
   }) async {
     if (!_supportsSmsAutoread) {
       throw const MomoSmsSyncException(
-        'SMS sync is only available on Android devices.',
+        'Android only',
       );
     }
     if (!EnvConfig.enableAndroidMomoSmsAutoread) {
       throw const MomoSmsSyncException('Android SMS sync is disabled.');
     }
     if (_isSyncingInbox) {
-      throw const MomoSmsSyncException('An inbox sync is already running.');
+      throw const MomoSmsSyncException('Sync already running');
     }
 
     final session = _client.auth.currentSession;
     if (session == null) {
-      throw const MomoSmsSyncException('Sign in again before syncing SMS.');
+      throw const MomoSmsSyncException('Sign in first');
     }
 
     final smsEnabledInApp = await _appAccessService.isEnabled(
@@ -197,14 +215,17 @@ class MomoSmsAutoreadService {
     );
     if (!smsEnabledInApp) {
       throw const MomoSmsSyncException(
-        'Enable SMS payment sync in COOL before scanning the inbox.',
+        'Enable SMS sync first',
       );
     }
 
-    final permissionGranted = await _ensureSmsPermission(forceRequest: false);
+    final permissionGranted = await _ensureSmsPermission(
+      forceRequest: false,
+      onShowRationale: _consentCallback,
+    );
     if (!permissionGranted) {
       throw const MomoSmsSyncException(
-        'Android SMS access is required before scanning the inbox.',
+        'SMS access required',
       );
     }
 

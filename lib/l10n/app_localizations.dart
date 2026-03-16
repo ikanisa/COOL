@@ -133,7 +133,7 @@ abstract class AppLocalizations {
   /// No description provided for @welcomeSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Community savings, group funds & mobility — all in one simple app for Rwanda.'**
+  /// **'Community savings group funds'**
   String get welcomeSubtitle;
 
   /// No description provided for @getStarted.
@@ -145,7 +145,7 @@ abstract class AppLocalizations {
   /// No description provided for @signIn.
   ///
   /// In en, this message translates to:
-  /// **'Already have an account? Sign In'**
+  /// **'Already have an account?'**
   String get signIn;
 
   /// No description provided for @verifyWhatsapp.
@@ -157,7 +157,7 @@ abstract class AppLocalizations {
   /// No description provided for @verifyWhatsappSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'We\'ll send a one-time code to your WhatsApp number.'**
+  /// **'We\'ll send a one-time'**
   String get verifyWhatsappSubtitle;
 
   /// No description provided for @phoneLabel.
@@ -187,7 +187,7 @@ abstract class AppLocalizations {
   /// No description provided for @enterCodeSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Enter the 6-digit code sent to your WhatsApp.'**
+  /// **'Enter the 6-digit code'**
   String get enterCodeSubtitle;
 
   /// No description provided for @verifyButton.
@@ -211,7 +211,7 @@ abstract class AppLocalizations {
   /// No description provided for @invalidCode.
   ///
   /// In en, this message translates to:
-  /// **'Invalid code. Please try again.'**
+  /// **'Invalid code Please try'**
   String get invalidCode;
 
   /// No description provided for @codeSent.
@@ -259,7 +259,7 @@ abstract class AppLocalizations {
   /// No description provided for @momoNumberHint.
   ///
   /// In en, this message translates to:
-  /// **'e.g. 0788 123 456'**
+  /// **'e g 0788 123'**
   String get momoNumberHint;
 
   /// No description provided for @totalBalance.
@@ -307,7 +307,7 @@ abstract class AppLocalizations {
   /// No description provided for @noActivity.
   ///
   /// In en, this message translates to:
-  /// **'No recent activity to show.'**
+  /// **'No recent activity to'**
   String get noActivity;
 
   /// No description provided for @viewAll.
@@ -325,7 +325,7 @@ abstract class AppLocalizations {
   /// No description provided for @sendMoneyHint.
   ///
   /// In en, this message translates to:
-  /// **'Transfer instantly to a member ID'**
+  /// **'Transfer instantly to a'**
   String get sendMoneyHint;
 
   /// No description provided for @sendAction.
@@ -517,7 +517,7 @@ abstract class AppLocalizations {
   /// No description provided for @noGroupsYet.
   ///
   /// In en, this message translates to:
-  /// **'You haven\'t joined any groups yet.'**
+  /// **'You haven\'t joined any'**
   String get noGroupsYet;
 
   /// No description provided for @noPublicGroups.
@@ -583,7 +583,7 @@ abstract class AppLocalizations {
   /// No description provided for @momoDialerError.
   ///
   /// In en, this message translates to:
-  /// **'Unable to open the USSD dialer. Please try again.'**
+  /// **'open the USSD failed'**
   String get momoDialerError;
 
   /// No description provided for @mobilityTitle.
@@ -649,7 +649,7 @@ abstract class AppLocalizations {
   /// No description provided for @noTripsAvailable.
   ///
   /// In en, this message translates to:
-  /// **'No trips available right now.'**
+  /// **'No trips available right'**
   String get noTripsAvailable;
 
   /// No description provided for @noDriversNearby.
@@ -697,7 +697,7 @@ abstract class AppLocalizations {
   /// No description provided for @scheduleTripInfoBanner.
   ///
   /// In en, this message translates to:
-  /// **'Schedule ahead to find the best matches — drivers can offer return trips at lower prices!'**
+  /// **'Schedule ahead to find!'**
   String get scheduleTripInfoBanner;
 
   /// No description provided for @scheduleTripDetailsTitle.
@@ -715,7 +715,7 @@ abstract class AppLocalizations {
   /// No description provided for @scheduleTripToHint.
   ///
   /// In en, this message translates to:
-  /// **'🎯 To — e.g. Kigali Downtown'**
+  /// **'To e g Kigali'**
   String get scheduleTripToHint;
 
   /// No description provided for @scheduleTripDateTimeLabel.
@@ -745,7 +745,7 @@ abstract class AppLocalizations {
   /// No description provided for @scheduleTripReturnSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Drivers offer discounts on return trips'**
+  /// **'Drivers offer discounts on'**
   String get scheduleTripReturnSubtitle;
 
   /// No description provided for @scheduleTripReturnFieldsLabel.
@@ -781,7 +781,7 @@ abstract class AppLocalizations {
   /// No description provided for @scheduleTripExpirySubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Trips are removed 60 min after departure time if unfilled.'**
+  /// **'Trips are removed 60'**
   String get scheduleTripExpirySubtitle;
 
   /// No description provided for @scheduleTripPostCta.
@@ -799,7 +799,7 @@ abstract class AppLocalizations {
   /// No description provided for @scheduleTripPostedPendingSync.
   ///
   /// In en, this message translates to:
-  /// **'Trip saved offline and will sync when a connection is available.'**
+  /// **'Trip saved offline and'**
   String get scheduleTripPostedPendingSync;
 
   /// No description provided for @scheduleTripPostingGuideTitle.
@@ -811,7 +811,7 @@ abstract class AppLocalizations {
   /// No description provided for @scheduleTripPostingGuideSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Make sure the trip details are honest before you post. Coordination and final pickup details happen after the listing goes live.'**
+  /// **'Make sure the trip'**
   String get scheduleTripPostingGuideSubtitle;
 
   /// No description provided for @scheduleTripPostingVisibilityLabel.
@@ -841,49 +841,49 @@ abstract class AppLocalizations {
   /// No description provided for @scheduleTripPostingPassengerVisibility.
   ///
   /// In en, this message translates to:
-  /// **'Drivers see your route, timing, seats, and note.'**
+  /// **'Drivers see your route'**
   String get scheduleTripPostingPassengerVisibility;
 
   /// No description provided for @scheduleTripPostingDriverVisibility.
   ///
   /// In en, this message translates to:
-  /// **'Riders see your route, timing, seats, vehicle, and rider note.'**
+  /// **'Riders see your route'**
   String get scheduleTripPostingDriverVisibility;
 
   /// No description provided for @scheduleTripPostingPrecisionExact.
   ///
   /// In en, this message translates to:
-  /// **'Exact pickup and destination pins are attached.'**
+  /// **'Exact pickup and destination'**
   String get scheduleTripPostingPrecisionExact;
 
   /// No description provided for @scheduleTripPostingPrecisionPartial.
   ///
   /// In en, this message translates to:
-  /// **'One place pin is attached. Confirm the other stop in chat.'**
+  /// **'One place pin is'**
   String get scheduleTripPostingPrecisionPartial;
 
   /// No description provided for @scheduleTripPostingPrecisionTextOnly.
   ///
   /// In en, this message translates to:
-  /// **'Text route only. Confirm the exact pickup in chat.'**
+  /// **'Text route only Confirm'**
   String get scheduleTripPostingPrecisionTextOnly;
 
   /// No description provided for @scheduleTripPostingPassengerCoordination.
   ///
   /// In en, this message translates to:
-  /// **'Drivers contact you after posting. Final pickup, fare, and timing are agreed in WhatsApp.'**
+  /// **'Drivers contact you after'**
   String get scheduleTripPostingPassengerCoordination;
 
   /// No description provided for @scheduleTripPostingDriverCoordination.
   ///
   /// In en, this message translates to:
-  /// **'Riders contact you after posting. Final pickup, fare, and timing are agreed in WhatsApp.'**
+  /// **'Riders contact you after'**
   String get scheduleTripPostingDriverCoordination;
 
   /// No description provided for @scheduleTripPostingOfflineBehavior.
   ///
   /// In en, this message translates to:
-  /// **'If the network drops, COOL saves this trip on device and syncs it later.'**
+  /// **'If the network drops'**
   String get scheduleTripPostingOfflineBehavior;
 
   /// No description provided for @scheduleTripFromRequired.
@@ -901,19 +901,19 @@ abstract class AppLocalizations {
   /// No description provided for @scheduleTripRouteSameError.
   ///
   /// In en, this message translates to:
-  /// **'Departure and destination must be different.'**
+  /// **'Departure and destination must'**
   String get scheduleTripRouteSameError;
 
   /// No description provided for @scheduleTripReturnInvalidError.
   ///
   /// In en, this message translates to:
-  /// **'Return date and time must be after departure.'**
+  /// **'Return date and time'**
   String get scheduleTripReturnInvalidError;
 
   /// No description provided for @scheduleTripRecurringDaysError.
   ///
   /// In en, this message translates to:
-  /// **'Pick at least one repeat day.'**
+  /// **'Pick at least one'**
   String get scheduleTripRecurringDaysError;
 
   /// No description provided for @scheduleTripDateFieldPrefix.
@@ -937,13 +937,13 @@ abstract class AppLocalizations {
   /// No description provided for @driverOnlineMessage.
   ///
   /// In en, this message translates to:
-  /// **'You are online and visible to nearby passengers.'**
+  /// **'Online now'**
   String get driverOnlineMessage;
 
   /// No description provided for @driverOfflineMessage.
   ///
   /// In en, this message translates to:
-  /// **'You are offline. Turn on driver mode to receive trips.'**
+  /// **'Offline now'**
   String get driverOfflineMessage;
 
   /// No description provided for @online.
@@ -1057,7 +1057,7 @@ abstract class AppLocalizations {
   /// No description provided for @tripsUsedMessage.
   ///
   /// In en, this message translates to:
-  /// **'You have used {used} trips so far and only {remaining} free trips remain.'**
+  /// **'You have used {used}'**
   String tripsUsedMessage(int used, int remaining);
 
   /// No description provided for @daysRemaining.
@@ -1393,7 +1393,7 @@ abstract class AppLocalizations {
   /// No description provided for @whatsappConfirmation.
   ///
   /// In en, this message translates to:
-  /// **'📱 WhatsApp confirmation will be sent after payment'**
+  /// **'WhatsApp confirmation will be'**
   String get whatsappConfirmation;
 
   /// No description provided for @viewTicket.
@@ -1405,7 +1405,7 @@ abstract class AppLocalizations {
   /// No description provided for @showAtGate.
   ///
   /// In en, this message translates to:
-  /// **'Show this at the gate'**
+  /// **'Show this at the'**
   String get showAtGate;
 
   /// No description provided for @addToCart.
@@ -1417,7 +1417,7 @@ abstract class AppLocalizations {
   /// No description provided for @goldDiscount.
   ///
   /// In en, this message translates to:
-  /// **'🌟 Gold Members get 10% off'**
+  /// **'Gold Members get 10'**
   String get goldDiscount;
 
   /// No description provided for @noTicketsYet.
@@ -1429,7 +1429,7 @@ abstract class AppLocalizations {
   /// No description provided for @buyTicketsToUpcomingMatches.
   ///
   /// In en, this message translates to:
-  /// **'Buy tickets to upcoming matches'**
+  /// **'Buy tickets to upcoming'**
   String get buyTicketsToUpcomingMatches;
 
   /// No description provided for @cartItemCount.
@@ -1513,7 +1513,7 @@ abstract class AppLocalizations {
   /// No description provided for @improveOnTime.
   ///
   /// In en, this message translates to:
-  /// **'Contribute on time every month'**
+  /// **'Contribute on time every'**
   String get improveOnTime;
 
   /// No description provided for @improveJoinGroups.
@@ -1525,7 +1525,7 @@ abstract class AppLocalizations {
   /// No description provided for @improveCommunityFunds.
   ///
   /// In en, this message translates to:
-  /// **'Contribute to 3 community funds'**
+  /// **'Contribute to 3 community'**
   String get improveCommunityFunds;
 
   /// No description provided for @improveConsecutiveMonths.
@@ -1645,7 +1645,7 @@ abstract class AppLocalizations {
   /// No description provided for @signOutConfirmMessage.
   ///
   /// In en, this message translates to:
-  /// **'Are you sure you want to sign out? You will need to verify your WhatsApp OTP again to log back in.'**
+  /// **'Sign out now?'**
   String get signOutConfirmMessage;
 
   /// No description provided for @cancel.
@@ -1705,7 +1705,7 @@ abstract class AppLocalizations {
   /// No description provided for @offlineNotice.
   ///
   /// In en, this message translates to:
-  /// **'You\'re offline. Showing cached data.'**
+  /// **'You\'re offline Showing cached'**
   String get offlineNotice;
 
   /// No description provided for @goodMorningUser.
@@ -1717,7 +1717,7 @@ abstract class AppLocalizations {
   /// No description provided for @memberIdPrefix.
   ///
   /// In en, this message translates to:
-  /// **'ID: '**
+  /// **'ID:'**
   String get memberIdPrefix;
 
   /// No description provided for @recent.
@@ -1741,7 +1741,7 @@ abstract class AppLocalizations {
   /// No description provided for @scanQrOrShareLink.
   ///
   /// In en, this message translates to:
-  /// **'Scan QR or share the link'**
+  /// **'Scan QR or share'**
   String get scanQrOrShareLink;
 
   /// No description provided for @shareViaWhatsapp.
@@ -1915,7 +1915,7 @@ abstract class AppLocalizations {
   /// No description provided for @noResults.
   ///
   /// In en, this message translates to:
-  /// **'No results found.'**
+  /// **'No results found'**
   String get noResults;
 
   /// No description provided for @seeMore.
@@ -1969,7 +1969,7 @@ abstract class AppLocalizations {
   /// No description provided for @appearanceSheetSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Choose how Cool looks on this device.'**
+  /// **'Choose how Cool looks'**
   String get appearanceSheetSubtitle;
 
   /// No description provided for @appearanceSystemLabel.
@@ -1981,7 +1981,7 @@ abstract class AppLocalizations {
   /// No description provided for @appearanceSystemDescription.
   ///
   /// In en, this message translates to:
-  /// **'Follow your phone\'s light or dark setting.'**
+  /// **'Follow your phone\'s light'**
   String get appearanceSystemDescription;
 
   /// No description provided for @appearanceLightLabel.
@@ -1993,7 +1993,7 @@ abstract class AppLocalizations {
   /// No description provided for @appearanceLightDescription.
   ///
   /// In en, this message translates to:
-  /// **'Always use the light theme.'**
+  /// **'Always use the light'**
   String get appearanceLightDescription;
 
   /// No description provided for @appearanceDarkLabel.
@@ -2005,7 +2005,7 @@ abstract class AppLocalizations {
   /// No description provided for @appearanceDarkDescription.
   ///
   /// In en, this message translates to:
-  /// **'Always use the dark theme.'**
+  /// **'Always use the dark'**
   String get appearanceDarkDescription;
 
   /// No description provided for @notificationsLabel.
@@ -2089,7 +2089,7 @@ abstract class AppLocalizations {
   /// No description provided for @otpUseWhatsappSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'We will send a 6-digit code to your WhatsApp.'**
+  /// **'We will send a'**
   String get otpUseWhatsappSubtitle;
 
   /// No description provided for @otpPhoneRequired.
@@ -2107,25 +2107,25 @@ abstract class AppLocalizations {
   /// No description provided for @otpGenericError.
   ///
   /// In en, this message translates to:
-  /// **'Something went wrong. Please try again.'**
+  /// **'Something went wrong Please'**
   String get otpGenericError;
 
   /// No description provided for @openLinkError.
   ///
   /// In en, this message translates to:
-  /// **'Could not open link'**
+  /// **'Open link failed'**
   String get openLinkError;
 
   /// No description provided for @otpLegalPrefix.
   ///
   /// In en, this message translates to:
-  /// **'By continuing, you accept the '**
+  /// **'By continuing you accept'**
   String get otpLegalPrefix;
 
   /// No description provided for @otpLegalAnd.
   ///
   /// In en, this message translates to:
-  /// **' and '**
+  /// **'and'**
   String get otpLegalAnd;
 
   /// No description provided for @termsLabel.
@@ -2203,7 +2203,7 @@ abstract class AppLocalizations {
   /// No description provided for @homePriorityGroupsSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Create or join a group to build trusted activity on Cool.'**
+  /// **'Create or join a'**
   String get homePriorityGroupsSubtitle;
 
   /// No description provided for @homePriorityMomoTitle.
@@ -2215,7 +2215,7 @@ abstract class AppLocalizations {
   /// No description provided for @homePriorityMomoSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Send, request, or receive so your latest wallet activity shows up here.'**
+  /// **'Send request or receive'**
   String get homePriorityMomoSubtitle;
 
   /// No description provided for @homePriorityStatementsTitle.
@@ -2227,7 +2227,7 @@ abstract class AppLocalizations {
   /// No description provided for @homePriorityStatementsSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Your monthly trend is down. Check recent activity before you send more money.'**
+  /// **'Your monthly trend is'**
   String get homePriorityStatementsSubtitle;
 
   /// No description provided for @homePriorityMomentumTitle.
@@ -2239,7 +2239,7 @@ abstract class AppLocalizations {
   /// No description provided for @homePriorityMomentumSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'You have active group activity this month. Open Groups to keep momentum.'**
+  /// **'You have active group'**
   String get homePriorityMomentumSubtitle;
 
   /// No description provided for @homeActiveCount.
@@ -2269,7 +2269,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeLoadErrorMessage.
   ///
   /// In en, this message translates to:
-  /// **'Pull to refresh or try again.'**
+  /// **'Pull to refresh'**
   String get homeLoadErrorMessage;
 
   /// No description provided for @profileMobileMoney.
@@ -2347,13 +2347,13 @@ abstract class AppLocalizations {
   /// No description provided for @profileMoreToolsShowSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Show extra actions and secondary shortcuts.'**
+  /// **'Show extra actions and'**
   String get profileMoreToolsShowSubtitle;
 
   /// No description provided for @profileMoreToolsHideSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Hide QR, driver, and status shortcuts.'**
+  /// **'Hide QR driver and'**
   String get profileMoreToolsHideSubtitle;
 
   /// No description provided for @vehicleLabel.
@@ -2389,13 +2389,13 @@ abstract class AppLocalizations {
   /// No description provided for @deleteAccountMessage.
   ///
   /// In en, this message translates to:
-  /// **'This permanently removes your account and data.'**
+  /// **'This permanently removes your'**
   String get deleteAccountMessage;
 
   /// No description provided for @signOutMessage.
   ///
   /// In en, this message translates to:
-  /// **'You\'ll need to verify your number again to log back in.'**
+  /// **'You\'ll need to verify'**
   String get signOutMessage;
 
   /// No description provided for @completeProfileTitle.
@@ -2407,7 +2407,7 @@ abstract class AppLocalizations {
   /// No description provided for @completeProfileSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Finish setup to unlock all features.'**
+  /// **'Finish setup to unlock'**
   String get completeProfileSubtitle;
 
   /// No description provided for @profileSavingMomoInfo.
@@ -2431,19 +2431,19 @@ abstract class AppLocalizations {
   /// No description provided for @profileMomoUpdateFailed.
   ///
   /// In en, this message translates to:
-  /// **'Failed to update MoMo info'**
+  /// **'Failed to update MoMo'**
   String get profileMomoUpdateFailed;
 
   /// No description provided for @profileSupportOpenError.
   ///
   /// In en, this message translates to:
-  /// **'Could not open WhatsApp. Please try again.'**
+  /// **'Open WhatsApp Please failed'**
   String get profileSupportOpenError;
 
   /// No description provided for @profileSupportUnavailable.
   ///
   /// In en, this message translates to:
-  /// **'Support is unavailable right now.'**
+  /// **'Support is unavailable right'**
   String get profileSupportUnavailable;
 
   /// No description provided for @profileMomoQrTitle.
@@ -2467,7 +2467,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileEditMomoSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'This number will be used for Mobile Money payments'**
+  /// **'This number will be'**
   String get profileEditMomoSubtitle;
 
   /// No description provided for @profileMomoCodeOptional.
@@ -2539,7 +2539,7 @@ abstract class AppLocalizations {
   /// No description provided for @walletEmptyMessage.
   ///
   /// In en, this message translates to:
-  /// **'Wallet activity will appear here.'**
+  /// **'Wallet activity will appear'**
   String get walletEmptyMessage;
 
   /// No description provided for @walletLedgerTitle.
@@ -2551,7 +2551,7 @@ abstract class AppLocalizations {
   /// No description provided for @walletLedgerSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Showing {shown} of {total} wallet entries.'**
+  /// **'{shown}/{total} shown'**
   String walletLedgerSubtitle(int shown, int total);
 
   /// No description provided for @savingsEmptyTitle.
@@ -2563,7 +2563,7 @@ abstract class AppLocalizations {
   /// No description provided for @savingsEmptyMessage.
   ///
   /// In en, this message translates to:
-  /// **'Savings contributions will appear here.'**
+  /// **'Savings contributions will appear'**
   String get savingsEmptyMessage;
 
   /// No description provided for @savingsStatementTitle.
@@ -2575,7 +2575,7 @@ abstract class AppLocalizations {
   /// No description provided for @savingsStatementSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Showing {shown} of {total} group contribution records.'**
+  /// **'{shown}/{total} shown'**
   String savingsStatementSubtitle(int shown, int total);
 
   /// No description provided for @coolMemberFallback.
@@ -2659,7 +2659,7 @@ abstract class AppLocalizations {
   /// No description provided for @momoStatementsWalletFilteredEmptyMessage.
   ///
   /// In en, this message translates to:
-  /// **'Try adjusting your filters or date range.'**
+  /// **'Try adjusting your filters'**
   String get momoStatementsWalletFilteredEmptyMessage;
 
   /// No description provided for @momoStatementsSavingsFilteredEmptyTitle.
@@ -2671,7 +2671,7 @@ abstract class AppLocalizations {
   /// No description provided for @momoStatementsSavingsFilteredEmptyMessage.
   ///
   /// In en, this message translates to:
-  /// **'Try adjusting your filters or date range.'**
+  /// **'Try adjusting your filters'**
   String get momoStatementsSavingsFilteredEmptyMessage;
 
   /// No description provided for @fansScreenUnavailableTitle.
@@ -2689,31 +2689,31 @@ abstract class AppLocalizations {
   /// No description provided for @fansScreenBody.
   ///
   /// In en, this message translates to:
-  /// **'Fan features for {clubName} are now consolidated in the partner hub.'**
+  /// **'Fan features for {clubName}'**
   String fansScreenBody(String clubName);
 
   /// No description provided for @fansScreenMembershipUnavailable.
   ///
   /// In en, this message translates to:
-  /// **'Membership features live inside Rayon Sports.'**
+  /// **'Membership features live inside'**
   String get fansScreenMembershipUnavailable;
 
   /// No description provided for @fansScreenClubsUnavailable.
   ///
   /// In en, this message translates to:
-  /// **'Fan clubs are now managed inside Rayon Sports.'**
+  /// **'Fan clubs are now'**
   String get fansScreenClubsUnavailable;
 
   /// No description provided for @fansScreenRayonDedicatedHub.
   ///
   /// In en, this message translates to:
-  /// **'Rayon Sports has a dedicated fan hub.'**
+  /// **'Rayon Sports has a'**
   String get fansScreenRayonDedicatedHub;
 
   /// No description provided for @fansScreenRouteKeptReachable.
   ///
   /// In en, this message translates to:
-  /// **'This route is kept reachable for deep links.'**
+  /// **'Legacy route'**
   String get fansScreenRouteKeptReachable;
 
   /// No description provided for @fansScreenBackToPartners.
@@ -2737,13 +2737,13 @@ abstract class AppLocalizations {
   /// No description provided for @ticketWalletUnavailable.
   ///
   /// In en, this message translates to:
-  /// **'Google Wallet is not available on this device.'**
+  /// **'Google Wallet is not'**
   String get ticketWalletUnavailable;
 
   /// No description provided for @ticketWalletOpenFailed.
   ///
   /// In en, this message translates to:
-  /// **'Could not open Google Wallet.'**
+  /// **'Open Google Wallet failed'**
   String get ticketWalletOpenFailed;
 
   /// No description provided for @ticketConfirmationScreenTitle.
@@ -2779,7 +2779,7 @@ abstract class AppLocalizations {
   /// No description provided for @ticketShareMatchText.
   ///
   /// In en, this message translates to:
-  /// **'Check out {matchTitle} on Cool!'**
+  /// **'Check out {matchTitle} on!'**
   String ticketShareMatchText(String matchTitle);
 
   /// No description provided for @ticketStatusPendingTitle.
@@ -2797,7 +2797,7 @@ abstract class AppLocalizations {
   /// No description provided for @ticketStatusPendingNote.
   ///
   /// In en, this message translates to:
-  /// **'Your ticket is reserved. Complete the MoMo payment to activate it.'**
+  /// **'Ticket reserved'**
   String get ticketStatusPendingNote;
 
   /// No description provided for @ticketStatusValidTitle.
@@ -2809,13 +2809,13 @@ abstract class AppLocalizations {
   /// No description provided for @ticketStatusValidSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Show this at the gate.'**
+  /// **'Show this at the'**
   String get ticketStatusValidSubtitle;
 
   /// No description provided for @ticketStatusValidNote.
   ///
   /// In en, this message translates to:
-  /// **'Present the QR code below at the stadium entrance.'**
+  /// **'Present the QR code'**
   String get ticketStatusValidNote;
 
   /// No description provided for @ticketStatusUsedTitle.
@@ -2827,13 +2827,13 @@ abstract class AppLocalizations {
   /// No description provided for @ticketStatusUsedSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'This ticket has been scanned.'**
+  /// **'Ticket already scanned'**
   String get ticketStatusUsedSubtitle;
 
   /// No description provided for @ticketStatusUsedNote.
   ///
   /// In en, this message translates to:
-  /// **'This ticket was validated at the gate. It cannot be used again.'**
+  /// **'Ticket already used'**
   String get ticketStatusUsedNote;
 
   /// No description provided for @ticketStatusCancelledTitle.
@@ -2845,13 +2845,13 @@ abstract class AppLocalizations {
   /// No description provided for @ticketStatusCancelledSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'This ticket is no longer valid.'**
+  /// **'Ticket invalid'**
   String get ticketStatusCancelledSubtitle;
 
   /// No description provided for @ticketStatusCancelledNote.
   ///
   /// In en, this message translates to:
-  /// **'Contact support if you believe this is an error.'**
+  /// **'Contact support'**
   String get ticketStatusCancelledNote;
 
   /// No description provided for @partnersHomeTooltip.
@@ -2875,7 +2875,7 @@ abstract class AppLocalizations {
   /// No description provided for @partnersRayonWelcomeSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Your fan membership has been created. Enjoy exclusive perks, tickets, and club updates.'**
+  /// **'Your fan membership has'**
   String get partnersRayonWelcomeSubtitle;
 
   /// No description provided for @partnersOpenRayonSports.
@@ -2935,7 +2935,7 @@ abstract class AppLocalizations {
   /// No description provided for @partnersNoFootballPartners.
   ///
   /// In en, this message translates to:
-  /// **'No football partners available yet.'**
+  /// **'No football partners yet'**
   String get partnersNoFootballPartners;
 
   /// No description provided for @partnersComingSoonMessage.
@@ -2965,7 +2965,7 @@ abstract class AppLocalizations {
   /// No description provided for @partnersNoFinancePartners.
   ///
   /// In en, this message translates to:
-  /// **'No finance partners available yet.'**
+  /// **'No finance partners yet'**
   String get partnersNoFinancePartners;
 
   /// No description provided for @partnersFinancePrepTitle.
@@ -2977,7 +2977,7 @@ abstract class AppLocalizations {
   /// No description provided for @partnersFinancePrepSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Check your credit readiness and prepare for financial services from our partners.'**
+  /// **'Check your credit readiness'**
   String get partnersFinancePrepSubtitle;
 
   /// No description provided for @partnersReadinessChecklistCta.
@@ -2989,13 +2989,13 @@ abstract class AppLocalizations {
   /// No description provided for @partnersWhatsappMessage.
   ///
   /// In en, this message translates to:
-  /// **'Hi, I\'d like to learn more about {partnerName} on Cool.'**
+  /// **'Hi I\'d like to'**
   String partnersWhatsappMessage(String partnerName);
 
   /// No description provided for @partnersNoServicePartners.
   ///
   /// In en, this message translates to:
-  /// **'No service partners available yet.'**
+  /// **'No service partners yet'**
   String get partnersNoServicePartners;
 
   /// No description provided for @partnersInsurancePartnerBadge.
@@ -3019,13 +3019,13 @@ abstract class AppLocalizations {
   /// No description provided for @partnersLoadErrorTitle.
   ///
   /// In en, this message translates to:
-  /// **'Could not load partners'**
+  /// **'Load partners failed'**
   String get partnersLoadErrorTitle;
 
   /// No description provided for @partnersEmptyMessage.
   ///
   /// In en, this message translates to:
-  /// **'Partners will appear here once available.'**
+  /// **'Partners will appear here'**
   String get partnersEmptyMessage;
 
   /// No description provided for @partnersClubShopSubtitle.
@@ -3067,7 +3067,7 @@ abstract class AppLocalizations {
   /// No description provided for @momoNfcLaunchFailed.
   ///
   /// In en, this message translates to:
-  /// **'NFC launch failed. Please try again.'**
+  /// **'NFC launch failed Please'**
   String get momoNfcLaunchFailed;
 
   /// No description provided for @momoScreenTitle.
@@ -3085,13 +3085,13 @@ abstract class AppLocalizations {
   /// No description provided for @momoSendValidationError.
   ///
   /// In en, this message translates to:
-  /// **'Please enter a valid recipient and amount.'**
+  /// **'Please enter a valid'**
   String get momoSendValidationError;
 
   /// No description provided for @momoSendLaunchFailed.
   ///
   /// In en, this message translates to:
-  /// **'Could not launch MoMo payment for {countryName}.'**
+  /// **'Launch MoMo payment failed'**
   String momoSendLaunchFailed(String countryName);
 
   /// No description provided for @momoFromNumber.
@@ -3133,7 +3133,7 @@ abstract class AppLocalizations {
   /// No description provided for @momoSendCompletesViaUssd.
   ///
   /// In en, this message translates to:
-  /// **'Completes via USSD on your {countryName} SIM.'**
+  /// **'Completes via USSD on'**
   String momoSendCompletesViaUssd(String countryName);
 
   /// No description provided for @momoContinueToUssd.
@@ -3151,7 +3151,7 @@ abstract class AppLocalizations {
   /// No description provided for @momoTrustCardSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'COOL opens the network prompt, but you still approve the payment on your own line.'**
+  /// **'COOL opens the network'**
   String get momoTrustCardSubtitle;
 
   /// No description provided for @momoTrustFeesTitle.
@@ -3163,19 +3163,19 @@ abstract class AppLocalizations {
   /// No description provided for @momoTrustFeesSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'The USSD prompt displays the amount and any network charges before you enter your PIN.'**
+  /// **'The USSD prompt displays'**
   String get momoTrustFeesSubtitle;
 
   /// No description provided for @momoTrustApprovalTitle.
   ///
   /// In en, this message translates to:
-  /// **'You approve on your phone'**
+  /// **'You approve on your'**
   String get momoTrustApprovalTitle;
 
   /// No description provided for @momoTrustApprovalSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'COOL never completes the transfer for you. You confirm it inside the MoMo flow.'**
+  /// **'COOL never completes the'**
   String get momoTrustApprovalSubtitle;
 
   /// No description provided for @momoTrustReceiptTitle.
@@ -3187,7 +3187,7 @@ abstract class AppLocalizations {
   /// No description provided for @momoTrustReceiptSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Matching Mobile Money SMS confirmations sync back into Statements for later review.'**
+  /// **'Matching Mobile Money SMS'**
   String get momoTrustReceiptSubtitle;
 
   /// No description provided for @momoReviewTitle.
@@ -3241,19 +3241,19 @@ abstract class AppLocalizations {
   /// No description provided for @momoWhatHappensNextOpen.
   ///
   /// In en, this message translates to:
-  /// **'COOL opens the {countryName} USSD prompt.'**
+  /// **'COOL opens the {countryName}'**
   String momoWhatHappensNextOpen(String countryName);
 
   /// No description provided for @momoWhatHappensNextConfirm.
   ///
   /// In en, this message translates to:
-  /// **'You confirm the amount, fees, and PIN on your own line.'**
+  /// **'You confirm the amount'**
   String get momoWhatHappensNextConfirm;
 
   /// No description provided for @momoWhatHappensNextReceipt.
   ///
   /// In en, this message translates to:
-  /// **'A matching SMS confirmation updates your statements history.'**
+  /// **'A matching SMS confirmation'**
   String get momoWhatHappensNextReceipt;
 
   /// No description provided for @momoConfirmSendLabel.
@@ -3391,7 +3391,7 @@ abstract class AppLocalizations {
   /// No description provided for @groupsShareText.
   ///
   /// In en, this message translates to:
-  /// **'Join {groupName} on Cool: {inviteUrl}'**
+  /// **'Join {groupName} on Cool'**
   String groupsShareText(String groupName, String inviteUrl);
 
   /// No description provided for @groupsCreateNewTitle.
@@ -3415,13 +3415,13 @@ abstract class AppLocalizations {
   /// No description provided for @groupsEmptyPublicMessage.
   ///
   /// In en, this message translates to:
-  /// **'Pull to refresh or check your groups.'**
+  /// **'Pull to refresh'**
   String get groupsEmptyPublicMessage;
 
   /// No description provided for @groupsEmptyPrivateMessage.
   ///
   /// In en, this message translates to:
-  /// **'Create a group or browse public ones.'**
+  /// **'Create a group or'**
   String get groupsEmptyPrivateMessage;
 
   /// No description provided for @groupsBankCustodianMeta.
@@ -3505,7 +3505,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileIdentityUpdateFailed.
   ///
   /// In en, this message translates to:
-  /// **'Failed to update identity details'**
+  /// **'Failed to update identity'**
   String get profileIdentityUpdateFailed;
 
   /// No description provided for @profileAppAccess.
@@ -3619,7 +3619,7 @@ abstract class AppLocalizations {
   /// No description provided for @mobilityNoWhatsappAvailable.
   ///
   /// In en, this message translates to:
-  /// **'No WhatsApp contact available yet.'**
+  /// **'No WhatsApp contact yet'**
   String get mobilityNoWhatsappAvailable;
 
   /// No description provided for @mobilityNoContactYet.
@@ -3631,25 +3631,25 @@ abstract class AppLocalizations {
   /// No description provided for @mobilityLocationRequiredDriverMode.
   ///
   /// In en, this message translates to:
-  /// **'Location is required before turning on driver mode.'**
+  /// **'Location is required before'**
   String get mobilityLocationRequiredDriverMode;
 
   /// No description provided for @momoSendMoneyOpensUssd.
   ///
   /// In en, this message translates to:
-  /// **'Open {countryName} MoMo USSD to send money.'**
+  /// **'Open {countryName} MoMo USSD'**
   String momoSendMoneyOpensUssd(String countryName);
 
   /// No description provided for @momoMoreToolsSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Statements, QR, and NFC tools for your route.'**
+  /// **'Statements QR and NFC'**
   String get momoMoreToolsSubtitle;
 
   /// No description provided for @momoStatementsToolSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Review wallet and savings history.'**
+  /// **'Review wallet and savings'**
   String get momoStatementsToolSubtitle;
 
   /// No description provided for @momoNfcToolsTitle.
@@ -3661,7 +3661,7 @@ abstract class AppLocalizations {
   /// No description provided for @momoNfcToolsSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Tap-to-pay and share route details.'**
+  /// **'Tap-to-pay and share route'**
   String get momoNfcToolsSubtitle;
 
   /// No description provided for @basketScreenTitle.
@@ -3673,37 +3673,37 @@ abstract class AppLocalizations {
   /// No description provided for @basketScreenHeadline.
   ///
   /// In en, this message translates to:
-  /// **'Basket is not live right now'**
+  /// **'Basket is not live'**
   String get basketScreenHeadline;
 
   /// No description provided for @basketScreenBody.
   ///
   /// In en, this message translates to:
-  /// **'This route stays available for compatibility, but basket balances and creation flows are not active in this build.'**
+  /// **'Legacy route'**
   String get basketScreenBody;
 
   /// No description provided for @basketScreenCardBody.
   ///
   /// In en, this message translates to:
-  /// **'Basket products are paused while the team finishes the next release.'**
+  /// **'Basket products are paused'**
   String get basketScreenCardBody;
 
   /// No description provided for @basketScreenExpectationBalances.
   ///
   /// In en, this message translates to:
-  /// **'No live basket balances are shown here.'**
+  /// **'No live basket balances'**
   String get basketScreenExpectationBalances;
 
   /// No description provided for @basketScreenExpectationCreation.
   ///
   /// In en, this message translates to:
-  /// **'New basket creation is currently disabled.'**
+  /// **'New basket creation is'**
   String get basketScreenExpectationCreation;
 
   /// No description provided for @basketScreenExpectationLinks.
   ///
   /// In en, this message translates to:
-  /// **'Existing deep links still land on this placeholder.'**
+  /// **'Existing deep links still'**
   String get basketScreenExpectationLinks;
 
   /// No description provided for @basketScreenBackHome.

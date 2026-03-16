@@ -281,7 +281,7 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
       builder: (dialogContext) => AlertDialog(
         title: const Text('Delete payment route'),
         content: Text(
-          'Remove the ${route.countryCode} payment route from Rayon Sports admin?',
+          'Remove the ${route.countryCode} payment?',
         ),
         actions: [
           TextButton(
@@ -333,7 +333,7 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
       error: (_, _) => Scaffold(
         backgroundColor: AppColors.bg,
         body: const Center(
-          child: Text('Finance workspace could not be loaded.'),
+          child: Text('Finance workspace could not'),
         ),
       ),
       data: (partnerId) {
@@ -365,7 +365,7 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
         return RsAdminShell(
           title: 'Finance',
           subtitle:
-              'Manage Rayon payment routing, inspect posted partner receipts, and export finance-ledger views.',
+              'Manage Rayon payment routing',
           metrics: [
             RsAdminMetric(label: 'routes', value: '$routeCount'),
             RsAdminMetric(label: 'active', value: '$activeRouteCount'),
@@ -454,7 +454,7 @@ class _RouteCardList extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Partner-admin managed recipient codes used by Rayon checkout flows.',
+                      'Partner-admin managed recipient codes',
                       style: GoogleFonts.barlow(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
@@ -476,7 +476,7 @@ class _RouteCardList extends StatelessWidget {
             value: routesAsync,
             emptyCheck: (routes) => routes.isEmpty,
             emptyWidget: const CoolEmptyView(
-              message: 'No partner payment routes are configured yet.',
+              message: 'No partner payment yet',
               compact: true,
             ),
             builder: (routes) => Column(
@@ -630,7 +630,7 @@ class _PartnerLedgerCard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            'Latest posted partner receipts tied to Rayon Sports payment routes.',
+            'Latest posted partner receipts',
             style: GoogleFonts.barlow(
               fontSize: 12,
               fontWeight: FontWeight.w500,
@@ -644,7 +644,7 @@ class _PartnerLedgerCard extends StatelessWidget {
             onRetry: onRetry,
             emptyCheck: (page) => page.entries.isEmpty,
             emptyWidget: const CoolEmptyView(
-              message: 'No posted partner ledger entries are visible yet.',
+              message: 'No posted partner yet',
               compact: true,
             ),
             builder: (page) => Column(

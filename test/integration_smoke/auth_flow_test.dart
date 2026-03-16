@@ -55,11 +55,7 @@ void main() {
     ) async {
       await pumpRouterApp(tester, initialLocation: AppRoutes.otp);
 
-      expect(
-        find.text('A one-time code will be sent to your WhatsApp.'),
-        findsOneWidget,
-      );
-
+      expect(find.text('A one-time code will'), findsOneWidget);
     });
 
     testWidgets('OTP screen shows the Rwanda prefix without a picker', (

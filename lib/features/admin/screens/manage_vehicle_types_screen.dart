@@ -34,7 +34,7 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
       floatingActionButton: Semantics(
         button: true,
         label: 'Add vehicle type',
-        hint: 'Opens the new vehicle type form',
+        hint: 'New vehicle type',
         child: FloatingActionButton(
           backgroundColor: AppColors.accent,
           onPressed: () => _showEditSheet(context, ref, null),
@@ -64,7 +64,7 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
               loadingWidget: const CoolSkeletonList(itemCount: 4),
               emptyCheck: (t) => t.isEmpty,
               emptyWidget: const CoolEmptyView(
-                message: 'No vehicle types are configured yet.',
+                message: 'No vehicle types yet',
                 icon: Icons.directions_car_filled_rounded,
               ),
               builder: (types) => ListView.separated(
@@ -103,7 +103,7 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
                         trailing: Semantics(
                           button: true,
                           label: 'Edit vehicle type ${t['label'] ?? ''}',
-                          hint: 'Opens the vehicle type editor',
+                          hint: 'Edit vehicle type',
                           child: GestureDetector(
                             onTap: () => _showEditSheet(context, ref, t),
                             child: Icon(
@@ -275,7 +275,7 @@ class _EditVehicleTypeSheetState extends State<_EditVehicleTypeSheet> {
     child: Semantics(
       textField: true,
       label: label,
-      hint: 'Double tap to enter $label',
+      hint: 'Enter $label',
       child: TextField(
         controller: ctl,
         style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),

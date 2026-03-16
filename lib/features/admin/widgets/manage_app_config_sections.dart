@@ -88,7 +88,7 @@ class ConfigTile extends StatelessWidget {
           ),
         ),
         subtitle: Text(
-          '$preview\n${config['description'] ?? ''} ($scopeLabel)',
+          '$preview ${config['description'] ?? ''} ($scopeLabel)',
           style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
@@ -345,7 +345,7 @@ class PartnerPaymentRouteConfigTile extends StatelessWidget {
             const SizedBox(height: 6),
             Semantics(
               button: true,
-              label: 'Edit payment route for $partnerName',
+              label: 'Edit payment route for',
               child: GestureDetector(
                 onTap: onEdit,
                 child: Icon(

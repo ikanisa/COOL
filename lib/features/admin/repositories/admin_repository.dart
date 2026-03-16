@@ -883,6 +883,52 @@ class AdminRepository {
     return 1 << 20;
   }
 
+  // ── Platform Analytics ────────────────────────────────────────────────
+
+  Future<Map<String, dynamic>> fetchPlatformAnalytics() async {
+    final data = await _client.rpc('get_platform_analytics_summary');
+    if (data is Map<String, dynamic>) return data;
+    if (data is Map) return Map<String, dynamic>.from(data);
+    throw StateError('Expected get_platform_analytics_summary to return JSON.');
+  }
+
+  // ── Audit Log ────────────────────────────────────────────────────────
+
+  Future<List<Map<String, dynamic>>> fetchAuditLog({
+    int limit = 50,
+    int offset = 0,
+    String? action,
+    String? actorId,
+  }) async {
+    final data = await _client.rpc(
+      'get_admin_audit_log',
+      params: <String, dynamic>{
+        'p_limit': limit,
+        'p_offset': offset,
+        if (action != null) 'p_action': action,
+        if (actorId != null) 'p_actor_id': actorId,
+      },
+    );
+    return _asListOfMaps(data);
+  }
+
+  // ── Toggle user admin ────────────────────────────────────────────────
+
+  Future<void> toggleUserAdmin(String userId, bool isAdmin) async {
+    await _client
+        .from('users')
+        .update(<String, dynamic>{'is_admin': isAdmin})
+        .eq('id', userId);
+  }
+
+  /// Update arbitrary user profile fields (admin only).
+  Future<void> updateUserFields(
+    String userId,
+    Map<String, dynamic> fields,
+  ) async {
+    await _client.from('users').update(fields).eq('id', userId);
+  }
+
   List<Map<String, dynamic>> _asListOfMaps(dynamic value) {
     if (value is! List) {
       return const <Map<String, dynamic>>[];

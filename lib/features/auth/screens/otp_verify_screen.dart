@@ -213,7 +213,7 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        'Enter the 6-digit code sent to',
+                        'Enter the 6-digit code',
                         style: GoogleFonts.dmSans(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
@@ -325,7 +325,7 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
         height: 58,
         child: Semantics(
           textField: true,
-          label: 'Verification code digit ${index + 1} of $_codeLength',
+          label: 'Digit ${index + 1}/$_codeLength',
           hint: 'Enter a single digit',
           child: TextField(
             controller: _controllers[index],

@@ -2,105 +2,6 @@ part of '../screens/momo_statements_screen.dart';
 
 class StatementOverviewCard extends StatelessWidget {
   const StatementOverviewCard({
-    required this.title,
-    required this.headlineValue,
-    required this.headlineLabel,
-    required this.supportingLabel,
-    required this.primaryMetricLabel,
-    required this.primaryMetricValue,
-    required this.secondaryMetricLabel,
-    required this.secondaryMetricValue,
-    super.key,
-  });
-
-  final String title;
-  final String headlineValue;
-  final String headlineLabel;
-  final String supportingLabel;
-  final String primaryMetricLabel;
-  final String primaryMetricValue;
-  final String secondaryMetricLabel;
-  final String secondaryMetricValue;
-
-  @override
-  Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    return CoolCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: GoogleFonts.dmSans(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: palette.text,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                headlineValue,
-                style: GoogleFonts.dmSans(
-                  fontSize: 34,
-                  fontWeight: FontWeight.w700,
-                  color: palette.text,
-                  height: 1,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 3),
-                  child: Text(
-                    headlineLabel,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: palette.text2,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          Text(
-            supportingLabel,
-            style: GoogleFonts.dmSans(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: palette.text3,
-            ),
-          ),
-          const SizedBox(height: 14),
-          Row(
-            children: [
-              Expanded(
-                child: _OverviewMetricTile(
-                  label: primaryMetricLabel,
-                  value: primaryMetricValue,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: _OverviewMetricTile(
-                  label: secondaryMetricLabel,
-                  value: secondaryMetricValue,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class StatementToolbarCard extends StatelessWidget {
-  const StatementToolbarCard({
     required this.selectedPeriod,
     required this.periodSummary,
     required this.optionsSummary,
@@ -305,7 +206,7 @@ class _StatementOptionsSheetState extends State<StatementOptionsSheet> {
                 ],
               ),
               Text(
-                'Adjust the visible list, then export only if you need a file.',
+                'Adjust the visible list',
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
@@ -390,7 +291,7 @@ class _StatementOptionsSheetState extends State<StatementOptionsSheet> {
               const _OptionsSectionTitle('Export current results'),
               const SizedBox(height: 6),
               Text(
-                'PDF and Excel use the entries already visible on the statements screen.',
+                'PDF and Excel use',
                 style: GoogleFonts.dmSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
@@ -526,7 +427,7 @@ class WalletStatementTab extends StatelessWidget {
     if (entries.isEmpty) {
       return CoolEmptyView(
         message: isFilteredView
-            ? 'Try another period, payer, or sort option.'
+            ? 'Adjust filters'
             : context.l10n.walletEmptyMessage,
         icon: Icons.receipt_long_rounded,
       );
@@ -597,7 +498,7 @@ class WalletStatementTab extends StatelessWidget {
                   ),
                   const SizedBox(width: 12),
                   Text(
-                    '${entry.isCredit ? '+' : '-'}${moneyFormat.format(entry.amount)} ${entry.currency}',
+                    '${entry.isCredit ?'+' : '-'}${moneyFormat.format(entry.amount)} ${entry.currency}',
                     textAlign: TextAlign.right,
                     style: GoogleFonts.dmSans(
                       fontSize: 14,
@@ -677,7 +578,7 @@ class SavingsStatementTab extends StatelessWidget {
     if (entries.isEmpty) {
       return CoolEmptyView(
         message: isFilteredView
-            ? 'Try another period, group, or sort option.'
+            ? 'Adjust filters'
             : context.l10n.savingsEmptyMessage,
         icon: Icons.groups_2_rounded,
       );
@@ -911,8 +812,8 @@ class _DetailLine extends StatelessWidget {
             TextSpan(
               text: '$label: ',
               style: TextStyle(
-                color: palette.text,
                 fontWeight: FontWeight.w700,
+                color: palette.text2,
               ),
             ),
             TextSpan(text: value),
@@ -923,8 +824,8 @@ class _DetailLine extends StatelessWidget {
   }
 }
 
-String _humanizeToken(String value) {
-  return value
+String _humanizeToken(String raw) {
+  return raw
       .split('_')
       .where((part) => part.trim().isNotEmpty)
       .map((part) => '${part[0].toUpperCase()}${part.substring(1)}')

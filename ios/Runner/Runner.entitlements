@@ -7,6 +7,11 @@
 		<string>applinks:cool.app</string>
 		<string>applinks:www.cool.app</string>
 	</array>
+	<key>com.apple.developer.nfc.readersession.formats</key>
+	<array>
+		<string>NDEF</string>
+		<string>TAG</string>
+	</array>
 	<key>aps-environment</key>
 	<string>production</string>
 </dict>

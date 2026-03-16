@@ -137,8 +137,8 @@ class SupportDetailScreen extends StatelessWidget {
               loading: () => const _DetailLoadingState(),
               error: (error, stackTrace) => _DetailStateCard(
                 icon: Icons.warning_amber_rounded,
-                title: 'Unable to load this cause',
-                subtitle: 'Please try again in a moment.',
+                title: 'load this cause failed',
+                subtitle: 'Try again',
                 actionLabel: 'Back',
                 onTap: () => popOrGo(context, AppRoutes.rayonSupport),
               ),
@@ -147,7 +147,7 @@ class SupportDetailScreen extends StatelessWidget {
                   return _DetailStateCard(
                     icon: Icons.search_off_rounded,
                     title: 'Initiative not found',
-                    subtitle: 'This cause may have expired or moved.',
+                    subtitle: 'This cause may have',
                     actionLabel: 'Back to support',
                     onTap: () => context.go(AppRoutes.rayonSupport),
                   );
@@ -292,7 +292,7 @@ class SupportDetailScreen extends StatelessWidget {
                         shareText: 'Support ${initiative.title} on Cool!',
                         sheetTitle: 'Share Initiative',
                         sheetSubtitle:
-                            'Invite supporters to back ${initiative.title}.',
+                            'Invite supporters to back',
                         analyticsTargetType: 'rayon_support',
                         resolveShareUrl: () => _buildShareUrl(ref, initiative),
                       ),
@@ -504,7 +504,7 @@ class _PerksCard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            'Recognition scales with the size of the contribution.',
+            'Recognition scales with the',
             style: GoogleFonts.barlow(
               fontSize: 13,
               fontWeight: FontWeight.w500,
@@ -598,7 +598,7 @@ class _SupportCheckoutCard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            'Choose an amount, confirm the MoMo payment, then check the status here if it stays pending.',
+            'Choose an amount confirm',
             style: GoogleFonts.barlow(
               fontSize: 13,
               fontWeight: FontWeight.w500,
@@ -721,7 +721,7 @@ class _RecentSupportersCard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            'Latest confirmed and pending contributions.',
+            'Latest confirmed and pending',
             style: GoogleFonts.barlow(
               fontSize: 13,
               fontWeight: FontWeight.w500,
@@ -737,7 +737,7 @@ class _RecentSupportersCard extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Center(
                     child: Text(
-                      'Support activity will appear here after the first contribution.',
+                      'Support activity will appear',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.barlow(
                         fontSize: 13,
@@ -792,7 +792,7 @@ class _RecentSupportersCard extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    'Recent support activity could not be loaded.',
+                    'Recent support activity could',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.barlow(
                       fontSize: 13,
@@ -917,7 +917,7 @@ class _PendingContributionCard extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            'Pending until MoMo confirms ${contribution.momoReference}.',
+            'Pending until MoMo confirms',
             style: GoogleFonts.barlow(
               fontSize: 13,
               fontWeight: FontWeight.w500,

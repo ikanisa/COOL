@@ -1,8 +1,13 @@
 package app.cool.mobile
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.nfc.NfcAdapter
+import android.os.Build
+import android.os.Bundle
 import android.provider.Settings
 import android.view.WindowManager
 import io.flutter.embedding.android.FlutterActivity
@@ -13,6 +18,11 @@ class MainActivity : FlutterActivity() {
     private val securityChannel = "app.cool.mobile/security"
     private val deviceSettingsChannel = "app.cool.mobile/device_settings"
     private val nfcHceChannel = "app.cool.mobile/nfc_hce"
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ensureDefaultNotificationChannel()
+    }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -50,6 +60,9 @@ class MainActivity : FlutterActivity() {
                     }
                     "isPaymentRequestActive" -> {
                         result.success(isPaymentRequestActive())
+                    }
+                    "getPaymentRequestUri" -> {
+                        result.success(getPaymentRequestUri())
                     }
                     "startPaymentRequest" -> {
                         val uri = call.argument<String>("uri")
@@ -106,5 +119,36 @@ class MainActivity : FlutterActivity() {
         val prefs = getSharedPreferences(CoolNfcHostApduService.PREFS_NAME, MODE_PRIVATE)
         return prefs.getBoolean(CoolNfcHostApduService.KEY_ENABLED, false) &&
             !prefs.getString(CoolNfcHostApduService.KEY_URI, null).isNullOrBlank()
+    }
+
+    private fun getPaymentRequestUri(): String? {
+        if (!isPaymentRequestActive()) {
+            return null
+        }
+        val prefs = getSharedPreferences(CoolNfcHostApduService.PREFS_NAME, MODE_PRIVATE)
+        return prefs.getString(CoolNfcHostApduService.KEY_URI, null)
+    }
+
+    private fun ensureDefaultNotificationChannel() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            return
+        }
+
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager ?: return
+        val channelId = getString(R.string.cool_default_notification_channel_id)
+        val existingChannel = notificationManager.getNotificationChannel(channelId)
+        if (existingChannel != null) {
+            return
+        }
+
+        val channel = NotificationChannel(
+            channelId,
+            getString(R.string.cool_default_notification_channel_name),
+            NotificationManager.IMPORTANCE_DEFAULT
+        ).apply {
+            description = getString(R.string.cool_default_notification_channel_description)
+        }
+        notificationManager.createNotificationChannel(channel)
     }
 }

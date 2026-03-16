@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/app_colors.dart';
-import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/driver_card.dart';
@@ -56,367 +55,67 @@ class MobilityVehicleFilter {
 // TOP ACTIONS CARD
 // ═════════════════════════════════════════════════════════════════════════════
 
-class MobilityTopActionsCard extends StatelessWidget {
+class MobilityTopActionsCard extends ConsumerStatefulWidget {
   const MobilityTopActionsCard({
     required this.isDriver,
-    required this.onOpenTrips,
     required this.onScheduleTrip,
-    this.onOpenDriverTools,
     super.key,
   });
 
   final bool isDriver;
-  final VoidCallback onOpenTrips;
   final VoidCallback onScheduleTrip;
-  final VoidCallback? onOpenDriverTools;
+
+  @override
+  ConsumerState<MobilityTopActionsCard> createState() =>
+      _MobilityTopActionsCardState();
+}
+
+class _MobilityTopActionsCardState
+    extends ConsumerState<MobilityTopActionsCard> {
+  @override
+  void initState() {
+    super.initState();
+    // Smart default: drivers see passenger trips, passengers see driver trips.
+    Future.microtask(() {
+      if (!mounted) return;
+      final notifier = ref.read(mobilityProvider.notifier);
+      notifier.setTripRoleFilter(widget.isDriver ? 0 : 1);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return CoolCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Find or post a ride',
-            style: GoogleFonts.dmSans(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: AppColors.text,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            isDriver
-                ? 'Start with one trip action. Driver mode stays available, but it no longer competes with browsing.'
-                : 'Start with one trip action. Driver setup stays out of the way until you need it.',
-            style: GoogleFonts.dmSans(
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              color: AppColors.text2,
-              height: 1.4,
-            ),
-          ),
-          const SizedBox(height: 14),
-          Row(
-            children: [
-              Expanded(
-                child: CoolButton(
-                  label: 'Schedule trip',
-                  onTap: onScheduleTrip,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: CoolButton(
-                  label: 'Trip board',
-                  variant: CoolButtonVariant.secondary,
-                  onTap: onOpenTrips,
-                ),
-              ),
-            ],
-          ),
-          if (isDriver && onOpenDriverTools != null) ...[
-            const SizedBox(height: 10),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: TextButton.icon(
-                onPressed: onOpenDriverTools,
-                icon: const Icon(Icons.tune_rounded, size: 18),
-                label: const Text('Manage driver mode'),
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-// ═════════════════════════════════════════════════════════════════════════════
-// BROWSE CONTROLS
-// ═════════════════════════════════════════════════════════════════════════════
-
-class MobilityBrowseControlsCard extends ConsumerWidget {
-  const MobilityBrowseControlsCard({
-    required this.supportsEmbeddedMaps,
-    required this.showMap,
-    required this.onToggleMap,
-    super.key,
-  });
-
-  final bool supportsEmbeddedMaps;
-  final bool showMap;
-  final VoidCallback onToggleMap;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
     final activeTab = ref.watch(mobilityActiveTabProvider);
-    final selectedVehicle = ref.watch(mobilitySelectedVehicleProvider);
-    final title = activeTab == 0 ? 'Nearby drivers' : 'Scheduled trips';
-    final subtitle = activeTab == 0
-        ? 'Keep the list simple. Open filters only when you need a specific vehicle type.'
-        : 'Browse upcoming posted trips near you.';
-    final statusLabel = activeTab == 0
-        ? selectedVehicle == 'All'
-              ? 'All vehicle types'
-              : 'Filtered by $selectedVehicle'
-        : 'Trips near your location';
-
-    return CoolCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: GoogleFonts.dmSans(
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-              color: AppColors.text,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            subtitle,
-            style: GoogleFonts.dmSans(
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              color: AppColors.text2,
-              height: 1.4,
-            ),
-          ),
-          const SizedBox(height: 14),
-          const MobilityTabSection(),
-          const SizedBox(height: 12),
-          Text(
-            statusLabel,
-            style: GoogleFonts.dmSans(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: AppColors.text3,
-            ),
-          ),
-          if (activeTab == 0) ...[
-            const SizedBox(height: 12),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: [
-                OutlinedButton.icon(
-                  onPressed: () {
-                    showModalBottomSheet<void>(
-                      context: context,
-                      isScrollControlled: true,
-                      useSafeArea: true,
-                      backgroundColor: Colors.transparent,
-                      builder: (_) => const MobilityFilterSheet(),
-                    );
-                  },
-                  icon: const Icon(Icons.tune_rounded, size: 18),
-                  label: const Text('Filters'),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.text,
-                    side: BorderSide(color: AppColors.border),
-                    backgroundColor: AppColors.surface2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    textStyle: GoogleFonts.dmSans(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 12,
-                    ),
-                  ),
-                ),
-                if (supportsEmbeddedMaps)
-                  OutlinedButton.icon(
-                    onPressed: onToggleMap,
-                    icon: Icon(
-                      showMap ? Icons.map_rounded : Icons.map_outlined,
-                      size: 18,
-                    ),
-                    label: Text(showMap ? 'Hide map' : 'Show map'),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.text,
-                      side: BorderSide(color: AppColors.border),
-                      backgroundColor: AppColors.surface2,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      textStyle: GoogleFonts.dmSans(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 12,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-class MobilityFilterSheet extends ConsumerWidget {
-  const MobilityFilterSheet({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final selectedVehicle = ref.watch(mobilitySelectedVehicleProvider);
-    final filters = ref.watch(mobilityVehicleFiltersProvider);
+    final tripRole = ref.watch(mobilityTripRoleProvider);
     final notifier = ref.read(mobilityProvider.notifier);
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-      child: Material(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(24),
-        clipBehavior: Clip.antiAlias,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Vehicle filter',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.text,
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.close_rounded),
-                    tooltip: 'Close',
-                  ),
-                ],
-              ),
-              Text(
-                'Pick one type only when you want to narrow nearby drivers.',
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.text2,
-                  height: 1.4,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  for (final filter in filters)
-                    VehicleChip(
-                      label: filter.label,
-                      isSelected: selectedVehicle == filter.value,
-                      onTap: () {
-                        unawaited(notifier.setVehicleFilter(filter.value));
-                      },
-                    ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: CoolButton(
-                      label: 'Reset',
-                      variant: CoolButtonVariant.secondary,
-                      onTap: () {
-                        unawaited(notifier.setVehicleFilter('All'));
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: CoolButton(
-                      label: 'Done',
-                      onTap: () => Navigator.of(context).pop(),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ═════════════════════════════════════════════════════════════════════════════
-// MAP TOGGLE CARD
-// ═════════════════════════════════════════════════════════════════════════════
-
-class MobilityMapToggleCard extends StatelessWidget {
-  const MobilityMapToggleCard({
-    required this.isExpanded,
-    required this.onTap,
-    super.key,
-  });
-
-  final bool isExpanded;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
     return CoolCard(
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: AppColors.surface2,
-              borderRadius: BorderRadius.circular(12),
+          _MobilityTabBar(
+            activeIndex: activeTab,
+            onChanged: (index) {
+              if (index == 2) {
+                widget.onScheduleTrip();
+                return;
+              }
+              unawaited(notifier.setActiveTab(index));
+            },
+          ),
+          if (activeTab == 1) ...[
+            const SizedBox(height: 10),
+            _TripRoleToggle(
+              activeRole: tripRole,
+              onChanged: (role) {
+                unawaited(notifier.setTripRoleFilter(role));
+              },
             ),
-            alignment: Alignment.center,
-            child: Icon(Icons.map_outlined, size: 20, color: AppColors.text2),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Nearby map',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.text,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  isExpanded ? 'Tap to hide.' : 'Tap to show.',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.text2,
-                    height: 1.35,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          TextButton(
-            onPressed: onTap,
-            child: Text(isExpanded ? 'Hide' : 'Show'),
-          ),
+          ],
+          if (activeTab == 0) ...[
+            const SizedBox(height: 12),
+            const MobilityFilterBar(),
+          ],
         ],
       ),
     );
@@ -470,31 +169,13 @@ class MobilityFilterBar extends ConsumerWidget {
 }
 
 // ═════════════════════════════════════════════════════════════════════════════
-// TAB SECTION + DUAL TAB SWITCHER
+// 3-TAB BAR (Nearby Drivers | Trips | Schedule trip)
 // ═════════════════════════════════════════════════════════════════════════════
 
-class MobilityTabSection extends ConsumerWidget {
-  const MobilityTabSection({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final activeTab = ref.watch(mobilityActiveTabProvider);
-    final notifier = ref.read(mobilityProvider.notifier);
-
-    return MobilityDualTabSwitcher(
-      activeIndex: activeTab,
-      onChanged: (index) {
-        unawaited(notifier.setActiveTab(index));
-      },
-    );
-  }
-}
-
-class MobilityDualTabSwitcher extends StatelessWidget {
-  const MobilityDualTabSwitcher({
+class _MobilityTabBar extends StatelessWidget {
+  const _MobilityTabBar({
     required this.activeIndex,
     required this.onChanged,
-    super.key,
   });
 
   final int activeIndex;
@@ -502,47 +183,167 @@ class MobilityDualTabSwitcher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const labels = ['Nearby Drivers', 'Scheduled Trips'];
     final onPrimary = Theme.of(context).colorScheme.onPrimary;
 
+    const tabs = [
+      (icon: Icons.people_outline_rounded, label: 'Nearby Drivers'),
+      (icon: Icons.route_rounded, label: 'Trips'),
+      (icon: Icons.add_circle_outline_rounded, label: 'Schedule'),
+    ];
+
     return Container(
-      padding: const EdgeInsets.all(4),
+      padding: const EdgeInsets.all(3),
       decoration: BoxDecoration(
         color: AppColors.surface2,
         borderRadius: BorderRadius.circular(14),
         border: Border.all(color: AppColors.border),
       ),
       child: Row(
-        children: List.generate(labels.length, (index) {
-          final isActive = activeIndex == index;
-          return Expanded(
-            child: Semantics(
-              button: true,
-              selected: isActive,
-              label: '${labels[index]} tab',
-              child: GestureDetector(
-                onTap: () => onChanged(index),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  decoration: BoxDecoration(
-                    color: isActive ? AppColors.accent : Colors.transparent,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    labels[index],
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: isActive ? onPrimary : AppColors.text2,
+        children: [
+          for (var i = 0; i < tabs.length; i++)
+            Expanded(
+              child: Semantics(
+                button: true,
+                selected: activeIndex == i,
+                label: '${tabs[i].label} tab',
+                child: GestureDetector(
+                  onTap: () => onChanged(i),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    padding: const EdgeInsets.symmetric(vertical: 9),
+                    decoration: BoxDecoration(
+                      color: activeIndex == i
+                          ? AppColors.accent
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          tabs[i].icon,
+                          size: 15,
+                          color: activeIndex == i
+                              ? onPrimary
+                              : AppColors.text2,
+                        ),
+                        const SizedBox(width: 4),
+                        Flexible(
+                          child: Text(
+                            tabs[i].label,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.dmSans(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: activeIndex == i
+                                  ? onPrimary
+                                  : AppColors.text2,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
             ),
-          );
-        }),
+        ],
+      ),
+    );
+  }
+}
+
+// ═════════════════════════════════════════════════════════════════════════════
+// TRIP ROLE TOGGLE (Driver / Passenger icons)
+// ═════════════════════════════════════════════════════════════════════════════
+
+class _TripRoleToggle extends StatelessWidget {
+  const _TripRoleToggle({
+    required this.activeRole,
+    required this.onChanged,
+  });
+
+  /// 0 = passenger trips, 1 = driver trips.
+  final int activeRole;
+  final ValueChanged<int> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        _RoleIcon(
+          icon: Icons.person_outline_rounded,
+          label: 'Passengers',
+          isActive: activeRole == 0,
+          onTap: () => onChanged(0),
+        ),
+        const SizedBox(width: 8),
+        _RoleIcon(
+          icon: Icons.directions_car_rounded,
+          label: 'Drivers',
+          isActive: activeRole == 1,
+          onTap: () => onChanged(1),
+        ),
+      ],
+    );
+  }
+}
+
+class _RoleIcon extends StatelessWidget {
+  const _RoleIcon({
+    required this.icon,
+    required this.label,
+    required this.isActive,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final bool isActive;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      selected: isActive,
+      label: '$label filter',
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: isActive
+                ? AppColors.accent.withValues(alpha: 0.15)
+                : AppColors.surface3,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: isActive ? AppColors.accent : AppColors.border,
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                size: 16,
+                color: isActive ? AppColors.accent : AppColors.text3,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                label,
+                style: GoogleFonts.dmSans(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  color: isActive ? AppColors.accent : AppColors.text2,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -668,24 +469,12 @@ class MobilityNearbyDriversSliver extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (drivers.isEmpty) {
-      return _MobilityStatusSliver(
-        message: 'No drivers found for this vehicle type.',
-      );
+      return _MobilityStatusSliver(message: 'No drivers found for');
     }
 
     return SliverMainAxisGroup(
       slivers: [
-        SliverToBoxAdapter(
-          child: Text(
-            'Top 30 within 10 km · nearest first',
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w400,
-              color: AppColors.text2,
-            ),
-          ),
-        ),
-        const SliverToBoxAdapter(child: SizedBox(height: 10)),
+        const SliverToBoxAdapter(child: SizedBox(height: 4)),
         SliverList(
           delegate: SliverChildBuilderDelegate((context, index) {
             final driver = drivers[index];
@@ -701,13 +490,6 @@ class MobilityNearbyDriversSliver extends StatelessWidget {
                 isOnline: driver.isOnline,
                 onTap: () => onPreviewTap(driver),
                 onWhatsAppTap: () => onWhatsAppTap(driver),
-                rating: driver.rating ?? 0,
-                tripCount: driver.tripCount ?? 0,
-                scheduledRoute: driver.scheduledRoute,
-                hasReturnTrip: driver.hasReturnTrip,
-                baseLocation: driver.baseLocation,
-                vehicleStatus: driver.vehicleStatus,
-                isRegularDriver: driver.isRegularDriver,
               ),
             );
           }, childCount: drivers.length),
@@ -734,22 +516,12 @@ class MobilityScheduledTripsSliver extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (trips.isEmpty) {
-      return _MobilityStatusSliver(message: 'No scheduled trips found nearby.');
+      return _MobilityStatusSliver(message: 'No scheduled trips found');
     }
 
     return SliverMainAxisGroup(
       slivers: [
-        SliverToBoxAdapter(
-          child: Text(
-            'Upcoming trips near you',
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w400,
-              color: AppColors.text2,
-            ),
-          ),
-        ),
-        const SliverToBoxAdapter(child: SizedBox(height: 10)),
+        const SliverToBoxAdapter(child: SizedBox(height: 4)),
         SliverList(
           delegate: SliverChildBuilderDelegate((context, index) {
             final trip = trips[index];

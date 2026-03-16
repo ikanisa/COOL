@@ -30,11 +30,11 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
     return RsAdminShell(
       title: 'Matches',
       subtitle:
-          'Schedule fixtures, adjust pricing, and control when tickets go live.',
+          'Schedule fixtures adjust pricing',
       floatingActionButton: Semantics(
         button: true,
         label: 'Add match',
-        hint: 'Opens the new match form',
+        hint: 'New match',
         child: FloatingActionButton(
           backgroundColor: AppColors.rsBlue,
           onPressed: () => _showMatchForm(context),
@@ -67,7 +67,7 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
         ),
         emptyCheck: (matches) => matches.isEmpty,
         emptyWidget: const CoolEmptyView(
-          message: 'No matches have been scheduled yet.',
+          message: 'No matches have yet',
           icon: Icons.sports_soccer_outlined,
         ),
         builder: (matches) => ListView.separated(
@@ -270,7 +270,7 @@ class _MatchTile extends StatelessWidget {
     return Semantics(
       container: true,
       label:
-          'Match ${match.homeTeam} versus ${match.awayTeam}. '
+          'Match ${match.homeTeam} versus ${match.awayTeam}.'
           '${match.isOnSale ? 'On sale.' : 'Off sale.'} '
           '$dateStr at ${match.kickoffTime}. Venue ${match.venue}. '
           'General price ${match.ticketGeneralPrice} Rwandan francs. '
@@ -332,7 +332,7 @@ class _MatchTile extends StatelessWidget {
               style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
             ),
             Text(
-              '${match.competition} · Gen ${match.ticketGeneralPrice} RWF · VIP ${match.ticketVipPrice} RWF · Cap ${match.capacity}',
+              '${match.competition} Gen ${match.ticketGeneralPrice} RWF',
               style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
             ),
             const SizedBox(height: 8),
@@ -379,7 +379,7 @@ class _TileAction extends StatelessWidget {
     return Semantics(
       button: true,
       label: label,
-      hint: 'Double tap to ${label.toLowerCase()} this match',
+      hint: '${label.toLowerCase()} match',
       excludeSemantics: true,
       child: GestureDetector(
         onTap: () {
@@ -416,7 +416,7 @@ class _FormField extends StatelessWidget {
       child: Semantics(
         textField: true,
         label: label,
-        hint: 'Double tap to enter $label',
+        hint: 'Enter $label',
         child: TextField(
           controller: controller,
           keyboardType: keyboardType,

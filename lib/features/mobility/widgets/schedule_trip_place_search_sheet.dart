@@ -113,7 +113,7 @@ class _ScheduleTripPlaceSearchSheetState
       setState(() {
         _hasSearched = true;
         _results = const <PlaceSearchResult>[];
-        _error = 'Enter at least 3 characters to search.';
+        _error = 'Min 3 characters';
       });
       return;
     }
@@ -144,7 +144,7 @@ class _ScheduleTripPlaceSearchSheetState
       setState(() {
         _results = const <PlaceSearchResult>[];
         _error =
-            'Place search is unavailable right now. Try again in a moment.';
+            'Search unavailable now';
       });
     } finally {
       if (mounted) {
@@ -178,7 +178,7 @@ class _ScheduleTripPlaceSearchSheetState
         _isResolvingSelection = false;
         _resolvingPlaceId = null;
         _error =
-            'That place could not be resolved precisely. Try another result or keep the text only.';
+            'Place unresolved';
       });
     }
   }
@@ -227,7 +227,7 @@ class _ScheduleTripPlaceSearchSheetState
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    'Powered by Google Places. Autocomplete starts after a short pause, and exact coordinates are attached when you pick a result.',
+                    'Powered by Google Places',
                     style: GoogleFonts.dmSans(
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
@@ -282,11 +282,11 @@ class _ScheduleTripPlaceSearchSheetState
     if (_results.isEmpty) {
       if (!_hasSearched) {
         return const _PlaceSearchEmptyState(
-          message: 'Search Google Places to attach exact route coordinates.',
+          message: 'Search Google Places to',
         );
       }
       return const _PlaceSearchEmptyState(
-        message: 'No matching places found. Try a nearby landmark or district.',
+        message: 'No matching places found',
       );
     }
 
@@ -415,7 +415,7 @@ class _PlaceSearchControls extends StatelessWidget {
     final field = Semantics(
       textField: true,
       label: 'Trip destination search',
-      hint: 'Double tap to search for a landmark, neighborhood, or address',
+      hint: 'Search places',
       child: TextField(
         controller: controller,
         textInputAction: TextInputAction.search,
@@ -426,7 +426,7 @@ class _PlaceSearchControls extends StatelessWidget {
           color: palette.text,
         ),
         decoration: InputDecoration(
-          hintText: 'Type a landmark, neighborhood, or address',
+          hintText: 'Search landmark or address',
           hintStyle: GoogleFonts.dmSans(
             fontSize: 14,
             fontWeight: FontWeight.w400,

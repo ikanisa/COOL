@@ -22,7 +22,7 @@ class PrismaHeroCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final description =
         partner.description ??
-        'AI-powered professional services across legal, tax, accounting, audit, insurance, corporate, NGO, and marketplace operations in Rwanda.';
+        'AI professional services Rwanda';
 
     return CoolCard(
       gradient: AppColors.accentGradient,
@@ -246,7 +246,7 @@ class PrismaValuesCard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            'These are the core operating principles published on the official IKANISA site.',
+            'These are the core',
             style: GoogleFonts.dmSans(
               fontSize: 12,
               fontWeight: FontWeight.w500,
@@ -295,7 +295,7 @@ class PrismaSupportCard extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Reach the IKANISA Rwanda desk via WhatsApp or email the team directly.',
+            'Reach the IKANISA Rwanda',
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,
