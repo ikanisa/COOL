@@ -10,6 +10,8 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.WindowManager
+import androidx.activity.ComponentActivity
+import androidx.activity.enableEdgeToEdge
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
@@ -20,6 +22,9 @@ class MainActivity : FlutterActivity() {
     private val nfcHceChannel = "app.cool.mobile/nfc_hce"
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Enable edge-to-edge display for Android 15+ compatibility.
+        // This handles status and navigation bar transparency and insets.
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         ensureDefaultNotificationChannel()
     }

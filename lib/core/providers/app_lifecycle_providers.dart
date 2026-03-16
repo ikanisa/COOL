@@ -10,11 +10,13 @@ import '../../features/momo/services/momo_sms_autoread_service.dart';
 import '../../features/mobility/services/trip_sync_service.dart';
 import '../providers/supported_countries_provider.dart';
 import '../router/app_router.dart';
+import '../router/navigation_keys.dart';
 import '../services/app_lifecycle_coordinator.dart';
 import '../services/app_session_coordinator.dart';
 import '../services/app_update_service.dart';
 import '../services/deep_link_coordinator.dart';
 import '../services/trip_sync_coordinator.dart';
+import '../status/widgets/referral_welcome_sheet.dart';
 import 'app_access_provider.dart';
 import 'engagement_providers.dart';
 import 'notification_settings_provider.dart';
@@ -55,6 +57,18 @@ final appSessionCoordinatorProvider = Provider<AppSessionCoordinator>((ref) {
     markReferralOpened: (inviteId) {
       ref.read(activeReferralAttributionProvider.notifier).markOpened(inviteId);
     },
+    showReferralHandshake: (inviteId) async {
+      final context = rootNavigatorKey.currentContext;
+      if (context == null) return;
+      
+      await ReferralWelcomeSheet.show(
+        context,
+        inviterName: 'a friend',
+        onAccept: () {
+          // Additional logic when user accepts
+        },
+      );
+    },
     tripSyncCoordinator: ref.read(tripSyncCoordinatorProvider),
     momoSmsAutoreadService: ref.read(momoSmsAutoreadServiceProvider),
   );
@@ -83,8 +97,6 @@ final deepLinkCoordinatorProvider = Provider<DeepLinkCoordinator>((ref) {
   return coordinator;
 });
 
-import '../providers/supported_countries_provider.dart';
-...
 final appLifecycleCoordinatorProvider = Provider<AppLifecycleCoordinator>((
   ref,
 ) {

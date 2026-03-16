@@ -59,6 +59,6 @@ String tripShareTitle(Trip trip) {
 String tripShareText(Trip trip) {
   final route = '${trip.fromLocation} to ${trip.toLocation}';
   return trip.isDriverReturnTrip
-      ? 'Check out this trip!'
-      : 'Check out this trip!';
+      ? 'Check out this driver return: $route'
+      : 'Check out this trip: $route';
 }

@@ -17,15 +17,18 @@ class SectionTitle extends StatelessWidget {
     required this.title,
     this.actionLabel,
     this.onAction,
+    this.action,
     super.key,
   });
 
   final String title;
   final String? actionLabel;
   final VoidCallback? onAction;
+  final VoidCallback? action;
 
   @override
   Widget build(BuildContext context) {
+    final effectiveAction = onAction ?? action;
     return Semantics(
       header: true,
       child: Row(
@@ -45,7 +48,7 @@ class SectionTitle extends StatelessWidget {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
                 child: GestureDetector(
-                  onTap: onAction,
+                  onTap: effectiveAction,
                   behavior: HitTestBehavior.opaque,
                   child: Center(
                     child: Text(

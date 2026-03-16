@@ -2,6 +2,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/cool_event.dart';
 import '../models/cool_status.dart';
+import '../models/cool_achievement.dart';
+import '../models/cool_reward.dart';
 
 /// Data access for the unified COOL Status system.
 ///
@@ -163,5 +165,69 @@ class CoolStatusRepository {
         .select()
         .single();
     return CoolStatus.fromJson(updated);
+  }
+
+  // ─── Achievements ───────────────────────────────────────────────
+
+  /// Fetch all achievements for a user.
+  Future<List<CoolAchievement>> getAchievements(String userId) async {
+    final rows = await _client
+        .from('cool_achievements')
+        .select()
+        .eq('user_id', userId)
+        .order('earned_at', ascending: false, nullsFirst: false);
+
+    return (rows as List)
+        .cast<Map<String, dynamic>>()
+        .map(CoolAchievement.fromJson)
+        .toList(growable: false);
+  }
+
+  /// Award an achievement to a user (if not already earned).
+  Future<void> awardAchievement({
+    required String userId,
+    required String achievementId,
+    int? pointsValue,
+  }) async {
+    await _client.rpc(
+      'award_cool_achievement',
+      params: <String, dynamic>{
+        'p_user_id': userId,
+        'p_achievement_id': achievementId,
+        'p_points_value': pointsValue ?? 0,
+      },
+    );
+  }
+
+  // ─── Rewards Marketplace ───────────────────────────────────────
+
+  /// Fetch all available rewards for redemption.
+  Future<List<CoolReward>> getAvailableRewards() async {
+    final rows = await _client
+        .from('cool_rewards')
+        .select()
+        .eq('is_active', true)
+        .order('token_cost', ascending: true);
+
+    return (rows as List)
+        .cast<Map<String, dynamic>>()
+        .map(CoolReward.fromJson)
+        .toList(growable: false);
+  }
+
+  /// Spend tokens to redeem a reward.
+  Future<CoolStatus> redeemReward({
+    required String userId,
+    required String rewardId,
+  }) async {
+    final updated = await _client.rpc(
+      'redeem_cool_reward',
+      params: <String, dynamic>{
+        'p_user_id': userId,
+        'p_reward_id': rewardId,
+      },
+    );
+
+    return CoolStatus.fromJson(Map<String, dynamic>.from(updated as Map));
   }
 }

@@ -31,6 +31,11 @@ abstract final class CoolToast {
     _show(context, message: message, variant: _Variant.info);
   }
 
+  /// General purpose show method.
+  static void show(BuildContext context, {required String message, _Variant variant = _Variant.info}) {
+    _show(context, message: message, variant: variant);
+  }
+
   static void _show(
     BuildContext context, {
     required String message,

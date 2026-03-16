@@ -28,7 +28,9 @@ class ThemeSystemChrome extends StatelessWidget {
               statusBarIconBrightness: isDark
                   ? Brightness.light
                   : Brightness.dark,
-              systemNavigationBarColor: palette.surface,
+              // Set to transparent for Android 15 edge-to-edge compatibility.
+              // The system handles the background color automatically.
+              systemNavigationBarColor: Colors.transparent,
               systemNavigationBarDividerColor: Colors.transparent,
               systemNavigationBarIconBrightness: isDark
                   ? Brightness.light

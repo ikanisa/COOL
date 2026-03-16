@@ -428,5 +428,6 @@ bool _isVisibleTripStatus(dynamic value) {
   final normalized = value?.toString().trim().toLowerCase();
   return normalized == 'active' ||
       normalized == 'open' ||
-      normalized == 'paused';
+      normalized == 'paused' ||
+      normalized == 'cancelled';
 }

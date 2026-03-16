@@ -11,8 +11,9 @@ import '../../../shared/widgets/driver_card.dart';
 import '../../../shared/widgets/trip_card.dart';
 import '../../../shared/widgets/vehicle_chip.dart';
 import '../models/driver_info.dart';
+import '../providers/discovery_provider.dart';
 import '../providers/mobility_location_provider.dart';
-import '../providers/mobility_provider.dart';
+
 import '../providers/vehicle_type_provider.dart';
 
 const _fallbackVehicleFilters = [
@@ -74,19 +75,14 @@ class _MobilityTopActionsCardState
   @override
   void initState() {
     super.initState();
-    // Smart default: drivers see passenger trips, passengers see driver trips.
-    Future.microtask(() {
-      if (!mounted) return;
-      final notifier = ref.read(mobilityProvider.notifier);
-      notifier.setTripRoleFilter(widget.isDriver ? 0 : 1);
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final activeTab = ref.watch(mobilityActiveTabProvider);
-    final tripRole = ref.watch(mobilityTripRoleProvider);
-    final notifier = ref.read(mobilityProvider.notifier);
+    // Current UI maps to a legacy 0/1/2 index for tabs.
+    // 0 = Discovery (Nearby), 1 = Scheduled Trips, 2 = Schedule Trip Action
+    // We maintain this index in DiscoveryNotifier for UI consistency.
+    final activeTab = ref.watch(discoveryProvider.select((s) => s.isTripsLoading ? 1 : 0));
 
     return CoolCard(
       child: Column(
@@ -99,22 +95,16 @@ class _MobilityTopActionsCardState
                 widget.onScheduleTrip();
                 return;
               }
-              unawaited(notifier.setActiveTab(index));
+              // In this simplified discovery, we toggle between drivers (index 0) and trips (index 1).
+              if (index == 0) {
+                unawaited(ref.read(discoveryProvider.notifier).loadNearbyDrivers());
+              } else {
+                unawaited(ref.read(discoveryProvider.notifier).loadNearbyTrips());
+              }
             },
           ),
-          if (activeTab == 1) ...[
-            const SizedBox(height: 10),
-            _TripRoleToggle(
-              activeRole: tripRole,
-              onChanged: (role) {
-                unawaited(notifier.setTripRoleFilter(role));
-              },
-            ),
-          ],
-          if (activeTab == 0) ...[
-            const SizedBox(height: 12),
-            const MobilityFilterBar(),
-          ],
+          const SizedBox(height: 12),
+          const MobilityFilterBar(),
         ],
       ),
     );
@@ -130,9 +120,9 @@ class MobilityFilterBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedVehicle = ref.watch(mobilitySelectedVehicleProvider);
+    final selectedVehicle = ref.watch(discoveryProvider.select((s) => s.selectedVehicle));
     final filters = ref.watch(mobilityVehicleFiltersProvider);
-    final notifier = ref.read(mobilityProvider.notifier);
+    final notifier = ref.read(discoveryProvider.notifier);
     final chips = [
       for (final filter in filters)
         VehicleChip(
@@ -252,100 +242,6 @@ class _MobilityTabBar extends StatelessWidget {
 }
 
 // ═════════════════════════════════════════════════════════════════════════════
-// TRIP ROLE TOGGLE (Driver / Passenger icons)
-// ═════════════════════════════════════════════════════════════════════════════
-
-class _TripRoleToggle extends StatelessWidget {
-  const _TripRoleToggle({
-    required this.activeRole,
-    required this.onChanged,
-  });
-
-  /// 0 = passenger trips, 1 = driver trips.
-  final int activeRole;
-  final ValueChanged<int> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        _RoleIcon(
-          icon: Icons.person_outline_rounded,
-          label: 'Passengers',
-          isActive: activeRole == 0,
-          onTap: () => onChanged(0),
-        ),
-        const SizedBox(width: 8),
-        _RoleIcon(
-          icon: Icons.directions_car_rounded,
-          label: 'Drivers',
-          isActive: activeRole == 1,
-          onTap: () => onChanged(1),
-        ),
-      ],
-    );
-  }
-}
-
-class _RoleIcon extends StatelessWidget {
-  const _RoleIcon({
-    required this.icon,
-    required this.label,
-    required this.isActive,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String label;
-  final bool isActive;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Semantics(
-      button: true,
-      selected: isActive,
-      label: '$label filter',
-      child: GestureDetector(
-        onTap: onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          decoration: BoxDecoration(
-            color: isActive
-                ? AppColors.accent.withValues(alpha: 0.15)
-                : AppColors.surface3,
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(
-              color: isActive ? AppColors.accent : AppColors.border,
-              width: 1.5,
-            ),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                icon,
-                size: 18,
-                color: isActive ? AppColors.accent : AppColors.text3,
-              ),
-              const SizedBox(width: 8),
-              Text(
-                label,
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      fontWeight: FontWeight.w800,
-                      color: isActive ? AppColors.accent : AppColors.text2,
-                    ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ═════════════════════════════════════════════════════════════════════════════
 // CONTENT SLIVER (dispatches to drivers or trips)
 // ═════════════════════════════════════════════════════════════════════════════
 
@@ -363,25 +259,18 @@ class MobilityContentSliver extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final activeTab = ref.watch(mobilityActiveTabProvider);
+    final discoveryState = ref.watch(discoveryProvider);
     final locationState = ref.watch(mobilityLocationProvider);
-    final isLoading = ref.watch(mobilityDiscoveryLoadingProvider);
-    final error = ref.watch(mobilityDiscoveryErrorProvider);
-    final drivers = ref.watch(mobilityNearbyDriversProvider);
-    final trips = ref.watch(mobilityScheduledTripsProvider);
+    final isLoading = discoveryState.isLoading;
+    final error = discoveryState.error;
+    final drivers = discoveryState.nearbyDrivers;
+    final trips = discoveryState.nearbyTrips;
 
-    return switch (activeTab) {
-      0 => SliverPadding(
-        padding: const EdgeInsets.fromLTRB(18, 14, 18, 0),
-        sliver: _buildDriverSliver(
-          ref,
-          locationState: locationState,
-          isLoading: isLoading,
-          error: error,
-          drivers: drivers,
-        ),
-      ),
-      _ => SliverPadding(
+    // We determine "tab" based on state for now (Drivers view is primary)
+    final isTripsView = discoveryState.isTripsLoading || (trips.isNotEmpty && drivers.isEmpty);
+
+    if (isTripsView) {
+      return SliverPadding(
         padding: const EdgeInsets.fromLTRB(18, 14, 18, 0),
         sliver: _buildTripSliver(
           locationState: locationState,
@@ -390,8 +279,19 @@ class MobilityContentSliver extends ConsumerWidget {
           trips: trips,
           onTripPreviewTap: onTripPreviewTap,
         ),
+      );
+    }
+
+    return SliverPadding(
+      padding: const EdgeInsets.fromLTRB(18, 14, 18, 0),
+      sliver: _buildDriverSliver(
+        ref,
+        locationState: locationState,
+        isLoading: isLoading,
+        error: error,
+        drivers: drivers,
       ),
-    };
+    );
   }
 
   Widget _buildDriverSliver(
@@ -416,7 +316,7 @@ class MobilityContentSliver extends ConsumerWidget {
 
     return MobilityNearbyDriversSliver(
       drivers: drivers,
-      selectedVehicle: ref.watch(mobilitySelectedVehicleProvider),
+      selectedVehicle: ref.watch(discoveryProvider.select((s) => s.selectedVehicle)),
       onPreviewTap: onDriverPreviewTap,
       onWhatsAppTap: onDriverWhatsAppTap,
     );

@@ -12,7 +12,7 @@ enum CoolButtonVariant { primary, secondary }
 ///
 /// Buttons stay visually simple so the label carries the action instead of the
 /// decoration.
-class CoolButton extends StatelessWidget {
+class CoolButton extends StatefulWidget {
   const CoolButton({
     required this.label,
     required this.onTap,
@@ -30,29 +30,47 @@ class CoolButton extends StatelessWidget {
   final bool isLoading;
   final bool fullWidth;
   final IconData? icon;
-
-  /// Custom accessibility label. Falls back to [label] if null.
   final String? semanticsLabel;
 
-  // ── Constants ───────────────────────────────────────────────────────
-  static const _height = 56.0;
-  static const _radius = 16.0;
-  static const _fontSize = 17.0;
+  @override
+  State<CoolButton> createState() => _CoolButtonState();
+}
 
-  bool get _isPrimary => variant == CoolButtonVariant.primary;
+class _CoolButtonState extends State<CoolButton> with SingleTickerProviderStateMixin {
+  late final AnimationController _scaleController;
+  late final Animation<double> _scaleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _scaleController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 100),
+    );
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.97).animate(
+      CurvedAnimation(parent: _scaleController, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _scaleController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final palette = context.coolPalette;
-    final enabled = !isLoading;
+    final enabled = !widget.isLoading;
+    
     final backgroundDecoration = BoxDecoration(
-      color: _isPrimary
+      color: widget.variant == CoolButtonVariant.primary
           ? (enabled ? palette.accent : palette.surface3)
           : (enabled ? palette.surface : palette.surface2),
-      borderRadius: BorderRadius.circular(_radius),
+      borderRadius: BorderRadius.circular(16.0),
       border: Border.all(
-        color: _isPrimary
+        color: widget.variant == CoolButtonVariant.primary
             ? (enabled ? Colors.white.withValues(alpha: 0.1) : palette.border)
             : (enabled ? palette.border : palette.border),
         width: 1.0,
@@ -60,7 +78,7 @@ class CoolButton extends StatelessWidget {
       boxShadow: enabled
           ? [
               BoxShadow(
-                color: _isPrimary 
+                color: widget.variant == CoolButtonVariant.primary 
                     ? palette.accent.withValues(alpha: 0.15) 
                     : Colors.black.withValues(alpha: 0.04),
                 blurRadius: 12,
@@ -70,45 +88,54 @@ class CoolButton extends StatelessWidget {
           : null,
     );
 
-    return Semantics(
-      label: semanticsLabel ?? label,
-      button: true,
-      enabled: enabled,
-      hint: isLoading ? 'Loading' : null,
-      excludeSemantics: true,
-      child: Tooltip(
-        message: semanticsLabel ?? label,
-        child: SizedBox(
-          width: fullWidth ? double.infinity : null,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: _height),
-            child: Material(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(_radius),
-              child: Ink(
-                decoration: backgroundDecoration,
-                child: InkWell(
-                  onTap: enabled
-                      ? () {
-                          if (variant == CoolButtonVariant.primary) {
-                            HapticFeedback.mediumImpact();
-                          } else {
-                            HapticFeedback.lightImpact();
-                          }
-                          onTap();
-                        }
-                      : null,
-                  borderRadius: BorderRadius.circular(_radius),
-                  splashColor: _isPrimary
-                      ? theme.colorScheme.onPrimary.withValues(alpha: 0.06)
-                      : palette.text.withValues(alpha: 0.06),
-                  highlightColor: Colors.transparent,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 12,
+    return MouseRegion(
+      cursor: enabled ? SystemMouseCursors.click : SystemMouseCursors.basic,
+      child: ScaleTransition(
+        scale: _scaleAnimation,
+        child: Semantics(
+          label: widget.semanticsLabel ?? widget.label,
+          button: true,
+          enabled: enabled,
+          hint: widget.isLoading ? 'Loading' : null,
+          excludeSemantics: true,
+          child: Tooltip(
+            message: widget.semanticsLabel ?? widget.label,
+            child: SizedBox(
+              width: widget.fullWidth ? double.infinity : null,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(minHeight: 56.0),
+                child: Material(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(16.0),
+                  child: Ink(
+                    decoration: backgroundDecoration,
+                    child: InkWell(
+                      onTapDown: (_) => _scaleController.forward(),
+                      onTapUp: (_) => _scaleController.reverse(),
+                      onTapCancel: () => _scaleController.reverse(),
+                      onTap: enabled
+                          ? () {
+                              if (widget.variant == CoolButtonVariant.primary) {
+                                HapticFeedback.mediumImpact();
+                              } else {
+                                HapticFeedback.lightImpact();
+                              }
+                              widget.onTap();
+                            }
+                          : null,
+                      borderRadius: BorderRadius.circular(16.0),
+                      splashColor: widget.variant == CoolButtonVariant.primary
+                          ? theme.colorScheme.onPrimary.withValues(alpha: 0.1)
+                          : palette.text.withValues(alpha: 0.1),
+                      highlightColor: Colors.transparent,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 12,
+                        ),
+                        child: _buildChild(context, palette, enabled),
+                      ),
                     ),
-                    child: _buildChild(context, palette, enabled),
                   ),
                 ),
               ),
@@ -120,12 +147,12 @@ class CoolButton extends StatelessWidget {
   }
 
   Widget _buildChild(BuildContext context, CoolPalette palette, bool enabled) {
-    final textColor = _isPrimary
+    final textColor = widget.variant == CoolButtonVariant.primary
         ? Colors.white
         : (enabled ? palette.text : palette.text3);
 
     Widget child;
-    if (isLoading) {
+    if (widget.isLoading) {
       child = CupertinoActivityIndicator(
         key: const ValueKey('cool_button_loading'),
         radius: 11,
@@ -133,20 +160,20 @@ class CoolButton extends StatelessWidget {
       );
     } else {
       final textWidget = Text(
-        label,
+        widget.label,
         maxLines: 2,
         softWrap: true,
         textAlign: TextAlign.center,
         overflow: TextOverflow.ellipsis,
         style: GoogleFonts.dmSans(
-          fontSize: _fontSize,
+          fontSize: 17.0,
           fontWeight: FontWeight.w700,
           color: textColor,
           letterSpacing: -0.2,
         ),
       );
 
-      if (icon == null) {
+      if (widget.icon == null) {
         child = textWidget;
       } else {
         child = Wrap(
@@ -156,7 +183,7 @@ class CoolButton extends StatelessWidget {
           spacing: 8,
           runSpacing: 4,
           children: [
-            Icon(icon, size: 20, color: textColor),
+            Icon(widget.icon, size: 20, color: textColor),
             textWidget,
           ],
         );
@@ -166,9 +193,10 @@ class CoolButton extends StatelessWidget {
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 200),
       child: Container(
-        key: ValueKey(isLoading),
+        key: ValueKey(widget.isLoading),
         child: child,
       ),
     );
   }
 }
+

@@ -418,7 +418,7 @@ class ScheduleTripTimingStep extends StatelessWidget {
               ScheduleTripToggleCard(
                 icon: Icons.repeat_rounded,
                 title: l10n.scheduleTripReturnTitle,
-                message: l10n.scheduleTripReturnSubtitle,
+                subtitle: l10n.scheduleTripReturnSubtitle,
                 value: returnTrip,
                 onChanged: onReturnTripToggled,
               ),
@@ -456,7 +456,7 @@ class ScheduleTripTimingStep extends StatelessWidget {
               ScheduleTripToggleCard(
                 icon: Icons.sync_rounded,
                 title: l10n.scheduleTripRecurringTitle,
-                message: l10n.scheduleTripRecurringSubtitle,
+                subtitle: l10n.scheduleTripRecurringSubtitle,
                 value: recurringTrip,
                 onChanged: onRecurringTripToggled,
               ),

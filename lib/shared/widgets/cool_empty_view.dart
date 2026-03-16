@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/cool_palette.dart';
@@ -10,18 +11,23 @@ import 'cool_button.dart';
 /// button for the user to take next steps (e.g. "Create your first trip").
 class CoolEmptyView extends StatelessWidget {
   const CoolEmptyView({
-    required this.subtitle,
+    this.message,
+    this.subtitle,
     this.title,
     this.icon = Icons.inbox_rounded,
     this.onAction,
+    this.action,
     this.actionLabel,
     this.compact = false,
     this.isPremium = false,
     super.key,
   });
 
-  /// User-facing empty-state subtitle message.
-  final String subtitle;
+  /// User-facing empty-state message.
+  final String? message;
+
+  /// Alias for [message].
+  final String? subtitle;
 
   /// Optional bold title for the empty state.
   final String? title;
@@ -32,6 +38,9 @@ class CoolEmptyView extends StatelessWidget {
   /// Optional callback for the action button.
   final VoidCallback? onAction;
 
+  /// Alias for [onAction].
+  final VoidCallback? action;
+
   /// Label for the action button. Required if [onAction] is provided.
   final String? actionLabel;
 
@@ -41,6 +50,9 @@ class CoolEmptyView extends StatelessWidget {
   /// If true, applies 'Soft Liquid Glass' premium styling to the icon container.
   final bool isPremium;
 
+  String get _effectiveMessage => message ?? subtitle ?? '';
+  VoidCallback? get _onAction => onAction ?? action;
+
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
@@ -49,7 +61,7 @@ class CoolEmptyView extends StatelessWidget {
 
     return Semantics(
       container: true,
-      label: '${title ?? ''} $subtitle',
+      label: '${title ?? ''} $_effectiveMessage',
       liveRegion: true,
       child: Center(
         child: Padding(
@@ -87,7 +99,14 @@ class CoolEmptyView extends StatelessWidget {
                         ),
                   child: Icon(icon, size: iconSize, color: isPremium ? AppColors.rsWhite : palette.text3),
                 ),
-              ),
+              )
+              .animate()
+              .scale(
+                begin: const Offset(0.8, 0.8),
+                duration: 600.ms,
+                curve: Curves.elasticOut,
+              )
+              .fadeIn(duration: 400.ms),
               SizedBox(height: spacing),
               if (title != null) ...[
                 Text(
@@ -96,30 +115,30 @@ class CoolEmptyView extends StatelessWidget {
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.w900,
                       ),
-                ),
+                ).animate().fadeIn(delay: 100.ms, duration: 400.ms).slideY(begin: 0.2, end: 0),
                 const SizedBox(height: 8),
               ],
               Text(
-                subtitle,
+                _effectiveMessage,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       color: palette.text3,
                       fontWeight: FontWeight.w500,
                       height: 1.6,
                     ),
-              ),
-              if (onAction != null && actionLabel != null) ...[
+              ).animate().fadeIn(delay: 200.ms, duration: 400.ms).slideY(begin: 0.1, end: 0),
+              if (_onAction != null && actionLabel != null) ...[
                 SizedBox(height: spacing + 8),
                 SizedBox(
                   width: compact ? null : 200,
                   child: CoolButton(
                     label: actionLabel!,
-                    onTap: onAction!,
+                    onTap: _onAction!,
                     variant: compact
                         ? CoolButtonVariant.secondary
                         : CoolButtonVariant.primary,
                   ),
-                ),
+                ).animate().fadeIn(delay: 350.ms, duration: 400.ms).scale(begin: const Offset(0.9, 0.9)),
               ],
             ],
           ),

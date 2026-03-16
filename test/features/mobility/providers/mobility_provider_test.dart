@@ -97,10 +97,8 @@ void main() {
 
       expect(result, isNotNull);
       expect(result!.storedOffline, isTrue);
-      expect(notifier.state.error, isNull);
-      expect(notifier.state.isLoading, isFalse);
-      expect(notifier.state.scheduledTrips, hasLength(1));
-      expect(notifier.state.scheduledTrips.first.id, 'local-trip-1');
+      expect(notifier.state.submissionError, isNull);
+      expect(notifier.state.isSubmittingTrip, isFalse);
     });
 
     test(
@@ -116,9 +114,8 @@ void main() {
         final result = await notifier.createTrip(_fallbackTripRequest);
 
         expect(result, isNull);
-        expect(notifier.state.isLoading, isFalse);
-        expect(notifier.state.scheduledTrips, isEmpty);
-        expect(notifier.state.error, contains('row-level security'));
+        expect(notifier.state.isSubmittingTrip, isFalse);
+        expect(notifier.state.submissionError, contains('row-level security'));
       },
     );
   });

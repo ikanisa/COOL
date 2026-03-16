@@ -44,7 +44,7 @@ class PartnerService {
       id: json['id']?.toString() ?? '',
       partnerId: json['partner_id']?.toString() ?? '',
       title: json['title']?.toString() ?? '',
-      message: json['subtitle']?.toString(),
+      subtitle: json['subtitle']?.toString(),
       emoji: json['emoji']?.toString() ?? '📋',
       category: json['category']?.toString() ?? 'general',
       details: parsedDetails,

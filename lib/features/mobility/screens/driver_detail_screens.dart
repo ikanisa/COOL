@@ -97,7 +97,7 @@ class _DriverVehicleScreenState extends ConsumerState<DriverVehicleScreen> {
         children: [
           const _DriverDetailIntroCard(
             title: 'Vehicle details',
-            message:
+            subtitle:
                 'Keep your vehicle info',
           ),
           const SizedBox(height: 16),
@@ -217,7 +217,7 @@ class _DriverSubscriptionScreenState
         children: [
           const _DriverDetailIntroCard(
             title: 'Subscription access',
-            message:
+            subtitle:
                 'Credits plan status and',
           ),
           const SizedBox(height: 16),

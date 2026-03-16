@@ -16,6 +16,7 @@ class AppSessionCoordinator {
     required ReferralRepository referralRepository,
     required ReferralAttribution? Function() readReferralAttribution,
     required void Function(String inviteId) markReferralOpened,
+    required Future<void> Function(String inviteId) showReferralHandshake,
     required TripSyncCoordinator tripSyncCoordinator,
     required MomoSmsAutoreadService momoSmsAutoreadService,
   }) : _notificationSettings = notificationSettings,
@@ -24,6 +25,7 @@ class AppSessionCoordinator {
        _referralRepository = referralRepository,
        _readReferralAttribution = readReferralAttribution,
        _markReferralOpened = markReferralOpened,
+       _showReferralHandshake = showReferralHandshake,
        _tripSyncCoordinator = tripSyncCoordinator,
        _momoSmsAutoreadService = momoSmsAutoreadService;
 
@@ -33,6 +35,7 @@ class AppSessionCoordinator {
   final ReferralRepository _referralRepository;
   final ReferralAttribution? Function() _readReferralAttribution;
   final void Function(String inviteId) _markReferralOpened;
+  final Future<void> Function(String inviteId) _showReferralHandshake;
   final TripSyncCoordinator _tripSyncCoordinator;
   final MomoSmsAutoreadService _momoSmsAutoreadService;
 
@@ -102,6 +105,7 @@ class AppSessionCoordinator {
     try {
       await _referralRepository.markInviteOpened(attribution.inviteId);
       _markReferralOpened(attribution.inviteId);
+      await _showReferralHandshake(attribution.inviteId);
     } catch (_) {
       // Referral tracking is best-effort so deep-link routing remains reliable.
     }

@@ -38,7 +38,7 @@ extension on _ScheduleTripScreenState {
               if (originLat != null && originLng != null) {
                 _fromSelection = PlaceSearchResult(
                   label: originLabel,
-                  position: GeoPoint(originLat, originLng),
+                  position: GeoPoint(latitude: originLat, longitude: originLng),
                   primaryText: originLabel,
                 );
               } else {
@@ -55,7 +55,7 @@ extension on _ScheduleTripScreenState {
               if (destLat != null && destLng != null) {
                 _toSelection = PlaceSearchResult(
                   label: destLabel,
-                  position: GeoPoint(destLat, destLng),
+                  position: GeoPoint(latitude: destLat, longitude: destLng),
                   primaryText: destLabel,
                 );
               } else {
@@ -107,17 +107,38 @@ extension on _ScheduleTripScreenState {
 
             _syncResolvedLocations();
           });
+
+          // P2.13: Track smart input parsed
+          ref.read(engagementTrackerProvider).trackSmartInputParsed(
+            success: true,
+            hasOrigin: _fromController.text.isNotEmpty,
+            hasDestination: _toController.text.isNotEmpty,
+          );
+
+          // P1.8: Auto-geocode locations that lack coordinates
+          unawaited(_autoGeocodeLocations());
+
           _showSnackBar(
             message: 'Trip details auto-filled',
             kind: _ScheduleTripToastKind.success,
           );
         } else {
+          ref.read(engagementTrackerProvider).trackSmartInputParsed(
+            success: false,
+            hasOrigin: false,
+            hasDestination: false,
+          );
           _showSnackBar(
             message: 'Could not extract trip details',
             kind: _ScheduleTripToastKind.error,
           );
         }
       } else {
+        ref.read(engagementTrackerProvider).trackSmartInputParsed(
+          success: false,
+          hasOrigin: false,
+          hasDestination: false,
+        );
         _showSnackBar(
           message: 'Smart parse failed',
           kind: _ScheduleTripToastKind.error,
@@ -158,6 +179,61 @@ extension on _ScheduleTripScreenState {
     if (changed && mounted) {
       _updateState(() {});
       unawaited(_refreshRoutePreview());
+    }
+  }
+
+  /// P1.8: Auto-geocode locations that were parsed from smart input but
+  /// lack coordinates. After both resolve, trigger route preview.
+  Future<void> _autoGeocodeLocations() async {
+    final placeService = ref.read(placeSearchServiceProvider);
+    final languageTag = resolveIntlLocale(context);
+    var didResolve = false;
+
+    // Geocode "from" if text is present but no coordinates
+    if (_fromController.text.trim().isNotEmpty && _fromSelection == null) {
+      try {
+        final result = await placeService.geocodeQuery(
+          _fromController.text.trim(),
+          languageTag: languageTag,
+        );
+        if (mounted && result != null) {
+          _fromSelection = result;
+          didResolve = true;
+          ref.read(engagementTrackerProvider).trackPlaceSelected(
+            placeLabel: result.label,
+            hasCoordinates: result.hasCoordinates,
+            source: 'smart_input_geocode',
+          );
+        }
+      } catch (_) {
+        // Geocode failed — user can still manually resolve
+      }
+    }
+
+    // Geocode "to" if text is present but no coordinates
+    if (_toController.text.trim().isNotEmpty && _toSelection == null) {
+      try {
+        final result = await placeService.geocodeQuery(
+          _toController.text.trim(),
+          languageTag: languageTag,
+        );
+        if (mounted && result != null) {
+          _toSelection = result;
+          didResolve = true;
+          ref.read(engagementTrackerProvider).trackPlaceSelected(
+            placeLabel: result.label,
+            hasCoordinates: result.hasCoordinates,
+            source: 'smart_input_geocode',
+          );
+        }
+      } catch (_) {
+        // Geocode failed — user can still manually resolve
+      }
+    }
+
+    if (didResolve && mounted) {
+      _updateState(() {});
+      _refreshRoutePreview();
     }
   }
 
@@ -207,6 +283,16 @@ extension on _ScheduleTripScreenState {
             ? 'Route data unavailable'
             : null;
       });
+
+      // P2.13: Track route preview loaded
+      if (preview != null) {
+        ref.read(engagementTrackerProvider).trackRoutePreviewLoaded(
+          origin: _fromController.text,
+          destination: _toController.text,
+          distanceKm: preview.distanceKm,
+          durationMinutes: preview.duration.inMinutes,
+        );
+      }
     } catch (_) {
       if (!mounted || requestId != _routePreviewRequestId) return;
 
@@ -427,6 +513,14 @@ extension on _ScheduleTripScreenState {
   // ── Place search & location ─────────────────────────────────────
 
   Future<void> _openPlaceSearch({required bool isOrigin}) async {
+    // P2.13: Track place autocomplete requested
+    ref.read(engagementTrackerProvider).trackPlaceAutocompleteRequested(
+      query: isOrigin
+          ? _fromController.text.trim()
+          : _toController.text.trim(),
+      source: isOrigin ? 'origin' : 'destination',
+    );
+
     final result = await showPlaceSearchSheet(
       context,
       title: isOrigin ? 'Set pickup' : 'Set destination',
@@ -439,6 +533,13 @@ extension on _ScheduleTripScreenState {
     );
 
     if (!mounted || result == null) return;
+
+    // P2.13: Track place selected
+    ref.read(engagementTrackerProvider).trackPlaceSelected(
+      placeLabel: result.label,
+      hasCoordinates: result.hasCoordinates,
+      source: isOrigin ? 'origin_search' : 'destination_search',
+    );
 
     _updateState(() {
       if (isOrigin) {
@@ -658,6 +759,12 @@ extension on _ScheduleTripScreenState {
       return;
     }
     final tripRole = isDriverReturnTrip ? 'DRIVER' : 'PASSENGER';
+
+    // P2.13: Track trip post started
+    ref.read(engagementTrackerProvider).trackTripPostStarted(
+      role: tripRole,
+      vehicleType: _vehiclePreference.name,
+    );
     if (!_validateRouteStep()) {
       return;
     }

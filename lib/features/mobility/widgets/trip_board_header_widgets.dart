@@ -174,7 +174,7 @@ class TripBoardExploreHeaderCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return TripBoardHeaderCard(
       title: 'Explore trips',
-      message: 'Find a ride nearby.',
+      subtitle: 'Find a ride nearby.',
       primaryLabel: 'Post trip',
       onPrimaryTap: onPostTrip,
     );
@@ -238,7 +238,7 @@ class TripBoardMyTripsHeaderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return TripBoardHeaderCard(
       title: 'Manage your trips',
-      message: 'Manage your posted trips.',
+      subtitle: 'Manage your posted trips.',
       primaryLabel: 'Post trip',
       onPrimaryTap: onPostTrip,
     );
@@ -451,18 +451,18 @@ class TripBoardTripTypeSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return _TripBoardSelectionSheet<TripBoardTab>(
       title: 'Trip type',
-      message: 'Filter by trip type.',
+      subtitle: 'Filter by trip type.',
       value: activeTab,
       options: const <({TripBoardTab value, String label, String subtitle})>[
         (
           value: TripBoardTab.passengerTrips,
           label: 'Passenger trips',
-          message: 'Rides near you.',
+          subtitle: 'Rides near you.',
         ),
         (
           value: TripBoardTab.driverReturnTrips,
           label: 'Driver returns',
-          message: 'Drivers with available seats.',
+          subtitle: 'Drivers with available seats.',
         ),
       ],
     );
@@ -547,7 +547,7 @@ class _TripBoardSelectionSheet<T> extends StatelessWidget {
                       color: palette.text,
                     ),
                   ),
-                  message: Text(
+                  subtitle: Text(
                     options[index].subtitle,
                     style: GoogleFonts.dmSans(
                       fontSize: 12,

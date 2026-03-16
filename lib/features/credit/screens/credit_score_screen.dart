@@ -8,6 +8,8 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
+import '../../../core/providers/supabase_client_provider.dart';
+import '../../../shared/widgets/cool_button.dart';
 import '../models/credit_insights.dart';
 import '../providers/credit_insights_provider.dart';
 

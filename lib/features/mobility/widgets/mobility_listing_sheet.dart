@@ -261,7 +261,7 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
           ShareCard(
             title: 'Share this trip',
             icon: Icons.electric_rickshaw_rounded,
-            message: '${trip.fromLocation} → ${trip.toLocation}',
+            subtitle: '${trip.fromLocation} → ${trip.toLocation}',
             shareUrl: DeepLinkConfig.tripUri(trip.id!).toString(),
             shareText:
                 'Check out this trip from ${trip.fromLocation} to ${trip.toLocation} on Cool!',

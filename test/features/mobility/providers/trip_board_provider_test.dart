@@ -190,7 +190,7 @@ Trip trip({
     userId: userId,
     fromLocation: from,
     toLocation: to,
-    departureTime: DateTime(2026, 3, 12, 8),
+    departureTime: DateTime.now().add(const Duration(hours: 2)),
     vehicleType: vehicleType,
     seats: 1,
     status: status,

@@ -381,8 +381,8 @@ class _PrivacyRedactionPainter extends CustomPainter {
       canvas.drawRect(rect, borderPaint);
       
       // Draw text label "BLURRED"
-      const textPainter = TextPainter(
-        text: TextSpan(
+      final textPainter = TextPainter(
+        text: const TextSpan(
           text: 'LOCAL BLUR',
           style: TextStyle(color: Colors.white70, fontSize: 8, fontWeight: FontWeight.w900),
         ),

@@ -64,25 +64,31 @@ class CoolAsyncView<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return value.when(
-      skipLoadingOnRefresh: skipLoadingOnRefresh,
-      loading: () => Semantics(
-        container: true,
-        liveRegion: true,
-        label: 'Loading content',
-        child: loadingWidget ?? const CoolSkeletonList(),
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      switchInCurve: Curves.easeOutCubic,
+      switchOutCurve: Curves.easeInCubic,
+      child: value.when(
+        key: ValueKey(value.isLoading ? 'loading' : (value.hasError ? 'error' : 'data')),
+        skipLoadingOnRefresh: skipLoadingOnRefresh,
+        loading: () => Semantics(
+          container: true,
+          liveRegion: true,
+          label: 'Loading content',
+          child: loadingWidget ?? const CoolSkeletonList(),
+        ),
+        error: (error, _) => CoolErrorView(
+          message: errorMessage ?? _friendlyError(error),
+          onRetry: onRetry,
+        ),
+        data: (data) {
+          if (emptyCheck != null && emptyCheck!(data)) {
+            return emptyWidget ??
+                CoolEmptyView(subtitle: emptyMessage ?? 'Nothing here yet');
+          }
+          return builder(data);
+        },
       ),
-      error: (error, _) => CoolErrorView(
-        message: errorMessage ?? _friendlyError(error),
-        onRetry: onRetry,
-      ),
-      data: (data) {
-        if (emptyCheck != null && emptyCheck!(data)) {
-          return emptyWidget ??
-              CoolEmptyView(subtitle: emptyMessage ?? 'Nothing here yet');
-        }
-        return builder(data);
-      },
     );
   }
 

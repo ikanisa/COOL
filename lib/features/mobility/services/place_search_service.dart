@@ -1,3 +1,5 @@
+import 'package:cool_app/core/config/app_market.dart';
+import 'package:cool_app/core/utils/json_helpers.dart' as jh;
 import 'package:cool_app/core/config/env_config.dart';
 import 'package:cool_app/core/models/geo_point.dart';
 import 'package:cool_app/core/providers/engagement_providers.dart';
@@ -10,13 +12,16 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-const _rwandaBounds = _GeoBounds(
+/// Geo bounds for the active market. Hardcoded for RW now; when AppMarket
+/// expands, derive from a market config table.
+const _marketBounds = _GeoBounds(
   south: -2.95,
   west: 28.8,
   north: -1.0,
   east: 30.95,
 );
-const _rwandaLanguageTag = 'en';
+const _marketLanguageTag = 'en';
+const _marketCountryCode = 'rw';
 
 final placeSearchServiceProvider = Provider<PlaceSearchService>((ref) {
   final dio = Dio(
@@ -123,7 +128,7 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
         },
       );
 
-      final data = _asMap(response.data);
+      final data = jh.asMapOrEmpty(response.data);
       if (data['success'] == false) {
         throw StateError(data['message']?.toString() ?? 'Geocoding failed.');
       }
@@ -135,7 +140,7 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
               Map<String, Object?>.from(row),
             ),
           )
-          .where(_isRwandaResult)
+          .where(_isMarketResult)
           .where((place) => place.label.isNotEmpty)
           .toList(growable: false);
       final result = results.isEmpty ? null : results.first;
@@ -199,7 +204,7 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
         },
       );
 
-      final data = _asMap(response.data);
+      final data = jh.asMapOrEmpty(response.data);
       if (data['success'] == false) {
         throw StateError(data['message']?.toString() ?? 'Autocomplete failed.');
       }
@@ -271,7 +276,7 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
         },
       );
 
-      final data = _asMap(response.data);
+      final data = jh.asMapOrEmpty(response.data);
       if (data['success'] == false) {
         throw StateError(
           data['message']?.toString() ?? 'Place resolution failed.',
@@ -279,9 +284,9 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
       }
 
       final place = PlaceSearchResult.fromMapsGatewayJson(
-        _asMap(data['place']),
+        jh.asMapOrEmpty(data['place']),
       );
-      if (!_isRwandaResult(place)) {
+      if (!_isMarketResult(place)) {
         throw StateError('Place is outside the Rwanda market.');
       }
       _performance.stopTrace('maps_place_details');
@@ -325,7 +330,7 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
         },
       );
 
-      final data = _asMap(response.data);
+      final data = jh.asMapOrEmpty(response.data);
       if (data['success'] == false) {
         throw StateError(
           data['message']?.toString() ?? 'Reverse geocoding failed.',
@@ -337,8 +342,8 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
       if (place == null) {
         return null;
       }
-      final result = PlaceSearchResult.fromMapsGatewayJson(_asMap(place));
-      return _isRwandaResult(result) ? result : null;
+      final result = PlaceSearchResult.fromMapsGatewayJson(jh.asMapOrEmpty(place));
+      return _isMarketResult(result) ? result : null;
     } catch (error, stackTrace) {
       _performance.stopTrace(
         'maps_reverse_geocode',
@@ -387,7 +392,7 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
         },
       );
 
-      final data = _asMap(response.data);
+      final data = jh.asMapOrEmpty(response.data);
       if (data['success'] == false) {
         throw StateError(
           data['message']?.toString() ?? 'Route preview failed.',
@@ -401,7 +406,7 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
       }
 
       return MobilityRoutePreview.fromJson(
-        _asMap(route),
+        jh.asMapOrEmpty(route),
         origin: origin,
         destination: destination,
       );
@@ -468,8 +473,8 @@ class NominatimPlaceSearchService implements PlaceSearchService {
       'addressdetails': 1,
       'limit': limit.clamp(1, 8),
       'dedupe': 1,
-      'countrycodes': 'rw',
-      'viewbox': _rwandaBounds.nominatimViewBox,
+      'countrycodes': _marketCountryCode,
+      'viewbox': _marketBounds.nominatimViewBox,
       'bounded': 1,
     };
     final resolvedLanguageTag = _normalizedLanguageTag(languageTag);
@@ -496,7 +501,7 @@ class NominatimPlaceSearchService implements PlaceSearchService {
             Map<String, Object?>.from(row),
           ),
         )
-        .where(_isRwandaResult)
+        .where(_isMarketResult)
         .where((result) => result.label.isNotEmpty)
         .toList(growable: false);
   }
@@ -521,7 +526,7 @@ class NominatimPlaceSearchService implements PlaceSearchService {
     required double longitude,
     String? languageTag,
   }) async {
-    if (!_rwandaBounds.contains(latitude, longitude)) {
+    if (!_marketBounds.contains(latitude, longitude)) {
       return null;
     }
     final response = await _dio.get<Map<String, Object?>>(
@@ -549,7 +554,7 @@ class NominatimPlaceSearchService implements PlaceSearchService {
     }
 
     final result = PlaceSearchResult.fromNominatimJson(data);
-    return _isRwandaResult(result) ? result : null;
+    return _isMarketResult(result) ? result : null;
   }
 
   @override
@@ -566,17 +571,17 @@ class NominatimPlaceSearchService implements PlaceSearchService {
 String _normalizedLanguageTag(String? languageTag) {
   final normalized = languageTag?.trim().toLowerCase();
   if (normalized == null || normalized.isEmpty) {
-    return _rwandaLanguageTag;
+    return _marketLanguageTag;
   }
-  return normalized.startsWith('en') ? _rwandaLanguageTag : normalized;
+  return normalized.startsWith('en') ? _marketLanguageTag : normalized;
 }
 
-bool _isRwandaResult(PlaceSearchResult result) {
+bool _isMarketResult(PlaceSearchResult result) {
   final position = result.position;
   if (position == null) {
     return true;
   }
-  return _rwandaBounds.contains(position.latitude, position.longitude);
+  return _marketBounds.contains(position.latitude, position.longitude);
 }
 
 class _GeoBounds {
@@ -631,8 +636,8 @@ class PlaceSearchResult {
         .toList(growable: false);
     final primary = _resolvePrimaryText(json, parts);
     final secondary = _resolveSecondaryText(parts, primary);
-    final latitude = _parseDouble(json['lat']);
-    final longitude = _parseDouble(json['lon']);
+    final latitude = jh.asDouble(json['lat']);
+    final longitude = jh.asDouble(json['lon']);
 
     return PlaceSearchResult(
       label: secondary == null || secondary.isEmpty
@@ -651,9 +656,9 @@ class PlaceSearchResult {
     final primary = json['primaryText']?.toString().trim();
     final secondary = json['secondaryText']?.toString().trim();
     final label = json['label']?.toString().trim();
-    final location = _asMap(json['position']);
-    final latitude = _parseDouble(location['latitude']);
-    final longitude = _parseDouble(location['longitude']);
+    final location = jh.asMapOrEmpty(json['position']);
+    final latitude = jh.asDouble(location['latitude']);
+    final longitude = jh.asDouble(location['longitude']);
 
     final resolvedPrimary = primary == null || primary.isEmpty
         ? label ?? ''
@@ -678,15 +683,7 @@ class PlaceSearchResult {
   }
 }
 
-Map<String, Object?> _asMap(Object? value) {
-  if (value is Map<String, Object?>) {
-    return value;
-  }
-  if (value is Map) {
-    return Map<String, Object?>.from(value);
-  }
-  return const <String, Object?>{};
-}
+// _asMap consolidated into core/utils/json_helpers.dart (imported as jh).
 
 List<Object?> _asList(Object? value) {
   if (value is List<Object?>) {
@@ -699,7 +696,7 @@ List<Object?> _asList(Object? value) {
 }
 
 String _resolvePrimaryText(Map<String, Object?> json, List<String> parts) {
-  final address = _asMap(json['address']);
+  final address = jh.asMapOrEmpty(json['address']);
   final candidates = <String?>[
     json['name']?.toString(),
     address['amenity']?.toString(),
@@ -741,12 +738,4 @@ String? _resolveSecondaryText(List<String> parts, String primary) {
   return remaining.join(', ');
 }
 
-double? _parseDouble(Object? value) {
-  if (value is num) {
-    return value.toDouble();
-  }
-  if (value is String) {
-    return double.tryParse(value);
-  }
-  return null;
-}
+// _parseDouble consolidated into core/utils/json_helpers.dart (imported as jh).

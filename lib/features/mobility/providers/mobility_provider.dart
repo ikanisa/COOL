@@ -52,36 +52,6 @@ final mobilityProvider = StateNotifierProvider<MobilityNotifier, MobilityState>(
   },
 );
 
-final mobilityNearbyDriversProvider = Provider<List<DriverInfo>>((ref) {
-  return ref.watch(mobilityProvider.select((state) => state.nearbyDrivers));
-});
-
-final mobilityScheduledTripsProvider = Provider<List<Trip>>((ref) {
-  return ref.watch(mobilityProvider.select((state) => state.scheduledTrips));
-});
-
-final mobilitySelectedVehicleProvider = Provider<String>((ref) {
-  return ref.watch(mobilityProvider.select((state) => state.selectedVehicle));
-});
-
-final mobilityActiveTabProvider = Provider<int>((ref) {
-  return ref.watch(mobilityProvider.select((state) => state.activeTab));
-});
-
-final mobilityTripRoleProvider = Provider<int>((ref) {
-  return ref.watch(mobilityProvider.select((state) => state.tripRoleFilter));
-});
-
-final mobilityDiscoveryLoadingProvider = Provider<bool>((ref) {
-  return ref.watch(
-    mobilityProvider.select((state) => state.isDiscoveryLoading),
-  );
-});
-
-final mobilityDiscoveryErrorProvider = Provider<String?>((ref) {
-  return ref.watch(mobilityProvider.select((state) => state.discoveryError));
-});
-
 final mobilitySubmissionLoadingProvider = Provider<bool>((ref) {
   return ref.watch(mobilityProvider.select((state) => state.isSubmittingTrip));
 });
@@ -90,87 +60,31 @@ final mobilitySubmissionErrorProvider = Provider<String?>((ref) {
   return ref.watch(mobilityProvider.select((state) => state.submissionError));
 });
 
-final mobilityUserLocationProvider = Provider<GeoPoint?>((ref) {
-  return ref.watch(mobilityProvider.select((state) => state.userLocation));
-});
-
 class MobilityState {
   const MobilityState({
-    this.nearbyDrivers = const <DriverInfo>[],
-    this.scheduledTrips = const <Trip>[],
     this.isDriverOnline = false,
-    this.userLocation,
-    this.selectedVehicle = 'All',
-    this.activeTab = 0,
-    this.tripRoleFilter = 0,
-    this.isLoadingNearbyDrivers = false,
-    this.isLoadingScheduledTrips = false,
     this.isSubmittingTrip = false,
     this.isUpdatingDriverStatus = false,
-    this.discoveryError,
     this.submissionError,
   });
 
-  static const _sentinel = Object();
-
-  final List<DriverInfo> nearbyDrivers;
-  final List<Trip> scheduledTrips;
   final bool isDriverOnline;
-  final GeoPoint? userLocation;
-  final String selectedVehicle;
-  final int activeTab;
-  /// 0 = passenger trips, 1 = driver trips.
-  final int tripRoleFilter;
-  final bool isLoadingNearbyDrivers;
-  final bool isLoadingScheduledTrips;
   final bool isSubmittingTrip;
   final bool isUpdatingDriverStatus;
-  final String? discoveryError;
   final String? submissionError;
 
-  bool get isDiscoveryLoading =>
-      isLoadingNearbyDrivers || isLoadingScheduledTrips;
-
-  bool get isLoading => isSubmittingTrip;
-
-  String? get error => submissionError ?? discoveryError;
-
   MobilityState copyWith({
-    List<DriverInfo>? nearbyDrivers,
-    List<Trip>? scheduledTrips,
     bool? isDriverOnline,
-    Object? userLocation = _sentinel,
-    String? selectedVehicle,
-    int? activeTab,
-    int? tripRoleFilter,
-    bool? isLoadingNearbyDrivers,
-    bool? isLoadingScheduledTrips,
     bool? isSubmittingTrip,
     bool? isUpdatingDriverStatus,
-    Object? discoveryError = _sentinel,
-    Object? submissionError = _sentinel,
+    Object? submissionError = const Object(),
   }) {
     return MobilityState(
-      nearbyDrivers: nearbyDrivers ?? this.nearbyDrivers,
-      scheduledTrips: scheduledTrips ?? this.scheduledTrips,
       isDriverOnline: isDriverOnline ?? this.isDriverOnline,
-      userLocation: userLocation == _sentinel
-          ? this.userLocation
-          : userLocation as GeoPoint?,
-      selectedVehicle: selectedVehicle ?? this.selectedVehicle,
-      activeTab: activeTab ?? this.activeTab,
-      tripRoleFilter: tripRoleFilter ?? this.tripRoleFilter,
-      isLoadingNearbyDrivers:
-          isLoadingNearbyDrivers ?? this.isLoadingNearbyDrivers,
-      isLoadingScheduledTrips:
-          isLoadingScheduledTrips ?? this.isLoadingScheduledTrips,
       isSubmittingTrip: isSubmittingTrip ?? this.isSubmittingTrip,
       isUpdatingDriverStatus:
           isUpdatingDriverStatus ?? this.isUpdatingDriverStatus,
-      discoveryError: discoveryError == _sentinel
-          ? this.discoveryError
-          : discoveryError as String?,
-      submissionError: submissionError == _sentinel
+      submissionError: submissionError == const Object()
           ? this.submissionError
           : submissionError as String?,
     );
@@ -205,162 +119,45 @@ class MobilityNotifier extends StateNotifier<MobilityState> {
 
   String? get _currentUserId =>
       _authState.user?.id ?? _authState.session?.user.id;
-  String get _currentCountry => AppMarket.countryCode;
 
-  Future<void> loadNearbyDrivers() async {
-    final location = state.userLocation;
-    if (location == null) {
-      state = state.copyWith(
-        nearbyDrivers: const <DriverInfo>[],
-        isLoadingNearbyDrivers: false,
-        discoveryError: null,
-      );
-      return;
-    }
-
-    state = state.copyWith(isLoadingNearbyDrivers: true, discoveryError: null);
-    _performance.startTrace('mobility_nearby_drivers');
-    _crashlytics.log('mobility: loading nearby drivers');
-
-    final result = await AsyncValue.guard(
-      () => _repository.getNearbyDrivers(
-        location.latitude,
-        location.longitude,
-        _vehicleQueryValue(state.selectedVehicle),
-        _currentCountry,
-      ),
-    );
-
-    result.when(
-      data: (drivers) {
-        _performance.stopTrace(
-          'mobility_nearby_drivers',
-          metrics: {'count': drivers.length},
-        );
-        state = state.copyWith(
-          nearbyDrivers: drivers,
-          isLoadingNearbyDrivers: false,
-          discoveryError: null,
-        );
-      },
-      error: (error, stack) {
-        _performance.stopTrace(
-          'mobility_nearby_drivers',
-          attributes: {'error': error.runtimeType.toString()},
-        );
-        _crashlytics.recordError(
-          error,
-          stackTrace: stack,
-          reason: 'mobility_nearby_drivers',
-        );
-        state = state.copyWith(
-          isLoadingNearbyDrivers: false,
-          discoveryError: error.toString(),
-        );
-      },
-      loading: () {},
-    );
-  }
-
-  Future<void> loadScheduledTrips() async {
-    final location = state.userLocation;
-    if (location == null) {
-      state = state.copyWith(
-        scheduledTrips: const <Trip>[],
-        isLoadingScheduledTrips: false,
-        discoveryError: null,
-      );
-      return;
-    }
-
-    state = state.copyWith(isLoadingScheduledTrips: true, discoveryError: null);
-    _performance.startTrace('mobility_scheduled_trips');
-
-    final result = await AsyncValue.guard(
-      () => _repository.getScheduledTrips(
-        location.latitude,
-        location.longitude,
-        _vehicleQueryValue(state.selectedVehicle),
-        state.tripRoleFilter == 1 ? TripType.driverReturn : TripType.passenger,
-        _currentCountry,
-      ),
-    );
-
-    result.when(
-      data: (trips) {
-        _performance.stopTrace(
-          'mobility_scheduled_trips',
-          metrics: {'count': trips.length},
-        );
-        state = state.copyWith(
-          scheduledTrips: trips,
-          isLoadingScheduledTrips: false,
-          discoveryError: null,
-        );
-      },
-      error: (error, stack) {
-        _performance.stopTrace(
-          'mobility_scheduled_trips',
-          attributes: {'error': error.runtimeType.toString()},
-        );
-        _crashlytics.recordError(
-          error,
-          stackTrace: stack,
-          reason: 'mobility_scheduled_trips',
-        );
-        state = state.copyWith(
-          isLoadingScheduledTrips: false,
-          discoveryError: error.toString(),
-        );
-      },
-      loading: () {},
-    );
-  }
-
-  Future<void> toggleDriverOnline() async {
+  Future<void> toggleDriverOnline(double latitude, double longitude) async {
     final userId = _currentUserId;
-    final location = state.userLocation;
 
-    if (userId == null || location == null) {
+    if (userId == null) {
       state = state.copyWith(
-        discoveryError: 'A signed-in driver with a location is required.',
+        submissionError: 'A signed-in driver is required.',
       );
       return;
     }
 
     final nextValue = !state.isDriverOnline;
-    state = state.copyWith(isUpdatingDriverStatus: true, discoveryError: null);
+    state = state.copyWith(isUpdatingDriverStatus: true, submissionError: null);
 
     final result = await AsyncValue.guard(
       () => _repository.setDriverOnline(
         userId,
         nextValue,
-        location.latitude,
-        location.longitude,
+        latitude,
+        longitude,
       ),
     );
 
     result.when(
       data: (_) {
-        final vehicleType =
-            _authState.user?.vehicleType?.trim().toLowerCase().isNotEmpty ==
-                true
-            ? _authState.user!.vehicleType!.trim()
-            : state.selectedVehicle;
         _engagement.trackDriverWentOnline(
           isOnline: nextValue,
-          vehicleType: vehicleType,
+          vehicleType: _authState.user?.vehicleType ?? 'Any',
         );
         state = state.copyWith(
           isDriverOnline: nextValue,
           isUpdatingDriverStatus: false,
-          discoveryError: null,
+          submissionError: null,
         );
       },
       error: (error, _) {
         state = state.copyWith(
           isUpdatingDriverStatus: false,
-          discoveryError: error.toString(),
+          submissionError: error.toString(),
         );
       },
       loading: () {},
@@ -375,8 +172,6 @@ class MobilityNotifier extends StateNotifier<MobilityState> {
     final request = data.copyWith(
       userId: data.userId ?? _currentUserId,
       role: data.role ?? (isDriverReturnTrip ? 'DRIVER' : 'PASSENGER'),
-      latitude: data.latitude ?? state.userLocation?.latitude,
-      longitude: data.longitude ?? state.userLocation?.longitude,
       contactPhone:
           data.contactPhone ??
           currentUser?.phone ??
@@ -392,9 +187,6 @@ class MobilityNotifier extends StateNotifier<MobilityState> {
 
     state = state.copyWith(isSubmittingTrip: true, submissionError: null);
     _performance.startTrace('mobility_create_trip');
-    _crashlytics.log(
-      'mobility: creating trip ${request.fromLocation} → ${request.toLocation}',
-    );
 
     final result = await AsyncValue.guard(
       () => _tripRepository.createTrip(request),
@@ -406,7 +198,6 @@ class MobilityNotifier extends StateNotifier<MobilityState> {
       data: (value) {
         createdTrip = value;
         _performance.stopTrace('mobility_create_trip');
-        _crashlytics.log('mobility: trip created id=${value.id}');
         _engagement.trackTripScheduled(
           role: request.role ?? 'PASSENGER',
           vehicleType: _vehicleLabelForRequest(
@@ -418,49 +209,13 @@ class MobilityNotifier extends StateNotifier<MobilityState> {
           storedOffline: value.storedOffline,
         );
         state = state.copyWith(
-          scheduledTrips: <Trip>[
-            Trip(
-              id: value.id,
-              userId: request.userId,
-              fromLocation: request.fromLocation,
-              toLocation: request.toLocation,
-              departureTime: request.departureAt,
-              vehicleType: _vehicleLabelForRequest(
-                request,
-                fallback: currentUser?.vehicleType,
-              ),
-              seats: request.seatsNeeded,
-              status: 'ACTIVE',
-              isReturn: request.isReturnTrip,
-              isRecurring: request.isRecurringTrip,
-              isDriverReturnTrip: request.isDriverReturnTrip,
-              returnTime: request.returnAt,
-              latitude: request.latitude,
-              longitude: request.longitude,
-              destinationLatitude: request.destinationLatitude,
-              destinationLongitude: request.destinationLongitude,
-              role: request.role,
-              repeatDays: request.recurringDays
-                  .map((day) => day.value)
-                  .toList(growable: false),
-              contactPhone: request.contactPhone,
-              contactName: request.contactName,
-              whatsappNumber: request.whatsappNumber,
-            ),
-            ...state.scheduledTrips,
-          ],
           isSubmittingTrip: false,
           submissionError: null,
         );
-
-        // Strong success moment: request app review.
         unawaited(_appReview.requestReview());
       },
       error: (error, stack) {
-        _performance.stopTrace(
-          'mobility_create_trip',
-          attributes: {'error': error.runtimeType.toString()},
-        );
+        _performance.stopTrace('mobility_create_trip');
         _crashlytics.recordError(
           error,
           stackTrace: stack,
@@ -488,69 +243,5 @@ class MobilityNotifier extends StateNotifier<MobilityState> {
         return normalized == null || normalized.isEmpty ? 'Any' : normalized;
     }
   }
-
-  Future<void> setVehicleFilter(String type) async {
-    state = state.copyWith(selectedVehicle: type, discoveryError: null);
-    await loadNearbyDrivers();
-    await loadScheduledTrips();
-  }
-
-  void updateLocation(GeoPoint location) {
-    state = state.copyWith(userLocation: location, discoveryError: null);
-  }
-
-  void clearLocation() {
-    state = state.copyWith(
-      userLocation: null,
-      nearbyDrivers: const <DriverInfo>[],
-      scheduledTrips: const <Trip>[],
-      discoveryError: null,
-    );
-  }
-
-  Future<void> setActiveTab(int tab) async {
-    if (state.activeTab == tab) {
-      return;
-    }
-
-    _engagement.trackDiscoverTabSwitch(
-      fromTab: _tabLabel(state.activeTab),
-      toTab: _tabLabel(tab),
-    );
-    state = state.copyWith(activeTab: tab, discoveryError: null);
-    if (tab == 1) {
-      await loadScheduledTrips();
-    }
-  }
-
-  Future<void> setTripRoleFilter(int role) async {
-    if (state.tripRoleFilter == role) {
-      return;
-    }
-    state = state.copyWith(tripRoleFilter: role, discoveryError: null);
-    await loadScheduledTrips();
-  }
-
-  String? _vehicleQueryValue(String vehicle) {
-    final normalized = vehicle.toLowerCase();
-    if (normalized == 'all') return null;
-    if (normalized.contains('moto')) return 'moto';
-    if (normalized.contains('cab')) return 'cab';
-    if (normalized.contains('truck')) return 'truck';
-    if (normalized.contains('trike')) return 'trike';
-    return normalized.trim().isEmpty ? null : normalized.trim();
-  }
-
-  String _tabLabel(int tab) {
-    switch (tab) {
-      case 0:
-        return 'scheduled';
-      case 1:
-        return 'return';
-      case 2:
-        return 'passenger';
-      default:
-        return 'tab_$tab';
-    }
-  }
 }
+

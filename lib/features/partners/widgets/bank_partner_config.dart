@@ -37,19 +37,22 @@ const bankPartnerConfigs = <String, BankPartnerConfig>{
       BankQuickActionData(
         icon: Icons.account_balance_wallet_rounded,
         title: 'Open Account',
-        message: 'Digital onboarding',
+        subtitle: 
+ 'Digital onboarding',
         action: 'internal:open_account',
       ),
       BankQuickActionData(
         icon: Icons.people_rounded,
         title: 'Group Savings',
-        message: 'Digital group wallet',
+        subtitle: 
+ 'Digital group wallet',
         action: 'internal:group_savings',
       ),
       BankQuickActionData(
         icon: Icons.monetization_on_rounded,
         title: 'Get Loan',
-        message: 'Fast credit access',
+        subtitle: 
+ 'Fast credit access',
         action: 'internal:get_loan',
       ),
     ],
@@ -62,19 +65,22 @@ const bankPartnerConfigs = <String, BankPartnerConfig>{
       BankQuickActionData(
         icon: Icons.account_balance_wallet_rounded,
         title: 'Open Account',
-        message: 'Digital onboarding',
+        subtitle: 
+ 'Digital onboarding',
         action: 'internal:open_account',
       ),
       BankQuickActionData(
         icon: Icons.people_rounded,
         title: 'Group Savings',
-        message: 'Digital group wallet',
+        subtitle: 
+ 'Digital group wallet',
         action: 'internal:group_savings',
       ),
       BankQuickActionData(
         icon: Icons.monetization_on_rounded,
         title: 'Get Loan',
-        message: 'Fast credit access',
+        subtitle: 
+ 'Fast credit access',
         action: 'internal:get_loan',
       ),
     ],

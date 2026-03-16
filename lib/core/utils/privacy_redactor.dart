@@ -13,7 +13,7 @@ class PrivacyRedactor {
 
     // 3. Redact specific MoMo Balance patterns
     // e.g., "Balance: 150,000 RWF" -> "Balance: [HIDDEN]"
-    redacted = redacted.replaceAll(RegExp(r'(Balance|Available):\s?[\d,.]+'), '$1: [HIDDEN]');
+    redacted = redacted.replaceAll(RegExp(r'(Balance|Available):\s?[\d,.]+'), r'$1: [HIDDEN]');
 
     return redacted;
   }

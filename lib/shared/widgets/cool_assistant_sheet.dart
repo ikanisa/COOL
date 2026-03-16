@@ -54,13 +54,20 @@ class _CoolAssistantSheetState extends ConsumerState<CoolAssistantSheet> {
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
 
     return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+      filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
       child: Container(
         height: MediaQuery.of(context).size.height * 0.85,
         decoration: BoxDecoration(
-          color: palette.bg.withValues(alpha: 0.85),
+          color: palette.bg.withValues(alpha: 0.75),
           borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
-          border: Border.all(color: palette.border.withValues(alpha: 0.2)),
+          border: Border.all(color: palette.border.withValues(alpha: 0.3)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.2),
+              blurRadius: 40,
+              offset: const Offset(0, -4),
+            ),
+          ],
         ),
         child: Column(
           children: [

@@ -13,6 +13,7 @@ import '../../../shared/widgets/status_badge.dart';
 import '../../../shared/widgets/trip_card.dart';
 import '../../../shared/widgets/wa_button.dart';
 import '../models/trip.dart';
+import '../providers/discovery_provider.dart';
 import '../providers/mobility_location_provider.dart';
 import '../providers/trip_board_provider.dart';
 import 'trip_display_strings.dart';
@@ -79,10 +80,11 @@ class TripBoardPublicTripsSliver extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final trips = ref.watch(tripBoardPublicTripsProvider);
+    final trips = ref.watch(nearbyTripsProvider);
+    final discoveryState = ref.watch(discoveryProvider);
     final activeTab = ref.watch(tripBoardActiveTabProvider);
-    final isLoading = ref.watch(tripBoardPublicTripsLoadingProvider);
-    final error = ref.watch(tripBoardPublicErrorProvider);
+    final isLoading = discoveryState.isTripsLoading;
+    final error = discoveryState.error;
     final locationState = ref.watch(mobilityLocationProvider);
     final locationNotifier = ref.read(mobilityLocationProvider.notifier);
 
@@ -92,7 +94,7 @@ class TripBoardPublicTripsSliver extends ConsumerWidget {
         sliver: SliverToBoxAdapter(
           child: TripBoardLoadingState(
             title: 'Loading nearby trips',
-            message: 'Searching nearby…',
+            subtitle: 'Searching nearby…',
           ),
         ),
       );
@@ -125,7 +127,7 @@ class TripBoardPublicTripsSliver extends ConsumerWidget {
           child: TripBoardEmptyState(
             icon: Icons.warning_amber_rounded,
             title: 'Load nearby trips failed',
-            message: error,
+            subtitle: error,
           ),
         ),
       );
@@ -177,7 +179,7 @@ class TripBoardMyTripsSliver extends ConsumerWidget {
             const SliverToBoxAdapter(
               child: TripBoardLoadingState(
                 title: 'Loading your trips',
-                message: 'Loading your trips…',
+                subtitle: 'Loading your trips…',
               ),
             )
           else if (error != null && myTrips.isEmpty)
@@ -185,7 +187,7 @@ class TripBoardMyTripsSliver extends ConsumerWidget {
               child: TripBoardEmptyState(
                 icon: Icons.warning_amber_rounded,
                 title: 'Load your trips failed',
-                message: error,
+                subtitle: error,
               ),
             )
           else if (myTrips.isEmpty)
@@ -193,7 +195,7 @@ class TripBoardMyTripsSliver extends ConsumerWidget {
               child: TripBoardEmptyState(
                 icon: Icons.folder_open_rounded,
                 title: 'No trips posted yet',
-                message: 'Post a trip to',
+                subtitle: 'Post a trip to get started',
               ),
             )
           else
@@ -281,7 +283,7 @@ class _DriverReturnTripsSliver extends StatelessWidget {
             child: TripBoardEmptyState(
               icon: Icons.repeat_rounded,
               title: 'No driver returns available',
-              message: 'Try another vehicle type',
+              subtitle: 'Try another vehicle type',
             ),
           )
         else
@@ -425,11 +427,10 @@ class MyTripTile extends StatelessWidget {
                   IconButton(
                     onPressed: onShowActions,
                     tooltip: 'Trip actions',
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.more_horiz_rounded,
-                      color: Colors.transparent,
+                      color: palette.text2,
                     ),
-                    color: palette.text2,
                   ),
               ],
             ),
@@ -729,7 +730,7 @@ class TripBoardLocationStateCard extends StatelessWidget {
     return TripBoardEmptyState(
       icon: icon,
       title: title,
-      message: subtitle,
+      subtitle: subtitle,
       actionLabel: actionLabel,
       onActionTap: action,
     );

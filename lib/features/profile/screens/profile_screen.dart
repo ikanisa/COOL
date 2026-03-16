@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/config/app_config_provider.dart';
@@ -15,6 +16,7 @@ import '../../../core/theme/cool_layout.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../core/theme/theme_preference.dart';
 import '../../../core/theme/theme_preference_provider.dart';
+import '../../../core/providers/supabase_client_provider.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 
 import '../../../shared/widgets/cool_toast.dart';
@@ -242,6 +244,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           valueColor: AppColors.accent,
           onTap: () => context.push(AppRoutes.tokens),
         ),
+      ProfileSettingsRow(
+        icon: Icons.card_giftcard_rounded,
+        label: 'Invite Friends',
+        value: 'Earn 150 tokens',
+        valueColor: AppColors.accent,
+        onTap: () => context.push(AppRoutes.referral),
+      ),
       ProfileSettingsRow(
         icon: Icons.swap_horiz_rounded,
         label: 'Mobility',

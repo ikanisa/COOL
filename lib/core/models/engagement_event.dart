@@ -15,6 +15,12 @@ enum EngagementEventName {
   appStoreListingOpened,
   appUpdateImmediateStarted,
   appUpdateFlexibleStarted,
+  placeAutocompleteRequested,
+  placeSelected,
+  routePreviewLoaded,
+  tripPostStarted,
+  smartInputParsed,
+  calendarSuggestionSelected,
 }
 
 extension EngagementEventNameX on EngagementEventName {
@@ -37,6 +43,14 @@ extension EngagementEventNameX on EngagementEventName {
       'app_update_immediate_started',
     EngagementEventName.appUpdateFlexibleStarted =>
       'app_update_flexible_started',
+    EngagementEventName.placeAutocompleteRequested =>
+      'place_autocomplete_requested',
+    EngagementEventName.placeSelected => 'place_selected',
+    EngagementEventName.routePreviewLoaded => 'route_preview_loaded',
+    EngagementEventName.tripPostStarted => 'trip_post_started',
+    EngagementEventName.smartInputParsed => 'smart_input_parsed',
+    EngagementEventName.calendarSuggestionSelected =>
+      'calendar_suggestion_selected',
   };
 }
 

@@ -17,6 +17,7 @@ import '../../../core/status/models/cool_event.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../core/utils/intl_locale.dart';
 import '../../auth/providers/auth_provider.dart';
+import '../../../core/providers/engagement_providers.dart';
 import '../../../core/providers/supabase_client_provider.dart';
 import '../providers/driver_provider.dart';
 import '../providers/mobility_location_provider.dart';
@@ -370,35 +371,40 @@ class _ScheduleTripRoleRow extends StatelessWidget {
     final isDriver = selectedRole == ScheduleTripPostingRole.driver;
     final label = isDriver ? 'Posting as driver' : 'Posting as passenger';
 
-    return GestureDetector(
-      onTap: onOpenRoleSheet,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        decoration: BoxDecoration(
-          color: palette.surface2,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: palette.border),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              isDriver ? Icons.directions_car_rounded : Icons.person_rounded,
-              size: 20,
-              color: palette.accent,
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                label,
-                style: GoogleFonts.dmSans(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: palette.text,
+    return Semantics(
+      button: true,
+      label: '$label — tap to switch role',
+      excludeSemantics: true,
+      child: GestureDetector(
+        onTap: onOpenRoleSheet,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          decoration: BoxDecoration(
+            color: palette.surface2,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: palette.border),
+          ),
+          child: Row(
+            children: [
+              Icon(
+                isDriver ? Icons.directions_car_rounded : Icons.person_rounded,
+                size: 20,
+                color: palette.accent,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  label,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: palette.text,
+                  ),
                 ),
               ),
-            ),
-            Icon(Icons.swap_horiz_rounded, size: 20, color: palette.text3),
-          ],
+              Icon(Icons.swap_horiz_rounded, size: 20, color: palette.text3),
+            ],
+          ),
         ),
       ),
     );

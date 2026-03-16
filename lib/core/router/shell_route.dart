@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,10 +12,6 @@ import '../l10n/l10n.dart';
 import '../theme/cool_palette.dart';
 
 /// The main scaffold that wraps all bottom-nav routes.
-///
-/// Provides a 5-slot [BottomNavigationBar] (Home, Groups, _FAB_, Mobility,
-/// Profile) with a centre floating action button that navigates to the
-/// Mobile Money hub screen.
 class AppShell extends ConsumerStatefulWidget {
   const AppShell({
     required this.navigationShell,
@@ -121,6 +118,7 @@ class _AppShellState extends ConsumerState<AppShell> {
     _syncMobilityBranchVisibility(widget.navigationShell.currentIndex == 2);
 
     return Scaffold(
+      extendBody: true, // Allow content to flow behind the glass bar
       body: widget.navigationShell,
 
       // ── FAB ──────────────────────────────────────────────────────
@@ -134,11 +132,11 @@ class _AppShellState extends ConsumerState<AppShell> {
                 child: FloatingActionButton(
                   onPressed: _onFabPressed,
                   tooltip: context.l10n.momoScreenTitle,
-                  elevation: 0,
+                  elevation: 8,
                   backgroundColor: palette.accent,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18),
-                    side: BorderSide(color: palette.border2),
+                    side: BorderSide(color: palette.border2, width: 1.5),
                   ),
                   child: Icon(
                     Icons.account_balance_wallet_rounded,
@@ -153,81 +151,78 @@ class _AppShellState extends ConsumerState<AppShell> {
 
       // ── Bottom nav ───────────────────────────────────────────────
       bottomNavigationBar: widget.showNavigationChrome
-          ? DecoratedBox(
-              decoration: BoxDecoration(
-                color: palette.surface,
-                border: Border(top: BorderSide(color: palette.border)),
-                boxShadow: [
-                  BoxShadow(
-                    color: palette.text.withValues(
-                      alpha: Theme.of(context).brightness == Brightness.light
-                          ? 0.06
-                          : 0.18,
+          ? ClipRRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: palette.surface.withValues(alpha: 0.7),
+                    border: Border(
+                      top: BorderSide(
+                        color: palette.border.withValues(alpha: 0.3),
+                      ),
                     ),
-                    blurRadius: 4,
-                    offset: const Offset(0, -1),
                   ),
-                ],
-              ),
-              child: SizedBox(
-                height: navigationHeight,
-                child: BottomNavigationBar(
-                  currentIndex: index,
-                  onTap: _onItemTapped,
-                  backgroundColor: palette.surface,
-                  elevation: 0,
-                  type: BottomNavigationBarType.fixed,
-                  selectedItemColor: palette.accent,
-                  unselectedItemColor: palette.text3,
-                  selectedFontSize: navLabelFontSize,
-                  unselectedFontSize: navLabelFontSize,
-                  selectedLabelStyle: GoogleFonts.dmSans(
-                    fontWeight: FontWeight.w600,
+                  child: SizedBox(
+                    height: navigationHeight,
+                    child: BottomNavigationBar(
+                      currentIndex: index,
+                      onTap: _onItemTapped,
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      type: BottomNavigationBarType.fixed,
+                      selectedItemColor: palette.accent,
+                      unselectedItemColor: palette.text3,
+                      selectedFontSize: navLabelFontSize,
+                      unselectedFontSize: navLabelFontSize,
+                      selectedLabelStyle: GoogleFonts.dmSans(
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: -0.2,
+                      ),
+                      unselectedLabelStyle: GoogleFonts.dmSans(
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: -0.2,
+                      ),
+                      items: [
+                        BottomNavigationBarItem(
+                          icon: Semantics(
+                            label: '${context.l10n.navHome} tab',
+                            selected: index == 0,
+                            child: const Icon(Icons.home_rounded),
+                          ),
+                          label: context.l10n.navHome,
+                        ),
+                        BottomNavigationBarItem(
+                          icon: Semantics(
+                            label: '${context.l10n.navGroups} tab',
+                            selected: index == 1,
+                            child: const Icon(Icons.people_rounded),
+                          ),
+                          label: context.l10n.navGroups,
+                        ),
+                        const BottomNavigationBarItem(
+                          icon: SizedBox.shrink(),
+                          label: '',
+                        ),
+                        BottomNavigationBarItem(
+                          icon: Semantics(
+                            label: '${context.l10n.navMobility} tab',
+                            selected: index == 3,
+                            child: const Icon(Icons.directions_car_rounded),
+                          ),
+                          label: context.l10n.navMobility,
+                        ),
+                        BottomNavigationBarItem(
+                          icon: Semantics(
+                            label: '${context.l10n.navProfile} tab',
+                            selected: index == 4,
+                            child: const Icon(Icons.person_rounded),
+                          ),
+                          label: context.l10n.navProfile,
+                        ),
+                      ],
+                    ),
                   ),
-                  unselectedLabelStyle: GoogleFonts.dmSans(
-                    fontWeight: FontWeight.w400,
-                  ),
-                  items: [
-                    BottomNavigationBarItem(
-                      icon: Semantics(
-                        label: '${context.l10n.navHome} tab',
-                        selected: index == 0,
-                        child: const Icon(Icons.home_rounded),
-                      ),
-                      label: context.l10n.navHome,
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Semantics(
-                        label: '${context.l10n.navGroups} tab',
-                        selected: index == 1,
-                        child: const Icon(Icons.people_rounded),
-                      ),
-                      label: context.l10n.navGroups,
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Semantics(
-                        label: context.l10n.momoScreenTitle,
-                        child: const ExcludeSemantics(child: SizedBox.shrink()),
-                      ),
-                      label: '',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Semantics(
-                        label: '${context.l10n.navMobility} tab',
-                        selected: index == 3,
-                        child: const Icon(Icons.directions_car_rounded),
-                      ),
-                      label: context.l10n.navMobility,
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Semantics(
-                        label: '${context.l10n.navProfile} tab',
-                        selected: index == 4,
-                        child: const Icon(Icons.person_rounded),
-                      ),
-                      label: context.l10n.navProfile,
-                    ),
-                  ],
                 ),
               ),
             )

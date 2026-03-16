@@ -215,7 +215,7 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
           const SizedBox(height: 18),
           _DriverSectionIntro(
             title: todaysTrips.isNotEmpty ? 'Today\'s trips' : 'Upcoming trips',
-            message: visibleTrips.isEmpty
+            subtitle: visibleTrips.isEmpty
                 ? 'No trips posted yet.'
                 : '',
           ),

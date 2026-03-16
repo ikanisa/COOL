@@ -755,6 +755,20 @@ class AuthNotifier extends StateNotifier<AuthState> {
     );
   }
 
+  Future<void> signInWithGoogle() async {
+    state = state.copyWith(isLoading: true, error: null);
+    try {
+      await _repository.signInWithGoogle();
+    } catch (e, stack) {
+      _crashlytics.recordError(
+        e,
+        stackTrace: stack,
+        reason: 'google_signin_failed',
+      );
+      state = state.copyWith(isLoading: false, error: _errorMessage(e));
+    }
+  }
+
   Future<void> signOut() async {
     state = state.copyWith(isLoading: true, error: null);
 

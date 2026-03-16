@@ -80,6 +80,7 @@ import '../../features/admin/screens/system_analytics_screen.dart';
 import '../../features/admin/screens/audit_log_screen.dart';
 import '../../features/admin/widgets/admin_workspace_gate.dart';
 import '../status/screens/cool_tokens_screen.dart';
+import '../status/screens/referral_hub_screen.dart';
 import '../status/screens/missions_screen.dart';
 import '../../shared/widgets/kill_switch_gate.dart';
 import '../../shared/widgets/secure_screen_wrapper.dart';
@@ -149,6 +150,30 @@ final _appRouterRefreshListenableProvider = Provider<ChangeNotifier>((ref) {
   ref.onDispose(notifier.dispose);
   return notifier;
 });
+
+/// Reusable "Cool" page transition: 300ms Fade + Subtle Scale.
+CustomTransitionPage<T> _coolPageTransition<T>({
+  required BuildContext context,
+  required GoRouterState state,
+  required Widget child,
+}) {
+  return CustomTransitionPage<T>(
+    key: state.pageKey,
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return FadeTransition(
+        opacity: CurveTween(curve: Curves.easeOut).animate(animation),
+        child: ScaleTransition(
+          scale: Tween<double>(begin: 0.98, end: 1.0).animate(
+            CurvedAnimation(parent: animation, curve: Curves.easeOutCubic),
+          ),
+          child: child,
+        ),
+      );
+    },
+    transitionDuration: const Duration(milliseconds: 300),
+  );
+}
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final refreshListenable = ref.watch(_appRouterRefreshListenableProvider);
@@ -246,23 +271,32 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       // ── QR Scanner (full-screen, no shell) ─────────────────────
       GoRoute(
         path: AppRoutes.scanner,
-        builder: (context, state) {
+        pageBuilder: (context, state) {
           final authSnapshot = readAuthSnapshot();
           final modeStr = state.uri.queryParameters['mode'] ?? 'ticket';
           final mode = modeStr == 'momo' ? QrScanMode.momo : QrScanMode.ticket;
           final ticketScanningEnabled =
               authSnapshot.isAdmin ||
               _hasPartnerScannerAccess(authSnapshot.session?.user);
-          return QrScannerScreen(
-            mode: mode,
-            ticketScanningEnabled: ticketScanningEnabled,
+          return _coolPageTransition(
+            context: context,
+            state: state,
+            child: QrScannerScreen(
+              mode: mode,
+              ticketScanningEnabled: ticketScanningEnabled,
+            ),
           );
         },
       ),
       GoRoute(
         path: AppRoutes.kycSelfie,
-        builder: (context, state) => const KycSelfieScreen(),
+        pageBuilder: (context, state) => _coolPageTransition(
+          context: context,
+          state: state,
+          child: const KycSelfieScreen(),
+        ),
       ),
+
 
       // ── Main app (shell with bottom nav) ──────────────────────
       StatefulShellRoute.indexedStack(
@@ -564,12 +598,29 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.missions,
-        builder: (context, state) => const MissionsScreen(),
+        pageBuilder: (context, state) => _coolPageTransition(
+          context: context,
+          state: state,
+          child: const MissionsScreen(),
+        ),
       ),
       GoRoute(
         path: AppRoutes.tokens,
-        builder: (context, state) => const CoolTokensScreen(),
+        pageBuilder: (context, state) => _coolPageTransition(
+          context: context,
+          state: state,
+          child: const CoolTokensScreen(),
+        ),
       ),
+      GoRoute(
+        path: AppRoutes.referral,
+        pageBuilder: (context, state) => _coolPageTransition(
+          context: context,
+          state: state,
+          child: const ReferralHubScreen(),
+        ),
+      ),
+
 
       // ── Admin routes (nested under /admin) ─────────────────────
       GoRoute(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme/cool_palette.dart';
@@ -11,6 +12,9 @@ class CoolErrorView extends StatelessWidget {
   const CoolErrorView({
     required this.message,
     this.onRetry,
+    this.onAction,
+    this.action,
+    this.actionLabel,
     this.icon = Icons.error_outline_rounded,
     this.compact = false,
     super.key,
@@ -22,11 +26,22 @@ class CoolErrorView extends StatelessWidget {
   /// Called when the user taps the retry button. If null, no button is shown.
   final VoidCallback? onRetry;
 
+  /// Alias for [onRetry].
+  final VoidCallback? onAction;
+
+  /// Alias for [onRetry].
+  final VoidCallback? action;
+
+  /// Optional label for the retry button. Defaults to 'Try Again'.
+  final String? actionLabel;
+
   /// Icon displayed above the message.
   final IconData icon;
 
   /// If true, renders in a more compact layout (for inline use in lists).
   final bool compact;
+
+  VoidCallback? get _onRetryAction => onRetry ?? onAction ?? action;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +71,10 @@ class CoolErrorView extends StatelessWidget {
                   ),
                   child: Icon(icon, size: iconSize, color: palette.red),
                 ),
-              ),
+              )
+              .animate()
+              .shake(duration: 500.ms, hz: 4)
+              .scale(begin: const Offset(0.8, 0.8), duration: 400.ms),
               SizedBox(height: spacing),
               Text(
                 message,
@@ -66,15 +84,15 @@ class CoolErrorView extends StatelessWidget {
                   color: palette.text2,
                   height: 1.5,
                 ),
-              ),
-              if (onRetry != null) ...[
+              ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
+              if (_onRetryAction != null) ...[
                 SizedBox(height: spacing + 4),
                 CoolButton(
-                  label: 'Try Again',
-                  onTap: onRetry!,
+                  label: actionLabel ?? 'Try Again',
+                  onTap: _onRetryAction!,
                   variant: CoolButtonVariant.secondary,
                   fullWidth: false,
-                ),
+                ).animate().fadeIn(delay: 400.ms).scale(begin: const Offset(0.95, 0.95)),
               ],
             ],
           ),

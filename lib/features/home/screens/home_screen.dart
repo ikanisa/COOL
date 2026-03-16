@@ -35,6 +35,9 @@ import '../providers/home_dashboard_provider.dart';
 import '../providers/nexus_provider.dart';
 import '../widgets/special_product_card.dart';
 import '../providers/quick_action_provider.dart';
+import '../../../core/status/widgets/referral_banner.dart';
+
+import 'package:flutter_animate/flutter_animate.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -88,118 +91,133 @@ class HomeScreen extends ConsumerWidget {
               child: ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding: CoolLayout.rootPagePadding,
-                children: [
-                  _HomeHeader(ref: ref, palette: palette, l10n: l10n),                  const SizedBox(height: 20),
-                  const _NexusRecommendationsSection(),
-                  const SizedBox(height: 24),
-                  _RayonSportCard(
-                    membershipAsync: ref.watch(rayonMembershipProvider),
-                    clubsAsync: ref.watch(rayonFanClubsProvider),
-                    matchesAsync: ref.watch(rayonMatchesProvider),
-                    initiativesAsync: ref.watch(rayonInitiativesProvider),
-                  ),
-                  const SizedBox(height: 14),
-                  dashboardAsync.when(
-                    data: (dashboard) => _GroupSavingsCard(data: dashboard),
-                    loading: () => const _OverviewLoadingCard(),
-                    error: (_, _) => _OverviewErrorCard(
-                      onRetry: () => ref.invalidate(homeDashboardProvider),
-                    ),
-                  ),
-                  const SizedBox(height: 14),
-                  ...ref
-                      .watch(activeSpecialProductsProvider)
-                      .maybeWhen(
-                        data: (products) => products.map(
-                          (p) => Padding(
-                            padding: const EdgeInsets.only(bottom: 14),
-                            child: SpecialProductCard(product: p),
-                          ),
-                        ),
-                        orElse: () => [const SizedBox.shrink()],
-                      ),
-                  const SizedBox(height: 10),
-                  SectionTitle(title: l10n.quickActions),
-                  const SizedBox(height: 12),
-                  Builder(
-                    builder: (context) {
-                      final actionsAsync = ref.watch(
-                        currentCountryQuickActionsProvider,
-                      );
-
-                      return actionsAsync.when(
-                        data: (actions) => _QuickActionListCard(
-                          items: actions
-                              .take(4)
-                              .map(
-                                (action) => _QuickActionData(
-                                  title: action.title,
-                                  message: action.subtitle ?? '',
-                                  route: action.route,
-                                ),
-                              )
-                              .toList(growable: false),
-                        ),
-                        loading: () => _QuickActionListCard(
-                          items: _fallbackQuickActions(l10n),
-                        ),
-                        error: (_, _) => _QuickActionListCard(
-                          items: _fallbackQuickActions(l10n),
-                        ),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 24),
-                  SectionTitle(
-                    title: l10n.recentActivity,
-                    actionLabel: l10n.statementsLabel,
-                    action: () => context.push(AppRoutes.momoStatements),
-                  ),
-                  const SizedBox(height: 12),
-                  dashboardAsync.when(
-                    data: (dashboard) => _RecentActivityCard(data: dashboard),
-                    loading: () => const _ActivityLoadingCard(),
-                    error: (_, _) => _OverviewErrorCard(
-                      onRetry: () => ref.invalidate(homeDashboardProvider),
-                    ),
-                  ),
-                  ref
-                      .watch(activeSeasonProvider)
-                      .when(
-                        data: (season) {
-                          if (season == null || !season.isLive) {
-                            return const SizedBox.shrink();
-                          }
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 24),
-                            child: SeasonBanner(season: season),
-                          );
-                        },
-                        loading: () => const SizedBox.shrink(),
-                        error: (_, _) => const SizedBox.shrink(),
-                      ),
-                  if (quests.isNotEmpty) ...[
-                    const SizedBox(height: 24),
-                    SectionTitle(
-                      title: l10n.homeMissionsTitle,
-                      actionLabel: l10n.openAction,
-                      action: () => context.push(AppRoutes.missions),
-                    ),
-                    const SizedBox(height: 12),
-                    SizedBox(
-                      height: 170,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: quests.take(3).length,
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(width: 10),
-                        itemBuilder: (context, index) {
-                          return QuestCard(quest: quests[index]);
-                        },
-                      ),
+                children: AnimateList(
+                  interval: 40.ms,
+                  effects: [
+                    FadeEffect(duration: 400.ms, curve: Curves.easeOut),
+                    SlideEffect(
+                      begin: const Offset(0, 0.05),
+                      end: Offset.zero,
+                      duration: 400.ms,
+                      curve: Curves.easeOutCubic,
                     ),
                   ],
-                ],
+                  children: [
+                    _HomeHeader(ref: ref, palette: palette, l10n: l10n),
+                    const SizedBox(height: 20),
+                    const _NexusRecommendationsSection(),
+                    const SizedBox(height: 14),
+                    const ReferralBanner(),
+                    const SizedBox(height: 24),
+                    _RayonSportCard(
+                      membershipAsync: ref.watch(rayonMembershipProvider),
+                      clubsAsync: ref.watch(rayonFanClubsProvider),
+                      matchesAsync: ref.watch(rayonMatchesProvider),
+                      initiativesAsync: ref.watch(rayonInitiativesProvider),
+                    ),
+                    const SizedBox(height: 14),
+                    dashboardAsync.when(
+                      data: (dashboard) => _GroupSavingsCard(data: dashboard),
+                      loading: () => const _OverviewLoadingCard(),
+                      error: (_, _) => _OverviewErrorCard(
+                        onRetry: () => ref.invalidate(homeDashboardProvider),
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+                    ...ref
+                        .watch(activeSpecialProductsProvider)
+                        .maybeWhen(
+                          data: (products) => products.map(
+                            (p) => Padding(
+                              padding: const EdgeInsets.only(bottom: 14),
+                              child: SpecialProductCard(product: p),
+                            ),
+                          ),
+                          orElse: () => [const SizedBox.shrink()],
+                        ),
+                    const SizedBox(height: 10),
+                    SectionTitle(title: l10n.quickActions),
+                    const SizedBox(height: 12),
+                    Builder(
+                      builder: (context) {
+                        final actionsAsync = ref.watch(
+                          currentCountryQuickActionsProvider,
+                        );
+
+                        return actionsAsync.when(
+                          data: (actions) => _QuickActionListCard(
+                            items: actions
+                                .take(4)
+                                .map(
+                                  (action) => _QuickActionData(
+                                    title: action.title,
+                                    subtitle: action.subtitle ?? '',
+                                    route: action.route,
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                          loading: () => _QuickActionListCard(
+                            items: _fallbackQuickActions(l10n),
+                          ),
+                          error: (_, _) => _QuickActionListCard(
+                            items: _fallbackQuickActions(l10n),
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    SectionTitle(
+                      title: l10n.recentActivity,
+                      actionLabel: l10n.statementsLabel,
+                      action: () => context.push(AppRoutes.momoStatements),
+                    ),
+                    const SizedBox(height: 12),
+                    dashboardAsync.when(
+                      data: (dashboard) => _RecentActivityCard(data: dashboard),
+                      loading: () => const _ActivityLoadingCard(),
+                      error: (_, _) => _OverviewErrorCard(
+                        onRetry: () => ref.invalidate(homeDashboardProvider),
+                      ),
+                    ),
+                    ref
+                        .watch(activeSeasonProvider)
+                        .when(
+                          data: (season) {
+                            if (season == null || !season.isLive) {
+                              return const SizedBox.shrink();
+                            }
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 24),
+                              child: SeasonBanner(season: season),
+                            );
+                          },
+                          loading: () => const SizedBox.shrink(),
+                          error: (_, _) => const SizedBox.shrink(),
+                        ),
+                    if (quests.isNotEmpty) ...[
+                      const SizedBox(height: 24),
+                      SectionTitle(
+                        title: l10n.homeMissionsTitle,
+                        actionLabel: l10n.openAction,
+                        action: () => context.push(AppRoutes.missions),
+                      ),
+                      const SizedBox(height: 12),
+                      SizedBox(
+                        height: 170,
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: quests.take(3).length,
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(width: 10),
+                          itemBuilder: (context, index) {
+                            return QuestCard(quest: quests[index]);
+                          },
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -208,6 +226,7 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 }
+
 
 // ─── Home Header: Title + Scanner + Driver Toggle ──────────────────────────
 
@@ -227,6 +246,7 @@ class _HomeHeader extends StatelessWidget {
     final user = ref.watch(authProvider).user;
     final isDriver = user?.isDriver ?? false;
     final mobilityState = ref.watch(mobilityProvider);
+    final locationState = ref.watch(mobilityLocationProvider);
     final isOnline = mobilityState.isDriverOnline;
     final isUpdating = mobilityState.isUpdatingDriverStatus;
 
@@ -284,9 +304,15 @@ class _HomeHeader extends StatelessWidget {
                 borderRadius: BorderRadius.circular(999),
                 onTap: isUpdating
                     ? null
-                    : () => ref
-                          .read(mobilityProvider.notifier)
-                          .toggleDriverOnline(),
+                    : () {
+                        final pos = locationState.position;
+                        ref
+                            .read(mobilityProvider.notifier)
+                            .toggleDriverOnline(
+                              pos?.latitude ?? 0,
+                              pos?.longitude ?? 0,
+                            );
+                      },
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 250),
                   curve: Curves.easeInOut,
@@ -825,7 +851,7 @@ class _QuickActionListCard extends StatelessWidget {
           for (var index = 0; index < visibleItems.length; index++) ...[
             _QuickActionRow(
               title: visibleItems[index].title,
-              message: visibleItems[index].subtitle,
+              subtitle: visibleItems[index].subtitle,
               route: visibleItems[index].route,
             ),
             if (index != visibleItems.length - 1)
@@ -858,22 +884,22 @@ List<_QuickActionData> _fallbackQuickActions(AppLocalizations l10n) {
   return <_QuickActionData>[
     _QuickActionData(
       title: l10n.navGroups,
-      message: l10n.homeFallbackGroupsSubtitle,
+      subtitle: l10n.homeFallbackGroupsSubtitle,
       route: AppRoutes.groups,
     ),
     _QuickActionData(
       title: l10n.homeActionPay,
-      message: l10n.homeFallbackPaySubtitle,
+      subtitle: l10n.homeFallbackPaySubtitle,
       route: AppRoutes.momo,
     ),
     _QuickActionData(
       title: l10n.partnersTitle,
-      message: l10n.homeFallbackPartnersSubtitle,
+      subtitle: l10n.homeFallbackPartnersSubtitle,
       route: AppRoutes.partners,
     ),
     _QuickActionData(
       title: l10n.homeActionTrips,
-      message: l10n.homeFallbackTripsSubtitle,
+      subtitle: l10n.homeFallbackTripsSubtitle,
       route: AppRoutes.mobility,
     ),
   ];
@@ -1241,8 +1267,7 @@ class _NexusCard extends StatelessWidget {
 }
 
 String _formatCurrency(
-int amount,
-...
+  int amount,
   String localeName, [
   String currency = 'RWF',
 ]) {

@@ -83,9 +83,9 @@ Deno.serve(async (req: Request) => {
   if (!authHeader) return errorResponse("Missing authorization.", 401);
 
   const userClient = createUserClient(authHeader);
-  const { data: { user }, error: authError } = await userClient.auth.getUser();
+  const { data: { session }, error: authError } = await userClient.auth.getSession();
 
-  if (authError || !user) return errorResponse("Unauthorized.", 401);
+  if (authError || !session || !session.user) return errorResponse("Unauthorized.", 401);
 
   let body;
   try {
@@ -94,29 +94,35 @@ Deno.serve(async (req: Request) => {
     body = {};
   }
 
-  const { latitude, longitude, timezone } = body;
+  const { latitude, longitude, timezone, calendarId: requestCalendarId } = body;
   const userLocationContext = (latitude && longitude) 
     ? `User is currently at latitude: ${latitude}, longitude: ${longitude}.` 
     : "User location is unknown.";
   const userTimezoneContext = timezone ? `User timezone: ${timezone}.` : "";
 
-  // In production, we'd map this dynamically per-user. 
-  // For demo/admin purposes we query the primary authenticated account.
-  const CALENDAR_ID = "info@ikanisa.com";
+  // Strategy: Try user's personal OAuth token first, fallback to service account
+  let token = session.provider_token;
+  let calendarId = "primary";
+
+  if (!token) {
+    token = await getWorkspaceAccessToken();
+    calendarId = requestCalendarId
+      || Deno.env.get("DEFAULT_CALENDAR_ID")
+      || "info@ikanisa.com";
+  }
 
   try {
-    const token = await getWorkspaceAccessToken();
     const timeMin = new Date().toISOString();
     
     // Fetch from Calendar API
-    const calUrl = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CALENDAR_ID)}/events?maxResults=5&singleEvents=true&orderBy=startTime&timeMin=${encodeURIComponent(timeMin)}`;
+    const calUrl = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events?maxResults=5&singleEvents=true&orderBy=startTime&timeMin=${encodeURIComponent(timeMin)}`;
     const calRes = await fetch(calUrl, {
       headers: { Authorization: `Bearer ${token}` }
     });
 
     if (!calRes.ok) {
       console.error("Calendar API returned non-OK:", await calRes.text());
-      return errorResponse(`Failed to fetch calendar for ${CALENDAR_ID}`, 502);
+      return errorResponse(`Failed to fetch calendar for ${calendarId}`, 502);
     }
 
     const calData = await calRes.json();

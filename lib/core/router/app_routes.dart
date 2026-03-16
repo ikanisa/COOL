@@ -40,6 +40,7 @@ abstract final class AppRoutes {
   static const creditReadiness = '/credit/readiness';
   static const missions = '/missions';
   static const tokens = '/tokens';
+  static const referral = '/referral';
   static const profile = '/profile';
   static const profileWallet = '/profile/wallet';
   static const profileIdentity = '/profile/identity';

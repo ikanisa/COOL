@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/cool_event.dart';
 import '../models/cool_status.dart';
+import '../models/cool_reward.dart';
 import '../repositories/cool_status_repository.dart';
 import '../../providers/supabase_client_provider.dart';
 
@@ -75,7 +76,31 @@ class CoolStatusNotifier extends StateNotifier<AsyncValue<CoolStatus>> {
       // Silent — streak maintenance is best-effort
     }
   }
+
+  /// Spend tokens to redeem a reward.
+  Future<bool> redeemReward({
+    required String userId,
+    required String rewardId,
+  }) async {
+    try {
+      final updated = await _repo.redeemReward(
+        userId: userId,
+        rewardId: rewardId,
+      );
+      state = AsyncValue.data(updated);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
 }
+
+// ─── Marketplace providers ───────────────────────────────────────
+
+final availableRewardsProvider = FutureProvider.autoDispose<List<CoolReward>>((ref) async {
+  final repo = ref.watch(coolStatusRepositoryProvider);
+  return repo.getAvailableRewards();
+});
 
 // ─── Recent events provider ───────────────────────────────────────
 

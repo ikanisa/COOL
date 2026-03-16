@@ -1,4 +1,5 @@
 import '../../../core/identity/public_user_identity.dart';
+import '../../../core/utils/json_helpers.dart' as jh;
 import 'trip_type.dart';
 
 class Trip {
@@ -64,12 +65,21 @@ class Trip {
     return normalized == 'active' || normalized == 'open';
   }
 
+  /// A trip is expired if its explicit `expiresAt` is past,
+  /// or the departure was more than 24 h ago and it's still "open".
+  bool get isExpired {
+    final now = DateTime.now();
+    if (expiresAt != null && now.isAfter(expiresAt!)) return true;
+    if (isActive && now.difference(departureTime).inHours > 24) return true;
+    return false;
+  }
+
   factory Trip.fromJson(Map<String, dynamic> json) {
     final role = json['role']?.toString();
     final repeatDays = _asStringList(
       json['repeat_days'] ?? json['recurring_days'],
     );
-    final profile = _asMap(json['profile']);
+    final profile = jh.asMapOrEmpty(json['profile']);
     final userId = json['user_id']?.toString();
     final contactPhone =
         json['contact_phone']?.toString() ??
@@ -81,7 +91,7 @@ class Trip {
       fromLocation: json['from_location']?.toString() ?? '',
       toLocation: json['to_location']?.toString() ?? '',
       departureTime:
-          _parseDateTime(
+          jh.parseDateTime(
             json['travel_time'] ??
                 json['departure_at'] ??
                 json['departure_time'],
@@ -93,25 +103,25 @@ class Trip {
           '',
       vehicleEmoji: json['vehicle_emoji']?.toString(),
       seats: _asInt(json['seats'] ?? json['seats_needed']),
-      isReturn: _asBool(json['is_return_trip']),
-      isRecurring: _asBool(json['is_recurring_trip']) || repeatDays.isNotEmpty,
+      isReturn: jh.asBool(json['is_return_trip']),
+      isRecurring: jh.asBool(json['is_recurring_trip']) || repeatDays.isNotEmpty,
       isDriverReturnTrip:
           _isDriverRole(role) ||
-          _asBool(json['is_driver_return_trip']) ||
+          jh.asBool(json['is_driver_return_trip']) ||
           json['trip_type']?.toString() == 'driver_return',
-      returnTime: _parseDateTime(json['return_at']),
-      expiresAt: _parseDateTime(json['expires_at']),
-      latitude: _asDouble(json['from_lat'] ?? json['latitude'] ?? json['lat']),
-      longitude: _asDouble(
+      returnTime: jh.parseDateTime(json['return_at']),
+      expiresAt: jh.parseDateTime(json['expires_at']),
+      latitude: jh.asDouble(json['from_lat'] ?? json['latitude'] ?? json['lat']),
+      longitude: jh.asDouble(
         json['from_lng'] ?? json['longitude'] ?? json['lng'],
       ),
-      destinationLatitude: _asDouble(
+      destinationLatitude: jh.asDouble(
         json['to_lat'] ?? json['destination_latitude'] ?? json['dropoff_lat'],
       ),
-      destinationLongitude: _asDouble(
+      destinationLongitude: jh.asDouble(
         json['to_lng'] ?? json['destination_longitude'] ?? json['dropoff_lng'],
       ),
-      distanceKm: _asDouble(json['distance_km']),
+      distanceKm: jh.asDouble(json['distance_km']),
       status: json['status']?.toString() ?? 'ACTIVE',
       role: role,
       repeatDays: repeatDays,
@@ -205,52 +215,8 @@ List<String> _asStringList(dynamic value) {
   return const <String>[];
 }
 
-double? _asDouble(dynamic value) {
-  if (value == null) {
-    return null;
-  }
-  if (value is double) {
-    return value;
-  }
-  if (value is num) {
-    return value.toDouble();
-  }
-  if (value is String) {
-    return double.tryParse(value);
-  }
-  return null;
-}
-
-bool _asBool(dynamic value) {
-  if (value is bool) {
-    return value;
-  }
-  if (value is num) {
-    return value != 0;
-  }
-  if (value is String) {
-    final normalized = value.toLowerCase().trim();
-    return normalized == 'true' || normalized == '1';
-  }
-  return false;
-}
-
-DateTime? _parseDateTime(dynamic value) {
-  if (value == null) {
-    return null;
-  }
-  return DateTime.tryParse(value.toString());
-}
-
-Map<String, dynamic> _asMap(dynamic value) {
-  if (value is Map<String, dynamic>) {
-    return value;
-  }
-  if (value is Map) {
-    return Map<String, dynamic>.from(value);
-  }
-  return const <String, dynamic>{};
-}
+// _asDouble, _asBool, _parseDateTime, _asMap consolidated into
+// core/utils/json_helpers.dart (imported as jh).
 
 bool _isDriverRole(String? value) {
   final normalized = value?.trim().toLowerCase();

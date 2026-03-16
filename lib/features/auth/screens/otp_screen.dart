@@ -226,7 +226,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                                 ),
                                 cursorColor: AppColors.accent,
                                 decoration: InputDecoration(
-                                  hintText: currentCountry.mobileExampleLocal,
+                                  hintText: currentCountry.mobileExampleNational,
                                   hintStyle: GoogleFonts.dmSans(
                                     fontSize: 16,
                                     color: AppColors.text3.withValues(
@@ -259,6 +259,15 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                     ],
 
                     const Spacer(),
+
+                    // ── Google Sign In ───────────────────────────────
+                    CoolButton(
+                      label: 'Continue with Google',
+                      onTap: () => ref.read(authProvider.notifier).signInWithGoogle(),
+                      isLoading: authState.isLoading,
+                      variant: CoolButtonVariant.secondary,
+                    ),
+                    const SizedBox(height: 12),
 
                     // ── CTA ───────────────────────────────────────────
                     CoolButton(

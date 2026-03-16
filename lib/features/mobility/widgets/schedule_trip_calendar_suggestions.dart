@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/providers/engagement_providers.dart';
 import '../../../core/theme/cool_palette.dart';
-import '../../../core/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../providers/calendar_suggestions_provider.dart';
 
 class ScheduleTripCalendarSuggestions extends ConsumerWidget {
@@ -72,7 +73,13 @@ class ScheduleTripCalendarSuggestions extends ConsumerWidget {
                   itemBuilder: (context, index) {
                     final s = suggestions[index];
                     return InkWell(
-                      onTap: () => onSuggestionSelected(s.promptText),
+                      onTap: () {
+                        ref.read(engagementTrackerProvider)
+                            .trackCalendarSuggestionSelected(
+                          suggestionTitle: s.title,
+                        );
+                        onSuggestionSelected(s.promptText);
+                      },
                       borderRadius: BorderRadius.circular(12),
                       child: Container(
                         padding: const EdgeInsets.symmetric(

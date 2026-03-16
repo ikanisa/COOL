@@ -41,6 +41,7 @@ class CoolStateView extends StatelessWidget {
     IconData icon = Icons.inbox_rounded,
     String? actionLabel,
     VoidCallback? onAction,
+    VoidCallback? action,
     bool compact = false,
     Key? key,
   }) {
@@ -51,7 +52,7 @@ class CoolStateView extends StatelessWidget {
       message: message,
       icon: icon,
       actionLabel: actionLabel,
-      action: onAction,
+      onAction: onAction ?? action,
       compact: compact,
     );
   }
@@ -61,6 +62,7 @@ class CoolStateView extends StatelessWidget {
     required String message,
     String? actionLabel,
     VoidCallback? onAction,
+    VoidCallback? action,
     bool compact = false,
     Key? key,
   }) {
@@ -71,7 +73,7 @@ class CoolStateView extends StatelessWidget {
       message: message,
       icon: Icons.wifi_off_rounded,
       actionLabel: actionLabel,
-      action: onAction,
+      onAction: onAction ?? action,
       compact: compact,
     );
   }
@@ -81,6 +83,7 @@ class CoolStateView extends StatelessWidget {
     required String message,
     String? actionLabel,
     VoidCallback? onAction,
+    VoidCallback? action,
     bool compact = false,
     Key? key,
   }) {
@@ -91,7 +94,7 @@ class CoolStateView extends StatelessWidget {
       message: message,
       icon: Icons.error_outline_rounded,
       actionLabel: actionLabel,
-      action: onAction,
+      onAction: onAction ?? action,
       compact: compact,
     );
   }
@@ -101,6 +104,7 @@ class CoolStateView extends StatelessWidget {
     required String message,
     String? actionLabel,
     VoidCallback? onAction,
+    VoidCallback? action,
     bool compact = false,
     Key? key,
   }) {
@@ -111,7 +115,7 @@ class CoolStateView extends StatelessWidget {
       message: message,
       icon: Icons.check_circle_outline_rounded,
       actionLabel: actionLabel,
-      action: onAction,
+      onAction: onAction ?? action,
       compact: compact,
     );
   }

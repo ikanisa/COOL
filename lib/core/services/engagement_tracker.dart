@@ -237,6 +237,102 @@ class EngagementTracker {
     );
   }
 
+  Future<void> trackPlaceAutocompleteRequested({
+    required String query,
+    required String source,
+  }) async {
+    await track(
+      EngagementEvent(
+        name: EngagementEventName.placeAutocompleteRequested,
+        parameters: <String, Object?>{
+          'query_length': query.length,
+          'source': source,
+        },
+      ),
+    );
+  }
+
+  Future<void> trackPlaceSelected({
+    required String placeLabel,
+    required bool hasCoordinates,
+    required String source,
+  }) async {
+    await track(
+      EngagementEvent(
+        name: EngagementEventName.placeSelected,
+        parameters: <String, Object?>{
+          'place_label': placeLabel,
+          'has_coordinates': hasCoordinates,
+          'source': source,
+        },
+      ),
+    );
+  }
+
+  Future<void> trackRoutePreviewLoaded({
+    required String origin,
+    required String destination,
+    required double? distanceKm,
+    required int? durationMinutes,
+  }) async {
+    await track(
+      EngagementEvent(
+        name: EngagementEventName.routePreviewLoaded,
+        parameters: <String, Object?>{
+          'origin': origin,
+          'destination': destination,
+          'distance_km': distanceKm,
+          'duration_min': durationMinutes,
+        },
+      ),
+    );
+  }
+
+  Future<void> trackTripPostStarted({
+    required String role,
+    required String vehicleType,
+  }) async {
+    await track(
+      EngagementEvent(
+        name: EngagementEventName.tripPostStarted,
+        parameters: <String, Object?>{
+          'role': role,
+          'veh_type': vehicleType,
+        },
+      ),
+    );
+  }
+
+  Future<void> trackSmartInputParsed({
+    required bool success,
+    required bool hasOrigin,
+    required bool hasDestination,
+  }) async {
+    await track(
+      EngagementEvent(
+        name: EngagementEventName.smartInputParsed,
+        parameters: <String, Object?>{
+          'success': success,
+          'has_origin': hasOrigin,
+          'has_destination': hasDestination,
+        },
+      ),
+    );
+  }
+
+  Future<void> trackCalendarSuggestionSelected({
+    required String suggestionTitle,
+  }) async {
+    await track(
+      EngagementEvent(
+        name: EngagementEventName.calendarSuggestionSelected,
+        parameters: <String, Object?>{
+          'suggestion_title': suggestionTitle,
+        },
+      ),
+    );
+  }
+
   Future<void> track(EngagementEvent event) async {
     await initialize();
     if (!_featureFlagsService.current.engagementEnabled || _analytics == null) {

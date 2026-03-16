@@ -24,7 +24,7 @@ class QuickAction {
     return QuickAction(
       id: json['id']?.toString() ?? '',
       title: json['title']?.toString() ?? '',
-      message: json['subtitle']?.toString(),
+      subtitle: json['subtitle']?.toString(),
       emoji: json['emoji']?.toString() ?? '⚡',
       route: json['route']?.toString() ?? '/',
       country: json['country']?.toString(),

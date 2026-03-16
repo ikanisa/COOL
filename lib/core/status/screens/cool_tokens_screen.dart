@@ -16,9 +16,12 @@ import '../../../features/auth/providers/auth_provider.dart';
 import '../../../features/partners/rayon/models/rs_models.dart';
 import '../models/cool_event.dart';
 import '../models/cool_leaderboard_entry.dart';
+import '../models/cool_reward.dart';
 import '../providers/cool_leaderboard_provider.dart';
 import '../providers/cool_missions_provider.dart';
+import '../../../shared/widgets/cool_toast.dart';
 import '../providers/cool_status_provider.dart';
+import '../widgets/referral_banner.dart';
 
 /// Full-page gamification hub for Cool Tokens.
 class CoolTokensScreen extends ConsumerWidget {
@@ -70,6 +73,8 @@ class CoolTokensScreen extends ConsumerWidget {
                     // ── 1. Hero Card (tier + points + progress) ──
                     if (status != null) ...[
                       CoolStatusCard(status: status),
+                      const SizedBox(height: 12),
+                      const ReferralBanner(),
                       const SizedBox(height: 20),
                     ],
 
@@ -106,6 +111,18 @@ class CoolTokensScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 8),
                     _ActiveMissionsSection(userId: userId),
+                    const SizedBox(height: 24),
+
+                    // ── 4.5 Rewards Marketplace ───────────────
+                    _SectionHeader(
+                      label: 'Rewards Marketplace',
+                      icon: Icons.redeem_rounded,
+                    ),
+                    const SizedBox(height: 10),
+                    _RewardsMarketplace(
+                      userId: userId,
+                      currentPoints: status?.totalPoints ?? 0,
+                    ),
                     const SizedBox(height: 24),
 
                     // ── 5. Top Earners ────────────────────────
@@ -472,6 +489,174 @@ class _LeaderboardRow extends StatelessWidget {
     3 => const Color(0xFFCD7F32), // bronze
     _ => AppColors.text2,
   };
+}
+
+// ─── Rewards marketplace ──────────────────────────────────────────
+
+class _RewardsMarketplace extends ConsumerWidget {
+  const _RewardsMarketplace({
+    required this.userId,
+    required this.currentPoints,
+  });
+
+  final String userId;
+  final int currentPoints;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final rewardsAsync = ref.watch(availableRewardsProvider);
+    final palette = context.coolPalette;
+
+    return rewardsAsync.when(
+      data: (rewards) {
+        if (rewards.isEmpty) {
+          return const CoolEmptyView(
+            message: 'No rewards available right now',
+            icon: Icons.redeem_outlined,
+            compact: true,
+          );
+        }
+        return Column(
+          children: [
+            for (final reward in rewards) ...[
+              _RewardItem(
+                reward: reward,
+                canAfford: currentPoints >= reward.tokenCost,
+                onRedeem: () => _handleRedeem(context, ref, reward),
+              ),
+              const SizedBox(height: 10),
+            ],
+          ],
+        );
+      },
+      loading: () => const CoolSkeletonList(itemCount: 2),
+      error: (_, __) => const CoolEmptyView(
+        message: 'Could not load rewards',
+        icon: Icons.error_outline_rounded,
+        compact: true,
+      ),
+    );
+  }
+
+  Future<void> _handleRedeem(
+    BuildContext context,
+    WidgetRef ref,
+    CoolReward reward,
+  ) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: context.coolPalette.surface,
+        title: Text(
+          'Redeem ${reward.title}?',
+          style: GoogleFonts.dmSans(fontWeight: FontWeight.w700),
+        ),
+        content: Text(
+          'This will cost ${reward.tokenCost} Cool Tokens.',
+          style: GoogleFonts.dmSans(),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(
+              'Cancel',
+              style: TextStyle(color: context.coolPalette.text3),
+            ),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(
+              'Redeem',
+              style: TextStyle(
+                color: context.coolPalette.accent,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true) {
+      final success = await ref
+          .read(coolStatusProvider.notifier)
+          .redeemReward(userId: userId, rewardId: reward.id);
+      if (context.mounted) {
+        if (success) {
+          CoolToast.show(context, message: 'Reward redeemed successfully!');
+        } else {
+          CoolToast.show(context, message: 'Failed to redeem reward.');
+        }
+      }
+    }
+  }
+}
+
+class _RewardItem extends StatelessWidget {
+  const _RewardItem({
+    required this.reward,
+    required this.canAfford,
+    required this.onRedeem,
+  });
+
+  final CoolReward reward;
+  final bool canAfford;
+  final VoidCallback onRedeem;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+    return CoolCard(
+      onTap: canAfford ? onRedeem : null,
+      child: Row(
+        children: [
+          Text(reward.emoji, style: const TextStyle(fontSize: 24)),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  reward.title,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: palette.text,
+                  ),
+                ),
+                Text(
+                  reward.description,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    color: palette.text3,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            decoration: BoxDecoration(
+              color: canAfford
+                  ? palette.accent.withValues(alpha: 0.12)
+                  : palette.border,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Text(
+              '${reward.tokenCost} pts',
+              style: GoogleFonts.dmSans(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: canAfford ? palette.accent : palette.text3,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 // ─── Section header ────────────────────────────────────────────────
