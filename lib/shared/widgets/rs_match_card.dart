@@ -98,9 +98,9 @@ class _RsMatchCardState extends State<RsMatchCard> {
           borderRadius: cardRadius,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.22),
-              blurRadius: 28,
-              offset: const Offset(0, 18),
+              color: Colors.black.withValues(alpha: 0.1),
+              blurRadius: 16,
+              offset: const Offset(0, 8),
             ),
           ],
         ),
@@ -110,34 +110,12 @@ class _RsMatchCardState extends State<RsMatchCard> {
           clipBehavior: Clip.antiAlias,
           child: Ink(
             decoration: BoxDecoration(
-              gradient: RsColors.rsCardGradient,
+              color: AppColors.surface,
               borderRadius: cardRadius,
               border: Border.all(color: AppColors.rsBlueBorder),
             ),
-            child: Stack(
-              children: [
-                Positioned(
-                  top: -36,
-                  right: -22,
-                  child: IgnorePointer(
-                    child: Container(
-                      width: 140,
-                      height: 140,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: RadialGradient(
-                          colors: [
-                            AppColors.rsBlueLight.withValues(alpha: 0.34),
-                            AppColors.rsBlueGlow,
-                            Colors.transparent,
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(cardPadding),
+            child: Padding(
+              padding: EdgeInsets.all(cardPadding),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -263,8 +241,6 @@ class _RsMatchCardState extends State<RsMatchCard> {
                     ],
                   ),
                 ),
-              ],
-            ),
           ),
         ),
       ),

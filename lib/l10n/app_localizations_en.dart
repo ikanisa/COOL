@@ -1156,7 +1156,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileDriverTools => 'Driver tools';
 
   @override
-  String get profileCoolStatus => 'Cool Tokens';
+  String get profileCoolStatus => 'COOL status';
 
   @override
   String get profileAdminPanel => 'Admin panel';
@@ -1257,7 +1257,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notSetLabel => 'Not set';
 
   @override
-  String get momoStatementsTitle => 'Statements';
+  String get momoStatementsTitle => 'Statements & Ledger';
 
   @override
   String get momoRefreshStatements => 'Refresh statements';

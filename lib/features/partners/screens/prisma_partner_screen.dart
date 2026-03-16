@@ -92,9 +92,9 @@ class _PrismaBody extends ConsumerWidget {
           const SizedBox(height: 16),
           PrismaQuickActions(partner: partner),
           const SizedBox(height: 16),
-          const PrismaStatsCard(),
+          PrismaStatsCard(partner: partner),
           const SizedBox(height: 16),
-          const PrismaValuesCard(),
+          PrismaValuesCard(partner: partner),
           const SizedBox(height: 18),
           servicesAsync.when(
             loading: () => const CoolSkeletonList(itemCount: 6),

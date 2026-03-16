@@ -208,6 +208,9 @@ class MomoWalletEntry {
     this.counterpartyName,
     this.reference,
     this.description,
+    this.momoTxId,
+    this.payerName,
+    this.payerPhone,
   });
 
   final String id;
@@ -222,11 +225,17 @@ class MomoWalletEntry {
   final String? counterpartyName;
   final String? reference;
   final String? description;
+  final String? momoTxId;
+  final String? payerName;
+  final String? payerPhone;
 
   bool get isCredit => entryType == 'credit';
   bool get isDebit => entryType == 'debit';
 
   factory MomoWalletEntry.fromJson(Map<String, dynamic> json) {
+    // Check if we have the joined momo_sms_parsed data
+    final parsedSms = json['momo_sms_parsed'] as Map<String, dynamic>? ?? const <String, dynamic>{};
+
     return MomoWalletEntry(
       id: json['id']?.toString() ?? '',
       entryType: json['entry_type']?.toString() ?? 'debit',
@@ -246,6 +255,9 @@ class MomoWalletEntry {
       counterpartyName: _nonEmpty(json['counterparty_name']),
       reference: _nonEmpty(json['external_reference']),
       description: _nonEmpty(json['description']),
+      momoTxId: _nonEmpty(parsedSms['momo_tx_id']),
+      payerName: _nonEmpty(parsedSms['payer_name']),
+      payerPhone: _nonEmpty(parsedSms['payer_number_full']) ?? _nonEmpty(parsedSms['payer_number_last3']),
     );
   }
 }

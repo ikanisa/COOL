@@ -297,8 +297,9 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
         value: packagesAsync,
         emptyCheck: (packages) => packages.isEmpty,
         emptyWidget: const CoolEmptyView(
-          message: 'No membership packages yet',
+          subtitle: 'No membership packages yet',
           compact: true,
+          isPremium: true,
         ),
         builder: (packages) => ListView(
           children: packages

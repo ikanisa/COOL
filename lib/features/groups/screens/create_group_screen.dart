@@ -160,14 +160,14 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
                       first: _TypeCard(
                         icon: Icons.account_balance_rounded,
                         title: 'Group Saving',
-                        subtitle: 'Bank custodian',
+                        message: 'Bank custodian',
                         isSelected: _isSaving,
                         onTap: () => setState(() => _type = 'saving'),
                       ),
                       second: _TypeCard(
                         icon: Icons.favorite_rounded,
                         title: 'Community Fund',
-                        subtitle: 'MOMO to creator',
+                        message: 'MOMO to creator',
                         isSelected: !_isSaving,
                         onTap: () => setState(() => _type = 'community'),
                       ),

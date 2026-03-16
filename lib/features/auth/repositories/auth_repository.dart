@@ -213,6 +213,32 @@ class AuthRepository {
     }
   }
 
+  Future<FaceMatchResult> verifyFaceMatch({
+    required String idImageBase64,
+    required String selfieBase64,
+    String? idMimeType,
+    String? selfieMimeType,
+  }) async {
+    final response = await _client.functions.invoke(
+      'verify-face-match',
+      body: <String, Object?>{
+        'idImageBase64': idImageBase64,
+        'selfieBase64': selfieBase64,
+        if (idMimeType != null) 'idMimeType': idMimeType,
+        if (selfieMimeType != null) 'selfieMimeType': selfieMimeType,
+      },
+    );
+
+    final payload = jh.asMap(response.data);
+    if (payload['success'] != true) {
+      throw StateError(
+        payload['message']?.toString() ?? 'Identity verification failed.',
+      );
+    }
+
+    return FaceMatchResult.fromJson(jh.asMap(payload['data']));
+  }
+
   Future<void> _persistProfileMetadata(UserProfile profile) async {
     final currentUser = _client.auth.currentUser;
     if (currentUser == null || currentUser.id != profile.id) {

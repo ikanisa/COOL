@@ -315,7 +315,7 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
                         color: palette.text,
                       ),
                     ),
-                    subtitle: Text(
+                    message: Text(
                       'Temporarily hide from others',
                       style: GoogleFonts.dmSans(
                         fontSize: 12,
@@ -359,7 +359,7 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
                         color: palette.text,
                       ),
                     ),
-                    subtitle: Text(
+                    message: Text(
                       'Make visible to others',
                       style: GoogleFonts.dmSans(
                         fontSize: 12,

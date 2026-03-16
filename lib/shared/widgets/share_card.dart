@@ -86,7 +86,7 @@ class ShareCard extends ConsumerWidget {
       appAccessService: ref.read(appAccessServiceProvider),
       multiSelect: false,
       title: 'Share via Contact',
-      subtitle: 'Select a contact to',
+      message: 'Select a contact to',
     );
 
     if (contacts.isEmpty) return;

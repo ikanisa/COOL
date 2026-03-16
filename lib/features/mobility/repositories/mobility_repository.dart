@@ -386,8 +386,8 @@ String? _normalizedVehicleType(String? vehicleType) {
   if (normalized.contains('truck')) {
     return 'truck';
   }
-  if (normalized.contains('liffan') || normalized.contains('van')) {
-    return 'liffan';
+  if (normalized.contains('trike') || normalized.contains('van')) {
+    return 'trike';
   }
   return normalized;
 }
@@ -400,8 +400,8 @@ String _vehicleLabel(String rawValue) {
       return 'Cab';
     case 'truck':
       return 'Truck';
-    case 'liffan':
-      return 'Liffan';
+    case 'trike':
+      return 'Trike';
     default:
       return rawValue.trim().isEmpty ? 'Vehicle' : rawValue.trim();
   }
@@ -415,7 +415,7 @@ String _vehicleEmoji(String rawValue) {
       return '🚗';
     case 'truck':
       return '🚛';
-    case 'liffan':
+    case 'trike':
       return '🚐';
     default:
       return '🚘';

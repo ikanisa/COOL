@@ -8,7 +8,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: CoolEmptyView(message: 'No items found'),
+            body: CoolEmptyView(subtitle: 'No items found'),
           ),
         ),
       );
@@ -21,7 +21,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: CoolEmptyView(message: 'Empty'),
+            body: CoolEmptyView(subtitle: 'Empty'),
           ),
         ),
       );

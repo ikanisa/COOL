@@ -31,7 +31,7 @@ class CoolCard extends StatelessWidget {
   /// screen readers will still announce this as a tappable element.
   final String? semanticsLabel;
 
-  static const _defaultRadius = 20.0;
+  static const _defaultRadius = 28.0;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class CoolCard extends StatelessWidget {
     final radius = borderRadius ?? _defaultRadius;
     final shape = RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(radius),
-      side: BorderSide(color: borderColor ?? palette.border),
+      side: BorderSide(color: borderColor ?? palette.border, width: 1.0),
     );
     final decoration = ShapeDecoration(
       shape: shape,
@@ -48,9 +48,9 @@ class CoolCard extends StatelessWidget {
       gradient: gradient,
       shadows: [
         BoxShadow(
-          color: Colors.black.withValues(alpha: isLight ? 0.08 : 0.06),
-          blurRadius: isLight ? 12 : 8,
-          offset: const Offset(0, 3),
+          color: Colors.black.withValues(alpha: isLight ? 0.04 : 0.08),
+          blurRadius: 12,
+          offset: const Offset(0, 4),
         ),
       ],
     );

@@ -127,7 +127,7 @@ class TicketConfirmationScreen extends ConsumerWidget {
                         ShareCard(
                           title: l10n.ticketShareMatchTitle,
                           icon: Icons.sports_soccer_rounded,
-                          subtitle: ticket.matchTitle,
+                          message: ticket.matchTitle,
                           shareUrl: DeepLinkConfig.matchUri(
                             ticket.matchId,
                           ).toString(),
@@ -173,28 +173,28 @@ _TicketStatusMeta _statusMeta(RsTicketStatus status, AppLocalizations l10n) {
   return switch (status) {
     RsTicketStatus.pending => _TicketStatusMeta(
       title: l10n.ticketStatusPendingTitle,
-      subtitle: l10n.ticketStatusPendingSubtitle,
+      message: l10n.ticketStatusPendingSubtitle,
       note: l10n.ticketStatusPendingNote,
       icon: Icons.hourglass_top_rounded,
       color: AppColors.rsGold,
     ),
     RsTicketStatus.valid => _TicketStatusMeta(
       title: l10n.ticketStatusValidTitle,
-      subtitle: l10n.ticketStatusValidSubtitle,
+      message: l10n.ticketStatusValidSubtitle,
       note: l10n.ticketStatusValidNote,
       icon: Icons.check_rounded,
       color: AppColors.accent,
     ),
     RsTicketStatus.used => _TicketStatusMeta(
       title: l10n.ticketStatusUsedTitle,
-      subtitle: l10n.ticketStatusUsedSubtitle,
+      message: l10n.ticketStatusUsedSubtitle,
       note: l10n.ticketStatusUsedNote,
       icon: Icons.check_circle_outline_rounded,
       color: AppColors.text3,
     ),
     RsTicketStatus.cancelled => _TicketStatusMeta(
       title: l10n.ticketStatusCancelledTitle,
-      subtitle: l10n.ticketStatusCancelledSubtitle,
+      message: l10n.ticketStatusCancelledSubtitle,
       note: l10n.ticketStatusCancelledNote,
       icon: Icons.block_rounded,
       color: AppColors.red,

@@ -221,7 +221,7 @@ void main() {
     slug: 'rayon-sports',
     category: PartnerCategory.football,
     country: 'RW',
-    subtitle: 'Club experience',
+    message: 'Club experience',
     fanCount: 23000,
     clubCount: 18,
     gameCount: 4,
@@ -345,7 +345,7 @@ void main() {
                 QuickAction(
                   id: 'momo',
                   title: 'MoMo',
-                  subtitle: 'Pay and statements',
+                  message: 'Pay and statements',
                   route: '/momo',
                 ),
               ],

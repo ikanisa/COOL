@@ -16,7 +16,7 @@ Create or join savings and contribution groups. Track member contributions, set 
 Send money via MTN Rwanda MoMo USSD. Auto-verify incoming MoMo payment confirmations via SMS. View transaction statements and generate QR codes for easy payment.
 
 **Mobility**
-Find nearby drivers (cab, moto, liffan, truck). Schedule trips, browse the trip board, and connect with trusted drivers via WhatsApp.
+Find nearby drivers (cab, moto, trike, truck). Schedule trips, browse the trip board, and connect with trusted drivers via WhatsApp.
 
 **Partner Services**
 Browse partner shops, access Rayon club merchandise, and discover local services.

@@ -61,7 +61,7 @@ void main() {
           slug: 'bk-bank',
           category: PartnerCategory.bank,
           country: 'RW',
-          subtitle: 'Flexible lending for active wallet users',
+          message: 'Flexible lending for active wallet users',
         ),
       ];
 

@@ -6,6 +6,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_palette.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../core/theme/rs_text_styles.dart';
 import '../../../../features/auth/models/user_profile.dart';
@@ -92,15 +93,21 @@ class _FanProfileScreenState extends ConsumerState<FanProfileScreen> {
                       onRecoverMembership: () => _ensureMembership(context),
                     ),
                   ),
-                  const SizedBox(height: 24),
-                  Text(
-                    'Achievements',
-                    style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
+                  const SizedBox(height: 32),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8, bottom: 12),
+                    child: Text(
+                      'ACHIEVEMENTS'.toUpperCase(),
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 1.2,
+                        color: RsColors.rsWhite.withValues(alpha: 0.5),
+                      ),
+                    ),
                   ),
-                  const SizedBox(height: 12),
                   achievementsAsync.when(
                     data: (achievements) => SizedBox(
-                      height: 106,
+                      height: 120,
                       child: achievements.isEmpty
                           ? const _EmptyStrip(
                               message: 'No achievements unlocked yet.',
@@ -108,8 +115,9 @@ class _FanProfileScreenState extends ConsumerState<FanProfileScreen> {
                           : ListView.separated(
                               scrollDirection: Axis.horizontal,
                               itemCount: achievements.length,
+                              padding: const EdgeInsets.symmetric(horizontal: 4),
                               separatorBuilder: (context, index) =>
-                                  const SizedBox(width: 14),
+                                  const SizedBox(width: 16),
                               itemBuilder: (context, index) =>
                                   RsAchievementBadge(
                                     achievement: achievements[index],
@@ -117,24 +125,30 @@ class _FanProfileScreenState extends ConsumerState<FanProfileScreen> {
                             ),
                     ),
                     loading: () => const SizedBox(
-                      height: 106,
+                      height: 120,
                       child: _AchievementSkeletonRow(),
                     ),
                     error: (error, stackTrace) => const SizedBox(
-                      height: 106,
+                      height: 120,
                       child: _EmptyStrip(message: 'Achievements unavailable.'),
                     ),
                   ),
-                  const SizedBox(height: 24),
-                  Text(
-                    'Recent Orders',
-                    style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
+                  const SizedBox(height: 32),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8, bottom: 12),
+                    child: Text(
+                      'RECENT ORDERS'.toUpperCase(),
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 1.2,
+                        color: RsColors.rsWhite.withValues(alpha: 0.5),
+                      ),
+                    ),
                   ),
-                  const SizedBox(height: 12),
                   _RecentOrdersSection(
                     ordersAsync: ordersAsync,
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 32),
                   membershipAsync.when(
                     data: (membership) =>
                         _PerksAccessCard(membership: membership, user: user),
@@ -166,166 +180,174 @@ class _ProfileHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fanName = membership?.displayName ?? user?.displayUserId ?? '000000';
+    final fanName = membership?.displayName ?? user?.displayUserId ?? '';
     final tier = membership?.tier ?? FanTier.blue;
     final chapter = membership?.chapter ?? 'Official membership pending';
-    final joinedYear = membership?.joinedAt.year;
     final fanId = _displayId(user, membership);
     final initials = _initials(fanName);
     final progressMeta = membership == null
         ? null
         : _progressMeta(membership!.points, tier);
 
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(22),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: RsColors.rsHeroGradient,
-          borderRadius: BorderRadius.circular(22),
-          border: Border.all(color: RsColors.rsBlueBorder),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 64,
-                    height: 64,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: const LinearGradient(
-                        colors: [RsColors.rsBlueLight, RsColors.rsBlue],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      border: Border.all(color: AppColors.rsWhite, width: 2),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      initials,
-                      style: GoogleFonts.barlowCondensed(
-                        fontSize: 26,
-                        fontWeight: FontWeight.w900,
-                        color: AppColors.rsWhite,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          fanName,
-                          style: GoogleFonts.barlow(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w800,
-                            color: AppColors.rsWhite,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          fanId,
-                          style: GoogleFonts.dmMono(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.text2,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Row(
-                          children: [
-                            RsTierBadge(tier: tier),
-                            const SizedBox(width: 10),
-                            _ChapterChip(label: chapter),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 18),
-              if (progressMeta != null)
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: RsColors.rsHeroGradient,
+        borderRadius: BorderRadius.circular(28),
+        border: Border.all(color: RsColors.rsBlueBorder, width: 1.5),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.15),
+            blurRadius: 32,
+            offset: const Offset(0, 12),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
                 Container(
-                  padding: const EdgeInsets.all(14),
+                  width: 72,
+                  height: 72,
                   decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.18),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            'Fan Points',
-                            style: GoogleFonts.barlow(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.rsWhite,
-                            ),
-                          ),
-                          const Spacer(),
-                          Flexible(
-                            child: Text(
-                              '${progressMeta.current} / ${progressMeta.threshold} pts → ${progressMeta.targetTierLabel}',
-                              textAlign: TextAlign.end,
-                              style: GoogleFonts.dmMono(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.rsGoldLight,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      RsProgressBar(
-                        progress: progressMeta.progress,
-                        fillColor: RsColors.rsGold,
-                        height: 10,
+                    shape: BoxShape.circle,
+                    gradient: const LinearGradient(
+                      colors: [RsColors.rsBlueLight, RsColors.rsBlue],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    border: Border.all(color: AppColors.rsWhite, width: 2.5),
+                    boxShadow: [
+                      BoxShadow(
+                        color: RsColors.rsBlue.withValues(alpha: 0.3),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
                       ),
                     ],
                   ),
-                )
-              else
-                Container(
-                  padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.18),
-                    borderRadius: BorderRadius.circular(12),
+                  alignment: Alignment.center,
+                  child: Text(
+                    initials,
+                    style: RsTextStyles.clubName(color: AppColors.rsWhite).copyWith(fontSize: 24),
                   ),
+                ),
+                const SizedBox(width: 18),
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'No membership found yet',
-                        style: GoogleFonts.barlow(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.rsWhite,
-                          height: 1.45,
-                        ),
+                        fanName,
+                        style: RsTextStyles.clubName(color: AppColors.rsWhite),
                       ),
-                      const SizedBox(height: 14),
-                      CoolButton(
-                        label: 'Create / Restore Membership',
-                        onTap: () {
-                          onRecoverMembership();
-                        },
-                        isLoading: isRecoveringMembership,
-                        icon: Icons.verified_user_outlined,
+                      const SizedBox(height: 4),
+                      Text(
+                        fanId,
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          color: AppColors.rsWhite.withValues(alpha: 0.6),
+                          letterSpacing: 0.5,
+                        ),
                       ),
                     ],
                   ),
                 ),
-            ],
-          ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                RsTierBadge(tier: tier),
+                const SizedBox(width: 10),
+                _ChapterChip(label: chapter),
+              ],
+            ),
+            const SizedBox(height: 24),
+            if (progressMeta != null)
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.25),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: RsColors.rsBlueBorder, width: 1),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'FAN POINTS',
+                          style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 1.0,
+                            color: AppColors.rsWhite,
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          '${progressMeta.current} / ${progressMeta.threshold} pts',
+                          style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            color: RsColors.rsGoldLight,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    RsProgressBar(
+                      progress: progressMeta.progress,
+                      fillColor: RsColors.rsGold,
+                      height: 12,
+                    ),
+                    const SizedBox(height: 12),
+                    Center(
+                      child: Text(
+                        'Next Tier: ${progressMeta.targetTierLabel}'.toUpperCase(),
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.rsWhite.withValues(alpha: 0.5),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            else
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.25),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: RsColors.rsBlueBorder, width: 1),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Become an official member to unlock exclusive club perks.',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: AppColors.rsWhite.withValues(alpha: 0.8),
+                        height: 1.5,
+                      ),
+                    ),
+                    const SizedBox(height: 18),
+                    CoolButton(
+                      label: 'Create / Restore Membership',
+                      onTap: () {
+                        onRecoverMembership();
+                      },
+                      isLoading: isRecoveringMembership,
+                      icon: Icons.verified_user_outlined,
+                    ),
+                  ],
+                ),
+              ),
+          ],
         ),
       ),
     );

@@ -106,8 +106,9 @@ class _RsAdminOrdersScreenState extends ConsumerState<RsAdminOrdersScreen> {
         ),
         emptyCheck: (orders) => orders.isEmpty,
         emptyWidget: const CoolEmptyView(
-          message: 'No shop orders yet',
+          subtitle: 'No shop orders yet',
           icon: Icons.shopping_bag_outlined,
+          isPremium: true,
         ),
         builder: (orders) {
           final filtered = _statusFilter == 'all'
@@ -115,8 +116,9 @@ class _RsAdminOrdersScreenState extends ConsumerState<RsAdminOrdersScreen> {
               : orders.where((o) => o.status.value == _statusFilter).toList();
           if (filtered.isEmpty) {
             return const CoolEmptyView(
-              message: 'No orders match this filter',
+              subtitle: 'No orders match this filter',
               icon: Icons.filter_list_off_rounded,
+              isPremium: true,
             );
           }
           return ListView.separated(

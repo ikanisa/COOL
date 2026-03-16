@@ -147,7 +147,7 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
     );
 
     final driver = DriverProfileData(
-      name: profile?.fullName ?? currentUser?.displayUserId ?? '000000',
+      name: profile?.fullName ?? currentUser?.displayUserId ?? '',
       driverId:
           '#${profile?.fullName ?? currentUser?.displayUserId ?? shortDriverId(profile?.userId ?? currentUser?.id)}',
       rating: profile?.rating ?? 0,
@@ -215,7 +215,7 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
           const SizedBox(height: 18),
           _DriverSectionIntro(
             title: todaysTrips.isNotEmpty ? 'Today\'s trips' : 'Upcoming trips',
-            subtitle: visibleTrips.isEmpty
+            message: visibleTrips.isEmpty
                 ? 'No trips posted yet.'
                 : '',
           ),

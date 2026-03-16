@@ -44,7 +44,7 @@ class ContactPickerSheet extends StatefulWidget {
       builder: (_) => ContactPickerSheet._(
         multiSelect: multiSelect,
         title: title,
-        subtitle: subtitle,
+        message: subtitle,
         appAccessService: appAccessService,
         onSelected: (contacts) => Navigator.of(context).pop(contacts),
       ),
@@ -407,7 +407,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
         message:
             'You\'ve permanently denied contacts',
         actionLabel: 'Open Settings',
-        onAction: _openContactsSettings,
+        action: _openContactsSettings,
       );
     }
 
@@ -418,7 +418,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
         message:
             'Contacts access is currently',
         actionLabel: 'Enable Contacts',
-        onAction: _enableContactsAccess,
+        action: _enableContactsAccess,
       );
     }
 
@@ -430,7 +430,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
         message:
             'Cool needs access to',
         actionLabel: 'Allow Access',
-        onAction: _requestContactsPermission,
+        action: _requestContactsPermission,
       );
     }
 
@@ -441,7 +441,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
         title: 'Something went wrong',
         message: _error!,
         actionLabel: 'Retry',
-        onAction: _loadContacts,
+        action: _loadContacts,
       );
     }
 

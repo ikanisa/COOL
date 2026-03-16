@@ -928,7 +928,7 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
                       color: AppColors.text,
                     ),
                   ),
-                  subtitle: Text(
+                  message: Text(
                     'Immediately blocks the feature',
                     style: GoogleFonts.dmSans(
                       fontSize: 12,
@@ -951,7 +951,7 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
                       color: AppColors.text,
                     ),
                   ),
-                  subtitle: Text(
+                  message: Text(
                     'Requires admin access even',
                     style: GoogleFonts.dmSans(
                       fontSize: 12,

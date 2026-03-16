@@ -116,8 +116,8 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
                     DecoratedBox(
                       decoration: BoxDecoration(
                         color: AppColors.surface2,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppColors.border),
+                        borderRadius: BorderRadius.circular(18),
+                        border: Border.all(color: AppColors.border, width: 1.5),
                       ),
                       child: TabBar(
                         controller: _tabController,
@@ -125,27 +125,21 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
                         indicatorSize: TabBarIndicatorSize.tab,
                         indicator: BoxDecoration(
                           color: RsColors.rsBlue,
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(14),
                         ),
                         dividerHeight: 0,
                         labelColor: Colors.white,
                         unselectedLabelColor: AppColors.text3,
-                        labelStyle: GoogleFonts.barlow(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        unselectedLabelStyle: GoogleFonts.barlow(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        padding: const EdgeInsets.all(3),
+                        labelStyle: RsTextStyles.badge(color: Colors.white).copyWith(fontSize: 13),
+                        unselectedLabelStyle: RsTextStyles.badge(color: AppColors.text3).copyWith(fontSize: 13, fontWeight: FontWeight.w600),
+                        padding: const EdgeInsets.all(4),
                         tabs: [
-                          Tab(text: 'On Sale (${onSale.length})', height: 36),
+                          Tab(text: 'On Sale (${onSale.length})', height: 40),
                           Tab(
                             text: 'Upcoming (${upcoming.length})',
-                            height: 36,
+                            height: 40,
                           ),
-                          const Tab(text: 'My Tickets', height: 36),
+                          const Tab(text: 'My Tickets', height: 40),
                         ],
                       ),
                     ),
@@ -343,7 +337,7 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
       isScrollControlled: true,
       backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
       builder: (sheetCtx) => _TicketPurchaseSheet(
         match: match,
@@ -502,48 +496,47 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
 
     return Padding(
       padding: EdgeInsets.fromLTRB(
-        20,
+        22,
         16,
-        20,
-        MediaQuery.of(context).viewInsets.bottom + 24,
+        22,
+        MediaQuery.of(context).viewInsets.bottom + 32,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           // Handle
           Container(
-            width: 40,
+            width: 44,
             height: 4,
             decoration: BoxDecoration(
               color: AppColors.border2,
-              borderRadius: BorderRadius.circular(2),
+              borderRadius: BorderRadius.circular(99),
             ),
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 24),
 
           // Match summary
           RsMatchCard(match: match, isCompact: true, onBuyTap: () {}),
-          const SizedBox(height: 18),
+          const SizedBox(height: 24),
 
           // Seat type selector
           Text(
             'SEAT TYPE',
-            style: GoogleFonts.barlow(
-              fontSize: 11,
-              fontWeight: FontWeight.w800,
-              color: AppColors.text2,
-              letterSpacing: 1,
-            ),
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 1.2,
+                  color: AppColors.text3,
+                ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           Row(
             children: SelectedSeatType.values.map((type) {
               final selected = type == _seat;
               return Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(
-                    right: type == SelectedSeatType.general ? 6 : 0,
-                    left: type == SelectedSeatType.vip ? 6 : 0,
+                    right: type == SelectedSeatType.general ? 8 : 0,
+                    left: type == SelectedSeatType.vip ? 8 : 0,
                   ),
                   child: Semantics(
                     selected: selected,
@@ -552,41 +545,42 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
                       onTap: () => setState(() => _seat = type),
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 180),
-                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
                         decoration: BoxDecoration(
-                          color: selected
-                              ? RsColors.rsBlue
-                              : AppColors.surface2,
-                          borderRadius: BorderRadius.circular(12),
+                          color:
+                              selected ? RsColors.rsBlue : AppColors.surface2,
+                          borderRadius: BorderRadius.circular(18),
                           border: Border.all(
                             color: selected
                                 ? RsColors.rsBlueBorder
                                 : AppColors.border,
+                            width: 1.5,
                           ),
                         ),
                         alignment: Alignment.center,
                         child: Column(
                           children: [
                             Text(
-                              type.label,
-                              style: GoogleFonts.barlowCondensed(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w800,
-                                color: selected
-                                    ? Colors.white
-                                    : AppColors.text2,
-                              ),
+                              type.label.toUpperCase(),
+                              style: RsTextStyles.clubName(
+                                      color: selected
+                                          ? Colors.white
+                                          : AppColors.text)
+                                  .copyWith(fontSize: 16),
                             ),
-                            const SizedBox(height: 2),
+                            const SizedBox(height: 4),
                             Text(
                               '${type.priceFor(match)} RWF',
-                              style: GoogleFonts.dmMono(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w600,
-                                color: selected
-                                    ? Colors.white70
-                                    : AppColors.text3,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: GoogleFonts.dmMono().fontFamily,
+                                    color: selected
+                                        ? Colors.white70
+                                        : AppColors.text3,
+                                  ),
                             ),
                           ],
                         ),
@@ -597,25 +591,24 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
               );
             }).toList(),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24),
 
           // Quantity selector
           Text(
             'QUANTITY',
-            style: GoogleFonts.barlow(
-              fontSize: 11,
-              fontWeight: FontWeight.w800,
-              color: AppColors.text2,
-              letterSpacing: 1,
-            ),
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 1.2,
+                  color: AppColors.text3,
+                ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [1, 2, 3].map((q) {
               final selected = q == _qty;
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 6),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Semantics(
                   selected: selected,
                   label: 'Quantity $q',
@@ -623,25 +616,29 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
                     onTap: () => setState(() => _qty = q),
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 180),
-                      width: 52,
-                      height: 44,
+                      width: 60,
+                      height: 52,
                       decoration: BoxDecoration(
                         color: selected ? RsColors.rsBlue : AppColors.surface2,
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                         border: Border.all(
                           color: selected
                               ? RsColors.rsBlueBorder
                               : AppColors.border,
+                          width: 1.5,
                         ),
                       ),
                       alignment: Alignment.center,
                       child: Text(
                         '$q',
-                        style: GoogleFonts.dmMono(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: selected ? Colors.white : AppColors.text2,
-                        ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall
+                            ?.copyWith(
+                              fontWeight: FontWeight.w900,
+                              fontFamily: GoogleFonts.dmMono().fontFamily,
+                              color: selected ? Colors.white : AppColors.text,
+                            ),
                       ),
                     ),
                   ),
@@ -649,31 +646,31 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
               );
             }).toList(),
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 32),
 
           // Total
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Column(
             children: [
               Text(
-                'Total:',
-                style: GoogleFonts.barlow(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.text2,
-                ),
+                'Total Amount',
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.text2,
+                    ),
               ),
+              const SizedBox(height: 4),
               Text(
                 '${NumberFormat.decimalPattern('en').format(_total)} RWF',
-                style: GoogleFonts.dmMono(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: RsColors.rsGoldLight,
-                ),
+                style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                      fontWeight: FontWeight.w900,
+                      fontFamily: GoogleFonts.dmMono().fontFamily,
+                      color: RsColors.rsGoldLight,
+                      letterSpacing: -1.0,
+                    ),
               ),
             ],
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 32),
 
           CoolCard(
             borderColor: RsColors.rsBlueBorder,
@@ -682,41 +679,40 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
               children: [
                 Text(
                   widget.paymentRoute == null
-                      ? 'Rayon Sports payment routing pending'
-                      : '${widget.paymentRoute!.partnerName} checkout',
-                  style: GoogleFonts.barlow(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.rsWhite,
-                  ),
+                      ? 'RAYON SPORTS PAYMENT ROUTING PENDING'
+                      : '${widget.paymentRoute!.partnerName.toUpperCase()} CHECKOUT',
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 0.8,
+                        color: AppColors.rsWhite,
+                      ),
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 8),
                 Text(
                   widget.paymentRoute == null
                       ? 'No active backend route'
                       : widget.paymentRoute!.ussdCode(_total),
-                  style: GoogleFonts.dmMono(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: RsColors.rsGoldLight,
-                  ),
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.w900,
+                        fontFamily: GoogleFonts.dmMono().fontFamily,
+                        color: RsColors.rsGoldLight,
+                      ),
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 8),
                 Text(
                   widget.paymentRoute == null
                       ? 'An admin must activate a recipient code before ticket checkout can open.'
                       : 'Pay to ${widget.paymentRoute!.payToLabel}. Amount ${widget.paymentRoute!.amountLabel(_total)}. Fees ${widget.paymentRoute!.feesLabel()}. Ticket entry unlocks after SMS reconciliation for ${widget.paymentRoute!.reconciliationLabel}.',
-                  style: GoogleFonts.barlow(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
-                    height: 1.35,
-                  ),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.rsWhite.withValues(alpha: 0.7),
+                        height: 1.5,
+                      ),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 24),
 
           // Pay button
           CoolButton(

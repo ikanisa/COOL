@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:cool_app/features/mobility/models/trip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_card.dart';
@@ -21,7 +20,7 @@ const _fallbackVehicleFilters = [
   MobilityVehicleFilter(label: 'Moto', value: 'Moto'),
   MobilityVehicleFilter(label: 'Cab', value: 'Cab'),
   MobilityVehicleFilter(label: 'Truck', value: 'Truck'),
-  MobilityVehicleFilter(label: 'Liffan', value: 'Liffan'),
+  MobilityVehicleFilter(label: 'Trike', value: 'Trike'),
 ];
 
 final mobilityVehicleFiltersProvider = Provider<List<MobilityVehicleFilter>>((
@@ -186,17 +185,17 @@ class _MobilityTabBar extends StatelessWidget {
     final onPrimary = Theme.of(context).colorScheme.onPrimary;
 
     const tabs = [
-      (icon: Icons.people_outline_rounded, label: 'Nearby Drivers'),
+      (icon: Icons.people_outline_rounded, label: 'Nearby'),
       (icon: Icons.route_rounded, label: 'Trips'),
       (icon: Icons.add_circle_outline_rounded, label: 'Schedule'),
     ];
 
     return Container(
-      padding: const EdgeInsets.all(3),
+      padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         color: AppColors.surface2,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: AppColors.border, width: 1.5),
       ),
       child: Row(
         children: [
@@ -210,12 +209,12 @@ class _MobilityTabBar extends StatelessWidget {
                   onTap: () => onChanged(i),
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
-                    padding: const EdgeInsets.symmetric(vertical: 9),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
                     decoration: BoxDecoration(
                       color: activeIndex == i
                           ? AppColors.accent
                           : Colors.transparent,
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(14),
                     ),
                     alignment: Alignment.center,
                     child: Row(
@@ -223,23 +222,20 @@ class _MobilityTabBar extends StatelessWidget {
                       children: [
                         Icon(
                           tabs[i].icon,
-                          size: 15,
+                          size: 18,
                           color: activeIndex == i
                               ? onPrimary
                               : AppColors.text2,
                         ),
-                        const SizedBox(width: 4),
+                        const SizedBox(width: 6),
                         Flexible(
                           child: Text(
                             tabs[i].label,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.dmSans(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: activeIndex == i
-                                  ? onPrimary
-                                  : AppColors.text2,
+                            style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                              fontWeight: activeIndex == i ? FontWeight.w800 : FontWeight.w600,
+                              color: activeIndex == i ? onPrimary : AppColors.text2,
                             ),
                           ),
                         ),
@@ -314,14 +310,15 @@ class _RoleIcon extends StatelessWidget {
         onTap: onTap,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           decoration: BoxDecoration(
             color: isActive
                 ? AppColors.accent.withValues(alpha: 0.15)
                 : AppColors.surface3,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(14),
             border: Border.all(
               color: isActive ? AppColors.accent : AppColors.border,
+              width: 1.5,
             ),
           ),
           child: Row(
@@ -329,17 +326,16 @@ class _RoleIcon extends StatelessWidget {
             children: [
               Icon(
                 icon,
-                size: 16,
+                size: 18,
                 color: isActive ? AppColors.accent : AppColors.text3,
               ),
-              const SizedBox(width: 4),
+              const SizedBox(width: 8),
               Text(
                 label,
-                style: GoogleFonts.dmSans(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w600,
-                  color: isActive ? AppColors.accent : AppColors.text2,
-                ),
+                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      fontWeight: FontWeight.w800,
+                      color: isActive ? AppColors.accent : AppColors.text2,
+                    ),
               ),
             ],
           ),
@@ -378,6 +374,7 @@ class MobilityContentSliver extends ConsumerWidget {
       0 => SliverPadding(
         padding: const EdgeInsets.fromLTRB(18, 14, 18, 0),
         sliver: _buildDriverSliver(
+          ref,
           locationState: locationState,
           isLoading: isLoading,
           error: error,
@@ -397,7 +394,8 @@ class MobilityContentSliver extends ConsumerWidget {
     };
   }
 
-  Widget _buildDriverSliver({
+  Widget _buildDriverSliver(
+    WidgetRef ref, {
     required MobilityLocationState locationState,
     required bool isLoading,
     required String? error,
@@ -418,6 +416,7 @@ class MobilityContentSliver extends ConsumerWidget {
 
     return MobilityNearbyDriversSliver(
       drivers: drivers,
+      selectedVehicle: ref.watch(mobilitySelectedVehicleProvider),
       onPreviewTap: onDriverPreviewTap,
       onWhatsAppTap: onDriverWhatsAppTap,
     );
@@ -457,19 +456,24 @@ class MobilityContentSliver extends ConsumerWidget {
 class MobilityNearbyDriversSliver extends StatelessWidget {
   const MobilityNearbyDriversSliver({
     required this.drivers,
+    required this.selectedVehicle,
     required this.onPreviewTap,
     required this.onWhatsAppTap,
     super.key,
   });
 
   final List<DriverInfo> drivers;
+  final String selectedVehicle;
   final ValueChanged<DriverInfo> onPreviewTap;
   final ValueChanged<DriverInfo> onWhatsAppTap;
 
   @override
   Widget build(BuildContext context) {
     if (drivers.isEmpty) {
-      return _MobilityStatusSliver(message: 'No drivers found for');
+      final message = selectedVehicle == 'All'
+          ? 'No nearby drivers found.'
+          : 'No nearby drivers found for ${selectedVehicle.toLowerCase()}.';
+      return _MobilityStatusSliver(message: message);
     }
 
     return SliverMainAxisGroup(
@@ -557,16 +561,15 @@ class _MobilityStatusSliver extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 32),
+        padding: const EdgeInsets.symmetric(vertical: 48),
         child: Center(
           child: Text(
             message,
             textAlign: TextAlign.center,
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w400,
-              color: color,
-            ),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: color,
+                  fontWeight: FontWeight.w500,
+                ),
           ),
         ),
       ),

@@ -85,8 +85,9 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
         ),
         emptyCheck: (products) => products.isEmpty,
         emptyWidget: const CoolEmptyView(
-          message: 'No shop products yet',
+          subtitle: 'No shop products yet',
           icon: Icons.inventory_2_outlined,
+          isPremium: true,
         ),
         builder: (products) => ListView.separated(
           padding: EdgeInsets.zero,

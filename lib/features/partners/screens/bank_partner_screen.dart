@@ -8,7 +8,7 @@ import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../models/partner.dart';
 import '../providers/partner_provider.dart';
-import '../widgets/bank_partner_config.dart';
+import '../providers/partner_service_provider.dart';
 import '../widgets/bank_partner_widgets.dart';
 import '../widgets/partner_navigation.dart';
 import '../widgets/partner_shared_widgets.dart';
@@ -88,16 +88,31 @@ class _BankBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final config = bankConfigForSlug(partner.slug);
+    final servicesAsync = ref.watch(partnerServicesProvider(partner.id));
 
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          BankHero(partner: partner, config: config),
+          BankHero(partner: partner),
           const SizedBox(height: 16),
-          BankQuickActionGrid(partner: partner, config: config),
+          servicesAsync.when(
+            data: (services) => BankServiceGrid(
+              partner: partner,
+              services: services,
+            ),
+            loading: () => const Padding(
+              padding: EdgeInsets.symmetric(vertical: 24),
+              child: Center(child: CircularProgressIndicator()),
+            ),
+            error: (error, _) => Center(
+              child: Text(
+                'Could not load services',
+                style: GoogleFonts.dmSans(color: AppColors.text3),
+              ),
+            ),
+          ),
         ],
       ),
     );

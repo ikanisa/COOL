@@ -17,13 +17,16 @@ import '../../../core/status/models/cool_event.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../core/utils/intl_locale.dart';
 import '../../auth/providers/auth_provider.dart';
+import '../../../core/providers/supabase_client_provider.dart';
 import '../providers/driver_provider.dart';
 import '../providers/mobility_location_provider.dart';
 import '../providers/mobility_provider.dart';
 import '../services/place_search_service.dart';
 import '../widgets/schedule_trip_place_search_sheet.dart';
-
 import '../widgets/schedule_trip_step_widgets.dart';
+import '../widgets/schedule_trip_calendar_suggestions.dart';
+import '../widgets/schedule_trip_route_widgets.dart';
+
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_toast.dart';
@@ -54,6 +57,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
   final _fromController = TextEditingController();
   final _toController = TextEditingController();
   final _priceNoteController = TextEditingController();
+  final _smartInputController = TextEditingController();
 
   late DateTime _selectedDate;
   TimeOfDay _selectedTime = const TimeOfDay(hour: 7, minute: 0);
@@ -72,6 +76,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
   bool _loadingRoutePreview = false;
   String? _routePreviewError;
   int _routePreviewRequestId = 0;
+  bool _isParsingSmartInput = false;
 
   ScheduleTripPostingRole _postingRole = ScheduleTripPostingRole.passenger;
   bool _showAdditionalDetails = false;
@@ -96,6 +101,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
     _fromController.dispose();
     _toController.dispose();
     _priceNoteController.dispose();
+    _smartInputController.dispose();
     super.dispose();
   }
 
@@ -181,6 +187,23 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
                       ),
                       const SizedBox(height: 20),
 
+                      // ── GWS Calendar Suggestions ──────────────────────
+                      ScheduleTripCalendarSuggestions(
+                        onSuggestionSelected: (String prompt) {
+                          _smartInputController.text = prompt;
+                          unawaited(_parseSmartInput());
+                        },
+                      ),
+                      const SizedBox(height: 12),
+
+                      // ── Smart Input ──────────────────────────────────
+                      ScheduleTripSmartInputCard(
+                        controller: _smartInputController,
+                        isParsing: _isParsingSmartInput,
+                        onParseTap: () => unawaited(_parseSmartInput()),
+                      ),
+                      const SizedBox(height: 20),
+
                       // ── Route ──────────────────────────────────
                       ScheduleTripRouteStep(
                         isDriverPosting: isDriverPosting,
@@ -188,23 +211,17 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
                         toController: _toController,
                         fromSelection: _fromSelection,
                         toSelection: _toSelection,
-                        isResolvingCurrentLocation:
-                            _resolvingCurrentLocation,
+                        isResolvingCurrentLocation: _resolvingCurrentLocation,
                         routePreview: _routePreview,
                         loadingRoutePreview: _loadingRoutePreview,
                         resolvingTypedRoute: _resolvingTypedRoute,
                         routePreviewError: _routePreviewError,
                         locationState: locationState,
                         shouldShowLocationCard:
-                            _shouldShowLocationAttachmentCard(
-                              locationState,
-                            ),
-                        onFromSearchTap: () =>
-                            _openPlaceSearch(isOrigin: true),
-                        onToSearchTap: () =>
-                            _openPlaceSearch(isOrigin: false),
-                        onUseCurrentLocationTap:
-                            _useCurrentLocationForPickup,
+                            _shouldShowLocationAttachmentCard(locationState),
+                        onFromSearchTap: () => _openPlaceSearch(isOrigin: true),
+                        onToSearchTap: () => _openPlaceSearch(isOrigin: false),
+                        onUseCurrentLocationTap: _useCurrentLocationForPickup,
                         onEnableLocation: () {
                           ref
                               .read(mobilityLocationProvider.notifier)
@@ -299,8 +316,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
                             setState(() => _seats = value),
                         onToggleDetails: () {
                           setState(() {
-                            _showAdditionalDetails =
-                                !_showAdditionalDetails;
+                            _showAdditionalDetails = !_showAdditionalDetails;
                           });
                         },
                       ),
@@ -366,9 +382,7 @@ class _ScheduleTripRoleRow extends StatelessWidget {
         child: Row(
           children: [
             Icon(
-              isDriver
-                  ? Icons.directions_car_rounded
-                  : Icons.person_rounded,
+              isDriver ? Icons.directions_car_rounded : Icons.person_rounded,
               size: 20,
               color: palette.accent,
             ),
@@ -383,11 +397,7 @@ class _ScheduleTripRoleRow extends StatelessWidget {
                 ),
               ),
             ),
-            Icon(
-              Icons.swap_horiz_rounded,
-              size: 20,
-              color: palette.text3,
-            ),
+            Icon(Icons.swap_horiz_rounded, size: 20, color: palette.text3),
           ],
         ),
       ),

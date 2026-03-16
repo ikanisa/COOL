@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/config/country_catalog.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/services/momo_service.dart';
+import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../core/utils/phone_validator.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_text_field.dart';
 import '../../../shared/widgets/cool_toast.dart';
+import '../providers/momo_risk_provider.dart';
+import 'momo_risk_warning_sheet.dart';
 
 // ═════════════════════════════════════════════════════════════════════════════
 // SEND MONEY BOTTOM SHEET
 // ═════════════════════════════════════════════════════════════════════════════
 
-class MomoSendMoneySheet extends StatefulWidget {
+class MomoSendMoneySheet extends ConsumerStatefulWidget {
   const MomoSendMoneySheet({
     required this.country,
     required this.momoNumber,
@@ -37,10 +41,10 @@ class MomoSendMoneySheet extends StatefulWidget {
   final MomoRecipientType initialRecipientType;
 
   @override
-  State<MomoSendMoneySheet> createState() => _MomoSendMoneySheetState();
+  ConsumerState<MomoSendMoneySheet> createState() => _MomoSendMoneySheetState();
 }
 
-class _MomoSendMoneySheetState extends State<MomoSendMoneySheet> {
+class _MomoSendMoneySheetState extends ConsumerState<MomoSendMoneySheet> {
   final _recipientController = TextEditingController();
   final _amountController = TextEditingController();
   late MomoRecipientType _recipientType;
@@ -84,6 +88,33 @@ class _MomoSendMoneySheetState extends State<MomoSendMoneySheet> {
     setState(() => _isSubmitting = true);
 
     try {
+      // ── Guardian AI: Real-time Risk Prevention ──
+      final risk = await ref.read(momoRiskProvider.notifier).evaluateRisk(
+        recipientNumber: recipient,
+        amount: amount,
+        currency: widget.country.currencyCode,
+      );
+
+      if (risk != null) {
+        if (risk.shouldBlock) {
+          if (mounted) {
+            CoolToast.error(context, 'Transaction blocked for your safety: ${risk.reason}');
+            setState(() => _isSubmitting = false);
+          }
+          return;
+        }
+
+        if (risk.shouldWarn) {
+          if (mounted) {
+            final proceed = await MomoRiskWarningSheet.show(context, risk);
+            if (proceed != true) {
+              setState(() => _isSubmitting = false);
+              return;
+            }
+          }
+        }
+      }
+
       await widget.momoService.initiatePayment(
         recipientMomo: recipient,
         amount: amount,

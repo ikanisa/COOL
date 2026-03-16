@@ -50,7 +50,7 @@ class _ScheduleTripRoleSheet extends StatelessWidget {
               const SizedBox(height: 18),
               _ScheduleTripRoleSheetOption(
                 label: 'Passenger',
-                subtitle: 'Default mode',
+                message: 'Default mode',
                 selected: selectedRole == ScheduleTripPostingRole.passenger,
                 onTap: () => Navigator.of(
                   context,
@@ -59,7 +59,7 @@ class _ScheduleTripRoleSheet extends StatelessWidget {
               Divider(color: palette.border),
               _ScheduleTripRoleSheetOption(
                 label: 'Driver',
-                subtitle: canScheduleAsDriver
+                message: canScheduleAsDriver
                     ? 'Post as driver'
                     : 'Setup required',
                 selected: selectedRole == ScheduleTripPostingRole.driver,
@@ -106,7 +106,7 @@ class _ScheduleTripRoleSheetOption extends StatelessWidget {
           color: palette.text,
         ),
       ),
-      subtitle: Text(
+      message: Text(
         subtitle,
         style: GoogleFonts.dmSans(
           fontSize: 12,

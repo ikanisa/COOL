@@ -26,7 +26,7 @@ void main() {
           slug: 'rayon-sports',
           category: PartnerCategory.football,
           country: 'RW',
-          subtitle: 'Club experience',
+          message: 'Club experience',
           fanCount: 23000,
           clubCount: 18,
           gameCount: 4,

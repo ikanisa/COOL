@@ -318,7 +318,7 @@ class RayonSportsRepository {
     return RayonSportsAdminRepository(this).upsertMembershipPackage(
       tier: tier,
       title: title,
-      subtitle: subtitle,
+      message: subtitle,
       description: description,
       benefits: benefits,
       isActive: isActive,

@@ -74,7 +74,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
               const SizedBox(height: 24),
               const AppConfigSectionHeader(
                 title: 'Rollout Governance',
-                subtitle:
+                message:
                     'Manage kill switches rollout',
               ),
               const SizedBox(height: 12),
@@ -92,7 +92,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
               const SizedBox(height: 12),
               const AppConfigSectionHeader(
                 title: 'Mobility Subscription Recipient',
-                subtitle:
+                message:
                     'Set the MoMo code',
               ),
               const SizedBox(height: 12),
@@ -141,7 +141,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
               const SizedBox(height: 12),
               const AppConfigSectionHeader(
                 title: 'Partner Payment Routes',
-                subtitle:
+                message:
                     'Manage Rwanda partner checkout',
               ),
               const SizedBox(height: 12),
@@ -206,7 +206,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
               const SizedBox(height: 12),
               const AppConfigSectionHeader(
                 title: 'Additional Config',
-                subtitle:
+                message:
                     'Use the generic config',
               ),
               const SizedBox(height: 12),

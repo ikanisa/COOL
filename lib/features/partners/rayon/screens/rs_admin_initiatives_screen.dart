@@ -121,8 +121,9 @@ class _RsAdminInitiativesScreenState
         ),
         emptyCheck: (initiatives) => initiatives.isEmpty,
         emptyWidget: const CoolEmptyView(
-          message: 'No initiatives created yet',
+          subtitle: 'No initiatives created yet',
           icon: Icons.flag_outlined,
+          isPremium: true,
         ),
         builder: (initiatives) {
           final filtered = _categoryFilter == 'all'
@@ -132,8 +133,9 @@ class _RsAdminInitiativesScreenState
                     .toList();
           if (filtered.isEmpty) {
             return const CoolEmptyView(
-              message: 'No initiatives in this category',
+              subtitle: 'No initiatives in this category',
               icon: Icons.filter_list_off_rounded,
+              isPremium: true,
             );
           }
           return ListView.separated(

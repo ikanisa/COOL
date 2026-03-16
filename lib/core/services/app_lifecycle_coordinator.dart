@@ -14,6 +14,7 @@ import 'trip_sync_coordinator.dart';
 class AppLifecycleCoordinator {
   AppLifecycleCoordinator({
     required Future<void> Function() refreshFeatureFlags,
+    required Future<void> Function() refreshSupportedCountries,
     required AuthState Function() readAuthState,
     required EngagementTracker engagementTracker,
     required CrashlyticsService crashlytics,
@@ -25,6 +26,7 @@ class AppLifecycleCoordinator {
     required MomoService momoService,
     required AppUpdateService appUpdateService,
   }) : _refreshFeatureFlags = refreshFeatureFlags,
+       _refreshSupportedCountries = refreshSupportedCountries,
        _readAuthState = readAuthState,
        _engagementTracker = engagementTracker,
        _crashlytics = crashlytics,
@@ -37,6 +39,7 @@ class AppLifecycleCoordinator {
        _appUpdateService = appUpdateService;
 
   final Future<void> Function() _refreshFeatureFlags;
+  final Future<void> Function() _refreshSupportedCountries;
   final AuthState Function() _readAuthState;
   final EngagementTracker _engagementTracker;
   final CrashlyticsService _crashlytics;
@@ -56,7 +59,10 @@ class AppLifecycleCoordinator {
     }
     _started = true;
 
-    await _refreshFeatureFlags();
+    await Future.wait([
+      _refreshFeatureFlags(),
+      _refreshSupportedCountries(),
+    ]);
     await _engagementTracker.initialize();
     await _crashlytics.initialize();
     await _performance.initialize();

@@ -387,7 +387,7 @@ class DriverNotifier extends StateNotifier<DriverState> {
       userId: userId,
       fullName: fullName?.isNotEmpty == true
           ? fullName!
-          : user?.displayUserId ?? '000000',
+          : user?.displayUserId ?? '',
       vehicleType: vehicleType?.isNotEmpty == true ? vehicleType! : 'Moto Taxi',
       isOnline: false,
       credits: 15,

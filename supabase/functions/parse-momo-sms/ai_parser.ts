@@ -174,44 +174,42 @@ export function getAiProvider(explicit?: string): AiProvider {
 
 export function getModel(provider: AiProvider): string {
   if (provider === "gemini") {
-    // default to gemini-3.1-pro as the most authoritative parsing model.
-    return Deno.env.get("GEMINI_SMS_PARSE_MODEL") ?? "gemini-3.1-pro";
+    // gemini-2.0-flash is the optimum production model for speed and parsing precision.
+    return Deno.env.get("GEMINI_SMS_PARSE_MODEL") ?? "gemini-2.0-flash";
   }
-  // OpenAI fallback remains on gpt-4.1-mini or equivalent.
-  return Deno.env.get("OPENAI_SMS_PARSE_MODEL") ?? "gpt-4.1-mini";
+  // OpenAI fallback remains on gpt-4o-mini for optimum cost/performance.
+  return Deno.env.get("OPENAI_SMS_PARSE_MODEL") ?? "gpt-4o-mini";
 }
 
-export function buildPrompt(record: RawSmsRecord): string {
+export function buildPrompt(record: RawSmsRecord, lessons: string[] = []): string {
   return [
-    "You are parsing a Mobile Money SMS into a normalized finance record for lending analysis.",
-    "Extract exact fields when present. Do not guess hidden digits.",
-    "Return JSON only matching the schema.",
+    "You are an expert financial analyst parsing Mobile Money SMS into normalized records.",
+    "Your goal is 100% accuracy for lending risk assessment.",
+    "Extract exact fields. Do not guess or hallucinate hidden data.",
+    "If a field is missing, return null.",
     "",
+    "### LEARNED RULES FROM USER FEEDBACK",
+    ...(lessons.length > 0 ? lessons : ["No specific overrides learned yet."]),
+    "",
+    "### CONTEXT",
     `User ID: ${record.user_id}`,
     `Sender: ${record.sender}`,
-    `Provider hint: ${record.provider ?? "unknown"}`,
-    `Country hint: ${record.country ?? "unknown"}`,
-    `SMS received at: ${record.sms_received_at}`,
-    `Detected tx type: ${record.detected_tx_type ?? "unknown"}`,
-    `Detected amount: ${record.detected_amount ?? "unknown"}`,
-    `Detected tx id: ${record.detected_tx_id ?? "unknown"}`,
+    `Provider: ${record.provider ?? "unknown"}`,
+    `Country: ${record.country ?? "unknown"}`,
+    `Timestamp: ${record.sms_received_at}`,
     "",
-    "SMS body:",
+    "### SMS BODY",
     record.sms_body,
     "",
-    "Important field rules:",
-    "- amount is an integer in RWF if possible",
-    "- tx_date format: YYYY-MM-DD or null",
-    "- tx_time format: HH:MM:SS or null",
-    "- tx_datetime_iso format: ISO-8601 or null",
-    "- tx_category should be concrete, for example: salary, transfer_in, transfer_out, merchant_payment, group_contribution, cash_in, cash_out, airtime, fees, loan_disbursement, loan_repayment, uncategorized",
-    "- cashflow_bucket must be one of income, expense, savings, transfer, loan, fees, unknown",
-    "- counterparty_name should contain the official sender or receiver name shown in the SMS",
-    "- ai_summary should be a short user-facing summary of the transaction in one sentence",
-    "- recurring_pattern_hint must be one of recurring, seasonal, one_off, unknown",
-    "- payer_number_last3 must contain only the visible last 3 digits when available",
-    "- payee_number_or_code can contain a phone number, merchant code, or paybill code",
-    "- parse_status should be 'needs_review' when confidence is low or key values are missing",
+    "### EXTRACTION RULES",
+    "1. MATHEMATICAL INTEGRITY: Ensure (amount + fee_amount) logic is consistent with the text.",
+    "2. CATEGORIZATION: Use precise categories (salary, merchant_payment, cash_out, airtime, loan_repayment).",
+    "3. BUCKETING: Assign to income, expense, savings, transfer, loan, or fees.",
+    "4. DATETIME: Extract tx_date as YYYY-MM-DD and tx_time as HH:MM:SS.",
+    "5. CONFIDENCE: Set confidence to < 0.8 if the text is ambiguous or truncated.",
+    "6. SUMMARY: Provide a concise user-facing summary in one sentence.",
+    "",
+    "Return JSON only matching the schema.",
   ].join("\n");
 }
 
@@ -222,22 +220,19 @@ export async function callOpenAi(
   const apiKey = options.apiKey ?? requireEnv("OPENAI_API_KEY");
   const model = options.model ?? getModel("openai");
   const fetchFn = options.fetchFn ?? fetch;
+  
+  // Use gpt-4o-mini's structured output capability.
   const requestPayload = {
     model,
-    input: [
+    messages: [
       {
         role: "user",
-        content: [
-          {
-            type: "input_text",
-            text: prompt,
-          },
-        ],
+        content: prompt,
       },
     ],
-    text: {
-      format: {
-        type: "json_schema",
+    response_format: {
+      type: "json_schema",
+      json_schema: {
         name: "momo_sms_parse",
         schema: parsedSmsJsonSchema,
         strict: true,
@@ -245,7 +240,7 @@ export async function callOpenAi(
     },
   };
 
-  const response = await fetchFn("https://api.openai.com/v1/responses", {
+  const response = await fetchFn("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -274,28 +269,13 @@ export async function callOpenAi(
 export function extractOpenAiText(
   responseBody: Record<string, unknown>,
 ): string {
-  const outputText = responseBody["output_text"];
-  if (typeof outputText === "string" && outputText.trim().length > 0) {
-    return outputText;
-  }
-
-  const output = responseBody["output"];
-  if (Array.isArray(output)) {
-    for (const item of output) {
-      if (!item || typeof item !== "object") continue;
-      const content = (item as Record<string, unknown>)["content"];
-      if (!Array.isArray(content)) continue;
-      for (const part of content) {
-        if (!part || typeof part !== "object") continue;
-        const text = (part as Record<string, unknown>)["text"] ??
-          (part as Record<string, unknown>)["output_text"];
-        if (typeof text === "string" && text.trim().length > 0) {
-          return text;
-        }
-      }
+  const choices = responseBody["choices"];
+  if (Array.isArray(choices) && choices.length > 0) {
+    const message = choices[0]?.message;
+    if (message?.content) {
+      return message.content;
     }
   }
-
   throw new Error("OpenAI response did not contain structured output text");
 }
 
@@ -306,6 +286,8 @@ export async function callGemini(
   const apiKey = options.apiKey ?? requireEnv("GEMINI_API_KEY");
   const model = options.model ?? getModel("gemini");
   const fetchFn = options.fetchFn ?? fetch;
+  
+  // Apply the same strict response schema used in KYC for 100% optimum reliability.
   const requestPayload = {
     contents: [
       {
@@ -315,6 +297,8 @@ export async function callGemini(
     ],
     generationConfig: {
       responseMimeType: "application/json",
+      responseSchema: parsedSmsJsonSchema,
+      temperature: 0.1, // Near-zero for optimum determinism
     },
   };
 
@@ -394,23 +378,37 @@ function normalizeJsonText(value: string): string {
 export function normalizeParsedSms(
   payload: Record<string, unknown>,
 ): ParsedSms {
-  const parseStatus = oneOf(
+  let parseStatus = oneOf(
     payload["parse_status"],
     ["parsed", "needs_review", "failed"],
     "needs_review",
   ) as ParsedSms["parse_status"];
+
   const txDirection = oneOf(
     payload["tx_direction"],
     ["credit", "debit", "unknown"],
     "unknown",
   ) as ParsedSms["tx_direction"];
+  
+  const amount = asNullableInt(payload["amount"]);
+  const feeAmount = asNullableInt(payload["fee_amount"]);
+  const balanceAfter = asNullableInt(payload["balance_after"]);
+
+  // OPTIMUM ROBUSTNESS: Mathematical Cross-Check
+  // If we have amount and fee but they aren't consistent with other fields, flag for review.
+  let confidence = clampNumber(payload["confidence"], 0, 1, 0);
+  if (amount === null || amount <= 0) {
+    parseStatus = "needs_review";
+    confidence = Math.min(confidence, 0.4);
+  }
+
   const txCategory = asString(payload["tx_category"]) ??
     asString(payload["tx_type"]) ??
     "uncategorized";
 
   return {
     parse_status: parseStatus,
-    confidence: clampNumber(payload["confidence"], 0, 1, 0),
+    confidence: confidence,
     tx_direction: txDirection,
     tx_type: asString(payload["tx_type"]) ?? "unknown",
     tx_category: txCategory,
@@ -420,7 +418,7 @@ export function normalizeParsedSms(
       "unknown",
     ) as ParsedSms["cashflow_bucket"],
     momo_tx_id: asString(payload["momo_tx_id"]),
-    amount: asNullableInt(payload["amount"]),
+    amount: amount,
     currency: asString(payload["currency"]) ?? "RWF",
     tx_date: asString(payload["tx_date"]),
     tx_time: asString(payload["tx_time"]),
@@ -431,8 +429,8 @@ export function normalizeParsedSms(
     payee_name: asString(payload["payee_name"]),
     payee_number_or_code: asString(payload["payee_number_or_code"]),
     merchant_code: asString(payload["merchant_code"]),
-    fee_amount: asNullableInt(payload["fee_amount"]),
-    balance_after: asNullableInt(payload["balance_after"]),
+    fee_amount: feeAmount,
+    balance_after: balanceAfter,
     counterparty_name: asString(payload["counterparty_name"]) ??
       (txDirection == "credit"
         ? asString(payload["payer_name"]) ?? asString(payload["payee_name"])

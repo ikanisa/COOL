@@ -5,7 +5,6 @@ import 'package:cool_app/core/models/geo_point.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../auth/providers/auth_provider.dart';
 import '../../../core/l10n/l10n.dart';
@@ -218,12 +217,7 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
                 sliver: SliverToBoxAdapter(
                   child: Text(
                     l10n.navMobility,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 34,
-                      fontWeight: FontWeight.w800,
-                      color: palette.text,
-                      height: 1.1,
-                    ),
+                    style: Theme.of(context).textTheme.displayLarge,
                   ),
                 ),
               ),

@@ -205,8 +205,7 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
   bool get _paymentRequestActive =>
       _paymentRequestAmount != null && _paymentRequestAmount! > 0;
 
-  bool get _canGenerate =>
-      _paymentRequestActive && _activeRecipientRaw.isNotEmpty;
+  bool get _canGenerate => _activeRecipientRaw.isNotEmpty;
 
   MomoQrPayload get _payload => _paymentRequestActive
       ? MomoQrPayload.paymentRequest(
@@ -266,7 +265,7 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
 
   void _generateQr() {
     if (!_canGenerate) {
-      CoolToast.error(context, 'Enter amount and MoMo number');
+      CoolToast.error(context, 'Enter your MoMo number or code');
       return;
     }
     setState(() => _qrGenerated = true);
@@ -431,7 +430,7 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'Enter amount to generate QR',
+                      'Enter your MoMo details to generate QR',
                       style: GoogleFonts.dmSans(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,

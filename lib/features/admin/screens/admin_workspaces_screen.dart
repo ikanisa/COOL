@@ -60,13 +60,13 @@ class AdminWorkspacesScreen extends ConsumerWidget {
             const SizedBox(height: 24),
             const _SectionHeader(
               title: 'Platform',
-              subtitle:
+              message:
                   'Global app operations content',
             ),
             const SizedBox(height: 12),
             _WorkspaceCard(
               title: 'Platform Admin',
-              subtitle:
+              message:
                   'Users partners services app',
               icon: Icons.admin_panel_settings_outlined,
               onTap: () => context.push(AppRoutes.adminPlatform),
@@ -76,7 +76,7 @@ class AdminWorkspacesScreen extends ConsumerWidget {
             const SizedBox(height: 24),
             const _SectionHeader(
               title: 'Partner Workspaces',
-              subtitle:
+              message:
                   'Partner-scoped admin surfaces for',
             ),
             const SizedBox(height: 12),
@@ -93,7 +93,7 @@ class AdminWorkspacesScreen extends ConsumerWidget {
                               padding: const EdgeInsets.only(bottom: 12),
                               child: _WorkspaceCard(
                                 title: partner.name,
-                                subtitle: partner.slug == 'rayon-sports'
+                                message: partner.slug == 'rayon-sports'
                                     ? 'Open the current Rayon Sports admin workspace.'
                                     : 'Open the partner workspace foundation.',
                                 icon: Icons.storefront_rounded,
@@ -121,7 +121,7 @@ class AdminWorkspacesScreen extends ConsumerWidget {
             const SizedBox(height: 24),
             const _SectionHeader(
               title: 'Bank Custodian Workspaces',
-              subtitle:
+              message:
                   'Group savings oversight ledgers',
             ),
             const SizedBox(height: 12),
@@ -138,7 +138,7 @@ class AdminWorkspacesScreen extends ConsumerWidget {
                               padding: const EdgeInsets.only(bottom: 12),
                               child: _WorkspaceCard(
                                 title: bank.name,
-                                subtitle:
+                                message:
                                     'Open the bank custodian',
                                 icon: Icons.account_balance_rounded,
                                 onTap: () => context.push(

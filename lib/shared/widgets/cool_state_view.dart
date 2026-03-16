@@ -51,7 +51,7 @@ class CoolStateView extends StatelessWidget {
       message: message,
       icon: icon,
       actionLabel: actionLabel,
-      onAction: onAction,
+      action: onAction,
       compact: compact,
     );
   }
@@ -71,7 +71,7 @@ class CoolStateView extends StatelessWidget {
       message: message,
       icon: Icons.wifi_off_rounded,
       actionLabel: actionLabel,
-      onAction: onAction,
+      action: onAction,
       compact: compact,
     );
   }
@@ -91,7 +91,7 @@ class CoolStateView extends StatelessWidget {
       message: message,
       icon: Icons.error_outline_rounded,
       actionLabel: actionLabel,
-      onAction: onAction,
+      action: onAction,
       compact: compact,
     );
   }
@@ -111,7 +111,7 @@ class CoolStateView extends StatelessWidget {
       message: message,
       icon: Icons.check_circle_outline_rounded,
       actionLabel: actionLabel,
-      onAction: onAction,
+      action: onAction,
       compact: compact,
     );
   }

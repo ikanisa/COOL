@@ -28,7 +28,7 @@ Future<void> showTripListingSheet(
     backgroundColor: AppColors.surface,
     isScrollControlled: true,
     shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
     ),
     builder: (context) => SafeArea(
       top: false,
@@ -37,7 +37,7 @@ Future<void> showTripListingSheet(
           maxHeight: MediaQuery.of(context).size.height * 0.85,
         ),
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(18, 16, 18, 24),
+          padding: const EdgeInsets.fromLTRB(22, 16, 22, 28),
           child: _TripListingSheetBody(
             trip: trip,
             buttonLabel: buttonLabel,
@@ -60,7 +60,7 @@ Future<void> showDriverListingSheet(
     backgroundColor: AppColors.surface,
     isScrollControlled: true,
     shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
     ),
     builder: (context) => SafeArea(
       top: false,
@@ -69,7 +69,7 @@ Future<void> showDriverListingSheet(
           maxHeight: MediaQuery.of(context).size.height * 0.85,
         ),
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(18, 16, 18, 24),
+          padding: const EdgeInsets.fromLTRB(22, 16, 22, 28),
           child: _DriverListingSheetBody(
             driver: driver,
             buttonLabel: buttonLabel,
@@ -198,16 +198,12 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const _SheetHandle(),
-        const SizedBox(height: 16),
+        const SizedBox(height: 20),
         Text(
           'Trip Listing',
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: AppColors.text,
-          ),
+          style: Theme.of(context).textTheme.headlineSmall,
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12),
         _RouteHeadline(from: trip.fromLocation, to: trip.toLocation),
         const SizedBox(height: 14),
         Wrap(
@@ -265,7 +261,7 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
           ShareCard(
             title: 'Share this trip',
             icon: Icons.electric_rickshaw_rounded,
-            subtitle: '${trip.fromLocation} → ${trip.toLocation}',
+            message: '${trip.fromLocation} → ${trip.toLocation}',
             shareUrl: DeepLinkConfig.tripUri(trip.id!).toString(),
             shareText:
                 'Check out this trip from ${trip.fromLocation} to ${trip.toLocation} on Cool!',
@@ -312,50 +308,40 @@ class _DriverListingSheetBody extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const _SheetHandle(),
-        const SizedBox(height: 16),
+        const SizedBox(height: 20),
         Text(
           'Driver Listing',
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: AppColors.text,
-          ),
+          style: Theme.of(context).textTheme.headlineSmall,
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12),
         Row(
           children: [
             CircleAvatar(
-              radius: 22,
+              radius: 24,
               backgroundColor: AppColors.accentGlow,
               child: Text(
                 _initialsFor(driver.displayName, fallback: 'DR'),
-                style: GoogleFonts.dmSans(
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.accent,
-                ),
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.accent,
+                    ),
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     driver.displayName,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.text,
-                    ),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w800,
+                        ),
                   ),
-                  const SizedBox(height: 3),
+                  const SizedBox(height: 4),
                   Text(
                     driver.vehicleType,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.text2,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
               ),
@@ -475,19 +461,17 @@ class _RoutePoint extends StatelessWidget {
     return Row(
       children: [
         Container(
-          width: 10,
-          height: 10,
+          width: 12,
+          height: 12,
           decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
-        const SizedBox(width: 10),
+        const SizedBox(width: 12),
         Expanded(
           child: Text(
             label,
-            style: GoogleFonts.dmSans(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: AppColors.text,
-            ),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w800,
+                ),
           ),
         ),
       ],
@@ -504,30 +488,28 @@ class _DetailRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 12),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: 110,
+            width: 120,
             child: Text(
-              label,
-              style: GoogleFonts.dmSans(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: AppColors.text3,
-              ),
+              label.toUpperCase(),
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.8,
+                    color: AppColors.text3,
+                  ),
             ),
           ),
           Expanded(
             child: Text(
               value,
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: AppColors.text2,
-                height: 1.35,
-              ),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.text2,
+                  ),
             ),
           ),
         ],
@@ -594,18 +576,17 @@ class _SheetChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         color: bgColor,
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Text(
         label,
-        style: GoogleFonts.dmSans(
-          fontSize: 11,
-          fontWeight: FontWeight.w700,
-          color: textColor,
-        ),
+        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              fontWeight: FontWeight.w800,
+              color: textColor,
+            ),
       ),
     );
   }
@@ -656,8 +637,8 @@ String _displayVehicleType(String vehicleType) {
       return 'Cab';
     case 'truck':
       return 'Truck';
-    case 'liffan':
-      return 'Liffan';
+    case 'trike':
+      return 'Trike';
     case 'any':
       return 'Any';
     default:

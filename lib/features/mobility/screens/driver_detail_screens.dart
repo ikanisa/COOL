@@ -97,7 +97,7 @@ class _DriverVehicleScreenState extends ConsumerState<DriverVehicleScreen> {
         children: [
           const _DriverDetailIntroCard(
             title: 'Vehicle details',
-            subtitle:
+            message:
                 'Keep your vehicle info',
           ),
           const SizedBox(height: 16),
@@ -175,7 +175,7 @@ class _DriverSubscriptionScreenState
     }
 
     final driver = DriverProfileData(
-      name: profile?.fullName ?? currentUser?.displayUserId ?? '000000',
+      name: profile?.fullName ?? currentUser?.displayUserId ?? '',
       driverId:
           '#${profile?.fullName ?? currentUser?.displayUserId ?? shortDriverId(profile?.userId ?? currentUser?.id)}',
       rating: profile?.rating ?? 0,
@@ -217,7 +217,7 @@ class _DriverSubscriptionScreenState
         children: [
           const _DriverDetailIntroCard(
             title: 'Subscription access',
-            subtitle:
+            message:
                 'Credits plan status and',
           ),
           const SizedBox(height: 16),
@@ -302,9 +302,10 @@ class _VehicleSummaryCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(18),
                 ),
                 alignment: Alignment.center,
-                child: Icon(
+                child: Image.asset(
                   tripVehicleIcon(vehicle.type),
-                  size: 28,
+                  width: 32,
+                  height: 32,
                   color: AppColors.accent,
                 ),
               ),

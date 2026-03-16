@@ -18,13 +18,19 @@ class CoolSkeleton extends StatefulWidget {
   const CoolSkeleton.card({super.key})
     : width = double.infinity,
       height = 120,
-      borderRadius = 20;
+      borderRadius = 28;
 
   /// Creates a skeleton shaped like a horizontal list item card.
   const CoolSkeleton.listCard({super.key})
     : width = 180,
       height = 200,
-      borderRadius = 20;
+      borderRadius = 28;
+
+  /// Creates a skeleton shaped like a line of text.
+  const CoolSkeleton.line({double? width, super.key})
+    : width = width ?? 120,
+      height = 12,
+      borderRadius = 6;
 
   final double? width;
   final double height;

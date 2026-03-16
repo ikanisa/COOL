@@ -9,9 +9,11 @@ import '../../../l10n/app_localizations.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/status/providers/home_status_providers.dart';
+import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../core/theme/rs_colors.dart';
 import '../../../core/utils/intl_locale.dart';
+import '../../../shared/widgets/cool_assistant_sheet.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_error_boundary.dart';
 import '../../../shared/widgets/cool_error_view.dart';
@@ -27,7 +29,9 @@ import '../../admin/providers/special_products_provider.dart';
 import '../../mobility/providers/mobility_provider.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../models/home_dashboard_data.dart';
+import '../models/nexus_recommendation.dart';
 import '../providers/home_dashboard_provider.dart';
+import '../providers/nexus_provider.dart';
 import '../widgets/special_product_card.dart';
 import '../providers/quick_action_provider.dart';
 
@@ -48,6 +52,25 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: palette.bg,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 80), // Avoid overlap with bottom nav
+        child: FloatingActionButton.extended(
+          onPressed: () => CoolAssistantSheet.show(context),
+          backgroundColor: AppColors.accent,
+          elevation: 12,
+          highlightElevation: 4,
+          icon: const Icon(Icons.auto_awesome_rounded, color: Colors.black, size: 20),
+          label: Text(
+            'Cool Assistant',
+            style: GoogleFonts.dmSans(
+              color: Colors.black,
+              fontWeight: FontWeight.w800,
+              fontSize: 14,
+              letterSpacing: -0.2,
+            ),
+          ),
+        ),
+      ),
       body: CoolScreenBackground(
         child: CoolErrorBoundary(
           onRetry: () {
@@ -66,6 +89,8 @@ class HomeScreen extends ConsumerWidget {
                 padding: const EdgeInsets.fromLTRB(18, 18, 18, 110),
                 children: [
                   _HomeHeader(ref: ref, palette: palette, l10n: l10n),
+                  const SizedBox(height: 20),
+                  const _NexusRecommendationsSection(),
                   const SizedBox(height: 24),
                   _RayonSportCard(
                     membershipAsync: ref.watch(rayonMembershipProvider),
@@ -109,7 +134,7 @@ class HomeScreen extends ConsumerWidget {
                               .map(
                                 (action) => _QuickActionData(
                                   title: action.title,
-                                  subtitle: action.subtitle ?? '',
+                                  message: action.subtitle ?? '',
                                   route: action.route,
                                 ),
                               )
@@ -128,7 +153,7 @@ class HomeScreen extends ConsumerWidget {
                   SectionTitle(
                     title: l10n.recentActivity,
                     actionLabel: l10n.statementsLabel,
-                    onAction: () => context.push(AppRoutes.momoStatements),
+                    action: () => context.push(AppRoutes.momoStatements),
                   ),
                   const SizedBox(height: 12),
                   dashboardAsync.when(
@@ -158,7 +183,7 @@ class HomeScreen extends ConsumerWidget {
                     SectionTitle(
                       title: l10n.homeMissionsTitle,
                       actionLabel: l10n.openAction,
-                      onAction: () => context.push(AppRoutes.missions),
+                      action: () => context.push(AppRoutes.missions),
                     ),
                     const SizedBox(height: 12),
                     SizedBox(
@@ -211,11 +236,7 @@ class _HomeHeader extends StatelessWidget {
         Expanded(
           child: Text(
             l10n.navHome,
-            style: GoogleFonts.dmSans(
-              fontSize: 34,
-              fontWeight: FontWeight.w800,
-              color: palette.text,
-            ),
+            style: Theme.of(context).textTheme.displayLarge,
           ),
         ),
 
@@ -801,7 +822,7 @@ class _QuickActionListCard extends StatelessWidget {
           for (var index = 0; index < visibleItems.length; index++) ...[
             _QuickActionRow(
               title: visibleItems[index].title,
-              subtitle: visibleItems[index].subtitle,
+              message: visibleItems[index].subtitle,
               route: visibleItems[index].route,
             ),
             if (index != visibleItems.length - 1)
@@ -834,22 +855,22 @@ List<_QuickActionData> _fallbackQuickActions(AppLocalizations l10n) {
   return <_QuickActionData>[
     _QuickActionData(
       title: l10n.navGroups,
-      subtitle: l10n.homeFallbackGroupsSubtitle,
+      message: l10n.homeFallbackGroupsSubtitle,
       route: AppRoutes.groups,
     ),
     _QuickActionData(
       title: l10n.homeActionPay,
-      subtitle: l10n.homeFallbackPaySubtitle,
+      message: l10n.homeFallbackPaySubtitle,
       route: AppRoutes.momo,
     ),
     _QuickActionData(
       title: l10n.partnersTitle,
-      subtitle: l10n.homeFallbackPartnersSubtitle,
+      message: l10n.homeFallbackPartnersSubtitle,
       route: AppRoutes.partners,
     ),
     _QuickActionData(
       title: l10n.homeActionTrips,
-      subtitle: l10n.homeFallbackTripsSubtitle,
+      message: l10n.homeFallbackTripsSubtitle,
       route: AppRoutes.mobility,
     ),
   ];
@@ -1065,8 +1086,160 @@ class _OverviewErrorCard extends StatelessWidget {
   }
 }
 
+class _NexusRecommendationsSection extends ConsumerWidget {
+  const _NexusRecommendationsSection();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final recommendationsAsync = ref.watch(nexusRecommendationsProvider);
+
+    return recommendationsAsync.when(
+      data: (recommendations) {
+        if (recommendations.isEmpty) return const SizedBox.shrink();
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.auto_awesome_rounded,
+                  size: 16,
+                  color: AppColors.accent,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  'OPPORTUNITIES FOR YOU',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.accent,
+                    letterSpacing: 1,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 160,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: recommendations.length,
+                separatorBuilder: (context, index) => const SizedBox(width: 12),
+                itemBuilder: (context, index) {
+                  return _NexusCard(recommendation: recommendations[index]);
+                },
+              ),
+            ),
+          ],
+        );
+      },
+      loading: () => const SizedBox.shrink(),
+      error: (_, _) => const SizedBox.shrink(),
+    );
+  }
+}
+
+class _NexusCard extends StatelessWidget {
+  const _NexusCard({required this.recommendation});
+
+  final NexusRecommendation recommendation;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+
+    return GestureDetector(
+      onTap: () => openQuickActionRoute(context, recommendation.ctaAction),
+      child: Container(
+        width: 260,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: palette.surface,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: palette.border),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              palette.surface,
+              AppColors.accent.withValues(alpha: 0.03),
+            ],
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.accent.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    recommendation.type.label,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 9,
+                      fontWeight: FontWeight.w900,
+                      color: AppColors.accent,
+                    ),
+                  ),
+                ),
+                Text(
+                  recommendation.iconEmoji,
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ],
+            ),
+            const Spacer(),
+            Text(
+              recommendation.title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.dmSans(
+                fontSize: 15,
+                fontWeight: FontWeight.w800,
+                color: palette.text,
+              ),
+            ),
+            Text(
+              recommendation.subtitle,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.dmSans(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: palette.text2,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              recommendation.rationale,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.dmSans(
+                fontSize: 11,
+                fontWeight: FontWeight.w500,
+                color: AppColors.accent,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 String _formatCurrency(
-  int amount,
+int amount,
+...
   String localeName, [
   String currency = 'RWF',
 ]) {

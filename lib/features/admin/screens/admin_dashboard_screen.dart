@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/cool_palette.dart';
 import '../../../core/router/app_routes.dart';
@@ -156,16 +155,11 @@ class AdminDashboardScreen extends ConsumerWidget {
             children: [
               Text(
                 'Admin Panel',
-                style: GoogleFonts.dmSans(
-                  fontSize: 34,
-                  fontWeight: FontWeight.w800,
-                  color: palette.text,
-                  height: 1.1,
-                ),
+                style: Theme.of(context).textTheme.displayLarge,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
               _RoleBadgeRow(access: access),
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
               GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -232,18 +226,19 @@ class _RoleBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: color.withValues(alpha: 0.2), width: 1),
       ),
       child: Text(
-        label,
-        style: GoogleFonts.dmSans(
-          fontSize: 11,
-          fontWeight: FontWeight.w600,
-          color: color,
-        ),
+        label.toUpperCase(),
+        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              fontWeight: FontWeight.w800,
+              color: color,
+              letterSpacing: 0.5,
+            ),
       ),
     );
   }
@@ -279,7 +274,7 @@ class _AdminCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
     return CoolCard(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       onTap: () {
         HapticFeedback.selectionClick();
         context.push(section.route);
@@ -289,24 +284,28 @@ class _AdminCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(section.icon, size: 28, color: palette.text2),
-          const SizedBox(height: 8),
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: palette.surface2,
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: Icon(section.icon, size: 24, color: palette.text2),
+          ),
+          const SizedBox(height: 14),
           Text(
             section.title,
-            style: GoogleFonts.dmSans(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: palette.text,
-            ),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w800,
+                ),
           ),
           const SizedBox(height: 4),
           Text(
             section.subtitle,
-            style: GoogleFonts.dmSans(
-              fontSize: 11,
-              fontWeight: FontWeight.w400,
-              color: palette.text3,
-            ),
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: palette.text3,
+                ),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
@@ -331,7 +330,7 @@ class _SupportModeCard extends ConsumerWidget {
       },
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -339,50 +338,45 @@ class _SupportModeCard extends ConsumerWidget {
               Colors.purple.withValues(alpha: 0.08),
             ],
           ),
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: palette.blue.withValues(alpha: 0.3)),
+          borderRadius: BorderRadius.circular(28),
+          border:
+              Border.all(color: palette.blue.withValues(alpha: 0.3), width: 1.5),
         ),
         child: Row(
           children: [
             Container(
-              width: 40,
-              height: 40,
+              width: 48,
+              height: 48,
               decoration: BoxDecoration(
                 color: palette.blue.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(14),
               ),
               child: Icon(
                 Icons.support_agent_rounded,
-                size: 22,
+                size: 24,
                 color: palette.blue,
               ),
             ),
-            const SizedBox(width: 14),
+            const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Support Mode',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                      color: palette.text,
-                    ),
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.w800,
+                        ),
                   ),
-                  const SizedBox(height: 2),
+                  const SizedBox(height: 4),
                   Text(
                     'Open a bank or rayon workspace as support',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w400,
-                      color: palette.text3,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
               ),
             ),
-            Icon(Icons.chevron_right_rounded, color: palette.text3),
+            Icon(Icons.chevron_right_rounded, color: palette.text3, size: 24),
           ],
         ),
       ),
@@ -400,57 +394,50 @@ class _SupportModeCard extends ConsumerWidget {
         final palette = sheetCtx.coolPalette;
         return Container(
           constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(sheetCtx).size.height * 0.6,
+            maxHeight: MediaQuery.of(sheetCtx).size.height * 0.7,
           ),
           decoration: BoxDecoration(
             color: palette.bg,
             borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(24),
+              top: Radius.circular(28),
             ),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const SizedBox(height: 12),
+              const SizedBox(height: 16),
               Container(
-                width: 40,
+                width: 44,
                 height: 4,
                 decoration: BoxDecoration(
                   color: palette.text3.withValues(alpha: 0.3),
-                  borderRadius: BorderRadius.circular(2),
+                  borderRadius: BorderRadius.circular(99),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18),
+                padding: const EdgeInsets.symmetric(horizontal: 22),
                 child: Row(
                   children: [
                     Icon(Icons.support_agent_rounded,
-                        color: palette.blue, size: 20),
-                    const SizedBox(width: 8),
+                        color: palette.blue, size: 22),
+                    const SizedBox(width: 10),
                     Text(
                       'Support Mode',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w800,
-                        color: palette.text,
-                      ),
+                      style: Theme.of(context).textTheme.headlineSmall,
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: 8),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18),
+                padding: const EdgeInsets.symmetric(horizontal: 22),
                 child: Text(
                   'Navigate into a partner workspace to view and manage it as support.',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    color: palette.text3,
-                  ),
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
               Flexible(
                 child: partnersAsync.when(
                   loading: () => const Padding(
@@ -458,86 +445,95 @@ class _SupportModeCard extends ConsumerWidget {
                     child: CircularProgressIndicator(),
                   ),
                   error: (e, _) => Padding(
-                    padding: const EdgeInsets.all(18),
+                    padding: const EdgeInsets.all(22),
                     child: Text(
                       'Failed to load partners: $e',
-                      style: GoogleFonts.dmSans(color: palette.text3),
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                   data: (partners) {
                     if (partners.isEmpty) {
                       return Padding(
-                        padding: const EdgeInsets.all(18),
+                        padding: const EdgeInsets.all(22),
                         child: Text(
                           'No partners found',
-                          style: GoogleFonts.dmSans(color: palette.text3),
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                       );
                     }
                     return ListView.separated(
                       shrinkWrap: true,
-                      padding: const EdgeInsets.fromLTRB(18, 0, 18, 24),
+                      padding: const EdgeInsets.fromLTRB(22, 0, 22, 32),
                       itemCount: partners.length,
-                      separatorBuilder: (_, __) =>
-                          const SizedBox(height: 8),
+                      separatorBuilder: (_, __) => const SizedBox(height: 12),
                       itemBuilder: (ctx, index) {
                         final p = partners[index];
                         final name = p['name']?.toString() ?? 'Unknown';
                         final id = p['id']?.toString() ?? '';
-                        final type =
-                            p['partner_type']?.toString() ?? 'partner';
-                        final isBank =
-                            type.toLowerCase().contains('bank');
+                        final type = p['partner_type']?.toString() ?? 'partner';
+                        final isBank = type.toLowerCase().contains('bank');
 
-                        return ListTile(
-                          tileColor: palette.surface,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
-                            side: BorderSide(color: palette.border),
-                          ),
-                          leading: CircleAvatar(
-                            backgroundColor:
-                                (isBank ? palette.blue : Colors.purple)
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 18, vertical: 8),
+                            tileColor: palette.surface,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18),
+                              side:
+                                  BorderSide(color: palette.border, width: 1.5),
+                            ),
+                            leading: Container(
+                              width: 44,
+                              height: 44,
+                              decoration: BoxDecoration(
+                                color: (isBank ? palette.blue : Colors.purple)
                                     .withValues(alpha: 0.15),
-                            child: Icon(
-                              isBank
-                                  ? Icons.account_balance_rounded
-                                  : Icons.sports_soccer_rounded,
-                              size: 18,
-                              color: isBank
-                                  ? palette.blue
-                                  : Colors.purple,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Icon(
+                                isBank
+                                    ? Icons.account_balance_rounded
+                                    : Icons.sports_soccer_rounded,
+                                size: 20,
+                                color: isBank ? palette.blue : Colors.purple,
+                              ),
                             ),
-                          ),
-                          title: Text(
-                            name,
-                            style: GoogleFonts.dmSans(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: palette.text,
+                            title: Text(
+                              name,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w800,
+                                  ),
                             ),
-                          ),
-                          subtitle: Text(
-                            type,
-                            style: GoogleFonts.dmSans(
-                              fontSize: 11,
+                            message: Text(
+                              type.toUpperCase(),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelSmall
+                                  ?.copyWith(
+                                    color: palette.text3,
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 0.5,
+                                  ),
+                            ),
+                            trailing: Icon(
+                              Icons.chevron_right_rounded,
+                              size: 24,
                               color: palette.text3,
                             ),
+                            onTap: () {
+                              HapticFeedback.selectionClick();
+                              Navigator.of(sheetCtx).pop();
+                              final route = isBank
+                                  ? AppRoutes.adminBankWorkspaceLocation(id)
+                                  : AppRoutes.adminPartnerWorkspaceLocation(id);
+                              context.push(route);
+                            },
                           ),
-                          trailing: Icon(
-                            Icons.arrow_forward_rounded,
-                            size: 16,
-                            color: palette.text3,
-                          ),
-                          onTap: () {
-                            HapticFeedback.selectionClick();
-                            Navigator.of(sheetCtx).pop();
-                            final route = isBank
-                                ? AppRoutes.adminBankWorkspaceLocation(id)
-                                : AppRoutes.adminPartnerWorkspaceLocation(
-                                    id);
-                            context.push(route);
-                          },
                         );
                       },
                     );

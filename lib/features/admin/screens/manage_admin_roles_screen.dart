@@ -33,15 +33,12 @@ class ManageAdminRolesScreen extends ConsumerWidget {
           icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: FloatingActionButton(
         onPressed: () => _showAssignRoleSheet(context, ref),
         backgroundColor: AppColors.blue,
         foregroundColor: Colors.white,
-        icon: const Icon(Icons.person_add_rounded, size: 20),
-        label: Text(
-          'Assign Role',
-          style: GoogleFonts.dmSans(fontWeight: FontWeight.w600),
-        ),
+        shape: const CircleBorder(),
+        child: const Icon(Icons.add_rounded, size: 28),
       ),
       body: CoolAsyncView<List<AdminRoleAssignment>>(
         value: assignmentsAsync,
@@ -653,7 +650,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
                               p['category']?.toString() == 'football')
                           .toList();
                   return DropdownButtonFormField<String>(
-                    value: _selectedPartnerId,
+                    initialValue: _selectedPartnerId,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: AppColors.bg,

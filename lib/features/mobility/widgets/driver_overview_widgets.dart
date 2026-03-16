@@ -230,9 +230,10 @@ class DriverAvailabilityCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(14),
                 ),
                 alignment: Alignment.center,
-                child: Icon(
+                child: Image.asset(
                   tripVehicleIcon(vehicleType),
-                  size: 22,
+                  width: 22,
+                  height: 22,
                   color: AppColors.accent,
                 ),
               ),

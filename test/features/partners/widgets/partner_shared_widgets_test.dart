@@ -85,7 +85,7 @@ void main() {
           child: PartnerQuickActionTile(
             icon: Icons.public,
             title: 'Website',
-            subtitle: 'Open site',
+            message: 'Open site',
             onTap: () => tapped = true,
           ),
         ),
@@ -190,7 +190,7 @@ void main() {
         id: 's1',
         partnerId: 'p1',
         title: 'Savings Account',
-        subtitle: 'Save monthly',
+        message: 'Save monthly',
         emoji: '💰',
         category: 'digital',
         ctaLabel: 'Open Now',

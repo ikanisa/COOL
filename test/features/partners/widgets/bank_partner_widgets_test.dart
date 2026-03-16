@@ -14,7 +14,7 @@ const _testPartner = Partner(
   slug: 'urwego',
   category: PartnerCategory.bank,
   country: 'RW',
-  subtitle: 'Microfinance in Rwanda',
+  message: 'Microfinance in Rwanda',
   description: 'Full bank description',
 );
 

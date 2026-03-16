@@ -25,7 +25,7 @@ const tripBoardVehicleFilters = [
   VehicleFilter(label: 'Moto', value: 'Moto'),
   VehicleFilter(label: 'Cab', value: 'Cab'),
   VehicleFilter(label: 'Truck', value: 'Truck'),
-  VehicleFilter(label: 'Liffan', value: 'Liffan'),
+  VehicleFilter(label: 'Trike', value: 'Trike'),
 ];
 
 /// View mode for the trip board tabs.
@@ -174,7 +174,7 @@ class TripBoardExploreHeaderCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return TripBoardHeaderCard(
       title: 'Explore trips',
-      subtitle: 'Find a ride nearby.',
+      message: 'Find a ride nearby.',
       primaryLabel: 'Post trip',
       onPrimaryTap: onPostTrip,
     );
@@ -238,7 +238,7 @@ class TripBoardMyTripsHeaderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return TripBoardHeaderCard(
       title: 'Manage your trips',
-      subtitle: 'Manage your posted trips.',
+      message: 'Manage your posted trips.',
       primaryLabel: 'Post trip',
       onPrimaryTap: onPostTrip,
     );
@@ -451,18 +451,18 @@ class TripBoardTripTypeSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return _TripBoardSelectionSheet<TripBoardTab>(
       title: 'Trip type',
-      subtitle: 'Filter by trip type.',
+      message: 'Filter by trip type.',
       value: activeTab,
       options: const <({TripBoardTab value, String label, String subtitle})>[
         (
           value: TripBoardTab.passengerTrips,
           label: 'Passenger trips',
-          subtitle: 'Rides near you.',
+          message: 'Rides near you.',
         ),
         (
           value: TripBoardTab.driverReturnTrips,
           label: 'Driver returns',
-          subtitle: 'Drivers with available seats.',
+          message: 'Drivers with available seats.',
         ),
       ],
     );
@@ -547,7 +547,7 @@ class _TripBoardSelectionSheet<T> extends StatelessWidget {
                       color: palette.text,
                     ),
                   ),
-                  subtitle: Text(
+                  message: Text(
                     options[index].subtitle,
                     style: GoogleFonts.dmSans(
                       fontSize: 12,

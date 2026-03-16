@@ -325,13 +325,12 @@ class MomoSmsAutoreadService {
     required DateTime cutoff,
   }) async {
     final cutoffMillis = cutoff.millisecondsSinceEpoch.toString();
-    const senderPatterns =
-        MomoSmsIngestionRepository.approvedInboxSenderLikePatterns;
+    const senderIds = MomoSmsIngestionRepository.approvedInboxSenderIds;
     final messages = <SmsMessage>[];
 
-    for (final senderPattern in senderPatterns) {
+    for (final senderId in senderIds) {
       final filter = SmsFilter.where(SmsColumn.ADDRESS)
-          .like(senderPattern)
+          .equals(senderId)
           .and(SmsColumn.DATE)
           .greaterThanOrEqualTo(cutoffMillis);
       final patternMessages = await _telephony.getInboxSms(

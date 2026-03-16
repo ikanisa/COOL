@@ -90,10 +90,11 @@ class AppConfigRepository {
     return (excellent: excellent, good: good, building: building);
   }
 
-  /// Rwanda-only: Kigali is the only map center.
-  ({double lat, double lng}) getDefaultMapCenter() {
-    // Kigali, Rwanda
-    return (lat: -1.9403, lng: 29.8739);
+  /// Fetches default map center from app config (falls back to Kigali).
+  Future<({double lat, double lng})> getDefaultMapCenter() async {
+    final lat = double.tryParse(await getValue('default_map_lat') ?? '') ?? -1.9403;
+    final lng = double.tryParse(await getValue('default_map_lng') ?? '') ?? 29.8739;
+    return (lat: lat, lng: lng);
   }
 
   /// Clear the in-memory cache.

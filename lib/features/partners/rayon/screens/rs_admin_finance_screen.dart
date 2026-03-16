@@ -40,6 +40,7 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
   }
 
   Future<void> _exportLedger({
+    required StatementExportFormat format,
     required String partnerId,
     required String partnerName,
     required List<PayeePaymentLedgerEntry> entries,
@@ -54,7 +55,7 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
       final exportService = ref.read(momoStatementExportServiceProvider);
       final downloadService = ref.read(momoStatementDownloadServiceProvider);
       final export = await exportService.buildPayeeLedgerExport(
-        format: StatementExportFormat.excel,
+        format: format,
         entries: entries,
         metadata: StatementExportMetadata(
           statementTitle: '$partnerName partner ledger',
@@ -398,7 +399,8 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
                         ),
                       ),
                 isExporting: _isExporting,
-                onExportExcel: (entries) => _exportLedger(
+                onExport: (format, entries) => _exportLedger(
+                  format: format,
                   partnerId: partnerId,
                   partnerName: partnerName,
                   entries: entries,
@@ -476,8 +478,9 @@ class _RouteCardList extends StatelessWidget {
             value: routesAsync,
             emptyCheck: (routes) => routes.isEmpty,
             emptyWidget: const CoolEmptyView(
-              message: 'No partner payment yet',
+              subtitle: 'No partner payment yet',
               compact: true,
+              isPremium: true,
             ),
             builder: (routes) => Column(
               children: routes
@@ -604,14 +607,16 @@ class _PartnerLedgerCard extends StatelessWidget {
     required this.ledgerAsync,
     required this.onRetry,
     required this.isExporting,
-    required this.onExportExcel,
+    required this.onExport,
   });
 
   final AsyncValue<MomoStatementPage<PayeePaymentLedgerEntry>> ledgerAsync;
   final VoidCallback? onRetry;
   final bool isExporting;
-  final Future<void> Function(List<PayeePaymentLedgerEntry> entries)
-  onExportExcel;
+  final Future<void> Function(
+    StatementExportFormat format,
+    List<PayeePaymentLedgerEntry> entries,
+  ) onExport;
 
   @override
   Widget build(BuildContext context) {
@@ -644,25 +649,45 @@ class _PartnerLedgerCard extends StatelessWidget {
             onRetry: onRetry,
             emptyCheck: (page) => page.entries.isEmpty,
             emptyWidget: const CoolEmptyView(
-              message: 'No posted partner yet',
+              subtitle: 'No posted partner yet',
               compact: true,
+              isPremium: true,
             ),
             builder: (page) => Column(
               children: [
                 Align(
                   alignment: Alignment.centerRight,
-                  child: FilledButton.icon(
-                    onPressed: isExporting
-                        ? null
-                        : () => onExportExcel(page.entries),
-                    icon: isExporting
-                        ? const SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Icon(Icons.table_view_rounded),
-                    label: Text(isExporting ? 'Exporting...' : 'Export Excel'),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      OutlinedButton.icon(
+                        onPressed: isExporting
+                            ? null
+                            : () => onExport(StatementExportFormat.pdf, page.entries),
+                        icon: isExporting
+                            ? const SizedBox(
+                                width: 16,
+                                height: 16,
+                                child: CircularProgressIndicator(strokeWidth: 2),
+                              )
+                            : const Icon(Icons.picture_as_pdf_outlined),
+                        label: Text(isExporting ? 'Exporting...' : 'Export PDF'),
+                      ),
+                      const SizedBox(width: 12),
+                      FilledButton.icon(
+                        onPressed: isExporting
+                            ? null
+                            : () => onExport(StatementExportFormat.excel, page.entries),
+                        icon: isExporting
+                            ? const SizedBox(
+                                width: 16,
+                                height: 16,
+                                child: CircularProgressIndicator(strokeWidth: 2),
+                              )
+                            : const Icon(Icons.table_view_rounded),
+                        label: Text(isExporting ? 'Exporting...' : 'Export Excel'),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 12),

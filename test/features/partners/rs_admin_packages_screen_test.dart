@@ -17,7 +17,7 @@ void main() {
   const package = RsMembershipPackage(
     tier: FanTier.gold,
     title: 'Gold Membership',
-    subtitle: '2,000 pts - elite supporter',
+    message: '2,000 pts - elite supporter',
     description: 'Priority access for loyal matchday supporters.',
     benefits: <RsMembershipPackageBenefit>[
       RsMembershipPackageBenefit(
@@ -53,7 +53,7 @@ void main() {
       () => repository.upsertMembershipPackage(
         tier: package.tier,
         title: package.title,
-        subtitle: package.subtitle,
+        message: package.subtitle,
         description: package.description,
         benefits: package.benefits,
         isActive: true,
@@ -63,7 +63,7 @@ void main() {
       (_) async => const RsMembershipPackage(
         tier: FanTier.gold,
         title: 'Gold Membership',
-        subtitle: '2,000 pts - elite supporter',
+        message: '2,000 pts - elite supporter',
         description: 'Priority access for loyal matchday supporters.',
         benefits: <RsMembershipPackageBenefit>[
           RsMembershipPackageBenefit(
@@ -114,7 +114,7 @@ void main() {
       () => repository.upsertMembershipPackage(
         tier: package.tier,
         title: package.title,
-        subtitle: package.subtitle,
+        message: package.subtitle,
         description: package.description,
         benefits: package.benefits,
         isActive: true,

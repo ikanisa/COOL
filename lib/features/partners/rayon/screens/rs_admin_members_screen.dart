@@ -119,8 +119,9 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
         ),
         emptyCheck: (members) => members.isEmpty,
         emptyWidget: const CoolEmptyView(
-          message: 'No fan memberships yet',
+          subtitle: 'No fan memberships yet',
           icon: Icons.people_alt_outlined,
+          isPremium: true,
         ),
         builder: (members) {
           // Apply filter
@@ -144,8 +145,9 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
                     .toList();
           if (filtered.isEmpty) {
             return const CoolEmptyView(
-              message: 'No members match filter',
+              subtitle: 'No members match filter',
               icon: Icons.search_off_rounded,
+              isPremium: true,
             );
           }
           return ListView.separated(

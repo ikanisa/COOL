@@ -898,117 +898,110 @@ class MomoStatementExportService {
     required pw.MemoryImage? logo,
   }) {
     return pw.Container(
-      padding: const pw.EdgeInsets.all(16),
-      decoration: pw.BoxDecoration(
-        color: PdfColor.fromHex('#0A0A0F'),
-        borderRadius: const pw.BorderRadius.all(pw.Radius.circular(10)),
+      padding: const pw.EdgeInsets.only(bottom: 24),
+      margin: const pw.EdgeInsets.only(bottom: 24),
+      decoration: const pw.BoxDecoration(
+        border: pw.Border(
+          bottom: pw.BorderSide(color: PdfColors.grey300, width: 1.5),
+        ),
       ),
-      child: pw.Column(
+      child: pw.Row(
         crossAxisAlignment: pw.CrossAxisAlignment.start,
+        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
         children: [
-          pw.Row(
-            crossAxisAlignment: pw.CrossAxisAlignment.start,
-            children: [
-              if (logo != null)
-                pw.Container(
-                  width: 40,
-                  height: 40,
-                  decoration: const pw.BoxDecoration(
-                    color: PdfColors.white,
-                    borderRadius: pw.BorderRadius.all(
-                      pw.Radius.circular(8),
-                    ),
-                  ),
-                  padding: const pw.EdgeInsets.all(6),
-                  child: pw.Image(logo),
-                )
-              else
-                pw.Container(
-                  width: 40,
-                  height: 40,
-                  alignment: pw.Alignment.center,
-                  decoration: pw.BoxDecoration(
-                    color: PdfColor.fromHex('#00E5A0'),
-                    borderRadius: const pw.BorderRadius.all(
-                      pw.Radius.circular(8),
-                    ),
-                  ),
-                  child: pw.Text(
-                    'C',
-                    style: pw.TextStyle(
-                      color: PdfColor.fromHex('#0A0A0F'),
-                      fontWeight: pw.FontWeight.bold,
-                    ),
-                  ),
-                ),
-              pw.SizedBox(width: 12),
-              pw.Expanded(
-                child: pw.Column(
-                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+          pw.Expanded(
+            child: pw.Column(
+              crossAxisAlignment: pw.CrossAxisAlignment.start,
+              children: [
+                pw.Row(
+                  crossAxisAlignment: pw.CrossAxisAlignment.center,
                   children: [
-                    pw.Text(
-                      _brandName,
-                      style: pw.TextStyle(
-                        color: PdfColors.white,
-                        fontSize: 20,
-                        fontWeight: pw.FontWeight.bold,
+                    if (logo != null)
+                      pw.Container(
+                        width: 48,
+                        height: 48,
+                        child: pw.Image(logo),
+                      )
+                    else
+                      pw.Container(
+                        width: 48,
+                        height: 48,
+                        alignment: pw.Alignment.center,
+                        decoration: pw.BoxDecoration(
+                          color: PdfColor.fromHex('#00E5A0'),
+                          borderRadius: const pw.BorderRadius.all(
+                            pw.Radius.circular(12),
+                          ),
+                        ),
+                        child: pw.Text(
+                          'C',
+                          style: pw.TextStyle(
+                            color: PdfColor.fromHex('#0A0A0F'),
+                            fontWeight: pw.FontWeight.bold,
+                            fontSize: 24,
+                          ),
+                        ),
                       ),
-                    ),
-                    pw.SizedBox(height: 3),
-                    pw.Text(
-                      metadata.statementTitle,
-                      style: pw.TextStyle(
-                        color: PdfColor.fromHex('#00E5A0'),
-                        fontSize: 12,
-                        fontWeight: pw.FontWeight.bold,
-                      ),
+                    pw.SizedBox(width: 16),
+                    pw.Column(
+                      crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      children: [
+                        pw.Text(
+                          _brandName,
+                          style: pw.TextStyle(
+                            color: PdfColors.black,
+                            fontSize: 28,
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+                        pw.Text(
+                          'OFFICIAL STATEMENT',
+                          style: pw.TextStyle(
+                            color: PdfColors.grey600,
+                            fontSize: 10,
+                            fontWeight: pw.FontWeight.bold,
+                            letterSpacing: 1.5,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ),
-              pw.Container(
-                padding: const pw.EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 8,
-                ),
-                decoration: pw.BoxDecoration(
-                  color: PdfColor.fromHex('#13131A'),
-                  borderRadius: const pw.BorderRadius.all(
-                    pw.Radius.circular(8),
+                pw.SizedBox(height: 28),
+                pw.Text(
+                  metadata.statementTitle.toUpperCase(),
+                  style: pw.TextStyle(
+                    color: PdfColors.black,
+                    fontSize: 16,
+                    fontWeight: pw.FontWeight.bold,
                   ),
-                  border: pw.Border.all(color: PdfColor.fromHex('#33414A')),
                 ),
-                child: pw.Text(
+                pw.SizedBox(height: 4),
+                pw.Text(
                   metadata.periodLabel,
                   style: const pw.TextStyle(
-                    color: PdfColors.white,
-                    fontSize: 9,
+                    color: PdfColors.grey700,
+                    fontSize: 11,
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-          pw.SizedBox(height: 14),
-          pw.Wrap(
-            spacing: 10,
-            runSpacing: 10,
-            children: [
-              _pdfMetaChip('Official Holder', metadata.userName),
-              _pdfMetaChip(
-                'Official Phone',
-                metadata.officialPhone.isEmpty ? '-' : metadata.officialPhone,
-              ),
-              _pdfMetaChip(
-                'Generated',
-                _dateTimeFormat.format(metadata.generatedAt),
-              ),
-              _pdfMetaChip('Filter', metadata.filterLabel),
-              _pdfMetaChip('Sort', metadata.sortLabel),
-              _pdfMetaChip(
-                'Search',
-                metadata.searchQuery.isEmpty ? 'None' : metadata.searchQuery,
-              ),
-            ],
+          pw.Container(
+            width: 250,
+            child: pw.Column(
+              crossAxisAlignment: pw.CrossAxisAlignment.end,
+              children: [
+                _pdfMetaRow('ACCOUNT HOLDER', metadata.userName),
+                if (metadata.officialPhone.isNotEmpty)
+                  _pdfMetaRow('REGISTERED PHONE', metadata.officialPhone),
+                _pdfMetaRow('DATE GENERATED', _dateTimeFormat.format(metadata.generatedAt)),
+                _pdfMetaRow('FILTER APPLIED', metadata.filterLabel),
+                _pdfMetaRow('SORT ORDER', metadata.sortLabel),
+                if (metadata.searchQuery.isNotEmpty)
+                  _pdfMetaRow('SEARCH QUERY', metadata.searchQuery),
+              ],
+            ),
           ),
         ],
       ),
@@ -1058,28 +1051,29 @@ class MomoStatementExportService {
     );
   }
 
-  pw.Widget _pdfMetaChip(String label, String value) {
-    return pw.Container(
-      padding: const pw.EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-      decoration: pw.BoxDecoration(
-        color: PdfColor.fromHex('#13131A'),
-        borderRadius: const pw.BorderRadius.all(pw.Radius.circular(8)),
-      ),
-      child: pw.RichText(
-        text: pw.TextSpan(
-          children: [
-            pw.TextSpan(
-              text: '$label: ',
-              style: pw.TextStyle(color: PdfColor.fromHex('#7C8794'),
-                fontSize: 8,
+  pw.Widget _pdfMetaRow(String label, String value) {
+    return pw.Padding(
+      padding: const pw.EdgeInsets.only(bottom: 6),
+      child: pw.Row(
+        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+        children: [
+          pw.Text(
+            label,
+            style: const pw.TextStyle(color: PdfColors.grey600, fontSize: 9),
+          ),
+          pw.SizedBox(width: 16),
+          pw.Expanded(
+            child: pw.Text(
+              value,
+              textAlign: pw.TextAlign.right,
+              style: pw.TextStyle(
+                color: PdfColors.black,
+                fontSize: 10,
+                fontWeight: pw.FontWeight.bold,
               ),
             ),
-            pw.TextSpan(
-              text: value,
-              style: const pw.TextStyle(color: PdfColors.white, fontSize: 8),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

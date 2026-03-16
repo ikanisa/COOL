@@ -10,18 +10,25 @@ import 'cool_palette.dart';
 /// colors for text, surfaces, and component states.
 abstract final class AppTheme {
   // ── Typography constants ────────────────────────────────────────────
+  static const _black = FontWeight.w900;
+  static const _extraBold = FontWeight.w800;
   static const _bold = FontWeight.w700;
   static const _semibold = FontWeight.w600;
   static const _medium = FontWeight.w500;
   static const _regular = FontWeight.w400;
 
-  // Named sizes from the design system.
-  static const _display = 32.0;
-  static const _title = 22.0;
-  static const _heading = 18.0;
-  static const _body = 15.0;
-  static const _small = 13.0;
-  static const _tiny = 11.0;
+  // Named sizes from the design system (Rule of 4 & Augmented Fourth Scale)
+  static const _displayLarge = 44.0;
+  static const _displayMedium = 36.0;
+  static const _displaySmall = 32.0;
+  static const _headlineLarge = 28.0;
+  static const _headlineMedium = 24.0;
+  static const _headlineSmall = 20.0;
+  static const _titleLarge = 22.0;
+  static const _bodyLarge = 17.0;
+  static const _bodyMedium = 16.0;
+  static const _bodySmall = 14.0;
+  static const _labelSmall = 11.0;
 
   // ── Public theme getter ─────────────────────────────────────────────
 
@@ -47,94 +54,100 @@ abstract final class AppTheme {
 
     final textTheme = baseTextTheme.copyWith(
       displayLarge: baseTextTheme.displayLarge?.copyWith(
-        fontSize: _display,
-        fontWeight: _bold,
+        fontSize: _displayLarge,
+        fontWeight: _black,
         color: palette.text,
-        height: 1.2,
+        letterSpacing: -1.5,
+        height: 1.1,
       ),
       displayMedium: baseTextTheme.displayMedium?.copyWith(
-        fontSize: _display,
-        fontWeight: _semibold,
+        fontSize: _displayMedium,
+        fontWeight: _extraBold,
         color: palette.text,
-        height: 1.2,
+        letterSpacing: -1.2,
+        height: 1.1,
       ),
       displaySmall: baseTextTheme.displaySmall?.copyWith(
-        fontSize: _display,
-        fontWeight: _medium,
+        fontSize: _displaySmall,
+        fontWeight: _extraBold,
         color: palette.text,
+        letterSpacing: -1.0,
         height: 1.2,
       ),
       headlineLarge: baseTextTheme.headlineLarge?.copyWith(
-        fontSize: _title,
-        fontWeight: _bold,
+        fontSize: _headlineLarge,
+        fontWeight: _extraBold,
         color: palette.text,
-        height: 1.3,
+        letterSpacing: -0.8,
+        height: 1.2,
       ),
       headlineMedium: baseTextTheme.headlineMedium?.copyWith(
-        fontSize: _heading,
-        fontWeight: _semibold,
+        fontSize: _headlineMedium,
+        fontWeight: _extraBold,
         color: palette.text,
+        letterSpacing: -0.5,
+        height: 1.2,
+      ),
+      headlineSmall: baseTextTheme.headlineSmall?.copyWith(
+        fontSize: _headlineSmall,
+        fontWeight: _extraBold,
+        color: palette.text,
+        letterSpacing: -0.2,
         height: 1.3,
       ),
       titleLarge: baseTextTheme.titleLarge?.copyWith(
-        fontSize: _title,
+        fontSize: _titleLarge,
         fontWeight: _bold,
         color: palette.text,
         height: 1.3,
       ),
       titleMedium: baseTextTheme.titleMedium?.copyWith(
-        fontSize: _title,
+        fontSize: _headlineSmall,
         fontWeight: _semibold,
         color: palette.text,
         height: 1.3,
       ),
       titleSmall: baseTextTheme.titleSmall?.copyWith(
-        fontSize: _heading,
-        fontWeight: _semibold,
-        color: palette.text,
-        height: 1.3,
-      ),
-      headlineSmall: baseTextTheme.headlineSmall?.copyWith(
-        fontSize: _heading,
+        fontSize: _bodyLarge,
         fontWeight: _semibold,
         color: palette.text,
         height: 1.3,
       ),
       bodyLarge: baseTextTheme.bodyLarge?.copyWith(
-        fontSize: _body,
+        fontSize: _bodyLarge,
         fontWeight: _medium,
         color: palette.text,
-        height: 1.5,
+        height: 1.6,
       ),
       bodyMedium: baseTextTheme.bodyMedium?.copyWith(
-        fontSize: _body,
+        fontSize: _bodyMedium,
         fontWeight: _regular,
         color: palette.text,
-        height: 1.5,
+        height: 1.6,
       ),
       bodySmall: baseTextTheme.bodySmall?.copyWith(
-        fontSize: _small,
+        fontSize: _bodySmall,
         fontWeight: _regular,
         color: palette.text2,
-        height: 1.4,
+        height: 1.5,
       ),
       labelLarge: baseTextTheme.labelLarge?.copyWith(
-        fontSize: _small,
+        fontSize: _bodySmall,
         fontWeight: _semibold,
         color: palette.text,
         height: 1.4,
       ),
       labelMedium: baseTextTheme.labelMedium?.copyWith(
-        fontSize: _small,
+        fontSize: _bodySmall,
         fontWeight: _medium,
         color: palette.text2,
         height: 1.4,
       ),
       labelSmall: baseTextTheme.labelSmall?.copyWith(
-        fontSize: _tiny,
-        fontWeight: _regular,
+        fontSize: _labelSmall,
+        fontWeight: _medium,
         color: palette.text3,
-        letterSpacing: 0.4,
+        letterSpacing: 0.5,
         height: 1.4,
       ),
     );
@@ -179,11 +192,11 @@ abstract final class AppTheme {
         scrolledUnderElevation: 0,
         centerTitle: true,
         systemOverlayStyle: overlayStyle,
-        titleTextStyle: textTheme.titleLarge?.copyWith(
-          fontSize: _heading,
-          fontWeight: _semibold,
+        titleTextStyle: textTheme.headlineMedium?.copyWith(
+          fontWeight: _extraBold,
+          letterSpacing: -0.5,
         ),
-        iconTheme: IconThemeData(color: palette.text, size: 22),
+        iconTheme: IconThemeData(color: palette.text, size: 24),
       ),
       cardTheme: CardThemeData(
         color: palette.surface2,
@@ -191,8 +204,8 @@ abstract final class AppTheme {
         elevation: 0,
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-          side: BorderSide(color: palette.border),
+          borderRadius: BorderRadius.circular(28),
+          side: BorderSide(color: palette.border, width: 1.5),
         ),
       ),
       bottomAppBarTheme: BottomAppBarThemeData(
@@ -209,31 +222,31 @@ abstract final class AppTheme {
         showSelectedLabels: true,
         showUnselectedLabels: true,
         selectedLabelStyle: const TextStyle(
-          fontSize: _tiny,
-          fontWeight: _medium,
+          fontSize: _labelSmall,
+          fontWeight: _semibold,
         ),
         unselectedLabelStyle: const TextStyle(
-          fontSize: _tiny,
-          fontWeight: _regular,
+          fontSize: _labelSmall,
+          fontWeight: _medium,
         ),
       ),
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: palette.surface,
         elevation: 0,
-        height: 76,
+        height: 80,
         indicatorColor: palette.accentGlow,
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           final isSelected = states.contains(WidgetState.selected);
           return TextStyle(
-            fontSize: _tiny,
-            fontWeight: isSelected ? _medium : _regular,
+            fontSize: _labelSmall,
+            fontWeight: isSelected ? _semibold : _medium,
             color: isSelected ? palette.accent : palette.text3,
           );
         }),
         iconTheme: WidgetStateProperty.resolveWith((states) {
           final isSelected = states.contains(WidgetState.selected);
           return IconThemeData(
-            size: 22,
+            size: 24,
             color: isSelected ? palette.accent : palette.text3,
           );
         }),
@@ -242,38 +255,38 @@ abstract final class AppTheme {
         filled: true,
         fillColor: palette.surface2,
         contentPadding: const EdgeInsets.symmetric(
-          horizontal: 18,
-          vertical: 16,
+          horizontal: 20,
+          vertical: 18,
         ),
         hintStyle: GoogleFonts.dmSans(
-          fontSize: _body,
+          fontSize: _bodyMedium,
           fontWeight: _regular,
           color: palette.text3,
         ),
         labelStyle: GoogleFonts.dmSans(
-          fontSize: _small,
+          fontSize: _bodySmall,
           fontWeight: _medium,
           color: palette.text2,
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: palette.border),
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: palette.border, width: 1.5),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: palette.border),
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: palette.border, width: 1.5),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: palette.accent, width: 1.5),
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: palette.accent, width: 2.0),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: palette.red),
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: palette.red, width: 1.5),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: palette.red, width: 1.5),
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: palette.red, width: 2.0),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -283,31 +296,42 @@ abstract final class AppTheme {
           disabledBackgroundColor: palette.surface3,
           disabledForegroundColor: palette.text3,
           elevation: 0,
-          minimumSize: const Size(double.infinity, 56),
+          minimumSize: const Size(double.infinity, 60),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(18),
           ),
-          textStyle: GoogleFonts.dmSans(fontSize: _body, fontWeight: _bold),
+          textStyle: GoogleFonts.dmSans(
+            fontSize: _bodyLarge,
+            fontWeight: _extraBold,
+            letterSpacing: -0.2,
+          ),
           splashFactory: NoSplash.splashFactory,
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: palette.accent,
-          side: BorderSide(color: palette.border2),
+          side: BorderSide(color: palette.border2, width: 2.0),
           elevation: 0,
-          minimumSize: const Size(double.infinity, 56),
+          minimumSize: const Size(double.infinity, 60),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(18),
           ),
-          textStyle: GoogleFonts.dmSans(fontSize: _body, fontWeight: _semibold),
+          textStyle: GoogleFonts.dmSans(
+            fontSize: _bodyLarge,
+            fontWeight: _bold,
+            letterSpacing: -0.2,
+          ),
           splashFactory: NoSplash.splashFactory,
         ),
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: palette.accent,
-          textStyle: GoogleFonts.dmSans(fontSize: _body, fontWeight: _semibold),
+          textStyle: GoogleFonts.dmSans(
+            fontSize: _bodyMedium,
+            fontWeight: _bold,
+          ),
           splashFactory: NoSplash.splashFactory,
         ),
       ),
@@ -323,20 +347,20 @@ abstract final class AppTheme {
         modalBackgroundColor: palette.surface,
         surfaceTintColor: Colors.transparent,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
         ),
       ),
       dialogTheme: DialogThemeData(
         backgroundColor: palette.surface2,
         surfaceTintColor: Colors.transparent,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
         titleTextStyle: GoogleFonts.dmSans(
-          fontSize: _heading,
-          fontWeight: _semibold,
+          fontSize: _headlineSmall,
+          fontWeight: _extraBold,
           color: palette.text,
         ),
         contentTextStyle: GoogleFonts.dmSans(
-          fontSize: _body,
+          fontSize: _bodyMedium,
           fontWeight: _regular,
           color: palette.text2,
         ),
@@ -352,7 +376,7 @@ abstract final class AppTheme {
         side: BorderSide(color: palette.border),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         labelStyle: GoogleFonts.dmSans(
-          fontSize: _small,
+          fontSize: _bodySmall,
           fontWeight: _medium,
           color: palette.text,
         ),
@@ -361,20 +385,20 @@ abstract final class AppTheme {
       snackBarTheme: SnackBarThemeData(
         backgroundColor: palette.surface3,
         contentTextStyle: GoogleFonts.dmSans(
-          fontSize: _small,
+          fontSize: _bodySmall,
           fontWeight: _medium,
           color: palette.text,
         ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         behavior: SnackBarBehavior.floating,
       ),
       tabBarTheme: TabBarThemeData(
         labelColor: palette.accent,
         unselectedLabelColor: palette.text3,
         indicatorColor: palette.accent,
-        labelStyle: GoogleFonts.dmSans(fontSize: _small, fontWeight: _semibold),
+        labelStyle: GoogleFonts.dmSans(fontSize: _bodySmall, fontWeight: _semibold),
         unselectedLabelStyle: GoogleFonts.dmSans(
-          fontSize: _small,
+          fontSize: _bodySmall,
           fontWeight: _regular,
         ),
         dividerColor: Colors.transparent,
@@ -382,7 +406,7 @@ abstract final class AppTheme {
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       splashFactory: NoSplash.splashFactory,
-      iconTheme: IconThemeData(color: palette.text2, size: 22),
+      iconTheme: IconThemeData(color: palette.text2, size: 24),
       iconButtonTheme: IconButtonThemeData(
         style: IconButton.styleFrom(
           minimumSize: const Size.square(48),
@@ -395,7 +419,7 @@ abstract final class AppTheme {
           color: palette.surface3,
           borderRadius: BorderRadius.circular(8),
         ),
-        textStyle: GoogleFonts.dmSans(fontSize: _small, color: palette.text),
+        textStyle: GoogleFonts.dmSans(fontSize: _bodySmall, color: palette.text),
       ),
       progressIndicatorTheme: ProgressIndicatorThemeData(
         color: palette.accent,

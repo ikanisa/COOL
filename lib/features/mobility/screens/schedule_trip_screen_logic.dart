@@ -1,6 +1,114 @@
 part of 'schedule_trip_screen.dart';
 
 extension on _ScheduleTripScreenState {
+  // ── Smart Parse ─────────────────────────────────────────────────
+
+  Future<void> _parseSmartInput() async {
+    final text = _smartInputController.text.trim();
+    if (text.isEmpty) return;
+
+    _updateState(() => _isParsingSmartInput = true);
+
+    try {
+      final client = ref.read(supabaseClientProvider);
+      final response = await client.functions.invoke(
+        'parse-trip-request',
+        body: {'text': text},
+      );
+
+      if (!mounted) return;
+
+      if (response.status == 200 && response.data != null) {
+        final data = response.data['data'] as Map<String, dynamic>?;
+        if (data != null) {
+          _updateState(() {
+            final origin = data['origin'] as String?;
+            if (origin != null && origin.isNotEmpty) {
+              _fromController.text = origin;
+              _fromSelection = null; // Clear so it geocodes
+            }
+
+            final dest = data['destination'] as String?;
+            if (dest != null && dest.isNotEmpty) {
+              _toController.text = dest;
+              _toSelection = null;
+            }
+
+            final dateStr = data['date'] as String?;
+            if (dateStr != null) {
+              final parsedDate = DateTime.tryParse(dateStr);
+              if (parsedDate != null &&
+                  parsedDate.isAfter(
+                      DateTime.now().subtract(const Duration(days: 1)))) {
+                _selectedDate = parsedDate;
+              }
+            }
+
+            final timeStr = data['time'] as String?;
+            if (timeStr != null) {
+              final parts = timeStr.split(':');
+              if (parts.length >= 2) {
+                final hour = int.tryParse(parts[0]);
+                final min = int.tryParse(parts[1]);
+                if (hour != null && min != null) {
+                  _selectedTime = TimeOfDay(hour: hour, minute: min);
+                }
+              }
+            }
+
+            final priceNote = data['price_note'] as String?;
+            if (priceNote != null && priceNote.isNotEmpty) {
+              _priceNoteController.text = priceNote;
+              _showAdditionalDetails = true;
+            }
+
+            final seats = data['seats'] as int?;
+            if (seats != null && seats > 0 && seats <= 3) {
+              _seats = seats;
+            }
+
+            final vehicle = data['vehicle_preference'] as String?;
+            if (vehicle == 'moto') {
+              _vehiclePreference = TripVehiclePreference.moto;
+            } else if (vehicle == 'cab') {
+              _vehiclePreference = TripVehiclePreference.cab;
+            } else {
+              _vehiclePreference = TripVehiclePreference.any;
+            }
+
+            _syncResolvedLocations();
+          });
+          _showSnackBar(
+            message: 'Trip details auto-filled',
+            kind: _ScheduleTripToastKind.success,
+          );
+        } else {
+          _showSnackBar(
+            message: 'Could not extract trip details',
+            kind: _ScheduleTripToastKind.error,
+          );
+        }
+      } else {
+        _showSnackBar(
+          message: 'Smart parse failed',
+          kind: _ScheduleTripToastKind.error,
+        );
+      }
+    } catch (e) {
+      debugPrint('Smart parse error: $e');
+      if (mounted) {
+        _showSnackBar(
+          message: 'Failed to process request',
+          kind: _ScheduleTripToastKind.error,
+        );
+      }
+    } finally {
+      if (mounted) {
+        _updateState(() => _isParsingSmartInput = false);
+      }
+    }
+  }
+
   // ── Sync & route preview ────────────────────────────────────────
 
   void _syncResolvedLocations() {

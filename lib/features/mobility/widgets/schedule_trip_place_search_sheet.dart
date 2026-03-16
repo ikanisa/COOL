@@ -21,6 +21,9 @@ Future<PlaceSearchResult?> showPlaceSearchSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+    ),
     builder: (context) {
       return ScheduleTripPlaceSearchSheet(
         title: title,
@@ -197,12 +200,12 @@ class _ScheduleTripPlaceSearchSheetState
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: palette.surface,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
           ),
           child: SafeArea(
             top: false,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(18, 16, 18, 18),
+              padding: const EdgeInsets.fromLTRB(22, 16, 22, 22),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -216,24 +219,15 @@ class _ScheduleTripPlaceSearchSheetState
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 20),
                   Text(
                     widget.title,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: palette.text,
-                    ),
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const SizedBox(height: 6),
                   Text(
                     'Powered by Google Places',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                      color: palette.text2,
-                      height: 1.4,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                   const SizedBox(height: 14),
                   _PlaceSearchControls(
@@ -292,59 +286,53 @@ class _ScheduleTripPlaceSearchSheetState
 
     return ListView.separated(
       itemCount: _results.length,
-      separatorBuilder: (_, index) => const SizedBox(height: 10),
+      padding: const EdgeInsets.only(bottom: 24),
+      separatorBuilder: (_, index) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         final result = _results[index];
         return Material(
           color: palette.surface2,
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(18),
           child: InkWell(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(18),
             onTap: _isResolvingSelection
                 ? null
                 : () => _selectPrediction(result),
             child: Padding(
-              padding: const EdgeInsets.all(14),
+              padding: const EdgeInsets.all(18),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: 32,
-                    height: 32,
+                    width: 40,
+                    height: 40,
                     decoration: BoxDecoration(
                       color: palette.accentGlow,
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(
                       Icons.place_rounded,
                       color: palette.accent,
-                      size: 18,
+                      size: 20,
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 14),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           result.primaryText ?? result.label,
-                          style: GoogleFonts.dmSans(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                            color: palette.text,
-                          ),
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                fontWeight: FontWeight.w800,
+                              ),
                         ),
                         if (result.secondaryText != null &&
                             result.secondaryText!.isNotEmpty) ...[
                           const SizedBox(height: 4),
                           Text(
                             result.secondaryText!,
-                            style: GoogleFonts.dmSans(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: palette.text2,
-                              height: 1.35,
-                            ),
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                         ],
                       ],
@@ -420,35 +408,31 @@ class _PlaceSearchControls extends StatelessWidget {
         controller: controller,
         textInputAction: TextInputAction.search,
         onSubmitted: (_) => onSubmitted(),
-        style: GoogleFonts.dmSans(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: palette.text,
-        ),
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
         decoration: InputDecoration(
           hintText: 'Search landmark or address',
-          hintStyle: GoogleFonts.dmSans(
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: palette.text3,
-          ),
+          hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: palette.text3,
+              ),
           filled: true,
           fillColor: palette.surface2,
           contentPadding: const EdgeInsets.symmetric(
-            horizontal: 14,
-            vertical: 14,
+            horizontal: 18,
+            vertical: 18,
           ),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: palette.border),
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide(color: palette.border, width: 1.5),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: palette.border),
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide(color: palette.border, width: 1.5),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: palette.accent, width: 1.2),
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide(color: palette.accent, width: 2.0),
           ),
         ),
       ),
@@ -467,8 +451,8 @@ class _PlaceSearchControls extends StatelessWidget {
           return Column(
             children: [
               field,
-              const SizedBox(height: 10),
-              SizedBox(width: double.infinity, child: button),
+              const SizedBox(height: 12),
+              SizedBox(width: double.infinity, height: 60, child: button),
             ],
           );
         }
@@ -477,8 +461,8 @@ class _PlaceSearchControls extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(child: field),
-            const SizedBox(width: 10),
-            SizedBox(width: 110, child: button),
+            const SizedBox(width: 12),
+            SizedBox(width: 120, height: 60, child: button),
           ],
         );
       },

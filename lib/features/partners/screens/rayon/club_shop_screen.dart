@@ -333,20 +333,22 @@ class _CheckoutFooterBar extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          margin: const EdgeInsets.all(12),
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+          margin: const EdgeInsets.fromLTRB(18, 0, 18, 24),
+          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 16),
+          height: 64,
           decoration: BoxDecoration(
             color: enabled ? RsColors.rsBlue : AppColors.surface2,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(18),
             border: Border.all(
               color: enabled ? RsColors.rsBlueBorder : AppColors.border,
+              width: 1.5,
             ),
             boxShadow: enabled
                 ? [
                     BoxShadow(
                       color: RsColors.rsBlue.withValues(alpha: 0.28),
-                      blurRadius: 20,
-                      offset: const Offset(0, 8),
+                      blurRadius: 24,
+                      offset: const Offset(0, 12),
                     ),
                   ]
                 : null,
@@ -356,44 +358,51 @@ class _CheckoutFooterBar extends StatelessWidget {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '$itemCount items',
-                      style: GoogleFonts.barlow(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
+                      '$itemCount items'.toUpperCase(),
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 0.5,
+                            color: Colors.white,
+                          ),
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      enabled ? 'Ready for checkout' : 'Checkout pending',
-                      style: GoogleFonts.barlow(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white.withValues(alpha: 0.78),
-                      ),
+                      enabled ? 'READY FOR CHECKOUT' : 'CHECKOUT PENDING',
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white.withValues(alpha: 0.7),
+                          ),
                     ),
                   ],
                 ),
               ),
               const SizedBox(width: 12),
               Text(
-                '$total RWF',
-                style: GoogleFonts.dmMono(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w700,
-                  color: enabled ? RsColors.rsGoldLight : AppColors.text2,
-                ),
+                '${NumberFormat.decimalPattern('en').format(total)} RWF',
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.w900,
+                      fontFamily: GoogleFonts.dmMono().fontFamily,
+                      color: enabled ? RsColors.rsGoldLight : AppColors.text2,
+                    ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 16),
+              Container(
+                height: 32,
+                width: 1,
+                color: Colors.white.withValues(alpha: 0.2),
+              ),
+              const SizedBox(width: 16),
               Text(
-                'Checkout',
-                style: GoogleFonts.barlow(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                ),
+                'CHECKOUT',
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 0.5,
+                      color: Colors.white,
+                    ),
               ),
             ],
           ),

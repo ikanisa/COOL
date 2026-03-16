@@ -61,7 +61,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
             const SizedBox(height: 24),
             const _SectionHeader(
               title: 'Release Dashboard',
-              subtitle:
+              message:
                   'Live health by monitored',
             ),
             const SizedBox(height: 12),
@@ -88,7 +88,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
             const SizedBox(height: 24),
             const _SectionHeader(
               title: 'Triage Queue',
-              subtitle:
+              message:
                   'Focused on failed payment',
             ),
             const SizedBox(height: 12),
@@ -116,7 +116,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
             const SizedBox(height: 24),
             const _SectionHeader(
               title: 'Recent Signals',
-              subtitle:
+              message:
                   'Raw health events from',
             ),
             const SizedBox(height: 12),

@@ -30,16 +30,16 @@ class ProfileSettingsSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 4, bottom: 10),
+          padding: const EdgeInsets.only(left: 8, bottom: 12),
           child: Semantics(
             header: true,
             child: Text(
-              title,
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: palette.text2,
-              ),
+              title.toUpperCase(),
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 1.2,
+                    color: palette.text3,
+                  ),
             ),
           ),
         ),
@@ -51,7 +51,7 @@ class ProfileSettingsSection extends StatelessWidget {
               for (var i = 0; i < rows.length; i++) ...[
                 rows[i],
                 if (i < rows.length - 1)
-                  Divider(color: palette.border, height: 1, indent: 62),
+                  Divider(color: palette.border, height: 1, indent: 68),
               ],
             ],
           ),
@@ -138,22 +138,20 @@ class _ProfileFactTile extends StatelessWidget {
           children: [
             Text(
               item.label,
-              style: GoogleFonts.dmSans(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: palette.text3,
-              ),
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    color: palette.text3,
+                    fontWeight: FontWeight.w700,
+                  ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 6),
             Text(
               item.value,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-                color: item.valueColor ?? palette.text,
-              ),
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    color: item.valueColor ?? palette.text,
+                    fontWeight: FontWeight.w800,
+                  ),
             ),
           ],
         ),
@@ -198,27 +196,27 @@ class ProfileSettingsRow extends StatelessWidget {
             trailing == null && value != null && constraints.maxWidth < 390;
 
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
           child: Row(
             crossAxisAlignment: shouldStackValue
                 ? CrossAxisAlignment.start
                 : CrossAxisAlignment.center,
             children: [
               Container(
-                width: 36,
-                height: 36,
+                width: 42,
+                height: 42,
                 decoration: BoxDecoration(
                   color: palette.surface2,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(14),
                 ),
                 alignment: Alignment.center,
                 child: Icon(
                   icon,
-                  size: 18,
+                  size: 20,
                   color: iconColor ?? resolvedLabelColor.withValues(alpha: 0.9),
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 14),
               Expanded(
                 child: shouldStackValue
                     ? Column(
@@ -226,33 +224,30 @@ class ProfileSettingsRow extends StatelessWidget {
                         children: [
                           Text(
                             label,
-                            style: GoogleFonts.dmSans(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: resolvedLabelColor,
-                            ),
+                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  color: resolvedLabelColor,
+                                ),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             value!,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.dmSans(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: resolvedValueColor,
-                              height: 1.35,
-                            ),
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  color: resolvedValueColor,
+                                  height: 1.4,
+                                ),
                           ),
                         ],
                       )
                     : Text(
                         label,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: resolvedLabelColor,
-                        ),
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: resolvedLabelColor,
+                            ),
                       ),
               ),
               if (trailing != null)
@@ -265,22 +260,20 @@ class ProfileSettingsRow extends StatelessWidget {
                     maxLines: 2,
                     textAlign: TextAlign.right,
                     overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                      color: resolvedValueColor,
-                      height: 1.35,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: resolvedValueColor,
+                        ),
                   ),
                 ),
               ],
               if (onTap != null && showArrow) ...[
-                const SizedBox(width: 6),
+                const SizedBox(width: 8),
                 Padding(
-                  padding: EdgeInsets.only(top: shouldStackValue ? 2 : 0),
+                  padding: EdgeInsets.only(top: shouldStackValue ? 4 : 0),
                   child: Icon(
                     Icons.chevron_right_rounded,
-                    size: 18,
+                    size: 20,
                     color: palette.text3,
                   ),
                 ),
@@ -346,21 +339,12 @@ class ProfileSectionToggleCard extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: palette.text,
-                      ),
+                      style: Theme.of(context).textTheme.headlineSmall,
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 6),
                     Text(
                       subtitle,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: palette.text2,
-                        height: 1.4,
-                      ),
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ],
                 ),
@@ -371,6 +355,7 @@ class ProfileSectionToggleCard extends StatelessWidget {
                     ? Icons.keyboard_arrow_up_rounded
                     : Icons.keyboard_arrow_down_rounded,
                 color: palette.text2,
+                size: 24,
               ),
             ],
           ),
@@ -479,11 +464,7 @@ class ProfileAppearanceSheet extends StatelessWidget {
       children: [
         Text(
           l10n.appearanceLabel,
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: palette.text,
-          ),
+          style: Theme.of(context).textTheme.headlineSmall,
         ),
         const SizedBox(height: 16),
         CoolCard(
@@ -503,7 +484,7 @@ class ProfileAppearanceSheet extends StatelessWidget {
                   onTap: () => onSelected(AppThemePreference.values[index]),
                 ),
                 if (index < AppThemePreference.values.length - 1)
-                  Divider(color: palette.border, height: 1, indent: 62),
+                  Divider(color: palette.border, height: 1, indent: 72),
               ],
             ],
           ),
@@ -554,34 +535,33 @@ class _ProfileAppearanceOption extends StatelessWidget {
         splashColor: palette.accentGlow,
         highlightColor: Colors.transparent,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
           child: Row(
             children: [
               Container(
-                width: 36,
-                height: 36,
+                width: 42,
+                height: 42,
                 decoration: BoxDecoration(
                   color: palette.surface2,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(14),
                 ),
                 alignment: Alignment.center,
-                child: Icon(_icon(), size: 18, color: palette.text2),
+                child: Icon(_icon(), size: 20, color: palette.text2),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 14),
               Expanded(
                 child: Text(
                   _label(context),
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: palette.text,
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.w800,
+                      ),
                 ),
               ),
               const SizedBox(width: 12),
               Icon(
                 isSelected ? Icons.check_circle_rounded : Icons.circle_outlined,
                 color: isSelected ? palette.accent : palette.text3,
+                size: 24,
               ),
             ],
           ),

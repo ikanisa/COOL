@@ -9,7 +9,7 @@ import '../../core/theme/app_colors.dart';
 /// SectionTitle(
 ///   title: 'My Groups',
 ///   actionLabel: 'See all',
-///   onAction: () => context.push('/groups'),
+///   action: () => context.push('/groups'),
 /// )
 /// ```
 class SectionTitle extends StatelessWidget {

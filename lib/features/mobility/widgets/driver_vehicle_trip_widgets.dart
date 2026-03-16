@@ -79,9 +79,10 @@ class ScheduledTripTile extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
             ),
             alignment: Alignment.center,
-            child: Icon(
+            child: Image.asset(
               tripVehicleIcon(trip.vehicleLabel),
-              size: 21,
+              width: 21,
+              height: 21,
               color: AppColors.accent,
             ),
           ),

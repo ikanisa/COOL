@@ -8,6 +8,7 @@ import '../../features/momo/providers/momo_service_provider.dart';
 import '../../features/momo/providers/momo_sms_rationale_provider.dart';
 import '../../features/momo/services/momo_sms_autoread_service.dart';
 import '../../features/mobility/services/trip_sync_service.dart';
+import '../providers/supported_countries_provider.dart';
 import '../router/app_router.dart';
 import '../services/app_lifecycle_coordinator.dart';
 import '../services/app_session_coordinator.dart';
@@ -82,12 +83,17 @@ final deepLinkCoordinatorProvider = Provider<DeepLinkCoordinator>((ref) {
   return coordinator;
 });
 
+import '../providers/supported_countries_provider.dart';
+...
 final appLifecycleCoordinatorProvider = Provider<AppLifecycleCoordinator>((
   ref,
 ) {
   final coordinator = AppLifecycleCoordinator(
     refreshFeatureFlags: () async {
       await ref.read(featureFlagsStateProvider.notifier).refresh();
+    },
+    refreshSupportedCountries: () async {
+      await ref.read(fetchSupportedCountriesProvider.future);
     },
     readAuthState: () => ref.read(authProvider),
     engagementTracker: ref.read(engagementTrackerProvider),

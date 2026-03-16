@@ -537,7 +537,7 @@ class MobilityNotifier extends StateNotifier<MobilityState> {
     if (normalized.contains('moto')) return 'moto';
     if (normalized.contains('cab')) return 'cab';
     if (normalized.contains('truck')) return 'truck';
-    if (normalized.contains('liffan')) return 'liffan';
+    if (normalized.contains('trike')) return 'trike';
     return normalized.trim().isEmpty ? null : normalized.trim();
   }
 

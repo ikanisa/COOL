@@ -426,7 +426,7 @@ class WalletStatementTab extends StatelessWidget {
     final palette = context.coolPalette;
     if (entries.isEmpty) {
       return CoolEmptyView(
-        message: isFilteredView
+        subtitle: isFilteredView
             ? 'Adjust filters'
             : context.l10n.walletEmptyMessage,
         icon: Icons.receipt_long_rounded,
@@ -449,69 +449,85 @@ class WalletStatementTab extends StatelessWidget {
 
         final entry = entries[index - 1];
         return CoolCard(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: (entry.isCredit ? palette.accent : palette.orange)
-                          .withValues(alpha: 0.16),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    alignment: Alignment.center,
-                    child: Icon(
-                      entry.isCredit
-                          ? Icons.south_west_rounded
-                          : Icons.north_east_rounded,
-                      color: entry.isCredit ? palette.accent : palette.orange,
+                  Expanded(
+                    child: Text(
+                      entry.momoTxId != null ? 'Tx ID: ${entry.momoTxId}' : 'Tx ID: N/A',
+                      style: GoogleFonts.dmSans(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
+                        color: palette.text3,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 8),
+                  Text(
+                    dateFormat.format(entry.occurredAt),
+                    style: GoogleFonts.dmSans(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
+                      color: palette.text3,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          entry.label,
+                          entry.payerName ?? entry.counterpartyName ?? entry.label,
                           style: GoogleFonts.dmSans(
                             fontSize: 15,
                             fontWeight: FontWeight.w700,
                             color: palette.text,
                           ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 2),
                         Text(
-                          dateFormat.format(entry.occurredAt),
+                          entry.payerPhone != null
+                              ? (entry.payerPhone!.length >= 4
+                                  ? '•••• ${entry.payerPhone!.substring(entry.payerPhone!.length - 4)}'
+                                  : entry.payerPhone!)
+                              : 'MoMo Transfer',
                           style: GoogleFonts.dmSans(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: palette.text3,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: palette.text2,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 8),
                   Text(
-                    '${entry.isCredit ?'+' : '-'}${moneyFormat.format(entry.amount)} ${entry.currency}',
-                    textAlign: TextAlign.right,
+                    '${entry.isCredit ? '+' : '-'}${moneyFormat.format(entry.amount)} ${entry.currency}',
                     style: GoogleFonts.dmSans(
-                      fontSize: 14,
+                      fontSize: 16,
                       fontWeight: FontWeight.w700,
-                      color: entry.isCredit ? palette.accent : palette.orange,
+                      color: entry.isCredit ? palette.accent : palette.text,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 10),
               Wrap(
-                spacing: 8,
-                runSpacing: 8,
+                spacing: 6,
+                runSpacing: 6,
                 children: [
                   _StatusChip(
                     label: entry.isCredit
@@ -519,35 +535,13 @@ class WalletStatementTab extends StatelessWidget {
                         : context.l10n.outgoingLabel,
                     color: entry.isCredit ? palette.accent : palette.orange,
                   ),
-                  _StatusChip(
-                    label: _humanizeToken(entry.txCategory),
-                    color: palette.blue,
-                  ),
-                  _StatusChip(
-                    label: _humanizeToken(entry.cashflowBucket),
-                    color: palette.yellow,
-                  ),
-                  _StatusChip(
-                    label: _humanizeToken(entry.ledgerStatus),
-                    color: palette.purple,
-                  ),
+                  if (entry.ledgerStatus != 'draft' && entry.ledgerStatus != 'pending')
+                    _StatusChip(
+                      label: _humanizeToken(entry.ledgerStatus),
+                      color: palette.purple,
+                    ),
                 ],
               ),
-              if (entry.counterpartyName != null)
-                _DetailLine(
-                  label: context.l10n.counterpartyLabel,
-                  value: entry.counterpartyName!,
-                ),
-              if (entry.reference != null)
-                _DetailLine(
-                  label: context.l10n.referenceLabel,
-                  value: entry.reference!,
-                ),
-              if (entry.description != null)
-                _DetailLine(
-                  label: context.l10n.detailsLabel,
-                  value: entry.description!,
-                ),
             ],
           ),
         );
@@ -577,7 +571,7 @@ class SavingsStatementTab extends StatelessWidget {
     final palette = context.coolPalette;
     if (entries.isEmpty) {
       return CoolEmptyView(
-        message: isFilteredView
+        subtitle: isFilteredView
             ? 'Adjust filters'
             : context.l10n.savingsEmptyMessage,
         icon: Icons.groups_2_rounded,
@@ -712,48 +706,6 @@ class _SectionLead extends StatelessWidget {
               fontSize: 12,
               fontWeight: FontWeight.w500,
               color: palette.text3,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _OverviewMetricTile extends StatelessWidget {
-  const _OverviewMetricTile({required this.label, required this.value});
-
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: palette.surface2,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: palette.border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: GoogleFonts.dmSans(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              color: palette.text3,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            value,
-            style: GoogleFonts.dmSans(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: palette.text,
             ),
           ),
         ],

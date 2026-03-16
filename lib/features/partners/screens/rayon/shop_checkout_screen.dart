@@ -222,25 +222,24 @@ class _SummaryRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 6),
+      padding: const EdgeInsets.only(bottom: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             label,
-            style: GoogleFonts.barlow(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: AppColors.text2,
-            ),
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.text2,
+                ),
           ),
           Text(
             value,
-            style: GoogleFonts.dmMono(
-              fontSize: 13,
-              fontWeight: FontWeight.w700,
-              color: valueColor ?? AppColors.text,
-            ),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w800,
+                  fontFamily: GoogleFonts.dmMono().fontFamily,
+                  color: valueColor ?? AppColors.text,
+                ),
           ),
         ],
       ),
@@ -285,21 +284,16 @@ class _ShopCheckoutOverviewCard extends StatelessWidget {
                   children: [
                     Text(
                       'Review order',
-                      style: GoogleFonts.barlowCondensed(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.rsWhite,
-                      ),
+                      style:
+                          Theme.of(context).textTheme.headlineMedium?.copyWith(
+                                fontWeight: FontWeight.w800,
+                                color: AppColors.rsWhite,
+                              ),
                     ),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: 8),
                     Text(
-                      '$itemCount item${itemCount == 1 ?'' : 's'} · ${products.length} product${products.length == 1 ? '' : 's'}',
-                      style: GoogleFonts.barlow(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.text2,
-                        height: 1.35,
-                      ),
+                      '$itemCount item${itemCount == 1 ? '' : 's'} · ${products.length} product${products.length == 1 ? '' : 's'}',
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ],
                 ),
@@ -307,28 +301,30 @@ class _ShopCheckoutOverviewCard extends StatelessWidget {
               if (hasMemberDiscount)
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 6,
+                    horizontal: 12,
+                    vertical: 8,
                   ),
                   decoration: BoxDecoration(
                     color: RsColors.rsGold.withValues(alpha: 0.14),
-                    borderRadius: BorderRadius.circular(999),
+                    borderRadius: BorderRadius.circular(12),
                     border: Border.all(
                       color: RsColors.rsGold.withValues(alpha: 0.28),
+                      width: 1,
                     ),
                   ),
                   child: Text(
                     'GOLD -10%',
-                    style: GoogleFonts.dmMono(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w700,
-                      color: RsColors.rsGoldLight,
-                    ),
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          fontWeight: FontWeight.w900,
+                          fontFamily: GoogleFonts.dmMono().fontFamily,
+                          color: RsColors.rsGoldLight,
+                          letterSpacing: 0.5,
+                        ),
                   ),
                 ),
             ],
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 24),
           for (var index = 0; index < products.length; index++) ...[
             _CheckoutLineItemRow(
               product: products[index],
@@ -337,13 +333,13 @@ class _ShopCheckoutOverviewCard extends StatelessWidget {
             ),
             if (index < products.length - 1)
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Divider(height: 1, color: AppColors.border),
               ),
           ],
-          const SizedBox(height: 16),
+          const SizedBox(height: 24),
           Divider(color: AppColors.border),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
           _SummaryRow(
             label: 'Subtotal',
             value: _ShopCheckoutScreenState._fmtRwf(subtotal),
@@ -360,11 +356,28 @@ class _ShopCheckoutOverviewCard extends StatelessWidget {
                 ? 'Free'
                 : _ShopCheckoutScreenState._fmtRwf(deliveryFee),
           ),
+          const SizedBox(height: 8),
           Divider(color: AppColors.border),
-          _SummaryRow(
-            label: 'Total',
-            value: _ShopCheckoutScreenState._fmtRwf(total),
-            valueColor: AppColors.rsWhite,
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Total',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.rsWhite,
+                    ),
+              ),
+              Text(
+                _ShopCheckoutScreenState._fmtRwf(total),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w900,
+                      fontFamily: GoogleFonts.dmMono().fontFamily,
+                      color: AppColors.rsWhite,
+                    ),
+              ),
+            ],
           ),
         ],
       ),
@@ -596,38 +609,38 @@ class _CheckoutStatusState extends StatelessWidget {
         children: [
           const SizedBox(height: 36),
           Container(
-            width: 84,
-            height: 84,
+            width: 96,
+            height: 96,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: color.withValues(alpha: 0.16),
               border: Border.all(
                 color: color.withValues(alpha: 0.42),
-                width: 2,
+                width: 2.5,
               ),
             ),
             alignment: Alignment.center,
-            child: Icon(_statusIcon(status), size: 38, color: color),
+            child: Icon(_statusIcon(status), size: 44, color: color),
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 24),
           Text(
             _statusHeadline(status),
-            style: GoogleFonts.barlowCondensed(
-              fontSize: 34,
-              fontWeight: FontWeight.w900,
-              color: AppColors.rsWhite,
-            ),
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                  fontWeight: FontWeight.w900,
+                  color: AppColors.rsWhite,
+                  letterSpacing: -1.0,
+                ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 12),
           Text(
             _statusBody(status, total, message, paymentRoute),
             textAlign: TextAlign.center,
-            style: GoogleFonts.barlow(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: AppColors.text2,
-              height: 1.45,
-            ),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.text2,
+                  height: 1.6,
+                ),
           ),
           const SizedBox(height: 18),
           CoolCard(

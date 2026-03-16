@@ -31,15 +31,16 @@ bool isActiveTrip(Trip trip) {
 
 bool isPausedTrip(Trip trip) => trip.status.trim().toUpperCase() == 'PAUSED';
 
-IconData vehicleIconForType(String vehicleType) {
+String vehicleIconForType(String vehicleType) {
   final normalized = vehicleType.trim().toLowerCase();
-  if (normalized.contains('moto')) return Icons.two_wheeler_rounded;
-  if (normalized.contains('cab')) return Icons.directions_car_rounded;
-  if (normalized.contains('truck')) return Icons.local_shipping_rounded;
-  if (normalized.contains('liffan') || normalized.contains('van')) {
-    return Icons.airport_shuttle_rounded;
+  if (normalized.contains('moto')) return 'assets/icons/vehicle_moto.png';
+  if (normalized.contains('cab') || normalized.contains('car')) return 'assets/icons/vehicle_cab.png';
+  if (normalized.contains('truck')) return 'assets/icons/vehicle_truck.png';
+  if (normalized.contains('pickup') || normalized.contains('others')) return 'assets/icons/vehicle_others.png';
+  if (normalized.contains('trike') || normalized.contains('van')) {
+    return 'assets/icons/vehicle_trike.png';
   }
-  return Icons.directions_car_filled_rounded;
+  return 'assets/icons/vehicle_cab.png';
 }
 
 String displayVehicleType(String vehicleType) {
@@ -52,8 +53,8 @@ String displayVehicleType(String vehicleType) {
       return 'Cab';
     case 'truck':
       return 'Truck';
-    case 'liffan':
-      return 'Liffan';
+    case 'trike':
+      return 'Trike';
     case 'any':
       return 'Any';
     default:
@@ -91,7 +92,7 @@ class TripBoardPublicTripsSliver extends ConsumerWidget {
         sliver: SliverToBoxAdapter(
           child: TripBoardLoadingState(
             title: 'Loading nearby trips',
-            subtitle: 'Searching nearby…',
+            message: 'Searching nearby…',
           ),
         ),
       );
@@ -124,7 +125,7 @@ class TripBoardPublicTripsSliver extends ConsumerWidget {
           child: TripBoardEmptyState(
             icon: Icons.warning_amber_rounded,
             title: 'Load nearby trips failed',
-            subtitle: error,
+            message: error,
           ),
         ),
       );
@@ -176,7 +177,7 @@ class TripBoardMyTripsSliver extends ConsumerWidget {
             const SliverToBoxAdapter(
               child: TripBoardLoadingState(
                 title: 'Loading your trips',
-                subtitle: 'Loading your trips…',
+                message: 'Loading your trips…',
               ),
             )
           else if (error != null && myTrips.isEmpty)
@@ -184,7 +185,7 @@ class TripBoardMyTripsSliver extends ConsumerWidget {
               child: TripBoardEmptyState(
                 icon: Icons.warning_amber_rounded,
                 title: 'Load your trips failed',
-                subtitle: error,
+                message: error,
               ),
             )
           else if (myTrips.isEmpty)
@@ -192,7 +193,7 @@ class TripBoardMyTripsSliver extends ConsumerWidget {
               child: TripBoardEmptyState(
                 icon: Icons.folder_open_rounded,
                 title: 'No trips posted yet',
-                subtitle: 'Post a trip to',
+                message: 'Post a trip to',
               ),
             )
           else
@@ -280,7 +281,7 @@ class _DriverReturnTripsSliver extends StatelessWidget {
             child: TripBoardEmptyState(
               icon: Icons.repeat_rounded,
               title: 'No driver returns available',
-              subtitle: 'Try another vehicle type',
+              message: 'Try another vehicle type',
             ),
           )
         else
@@ -381,9 +382,10 @@ class MyTripTile extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(
+                Image.asset(
                   vehicleIconForType(trip.vehicleType),
-                  size: 22,
+                  width: 22,
+                  height: 22,
                   color: palette.accent,
                 ),
                 const SizedBox(width: 12),
@@ -727,7 +729,7 @@ class TripBoardLocationStateCard extends StatelessWidget {
     return TripBoardEmptyState(
       icon: icon,
       title: title,
-      subtitle: subtitle,
+      message: subtitle,
       actionLabel: actionLabel,
       onActionTap: action,
     );

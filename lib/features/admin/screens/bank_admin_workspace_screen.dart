@@ -121,6 +121,7 @@ class _BankAdminWorkspaceScreenState
   }
 
   Future<void> _exportLedger({
+    required StatementExportFormat format,
     required String partnerName,
     required BankAdminGroupSummary group,
     required List<PayeePaymentLedgerEntry> entries,
@@ -135,7 +136,7 @@ class _BankAdminWorkspaceScreenState
       final exportService = ref.read(momoStatementExportServiceProvider);
       final downloadService = ref.read(momoStatementDownloadServiceProvider);
       final export = await exportService.buildPayeeLedgerExport(
-        format: StatementExportFormat.excel,
+        format: format,
         entries: entries,
         metadata: StatementExportMetadata(
           statementTitle: '${group.group.name} payment ledger',
@@ -748,13 +749,8 @@ class _BankAdminWorkspaceScreenState
                       padding: const EdgeInsets.fromLTRB(18, 0, 18, 32),
                       children: [
                         Text(
-                          '$partnerName Admin',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 34,
-                            fontWeight: FontWeight.w800,
-                            color: palette.text,
-                            height: 1.1,
-                          ),
+                          '$partnerName Terminal',
+                          style: Theme.of(context).textTheme.displayLarge,
                         ),
                         const SizedBox(height: 24),
                         _WorkspaceHero(
@@ -762,39 +758,39 @@ class _BankAdminWorkspaceScreenState
                           snapshot: snapshot,
                           analyticsAsync: analyticsAsync,
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 32),
                         DecoratedBox(
                           decoration: BoxDecoration(
-                            color: palette.surface,
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: palette.border),
+                            color: palette.surface2,
+                            borderRadius: BorderRadius.circular(18),
+                            border: Border.all(color: palette.border, width: 1.5),
                           ),
                           child: TabBar(
                             controller: _tabController,
                             isScrollable: true,
-                            labelColor: palette.text,
+                            labelColor: Colors.white,
                             unselectedLabelColor: palette.text3,
                             indicatorSize: TabBarIndicatorSize.tab,
                             indicator: BoxDecoration(
-                              color: palette.surface2,
+                              color: palette.blue,
                               borderRadius: BorderRadius.circular(14),
                             ),
-                            labelStyle: GoogleFonts.dmSans(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w700,
+                            labelStyle: Theme.of(context).textTheme.labelSmall?.copyWith(
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 0.5,
                             ),
-                            unselectedLabelStyle: GoogleFonts.dmSans(
-                              fontSize: 13,
+                            unselectedLabelStyle: Theme.of(context).textTheme.labelSmall?.copyWith(
                               fontWeight: FontWeight.w600,
                             ),
+                            padding: const EdgeInsets.all(4),
                             tabs: const [
-                              Tab(text: 'Groups'),
-                              Tab(text: 'Members'),
-                              Tab(text: 'Contributions'),
-                              Tab(text: 'Ledgers'),
-                              Tab(text: 'Allocations'),
-                              Tab(text: 'Loans'),
-                              Tab(text: 'Baskets'),
+                              Tab(text: 'GROUPS', height: 40),
+                              Tab(text: 'MEMBERS', height: 40),
+                              Tab(text: 'CONTRIBUTIONS', height: 40),
+                              Tab(text: 'LEDGERS', height: 40),
+                              Tab(text: 'ALLOCATIONS', height: 40),
+                              Tab(text: 'LOANS', height: 40),
+                              Tab(text: 'BASKETS', height: 40),
                             ],
                           ),
                         ),
@@ -840,15 +836,16 @@ class _BankAdminWorkspaceScreenState
                                           ledgerQuery,
                                         ),
                                       ),
-                                onExportExcel: selectedGroup == null
-                                    ? null
-                                    : (entries) => _exportLedger(
-                                        partnerName: partnerName,
-                                        group: selectedGroup,
-                                        entries: entries,
-                                      ),
-                                isExporting: _isExportingLedger,
-                              ),
+                                  onExport: selectedGroup == null
+                                      ? null
+                                      : (format, entries) => _exportLedger(
+                                          format: format,
+                                          partnerName: partnerName,
+                                          group: selectedGroup,
+                                          entries: entries,
+                                        ),
+                                  isExporting: _isExportingLedger,
+                                ),
                               _AllocationsTab(
                                 items: snapshot.allocations.entries,
                                 totalCount: snapshot.allocations.totalCount,
@@ -1729,7 +1726,7 @@ class _LedgersTab extends StatelessWidget {
     required this.onSelectedGroupChanged,
     required this.ledgerAsync,
     required this.onRetry,
-    required this.onExportExcel,
+    required this.onExport,
     required this.isExporting,
   });
 
@@ -1738,8 +1735,10 @@ class _LedgersTab extends StatelessWidget {
   final ValueChanged<String?> onSelectedGroupChanged;
   final AsyncValue<MomoStatementPage<PayeePaymentLedgerEntry>> ledgerAsync;
   final VoidCallback? onRetry;
-  final Future<void> Function(List<PayeePaymentLedgerEntry> entries)?
-  onExportExcel;
+  final Future<void> Function(
+    StatementExportFormat format,
+    List<PayeePaymentLedgerEntry> entries,
+  )? onExport;
   final bool isExporting;
 
   @override
@@ -1817,21 +1816,43 @@ class _LedgersTab extends StatelessWidget {
               children: [
                 Align(
                   alignment: Alignment.centerRight,
-                  child: FilledButton.icon(
-                    onPressed:
-                        isExporting ||
-                            onExportExcel == null ||
-                            page.entries.isEmpty
-                        ? null
-                        : () => onExportExcel!(page.entries),
-                    icon: isExporting
-                        ? const SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Icon(Icons.table_view_rounded),
-                    label: Text(isExporting ? 'Exporting...' : 'Export Excel'),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      OutlinedButton.icon(
+                        onPressed:
+                            isExporting ||
+                                onExport == null ||
+                                page.entries.isEmpty
+                            ? null
+                            : () => onExport!(StatementExportFormat.pdf, page.entries),
+                        icon: isExporting
+                            ? const SizedBox(
+                                width: 16,
+                                height: 16,
+                                child: CircularProgressIndicator(strokeWidth: 2),
+                              )
+                            : const Icon(Icons.picture_as_pdf_outlined),
+                        label: Text(isExporting ? 'Exporting...' : 'Export PDF'),
+                      ),
+                      const SizedBox(width: 12),
+                      FilledButton.icon(
+                        onPressed:
+                            isExporting ||
+                                onExport == null ||
+                                page.entries.isEmpty
+                            ? null
+                            : () => onExport!(StatementExportFormat.excel, page.entries),
+                        icon: isExporting
+                            ? const SizedBox(
+                                width: 16,
+                                height: 16,
+                                child: CircularProgressIndicator(strokeWidth: 2),
+                              )
+                            : const Icon(Icons.table_view_rounded),
+                        label: Text(isExporting ? 'Exporting...' : 'Export Excel'),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 12),

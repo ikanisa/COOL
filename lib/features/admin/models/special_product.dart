@@ -43,7 +43,7 @@ class SpecialProduct {
       id: json['id']?.toString() ?? '',
       slug: json['slug']?.toString() ?? '',
       title: json['title']?.toString() ?? '',
-      subtitle: json['subtitle']?.toString() ?? '',
+      message: json['subtitle']?.toString() ?? '',
       description: json['description']?.toString() ?? '',
       amount: (json['amount'] as num?)?.toInt() ?? 0,
       currency: json['currency']?.toString() ?? 'RWF',

@@ -83,11 +83,11 @@ abstract final class PhoneValidator {
     return null;
   }
 
-  /// Friendly display: `+250 78X XXX XXX`
+  /// Friendly display: `07X XXX XXXX`
   static String formatRwandanDisplay(String phone) {
     final local = toRwandanLocal(phone);
     if (local == null || local.length != 9) return phone;
-    return '+250 ${local.substring(0, 3)} ${local.substring(3, 6)} ${local.substring(6)}';
+    return '0${local.substring(0, 2)} ${local.substring(2, 5)} ${local.substring(5)}';
   }
 
   /// User-facing MoMo display should stay in the country's local/national

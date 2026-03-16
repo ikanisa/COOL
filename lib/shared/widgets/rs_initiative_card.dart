@@ -46,7 +46,7 @@ class RsInitiativeCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(18),
           child: Ink(
             decoration: BoxDecoration(
-              color: AppColors.surface2,
+              gradient: AppColors.cardGradient,
               borderRadius: BorderRadius.circular(18),
               border: Border.all(color: AppColors.border2),
               boxShadow: [

@@ -382,7 +382,7 @@ class _NotificationAccessCard extends StatelessWidget {
     return _AccessCardShell(
       icon: Icons.notifications_outlined,
       title: 'Notifications',
-      subtitle: 'Payment and activity alerts',
+      message: 'Payment and activity alerts',
       statusLabel: statusLabel,
       statusColor: statusColor,
       linkedFeatures: const [
@@ -445,7 +445,7 @@ class _PermissionAccessCard extends StatelessWidget {
     return _AccessCardShell(
       icon: metadata.icon,
       title: metadata.title,
-      subtitle: metadata.subtitle,
+      message: metadata.subtitle,
       statusLabel: status.label,
       statusColor: status.color,
       linkedFeatures: metadata.linkedFeatures,
@@ -772,7 +772,7 @@ _PermissionMetadata _metadataFor(AppAccessPermission permission) {
     AppAccessPermission.sms => const _PermissionMetadata(
       icon: Icons.sms_outlined,
       title: 'SMS payment sync',
-      subtitle:
+      message:
           'Optional on Android so',
       linkedFeatures: ['MoMo verification', 'Transaction recording'],
       serviceActionLabel: 'Open system settings',
@@ -780,7 +780,7 @@ _PermissionMetadata _metadataFor(AppAccessPermission permission) {
     AppAccessPermission.location => const _PermissionMetadata(
       icon: Icons.location_on_outlined,
       title: 'Location',
-      subtitle:
+      message:
           'Needed for nearby mobility',
       linkedFeatures: ['Mobility nearby', 'Trip pickup', 'Driver discovery'],
       serviceActionLabel: 'Open location settings',
@@ -788,7 +788,7 @@ _PermissionMetadata _metadataFor(AppAccessPermission permission) {
     AppAccessPermission.camera => const _PermissionMetadata(
       icon: Icons.camera_alt_outlined,
       title: 'Camera',
-      subtitle:
+      message:
           'Used for MoMo QR',
       linkedFeatures: ['MoMo QR scan', 'Ticket scan'],
       serviceActionLabel: 'Open system settings',
@@ -796,7 +796,7 @@ _PermissionMetadata _metadataFor(AppAccessPermission permission) {
     AppAccessPermission.contacts => const _PermissionMetadata(
       icon: Icons.contacts_outlined,
       title: 'Contacts',
-      subtitle:
+      message:
           'Used when inviting group',
       linkedFeatures: ['Group invites', 'Share via contacts'],
       serviceActionLabel: 'Open system settings',
@@ -804,7 +804,7 @@ _PermissionMetadata _metadataFor(AppAccessPermission permission) {
     AppAccessPermission.nfc => const _PermissionMetadata(
       icon: Icons.nfc_outlined,
       title: 'NFC',
-      subtitle:
+      message:
           'Controls NFC receive/read flows',
       linkedFeatures: ['MoMo receive tap', 'NFC payment tags'],
       serviceActionLabel: 'Open NFC settings',

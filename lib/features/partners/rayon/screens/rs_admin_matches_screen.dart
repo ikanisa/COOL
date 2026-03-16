@@ -67,8 +67,9 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
         ),
         emptyCheck: (matches) => matches.isEmpty,
         emptyWidget: const CoolEmptyView(
-          message: 'No matches have yet',
+          subtitle: 'No matches have yet',
           icon: Icons.sports_soccer_outlined,
+          isPremium: true,
         ),
         builder: (matches) => ListView.separated(
           padding: EdgeInsets.zero,

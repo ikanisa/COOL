@@ -307,7 +307,7 @@ class _SpecialProductEditSheetState
         id: widget.product?.id ?? '',
         slug: _slugCtrl.text.trim(),
         title: _titleCtrl.text.trim(),
-        subtitle: _subtitleCtrl.text.trim(),
+        message: _subtitleCtrl.text.trim(),
         description: _descriptionCtrl.text.trim(),
         amount: int.tryParse(_amountCtrl.text.trim()) ?? 0,
         colorHex: _colorCtrl.text.trim(),

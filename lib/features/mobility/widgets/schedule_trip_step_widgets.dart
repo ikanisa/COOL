@@ -13,6 +13,123 @@ import 'schedule_trip_route_preview.dart';
 import 'schedule_trip_route_widgets.dart';
 import 'schedule_trip_shared.dart';
 
+// ── Smart Input ───────────────────────────────────────────────────
+
+class ScheduleTripSmartInputCard extends StatelessWidget {
+  const ScheduleTripSmartInputCard({
+    required this.controller,
+    required this.isParsing,
+    required this.onParseTap,
+    super.key,
+  });
+
+  final TextEditingController controller;
+  final bool isParsing;
+  final VoidCallback onParseTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+
+    return CoolCard(
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          palette.surface2,
+          palette.surface3,
+        ],
+      ),
+      borderColor: Colors.white.withValues(alpha: 0.05),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.auto_awesome_rounded, size: 20, color: palette.accent),
+              const SizedBox(width: 8),
+              Text(
+                'Smart Schedule',
+                style: GoogleFonts.dmSans(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: palette.text,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          TextFormField(
+            controller: controller,
+            minLines: 2,
+            maxLines: 4,
+            style: GoogleFonts.dmSans(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: palette.text,
+            ),
+            decoration: InputDecoration(
+              hintText:
+                  'e.g., "Pick me up at the airport at 5pm tomorrow and take me home"',
+              hintStyle: GoogleFonts.dmSans(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: palette.text3,
+              ),
+              filled: true,
+              fillColor: palette.surface3,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: palette.border),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: palette.border),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: palette.accent, width: 1.2),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: isParsing ? null : onParseTap,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: palette.accent.withValues(alpha: 0.1),
+                foregroundColor: palette.accent,
+                elevation: 0,
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: isParsing
+                  ? SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation(palette.accent),
+                      ),
+                    )
+                  : Text(
+                      'Auto-fill details',
+                      style: GoogleFonts.dmSans(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 // ── Data helpers ────────────────────────────────────────────────────
 
 class VehicleOption {
@@ -112,6 +229,15 @@ class ScheduleTripRouteStep extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CoolCard(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              palette.surface2,
+              palette.surface3,
+            ],
+          ),
+          borderColor: Colors.white.withValues(alpha: 0.05),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -244,6 +370,15 @@ class ScheduleTripTimingStep extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CoolCard(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              palette.surface2,
+              palette.surface3,
+            ],
+          ),
+          borderColor: Colors.white.withValues(alpha: 0.05),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -283,7 +418,7 @@ class ScheduleTripTimingStep extends StatelessWidget {
               ScheduleTripToggleCard(
                 icon: Icons.repeat_rounded,
                 title: l10n.scheduleTripReturnTitle,
-                subtitle: l10n.scheduleTripReturnSubtitle,
+                message: l10n.scheduleTripReturnSubtitle,
                 value: returnTrip,
                 onChanged: onReturnTripToggled,
               ),
@@ -321,7 +456,7 @@ class ScheduleTripTimingStep extends StatelessWidget {
               ScheduleTripToggleCard(
                 icon: Icons.sync_rounded,
                 title: l10n.scheduleTripRecurringTitle,
-                subtitle: l10n.scheduleTripRecurringSubtitle,
+                message: l10n.scheduleTripRecurringSubtitle,
                 value: recurringTrip,
                 onChanged: onRecurringTripToggled,
               ),
@@ -416,6 +551,15 @@ class ScheduleTripOptionsStep extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CoolCard(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              palette.surface2,
+              palette.surface3,
+            ],
+          ),
+          borderColor: Colors.white.withValues(alpha: 0.05),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

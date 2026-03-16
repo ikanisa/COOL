@@ -62,19 +62,21 @@ class MembershipTiersScreen extends StatelessWidget {
                         data: (packages) => _TierList(
                           currentTier: currentTier,
                           currentPoints: currentPoints,
-                          packages: packages.isEmpty
-                              ? RsMembershipPackage.fallback()
-                              : packages,
+                          packages: packages,
                         ),
-                        loading: () => _TierList(
-                          currentTier: currentTier,
-                          currentPoints: currentPoints,
-                          packages: RsMembershipPackage.fallback(),
+                        loading: () => SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) => const Padding(
+                              padding: EdgeInsets.only(bottom: 16),
+                              child: CoolSkeleton.card(),
+                            ),
+                            childCount: 4,
+                          ),
                         ),
                         error: (_, _) => _TierList(
                           currentTier: currentTier,
                           currentPoints: currentPoints,
-                          packages: RsMembershipPackage.fallback(),
+                          packages: const [],
                         ),
                       );
                     },
@@ -87,10 +89,13 @@ class MembershipTiersScreen extends StatelessWidget {
                         childCount: 4,
                       ),
                     ),
-                    error: (error, stack) => _TierList(
-                      currentTier: FanTier.blue,
-                      currentPoints: 0,
-                      packages: RsMembershipPackage.fallback(),
+                    error: (error, stack) => SliverToBoxAdapter(
+                      child: Center(
+                        child: Text(
+                          'Could not load membership info',
+                          style: GoogleFonts.dmSans(color: AppColors.text3),
+                        ),
+                      ),
                     ),
                   ),
                 ),

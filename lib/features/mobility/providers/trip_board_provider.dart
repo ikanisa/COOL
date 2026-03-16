@@ -360,8 +360,8 @@ class TripBoardNotifier extends StateNotifier<TripBoardState> {
     if (normalized.contains('truck')) {
       return 'truck';
     }
-    if (normalized.contains('liffan')) {
-      return 'liffan';
+    if (normalized.contains('trike')) {
+      return 'trike';
     }
     return normalized.trim().isEmpty ? null : normalized.trim();
   }

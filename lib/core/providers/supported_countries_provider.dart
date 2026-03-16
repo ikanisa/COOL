@@ -3,13 +3,26 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../config/app_market.dart';
 import '../config/country_catalog.dart';
 import '../repositories/supported_countries_repository.dart';
+import 'supabase_client_provider.dart';
 
+/// Provider for the [SupportedCountriesRepository].
 final supportedCountriesRepositoryProvider =
     Provider<SupportedCountriesRepository>((ref) {
-      return SupportedCountriesRepository();
+      final client = ref.watch(supabaseClientProvider);
+      return SupportedCountriesRepository(client: client);
     });
 
-/// Rwanda-only — always returns `[AppMarket.country]`.
+/// Synchronous list of supported countries for the current market.
+/// Defaults to hardcoded fallback if dynamic fetch has not occurred yet.
 final supportedCountriesProvider = Provider<List<CoolCountry>>((ref) {
-  return <CoolCountry>[AppMarket.country];
+  final repository = ref.watch(supportedCountriesRepositoryProvider);
+  return repository.getSupportedCountries();
 });
+
+/// Async provider for fetching supported countries from Supabase.
+/// Should be awaited during app initialization to populate the cache.
+final fetchSupportedCountriesProvider =
+    FutureProvider<List<CoolCountry>>((ref) async {
+      final repository = ref.read(supportedCountriesRepositoryProvider);
+      return repository.fetchSupportedCountries();
+    });

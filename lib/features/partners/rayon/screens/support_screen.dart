@@ -133,6 +133,7 @@ class _SupportIntroCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return CoolCard(
       borderColor: AppColors.border2,
+      gradient: AppColors.cardGradient,
       child: Row(
         children: [
           Expanded(
@@ -254,6 +255,7 @@ class _StateCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return CoolCard(
       borderColor: AppColors.border2,
+      gradient: AppColors.cardGradient,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Column(

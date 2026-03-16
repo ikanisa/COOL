@@ -87,7 +87,7 @@ class ConfigTile extends StatelessWidget {
             fontFeatures: const [FontFeature.tabularFigures()],
           ),
         ),
-        subtitle: Text(
+        message: Text(
           '$preview ${config['description'] ?? ''} ($scopeLabel)',
           style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
           maxLines: 3,
@@ -259,7 +259,7 @@ class MobilitySubscriptionConfigTile extends StatelessWidget {
             color: AppColors.text,
           ),
         ),
-        subtitle: Text(
+        message: Text(
           'MoMo code: $code',
           style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
         ),
@@ -317,7 +317,7 @@ class PartnerPaymentRouteConfigTile extends StatelessWidget {
             color: AppColors.text,
           ),
         ),
-        subtitle: Padding(
+        message: Padding(
           padding: const EdgeInsets.only(top: 4),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -11,6 +11,7 @@ import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/phone_validator.dart';
+import '../../../core/providers/supported_countries_provider.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/auth_provider.dart';
@@ -116,6 +117,8 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final authState = ref.watch(authProvider);
+    final countries = ref.watch(supportedCountriesProvider);
+    final currentCountry = countries.firstOrNull ?? AppMarket.country;
     final keyboardInset = MediaQuery.viewInsetsOf(context).bottom;
 
     return Scaffold(
@@ -192,13 +195,13 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const Text(
-                                    '🇷🇼',
-                                    style: TextStyle(fontSize: 18),
+                                  Text(
+                                    currentCountry.flagEmoji,
+                                    style: const TextStyle(fontSize: 18),
                                   ),
                                   const SizedBox(width: 6),
                                   Text(
-                                    '+250',
+                                    currentCountry.dialCode,
                                     style: GoogleFonts.dmSans(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
@@ -223,7 +226,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                                 ),
                                 cursorColor: AppColors.accent,
                                 decoration: InputDecoration(
-                                  hintText: '78 123 4567',
+                                  hintText: currentCountry.mobileExampleLocal,
                                   hintStyle: GoogleFonts.dmSans(
                                     fontSize: 16,
                                     color: AppColors.text3.withValues(

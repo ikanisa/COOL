@@ -11,6 +11,7 @@ import '../../../core/services/crashlytics_service.dart';
 import '../../../core/services/momo_service.dart';
 import '../../../core/services/performance_service.dart';
 import '../../momo/providers/momo_service_provider.dart';
+import '../models/face_match_result.dart';
 import '../models/user_profile.dart';
 import '../repositories/auth_repository.dart';
 
@@ -620,6 +621,43 @@ class AuthNotifier extends StateNotifier<AuthState> {
     );
 
     return submission;
+  }
+
+  Future<FaceMatchResult?> verifyFaceMatch({
+    required String idImageBase64,
+    required String selfieBase64,
+    String? idMimeType,
+    String? selfieMimeType,
+  }) async {
+    state = state.copyWith(isLoading: true, error: null);
+
+    final result = await AsyncValue.guard(
+      () => _repository.verifyFaceMatch(
+        idImageBase64: idImageBase64,
+        selfieBase64: selfieBase64,
+        idMimeType: idMimeType,
+        selfieMimeType: selfieMimeType,
+      ),
+    );
+
+    FaceMatchResult? matchResult;
+    result.when(
+      data: (value) {
+        matchResult = value;
+        state = state.copyWith(isLoading: false, error: null);
+      },
+      error: (error, stack) {
+        _crashlytics.recordError(
+          error,
+          stackTrace: stack,
+          reason: 'verify_face_match',
+        );
+        state = state.copyWith(isLoading: false, error: _errorMessage(error));
+      },
+      loading: () {},
+    );
+
+    return matchResult;
   }
 
   Future<bool> updateProfile(UserProfile profile) async {

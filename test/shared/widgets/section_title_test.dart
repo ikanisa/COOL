@@ -21,7 +21,7 @@ void main() {
         SectionTitle(
           title: 'My Groups',
           actionLabel: 'See all',
-          onAction: () => tapped = true,
+          action: () => tapped = true,
         ),
       ));
       expect(find.text('See all'), findsOneWidget);

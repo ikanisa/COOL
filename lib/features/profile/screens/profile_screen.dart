@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/config/app_config_provider.dart';
@@ -12,6 +11,7 @@ import '../../../core/router/app_routes.dart';
 
 import '../../../core/status/providers/cool_status_provider.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../core/theme/theme_preference.dart';
 import '../../../core/theme/theme_preference_provider.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
@@ -319,9 +319,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     ];
 
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: context.coolPalette.bg,
       body: CoolScreenBackground(
         child: SafeArea(
+          bottom: false,
           child: CustomScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             slivers: [
@@ -336,41 +337,39 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   delegate: SliverChildListDelegate([
                     Text(
                       l10n.navProfile,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.text,
-                      ),
+                      style: Theme.of(context).textTheme.displayLarge,
                     ),
-                    const SizedBox(height: 18),
+                    const SizedBox(height: 24),
                     ProfileHeader(profile: profile),
                     // ── Completion progress ─────────────────────
                     if (profile.showCompletionBanner) ...[
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 16),
                       _ProfileCompletionBar(profile: profile),
                     ],
-                    const SizedBox(height: 14),
+                    const SizedBox(height: 32),
                     ProfileSettingsSection(
                       title: 'Account',
                       rows: accountRows,
                     ),
-                    const SizedBox(height: 14),
+                    const SizedBox(height: 24),
                     ProfileSettingsSection(
                       title: 'Settings',
                       rows: settingsRows,
                     ),
-                    const SizedBox(height: 14),
+                    const SizedBox(height: 24),
+                    _WealthArchiveCard(),
+                    const SizedBox(height: 24),
                     ProfileDangerZone(
                       onDeleteAccount: _confirmDeleteAccount,
                       onSignOut: _confirmSignOut,
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 40),
                     Center(
-                      child: Text(
-                        'Cool v1.0.0',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 11,
-                          color: AppColors.text3,
+                      child: Opacity(
+                        opacity: 0.5,
+                        child: Text(
+                          'COOL v1.0.0',
+                          style: Theme.of(context).textTheme.labelSmall,
                         ),
                       ),
                     ),
@@ -385,6 +384,126 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   }
 }
 
+class _WealthArchiveCard extends StatefulWidget {
+  @override
+  State<_WealthArchiveCard> createState() => _WealthArchiveCardState();
+}
+
+class _WealthArchiveCardState extends State<_WealthArchiveCard> {
+  bool _isArchiving = false;
+
+  Future<void> _archiveWealth(WidgetRef ref) async {
+    setState(() => _isArchiving = true);
+    
+    try {
+      final client = ref.read(supabaseClientProvider);
+      final response = await client.functions.invoke('run-monthly-archive');
+      
+      if (response.data != null && response.data['success'] == true) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: const Text('Wealth Archive saved to Google Drive & emailed!'),
+              action: SnackBarAction(
+                label: 'VIEW',
+                onPressed: () {
+                  // doc_url logic
+                },
+              ),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to complete archive.')),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isArchiving = false);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.accent.withValues(alpha: 0.05),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: AppColors.accent.withValues(alpha: 0.1)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: const BoxDecoration(color: AppColors.accent, shape: BoxShape.circle),
+                child: const Icon(Icons.auto_awesome_rounded, size: 16, color: Colors.black),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                'AI Wealth Concierge',
+                style: GoogleFonts.dmSans(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w800,
+                  color: palette.text,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            'Compile your monthly progress into a formal report, archive it to Google Drive, and receive a summary via Gmail.',
+            style: GoogleFonts.dmSans(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: palette.text2,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 20),
+          Consumer(
+            builder: (context, ref, _) => Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: _isArchiving ? null : () => _archiveWealth(ref),
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  decoration: BoxDecoration(
+                    color: palette.bg,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: palette.border),
+                  ),
+                  alignment: Alignment.center,
+                  child: _isArchiving 
+                    ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.accent))
+                    : Text(
+                        'Archive Current Month',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.accent,
+                        ),
+                      ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 /// Shows profile completion progress when setup is incomplete.
 class _ProfileCompletionBar extends StatelessWidget {
   const _ProfileCompletionBar({required this.profile});
@@ -392,58 +511,79 @@ class _ProfileCompletionBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final fraction = profile.completionFraction;
     final done = profile.setupItems.where((i) => i.isComplete).length;
     final total = profile.setupItems.length;
 
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.accent.withValues(alpha: 0.2)),
+        color: palette.surface,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: palette.accent.withValues(alpha: 0.15), width: 1.5),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.08),
+            blurRadius: 24,
+            offset: const Offset(0, 8),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(Icons.checklist_rounded, size: 16, color: AppColors.accent),
-              const SizedBox(width: 8),
-              Text(
-                'Profile Setup',
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.text,
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: palette.accent.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(Icons.checklist_rounded, size: 18, color: palette.accent),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  'Profile Setup',
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontSize: 16,
+                  ),
                 ),
               ),
-              const Spacer(),
-              Text(
-                '$done / $total',
-                style: GoogleFonts.dmSans(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.accent,
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: palette.accent.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(99),
+                ),
+                child: Text(
+                  '$done / $total',
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: palette.accent,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 16),
           ClipRRect(
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(8),
             child: LinearProgressIndicator(
               value: fraction,
-              minHeight: 6,
-              backgroundColor: AppColors.surface2,
-              valueColor: const AlwaysStoppedAnimation(AppColors.accent),
+              minHeight: 8,
+              backgroundColor: palette.surface2,
+              valueColor: AlwaysStoppedAnimation(palette.accent),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 16),
           Wrap(
-            spacing: 8,
-            runSpacing: 4,
+            spacing: 12,
+            runSpacing: 8,
             children: profile.setupItems.map((item) {
+              final color = item.isComplete ? palette.accent : palette.text3;
               return Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -451,18 +591,16 @@ class _ProfileCompletionBar extends StatelessWidget {
                     item.isComplete
                         ? Icons.check_circle_rounded
                         : Icons.radio_button_unchecked,
-                    size: 14,
-                    color: item.isComplete ? AppColors.accent : AppColors.text3,
+                    size: 16,
+                    color: color,
                   ),
-                  const SizedBox(width: 4),
+                  const SizedBox(width: 6),
                   Text(
                     item.label,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                      color: item.isComplete ? AppColors.text2 : AppColors.text3,
-                      decoration:
-                          item.isComplete ? TextDecoration.lineThrough : null,
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      fontSize: 12,
+                      color: item.isComplete ? palette.text : palette.text3,
+                      decoration: item.isComplete ? TextDecoration.lineThrough : null,
                     ),
                   ),
                 ],

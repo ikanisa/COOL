@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/identity/public_user_identity.dart';
@@ -139,16 +140,17 @@ class DriverCard extends StatelessWidget {
   }
 }
 
-/// Maps a vehicle type string to a Material Design icon.
-IconData _vehicleIconFromType(String vehicleType) {
+/// Maps a vehicle type string to an asset image path.
+String _vehicleIconFromType(String vehicleType) {
   final normalized = vehicleType.trim().toLowerCase();
-  if (normalized.contains('moto')) return Icons.two_wheeler_rounded;
-  if (normalized.contains('cab')) return Icons.directions_car_rounded;
-  if (normalized.contains('truck')) return Icons.local_shipping_rounded;
-  if (normalized.contains('liffan') || normalized.contains('van')) {
-    return Icons.airport_shuttle_rounded;
+  if (normalized.contains('moto')) return 'assets/icons/vehicle_moto.png';
+  if (normalized.contains('cab') || normalized.contains('car')) return 'assets/icons/vehicle_cab.png';
+  if (normalized.contains('truck')) return 'assets/icons/vehicle_truck.png';
+  if (normalized.contains('pickup') || normalized.contains('others')) return 'assets/icons/vehicle_others.png';
+  if (normalized.contains('trike') || normalized.contains('van')) {
+    return 'assets/icons/vehicle_trike.png';
   }
-  return Icons.directions_car_rounded;
+  return 'assets/icons/vehicle_cab.png';
 }
 
 
@@ -209,7 +211,7 @@ class _Avatar extends StatelessWidget {
 
 class _VehicleChip extends StatelessWidget {
   const _VehicleChip({required this.icon, required this.type});
-  final IconData icon;
+  final String icon;
   final String type;
 
   @override
@@ -223,7 +225,7 @@ class _VehicleChip extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 14, color: AppColors.text2),
+          Image.asset(icon, width: 14, height: 14, color: AppColors.text2),
           const SizedBox(width: 4),
           Text(
             type,

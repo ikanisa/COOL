@@ -100,7 +100,7 @@ class VehicleData {
     if (normalized.contains('moto')) return '🛺';
     if (normalized.contains('cab')) return '🚗';
     if (normalized.contains('truck')) return '🚛';
-    if (normalized.contains('liffan') || normalized.contains('van')) {
+    if (normalized.contains('trike') || normalized.contains('van')) {
       return '🚐';
     }
     return '🚘';
@@ -189,13 +189,14 @@ String displayValue(String? value) {
   return trimmed.isEmpty ? '--' : trimmed;
 }
 
-IconData tripVehicleIcon(String vehicleType) {
+String tripVehicleIcon(String vehicleType) {
   final normalized = vehicleType.trim().toLowerCase();
-  if (normalized.contains('moto')) return Icons.two_wheeler_rounded;
-  if (normalized.contains('cab')) return Icons.directions_car_rounded;
-  if (normalized.contains('truck')) return Icons.local_shipping_rounded;
-  if (normalized.contains('liffan') || normalized.contains('van')) {
-    return Icons.airport_shuttle_rounded;
+  if (normalized.contains('moto')) return 'assets/icons/vehicle_moto.png';
+  if (normalized.contains('cab') || normalized.contains('car')) return 'assets/icons/vehicle_cab.png';
+  if (normalized.contains('truck')) return 'assets/icons/vehicle_truck.png';
+  if (normalized.contains('pickup') || normalized.contains('others')) return 'assets/icons/vehicle_others.png';
+  if (normalized.contains('trike') || normalized.contains('van')) {
+    return 'assets/icons/vehicle_trike.png';
   }
-  return Icons.directions_car_filled_rounded;
+  return 'assets/icons/vehicle_cab.png';
 }

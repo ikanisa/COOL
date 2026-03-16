@@ -22,108 +22,86 @@ class PrismaHeroCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final description =
         partner.description ??
-        'AI professional services Rwanda';
+        'AI professional services';
+
+    final pills = partner.metadata['hero_pills'] as List<dynamic>?;
 
     return CoolCard(
-      gradient: AppColors.accentGradient,
-      child: Stack(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Positioned(
-            right: -8,
-            top: -8,
-            child: Icon(
-              IconMapper.from(partner.emoji),
-              size: 84,
-              color: Colors.white.withValues(alpha: 0.08),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(6),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.accent.withValues(alpha: 0.14),
-                    borderRadius: BorderRadius.circular(999),
-                    border: Border.all(
-                      color: AppColors.accent.withValues(alpha: 0.25),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        IconMapper.from(partner.emoji),
-                        size: 13,
-                        color: AppColors.accent,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      partner.name,
+                      style: GoogleFonts.dmSans(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.text,
+                        letterSpacing: -0.5,
                       ),
-                      const SizedBox(width: 4),
+                    ),
+                    if (partner.subtitle != null) ...[
+                      const SizedBox(height: 2),
                       Text(
-                        'Official IKANISA content',
+                        partner.subtitle!,
                         style: GoogleFonts.dmSans(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.accent,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.text2,
                         ),
                       ),
                     ],
-                  ),
-                ),
-                const SizedBox(height: 14),
-                Text(
-                  partner.name,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.text,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  partner.subtitle ?? 'IKANISA AI professional services',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.text2,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  description,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
-                    height: 1.5,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                const Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: [
-                    PartnerHeroPill(
-                      icon: Icons.balance_outlined,
-                      label: 'Legal, Tax & Compliance',
-                    ),
-                    PartnerHeroPill(
-                      icon: Icons.assured_workload_outlined,
-                      label: 'Audit, Insurance & Risk',
-                    ),
-                    PartnerHeroPill(
-                      icon: Icons.flag_outlined,
-                      label: 'Rwanda Jurisdiction',
-                    ),
                   ],
                 ),
-              ],
+              ),
+              const SizedBox(width: 12),
+              Container(
+                width: 52,
+                height: 52,
+                decoration: BoxDecoration(
+                  color: AppColors.surface3,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppColors.border),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  partner.emoji,
+                  style: const TextStyle(fontSize: 24),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Text(
+            description,
+            style: GoogleFonts.dmSans(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: AppColors.text2,
+              height: 1.5,
             ),
           ),
+          if (pills != null && pills.isNotEmpty) ...[
+            const SizedBox(height: 16),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (final pill in pills)
+                  if (pill is Map)
+                    PartnerHeroPill(
+                      icon: IconMapper.from(pill['icon']?.toString() ?? '🔹'),
+                      label: pill['label']?.toString() ?? '',
+                    ),
+              ],
+            ),
+          ],
         ],
       ),
     );
@@ -141,6 +119,11 @@ class PrismaQuickActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final actions = partner.metadata['quick_actions'] as List<dynamic>?;
+    if (actions == null || actions.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
     return GridView.count(
       crossAxisCount: 2,
       shrinkWrap: true,
@@ -149,36 +132,18 @@ class PrismaQuickActions extends StatelessWidget {
       mainAxisSpacing: 10,
       crossAxisSpacing: 10,
       children: [
-        PartnerQuickActionTile(
-          icon: Icons.public_rounded,
-          title: 'Website',
-          subtitle: 'Open ikanisa.com',
-          onTap: () => launchPrismaAction(
-            context,
-            partner,
-            action: 'web:$ikanisaSiteUrl',
-          ),
-        ),
-        PartnerQuickActionTile(
-          icon: Icons.chat_bubble_outline_rounded,
-          title: 'Rwanda Desk',
-          subtitle: 'WhatsApp Rwanda team',
-          onTap: () => launchPrismaAction(
-            context,
-            partner,
-            action: 'whatsapp:$ikanisaRwandaWhatsApp',
-          ),
-        ),
-        PartnerQuickActionTile(
-          icon: Icons.alternate_email_outlined,
-          title: 'Email',
-          subtitle: ikanisaEmail,
-          onTap: () => launchPrismaAction(
-            context,
-            partner,
-            action: 'mailto:$ikanisaEmail',
-          ),
-        ),
+        for (final action in actions)
+          if (action is Map)
+            PartnerQuickActionTile(
+              icon: IconMapper.from(action['icon']?.toString() ?? '🔗'),
+              title: action['title']?.toString() ?? '',
+              message: action['subtitle']?.toString() ?? '',
+              onTap: () => launchPrismaAction(
+                context,
+                partner,
+                action: action['cta_action']?.toString() ?? '',
+              ),
+            ),
       ],
     );
   }
@@ -189,16 +154,23 @@ class PrismaQuickActions extends StatelessWidget {
 // ═════════════════════════════════════════════════════════════════════════════
 
 class PrismaStatsCard extends StatelessWidget {
-  const PrismaStatsCard({super.key});
+  const PrismaStatsCard({required this.partner, super.key});
+
+  final Partner partner;
 
   @override
   Widget build(BuildContext context) {
+    final stats = partner.metadata['stats'] as List<dynamic>?;
+    if (stats == null || stats.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
     return CoolCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'IKANISA at a glance',
+            partner.metadata['stats_title']?.toString() ?? 'At a glance',
             style: GoogleFonts.dmSans(
               fontSize: 16,
               fontWeight: FontWeight.w800,
@@ -206,15 +178,16 @@ class PrismaStatsCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          const Row(
+          Row(
             children: [
-              PrismaStatTile(value: '9', label: 'AI Agents'),
-              SizedBox(width: 10),
-              PrismaStatTile(value: '28K+', label: 'Indexed Docs'),
-              SizedBox(width: 10),
-              PrismaStatTile(value: '1', label: 'Jurisdiction'),
-              SizedBox(width: 10),
-              PrismaStatTile(value: '14', label: 'Sectors'),
+              for (var i = 0; i < stats.length; i++) ...[
+                if (stats[i] is Map)
+                  PrismaStatTile(
+                    value: stats[i]['value']?.toString() ?? '',
+                    label: stats[i]['label']?.toString() ?? '',
+                  ),
+                if (i != stats.length - 1) const SizedBox(width: 10),
+              ],
             ],
           ),
         ],
@@ -228,40 +201,38 @@ class PrismaStatsCard extends StatelessWidget {
 // ═════════════════════════════════════════════════════════════════════════════
 
 class PrismaValuesCard extends StatelessWidget {
-  const PrismaValuesCard({super.key});
+  const PrismaValuesCard({required this.partner, super.key});
+
+  final Partner partner;
 
   @override
   Widget build(BuildContext context) {
+    final values = partner.metadata['values'] as List<dynamic>?;
+    if (values == null || values.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
     return CoolCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'How the platform works',
+            partner.metadata['values_title']?.toString() ?? 'How it works',
             style: GoogleFonts.dmSans(
               fontSize: 16,
               fontWeight: FontWeight.w800,
               color: AppColors.text,
             ),
           ),
-          const SizedBox(height: 6),
-          Text(
-            'These are the core',
-            style: GoogleFonts.dmSans(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: AppColors.text2,
-              height: 1.45,
-            ),
-          ),
           const SizedBox(height: 14),
-          for (final item in prismaValues) ...[
-            PrismaValueRow(
-              icon: item.icon,
-              title: item.title,
-              description: item.description,
-            ),
-            if (item != prismaValues.last) const SizedBox(height: 12),
+          for (var i = 0; i < values.length; i++) ...[
+            if (values[i] is Map)
+              PrismaValueRow(
+                icon: IconMapper.from(values[i]['icon']?.toString() ?? '🔹'),
+                title: values[i]['title']?.toString() ?? '',
+                description: values[i]['description']?.toString() ?? '',
+              ),
+            if (i != values.length - 1) const SizedBox(height: 12),
           ],
         ],
       ),
@@ -280,59 +251,47 @@ class PrismaSupportCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final supportLines = partner.metadata['support_lines'] as List<dynamic>?;
+    if (supportLines == null || supportLines.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
     return CoolCard(
-      gradient: AppColors.blueGradient,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Get in touch',
+            partner.metadata['support_title']?.toString() ?? 'Get in touch',
             style: GoogleFonts.dmSans(
               fontSize: 18,
               fontWeight: FontWeight.w800,
               color: AppColors.text,
             ),
           ),
-          const SizedBox(height: 8),
-          Text(
-            'Reach the IKANISA Rwanda',
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: AppColors.text2,
-              height: 1.45,
-            ),
-          ),
           const SizedBox(height: 14),
-          const PartnerSupportLine(
-            icon: Icons.flag_outlined,
-            label: 'Rwanda WhatsApp',
-            value: '+250 795 588 248',
-          ),
-          const SizedBox(height: 10),
-          const PartnerSupportLine(
-            icon: Icons.alternate_email_outlined,
-            label: 'Email',
-            value: ikanisaEmail,
-          ),
-          const SizedBox(height: 10),
-          const PartnerSupportLine(
-            icon: Icons.place_outlined,
-            label: 'Coverage',
-            value: 'Kigali, Rwanda',
-          ),
-          const SizedBox(height: 16),
-          SizedBox(
-            width: 180,
-            child: CoolButton(
-              label: 'Open Rwanda Desk',
-              onTap: () => launchPrismaAction(
-                context,
-                partner,
-                action: 'whatsapp:$ikanisaRwandaWhatsApp',
+          for (var i = 0; i < supportLines.length; i++) ...[
+            if (supportLines[i] is Map)
+              PartnerSupportLine(
+                icon: IconMapper.from(supportLines[i]['icon']?.toString() ?? '📍'),
+                label: supportLines[i]['label']?.toString() ?? '',
+                value: supportLines[i]['value']?.toString() ?? '',
+              ),
+            if (i != supportLines.length - 1) const SizedBox(height: 10),
+          ],
+          if (partner.metadata['support_cta'] != null) ...[
+            const SizedBox(height: 16),
+            SizedBox(
+              width: 200,
+              child: CoolButton(
+                label: partner.metadata['support_cta']['label']?.toString() ?? 'Contact',
+                onTap: () => launchPrismaAction(
+                  context,
+                  partner,
+                  action: partner.metadata['support_cta']['action']?.toString() ?? '',
+                ),
               ),
             ),
-          ),
+          ],
         ],
       ),
     );
@@ -364,8 +323,9 @@ class PrismaValueRow extends StatelessWidget {
           width: 36,
           height: 36,
           decoration: BoxDecoration(
-            color: AppColors.accent.withValues(alpha: 0.10),
+            color: AppColors.surface3,
             borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: AppColors.border),
           ),
           alignment: Alignment.center,
           child: Icon(icon, size: 18, color: AppColors.accent),

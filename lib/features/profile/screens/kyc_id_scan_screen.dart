@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -10,6 +11,8 @@ import 'package:image_picker/image_picker.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
+import '../../../shared/widgets/kyc_id_scanner_overlay.dart';
+import 'kyc_selfie_screen.dart';
 import '../../auth/models/user_profile.dart';
 import '../../auth/providers/auth_provider.dart';
 
@@ -29,17 +32,55 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
   String _documentType = 'national_id';
   XFile? _frontImage;
   XFile? _backImage;
+  XFile? _selfieImage;
   Map<String, Object?>? _extracted;
   String? _errorMessage;
 
   bool get _backImageRecommended => _documentType != 'passport';
 
-  Future<void> _pickImage({
-    required bool isFront,
-    required ImageSource source,
-  }) async {
+  Future<void> _openScanner({required bool isFront}) async {
+    final XFile? result = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => KycIdScannerOverlay(
+          title: isFront ? 'Front of ID' : 'Back of ID',
+          instruction: isFront 
+            ? 'Align front of ${_documentTypeLabel(_documentType)}'
+            : 'Align back of ${_documentTypeLabel(_documentType)}',
+        ),
+      ),
+    );
+
+    if (result != null && mounted) {
+      setState(() {
+        if (isFront) {
+          _frontImage = result;
+        } else {
+          _backImage = result;
+        }
+        _errorMessage = null;
+        _extracted = null;
+      });
+    }
+  }
+
+  Future<void> _takeSelfie() async {
+    final XFile? result = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const KycSelfieScreen(),
+      ),
+    );
+
+    if (result != null && mounted) {
+      setState(() {
+        _selfieImage = result;
+        _errorMessage = null;
+      });
+    }
+  }
+
+  Future<void> _pickFromGallery({required bool isFront}) async {
     final image = await _picker.pickImage(
-      source: source,
+      source: ImageSource.gallery,
       imageQuality: 88,
       maxWidth: 2200,
     );
@@ -55,7 +96,6 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
       }
       _errorMessage = null;
       _extracted = null;
-      _step = _KycStep.capture;
     });
   }
 
@@ -66,17 +106,24 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
       });
       return;
     }
+    if (_selfieImage == null) {
+      setState(() {
+        _errorMessage = 'Take a selfie for face match';
+      });
+      return;
+    }
 
     setState(() {
       _step = _KycStep.processing;
       _errorMessage = null;
     });
 
-    final result = await ref
-        .read(authProvider.notifier)
-        .submitKycDocument(
+    final frontBytes = await _frontImage!.readAsBytes();
+    final selfieBytes = await _selfieImage!.readAsBytes();
+
+    final result = await ref.read(authProvider.notifier).submitKycDocument(
           documentType: _documentType,
-          frontImageBase64: base64Encode(await _frontImage!.readAsBytes()),
+          frontImageBase64: base64Encode(frontBytes),
           frontMimeType: _mimeTypeFor(_frontImage!),
           backImageBase64: _backImage == null
               ? null
@@ -84,16 +131,30 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
           backMimeType: _backImage == null ? null : _mimeTypeFor(_backImage!),
         );
 
-    if (!mounted) {
-      return;
-    }
+    if (!mounted) return;
 
     if (result == null) {
       setState(() {
         _step = _KycStep.capture;
-        _errorMessage =
-            ref.read(authProvider).error ??
-            'Extraction failed';
+        _errorMessage = ref.read(authProvider).error ?? 'Extraction failed';
+      });
+      return;
+    }
+
+    // Perform Agentic Face Match
+    final faceMatch = await ref.read(authProvider.notifier).verifyFaceMatch(
+      idImageBase64: base64Encode(frontBytes),
+      selfieBase64: base64Encode(selfieBytes),
+      idMimeType: _mimeTypeFor(_frontImage!),
+      selfieMimeType: _mimeTypeFor(_selfieImage!),
+    );
+
+    if (!mounted) return;
+
+    if (faceMatch == null || !faceMatch.isMatch) {
+      setState(() {
+        _step = _KycStep.capture;
+        _errorMessage = faceMatch?.reason ?? 'Identity mismatch detected.';
       });
       return;
     }
@@ -108,6 +169,7 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
     setState(() {
       _frontImage = null;
       _backImage = null;
+      _selfieImage = null;
       _extracted = null;
       _errorMessage = null;
       _step = _KycStep.capture;
@@ -156,26 +218,22 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
 
     return SingleChildScrollView(
       key: const ValueKey('kyc-capture-view'),
-      padding: const EdgeInsets.fromLTRB(18, 16, 18, 120),
+      padding: const EdgeInsets.fromLTRB(18, 16, 18, 140),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (user != null && user.hasOfficialIdentity) ...[
             _CurrentIdentityCard(user: user),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
           ],
           Text(
             'Choose document type',
-            style: GoogleFonts.dmSans(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: AppColors.text,
-            ),
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
           Wrap(
-            spacing: 10,
-            runSpacing: 10,
+            spacing: 12,
+            runSpacing: 12,
             children: [
               for (final option in _documentTypeOptions)
                 _DocumentTypeChip(
@@ -189,23 +247,26 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
                 ),
             ],
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 32),
           _DocumentInputCard(
             title: 'Front of ID',
             image: _frontImage,
-            onTakePhoto: () =>
-                _pickImage(isFront: true, source: ImageSource.camera),
-            onUpload: () =>
-                _pickImage(isFront: true, source: ImageSource.gallery),
+            onTakePhoto: () => _openScanner(isFront: true),
+            onUpload: () => _pickFromGallery(isFront: true),
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: 16),
           _DocumentInputCard(
             title: _backImageRecommended ? 'Back of ID' : 'Back of document',
             image: _backImage,
-            onTakePhoto: () =>
-                _pickImage(isFront: false, source: ImageSource.camera),
-            onUpload: () =>
-                _pickImage(isFront: false, source: ImageSource.gallery),
+            onTakePhoto: () => _openScanner(isFront: false),
+            onUpload: () => _pickFromGallery(isFront: false),
+          ),
+          const SizedBox(height: 16),
+          _DocumentInputCard(
+            title: 'Live Selfie',
+            image: _selfieImage,
+            onTakePhoto: _takeSelfie,
+            onUpload: () {}, // Not used for selfie
           ),
           if (_errorMessage != null) ...[
             const SizedBox(height: 14),
@@ -232,8 +293,8 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
           ],
           const SizedBox(height: 18),
           CoolButton(
-            label: 'Submit',
-            icon: Icons.auto_awesome_outlined,
+            label: 'Verify Identity',
+            icon: Icons.verified_user_rounded,
             onTap: _extractIdentity,
           ),
         ],
@@ -510,27 +571,26 @@ class _DocumentInputCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.border),
+        borderRadius: BorderRadius.circular(28),
+        border: Border.all(color: AppColors.border, width: 1.5),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             title,
-            style: GoogleFonts.dmSans(
-              fontSize: 15,
-              fontWeight: FontWeight.w800,
-              color: AppColors.text,
-            ),
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontSize: 18,
+                ),
           ),
+          const SizedBox(height: 16),
 
           if (image != null)
             ClipRRect(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(20),
               child: AspectRatio(
                 aspectRatio: 1.58,
                 child: Image.file(File(image!.path), fit: BoxFit.cover),
@@ -538,20 +598,18 @@ class _DocumentInputCard extends StatelessWidget {
             )
           else
             Container(
-              height: 160,
+              height: 180,
               decoration: BoxDecoration(
                 color: AppColors.surface2,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppColors.border),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: AppColors.border, width: 1.5),
               ),
               child: Center(
                 child: Text(
                   'No image yet',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.text3,
-                  ),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                 ),
               ),
             ),
@@ -594,35 +652,33 @@ class _ReviewField extends StatelessWidget {
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: AppColors.border),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: AppColors.border, width: 1.5),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: Text(
-              label,
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: AppColors.text2,
-              ),
+              label.toUpperCase(),
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.8,
+                    color: AppColors.text3,
+                  ),
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 14),
           Flexible(
             child: Text(
               value,
               textAlign: TextAlign.right,
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
-                fontWeight: FontWeight.w800,
-                color: AppColors.text,
-              ),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w800,
+                  ),
             ),
           ),
         ],

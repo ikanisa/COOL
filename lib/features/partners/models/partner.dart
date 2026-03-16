@@ -43,6 +43,7 @@ class Partner {
     this.gameCount = 0,
     this.isActive = true,
     this.sortOrder = 0,
+    this.metadata = const {},
     this.createdAt,
     this.updatedAt,
   });
@@ -62,6 +63,7 @@ class Partner {
   final int gameCount;
   final bool isActive;
   final int sortOrder;
+  final Map<String, dynamic> metadata;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -84,6 +86,7 @@ class Partner {
       gameCount: (json['game_count'] as num?)?.toInt() ?? 0,
       isActive: json['is_active'] as bool? ?? true,
       sortOrder: (json['sort_order'] as num?)?.toInt() ?? 0,
+      metadata: json['metadata'] as Map<String, dynamic>? ?? const {},
       createdAt: json['created_at'] != null
           ? DateTime.tryParse(json['created_at'] as String)
           : null,
@@ -110,6 +113,7 @@ class Partner {
       'game_count': gameCount,
       'is_active': isActive,
       'sort_order': sortOrder,
+      'metadata': metadata,
     };
   }
 

@@ -3,11 +3,27 @@ import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/credit_dashboard.dart';
+import '../models/credit_insights.dart';
 
 class CreditRepository {
   CreditRepository({required SupabaseClient client}) : _client = client;
 
   final SupabaseClient _client;
+
+  Future<CreditInsights?> getFinancialInsights() async {
+    try {
+      final response = await _client.functions.invoke('get-financial-insights');
+      if (response.data != null && response.data['success'] == true) {
+        return CreditInsights.fromJson(
+          Map<String, dynamic>.from(response.data['data']),
+        );
+      }
+      return null;
+    } catch (e) {
+      debugPrint('Error fetching financial insights: $e');
+      return null;
+    }
+  }
 
   Future<CreditDashboard> loadDashboard(String userId) async {
     final statementCount = await _loadAnalyzedTransactionCount(userId);

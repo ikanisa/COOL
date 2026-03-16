@@ -79,7 +79,7 @@ class CoolAsyncView<T> extends StatelessWidget {
       data: (data) {
         if (emptyCheck != null && emptyCheck!(data)) {
           return emptyWidget ??
-              CoolEmptyView(message: emptyMessage ?? 'Nothing here yet');
+              CoolEmptyView(subtitle: emptyMessage ?? 'Nothing here yet');
         }
         return builder(data);
       },

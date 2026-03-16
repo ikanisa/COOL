@@ -35,9 +35,9 @@ class CoolButton extends StatelessWidget {
   final String? semanticsLabel;
 
   // ── Constants ───────────────────────────────────────────────────────
-  static const _height = 52.0;
-  static const _radius = 14.0;
-  static const _fontSize = 15.0;
+  static const _height = 56.0;
+  static const _radius = 16.0;
+  static const _fontSize = 17.0;
 
   bool get _isPrimary => variant == CoolButtonVariant.primary;
 
@@ -49,18 +49,21 @@ class CoolButton extends StatelessWidget {
     final backgroundDecoration = BoxDecoration(
       color: _isPrimary
           ? (enabled ? palette.accent : palette.surface3)
-          : (enabled ? palette.surface2 : palette.surface3),
+          : (enabled ? palette.surface : palette.surface2),
       borderRadius: BorderRadius.circular(_radius),
       border: Border.all(
         color: _isPrimary
-            ? (enabled ? palette.accent : palette.border)
-            : (enabled ? palette.border2 : palette.border),
+            ? (enabled ? Colors.white.withValues(alpha: 0.1) : palette.border)
+            : (enabled ? palette.border : palette.border),
+        width: 1.0,
       ),
       boxShadow: enabled
           ? [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.12),
-                blurRadius: 8,
+                color: _isPrimary 
+                    ? palette.accent.withValues(alpha: 0.15) 
+                    : Colors.black.withValues(alpha: 0.04),
+                blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
             ]
@@ -87,7 +90,11 @@ class CoolButton extends StatelessWidget {
                 child: InkWell(
                   onTap: enabled
                       ? () {
-                          HapticFeedback.lightImpact();
+                          if (variant == CoolButtonVariant.primary) {
+                            HapticFeedback.mediumImpact();
+                          } else {
+                            HapticFeedback.lightImpact();
+                          }
                           onTap();
                         }
                       : null,
@@ -113,9 +120,8 @@ class CoolButton extends StatelessWidget {
   }
 
   Widget _buildChild(BuildContext context, CoolPalette palette, bool enabled) {
-    final primaryForeground = Theme.of(context).colorScheme.onPrimary;
     final textColor = _isPrimary
-        ? primaryForeground
+        ? Colors.white
         : (enabled ? palette.text : palette.text3);
 
     Widget child;
@@ -136,6 +142,7 @@ class CoolButton extends StatelessWidget {
           fontSize: _fontSize,
           fontWeight: FontWeight.w700,
           color: textColor,
+          letterSpacing: -0.2,
         ),
       );
 

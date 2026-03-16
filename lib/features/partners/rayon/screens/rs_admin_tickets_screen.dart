@@ -112,8 +112,9 @@ class _RsAdminTicketsScreenState extends ConsumerState<RsAdminTicketsScreen> {
         ),
         emptyCheck: (tickets) => tickets.isEmpty,
         emptyWidget: const CoolEmptyView(
-          message: 'No tickets found',
+          subtitle: 'No tickets found',
           icon: Icons.confirmation_number_outlined,
+          isPremium: true,
         ),
         builder: (tickets) {
           final filtered = _statusFilter == 'all'
@@ -121,8 +122,9 @@ class _RsAdminTicketsScreenState extends ConsumerState<RsAdminTicketsScreen> {
               : tickets.where((t) => t.status.name == _statusFilter).toList();
           if (filtered.isEmpty) {
             return const CoolEmptyView(
-              message: 'No tickets match this filter',
+              subtitle: 'No tickets match this filter',
               icon: Icons.filter_list_off_rounded,
+              isPremium: true,
             );
           }
           return ListView.separated(

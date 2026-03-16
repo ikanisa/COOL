@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_card.dart';
 
-/// Resolves an [IconData] for a given vehicle type string.
-IconData mobilityVehicleIcon(String vehicleType) {
+/// Resolves an Image asset path for a given vehicle type string.
+String mobilityVehicleIcon(String vehicleType) {
   final normalized = vehicleType.trim().toLowerCase();
-  if (normalized.contains('moto')) return Icons.two_wheeler_rounded;
-  if (normalized.contains('cab')) return Icons.directions_car_rounded;
-  if (normalized.contains('truck')) return Icons.local_shipping_rounded;
-  if (normalized.contains('liffan') || normalized.contains('van')) {
-    return Icons.airport_shuttle_rounded;
+  if (normalized.contains('moto')) return 'assets/icons/vehicle_moto.png';
+  if (normalized.contains('cab') || normalized.contains('car')) return 'assets/icons/vehicle_cab.png';
+  if (normalized.contains('truck')) return 'assets/icons/vehicle_truck.png';
+  if (normalized.contains('pickup') || normalized.contains('others')) return 'assets/icons/vehicle_others.png';
+  if (normalized.contains('trike') || normalized.contains('van')) {
+    return 'assets/icons/vehicle_trike.png';
   }
-  return Icons.directions_car_filled_rounded;
+  return 'assets/icons/vehicle_cab.png';
 }
 
 /// Toggle card for driver online/offline status.
@@ -27,7 +29,7 @@ class MobilityDriverToggleCard extends StatelessWidget {
   });
 
   final bool isOnline;
-  final IconData vehicleIcon;
+  final String vehicleIcon;
   final String vehicleType;
   final ValueChanged<bool> onChanged;
 
@@ -52,7 +54,12 @@ class MobilityDriverToggleCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(14),
                 ),
                 alignment: Alignment.center,
-                child: Icon(vehicleIcon, size: 22, color: AppColors.accent),
+                child: Image.asset(
+                  vehicleIcon,
+                  width: 32,
+                  height: 32,
+                  fit: BoxFit.contain,
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(

@@ -177,8 +177,8 @@ class RsFanClub extends Equatable {
     return RsFanClub(
       id: _asString(json['id']),
       partnerId: _asString(json['partner_id'] ?? json['partnerId']),
-      name: _asString(json['name'], fallback: 'Fan Club'),
-      region: _asString(json['region'], fallback: 'Kigali'),
+      name: _asString(json['name']),
+      region: _asString(json['region']),
       description: _asString(json['description']),
       memberCount: _asInt(json['member_count'] ?? json['memberCount']),
       eventCount: _asInt(json['event_count'] ?? json['eventCount']),

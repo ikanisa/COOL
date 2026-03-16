@@ -93,7 +93,7 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
                             color: AppColors.text,
                           ),
                         ),
-                        subtitle: Text(
+                        message: Text(
                           'value: ${t['value']} · ${AppMarket.country.name}',
                           style: GoogleFonts.dmSans(
                             fontSize: 12,

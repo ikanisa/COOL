@@ -165,7 +165,8 @@ class MomoStatementRepository {
         .select(
           'id, entry_type, ledger_status, amount, currency, tx_datetime, '
           'external_reference, tx_category, cashflow_bucket, '
-          'counterparty_name, statement_label, description, created_at',
+          'counterparty_name, statement_label, description, created_at, '
+          'momo_sms_parsed(momo_tx_id, payer_name, payer_number_full, payer_number_last3)',
         )
         .eq('user_id', userId);
 

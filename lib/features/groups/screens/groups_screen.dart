@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
@@ -120,12 +119,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                       sliver: SliverToBoxAdapter(
                         child: Text(
                           l10n.navGroups,
-                          style: GoogleFonts.dmSans(
-                            fontSize: 34,
-                            fontWeight: FontWeight.w800,
-                            color: palette.text,
-                            height: 1.1,
-                          ),
+                          style: Theme.of(context).textTheme.displayLarge,
                         ),
                       ),
                     ),
@@ -157,14 +151,14 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                     ),
                     if (groups.isEmpty)
                       SliverPadding(
-                        padding: const EdgeInsets.fromLTRB(18, 0, 18, 96),
+                        padding: const EdgeInsets.fromLTRB(18, 0, 18, 140),
                         sliver: SliverToBoxAdapter(
                           child: _EmptyState(isDiscover: isDiscover),
                         ),
                       )
                     else
                       SliverPadding(
-                        padding: const EdgeInsets.fromLTRB(18, 0, 18, 96),
+                        padding: const EdgeInsets.fromLTRB(18, 0, 18, 140),
                         sliver: SliverList.separated(
                           itemCount: groups.length,
                           itemBuilder: (context, index) {
@@ -231,12 +225,11 @@ class _GroupsHeroCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     final isDiscover = activeView == _GroupsView.discover;
 
     return CoolCard(
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -249,7 +242,7 @@ class _GroupsHeroCard extends StatelessWidget {
                     onTap: () => onViewChanged(_GroupsView.mine),
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 12),
                 Expanded(
                   child: TabPill(
                     label: 'Discover',
@@ -260,7 +253,7 @@ class _GroupsHeroCard extends StatelessWidget {
               ],
             ),
             if (!isDiscover) ...[
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -269,19 +262,19 @@ class _GroupsHeroCard extends StatelessWidget {
                     isActive: typeFilter == _GroupTypeFilter.saving,
                     onTap: () => onToggleType(_GroupTypeFilter.saving),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 14),
                   _FilterIconButton(
                     icon: Icons.people_outline_rounded,
                     isActive: typeFilter == _GroupTypeFilter.community,
                     onTap: () => onToggleType(_GroupTypeFilter.community),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 14),
                   _FilterIconButton(
                     icon: Icons.lock_outline_rounded,
                     isActive: visibilityFilter == _GroupVisibilityFilter.privateOnly,
                     onTap: () => onToggleVisibility(_GroupVisibilityFilter.privateOnly),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 14),
                   _FilterIconButton(
                     icon: Icons.public_rounded,
                     isActive: visibilityFilter == _GroupVisibilityFilter.publicOnly,
@@ -291,7 +284,7 @@ class _GroupsHeroCard extends StatelessWidget {
               ),
             ],
             if (!isDiscover && onCreate != null) ...[
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
               CoolButton(label: createLabel, onTap: onCreate!),
             ],
           ],
@@ -319,18 +312,19 @@ class _FilterIconButton extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 160),
-        width: 40,
-        height: 40,
+        width: 48,
+        height: 48,
         decoration: BoxDecoration(
           color: isActive ? palette.accentGlow : palette.surface2,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(14),
           border: Border.all(
             color: isActive ? palette.accent : palette.border,
+            width: 1.5,
           ),
         ),
         child: Icon(
           icon,
-          size: 20,
+          size: 22,
           color: isActive ? palette.accent : palette.text3,
         ),
       ),
@@ -385,7 +379,7 @@ class _GroupListItem extends StatelessWidget {
         }
       },
       child: Padding(
-        padding: const EdgeInsets.all(18),
+        padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -395,7 +389,7 @@ class _GroupListItem extends StatelessWidget {
                   const StatusBadge.saving()
                 else
                   const StatusBadge.community(),
-                const SizedBox(width: 6),
+                const SizedBox(width: 8),
                 if (group.visibility == 'public')
                   const StatusBadge.public()
                 else
@@ -403,58 +397,47 @@ class _GroupListItem extends StatelessWidget {
                 const Spacer(),
                 Text(
                   '${_formatAmount(group.amount)} RWF',
-                  style: GoogleFonts.dmMono(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: group.type == 'saving'
                         ? palette.accent
                         : palette.orange,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
             Text(
               group.name,
-              style: GoogleFonts.dmSans(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                color: palette.text,
-              ),
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 6),
             Text(
               '$meta · ${l10n.memberCount(group.memberCount)}',
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w400,
-                color: palette.text2,
-                height: 1.4,
-              ),
+              style: Theme.of(context).textTheme.bodySmall,
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 20),
             ClipRRect(
-              borderRadius: BorderRadius.circular(3),
+              borderRadius: BorderRadius.circular(8),
               child: LinearProgressIndicator(
                 value: progress,
-                minHeight: 5,
+                minHeight: 8,
                 backgroundColor: palette.surface3,
                 color: group.type == 'saving' ? palette.accent : palette.orange,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 12),
             Row(
               children: [
                 Text(
                   '$percent% of target',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    fontWeight: FontWeight.w700,
                     color: palette.text3,
                   ),
                 ),
                 const Spacer(),
-                Icon(Icons.chevron_right_rounded, color: palette.text3),
+                Icon(Icons.arrow_forward_rounded, color: palette.text3, size: 20),
               ],
             ),
           ],
@@ -491,7 +474,7 @@ class _ErrorState extends StatelessWidget {
           title: 'Load groups failed',
           message: error,
           actionLabel: 'Try again',
-          onAction: () => unawaited(onRetry()),
+          action: () => unawaited(onRetry()),
         ),
       ),
     );

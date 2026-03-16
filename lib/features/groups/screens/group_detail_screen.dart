@@ -76,12 +76,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
               padding: const EdgeInsets.fromLTRB(18, 0, 18, 24),
               child: Text(
                 'Group Detail',
-                style: GoogleFonts.dmSans(
-                  fontSize: 34,
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.text,
-                  height: 1.1,
-                ),
+                style: Theme.of(context).textTheme.displayLarge,
               ),
             ),
             Expanded(
@@ -152,7 +147,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
       appAccessService: ref.read(appAccessServiceProvider),
       multiSelect: true,
       title: 'Invite to ${detail.group.name}',
-      subtitle: 'Select contacts to send',
+      message: 'Select contacts to send',
     );
 
     if (contacts.isEmpty || !mounted) return;
@@ -235,20 +230,19 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
           CoolCard(
             gradient: AppColors.cardGradient,
             child: Padding(
-              padding: const EdgeInsets.all(22),
+              padding: const EdgeInsets.all(24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Name
                   Text(
                     group.name,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       color: AppColors.text,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
 
                   // Badges
                   Row(
@@ -257,61 +251,56 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
                         const StatusBadge.saving()
                       else
                         const StatusBadge.community(),
-                      const SizedBox(width: 6),
+                      const SizedBox(width: 8),
                       if (group.visibility == 'public')
                         const StatusBadge.public()
                       else
                         const StatusBadge.private(),
                     ],
                   ),
-                  const SizedBox(height: 18),
+                  const SizedBox(height: 24),
 
                   // Total amount
                   Text(
                     _formatAmount(group.amount),
-                    style: GoogleFonts.dmMono(
-                      fontSize: 36,
-                      fontWeight: FontWeight.w700,
+                    style: Theme.of(context).textTheme.displayMedium?.copyWith(
                       color: AppColors.accent,
+                      fontWeight: FontWeight.w900,
+                      fontFamily: GoogleFonts.dmMono().fontFamily,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 6),
                   Text(
                     'Target: RWF ${_formatAmount(group.targetAmount)}',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.text2,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
-                  const SizedBox(height: 14),
+                  const SizedBox(height: 20),
 
                   // Progress bar
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(3),
+                    borderRadius: BorderRadius.circular(8),
                     child: LinearProgressIndicator(
                       value: progress,
-                      minHeight: 6,
+                      minHeight: 8,
                       backgroundColor: AppColors.surface3,
                       color: AppColors.accent,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
 
                   // Progress label
                   Text(
                     '$percent% reached',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      fontWeight: FontWeight.w700,
                       color: AppColors.text2,
                     ),
                   ),
-                  const SizedBox(height: 14),
+                  const SizedBox(height: 20),
 
                   // Member count + frequency chips (merged from Group Facts)
                   Wrap(
-                    spacing: 8,
+                    spacing: 12,
                     runSpacing: 8,
                     children: [
                       _HeroInfoChip(
@@ -372,7 +361,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
             actionLabel: members.length > 3
                 ? (_showAllMembers ? 'Show less' : 'Show all')
                 : null,
-            onAction: members.length > 3
+            action: members.length > 3
                 ? () => setState(() => _showAllMembers = !_showAllMembers)
                 : null,
           ),
@@ -401,7 +390,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
             actionLabel: contributions.length > 3
                 ? (_showAllContributions ? 'Show less' : 'Show all')
                 : null,
-            onAction: contributions.length > 3
+            action: contributions.length > 3
                 ? () => setState(
                     () => _showAllContributions = !_showAllContributions,
                   )
@@ -560,21 +549,20 @@ class _HeroInfoChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         color: AppColors.surface2.withValues(alpha: 0.6),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 14, color: AppColors.text2),
-          const SizedBox(width: 6),
+          Icon(icon, size: 16, color: AppColors.text2),
+          const SizedBox(width: 8),
           Text(
             label,
-            style: GoogleFonts.dmSans(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              fontWeight: FontWeight.w700,
               color: AppColors.text2,
             ),
           ),
@@ -673,7 +661,7 @@ class _ContributionRow extends StatelessWidget {
         : '#${contribution.userId.substring(0, 8.clamp(0, contribution.userId.length))}';
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 14),
+      padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: BoxDecoration(
         border: Border(bottom: BorderSide(color: AppColors.border)),
       ),
@@ -681,8 +669,8 @@ class _ContributionRow extends StatelessWidget {
         children: [
           // Green arrow icon
           Container(
-            width: 42,
-            height: 42,
+            width: 44,
+            height: 44,
             decoration: BoxDecoration(
               color: AppColors.accent.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(14),
@@ -690,11 +678,11 @@ class _ContributionRow extends StatelessWidget {
             alignment: Alignment.center,
             child: Icon(
               Icons.download_rounded,
-              size: 18,
+              size: 20,
               color: AppColors.text2,
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 14),
 
           // Name + date
           Expanded(
@@ -703,20 +691,14 @@ class _ContributionRow extends StatelessWidget {
               children: [
                 Text(
                   '$contributorLabel contributed',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.text,
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(height: 2),
+                const SizedBox(height: 4),
                 Text(
                   dateLabel,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.text2,
-                  ),
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
               ],
             ),
@@ -725,10 +707,10 @@ class _ContributionRow extends StatelessWidget {
           // Amount
           Text(
             '+${_GroupDetailScreenState._formatAmount(contribution.amount)} RWF',
-            style: GoogleFonts.dmMono(
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w800,
               color: AppColors.accent,
+              fontFamily: GoogleFonts.dmMono().fontFamily,
             ),
           ),
         ],
