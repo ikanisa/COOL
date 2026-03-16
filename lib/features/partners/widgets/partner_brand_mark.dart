@@ -22,6 +22,10 @@ class PartnerBrandMark extends StatelessWidget {
   static const _assetBySlug = <String, String>{
     'urwego': 'assets/images/partners/urwego_logo.png',
     'equity': 'assets/images/partners/equity_logo.png',
+    'rayon-sports': 'assets/images/partners/rs_logo.png',
+    'rayon_sports_fc': 'assets/images/partners/rs_logo.png',
+    'rayon-sports-fc': 'assets/images/partners/rs_logo.png',
+    'rayon_sports': 'assets/images/partners/rs_logo.png',
   };
 
   @override

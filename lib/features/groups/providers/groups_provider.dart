@@ -500,6 +500,15 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
     unawaited(loadMyGroups());
   }
 
+  /// Adds an admin role to a group member.
+  Future<void> addGroupAdmin({
+    required String groupId,
+    required String userId,
+  }) async {
+    await _repository.addGroupAdmin(groupId: groupId, userId: userId);
+    unawaited(loadMyGroups());
+  }
+
   void filterGroups(String? type, String? visibility) {
     final normalizedType = _normalizeType(type);
     final normalizedVisibility = _normalizeVisibility(visibility);

@@ -5,6 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
+import '../models/face_match_result.dart';
 import '../models/user_profile.dart';
 
 class AuthRepository {

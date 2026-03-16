@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
+import '../../../core/theme/cool_layout.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
@@ -97,14 +98,17 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          onPressed: () => context.go(AppRoutes.home),
+          onPressed: () => context.pop(),
           icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
       ),
       body: CoolScreenBackground(
         child: isLoading && groups.isEmpty
             ? const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+                padding: EdgeInsets.symmetric(
+                  horizontal: CoolLayout.horizontalPagePadding,
+                  vertical: CoolLayout.verticalPagePadding,
+                ),
                 child: CoolSkeletonList(),
               )
             : error != null && groups.isEmpty
@@ -115,16 +119,18 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                   physics: const AlwaysScrollableScrollPhysics(),
                   slivers: [
                     SliverPadding(
-                      padding: const EdgeInsets.fromLTRB(18, 0, 18, 24),
+                      padding: CoolLayout.rootPagePadding.copyWith(bottom: 0, top: 0),
                       sliver: SliverToBoxAdapter(
                         child: Text(
                           l10n.navGroups,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: Theme.of(context).textTheme.displayLarge,
                         ),
                       ),
                     ),
                     SliverPadding(
-                      padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
+                      padding: const EdgeInsets.symmetric(horizontal: CoolLayout.horizontalPagePadding),
                       sliver: SliverToBoxAdapter(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,14 +157,14 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                     ),
                     if (groups.isEmpty)
                       SliverPadding(
-                        padding: const EdgeInsets.fromLTRB(18, 0, 18, 140),
+                        padding: CoolLayout.rootPagePadding.copyWith(top: 0),
                         sliver: SliverToBoxAdapter(
                           child: _EmptyState(isDiscover: isDiscover),
                         ),
                       )
                     else
                       SliverPadding(
-                        padding: const EdgeInsets.fromLTRB(18, 0, 18, 140),
+                        padding: CoolLayout.rootPagePadding.copyWith(top: 0),
                         sliver: SliverList.separated(
                           itemCount: groups.length,
                           itemBuilder: (context, index) {

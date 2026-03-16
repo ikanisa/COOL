@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
+
 import 'package:cool_app/core/sync/network_status.dart';
 import 'package:cool_app/core/utils/json_helpers.dart' as jh;
 import 'package:cool_app/features/mobility/models/trip_post_request.dart';
@@ -128,49 +130,47 @@ class TripRepository {
   }
 
   Future<jh.JsonMap> _insertTrip(TripPostRequest request) async {
-    final payloads = <jh.JsonMap>[
-      Map<String, Object?>.from(request.toJson()),
-      Map<String, Object?>.from(request.toJson(includeContactFields: false)),
-      Map<String, Object?>.from(request.toLegacyJson()),
-      Map<String, Object?>.from(
-        request.toLegacyJson(includeContactFields: false),
-      ),
-      _withoutClientRequestId(request.toJson()),
-      _withoutClientRequestId(request.toJson(includeContactFields: false)),
-      _withoutClientRequestId(request.toLegacyJson()),
-      _withoutClientRequestId(
-        request.toLegacyJson(includeContactFields: false),
-      ),
-    ];
+    // Canonical payload first; fall back to legacy if schema drifted.
+    final canonicalPayload = Map<String, Object?>.from(request.toJson());
 
-    PostgrestException? lastSchemaError;
+    try {
+      final insertedTrip = await _client
+          .from(_tableName)
+          .insert(canonicalPayload)
+          .select('id')
+          .single();
+      return Map<String, Object?>.from(insertedTrip);
+    } on PostgrestException catch (error) {
+      if (_isDuplicateClientRequestError(error)) {
+        final existingTrip = await _findExistingTripByClientRequestId(request);
+        if (existingTrip != null) return existingTrip;
+      }
 
-    for (final payload in payloads) {
+      // If the canonical format failed with a column/schema error, try the
+      // legacy format exactly once as a safety net while we align the DB.
+      debugPrint(
+        '[TripRepository] Canonical insert failed (${error.code}): '
+        '${error.message} — falling back to legacy format',
+      );
+
+      final legacyPayload = Map<String, Object?>.from(request.toLegacyJson());
       try {
         final insertedTrip = await _client
             .from(_tableName)
-            .insert(payload)
+            .insert(legacyPayload)
             .select('id')
             .single();
         return Map<String, Object?>.from(insertedTrip);
-      } on PostgrestException catch (error) {
-        if (_isDuplicateClientRequestError(error)) {
+      } on PostgrestException catch (legacyError) {
+        if (_isDuplicateClientRequestError(legacyError)) {
           final existingTrip = await _findExistingTripByClientRequestId(
             request,
           );
-          if (existingTrip != null) {
-            return existingTrip;
-          }
+          if (existingTrip != null) return existingTrip;
         }
-        lastSchemaError = error;
+        rethrow;
       }
     }
-
-    if (lastSchemaError != null) {
-      throw lastSchemaError;
-    }
-
-    throw StateError('Unable to create trip.');
   }
 
   Future<String> _cacheTrip({

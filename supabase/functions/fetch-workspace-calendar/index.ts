@@ -87,6 +87,19 @@ Deno.serve(async (req: Request) => {
 
   if (authError || !user) return errorResponse("Unauthorized.", 401);
 
+  let body;
+  try {
+    body = await req.json();
+  } catch (_e) {
+    body = {};
+  }
+
+  const { latitude, longitude, timezone } = body;
+  const userLocationContext = (latitude && longitude) 
+    ? `User is currently at latitude: ${latitude}, longitude: ${longitude}.` 
+    : "User location is unknown.";
+  const userTimezoneContext = timezone ? `User timezone: ${timezone}.` : "";
+
   // In production, we'd map this dynamically per-user. 
   // For demo/admin purposes we query the primary authenticated account.
   const CALENDAR_ID = "info@ikanisa.com";
@@ -120,12 +133,14 @@ Deno.serve(async (req: Request) => {
     const systemPrompt = `You are a helpful mobility assistant for the COOL app in Rwanda.
 I will provide you with a list of upcoming calendar events. 
 Convert them into an array of TripSuggestion objects.
+${userLocationContext}
+${userTimezoneContext}
+
 A TripSuggestion object has:
 - title: A short title for the trip (e.g. "Meeting at Marriott"). Maximum 25 chars.
 - promptText: A natural language request that someone would say to a driver or taxi app to get there at that time (e.g. "Take me to Marriott Hotel tomorrow at 9am"). Include the specific location from the event if possible.
 - timeLabel: A formatted friendly time string relative to now (e.g. "Tomorrow, 9:00 AM", or "Today, 14:30").
 
-Respond ONLY with a valid JSON array. Do not include markdown code block formatting like \`\`\`json.
 List of events:
 ${JSON.stringify(rawEvents, null, 2)}`;
 
@@ -139,6 +154,18 @@ ${JSON.stringify(rawEvents, null, 2)}`;
         generationConfig: {
           temperature: 0.1,
           responseMimeType: "application/json",
+          responseSchema: {
+            type: "ARRAY",
+            items: {
+              type: "OBJECT",
+              properties: {
+                title: { type: "STRING" },
+                promptText: { type: "STRING" },
+                timeLabel: { type: "STRING" }
+              },
+              required: ["title", "promptText", "timeLabel"]
+            }
+          }
         },
       }),
     });
@@ -152,14 +179,8 @@ ${JSON.stringify(rawEvents, null, 2)}`;
     const replyText = result.candidates?.[0]?.content?.parts?.[0]?.text;
 
     let parsed = [];
-    try {
-      if (replyText) {
-        // Strip out any markdown formatting
-        const cleaned = replyText.replace(/^\`\`\`(json)?/m, "").replace(/\`\`\`$/m, "").trim();
-        parsed = JSON.parse(cleaned);
-      }
-    } catch (e) {
-      console.error("Failed to parse Gemini output:", replyText);
+    if (replyText) {
+      parsed = JSON.parse(replyText);
     }
 
     return jsonResponse({

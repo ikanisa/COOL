@@ -33,7 +33,7 @@ insert into demo_context (
 )
 select
   'app_demo_seed_20260311',
-  (select id from public.partners where slug = 'urwego-finance' limit 1),
+  (select id from public.partners where slug = 'urwego' limit 1),
   (select id from public.groups where invite_code = 'KGLM2026' limit 1),
   (select id from public.groups where invite_code = 'DBPL2026' limit 1),
   (select id from public.users where phone = '+250788767816' limit 1),

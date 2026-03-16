@@ -11,6 +11,7 @@ import '../../../core/router/app_routes.dart';
 
 import '../../../core/status/providers/cool_status_provider.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_layout.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../core/theme/theme_preference.dart';
 import '../../../core/theme/theme_preference_provider.dart';
@@ -221,7 +222,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final profile = ref.watch(profileViewProvider);
     final status = ref.watch(coolStatusProvider).valueOrNull;
     final adminAccess = ref.watch(adminWorkspaceAccessProvider);
-    const profileBottomPadding = 140.0;
 
     // ── Account rows ───────────────────────────────────────────────
     final accountRows = <ProfileSettingsRow>[
@@ -327,16 +327,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             physics: const AlwaysScrollableScrollPhysics(),
             slivers: [
               SliverPadding(
-                padding: const EdgeInsets.fromLTRB(
-                  18,
-                  18,
-                  18,
-                  profileBottomPadding,
-                ),
+                padding: CoolLayout.rootPagePadding,
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
                     Text(
                       l10n.navProfile,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.displayLarge,
                     ),
                     const SizedBox(height: 24),

@@ -568,7 +568,7 @@ String _normalizedLanguageTag(String? languageTag) {
   if (normalized == null || normalized.isEmpty) {
     return _rwandaLanguageTag;
   }
-  return normalized.startsWith('en') ? _rwandaLanguageTag : _rwandaLanguageTag;
+  return normalized.startsWith('en') ? _rwandaLanguageTag : normalized;
 }
 
 bool _isRwandaResult(PlaceSearchResult result) {

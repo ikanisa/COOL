@@ -12,7 +12,6 @@ class MomoActionGrid extends StatelessWidget {
     required this.onOpenStatements,
     required this.onScanQr,
     required this.onOpenQrCode,
-    required this.onRequestPayment,
     required this.onOpenNfcTools,
     super.key,
   });
@@ -20,7 +19,6 @@ class MomoActionGrid extends StatelessWidget {
   final VoidCallback onOpenStatements;
   final VoidCallback onScanQr;
   final VoidCallback onOpenQrCode;
-  final VoidCallback onRequestPayment;
   final VoidCallback onOpenNfcTools;
 
   @override
@@ -48,11 +46,6 @@ class MomoActionGrid extends StatelessWidget {
           icon: Icons.qr_code_2_rounded,
           title: 'MOMO QR',
           onTap: onOpenQrCode,
-        ),
-        MomoActionCard(
-          icon: Icons.request_page_rounded,
-          title: 'Request',
-          onTap: onRequestPayment,
         ),
         MomoActionCard(
           icon: Icons.nfc_rounded,

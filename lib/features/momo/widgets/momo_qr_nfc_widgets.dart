@@ -167,11 +167,9 @@ class MomoQrCodeCard extends StatefulWidget {
 }
 
 class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
-  final _amountController = TextEditingController();
   late final TextEditingController _momoNumberController;
   late final TextEditingController _momoCodeController;
   late MomoRecipientType _recipientType;
-  int? _paymentRequestAmount;
   bool _qrGenerated = false;
 
   bool get _hasNumber => _momoNumberController.text.trim().isNotEmpty;
@@ -202,33 +200,15 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
     MomoRecipientType.code => _momoCodeController.text.trim(),
   };
 
-  bool get _paymentRequestActive =>
-      _paymentRequestAmount != null && _paymentRequestAmount! > 0;
-
   bool get _canGenerate => _activeRecipientRaw.isNotEmpty;
 
-  MomoQrPayload get _payload => _paymentRequestActive
-      ? MomoQrPayload.paymentRequest(
-          recipientValue: _normalizedRecipientValue,
-          recipientType: _recipientType,
-          amount: _paymentRequestAmount!,
-          countryCode: widget.country.isoCode,
-        )
-      : MomoQrPayload.profile(
-          recipientValue: _normalizedRecipientValue,
-          recipientType: _recipientType,
-          countryCode: widget.country.isoCode,
-        );
+  MomoQrPayload get _payload => MomoQrPayload.profile(
+    recipientValue: _normalizedRecipientValue,
+    recipientType: _recipientType,
+    countryCode: widget.country.isoCode,
+  );
 
   String get _qrData => _payload.toQrData(widget.country);
-
-  String get _amountLabel {
-    final amount = _paymentRequestAmount;
-    if (amount == null || amount <= 0) {
-      return 'Open amount';
-    }
-    return '${NumberFormat.decimalPattern('en').format(amount)} ${widget.country.currencyCode}';
-  }
 
   @override
   void initState() {
@@ -238,29 +218,13 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
     _recipientType = widget.momoNumber.trim().isNotEmpty
         ? MomoRecipientType.phoneNumber
         : MomoRecipientType.code;
-    _amountController.addListener(_handleAmountChanged);
   }
 
   @override
   void dispose() {
-    _amountController
-      ..removeListener(_handleAmountChanged)
-      ..dispose();
     _momoNumberController.dispose();
     _momoCodeController.dispose();
     super.dispose();
-  }
-
-  void _handleAmountChanged() {
-    if (!mounted) return;
-    final parsed = int.tryParse(
-      _amountController.text.replaceAll(RegExp(r'[^0-9]'), ''),
-    );
-    setState(() {
-      _paymentRequestAmount = (parsed != null && parsed > 0) ? parsed : null;
-      // Reset generated state when amount changes so user re-generates.
-      _qrGenerated = false;
-    });
   }
 
   void _generateQr() {
@@ -272,15 +236,12 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
   }
 
   Future<void> _sharePayload() {
-    final shareText = _payload.canLaunchImmediately
-        ? 'Pay $_amountLabel via ${widget.country.name} MoMo using $_routeLabel $_displayRecipient.\n$_qrData'
-        : 'Pay me on ${widget.country.name} MoMo using $_routeLabel $_displayRecipient.\n${_payload.toAppLinkUri()}';
+    final shareText =
+        'Pay me on ${widget.country.name} MoMo using $_routeLabel $_displayRecipient.\n${_payload.toAppLinkUri()}';
     return SharePlus.instance.share(
       ShareParams(
         text: shareText,
-        subject: _payload.canLaunchImmediately
-            ? 'MoMo payment request'
-            : 'My MoMo payment QR',
+        subject: 'My MoMo payment QR',
       ),
     );
   }
@@ -331,7 +292,7 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
                 controller: _momoNumberController,
                 keyboardType: TextInputType.phone,
                 prefixIcon: Icons.phone_rounded,
-                textInputAction: TextInputAction.next,
+                textInputAction: TextInputAction.done,
                 onChanged: (_) => setState(() => _qrGenerated = false),
               )
             else
@@ -341,20 +302,9 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
                 controller: _momoCodeController,
                 keyboardType: TextInputType.number,
                 prefixIcon: Icons.tag_rounded,
-                textInputAction: TextInputAction.next,
+                textInputAction: TextInputAction.done,
                 onChanged: (_) => setState(() => _qrGenerated = false),
               ),
-            const SizedBox(height: 14),
-
-            // ─── Amount ───
-            CoolTextField(
-              label: 'Amount (${widget.country.currencyCode})',
-              hint: '5,000',
-              controller: _amountController,
-              keyboardType: TextInputType.number,
-              prefixIcon: Icons.payments_rounded,
-              textInputAction: TextInputAction.done,
-            ),
 
             const SizedBox(height: 18),
 
@@ -403,7 +353,7 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
                 ),
               ),
               Text(
-                'MOMO QR · ${widget.country.name} · $_amountLabel',
+                'MOMO QR · ${widget.country.name}',
                 style: GoogleFonts.dmSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
@@ -457,9 +407,7 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: CoolButton(
-                    label: _paymentRequestActive
-                        ? 'Share payment'
-                        : 'Share link',
+                    label: 'Share link',
                     variant: CoolButtonVariant.secondary,
                     onTap: _sharePayload,
                   ),
@@ -476,394 +424,6 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
 // ═════════════════════════════════════════════════════════════════════════════
 // PAYMENT REQUEST SHEET
 // ═════════════════════════════════════════════════════════════════════════════
-
-class MomoPaymentRequestSheet extends ConsumerStatefulWidget {
-  const MomoPaymentRequestSheet({
-    required this.country,
-    required this.momoNumber,
-    this.momoCode,
-    super.key,
-  });
-
-  final CoolCountry country;
-  final String momoNumber;
-  final String? momoCode;
-
-  @override
-  ConsumerState<MomoPaymentRequestSheet> createState() =>
-      _MomoPaymentRequestSheetState();
-}
-
-class _MomoPaymentRequestSheetState
-    extends ConsumerState<MomoPaymentRequestSheet> {
-  final _payerController = TextEditingController();
-  final _amountController = TextEditingController();
-  late MomoRecipientType _recipientType;
-  String? _payerName;
-
-  bool get _hasNumber => widget.momoNumber.trim().isNotEmpty;
-  bool get _hasCode => widget.momoCode?.trim().isNotEmpty ?? false;
-
-  String get _displayRecipient => switch (_recipientType) {
-    MomoRecipientType.phoneNumber => PhoneValidator.formatMomoDisplay(
-      widget.momoNumber,
-      widget.country,
-    ),
-    MomoRecipientType.code => widget.momoCode?.trim() ?? '',
-  };
-
-  String get _normalizedRecipient => switch (_recipientType) {
-    MomoRecipientType.phoneNumber => widget.country.buildE164Phone(
-      widget.momoNumber,
-    ),
-    MomoRecipientType.code => widget.country.normalizeMerchantCode(
-      widget.momoCode ?? '',
-    ),
-  };
-
-  int? get _amount =>
-      int.tryParse(_amountController.text.replaceAll(RegExp(r'[^0-9]'), ''));
-
-  String? get _payerNumberError {
-    return PhoneValidator.validateMomoNumberForCountry(
-      _payerController.text,
-      widget.country,
-    );
-  }
-
-  bool get _canShare {
-    final amount = _amount;
-    return amount != null &&
-        amount > 0 &&
-        (_payerNumberError == null) &&
-        _payerController.text.trim().isNotEmpty;
-  }
-
-  MomoQrPayload get _paymentRequestPayload => MomoQrPayload.paymentRequest(
-    recipientValue: _normalizedRecipient,
-    recipientType: _recipientType,
-    amount: _amount!,
-    countryCode: widget.country.isoCode,
-    reference: 'REQ-${DateTime.now().millisecondsSinceEpoch}',
-  );
-
-  String get _payerDisplayNumber {
-    final error = _payerNumberError;
-    if (error == null) {
-      return PhoneValidator.formatMomoDisplay(
-        _payerController.text,
-        widget.country,
-      );
-    }
-    return _payerController.text.trim();
-  }
-
-  String get _dialerUrl =>
-      _paymentRequestPayload.toDialerUri(widget.country).toString();
-
-  String get _fallbackUrl => _paymentRequestPayload.toAppLinkUri().toString();
-
-  String _requestMessage() {
-    final amountLabel =
-        '${NumberFormat.decimalPattern('en').format(_amount)} ${widget.country.currencyCode}';
-    final payerLabel = _payerName == null || _payerName!.trim().isEmpty
-        ? 'there'
-        : _payerName!.trim();
-    return 'Hi $payerLabel, tap this MoMo pay link to send $amountLabel to $_displayRecipient in ${widget.country.name}.\n'
-        'Your phone should open the MoMo USSD dialer automatically. Review the amount, enter your MoMo PIN, and pay.\n\n'
-        'Pay now: $_dialerUrl\n'
-        'Fallback: $_fallbackUrl';
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _recipientType = _hasNumber
-        ? MomoRecipientType.phoneNumber
-        : MomoRecipientType.code;
-  }
-
-  @override
-  void dispose() {
-    _payerController.dispose();
-    _amountController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _pickPayerFromContacts() async {
-    final contacts = await ContactPickerSheet.show(
-      context,
-      appAccessService: ref.read(appAccessServiceProvider),
-      multiSelect: false,
-      title: 'Choose payer',
-      subtitle: 'Pick the MoMo payer',
-    );
-    if (!mounted || contacts.isEmpty) {
-      return;
-    }
-
-    final SimpleContact contact = contacts.first;
-    final phone = contact.phones.isNotEmpty ? contact.phones.first : '';
-    setState(() {
-      _payerName = contact.displayName;
-      _payerController.text = phone;
-    });
-  }
-
-  Future<void> _shareBySms() async {
-    if (!_canShare) {
-      CoolToast.error(context, 'Add amount and payer');
-      return;
-    }
-
-    final smsUri = Uri(
-      scheme: 'sms',
-      path: widget.country.buildE164Phone(_payerController.text),
-      queryParameters: <String, String>{'body': _requestMessage()},
-    );
-    final launched = await launchUrl(
-      smsUri,
-      mode: LaunchMode.externalApplication,
-    );
-    if (!mounted) {
-      return;
-    }
-    if (!launched) {
-      CoolToast.error(context, 'Could not open SMS right now.');
-    }
-  }
-
-  Future<void> _shareByWhatsApp() async {
-    if (!_canShare) {
-      CoolToast.error(context, 'Add amount and payer');
-      return;
-    }
-
-    await WhatsAppContactService.openChat(
-      context,
-      phoneNumber: widget.country.buildE164Phone(_payerController.text),
-      message: _requestMessage(),
-      unavailableMessage: 'WhatsApp unavailable',
-      failureMessage: 'WhatsApp failed',
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final amount = _amount;
-    final requestReady = _canShare;
-    final palette = context.coolPalette;
-
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(
-            22,
-            12,
-            22,
-            22 + MediaQuery.of(context).viewInsets.bottom,
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Request payment',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: palette.text,
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      icon: const Icon(Icons.close_rounded),
-                      tooltip: 'Close',
-                    ),
-                  ],
-                ),
-
-                if (_hasCode && _hasNumber) ...[
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _NfcRouteTypeChip(
-                          label: 'MoMo Number',
-                          isActive:
-                              _recipientType == MomoRecipientType.phoneNumber,
-                          onTap: () {
-                            setState(
-                              () => _recipientType =
-                                  MomoRecipientType.phoneNumber,
-                            );
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: _NfcRouteTypeChip(
-                          label: 'MoMo Code',
-                          isActive: _recipientType == MomoRecipientType.code,
-                          onTap: () {
-                            setState(
-                              () => _recipientType = MomoRecipientType.code,
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-                const SizedBox(height: 16),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: palette.surface2,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: palette.border),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Payment goes to',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w700,
-                          color: palette.text2,
-                          letterSpacing: 0.2,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        _displayRecipient,
-                        style: GoogleFonts.dmMono(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: palette.accent,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 14),
-                CoolTextField(
-                  label: 'Amount (${widget.country.currencyCode})',
-                  hint: '5,000',
-                  controller: _amountController,
-                  keyboardType: TextInputType.number,
-                  prefixIcon: Icons.payments_rounded,
-                  textInputAction: TextInputAction.next,
-                  onChanged: (_) => setState(() {}),
-                ),
-                const SizedBox(height: 14),
-                CoolTextField(
-                  label: 'Payer phone number',
-                  hint: widget.country.phoneExampleHint(),
-                  controller: _payerController,
-                  keyboardType: TextInputType.phone,
-                  prefixIcon: Icons.person_rounded,
-                  textInputAction: TextInputAction.done,
-                  onChanged: (_) => setState(() {}),
-                ),
-                if (_payerNumberError != null &&
-                    _payerController.text.trim().isNotEmpty) ...[
-                  const SizedBox(height: 8),
-                  Text(
-                    _payerNumberError!,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                      color: palette.red,
-                    ),
-                  ),
-                ],
-                const SizedBox(height: 12),
-                CoolButton(
-                  label: _payerName == null
-                      ? 'Pick payer from contacts'
-                      : 'Picked: $_payerName',
-                  variant: CoolButtonVariant.secondary,
-                  onTap: _pickPayerFromContacts,
-                ),
-                const SizedBox(height: 16),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: requestReady ? palette.accentGlow : palette.surface2,
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(
-                      color: requestReady ? palette.accent : palette.border,
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        requestReady
-                            ? 'Request link ready for $_payerDisplayNumber'
-                            : 'Add amount and payer',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                          color: requestReady ? palette.accent : palette.text2,
-                        ),
-                      ),
-                      if (requestReady && amount != null) ...[
-                        const SizedBox(height: 8),
-                        SelectableText(
-                          _dialerUrl,
-                          style: GoogleFonts.dmMono(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w500,
-                            color: palette.text,
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    Expanded(
-                      child: CoolButton(
-                        label: 'Send via SMS',
-                        variant: CoolButtonVariant.secondary,
-                        onTap: _shareBySms,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: CoolButton(
-                        label: 'Send via WhatsApp',
-                        onTap: _shareByWhatsApp,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 // ═════════════════════════════════════════════════════════════════════════════
 // NFC BOTTOM SHEET

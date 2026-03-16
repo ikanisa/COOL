@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/providers/engagement_providers.dart';
 import '../../../core/providers/supabase_client_provider.dart';
+import 'mobility_location_provider.dart';
 
 class TripSuggestion {
   const TripSuggestion({
@@ -22,13 +24,22 @@ class TripSuggestion {
   }
 }
 
-final calendarSuggestionsProvider = FutureProvider<List<TripSuggestion>>((ref) async {
+final calendarSuggestionsProvider =
+    FutureProvider<List<TripSuggestion>>((ref) async {
   final supabase = ref.read(supabaseClientProvider);
+  final locationState = ref.read(mobilityLocationProvider);
 
   try {
-    // Execute Edge Function that securely fetches from GWS APIs using a Service Account 
+    // Execute Edge Function that securely fetches from GWS APIs using a Service Account
     // and returns them structurally parsed via Gemini.
-    final response = await supabase.functions.invoke('fetch-workspace-calendar');
+    final response = await supabase.functions.invoke(
+      'fetch-workspace-calendar',
+      body: {
+        'latitude': locationState.position?.latitude,
+        'longitude': locationState.position?.longitude,
+        'timezone': DateTime.now().timeZoneName,
+      },
+    );
 
     if (response.status == 200) {
       final jsonResponse = response.data as Map<String, dynamic>;
@@ -40,8 +51,14 @@ final calendarSuggestionsProvider = FutureProvider<List<TripSuggestion>>((ref) a
             .toList();
       }
     }
-  } catch (e) {
-    // Silent degradation returning empty list; calendar is treated as a progressive enhancement.
+  } catch (e, stack) {
+    // Calendar is progressive enhancement — return empty on failure, but log
+    // so failures are observable in Crashlytics.
+    ref.read(crashlyticsServiceProvider).recordError(
+      e,
+      stackTrace: stack,
+      reason: 'calendar_suggestions_fetch_failed',
+    );
     return [];
   }
 

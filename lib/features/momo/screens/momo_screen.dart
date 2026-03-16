@@ -304,17 +304,6 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
                                   ),
                                 );
                               },
-                              onRequestPayment: () {
-                                if (!_ensureReceiveRouteConfigured()) {
-                                  return;
-                                }
-                                _showRequestPaymentSheet(
-                                  context,
-                                  country: country,
-                                  momoNumber: momoNumber,
-                                  momoCode: momoCode,
-                                );
-                              },
                               onOpenNfcTools: () {
                                 if (!_ensureReceiveRouteConfigured()) {
                                   return;
@@ -406,24 +395,6 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
         initialRecipient: initialRecipient,
         initialAmount: initialAmount,
         initialRecipientType: initialRecipientType,
-      ),
-    );
-  }
-
-  void _showRequestPaymentSheet(
-    BuildContext context, {
-    required CoolCountry country,
-    required String momoNumber,
-    String? momoCode,
-  }) {
-    showModalBottomSheet<void>(
-      context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (_) => MomoPaymentRequestSheet(
-        country: country,
-        momoNumber: momoNumber,
-        momoCode: momoCode,
       ),
     );
   }

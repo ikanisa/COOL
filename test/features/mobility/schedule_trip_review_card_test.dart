@@ -16,7 +16,7 @@ void main() {
         _wrap(
           const ScheduleTripPostingGuideCard(
             title: 'Posting behavior',
-            message: 'Review what happens before you post.',
+            subtitle: 'Review what happens before you post.',
             visibilityLabel: 'Visible to others',
             visibilityValue: 'Drivers see your route, timing, seats, and note.',
             precisionLabel: 'Pickup precision',

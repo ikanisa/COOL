@@ -11,6 +11,7 @@ import '../../../core/services/whatsapp_contact_service.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
+import '../providers/discovery_provider.dart';
 import '../providers/mobility_location_provider.dart';
 import '../providers/trip_board_provider.dart';
 import '../services/mobility_whatsapp_service.dart';
@@ -26,7 +27,6 @@ class TripBoardScreen extends ConsumerStatefulWidget {
 }
 
 class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
-  late final ProviderSubscription<MobilityLocationState> _locationSubscription;
   late final MobilityLocationNotifier _locationNotifier;
   TripBoardViewMode _activeView = TripBoardViewMode.explore;
 
@@ -34,27 +34,12 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
   void initState() {
     super.initState();
     _locationNotifier = ref.read(mobilityLocationProvider.notifier);
-    _locationSubscription = ref.listenManual<MobilityLocationState>(
-      mobilityLocationProvider,
-      (previous, next) {
-        final notifier = ref.read(tripBoardProvider.notifier);
-        notifier.updateLocation(next.position);
-
-        final hadLocation = previous?.hasLocation ?? false;
-        if (!hadLocation && next.hasLocation) {
-          unawaited(notifier.loadPublicTrips());
-        } else if (hadLocation && !next.hasLocation) {
-          notifier.clearPublicTrips();
-        }
-      },
-    );
 
     Future<void>.microtask(_bootstrap);
   }
 
   @override
   void dispose() {
-    _locationSubscription.close();
     unawaited(_locationNotifier.releaseTracking());
     super.dispose();
   }
@@ -63,19 +48,18 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
     await _locationNotifier.bootstrap();
     await _locationNotifier.acquireTracking();
 
-    ref
-        .read(tripBoardProvider.notifier)
-        .updateLocation(ref.read(mobilityLocationProvider).position);
-
-    await ref.read(tripBoardProvider.notifier).refresh();
+    await Future.wait([
+      ref.read(discoveryProvider.notifier).refresh(),
+      ref.read(tripBoardProvider.notifier).loadMyTrips(),
+    ]);
   }
 
   Future<void> _refreshTrips() async {
     await _locationNotifier.refresh();
-    ref
-        .read(tripBoardProvider.notifier)
-        .updateLocation(ref.read(mobilityLocationProvider).position);
-    await ref.read(tripBoardProvider.notifier).refresh();
+    await Future.wait([
+      ref.read(discoveryProvider.notifier).refresh(),
+      ref.read(tripBoardProvider.notifier).loadMyTrips(),
+    ]);
   }
 
   Future<void> _openWhatsApp(Trip trip) async {

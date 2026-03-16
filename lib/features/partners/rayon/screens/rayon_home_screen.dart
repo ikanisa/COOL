@@ -7,6 +7,7 @@ import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../core/theme/rs_text_styles.dart';
+import '../../../../core/theme/cool_layout.dart';
 import '../../../../features/auth/models/user_profile.dart';
 import '../../../../features/auth/providers/auth_provider.dart';
 import '../../../../shared/widgets/cool_button.dart';
@@ -40,7 +41,7 @@ class RayonHomeScreen extends StatelessWidget {
           child: CustomScrollView(
             slivers: [
               SliverPadding(
-                padding: const EdgeInsets.fromLTRB(18, 18, 18, 96),
+                padding: CoolLayout.rootPagePadding,
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
                     membership.when(
@@ -118,25 +119,25 @@ class RayonHomeScreen extends StatelessWidget {
                         ],
                       ),
                       loading: () => const CoolSkeletonList(itemCount: 3),
-                      error: (_, stackTrace) => const Column(
+                      error: (_, stackTrace) => Column(
                         children: [
                           Row(
                             children: [
-                              Expanded(child: CoolSkeleton.card()),
-                              SizedBox(width: 12),
-                              Expanded(child: CoolSkeleton.card()),
+                              const Expanded(child: CoolSkeleton.card()),
+                              const SizedBox(width: 12),
+                              const Expanded(child: CoolSkeleton.card()),
                             ],
                           ),
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
                           Row(
                             children: [
-                              Expanded(child: CoolSkeleton.card()),
-                              SizedBox(width: 12),
-                              Expanded(child: CoolSkeleton.card()),
+                              const Expanded(child: CoolSkeleton.card()),
+                              const SizedBox(width: 12),
+                              const Expanded(child: CoolSkeleton.card()),
                             ],
                           ),
-                          SizedBox(height: 12),
-                          CoolSkeleton.card(),
+                          const SizedBox(height: 12),
+                          const CoolSkeleton.card(),
                         ],
                       ),
                     ),
@@ -256,6 +257,19 @@ class _HomeOverviewCard extends StatelessWidget {
                   ],
                 ),
               ),
+              const SizedBox(width: 12),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.asset(
+                  'assets/images/partners/rs_logo_small.png',
+                  width: 48,
+                  height: 48,
+                  fit: BoxFit.contain,
+                  filterQuality: FilterQuality.high,
+                  errorBuilder: (_, _, _) => const SizedBox.shrink(),
+                ),
+              ),
+              const SizedBox(width: 8),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(

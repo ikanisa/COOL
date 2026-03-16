@@ -10,10 +10,17 @@ extension on _ScheduleTripScreenState {
     _updateState(() => _isParsingSmartInput = true);
 
     try {
+      final locationState = ref.read(mobilityLocationProvider);
       final client = ref.read(supabaseClientProvider);
+      
       final response = await client.functions.invoke(
         'parse-trip-request',
-        body: {'text': text},
+        body: {
+          'text': text,
+          'latitude': locationState.position?.latitude,
+          'longitude': locationState.position?.longitude,
+          'timezone': DateTime.now().timeZoneName,
+        },
       );
 
       if (!mounted) return;
@@ -22,16 +29,38 @@ extension on _ScheduleTripScreenState {
         final data = response.data['data'] as Map<String, dynamic>?;
         if (data != null) {
           _updateState(() {
-            final origin = data['origin'] as String?;
-            if (origin != null && origin.isNotEmpty) {
-              _fromController.text = origin;
-              _fromSelection = null; // Clear so it geocodes
+            final originLabel = data['origin_label'] as String? ?? data['origin'] as String?;
+            final originLat = data['origin_lat'] as double?;
+            final originLng = data['origin_lng'] as double?;
+
+            if (originLabel != null && originLabel.isNotEmpty) {
+              _fromController.text = originLabel;
+              if (originLat != null && originLng != null) {
+                _fromSelection = PlaceSearchResult(
+                  label: originLabel,
+                  position: GeoPoint(originLat, originLng),
+                  primaryText: originLabel,
+                );
+              } else {
+                _fromSelection = null; // Clear to force geocode if missing
+              }
             }
 
-            final dest = data['destination'] as String?;
-            if (dest != null && dest.isNotEmpty) {
-              _toController.text = dest;
-              _toSelection = null;
+            final destLabel = data['destination_label'] as String? ?? data['destination'] as String?;
+            final destLat = data['destination_lat'] as double?;
+            final destLng = data['destination_lng'] as double?;
+
+            if (destLabel != null && destLabel.isNotEmpty) {
+              _toController.text = destLabel;
+              if (destLat != null && destLng != null) {
+                _toSelection = PlaceSearchResult(
+                  label: destLabel,
+                  position: GeoPoint(destLat, destLng),
+                  primaryText: destLabel,
+                );
+              } else {
+                _toSelection = null;
+              }
             }
 
             final dateStr = data['date'] as String?;

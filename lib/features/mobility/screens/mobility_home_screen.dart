@@ -11,16 +11,17 @@ import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/services/whatsapp_contact_service.dart';
 import '../services/mobility_whatsapp_service.dart';
+import '../../../core/theme/cool_layout.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_toast.dart';
 
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../models/driver_info.dart';
+import '../providers/discovery_provider.dart';
 import '../providers/driver_provider.dart';
 import '../providers/mobility_location_provider.dart';
 import '../providers/mobility_provider.dart';
 import '../widgets/mobility_list_widgets.dart';
-import '../widgets/mobility_listing_sheet.dart';
 
 class MobilityHomeScreen extends ConsumerStatefulWidget {
   const MobilityHomeScreen({super.key});
@@ -30,50 +31,12 @@ class MobilityHomeScreen extends ConsumerStatefulWidget {
 }
 
 class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
-  late final ProviderSubscription<MobilityLocationState> _locationSubscription;
   late final MobilityLocationNotifier _locationNotifier;
 
   @override
   void initState() {
     super.initState();
     _locationNotifier = ref.read(mobilityLocationProvider.notifier);
-    _locationSubscription = ref.listenManual<MobilityLocationState>(
-      mobilityLocationProvider,
-      (previous, next) {
-        if (!mounted) {
-          return;
-        }
-        final notifier = ref.read(mobilityProvider.notifier);
-        final nextPosition = next.position;
-        if (next.hasLocation && nextPosition != null) {
-          final driverNotifier = ref.read(driverProvider.notifier);
-          final driverState = ref.read(driverProvider);
-          final previousPosition = previous?.position;
-          notifier.updateLocation(nextPosition);
-          final shouldReload =
-              previousPosition == null ||
-              _distanceBetween(previousPosition, nextPosition) > 0.05 ||
-              previous?.status != next.status;
-          if (shouldReload) {
-            if (driverState.profile?.isOnline == true) {
-              unawaited(
-                driverNotifier.syncOnlineLocation(
-                  latitude: nextPosition.latitude,
-                  longitude: nextPosition.longitude,
-                ),
-              );
-            }
-            unawaited(notifier.loadNearbyDrivers());
-            unawaited(notifier.loadScheduledTrips());
-          }
-          return;
-        }
-
-        if (previous?.hasLocation == true && !next.hasLocation) {
-          notifier.clearLocation();
-        }
-      },
-    );
 
     Future.microtask(() async {
       await ref.read(driverProvider.notifier).loadDriverProfile();
@@ -84,22 +47,13 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
 
   @override
   void dispose() {
-    _locationSubscription.close();
     unawaited(_locationNotifier.releaseTracking());
     super.dispose();
   }
 
-  Future<void> _refreshNearbyDrivers() async {
+  Future<void> _refreshNearby() async {
     await _locationNotifier.refresh();
-
-    final locationState = ref.read(mobilityLocationProvider);
-    if (!locationState.hasLocation) {
-      return;
-    }
-
-    final notifier = ref.read(mobilityProvider.notifier);
-    await notifier.loadNearbyDrivers();
-    await notifier.loadScheduledTrips();
+    await ref.read(discoveryProvider.notifier).refresh();
   }
 
   void _showMarketplaceSnackBar(String message) {
@@ -200,7 +154,7 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          onPressed: () => context.go(AppRoutes.home),
+          onPressed: () => context.pop(),
           icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
       ),
@@ -208,12 +162,12 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
         child: RefreshIndicator(
           color: palette.accent,
           backgroundColor: palette.surface2,
-          onRefresh: _refreshNearbyDrivers,
+          onRefresh: _refreshNearby,
           child: CustomScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             slivers: [
               SliverPadding(
-                padding: const EdgeInsets.fromLTRB(18, 0, 18, 24),
+                padding: CoolLayout.rootPagePadding.copyWith(bottom: 0, top: 0),
                 sliver: SliverToBoxAdapter(
                   child: Text(
                     l10n.navMobility,
@@ -222,7 +176,12 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
                 ),
               ),
               SliverPadding(
-                padding: EdgeInsets.fromLTRB(18, isDriver ? 0 : 8, 18, 0),
+                padding: EdgeInsets.fromLTRB(
+                  CoolLayout.horizontalPagePadding,
+                  isDriver ? 0 : 8,
+                  CoolLayout.horizontalPagePadding,
+                  0,
+                ),
                 sliver: SliverToBoxAdapter(
                   child: MobilityTopActionsCard(
                     isDriver: isDriver,
@@ -242,7 +201,9 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
                   unawaited(_showTripPreview(trip));
                 },
               ),
-              const SliverToBoxAdapter(child: SizedBox(height: 96)),
+              const SliverToBoxAdapter(
+                child: SizedBox(height: CoolLayout.rootBottomClearance),
+              ),
             ],
           ),
         ),

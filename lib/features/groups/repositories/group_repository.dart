@@ -484,6 +484,18 @@ class GroupRepository {
     if (updates.isEmpty) return;
     await _client.from('groups').update(updates).eq('id', groupId);
   }
+
+  /// Grant admin role to a specific member
+  Future<void> addGroupAdmin({
+    required String groupId,
+    required String userId,
+  }) async {
+    await _client
+        .from('group_members')
+        .update(<String, dynamic>{'is_admin': true})
+        .eq('group_id', groupId)
+        .eq('user_id', userId);
+  }
 }
 
 MomoRecipientType? _parseRecipientType(String? value) {

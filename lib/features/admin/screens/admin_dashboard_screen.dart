@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/theme/cool_layout.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../shared/widgets/cool_card.dart';
@@ -144,14 +145,19 @@ class AdminDashboardScreen extends ConsumerWidget {
           label: 'Back to profile',
           child: IconButton(
             icon: Icon(Icons.arrow_back_rounded, color: palette.text),
-            onPressed: () => context.go('/profile'),
+            onPressed: () => context.pop(),
           ),
         ),
       ),
       body: CoolScreenBackground(
         child: SafeArea(
           child: ListView(
-            padding: const EdgeInsets.fromLTRB(18, 0, 18, 24),
+            padding: const EdgeInsets.fromLTRB(
+              CoolLayout.horizontalPagePadding,
+              0,
+              CoolLayout.horizontalPagePadding,
+              CoolLayout.gutter,
+            ),
             children: [
               Text(
                 'Admin Panel',

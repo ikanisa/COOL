@@ -10,6 +10,7 @@ import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/status/providers/home_status_providers.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_layout.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../core/theme/rs_colors.dart';
 import '../../../core/utils/intl_locale.dart';
@@ -53,7 +54,7 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: palette.bg,
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 80), // Avoid overlap with bottom nav
+        padding: const EdgeInsets.only(bottom: CoolLayout.fabBottomClearance),
         child: FloatingActionButton.extended(
           onPressed: () => CoolAssistantSheet.show(context),
           backgroundColor: AppColors.accent,
@@ -86,10 +87,9 @@ class HomeScreen extends ConsumerWidget {
               onRefresh: refresh,
               child: ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.fromLTRB(18, 18, 18, 110),
+                padding: CoolLayout.rootPagePadding,
                 children: [
-                  _HomeHeader(ref: ref, palette: palette, l10n: l10n),
-                  const SizedBox(height: 20),
+                  _HomeHeader(ref: ref, palette: palette, l10n: l10n),                  const SizedBox(height: 20),
                   const _NexusRecommendationsSection(),
                   const SizedBox(height: 24),
                   _RayonSportCard(
@@ -236,9 +236,12 @@ class _HomeHeader extends StatelessWidget {
         Expanded(
           child: Text(
             l10n.navHome,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.displayLarge,
           ),
         ),
+        const SizedBox(width: 8),
 
         // ── QR Scanner Icon ──
         Semantics(

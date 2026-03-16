@@ -126,10 +126,6 @@ class BalanceCard extends StatelessWidget {
                   children: [
                     _ActionButton(icon: Icons.upload_rounded, label: 'Send'),
                     _ActionButton(
-                      icon: Icons.download_rounded,
-                      label: 'Request',
-                    ),
-                    _ActionButton(
                       icon: Icons.phone_android_rounded,
                       label: 'MOMO',
                     ),
