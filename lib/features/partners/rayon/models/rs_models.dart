@@ -101,7 +101,7 @@ extension SeatTypeX on SeatType {
   String get value => name;
 }
 
-enum TicketStatus { pending, valid, used, cancelled }
+enum TicketStatus { pending, valid, used, cancelled, voided, refunded }
 
 extension TicketStatusX on TicketStatus {
   static TicketStatus fromValue(String? value) {
@@ -109,6 +109,8 @@ extension TicketStatusX on TicketStatus {
       'valid' => TicketStatus.valid,
       'used' => TicketStatus.used,
       'cancelled' => TicketStatus.cancelled,
+      'voided' => TicketStatus.voided,
+      'refunded' => TicketStatus.refunded,
       _ => TicketStatus.pending,
     };
   }
@@ -120,17 +122,27 @@ extension TicketStatusX on TicketStatus {
     TicketStatus.valid => 'Valid',
     TicketStatus.used => 'Used',
     TicketStatus.cancelled => 'Cancelled',
+    TicketStatus.voided => 'Voided',
+    TicketStatus.refunded => 'Refunded',
+  };
+
+  bool get isTerminal => switch (this) {
+    TicketStatus.used || TicketStatus.cancelled || TicketStatus.voided || TicketStatus.refunded => true,
+    _ => false,
   };
 }
 
-enum OrderStatus { pending, confirmed, shipped, delivered, cancelled }
+enum OrderStatus { pending, paid, confirmed, packed, shipped, fulfilled, delivered, cancelled }
 
 extension OrderStatusX on OrderStatus {
   static OrderStatus fromValue(String? value) {
     return switch ((value ?? '').toLowerCase()) {
-      'paid' || 'confirmed' => OrderStatus.confirmed,
-      'packed' || 'shipped' => OrderStatus.shipped,
-      'fulfilled' || 'delivered' => OrderStatus.delivered,
+      'paid' => OrderStatus.paid,
+      'confirmed' => OrderStatus.confirmed,
+      'packed' => OrderStatus.packed,
+      'shipped' => OrderStatus.shipped,
+      'fulfilled' => OrderStatus.fulfilled,
+      'delivered' => OrderStatus.delivered,
       'cancelled' => OrderStatus.cancelled,
       _ => OrderStatus.pending,
     };
@@ -140,10 +152,18 @@ extension OrderStatusX on OrderStatus {
 
   String get label => switch (this) {
     OrderStatus.pending => 'Pending',
+    OrderStatus.paid => 'Paid',
     OrderStatus.confirmed => 'Confirmed',
+    OrderStatus.packed => 'Packed',
     OrderStatus.shipped => 'Shipped',
+    OrderStatus.fulfilled => 'Fulfilled',
     OrderStatus.delivered => 'Delivered',
     OrderStatus.cancelled => 'Cancelled',
+  };
+
+  bool get isActive => switch (this) {
+    OrderStatus.pending || OrderStatus.paid || OrderStatus.confirmed || OrderStatus.packed || OrderStatus.shipped => true,
+    _ => false,
   };
 }
 

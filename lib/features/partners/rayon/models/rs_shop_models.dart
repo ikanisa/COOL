@@ -239,6 +239,7 @@ class RsShopOrder extends Equatable {
   const RsShopOrder({
     required this.id,
     required this.userId,
+    this.partnerId,
     required this.items,
     required this.subtotal,
     required this.discountAmount,
@@ -252,6 +253,7 @@ class RsShopOrder extends Equatable {
 
   final String id;
   final String userId;
+  final String? partnerId;
   final List<CartItem> items;
   final int subtotal;
   final int discountAmount;
@@ -275,6 +277,7 @@ class RsShopOrder extends Equatable {
     return RsShopOrder(
       id: _asString(json['id']),
       userId: _asString(json['user_id'] ?? json['userId']),
+      partnerId: _asNullableString(json['partner_id'] ?? json['partnerId']),
       items: items,
       subtotal: subtotal,
       discountAmount: discountAmount,
@@ -298,6 +301,7 @@ class RsShopOrder extends Equatable {
     return <String, Object?>{
       'id': id,
       'user_id': userId,
+      if (partnerId != null) 'partner_id': partnerId,
       'items': items.map((item) => item.toJson()).toList(growable: false),
       'subtotal': subtotal,
       'discount_amount': discountAmount,
@@ -313,6 +317,7 @@ class RsShopOrder extends Equatable {
   RsShopOrder copyWith({
     String? id,
     String? userId,
+    Object? partnerId = _unset,
     List<CartItem>? items,
     int? subtotal,
     int? discountAmount,
@@ -326,6 +331,9 @@ class RsShopOrder extends Equatable {
     return RsShopOrder(
       id: id ?? this.id,
       userId: userId ?? this.userId,
+      partnerId: identical(partnerId, _unset)
+          ? this.partnerId
+          : partnerId as String?,
       items: items ?? this.items,
       subtotal: subtotal ?? this.subtotal,
       discountAmount: discountAmount ?? this.discountAmount,
@@ -342,6 +350,7 @@ class RsShopOrder extends Equatable {
   List<Object?> get props => [
     id,
     userId,
+    partnerId,
     items,
     subtotal,
     discountAmount,

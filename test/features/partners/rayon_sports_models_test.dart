@@ -52,6 +52,8 @@ void main() {
       expect(TicketStatusX.fromValue('valid'), TicketStatus.valid);
       expect(TicketStatusX.fromValue('used'), TicketStatus.used);
       expect(TicketStatusX.fromValue('cancelled'), TicketStatus.cancelled);
+      expect(TicketStatusX.fromValue('voided'), TicketStatus.voided);
+      expect(TicketStatusX.fromValue('refunded'), TicketStatus.refunded);
     });
 
     test('fromValue defaults to pending for unknown/null', () {
@@ -64,6 +66,17 @@ void main() {
       expect(TicketStatus.valid.label, 'Valid');
       expect(TicketStatus.used.label, 'Used');
       expect(TicketStatus.cancelled.label, 'Cancelled');
+      expect(TicketStatus.voided.label, 'Voided');
+      expect(TicketStatus.refunded.label, 'Refunded');
+    });
+
+    test('isTerminal identifies terminal statuses', () {
+      expect(TicketStatus.pending.isTerminal, false);
+      expect(TicketStatus.valid.isTerminal, false);
+      expect(TicketStatus.used.isTerminal, true);
+      expect(TicketStatus.cancelled.isTerminal, true);
+      expect(TicketStatus.voided.isTerminal, true);
+      expect(TicketStatus.refunded.isTerminal, true);
     });
   });
 
@@ -195,6 +208,68 @@ void main() {
       });
       expect(p.price, 15000);
       expect(p.stock, 10);
+    });
+  });
+
+  group('OrderStatusX', () {
+    test('fromValue parses all distinct statuses', () {
+      expect(OrderStatusX.fromValue('pending'), OrderStatus.pending);
+      expect(OrderStatusX.fromValue('paid'), OrderStatus.paid);
+      expect(OrderStatusX.fromValue('confirmed'), OrderStatus.confirmed);
+      expect(OrderStatusX.fromValue('packed'), OrderStatus.packed);
+      expect(OrderStatusX.fromValue('shipped'), OrderStatus.shipped);
+      expect(OrderStatusX.fromValue('fulfilled'), OrderStatus.fulfilled);
+      expect(OrderStatusX.fromValue('delivered'), OrderStatus.delivered);
+      expect(OrderStatusX.fromValue('cancelled'), OrderStatus.cancelled);
+    });
+
+    test('fromValue defaults to pending for unknown/null', () {
+      expect(OrderStatusX.fromValue(null), OrderStatus.pending);
+      expect(OrderStatusX.fromValue('xyz'), OrderStatus.pending);
+    });
+
+    test('labels are readable', () {
+      expect(OrderStatus.paid.label, 'Paid');
+      expect(OrderStatus.packed.label, 'Packed');
+      expect(OrderStatus.fulfilled.label, 'Fulfilled');
+    });
+
+    test('isActive identifies active vs terminal statuses', () {
+      expect(OrderStatus.pending.isActive, true);
+      expect(OrderStatus.paid.isActive, true);
+      expect(OrderStatus.confirmed.isActive, true);
+      expect(OrderStatus.packed.isActive, true);
+      expect(OrderStatus.shipped.isActive, true);
+      expect(OrderStatus.fulfilled.isActive, false);
+      expect(OrderStatus.delivered.isActive, false);
+      expect(OrderStatus.cancelled.isActive, false);
+    });
+  });
+
+  group('RsShopOrder', () {
+    test('fromJson parses partnerId', () {
+      final order = RsShopOrder.fromJson(const {
+        'id': 'ord-1',
+        'user_id': 'usr-1',
+        'partner_id': 'partner-abc',
+        'items': [],
+        'subtotal': 5000,
+        'total': 5000,
+        'status': 'paid',
+        'created_at': '2026-03-01T00:00:00Z',
+      });
+      expect(order.partnerId, 'partner-abc');
+      expect(order.status, OrderStatus.paid);
+    });
+
+    test('partnerId is null when missing', () {
+      final order = RsShopOrder.fromJson(const {
+        'id': 'ord-2',
+        'user_id': 'usr-2',
+        'items': [],
+        'total': 1000,
+      });
+      expect(order.partnerId, isNull);
     });
   });
 

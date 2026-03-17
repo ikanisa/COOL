@@ -26,7 +26,7 @@ class _RsAdminTicketsScreenState extends ConsumerState<RsAdminTicketsScreen> {
   String? _selectedMatchId;
   String _statusFilter = 'all';
 
-  static const _statusOptions = ['all', 'pending', 'valid', 'used', 'cancelled'];
+  static const _statusOptions = ['all', 'pending', 'valid', 'used', 'cancelled', 'voided', 'refunded'];
 
   @override
   Widget build(BuildContext context) {
@@ -491,6 +491,8 @@ class _StatusBadge extends StatelessWidget {
     'valid' => AppColors.accent,
     'used' => AppColors.blue,
     'cancelled' => AppColors.red,
+    'voided' => AppColors.text3,
+    'refunded' => AppColors.purple,
     _ => AppColors.yellow,
   };
 

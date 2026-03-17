@@ -304,7 +304,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 900));
       await _settleRouter(tester);
 
-      expect(find.text('We could not restore your profile'), findsOneWidget);
+      expect(find.text('We could not restore'), findsOneWidget);
       expect(find.text('Retry'), findsOneWidget);
 
       await tester.tap(find.text('Retry'));

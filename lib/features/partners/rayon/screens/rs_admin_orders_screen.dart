@@ -19,8 +19,11 @@ class RsAdminOrdersScreen extends ConsumerStatefulWidget {
 
   static const _statusFlow = [
     'pending',
+    'paid',
     'confirmed',
+    'packed',
     'shipped',
+    'fulfilled',
     'delivered',
     'cancelled',
   ];
@@ -33,7 +36,7 @@ class RsAdminOrdersScreen extends ConsumerStatefulWidget {
 class _RsAdminOrdersScreenState extends ConsumerState<RsAdminOrdersScreen> {
   String _statusFilter = 'all';
 
-  static const _filters = ['all', 'pending', 'confirmed', 'shipped', 'delivered', 'cancelled'];
+  static const _filters = ['all', 'pending', 'paid', 'confirmed', 'packed', 'shipped', 'fulfilled', 'delivered', 'cancelled'];
 
   @override
   Widget build(BuildContext context) {
@@ -416,8 +419,11 @@ class _StatusBadge extends StatelessWidget {
   final String status;
 
   Color get _color => switch (status) {
+    'paid' => AppColors.accent,
     'confirmed' => AppColors.blue,
+    'packed' => AppColors.purple,
     'shipped' => AppColors.purple,
+    'fulfilled' => AppColors.accent,
     'delivered' => AppColors.accent,
     'cancelled' => AppColors.red,
     _ => AppColors.yellow,

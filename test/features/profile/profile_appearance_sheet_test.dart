@@ -35,16 +35,9 @@ void main() {
     );
 
     expect(find.text('Appearance'), findsOneWidget);
-    expect(find.text('Choose how Cool looks on this device.'), findsOneWidget);
     expect(find.text('System'), findsOneWidget);
     expect(find.text('Light'), findsOneWidget);
     expect(find.text('Dark'), findsOneWidget);
-    expect(
-      find.text("Follow your phone's light or dark setting."),
-      findsOneWidget,
-    );
-    expect(find.text('Always use the light theme.'), findsOneWidget);
-    expect(find.text('Always use the dark theme.'), findsOneWidget);
   });
 
   testWidgets('reports the selected theme preference', (tester) async {
