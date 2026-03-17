@@ -6,9 +6,6 @@ import '../../core/theme/cool_palette.dart';
 import 'cool_button.dart';
 
 /// Standardized empty-state view for screens and lists with no data.
-///
-/// Displays a centered icon and message. Optionally includes an action
-/// button for the user to take next steps (e.g. "Create your first trip").
 class CoolEmptyView extends StatelessWidget {
   const CoolEmptyView({
     this.message,
@@ -23,35 +20,18 @@ class CoolEmptyView extends StatelessWidget {
     super.key,
   });
 
-  /// User-facing empty-state message.
   final String? message;
-
-  /// Alias for [message].
   final String? subtitle;
-
-  /// Optional bold title for the empty state.
   final String? title;
-
-  /// Icon displayed above the message.
   final IconData icon;
-
-  /// Optional callback for the action button.
   final VoidCallback? onAction;
-
-  /// Alias for [onAction].
   final VoidCallback? action;
-
-  /// Label for the action button. Required if [onAction] is provided.
   final String? actionLabel;
-
-  /// If true, renders in a more compact layout.
   final bool compact;
-
-  /// If true, applies 'Soft Liquid Glass' premium styling to the icon container.
   final bool isPremium;
 
   String get _effectiveMessage => message ?? subtitle ?? '';
-  VoidCallback? get _onAction => onAction ?? action;
+  VoidCallback? get _effectiveAction => onAction ?? action;
 
   @override
   Widget build(BuildContext context) {
@@ -84,11 +64,11 @@ class CoolEmptyView extends StatelessWidget {
                             color: AppColors.rsBlue.withAlpha(50), 
                             width: 1.5,
                           ),
-                          boxShadow: [
+                          boxShadow: const [
                             BoxShadow(
                               color: AppColors.rsBlueGlow,
                               blurRadius: 24,
-                              offset: const Offset(0, 8),
+                              offset: Offset(0, 8),
                             ),
                           ],
                         )
@@ -127,13 +107,13 @@ class CoolEmptyView extends StatelessWidget {
                       height: 1.6,
                     ),
               ).animate().fadeIn(delay: 200.ms, duration: 400.ms).slideY(begin: 0.1, end: 0),
-              if (_onAction != null && actionLabel != null) ...[
+              if (_effectiveAction != null && actionLabel != null) ...[
                 SizedBox(height: spacing + 8),
                 SizedBox(
                   width: compact ? null : 200,
                   child: CoolButton(
                     label: actionLabel!,
-                    onTap: _onAction!,
+                    onTap: _effectiveAction!,
                     variant: compact
                         ? CoolButtonVariant.secondary
                         : CoolButtonVariant.primary,

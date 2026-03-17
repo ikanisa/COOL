@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:cool_app/features/mobility/models/trip.dart';
-import 'package:cool_app/core/models/geo_point.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -21,7 +20,6 @@ import '../providers/discovery_provider.dart';
 import '../widgets/mobility_listing_sheet.dart';
 import '../providers/driver_provider.dart';
 import '../providers/mobility_location_provider.dart';
-import '../providers/mobility_provider.dart';
 import '../widgets/mobility_list_widgets.dart';
 
 class MobilityHomeScreen extends ConsumerStatefulWidget {
@@ -134,10 +132,6 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
     );
   }
 
-  double _distanceBetween(GeoPoint a, GeoPoint b) {
-    return a.distanceToKm(b);
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -156,6 +150,7 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
         elevation: 0,
         leading: IconButton(
           onPressed: () => context.pop(),
+          tooltip: 'Back',
           icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
       ),

@@ -146,6 +146,12 @@ class FakeGroupRepository implements GroupRepository {
     }
     return joinResult!;
   }
+
+  @override
+  Future<void> addGroupAdmin({
+    required String groupId,
+    required String userId,
+  }) async {}
 }
 
 const _signedInUser = UserProfile(

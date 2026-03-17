@@ -67,7 +67,7 @@ final profileViewProvider = Provider<ProfileData>((ref) {
   ];
 
   return ProfileData(
-    name: user.displayUserId,
+    name: user.fullName,
     officialName: officialName,
     userId: user.displayUserId,
     phone: user.phone,

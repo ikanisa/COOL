@@ -1,13 +1,10 @@
 import 'dart:async';
 
-import 'package:cool_app/features/mobility/models/trip.dart';
 import 'package:cool_app/features/mobility/models/trip_post_request.dart';
-import 'package:cool_app/core/models/geo_point.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/providers/hive_providers.dart';
 
 import '../../../core/auth/auth_user_contact.dart';
-import '../../../core/config/app_market.dart';
 import '../../../core/providers/engagement_providers.dart';
 import '../../../core/providers/supabase_client_provider.dart';
 import '../../../core/services/app_review_service.dart';
@@ -15,8 +12,6 @@ import '../../../core/services/crashlytics_service.dart';
 import '../../../core/services/engagement_tracker.dart';
 import '../../../core/services/performance_service.dart';
 import '../../auth/providers/auth_provider.dart';
-import '../models/driver_info.dart';
-import '../models/trip_type.dart';
 import '../repositories/mobility_repository.dart';
 import '../repositories/trip_repository.dart';
 
@@ -238,6 +233,12 @@ class MobilityNotifier extends StateNotifier<MobilityState> {
         return 'Moto';
       case TripVehiclePreference.cab:
         return 'Cab';
+      case TripVehiclePreference.trike:
+        return 'Trike';
+      case TripVehiclePreference.truck:
+        return 'Truck';
+      case TripVehiclePreference.others:
+        return 'Others';
       case TripVehiclePreference.any:
         final normalized = fallback?.trim();
         return normalized == null || normalized.isEmpty ? 'Any' : normalized;

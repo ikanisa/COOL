@@ -239,9 +239,14 @@ extension on _ScheduleTripScreenState {
 
   MobilityRouteTravelMode _selectedTravelMode() {
     return switch (_vehiclePreference) {
-      TripVehiclePreference.moto => MobilityRouteTravelMode.twoWheeler,
+      TripVehiclePreference.moto =>
+        MobilityRouteTravelMode.twoWheeler,
       TripVehiclePreference.cab ||
-      TripVehiclePreference.any => MobilityRouteTravelMode.drive,
+      TripVehiclePreference.trike ||
+      TripVehiclePreference.truck ||
+      TripVehiclePreference.others ||
+      TripVehiclePreference.any =>
+        MobilityRouteTravelMode.drive,
     };
   }
 
@@ -750,15 +755,15 @@ extension on _ScheduleTripScreenState {
     FocusScope.of(context).unfocus();
 
     final l10n = context.l10n;
-    final isDriverReturnTrip = _postingRole == ScheduleTripPostingRole.driver;
-    if (isDriverReturnTrip && !canScheduleAsDriver) {
+    final isDriverPosting = _postingRole == ScheduleTripPostingRole.driver;
+    if (isDriverPosting && !canScheduleAsDriver) {
       _showSnackBar(
         message: 'Finish driver setup before',
         kind: _ScheduleTripToastKind.error,
       );
       return;
     }
-    final tripRole = isDriverReturnTrip ? 'DRIVER' : 'PASSENGER';
+    final tripRole = isDriverPosting ? 'DRIVER' : 'PASSENGER';
 
     // P2.13: Track trip post started
     ref.read(engagementTrackerProvider).trackTripPostStarted(
@@ -781,6 +786,11 @@ extension on _ScheduleTripScreenState {
         ? _combineDateAndTime(_returnDate, _returnTime)
         : null;
 
+    // Auto-populate contact info from user profile
+    final authState = ref.read(authProvider);
+    final userPhone = authState.user?.phone;
+    final userName = authState.user?.fullName;
+
     final result = await ref
         .read(mobilityProvider.notifier)
         .createTrip(
@@ -795,11 +805,13 @@ extension on _ScheduleTripScreenState {
                 ? _recurringDays.toList(growable: false)
                 : const [],
             role: tripRole,
-            isDriverReturnTrip: isDriverReturnTrip,
+            isDriverReturnTrip: isDriverPosting,
             latitude: _fromSelection?.latitude,
             longitude: _fromSelection?.longitude,
             destinationLatitude: _toSelection?.latitude,
             destinationLongitude: _toSelection?.longitude,
+            contactPhone: userPhone,
+            contactName: userName,
             priceNote: _priceNoteController.text.trim().isEmpty
                 ? null
                 : _priceNoteController.text.trim(),

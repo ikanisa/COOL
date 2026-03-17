@@ -17,6 +17,7 @@ class ShareCard extends ConsumerWidget {
     required this.title,
     required this.shareUrl,
     this.subtitle,
+    this.message,
     this.shareText,
     this.icon = Icons.link_rounded,
     this.sheetTitle,
@@ -31,6 +32,9 @@ class ShareCard extends ConsumerWidget {
 
   /// Optional subtitle
   final String? subtitle;
+
+  /// Alias for [subtitle]
+  final String? message;
 
   /// The deep-link URL to share
   final String shareUrl;
@@ -53,6 +57,8 @@ class ShareCard extends ConsumerWidget {
   /// Optional async share URL resolver used to create referral links.
   final Future<String> Function()? resolveShareUrl;
 
+  String? get _effectiveSubtitle => subtitle ?? message;
+
   Future<String> _resolvedShareUrl() async {
     return await resolveShareUrl?.call() ?? shareUrl;
   }
@@ -68,7 +74,7 @@ class ShareCard extends ConsumerWidget {
       groupName: title,
       inviteUrl: resolvedUrl,
       sheetTitle: sheetTitle,
-      sheetSubtitle: sheetSubtitle ?? subtitle ?? 'Scan QR or share the link',
+      sheetSubtitle: sheetSubtitle ?? _effectiveSubtitle ?? 'Scan QR or share the link',
       shareText: '${shareText ?? title}\n$resolvedUrl',
       analyticsTargetType: analyticsTargetType,
     );
@@ -86,7 +92,7 @@ class ShareCard extends ConsumerWidget {
       appAccessService: ref.read(appAccessServiceProvider),
       multiSelect: false,
       title: 'Share via Contact',
-      message: 'Select a contact to',
+      message: 'Select a contact to share with',
     );
 
     if (contacts.isEmpty) return;
@@ -124,10 +130,10 @@ class ShareCard extends ConsumerWidget {
                         color: AppColors.text,
                       ),
                     ),
-                    if (subtitle != null) ...[
+                    if (_effectiveSubtitle != null) ...[
                       const SizedBox(height: 2),
                       Text(
-                        subtitle!,
+                        _effectiveSubtitle!,
                         style: GoogleFonts.dmSans(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,

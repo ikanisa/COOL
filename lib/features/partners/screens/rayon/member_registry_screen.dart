@@ -468,7 +468,7 @@ class _TopFanSpotlight extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  '#${member.membershipNumber} · ${_formatPoints(member.points)} pts',
+                  '#${member.membershipNumber} · ${_formatPoints(member.points)} Tokens',
                   style: GoogleFonts.dmMono(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
@@ -545,7 +545,7 @@ class _MemberListTile extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  '#${member.membershipNumber} · ${member.chapter} · ${_formatPoints(member.points)} pts',
+                  '#${member.membershipNumber} · ${member.chapter} · ${_formatPoints(member.points)} Tokens',
                   style: GoogleFonts.dmMono(
                     fontSize: 11,
                     fontWeight: FontWeight.w600,

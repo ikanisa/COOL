@@ -526,10 +526,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get perMonth => '/month';
 
   @override
-  String get vehicleMoto => '🛺 Moto';
+  String get vehicleMoto => 'Moto';
 
   @override
-  String get vehicleCab => '🚗 Cab';
+  String get vehicleCab => 'Cab';
 
   @override
   String get vehicleAny => 'Any';
@@ -1809,7 +1809,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String profileCoolStatusValue(String tier, int points) {
-    return '$tier · $points pts';
+    return '$tier · $points Tokens';
   }
 
   @override

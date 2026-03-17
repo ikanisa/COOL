@@ -23,6 +23,7 @@ class SystemAnalyticsScreen extends ConsumerWidget {
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
+          tooltip: 'Back',
           icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
       ),
@@ -59,7 +60,7 @@ class SystemAnalyticsScreen extends ConsumerWidget {
               const SizedBox(height: 24),
 
               // ── Core counts ────────────────────────────────────────
-              _SectionHeader('Core Counts'),
+              const _SectionHeader('Core Counts'),
               const SizedBox(height: 12),
               _MetricGrid(metrics: [
                 _Metric('Users', _fmt(data['total_users']),
@@ -82,7 +83,7 @@ class SystemAnalyticsScreen extends ConsumerWidget {
               const SizedBox(height: 28),
 
               // ── Growth ─────────────────────────────────────────────
-              _SectionHeader('Growth'),
+              const _SectionHeader('Growth'),
               const SizedBox(height: 12),
               _MetricGrid(metrics: [
                 _Metric('Signups (7d)', _fmt(data['signups_7d']),
@@ -97,7 +98,7 @@ class SystemAnalyticsScreen extends ConsumerWidget {
               const SizedBox(height: 28),
 
               // ── Role distribution ──────────────────────────────────
-              _SectionHeader('Admin Role Distribution'),
+              const _SectionHeader('Admin Role Distribution'),
               const SizedBox(height: 12),
               _DistributionCard(
                 data: _asStringIntMap(data['role_distribution']),
@@ -106,7 +107,7 @@ class SystemAnalyticsScreen extends ConsumerWidget {
               const SizedBox(height: 28),
 
               // ── Event distribution ─────────────────────────────────
-              _SectionHeader('Event Distribution (30d)'),
+              const _SectionHeader('Event Distribution (30d)'),
               const SizedBox(height: 12),
               _DistributionCard(
                 data: _asStringIntMap(data['event_distribution']),
@@ -115,7 +116,7 @@ class SystemAnalyticsScreen extends ConsumerWidget {
               const SizedBox(height: 28),
 
               // ── Audit ──────────────────────────────────────────────
-              _SectionHeader('Audit'),
+              const _SectionHeader('Audit'),
               const SizedBox(height: 12),
               _MetricGrid(metrics: [
                 _Metric('Admin Actions (7d)', _fmt(data['audit_actions_7d']),
@@ -313,7 +314,7 @@ class _DistributionCard extends StatelessWidget {
                 minHeight: 6,
                 backgroundColor: AppColors.border,
                 valueColor:
-                    AlwaysStoppedAnimation<Color>(AppColors.blue),
+                    const AlwaysStoppedAnimation<Color>(AppColors.blue),
               ),
             ),
             const SizedBox(height: 12),

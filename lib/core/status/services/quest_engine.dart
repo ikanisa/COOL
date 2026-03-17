@@ -85,7 +85,7 @@ class QuestEngine {
           id: 'match_attend',
           icon: Icons.sports_soccer_rounded,
           title: 'Attend a match',
-          subtitle: 'Earn 10 pts for attending',
+          subtitle: 'Earn 10 Tokens for attending',
           route: '/partners/rayon-sports/tickets',
           priority: 70,
         ),
@@ -142,7 +142,7 @@ class QuestEngine {
           id: 'join_group',
           icon: Icons.group_rounded,
           title: 'Join a savings group',
-          subtitle: 'Earn 10 pts per contribution',
+          subtitle: 'Earn 10 Tokens per contribution',
           route: '/groups',
           priority: 60,
         ),
@@ -166,7 +166,7 @@ class QuestEngine {
     // ─── 9. Streak maintenance ──────────────────────────────
     if (status.currentStreak > 0 && status.streakGraceRemaining == 0) {
       quests.add(
-        CoolQuest(
+        const CoolQuest(
           id: 'streak_risk',
           icon: Icons.local_fire_department_rounded,
           title: 'Streak at risk!',

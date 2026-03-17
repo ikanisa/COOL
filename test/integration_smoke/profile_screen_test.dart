@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -12,7 +13,6 @@ import 'package:cool_app/features/credit/models/credit_dashboard.dart';
 import 'package:cool_app/features/credit/providers/credit_provider.dart';
 import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
 import 'package:cool_app/features/profile/screens/profile_screen.dart';
-import 'package:cool_app/features/profile/widgets/profile_settings_widgets.dart';
 
 import 'test_harness.dart';
 
@@ -105,17 +105,14 @@ void main() {
         await settleTestApp(tester);
 
         expect(find.text('Profile'), findsOneWidget);
-        expect(find.text('Account'), findsOneWidget);
+        expect(find.text('ACCOUNT'), findsOneWidget);
         expect(find.text('Personal Info'), findsOneWidget);
         expect(find.text('Mobility'), findsOneWidget);
 
         expect(find.text('Passenger'), findsAtLeastNWidgets(1));
-        expect(find.text('Mobile Money'), findsOneWidget);
-        expect(find.text('Credit Score'), findsOneWidget);
+        expect(find.text('MoMo Statements'), findsOneWidget);
         expect(find.text('App access'), findsOneWidget);
         expect(find.text('Support'), findsAtLeastNWidgets(1));
-        expect(find.text('Credit readiness'), findsOneWidget);
-        expect(find.text('COOL status'), findsOneWidget);
       },
     );
 

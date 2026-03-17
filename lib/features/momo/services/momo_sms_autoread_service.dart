@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io' show Platform;
 
 import 'package:another_telephony/telephony.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -12,6 +14,9 @@ import '../../../core/services/app_access_service.dart';
 import '../../../core/services/crashlytics_service.dart';
 import '../../../core/services/hive_runtime.dart';
 import '../repositories/momo_sms_ingestion_repository.dart';
+
+const _retryQueueBoxName = 'momo_sms_retry_queue';
+const _retryQueueMaxSize = 200;
 
 @pragma('vm:entry-point')
 Future<void> momoSmsBackgroundMessageHandler(SmsMessage message) async {
@@ -108,13 +113,18 @@ class MomoSmsAutoreadService {
       );
       _isListening = true;
       _activeUserId = session.user.id;
+      // Run initial inbox sync once per user session
       if (_initialSyncCompletedForUserId != session.user.id) {
+        _initialSyncCompletedForUserId = session.user.id;
         unawaited(_runInitialInboxSync());
       }
       await _crashlytics?.log(
         'momo_sms: Android SMS autoread active for ${session.user.id}',
       );
     }
+
+    // Drain any queued messages from previous background failures (G8).
+    unawaited(_drainRetryQueue());
   }
 
   Future<void> stop({bool resetPermissionPromptState = false}) async {
@@ -135,6 +145,39 @@ class MomoSmsAutoreadService {
 
   void dispose() {
     unawaited(stop());
+  }
+
+  /// Drains the Hive-based retry queue of captures that failed during
+  /// background processing (G8). Called on each successful [refresh].
+  Future<void> _drainRetryQueue() async {
+    try {
+      final box = await Hive.openBox<String>(_retryQueueBoxName);
+      if (box.isEmpty) return;
+
+      final keys = box.keys.toList();
+      for (final key in keys) {
+        final json = box.get(key);
+        if (json == null) continue;
+
+        try {
+          final map = jsonDecode(json) as Map<String, dynamic>;
+          final capture = MomoSmsCapture(
+            sender: map['sender'] as String,
+            body: map['body'] as String,
+            deviceMessageKey: map['deviceMessageKey'] as String,
+            receivedAt: DateTime.parse(map['receivedAt'] as String),
+            ingestionSource: map['ingestionSource'] as String,
+          );
+          await _ingestionRepository.ingestCapture(capture: capture);
+          await box.delete(key);
+        } catch (error) {
+          // Leave in queue for next drain attempt.
+          debugPrint('[MoMo SMS] retry failed for key=$key: $error');
+        }
+      }
+    } catch (error) {
+      debugPrint('[MoMo SMS] retry queue drain failed: $error');
+    }
   }
 
   Future<bool> _ensureSmsPermission({
@@ -369,7 +412,6 @@ class _MomoSmsBackgroundProcessor {
   static const OpenHiveBox<bool> _openAppAccessBox = openHiveBox<bool>;
 
   static Future<void> handle(SmsMessage message) async {
-    try {
       if (kIsWeb || !Platform.isAndroid) {
         return;
       }
@@ -387,7 +429,12 @@ class _MomoSmsBackgroundProcessor {
         return;
       }
 
-      final client = await _ensureSupabaseClient();
+      SupabaseClient? client;
+      try {
+        client = await _ensureSupabaseClient();
+      } catch (_) {
+        return;
+      }
       if (client == null || client.auth.currentUser?.id == null) {
         return;
       }
@@ -402,11 +449,30 @@ class _MomoSmsBackgroundProcessor {
         return;
       }
 
-      final repository = MomoSmsIngestionRepository(client: client);
-      await repository.ingestCapture(capture: capture);
-    } catch (error) {
-      debugPrint('[MoMo SMS] background ingestion skipped after error: $error');
-    }
+      try {
+        final repository = MomoSmsIngestionRepository(client: client);
+        await repository.ingestCapture(capture: capture);
+      } catch (error) {
+        debugPrint(
+          '[MoMo SMS] background ingestion failed, queueing for retry: $error',
+        );
+        // Queue the capture for retry on next foreground refresh (G8).
+        try {
+          final box = await Hive.openBox<String>(_retryQueueBoxName);
+          if (box.length < _retryQueueMaxSize) {
+            final payload = jsonEncode({
+              'sender': capture.sender,
+              'body': capture.body,
+              'deviceMessageKey': capture.deviceMessageKey,
+              'receivedAt': capture.receivedAt.toIso8601String(),
+              'ingestionSource': capture.ingestionSource,
+            });
+            await box.put(capture.deviceMessageKey, payload);
+          }
+        } catch (queueError) {
+          debugPrint('[MoMo SMS] retry queue write failed: $queueError');
+        }
+      }
   }
 
   static Future<void> _ensureHiveInitialized() async {

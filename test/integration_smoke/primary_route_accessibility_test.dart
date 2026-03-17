@@ -37,9 +37,7 @@ import 'package:cool_app/features/profile/screens/profile_screen.dart';
 import 'package:cool_app/features/momo/widgets/momo_cards_widgets.dart';
 import 'package:cool_app/features/profile/widgets/profile_settings_widgets.dart';
 import 'package:cool_app/l10n/app_localizations.dart';
-import 'package:cool_app/shared/widgets/cool_button.dart';
 import 'package:cool_app/shared/widgets/cool_card.dart';
-import 'package:cool_app/shared/widgets/section_title.dart';
 import 'package:cool_app/shared/widgets/tab_pill.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -221,7 +219,7 @@ void main() {
     slug: 'rayon-sports',
     category: PartnerCategory.football,
     country: 'RW',
-    message: 'Club experience',
+    subtitle: 'Club experience',
     fanCount: 23000,
     clubCount: 18,
     gameCount: 4,
@@ -345,7 +343,7 @@ void main() {
                 QuickAction(
                   id: 'momo',
                   title: 'MoMo',
-                  message: 'Pay and statements',
+                  subtitle: 'Pay and statements',
                   route: '/momo',
                 ),
               ],

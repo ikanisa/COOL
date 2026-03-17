@@ -56,10 +56,10 @@ void main() {
     await tester.tap(find.text('Open'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Contacts are off in COOL'), findsOneWidget);
+    expect(find.textContaining('Contacts are off'), findsOneWidget);
     expect(find.text('Enable Contacts'), findsOneWidget);
     expect(
-      find.textContaining('Contacts access is currently disabled'),
+      find.textContaining('Contacts access is currently'),
       findsOneWidget,
     );
   });

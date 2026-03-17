@@ -60,7 +60,7 @@ class MomoRiskNotifier extends StateNotifier<AsyncValue<MomoRiskResult?>> {
 
       if (response.data != null && response.data['success'] == true) {
         final result = MomoRiskResult.fromJson(
-          Map<String, dynamic>.from(response.data['data']),
+          Map<String, dynamic>.from(response.data['data'] as Map),
         );
         state = AsyncValue.data(result);
         return result;

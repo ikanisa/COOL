@@ -85,7 +85,7 @@ void main() {
           child: PartnerQuickActionTile(
             icon: Icons.public,
             title: 'Website',
-            message: 'Open site',
+            subtitle: 'Open site',
             onTap: () => tapped = true,
           ),
         ),
@@ -135,6 +135,7 @@ void main() {
       await tester.pumpWidget(
         _wrap(const PartnerErrorCard(message: 'Network error')),
       );
+      await tester.pumpAndSettle();
 
       expect(find.text('Network error'), findsOneWidget);
       expect(find.byIcon(Icons.warning_amber_rounded), findsOneWidget);
@@ -151,6 +152,7 @@ void main() {
           onRetry: () => retried = true,
         ),
       ));
+      await tester.pumpAndSettle();
 
       expect(find.text('Something went wrong'), findsOneWidget);
       expect(find.text('Try Again'), findsOneWidget);
@@ -164,6 +166,7 @@ void main() {
       await tester.pumpWidget(
         _wrap(const PartnerErrorBody(message: 'Oops')),
       );
+      await tester.pumpAndSettle();
 
       expect(find.text('Retry'), findsNothing);
     });
@@ -174,6 +177,7 @@ void main() {
       await tester.pumpWidget(
         _wrap(const PartnerEmptyServicesCard(partnerName: 'Acme')),
       );
+      await tester.pumpAndSettle();
 
       expect(
         find.textContaining('Acme'),
@@ -190,7 +194,7 @@ void main() {
         id: 's1',
         partnerId: 'p1',
         title: 'Savings Account',
-        message: 'Save monthly',
+        subtitle: 'Save monthly',
         emoji: '💰',
         category: 'digital',
         ctaLabel: 'Open Now',

@@ -26,7 +26,7 @@ void main() {
     const managedPackage = RsMembershipPackage(
       tier: FanTier.gold,
       title: 'Executive Gold',
-      message: 'Priority matchday access',
+      subtitle: 'Priority matchday access',
       description: 'Custom admin-managed package copy.',
       benefits: <RsMembershipPackageBenefit>[
         RsMembershipPackageBenefit(

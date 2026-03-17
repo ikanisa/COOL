@@ -22,6 +22,7 @@ const _fallbackVehicleFilters = [
   MobilityVehicleFilter(label: 'Cab', value: 'Cab'),
   MobilityVehicleFilter(label: 'Truck', value: 'Truck'),
   MobilityVehicleFilter(label: 'Trike', value: 'Trike'),
+  MobilityVehicleFilter(label: 'Others', value: 'Others'),
 ];
 
 final mobilityVehicleFiltersProvider = Provider<List<MobilityVehicleFilter>>((
@@ -82,7 +83,7 @@ class _MobilityTopActionsCardState
     // Current UI maps to a legacy 0/1/2 index for tabs.
     // 0 = Discovery (Nearby), 1 = Scheduled Trips, 2 = Schedule Trip Action
     // We maintain this index in DiscoveryNotifier for UI consistency.
-    final activeTab = ref.watch(discoveryProvider.select((s) => s.isTripsLoading ? 1 : 0));
+    final activeTab = ref.watch(discoveryProvider.select((s) => s.selectedTab));
 
     return CoolCard(
       child: Column(
@@ -95,11 +96,12 @@ class _MobilityTopActionsCardState
                 widget.onScheduleTrip();
                 return;
               }
-              // In this simplified discovery, we toggle between drivers (index 0) and trips (index 1).
+              final notifier = ref.read(discoveryProvider.notifier);
+              notifier.setSelectedTab(index);
               if (index == 0) {
-                unawaited(ref.read(discoveryProvider.notifier).loadNearbyDrivers());
+                unawaited(notifier.loadNearbyDrivers());
               } else {
-                unawaited(ref.read(discoveryProvider.notifier).loadNearbyTrips());
+                unawaited(notifier.loadNearbyTrips());
               }
             },
           ),
@@ -267,7 +269,7 @@ class MobilityContentSliver extends ConsumerWidget {
     final trips = discoveryState.nearbyTrips;
 
     // We determine "tab" based on state for now (Drivers view is primary)
-    final isTripsView = discoveryState.isTripsLoading || (trips.isNotEmpty && drivers.isEmpty);
+    final isTripsView = discoveryState.selectedTab == 1;
 
     if (isTripsView) {
       return SliverPadding(

@@ -32,6 +32,7 @@ class MomoNfcScreen extends ConsumerWidget {
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).maybePop(),
+          tooltip: 'Back',
           icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
         title: Text(

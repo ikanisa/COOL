@@ -163,7 +163,7 @@ class _ServiceTile extends StatelessWidget {
               ),
           ],
         ),
-        message: Column(
+        subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [

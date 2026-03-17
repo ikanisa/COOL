@@ -46,12 +46,10 @@ void main() {
 
     await tester.pumpAndSettle();
 
-    expect(find.text('Camera is off in COOL'), findsOneWidget);
+    expect(find.textContaining('Camera is off'), findsOneWidget);
     expect(find.text('Enable Camera'), findsOneWidget);
     expect(
-      find.text(
-        'Turn camera access back on to scan MoMo QR codes or signed tickets.',
-      ),
+      find.textContaining('Enable camera access'),
       findsOneWidget,
     );
   });

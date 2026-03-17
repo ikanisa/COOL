@@ -7,7 +7,7 @@ class DriverInfo {
     required this.vehicleType,
     required this.distanceKm,
     required this.isOnline,
-    this.vehicleEmoji,
+    this.vehicleIconPath,
     this.rating,
     this.tripCount,
     this.scheduledRoute,
@@ -26,7 +26,7 @@ class DriverInfo {
   final String vehicleType;
   final double distanceKm;
   final bool isOnline;
-  final String? vehicleEmoji;
+  final String? vehicleIconPath;
   final double? rating;
   final int? tripCount;
   final String? scheduledRoute;
@@ -57,7 +57,7 @@ class DriverInfo {
       vehicleType: json['vehicle_type']?.toString() ?? '',
       distanceKm: _asDouble(json['distance_km']) ?? 0,
       isOnline: _asBool(json['is_online']),
-      vehicleEmoji: json['vehicle_emoji']?.toString(),
+      vehicleIconPath: json['vehicle_emoji']?.toString(),
       rating: _asDouble(json['rating']),
       tripCount: _asInt(json['trip_count']),
       scheduledRoute: json['scheduled_route']?.toString(),

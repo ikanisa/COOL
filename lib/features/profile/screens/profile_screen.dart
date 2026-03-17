@@ -240,7 +240,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         ProfileSettingsRow(
           icon: Icons.token_rounded,
           label: 'Cool Tokens',
-          value: '${_tierLabel(status.tier)} · ${status.totalPoints} pts',
+          value: '${_tierLabel(status.tier)} · ${status.totalPoints} Tokens',
           valueColor: AppColors.accent,
           onTap: () => context.push(AppRoutes.tokens),
         ),
@@ -456,7 +456,7 @@ class _WealthArchiveCardState extends State<_WealthArchiveCard> {
               ),
               const SizedBox(width: 12),
               Text(
-                'AI Wealth Concierge',
+                'Smart Reports',
                 style: GoogleFonts.dmSans(
                   fontSize: 16,
                   fontWeight: FontWeight.w800,

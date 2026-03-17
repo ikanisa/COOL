@@ -7,6 +7,7 @@ import '../../../core/router/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_glass_card.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
@@ -53,6 +54,7 @@ class CoolTokensScreen extends ConsumerWidget {
                       context.go(AppRoutes.profile);
                     }
                   },
+                  tooltip: 'Back',
                   icon: Icon(Icons.arrow_back_rounded, color: palette.text),
                 ),
                 title: Text(
@@ -85,7 +87,7 @@ class CoolTokensScreen extends ConsumerWidget {
                     ],
 
                     // ── 3. Ways to Earn ───────────────────────
-                    _SectionHeader(
+                    const _SectionHeader(
                       label: 'Ways to Earn',
                       icon: Icons.auto_awesome_rounded,
                     ),
@@ -114,7 +116,7 @@ class CoolTokensScreen extends ConsumerWidget {
                     const SizedBox(height: 24),
 
                     // ── 4.5 Rewards Marketplace ───────────────
-                    _SectionHeader(
+                    const _SectionHeader(
                       label: 'Rewards Marketplace',
                       icon: Icons.redeem_rounded,
                     ),
@@ -126,7 +128,7 @@ class CoolTokensScreen extends ConsumerWidget {
                     const SizedBox(height: 24),
 
                     // ── 5. Top Earners ────────────────────────
-                    _SectionHeader(
+                    const _SectionHeader(
                       label: 'Top Earners',
                       icon: Icons.leaderboard_rounded,
                     ),
@@ -207,13 +209,9 @@ class _StatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
-    return Container(
+    return CoolGlassCard(
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: palette.border),
-      ),
+      borderRadius: 14,
       child: Column(
         children: [
           Icon(icon, size: 20, color: iconColor),
@@ -258,7 +256,7 @@ class _WaysToEarnGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
-    final events = CoolEventType.values;
+    const events = CoolEventType.values;
 
     return CoolCard(
       child: Column(
@@ -308,7 +306,7 @@ class _EarnRow extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
-              '+${eventType.defaultPoints} pts',
+              '+${eventType.defaultPoints} Tokens',
               style: GoogleFonts.dmSans(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
@@ -362,7 +360,7 @@ class _ActiveMissionsSection extends ConsumerWidget {
         );
       },
       loading: () => const CoolSkeletonList(itemCount: 2),
-      error: (_, __) => const CoolEmptyView(
+      error: (_, _) => const CoolEmptyView(
         message: 'Could not load missions',
         icon: Icons.error_outline_rounded,
         compact: true,
@@ -403,7 +401,7 @@ class _TopEarnersSection extends ConsumerWidget {
         );
       },
       loading: () => const CoolSkeletonList(itemCount: 5),
-      error: (_, __) => const CoolEmptyView(
+      error: (_, _) => const CoolEmptyView(
         message: 'Could not load leaderboard',
         icon: Icons.error_outline_rounded,
         compact: true,
@@ -471,7 +469,7 @@ class _LeaderboardRow extends StatelessWidget {
           ),
           // Points
           Text(
-            '${entry.totalPoints} pts',
+            '${entry.totalPoints} Tokens',
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w700,
@@ -505,7 +503,6 @@ class _RewardsMarketplace extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final rewardsAsync = ref.watch(availableRewardsProvider);
-    final palette = context.coolPalette;
 
     return rewardsAsync.when(
       data: (rewards) {
@@ -530,7 +527,7 @@ class _RewardsMarketplace extends ConsumerWidget {
         );
       },
       loading: () => const CoolSkeletonList(itemCount: 2),
-      error: (_, __) => const CoolEmptyView(
+      error: (_, _) => const CoolEmptyView(
         message: 'Could not load rewards',
         icon: Icons.error_outline_rounded,
         compact: true,
@@ -583,9 +580,9 @@ class _RewardsMarketplace extends ConsumerWidget {
           .redeemReward(userId: userId, rewardId: reward.id);
       if (context.mounted) {
         if (success) {
-          CoolToast.show(context, message: 'Reward redeemed successfully!');
+          CoolToast.info(context, 'Reward redeemed successfully!');
         } else {
-          CoolToast.show(context, message: 'Failed to redeem reward.');
+          CoolToast.info(context, 'Failed to redeem reward.');
         }
       }
     }
@@ -606,8 +603,10 @@ class _RewardItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
-    return CoolCard(
+    return CoolGlassCard(
       onTap: canAfford ? onRedeem : null,
+      padding: const EdgeInsets.all(18),
+      borderRadius: 24,
       child: Row(
         children: [
           Text(reward.emoji, style: const TextStyle(fontSize: 24)),
@@ -645,7 +644,7 @@ class _RewardItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
-              '${reward.tokenCost} pts',
+              '${reward.tokenCost} Tokens',
               style: GoogleFonts.dmSans(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
@@ -689,7 +688,7 @@ class _SectionHeader extends StatelessWidget {
             ),
           ),
         ),
-        if (trailing != null) trailing!,
+        ?trailing,
       ],
     );
   }

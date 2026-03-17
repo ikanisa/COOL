@@ -46,6 +46,14 @@ class RsMembershipPackage {
 
   int get minPoints => tier.minPoints;
 
+  factory RsMembershipPackage.fallback() {
+    return const RsMembershipPackage(
+      tier: FanTier.blue,
+      title: 'Fan',
+      subtitle: 'Standard membership',
+    );
+  }
+
   factory RsMembershipPackage.fromJson(Map<String, dynamic> json) {
     final rawBenefits = json['benefits'];
     final benefits = rawBenefits is List

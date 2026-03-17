@@ -7,12 +7,12 @@ String _configScopeLabel(String? countryCode) {
 class AppConfigSectionHeader extends StatelessWidget {
   const AppConfigSectionHeader({
     required this.title,
-    required this.subtitle,
+    required this.message,
     super.key,
   });
 
   final String title;
-  final String subtitle;
+  final String message;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class AppConfigSectionHeader extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         Text(
-          subtitle,
+          message,
           style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
         ),
       ],
@@ -87,7 +87,7 @@ class ConfigTile extends StatelessWidget {
             fontFeatures: const [FontFeature.tabularFigures()],
           ),
         ),
-        message: Text(
+        subtitle: Text(
           '$preview ${config['description'] ?? ''} ($scopeLabel)',
           style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
           maxLines: 3,
@@ -259,7 +259,7 @@ class MobilitySubscriptionConfigTile extends StatelessWidget {
             color: AppColors.text,
           ),
         ),
-        message: Text(
+        subtitle: Text(
           'MoMo code: $code',
           style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
         ),
@@ -317,7 +317,7 @@ class PartnerPaymentRouteConfigTile extends StatelessWidget {
             color: AppColors.text,
           ),
         ),
-        message: Padding(
+        subtitle: Padding(
           padding: const EdgeInsets.only(top: 4),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

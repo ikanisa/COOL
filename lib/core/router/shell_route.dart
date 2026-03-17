@@ -108,8 +108,8 @@ class _AppShellState extends ConsumerState<AppShell> {
     final onPrimary = Theme.of(context).colorScheme.onPrimary;
     final index = _currentIndex();
     final textScale = MediaQuery.textScalerOf(context).scale(1);
-    final navigationHeight = (72 + ((textScale - 1) * 24))
-        .clamp(72, 96)
+    final navigationHeight = (76 + ((textScale - 1) * 24))
+        .clamp(76, 98)
         .toDouble();
     final fabExtent = (54 + ((textScale - 1) * 8)).clamp(54, 62).toDouble();
     final navLabelFontSize = (10 + ((textScale - 1) * 1.5))

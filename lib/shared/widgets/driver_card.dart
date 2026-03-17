@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/identity/public_user_identity.dart';
@@ -244,17 +243,16 @@ class _VehicleChip extends StatelessWidget {
 // ── Info chip ───────────────────────────────────────────────────────────
 
 class _InfoChip extends StatelessWidget {
-  const _InfoChip({required this.icon, required this.label, this.iconColor});
+  const _InfoChip({required this.icon, required this.label});
   final IconData icon;
   final String label;
-  final Color? iconColor;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 14, color: iconColor ?? AppColors.text3),
+        Icon(icon, size: 14, color: AppColors.text3),
         const SizedBox(width: 3),
         Text(
           label,

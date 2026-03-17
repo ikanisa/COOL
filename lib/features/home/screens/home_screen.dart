@@ -14,7 +14,7 @@ import '../../../core/theme/cool_layout.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../core/theme/rs_colors.dart';
 import '../../../core/utils/intl_locale.dart';
-import '../../../shared/widgets/cool_assistant_sheet.dart';
+
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_error_boundary.dart';
 import '../../../shared/widgets/cool_error_view.dart';
@@ -28,6 +28,7 @@ import '../../partners/providers/rayon_sports_provider.dart';
 import '../../partners/rayon/models/rs_models.dart';
 import '../../admin/providers/special_products_provider.dart';
 import '../../mobility/providers/mobility_provider.dart';
+import '../../mobility/providers/mobility_location_provider.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../models/home_dashboard_data.dart';
 import '../models/nexus_recommendation.dart';
@@ -56,25 +57,6 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: palette.bg,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: CoolLayout.fabBottomClearance),
-        child: FloatingActionButton.extended(
-          onPressed: () => CoolAssistantSheet.show(context),
-          backgroundColor: AppColors.accent,
-          elevation: 12,
-          highlightElevation: 4,
-          icon: const Icon(Icons.auto_awesome_rounded, color: Colors.black, size: 20),
-          label: Text(
-            'Cool Assistant',
-            style: GoogleFonts.dmSans(
-              color: Colors.black,
-              fontWeight: FontWeight.w800,
-              fontSize: 14,
-              letterSpacing: -0.2,
-            ),
-          ),
-        ),
-      ),
       body: CoolScreenBackground(
         child: CoolErrorBoundary(
           onRetry: () {
@@ -109,6 +91,12 @@ class HomeScreen extends ConsumerWidget {
                     const SizedBox(height: 14),
                     const ReferralBanner(),
                     const SizedBox(height: 24),
+                    
+                    SectionTitle(title: l10n.quickActions),
+                    const SizedBox(height: 12),
+                    const _QuickActionListSection(),
+                    const SizedBox(height: 24),
+
                     _RayonSportCard(
                       membershipAsync: ref.watch(rayonMembershipProvider),
                       clubsAsync: ref.watch(rayonFanClubsProvider),
@@ -136,37 +124,6 @@ class HomeScreen extends ConsumerWidget {
                           orElse: () => [const SizedBox.shrink()],
                         ),
                     const SizedBox(height: 10),
-                    SectionTitle(title: l10n.quickActions),
-                    const SizedBox(height: 12),
-                    Builder(
-                      builder: (context) {
-                        final actionsAsync = ref.watch(
-                          currentCountryQuickActionsProvider,
-                        );
-
-                        return actionsAsync.when(
-                          data: (actions) => _QuickActionListCard(
-                            items: actions
-                                .take(4)
-                                .map(
-                                  (action) => _QuickActionData(
-                                    title: action.title,
-                                    subtitle: action.subtitle ?? '',
-                                    route: action.route,
-                                  ),
-                                )
-                                .toList(),
-                          ),
-                          loading: () => _QuickActionListCard(
-                            items: _fallbackQuickActions(l10n),
-                          ),
-                          error: (_, _) => _QuickActionListCard(
-                            items: _fallbackQuickActions(l10n),
-                          ),
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 24),
                     SectionTitle(
                       title: l10n.recentActivity,
                       actionLabel: l10n.statementsLabel,
@@ -180,6 +137,8 @@ class HomeScreen extends ConsumerWidget {
                         onRetry: () => ref.invalidate(homeDashboardProvider),
                       ),
                     ),
+                    
+                    // ── Lower Priority ──────────────────────
                     ref
                         .watch(activeSeasonProvider)
                         .when(
@@ -188,7 +147,7 @@ class HomeScreen extends ConsumerWidget {
                               return const SizedBox.shrink();
                             }
                             return Padding(
-                              padding: const EdgeInsets.only(top: 24),
+                              padding: const EdgeInsets.only(top: 32),
                               child: SeasonBanner(season: season),
                             );
                           },
@@ -196,7 +155,7 @@ class HomeScreen extends ConsumerWidget {
                           error: (_, _) => const SizedBox.shrink(),
                         ),
                     if (quests.isNotEmpty) ...[
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 32),
                       SectionTitle(
                         title: l10n.homeMissionsTitle,
                         actionLabel: l10n.openAction,
@@ -216,6 +175,7 @@ class HomeScreen extends ConsumerWidget {
                         ),
                       ),
                     ],
+                    const SizedBox(height: 40),
                   ],
                 ),
               ),
@@ -274,8 +234,8 @@ class _HomeHeader extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
               onTap: () => context.push('${AppRoutes.scanner}?mode=momo'),
               child: Container(
-                width: 42,
-                height: 42,
+                width: 48,
+                height: 48,
                 decoration: BoxDecoration(
                   color: palette.surface2,
                   borderRadius: BorderRadius.circular(14),
@@ -718,8 +678,8 @@ class _QuickActionRow extends StatelessWidget {
 
     Widget leadingIcon() {
       return Container(
-        width: 42,
-        height: 42,
+        width: 48,
+        height: 48,
         decoration: BoxDecoration(
           color: palette.surface2,
           borderRadius: BorderRadius.circular(14),
@@ -922,7 +882,7 @@ class _RecentActivityCard extends StatelessWidget {
       return CoolCard(
         backgroundColor: palette.surface,
         child: CoolEmptyView(
-          message: l10n.homeNoActivityMessage,
+          subtitle: l10n.homeNoActivityMessage,
           compact: true,
           icon: Icons.receipt_long_rounded,
         ),
@@ -1107,7 +1067,7 @@ class _OverviewErrorCard extends StatelessWidget {
     return CoolCard(
       backgroundColor: palette.surface,
       child: CoolErrorView(
-        message: context.l10n.homeLoadErrorMessage,
+        subtitle: context.l10n.homeLoadErrorMessage,
         onRetry: onRetry,
         compact: true,
       ),
@@ -1131,7 +1091,7 @@ class _NexusRecommendationsSection extends ConsumerWidget {
           children: [
             Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.auto_awesome_rounded,
                   size: 16,
                   color: AppColors.accent,
@@ -1212,7 +1172,7 @@ class _NexusCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Text(
-                    recommendation.type.label,
+                    recommendation.contentType.label,
                     style: GoogleFonts.dmSans(
                       fontSize: 9,
                       fontWeight: FontWeight.w900,
@@ -1221,7 +1181,7 @@ class _NexusCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  recommendation.iconEmoji,
+                  _sanitizeEmoji(recommendation.iconEmoji),
                   style: const TextStyle(fontSize: 16),
                 ),
               ],
@@ -1302,4 +1262,45 @@ String _signedSpokenCurrency(
 ]) {
   final direction = amount >= 0 ? 'plus' : 'minus';
   return '$direction ${_spokenCurrency(amount.abs(), localeName, currency)}';
+}
+
+class _QuickActionListSection extends ConsumerWidget {
+  const _QuickActionListSection();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final actionsAsync = ref.watch(currentCountryQuickActionsProvider);
+    final l10n = context.l10n;
+
+    return actionsAsync.when(
+      data: (actions) => _QuickActionListCard(
+        items: actions
+            .take(4)
+            .map(
+              (action) => _QuickActionData(
+                title: action.title,
+                subtitle: action.subtitle ?? '',
+                route: action.route,
+              ),
+            )
+            .toList(),
+      ),
+      loading: () => _QuickActionListCard(
+        items: _fallbackQuickActions(l10n),
+      ),
+      error: (_, _) => _QuickActionListCard(
+        items: _fallbackQuickActions(l10n),
+      ),
+    );
+  }
+}
+
+/// Detects Material icon name strings (e.g. "agriculture_rounded") and
+/// returns a fallback emoji. Real emoji characters pass through unchanged.
+String _sanitizeEmoji(String raw) {
+  final trimmed = raw.trim();
+  if (trimmed.isEmpty) return '✨';
+  // Material icon names are ascii-only with underscores; real emoji aren't.
+  if (RegExp(r'^[a-z_0-9]+$').hasMatch(trimmed)) return '✨';
+  return trimmed;
 }

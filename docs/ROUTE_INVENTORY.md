@@ -4,9 +4,9 @@ Generated from [`lib/core/router/app_router.dart`](../lib/core/router/app_router
 
 Current router shape:
 
-- `71` `GoRoute` declarations
+- `73` `GoRoute` declarations
 - `4` shell branches
-- `70` screen files under `lib/features/**/screens/*.dart`
+- `71` screen files under `lib/features/**/screens/*.dart`
 
 Change policy:
 
@@ -55,6 +55,7 @@ Change policy:
 | `/missions` | [`MissionsScreen`](../lib/core/status/screens/missions_screen.dart) | No |
 | `/momo` | [`MomoScreen`](../lib/features/momo/screens/momo_screen.dart) | No |
 | `/momo/statements` | [`MomoStatementsScreen`](../lib/features/momo/screens/momo_statements_screen.dart) | No |
+| `/referral` | [`ReferralHubScreen`](../lib/core/status/screens/referral_hub_screen.dart) | No |
 | `/tokens` | [`CoolTokensScreen`](../lib/core/status/screens/cool_tokens_screen.dart) | No |
 
 ## Partner And Rayon Consumer Routes
@@ -83,6 +84,7 @@ Change policy:
 | Path | Target | Shell |
 |---|---|---|
 | `/admin` | [`AdminWorkspacesScreen`](../lib/features/admin/screens/admin_workspaces_screen.dart) | No |
+| `/admin/ai-content` | [`ManageAiContentScreen`](../lib/features/admin/screens/manage_ai_content_screen.dart) | No |
 | `/admin/analytics` | [`SystemAnalyticsScreen`](../lib/features/admin/screens/system_analytics_screen.dart) | No |
 | `/admin/app-config` | [`ManageAppConfigScreen`](../lib/features/admin/screens/manage_app_config_screen.dart) | No |
 | `/admin/audit-log` | [`AuditLogScreen`](../lib/features/admin/screens/audit_log_screen.dart) | No |

@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import '../../../core/config/country_catalog.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/services/momo_service.dart';
-import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../core/utils/phone_validator.dart';
 import '../../../shared/widgets/cool_button.dart';

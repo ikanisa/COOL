@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:cool_app/features/partners/models/partner.dart';
-import 'package:cool_app/features/partners/models/partner_service.dart';
-import 'package:cool_app/features/partners/widgets/bank_partner_config.dart';
 import 'package:cool_app/features/partners/widgets/bank_partner_widgets.dart';
 
 // ── test helpers ──────────────────────────────────────────────────────────
@@ -14,7 +12,7 @@ const _testPartner = Partner(
   slug: 'urwego',
   category: PartnerCategory.bank,
   country: 'RW',
-  message: 'Microfinance in Rwanda',
+  subtitle: 'Microfinance in Rwanda',
   description: 'Full bank description',
 );
 
@@ -27,10 +25,8 @@ Widget _wrap(Widget child) {
 void main() {
   group('BankHero', () {
     testWidgets('renders partner name and description', (tester) async {
-      final config = bankConfigForSlug('urwego');
-
       await tester.pumpWidget(_wrap(
-        BankHero(partner: _testPartner, config: config),
+        const BankHero(partner: _testPartner),
       ));
 
       expect(find.text('Urwego Finance'), findsOneWidget);
@@ -48,29 +44,11 @@ void main() {
         category: PartnerCategory.bank,
         country: 'RW',
       );
-      final config = bankConfigForSlug('urwego');
-
       await tester.pumpWidget(_wrap(
-        BankHero(partner: partnerNoDesc, config: config),
+        const BankHero(partner: partnerNoDesc),
       ));
 
       expect(find.textContaining('digital banking'), findsOneWidget);
-    });
-  });
-
-  group('BankQuickActionGrid', () {
-    testWidgets('renders 4 quick action tiles', (tester) async {
-      final config = bankConfigForSlug('urwego');
-
-      await tester.pumpWidget(_wrap(
-        BankQuickActionGrid(partner: _testPartner, config: config),
-      ));
-
-      // Urwego has 4 quick actions
-      expect(find.text('Products'), findsOneWidget);
-      expect(find.text('Internet Banking'), findsOneWidget);
-      expect(find.text('Call Urwego'), findsOneWidget);
-      expect(find.text('Locations'), findsOneWidget);
     });
   });
 }

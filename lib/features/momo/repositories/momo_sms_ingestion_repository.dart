@@ -41,13 +41,16 @@ class MomoSmsIngestionRepository {
 
   static const approvedInboxSenderIds = <String>[
     'M-Money',
+    'M-Money Alerts',
     'M Money',
     'MobileMoney',
     'Mobile Money',
     'MoMo',
+    'MoMo Alerts',
     'MOMO',
     'MTN MoMo',
     'MTN MOMO',
+    'MTN MoMo Rwanda',
   ];
 
   static const _normalizedApprovedSenderTokens = <String>{

@@ -34,6 +34,7 @@ class _ManagePartnersScreenState extends ConsumerState<ManagePartnersScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
+          tooltip: 'Back',
           icon: const Icon(Icons.arrow_back_rounded),
           color: AppColors.text,
           onPressed: () => Navigator.of(context).pop(),
@@ -109,7 +110,7 @@ class _ManagePartnersScreenState extends ConsumerState<ManagePartnersScreen> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
-                  borderSide: BorderSide(
+                  borderSide: const BorderSide(
                     color: AppColors.accent,
                     width: 1.5,
                   ),
@@ -327,7 +328,7 @@ class _PartnerCard extends StatelessWidget {
               _StatusChip(isActive: isActive),
               if (isMock) ...[
                 const SizedBox(width: 6),
-                _TagChip(label: 'Mock', color: Colors.orange),
+                const _TagChip(label: 'Mock', color: Colors.orange),
               ],
             ],
           ),
@@ -358,7 +359,7 @@ class _PartnerCard extends StatelessWidget {
               if (whatsapp.isNotEmpty)
                 _InfoChip(icon: Icons.chat_rounded, label: whatsapp),
               if (website.isNotEmpty)
-                _InfoChip(icon: Icons.language_rounded, label: 'Website'),
+                const _InfoChip(icon: Icons.language_rounded, label: 'Website'),
             ],
           ),
 
@@ -689,6 +690,7 @@ class _PartnerEditorPageState extends State<_PartnerEditorPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
+          tooltip: 'Close',
           icon: const Icon(Icons.close_rounded),
           color: AppColors.text,
           onPressed: () => Navigator.of(context).pop(),
@@ -927,7 +929,7 @@ class _PartnerEditorPageState extends State<_PartnerEditorPage> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: DropdownButtonFormField<String>(
-        value: _categories.contains(_category) ? _category : null,
+        initialValue: _categories.contains(_category) ? _category : null,
         onChanged: (v) {
           if (v != null) setState(() => _category = v);
         },

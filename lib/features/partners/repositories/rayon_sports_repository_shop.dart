@@ -49,6 +49,7 @@ extension RayonSportsShopRepository on RayonSportsRepository {
               .from('rs_shop_orders')
               .insert(<String, Object?>{
                 'user_id': userId,
+                'partner_id': products.first.partnerId,
                 'items': products
                     .map(
                       (p) => <String, Object?>{

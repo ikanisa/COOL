@@ -132,8 +132,8 @@ void main() {
 
     test('equality is based on id', () {
       final a = Partner.fromJson(sampleJson);
-      final b = Partner.fromJson({...sampleJson, 'name': 'Different Name'});
-      final c = Partner.fromJson({...sampleJson, 'id': 'different-id'});
+      final b = Partner.fromJson(<String, dynamic>{...sampleJson, 'name': 'Different Name'});
+      final c = Partner.fromJson(<String, dynamic>{...sampleJson, 'id': 'different-id'});
 
       expect(a, equals(b));
       expect(a, isNot(equals(c)));

@@ -382,7 +382,7 @@ class _NotificationAccessCard extends StatelessWidget {
     return _AccessCardShell(
       icon: Icons.notifications_outlined,
       title: 'Notifications',
-      message: 'Payment and activity alerts',
+      subtitle: 'Payment and activity alerts',
       statusLabel: statusLabel,
       statusColor: statusColor,
       linkedFeatures: const [
@@ -445,7 +445,7 @@ class _PermissionAccessCard extends StatelessWidget {
     return _AccessCardShell(
       icon: metadata.icon,
       title: metadata.title,
-      message: metadata.subtitle,
+      subtitle: metadata.subtitle,
       statusLabel: status.label,
       statusColor: status.color,
       linkedFeatures: metadata.linkedFeatures,
@@ -734,7 +734,11 @@ class _SmsPolicyNotice extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'If you turn this',
+                  'If you turn this on, Cool will read only M-Money '
+                  'confirmation SMS to verify your payments. '
+                  'Matched messages are sent to our server for '
+                  'AI-powered transaction parsing. No personal '
+                  'messages are accessed or stored.',
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
@@ -772,15 +776,17 @@ _PermissionMetadata _metadataFor(AppAccessPermission permission) {
     AppAccessPermission.sms => const _PermissionMetadata(
       icon: Icons.sms_outlined,
       title: 'SMS payment sync',
-      message:
-          'Optional on Android so',
+      subtitle:
+          'Optional on Android so Cool can auto-verify '
+          'M-Money payments and reconcile group contributions, '
+          'subscriptions, and partner transactions.',
       linkedFeatures: ['MoMo verification', 'Transaction recording'],
       serviceActionLabel: 'Open system settings',
     ),
     AppAccessPermission.location => const _PermissionMetadata(
       icon: Icons.location_on_outlined,
       title: 'Location',
-      message:
+      subtitle:
           'Needed for nearby mobility',
       linkedFeatures: ['Mobility nearby', 'Trip pickup', 'Driver discovery'],
       serviceActionLabel: 'Open location settings',
@@ -788,7 +794,7 @@ _PermissionMetadata _metadataFor(AppAccessPermission permission) {
     AppAccessPermission.camera => const _PermissionMetadata(
       icon: Icons.camera_alt_outlined,
       title: 'Camera',
-      message:
+      subtitle:
           'Used for MoMo QR',
       linkedFeatures: ['MoMo QR scan', 'Ticket scan'],
       serviceActionLabel: 'Open system settings',
@@ -796,7 +802,7 @@ _PermissionMetadata _metadataFor(AppAccessPermission permission) {
     AppAccessPermission.contacts => const _PermissionMetadata(
       icon: Icons.contacts_outlined,
       title: 'Contacts',
-      message:
+      subtitle:
           'Used when inviting group',
       linkedFeatures: ['Group invites', 'Share via contacts'],
       serviceActionLabel: 'Open system settings',
@@ -804,7 +810,7 @@ _PermissionMetadata _metadataFor(AppAccessPermission permission) {
     AppAccessPermission.nfc => const _PermissionMetadata(
       icon: Icons.nfc_outlined,
       title: 'NFC',
-      message:
+      subtitle:
           'Controls NFC receive/read flows',
       linkedFeatures: ['MoMo receive tap', 'NFC payment tags'],
       serviceActionLabel: 'Open NFC settings',

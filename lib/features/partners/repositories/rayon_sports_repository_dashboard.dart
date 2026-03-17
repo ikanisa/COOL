@@ -182,8 +182,8 @@ class RayonSportsDashboardRepository {
 List<RsJsonMap> _asListOfMaps(Object? value) {
   if (value is List) {
     return value
-        .whereType<Map>()
-        .map((row) => row.map((key, val) => MapEntry('$key', val)))
+        .whereType<Map<String, dynamic>>()
+        .map((row) => row.map((key, val) => MapEntry(key, val)))
         .toList(growable: false);
   }
   return const <Map<String, Object?>>[];

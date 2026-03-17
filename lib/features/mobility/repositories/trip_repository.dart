@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
+
 
 import 'package:cool_app/core/sync/network_status.dart';
 import 'package:cool_app/core/utils/json_helpers.dart' as jh;
@@ -130,13 +130,12 @@ class TripRepository {
   }
 
   Future<jh.JsonMap> _insertTrip(TripPostRequest request) async {
-    // Canonical payload first; fall back to legacy if schema drifted.
-    final canonicalPayload = Map<String, Object?>.from(request.toJson());
+    final payload = Map<String, Object?>.from(request.toJson());
 
     try {
       final insertedTrip = await _client
           .from(_tableName)
-          .insert(canonicalPayload)
+          .insert(payload)
           .select('id')
           .single();
       return Map<String, Object?>.from(insertedTrip);
@@ -145,31 +144,7 @@ class TripRepository {
         final existingTrip = await _findExistingTripByClientRequestId(request);
         if (existingTrip != null) return existingTrip;
       }
-
-      // If the canonical format failed with a column/schema error, try the
-      // legacy format exactly once as a safety net while we align the DB.
-      debugPrint(
-        '[TripRepository] Canonical insert failed (${error.code}): '
-        '${error.message} — falling back to legacy format',
-      );
-
-      final legacyPayload = Map<String, Object?>.from(request.toLegacyJson());
-      try {
-        final insertedTrip = await _client
-            .from(_tableName)
-            .insert(legacyPayload)
-            .select('id')
-            .single();
-        return Map<String, Object?>.from(insertedTrip);
-      } on PostgrestException catch (legacyError) {
-        if (_isDuplicateClientRequestError(legacyError)) {
-          final existingTrip = await _findExistingTripByClientRequestId(
-            request,
-          );
-          if (existingTrip != null) return existingTrip;
-        }
-        rethrow;
-      }
+      rethrow;
     }
   }
 
@@ -249,11 +224,6 @@ class TripRepository {
     return departureAt.isBefore(DateTime.now());
   }
 
-  jh.JsonMap _withoutClientRequestId(Map<String, dynamic> payload) {
-    final sanitized = Map<String, Object?>.from(payload);
-    sanitized.remove('client_request_id');
-    return sanitized;
-  }
 
   static String _nextClientRequestId(DateTime now) {
     final randomSuffix = _random

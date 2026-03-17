@@ -712,18 +712,6 @@ String _displayReadinessState(String state) {
   };
 }
 
-String _displayHandoffChannel(String? channel) {
-  return switch (channel) {
-    'in_app_redirect' => 'in-app redirect',
-    'phone' => 'phone',
-    'email' => 'email',
-    'whatsapp' => 'WhatsApp',
-    'branch' => 'branch',
-    'manual' => 'manual',
-    _ => 'handoff',
-  };
-}
-
 String _recommendedApplicationType(CreditReadinessReport report) {
   if (report.loanApplication.state == CreditReadinessState.ready ||
       report.loanApplication.state == CreditReadinessState.nearlyReady) {

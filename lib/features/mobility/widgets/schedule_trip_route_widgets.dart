@@ -314,10 +314,10 @@ class _RouteActionIcon extends StatelessWidget {
       message: tooltip,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(20),
         child: Padding(
-          padding: const EdgeInsets.all(6),
-          child: Icon(icon, size: 18, color: palette.text2),
+          padding: const EdgeInsets.all(8),
+          child: Icon(icon, size: 20, color: palette.text2),
         ),
       ),
     );

@@ -297,7 +297,7 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
         value: packagesAsync,
         emptyCheck: (packages) => packages.isEmpty,
         emptyWidget: const CoolEmptyView(
-          subtitle: 'No membership packages yet',
+          message: 'No membership packages yet',
           compact: true,
           isPremium: true,
         ),
@@ -358,7 +358,7 @@ class _PackageCard extends StatelessWidget {
                       style: GoogleFonts.barlow(
                         fontSize: 18,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.rsWhite,
+                        color: AppColors.text,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -383,7 +383,7 @@ class _PackageCard extends StatelessWidget {
             runSpacing: 10,
             children: [
               _InfoPill(label: 'Tier', value: tier.label),
-              _InfoPill(label: 'Threshold', value: '${tier.minPoints}+ pts'),
+              _InfoPill(label: 'Threshold', value: '${tier.minPoints}+ Tokens'),
               _InfoPill(
                 label: 'Benefits',
                 value: package.benefits.length.toString(),

@@ -296,7 +296,7 @@ class BankAdminRepository {
 List<Map<String, dynamic>> _asListOfMaps(dynamic value) {
   if (value is List) {
     return value
-        .whereType<Map>()
+        .whereType<Map<dynamic, dynamic>>()
         .map((row) => Map<String, dynamic>.from(row))
         .toList(growable: false);
   }

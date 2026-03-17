@@ -6,7 +6,6 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/cool_palette.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../core/theme/rs_text_styles.dart';
 import '../../../../features/auth/models/user_profile.dart';
@@ -289,7 +288,7 @@ class _ProfileHero extends StatelessWidget {
                         ),
                         const Spacer(),
                         Text(
-                          '${progressMeta.current} / ${progressMeta.threshold} pts',
+                          '${progressMeta.current} / ${progressMeta.threshold} Tokens',
                           style: Theme.of(context).textTheme.labelSmall?.copyWith(
                             color: RsColors.rsGoldLight,
                             fontWeight: FontWeight.w900,

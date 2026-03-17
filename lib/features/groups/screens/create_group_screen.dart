@@ -7,7 +7,6 @@ import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_button.dart';
-import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_text_field.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/providers/auth_provider.dart';
@@ -70,7 +69,6 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
   Future<void> _createGroup() async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
 
-    final communityCountry = _communityCountry();
     final routeType = _effectiveCommunityRouteType();
 
     // Validate community MOMO field
@@ -427,16 +425,6 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
   }
 
   CoolCountry _communityCountry() => AppMarket.country;
-
-  String _formatAmount(int value) {
-    final digits = value.toString();
-    final buffer = StringBuffer();
-    for (var index = 0; index < digits.length; index++) {
-      if (index > 0 && (digits.length - index) % 3 == 0) buffer.write(',');
-      buffer.write(digits[index]);
-    }
-    return buffer.toString();
-  }
 }
 
 // ═════════════════════════════════════════════════════════════════════════

@@ -18,7 +18,7 @@ final topEarnersProvider =
 
   final results = <LeaderboardEntry>[];
   for (int i = 0; i < (rows as List).length; i++) {
-    final row = rows[i] as Map<String, dynamic>;
+    final row = rows[i];
     // Flatten the profiles join
     final profile = row['profiles'];
     final flat = <String, dynamic>{

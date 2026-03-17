@@ -5,16 +5,14 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/qr_share_sheet.dart';
-import '../../../features/auth/providers/auth_provider.dart';
 import '../../providers/referral_providers.dart';
-import '../../repositories/referral_repository.dart';
+import '../../models/referral_attribution.dart';
 
 class ReferralHubScreen extends ConsumerStatefulWidget {
   const ReferralHubScreen({super.key});
@@ -59,7 +57,7 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
   void _copyLink() {
     if (_inviteLink == null) return;
     Clipboard.setData(ClipboardData(text: _inviteLink!.uri.toString()));
-    CoolToast.show(context, message: 'Invite link copied to clipboard');
+    CoolToast.info(context, 'Invite link copied to clipboard');
   }
 
   void _shareNative() {
@@ -96,6 +94,7 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
                 pinned: true,
                 leading: IconButton(
                   onPressed: () => context.pop(),
+                  tooltip: 'Back',
                   icon: Icon(Icons.arrow_back_rounded, color: palette.text),
                 ),
                 title: Text(
@@ -235,24 +234,24 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    _StepRow(
+                    const _StepRow(
                       number: '1',
                       title: 'Send Invite',
-                      subtitle: 'Share your link or QR code with friends.',
+                      message: 'Share your link or QR code with friends.',
                       icon: Icons.send_rounded,
                     ),
                     const SizedBox(height: 20),
-                    _StepRow(
+                    const _StepRow(
                       number: '2',
                       title: 'Friend Joins',
-                      subtitle: 'They sign up using your unique link.',
+                      message: 'They sign up using your unique link.',
                       icon: Icons.person_add_rounded,
                     ),
                     const SizedBox(height: 20),
-                    _StepRow(
+                    const _StepRow(
                       number: '3',
                       title: 'Earn Tokens',
-                      subtitle: 'Get 150 tokens when they complete an activity.',
+                      message: 'Get 150 tokens when they complete an activity.',
                       icon: Icons.stars_rounded,
                     ),
                   ]),
@@ -270,13 +269,13 @@ class _StepRow extends StatelessWidget {
   const _StepRow({
     required this.number,
     required this.title,
-    required this.subtitle,
+    required this.message,
     required this.icon,
   });
 
   final String number;
   final String title;
-  final String subtitle;
+  final String message;
   final IconData icon;
 
   @override
@@ -316,7 +315,7 @@ class _StepRow extends StatelessWidget {
                 ),
               ),
               Text(
-                subtitle,
+                message,
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,

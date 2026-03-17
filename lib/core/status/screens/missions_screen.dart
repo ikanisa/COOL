@@ -214,7 +214,7 @@ class _UpcomingMissionTile extends StatelessWidget {
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  '${mission.rewardPoints} pts',
+                  '${mission.rewardPoints} Tokens',
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,

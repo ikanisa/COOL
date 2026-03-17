@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'app_colors.dart';
-import 'cool_palette.dart';
 
 /// Applies status and navigation bar styles that follow the active app theme.
 class ThemeSystemChrome extends StatelessWidget {
@@ -13,7 +12,6 @@ class ThemeSystemChrome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final palette = context.coolPalette;
     final isDark = theme.brightness == Brightness.dark;
 
     // Keep the legacy semantic color bridge aligned with the active theme so

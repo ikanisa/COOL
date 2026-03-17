@@ -225,8 +225,8 @@
   "myScheduledTrips": "My Scheduled Trips",
   "noScheduledTrips": "No scheduled trips yet.",
   "perMonth": "/month",
-  "vehicleMoto": "🛺 Moto",
-  "vehicleCab": "🚗 Cab",
+  "vehicleMoto": "Moto",
+  "vehicleCab": "Cab",
   "vehicleAny": "Any",
   "weekdayMonShort": "Mon",
   "weekdayTueShort": "Tue",
@@ -859,7 +859,7 @@
   "profileIdentityUpdateFailed": "Failed to update identity",
   "profileAppAccess": "App access",
   "profileManageAction": "Manage",
-  "profileCoolStatusValue": "{tier} · {points} pts",
+  "profileCoolStatusValue": "{tier} · {points} Tokens",
   "@profileCoolStatusValue": {
     "placeholders": {
       "tier": {

@@ -82,7 +82,7 @@ class CoolStatusCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: Text(
-                    '${status.totalPoints} pts',
+                    '${status.totalPoints} Tokens',
                     style: GoogleFonts.dmSans(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,

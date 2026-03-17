@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:cool_app/features/admin/providers/admin_workspace_access_provider.dart';
 import 'package:cool_app/features/admin/screens/admin_dashboard_screen.dart';
 
 import '../../integration_smoke/test_harness.dart';

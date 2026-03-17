@@ -17,14 +17,14 @@ class ContactPickerSheet extends StatefulWidget {
     required this.onSelected,
     required this.appAccessService,
     this.title,
-    this.subtitle,
+    this.message,
   });
 
   final bool multiSelect;
   final void Function(List<SimpleContact> selected) onSelected;
   final AppAccessService appAccessService;
   final String? title;
-  final String? subtitle;
+  final String? message;
 
   /// Show the contact picker as a modal bottom sheet.
   ///
@@ -35,6 +35,7 @@ class ContactPickerSheet extends StatefulWidget {
     bool multiSelect = false,
     String? title,
     String? subtitle,
+    String? message,
   }) async {
     final result = await showModalBottomSheet<List<SimpleContact>>(
       context: context,
@@ -44,7 +45,7 @@ class ContactPickerSheet extends StatefulWidget {
       builder: (_) => ContactPickerSheet._(
         multiSelect: multiSelect,
         title: title,
-        message: subtitle,
+        message: subtitle ?? message,
         appAccessService: appAccessService,
         onSelected: (contacts) => Navigator.of(context).pop(contacts),
       ),
@@ -263,6 +264,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.sizeOf(context).height;
+    final effectiveSubtitle = widget.message;
 
     return Container(
       constraints: BoxConstraints(maxHeight: screenHeight * 0.85),
@@ -313,10 +315,10 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                               color: AppColors.text,
                             ),
                           ),
-                          if (widget.subtitle != null) ...[
+                          if (effectiveSubtitle != null) ...[
                             const SizedBox(height: 2),
                             Text(
-                              widget.subtitle!,
+                              effectiveSubtitle,
                               style: GoogleFonts.dmSans(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400,
@@ -607,14 +609,14 @@ class _PermissionState extends StatelessWidget {
     required this.title,
     required this.message,
     required this.actionLabel,
-    required this.onAction,
+    required this.action,
   });
 
   final IconData icon;
   final String title;
   final String message;
   final String actionLabel;
-  final VoidCallback onAction;
+  final VoidCallback action;
 
   @override
   Widget build(BuildContext context) {
@@ -646,7 +648,7 @@ class _PermissionState extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           GestureDetector(
-            onTap: onAction,
+            onTap: action,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               decoration: BoxDecoration(

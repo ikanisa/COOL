@@ -27,8 +27,8 @@ class WaButton extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          width: iconOnly ? 40 : null,
-          height: 40,
+          width: iconOnly ? 48 : null,
+          height: 48,
           padding: iconOnly
               ? EdgeInsets.zero
               : const EdgeInsets.symmetric(horizontal: 14),

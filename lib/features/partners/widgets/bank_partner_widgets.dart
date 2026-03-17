@@ -99,7 +99,7 @@ class BankServiceGrid extends StatelessWidget {
           PartnerQuickActionTile(
             icon: _iconForEmoji(service.emoji),
             title: service.title,
-            message: service.subtitle ?? '',
+            subtitle: service.subtitle ?? '',
             onTap: () => launchPartnerAction(
               context,
               partner,

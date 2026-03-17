@@ -52,6 +52,8 @@ Deno.serve(async (request: Request) => {
 
     const threshold = new Date(Date.now() - 60 * 60 * 1000).toISOString();
     const supabase = createAdminClient();
+    // Query canonical column (travel_time); also catch any legacy rows
+    // that may still use departure_at.
     const result = await supabase
       .from("mobility_trips")
       .update({
@@ -59,7 +61,7 @@ Deno.serve(async (request: Request) => {
         updated_at: new Date().toISOString(),
       })
       .in("status", ["open", "active"])
-      .lt("departure_at", threshold)
+      .or(`travel_time.lt.${threshold},departure_at.lt.${threshold}`)
       .select("id");
 
     if (result.error) {

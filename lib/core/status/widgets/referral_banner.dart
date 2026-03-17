@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_palette.dart';
+import '../../../shared/widgets/cool_glass_card.dart';
 
 class ReferralBanner extends StatelessWidget {
   const ReferralBanner({super.key});
@@ -11,32 +12,27 @@ class ReferralBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
-    return GestureDetector(
+    return CoolGlassCard(
       onTap: () => context.push(AppRoutes.referral),
+      padding: EdgeInsets.zero,
+      borderRadius: 24,
+      opacity: 0.1,
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              palette.accent,
-              palette.accent.withValues(alpha: 0.8),
+              palette.accent.withValues(alpha: 0.4),
+              palette.accent.withValues(alpha: 0.1),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: palette.accent.withValues(alpha: 0.1),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
-          ],
         ),
         child: Row(
           children: [
-            const Text('🎁', style: TextStyle(fontSize: 24)),
-            const SizedBox(width: 12),
+            const Text('🎁', style: TextStyle(fontSize: 28)),
+            const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,23 +40,24 @@ class ReferralBanner extends StatelessWidget {
                   Text(
                     'Refer & Earn 150 Tokens',
                     style: GoogleFonts.dmSans(
-                      fontSize: 14,
+                      fontSize: 16,
                       fontWeight: FontWeight.w800,
-                      color: Colors.black,
+                      color: palette.text,
                     ),
                   ),
+                  const SizedBox(height: 2),
                   Text(
                     'Invite friends and grow the community',
                     style: GoogleFonts.dmSans(
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black.withValues(alpha: 0.7),
+                      color: palette.text2,
                     ),
                   ),
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right_rounded, color: Colors.black),
+            Icon(Icons.chevron_right_rounded, color: palette.accent, size: 28),
           ],
         ),
       ),

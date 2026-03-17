@@ -3,12 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/router/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../core/providers/supabase_client_provider.dart';
+import '../../../shared/widgets/secure_screen_mixin.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../models/credit_insights.dart';
 import '../providers/credit_insights_provider.dart';
@@ -24,13 +24,14 @@ class CreditScoreScreen extends ConsumerWidget {
     final palette = context.coolPalette;
     final insightsAsync = ref.watch(creditInsightsProvider);
 
-    return Scaffold(
+    return SecureScreen(child: Scaffold(
       backgroundColor: palette.bg,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           onPressed: () => context.pop(),
+          tooltip: 'Back',
           icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
         title: Text(
@@ -45,6 +46,7 @@ class CreditScoreScreen extends ConsumerWidget {
         actions: [
           IconButton(
             onPressed: () => ref.invalidate(creditInsightsProvider),
+            tooltip: 'Refresh',
             icon: Icon(Icons.refresh_rounded, color: palette.text2, size: 20),
           ),
         ],
@@ -62,7 +64,7 @@ class CreditScoreScreen extends ConsumerWidget {
           ),
         ),
       ),
-    );
+    ));
   }
 }
 
@@ -100,7 +102,7 @@ class _InsightsDashboard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Icon(Icons.auto_awesome_rounded, size: 18, color: AppColors.accent),
+                    const Icon(Icons.auto_awesome_rounded, size: 18, color: AppColors.accent),
                     const SizedBox(width: 8),
                     Text(
                       'AI AGENT INSIGHT',
@@ -174,7 +176,7 @@ class _CreditBridgeCardState extends State<_CreditBridgeCard> {
       final response = await client.functions.invoke('create-financial-memo');
       
       if (response.data != null && response.data['success'] == true) {
-        final docUrl = response.data['data']['doc_url'] as String;
+        final _ = response.data['data']['doc_url'] as String;
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

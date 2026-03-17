@@ -26,6 +26,7 @@ class ManageMissionsScreen extends ConsumerWidget {
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
+          tooltip: 'Back',
           icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
       ),
@@ -167,7 +168,7 @@ class _MissionAdminCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'Target: ${mission.targetValue} · Reward: ${mission.rewardPoints} pts',
+                  'Target: ${mission.targetValue} · Reward: ${mission.rewardPoints} Tokens',
                   style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
                 ),
               ],

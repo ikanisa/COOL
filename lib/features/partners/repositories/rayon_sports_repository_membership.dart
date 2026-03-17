@@ -165,7 +165,7 @@ class RayonSportsMembershipRepository {
   }) async {
     final resolvedPartnerId = partnerId ?? await resolvePartnerId();
     if (resolvedPartnerId == null || resolvedPartnerId.isEmpty) {
-      return RsMembershipPackage.fallback();
+      return [RsMembershipPackage.fallback()];
     }
 
     var query = _client
@@ -179,7 +179,7 @@ class RayonSportsMembershipRepository {
 
     final rows = _asListOfMaps(await query.order('sort_order').order('tier'));
     if (rows.isEmpty) {
-      return RsMembershipPackage.fallback();
+      return [RsMembershipPackage.fallback()];
     }
     return rows.map(RsMembershipPackage.fromJson).toList(growable: false);
   }
@@ -364,8 +364,8 @@ class RayonSportsMembershipRepository {
 List<RsJsonMap> _asListOfMaps(Object? value) {
   if (value is List) {
     return value
-        .whereType<Map>()
-        .map((row) => row.map((key, val) => MapEntry('$key', val)))
+        .whereType<Map<String, dynamic>>()
+        .map((row) => row.map((key, val) => MapEntry(key, val)))
         .toList(growable: false);
   }
   return const <Map<String, Object?>>[];

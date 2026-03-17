@@ -116,7 +116,7 @@ class SeasonBanner extends StatelessWidget {
                         const SizedBox(width: 4),
                         Flexible(
                           child: Text(
-                            '$seasonPoints season pts',
+                            '$seasonPoints Tokens',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.dmSans(

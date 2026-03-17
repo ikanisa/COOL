@@ -137,7 +137,7 @@ class PrismaQuickActions extends StatelessWidget {
             PartnerQuickActionTile(
               icon: IconMapper.from(action['icon']?.toString() ?? '🔗'),
               title: action['title']?.toString() ?? '',
-              message: action['subtitle']?.toString() ?? '',
+              subtitle: action['subtitle']?.toString() ?? '',
               onTap: () => launchPrismaAction(
                 context,
                 partner,

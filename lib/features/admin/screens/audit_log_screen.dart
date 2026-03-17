@@ -39,6 +39,7 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
+          tooltip: 'Back',
           icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
       ),
@@ -78,7 +79,7 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 18),
               scrollDirection: Axis.horizontal,
               itemCount: _actionFilters.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 8),
+              separatorBuilder: (_, _) => const SizedBox(width: 8),
               itemBuilder: (context, index) {
                 final action = _actionFilters[index];
                 final isSelected = _selectedAction == action;
@@ -128,7 +129,7 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
                 return ListView.separated(
                   padding: const EdgeInsets.fromLTRB(18, 0, 18, 32),
                   itemCount: logs.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 10),
+                  separatorBuilder: (_, _) => const SizedBox(height: 10),
                   itemBuilder: (context, index) =>
                       _AuditEntryTile(entry: logs[index]),
                 );

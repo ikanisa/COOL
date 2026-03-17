@@ -24,6 +24,7 @@ class ManageSpecialProductsScreen extends ConsumerWidget {
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
+          tooltip: 'Back',
           icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
       ),
@@ -47,7 +48,7 @@ class ManageSpecialProductsScreen extends ConsumerWidget {
             : ListView.separated(
                 padding: const EdgeInsets.fromLTRB(18, 0, 18, 96),
                 itemCount: products.length + 1,
-                separatorBuilder: (_, __) => const SizedBox(height: 12),
+                separatorBuilder: (_, _) => const SizedBox(height: 12),
                 itemBuilder: (context, index) {
                   if (index == 0) {
                     return Text(
@@ -307,7 +308,7 @@ class _SpecialProductEditSheetState
         id: widget.product?.id ?? '',
         slug: _slugCtrl.text.trim(),
         title: _titleCtrl.text.trim(),
-        message: _subtitleCtrl.text.trim(),
+        subtitle: _subtitleCtrl.text.trim(),
         description: _descriptionCtrl.text.trim(),
         amount: int.tryParse(_amountCtrl.text.trim()) ?? 0,
         colorHex: _colorCtrl.text.trim(),
@@ -395,7 +396,7 @@ class _SpecialProductEditSheetState
                       const SizedBox(width: 4),
                       Switch.adaptive(
                         value: _isActive,
-                        activeColor: Colors.green,
+                        activeTrackColor: Colors.green,
                         onChanged: (v) => setState(() => _isActive = v),
                       ),
                     ],

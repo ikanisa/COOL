@@ -35,6 +35,7 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
+          tooltip: 'Back',
           icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
       ),
@@ -143,7 +144,7 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(14),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: AppColors.accent,
                             width: 1.5,
                           ),
@@ -887,7 +888,7 @@ class _EditUserSheetState extends ConsumerState<_EditUserSheet> {
               const SizedBox(height: 20),
 
               // Full name
-              _FieldLabel('Full name'),
+              const _FieldLabel('Full name'),
               const SizedBox(height: 6),
               _EditInput(controller: _nameController),
               const SizedBox(height: 16),
@@ -908,7 +909,7 @@ class _EditUserSheetState extends ConsumerState<_EditUserSheet> {
                   Switch.adaptive(
                     value: _isAdmin,
                     onChanged: (v) => setState(() => _isAdmin = v),
-                    activeColor: Colors.orange,
+                    activeTrackColor: Colors.orange,
                   ),
                 ],
               ),
@@ -930,7 +931,7 @@ class _EditUserSheetState extends ConsumerState<_EditUserSheet> {
                   Switch.adaptive(
                     value: _isDriver,
                     onChanged: (v) => setState(() => _isDriver = v),
-                    activeColor: AppColors.accent,
+                    activeTrackColor: AppColors.accent,
                   ),
                 ],
               ),
@@ -938,7 +939,7 @@ class _EditUserSheetState extends ConsumerState<_EditUserSheet> {
               // Vehicle type (only when driver)
               if (_isDriver) ...[
                 const SizedBox(height: 8),
-                _FieldLabel('Vehicle type'),
+                const _FieldLabel('Vehicle type'),
                 const SizedBox(height: 6),
                 _EditInput(
                   controller: _vehicleController,
@@ -1033,7 +1034,7 @@ class _EditInput extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: AppColors.accent, width: 1.5),
+          borderSide: const BorderSide(color: AppColors.accent, width: 1.5),
         ),
       ),
     );

@@ -6,11 +6,10 @@ import '../../core/theme/cool_palette.dart';
 import 'cool_button.dart';
 
 /// Standardized error view used throughout the app.
-///
-/// Displays a centered message with an optional icon and retry button.
 class CoolErrorView extends StatelessWidget {
   const CoolErrorView({
-    required this.message,
+    this.message,
+    this.subtitle,
     this.onRetry,
     this.onAction,
     this.action,
@@ -20,28 +19,17 @@ class CoolErrorView extends StatelessWidget {
     super.key,
   });
 
-  /// User-facing error message.
-  final String message;
-
-  /// Called when the user taps the retry button. If null, no button is shown.
+  final String? message;
+  final String? subtitle;
   final VoidCallback? onRetry;
-
-  /// Alias for [onRetry].
   final VoidCallback? onAction;
-
-  /// Alias for [onRetry].
   final VoidCallback? action;
-
-  /// Optional label for the retry button. Defaults to 'Try Again'.
   final String? actionLabel;
-
-  /// Icon displayed above the message.
   final IconData icon;
-
-  /// If true, renders in a more compact layout (for inline use in lists).
   final bool compact;
 
-  VoidCallback? get _onRetryAction => onRetry ?? onAction ?? action;
+  String get _effectiveMessage => message ?? subtitle ?? 'An error occurred';
+  VoidCallback? get _effectiveAction => onRetry ?? onAction ?? action;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +38,7 @@ class CoolErrorView extends StatelessWidget {
     final spacing = compact ? 12.0 : 20.0;
 
     return Semantics(
-      label: 'Error: $message',
+      label: 'Error: $_effectiveMessage',
       liveRegion: true,
       child: Center(
         child: Padding(
@@ -77,7 +65,7 @@ class CoolErrorView extends StatelessWidget {
               .scale(begin: const Offset(0.8, 0.8), duration: 400.ms),
               SizedBox(height: spacing),
               Text(
-                message,
+                _effectiveMessage,
                 textAlign: TextAlign.center,
                 style: GoogleFonts.dmSans(
                   fontSize: compact ? 14 : 16,
@@ -85,11 +73,11 @@ class CoolErrorView extends StatelessWidget {
                   height: 1.5,
                 ),
               ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
-              if (_onRetryAction != null) ...[
+              if (_effectiveAction != null) ...[
                 SizedBox(height: spacing + 4),
                 CoolButton(
                   label: actionLabel ?? 'Try Again',
-                  onTap: _onRetryAction!,
+                  onTap: _effectiveAction!,
                   variant: CoolButtonVariant.secondary,
                   fullWidth: false,
                 ).animate().fadeIn(delay: 400.ms).scale(begin: const Offset(0.95, 0.95)),

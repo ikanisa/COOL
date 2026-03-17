@@ -288,4 +288,32 @@ extension _MomoStatementsController on _MomoStatementsScreenState {
       StatementPeriodPreset.all => 'All time',
     };
   }
+
+  Future<void> _syncSms() async {
+    _applyState(() => _isSyncing = true);
+    try {
+      final service = ref.read(momoSmsAutoreadServiceProvider);
+      final result = await service.syncInbox(
+        trigger: MomoInboxSyncTrigger.manual,
+      );
+      if (!mounted) return;
+      if (result.uploadedMessages > 0) {
+        CoolToast.success(
+          context,
+          'Synced ${result.uploadedMessages} transaction${result.uploadedMessages == 1 ? '' : 's'}',
+        );
+        _refresh();
+      } else {
+        CoolToast.info(context, 'No new M-Money SMS found');
+      }
+    } catch (error) {
+      if (!mounted) return;
+      final message = error is MomoSmsSyncException
+          ? error.message
+          : 'SMS sync failed';
+      CoolToast.error(context, message);
+    } finally {
+      _applyState(() => _isSyncing = false);
+    }
+  }
 }

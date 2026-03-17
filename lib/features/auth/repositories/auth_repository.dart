@@ -233,8 +233,8 @@ class AuthRepository {
       body: <String, Object?>{
         'idImageBase64': idImageBase64,
         'selfieBase64': selfieBase64,
-        if (idMimeType != null) 'idMimeType': idMimeType,
-        if (selfieMimeType != null) 'selfieMimeType': selfieMimeType,
+        'idMimeType': ?idMimeType,
+        'selfieMimeType': ?selfieMimeType,
       },
     );
 

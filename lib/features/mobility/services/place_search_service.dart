@@ -1,4 +1,3 @@
-import 'package:cool_app/core/config/app_market.dart';
 import 'package:cool_app/core/utils/json_helpers.dart' as jh;
 import 'package:cool_app/core/config/env_config.dart';
 import 'package:cool_app/core/models/geo_point.dart';
@@ -134,7 +133,7 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
       }
 
       final results = _asList(data['places'])
-          .whereType<Map>()
+          .whereType<Map<dynamic, dynamic>>()
           .map(
             (row) => PlaceSearchResult.fromMapsGatewayJson(
               Map<String, Object?>.from(row),
@@ -211,7 +210,7 @@ class MapsGatewayPlaceSearchService implements PlaceSearchService {
 
       final suggestions = _asList(data['suggestions']);
       final results = suggestions
-          .whereType<Map>()
+          .whereType<Map<dynamic, dynamic>>()
           .map(
             (row) => PlaceSearchResult.fromMapsGatewayJson(
               Map<String, Object?>.from(row),
@@ -495,7 +494,7 @@ class NominatimPlaceSearchService implements PlaceSearchService {
 
     final rows = response.data ?? const <Object?>[];
     return rows
-        .whereType<Map>()
+        .whereType<Map<dynamic, dynamic>>()
         .map(
           (row) => PlaceSearchResult.fromNominatimJson(
             Map<String, Object?>.from(row),

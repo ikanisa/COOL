@@ -38,6 +38,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
+          tooltip: 'Back',
           icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
       ),
@@ -177,7 +178,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
                   message: 'Loading partner payment routes…',
                 )
               else if (partnerRoutesAsync.hasError)
-                EmptyConfigCard(
+                const EmptyConfigCard(
                   message:
                       'Load partner payment failed',
                 )

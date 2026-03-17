@@ -244,7 +244,7 @@ class _ProgressToNext extends StatelessWidget {
         RsProgressBar(progress: progress, fillColor: nextTier.color, height: 8),
         const SizedBox(height: 8),
         Text(
-          '$remaining pts to ${nextTier.label}',
+          '$remaining Tokens to ${nextTier.label}',
           style: GoogleFonts.barlow(
             fontSize: 12,
             fontWeight: FontWeight.w600,
@@ -348,7 +348,7 @@ class _TierCard extends StatelessWidget {
                   )
                 else
                   _StatusChip(
-                    label: '${tier.minPoints} pts',
+                    label: '${tier.minPoints} Tokens',
                     color: AppColors.text3,
                     filled: false,
                   ),

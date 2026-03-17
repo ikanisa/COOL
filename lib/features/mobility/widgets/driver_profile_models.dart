@@ -95,16 +95,8 @@ class VehicleData {
         normalized.contains('active');
   }
 
-  String get emoji {
-    final normalized = type.toLowerCase();
-    if (normalized.contains('moto')) return '🛺';
-    if (normalized.contains('cab')) return '🚗';
-    if (normalized.contains('truck')) return '🚛';
-    if (normalized.contains('trike') || normalized.contains('van')) {
-      return '🚐';
-    }
-    return '🚘';
-  }
+  /// Returns the PNG asset path for the vehicle type icon.
+  String get iconPath => tripVehicleIcon(type);
 
   Color get statusColor {
     final normalized = status.toLowerCase();

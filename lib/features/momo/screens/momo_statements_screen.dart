@@ -18,9 +18,11 @@ import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/providers/auth_provider.dart';
+import '../../../core/providers/app_lifecycle_providers.dart';
 import '../models/momo_statement.dart';
 import '../models/momo_statement_filters.dart';
 import '../providers/momo_statement_providers.dart';
+import '../services/momo_sms_autoread_service.dart';
 import '../services/momo_statement_export_service.dart';
 
 part '../controllers/momo_statements_controller.dart';
@@ -43,6 +45,7 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
   DateTime? _customStartDate;
   DateTime? _customEndDate;
   bool _isExporting = false;
+  bool _isSyncing = false;
 
   bool get _isWalletTab => _tabController.index == 0;
 
@@ -113,6 +116,20 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
             icon: Icon(Icons.home_rounded, color: palette.text),
           ),
           IconButton(
+            tooltip: 'Sync SMS',
+            onPressed: _isSyncing ? null : _syncSms,
+            icon: _isSyncing
+                ? SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: palette.text3,
+                    ),
+                  )
+                : Icon(Icons.sms_rounded, color: palette.text),
+          ),
+          IconButton(
             tooltip: l10n.momoRefreshStatements,
             onPressed: _refresh,
             icon: Icon(Icons.refresh_rounded, color: palette.text),
@@ -160,7 +177,7 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                   ),
-                  tabs: [
+                  tabs: const [
                     Tab(
                       icon: Icon(Icons.account_balance_wallet_rounded, size: 20),
                     ),
@@ -181,9 +198,6 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
                 ),
                 builder: (bundle) {
                   final viewModel = _buildViewModel(bundle);
-                  final visibleCount = _isWalletTab
-                      ? viewModel.filteredWalletEntries.length
-                      : viewModel.filteredSavingsEntries.length;
                   return Padding(
                     padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
                     child: Column(

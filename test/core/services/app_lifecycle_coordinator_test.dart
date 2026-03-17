@@ -105,6 +105,9 @@ void main() {
         refreshFeatureFlags: () async {
           events.add('featureFlags.refresh');
         },
+        refreshSupportedCountries: () async {
+          events.add('supportedCountries.refresh');
+        },
         readAuthState: () => authState,
         engagementTracker: engagementTracker,
         crashlytics: crashlytics,
@@ -124,6 +127,7 @@ void main() {
 
       expect(events, <String>[
         'featureFlags.refresh',
+        'supportedCountries.refresh',
         'engagement.initialize',
         'crashlytics.initialize',
         'performance.initialize',

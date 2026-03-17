@@ -10,6 +10,7 @@ import '../../../../core/router/app_routes.dart';
 import '../../../../core/status/cool_status_awarder.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/rs_colors.dart';
+import '../../../../core/theme/rs_text_styles.dart';
 import '../../../../shared/widgets/cool_button.dart';
 import '../../../../shared/widgets/cool_toast.dart';
 import '../../../../shared/widgets/cool_card.dart';
@@ -72,14 +73,9 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
   @override
   Widget build(BuildContext context) {
     final ticketHub = ref.watch(rayonTicketHubProvider);
-    final paymentRoute = ref.watch(rayonPaymentRouteProvider).valueOrNull;
 
     return ticketHub.when(
       data: (hub) {
-        final isGoldPlus =
-            hub.currentTier == FanTier.gold ||
-            hub.currentTier == FanTier.platinum;
-
         final onSale = hub.onSaleMatches;
         final upcoming = hub.upcomingMatches;
         return RayonScreenScaffold(

@@ -41,7 +41,7 @@ void main() {
       await tester.pumpWidget(_wrap(
         CoolStatusCard(status: _fakeStatus(totalPoints: 250)),
       ));
-      expect(find.text('250 pts'), findsOneWidget);
+      expect(find.text('250 Tokens'), findsOneWidget);
     });
 
     testWidgets('renders streak info', (tester) async {

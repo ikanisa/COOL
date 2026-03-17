@@ -115,7 +115,7 @@ class RsAdminAnalyticsScreen extends ConsumerWidget {
                             border: Border.all(color: AppColors.rsBlueBorder),
                           ),
                           alignment: Alignment.center,
-                          child: Icon(metric.icon, size: 22, color: AppColors.rsWhite),
+                          child: Icon(metric.icon, size: 22, color: AppColors.rsBlueLight),
                         ),
                         const SizedBox(width: 14),
                         Expanded(
@@ -136,7 +136,7 @@ class RsAdminAnalyticsScreen extends ConsumerWidget {
                                 style: GoogleFonts.barlow(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w800,
-                                  color: AppColors.rsWhite,
+                                  color: AppColors.text,
                                 ),
                               ),
                             ],
@@ -157,7 +157,7 @@ class RsAdminAnalyticsScreen extends ConsumerWidget {
                   style: GoogleFonts.barlow(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.rsWhite,
+                    color: AppColors.text,
                   ),
                 ),
               ),
@@ -190,7 +190,7 @@ class RsAdminAnalyticsScreen extends ConsumerWidget {
                           style: GoogleFonts.barlow(
                             fontSize: 18,
                             fontWeight: FontWeight.w800,
-                            color: AppColors.rsWhite,
+                            color: AppColors.text,
                           ),
                         ),
                         Text(

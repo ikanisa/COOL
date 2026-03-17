@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:cool_app/core/providers/app_access_provider.dart';
 import 'package:cool_app/core/services/app_access_service.dart';
@@ -32,7 +31,7 @@ void main() {
           appAccessServiceProvider.overrideWithValue(
             FakeAppAccessService(
               snapshots: {
-                AppAccessPermission.nfc: AppAccessSnapshot(
+                AppAccessPermission.nfc: const AppAccessSnapshot(
                   permission: AppAccessPermission.nfc,
                   kind: AppAccessStateKind.ready,
                   enabledInApp: true,
@@ -86,7 +85,7 @@ void main() {
           appAccessServiceProvider.overrideWithValue(
             FakeAppAccessService(
               snapshots: {
-                AppAccessPermission.nfc: AppAccessSnapshot(
+                AppAccessPermission.nfc: const AppAccessSnapshot(
                   permission: AppAccessPermission.nfc,
                   kind: AppAccessStateKind.ready,
                   enabledInApp: true,

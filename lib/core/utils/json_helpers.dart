@@ -47,7 +47,7 @@ List<JsonMap> asListOfMaps(Object? value) {
   }
 
   return value
-      .whereType<Map>()
+      .whereType<Map<dynamic, dynamic>>()
       .map((item) => Map<String, Object?>.from(item))
       .toList(growable: false);
 }

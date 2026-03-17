@@ -311,8 +311,8 @@ class _IconPill extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
       child: Ink(
-        width: 38,
-        height: 38,
+        width: 48,
+        height: 48,
         decoration: BoxDecoration(
           color: AppColors.surface3,
           borderRadius: BorderRadius.circular(12),

@@ -68,6 +68,7 @@ Future<ByteData?> _handleMockAssetLoad(ByteData? message) async {
     'google_fonts/DMSans-Medium.ttf' => 'assets/fonts/Lato-Regular.ttf',
     'google_fonts/DMSans-SemiBold.ttf' => 'assets/fonts/Lato-Bold.ttf',
     'google_fonts/DMSans-Bold.ttf' => 'assets/fonts/Lato-Bold.ttf',
+    'google_fonts/DMSans-ExtraBold.ttf' => 'assets/fonts/Lato-Bold.ttf',
     _ => null,
   };
   if (path == null) {
@@ -87,6 +88,7 @@ class _BundledGoogleFontsAssetManifest implements AssetManifest {
     'google_fonts/DMSans-Medium.ttf',
     'google_fonts/DMSans-SemiBold.ttf',
     'google_fonts/DMSans-Bold.ttf',
+    'google_fonts/DMSans-ExtraBold.ttf',
   ];
 
   @override

@@ -94,6 +94,7 @@ Deno.serve(async (request: Request) => {
   }
 
   const adminClient = createAdminClient();
+  const RATE_LIMIT_PER_HOUR = 100;
 
   try {
     const userClient = createUserClient(authorization);
@@ -103,6 +104,24 @@ Deno.serve(async (request: Request) => {
     } = await userClient.auth.getUser();
     if (userError || !user) {
       return errorResponse("Authentication required", 401);
+    }
+
+    // --- Per-user rate limiting (G3) ---
+    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+    const { count: recentCount, error: countError } = await adminClient
+      .from("momo_sms_raw")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", user.id)
+      .gte("created_at", oneHourAgo);
+    if (countError) {
+      throw countError;
+    }
+    if ((recentCount ?? 0) >= RATE_LIMIT_PER_HOUR) {
+      return errorResponse(
+        "Rate limit exceeded. Max " + RATE_LIMIT_PER_HOUR +
+          " SMS per hour.",
+        429,
+      );
     }
 
     const body = await request.json() as SmsIngestRequest;

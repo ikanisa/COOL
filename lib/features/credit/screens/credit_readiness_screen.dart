@@ -14,6 +14,7 @@ import '../models/credit_readiness.dart';
 import '../providers/credit_provider.dart';
 import '../widgets/credit_readiness_checklist_widgets.dart';
 import '../widgets/credit_readiness_partner_widgets.dart';
+import '../../../shared/widgets/secure_screen_mixin.dart';
 
 class CreditReadinessScreen extends ConsumerWidget {
   const CreditReadinessScreen({super.key});
@@ -23,7 +24,7 @@ class CreditReadinessScreen extends ConsumerWidget {
     final user = ref.watch(currentUserProvider);
     final dashboardAsync = ref.watch(creditDashboardProvider);
 
-    return Scaffold(
+    return SecureScreen(child: Scaffold(
       backgroundColor: AppColors.bg,
       appBar: AppBar(
         leading: IconButton(
@@ -53,7 +54,7 @@ class CreditReadinessScreen extends ConsumerWidget {
                     ReadinessErrorState(error: error.toString()),
               ),
       ),
-    );
+    ));
   }
 }
 

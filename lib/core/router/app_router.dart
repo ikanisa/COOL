@@ -78,6 +78,7 @@ import '../../features/admin/screens/operational_dashboard_screen.dart';
 import '../../features/admin/screens/manage_admin_roles_screen.dart';
 import '../../features/admin/screens/system_analytics_screen.dart';
 import '../../features/admin/screens/audit_log_screen.dart';
+import '../../features/admin/screens/manage_ai_content_screen.dart';
 import '../../features/admin/widgets/admin_workspace_gate.dart';
 import '../status/screens/cool_tokens_screen.dart';
 import '../status/screens/referral_hub_screen.dart';
@@ -702,6 +703,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             path: 'audit-log',
             builder: (context, state) =>
                 const PlatformAdminGate(child: AuditLogScreen()),
+          ),
+          GoRoute(
+            path: 'ai-content',
+            builder: (context, state) =>
+                const PlatformAdminGate(child: ManageAiContentScreen()),
           ),
           GoRoute(
             path: 'banks/:partnerId',

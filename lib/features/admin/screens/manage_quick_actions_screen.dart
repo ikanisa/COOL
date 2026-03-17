@@ -120,7 +120,7 @@ class _ManageQuickActionsScreenState
                             color: AppColors.text,
                           ),
                         ),
-                        message: Text(
+                        subtitle: Text(
                           '${a['route']} · ${AppMarket.country.name}',
                           style: GoogleFonts.dmSans(
                             fontSize: 12,

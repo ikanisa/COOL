@@ -91,35 +91,12 @@ extension RayonSportsTicketRepository on RayonSportsRepository {
     final ticketRows = _asListOfMaps(
       await _client
           .from('rs_tickets')
-          .select()
+          .select('*, rs_matches(*)')
           .eq('user_id', userId)
           .order('purchased_at', ascending: false),
     );
 
-    if (ticketRows.isEmpty) return const [];
-
-    final matchIds = ticketRows
-        .map((r) => r['match_id']?.toString() ?? '')
-        .where((id) => id.isNotEmpty)
-        .toSet()
-        .toList();
-
-    final matchRows = _asListOfMaps(
-      await _client.from('rs_matches').select().inFilter('id', matchIds),
-    );
-    final matchesById = <String, RsMatch>{
-      for (final m in matchRows.map(RsMatch.fromJson)) m.id: m,
-    };
-
-    return ticketRows
-        .map((row) {
-          final match = matchesById[row['match_id']?.toString()];
-          return RsTicket.fromJson(<String, Object?>{
-            ...row,
-            'match': match?.toJson(),
-          });
-        })
-        .toList(growable: false);
+    return ticketRows.map(RsTicket.fromJson).toList(growable: false);
   }
 
   Future<void> cancelTicket(String ticketId) async {

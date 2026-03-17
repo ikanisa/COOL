@@ -239,7 +239,7 @@ List<Map<String, dynamic>> _asListOfMaps(dynamic value) {
   }
 
   return value
-      .whereType<Map>()
+      .whereType<Map<dynamic, dynamic>>()
       .map((row) => Map<String, dynamic>.from(row))
       .toList(growable: false);
 }

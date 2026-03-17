@@ -87,25 +87,33 @@ class MomoSmsRationaleSheet extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24),
-          _RationalePoint(
+          const _RationalePoint(
             icon: Icons.history_rounded,
             title: 'Deep historical sync',
-            subtitle:
-                'First-time setup imports approved',
+            message:
+                'First-time setup imports M-Money confirmations '
+                'from the past year. Only messages from approved '
+                'Mobile Money senders are read — all other SMS '
+                'is ignored.',
           ),
           const SizedBox(height: 16),
-          _RationalePoint(
+          const _RationalePoint(
             icon: Icons.security_rounded,
             title: 'Privacy focused',
-            subtitle:
-                'Cool only reads messages',
+            message:
+                'Cool only reads messages from approved M-Money '
+                'sender IDs (e.g. M-Money, MoMo). Your personal '
+                'conversations and other SMS are never accessed.',
           ),
           const SizedBox(height: 16),
-          _RationalePoint(
+          const _RationalePoint(
             icon: Icons.sync_rounded,
             title: 'Always in sync',
-            subtitle:
-                'New approved M-Money confirmations',
+            message:
+                'New M-Money confirmations are detected in '
+                'real time and automatically matched to your '
+                'group contributions, subscriptions, and partner '
+                'transactions.',
           ),
           const SizedBox(height: 32),
           Row(
@@ -142,12 +150,12 @@ class _RationalePoint extends StatelessWidget {
   const _RationalePoint({
     required this.icon,
     required this.title,
-    required this.subtitle,
+    required this.message,
   });
 
   final IconData icon;
   final String title;
-  final String subtitle;
+  final String message;
 
   @override
   Widget build(BuildContext context) {
@@ -171,7 +179,7 @@ class _RationalePoint extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                subtitle,
+                message,
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,

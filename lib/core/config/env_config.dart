@@ -25,6 +25,11 @@ class EnvConfig {
 
   static const supabaseAnonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
 
+  static const googleMapsAndroidApiKey = String.fromEnvironment('GOOGLE_MAPS_ANDROID_API_KEY');
+  static const googleMapsIosApiKey = String.fromEnvironment('GOOGLE_MAPS_IOS_API_KEY');
+  static const googleMapsAndroidMapId = String.fromEnvironment('GOOGLE_MAPS_ANDROID_MAP_ID');
+  static const googleMapsIosMapId = String.fromEnvironment('GOOGLE_MAPS_IOS_MAP_ID');
+
   static const deepLinkHost = String.fromEnvironment(
     'COOL_DEEP_LINK_HOST',
     defaultValue: 'cool.app',

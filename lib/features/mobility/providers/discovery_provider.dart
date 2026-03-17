@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:cool_app/features/mobility/models/trip.dart';
-import 'package:cool_app/core/models/geo_point.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/config/app_market.dart';
@@ -17,6 +16,7 @@ class DiscoveryState {
     this.nearbyDrivers = const <DriverInfo>[],
     this.nearbyTrips = const <Trip>[],
     this.selectedVehicle = 'All',
+    this.selectedTab = 0,
     this.isDriversLoading = false,
     this.isTripsLoading = false,
     this.error,
@@ -25,6 +25,8 @@ class DiscoveryState {
   final List<DriverInfo> nearbyDrivers;
   final List<Trip> nearbyTrips;
   final String selectedVehicle;
+  /// 0 = Nearby Drivers, 1 = Trips
+  final int selectedTab;
   final bool isDriversLoading;
   final bool isTripsLoading;
   final String? error;
@@ -35,6 +37,7 @@ class DiscoveryState {
     List<DriverInfo>? nearbyDrivers,
     List<Trip>? nearbyTrips,
     String? selectedVehicle,
+    int? selectedTab,
     bool? isDriversLoading,
     bool? isTripsLoading,
     String? error,
@@ -43,6 +46,7 @@ class DiscoveryState {
       nearbyDrivers: nearbyDrivers ?? this.nearbyDrivers,
       nearbyTrips: nearbyTrips ?? this.nearbyTrips,
       selectedVehicle: selectedVehicle ?? this.selectedVehicle,
+      selectedTab: selectedTab ?? this.selectedTab,
       isDriversLoading: isDriversLoading ?? this.isDriversLoading,
       isTripsLoading: isTripsLoading ?? this.isTripsLoading,
       error: error ?? this.error,
@@ -159,11 +163,19 @@ class DiscoveryNotifier extends StateNotifier<DiscoveryState> {
     await refresh();
   }
 
+  void setSelectedTab(int tab) {
+    if (state.selectedTab == tab) return;
+    state = state.copyWith(selectedTab: tab);
+  }
+
   String? _vehicleQueryValue(String vehicle) {
     final normalized = vehicle.toLowerCase();
     if (normalized == 'all') return null;
     if (normalized.contains('moto')) return 'moto';
     if (normalized.contains('cab')) return 'cab';
+    if (normalized.contains('truck')) return 'truck';
+    if (normalized.contains('trike') || normalized.contains('van')) return 'trike';
+    if (normalized.contains('others') || normalized.contains('pickup')) return 'others';
     return normalized.trim().isEmpty ? null : normalized.trim();
   }
 }

@@ -153,6 +153,9 @@ List<VehicleOption> buildVehicleOptions(BuildContext context) {
   return <VehicleOption>[
     VehicleOption(value: TripVehiclePreference.moto, label: l10n.vehicleMoto),
     VehicleOption(value: TripVehiclePreference.cab, label: l10n.vehicleCab),
+    const VehicleOption(value: TripVehiclePreference.trike, label: 'Trike'),
+    const VehicleOption(value: TripVehiclePreference.truck, label: 'Truck'),
+    const VehicleOption(value: TripVehiclePreference.others, label: 'Others'),
     VehicleOption(value: TripVehiclePreference.any, label: l10n.vehicleAny),
   ];
 }

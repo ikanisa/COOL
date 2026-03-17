@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
+import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/cool_layout.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
@@ -99,6 +101,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
         elevation: 0,
         leading: IconButton(
           onPressed: () => context.pop(),
+          tooltip: 'Back',
           icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
       ),
@@ -157,14 +160,26 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                     ),
                     if (groups.isEmpty)
                       SliverPadding(
-                        padding: CoolLayout.rootPagePadding.copyWith(top: 0),
+                        padding: const EdgeInsets.fromLTRB(
+                          CoolLayout.horizontalPagePadding,
+                          0,
+                          CoolLayout.horizontalPagePadding,
+                          CoolLayout.rootBottomClearance +
+                              CoolLayout.fabBottomClearance / 2,
+                        ),
                         sliver: SliverToBoxAdapter(
                           child: _EmptyState(isDiscover: isDiscover),
                         ),
                       )
                     else
                       SliverPadding(
-                        padding: CoolLayout.rootPagePadding.copyWith(top: 0),
+                        padding: const EdgeInsets.fromLTRB(
+                          CoolLayout.horizontalPagePadding,
+                          0,
+                          CoolLayout.horizontalPagePadding,
+                          CoolLayout.rootBottomClearance +
+                              CoolLayout.fabBottomClearance / 2,
+                        ),
                         sliver: SliverList.separated(
                           itemCount: groups.length,
                           itemBuilder: (context, index) {
@@ -264,24 +279,28 @@ class _GroupsHeroCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   _FilterIconButton(
+                    tooltip: 'Savings',
                     icon: Icons.savings_outlined,
                     isActive: typeFilter == _GroupTypeFilter.saving,
                     onTap: () => onToggleType(_GroupTypeFilter.saving),
                   ),
                   const SizedBox(width: 14),
                   _FilterIconButton(
+                    tooltip: 'People Outline',
                     icon: Icons.people_outline_rounded,
                     isActive: typeFilter == _GroupTypeFilter.community,
                     onTap: () => onToggleType(_GroupTypeFilter.community),
                   ),
                   const SizedBox(width: 14),
                   _FilterIconButton(
+                    tooltip: 'Lock Outline',
                     icon: Icons.lock_outline_rounded,
                     isActive: visibilityFilter == _GroupVisibilityFilter.privateOnly,
                     onTap: () => onToggleVisibility(_GroupVisibilityFilter.privateOnly),
                   ),
                   const SizedBox(width: 14),
                   _FilterIconButton(
+                    tooltip: 'Public',
                     icon: Icons.public_rounded,
                     isActive: visibilityFilter == _GroupVisibilityFilter.publicOnly,
                     onTap: () => onToggleVisibility(_GroupVisibilityFilter.publicOnly),
@@ -305,33 +324,43 @@ class _FilterIconButton extends StatelessWidget {
     required this.icon,
     required this.isActive,
     required this.onTap,
+    this.tooltip,
   });
 
   final IconData icon;
   final bool isActive;
   final VoidCallback onTap;
+  final String? tooltip;
 
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 160),
-        width: 48,
-        height: 48,
-        decoration: BoxDecoration(
-          color: isActive ? palette.accentGlow : palette.surface2,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(
-            color: isActive ? palette.accent : palette.border,
-            width: 1.5,
+    return Semantics(
+      button: true,
+      label: tooltip ?? 'Filter',
+      selected: isActive,
+      child: Tooltip(
+        message: tooltip ?? '',
+        child: GestureDetector(
+          onTap: onTap,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 160),
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              color: isActive ? palette.accentGlow : palette.surface2,
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(
+                color: isActive ? palette.accent : palette.border,
+                width: 1.5,
+              ),
+            ),
+            child: Icon(
+              icon,
+              size: 22,
+              color: isActive ? palette.accent : palette.text3,
+            ),
           ),
-        ),
-        child: Icon(
-          icon,
-          size: 22,
-          color: isActive ? palette.accent : palette.text3,
         ),
       ),
     );
@@ -371,11 +400,8 @@ class _GroupListItem extends StatelessWidget {
         ? (group.amount / group.targetAmount).clamp(0.0, 1.0)
         : 0.0;
     final percent = (progress * 100).round();
-    final meta = group.momoNumber != null
-        ? l10n.groupsMomoRouteMeta(group.momoNumber!)
-        : group.type == 'saving'
-        ? l10n.groupsSavingGroupMeta
-        : l10n.groupsCommunityFundMeta;
+    final accentColor =
+        group.type == 'saving' ? palette.accent : palette.orange;
 
     return CoolCard(
       onTap: () {
@@ -389,47 +415,60 @@ class _GroupListItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            // ── Line 1: Amount ────────────────────────────────────
+            Text(
+              '${_formatAmount(group.amount)} RWF',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: accentColor,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            const SizedBox(height: 10),
+
+            // ── Line 2: Group name ───────────────────────────────
+            Text(
+              group.name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+            const SizedBox(height: 10),
+
+            // ── Line 3: Metadata chips ───────────────────────────
+            Wrap(
+              spacing: 6,
+              runSpacing: 6,
               children: [
+                if (group.momoNumber != null &&
+                    group.momoNumber!.trim().isNotEmpty)
+                  _MetaChip(label: _shortenPhone(group.momoNumber!)),
                 if (group.type == 'saving')
                   const StatusBadge.saving()
                 else
                   const StatusBadge.community(),
-                const SizedBox(width: 8),
                 if (group.visibility == 'public')
                   const StatusBadge.public()
                 else
                   const StatusBadge.private(),
-                const Spacer(),
-                Text(
-                  '${_formatAmount(group.amount)} RWF',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: group.type == 'saving'
-                        ? palette.accent
-                        : palette.orange,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
               ],
-            ),
-            const SizedBox(height: 16),
-            Text(
-              group.name,
-              style: Theme.of(context).textTheme.headlineSmall,
             ),
             const SizedBox(height: 6),
             Text(
-              '$meta · ${l10n.memberCount(group.memberCount)}',
+              l10n.memberCount(group.memberCount),
               style: Theme.of(context).textTheme.bodySmall,
             ),
             const SizedBox(height: 20),
+
+            // ── Progress bar ─────────────────────────────────────
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: LinearProgressIndicator(
                 value: progress,
                 minHeight: 8,
                 backgroundColor: palette.surface3,
-                color: group.type == 'saving' ? palette.accent : palette.orange,
+                color: accentColor,
               ),
             ),
             const SizedBox(height: 12),
@@ -452,6 +491,16 @@ class _GroupListItem extends StatelessWidget {
     );
   }
 
+  /// Shortens phone: "+250788123456" or "250788123456" → "0788123456".
+  static String _shortenPhone(String phone) {
+    final cleaned = phone.replaceAll(RegExp(r'[\s\-]'), '');
+    if (cleaned.startsWith('+250')) return '0${cleaned.substring(4)}';
+    if (cleaned.startsWith('250') && cleaned.length >= 12) {
+      return '0${cleaned.substring(3)}';
+    }
+    return cleaned;
+  }
+
   static String _formatAmount(int value) {
     final digits = value.toString();
     final buffer = StringBuffer();
@@ -462,6 +511,30 @@ class _GroupListItem extends StatelessWidget {
       buffer.write(digits[index]);
     }
     return buffer.toString();
+  }
+}
+
+class _MetaChip extends StatelessWidget {
+  const _MetaChip({required this.label});
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: AppColors.surface3,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: Text(
+        label,
+        style: GoogleFonts.dmSans(
+          fontSize: 11,
+          fontWeight: FontWeight.w600,
+          color: AppColors.text2,
+        ),
+      ),
+    );
   }
 }
 

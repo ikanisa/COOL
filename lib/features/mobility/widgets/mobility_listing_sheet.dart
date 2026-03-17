@@ -261,7 +261,7 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
           ShareCard(
             title: 'Share this trip',
             icon: Icons.electric_rickshaw_rounded,
-            subtitle: '${trip.fromLocation} → ${trip.toLocation}',
+            message: '${trip.fromLocation} → ${trip.toLocation}',
             shareUrl: DeepLinkConfig.tripUri(trip.id!).toString(),
             shareText:
                 'Check out this trip from ${trip.fromLocation} to ${trip.toLocation} on Cool!',
@@ -639,6 +639,9 @@ String _displayVehicleType(String vehicleType) {
       return 'Truck';
     case 'trike':
       return 'Trike';
+    case 'others':
+    case 'pickup':
+      return 'Others';
     case 'any':
       return 'Any';
     default:

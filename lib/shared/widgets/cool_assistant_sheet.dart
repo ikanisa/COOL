@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/cool_palette.dart';
 import '../providers/assistant_provider.dart';
-import 'cool_button.dart';
 
 class CoolAssistantSheet extends ConsumerStatefulWidget {
   const CoolAssistantSheet({super.key});
@@ -122,6 +121,7 @@ class _CoolAssistantSheetState extends ConsumerState<CoolAssistantSheet> {
                   ),
                   IconButton(
                     onPressed: () => Navigator.pop(context),
+                    tooltip: 'Close',
                     icon: Icon(Icons.close_rounded, color: palette.text2),
                   ),
                 ],

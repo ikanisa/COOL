@@ -15,7 +15,7 @@ class CreditRepository {
       final response = await _client.functions.invoke('get-financial-insights');
       if (response.data != null && response.data['success'] == true) {
         return CreditInsights.fromJson(
-          Map<String, dynamic>.from(response.data['data']),
+          Map<String, dynamic>.from(response.data['data'] as Map),
         );
       }
       return null;
@@ -275,7 +275,7 @@ List<Map<String, dynamic>> _asListOfMaps(dynamic value) {
   }
 
   return value
-      .whereType<Map>()
+      .whereType<Map<dynamic, dynamic>>()
       .map((row) => Map<String, dynamic>.from(row))
       .toList(growable: false);
 }

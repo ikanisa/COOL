@@ -46,7 +46,7 @@ final adminWorkspaceAccessProvider = Provider<AdminWorkspaceAccess>((ref) {
       final authState = ref.read(authProvider);
       return AdminWorkspaceAccess.fromAuthState(authState);
     },
-    error: (_, __) {
+    error: (_, _) {
       // Fallback on error
       final authState = ref.read(authProvider);
       return AdminWorkspaceAccess.fromAuthState(authState);

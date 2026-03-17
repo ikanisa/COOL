@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/services/momo_service.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../../core/utils/icon_mapper.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import 'driver_profile_models.dart';
@@ -133,7 +132,7 @@ class DriverPlanCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Icon(
-                IconMapper.from(plan.emoji),
+                plan.icon,
                 size: 24,
                 color: AppColors.text2,
               ),

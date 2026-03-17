@@ -70,6 +70,7 @@ void main() {
           ),
         ),
       );
+      await tester.pumpAndSettle();
 
       expect(find.byType(CoolErrorView), findsOneWidget);
       expect(find.text('Test error'), findsOneWidget);
@@ -89,6 +90,7 @@ void main() {
           ),
         ),
       );
+      await tester.pumpAndSettle();
 
       expect(
         find.text('Unable to connect. Please check your internet connection.'),
@@ -126,6 +128,7 @@ void main() {
           ),
         ),
       );
+      await tester.pumpAndSettle();
 
       expect(find.text('No items'), findsOneWidget);
       expect(find.text('Count: 0'), findsNothing);
@@ -148,6 +151,7 @@ void main() {
           ),
         ),
       );
+      await tester.pumpAndSettle();
 
       await tester.tap(find.text('Try Again'));
       expect(retried, true);

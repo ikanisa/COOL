@@ -48,7 +48,6 @@ void main() {
             onOpenStatements: () {},
             onScanQr: () {},
             onOpenQrCode: () {},
-            onRequestPayment: () {},
             onOpenNfcTools: () {},
           ),
         ),
@@ -57,7 +56,6 @@ void main() {
       expect(find.text('Statements'), findsOneWidget);
       expect(find.text('Scan QR'), findsOneWidget);
       expect(find.text('Receive QR'), findsOneWidget);
-      expect(find.text('Request'), findsOneWidget);
       expect(find.text('NFC pay'), findsOneWidget);
     });
 
@@ -70,7 +68,6 @@ void main() {
             onOpenStatements: () => tappedRow = 'statements',
             onScanQr: () => tappedRow = 'scan',
             onOpenQrCode: () => tappedRow = 'qr',
-            onRequestPayment: () => tappedRow = 'request',
             onOpenNfcTools: () => tappedRow = 'nfc',
           ),
         ),
@@ -89,11 +86,6 @@ void main() {
       await tester.tap(find.text('Receive QR'));
       await tester.pump();
       expect(tappedRow, 'qr');
-
-      await tester.ensureVisible(find.text('Request'));
-      await tester.tap(find.text('Request'));
-      await tester.pump();
-      expect(tappedRow, 'request');
 
       await tester.ensureVisible(find.text('NFC pay'));
       await tester.tap(find.text('NFC pay'));

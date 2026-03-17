@@ -110,7 +110,6 @@ class _KycSelfieScreenState extends State<KycSelfieScreen> {
   }
 
   Widget _buildCameraStack() {
-    final size = MediaQuery.of(context).size;
     return Stack(
       children: [
         // Camera Preview

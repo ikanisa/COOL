@@ -1,9 +1,12 @@
-enum TripVehiclePreference { moto, cab, any }
+enum TripVehiclePreference { moto, cab, trike, truck, others, any }
 
 extension TripVehiclePreferenceX on TripVehiclePreference {
   String get value => switch (this) {
     TripVehiclePreference.moto => 'moto',
     TripVehiclePreference.cab => 'cab',
+    TripVehiclePreference.trike => 'trike',
+    TripVehiclePreference.truck => 'truck',
+    TripVehiclePreference.others => 'others',
     TripVehiclePreference.any => 'any',
   };
 }
@@ -66,6 +69,7 @@ class TripPostRequest {
       'to_location': toLocation,
       'travel_time': departureAt.toIso8601String(),
       'return_at': returnAt?.toIso8601String(),
+      'expires_at': departureAt.add(const Duration(hours: 1)).toIso8601String(),
       'user_id': userId,
       'client_request_id': clientRequestId,
       'role': _normalizedRole(role, isDriverReturnTrip: isDriverReturnTrip),
@@ -93,33 +97,7 @@ class TripPostRequest {
     return payload;
   }
 
-  Map<String, dynamic> toLegacyJson({bool includeContactFields = true}) {
-    final payload = <String, dynamic>{
-      'from_location': fromLocation,
-      'to_location': toLocation,
-      'departure_at': departureAt.toIso8601String(),
-      'return_at': returnAt?.toIso8601String(),
-      'user_id': userId,
-      'client_request_id': clientRequestId,
-      'vehicle_preference': vehiclePreference.value == 'any'
-          ? 'any'
-          : vehiclePreference.value,
-      'seats_needed': seatsNeeded,
-      'is_return_trip': isReturnTrip,
-      'is_recurring_trip': isRecurringTrip,
-      'is_driver_return_trip': isDriverReturnTrip,
-      'recurring_days': recurringDays.map((day) => day.value).toList(),
-      'status': 'open',
-      'latitude': latitude,
-      'longitude': longitude,
-      'expires_at': departureAt.add(const Duration(hours: 1)).toIso8601String(),
-      if (includeContactFields) 'contact_phone': contactPhone,
-      if (includeContactFields) 'contact_name': contactName,
-    };
-
-    payload.removeWhere((_, value) => value == null);
-    return payload;
-  }
+  // toLegacyJson() removed — single canonical schema via toJson().
 
   TripPostRequest copyWith({
     String? fromLocation,
@@ -274,6 +252,14 @@ TripVehiclePreference _parseVehiclePreference(Object? value) {
       return TripVehiclePreference.moto;
     case 'cab':
       return TripVehiclePreference.cab;
+    case 'trike':
+    case 'liffan':
+      return TripVehiclePreference.trike;
+    case 'truck':
+      return TripVehiclePreference.truck;
+    case 'others':
+    case 'pickup':
+      return TripVehiclePreference.others;
     default:
       return TripVehiclePreference.any;
   }

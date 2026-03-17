@@ -69,7 +69,6 @@ class CoolAsyncView<T> extends StatelessWidget {
       switchInCurve: Curves.easeOutCubic,
       switchOutCurve: Curves.easeInCubic,
       child: value.when(
-        key: ValueKey(value.isLoading ? 'loading' : (value.hasError ? 'error' : 'data')),
         skipLoadingOnRefresh: skipLoadingOnRefresh,
         loading: () => Semantics(
           container: true,
@@ -84,7 +83,7 @@ class CoolAsyncView<T> extends StatelessWidget {
         data: (data) {
           if (emptyCheck != null && emptyCheck!(data)) {
             return emptyWidget ??
-                CoolEmptyView(subtitle: emptyMessage ?? 'Nothing here yet');
+                CoolEmptyView(message: emptyMessage ?? 'Nothing here yet');
           }
           return builder(data);
         },

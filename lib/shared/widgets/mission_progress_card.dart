@@ -141,7 +141,7 @@ class MissionProgressCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              '${mission.rewardPoints} pts',
+                              '${mission.rewardPoints} Tokens',
                               style: GoogleFonts.dmSans(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w600,

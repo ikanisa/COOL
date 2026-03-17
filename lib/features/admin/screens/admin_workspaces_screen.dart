@@ -60,13 +60,13 @@ class AdminWorkspacesScreen extends ConsumerWidget {
             const SizedBox(height: 24),
             const _SectionHeader(
               title: 'Platform',
-              message:
+              subtitle:
                   'Global app operations content',
             ),
             const SizedBox(height: 12),
             _WorkspaceCard(
               title: 'Platform Admin',
-              message:
+              subtitle:
                   'Users partners services app',
               icon: Icons.admin_panel_settings_outlined,
               onTap: () => context.push(AppRoutes.adminPlatform),
@@ -76,7 +76,7 @@ class AdminWorkspacesScreen extends ConsumerWidget {
             const SizedBox(height: 24),
             const _SectionHeader(
               title: 'Partner Workspaces',
-              message:
+              subtitle:
                   'Partner-scoped admin surfaces for',
             ),
             const SizedBox(height: 12),
@@ -93,7 +93,7 @@ class AdminWorkspacesScreen extends ConsumerWidget {
                               padding: const EdgeInsets.only(bottom: 12),
                               child: _WorkspaceCard(
                                 title: partner.name,
-                                message: partner.slug == 'rayon-sports'
+                                subtitle: partner.slug == 'rayon-sports'
                                     ? 'Open the current Rayon Sports admin workspace.'
                                     : 'Open the partner workspace foundation.',
                                 icon: Icons.storefront_rounded,
@@ -112,7 +112,7 @@ class AdminWorkspacesScreen extends ConsumerWidget {
               loading: () => const _InlineLoadingCard(
                 message: 'Loading partner workspaces...',
               ),
-              error: (error, _) => _EmptyWorkspaceCard(
+              error: (error, _) => const _EmptyWorkspaceCard(
                 message: 'Load partner workspaces failed',
               ),
             ),
@@ -121,7 +121,7 @@ class AdminWorkspacesScreen extends ConsumerWidget {
             const SizedBox(height: 24),
             const _SectionHeader(
               title: 'Bank Custodian Workspaces',
-              message:
+              subtitle:
                   'Group savings oversight ledgers',
             ),
             const SizedBox(height: 12),
@@ -138,7 +138,7 @@ class AdminWorkspacesScreen extends ConsumerWidget {
                               padding: const EdgeInsets.only(bottom: 12),
                               child: _WorkspaceCard(
                                 title: bank.name,
-                                message:
+                                subtitle:
                                     'Open the bank custodian',
                                 icon: Icons.account_balance_rounded,
                                 onTap: () => context.push(
@@ -152,7 +152,7 @@ class AdminWorkspacesScreen extends ConsumerWidget {
               loading: () => const _InlineLoadingCard(
                 message: 'Loading bank workspaces...',
               ),
-              error: (error, _) => _EmptyWorkspaceCard(
+              error: (error, _) => const _EmptyWorkspaceCard(
                 message: 'Load bank workspaces failed',
               ),
             ),

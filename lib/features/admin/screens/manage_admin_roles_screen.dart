@@ -30,6 +30,7 @@ class ManageAdminRolesScreen extends ConsumerWidget {
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
+          tooltip: 'Back',
           icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
       ),
@@ -578,6 +579,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
                 suffixIcon: IconButton(
+                  tooltip: 'Paste',
                   icon: Icon(Icons.paste_rounded,
                       size: 18, color: AppColors.text3),
                   onPressed: () async {

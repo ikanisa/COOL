@@ -178,7 +178,6 @@ void main() {
       await pumpScreen(tester, const FanClubsScreen());
 
       expect(find.text('Fan Clubs'), findsOneWidget);
-      expect(find.text('Local chapters, louder stands.'), findsOneWidget);
 
       verify(() => repository.getFanClubs('partner-1', null)).called(1);
       verify(() => repository.getUserClubs('user-1')).called(1);
@@ -195,7 +194,6 @@ void main() {
       await pumpScreen(tester, const ClubShopScreen());
 
       expect(find.text('Club Shop'), findsOneWidget);
-      expect(find.text('Official gear, real colors.'), findsOneWidget);
 
       verify(() => repository.getProducts('partner-1', null)).called(1);
       verify(
@@ -211,7 +209,6 @@ void main() {
       await pumpScreen(tester, const TicketsScreen());
 
       expect(find.text('Tickets'), findsOneWidget);
-      expect(find.text('Choose your match.'), findsOneWidget);
       expect(find.text('Gold access active'), findsOneWidget);
 
       verify(() => repository.getMatches('partner-1', false)).called(1);

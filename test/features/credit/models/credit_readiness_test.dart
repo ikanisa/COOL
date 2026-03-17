@@ -64,6 +64,102 @@ void main() {
         isFalse,
       );
     });
+
+    test('rejected KYC blocks both account opening and loan', () {
+      final report = buildCreditReadinessReport(
+        user: _user(kycStatus: 'rejected'),
+        dashboard: _dashboard(
+          score: 650,
+          scoreBand: 'good',
+          statementCount: 20,
+          activeMonthCount: 6,
+          groupContributionCount: 10,
+          groupTotal: 200000,
+        ),
+      );
+
+      expect(report.accountOpening.state, CreditReadinessState.actionNeeded);
+      expect(report.loanApplication.state, CreditReadinessState.actionNeeded);
+    });
+
+    test('building state for thin wallet history with score', () {
+      final report = buildCreditReadinessReport(
+        user: _user(kycStatus: 'pending_review'),
+        dashboard: _dashboard(
+          score: 580,
+          scoreBand: 'building',
+          statementCount: 5,
+          activeMonthCount: 2,
+          groupContributionCount: 1,
+          groupTotal: 5000,
+        ),
+      );
+
+      expect(report.loanApplication.state, CreditReadinessState.building);
+    });
+
+    test('12 statements meets wallet history threshold', () {
+      final report = buildCreditReadinessReport(
+        user: _user(kycStatus: 'verified'),
+        dashboard: _dashboard(
+          score: 710,
+          scoreBand: 'good',
+          statementCount: 12,
+          activeMonthCount: 3,
+          groupContributionCount: 3,
+          groupTotal: 50000,
+        ),
+      );
+
+      final walletCheck = report.checks.firstWhere(
+        (check) => check.id == 'wallet_history',
+      );
+      expect(walletCheck.isComplete, isTrue);
+    });
+
+    test('11 statements does NOT meet wallet history threshold', () {
+      final report = buildCreditReadinessReport(
+        user: _user(kycStatus: 'verified'),
+        dashboard: _dashboard(
+          score: 710,
+          scoreBand: 'good',
+          statementCount: 11,
+          activeMonthCount: 3,
+          groupContributionCount: 3,
+          groupTotal: 50000,
+        ),
+      );
+
+      final walletCheck = report.checks.firstWhere(
+        (check) => check.id == 'wallet_history',
+      );
+      expect(walletCheck.isComplete, isFalse);
+    });
+
+    test('report counts completed checks and blocking issues correctly', () {
+      final report = buildCreditReadinessReport(
+        user: _user(kycStatus: 'verified'),
+        dashboard: null,
+      );
+
+      // With verified KYC but no dashboard: 4 blocking issues
+      // (credit_score is blocking and incomplete)
+      expect(report.totalChecks, 8);
+      expect(report.completedChecks, lessThan(report.totalChecks));
+      expect(report.blockingIssues, greaterThanOrEqualTo(1));
+    });
+  });
+
+  group('CreditDashboard', () {
+    test('hasReport returns true when score is present', () {
+      const dashboard = CreditDashboard(statementCount: 10, score: 600);
+      expect(dashboard.hasReport, isTrue);
+    });
+
+    test('hasReport returns false when score is null', () {
+      const dashboard = CreditDashboard(statementCount: 10);
+      expect(dashboard.hasReport, isFalse);
+    });
   });
 }
 

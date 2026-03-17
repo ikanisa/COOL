@@ -53,7 +53,7 @@ class PartnerAdminWorkspaceScreen extends ConsumerWidget {
                             color: AppColors.blue.withValues(alpha: 0.12),
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: Icon(
+                          child: const Icon(
                             Icons.construction_rounded,
                             size: 32,
                             color: AppColors.blue,

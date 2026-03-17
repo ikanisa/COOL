@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -33,9 +33,10 @@ extension SubscriptionPlanX on SubscriptionPlan {
     SubscriptionPlan.cabOther => 15000,
   };
 
-  String get emoji => switch (this) {
-    SubscriptionPlan.moto => '🛺',
-    SubscriptionPlan.cabOther => '🚗',
+  /// Material icon for this plan (used by subscription cards).
+  IconData get icon => switch (this) {
+    SubscriptionPlan.moto => Icons.two_wheeler_rounded,
+    SubscriptionPlan.cabOther => Icons.directions_car_rounded,
   };
 }
 

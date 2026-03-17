@@ -12,6 +12,7 @@ void main() {
           ),
         ),
       );
+      await tester.pumpAndSettle();
 
       expect(find.text('No items found'), findsOneWidget);
       expect(find.byIcon(Icons.inbox_rounded), findsOneWidget);
@@ -25,6 +26,7 @@ void main() {
           ),
         ),
       );
+      await tester.pumpAndSettle();
 
       // No TextButton present.
       expect(find.byType(TextButton), findsNothing);
@@ -44,6 +46,7 @@ void main() {
           ),
         ),
       );
+      await tester.pumpAndSettle();
 
       expect(find.text('Create Trip'), findsOneWidget);
       await tester.tap(find.text('Create Trip'));
@@ -61,6 +64,7 @@ void main() {
           ),
         ),
       );
+      await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.search_off_rounded), findsOneWidget);
     });

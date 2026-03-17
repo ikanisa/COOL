@@ -320,7 +320,6 @@ String _humanizeDocumentType(String value) {
     'national_id' => 'National ID',
     'passport' => 'Passport',
     'driving_license' => 'Driving licence',
-    'residence_permit' => 'Residence permit',
     _ => value,
   };
 }

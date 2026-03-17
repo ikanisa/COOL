@@ -1,6 +1,5 @@
 import 'package:cool_app/core/providers/app_access_provider.dart';
 import 'package:cool_app/core/providers/engagement_providers.dart';
-import 'package:cool_app/core/services/app_access_service.dart';
 import 'package:cool_app/core/services/fcm_service.dart';
 import 'package:cool_app/features/profile/widgets/profile_app_access_sheet.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';

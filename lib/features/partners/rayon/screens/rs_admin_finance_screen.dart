@@ -451,7 +451,7 @@ class _RouteCardList extends StatelessWidget {
                       style: GoogleFonts.barlow(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.rsWhite,
+                        color: AppColors.text,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -478,7 +478,7 @@ class _RouteCardList extends StatelessWidget {
             value: routesAsync,
             emptyCheck: (routes) => routes.isEmpty,
             emptyWidget: const CoolEmptyView(
-              subtitle: 'No partner payment yet',
+              message: 'No partner payment yet',
               compact: true,
               isPremium: true,
             ),
@@ -630,7 +630,7 @@ class _PartnerLedgerCard extends StatelessWidget {
             style: GoogleFonts.barlow(
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: AppColors.rsWhite,
+              color: AppColors.text,
             ),
           ),
           const SizedBox(height: 6),
@@ -649,7 +649,7 @@ class _PartnerLedgerCard extends StatelessWidget {
             onRetry: onRetry,
             emptyCheck: (page) => page.entries.isEmpty,
             emptyWidget: const CoolEmptyView(
-              subtitle: 'No posted partner yet',
+              message: 'No posted partner yet',
               compact: true,
               isPremium: true,
             ),

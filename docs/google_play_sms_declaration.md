@@ -100,6 +100,47 @@ Capture and provide:
    - `https://cool.ikanisa.com/privacy`
 5. Test account / review-access details from [play_review_access.md](/Volumes/PRO-G40/COOL/docs/play_review_access.md#L1)
 
+## AI-Powered Transaction Parsing Disclosure
+
+Cool transmits the **full SMS body** of approved Mobile Money sender messages
+to server-side AI APIs (Google Gemini and/or OpenAI) for structured transaction
+parsing. This is a **core functional requirement** — the AI parser must see the
+complete message to accurately extract:
+
+- Transaction type (sent, received, payment, deposit, withdrawal)
+- Amount and currency
+- Payer/payee name
+- Transaction ID
+- Date/time
+- Account balance
+
+### Why redaction is not applied before AI transmission
+
+Redacting PII (phone numbers, transaction IDs, balances) before sending to AI
+would destroy the data the parser needs to extract. For example:
+- Transaction IDs become `[REF_REDACTED]` → no reconciliation possible
+- Phone numbers become `[PHONE_REDACTED]` → no payer identification
+- Balances become `[HIDDEN]` → no ledger verification
+
+### Data handling
+
+- Only messages from **approved M-Money sender IDs** are transmitted
+- AI parsing happens on Supabase Edge Functions (server-to-server)
+- Parsed structured data is stored; raw bodies are retained for audit
+- Users can delete their SMS records via in-app controls (DELETE RLS enabled)
+- Privacy policy at `https://cool.ikanisa.com/privacy` must disclose:
+  1. That M-Money SMS content is processed by AI services
+  2. That Google Gemini and OpenAI are used as processing providers
+  3. That raw message bodies are retained for transaction audit purposes
+  4. That users can request deletion of their SMS data
+
+### Privacy policy update checklist
+
+- [ ] Add "SMS Data Processing" section to privacy policy page
+- [ ] List Gemini and OpenAI as sub-processors
+- [ ] State data retention period for raw SMS bodies
+- [ ] Document user's right to delete SMS data
+
 ## Remaining Requirement
 
 The SMS declaration is only one part of approval. Review access still depends

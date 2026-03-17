@@ -97,7 +97,7 @@ class _DriverVehicleScreenState extends ConsumerState<DriverVehicleScreen> {
         children: [
           const _DriverDetailIntroCard(
             title: 'Vehicle details',
-            subtitle:
+            message:
                 'Keep your vehicle info',
           ),
           const SizedBox(height: 16),
@@ -217,7 +217,7 @@ class _DriverSubscriptionScreenState
         children: [
           const _DriverDetailIntroCard(
             title: 'Subscription access',
-            subtitle:
+            message:
                 'Credits plan status and',
           ),
           const SizedBox(height: 16),
@@ -676,10 +676,10 @@ class _DriverDetailNoteCard extends StatelessWidget {
 }
 
 class _DriverDetailIntroCard extends StatelessWidget {
-  const _DriverDetailIntroCard({required this.title, required this.subtitle});
+  const _DriverDetailIntroCard({required this.title, required this.message});
 
   final String title;
-  final String subtitle;
+  final String message;
 
   @override
   Widget build(BuildContext context) {
@@ -701,7 +701,7 @@ class _DriverDetailIntroCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  subtitle,
+                  message,
                   style: GoogleFonts.dmSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w400,

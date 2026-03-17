@@ -15,6 +15,45 @@ const _testPartner = Partner(
   category: PartnerCategory.organization,
   country: 'RW',
   emoji: '⚖️',
+  subtitle: 'Official IKANISA content',
+  metadata: {
+    'hero_pills': [
+      {'icon': '⚖️', 'label': 'Legal, Tax & Compliance'},
+      {'icon': '🛡️', 'label': 'Audit, Insurance & Risk'},
+      {'icon': '🇷🇼', 'label': 'Rwanda Jurisdiction'},
+    ],
+    'stats_title': 'IKANISA at a glance',
+    'stats': [
+      {'value': '9', 'label': 'AI Agents'},
+      {'value': '28K+', 'label': 'Docs'},
+      {'value': '1', 'label': 'Jurisdiction'},
+      {'value': '14', 'label': 'Domains'},
+    ],
+    'values_title': 'How the platform works',
+    'values': [
+      {
+        'icon': '🎯',
+        'title': 'Zero Hallucination',
+        'description': 'All answers sourced from verified docs',
+      },
+      {
+        'icon': '🔒',
+        'title': 'Jurisdiction Locked',
+        'description': 'Rwanda law only',
+      },
+      {
+        'icon': '📋',
+        'title': 'Rwanda Professional Standards',
+        'description': 'ICPAR, RRA, RURA, etc.',
+      },
+    ],
+    'support_title': 'Get in touch',
+    'support_lines': [
+      {'icon': '💬', 'label': 'Rwanda WhatsApp', 'value': '+250 788 123 456'},
+      {'icon': '📧', 'label': 'Email', 'value': 'support@ikanisa.com'},
+    ],
+    'support_cta': {'label': 'Open Rwanda Desk', 'action': 'open_desk'},
+  },
 );
 
 Widget _wrap(Widget child) {
@@ -47,7 +86,7 @@ void main() {
 
   group('PrismaStatsCard', () {
     testWidgets('renders stat tiles', (tester) async {
-      await tester.pumpWidget(_wrap(const PrismaStatsCard()));
+      await tester.pumpWidget(_wrap(const PrismaStatsCard(partner: _testPartner)));
 
       expect(find.text('IKANISA at a glance'), findsOneWidget);
       expect(find.text('9'), findsOneWidget);
@@ -60,7 +99,7 @@ void main() {
 
   group('PrismaValuesCard', () {
     testWidgets('renders all 5 values', (tester) async {
-      await tester.pumpWidget(_wrap(const PrismaValuesCard()));
+      await tester.pumpWidget(_wrap(const PrismaValuesCard(partner: _testPartner)));
 
       expect(find.text('How the platform works'), findsOneWidget);
       expect(find.text('Zero Hallucination'), findsOneWidget);

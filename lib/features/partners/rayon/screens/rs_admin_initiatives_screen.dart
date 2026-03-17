@@ -121,7 +121,7 @@ class _RsAdminInitiativesScreenState
         ),
         emptyCheck: (initiatives) => initiatives.isEmpty,
         emptyWidget: const CoolEmptyView(
-          subtitle: 'No initiatives created yet',
+          message: 'No initiatives created yet',
           icon: Icons.flag_outlined,
           isPremium: true,
         ),
@@ -133,7 +133,7 @@ class _RsAdminInitiativesScreenState
                     .toList();
           if (filtered.isEmpty) {
             return const CoolEmptyView(
-              subtitle: 'No initiatives in this category',
+              message: 'No initiatives in this category',
               icon: Icons.filter_list_off_rounded,
               isPremium: true,
             );

@@ -413,6 +413,7 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
         elevation: 0,
         leading: IconButton(
           onPressed: () => context.pop(),
+          tooltip: 'Back',
           icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
       ),

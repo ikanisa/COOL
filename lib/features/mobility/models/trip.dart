@@ -10,7 +10,6 @@ class Trip {
     required this.toLocation,
     required this.departureTime,
     required this.vehicleType,
-    this.vehicleEmoji,
     this.seats = 1,
     this.isReturn = false,
     this.isRecurring = false,
@@ -37,7 +36,6 @@ class Trip {
   final String toLocation;
   final DateTime departureTime;
   final String vehicleType;
-  final String? vehicleEmoji;
   final int seats;
   final bool isReturn;
   final bool isRecurring;
@@ -101,7 +99,6 @@ class Trip {
           json['vehicle_type']?.toString() ??
           json['vehicle_preference']?.toString() ??
           '',
-      vehicleEmoji: json['vehicle_emoji']?.toString(),
       seats: _asInt(json['seats'] ?? json['seats_needed']),
       isReturn: jh.asBool(json['is_return_trip']),
       isRecurring: jh.asBool(json['is_recurring_trip']) || repeatDays.isNotEmpty,
@@ -146,7 +143,6 @@ class Trip {
       'to_location': toLocation,
       'travel_time': departureTime.toIso8601String(),
       'vehicle_type': vehicleType,
-      'vehicle_emoji': vehicleEmoji,
       'seats': seats,
       'is_return_trip': isReturn,
       'is_recurring_trip': isRecurring,
@@ -163,6 +159,8 @@ class Trip {
       'repeat_days': repeatDays,
       'trip_type': tripType.name,
       'whatsapp_number': whatsappNumber ?? contactPhone,
+      'contact_phone': contactPhone,
+      'contact_name': contactName,
       'price_note': priceNote,
     };
 
@@ -180,9 +178,18 @@ class Trip {
       'from_lat': latitude,
       'from_lng': longitude,
       'to_location': toLocation,
+      'to_lat': destinationLatitude,
+      'to_lng': destinationLongitude,
       'travel_time': departureTime.toIso8601String(),
+      'return_at': returnTime?.toIso8601String(),
+      'expires_at': expiresAt?.toIso8601String(),
+      'seats': seats,
+      'is_return_trip': isReturn,
+      'is_recurring_trip': isRecurring,
+      'is_driver_return_trip': isDriverReturnTrip,
       'repeat_days': repeatDays,
       'status': status,
+      'contact_phone': contactPhone,
       'whatsapp_number': whatsappNumber ?? contactPhone,
       'price_note': priceNote,
     };

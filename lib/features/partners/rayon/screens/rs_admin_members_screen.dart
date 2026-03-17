@@ -414,7 +414,7 @@ class _MemberTile extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    '${member.membershipNumber} · ${member.tier.name.toUpperCase()} · ${member.points} pts',
+                    '${member.membershipNumber} · ${member.tier.name.toUpperCase()} · ${member.points} Tokens',
                     style: GoogleFonts.dmSans(
                       fontSize: 11,
                       color: AppColors.text3,

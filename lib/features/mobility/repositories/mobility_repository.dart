@@ -74,7 +74,7 @@ class MobilityRepository {
                 driverId: userId,
                 displayName: displayName,
                 vehicleType: _vehicleLabel(vehicleTypeValue),
-                vehicleEmoji: _vehicleEmoji(vehicleTypeValue),
+                vehicleIconPath: _vehicleIconPath(vehicleTypeValue),
                 distanceKm: distanceKm,
                 isOnline: jh.asBool(row['is_online']),
                 tripCount: tripCount,
@@ -389,6 +389,9 @@ String? _normalizedVehicleType(String? vehicleType) {
   if (normalized.contains('trike') || normalized.contains('van')) {
     return 'trike';
   }
+  if (normalized.contains('others') || normalized.contains('pickup')) {
+    return 'others';
+  }
   return normalized;
 }
 
@@ -402,23 +405,27 @@ String _vehicleLabel(String rawValue) {
       return 'Truck';
     case 'trike':
       return 'Trike';
+    case 'others':
+      return 'Others';
     default:
       return rawValue.trim().isEmpty ? 'Vehicle' : rawValue.trim();
   }
 }
 
-String _vehicleEmoji(String rawValue) {
+String _vehicleIconPath(String rawValue) {
   switch (_normalizedVehicleType(rawValue)) {
     case 'moto':
-      return '🛺';
+      return 'assets/icons/vehicle_moto.png';
     case 'cab':
-      return '🚗';
+      return 'assets/icons/vehicle_cab.png';
     case 'truck':
-      return '🚛';
+      return 'assets/icons/vehicle_truck.png';
     case 'trike':
-      return '🚐';
+      return 'assets/icons/vehicle_trike.png';
+    case 'others':
+      return 'assets/icons/vehicle_others.png';
     default:
-      return '🚘';
+      return 'assets/icons/vehicle_cab.png';
   }
 }
 

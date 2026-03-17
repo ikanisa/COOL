@@ -436,7 +436,7 @@ extension RayonSportsAdminRepository on RayonSportsRepository {
   Future<List<RsMembershipPackage>> adminGetMembershipPackages() async {
     final partnerId = await _resolvePartnerId();
     if (partnerId == null) {
-      return RsMembershipPackage.fallback();
+      return [RsMembershipPackage.fallback()];
     }
 
     final rows = _asListOfMaps(
@@ -448,7 +448,7 @@ extension RayonSportsAdminRepository on RayonSportsRepository {
           .order('tier'),
     );
     if (rows.isEmpty) {
-      return RsMembershipPackage.fallback();
+      return [RsMembershipPackage.fallback()];
     }
     return rows.map(RsMembershipPackage.fromJson).toList(growable: false);
   }

@@ -1093,13 +1093,13 @@ abstract class AppLocalizations {
   /// No description provided for @vehicleMoto.
   ///
   /// In en, this message translates to:
-  /// **'🛺 Moto'**
+  /// **'Moto'**
   String get vehicleMoto;
 
   /// No description provided for @vehicleCab.
   ///
   /// In en, this message translates to:
-  /// **'🚗 Cab'**
+  /// **'Cab'**
   String get vehicleCab;
 
   /// No description provided for @vehicleAny.
@@ -3523,7 +3523,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileCoolStatusValue.
   ///
   /// In en, this message translates to:
-  /// **'{tier} · {points} pts'**
+  /// **'{tier} · {points} Tokens'**
   String profileCoolStatusValue(String tier, int points);
 
   /// No description provided for @profileUserIdLabel.

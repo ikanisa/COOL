@@ -31,6 +31,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
+          tooltip: 'Back',
           icon: const Icon(Icons.arrow_back_rounded),
           color: AppColors.text,
           onPressed: () => Navigator.of(context).pop(),
@@ -148,10 +149,10 @@ class OperationalDashboardScreen extends ConsumerWidget {
 }
 
 class _SectionHeader extends StatelessWidget {
-  const _SectionHeader({required this.title, required this.subtitle});
+  const _SectionHeader({required this.title, required this.message});
 
   final String title;
-  final String subtitle;
+  final String message;
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +169,7 @@ class _SectionHeader extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         Text(
-          subtitle,
+          message,
           style: GoogleFonts.dmSans(
             fontSize: 13,
             fontWeight: FontWeight.w500,

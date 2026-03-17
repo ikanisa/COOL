@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -432,64 +431,6 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
   }
 }
 
-class _IdentityHeroCard extends StatelessWidget {
-  const _IdentityHeroCard({required this.documentType});
-
-  final String documentType;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        gradient: AppColors.blueGradient,
-        borderRadius: BorderRadius.circular(24),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(999),
-            ),
-            child: Text(
-              'No manual typing',
-              style: GoogleFonts.dmSans(
-                fontSize: 11,
-                fontWeight: FontWeight.w700,
-                color: AppColors.text,
-              ),
-            ),
-          ),
-          const SizedBox(height: 12),
-          Text(
-            'Scan ${_documentTypeLabel(documentType)} to fill',
-            style: GoogleFonts.dmSans(
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
-              color: AppColors.text,
-              height: 1.15,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            'Cool extracts your full',
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: AppColors.text2,
-              height: 1.45,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _CurrentIdentityCard extends StatelessWidget {
   const _CurrentIdentityCard({required this.user});
 
@@ -736,7 +677,6 @@ const _documentTypeOptions = <_DocumentTypeOption>[
   _DocumentTypeOption(value: 'national_id', label: 'National ID'),
   _DocumentTypeOption(value: 'passport', label: 'Passport'),
   _DocumentTypeOption(value: 'driving_license', label: 'Driving licence'),
-  _DocumentTypeOption(value: 'residence_permit', label: 'Residence permit'),
 ];
 
 String _documentTypeLabel(String value) {
@@ -744,7 +684,6 @@ String _documentTypeLabel(String value) {
     'national_id' => 'National ID',
     'passport' => 'Passport',
     'driving_license' => 'Driving licence',
-    'residence_permit' => 'Residence permit',
     _ => 'your ID',
   };
 }

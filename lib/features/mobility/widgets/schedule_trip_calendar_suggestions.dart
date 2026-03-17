@@ -52,7 +52,7 @@ class ScheduleTripCalendarSuggestions extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
-                      'AI Suggested',
+                      'Calendar',
                       style: GoogleFonts.dmSans(
                         fontSize: 10,
                         fontWeight: FontWeight.w600,
@@ -128,7 +128,7 @@ class ScheduleTripCalendarSuggestions extends ConsumerWidget {
         );
       },
       loading: () => const SizedBox.shrink(),
-      error: (_, __) => const SizedBox.shrink(),
+      error: (_, _) => const SizedBox.shrink(),
     );
   }
 }

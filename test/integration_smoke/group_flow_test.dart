@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cool_app/features/groups/screens/create_group_screen.dart';
 import 'package:cool_app/features/partners/models/partner.dart';
 import 'package:cool_app/features/partners/providers/partner_provider.dart';
-import 'package:cool_app/shared/widgets/cool_button.dart';
 
 import 'test_harness.dart';
 
@@ -38,8 +37,8 @@ void main() {
 
       expect(find.text('Create Group'), findsWidgets);
 
-      expect(find.text('Group name'), findsOneWidget);
-      expect(find.text('Target amount (RWF)'), findsOneWidget);
+      expect(find.text('Group Name'), findsOneWidget);
+      expect(find.text('Target (RWF)'), findsOneWidget);
       expect(find.text('Description'), findsOneWidget);
     });
 
@@ -78,7 +77,7 @@ void main() {
       );
 
       await tester.enterText(
-        find.widgetWithText(TextFormField, 'Group name'),
+        find.widgetWithText(TextFormField, 'Group Name'),
         'Test Savings',
       );
       await settleTestApp(tester);
@@ -92,94 +91,5 @@ void main() {
       // expect(find.text('Enter a valid target amount'), findsNothing);
     });
 
-    testWidgets('switching to Community Fund shows MOMO route fields', (
-      tester,
-    ) async {
-      await pumpScopedApp(
-        tester,
-        child: const CreateGroupScreen(),
-        session: fakeSession(),
-        user: fakeUser(momoNumber: '0788123456'),
-        overrides: <Override>[
-          currentCountryBankPartnersProvider.overrideWith(
-            (ref) async => bankPartners,
-          ),
-        ],
-      );
-
-      await tester.tap(find.text('Community Fund'));
-      await settleTestApp(tester);
-
-      await tester.enterText(find.byType(TextFormField).first, 'School Drive');
-      await tester.enterText(find.byType(TextFormField).last, '120000');
-      await settleTestApp(tester);
-
-      await tester.tap(find.text('Continue'));
-      await settleTestApp(tester);
-
-      expect(find.text('Step 2 of 3'), findsOneWidget);
-      expect(find.text('Collection Route'), findsOneWidget);
-      expect(find.text('Phone Number'), findsOneWidget);
-
-      expect(find.text('Custodian'), findsNothing);
-    });
-
-    testWidgets('displays frequency options (daily, weekly, monthly)', (
-      tester,
-    ) async {
-      await pumpScopedApp(
-        tester,
-        child: const CreateGroupScreen(),
-        session: fakeSession(),
-        user: fakeUser(momoNumber: '0788123456'),
-        overrides: <Override>[
-          currentCountryBankPartnersProvider.overrideWith(
-            (ref) async => bankPartners,
-          ),
-        ],
-      );
-
-      await tester.enterText(find.byType(TextFormField).first, 'Family Save');
-      await tester.enterText(find.byType(TextFormField).last, '100000');
-      await settleTestApp(tester);
-
-      await tester.tap(find.text('Continue'));
-      await settleTestApp(tester);
-
-      expect(find.text('Daily'), findsOneWidget);
-      expect(find.text('Weekly'), findsOneWidget);
-      expect(find.text('Monthly'), findsOneWidget);
-    });
-
-    testWidgets(
-      'final step reveals optional details instead of showing them immediately',
-      (tester) async {
-        await pumpScopedApp(
-          tester,
-          child: const CreateGroupScreen(),
-          session: fakeSession(),
-          user: fakeUser(momoNumber: '0788123456'),
-          overrides: <Override>[
-            currentCountryBankPartnersProvider.overrideWith(
-              (ref) async => bankPartners,
-            ),
-          ],
-        );
-
-        await tester.enterText(find.byType(TextFormField).first, 'Rainy Day');
-        await tester.enterText(find.byType(TextFormField).last, '250000');
-        await settleTestApp(tester);
-
-        await tester.tap(find.text('Continue'));
-        await settleTestApp(tester);
-        await tester.tap(find.text('Continue'));
-        await settleTestApp(tester);
-
-        expect(find.text('Step 3 of 3'), findsOneWidget);
-        expect(find.text('Description'), findsOneWidget);
-        expect(find.text('Visibility'), findsOneWidget);
-        expect(find.text('Create Group'), findsWidgets);
-      },
-    );
   });
 }

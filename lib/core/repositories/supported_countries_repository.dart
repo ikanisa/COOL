@@ -34,7 +34,7 @@ class SupportedCountriesRepository {
       }
 
       final countries = data
-          .map((json) => CoolCountry.fromJson(Map<String, dynamic>.from(json)))
+          .map((json) => CoolCountry.fromJson(Map<String, dynamic>.from(json as Map)))
           .toList(growable: false);
 
       _cachedCountries = countries;

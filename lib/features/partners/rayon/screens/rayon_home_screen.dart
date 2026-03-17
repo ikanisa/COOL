@@ -119,25 +119,25 @@ class RayonHomeScreen extends StatelessWidget {
                         ],
                       ),
                       loading: () => const CoolSkeletonList(itemCount: 3),
-                      error: (_, stackTrace) => Column(
+                      error: (_, stackTrace) => const Column(
                         children: [
                           Row(
                             children: [
-                              const Expanded(child: CoolSkeleton.card()),
-                              const SizedBox(width: 12),
-                              const Expanded(child: CoolSkeleton.card()),
+                              Expanded(child: CoolSkeleton.card()),
+                              SizedBox(width: 12),
+                              Expanded(child: CoolSkeleton.card()),
                             ],
                           ),
-                          const SizedBox(height: 12),
+                          SizedBox(height: 12),
                           Row(
                             children: [
-                              const Expanded(child: CoolSkeleton.card()),
-                              const SizedBox(width: 12),
-                              const Expanded(child: CoolSkeleton.card()),
+                              Expanded(child: CoolSkeleton.card()),
+                              SizedBox(width: 12),
+                              Expanded(child: CoolSkeleton.card()),
                             ],
                           ),
-                          const SizedBox(height: 12),
-                          const CoolSkeleton.card(),
+                          SizedBox(height: 12),
+                          CoolSkeleton.card(),
                         ],
                       ),
                     ),
@@ -185,7 +185,7 @@ class _NotificationAction extends StatelessWidget {
       padding: const EdgeInsets.only(right: 4),
       child: IconButton(
         onPressed: () {
-          // TODO: Navigate to notifications screen when implemented
+          CoolToast.info(context, 'Notifications coming soon');
         },
         tooltip: 'Notifications',
         icon: const Icon(Icons.notifications_none_rounded),

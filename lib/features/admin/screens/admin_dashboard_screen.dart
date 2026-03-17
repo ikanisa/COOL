@@ -103,6 +103,12 @@ class AdminDashboardScreen extends ConsumerWidget {
       'Platform-wide metrics & trends',
     ),
     _AdminSection(
+      'AI Content',
+      Icons.auto_awesome_rounded,
+      '/admin/ai-content',
+      'AI-generated UI with approval gate',
+    ),
+    _AdminSection(
       'Audit Log',
       Icons.history_rounded,
       '/admin/audit-log',
@@ -144,6 +150,7 @@ class AdminDashboardScreen extends ConsumerWidget {
           button: true,
           label: 'Back to profile',
           child: IconButton(
+            tooltip: 'Back',
             icon: Icon(Icons.arrow_back_rounded, color: palette.text),
             onPressed: () => context.pop(),
           ),
@@ -280,7 +287,7 @@ class _AdminCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
     return CoolCard(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(16),
       onTap: () {
         HapticFeedback.selectionClick();
         context.push(section.route);
@@ -288,32 +295,35 @@ class _AdminCard extends StatelessWidget {
       semanticsLabel: '${section.title}. ${section.subtitle}',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 44,
-            height: 44,
+            width: 38,
+            height: 38,
             decoration: BoxDecoration(
               color: palette.surface2,
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(section.icon, size: 24, color: palette.text2),
+            child: Icon(section.icon, size: 20, color: palette.text2),
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: 10),
           Text(
             section.title,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   fontWeight: FontWeight.w800,
                 ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            section.subtitle,
-            style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: palette.text3,
-                ),
-            maxLines: 2,
+            maxLines: 1,
             overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: 3),
+          Expanded(
+            child: Text(
+              section.subtitle,
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    color: palette.text3,
+                  ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),
@@ -471,7 +481,7 @@ class _SupportModeCard extends ConsumerWidget {
                       shrinkWrap: true,
                       padding: const EdgeInsets.fromLTRB(22, 0, 22, 32),
                       itemCount: partners.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: 12),
+                      separatorBuilder: (_, _) => const SizedBox(height: 12),
                       itemBuilder: (ctx, index) {
                         final p = partners[index];
                         final name = p['name']?.toString() ?? 'Unknown';
@@ -515,7 +525,7 @@ class _SupportModeCard extends ConsumerWidget {
                                     fontWeight: FontWeight.w800,
                                   ),
                             ),
-                            message: Text(
+                            subtitle: Text(
                               type.toUpperCase(),
                               style: Theme.of(context)
                                   .textTheme

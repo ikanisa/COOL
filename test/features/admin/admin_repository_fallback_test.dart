@@ -6,13 +6,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MockSupabaseClient extends Mock implements SupabaseClient {}
 
-class MockPostgrestBuilder extends Mock implements PostgrestBuilder {}
+class MockPostgrestBuilder extends Mock
+    implements PostgrestBuilder<dynamic, dynamic, dynamic> {}
 
 class MockPostgrestFilterBuilder extends Mock
-    implements PostgrestFilterBuilder {}
+    implements PostgrestFilterBuilder<dynamic> {}
 
 class MockPostgrestTransformBuilder extends Mock
-    implements PostgrestTransformBuilder {}
+    implements PostgrestTransformBuilder<dynamic> {}
 
 /// A testable subclass that exposes fallback behavior without hitting real
 /// Supabase. We override the public entry points so we can simulate the

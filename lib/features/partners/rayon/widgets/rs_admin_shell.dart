@@ -47,9 +47,9 @@ class RsAdminShell extends StatelessWidget {
         leading: buildPartnerBackButton(
           context,
           fallbackLocation: fallbackLocation,
-          color: Colors.white,
+          color: AppColors.text,
         ),
-        actions: buildPartnerAppBarActions(context, homeColor: Colors.white),
+        actions: buildPartnerAppBarActions(context, homeColor: AppColors.text),
       ),
       floatingActionButton: floatingActionButton,
       body: SafeArea(
@@ -64,7 +64,7 @@ class RsAdminShell extends StatelessWidget {
                 style: GoogleFonts.barlowCondensed(
                   fontSize: 42,
                   fontWeight: FontWeight.w900,
-                  color: AppColors.rsWhite,
+                  color: AppColors.text,
                   height: 1.0,
                   letterSpacing: -0.5,
                 ),
@@ -133,7 +133,7 @@ class _MetricChip extends StatelessWidget {
         style: GoogleFonts.dmMono(
           fontSize: 11,
           fontWeight: FontWeight.w700,
-          color: AppColors.rsBluePale,
+          color: AppColors.rsBlue,
         ),
       ),
     );

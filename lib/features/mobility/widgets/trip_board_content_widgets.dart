@@ -56,6 +56,9 @@ String displayVehicleType(String vehicleType) {
       return 'Truck';
     case 'trike':
       return 'Trike';
+    case 'others':
+    case 'pickup':
+      return 'Others';
     case 'any':
       return 'Any';
     default:

@@ -508,7 +508,7 @@ class PartnerEmptyServicesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CoolCard(
+    return const CoolCard(
       child: CoolEmptyView(
         message:
             'Services for partnerName will',

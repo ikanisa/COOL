@@ -153,7 +153,6 @@ class FakeMobilityRepository extends MobilityRepository {
       toLocation: existing.toLocation,
       departureTime: existing.departureTime,
       vehicleType: existing.vehicleType,
-      vehicleEmoji: existing.vehicleEmoji,
       seats: existing.seats,
       isReturn: existing.isReturn,
       isRecurring: existing.isRecurring,

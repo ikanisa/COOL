@@ -12,6 +12,7 @@ void main() {
           ),
         ),
       );
+      await tester.pumpAndSettle();
 
       expect(find.text('Something went wrong'), findsOneWidget);
       expect(find.byIcon(Icons.error_outline_rounded), findsOneWidget);
@@ -25,6 +26,7 @@ void main() {
           ),
         ),
       );
+      await tester.pumpAndSettle();
 
       expect(find.text('Try Again'), findsNothing);
     });
@@ -42,6 +44,7 @@ void main() {
           ),
         ),
       );
+      await tester.pumpAndSettle();
 
       expect(find.text('Try Again'), findsOneWidget);
       await tester.tap(find.text('Try Again'));
@@ -59,6 +62,7 @@ void main() {
           ),
         ),
       );
+      await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.wifi_off_rounded), findsOneWidget);
     });
@@ -71,6 +75,7 @@ void main() {
           ),
         ),
       );
+      await tester.pumpAndSettle();
 
       expect(find.text('Compact'), findsOneWidget);
     });

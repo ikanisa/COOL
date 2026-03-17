@@ -102,29 +102,49 @@ void main() {
     });
   });
 
-  group('TripPostRequest.toLegacyJson', () {
-    test('uses legacy column names', () {
-      final req = _request(clientRequestId: 'req-legacy');
-      final json = req.toLegacyJson();
-
-      expect(json.containsKey('departure_at'), isTrue);
-      expect(json.containsKey('vehicle_preference'), isTrue);
-      expect(json.containsKey('seats_needed'), isTrue);
-      expect(json.containsKey('expires_at'), isTrue);
-      // Must NOT contain canonical names.
-      expect(json.containsKey('travel_time'), isFalse);
-      expect(json.containsKey('vehicle_type'), isFalse);
-      expect(json.containsKey('seats'), isFalse);
-    });
-
+  group('TripPostRequest.toJson expires_at', () {
     test('expires_at is 1 hour after departure', () {
       final req = _request();
-      final json = req.toLegacyJson();
+      final json = req.toJson();
 
-      final departure = DateTime.parse(json['departure_at'] as String);
+      final departure = DateTime.parse(json['travel_time'] as String);
       final expires = DateTime.parse(json['expires_at'] as String);
 
       expect(expires.difference(departure), const Duration(hours: 1));
+    });
+
+    test('includes all canonical column names', () {
+      final req = _request(clientRequestId: 'req-json');
+      final json = req.toJson();
+
+      expect(json.containsKey('travel_time'), isTrue);
+      expect(json.containsKey('vehicle_type'), isTrue);
+      expect(json.containsKey('seats'), isTrue);
+      expect(json.containsKey('expires_at'), isTrue);
+    });
+  });
+
+  group('TripVehiclePreference parsing', () {
+    test('parses trike and truck correctly', () {
+      final trikeReq = _request().copyWith(
+        vehiclePreference: TripVehiclePreference.trike,
+      );
+      final json = trikeReq.toJson();
+      expect(json['vehicle_type'], 'trike');
+
+      final truckReq = _request().copyWith(
+        vehiclePreference: TripVehiclePreference.truck,
+      );
+      final json2 = truckReq.toJson();
+      expect(json2['vehicle_type'], 'truck');
+    });
+
+    test('parses others correctly', () {
+      final req = _request().copyWith(
+        vehiclePreference: TripVehiclePreference.others,
+      );
+      final json = req.toJson();
+      expect(json['vehicle_type'], 'others');
     });
   });
 

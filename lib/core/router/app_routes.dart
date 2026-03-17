@@ -49,7 +49,6 @@ abstract final class AppRoutes {
   static const scanner = '/scanner';
   static const kycSelfie = '/kyc/selfie';
 
-  static const bankOnboarding = '/partners/bank/:slug/onboarding/:type';
 
   static const admin = '/admin';
   static const adminPlatform = '/admin/platform';
@@ -69,6 +68,7 @@ abstract final class AppRoutes {
   static const adminRoles = '/admin/roles';
   static const adminAnalytics = '/admin/analytics';
   static const adminAuditLog = '/admin/audit-log';
+  static const adminAiContent = '/admin/ai-content';
 
   static const adminRayon = '/admin/rayon';
   static const adminRayonMatches = '/admin/rayon/matches';

@@ -46,25 +46,25 @@ void main() {
                   QuickAction(
                     id: 'groups',
                     title: 'Groups',
-                    message: 'Savings and invites',
+                    subtitle: 'Savings and invites',
                     route: '/groups',
                   ),
                   QuickAction(
                     id: 'momo',
                     title: 'MoMo',
-                    message: 'Pay and statements',
+                    subtitle: 'Pay and statements',
                     route: '/momo',
                   ),
                   QuickAction(
                     id: 'partners',
                     title: 'Partners',
-                    message: 'Tickets and support',
+                    subtitle: 'Tickets and support',
                     route: '/partners',
                   ),
                   QuickAction(
                     id: 'mobility',
                     title: 'Mobility',
-                    message: 'Trips and drivers',
+                    subtitle: 'Trips and drivers',
                     route: '/mobility',
                   ),
                 ],
@@ -114,7 +114,7 @@ void main() {
                   QuickAction(
                     id: 'groups',
                     title: 'Groups',
-                    message: 'Savings and invites',
+                    subtitle: 'Savings and invites',
                     route: '/groups',
                   ),
                 ],

@@ -250,7 +250,7 @@ class _AdminCard extends StatelessWidget {
                 border: Border.all(color: AppColors.rsBlueBorder),
               ),
               alignment: Alignment.center,
-              child: Icon(section.icon, size: 22, color: AppColors.rsWhite),
+              child: Icon(section.icon, size: 22, color: AppColors.rsBlueLight),
             ),
             const SizedBox(width: 14),
             Expanded(
@@ -262,7 +262,7 @@ class _AdminCard extends StatelessWidget {
                     style: GoogleFonts.barlow(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.rsWhite,
+                      color: AppColors.text,
                     ),
                   ),
                   const SizedBox(height: 4),

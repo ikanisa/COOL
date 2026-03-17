@@ -905,8 +905,8 @@ class AdminRepository {
       params: <String, dynamic>{
         'p_limit': limit,
         'p_offset': offset,
-        if (action != null) 'p_action': action,
-        if (actorId != null) 'p_actor_id': actorId,
+        'p_action': ?action,
+        'p_actor_id': ?actorId,
       },
     );
     return _asListOfMaps(data);
@@ -935,7 +935,7 @@ class AdminRepository {
     }
 
     return value
-        .whereType<Map>()
+        .whereType<Map<dynamic, dynamic>>()
         .map((row) => Map<String, dynamic>.from(row))
         .toList(growable: false);
   }

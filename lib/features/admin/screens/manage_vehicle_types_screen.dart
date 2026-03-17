@@ -26,6 +26,7 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
+          tooltip: 'Back',
           icon: const Icon(Icons.arrow_back_rounded),
           color: AppColors.text,
           onPressed: () => Navigator.of(context).pop(),
@@ -81,10 +82,16 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
                           'Vehicle type ${t['label'] ?? ''}. Value ${t['value'] ?? ''}. '
                           'Market ${AppMarket.country.name}.',
                       child: ListTile(
-                        leading: Text(
-                          t['emoji']?.toString() ?? '🚘',
-                          style: const TextStyle(fontSize: 22),
-                        ),
+                        leading: (t['emoji']?.toString() ?? '').isNotEmpty
+                            ? Text(
+                                t['emoji'].toString(),
+                                style: const TextStyle(fontSize: 22),
+                              )
+                            : Icon(
+                                Icons.directions_car_filled_rounded,
+                                size: 22,
+                                color: AppColors.text2,
+                              ),
                         title: Text(
                           t['label']?.toString() ?? '',
                           style: GoogleFonts.dmSans(
@@ -93,7 +100,7 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
                             color: AppColors.text,
                           ),
                         ),
-                        message: Text(
+                        subtitle: Text(
                           'value: ${t['value']} · ${AppMarket.country.name}',
                           style: GoogleFonts.dmSans(
                             fontSize: 12,
@@ -231,7 +238,7 @@ class _EditVehicleTypeSheetState extends State<_EditVehicleTypeSheet> {
                 ),
               ),
               const SizedBox(height: 16),
-              _field('Label (e.g. 🛺 Moto)', _labelCtl),
+              _field('Label (e.g. Moto)', _labelCtl),
               _field('Value (e.g. Moto)', _valueCtl),
               _field('Emoji', _emojiCtl),
               _marketField(),

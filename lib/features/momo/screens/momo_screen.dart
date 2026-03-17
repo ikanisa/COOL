@@ -14,12 +14,17 @@ import '../../../core/models/momo_qr_payload.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_palette.dart';
 
+import '../../../core/providers/app_access_provider.dart';
+import '../../../core/providers/app_lifecycle_providers.dart';
+import '../../../core/services/app_access_service.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
+import '../../../shared/widgets/secure_screen_mixin.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../providers/momo_service_provider.dart';
 import '../screens/momo_nfc_screen.dart';
+import '../services/momo_sms_autoread_service.dart';
 import '../services/nfc_service.dart';
 
 import '../widgets/momo_cards_widgets.dart';
@@ -36,7 +41,8 @@ class MomoScreen extends ConsumerStatefulWidget {
   ConsumerState<MomoScreen> createState() => _MomoScreenState();
 }
 
-class _MomoScreenState extends ConsumerState<MomoScreen> {
+class _MomoScreenState extends ConsumerState<MomoScreen>
+    with SecureScreenMixin<MomoScreen> {
   bool _launchingIncomingPayment = false;
   bool _handledIncomingPayment = false;
 
@@ -271,6 +277,16 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
                         ),
                       ),
                       const SizedBox(height: 24),
+                      _SmsSyncCta(
+                        onSyncComplete: () {
+                          if (mounted) {
+                            CoolToast.success(
+                              context,
+                              'M-Money SMS synced!',
+                            );
+                          }
+                        },
+                      ),
                       CoolCard(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -395,6 +411,142 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
         initialRecipient: initialRecipient,
         initialAmount: initialAmount,
         initialRecipientType: initialRecipientType,
+      ),
+    );
+  }
+}
+
+/// Shows a CTA card when SMS sync is not enabled, guiding users to enable it.
+class _SmsSyncCta extends ConsumerStatefulWidget {
+  const _SmsSyncCta({this.onSyncComplete});
+
+  final VoidCallback? onSyncComplete;
+
+  @override
+  ConsumerState<_SmsSyncCta> createState() => _SmsSyncCtaState();
+}
+
+class _SmsSyncCtaState extends ConsumerState<_SmsSyncCta> {
+  bool _syncing = false;
+  bool _smsEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkSmsStatus();
+  }
+
+  Future<void> _checkSmsStatus() async {
+    final enabled = await ref.read(appAccessServiceProvider).isEnabled(
+      AppAccessPermission.sms,
+    );
+    if (mounted) {
+      setState(() => _smsEnabled = enabled);
+    }
+  }
+
+  Future<void> _enableAndSync() async {
+    if (_syncing) return;
+    setState(() => _syncing = true);
+
+    try {
+      // 1. Enable SMS in app settings
+      await ref.read(appAccessServiceProvider).enableAndRequest(
+        AppAccessPermission.sms,
+      );
+
+      // 2. Refresh the autoread service (triggers permission + listener + sync)
+      final service = ref.read(momoSmsAutoreadServiceProvider);
+      await service.refresh(forcePermissionRequest: true);
+
+      // 3. Trigger manual inbox sync
+      try {
+        await service.syncInbox(trigger: MomoInboxSyncTrigger.manual);
+      } catch (_) {
+        // syncInbox may throw if already ran via initial sync — that's OK
+      }
+
+      if (mounted) {
+        setState(() => _smsEnabled = true);
+        widget.onSyncComplete?.call();
+      }
+    } catch (error) {
+      if (mounted) {
+        CoolToast.error(context, 'SMS sync failed. Try again in Settings.');
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _syncing = false);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_smsEnabled) return const SizedBox.shrink();
+
+    final palette = context.coolPalette;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: CoolCard(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.sms_rounded, color: palette.accent, size: 22),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    'Sync M-Money SMS',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: palette.text,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Import past year M-Money confirmations to auto-track payments, '
+              'contributions, and transactions.',
+              style: GoogleFonts.dmSans(
+                fontSize: 13,
+                color: palette.text3,
+                height: 1.4,
+              ),
+            ),
+            const SizedBox(height: 14),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton.icon(
+                onPressed: _syncing ? null : _enableAndSync,
+                icon: _syncing
+                    ? const SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                    : const Icon(Icons.sync_rounded, size: 18),
+                label: Text(_syncing ? 'Syncing…' : 'Enable & Sync'),
+                style: FilledButton.styleFrom(
+                  backgroundColor: palette.accent,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

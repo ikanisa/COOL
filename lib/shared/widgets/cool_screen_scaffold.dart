@@ -33,6 +33,7 @@ class CoolScreenScaffold extends StatelessWidget {
             showBackButton
                 ? IconButton(
                   onPressed: () => context.pop(),
+                  tooltip: 'Back',
                   icon: Icon(Icons.arrow_back_rounded, color: palette.text),
                 )
                 : null,

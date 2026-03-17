@@ -26,7 +26,6 @@ import '../services/place_search_service.dart';
 import '../widgets/schedule_trip_place_search_sheet.dart';
 import '../widgets/schedule_trip_step_widgets.dart';
 import '../widgets/schedule_trip_calendar_suggestions.dart';
-import '../widgets/schedule_trip_route_widgets.dart';
 
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
@@ -154,6 +153,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
         elevation: 0,
         leading: IconButton(
           onPressed: () => context.pop(),
+          tooltip: 'Back',
           icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
         title: Text(
