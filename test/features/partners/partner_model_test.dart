@@ -132,7 +132,9 @@ void main() {
 
     test('equality is based on id', () {
       final a = Partner.fromJson(sampleJson);
+      // ignore: prefer_const_literals_to_create_immutables
       final b = Partner.fromJson(<String, dynamic>{...sampleJson, 'name': 'Different Name'});
+      // ignore: prefer_const_literals_to_create_immutables
       final c = Partner.fromJson(<String, dynamic>{...sampleJson, 'id': 'different-id'});
 
       expect(a, equals(b));

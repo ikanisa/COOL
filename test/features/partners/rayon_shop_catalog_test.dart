@@ -207,10 +207,10 @@ void main() {
     test('addToCart increments quantity', () {
       final controller = RayonCartController();
       controller.addToCart('prod-a');
-      expect(controller.debugState['prod-a'], 1);
+      expect(controller.state['prod-a'], 1);
 
       controller.addToCart('prod-a');
-      expect(controller.debugState['prod-a'], 2);
+      expect(controller.state['prod-a'], 2);
     });
 
     test('addToCart adds new item with quantity 1', () {
@@ -218,8 +218,8 @@ void main() {
       controller.addToCart('prod-a');
       controller.addToCart('prod-b');
 
-      expect(controller.debugState['prod-a'], 1);
-      expect(controller.debugState['prod-b'], 1);
+      expect(controller.state['prod-a'], 1);
+      expect(controller.state['prod-b'], 1);
     });
 
     test('removeFromCart decrements quantity', () {
@@ -229,7 +229,7 @@ void main() {
       controller.addToCart('prod-a');
       controller.removeFromCart('prod-a');
 
-      expect(controller.debugState['prod-a'], 2);
+      expect(controller.state['prod-a'], 2);
     });
 
     test('removeFromCart removes item when quantity reaches 0', () {
@@ -237,14 +237,14 @@ void main() {
       controller.addToCart('prod-a');
       controller.removeFromCart('prod-a');
 
-      expect(controller.debugState.containsKey('prod-a'), isFalse);
+      expect(controller.state.containsKey('prod-a'), isFalse);
     });
 
     test('removeFromCart is safe on empty cart', () {
       final controller = RayonCartController();
       controller.removeFromCart('nonexistent');
 
-      expect(controller.debugState, isEmpty);
+      expect(controller.state, isEmpty);
     });
 
     test('clearCart empties all items', () {
@@ -254,7 +254,7 @@ void main() {
       controller.addToCart('prod-c');
       controller.clearCart();
 
-      expect(controller.debugState, isEmpty);
+      expect(controller.state, isEmpty);
     });
   });
 

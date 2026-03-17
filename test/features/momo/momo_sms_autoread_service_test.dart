@@ -30,7 +30,7 @@ void main() {
   });
 
   tearDown(() async {
-    final boxName = AppAccessService.boxName;
+    const boxName = AppAccessService.boxName;
     if (Hive.isBoxOpen(boxName)) {
       await Hive.box<bool>(boxName).clear();
       await Hive.box<bool>(boxName).close();

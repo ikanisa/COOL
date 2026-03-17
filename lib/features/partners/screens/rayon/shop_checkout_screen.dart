@@ -925,8 +925,11 @@ RsShopOrder? _findOrderById(List<RsShopOrder>? orders, String? orderId) {
 String _checkoutTitle(OrderStatus status) {
   return switch (status) {
     OrderStatus.pending => 'Order Pending',
+    OrderStatus.paid => 'Payment Received',
     OrderStatus.confirmed => 'Order Confirmed',
+    OrderStatus.packed => 'Order Packed',
     OrderStatus.shipped => 'Order Shipped',
+    OrderStatus.fulfilled => 'Order Fulfilled',
     OrderStatus.delivered => 'Order Delivered',
     OrderStatus.cancelled => 'Order Cancelled',
   };
@@ -935,9 +938,11 @@ String _checkoutTitle(OrderStatus status) {
 Color _statusColor(OrderStatus status) {
   return switch (status) {
     OrderStatus.pending => RsColors.rsGoldLight,
+    OrderStatus.paid => AppColors.accent,
     OrderStatus.confirmed => AppColors.accent,
+    OrderStatus.packed => RsColors.rsBluePale,
     OrderStatus.shipped => RsColors.rsBluePale,
-    OrderStatus.delivered => AppColors.rsWhite,
+    OrderStatus.fulfilled || OrderStatus.delivered => AppColors.rsWhite,
     OrderStatus.cancelled => AppColors.text3,
   };
 }
@@ -945,9 +950,10 @@ Color _statusColor(OrderStatus status) {
 IconData _statusIcon(OrderStatus status) {
   return switch (status) {
     OrderStatus.pending => Icons.schedule_rounded,
-    OrderStatus.confirmed => Icons.check_circle_outline_rounded,
+    OrderStatus.paid || OrderStatus.confirmed => Icons.check_circle_outline_rounded,
+    OrderStatus.packed => Icons.inventory_2_outlined,
     OrderStatus.shipped => Icons.local_shipping_outlined,
-    OrderStatus.delivered => Icons.inventory_2_outlined,
+    OrderStatus.fulfilled || OrderStatus.delivered => Icons.done_all_rounded,
     OrderStatus.cancelled => Icons.block_outlined,
   };
 }
@@ -955,9 +961,11 @@ IconData _statusIcon(OrderStatus status) {
 String _statusHeadline(OrderStatus status) {
   return switch (status) {
     OrderStatus.pending => 'Waiting for Payment Confirmation',
+    OrderStatus.paid => 'Payment Received',
     OrderStatus.confirmed => 'Order Confirmed',
+    OrderStatus.packed => 'Order Packed',
     OrderStatus.shipped => 'Order on the Way',
-    OrderStatus.delivered => 'Order Delivered',
+    OrderStatus.fulfilled || OrderStatus.delivered => 'Order Delivered',
     OrderStatus.cancelled => 'Order Cancelled',
   };
 }
@@ -981,11 +989,15 @@ String _statusBody(
   return switch (status) {
     OrderStatus.pending =>
       '$openedMessage Approve payment to $paymentDetails for $amountLabel. Fees ${paymentRoute?.feesLabel() ?? '0 RWF'}. We issue the receipt after $receiptLogic.',
+    OrderStatus.paid =>
+      'Payment received. Your order is being processed.',
     OrderStatus.confirmed =>
       'Payment confirmed. Order is in the fulfillment queue.',
+    OrderStatus.packed =>
+      'Your order has been packed and is ready for pickup or handover.',
     OrderStatus.shipped =>
       'This order has been confirmed and handed over for delivery.',
-    OrderStatus.delivered =>
+    OrderStatus.fulfilled || OrderStatus.delivered =>
       'This Rayon Sports order has been marked as delivered.',
     OrderStatus.cancelled =>
       'Order cancelled. Refresh or contact support if you paid.',

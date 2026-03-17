@@ -28,7 +28,7 @@ class RsDigitalTicket extends StatelessWidget {
         'Payment is still pending confirmation. Your QR unlocks automatically after SMS reconciliation confirms the charge.',
       RsTicketStatus.valid => 'Present this QR at the gate for entry.',
       RsTicketStatus.used => 'This ticket has already been used.',
-      RsTicketStatus.cancelled =>
+      RsTicketStatus.cancelled || RsTicketStatus.voided || RsTicketStatus.refunded =>
         'This ticket was cancelled and can no longer be used.',
     };
 
@@ -251,14 +251,15 @@ class _LockedQrPlaceholder extends StatelessWidget {
     final icon = switch (status) {
       RsTicketStatus.pending => Icons.hourglass_top_rounded,
       RsTicketStatus.used => Icons.check_circle_outline_rounded,
-      RsTicketStatus.cancelled => Icons.block_rounded,
+      RsTicketStatus.cancelled || RsTicketStatus.voided || RsTicketStatus.refunded => Icons.block_rounded,
       RsTicketStatus.valid => Icons.qr_code_rounded,
     };
 
     final label = switch (status) {
       RsTicketStatus.pending => 'PENDING',
       RsTicketStatus.used => 'USED',
-      RsTicketStatus.cancelled => 'CANCELLED',
+      RsTicketStatus.cancelled || RsTicketStatus.voided => 'CANCELLED',
+      RsTicketStatus.refunded => 'REFUNDED',
       RsTicketStatus.valid => 'READY',
     };
 
@@ -290,14 +291,14 @@ class _LockedQrPlaceholder extends StatelessWidget {
 Color _statusBorderColor(RsTicketStatus status) => switch (status) {
   RsTicketStatus.valid => AppColors.accent.withValues(alpha: 0.55),
   RsTicketStatus.used => AppColors.surface3,
-  RsTicketStatus.cancelled => AppColors.red.withValues(alpha: 0.45),
+  RsTicketStatus.cancelled || RsTicketStatus.voided || RsTicketStatus.refunded => AppColors.red.withValues(alpha: 0.45),
   RsTicketStatus.pending => AppColors.rsBlueBorder,
 };
 
 Color _statusDotColor(RsTicketStatus status) => switch (status) {
   RsTicketStatus.valid => AppColors.accent,
   RsTicketStatus.used => AppColors.text3,
-  RsTicketStatus.cancelled => AppColors.red,
+  RsTicketStatus.cancelled || RsTicketStatus.voided || RsTicketStatus.refunded => AppColors.red,
   RsTicketStatus.pending => AppColors.rsGoldLight,
 };
 

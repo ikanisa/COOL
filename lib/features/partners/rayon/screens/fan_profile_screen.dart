@@ -827,9 +827,9 @@ String _formatRwf(int amount) {
 Color _orderStatusColor(OrderStatus status) {
   return switch (status) {
     OrderStatus.pending => RsColors.rsGoldLight,
-    OrderStatus.confirmed => AppColors.accent,
-    OrderStatus.shipped => RsColors.rsBluePale,
-    OrderStatus.delivered => AppColors.rsWhite,
+    OrderStatus.paid || OrderStatus.confirmed => AppColors.accent,
+    OrderStatus.packed || OrderStatus.shipped => RsColors.rsBluePale,
+    OrderStatus.fulfilled || OrderStatus.delivered => AppColors.rsWhite,
     OrderStatus.cancelled => AppColors.text3,
   };
 }
@@ -837,9 +837,11 @@ Color _orderStatusColor(OrderStatus status) {
 String _orderStatusCopy(OrderStatus status) {
   return switch (status) {
     OrderStatus.pending => 'Awaiting payment confirmation',
+    OrderStatus.paid => 'Payment received',
     OrderStatus.confirmed => 'Confirmed, processing',
+    OrderStatus.packed => 'Packed, ready to ship',
     OrderStatus.shipped => 'Shipped',
-    OrderStatus.delivered => 'Delivered',
+    OrderStatus.fulfilled || OrderStatus.delivered => 'Delivered',
     OrderStatus.cancelled => 'Cancelled',
   };
 }

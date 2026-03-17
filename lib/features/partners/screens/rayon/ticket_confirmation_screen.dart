@@ -192,7 +192,7 @@ _TicketStatusMeta _statusMeta(RsTicketStatus status, AppLocalizations l10n) {
       icon: Icons.check_circle_outline_rounded,
       color: AppColors.text3,
     ),
-    RsTicketStatus.cancelled => _TicketStatusMeta(
+    RsTicketStatus.cancelled || RsTicketStatus.voided || RsTicketStatus.refunded => _TicketStatusMeta(
       title: l10n.ticketStatusCancelledTitle,
       subtitle: l10n.ticketStatusCancelledSubtitle,
       note: l10n.ticketStatusCancelledNote,
