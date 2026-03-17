@@ -12,6 +12,8 @@ import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/providers/auth_provider.dart';
 
 import '../providers/groups_provider.dart';
+import '../../partners/providers/partner_provider.dart';
+import '../../partners/models/partner.dart';
 import '../../../core/l10n/l10n.dart';
 
 /// Single-screen group creation — saving or community fund.
@@ -34,6 +36,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
   String _visibility = 'private'; // private | public
   String _frequency = 'monthly';
   String _communityRouteType = 'phone_number';
+  Partner? _selectedBankPartner;
 
   bool get _isSaving => _type == 'saving';
 
@@ -98,11 +101,12 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
       momoNumber: !_isSaving
           ? _normalizeCommunityRecipient(_momoController.text.trim())
           : null,
-      momoRouteType: !_isSaving ? routeType : null,
+      momoRouteType: !_isSaving ? routeType : (_isSaving ? 'code' : null),
       description: _descriptionController.text.trim().isEmpty
           ? null
           : _descriptionController.text.trim(),
       frequency: _frequency,
+      bankPartnerId: _isSaving ? _selectedBankPartner?.id : null,
     );
 
     final created = await ref.read(groupsProvider.notifier).createGroup(data);
@@ -123,6 +127,29 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
     final activeRouteType = communityCountry.supportsMomoCode
         ? _communityRouteType
         : 'phone_number';
+    final hasBankPartner = ref.watch(hasActiveBankPartnerProvider);
+    final bankPartnersAsync = ref.watch(bankPartnersProvider);
+    final bankPartners = bankPartnersAsync.maybeWhen(
+      data: (list) => list,
+      orElse: () => <Partner>[],
+    );
+
+    // Auto-default to community when no bank partner is available.
+    if (!hasBankPartner && _isSaving) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) setState(() {
+          _type = 'community';
+          _frequency = 'one_off';
+        });
+      });
+    }
+
+    // Auto-select single bank partner
+    if (_isSaving && bankPartners.length == 1 && _selectedBankPartner == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) setState(() => _selectedBankPartner = bankPartners.first);
+      });
+    }
 
     return Scaffold(
       backgroundColor: AppColors.bg,
@@ -155,24 +182,40 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
                     // ── Group type ──────────────────────────────────────
                     _label('Group Type'),
                     const SizedBox(height: 8),
-                    _AdaptiveCardPair(
-                      first: _TypeCard(
-                        icon: Icons.account_balance_rounded,
-                        title: context.l10n.groupSaving,
-                        subtitle: 
- 'Bank custodian',
-                        isSelected: _isSaving,
-                        onTap: () => setState(() => _type = 'saving'),
-                      ),
-                      second: _TypeCard(
+                    if (hasBankPartner)
+                      _AdaptiveCardPair(
+                        first: _TypeCard(
+                          icon: Icons.account_balance_rounded,
+                          title: context.l10n.groupSaving,
+                          subtitle:
+   'Bank custodian',
+                          isSelected: _isSaving,
+                          onTap: () => setState(() {
+                            _type = 'saving';
+                            _frequency = 'monthly';
+                          }),
+                        ),
+                        second: _TypeCard(
+                          icon: Icons.favorite_rounded,
+                          title: 'Community Fund',
+                          subtitle:
+   'MOMO to creator',
+                          isSelected: !_isSaving,
+                          onTap: () => setState(() {
+                            _type = 'community';
+                            _frequency = 'one_off';
+                          }),
+                        ),
+                      )
+                    else
+                      _TypeCard(
                         icon: Icons.favorite_rounded,
                         title: 'Community Fund',
-                        subtitle: 
+                        subtitle:
  'MOMO to creator',
-                        isSelected: !_isSaving,
-                        onTap: () => setState(() => _type = 'community'),
+                        isSelected: true,
+                        onTap: () {},
                       ),
-                    ),
                     const SizedBox(height: 16),
                     AnimatedSwitcher(
                       duration: const Duration(milliseconds: 250),
@@ -235,7 +278,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
                       spacing: 8,
                       runSpacing: 8,
                       children: [
-                        for (final option in _frequencies)
+                        for (final option in _frequenciesFor(_type))
                           _BankChip(
                             label: option.label,
                             isSelected: _frequency == option.value,
@@ -319,6 +362,37 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
 
                     // ── Monthly (saving only) ───────────────────────────
                     if (_isSaving) ...[
+                      // ── Bank partner selector ──────────────────────────
+                      if (bankPartners.length > 1) ...[
+                        _label('Banking Partner'),
+                        const SizedBox(height: 8),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: [
+                            for (final bank in bankPartners)
+                              _BankChip(
+                                label: bank.name,
+                                isSelected: _selectedBankPartner?.id == bank.id,
+                                onTap: () => setState(() => _selectedBankPartner = bank),
+                              ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                      ],
+                      // ── Bank MoMo code (read-only) ─────────────────────
+                      if (_selectedBankPartner != null &&
+                          (_selectedBankPartner!.momoCode?.isNotEmpty ?? false))
+                        _InfoBanner(
+                          icon: Icons.account_balance_rounded,
+                          text: 'Contributions go to ${_selectedBankPartner!.name} '
+                              '(code: ${_selectedBankPartner!.momoCode}). '
+                              'This cannot be changed.',
+                          color: AppColors.accent,
+                        ),
+                      if (_selectedBankPartner != null &&
+                          (_selectedBankPartner!.momoCode?.isNotEmpty ?? false))
+                        const SizedBox(height: 16),
                       CoolTextField(
                         label: 'Monthly (RWF)',
                         hint: '5,000',
@@ -406,11 +480,20 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
     );
   }
 
-  static const _frequencies = <({String label, String value})>[
+  static const _allFrequencies = <({String label, String value})>[
+    (label: 'One-off', value: 'one_off'),
     (label: 'Daily', value: 'daily'),
     (label: 'Weekly', value: 'weekly'),
     (label: 'Monthly', value: 'monthly'),
   ];
+
+  static List<({String label, String value})> _frequenciesFor(String type) {
+    if (type == 'community') {
+      return _allFrequencies; // one_off is first = default
+    }
+    // Savings groups: no one-off
+    return _allFrequencies.where((f) => f.value != 'one_off').toList();
+  }
 
   String _normalizeCommunityRecipient(String value) {
     if (_effectiveCommunityRouteType() == 'code') {

@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:cool_app/features/groups/screens/create_group_screen.dart';
+import 'package:cool_app/shared/widgets/cool_button.dart';
 import 'package:cool_app/features/partners/models/partner.dart';
 import 'package:cool_app/features/partners/providers/partner_provider.dart';
 
@@ -55,7 +56,7 @@ void main() {
         ],
       );
 
-      final createButton = find.text('Create Group');
+      final createButton = find.widgetWithText(CoolButton, 'Create Group');
       await tester.ensureVisible(createButton);
       await tester.tap(createButton);
       await settleTestApp(tester);
@@ -77,12 +78,12 @@ void main() {
       );
 
       await tester.enterText(
-        find.widgetWithText(TextFormField, 'Group Name'),
+        find.bySemanticsLabel('Group Name'),
         'Test Savings',
       );
       await settleTestApp(tester);
 
-      final createButton = find.text('Create Group');
+      final createButton = find.widgetWithText(CoolButton, 'Create Group');
       await tester.ensureVisible(createButton);
       await tester.tap(createButton);
       await settleTestApp(tester);

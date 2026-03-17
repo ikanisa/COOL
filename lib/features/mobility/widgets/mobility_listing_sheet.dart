@@ -251,11 +251,8 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
                     : 'Pinned with Google route preview'
               : 'Text route only',
         ),
-        const _DetailRow(label: 'Chat flow', value: 'Agree via WhatsApp.'),
         if (trip.priceNote?.trim().isNotEmpty ?? false)
           _DetailRow(label: 'Price note', value: trip.priceNote!.trim()),
-        const SizedBox(height: 18),
-        const _MarketplaceHint(text: 'Confirmed via WhatsApp'),
         if (trip.id != null) ...[
           const SizedBox(height: 14),
           ShareCard(
@@ -383,15 +380,7 @@ class _DriverListingSheetBody extends StatelessWidget {
           ),
         if (driver.baseLocation?.trim().isNotEmpty ?? false)
           _DetailRow(label: 'Area', value: driver.baseLocation!.trim()),
-        if (driver.vehicleStatus?.trim().isNotEmpty ?? false)
-          _DetailRow(
-            label: 'Vehicle status',
-            value: _titleCase(driver.vehicleStatus!),
-          ),
         _DetailRow(label: 'Last active', value: lastActive),
-        const _DetailRow(label: 'Chat flow', value: 'Agree via WhatsApp'),
-        const SizedBox(height: 18),
-        const _MarketplaceHint(text: 'Agreed via WhatsApp'),
         const SizedBox(height: 18),
         if (onOpenWhatsApp != null)
           Align(
@@ -518,34 +507,6 @@ class _DetailRow extends StatelessWidget {
   }
 }
 
-class _MarketplaceHint extends StatelessWidget {
-  const _MarketplaceHint({required this.text});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: AppColors.blueGlow,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.blue.withValues(alpha: 0.24)),
-      ),
-      child: Text(
-        text,
-        style: GoogleFonts.dmSans(
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
-          color: AppColors.blue,
-          height: 1.45,
-        ),
-      ),
-    );
-  }
-}
-
 class _UnavailableHint extends StatelessWidget {
   const _UnavailableHint({required this.text});
 
@@ -655,16 +616,4 @@ MobilityRouteTravelMode _travelModeFor(Trip trip) {
     return MobilityRouteTravelMode.twoWheeler;
   }
   return MobilityRouteTravelMode.drive;
-}
-
-String _titleCase(String value) {
-  final words = value
-      .trim()
-      .replaceAll('_', ' ')
-      .split(RegExp(r'\s+'))
-      .where((word) => word.isNotEmpty)
-      .map(
-        (word) => '${word[0].toUpperCase()}${word.substring(1).toLowerCase()}',
-      );
-  return words.join(' ');
 }

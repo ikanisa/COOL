@@ -47,7 +47,7 @@ class RsAdminDashboardScreen extends ConsumerWidget {
       'Members',
       Icons.people_rounded,
       '/admin/rayon/members',
-      'Registry & points',
+      'Registry & Tokens',
     ),
     _Section(
       'Packages',

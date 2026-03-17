@@ -7,17 +7,21 @@ import '../../../core/utils/icon_mapper.dart';
 
 /// Home screen banner showing the active season: theme, countdown, and reward preview.
 class SeasonBanner extends StatelessWidget {
-  const SeasonBanner({required this.season, this.seasonPoints = 0, super.key});
+  const SeasonBanner({required this.season, this.seasonPoints = 0, this.onTap, super.key});
 
   final CoolSeason season;
   final int seasonPoints;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     if (!season.isLive) return const SizedBox.shrink();
 
-    return Semantics(
-      label: 'Active season ${season.title}',
+    return GestureDetector(
+      onTap: onTap,
+      child: Semantics(
+      label: 'Active season ${season.title}. Tap to view all seasons.',
+      button: true,
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
@@ -104,7 +108,7 @@ class SeasonBanner extends StatelessWidget {
               children: [
                 Flexible(
                   child: Semantics(
-                    label: '$seasonPoints season points',
+                    label: '$seasonPoints season Tokens',
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -152,6 +156,7 @@ class SeasonBanner extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

@@ -37,6 +37,7 @@ class Partner {
     this.subtitle,
     this.description,
     this.whatsappNumber,
+    this.momoCode,
     this.logoUrl,
     this.fanCount = 0,
     this.clubCount = 0,
@@ -57,6 +58,7 @@ class Partner {
   final String? subtitle;
   final String? description;
   final String? whatsappNumber;
+  final String? momoCode;
   final String? logoUrl;
   final int fanCount;
   final int clubCount;
@@ -80,6 +82,7 @@ class Partner {
       subtitle: json['subtitle'] as String?,
       description: json['description'] as String?,
       whatsappNumber: json['whatsapp_number'] as String?,
+      momoCode: json['momo_code'] as String?,
       logoUrl: json['logo_url'] as String?,
       fanCount: (json['fan_count'] as num?)?.toInt() ?? 0,
       clubCount: (json['club_count'] as num?)?.toInt() ?? 0,
@@ -107,6 +110,7 @@ class Partner {
       'subtitle': subtitle,
       'description': description,
       'whatsapp_number': whatsappNumber,
+      'momo_code': momoCode,
       'logo_url': logoUrl,
       'fan_count': fanCount,
       'club_count': clubCount,

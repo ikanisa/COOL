@@ -13,6 +13,7 @@ import 'package:cool_app/features/credit/models/credit_dashboard.dart';
 import 'package:cool_app/features/credit/providers/credit_provider.dart';
 import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
 import 'package:cool_app/features/profile/screens/profile_screen.dart';
+import 'package:cool_app/features/profile/widgets/profile_settings_widgets.dart';
 
 import 'test_harness.dart';
 
@@ -107,7 +108,7 @@ void main() {
         expect(find.text('Profile'), findsOneWidget);
         expect(find.text('ACCOUNT'), findsOneWidget);
         expect(find.text('Personal Info'), findsOneWidget);
-        expect(find.text('Mobility'), findsOneWidget);
+        expect(find.widgetWithText(ProfileSettingsRow, 'Mobility'), findsOneWidget);
 
         expect(find.text('Passenger'), findsAtLeastNWidgets(1));
         expect(find.text('MoMo Statements'), findsOneWidget);
@@ -134,9 +135,9 @@ void main() {
 
         await settleTestApp(tester);
 
-        expect(find.text('Mobility'), findsOneWidget);
+        expect(find.widgetWithText(ProfileSettingsRow, 'Mobility'), findsOneWidget);
 
-        await tester.tap(find.text('Mobility'));
+        await tester.tap(find.widgetWithText(ProfileSettingsRow, 'Mobility'));
         await tester.pumpAndSettle();
 
         expect(find.text('Passenger'), findsAtLeastNWidgets(1));
@@ -161,15 +162,15 @@ void main() {
 
         await settleTestApp(tester);
 
-        await tester.tap(find.text('Wallet'));
+        await tester.tap(find.widgetWithText(ProfileSettingsRow, 'Wallet'));
         await tester.pumpAndSettle();
 
-        expect(find.text('Wallet'), findsWidgets);
+        expect(find.text('Mobile Money'), findsWidgets);
 
-        await tester.tap(find.byIcon(Icons.arrow_back_rounded).first);
+        await tester.tap(find.byType(BackButton).first);
         await tester.pumpAndSettle();
 
-        await tester.tap(find.text('Personal Info'));
+        await tester.tap(find.widgetWithText(ProfileSettingsRow, 'Personal Info'));
         await tester.pumpAndSettle();
 
         expect(find.text('Personal Info'), findsWidgets);
@@ -196,11 +197,10 @@ void main() {
 
       await settleTestApp(tester);
 
-      expect(find.text('Mobility'), findsOneWidget);
+      expect(find.widgetWithText(ProfileSettingsRow, 'Mobility'), findsOneWidget);
 
-      await tester.tap(find.text('Mobility'));
+      await tester.tap(find.widgetWithText(ProfileSettingsRow, 'Mobility'));
       await tester.pumpAndSettle();
-
       expect(find.text('Passenger'), findsWidgets);
       expect(find.text('Switch to driver'), findsNothing);
     });

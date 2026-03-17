@@ -7,8 +7,7 @@ import 'supabase_client_provider.dart';
 /// Provider for the [SupportedCountriesRepository].
 final supportedCountriesRepositoryProvider =
     Provider<SupportedCountriesRepository>((ref) {
-      final client = ref.watch(supabaseClientProvider);
-      return SupportedCountriesRepository(client: client);
+      return SupportedCountriesRepository();
     });
 
 /// Synchronous list of supported countries for the current market.

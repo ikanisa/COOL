@@ -42,14 +42,14 @@ class GroupHeroCard extends StatelessWidget {
             Row(
               children: [
                 if (group.type == 'saving')
-                    StatusBadge.saving()
+                    const StatusBadge.saving()
                 else
-                    StatusBadge.community(),
+                    const StatusBadge.community(),
                 const SizedBox(width: 8),
                 if (group.visibility == 'public')
-                    StatusBadge.public()
+                    const StatusBadge.public()
                 else
-                    StatusBadge.private(),
+                    const StatusBadge.private(),
               ],
             ),
             const SizedBox(height: 24),

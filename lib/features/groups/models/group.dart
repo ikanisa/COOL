@@ -17,6 +17,7 @@ class Group {
     this.momoRouteType,
     this.inviteCode,
     this.frequency,
+    this.bankPartnerId,
     this.createdAt,
     this.updatedAt,
   });
@@ -36,6 +37,7 @@ class Group {
   final String? momoRouteType;
   final String? inviteCode;
   final String? frequency;
+  final String? bankPartnerId;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -89,6 +91,7 @@ class Group {
       momoRouteType: json['receiving_momo_route_type']?.toString(),
       inviteCode: json['invite_code']?.toString(),
       frequency: _normalizeFrequency(json['frequency'], json['cycle_days']),
+      bankPartnerId: json['bank_partner_id']?.toString(),
       createdAt: _parseDateTime(json['created_at']),
       updatedAt: _parseDateTime(json['updated_at']),
     );
@@ -114,6 +117,7 @@ class Group {
       'receiving_momo_route_type': momoRouteType,
       'invite_code': inviteCode,
       'frequency': frequency,
+      'bank_partner_id': bankPartnerId,
       'created_at': createdAt?.toIso8601String(),
       'updated_at': updatedAt?.toIso8601String(),
     };
@@ -140,6 +144,7 @@ class Group {
       'receiving_momo_route_type': momoRouteType,
       'invite_code': inviteCode,
       'frequency': frequency,
+      'bank_partner_id': bankPartnerId,
     };
 
     data.removeWhere((_, value) => value == null);
@@ -162,6 +167,7 @@ class Group {
     String? momoRouteType,
     String? inviteCode,
     String? frequency,
+    String? bankPartnerId,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -185,6 +191,7 @@ class Group {
       momoRouteType: momoRouteType ?? this.momoRouteType,
       inviteCode: inviteCode ?? this.inviteCode,
       frequency: frequency ?? this.frequency,
+      bankPartnerId: bankPartnerId ?? this.bankPartnerId,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -297,6 +304,9 @@ String? _normalizeFrequency(dynamic frequency, dynamic cycleDays) {
   final days = _nullableInt(cycleDays);
   if (days == null) {
     return null;
+  }
+  if (days == 0) {
+    return 'one_off';
   }
   if (days <= 1) {
     return 'daily';

@@ -21,21 +21,21 @@ const ikanisaEmail = 'info@ikanisa.com';
 const prismaCategoryOrder = <String>['rwanda_agent', 'capability', 'support'];
 
 final prismaCategoryMeta = <String, CategoryMeta>{
-  'rwanda_agent': CategoryMeta(
+  'rwanda_agent': const CategoryMeta(
     title: 'Rwanda Agents',
     description:
         'Rwanda-only specialists for legal',
     icon: Icons.flag_rounded,
     accent: AppColors.accent,
   ),
-  'capability': CategoryMeta(
+  'capability': const CategoryMeta(
     title: 'Rwanda Platform Coverage',
     description:
         'Rwanda-local service coverage across',
     icon: Icons.dashboard_customize_outlined,
     accent: AppColors.orange,
   ),
-  'support': CategoryMeta(
+  'support': const CategoryMeta(
     title: 'Onboarding & Contact',
     description: 'Direct channels for starting',
     icon: Icons.support_agent_rounded,

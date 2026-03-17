@@ -24,6 +24,7 @@ import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/quest_card.dart';
 import '../../../shared/widgets/season_banner.dart';
 import '../../../shared/widgets/section_title.dart';
+import '../../partners/providers/partner_provider.dart';
 import '../../partners/providers/rayon_sports_provider.dart';
 import '../../partners/rayon/models/rs_models.dart';
 import '../../admin/providers/special_products_provider.dart';
@@ -103,14 +104,16 @@ class HomeScreen extends ConsumerWidget {
                       matchesAsync: ref.watch(rayonMatchesProvider),
                       initiativesAsync: ref.watch(rayonInitiativesProvider),
                     ),
-                    const SizedBox(height: 14),
-                    dashboardAsync.when(
-                      data: (dashboard) => _GroupSavingsCard(data: dashboard),
-                      loading: () => const _OverviewLoadingCard(),
-                      error: (_, _) => _OverviewErrorCard(
-                        onRetry: () => ref.invalidate(homeDashboardProvider),
+                    if (ref.watch(hasActiveBankPartnerProvider)) ...[
+                      const SizedBox(height: 14),
+                      dashboardAsync.when(
+                        data: (dashboard) => _GroupSavingsCard(data: dashboard),
+                        loading: () => const _OverviewLoadingCard(),
+                        error: (_, _) => _OverviewErrorCard(
+                          onRetry: () => ref.invalidate(homeDashboardProvider),
+                        ),
                       ),
-                    ),
+                    ],
                     const SizedBox(height: 14),
                     ...ref
                         .watch(activeSpecialProductsProvider)
@@ -148,7 +151,10 @@ class HomeScreen extends ConsumerWidget {
                             }
                             return Padding(
                               padding: const EdgeInsets.only(top: 32),
-                              child: SeasonBanner(season: season),
+                              child: SeasonBanner(
+                                season: season,
+                                onTap: () => context.push(AppRoutes.seasons),
+                              ),
                             );
                           },
                           loading: () => const SizedBox.shrink(),
@@ -363,12 +369,9 @@ class _RayonSportCard extends StatelessWidget {
     final hasOpenTickets = onSaleMatches.isNotEmpty;
     final hasInitiatives = initiatives.isNotEmpty;
 
-    return Container(
-      decoration: BoxDecoration(
-        gradient: RsColors.rsCardGradient,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: RsColors.rsBlueBorder),
-      ),
+    return CoolCard(
+      gradient: RsColors.rsCardGradient,
+      borderColor: RsColors.rsBlueBorder,
       padding: const EdgeInsets.all(18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

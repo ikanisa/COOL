@@ -1,61 +1,25 @@
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../config/country_catalog.dart';
 
 /// Repository for fetching and resolving supported countries.
-/// Migrated from hardcoded catalog to dynamic Supabase storage.
+/// Reverted from dynamic Supabase storage to synchronous hardcoded catalog
+/// as part of the Rwanda-only market lock (2026-03-13).
 class SupportedCountriesRepository {
-  SupportedCountriesRepository({required SupabaseClient client})
-    : _client = client;
+  SupportedCountriesRepository();
 
-  final SupabaseClient _client;
-
-  /// Cache for fetched countries.
-  List<CoolCountry>? _cachedCountries;
-
-  /// Fetches the list of active supported countries from Supabase.
-  /// Falls back to the hardcoded [CoolCountryCatalog.all] if fetch fails or is empty.
+  /// Fetches the list of active supported countries.
+  /// Synchronous and does not depend on network (Rwanda-only).
   Future<List<CoolCountry>> fetchSupportedCountries({
     bool forceRefresh = false,
   }) async {
-    if (!forceRefresh && _cachedCountries != null) {
-      return _cachedCountries!;
-    }
-
-    try {
-      final response = await _client
-          .from('supported_countries')
-          .select()
-          .eq('is_active', true)
-          .order('sort_order', ascending: true);
-
-      final List<dynamic> data = response as List<dynamic>;
-      if (data.isEmpty) {
-        return _useFallback();
-      }
-
-      final countries = data
-          .map(
-            (json) =>
-                CoolCountry.fromJson(Map<String, dynamic>.from(json as Map)),
-          )
-          .toList(growable: false);
-
-      _cachedCountries = countries;
-      return countries;
-    } catch (e) {
-      // Log error in a real app, here we just fallback for resilience
-      return _useFallback();
-    }
+    return CoolCountryCatalog.all;
   }
 
-  /// Synchronous access to the last fetched countries.
-  /// Defaults to hardcoded fallback if not yet fetched.
+  /// Synchronous access to the supported countries.
   List<CoolCountry> getSupportedCountries() {
-    return _cachedCountries ?? CoolCountryCatalog.all;
+    return CoolCountryCatalog.all;
   }
 
-  /// Resolves any combination of country/phone/providerId to a country.
-  /// Uses the dynamic catalog if available, otherwise falls back to hardcoded.
+  /// Resolves the best-matching country for the current context.
   CoolCountry resolveCountry({
     String? countryCode,
     String? phone,
@@ -65,12 +29,6 @@ class SupportedCountriesRepository {
       country: countryCode,
       phone: phone,
       providerId: providerId,
-      source: getSupportedCountries(),
     );
-  }
-
-  List<CoolCountry> _useFallback() {
-    _cachedCountries = CoolCountryCatalog.all;
-    return CoolCountryCatalog.all;
   }
 }

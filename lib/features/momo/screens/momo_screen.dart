@@ -17,6 +17,7 @@ import '../../../core/theme/cool_palette.dart';
 import '../../../core/providers/app_access_provider.dart';
 import '../../../core/providers/app_lifecycle_providers.dart';
 import '../../../core/services/app_access_service.dart';
+import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/secure_screen_mixin.dart';
@@ -274,6 +275,50 @@ class _MomoScreenState extends ConsumerState<MomoScreen>
                           fontSize: 34,
                           fontWeight: FontWeight.w800,
                           color: palette.text,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      CoolCard(
+                        gradient: LinearGradient(
+                          colors: [palette.accent, palette.accent2],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              l10n.sendMoneyTitle,
+                              style: GoogleFonts.dmSans(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              l10n.sendMoneyHint,
+                              style: GoogleFonts.dmSans(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white.withValues(alpha: 0.8),
+                                height: 1.4,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            CoolButton(
+                              label: l10n.sendMoney,
+                              icon: Icons.send_rounded,
+                              onTap: () {
+                                _showSendMoneySheet(
+                                  context,
+                                  country: country,
+                                  momoNumber: momoNumber,
+                                  momoCode: momoCode,
+                                );
+                              },
+                            ),
+                          ],
                         ),
                       ),
                       const SizedBox(height: 24),

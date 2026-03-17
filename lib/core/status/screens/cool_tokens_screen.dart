@@ -15,9 +15,10 @@ import '../../../shared/widgets/cool_status_card.dart';
 import '../../../shared/widgets/mission_progress_card.dart';
 import '../../../features/auth/providers/auth_provider.dart';
 import '../../../features/partners/rayon/models/rs_models.dart';
-import '../models/cool_event.dart';
+import '../models/cool_activity.dart';
 import '../models/cool_leaderboard_entry.dart';
 import '../models/cool_reward.dart';
+import '../providers/cool_activities_provider.dart';
 import '../providers/cool_leaderboard_provider.dart';
 import '../providers/cool_missions_provider.dart';
 import '../../../shared/widgets/cool_toast.dart';
@@ -262,33 +263,83 @@ class _StatCard extends StatelessWidget {
   }
 }
 
-// ─── Ways to earn grid ─────────────────────────────────────────────
-
-class _WaysToEarnGrid extends StatelessWidget {
+class _WaysToEarnGrid extends ConsumerWidget {
   const _WaysToEarnGrid();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final palette = context.coolPalette;
-    const events = CoolEventType.values;
+    final activitiesAsync = ref.watch(coolActivitiesProvider);
 
-    return CoolCard(
-      child: Column(
-        children: [
-          for (int i = 0; i < events.length; i++) ...[
-            if (i > 0) Divider(height: 1, color: palette.border),
-            _EarnRow(eventType: events[i]),
+    return activitiesAsync.when(
+      data: (activities) {
+        if (activities.isEmpty) {
+          return const CoolEmptyView(
+            message: 'No activities available right now',
+            icon: Icons.auto_awesome_outlined,
+            compact: true,
+          );
+        }
+
+        // Group by category
+        final grouped = <String, List<CoolActivity>>{};
+        for (final a in activities) {
+          grouped.putIfAbsent(a.category, () => []).add(a);
+        }
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            for (final entry in grouped.entries) ...[
+              Padding(
+                padding: const EdgeInsets.only(top: 12, bottom: 6),
+                child: Text(
+                  _categoryLabel(entry.key),
+                  style: GoogleFonts.dmSans(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: palette.text3,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+              ),
+              CoolCard(
+                child: Column(
+                  children: [
+                    for (int i = 0; i < entry.value.length; i++) ...[
+                      if (i > 0) Divider(height: 1, color: palette.border),
+                      _EarnRow(activity: entry.value[i]),
+                    ],
+                  ],
+                ),
+              ),
+            ],
           ],
-        ],
+        );
+      },
+      loading: () => const CoolSkeletonList(itemCount: 4),
+      error: (_, _) => const CoolEmptyView(
+        message: 'Could not load activities',
+        icon: Icons.error_outline_rounded,
+        compact: true,
       ),
     );
   }
+
+  static String _categoryLabel(String category) => switch (category) {
+    'groups' => '💰 GROUPS',
+    'rayon' => '⚽ RAYON SPORT',
+    'mobility' => '🚗 MOBILITY',
+    'social' => '📲 SOCIAL',
+    'general' => '⭐ GENERAL',
+    _ => category.toUpperCase(),
+  };
 }
 
 class _EarnRow extends StatelessWidget {
-  const _EarnRow({required this.eventType});
+  const _EarnRow({required this.activity});
 
-  final CoolEventType eventType;
+  final CoolActivity activity;
 
   @override
   Widget build(BuildContext context) {
@@ -297,16 +348,30 @@ class _EarnRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
         children: [
-          Text(eventType.emoji, style: const TextStyle(fontSize: 20)),
+          Text(activity.emoji, style: const TextStyle(fontSize: 20)),
           const SizedBox(width: 12),
           Expanded(
-            child: Text(
-              eventType.displayLabel,
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: palette.text,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  activity.title,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: palette.text,
+                  ),
+                ),
+                if (activity.description.isNotEmpty)
+                  Text(
+                    activity.description,
+                    style: GoogleFonts.dmSans(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w400,
+                      color: palette.text3,
+                    ),
+                  ),
+              ],
             ),
           ),
           Container(
@@ -316,7 +381,7 @@ class _EarnRow extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
-              '+${eventType.defaultPoints} Tokens',
+              '+${activity.tokensAwarded} Tokens',
               style: GoogleFonts.dmSans(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,

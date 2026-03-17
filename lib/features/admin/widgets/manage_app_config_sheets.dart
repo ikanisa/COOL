@@ -356,10 +356,10 @@ class _EditPartnerPaymentRouteSheetState
             borderSide: BorderSide.none,
           ),
         ),
-        items: [
-          const DropdownMenuItem<String>(value: 'draft', child: Text('Draft')),
-          const DropdownMenuItem<String>(value: 'active', child: Text('Active')),
-          const DropdownMenuItem<String>(value: 'inactive', child: Text('Inactive')),
+        items: const [
+          DropdownMenuItem<String>(value: 'draft', child: Text('Draft')),
+          DropdownMenuItem<String>(value: 'active', child: Text('Active')),
+          DropdownMenuItem<String>(value: 'inactive', child: Text('Inactive')),
         ],
         onChanged: _saving || _deleting
             ? null

@@ -31,6 +31,24 @@ class FakeAppAccessService extends AppAccessService {
   ValueListenable<int> get changes => _changes;
 
   @override
+  Future<bool> isEnabled(AppAccessPermission permission) async {
+    return _snapshots[permission]?.enabledInApp ?? true;
+  }
+
+  @override
+  Future<void> setEnabled(AppAccessPermission permission, bool enabled) async {
+    final prev = _snapshots[permission]!;
+    _snapshots[permission] = AppAccessSnapshot(
+      permission: permission,
+      kind: enabled ? AppAccessStateKind.ready : AppAccessStateKind.disabledInApp,
+      enabledInApp: enabled,
+      supportedOnDevice: prev.supportedOnDevice,
+      systemGranted: prev.systemGranted,
+    );
+    _changes.value++;
+  }
+
+  @override
   Future<AppAccessSnapshot> getSnapshot(AppAccessPermission permission) async {
     return _snapshots[permission]!;
   }

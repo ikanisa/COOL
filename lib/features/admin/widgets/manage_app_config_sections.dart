@@ -185,8 +185,8 @@ class RolloutCard extends StatelessWidget {
               ),
               StatusPill(
                 label: context.l10n.rwandaOnly,
-                tone: Color(0xFFE8E3FF),
-                foreground: Color(0xFF3D2F7A),
+                tone: const Color(0xFFE8E3FF),
+                foreground: const Color(0xFF3D2F7A),
               ),
             ],
           ),

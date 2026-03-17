@@ -100,14 +100,14 @@ void main() {
 
       await tester.tap(find.text('NFC pay'));
       await tester.pump();
-      await tester.pump(const Duration(milliseconds: 400));
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.text('NFC pay'), findsWidgets);
       expect(find.text('Read tag'), findsWidgets);
 
       await tester.tap(find.byIcon(Icons.arrow_back_rounded).last);
       await tester.pump();
-      await tester.pump(const Duration(milliseconds: 400));
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.text('Statements'), findsOneWidget);
     });

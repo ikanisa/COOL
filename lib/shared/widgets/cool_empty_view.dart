@@ -44,83 +44,85 @@ class CoolEmptyView extends StatelessWidget {
       label: '${title ?? ''} $_effectiveMessage',
       liveRegion: true,
       child: Center(
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 32,
-            vertical: compact ? 16 : 64,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ExcludeSemantics(
-                child: Container(
-                  width: iconSize + 32,
-                  height: iconSize + 32,
-                  decoration: isPremium
-                      ? BoxDecoration(
-                          gradient: AppColors.cardGradient,
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: AppColors.rsBlue.withAlpha(50), 
-                            width: 1.5,
-                          ),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: AppColors.rsBlueGlow,
-                              blurRadius: 24,
-                              offset: Offset(0, 8),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: 32,
+              vertical: compact ? 16 : 64,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ExcludeSemantics(
+                  child: Container(
+                    width: iconSize + 32,
+                    height: iconSize + 32,
+                    decoration: isPremium
+                        ? BoxDecoration(
+                            gradient: AppColors.cardGradient,
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: AppColors.rsBlue.withAlpha(50), 
+                              width: 1.5,
                             ),
-                          ],
-                        )
-                      : BoxDecoration(
-                          color: palette.surface2,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: palette.border, width: 1.5),
-                        ),
-                  child: Icon(icon, size: iconSize, color: isPremium ? AppColors.rsWhite : palette.text3),
-                ),
-              )
-              .animate()
-              .scale(
-                begin: const Offset(0.8, 0.8),
-                duration: 600.ms,
-                curve: Curves.elasticOut,
-              )
-              .fadeIn(duration: 400.ms),
-              SizedBox(height: spacing),
-              if (title != null) ...[
-                Text(
-                  title!,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.w900,
-                      ),
-                ).animate().fadeIn(delay: 100.ms, duration: 400.ms).slideY(begin: 0.2, end: 0),
-                const SizedBox(height: 8),
-              ],
-              Text(
-                _effectiveMessage,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: palette.text3,
-                      fontWeight: FontWeight.w500,
-                      height: 1.6,
-                    ),
-              ).animate().fadeIn(delay: 200.ms, duration: 400.ms).slideY(begin: 0.1, end: 0),
-              if (_effectiveAction != null && actionLabel != null) ...[
-                SizedBox(height: spacing + 8),
-                SizedBox(
-                  width: compact ? null : 200,
-                  child: CoolButton(
-                    label: actionLabel!,
-                    onTap: _effectiveAction!,
-                    variant: compact
-                        ? CoolButtonVariant.secondary
-                        : CoolButtonVariant.primary,
+                            boxShadow: const [
+                              BoxShadow(
+                                color: AppColors.rsBlueGlow,
+                                blurRadius: 24,
+                                offset: Offset(0, 8),
+                              ),
+                            ],
+                          )
+                        : BoxDecoration(
+                            color: palette.surface2,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: palette.border, width: 1.5),
+                          ),
+                    child: Icon(icon, size: iconSize, color: isPremium ? AppColors.rsWhite : palette.text3),
                   ),
-                ).animate().fadeIn(delay: 350.ms, duration: 400.ms).scale(begin: const Offset(0.9, 0.9)),
+                )
+                .animate()
+                .scale(
+                  begin: const Offset(0.8, 0.8),
+                  duration: 600.ms,
+                  curve: Curves.elasticOut,
+                )
+                .fadeIn(duration: 400.ms),
+                SizedBox(height: spacing),
+                if (title != null) ...[
+                  Text(
+                    title!,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.w900,
+                        ),
+                  ).animate().fadeIn(delay: 100.ms, duration: 400.ms).slideY(begin: 0.2, end: 0),
+                  const SizedBox(height: 8),
+                ],
+                Text(
+                  _effectiveMessage,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: palette.text3,
+                        fontWeight: FontWeight.w500,
+                        height: 1.6,
+                      ),
+                ).animate().fadeIn(delay: 200.ms, duration: 400.ms).slideY(begin: 0.1, end: 0),
+                if (_effectiveAction != null && actionLabel != null) ...[
+                  SizedBox(height: spacing + 8),
+                  SizedBox(
+                    width: compact ? null : 200,
+                    child: CoolButton(
+                      label: actionLabel!,
+                      onTap: _effectiveAction!,
+                      variant: compact
+                          ? CoolButtonVariant.secondary
+                          : CoolButtonVariant.primary,
+                    ),
+                  ).animate().fadeIn(delay: 350.ms, duration: 400.ms).scale(begin: const Offset(0.9, 0.9)),
+                ],
               ],
-            ],
+            ),
           ),
         ),
       ),

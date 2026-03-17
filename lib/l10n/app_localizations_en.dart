@@ -2445,7 +2445,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scope => 'Scope';
 
   @override
-  String get rewardPoints => 'Reward Points';
+  String get rewardPoints => 'Reward Tokens';
 
   @override
   String get rewardDescription => 'Reward Description';
@@ -3103,7 +3103,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get momoNumber2 => 'MoMo Number';
 
   @override
-  String get generateQr => 'Generate QR';
+  String get generateQr => 'Get QR';
 
   @override
   String get deepHistoricalSync => 'Deep historical sync';
@@ -3281,7 +3281,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get expired1 => 'expired';
 
   @override
-  String get points => 'points';
+  String get points => 'tokens';
 
   @override
   String get searchMembers => 'Search members';
@@ -3293,7 +3293,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noMembersMatchFilter => 'No members match filter';
 
   @override
-  String get points1 => 'Points';
+  String get points1 => 'Tokens';
 
   @override
   String get memberCsvCopiedTo => 'Member CSV copied to clipboard';
@@ -3658,7 +3658,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get memberId => 'Member ID';
 
   @override
-  String get points2 => 'Points';
+  String get points2 => 'Tokens';
 
   @override
   String get askAboutYourFinances => 'Ask about your finances...';

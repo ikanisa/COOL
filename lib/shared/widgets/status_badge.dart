@@ -32,7 +32,7 @@ class StatusBadge extends StatelessWidget {
   // ── Preset constructors ─────────────────────────────────────────────
 
   /// Green saving preset.
-  StatusBadge.saving({Key? key})
+  const StatusBadge.saving({Key? key})
     : this._(
         label: 'Saving',
         bgColor: null,
@@ -44,7 +44,7 @@ class StatusBadge extends StatelessWidget {
       );
 
   /// Orange community preset.
-  StatusBadge.community({Key? key})
+  const StatusBadge.community({Key? key})
     : this._(
         label: 'Community',
         bgColor: null,
@@ -56,7 +56,7 @@ class StatusBadge extends StatelessWidget {
       );
 
   /// Blue public preset.
-  StatusBadge.public({Key? key})
+  const StatusBadge.public({Key? key})
     : this._(
         label: 'Public',
         bgColor: null,
@@ -68,7 +68,7 @@ class StatusBadge extends StatelessWidget {
       );
 
   /// Muted private preset.
-  StatusBadge.private({Key? key})
+  const StatusBadge.private({Key? key})
     : this._(
         label: 'Private',
         bgColor: null,
@@ -80,7 +80,7 @@ class StatusBadge extends StatelessWidget {
       );
 
   /// Online with animated pulse dot.
-  StatusBadge.online({Key? key})
+  const StatusBadge.online({Key? key})
     : this._(
         label: 'Online',
         bgColor: null,
@@ -92,7 +92,7 @@ class StatusBadge extends StatelessWidget {
       );
 
   /// Offline preset.
-  StatusBadge.offline({Key? key})
+  const StatusBadge.offline({Key? key})
     : this._(
         label: 'Offline',
         bgColor: null,

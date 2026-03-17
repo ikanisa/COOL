@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/config/app_config_provider.dart';
@@ -16,7 +15,6 @@ import '../../../core/theme/cool_layout.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../core/theme/theme_preference.dart';
 import '../../../core/theme/theme_preference_provider.dart';
-import '../../../core/providers/supabase_client_provider.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 
 import '../../../shared/widgets/cool_toast.dart';
@@ -247,7 +245,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       ProfileSettingsRow(
         icon: Icons.card_giftcard_rounded,
         label: 'Invite Friends',
-        value: 'Earn 150 tokens',
+        value: 'Share & earn tokens',
         valueColor: AppColors.accent,
         onTap: () => context.push(AppRoutes.referral),
       ),
@@ -275,7 +273,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         icon: Icons.person_outlined,
         label: 'Personal Info',
         value: profile.officialName.isNotEmpty
-            ? '${profile.officialName} · ${profile.creditScoreLabel}'
+            ? profile.officialName
             : profile.kycLabel,
         valueColor: profile.officialName.isNotEmpty
             ? AppColors.blue
@@ -363,8 +361,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       rows: settingsRows,
                     ),
                     const SizedBox(height: 24),
-                    _WealthArchiveCard(),
-                    const SizedBox(height: 24),
                     ProfileDangerZone(
                       onDeleteAccount: _confirmDeleteAccount,
                       onSignOut: _confirmSignOut,
@@ -374,7 +370,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       child: Opacity(
                         opacity: 0.5,
                         child: Text(
-                          'COOL v1.0.0',
+                          'COOL v1.1.0',
                           style: Theme.of(context).textTheme.labelSmall,
                         ),
                       ),
@@ -390,125 +386,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   }
 }
 
-class _WealthArchiveCard extends StatefulWidget {
-  @override
-  State<_WealthArchiveCard> createState() => _WealthArchiveCardState();
-}
 
-class _WealthArchiveCardState extends State<_WealthArchiveCard> {
-  bool _isArchiving = false;
 
-  Future<void> _archiveWealth(WidgetRef ref) async {
-    setState(() => _isArchiving = true);
-    
-    try {
-      final client = ref.read(supabaseClientProvider);
-      final response = await client.functions.invoke('run-monthly-archive');
-      
-      if (response.data != null && response.data['success'] == true) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(context.l10n.wealthArchiveSavedTo),
-              action: SnackBarAction(
-                label: 'VIEW',
-                onPressed: () {
-                  // doc_url logic
-                },
-              ),
-            ),
-          );
-        }
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(context.l10n.failedToCompleteArchive)),
-        );
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _isArchiving = false);
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: AppColors.accent.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppColors.accent.withValues(alpha: 0.1)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: const BoxDecoration(color: AppColors.accent, shape: BoxShape.circle),
-                child: const Icon(Icons.auto_awesome_rounded, size: 16, color: Colors.black),
-              ),
-              const SizedBox(width: 12),
-              Text(
-                'Smart Reports',
-                style: GoogleFonts.dmSans(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w800,
-                  color: palette.text,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Text(
-            'Compile your monthly progress into a formal report, archive it to Google Drive, and receive a summary via Gmail.',
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: palette.text2,
-              height: 1.4,
-            ),
-          ),
-          const SizedBox(height: 20),
-          Consumer(
-            builder: (context, ref, _) => Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: _isArchiving ? null : () => _archiveWealth(ref),
-                borderRadius: BorderRadius.circular(12),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  decoration: BoxDecoration(
-                    color: palette.bg,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: palette.border),
-                  ),
-                  alignment: Alignment.center,
-                  child: _isArchiving 
-                    ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.accent))
-                    : Text(
-                        'Archive Current Month',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.accent,
-                        ),
-                      ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 /// Shows profile completion progress when setup is incomplete.
 class _ProfileCompletionBar extends StatelessWidget {

@@ -330,7 +330,7 @@ class PartnerQuickActionTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Icon(icon, color: AppColors.accent, size: 22),
-                const Spacer(),
+                const SizedBox(height: 10),
                 Text(
                   title,
                   style: GoogleFonts.dmSans(

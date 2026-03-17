@@ -38,7 +38,7 @@ class ReferralBanner extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Refer & Earn 150 Tokens',
+                    'Share Cool & Earn Tokens',
                     style: GoogleFonts.dmSans(
                       fontSize: 16,
                       fontWeight: FontWeight.w800,
@@ -47,7 +47,7 @@ class ReferralBanner extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    'Invite friends and grow the community',
+                    'Invite friends & grow together',
                     style: GoogleFonts.dmSans(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,

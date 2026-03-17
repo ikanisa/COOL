@@ -39,7 +39,7 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
       // Using a generic invite code for the hub
       final link = await repo.createInviteLink(
         inviteCode: 'COOL-APP-SHARE',
-        baseUri: Uri.parse('https://cool.app/home'),
+        baseUri: Uri.parse('https://play.google.com/store/apps/details?id=app.cool.mobile'),
         campaignId: 'REFER-AND-EARN-2026',
       );
       if (mounted) {
@@ -64,7 +64,7 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
   void _shareNative() {
     if (_inviteLink == null) return;
     final text =
-        'Join me on Cool! Get tokens and enjoy seamless services: ${_inviteLink!.uri}';
+        'Download Cool on Google Play and earn tokens! ${_inviteLink!.uri}';
     SharePlus.instance.share(ShareParams(text: text));
   }
 
@@ -76,7 +76,7 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
       inviteUrl: _inviteLink!.uri.toString(),
       sheetTitle: 'Invite Friends',
       sheetSubtitle: context.l10n.scanThisQrCode,
-      shareText: 'Join me on Cool! ${_inviteLink!.uri}',
+      shareText: 'Download Cool on Google Play! ${_inviteLink!.uri}',
     );
   }
 
@@ -141,7 +141,7 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Earn 150 Cool Tokens for every friend who joins and completes their first activity.',
+                            'Earn Cool Tokens for every friend who joins and completes their first activity.',
                             textAlign: TextAlign.center,
                             style: GoogleFonts.dmSans(
                               fontSize: 14,
@@ -262,7 +262,7 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
                     _StepRow(
                       number: '3',
                       title: context.l10n.earnTokens,
-                      message: 'Get 150 tokens when they complete an activity.',
+                      message: 'Earn tokens when they complete an activity.',
                       icon: Icons.stars_rounded,
                     ),
                   ]),

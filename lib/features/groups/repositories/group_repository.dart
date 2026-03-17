@@ -170,49 +170,50 @@ class GroupRepository {
       throw StateError('No authenticated user is available.');
     }
 
-
-    // ── Map client types → RPC params ──
-    // Client type 'saving' → fund_purpose GROUP_SAVINGS
-    // Client type 'community' → fund_purpose COMMUNITY_COLLECTION
-    final purpose = group.type == 'community'
-        ? 'COMMUNITY_COLLECTION'
-        : 'GROUP_SAVINGS';
-
-    // Client visibility 'public'/'private' → RPC p_type 'PUBLIC'/'PRIVATE'
-    final rpcType = group.visibility == 'public' ? 'PUBLIC' : 'PRIVATE';
-
-    // Community collection needs a MoMo code/number
-    String? externalMomoCode;
-    if (group.type == 'community') {
+    // ── Resolve MoMo recipient details ──
+    String? momoNumber;
+    String? receivingMomoCode;
+    String? receivingMomoRouteType;
+    final recipientValue = group.momoNumber?.trim() ?? '';
+    if (recipientValue.isNotEmpty) {
       final country = AppMarket.country;
-      final recipientValue = group.momoNumber?.trim() ?? '';
-      if (recipientValue.isNotEmpty) {
-        final routeType = _parseRecipientType(group.momoRouteType) ??
-            _inferRecipientType(country, recipientValue);
-        externalMomoCode = routeType == MomoRecipientType.code
-            ? country.normalizeMerchantCode(recipientValue)
-            : country.buildE164Phone(recipientValue);
+      final routeType = _parseRecipientType(group.momoRouteType) ??
+          _inferRecipientType(country, recipientValue);
+      receivingMomoRouteType = switch (routeType) {
+        MomoRecipientType.phoneNumber => 'phone_number',
+        MomoRecipientType.code => 'code',
+      };
+      if (routeType == MomoRecipientType.code) {
+        receivingMomoCode = country.normalizeMerchantCode(recipientValue);
+      } else {
+        momoNumber = country.buildE164Phone(recipientValue);
       }
     }
 
-    // Contribution amount (monthly or target, whichever is provided)
-    final contributionAmount = group.monthlyContribution ?? group.targetAmount;
-
-    // Frequency mapping
-    final frequency = (group.frequency?.trim().toUpperCase().isNotEmpty ?? false)
-        ? group.frequency!.trim().toUpperCase()
-        : 'MONTHLY';
+    // ── Map frequency → cycle_days ──
+    final freq = group.frequency?.trim().toLowerCase() ?? 'monthly';
+    final cycleDays = switch (freq) {
+      'one_off' => 0,
+      'daily' => 1,
+      'weekly' => 7,
+      _ => 30,
+    };
 
     final response = await _client.rpc(
       'create_group_atomic',
       params: <String, dynamic>{
         'p_name': group.name,
-        'p_type': rpcType,
-        'p_contribution_amount': contributionAmount,
-        'p_frequency': frequency,
+        'p_visibility': group.visibility,
+        'p_type': group.type,
         'p_description': group.description,
-        'p_purpose': purpose,
-        'p_external_collection_momo_code': externalMomoCode,
+        'p_country': group.country.isEmpty ? AppMarket.countryCode : group.country,
+        'p_target_amount': group.targetAmount,
+        'p_monthly_contribution': group.monthlyContribution,
+        'p_cycle_days': cycleDays,
+        'p_momo_number': momoNumber,
+        'p_receiving_momo_code': receivingMomoCode,
+        'p_receiving_momo_route_type': receivingMomoRouteType,
+        'p_bank_partner_id': group.bankPartnerId,
       },
     );
 
@@ -476,6 +477,48 @@ class GroupRepository {
     return contributorNames;
   }
 
+  /// Fetch all contributions for a group, with optional contributor and date filters.
+  Future<List<GroupContribution>> fetchAllContributions(
+    String groupId, {
+    String? userId,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
+    var query = _client
+        .from('group_contributions')
+        .select('id, group_id, user_id, amount, status, created_at')
+        .eq('group_id', groupId);
+    if (userId != null && userId.isNotEmpty) {
+      query = query.eq('user_id', userId);
+    }
+    if (startDate != null) {
+      query = query.gte('created_at', startDate.toIso8601String());
+    }
+    if (endDate != null) {
+      query = query.lte('created_at', endDate.toIso8601String());
+    }
+    final rows = _asListOfMaps(
+      await query.order('created_at', ascending: false),
+    );
+
+    // Resolve contributor names
+    final userIds = rows
+        .map((r) => r['user_id']?.toString() ?? '')
+        .where((id) => id.isNotEmpty)
+        .toSet()
+        .toList(growable: false);
+    final names = await _loadContributorNames(userIds);
+
+    return rows
+        .map(
+          (row) => GroupContribution.fromJson(<String, dynamic>{
+            ...row,
+            'contributor_name': names[row['user_id']?.toString() ?? ''],
+          }),
+        )
+        .toList(growable: false);
+  }
+
   /// Update editable group fields (name, description, target_amount, etc.).
   Future<void> updateGroup(
     String groupId,
@@ -495,6 +538,22 @@ class GroupRepository {
         .update(<String, dynamic>{'is_admin': true})
         .eq('group_id', groupId)
         .eq('user_id', userId);
+  }
+
+  /// Idempotent: moves a pending contribution to completed and updates
+  /// the group balance via the DB function.
+  Future<void> confirmContribution(String contributionId) async {
+    final response = await _client.rpc(
+      'confirm_contribution',
+      params: <String, dynamic>{'p_contribution_id': contributionId},
+    );
+    final data = _asMap(response);
+    final status = data['status']?.toString();
+    if (status == 'error') {
+      throw StateError(
+        data['message']?.toString() ?? 'Failed to confirm contribution.',
+      );
+    }
   }
 }
 

@@ -3,19 +3,33 @@ import 'package:equatable/equatable.dart';
 /// All action types that can earn COOL Status points.
 ///
 /// Each type maps to a specific real user action — never pure login
-/// or passive usage. Points are configurable per type.
+/// or passive usage. Points are configurable per type via the
+/// `cool_activities` table (default: 20 per activity).
 enum CoolEventType {
   groupContribution, // savings group deposit confirmed
   groupCycleComplete, // full group cycle finished
+  groupCreated, // user created a new group
+  groupJoined, // user joined an existing group
+  groupGoalReached, // group hit its savings target
   matchAttendance, // ticket used at match (scanned)
   initiativeSupport, // initiative contribution confirmed
+  clubJoined, // fan club membership created
+  merchandisePurchase, // rayon merchandise bought
+  matchPrediction, // match prediction submitted
   tripCompleted, // reliable trip completion
   tripPosted, // trip posted (driver or passenger)
+  tripRated, // user rated a completed trip
+  firstTrip, // user's very first trip
   inviteQualified, // invitee completed qualifying action
+  profileCompleted, // user filled in all profile details
+  appShared, // user shared the app
+  reviewPosted, // user posted an app review
   shopPurchase, // shop order confirmed
-  clubJoined, // fan club membership created
   streakMaintained, // weekly streak check passed
   missionCompleted, // cooperative mission goal met
+  dailyLogin, // user opened the app today
+  momoTransaction, // MoMo transaction synced
+  feedbackSubmitted, // user submitted feedback
 }
 
 extension CoolEventTypeX on CoolEventType {
@@ -30,36 +44,63 @@ extension CoolEventTypeX on CoolEventType {
   }
 
   /// Default points for this event type.
-  /// All qualifying activities earn a flat 10 points.
-  /// Can be overridden per-event via [CoolEvent.pointsAwarded].
-  int get defaultPoints => 10;
+  /// All qualifying activities earn a flat 20 points.
+  /// Can be overridden per-event via [CoolEvent.pointsAwarded]
+  /// or by the `cool_activities.tokens_awarded` DB value.
+  int get defaultPoints => 20;
 
   String get displayLabel => switch (this) {
     CoolEventType.groupContribution => 'Group Contribution',
     CoolEventType.groupCycleComplete => 'Group Cycle Complete',
+    CoolEventType.groupCreated => 'Create a Group',
+    CoolEventType.groupJoined => 'Join a Group',
+    CoolEventType.groupGoalReached => 'Group Goal Reached',
     CoolEventType.matchAttendance => 'Match Attendance',
     CoolEventType.initiativeSupport => 'Initiative Support',
-    CoolEventType.tripCompleted => 'Trip Completed',
-    CoolEventType.tripPosted => 'Trip Posted',
-    CoolEventType.inviteQualified => 'Invite Qualified',
+    CoolEventType.clubJoined => 'Join Fan Club',
+    CoolEventType.merchandisePurchase => 'Purchase Merchandise',
+    CoolEventType.matchPrediction => 'Match Prediction',
+    CoolEventType.tripCompleted => 'Complete a Trip',
+    CoolEventType.tripPosted => 'Post a Trip',
+    CoolEventType.tripRated => 'Rate a Trip',
+    CoolEventType.firstTrip => 'First Trip Bonus',
+    CoolEventType.inviteQualified => 'Invite a Friend',
+    CoolEventType.profileCompleted => 'Complete Your Profile',
+    CoolEventType.appShared => 'Share the App',
+    CoolEventType.reviewPosted => 'Post an App Review',
     CoolEventType.shopPurchase => 'Shop Purchase',
-    CoolEventType.clubJoined => 'Club Joined',
-    CoolEventType.streakMaintained => 'Streak Maintained',
-    CoolEventType.missionCompleted => 'Mission Completed',
+    CoolEventType.streakMaintained => 'Maintain Weekly Streak',
+    CoolEventType.missionCompleted => 'Complete a Mission',
+    CoolEventType.dailyLogin => 'Daily App Open',
+    CoolEventType.momoTransaction => 'MoMo Transaction Sync',
+    CoolEventType.feedbackSubmitted => 'Submit Feedback',
   };
 
   String get emoji => switch (this) {
     CoolEventType.groupContribution => '💰',
     CoolEventType.groupCycleComplete => '🎯',
+    CoolEventType.groupCreated => '🆕',
+    CoolEventType.groupJoined => '🤝',
+    CoolEventType.groupGoalReached => '🏁',
     CoolEventType.matchAttendance => '⚽',
     CoolEventType.initiativeSupport => '🤝',
+    CoolEventType.clubJoined => '🏟️',
+    CoolEventType.merchandisePurchase => '👕',
+    CoolEventType.matchPrediction => '🔮',
     CoolEventType.tripCompleted => '🚗',
     CoolEventType.tripPosted => '📍',
+    CoolEventType.tripRated => '⭐',
+    CoolEventType.firstTrip => '🎉',
     CoolEventType.inviteQualified => '🎉',
+    CoolEventType.profileCompleted => '📝',
+    CoolEventType.appShared => '📲',
+    CoolEventType.reviewPosted => '✍️',
     CoolEventType.shopPurchase => '🛍️',
-    CoolEventType.clubJoined => '🏟️',
     CoolEventType.streakMaintained => '🔥',
     CoolEventType.missionCompleted => '🏆',
+    CoolEventType.dailyLogin => '📱',
+    CoolEventType.momoTransaction => '💳',
+    CoolEventType.feedbackSubmitted => '💬',
   };
 }
 

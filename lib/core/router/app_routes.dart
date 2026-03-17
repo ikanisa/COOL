@@ -11,6 +11,7 @@ abstract final class AppRoutes {
   static const groups = '/groups';
   static const groupCreate = '/groups/create';
   static const groupDetail = '/groups/:id';
+  static const groupLedger = '/groups/:id/ledger';
   static const groupInvite = '/invite/:code';
   static const momo = '/momo';
   static const momoStatements = '/momo/statements';
@@ -39,6 +40,7 @@ abstract final class AppRoutes {
   static const credit = '/credit';
   static const creditReadiness = '/credit/readiness';
   static const missions = '/missions';
+  static const seasons = '/seasons';
   static const tokens = '/tokens';
   static const referral = '/referral';
   static const profile = '/profile';

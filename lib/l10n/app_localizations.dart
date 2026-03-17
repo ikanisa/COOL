@@ -4783,7 +4783,7 @@ abstract class AppLocalizations {
   /// No description provided for @rewardPoints.
   ///
   /// In en, this message translates to:
-  /// **'Reward Points'**
+  /// **'Reward Tokens'**
   String get rewardPoints;
 
   /// No description provided for @rewardDescription.
@@ -6097,7 +6097,7 @@ abstract class AppLocalizations {
   /// No description provided for @generateQr.
   ///
   /// In en, this message translates to:
-  /// **'Generate QR'**
+  /// **'Get QR'**
   String get generateQr;
 
   /// No description provided for @deepHistoricalSync.
@@ -6451,7 +6451,7 @@ abstract class AppLocalizations {
   /// No description provided for @points.
   ///
   /// In en, this message translates to:
-  /// **'points'**
+  /// **'tokens'**
   String get points;
 
   /// No description provided for @searchMembers.
@@ -6475,7 +6475,7 @@ abstract class AppLocalizations {
   /// No description provided for @points1.
   ///
   /// In en, this message translates to:
-  /// **'Points'**
+  /// **'Tokens'**
   String get points1;
 
   /// No description provided for @memberCsvCopiedTo.
@@ -7201,7 +7201,7 @@ abstract class AppLocalizations {
   /// No description provided for @points2.
   ///
   /// In en, this message translates to:
-  /// **'Points'**
+  /// **'Tokens'**
   String get points2;
 
   /// No description provided for @askAboutYourFinances.

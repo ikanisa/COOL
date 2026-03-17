@@ -10,7 +10,7 @@ void main() async {
 
   // Load existing l10n keys
   final l10nContent = await l10nFile.readAsString();
-  final Map<String, dynamic> arbMap = json.decode(l10nContent);
+  final arbMap = Map<String, dynamic>.from(json.decode(l10nContent) as Map);
   final Set<String> existingKeys = arbMap.keys.toSet();
 
   // Read hardcoded results
@@ -161,9 +161,9 @@ bool _applyModifications(String filePath, List<Map<String, dynamic>> modificatio
       String originalLine = line;
       
       for (var mod in lineMods[lineIdx]!) {
-        String originalText = mod['original'];
-        String key = mod['key'];
-        bool isSq = mod['isSingleQuote'];
+        final originalText = mod['original'] as String;
+        final key = mod['key'] as String;
+        final isSq = mod['isSingleQuote'] as bool;
         
         // Search for 'text' or "text" and replace with context.l10n.key
         String searchTarget = isSq ? "'$originalText'" : '"$originalText"';

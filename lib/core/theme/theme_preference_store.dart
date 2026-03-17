@@ -31,7 +31,7 @@ class HiveThemePreferenceStore implements ThemePreferenceStore {
           : null;
       return (preference: preference, updatedAt: updatedAt);
     } catch (_) {
-      return (preference: AppThemePreference.system, updatedAt: null);
+      return (preference: AppThemePreference.dark, updatedAt: null);
     }
   }
 

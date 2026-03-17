@@ -125,6 +125,16 @@ class FakeGroupRepository implements GroupRepository {
   }
 
   @override
+  Future<List<GroupContribution>> fetchAllContributions(
+    String groupId, {
+    String? userId,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
+    return const <GroupContribution>[];
+  }
+
+  @override
   Future<List<Group>> getMyGroups(String userId, {String? country}) async =>
       myGroups;
 

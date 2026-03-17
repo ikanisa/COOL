@@ -4,9 +4,9 @@ Generated from [`lib/core/router/app_router.dart`](../lib/core/router/app_router
 
 Current router shape:
 
-- `73` `GoRoute` declarations
+- `75` `GoRoute` declarations
 - `4` shell branches
-- `71` screen files under `lib/features/**/screens/*.dart`
+- `73` screen files under `lib/features/**/screens/*.dart`
 
 Change policy:
 
@@ -32,6 +32,7 @@ Change policy:
 |---|---|---|
 | `/groups` | [`GroupsScreen`](../lib/features/groups/screens/groups_screen.dart) | Groups |
 | `/groups/:id` | [`GroupDetailScreen`](../lib/features/groups/screens/group_detail_screen.dart) | Groups |
+| `/groups/:id/ledger` | [`GroupLedgerScreen`](../lib/features/groups/screens/group_ledger_screen.dart) | Groups |
 | `/groups/create` | [`CreateGroupScreen`](../lib/features/groups/screens/create_group_screen.dart) | Groups |
 | `/home` | [`HomeScreen`](../lib/features/home/screens/home_screen.dart) | Home |
 | `/mobility` | [`MobilityHomeScreen`](../lib/features/mobility/screens/mobility_home_screen.dart) | Mobility |
@@ -84,6 +85,7 @@ Change policy:
 | Path | Target | Shell |
 |---|---|---|
 | `/admin` | [`AdminWorkspacesScreen`](../lib/features/admin/screens/admin_workspaces_screen.dart) | No |
+| `/admin/activities` | [`ManageActivitiesScreen`](../lib/features/admin/screens/manage_activities_screen.dart) | No |
 | `/admin/ai-content` | [`ManageAiContentScreen`](../lib/features/admin/screens/manage_ai_content_screen.dart) | No |
 | `/admin/analytics` | [`SystemAnalyticsScreen`](../lib/features/admin/screens/system_analytics_screen.dart) | No |
 | `/admin/app-config` | [`ManageAppConfigScreen`](../lib/features/admin/screens/manage_app_config_screen.dart) | No |

@@ -7,7 +7,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column;
 
 import '../models/momo_statement.dart';
-
+import '../../groups/models/group_contribution.dart';
 
 enum StatementExportFormat { pdf, excel, csv }
 
@@ -1128,6 +1128,205 @@ class MomoStatementExportService {
   }
 
   String _formatAmount(int amount) => _moneyFormat.format(amount);
+
+  Future<StatementExportFile> buildGroupLedgerExport({
+    required StatementExportFormat format,
+    required List<GroupContribution> entries,
+    required StatementExportMetadata metadata,
+  }) async {
+    switch (format) {
+      case StatementExportFormat.pdf:
+        return _buildGroupLedgerPdf(entries: entries, metadata: metadata);
+      case StatementExportFormat.excel:
+        return _buildGroupLedgerExcel(entries: entries, metadata: metadata);
+      case StatementExportFormat.csv:
+        return _buildGroupLedgerCsv(entries: entries, metadata: metadata);
+    }
+  }
+
+  Future<StatementExportFile> _buildGroupLedgerPdf({
+    required List<GroupContribution> entries,
+    required StatementExportMetadata metadata,
+  }) async {
+    final document = pw.Document();
+    final logo = await _loadPdfLogo();
+    final fonts = await _loadPdfFonts();
+    final confirmedTotal = entries
+        .where((e) => e.status == 'confirmed' || e.status == 'completed')
+        .fold<int>(0, (sum, e) => sum + e.amount);
+    final contributors = entries
+        .map((e) => e.contributorName ?? e.userId)
+        .toSet()
+        .length;
+
+    document.addPage(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        margin: const pw.EdgeInsets.all(26),
+        theme: _pdfTheme(fonts),
+        footer: (context) => _pdfFooter(context),
+        build: (context) => <pw.Widget>[
+          _pdfHeader(metadata: metadata, logo: logo),
+          pw.SizedBox(height: 14),
+          pw.Row(
+            children: [
+              pw.Expanded(
+                child: _pdfMetricCard(
+                  label: 'Total',
+                  value: '${_formatAmount(confirmedTotal)} RWF',
+                  accent: PdfColor.fromHex('#00E5A0'),
+                ),
+              ),
+              pw.SizedBox(width: 10),
+              pw.Expanded(
+                child: _pdfMetricCard(
+                  label: 'Contributors',
+                  value: contributors.toString(),
+                  accent: PdfColor.fromHex('#9B6DFF'),
+                ),
+              ),
+              pw.SizedBox(width: 10),
+              pw.Expanded(
+                child: _pdfMetricCard(
+                  label: 'Entries',
+                  value: entries.length.toString(),
+                  accent: PdfColor.fromHex('#4D8EFF'),
+                ),
+              ),
+            ],
+          ),
+          pw.SizedBox(height: 14),
+          pw.TableHelper.fromTextArray(
+            headers: const <String>[
+              'Date',
+              'Contributor',
+              'Amount',
+              'Currency',
+              'Status',
+            ],
+            data: entries
+                .map(
+                  (e) => <String>[
+                    e.createdAt != null
+                        ? _dateTimeFormat.format(e.createdAt!)
+                        : '-',
+                    e.contributorName ?? e.userId,
+                    _formatAmount(e.amount),
+                    'RWF',
+                    _titleize(e.status),
+                  ],
+                )
+                .toList(growable: false),
+            headerStyle: pw.TextStyle(
+              color: PdfColors.white,
+              fontWeight: pw.FontWeight.bold,
+              fontSize: 9,
+            ),
+            headerDecoration: pw.BoxDecoration(
+              color: PdfColor.fromHex('#0A0A0F'),
+              borderRadius: const pw.BorderRadius.all(pw.Radius.circular(4)),
+            ),
+            cellStyle: const pw.TextStyle(fontSize: 8),
+            cellPadding: const pw.EdgeInsets.symmetric(
+              horizontal: 6,
+              vertical: 7,
+            ),
+            rowDecoration: pw.BoxDecoration(
+              border: pw.Border(
+                bottom: pw.BorderSide(color: PdfColor.fromHex('#DDE3EA')),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    return StatementExportFile(
+      bytes: Uint8List.fromList(await document.save()),
+      fileName: _fileName(metadata.fileStem, metadata.generatedAt, 'pdf'),
+      mimeType: 'application/pdf',
+    );
+  }
+
+  Future<StatementExportFile> _buildGroupLedgerExcel({
+    required List<GroupContribution> entries,
+    required StatementExportMetadata metadata,
+  }) async {
+    final workbook = Workbook();
+    final sheet = workbook.worksheets[0];
+    sheet.name = 'Group Ledger';
+    sheet.showGridlines = false;
+
+    await _configureExcelSheetHeader(
+      sheet: sheet,
+      metadata: metadata,
+      columnEnd: 'E',
+    );
+
+    const headers = <String>['Date', 'Contributor', 'Amount', 'Currency', 'Status'];
+    const startRow = 9;
+    for (var i = 0; i < headers.length; i++) {
+      sheet.getRangeByIndex(startRow, i + 1).setText(headers[i]);
+    }
+    final headerRange = sheet.getRangeByName('A$startRow:E$startRow');
+    headerRange.cellStyle.backColor = '#0A0A0F';
+    headerRange.cellStyle.fontColor = '#FFFFFF';
+    headerRange.cellStyle.bold = true;
+
+    for (var i = 0; i < entries.length; i++) {
+      final row = startRow + i + 1;
+      final e = entries[i];
+      sheet.getRangeByIndex(row, 1).setText(
+        e.createdAt != null ? _dateTimeFormat.format(e.createdAt!) : '-',
+      );
+      sheet.getRangeByIndex(row, 2).setText(e.contributorName ?? e.userId);
+      sheet.getRangeByIndex(row, 3).setNumber(e.amount.toDouble());
+      sheet.getRangeByIndex(row, 3).numberFormat = '#,##0';
+      sheet.getRangeByIndex(row, 4).setText('RWF');
+      sheet.getRangeByIndex(row, 5).setText(_titleize(e.status));
+    }
+
+    final bytes = workbook.saveAsStream();
+    workbook.dispose();
+
+    return StatementExportFile(
+      bytes: Uint8List.fromList(bytes),
+      fileName: _fileName(metadata.fileStem, metadata.generatedAt, 'xlsx'),
+      mimeType:
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    );
+  }
+
+  StatementExportFile _buildGroupLedgerCsv({
+    required List<GroupContribution> entries,
+    required StatementExportMetadata metadata,
+  }) {
+    final rows = <List<String>>[
+      <String>[_brandName],
+      <String>[metadata.statementTitle],
+      <String>['Group', metadata.userName],
+      <String>['Statement Period', metadata.periodLabel],
+      <String>['Generated At', metadata.generatedAt.toIso8601String()],
+      <String>['Filter', metadata.filterLabel],
+      <String>['Sort', metadata.sortLabel],
+      const <String>[],
+      const <String>['Date', 'Contributor', 'Amount', 'Currency', 'Status'],
+      for (final e in entries)
+        <String>[
+          e.createdAt != null ? _dateTimeFormat.format(e.createdAt!) : '',
+          e.contributorName ?? e.userId,
+          e.amount.toString(),
+          'RWF',
+          e.status,
+        ],
+    ];
+
+    return StatementExportFile(
+      bytes: Uint8List.fromList(utf8.encode(rows.map(_csvRow).join('\n'))),
+      fileName: _fileName(metadata.fileStem, metadata.generatedAt, 'csv'),
+      mimeType: 'text/csv',
+    );
+  }
 
   String _titleize(String raw) {
     if (raw.trim().isEmpty) {

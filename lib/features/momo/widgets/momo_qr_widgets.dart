@@ -243,12 +243,32 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
   }
 
   Future<void> _sharePayload() {
-    final shareText =
-        'Pay me on ${widget.country.name} MoMo using $_routeLabel $_displayRecipient.\n${_payload.toAppLinkUri()}';
+    final amt = _parsedAmount;
+    final String shareText;
+
+    if (amt != null && amt > 0) {
+      // Build real USSD code like *182*1*1*781234567*5000#
+      final ussdCode = widget.country.buildUssdCode(
+        recipientMomo: _activeRecipientRaw,
+        amount: amt,
+        recipientType: _recipientType,
+      );
+      shareText =
+          'Pay me ${widget.country.currencyCode} $amt on MoMo.\n\n'
+          'Dial: $ussdCode\n\n'
+          '$_routeLabel: $_displayRecipient';
+    } else {
+      // No amount — share recipient details with instructions
+      shareText =
+          'Send me money on ${widget.country.name} MoMo.\n\n'
+          '$_routeLabel: $_displayRecipient\n\n'
+          'Open your MoMo and send to $_displayRecipient.';
+    }
+
     return SharePlus.instance.share(
       ShareParams(
         text: shareText,
-        subject: 'My MoMo payment QR',
+        subject: 'MoMo Payment',
       ),
     );
   }
@@ -421,7 +441,7 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'Enter your MoMo details to generate QR',
+                      'Enter your MoMo details to get QR',
                       style: GoogleFonts.dmSans(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -439,7 +459,7 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
               children: [
                 Expanded(
                   child: CoolButton(
-                    label: 'Generate QR',
+                    label: 'Get QR',
                     icon: Icons.qr_code_2_rounded,
                     variant: CoolButtonVariant.primary,
                     onTap: _generateQr,

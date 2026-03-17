@@ -186,7 +186,7 @@ class _IntroCard extends StatelessWidget {
           ),
           const SizedBox(height: 14),
           Text(
-            '$currentPoints fan points earned',
+            '$currentPoints fan Tokens earned',
             style: GoogleFonts.dmMono(
               fontSize: 13,
               fontWeight: FontWeight.w600,

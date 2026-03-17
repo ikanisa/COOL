@@ -14,7 +14,7 @@ import '../providers/rs_admin_provider.dart';
 import '../widgets/rs_admin_shell.dart';
 import '../../../../core/l10n/l10n.dart';
 
-/// Admin screen for managing RS memberships — list, adjust tier/points.
+/// Admin screen for managing RS memberships — list, adjust tier/tokens.
 class RsAdminMembersScreen extends ConsumerStatefulWidget {
   const RsAdminMembersScreen({super.key});
 
@@ -52,7 +52,7 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
               '...',
         ),
         RsAdminMetric(
-          label: 'points',
+          label: 'tokens',
           value:
               membersAsync.whenOrNull(
                 data: (members) =>
@@ -258,7 +258,7 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Set Points for ${member.displayName}',
+              'Set Tokens for ${member.displayName}',
               style: GoogleFonts.dmSans(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
@@ -268,14 +268,14 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
             const SizedBox(height: 16),
             Semantics(
               textField: true,
-              label: 'Points',
-              hint: 'Edit member points',
+              label: 'Tokens',
+              hint: 'Edit member tokens',
               child: TextField(
                 controller: controller,
                 keyboardType: TextInputType.number,
                 style: GoogleFonts.dmSans(color: AppColors.text, fontSize: 16),
                 decoration: InputDecoration(
-                  labelText: 'Points',
+                  labelText: 'Tokens',
                   labelStyle: GoogleFonts.dmSans(
                     color: AppColors.text3,
                     fontSize: 13,
@@ -343,7 +343,7 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
   void _exportCsv(List<FanMembership> members) {
     final dateFmt = DateFormat('yyyy-MM-dd');
     final buf = StringBuffer()
-      ..writeln('Name,Membership #,Tier,Points,Joined,Expires');
+      ..writeln('Name,Membership #,Tier,Tokens,Joined,Expires');
     for (final m in members) {
       final joined = dateFmt.format(m.joinedAt);
       final expires = m.expiresAt != null ? dateFmt.format(m.expiresAt!) : '';
@@ -389,7 +389,7 @@ class _MemberTile extends StatelessWidget {
       container: true,
       label:
           'Member ${member.displayName}. Membership ${member.membershipNumber}.'
-          'Tier ${member.tier.name.toUpperCase()}. ${member.points} points.',
+          'Tier ${member.tier.name.toUpperCase()}. ${member.points} tokens.',
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
@@ -476,8 +476,8 @@ class _MemberTile extends StatelessWidget {
             const SizedBox(width: 8),
             Semantics(
               button: true,
-              label: 'Edit points for ${member.displayName}',
-              hint: 'Edit member points',
+              label: 'Edit tokens for ${member.displayName}',
+              hint: 'Edit member tokens',
               excludeSemantics: true,
               child: GestureDetector(
                 onTap: () {

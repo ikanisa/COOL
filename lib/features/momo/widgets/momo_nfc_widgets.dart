@@ -119,10 +119,7 @@ class _MomoNfcCardState extends State<MomoNfcCard>
     with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   late final AppAccessService _appAccessService = widget.appAccessService;
   final _nfcHceService = NfcHceService.instance;
-  late final AnimationController _pulseController = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 1800),
-  )..repeat();
+  late AnimationController _pulseController;
   late final TextEditingController _nfcMomoNumberController;
   late final TextEditingController _nfcMomoCodeController;
   final _nfcAmountController = TextEditingController();
@@ -146,6 +143,10 @@ class _MomoNfcCardState extends State<MomoNfcCard>
   @override
   void initState() {
     super.initState();
+    _pulseController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1800),
+    )..repeat();
     _nfcMomoNumberController = TextEditingController(text: widget.momoNumber);
     _nfcMomoCodeController = TextEditingController(
       text: widget.momoCode ?? '',
@@ -531,7 +532,7 @@ class _MomoNfcCardState extends State<MomoNfcCard>
                       );
                       final future = _supportsPhoneTap
                           ? _nfcHceService.startPaymentRequest(
-                              uri: payload.toDeepLinkUri(),
+                              uri: payload.toUssdUri() ?? payload.toDeepLinkUri(),
                             )
                           : NfcService.writeTag(
                               recipientValue: recipientValue,

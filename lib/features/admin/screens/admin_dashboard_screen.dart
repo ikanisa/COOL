@@ -91,6 +91,12 @@ class AdminDashboardScreen extends ConsumerWidget {
       'Live-ops campaigns & rewards',
     ),
     _AdminSection(
+      'Activities',
+      Icons.local_fire_department_rounded,
+      '/admin/activities',
+      'Token-earning gamification activities',
+    ),
+    _AdminSection(
       'Admin Roles',
       Icons.admin_panel_settings_rounded,
       '/admin/roles',

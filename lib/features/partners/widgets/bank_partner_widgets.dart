@@ -81,51 +81,83 @@ class BankServiceGrid extends StatelessWidget {
   final Partner partner;
   final List<PartnerService> services;
 
+  /// The 3 standard bank CTA actions — no others are allowed.
+  static const _standardActions = [
+    'internal:open_account',
+    'internal:get_loan',
+    'internal:group_savings',
+  ];
+
+  /// Fallback definitions if the DB doesn't have matching services.
+  static const _fallbackTiles = [
+    _BankCta(
+      action: 'internal:open_account',
+      title: 'Open Account',
+      subtitle: 'Start banking today',
+      icon: Icons.account_balance_rounded,
+    ),
+    _BankCta(
+      action: 'internal:get_loan',
+      title: 'Get a Loan',
+      subtitle: 'Apply for credit',
+      icon: Icons.monetization_on_rounded,
+    ),
+    _BankCta(
+      action: 'internal:group_savings',
+      title: 'Group Saving',
+      subtitle: 'Save with others',
+      icon: Icons.people_rounded,
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
-    if (services.isEmpty) {
-      return const SizedBox.shrink();
+    // Filter incoming services to only standard actions, preserving
+    // admin-customized titles/subtitles if they exist.
+    final matched = <String, PartnerService>{};
+    for (final service in services) {
+      final action = service.ctaAction?.trim() ?? '';
+      if (_standardActions.contains(action) && !matched.containsKey(action)) {
+        matched[action] = service;
+      }
     }
 
     return GridView.count(
       crossAxisCount: 2,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      childAspectRatio: 1.2,
+      childAspectRatio: 1.0,
       mainAxisSpacing: 10,
       crossAxisSpacing: 10,
       children: [
-        for (final service in services)
+        for (final fallback in _fallbackTiles)
           PartnerQuickActionTile(
-            icon: _iconForEmoji(service.emoji),
-            title: service.title,
-            subtitle: service.subtitle ?? '',
+            icon: fallback.icon,
+            title: matched[fallback.action]?.title ?? fallback.title,
+            subtitle: matched[fallback.action]?.subtitle ?? fallback.subtitle,
             onTap: () => launchPartnerAction(
               context,
               partner,
-              action: service.ctaAction ?? '',
+              action: fallback.action,
             ),
           ),
       ],
     );
   }
+}
 
-  IconData _iconForEmoji(String emoji) {
-    switch (emoji) {
-      case '🏦':
-      case '🏧':
-        return Icons.account_balance_wallet_rounded;
-      case '👥':
-        return Icons.people_rounded;
-      case '📈':
-      case '💰':
-        return Icons.monetization_on_rounded;
-      case '🛡️':
-        return Icons.security_rounded;
-      default:
-        return Icons.auto_awesome_rounded;
-    }
-  }
+class _BankCta {
+  const _BankCta({
+    required this.action,
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+  });
+
+  final String action;
+  final String title;
+  final String subtitle;
+  final IconData icon;
 }
 
 Future<void> launchPartnerAction(

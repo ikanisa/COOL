@@ -21,7 +21,7 @@ class VehicleFilter {
 }
 
 /// Default vehicle filters used on the trip board.
-final tripBoardVehicleFilters = const [
+const tripBoardVehicleFilters = [
   VehicleFilter(label: 'All', value: 'All'),
   VehicleFilter(label: 'Moto', value: 'Moto'),
   VehicleFilter(label: 'Cab', value: 'Cab'),

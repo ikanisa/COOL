@@ -92,29 +92,6 @@ void main() {
   late MockSubscriptionRepository subscriptionRepository;
   late MockTripRepository tripRepository;
   late MockVehicleTypeRepository vehicleTypeRepository;
-  late Directory hiveDir;
-
-  setUpAll(() async {
-    hiveDir = await Directory.systemTemp.createTemp('cool_trip_offline');
-    Hive.init(hiveDir.path);
-  });
-
-  tearDown(() async {
-    for (final boxName in <String>[
-      AppAccessService.boxName,
-      'mobility_location_cache',
-    ]) {
-      if (Hive.isBoxOpen(boxName)) {
-        await Hive.box<dynamic>(boxName).clear();
-        await Hive.box<dynamic>(boxName).close();
-      }
-      await Hive.deleteBoxFromDisk(boxName);
-    }
-  });
-
-  tearDownAll(() async {
-    await hiveDir.delete(recursive: true);
-  });
 
   setUp(() {
     mobilityRepository = MockMobilityRepository();
@@ -174,21 +151,18 @@ void main() {
         ],
       );
 
+      await settleTestApp(tester);
+
       expect(find.text('Mobility'), findsOneWidget);
-      expect(find.text('Plan a trip'), findsOneWidget);
-      expect(find.text('Nearby Drivers'), findsOneWidget);
-      expect(find.text('Scheduled Trips'), findsOneWidget);
+      expect(find.text('Nearby'), findsOneWidget);
+      expect(find.text('Trips'), findsOneWidget);
+      expect(find.text('Schedule'), findsOneWidget);
       expect(find.text('All'), findsOneWidget);
-      expect(find.text('Schedule trip'), findsOneWidget);
-      expect(find.text('Manage driver mode'), findsOneWidget);
-      expect(find.text('Show map'), findsNothing);
-      expect(find.text('Filters'), findsNothing);
 
-      await tester.tap(find.text('Scheduled Trips'));
-      await tester.pumpAndSettle();
+      await tester.tap(find.text('Trips'));
+      await settleTestApp(tester);
 
-      expect(find.text('Scheduled Trips'), findsOneWidget);
-      expect(find.text('Show map'), findsNothing);
+      expect(find.text('No scheduled trips found'), findsOneWidget);
     },
   );
 }

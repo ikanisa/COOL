@@ -16,29 +16,29 @@ class AdminFeatureRolloutConfig {
   final String killSwitchKey;
   final ManagedFeatureRollout rollout;
 
-  static List<_ManagedFeatureSpec> _specs = <_ManagedFeatureSpec>[
-    _ManagedFeatureSpec(
+  static final List<_ManagedFeatureSpec> _specs = <_ManagedFeatureSpec>[
+    const _ManagedFeatureSpec(
       key: 'momo',
       label: 'Mobile Money',
       description:
           'Control MoMo payments and',
       killSwitchKey: 'kill_momo_payments',
     ),
-    _ManagedFeatureSpec(
+    const _ManagedFeatureSpec(
       key: 'credit',
       label: 'Credit',
       description:
           'Stage lending readiness score',
       killSwitchKey: 'kill_credit_features',
     ),
-    _ManagedFeatureSpec(
+    const _ManagedFeatureSpec(
       key: 'ticket_purchase',
       label: 'Ticketing',
       description:
           'Gate Rayon Sports ticket',
       killSwitchKey: 'kill_ticket_purchase',
     ),
-    _ManagedFeatureSpec(
+    const _ManagedFeatureSpec(
       key: 'mobility',
       label: 'Mobility',
       description:

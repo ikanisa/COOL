@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:cool_app/core/config/country_catalog.dart';
 import 'package:cool_app/core/l10n/locale_provider.dart';
 import 'package:cool_app/core/providers/engagement_providers.dart';
@@ -5,6 +8,7 @@ import 'package:cool_app/core/providers/supabase_client_provider.dart';
 import 'package:cool_app/core/providers/supported_countries_provider.dart';
 import 'package:cool_app/core/repositories/supported_countries_repository.dart';
 import 'package:cool_app/core/router/app_router.dart';
+import 'package:cool_app/core/services/hive_runtime.dart';
 import 'package:cool_app/core/theme/app_theme.dart';
 import 'package:cool_app/core/theme/theme_preference.dart';
 import 'package:cool_app/core/theme/theme_preference_provider.dart';
@@ -17,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:supabase_flutter/supabase_flutter.dart'
     show FlutterAuthClientOptions, Session, SupabaseClient;
@@ -232,6 +237,17 @@ _buildTestContainer({
   );
 }
 
+Future<void> setupTestHive() async {
+  try {
+    if (Platform.isAndroid || Platform.isIOS) {
+      await initializeHiveRuntime();
+    } else {
+      final tempDir = Directory.systemTemp.createTempSync('cool_test_hive_');
+      Hive.init(tempDir.path);
+    }
+  } catch (_) {}
+}
+
 Future<ScopedTestApp> pumpScopedApp(
   WidgetTester tester, {
   required Widget child,
@@ -240,6 +256,7 @@ Future<ScopedTestApp> pumpScopedApp(
   List<CoolCountry>? countries,
   List<Override> overrides = const <Override>[],
 }) async {
+  await setupTestHive();
   _configureTestViewport(tester);
 
   final testContext = _buildTestContainer(
@@ -290,6 +307,7 @@ Future<RoutedTestApp> pumpRouterApp(
   List<CoolCountry>? countries,
   List<Override> overrides = const <Override>[],
 }) async {
+  await setupTestHive();
   _configureTestViewport(tester);
 
   final testContext = _buildTestContainer(

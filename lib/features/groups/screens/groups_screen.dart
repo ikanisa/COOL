@@ -17,6 +17,7 @@ import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_state_view.dart';
 import '../../../shared/widgets/status_badge.dart';
 import '../../../shared/widgets/tab_pill.dart';
+import '../../partners/providers/partner_provider.dart';
 import '../models/group.dart';
 import '../providers/groups_provider.dart';
 
@@ -92,6 +93,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
     final isLoading = ref.watch(groupsListLoadingProvider);
     final error = ref.watch(groupsListErrorProvider);
     final isDiscover = _activeView == _GroupsView.discover;
+    final hasBankPartner = ref.watch(hasActiveBankPartnerProvider);
 
     return Scaffold(
       backgroundColor: palette.bg,
@@ -142,6 +144,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                               activeView: _activeView,
                               typeFilter: _typeFilter,
                               visibilityFilter: _visibilityFilter,
+                              hasBankPartner: hasBankPartner,
                               createLabel: l10n.groupsCreateNewTitle,
                               onViewChanged: (view) =>
                                   unawaited(_setActiveView(view)),
@@ -228,6 +231,7 @@ class _GroupsHeroCard extends StatelessWidget {
     required this.activeView,
     required this.typeFilter,
     required this.visibilityFilter,
+    required this.hasBankPartner,
     required this.createLabel,
     required this.onViewChanged,
     required this.onToggleType,
@@ -238,6 +242,7 @@ class _GroupsHeroCard extends StatelessWidget {
   final _GroupsView activeView;
   final _GroupTypeFilter typeFilter;
   final _GroupVisibilityFilter visibilityFilter;
+  final bool hasBankPartner;
   final String createLabel;
   final ValueChanged<_GroupsView> onViewChanged;
   final ValueChanged<_GroupTypeFilter> onToggleType;
@@ -283,6 +288,7 @@ class _GroupsHeroCard extends StatelessWidget {
                     icon: Icons.savings_outlined,
                     isActive: typeFilter == _GroupTypeFilter.saving,
                     onTap: () => onToggleType(_GroupTypeFilter.saving),
+                    visible: hasBankPartner,
                   ),
                   const SizedBox(width: 14),
                   _FilterIconButton(
@@ -325,15 +331,18 @@ class _FilterIconButton extends StatelessWidget {
     required this.isActive,
     required this.onTap,
     this.tooltip,
+    this.visible = true,
   });
 
   final IconData icon;
   final bool isActive;
   final VoidCallback onTap;
   final String? tooltip;
+  final bool visible;
 
   @override
   Widget build(BuildContext context) {
+    if (!visible) return const SizedBox.shrink();
     final palette = context.coolPalette;
     return Semantics(
       button: true,
@@ -445,13 +454,13 @@ class _GroupListItem extends StatelessWidget {
                     group.momoNumber!.trim().isNotEmpty)
                   _MetaChip(label: _shortenPhone(group.momoNumber!)),
                 if (group.type == 'saving')
-                    StatusBadge.saving()
+                    const StatusBadge.saving()
                 else
-                    StatusBadge.community(),
+                    const StatusBadge.community(),
                 if (group.visibility == 'public')
-                    StatusBadge.public()
+                    const StatusBadge.public()
                 else
-                    StatusBadge.private(),
+                    const StatusBadge.private(),
               ],
             ),
             const SizedBox(height: 6),

@@ -116,7 +116,7 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: Text(context.l10n.delete, style: TextStyle(color: AppColors.red)),
+            child: Text(context.l10n.delete, style: const TextStyle(color: AppColors.red)),
           ),
         ],
       ),

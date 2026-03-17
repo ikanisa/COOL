@@ -190,13 +190,7 @@ class AuthRepository {
     return getProfile(userId);
   }
 
-  Future<void> signInWithGoogle() async {
-    await _client.auth.signInWithOAuth(
-      OAuthProvider.google,
-      scopes: 'https://www.googleapis.com/auth/calendar.readonly',
-      redirectTo: 'coolapp://auth-callback',
-    );
-  }
+
 
   Future<void> signOut() async {
     await _client.auth.signOut();

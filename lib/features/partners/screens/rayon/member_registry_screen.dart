@@ -747,9 +747,9 @@ String _formatPoints(int points) {
 
 String _tierRangeFor(FanTier tier) {
   return switch (tier) {
-    FanTier.blue => '0-999 points',
-    FanTier.silver => '1,000-1,999 points',
-    FanTier.gold => '2,000-4,999 points',
-    FanTier.platinum => '5,000+ points',
+    FanTier.blue => '0-999 Tokens',
+    FanTier.silver => '1,000-1,999 Tokens',
+    FanTier.gold => '2,000-4,999 Tokens',
+    FanTier.platinum => '5,000+ Tokens',
   };
 }

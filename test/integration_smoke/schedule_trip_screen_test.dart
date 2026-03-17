@@ -112,7 +112,7 @@ void main() {
     ) async {
       await pumpScopedApp(
         tester,
-        child: const ScheduleTripScreen(),
+        child: const ScheduleTripScreen(initialRole: ScheduleTripPostingRole.driver),
         session: fakeSession(),
         user: fakeUser(isDriver: true, vehicleType: 'Cab'),
         overrides: <Override>[
@@ -168,7 +168,7 @@ void main() {
     ) async {
       await pumpScopedApp(
         tester,
-        child: const ScheduleTripScreen(),
+        child: const ScheduleTripScreen(initialRole: ScheduleTripPostingRole.driver),
         session: fakeSession(),
         user: fakeUser(isDriver: true, vehicleType: 'Cab'),
         overrides: <Override>[

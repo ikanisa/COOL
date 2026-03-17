@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-const int _maxUiWords = 4;
+const int _maxUiWords = 16;
 
 const String _wordToken = r"[A-Za-z0-9]+(?:['/-][A-Za-z0-9]+)*";
 

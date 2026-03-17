@@ -77,7 +77,7 @@ class _DriverVehicleScreenState extends ConsumerState<DriverVehicleScreen> {
     if (driverState.isLoading && profile == null) {
       return CoolScreenScaffold(
         title: context.l10n.vehicle,
-        child: CoolSkeletonList(itemCount: 3),
+        child: const CoolSkeletonList(itemCount: 3),
       );
     }
 

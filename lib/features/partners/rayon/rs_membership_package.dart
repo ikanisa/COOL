@@ -48,7 +48,7 @@ class RsMembershipPackage {
   int get minPoints => tier.minPoints;
 
   factory RsMembershipPackage.fallback() {
-    return RsMembershipPackage(
+    return const RsMembershipPackage(
       tier: FanTier.blue,
       title: 'Fan',
       subtitle: 'Standard Membership',

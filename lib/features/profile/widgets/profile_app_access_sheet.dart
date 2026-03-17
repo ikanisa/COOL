@@ -774,7 +774,7 @@ class _PermissionMetadata {
 
 _PermissionMetadata _metadataFor(AppAccessPermission permission) {
   return switch (permission) {
-    AppAccessPermission.sms => _PermissionMetadata(
+    AppAccessPermission.sms => const _PermissionMetadata(
       icon: Icons.sms_outlined,
       title: 'Sms Payment Sync',
       subtitle:
@@ -784,7 +784,7 @@ _PermissionMetadata _metadataFor(AppAccessPermission permission) {
       linkedFeatures: ['MoMo verification', 'Transaction recording'],
       serviceActionLabel: 'Open system settings',
     ),
-    AppAccessPermission.location => _PermissionMetadata(
+    AppAccessPermission.location => const _PermissionMetadata(
       icon: Icons.location_on_outlined,
       title: 'Location',
       subtitle:

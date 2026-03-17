@@ -324,18 +324,12 @@ class ScheduleTripTimingStep extends StatelessWidget {
     required this.isDriverPosting,
     required this.selectedDate,
     required this.selectedTime,
-    required this.returnTrip,
-    required this.returnDate,
-    required this.returnTime,
     required this.recurringTrip,
     required this.recurringDays,
     required this.formatDate,
     required this.formatTime,
     required this.onPickDate,
     required this.onPickTime,
-    required this.onPickReturnDate,
-    required this.onPickReturnTime,
-    required this.onReturnTripToggled,
     required this.onRecurringTripToggled,
     required this.onRecurringDayToggled,
     super.key,
@@ -344,18 +338,12 @@ class ScheduleTripTimingStep extends StatelessWidget {
   final bool isDriverPosting;
   final DateTime selectedDate;
   final TimeOfDay selectedTime;
-  final bool returnTrip;
-  final DateTime returnDate;
-  final TimeOfDay returnTime;
   final bool recurringTrip;
   final Set<TripWeekday> recurringDays;
   final String Function(DateTime) formatDate;
   final String Function(TimeOfDay) formatTime;
   final VoidCallback onPickDate;
   final VoidCallback onPickTime;
-  final VoidCallback onPickReturnDate;
-  final VoidCallback onPickReturnTime;
-  final ValueChanged<bool> onReturnTripToggled;
   final ValueChanged<bool> onRecurringTripToggled;
   final void Function(TripWeekday) onRecurringDayToggled;
 
@@ -367,7 +355,7 @@ class ScheduleTripTimingStep extends StatelessWidget {
     final title = isDriverPosting ? 'Departure timing' : 'When';
     final extraTitle = isDriverPosting
         ? 'Extra scheduling'
-        : 'Return or repeat';
+        : 'Repeat';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -416,44 +404,6 @@ class ScheduleTripTimingStep extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                   color: palette.text,
                 ),
-              ),
-              const SizedBox(height: 12),
-              ScheduleTripToggleCard(
-                icon: Icons.repeat_rounded,
-                title: l10n.scheduleTripReturnTitle,
-                subtitle: l10n.scheduleTripReturnSubtitle,
-                value: returnTrip,
-                onChanged: onReturnTripToggled,
-              ),
-              AnimatedSize(
-                duration: const Duration(milliseconds: 180),
-                curve: Curves.easeOut,
-                child: !returnTrip
-                    ? const SizedBox.shrink()
-                    : Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ScheduleTripFieldLabel(
-                              label: l10n.scheduleTripReturnFieldsLabel,
-                            ),
-                            const SizedBox(height: 8),
-                            ScheduleTripAdaptiveFieldPair(
-                              first: ScheduleTripPickerField(
-                                prefix: l10n.scheduleTripDateFieldPrefix,
-                                value: formatDate(returnDate),
-                                onTap: onPickReturnDate,
-                              ),
-                              second: ScheduleTripPickerField(
-                                prefix: l10n.scheduleTripTimeFieldPrefix,
-                                value: formatTime(returnTime),
-                                onTap: onPickReturnTime,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
               ),
               const SizedBox(height: 12),
               ScheduleTripToggleCard(

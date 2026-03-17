@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' hide AuthState;
 
 import '../../../core/config/app_market.dart';
 import '../../../core/providers/supabase_client_provider.dart';
@@ -168,6 +169,7 @@ class GroupCreateData {
     this.description,
     this.frequency = 'monthly',
     this.cycleDays = 30,
+    this.bankPartnerId,
   });
 
   final String name;
@@ -181,6 +183,7 @@ class GroupCreateData {
   final String? description;
   final String frequency;
   final int cycleDays;
+  final String? bankPartnerId;
 }
 
 class GroupsNotifier extends StateNotifier<GroupsState> {
@@ -211,7 +214,7 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
       state.error;
 
   String? get _currentUserId =>
-      _authState.user?.id ?? _authState.session?.user.id;
+      (_authState.user?.id as String?) ?? (_authState.session?.user.id as String?);
 
   String get _defaultCountry => AppMarket.countryCode;
 
@@ -336,6 +339,7 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
           momoNumber: data.momoNumber,
           momoRouteType: data.momoRouteType,
           frequency: data.frequency,
+          bankPartnerId: data.bankPartnerId,
         ),
       ),
     );
@@ -355,7 +359,7 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
       error: (error, _) {
         state = state.copyWith(
           isCreatingGroup: false,
-          createGroupError: error.toString(),
+          createGroupError: _friendlyError(error),
         );
       },
       loading: () {},
@@ -424,7 +428,7 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
       data: (_) {
         final value = GroupContribution(
           groupId: groupId,
-          userId: userId,
+          userId: userId as String,
           amount: amount,
           status: 'pending',
           contributorName: _authState.user?.displayUserId,
@@ -437,7 +441,7 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
       error: (error, _) {
         state = state.copyWith(
           isContributing: false,
-          contributionError: error.toString(),
+          contributionError: _friendlyError(error),
         );
       },
       loading: () {},
@@ -570,5 +574,20 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
     if (normalized.contains('public')) return 'public';
     if (normalized.contains('private')) return 'private';
     return null;
+  }
+
+  /// Extract a user-friendly message from errors, especially PostgrestException.
+  String _friendlyError(Object error) {
+    if (error is PostgrestException) {
+      return error.message;
+    }
+    final raw = error.toString();
+    if (raw.startsWith('StateError: ')) {
+      return raw.substring('StateError: '.length);
+    }
+    if (raw.startsWith('Exception: ')) {
+      return raw.substring('Exception: '.length);
+    }
+    return raw;
   }
 }

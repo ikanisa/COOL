@@ -23,6 +23,17 @@ final _aiContentListProvider =
   return repo.fetchAll(statusFilter: filter);
 });
 
+final _aiGenConfigProvider =
+    FutureProvider.autoDispose<Map<String, dynamic>?>((ref) async {
+  final client = Supabase.instance.client;
+  final rows = await client
+      .from('ai_content_generation_config')
+      .select()
+      .limit(1);
+  if (rows.isEmpty) return null;
+  return rows.first;
+});
+
 // ── Screen ───────────────────────────────────────────────────
 
 /// Admin CRUD screen for AI-generated content with approval workflow.
@@ -33,6 +44,7 @@ class ManageAiContentScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final contentAsync = ref.watch(_aiContentListProvider);
     final activeFilter = ref.watch(_aiContentFilterProvider);
+    final genConfigAsync = ref.watch(_aiGenConfigProvider);
 
     return Scaffold(
       backgroundColor: AppColors.bg,
@@ -75,6 +87,25 @@ class ManageAiContentScreen extends ConsumerWidget {
                 color: AppColors.text3,
               ),
             ),
+          ),
+          const SizedBox(height: 16),
+
+          // ── Generation Controls ──────────────────────────────
+          genConfigAsync.when(
+            data: (config) => config == null
+                ? const SizedBox.shrink()
+                : _GenerationControlsCard(
+                    isEnabled: config['is_enabled'] as bool? ?? false,
+                    lastGeneratedAt: config['last_generated_at'] != null
+                        ? DateTime.tryParse(
+                            config['last_generated_at'].toString())
+                        : null,
+                    onToggle: (enabled) =>
+                        _toggleGeneration(context, ref, enabled),
+                    onGenerateNow: () => _triggerGeneration(context, ref),
+                  ),
+            loading: () => const SizedBox.shrink(),
+            error: (_, _) => const SizedBox.shrink(),
           ),
           const SizedBox(height: 16),
 
@@ -239,7 +270,7 @@ class ManageAiContentScreen extends ConsumerWidget {
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
             child:
-                Text(context.l10n.delete, style: TextStyle(color: Colors.red)),
+                Text(context.l10n.delete, style: const TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -286,6 +317,189 @@ class ManageAiContentScreen extends ConsumerWidget {
             }
           }
         },
+      ),
+    );
+  }
+
+  Future<void> _toggleGeneration(
+      BuildContext context, WidgetRef ref, bool enabled) async {
+    try {
+      HapticFeedback.mediumImpact();
+      await Supabase.instance.client
+          .from('ai_content_generation_config')
+          .update({
+        'is_enabled': enabled,
+        'updated_at': DateTime.now().toUtc().toIso8601String(),
+      }).not('id', 'is', null);
+      ref.invalidate(_aiGenConfigProvider);
+      if (context.mounted) {
+        CoolToast.info(context,
+            enabled ? 'Auto-generation enabled' : 'Auto-generation disabled');
+      }
+    } catch (e) {
+      if (context.mounted) {
+        CoolToast.error(context, 'Toggle failed: $e');
+      }
+    }
+  }
+
+  Future<void> _triggerGeneration(
+      BuildContext context, WidgetRef ref) async {
+    try {
+      HapticFeedback.mediumImpact();
+      CoolToast.info(context, 'Generating content…');
+      final response = await Supabase.instance.client.functions
+          .invoke('generate-ai-content', queryParameters: {'manual': 'true'});
+      ref.invalidate(_aiContentListProvider);
+      ref.invalidate(_aiGenConfigProvider);
+      if (context.mounted) {
+        final data = response.data;
+        if (data != null && data['success'] == true) {
+          CoolToast.info(
+              context, 'Generated: ${data['title'] ?? 'new content'} ✓');
+        } else {
+          CoolToast.error(context,
+              'Generation issue: ${data?['reason'] ?? 'unknown'}');
+        }
+      }
+    } catch (e) {
+      if (context.mounted) {
+        CoolToast.error(context, 'Generation failed: $e');
+      }
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Generation Controls Card
+// ═══════════════════════════════════════════════════════════════
+
+class _GenerationControlsCard extends StatefulWidget {
+  const _GenerationControlsCard({
+    required this.isEnabled,
+    required this.lastGeneratedAt,
+    required this.onToggle,
+    required this.onGenerateNow,
+  });
+
+  final bool isEnabled;
+  final DateTime? lastGeneratedAt;
+  final ValueChanged<bool> onToggle;
+  final VoidCallback onGenerateNow;
+
+  @override
+  State<_GenerationControlsCard> createState() =>
+      _GenerationControlsCardState();
+}
+
+class _GenerationControlsCardState extends State<_GenerationControlsCard> {
+  bool _isGenerating = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final lastGen = widget.lastGeneratedAt;
+    final lastLabel = lastGen != null
+        ? '${lastGen.day}/${lastGen.month}/${lastGen.year} ${lastGen.hour}:${lastGen.minute.toString().padLeft(2, '0')}'
+        : 'Never';
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 18),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.border),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(Icons.smart_toy_rounded,
+                    size: 20, color: AppColors.accent),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    'Auto-Generation',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.text,
+                    ),
+                  ),
+                ),
+                Switch.adaptive(
+                  value: widget.isEnabled,
+                  activeTrackColor: AppColors.accent,
+                  onChanged: widget.onToggle,
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              widget.isEnabled
+                  ? 'Generates 1 new content item every 12 hours'
+                  : 'Disabled — no content auto-generated',
+              style: GoogleFonts.dmSans(
+                fontSize: 12,
+                color: AppColors.text3,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'Last generated: $lastLabel',
+              style: GoogleFonts.dmSans(
+                fontSize: 11,
+                color: AppColors.text3,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: _isGenerating
+                    ? null
+                    : () async {
+                        setState(() => _isGenerating = true);
+                        widget.onGenerateNow();
+                        // Small delay for visual feedback
+                        await Future<void>.delayed(
+                            const Duration(seconds: 2));
+                        if (mounted) {
+                          setState(() => _isGenerating = false);
+                        }
+                      },
+                icon: _isGenerating
+                    ? const SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: AppColors.accent,
+                        ),
+                      )
+                    : const Icon(Icons.auto_awesome_rounded, size: 16),
+                label: Text(
+                  _isGenerating ? 'Generating…' : 'Generate Now',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: AppColors.accent,
+                  side: const BorderSide(color: AppColors.accent),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

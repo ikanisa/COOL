@@ -186,7 +186,7 @@ CreditReadinessJourney _buildAccountOpeningJourney({
   }
 
   return switch (kycStatus) {
-    'verified' => CreditReadinessJourney(
+    'verified' => const CreditReadinessJourney(
       title: 'Bank Account Opening',
       state: CreditReadinessState.ready,
       summary:

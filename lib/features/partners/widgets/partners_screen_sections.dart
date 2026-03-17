@@ -311,7 +311,7 @@ class _ResponsiveFeatureGrid extends StatelessWidget {
             crossAxisCount: crossAxisCount,
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
-            childAspectRatio: constraints.maxWidth >= 860 ? 1.15 : 1.5,
+            childAspectRatio: constraints.maxWidth >= 860 ? 1.15 : 1.1,
           ),
           itemBuilder: (context, index) {
             final item = items[index];

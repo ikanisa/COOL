@@ -275,6 +275,30 @@ Important files:
 - Credit score visualization
 - Partner discovery and service detail routes
 
+### Banking Partner Services Guardrail
+
+Every bank partner page displays exactly 3 standard CTA cards:
+
+1. **Open a Bank Account** — `internal:open_account`
+2. **Get a Loan** — `internal:get_loan`
+3. **Create Group Saving** — `internal:group_savings`
+
+These are managed dynamically in the `partner_services` Supabase table and
+administered via the platform admin. No other services may be added to bank
+partner pages. Non-bank partner pages (Prisma AI services, Radiant insurance,
+Rayon football) have their own service schemas and are not subject to this rule.
+
+Do not invent additional bank services, descriptions, or CTAs. Any
+modification to bank partner services must be reviewed against this guardrail.
+
+### Group MoMo Routing Rules
+
+- **Community groups**: the creator's MoMo number or merchant code is
+  automatically captured as the group's collection receiver at creation time.
+- **Savings groups**: the receiving MoMo code comes from the selected banking
+  partner and is read-only — no user may edit it after creation. When multiple
+  banking partners exist, the creator must select which bank to work with.
+
 ### Admin
 
 - Internal CRUD and configuration surfaces
@@ -604,8 +628,80 @@ The file [COOL.html](/Volumes/PRO-G40/COOL/COOL.html) contains the original inte
 - Never expose direct Postgres passwords in project documentation
 - Rotate any credentials that have been pasted into chat, screenshots, issues, or commits
 
+## Google Play Submission History
+
+> **IMPORTANT FOR AI AGENTS:** This section is the source of truth for what has
+> been submitted and published on Google Play. Do NOT treat this repo as a
+> first-time submission. Check the latest entry below before planning any
+> release work.
+
+### Current Live Version
+
+| Field | Value |
+|---|---|
+| Package ID | `app.cool.mobile` |
+| Play Console status | **Published** |
+| Privacy policy | `https://cool.ikanisa.com/privacy` |
+| Terms of service | `https://cool.ikanisa.com/terms` |
+| Account deletion | `https://cool.ikanisa.com/account-deletion` (in-app + web) |
+| SMS declaration | Approved (restricted `READ_SMS` / `RECEIVE_SMS` for M-Money verification) |
+| Data Safety | Completed |
+| Content Rating | Completed |
+| Ad ID declaration | Completed |
+| Reviewer access | OTP test bypass via `OTP_TEST_PHONE` / `OTP_TEST_CODE` Supabase secrets |
+
+### Release Log
+
+#### v1.0.0+2 — Initial Release
+
+- **Date:** March 2026
+- **Status:** ✅ Published on Google Play
+- **Key features:** Auth (WhatsApp OTP), MoMo payments (USSD + SMS verification),
+  Groups (savings, community funds), Mobility (trip board, scheduled trips,
+  subscriptions), Partners (Rayon Sports tickets/shop/membership, Prisma, bank
+  partners), Credit score, Profile (KYC, delete account), Admin workspaces
+- **Permissions:** `READ_SMS`, `RECEIVE_SMS`, `CAMERA`, `NFC`,
+  `ACCESS_FINE_LOCATION`, `ACCESS_COARSE_LOCATION`, `READ_CONTACTS`,
+  `POST_NOTIFICATIONS`
+- **Play Console items completed:** Store listing, Data Safety, Content Rating,
+  SMS restricted-permission declaration, Ad ID, privacy policy, reviewer access
+
+#### v1.1.0+3 — Update (in progress)
+
+- **Date:** March 17, 2026
+- **Status:** ✅ AAB built (`app-production-release.aab`, 74.4MB), ready to upload
+- **Changes since v1.0.0+2:**
+  - Fixed compilation error in admin bank baskets tab (`bank_baskets_tab.dart`)
+  - Applied 60 const/final lint fixes across 22 source files
+  - Multiple Supabase migration hardening passes (RLS, audit triggers, admin
+    roles, gamification, MoMo dedup, rate limiting)
+  - Groups refactoring (extracted contribute sheet, settings sheet, helpers)
+  - SMS sync improvements (manual sync, onboarding CTA, dedup guards)
+  - Visual audit and dark-mode fixes for Rayon Sport screens
+  - Localization error fixes across multiple features
+  - Micro-frontend ADK integration in portal
+  - Test suite: 767 passing, 49 pre-existing failures (governance sync,
+    widget copy, smoke test drift)
+- **Play Console updates needed:** "What's new" release notes only. No new
+  permissions, no Data Safety changes, no new SMS scope.
+
+### Build and Upload Workflow
+
+```bash
+# 1. Rebuild signed AAB
+SUPABASE_URL="https://..." \
+SUPABASE_ANON_KEY="..." \
+bash scripts/build_play_release.sh
+
+# 2. Upload to Play Console → Production track
+# 3. Add "What's new" release notes
+# 4. Submit for review
+```
+
 ## Recommended Next Steps
 
-- Remove client-side fallback secrets from `main.dart` and require `--dart-define` in production
-- Complete ARB coverage for all user-facing strings
-- Expand the device-backed integration suite beyond the current critical journeys
+- Migrate Rayon Sports MoMo code from hardcoded `008000` to dynamic Supabase routing
+- Move Android signing keys (`upload-keystore.jks`, `key.properties`) to CI vault
+- Clean up root-level utility scripts (`auto_l10n.dart`, `fix_errors.dart`, `update_profile.dart`)
+- Expand device-backed integration suite beyond current critical journeys
+- Fix remaining 49 pre-existing test failures (governance sync, widget copy drift)

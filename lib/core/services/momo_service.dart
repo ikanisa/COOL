@@ -57,7 +57,7 @@ class MomoService {
            appConfigRepository ?? AppConfigRepository(client: client),
        _supportedCountriesRepository =
            supportedCountriesRepository ??
-           SupportedCountriesRepository(client: client),
+           SupportedCountriesRepository(),
        _appReviewService = appReviewService;
 
   final SupabaseClient _client;

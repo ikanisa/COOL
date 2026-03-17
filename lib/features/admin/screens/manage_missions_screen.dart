@@ -431,7 +431,7 @@ class _MissionEditSheetState extends State<_MissionEditSheet> {
                 ),
                 const SizedBox(height: 12),
                 _Field(
-                  label: 'Reward Points',
+                  label: 'Reward Tokens',
                   controller: _rewardPtsCtrl,
                   keyboardType: TextInputType.number,
                 ),

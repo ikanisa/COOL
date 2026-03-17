@@ -16,9 +16,11 @@ import '../../features/credit/screens/credit_score_screen.dart';
 import '../../features/credit/screens/credit_readiness_screen.dart';
 import '../../features/groups/screens/create_group_screen.dart';
 import '../../features/groups/screens/group_detail_screen.dart';
+import '../../features/groups/screens/group_ledger_screen.dart';
 import '../../features/groups/screens/group_invite_screen.dart';
 import '../../features/groups/screens/groups_screen.dart';
 import '../../features/home/screens/home_screen.dart';
+import '../../features/home/screens/seasons_activities_screen.dart';
 import '../../features/mobility/screens/driver_detail_screens.dart';
 import '../../features/mobility/screens/driver_profile_screen.dart';
 import '../../features/mobility/screens/mobility_home_screen.dart';
@@ -28,6 +30,7 @@ import '../../features/momo/screens/momo_screen.dart';
 import '../../features/momo/screens/momo_statements_screen.dart';
 import '../../features/partners/bank_onboarding/screens/bank_onboarding_screen.dart';
 import '../../features/admin/screens/manage_special_products_screen.dart';
+import '../../features/admin/screens/manage_activities_screen.dart';
 import '../../features/admin/screens/manage_missions_screen.dart';
 import '../../features/admin/screens/manage_seasons_screen.dart';
 import '../../features/partners/screens/bank_partner_screen.dart';
@@ -339,6 +342,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                       final id = state.pathParameters['id']!;
                       return GroupDetailScreen(groupId: id);
                     },
+                    routes: [
+                      GoRoute(
+                        path: 'ledger',
+                        builder: (context, state) {
+                          final id = state.pathParameters['id']!;
+                          return GroupLedgerScreen(groupId: id);
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -620,6 +632,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           child: const ReferralHubScreen(),
         ),
       ),
+      GoRoute(
+        path: AppRoutes.seasons,
+        pageBuilder: (context, state) => _coolPageTransition(
+          context: context,
+          state: state,
+          child: const SeasonsActivitiesScreen(),
+        ),
+      ),
 
       // ── Admin routes (nested under /admin) ─────────────────────
       GoRoute(
@@ -681,6 +701,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             path: 'seasons',
             builder: (context, state) =>
                 const PlatformAdminGate(child: ManageSeasonsScreen()),
+          ),
+          GoRoute(
+            path: 'activities',
+            builder: (context, state) =>
+                const PlatformAdminGate(child: ManageActivitiesScreen()),
           ),
           GoRoute(
             path: 'operations',

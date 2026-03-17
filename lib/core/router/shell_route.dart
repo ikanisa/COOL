@@ -105,7 +105,8 @@ class _AppShellState extends ConsumerState<AppShell> {
     });
 
     final palette = context.coolPalette;
-    final onPrimary = Theme.of(context).colorScheme.onPrimary;
+
+
     final index = _currentIndex();
     final textScale = MediaQuery.textScalerOf(context).scale(1);
     final navigationHeight = (76 + ((textScale - 1) * 24))
@@ -138,9 +139,9 @@ class _AppShellState extends ConsumerState<AppShell> {
                     borderRadius: BorderRadius.circular(18),
                     side: BorderSide(color: palette.border2, width: 1.5),
                   ),
-                  child: Icon(
+                  child: const Icon(
                     Icons.account_balance_wallet_rounded,
-                    color: onPrimary,
+                    color: Color(0xFF8885F0),
                     size: 24,
                   ),
                 ),

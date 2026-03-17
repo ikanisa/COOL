@@ -63,7 +63,6 @@ class ScheduledTripTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final chips = <String>[
       trip.vehicleLabel,
-      if (trip.isReturnTrip) 'Return',
       if (trip.isRecurring) 'Daily',
     ];
 

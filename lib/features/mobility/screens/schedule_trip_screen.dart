@@ -25,7 +25,6 @@ import '../providers/mobility_provider.dart';
 import '../services/place_search_service.dart';
 import '../widgets/schedule_trip_place_search_sheet.dart';
 import '../widgets/schedule_trip_step_widgets.dart';
-import '../widgets/schedule_trip_calendar_suggestions.dart';
 
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
@@ -63,7 +62,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
   TimeOfDay _selectedTime = const TimeOfDay(hour: 7, minute: 0);
   TripVehiclePreference _vehiclePreference = TripVehiclePreference.any;
   int _seats = 1;
-  bool _returnTrip = false;
+  final bool _returnTrip = false;
   bool _recurringTrip = false;
   late DateTime _returnDate;
   TimeOfDay _returnTime = const TimeOfDay(hour: 17, minute: 0);
@@ -76,6 +75,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
   bool _loadingRoutePreview = false;
   String? _routePreviewError;
   int _routePreviewRequestId = 0;
+  // ignore: unused_field
   bool _isParsingSmartInput = false;
 
   ScheduleTripPostingRole _postingRole = ScheduleTripPostingRole.passenger;
@@ -188,23 +188,6 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
                       ),
                       const SizedBox(height: 20),
 
-                      // ── GWS Calendar Suggestions ──────────────────────
-                      ScheduleTripCalendarSuggestions(
-                        onSuggestionSelected: (String prompt) {
-                          _smartInputController.text = prompt;
-                          unawaited(_parseSmartInput());
-                        },
-                      ),
-                      const SizedBox(height: 12),
-
-                      // ── Smart Input ──────────────────────────────────
-                      ScheduleTripSmartInputCard(
-                        controller: _smartInputController,
-                        isParsing: _isParsingSmartInput,
-                        onParseTap: () => unawaited(_parseSmartInput()),
-                      ),
-                      const SizedBox(height: 20),
-
                       // ── Route ──────────────────────────────────
                       ScheduleTripRouteStep(
                         isDriverPosting: isDriverPosting,
@@ -266,23 +249,12 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
                         isDriverPosting: isDriverPosting,
                         selectedDate: _selectedDate,
                         selectedTime: _selectedTime,
-                        returnTrip: _returnTrip,
-                        returnDate: _returnDate,
-                        returnTime: _returnTime,
                         recurringTrip: _recurringTrip,
                         recurringDays: _recurringDays,
                         formatDate: _formatDate,
                         formatTime: _formatTime,
                         onPickDate: _pickDate,
                         onPickTime: _pickTime,
-                        onPickReturnDate: () => _pickDate(isReturn: true),
-                        onPickReturnTime: () => _pickTime(isReturn: true),
-                        onReturnTripToggled: (value) {
-                          setState(() {
-                            _returnTrip = value;
-                            if (value) _returnDate = _selectedDate;
-                          });
-                        },
                         onRecurringTripToggled: (value) {
                           setState(() {
                             _recurringTrip = value;

@@ -33,7 +33,7 @@ class ThemePreferenceNotifier extends StateNotifier<AppThemePreference> {
        _store = store,
        _bootstrapped = initialPreference != null,
        _updatedAt = initialPreference?.updatedAt,
-       super(initialPreference?.preference ?? AppThemePreference.system) {
+       super(initialPreference?.preference ?? AppThemePreference.dark) {
     if (!_bootstrapped) {
       Future<void>.microtask(load);
     }

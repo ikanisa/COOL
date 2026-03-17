@@ -78,15 +78,7 @@ class TestRouteAuthNotifier extends AuthNotifier {
 }
 
 class FakeSupportedCountriesRepository extends SupportedCountriesRepository {
-  FakeSupportedCountriesRepository()
-      : super(
-          client: SupabaseClient(
-            'http://127.0.0.1:54321',
-            'test-anon-key',
-            authOptions:
-                const FlutterAuthClientOptions(autoRefreshToken: false),
-          ),
-        );
+  FakeSupportedCountriesRepository() : super();
 
   @override
   List<CoolCountry> getSupportedCountries() {
@@ -109,15 +101,7 @@ class FakeSupportedCountriesRepository extends SupportedCountriesRepository {
 
 class BlockingResolveSupportedCountriesRepository
     extends SupportedCountriesRepository {
-  BlockingResolveSupportedCountriesRepository()
-      : super(
-          client: SupabaseClient(
-            'http://127.0.0.1:54321',
-            'test-anon-key',
-            authOptions:
-                const FlutterAuthClientOptions(autoRefreshToken: false),
-          ),
-        );
+  BlockingResolveSupportedCountriesRepository() : super();
 
   @override
   List<CoolCountry> getSupportedCountries() {

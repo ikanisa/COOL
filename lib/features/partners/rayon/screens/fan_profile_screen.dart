@@ -280,7 +280,7 @@ class _ProfileHero extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          'FAN POINTS',
+                          'FAN TOKENS',
                           style: Theme.of(context).textTheme.labelSmall?.copyWith(
                             fontWeight: FontWeight.w800,
                             letterSpacing: 1.0,

@@ -158,7 +158,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'A one-time code will',
+                      'A one-time code will be sent to your number',
                       style: GoogleFonts.dmSans(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
@@ -260,14 +260,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
 
                     const Spacer(),
 
-                    // ── Google Sign In ───────────────────────────────
-                    CoolButton(
-                      label: 'Continue with Google',
-                      onTap: () => ref.read(authProvider.notifier).signInWithGoogle(),
-                      isLoading: authState.isLoading,
-                      variant: CoolButtonVariant.secondary,
-                    ),
-                    const SizedBox(height: 12),
+
 
                     // ── CTA ───────────────────────────────────────────
                     CoolButton(

@@ -228,7 +228,7 @@ List<QuickActionData> _fallbackQuickActions(AppLocalizations l10n) {
       subtitle: l10n.homeFallbackGroupsSubtitle,
       route: AppRoutes.groups,
     ),
-    QuickActionData(
+    const QuickActionData(
       title: 'Momo Pay',
       subtitle: 'Pay At Shops And',
       route: AppRoutes.momo,

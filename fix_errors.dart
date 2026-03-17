@@ -69,15 +69,15 @@ Future<bool> _fixErrors(String filePath, List<Map<String, dynamic>> errors) asyn
     bool needsRelativeImport = false;
     
     // Sort errors descending by line to avoid offset issues
-    errors.sort((a, b) => b['line'].compareTo(a['line']));
+    errors.sort((a, b) => (b['line'] as int).compareTo(a['line'] as int));
     
     for (var error in errors) {
-      int lineIdx = error['line'];
+      final int lineIdx = error['line'] as int;
       if (lineIdx < 0 || lineIdx >= content.length) continue;
       
-      String line = content[lineIdx];
-      String code = error['code'];
-      String message = error['message'];
+      final String line = content[lineIdx];
+      final String code = error['code'] as String;
+      final String message = error['message'] as String;
       
       // Fix 1: Invalid constant
       if (code == 'invalid_constant' || code == 'invalid_annotation_constant_value_from_deferred_library' || code == 'const_with_non_constant_argument') {

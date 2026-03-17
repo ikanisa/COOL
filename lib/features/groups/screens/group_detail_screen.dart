@@ -45,7 +45,6 @@ class GroupDetailScreen extends ConsumerStatefulWidget {
 class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
     with CoolStatusAwarder {
   bool _showAllMembers = false;
-  bool _showAllContributions = false;
 
   @override
   Widget build(BuildContext context) {
@@ -212,9 +211,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
     final percent = (progress * 100).round();
     final isPrivate = group.visibility == 'private';
     final visibleMembers = _showAllMembers ? members : members.take(3).toList();
-    final visibleContributions = _showAllContributions
-        ? contributions
-        : contributions.take(3).toList();
+
 
 
     return SingleChildScrollView(
@@ -248,14 +245,14 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
                   Row(
                     children: [
                       if (group.type == 'saving')
-                          StatusBadge.saving()
+                          const StatusBadge.saving()
                       else
-                          StatusBadge.community(),
+                          const StatusBadge.community(),
                       const SizedBox(width: 8),
                       if (group.visibility == 'public')
-                          StatusBadge.public()
+                          const StatusBadge.public()
                       else
-                          StatusBadge.private(),
+                          const StatusBadge.private(),
                     ],
                   ),
                   const SizedBox(height: 24),
@@ -387,13 +384,9 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
           // ═══════════════════════════════════════════════════════
           SectionTitle(
             title: 'Recent contributions',
-            actionLabel: contributions.length > 3
-                ? (_showAllContributions ? 'Show less' : 'Show all')
-                : null,
+            actionLabel: contributions.length > 3 ? 'Show all' : null,
             onAction: contributions.length > 3
-                ? () => setState(
-                    () => _showAllContributions = !_showAllContributions,
-                  )
+                ? () => context.push('/groups/${group.id}/ledger')
                 : null,
           ),
           const SizedBox(height: 12),
@@ -413,7 +406,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
               ),
             )
           else
-            ...visibleContributions.map(
+            ...contributions.take(3).map(
               (c) => GroupContributionRow(contribution: c),
             ),
         ],

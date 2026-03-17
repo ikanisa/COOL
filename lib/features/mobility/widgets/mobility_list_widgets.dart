@@ -17,12 +17,12 @@ import '../providers/mobility_location_provider.dart';
 import '../providers/vehicle_type_provider.dart';
 
 final _fallbackVehicleFilters = [
-  MobilityVehicleFilter(label: 'All', value: 'All'),
-  MobilityVehicleFilter(label: 'Moto', value: 'Moto'),
-  MobilityVehicleFilter(label: 'Cab', value: 'Cab'),
-  MobilityVehicleFilter(label: 'Truck', value: 'Truck'),
-  MobilityVehicleFilter(label: 'Trike', value: 'Trike'),
-  MobilityVehicleFilter(label: 'Others', value: 'Others'),
+  const MobilityVehicleFilter(label: 'All', value: 'All'),
+  const MobilityVehicleFilter(label: 'Moto', value: 'Moto'),
+  const MobilityVehicleFilter(label: 'Cab', value: 'Cab'),
+  const MobilityVehicleFilter(label: 'Truck', value: 'Truck'),
+  const MobilityVehicleFilter(label: 'Trike', value: 'Trike'),
+  const MobilityVehicleFilter(label: 'Others', value: 'Others'),
 ];
 
 final mobilityVehicleFiltersProvider = Provider<List<MobilityVehicleFilter>>((

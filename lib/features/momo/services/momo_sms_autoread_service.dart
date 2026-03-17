@@ -45,6 +45,7 @@ class MomoSmsAutoreadService {
     Telephony? telephony,
     MomoSmsIngestionRepository? ingestionRepository,
     CrashlyticsService? crashlytics,
+    OpenHiveBox<String>? openBox,
     Future<bool> Function()? consentCallback,
   }) : _client = client,
        _appAccessService = appAccessService,
@@ -52,6 +53,7 @@ class MomoSmsAutoreadService {
        _ingestionRepository =
            ingestionRepository ?? MomoSmsIngestionRepository(client: client),
        _crashlytics = crashlytics,
+       _openBox = openBox ?? openHiveBox<String>,
        _consentCallback = consentCallback;
 
   final SupabaseClient _client;
@@ -59,6 +61,7 @@ class MomoSmsAutoreadService {
   final Telephony _telephony;
   final MomoSmsIngestionRepository _ingestionRepository;
   final CrashlyticsService? _crashlytics;
+  final OpenHiveBox<String> _openBox;
   final Future<bool> Function()? _consentCallback;
 
   static const _initialInboxSyncLookback = Duration(days: 365);
@@ -151,7 +154,7 @@ class MomoSmsAutoreadService {
   /// background processing (G8). Called on each successful [refresh].
   Future<void> _drainRetryQueue() async {
     try {
-      final box = await Hive.openBox<String>(_retryQueueBoxName);
+      final box = await _openBox(_retryQueueBoxName);
       if (box.isEmpty) return;
 
       final keys = box.keys.toList();
@@ -410,6 +413,7 @@ class _MomoSmsBackgroundProcessor {
   static bool _supabaseInitialized = false;
   static const InitializeHive _initializeHive = initializeHiveRuntime;
   static const OpenHiveBox<bool> _openAppAccessBox = openHiveBox<bool>;
+  static const OpenHiveBox<String> _openRetryQueueBox = openHiveBox<String>;
 
   static Future<void> handle(SmsMessage message) async {
       if (kIsWeb || !Platform.isAndroid) {
@@ -458,7 +462,7 @@ class _MomoSmsBackgroundProcessor {
         );
         // Queue the capture for retry on next foreground refresh (G8).
         try {
-          final box = await Hive.openBox<String>(_retryQueueBoxName);
+          final box = await _openRetryQueueBox(_retryQueueBoxName);
           if (box.length < _retryQueueMaxSize) {
             final payload = jsonEncode({
               'sender': capture.sender,

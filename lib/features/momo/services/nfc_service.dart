@@ -51,6 +51,26 @@ class NfcPaymentPayload {
     });
   }
 
+  /// Build a `tel:` URI containing the MoMo USSD code so that tapping the
+  /// NFC tag launches the phone dialer instead of opening a browser.
+  /// Returns `null` if the country is unknown and USSD can't be resolved.
+  Uri? toUssdUri() {
+    final cc = (countryCode ?? '').trim().toUpperCase();
+    if (cc.isEmpty) return null;
+    final country = CoolCountryCatalog.byIsoCode(cc);
+    if (country == null) return null;
+    final parsedAmount = int.tryParse(amount.replaceAll(RegExp(r'[^0-9]'), ''));
+    if (parsedAmount == null || parsedAmount <= 0) return null;
+    final ussd = country.buildUssdCode(
+      recipientMomo: recipientValue,
+      amount: parsedAmount,
+      recipientType: recipientType,
+    );
+    // Android requires # encoded as %23 in tel: URIs.
+    final encoded = ussd.replaceAll('#', '%23');
+    return Uri.parse('tel:$encoded');
+  }
+
   static NfcPaymentPayload? tryParse(String rawText) {
     final trimmed = rawText.trim();
     if (!trimmed.startsWith('COOL:')) {
@@ -290,7 +310,10 @@ class NfcService {
         text: payload.encode(),
         language: 'en',
       );
-      final uriRecord = ndef.UriRecord.fromUri(payload.toDeepLinkUri());
+      // Prefer tel: USSD URI so tapping the NFC tag launches the dialer
+      // instead of Chrome. Fall back to deep link for unknown countries.
+      final tagUri = payload.toUssdUri() ?? payload.toDeepLinkUri();
+      final uriRecord = ndef.UriRecord.fromUri(tagUri);
 
       await FlutterNfcKit.writeNDEFRecords([uriRecord, textRecord]);
       await FlutterNfcKit.finish();

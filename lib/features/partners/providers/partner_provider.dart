@@ -33,6 +33,15 @@ final bankPartnersProvider = FutureProvider<List<Partner>>((ref) async {
 
 final currentCountryBankPartnersProvider = bankPartnersProvider;
 
+/// True when the current market has at least one active bank partner.
+/// Drives visibility of all group-savings-related UI surfaces.
+final hasActiveBankPartnerProvider = Provider<bool>((ref) {
+  return ref.watch(bankPartnersProvider).maybeWhen(
+    data: (list) => list.isNotEmpty,
+    orElse: () => false,
+  );
+});
+
 /// All active organization partners for the fixed Rwanda market.
 final orgPartnersProvider = FutureProvider<List<Partner>>((ref) async {
   final all = await ref.watch(partnersProvider.future);
