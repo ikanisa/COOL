@@ -59,10 +59,7 @@ class AppLifecycleCoordinator {
     }
     _started = true;
 
-    await Future.wait([
-      _refreshFeatureFlags(),
-      _refreshSupportedCountries(),
-    ]);
+    await Future.wait([_refreshFeatureFlags(), _refreshSupportedCountries()]);
     await _engagementTracker.initialize();
     await _crashlytics.initialize();
     await _performance.initialize();

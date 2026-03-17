@@ -8,6 +8,7 @@ import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../providers/admin_providers.dart';
+import '../../../core/l10n/l10n.dart';
 
 /// Audit log viewer — shows all admin actions captured by DB triggers.
 class AuditLogScreen extends ConsumerStatefulWidget {
@@ -39,7 +40,7 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
-          tooltip: 'Back',
+          tooltip: context.l10n.back,
           icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
       ),

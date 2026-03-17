@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class BankPartnerConfig {
   const BankPartnerConfig({
     required this.slug,

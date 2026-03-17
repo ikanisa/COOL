@@ -11,6 +11,7 @@ import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../providers/admin_providers.dart';
+import '../../../core/l10n/l10n.dart';
 
 /// Admin screen for managing mobility vehicle types.
 class ManageVehicleTypesScreen extends ConsumerWidget {
@@ -26,7 +27,7 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          tooltip: 'Back',
+          tooltip: context.l10n.back,
           icon: const Icon(Icons.arrow_back_rounded),
           color: AppColors.text,
           onPressed: () => Navigator.of(context).pop(),
@@ -34,7 +35,7 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
       ),
       floatingActionButton: Semantics(
         button: true,
-        label: 'Add vehicle type',
+        label: context.l10n.addVehicleType,
         hint: 'New vehicle type',
         child: FloatingActionButton(
           backgroundColor: AppColors.accent,

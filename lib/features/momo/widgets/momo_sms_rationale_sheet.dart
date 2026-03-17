@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
+import '../../../core/l10n/l10n.dart';
 
 class MomoSmsRationaleSheet extends StatelessWidget {
   const MomoSmsRationaleSheet({
@@ -87,9 +88,9 @@ class MomoSmsRationaleSheet extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24),
-          const _RationalePoint(
+          _RationalePoint(
             icon: Icons.history_rounded,
-            title: 'Deep historical sync',
+            title: context.l10n.deepHistoricalSync,
             message:
                 'First-time setup imports M-Money confirmations '
                 'from the past year. Only messages from approved '
@@ -97,18 +98,18 @@ class MomoSmsRationaleSheet extends StatelessWidget {
                 'is ignored.',
           ),
           const SizedBox(height: 16),
-          const _RationalePoint(
+          _RationalePoint(
             icon: Icons.security_rounded,
-            title: 'Privacy focused',
+            title: context.l10n.privacyFocused,
             message:
                 'Cool only reads messages from approved M-Money '
                 'sender IDs (e.g. M-Money, MoMo). Your personal '
                 'conversations and other SMS are never accessed.',
           ),
           const SizedBox(height: 16),
-          const _RationalePoint(
+          _RationalePoint(
             icon: Icons.sync_rounded,
-            title: 'Always in sync',
+            title: context.l10n.alwaysInSync,
             message:
                 'New M-Money confirmations are detected in '
                 'real time and automatically matched to your '
@@ -120,7 +121,7 @@ class MomoSmsRationaleSheet extends StatelessWidget {
             children: [
               Expanded(
                 child: CoolButton(
-                  label: 'Maybe later',
+                  label: context.l10n.maybeLater,
                   variant: CoolButtonVariant.secondary,
                   onTap: () {
                     Navigator.pop(context);
@@ -131,7 +132,7 @@ class MomoSmsRationaleSheet extends StatelessWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: CoolButton(
-                  label: 'Allow access',
+                  label: context.l10n.allowAccess,
                   onTap: () {
                     Navigator.pop(context);
                     onAccept();

@@ -5,6 +5,7 @@ import 'package:cool_app/shared/widgets/cool_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../core/l10n/l10n.dart';
 
 class ScheduleTripRoutePreview extends StatelessWidget {
   const ScheduleTripRoutePreview({
@@ -125,13 +126,13 @@ class _RouteSummaryPane extends StatelessWidget {
       children: [
         _RouteStopRow(
           icon: Icons.trip_origin_rounded,
-          label: 'Pickup',
+          label: context.l10n.pickup,
           value: originLabel,
         ),
         const SizedBox(height: 12),
         _RouteStopRow(
           icon: Icons.place_outlined,
-          label: 'Dropoff',
+          label: context.l10n.dropoff,
           value: destinationLabel,
         ),
         if (preview != null) ...[

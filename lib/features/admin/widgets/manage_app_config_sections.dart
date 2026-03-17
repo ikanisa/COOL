@@ -153,7 +153,7 @@ class RolloutCard extends StatelessWidget {
               ),
               IconButton(
                 onPressed: onEdit,
-                tooltip: 'Edit rollout settings',
+                tooltip: context.l10n.editRolloutSettings,
                 icon: Icon(Icons.tune_rounded, color: AppColors.text),
               ),
             ],
@@ -183,8 +183,8 @@ class RolloutCard extends StatelessWidget {
                     ? const Color(0xFF725400)
                     : const Color(0xFF173A7A),
               ),
-              const StatusPill(
-                label: 'Rwanda only',
+              StatusPill(
+                label: context.l10n.rwandaOnly,
                 tone: Color(0xFFE8E3FF),
                 foreground: Color(0xFF3D2F7A),
               ),
@@ -265,7 +265,7 @@ class MobilitySubscriptionConfigTile extends StatelessWidget {
         ),
         trailing: Semantics(
           button: true,
-          label: 'Edit MoMo subscription config',
+          label: context.l10n.editMomoSubscriptionConfig,
           child: GestureDetector(
             onTap: onEdit,
             child: Icon(Icons.edit_rounded, size: 18, color: AppColors.text3),
@@ -345,7 +345,7 @@ class PartnerPaymentRouteConfigTile extends StatelessWidget {
             const SizedBox(height: 6),
             Semantics(
               button: true,
-              label: 'Edit payment route for',
+              label: context.l10n.editPaymentRouteFor,
               child: GestureDetector(
                 onTap: onEdit,
                 child: Icon(

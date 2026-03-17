@@ -12,6 +12,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../providers/rs_admin_provider.dart';
 import '../widgets/rs_admin_shell.dart';
 import '../../../../shared/widgets/cool_card.dart';
+import '../../../../core/l10n/l10n.dart';
 
 /// RS Admin Hub — 7 cards for all RS admin management screens + live stats.
 class RsAdminDashboardScreen extends ConsumerWidget {
@@ -82,7 +83,7 @@ class RsAdminDashboardScreen extends ConsumerWidget {
     final analyticsAsync = ref.watch(rsAdminFanAnalyticsProvider);
 
     return RsAdminShell(
-      title: 'Rayon Sports Admin',
+      title: context.l10n.rayonSportsAdmin,
       subtitle:
           'Manage matches, shop, members & community',
       fallbackLocation: AppRoutes.admin,

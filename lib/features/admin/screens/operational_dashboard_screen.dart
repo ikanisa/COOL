@@ -9,6 +9,7 @@ import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../providers/admin_providers.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../core/l10n/l10n.dart';
 
 class OperationalDashboardScreen extends ConsumerWidget {
   const OperationalDashboardScreen({super.key});
@@ -31,14 +32,14 @@ class OperationalDashboardScreen extends ConsumerWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          tooltip: 'Back',
+          tooltip: context.l10n.back,
           icon: const Icon(Icons.arrow_back_rounded),
           color: AppColors.text,
           onPressed: () => Navigator.of(context).pop(),
         ),
         actions: [
           IconButton(
-            tooltip: 'Refresh',
+            tooltip: context.l10n.refresh,
             onPressed: refresh,
             icon: const Icon(Icons.refresh_rounded),
             color: AppColors.text,
@@ -60,8 +61,8 @@ class OperationalDashboardScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 24),
-            const _SectionHeader(
-              title: 'Release Dashboard',
+            _SectionHeader(
+              title: context.l10n.releaseDashboard,
               message:
                   'Live health by monitored',
             ),

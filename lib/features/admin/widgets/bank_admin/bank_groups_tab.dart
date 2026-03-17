@@ -7,6 +7,7 @@ import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
 import '../../models/bank_admin_models.dart';
 import 'bank_admin_helpers.dart';
+import 'package:cool_app/core/l10n/l10n.dart';
 
 class BankGroupsTab extends StatelessWidget {
   const BankGroupsTab({
@@ -164,13 +165,13 @@ class BankGroupsTab extends StatelessWidget {
                         children: [
                           OutlinedButton(
                             onPressed: () => onOpenGroup(item),
-                            child: const Text('View details'),
+                            child: Text(context.l10n.viewDetails),
                           ),
                           TextButton(
                             onPressed: item.id.isEmpty
                                 ? null
                                 : () => onOpenLedger(item.id),
-                            child: const Text('View ledger'),
+                            child: Text(context.l10n.viewLedger),
                           ),
                         ],
                       ),
@@ -287,7 +288,7 @@ class BankGroupDetailSheet extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: OutlinedButton(
                     onPressed: onOpenLedger,
-                    child: const Text('Open ledger'),
+                    child: Text(context.l10n.openLedger),
                   ),
                 ),
               ],

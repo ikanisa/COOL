@@ -41,7 +41,8 @@ final momoSmsAutoreadServiceProvider = Provider<MomoSmsAutoreadService>((ref) {
     client: ref.read(supabaseClientProvider),
     appAccessService: ref.read(appAccessServiceProvider),
     crashlytics: ref.read(crashlyticsServiceProvider),
-    consentCallback: () => ref.read(momoSmsRationaleProvider).requestRationale(),
+    consentCallback: () =>
+        ref.read(momoSmsRationaleProvider).requestRationale(),
   );
   ref.onDispose(service.dispose);
   return service;
@@ -60,7 +61,7 @@ final appSessionCoordinatorProvider = Provider<AppSessionCoordinator>((ref) {
     showReferralHandshake: (inviteId) async {
       final context = rootNavigatorKey.currentContext;
       if (context == null) return;
-      
+
       await ReferralWelcomeSheet.show(
         context,
         inviterName: 'a friend',

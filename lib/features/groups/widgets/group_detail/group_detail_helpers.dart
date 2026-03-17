@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/cool_button.dart';
+import '../../../../core/l10n/l10n.dart';
 
 // ═════════════════════════════════════════════════════════════════════════
 // Shared formatters (moved from _GroupDetailScreenState)
@@ -133,7 +134,7 @@ class GroupMoreActionsSheet extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               CoolButton(
-                label: 'Invite from Contacts',
+                label: context.l10n.inviteFromContacts,
                 variant: CoolButtonVariant.secondary,
                 onTap: onInvite,
               ),

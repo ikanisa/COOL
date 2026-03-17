@@ -14,6 +14,7 @@ import '../../../../shared/widgets/rs_initiative_card.dart';
 
 import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/rayon_screen_scaffold.dart';
+import '../../../../core/l10n/l10n.dart';
 
 class SupportScreen extends StatelessWidget {
   const SupportScreen({super.key});
@@ -26,7 +27,7 @@ class SupportScreen extends StatelessWidget {
         final summaryAsync = ref.watch(rayonInitiativesSummaryProvider);
 
         return RayonScreenScaffold(
-          title: 'Support Club',
+          title: context.l10n.supportClub,
           fallbackLocation: AppRoutes.rayonHome,
           scrollable: false,
           child: CustomScrollView(

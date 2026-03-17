@@ -111,12 +111,12 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
         ),
         actions: [
           IconButton(
-            tooltip: 'Home',
+            tooltip: context.l10n.home,
             onPressed: () => context.go(AppRoutes.home),
             icon: Icon(Icons.home_rounded, color: palette.text),
           ),
           IconButton(
-            tooltip: 'Sync SMS',
+            tooltip: context.l10n.syncSms,
             onPressed: _isSyncing ? null : _syncSms,
             icon: _isSyncing
                 ? SizedBox(

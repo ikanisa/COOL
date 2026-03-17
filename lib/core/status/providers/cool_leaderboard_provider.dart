@@ -4,15 +4,18 @@ import '../../providers/supabase_client_provider.dart';
 import '../models/cool_leaderboard_entry.dart';
 
 /// Top earners by total_points from the cool_status table.
-final topEarnersProvider =
-    FutureProvider.autoDispose<List<LeaderboardEntry>>((ref) async {
+final topEarnersProvider = FutureProvider.autoDispose<List<LeaderboardEntry>>((
+  ref,
+) async {
   final client = ref.read(supabaseClientProvider);
 
   // Fetch top 20 users ordered by total_points descending.
   // Join with profiles to get display names.
   final rows = await client
       .from('cool_status')
-      .select('user_id, total_points, tier, profiles!inner(first_name, display_name, avatar_url)')
+      .select(
+        'user_id, total_points, tier, profiles!inner(first_name, display_name, avatar_url)',
+      )
       .order('total_points', ascending: false)
       .limit(20);
 

@@ -11,6 +11,7 @@ import '../../providers/rayon_sports_provider.dart';
 import '../models/rs_models.dart';
 import '../providers/rs_admin_provider.dart';
 import '../widgets/rs_admin_shell.dart';
+import '../../../../core/l10n/l10n.dart';
 
 /// Admin screen for managing RS shop products — CRUD, toggle active, stock.
 class RsAdminShopScreen extends ConsumerStatefulWidget {
@@ -26,7 +27,7 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
     final productsAsync = ref.watch(rsAdminProductsProvider);
 
     return RsAdminShell(
-      title: 'Shop Products',
+      title: context.l10n.shopProducts,
       subtitle:
           'Keep the catalog current',
       floatingActionButton: Semantics(
@@ -137,11 +138,11 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(context.l10n.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Delete', style: TextStyle(color: AppColors.red)),
+            child: Text(context.l10n.delete, style: TextStyle(color: AppColors.red)),
           ),
         ],
       ),

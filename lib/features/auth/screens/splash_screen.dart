@@ -7,6 +7,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_brand_mark.dart';
 import '../providers/auth_provider.dart';
+import '../../../core/l10n/l10n.dart';
 
 /// Animated splash screen that checks auth state and redirects.
 ///
@@ -137,7 +138,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                                 ),
                                 const SizedBox(height: 16),
                                 CoolButton(
-                                  label: 'Retry',
+                                  label: context.l10n.retry,
                                   onTap: () {
                                     ref
                                         .read(authProvider.notifier)

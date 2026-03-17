@@ -13,6 +13,7 @@ import '../../../../shared/widgets/cool_toast.dart';
 import '../../../auth/models/user_profile.dart';
 import '../../../auth/providers/auth_provider.dart';
 import '../../widgets/bank_partner_config.dart';
+import '../../../../core/l10n/l10n.dart';
 
 enum BankOnboardingType { loan, account }
 
@@ -93,7 +94,7 @@ class _BankOnboardingScreenState extends ConsumerState<BankOnboardingScreen> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: IconButton(
-            tooltip: 'Back',
+            tooltip: context.l10n.back,
             icon: const Icon(Icons.arrow_back_ios_new_rounded),
             onPressed: _previousStep,
           ),
@@ -226,7 +227,7 @@ class _BankOnboardingScreenState extends ConsumerState<BankOnboardingScreen> {
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             labelText: 'Amount (RWF)',
-            hintText: 'e.g. 50,000',
+            hintText: context.l10n.eg50000,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
             prefixIcon: const Icon(Icons.money),
           ),

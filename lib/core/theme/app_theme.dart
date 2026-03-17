@@ -396,7 +396,10 @@ abstract final class AppTheme {
         labelColor: palette.accent,
         unselectedLabelColor: palette.text3,
         indicatorColor: palette.accent,
-        labelStyle: GoogleFonts.dmSans(fontSize: _bodySmall, fontWeight: _semibold),
+        labelStyle: GoogleFonts.dmSans(
+          fontSize: _bodySmall,
+          fontWeight: _semibold,
+        ),
         unselectedLabelStyle: GoogleFonts.dmSans(
           fontSize: _bodySmall,
           fontWeight: _regular,
@@ -419,7 +422,10 @@ abstract final class AppTheme {
           color: palette.surface3,
           borderRadius: BorderRadius.circular(8),
         ),
-        textStyle: GoogleFonts.dmSans(fontSize: _bodySmall, color: palette.text),
+        textStyle: GoogleFonts.dmSans(
+          fontSize: _bodySmall,
+          color: palette.text,
+        ),
       ),
       progressIndicatorTheme: ProgressIndicatorThemeData(
         color: palette.accent,

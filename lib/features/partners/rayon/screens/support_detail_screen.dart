@@ -26,6 +26,7 @@ import '../rayon_payment.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/partner_navigation.dart';
 import '../theme/rs_theme.dart';
+import '../../../../core/l10n/l10n.dart';
 
 final supportDetailAmountProvider = StateProvider.autoDispose
     .family<int, String>((ref, initiativeId) {
@@ -137,8 +138,8 @@ class SupportDetailScreen extends StatelessWidget {
               loading: () => const _DetailLoadingState(),
               error: (error, stackTrace) => _DetailStateCard(
                 icon: Icons.warning_amber_rounded,
-                title: 'load this cause failed',
-                subtitle: 'Try again',
+                title: context.l10n.loadThisCauseFailed,
+                subtitle: context.l10n.tryAgain,
                 actionLabel: 'Back',
                 onTap: () => popOrGo(context, AppRoutes.rayonSupport),
               ),
@@ -146,8 +147,8 @@ class SupportDetailScreen extends StatelessWidget {
                 if (initiative == null) {
                   return _DetailStateCard(
                     icon: Icons.search_off_rounded,
-                    title: 'Initiative not found',
-                    subtitle: 'This cause may have',
+                    title: context.l10n.initiativeNotFound,
+                    subtitle: context.l10n.thisCauseMayHave,
                     actionLabel: 'Back to support',
                     onTap: () => context.go(AppRoutes.rayonSupport),
                   );
@@ -283,7 +284,7 @@ class SupportDetailScreen extends StatelessWidget {
 
                       // ── Share initiative ──────────────────────
                       ShareCard(
-                        title: 'Share this initiative',
+                        title: context.l10n.shareThisInitiative,
                         icon: Icons.link_rounded,
                         subtitle: initiative.title,
                         shareUrl: DeepLinkConfig.initiativeUri(
@@ -805,7 +806,7 @@ class _RecentSupportersCard extends StatelessWidget {
                   TextButton.icon(
                     onPressed: onRefreshStatus,
                     icon: const Icon(Icons.sync_rounded, size: 18),
-                    label: const Text('Try again'),
+                    label: Text(context.l10n.tryAgain),
                   ),
                 ],
               ),
@@ -942,7 +943,7 @@ class _PendingContributionCard extends StatelessWidget {
           TextButton.icon(
             onPressed: onRefreshStatus,
             icon: const Icon(Icons.sync_rounded, size: 18),
-            label: const Text('Refresh payment status'),
+            label: Text(context.l10n.refreshPaymentStatus),
           ),
         ],
       ),

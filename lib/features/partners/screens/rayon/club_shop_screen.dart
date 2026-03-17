@@ -13,6 +13,7 @@ import '../../rayon/models/rs_models.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/rayon_screen_scaffold.dart';
 import '../../widgets/rayon_state_views.dart';
+import '../../../../core/l10n/l10n.dart';
 
 class ClubShopScreen extends ConsumerStatefulWidget {
   const ClubShopScreen({super.key});
@@ -32,7 +33,7 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
     final paymentRoute = ref.watch(rayonPaymentRouteProvider).valueOrNull;
 
     return RayonScreenScaffold(
-      title: 'Club Shop',
+      title: context.l10n.clubShop,
       fallbackLocation: AppRoutes.rayonHome,
       scrollable: false,
       actions: [
@@ -294,7 +295,7 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
 
     return <_ShopCategoryOption>[
       _ShopCategoryOption(
-        label: 'All',
+        label: context.l10n.all,
         icon: Icons.shopping_bag_rounded,
         count: products.length,
       ),
@@ -468,7 +469,7 @@ class _EmptyFilteredCatalog extends StatelessWidget {
           TextButton.icon(
             onPressed: onReset,
             icon: const Icon(Icons.restart_alt_rounded, size: 18),
-            label: const Text('Show all items'),
+            label: Text(context.l10n.showAllItems),
             style: TextButton.styleFrom(
               foregroundColor: RsColors.rsGoldLight,
               padding: EdgeInsets.zero,

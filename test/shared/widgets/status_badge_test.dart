@@ -24,32 +24,32 @@ void main() {
     });
 
     testWidgets('saving preset renders correctly', (tester) async {
-      await tester.pumpWidget(_wrap(const StatusBadge.saving()));
+      await tester.pumpWidget(_wrap(StatusBadge.saving()));
       expect(find.text('Saving'), findsOneWidget);
     });
 
     testWidgets('community preset renders', (tester) async {
-      await tester.pumpWidget(_wrap(const StatusBadge.community()));
+      await tester.pumpWidget(_wrap(StatusBadge.community()));
       expect(find.text('Community'), findsOneWidget);
     });
 
     testWidgets('public preset renders', (tester) async {
-      await tester.pumpWidget(_wrap(const StatusBadge.public()));
+      await tester.pumpWidget(_wrap(StatusBadge.public()));
       expect(find.text('Public'), findsOneWidget);
     });
 
     testWidgets('private preset renders', (tester) async {
-      await tester.pumpWidget(_wrap(const StatusBadge.private()));
+      await tester.pumpWidget(_wrap(StatusBadge.private()));
       expect(find.text('Private'), findsOneWidget);
     });
 
     testWidgets('offline preset renders label', (tester) async {
-      await tester.pumpWidget(_wrap(const StatusBadge.offline()));
+      await tester.pumpWidget(_wrap(StatusBadge.offline()));
       expect(find.text('Offline'), findsOneWidget);
     });
 
     testWidgets('online preset renders label', (tester) async {
-      await tester.pumpWidget(_wrap(const StatusBadge.online()));
+      await tester.pumpWidget(_wrap(StatusBadge.online()));
       await tester.pump(const Duration(milliseconds: 100));
       expect(find.text('Online'), findsOneWidget);
     });

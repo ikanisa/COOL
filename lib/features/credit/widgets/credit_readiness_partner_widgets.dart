@@ -17,6 +17,7 @@ import '../models/credit_readiness.dart';
 import '../models/partner_credit_application.dart';
 import '../providers/credit_provider.dart';
 import 'credit_readiness_checklist_widgets.dart';
+import '../../../core/l10n/l10n.dart';
 
 // ── Partner Handoff Section ──────────────────────────────────────────────
 
@@ -56,7 +57,7 @@ class PartnerHandoffSection extends StatelessWidget {
           child: TextButton.icon(
             onPressed: () => context.push('/partners'),
             icon: const Icon(Icons.open_in_new_rounded, size: 18),
-            label: const Text('View all partners'),
+            label: Text(context.l10n.viewAllPartners),
           ),
         ),
       ],
@@ -195,20 +196,20 @@ class _ApplicationHistoryCard extends StatelessWidget {
             runSpacing: 10,
             children: [
               HistoryStatChip(
-                label: 'Readiness',
+                label: context.l10n.readiness,
                 value: _displayReadinessState(application.readinessState),
               ),
               HistoryStatChip(
-                label: 'KYC',
+                label: context.l10n.kyc,
                 value: kycStatusLabel(application.kycStatus),
               ),
               HistoryStatChip(
-                label: 'Score',
+                label: context.l10n.score,
                 value: application.creditScore?.toString() ?? 'Pending',
               ),
               if (createdAt != null)
                 HistoryStatChip(
-                  label: 'Created',
+                  label: context.l10n.created,
                   value: dateFormatter.format(createdAt),
                 ),
             ],
@@ -518,15 +519,15 @@ class _PartnerApplicationComposerSheetState
               const SizedBox(height: 16),
               DropdownButtonFormField<String>(
                 initialValue: _applicationType,
-                decoration: _sheetInputDecoration(label: 'Application path'),
-                items: const [
+                decoration: _sheetInputDecoration(label: context.l10n.applicationPath),
+                items: [
                   DropdownMenuItem(
                     value: 'loan',
-                    child: Text('Loan application'),
+                    child: Text(context.l10n.loanApplication1),
                   ),
                   DropdownMenuItem(
                     value: 'account_opening',
-                    child: Text('Account opening'),
+                    child: Text(context.l10n.accountOpening),
                   ),
                 ],
                 onChanged: (_isSavingDraft || _isSubmitting)
@@ -550,7 +551,7 @@ class _PartnerApplicationComposerSheetState
                 controller: _productController,
                 enabled: !_isSavingDraft && !_isSubmitting,
                 decoration: _sheetInputDecoration(
-                  label: 'Requested product',
+                  label: context.l10n.requestedProduct,
                   hint: 'e.g. group loan',
                 ),
               ),
@@ -560,7 +561,7 @@ class _PartnerApplicationComposerSheetState
                 enabled: !_isSavingDraft && !_isSubmitting,
                 maxLines: 3,
                 decoration: _sheetInputDecoration(
-                  label: 'Internal note',
+                  label: context.l10n.internalNote,
                   hint: 'Partner handoff notes',
                 ),
               ),
@@ -581,7 +582,7 @@ class _PartnerApplicationComposerSheetState
                 children: [
                   Expanded(
                     child: CoolButton(
-                      label: 'Save Draft',
+                      label: context.l10n.saveDraft,
                       variant: CoolButtonVariant.secondary,
                       isLoading: _isSavingDraft,
                       onTap: _isSubmitting ? () {} : _saveDraft,

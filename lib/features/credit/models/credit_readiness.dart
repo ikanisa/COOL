@@ -79,7 +79,7 @@ CreditReadinessReport buildCreditReadinessReport({
   final checks = <CreditReadinessCheck>[
     CreditReadinessCheck(
       id: 'official_name',
-      label: 'Official name on file',
+      label: 'Official Name On File',
       detail: hasOfficialName
           ? officialName
           : 'Add legal name',
@@ -186,7 +186,7 @@ CreditReadinessJourney _buildAccountOpeningJourney({
   }
 
   return switch (kycStatus) {
-    'verified' => const CreditReadinessJourney(
+    'verified' => CreditReadinessJourney(
       title: 'Bank Account Opening',
       state: CreditReadinessState.ready,
       summary:

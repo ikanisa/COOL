@@ -12,6 +12,7 @@ import '../../../shared/widgets/secure_screen_mixin.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../models/credit_insights.dart';
 import '../providers/credit_insights_provider.dart';
+import 'package:cool_app/core/l10n/l10n.dart';
 
 /// Agentic Credit Intelligence Screen.
 /// 
@@ -180,7 +181,7 @@ class _CreditBridgeCardState extends State<_CreditBridgeCard> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: const Text('Bank Report generated in Google Docs!'),
+              content: Text(context.l10n.bankReportGeneratedIn),
               action: SnackBarAction(
                 label: 'OPEN',
                 onPressed: () {
@@ -194,7 +195,7 @@ class _CreditBridgeCardState extends State<_CreditBridgeCard> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to generate bank report.')),
+          SnackBar(content: Text(context.l10n.failedToGenerateBank)),
         );
       }
     } finally {
@@ -550,7 +551,7 @@ class _ErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Error loading insights: $error'));
+    return Center(child: Text(context.l10n.genericErrorText('loading insights: $error')));
   }
 }
 
@@ -559,6 +560,6 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('Connect your MoMo to see AI insights.'));
+    return Center(child: Text(context.l10n.connectYourMomoTo));
   }
 }

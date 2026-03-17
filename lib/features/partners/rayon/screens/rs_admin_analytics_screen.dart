@@ -7,6 +7,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../providers/rs_admin_provider.dart';
 import '../widgets/rs_admin_shell.dart';
+import '../../../../core/l10n/l10n.dart';
 
 /// RS Fan Analytics Dashboard — engagement overview, revenue, tier breakdown.
 class RsAdminAnalyticsScreen extends ConsumerWidget {
@@ -19,11 +20,11 @@ class RsAdminAnalyticsScreen extends ConsumerWidget {
     final membersAsync = ref.watch(rsAdminMembersProvider);
 
     return RsAdminShell(
-      title: 'Analytics',
+      title: context.l10n.analytics,
       subtitle: 'Fan engagement & revenue overview',
       child: analyticsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: Text('Error: $e')),
+        error: (e, _) => Center(child: Text(context.l10n.genericErrorText(e.toString()))),
         data: (data) {
           final moneyFmt = NumberFormat.decimalPattern('en_US');
 

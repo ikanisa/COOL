@@ -12,6 +12,7 @@ import '../../../shared/widgets/cool_toast.dart';
 import '../models/admin_workspace_access.dart';
 import '../providers/admin_workspace_access_provider.dart';
 import '../providers/admin_providers.dart';
+import '../../../core/l10n/l10n.dart';
 
 /// Super admin screen for managing admin role assignments.
 /// Allows viewing, assigning, and revoking admin/bank/rayon_sport roles.
@@ -30,7 +31,7 @@ class ManageAdminRolesScreen extends ConsumerWidget {
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
-          tooltip: 'Back',
+          tooltip: context.l10n.back,
           icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
       ),
@@ -157,14 +158,14 @@ class _SummaryCard extends StatelessWidget {
             children: [
               Expanded(
                 child: _MetricChip(
-                  label: 'Total',
+                  label: context.l10n.total,
                   value: totalAssignments.toString(),
                 ),
               ),
               const SizedBox(width: 8),
               Expanded(
                 child: _MetricChip(
-                  label: 'Admin',
+                  label: context.l10n.admin,
                   value: adminCount.toString(),
                   color: Colors.green,
                 ),
@@ -176,7 +177,7 @@ class _SummaryCard extends StatelessWidget {
             children: [
               Expanded(
                 child: _MetricChip(
-                  label: 'Bank',
+                  label: context.l10n.bank,
                   value: bankCount.toString(),
                   color: AppColors.blue,
                 ),
@@ -184,7 +185,7 @@ class _SummaryCard extends StatelessWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: _MetricChip(
-                  label: 'Rayon',
+                  label: context.l10n.rayon,
                   value: rayonCount.toString(),
                   color: Colors.purple,
                 ),
@@ -296,7 +297,7 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancel'),
+            child: Text(context.l10n.cancel),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
@@ -304,7 +305,7 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
               foregroundColor: Colors.white,
             ),
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Revoke'),
+            child: Text(context.l10n.revoke),
           ),
         ],
       ),

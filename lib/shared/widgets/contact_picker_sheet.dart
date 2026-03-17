@@ -6,6 +6,7 @@ import '../../core/services/app_access_service.dart';
 import '../../core/services/contacts_service.dart';
 import '../../core/theme/app_colors.dart';
 import 'cool_skeleton.dart';
+import '../../core/l10n/l10n.dart';
 
 /// A modal bottom sheet that lets users pick contacts from their phone.
 ///
@@ -342,7 +343,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                 if (!_permissionDenied && !_permanentlyDenied && _error == null)
                   Semantics(
                     textField: true,
-                    label: 'Search contacts',
+                    label: context.l10n.searchContacts,
                     hint:
                         'Search name or phone',
                     child: TextField(

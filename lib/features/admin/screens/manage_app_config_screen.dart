@@ -14,6 +14,7 @@ import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../models/admin_feature_rollout.dart';
 import '../providers/admin_providers.dart';
+import '../../../core/l10n/l10n.dart';
 
 part '../controllers/manage_app_config_view_model.dart';
 part '../widgets/manage_app_config_sections.dart';
@@ -38,13 +39,13 @@ class ManageAppConfigScreen extends ConsumerWidget {
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
-          tooltip: 'Back',
+          tooltip: context.l10n.back,
           icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
       ),
       floatingActionButton: Semantics(
         button: true,
-        label: 'Add config entry',
+        label: context.l10n.addConfigEntry,
         hint: 'New config',
         child: FloatingActionButton(
           backgroundColor: AppColors.accent,
@@ -73,8 +74,8 @@ class ManageAppConfigScreen extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 24),
-              const AppConfigSectionHeader(
-                title: 'Rollout Governance',
+              AppConfigSectionHeader(
+                title: context.l10n.rolloutGovernance,
                 message:
                     'Manage kill switches rollout',
               ),
@@ -114,7 +115,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
                     ),
                   ),
                   icon: const Icon(Icons.add_rounded, size: 18),
-                  label: const Text('Add Recipient'),
+                  label: Text(context.l10n.addRecipient),
                 ),
               ),
               const SizedBox(height: 12),

@@ -7,6 +7,7 @@ import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
 import '../../models/bank_admin_models.dart';
 import 'bank_admin_helpers.dart';
+import '../../../../core/l10n/l10n.dart';
 
 class BankMembersTab extends StatelessWidget {
   const BankMembersTab({
@@ -85,8 +86,8 @@ class BankMembersTab extends StatelessWidget {
                 ),
               ),
               if (member.isAdmin)
-                const BankStatusTag(
-                  label: 'Admin',
+                BankStatusTag(
+                  label: context.l10n.admin,
                   backgroundColor: AppColors.rsBlueGlow,
                   foregroundColor: AppColors.rsWhite,
                 ),

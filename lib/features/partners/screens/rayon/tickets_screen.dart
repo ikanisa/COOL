@@ -22,6 +22,7 @@ import '../../rayon/rayon_payment.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/rayon_screen_scaffold.dart';
 import '../../widgets/rayon_state_views.dart';
+import '../../../../core/l10n/l10n.dart';
 
 class TicketsScreen extends ConsumerStatefulWidget {
   const TicketsScreen({
@@ -79,13 +80,13 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
         final onSale = hub.onSaleMatches;
         final upcoming = hub.upcomingMatches;
         return RayonScreenScaffold(
-          title: 'Tickets',
+          title: context.l10n.tickets,
           fallbackLocation: AppRoutes.rayonHome,
           scrollable: false,
           actions: [
             IconButton(
               onPressed: onSale.isEmpty ? null : () => _shareTicketsHub(onSale),
-              tooltip: 'Share tickets',
+              tooltip: context.l10n.shareTickets,
               icon: const Icon(
                 Icons.ios_share_rounded,
                 color: AppColors.rsWhite,
@@ -94,7 +95,7 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
             ),
             IconButton(
               onPressed: () => context.push(AppRoutes.rayonMyTickets),
-              tooltip: 'My tickets',
+              tooltip: context.l10n.myTickets1,
               icon: const Icon(
                 Icons.confirmation_number_outlined,
                 color: AppColors.rsWhite,

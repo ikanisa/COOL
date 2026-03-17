@@ -6,6 +6,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import 'driver_profile_models.dart';
+import '../../../core/l10n/l10n.dart';
 
 /// Full-width banner prompting upgrade to a paid subscription plan.
 class DriverSubscriptionBanner extends StatelessWidget {
@@ -76,7 +77,7 @@ class DriverSubscriptionBanner extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           CoolButton(
-            label: 'Pay via MOMO USSD',
+            label: context.l10n.payViaMomoUssd1,
             isLoading: isLoading,
             onTap: onPayTap,
           ),

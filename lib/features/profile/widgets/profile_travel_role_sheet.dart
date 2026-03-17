@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_colors.dart';
 import 'profile_data.dart';
 import 'profile_settings_widgets.dart';
+import '../../../core/l10n/l10n.dart';
 
 class ProfileTravelRoleSheet extends StatelessWidget {
   const ProfileTravelRoleSheet({
@@ -46,11 +47,11 @@ class ProfileTravelRoleSheet extends StatelessWidget {
         ),
         const SizedBox(height: 18),
         ProfileSettingsSection(
-          title: 'Default',
+          title: context.l10n.defaultKey,
           rows: [
             ProfileSettingsRow(
               icon: Icons.route_outlined,
-              label: 'Passenger',
+              label: context.l10n.passenger,
               value: profile.momoLinked
                   ? 'Default travel role'
                   : 'Add wallet first',
@@ -68,7 +69,7 @@ class ProfileTravelRoleSheet extends StatelessWidget {
         ),
         const SizedBox(height: 14),
         ProfileSettingsSection(
-          title: 'Optional',
+          title: context.l10n.optional,
           rows: [
             ProfileSettingsRow(
               icon: Icons.directions_car_outlined,

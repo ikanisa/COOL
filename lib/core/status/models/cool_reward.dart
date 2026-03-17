@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 
 enum CoolRewardType {
-  digitalGoods,   // frames, stickers, streak freeze
-  partnerPerk,    // discounts, zero-fee vouchers
-  communityImpact // voting power, initiative boost
+  digitalGoods, // frames, stickers, streak freeze
+  partnerPerk, // discounts, zero-fee vouchers
+  communityImpact, // voting power, initiative boost
 }
 
 /// A reward that can be redeemed using Cool Tokens.
@@ -40,8 +40,8 @@ class CoolReward extends Equatable {
       emoji: (json['emoji'] ?? '🎁').toString(),
       partnerId: json['partner_id']?.toString(),
       isActive: json['is_active'] != false,
-      expiryDate: json['expiry_date'] != null 
-          ? DateTime.tryParse(json['expiry_date'].toString()) 
+      expiryDate: json['expiry_date'] != null
+          ? DateTime.tryParse(json['expiry_date'].toString())
           : null,
     );
   }

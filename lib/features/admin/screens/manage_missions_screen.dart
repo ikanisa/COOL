@@ -10,6 +10,7 @@ import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_gamification_providers.dart';
 import '../repositories/admin_gamification_repository.dart';
+import '../../../core/l10n/l10n.dart';
 
 /// Admin CRUD screen for managing cooperative missions.
 class ManageMissionsScreen extends ConsumerWidget {
@@ -26,7 +27,7 @@ class ManageMissionsScreen extends ConsumerWidget {
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
-          tooltip: 'Back',
+          tooltip: context.l10n.back,
           icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
       ),
@@ -69,7 +70,7 @@ class ManageMissionsScreen extends ConsumerWidget {
               ),
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(
-          child: Text('Error: $e', style: GoogleFonts.dmSans(color: AppColors.text3)),
+          child: Text(context.l10n.genericErrorText(e.toString()), style: GoogleFonts.dmSans(color: AppColors.text3)),
         ),
       ),
     );
@@ -367,7 +368,7 @@ class _MissionEditSheetState extends State<_MissionEditSheet> {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text('Active', style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3)),
+                      Text(context.l10n.active, style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3)),
                       const SizedBox(width: 4),
                       Switch.adaptive(
                         value: _isActive,

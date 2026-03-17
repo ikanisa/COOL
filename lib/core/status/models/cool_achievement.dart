@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 
 /// A global achievement in the Cool SuperApp.
-/// 
-/// Achievements are earned by completing milestones in various features 
-/// (Mobility, Groups, Shop, etc.) and are displayed in the user's profile 
+///
+/// Achievements are earned by completing milestones in various features
+/// (Mobility, Groups, Shop, etc.) and are displayed in the user's profile
 /// and the Cool Tokens hub.
 class CoolAchievement extends Equatable {
   const CoolAchievement({
@@ -27,16 +27,16 @@ class CoolAchievement extends Equatable {
   final String description;
   final bool isEarned;
   final DateTime? earnedAt;
-  
+
   /// The feature where this achievement was earned (e.g., 'mobility', 'groups')
   final String? featureContext;
-  
+
   /// Bonus tokens awarded for unlocking this achievement
   final int pointsValue;
 
   factory CoolAchievement.fromJson(Map<String, dynamic> json) {
-    final earnedAt = json['earned_at'] != null 
-        ? DateTime.tryParse(json['earned_at'].toString()) 
+    final earnedAt = json['earned_at'] != null
+        ? DateTime.tryParse(json['earned_at'].toString())
         : null;
 
     return CoolAchievement(

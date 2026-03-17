@@ -81,12 +81,14 @@ class ThemePreferenceNotifier extends StateNotifier<AppThemePreference> {
 
     final user = _ref.read(authProvider).user;
     if (user != null) {
-      await _ref.read(authProvider.notifier).updateProfile(
-        user.copyWith(
-          themePreference: preference.storageValue,
-          themePreferenceUpdatedAt: now,
-        ),
-      );
+      await _ref
+          .read(authProvider.notifier)
+          .updateProfile(
+            user.copyWith(
+              themePreference: preference.storageValue,
+              themePreferenceUpdatedAt: now,
+            ),
+          );
     }
   }
 
@@ -108,12 +110,14 @@ class ThemePreferenceNotifier extends StateNotifier<AppThemePreference> {
     } else if (_updatedAt != null &&
         (remoteUpdatedAt == null || _updatedAt!.isAfter(remoteUpdatedAt))) {
       // Local is newer.
-      await _ref.read(authProvider.notifier).updateProfile(
-        user.copyWith(
-          themePreference: state.storageValue,
-          themePreferenceUpdatedAt: _updatedAt,
-        ),
-      );
+      await _ref
+          .read(authProvider.notifier)
+          .updateProfile(
+            user.copyWith(
+              themePreference: state.storageValue,
+              themePreferenceUpdatedAt: _updatedAt,
+            ),
+          );
     }
   }
 

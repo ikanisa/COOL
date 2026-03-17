@@ -14,6 +14,7 @@ import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../core/services/app_access_service.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import 'profile_settings_widgets.dart';
+import '../../../core/l10n/l10n.dart';
 
 class ProfileAppAccessSheet extends ConsumerStatefulWidget {
   const ProfileAppAccessSheet({super.key});
@@ -381,8 +382,8 @@ class _NotificationAccessCard extends StatelessWidget {
 
     return _AccessCardShell(
       icon: Icons.notifications_outlined,
-      title: 'Notifications',
-      subtitle: 'Payment and activity alerts',
+      title: context.l10n.notifications,
+      subtitle: context.l10n.paymentAndActivityAlerts,
       statusLabel: statusLabel,
       statusColor: statusColor,
       linkedFeatures: const [
@@ -398,7 +399,7 @@ class _NotificationAccessCard extends StatelessWidget {
       ),
       footerAction: canOpenSettings
           ? _InlineActionButton(
-              label: 'Open system settings',
+              label: context.l10n.openSystemSettings,
               onTap: () => onOpenSettings(),
             )
           : null,
@@ -431,7 +432,7 @@ class _PermissionAccessCard extends StatelessWidget {
     final status = _statusFor(snapshot);
     final footerAction = switch (snapshot.kind) {
       AppAccessStateKind.blockedInSystem => _InlineActionButton(
-        label: 'Open system settings',
+        label: context.l10n.openSystemSettings,
         onTap: onOpenSettings,
       ),
       AppAccessStateKind.serviceDisabled => _InlineActionButton(
@@ -773,9 +774,9 @@ class _PermissionMetadata {
 
 _PermissionMetadata _metadataFor(AppAccessPermission permission) {
   return switch (permission) {
-    AppAccessPermission.sms => const _PermissionMetadata(
+    AppAccessPermission.sms => _PermissionMetadata(
       icon: Icons.sms_outlined,
-      title: 'SMS payment sync',
+      title: 'Sms Payment Sync',
       subtitle:
           'Optional on Android so Cool can auto-verify '
           'M-Money payments and reconcile group contributions, '
@@ -783,7 +784,7 @@ _PermissionMetadata _metadataFor(AppAccessPermission permission) {
       linkedFeatures: ['MoMo verification', 'Transaction recording'],
       serviceActionLabel: 'Open system settings',
     ),
-    AppAccessPermission.location => const _PermissionMetadata(
+    AppAccessPermission.location => _PermissionMetadata(
       icon: Icons.location_on_outlined,
       title: 'Location',
       subtitle:

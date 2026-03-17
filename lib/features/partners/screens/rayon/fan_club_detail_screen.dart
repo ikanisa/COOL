@@ -14,6 +14,7 @@ import '../../../../shared/widgets/share_card.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/rayon_screen_scaffold.dart';
 import '../../widgets/rayon_state_views.dart';
+import '../../../../core/l10n/l10n.dart';
 
 class FanClubDetailScreen extends ConsumerWidget {
   const FanClubDetailScreen({
@@ -57,7 +58,7 @@ class FanClubDetailScreen extends ConsumerWidget {
     final clubDetail = ref.watch(rayonClubDetailProvider(clubId));
 
     return RayonScreenScaffold(
-      title: 'Fan Club',
+      title: context.l10n.fanClub,
       fallbackLocation: AppRoutes.rayonClubs,
       scrollable: false,
       child: clubDetail.when(
@@ -100,7 +101,7 @@ class FanClubDetailScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 22),
                     _SectionTitle(
-                      label: 'Members preview',
+                      label: context.l10n.membersPreview,
                       trailing: '${club.memberCount}',
                     ),
                     const SizedBox(height: 10),
@@ -143,7 +144,7 @@ class FanClubDetailScreen extends ConsumerWidget {
                       const SizedBox(height: 22),
                     ],
                     if (detail.achievements.isNotEmpty) ...[
-                      const _SectionTitle(label: 'More details'),
+                      _SectionTitle(label: context.l10n.moreDetails),
                       const SizedBox(height: 10),
                       Wrap(
                         spacing: 16,
@@ -156,13 +157,13 @@ class FanClubDetailScreen extends ConsumerWidget {
                       const SizedBox(height: 22),
                     ],
                     ShareCard(
-                      title: 'Invite supporters',
+                      title: context.l10n.inviteSupporters,
                       icon: Icons.campaign_rounded,
                       message: 'Bring more fans into',
                       shareUrl: DeepLinkConfig.clubUri(club.id).toString(),
                       shareText: 'Join ${club.name} on Cool.',
                       sheetTitle: 'Share Fan Club',
-                      sheetSubtitle: 'Invite supporters to join',
+                      sheetSubtitle: context.l10n.inviteSupportersToJoin,
                       analyticsTargetType: 'rayon_club',
                       resolveShareUrl: () => _buildShareUrl(ref, club.id),
                     ),
@@ -338,7 +339,7 @@ class _ClubOverviewCard extends StatelessWidget {
               _StatTile(label: 'Events', value: '$eventCount'),
               const SizedBox(width: 10),
               _StatTile(
-                label: 'Rating',
+                label: context.l10n.rating,
                 value: rating <= 0 ? 'New' : rating.toStringAsFixed(1),
               ),
             ],

@@ -127,7 +127,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          tooltip: 'Back',
+          tooltip: context.l10n.back,
           onPressed: () => context.go(
             AppRoutes.onboardingLocation(redirect: widget.redirectPath),
           ),

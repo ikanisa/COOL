@@ -17,6 +17,7 @@ import '../../../shared/widgets/status_badge.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../models/group_detail.dart';
 import '../providers/groups_provider.dart';
+import '../../../core/l10n/l10n.dart';
 
 class GroupInviteScreen extends ConsumerStatefulWidget {
   const GroupInviteScreen({
@@ -154,7 +155,7 @@ class _GroupInviteScreenState extends ConsumerState<GroupInviteScreen> {
       backgroundColor: AppColors.bg,
       appBar: AppBar(
         leading: IconButton(
-          tooltip: 'Back',
+          tooltip: context.l10n.back,
           onPressed: () => context.pop(),
           icon: const Icon(Icons.arrow_back_rounded),
         ),
@@ -286,14 +287,14 @@ class _InviteHeroCard extends StatelessWidget {
             Row(
               children: [
                 if (group.type == 'saving')
-                  const StatusBadge.saving()
+                    StatusBadge.saving()
                 else
-                  const StatusBadge.community(),
+                    StatusBadge.community(),
                 const SizedBox(width: 8),
                 if (group.visibility == 'public')
-                  const StatusBadge.public()
+                    StatusBadge.public()
                 else
-                  const StatusBadge.private(),
+                    StatusBadge.private(),
               ],
             ),
             const SizedBox(height: 14),

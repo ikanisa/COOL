@@ -5,7 +5,7 @@ import '../config/country_catalog.dart';
 /// Migrated from hardcoded catalog to dynamic Supabase storage.
 class SupportedCountriesRepository {
   SupportedCountriesRepository({required SupabaseClient client})
-      : _client = client;
+    : _client = client;
 
   final SupabaseClient _client;
 
@@ -34,7 +34,10 @@ class SupportedCountriesRepository {
       }
 
       final countries = data
-          .map((json) => CoolCountry.fromJson(Map<String, dynamic>.from(json as Map)))
+          .map(
+            (json) =>
+                CoolCountry.fromJson(Map<String, dynamic>.from(json as Map)),
+          )
           .toList(growable: false);
 
       _cachedCountries = countries;

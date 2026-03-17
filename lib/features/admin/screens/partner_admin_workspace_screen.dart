@@ -7,6 +7,7 @@ import '../../../core/router/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../partners/providers/partner_provider.dart';
 import '../widgets/admin_workspace_gate.dart';
+import '../../../core/l10n/l10n.dart';
 
 class PartnerAdminWorkspaceScreen extends ConsumerWidget {
   const PartnerAdminWorkspaceScreen({required this.partnerId, super.key});
@@ -109,9 +110,9 @@ class PartnerAdminWorkspaceScreen extends ConsumerWidget {
                 ),
               );
             },
-            loading: () => const AdminLoadingScaffold(title: 'Partner Admin'),
-            error: (_, _) => const AdminAccessDeniedScaffold(
-              title: 'Partner Admin',
+            loading: () => AdminLoadingScaffold(title: context.l10n.partnerAdmin),
+            error: (_, _) => AdminAccessDeniedScaffold(
+              title: context.l10n.partnerAdmin,
               message: 'The partner workspace could not be loaded. Please try again.',
             ),
           ),
@@ -157,7 +158,7 @@ class _RayonForwardingView extends StatelessWidget {
               const SizedBox(height: 12),
               ElevatedButton(
                 onPressed: () => context.go(AppRoutes.adminRayon),
-                child: const Text('Open Rayon Sports Admin'),
+                child: Text(context.l10n.openRayonSportsAdmin),
               ),
             ],
           ),
@@ -166,6 +167,3 @@ class _RayonForwardingView extends StatelessWidget {
     );
   }
 }
-
-
-

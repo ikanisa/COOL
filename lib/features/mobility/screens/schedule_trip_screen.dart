@@ -153,7 +153,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
         elevation: 0,
         leading: IconButton(
           onPressed: () => context.pop(),
-          tooltip: 'Back',
+          tooltip: context.l10n.back,
           icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
         title: Text(

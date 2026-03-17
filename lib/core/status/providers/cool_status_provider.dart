@@ -97,7 +97,9 @@ class CoolStatusNotifier extends StateNotifier<AsyncValue<CoolStatus>> {
 
 // ─── Marketplace providers ───────────────────────────────────────
 
-final availableRewardsProvider = FutureProvider.autoDispose<List<CoolReward>>((ref) async {
+final availableRewardsProvider = FutureProvider.autoDispose<List<CoolReward>>((
+  ref,
+) async {
   final repo = ref.watch(coolStatusRepositoryProvider);
   return repo.getAvailableRewards();
 });

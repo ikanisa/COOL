@@ -24,6 +24,7 @@ import '../widgets/bank_admin/bank_ledgers_tab.dart';
 import '../widgets/bank_admin/bank_loans_tab.dart';
 import '../widgets/bank_admin/bank_members_tab.dart';
 import '../widgets/bank_admin/bank_workspace_hero.dart';
+import '../../../core/l10n/l10n.dart';
 
 class BankAdminWorkspaceScreen extends ConsumerStatefulWidget {
   const BankAdminWorkspaceScreen({required this.partnerId, super.key});
@@ -240,18 +241,18 @@ class _BankAdminWorkspaceScreenState
     final shouldReject = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Reject allocation'),
+        title: Text(context.l10n.rejectAllocation),
         content: const Text(
           'This will remove the',
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: const Text('Cancel'),
+            child: Text(context.l10n.cancel),
           ),
           FilledButton(
             onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: const Text('Reject'),
+            child: Text(context.l10n.reject),
           ),
         ],
       ),
@@ -689,7 +690,7 @@ class _BankAdminWorkspaceScreenState
                                     memberUserId: selectedMemberId!,
                                   );
                                 },
-                          child: const Text('Allocate to member'),
+                          child: Text(context.l10n.allocateToMember),
                         ),
                       ),
                     ],

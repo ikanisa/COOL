@@ -17,6 +17,7 @@ import '../widgets/driver_overview_widgets.dart';
 import '../widgets/driver_profile_models.dart';
 import '../widgets/driver_subscription_widgets.dart';
 import '../widgets/driver_vehicle_trip_widgets.dart';
+import '../../../core/l10n/l10n.dart';
 
 /// Driver profile for mobility partners.
 ///
@@ -71,8 +72,8 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
 
     // Loading state.
     if (driverState.isLoading && profile == null) {
-      return const CoolScreenScaffold(
-        title: 'Driver',
+      return CoolScreenScaffold(
+        title: context.l10n.driver,
         child: CoolSkeletonList(itemCount: 4),
       );
     }
@@ -80,7 +81,7 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
     // Error state.
     if (driverState.error != null && profile == null) {
       return CoolScreenScaffold(
-        title: 'Driver',
+        title: context.l10n.driver,
         child: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 24),
@@ -105,7 +106,7 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
                 const SizedBox(height: 16),
                 Semantics(
                   button: true,
-                  label: 'Retry loading driver profile',
+                  label: context.l10n.retryLoadingDriverProfile,
                   child: GestureDetector(
                     onTap: () =>
                         ref.read(driverProvider.notifier).loadDriverProfile(),
@@ -185,7 +186,7 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
             .toList(growable: false);
 
     return CoolScreenScaffold(
-      title: 'Driver',
+      title: context.l10n.driver,
       padding: const EdgeInsets.fromLTRB(18, 8, 18, 80),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -384,11 +385,11 @@ class _DriverDashboardCard extends StatelessWidget {
             children: [
               TextButton(
                 onPressed: onOpenVehicle,
-                child: const Text('Vehicle'),
+                child: Text(context.l10n.vehicle),
               ),
               TextButton(
                 onPressed: onOpenSubscription,
-                child: const Text('Subscription'),
+                child: Text(context.l10n.subscription),
               ),
             ],
           ),

@@ -295,10 +295,7 @@ class EngagementTracker {
     await track(
       EngagementEvent(
         name: EngagementEventName.tripPostStarted,
-        parameters: <String, Object?>{
-          'role': role,
-          'veh_type': vehicleType,
-        },
+        parameters: <String, Object?>{'role': role, 'veh_type': vehicleType},
       ),
     );
   }
@@ -326,9 +323,7 @@ class EngagementTracker {
     await track(
       EngagementEvent(
         name: EngagementEventName.calendarSuggestionSelected,
-        parameters: <String, Object?>{
-          'suggestion_title': suggestionTitle,
-        },
+        parameters: <String, Object?>{'suggestion_title': suggestionTitle},
       ),
     );
   }

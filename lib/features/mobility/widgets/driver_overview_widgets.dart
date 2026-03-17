@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_card.dart';
 import 'driver_profile_models.dart';
+import '../../../core/l10n/l10n.dart';
 
 /// Stats card showing avatar, name, driver ID, online pill, and numeric stats.
 class DriverStatsCard extends StatelessWidget {
@@ -114,7 +115,7 @@ class DriverStatsCard extends StatelessWidget {
             children: [
               Expanded(
                 child: DriverStatBox(
-                  label: 'Trips Posted',
+                  label: context.l10n.tripsPosted,
                   value: '${driver.tripsDone}',
                   valueColor: AppColors.accent,
                 ),
@@ -122,7 +123,7 @@ class DriverStatsCard extends StatelessWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: DriverStatBox(
-                  label: 'Mobility Credits',
+                  label: context.l10n.mobilityCredits,
                   value: hasUnlimitedTrips
                       ? 'Unlimited'
                       : '${driver.freeTripsRemaining}',
@@ -132,7 +133,7 @@ class DriverStatsCard extends StatelessWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: DriverStatBox(
-                  label: 'Status',
+                  label: context.l10n.status,
                   value: hasUnlimitedTrips
                       ? 'Subscribed'
                       : (isLowOnTrips ? 'Low' : 'Ready'),
@@ -413,7 +414,7 @@ class DriverSubscriptionSummaryCard extends StatelessWidget {
                   const SizedBox(height: 10),
                   TextButton(
                     onPressed: onOpenManage,
-                    child: const Text('Open subscription options'),
+                    child: Text(context.l10n.openSubscriptionOptions),
                   ),
                 ],
               ],

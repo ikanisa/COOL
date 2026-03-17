@@ -6,6 +6,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../providers/admin_providers.dart';
+import '../../../core/l10n/l10n.dart';
 
 /// System-wide analytics dashboard for platform admins.
 class SystemAnalyticsScreen extends ConsumerWidget {
@@ -23,7 +24,7 @@ class SystemAnalyticsScreen extends ConsumerWidget {
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
-          tooltip: 'Back',
+          tooltip: context.l10n.back,
           icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
       ),

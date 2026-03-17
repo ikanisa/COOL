@@ -12,6 +12,7 @@ import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_providers.dart';
+import 'package:cool_app/core/l10n/l10n.dart';
 
 /// Admin screen for inspecting user profiles, toggling admin status, editing
 /// user fields, and cleaning demo data.
@@ -403,7 +404,7 @@ class _UserTile extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(false),
-            child: const Text('Cancel'),
+            child: Text(context.l10n.cancel),
           ),
           FilledButton(
             onPressed: () => Navigator.of(ctx).pop(true),
@@ -674,7 +675,7 @@ class _BatchCleanupButtonState extends ConsumerState<_BatchCleanupButton> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('Cancel'),
+              child: Text(context.l10n.cancel),
             ),
             FilledButton(
               style: FilledButton.styleFrom(
@@ -682,7 +683,7 @@ class _BatchCleanupButtonState extends ConsumerState<_BatchCleanupButton> {
                 foregroundColor: Colors.white,
               ),
               onPressed: () => Navigator.of(context).pop(true),
-              child: const Text('Delete Batch'),
+              child: Text(context.l10n.deleteBatch),
             ),
           ],
         );

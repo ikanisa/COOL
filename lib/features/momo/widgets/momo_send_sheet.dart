@@ -130,7 +130,7 @@ class _MomoSendMoneySheetState extends ConsumerState<MomoSendMoneySheet> {
       if (!mounted) {
         return;
       }
-      CoolToast.error(context, l10n.momoSendLaunchFailed(widget.country.name));
+      CoolToast.error(context, '${l10n.momoSendLaunchFailed} ${widget.country.name}');
     } finally {
       if (mounted) {
         setState(() => _isSubmitting = false);

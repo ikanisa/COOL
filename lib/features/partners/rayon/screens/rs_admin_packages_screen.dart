@@ -12,6 +12,7 @@ import '../models/rs_models.dart';
 import '../providers/rs_admin_provider.dart';
 import '../rs_membership_package.dart';
 import '../widgets/rs_admin_shell.dart';
+import 'package:cool_app/core/l10n/l10n.dart';
 
 class RsAdminPackagesScreen extends ConsumerStatefulWidget {
   const RsAdminPackagesScreen({super.key});
@@ -125,7 +126,7 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
                     const SizedBox(height: 12),
                     SwitchListTile.adaptive(
                       contentPadding: EdgeInsets.zero,
-                      title: const Text('Package active'),
+                      title: Text(context.l10n.packageActive),
                       subtitle: const Text(
                         'Inactive packages remain hidden',
                       ),
@@ -200,7 +201,7 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
                             }
                           }
                         },
-                        child: const Text('Save package'),
+                        child: Text(context.l10n.savePackage),
                       ),
                     ),
                   ],

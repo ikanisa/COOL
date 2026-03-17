@@ -12,6 +12,7 @@ import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/mission_progress_card.dart';
 import '../../../features/auth/providers/auth_provider.dart';
+import '../../../core/l10n/l10n.dart';
 
 /// Screen showing active and upcoming cooperative missions.
 class MissionsScreen extends ConsumerWidget {
@@ -44,10 +45,10 @@ class MissionsScreen extends ConsumerWidget {
               ),
 
               // ─── Active missions ─────────────────────────
-              const SliverPadding(
-                padding: EdgeInsets.fromLTRB(18, 8, 18, 0),
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(18, 8, 18, 0),
                 sliver: SliverToBoxAdapter(
-                  child: _SectionLabel(label: 'Active Missions'),
+                  child: _SectionLabel(label: context.l10n.activeMissions),
                 ),
               ),
 
@@ -59,10 +60,10 @@ class MissionsScreen extends ConsumerWidget {
                 ),
 
               // ─── Upcoming missions ───────────────────────
-              const SliverPadding(
-                padding: EdgeInsets.fromLTRB(18, 24, 18, 0),
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(18, 24, 18, 0),
                 sliver: SliverToBoxAdapter(
-                  child: _SectionLabel(label: 'Coming Soon'),
+                  child: _SectionLabel(label: context.l10n.comingSoon),
                 ),
               ),
 

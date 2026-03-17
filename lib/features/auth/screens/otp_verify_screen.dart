@@ -11,6 +11,7 @@ import '../../../core/router/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../providers/auth_provider.dart';
+import '../../../core/l10n/l10n.dart';
 
 /// OTP verification screen with 6 auto-advancing digit boxes,
 /// a resend countdown, and a shake error animation.
@@ -183,7 +184,7 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          tooltip: 'Back',
+          tooltip: context.l10n.back,
           onPressed: () =>
               context.go(AppRoutes.otpLocation(redirect: widget.redirectPath)),
           icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),

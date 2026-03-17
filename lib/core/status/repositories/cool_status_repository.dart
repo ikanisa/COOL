@@ -222,10 +222,7 @@ class CoolStatusRepository {
   }) async {
     final updated = await _client.rpc(
       'redeem_cool_reward',
-      params: <String, dynamic>{
-        'p_user_id': userId,
-        'p_reward_id': rewardId,
-      },
+      params: <String, dynamic>{'p_user_id': userId, 'p_reward_id': rewardId},
     );
 
     return CoolStatus.fromJson(Map<String, dynamic>.from(updated as Map));

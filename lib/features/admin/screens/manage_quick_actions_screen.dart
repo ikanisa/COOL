@@ -10,6 +10,7 @@ import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_providers.dart';
+import '../../../core/l10n/l10n.dart';
 
 /// Admin screen for managing home-screen quick action cards.
 class ManageQuickActionsScreen extends ConsumerStatefulWidget {
@@ -63,7 +64,7 @@ class _ManageQuickActionsScreenState
       ),
       floatingActionButton: Semantics(
         button: true,
-        label: 'Add quick action',
+        label: context.l10n.addQuickAction,
         hint: 'New action',
         child: FloatingActionButton(
           backgroundColor: AppColors.accent,

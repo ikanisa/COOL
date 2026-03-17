@@ -1,3 +1,4 @@
+
 part of '../screens/momo_statements_screen.dart';
 
 class StatementOverviewCard extends StatelessWidget {
@@ -28,7 +29,7 @@ class StatementOverviewCard extends StatelessWidget {
               Expanded(
                 child: PopupMenuButton<StatementPeriodPreset>(
                   key: const ValueKey<String>('statement-period-selector'),
-                  tooltip: 'Change statement period',
+                  tooltip: context.l10n.changeStatementPeriod,
                   onSelected: (period) => unawaited(onSelectPeriod(period)),
                   itemBuilder: (context) => StatementPeriodPreset.values
                       .map(
@@ -93,7 +94,7 @@ class StatementOverviewCard extends StatelessWidget {
                   key: const ValueKey<String>('statement-open-options'),
                   onPressed: onOpenOptions,
                   icon: const Icon(Icons.tune_rounded, size: 18),
-                  label: const Text('More'),
+                  label: Text(context.l10n.more),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: palette.text,
                     side: BorderSide(color: palette.border),
@@ -201,7 +202,7 @@ class _StatementOptionsSheetState extends State<StatementOptionsSheet> {
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(),
                     icon: const Icon(Icons.close_rounded),
-                    tooltip: 'Close',
+                    tooltip: context.l10n.close,
                   ),
                 ],
               ),
@@ -267,7 +268,7 @@ class _StatementOptionsSheetState extends State<StatementOptionsSheet> {
                 children: [
                   Expanded(
                     child: CoolButton(
-                      label: 'Reset',
+                      label: context.l10n.reset,
                       variant: CoolButtonVariant.secondary,
                       onTap: () {
                         widget.onReset();
@@ -278,7 +279,7 @@ class _StatementOptionsSheetState extends State<StatementOptionsSheet> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: CoolButton(
-                      label: 'Apply filters',
+                      label: context.l10n.applyFilters,
                       onTap: () {
                         widget.onApply(_selectedParty, _selectedSort);
                         Navigator.of(context).pop();
@@ -304,7 +305,7 @@ class _StatementOptionsSheetState extends State<StatementOptionsSheet> {
                 children: [
                   Expanded(
                     child: CoolButton(
-                      label: 'PDF',
+                      label: context.l10n.pdf,
                       icon: Icons.picture_as_pdf_rounded,
                       onTap: widget.canExport
                           ? () {
@@ -317,7 +318,7 @@ class _StatementOptionsSheetState extends State<StatementOptionsSheet> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: CoolButton(
-                      label: 'Excel',
+                      label: context.l10n.excel,
                       icon: Icons.table_view_rounded,
                       onTap: widget.canExport
                           ? () {

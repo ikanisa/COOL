@@ -9,6 +9,7 @@ import '../../../shared/widgets/cool_screen_background.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../providers/momo_service_provider.dart';
 import '../widgets/momo_qr_nfc_widgets.dart';
+import '../../../core/l10n/l10n.dart';
 
 class MomoNfcScreen extends ConsumerWidget {
   const MomoNfcScreen({super.key});
@@ -32,7 +33,7 @@ class MomoNfcScreen extends ConsumerWidget {
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).maybePop(),
-          tooltip: 'Back',
+          tooltip: context.l10n.back,
           icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
         title: Text(

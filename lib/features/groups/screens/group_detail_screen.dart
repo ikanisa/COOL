@@ -248,14 +248,14 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
                   Row(
                     children: [
                       if (group.type == 'saving')
-                        const StatusBadge.saving()
+                          StatusBadge.saving()
                       else
-                        const StatusBadge.community(),
+                          StatusBadge.community(),
                       const SizedBox(width: 8),
                       if (group.visibility == 'public')
-                        const StatusBadge.public()
+                          StatusBadge.public()
                       else
-                        const StatusBadge.private(),
+                          StatusBadge.private(),
                     ],
                   ),
                   const SizedBox(height: 24),

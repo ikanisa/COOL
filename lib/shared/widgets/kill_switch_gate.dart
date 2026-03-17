@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import 'cool_button.dart';
+import '../../core/l10n/l10n.dart';
 
 /// A gate widget that blocks access to a feature when its kill-switch is active.
 ///
@@ -106,7 +107,7 @@ class KillSwitchGate extends StatelessWidget {
                 ),
                 const SizedBox(height: 32),
                 CoolButton(
-                  label: 'Go Back',
+                  label: context.l10n.goBack,
                   onTap: onBackPressed ?? () => Navigator.of(context).pop(),
                   variant: CoolButtonVariant.secondary,
                 ),

@@ -6,6 +6,7 @@ import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../providers/mobility_location_provider.dart';
+import '../../../core/l10n/l10n.dart';
 
 /// Combined pickup / destination text-field editor with route dots.
 class ScheduleTripRouteEditor extends StatelessWidget {
@@ -217,14 +218,14 @@ class _RouteField extends StatelessWidget {
                 )
               : _RouteActionIcon(
                   icon: Icons.my_location_rounded,
-                  tooltip: 'Use current location',
+                  tooltip: context.l10n.useCurrentLocation,
                   onTap: onUseCurrentLocationTap!,
                 ),
         ),
       if (onSearchTap != null)
         _RouteActionIcon(
           icon: Icons.search_rounded,
-          tooltip: 'Search places',
+          tooltip: context.l10n.searchPlaces,
           onTap: onSearchTap!,
         ),
       if (isResolved)

@@ -7,9 +7,7 @@ import '../providers/engagement_providers.dart';
 import 'engagement_tracker.dart';
 
 final appReviewServiceProvider = Provider<AppReviewService>((ref) {
-  return AppReviewService(
-    ref.read(engagementTrackerProvider),
-  );
+  return AppReviewService(ref.read(engagementTrackerProvider));
 });
 
 /// Service for requesting in-app reviews.

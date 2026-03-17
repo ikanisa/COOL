@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/theme_preference.dart';
 import '../../../core/theme/theme_preference_provider.dart';
+import '../../../core/l10n/l10n.dart';
 
 class ProfileThemeSheet extends ConsumerWidget {
   const ProfileThemeSheet({super.key});
@@ -63,7 +64,7 @@ class ProfileThemeSheet extends ConsumerWidget {
               const SizedBox(height: 20),
               _ThemeOptionCard(
                 preference: AppThemePreference.system,
-                title: 'System default',
+                title: context.l10n.systemDefault,
                 icon: Icons.brightness_auto_rounded,
                 isSelected: currentPreference == AppThemePreference.system,
                 onTap: () => _setTheme(ref, AppThemePreference.system),
@@ -71,7 +72,7 @@ class ProfileThemeSheet extends ConsumerWidget {
               const SizedBox(height: 12),
               _ThemeOptionCard(
                 preference: AppThemePreference.light,
-                title: 'Light mode',
+                title: context.l10n.lightMode,
                 icon: Icons.light_mode_rounded,
                 isSelected: currentPreference == AppThemePreference.light,
                 onTap: () => _setTheme(ref, AppThemePreference.light),
@@ -79,7 +80,7 @@ class ProfileThemeSheet extends ConsumerWidget {
               const SizedBox(height: 12),
               _ThemeOptionCard(
                 preference: AppThemePreference.dark,
-                title: 'Dark mode',
+                title: context.l10n.darkMode,
                 icon: Icons.dark_mode_rounded,
                 isSelected: currentPreference == AppThemePreference.dark,
                 onTap: () => _setTheme(ref, AppThemePreference.dark),

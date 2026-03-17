@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/cool_palette.dart';
+import '../../../core/l10n/l10n.dart';
 
 // ═════════════════════════════════════════════════════════════════════════════
 // MOMO ACTION GRID
@@ -33,23 +34,23 @@ class MomoActionGrid extends StatelessWidget {
       children: [
         MomoActionCard(
           icon: Icons.receipt_long_rounded,
-          title: 'Statements',
+          title: context.l10n.statements,
           onTap: onOpenStatements,
         ),
         MomoActionCard(
           icon: Icons.center_focus_strong_rounded,
-          title: 'Scan QR',
+          title: context.l10n.scanQr,
           onTap: onScanQr,
           isPrimary: true,
         ),
         MomoActionCard(
           icon: Icons.qr_code_2_rounded,
-          title: 'MOMO QR',
+          title: context.l10n.momoQr,
           onTap: onOpenQrCode,
         ),
         MomoActionCard(
           icon: Icons.nfc_rounded,
-          title: 'NFC pay',
+          title: context.l10n.nfcPay,
           onTap: onOpenNfcTools,
         ),
       ],

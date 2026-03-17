@@ -8,6 +8,7 @@ import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column;
 
 import '../models/momo_statement.dart';
 
+
 enum StatementExportFormat { pdf, excel, csv }
 
 class StatementExportMetadata {
@@ -351,7 +352,7 @@ class MomoStatementExportService {
             children: [
               pw.Expanded(
                 child: _pdfMetricCard(
-                  label: 'Posted value',
+                  label: 'Posted',
                   value: '${_formatAmount(postedTotal)} RWF',
                   accent: PdfColor.fromHex('#00E5A0'),
                 ),
@@ -822,7 +823,7 @@ class MomoStatementExportService {
       sheet.getRangeByIndex(row, 2).setText(entry.groupName);
       sheet.getRangeByIndex(row, 3).setNumber(entry.amount.toDouble());
       sheet.getRangeByIndex(row, 3).numberFormat = '#,##0';
-      sheet.getRangeByIndex(row, 4).setText('RWF');
+      sheet.getRangeByIndex(row, 4).setText('Rwf');
       sheet.getRangeByIndex(row, 5).setText(_titleize(entry.status));
       sheet.getRangeByIndex(row, 6).setText(entry.reference ?? '-');
     }

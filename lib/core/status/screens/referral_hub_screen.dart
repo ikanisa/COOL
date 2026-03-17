@@ -13,6 +13,7 @@ import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/qr_share_sheet.dart';
 import '../../providers/referral_providers.dart';
 import '../../models/referral_attribution.dart';
+import '../../../core/l10n/l10n.dart';
 
 class ReferralHubScreen extends ConsumerStatefulWidget {
   const ReferralHubScreen({super.key});
@@ -62,7 +63,8 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
 
   void _shareNative() {
     if (_inviteLink == null) return;
-    final text = 'Join me on Cool! Get tokens and enjoy seamless services: ${_inviteLink!.uri}';
+    final text =
+        'Join me on Cool! Get tokens and enjoy seamless services: ${_inviteLink!.uri}';
     SharePlus.instance.share(ShareParams(text: text));
   }
 
@@ -73,7 +75,7 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
       groupName: 'Cool SuperApp',
       inviteUrl: _inviteLink!.uri.toString(),
       sheetTitle: 'Invite Friends',
-      sheetSubtitle: 'Scan this QR code to join Cool',
+      sheetSubtitle: context.l10n.scanThisQrCode,
       shareText: 'Join me on Cool! ${_inviteLink!.uri}',
     );
   }
@@ -81,7 +83,7 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
-    
+
     return Scaffold(
       backgroundColor: palette.bg,
       body: CoolScreenBackground(
@@ -94,7 +96,7 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
                 pinned: true,
                 leading: IconButton(
                   onPressed: () => context.pop(),
-                  tooltip: 'Back',
+                  tooltip: context.l10n.back,
                   icon: Icon(Icons.arrow_back_rounded, color: palette.text),
                 ),
                 title: Text(
@@ -115,7 +117,10 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
                       padding: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [palette.accent, palette.accent.withValues(alpha: 0.8)],
+                          colors: [
+                            palette.accent,
+                            palette.accent.withValues(alpha: 0.8),
+                          ],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
@@ -123,10 +128,7 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
                       ),
                       child: Column(
                         children: [
-                          const Text(
-                            '🎁',
-                            style: TextStyle(fontSize: 48),
-                          ),
+                          const Text('🎁', style: TextStyle(fontSize: 48)),
                           const SizedBox(height: 12),
                           Text(
                             'Invite Friends, Earn Tokens',
@@ -169,7 +171,10 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
                             const LinearProgressIndicator()
                           else if (_inviteLink != null)
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
                               decoration: BoxDecoration(
                                 color: palette.surface2,
                                 borderRadius: BorderRadius.circular(12),
@@ -191,19 +196,25 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
                                   const SizedBox(width: 8),
                                   GestureDetector(
                                     onTap: _copyLink,
-                                    child: Icon(Icons.copy_rounded, size: 20, color: palette.accent),
+                                    child: Icon(
+                                      Icons.copy_rounded,
+                                      size: 20,
+                                      color: palette.accent,
+                                    ),
                                   ),
                                 ],
                               ),
                             )
                           else
-                            const Text('Could not generate link. Please try again.'),
+                            const Text(
+                              'Could not generate link. Please try again.',
+                            ),
                           const SizedBox(height: 20),
                           Row(
                             children: [
                               Expanded(
                                 child: CoolButton(
-                                  label: 'Share link',
+                                  label: context.l10n.shareLink,
                                   icon: Icons.share_rounded,
                                   onTap: _shareNative,
                                 ),
@@ -211,7 +222,7 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
                               const SizedBox(width: 12),
                               Expanded(
                                 child: CoolButton(
-                                  label: 'QR Code',
+                                  label: context.l10n.qrCode,
                                   icon: Icons.qr_code_rounded,
                                   variant: CoolButtonVariant.secondary,
                                   onTap: _openQr,
@@ -234,23 +245,23 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const _StepRow(
+                    _StepRow(
                       number: '1',
-                      title: 'Send Invite',
+                      title: context.l10n.sendInvite,
                       message: 'Share your link or QR code with friends.',
                       icon: Icons.send_rounded,
                     ),
                     const SizedBox(height: 20),
-                    const _StepRow(
+                    _StepRow(
                       number: '2',
-                      title: 'Friend Joins',
+                      title: context.l10n.friendJoins,
                       message: 'They sign up using your unique link.',
                       icon: Icons.person_add_rounded,
                     ),
                     const SizedBox(height: 20),
-                    const _StepRow(
+                    _StepRow(
                       number: '3',
-                      title: 'Earn Tokens',
+                      title: context.l10n.earnTokens,
                       message: 'Get 150 tokens when they complete an activity.',
                       icon: Icons.stars_rounded,
                     ),

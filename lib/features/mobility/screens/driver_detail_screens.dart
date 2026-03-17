@@ -15,6 +15,7 @@ import '../widgets/driver_overview_widgets.dart';
 import '../widgets/driver_profile_models.dart';
 import '../widgets/driver_subscription_widgets.dart';
 import '../widgets/driver_vehicle_trip_widgets.dart';
+import '../../../core/l10n/l10n.dart';
 
 class DriverVehicleScreen extends ConsumerStatefulWidget {
   const DriverVehicleScreen({super.key});
@@ -74,8 +75,8 @@ class _DriverVehicleScreenState extends ConsumerState<DriverVehicleScreen> {
     final profile = driverState.profile;
 
     if (driverState.isLoading && profile == null) {
-      return const CoolScreenScaffold(
-        title: 'Vehicle',
+      return CoolScreenScaffold(
+        title: context.l10n.vehicle,
         child: CoolSkeletonList(itemCount: 3),
       );
     }
@@ -90,13 +91,13 @@ class _DriverVehicleScreenState extends ConsumerState<DriverVehicleScreen> {
     );
 
     return CoolScreenScaffold(
-      title: 'Vehicle',
+      title: context.l10n.vehicle,
       padding: const EdgeInsets.fromLTRB(18, 12, 18, 96),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const _DriverDetailIntroCard(
-            title: 'Vehicle details',
+          _DriverDetailIntroCard(
+            title: context.l10n.vehicleDetails,
             message:
                 'Keep your vehicle info',
           ),

@@ -16,6 +16,7 @@ import '../../../partners/providers/rayon_sports_provider.dart';
 import '../providers/rs_admin_provider.dart';
 import '../rayon_payment.dart';
 import '../widgets/rs_admin_shell.dart';
+import '../../../../core/l10n/l10n.dart';
 
 class RsAdminFinanceScreen extends ConsumerStatefulWidget {
   const RsAdminFinanceScreen({super.key});
@@ -280,18 +281,18 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Delete payment route'),
+        title: Text(context.l10n.deletePaymentRoute),
         content: Text(
           'Remove the ${route.countryCode} payment?',
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: const Text('Cancel'),
+            child: Text(context.l10n.cancel),
           ),
           FilledButton(
             onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: const Text('Delete'),
+            child: Text(context.l10n.delete),
           ),
         ],
       ),
@@ -333,8 +334,8 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
       ),
       error: (_, _) => Scaffold(
         backgroundColor: AppColors.bg,
-        body: const Center(
-          child: Text('Finance workspace could not'),
+        body: Center(
+          child: Text(context.l10n.financeWorkspaceCouldNot),
         ),
       ),
       data: (partnerId) {
@@ -469,7 +470,7 @@ class _RouteCardList extends StatelessWidget {
               ),
               FilledButton.tonal(
                 onPressed: isSavingRoute ? null : onCreateRoute,
-                child: const Text('New route'),
+                child: Text(context.l10n.newRoute),
               ),
             ],
           ),
@@ -589,7 +590,7 @@ class _RouteRow extends StatelessWidget {
             spacing: 12,
             runSpacing: 8,
             children: [
-              OutlinedButton(onPressed: onEdit, child: const Text('Edit')),
+              OutlinedButton(onPressed: onEdit, child: Text(context.l10n.edit)),
               TextButton(
                 onPressed: isDeleting ? null : onDelete,
                 child: Text(isDeleting ? 'Deleting...' : 'Delete'),

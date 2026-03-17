@@ -26,8 +26,9 @@ class HiveThemePreferenceStore implements ThemePreferenceStore {
       final value = box.get(preferenceKey);
       final rawTimestamp = box.get(timestampKey);
       final preference = appThemePreferenceFromStorage(value);
-      final updatedAt =
-          rawTimestamp != null ? DateTime.tryParse(rawTimestamp) : null;
+      final updatedAt = rawTimestamp != null
+          ? DateTime.tryParse(rawTimestamp)
+          : null;
       return (preference: preference, updatedAt: updatedAt);
     } catch (_) {
       return (preference: AppThemePreference.system, updatedAt: null);
@@ -35,7 +36,10 @@ class HiveThemePreferenceStore implements ThemePreferenceStore {
   }
 
   @override
-  Future<void> write(AppThemePreference preference, {DateTime? updatedAt}) async {
+  Future<void> write(
+    AppThemePreference preference, {
+    DateTime? updatedAt,
+  }) async {
     try {
       final box = await _openBox(boxName);
       await box.put(preferenceKey, preference.storageValue);

@@ -8,6 +8,7 @@ import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
 import '../../providers/bank_admin_providers.dart';
 import 'bank_admin_helpers.dart';
+import 'package:cool_app/core/l10n/l10n.dart';
 
 class BankLoansTab extends ConsumerWidget {
   const BankLoansTab({
@@ -67,7 +68,7 @@ class BankLoansTab extends ConsumerWidget {
         Expanded(
           child: loansAsync.when(
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (e, _) => const Center(child: Text('Error: \$e')),
+            error: (e, _) => Center(child: Text(context.l10n.genericErrorText(e.toString()))),
             data: (loans) {
               final filtered = statusFilter == 'all'
                   ? loans
@@ -174,7 +175,7 @@ class BankLoansTab extends ConsumerWidget {
                                       bankLoansProvider(partnerId),
                                     );
                                   },
-                                  child: const Text('Approve'),
+                                  child: Text(context.l10n.approve),
                                 ),
                               ),
                               const SizedBox(width: 8),
@@ -194,7 +195,7 @@ class BankLoansTab extends ConsumerWidget {
                                       bankLoansProvider(partnerId),
                                     );
                                   },
-                                  child: const Text('Reject'),
+                                  child: Text(context.l10n.reject),
                                 ),
                               ),
                             ],
@@ -223,7 +224,7 @@ class BankLoansTab extends ConsumerWidget {
                                   bankLoansProvider(partnerId),
                                 );
                               },
-                              label: const Text('Mark Disbursed'),
+                              label: Text(context.l10n.markDisbursed),
                             ),
                           ),
                         ],

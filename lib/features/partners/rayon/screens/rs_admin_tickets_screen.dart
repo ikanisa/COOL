@@ -12,6 +12,7 @@ import '../../providers/rayon_sports_provider.dart';
 import '../models/rs_models.dart';
 import '../providers/rs_admin_provider.dart';
 import '../widgets/rs_admin_shell.dart';
+import 'package:cool_app/core/l10n/l10n.dart';
 
 /// Admin screen for managing RS tickets — view all, filter by match, update status.
 class RsAdminTicketsScreen extends ConsumerStatefulWidget {
@@ -175,11 +176,11 @@ class _RsAdminTicketsScreenState extends ConsumerState<RsAdminTicketsScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(context.l10n.cancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Confirm Entry'),
+            child: Text(context.l10n.confirmEntry),
           ),
         ],
       ),
@@ -210,12 +211,12 @@ class _RsAdminTicketsScreenState extends ConsumerState<RsAdminTicketsScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(context.l10n.cancel),
           ),
           FilledButton(
             style: FilledButton.styleFrom(backgroundColor: AppColors.red),
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Refund'),
+            child: Text(context.l10n.refund),
           ),
         ],
       ),

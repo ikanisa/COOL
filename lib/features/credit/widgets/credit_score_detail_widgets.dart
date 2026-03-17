@@ -10,6 +10,7 @@ import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_error_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../models/credit_dashboard.dart';
+import '../../../core/l10n/l10n.dart';
 
 // ── Models ───────────────────────────────────────────────────────────────
 
@@ -228,7 +229,7 @@ class ApplicationReadinessEntryCard extends StatelessWidget {
           ),
           const SizedBox(height: 14),
           CoolButton(
-            label: 'Open readiness',
+            label: context.l10n.openReadiness,
             icon: Icons.assignment_turned_in_outlined,
             onTap: () => context.push(AppRoutes.creditReadiness),
           ),
@@ -294,18 +295,18 @@ class ScoreExplanationCard extends StatelessWidget {
               runSpacing: 8,
               children: [
                 _ReportMetaChip(
-                  label: 'Window',
+                  label: context.l10n.window,
                   value: _scoringWindowLabel(data),
                   icon: Icons.calendar_month_rounded,
                 ),
                 _ReportMetaChip(
-                  label: 'KYC',
+                  label: context.l10n.kyc,
                   value: _kycStatusLabel(data.kycStatus),
                   icon: Icons.verified_user_outlined,
                 ),
                 if ((data.scoreVersion?.trim().isNotEmpty ?? false))
                   _ReportMetaChip(
-                    label: 'Engine',
+                    label: context.l10n.engine,
                     value: data.scoreVersion!,
                     icon: Icons.tune_rounded,
                   ),
@@ -317,25 +318,25 @@ class ScoreExplanationCard extends StatelessWidget {
               runSpacing: 10,
               children: [
                 _SnapshotStatTile(
-                  label: 'Wallet In',
+                  label: context.l10n.walletIn,
                   value:
                       '${_formatCurrency(data.creditTotal)} RWF\n${data.creditEntryCount} credits',
                   color: AppColors.accent,
                 ),
                 _SnapshotStatTile(
-                  label: 'Wallet Out',
+                  label: context.l10n.walletOut,
                   value:
                       '${_formatCurrency(data.debitTotal)} RWF\n${data.debitEntryCount} debits',
                   color: AppColors.orange,
                 ),
                 _SnapshotStatTile(
-                  label: 'Savings',
+                  label: context.l10n.savings,
                   value:
                       '${_formatCurrency(data.groupTotal)} RWF\n${data.groupContributionCount} contributions',
                   color: AppColors.blue,
                 ),
                 _SnapshotStatTile(
-                  label: 'Average Save',
+                  label: context.l10n.averageSave,
                   value:
                       '${_formatCurrency(data.averageGroupContribution)} RWF\n${data.activeMonthCount} months',
                   color: AppColors.purple,
@@ -601,7 +602,7 @@ ReasonInsight _reasonInsightFor(String code, CreditDashboard dashboard) {
     case 'wallet_activity_low':
       return ReasonInsight(
         code: code,
-        title: 'Wallet history is still',
+        title: 'Wallet History Is Still',
         detail:
             'Only ${dashboard.statementCount} posted wallet entries were counted in this scoring window. More verified M-Money activity makes the score more dependable.',
         action:
@@ -612,7 +613,7 @@ ReasonInsight _reasonInsightFor(String code, CreditDashboard dashboard) {
     case 'income_history_thin':
       return ReasonInsight(
         code: code,
-        title: 'Incoming cashflow needs more',
+        title: 'Incoming Cashflow Needs More',
         detail:
             '${dashboard.creditEntryCount} incoming wallet entries were detected. Regular incoming transfers over multiple months improve cashflow stability.',
         action:
@@ -623,7 +624,7 @@ ReasonInsight _reasonInsightFor(String code, CreditDashboard dashboard) {
     case 'savings_pattern_thin':
       return ReasonInsight(
         code: code,
-        title: 'Savings pattern is not',
+        title: 'Savings Pattern Is Not',
         detail:
             'Confirmed savings total is ${_formatCurrency(dashboard.groupTotal)} RWF with an average contribution of ${_formatCurrency(dashboard.averageGroupContribution)} RWF.',
         action:
@@ -634,7 +635,7 @@ ReasonInsight _reasonInsightFor(String code, CreditDashboard dashboard) {
     case 'group_savings_missing':
       return ReasonInsight(
         code: code,
-        title: 'No confirmed group found',
+        title: 'No Confirmed Group Found',
         detail:
             'The model did not find confirmed group-savings contributions inside the scoring window, so that reliability factor stayed limited.',
         action:
@@ -645,7 +646,7 @@ ReasonInsight _reasonInsightFor(String code, CreditDashboard dashboard) {
     case 'group_activity_low':
       return ReasonInsight(
         code: code,
-        title: 'Group contribution activity is',
+        title: 'Group Contribution Activity Is',
         detail:
             '${dashboard.groupContributionCount} confirmed contributions were counted. More months with group contributions strengthen group reliability.',
         action:
@@ -656,7 +657,7 @@ ReasonInsight _reasonInsightFor(String code, CreditDashboard dashboard) {
     case 'profile_verification_needed':
       return ReasonInsight(
         code: code,
-        title: 'Profile verification is holding',
+        title: 'Profile Verification Is Holding',
         detail:
             'Official identity signals are not fully complete yet. Current KYC status is ${_kycStatusLabel(dashboard.kycStatus).toLowerCase()}.',
         action: 'Complete official-name, phone, and KYC verification.',
@@ -667,7 +668,7 @@ ReasonInsight _reasonInsightFor(String code, CreditDashboard dashboard) {
     default:
       return ReasonInsight(
         code: code,
-        title: 'Verified behaviour looks healthy',
+        title: 'Verified Behaviour Looks Healthy',
         detail:
             'Posted wallet activity, confirmed savings behaviour, and profile signals are all contributing positively in the current scoring window.',
         action:

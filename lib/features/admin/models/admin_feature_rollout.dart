@@ -16,7 +16,7 @@ class AdminFeatureRolloutConfig {
   final String killSwitchKey;
   final ManagedFeatureRollout rollout;
 
-  static const List<_ManagedFeatureSpec> _specs = <_ManagedFeatureSpec>[
+  static List<_ManagedFeatureSpec> _specs = <_ManagedFeatureSpec>[
     _ManagedFeatureSpec(
       key: 'momo',
       label: 'Mobile Money',

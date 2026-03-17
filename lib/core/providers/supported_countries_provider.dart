@@ -20,8 +20,9 @@ final supportedCountriesProvider = Provider<List<CoolCountry>>((ref) {
 
 /// Async provider for fetching supported countries from Supabase.
 /// Should be awaited during app initialization to populate the cache.
-final fetchSupportedCountriesProvider =
-    FutureProvider<List<CoolCountry>>((ref) async {
-      final repository = ref.read(supportedCountriesRepositoryProvider);
-      return repository.fetchSupportedCountries();
-    });
+final fetchSupportedCountriesProvider = FutureProvider<List<CoolCountry>>((
+  ref,
+) async {
+  final repository = ref.read(supportedCountriesRepositoryProvider);
+  return repository.fetchSupportedCountries();
+});

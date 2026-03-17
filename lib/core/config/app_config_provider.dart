@@ -54,7 +54,9 @@ final creditGradesProvider =
     });
 
 /// Fetches default map center from app config (e.g. Kigali).
-final defaultMapCenterProvider = FutureProvider<({double lat, double lng})>((ref) {
+final defaultMapCenterProvider = FutureProvider<({double lat, double lng})>((
+  ref,
+) {
   final repo = ref.read(appConfigRepositoryProvider);
   return repo.getDefaultMapCenter();
 });

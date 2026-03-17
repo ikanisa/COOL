@@ -8,6 +8,7 @@ import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../models/special_product.dart';
 import '../providers/special_products_provider.dart';
+import '../../../core/l10n/l10n.dart';
 
 /// Admin CRUD screen for managing special product cards.
 class ManageSpecialProductsScreen extends ConsumerWidget {
@@ -24,7 +25,7 @@ class ManageSpecialProductsScreen extends ConsumerWidget {
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
-          tooltip: 'Back',
+          tooltip: context.l10n.back,
           icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
       ),

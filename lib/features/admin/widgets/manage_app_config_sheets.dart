@@ -285,7 +285,7 @@ class _EditPartnerPaymentRouteSheetState
   Widget _partnerField() => Padding(
     padding: const EdgeInsets.only(bottom: 10),
     child: Semantics(
-      label: 'Partner selector',
+      label: context.l10n.partnerSelector,
       hint: 'Choose partner',
       child: DropdownButtonFormField<String>(
         initialValue: _selectedPartnerId,
@@ -341,7 +341,7 @@ class _EditPartnerPaymentRouteSheetState
   Widget _statusField() => Padding(
     padding: const EdgeInsets.only(bottom: 10),
     child: Semantics(
-      label: 'Status selector',
+      label: context.l10n.statusSelector,
       hint: 'Choose route status',
       child: DropdownButtonFormField<String>(
         initialValue: _status,
@@ -356,10 +356,10 @@ class _EditPartnerPaymentRouteSheetState
             borderSide: BorderSide.none,
           ),
         ),
-        items: const [
-          DropdownMenuItem<String>(value: 'draft', child: Text('Draft')),
-          DropdownMenuItem<String>(value: 'active', child: Text('Active')),
-          DropdownMenuItem<String>(value: 'inactive', child: Text('Inactive')),
+        items: [
+          const DropdownMenuItem<String>(value: 'draft', child: Text('Draft')),
+          const DropdownMenuItem<String>(value: 'active', child: Text('Active')),
+          const DropdownMenuItem<String>(value: 'inactive', child: Text('Inactive')),
         ],
         onChanged: _saving || _deleting
             ? null

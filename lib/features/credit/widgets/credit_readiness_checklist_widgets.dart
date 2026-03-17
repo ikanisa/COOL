@@ -12,6 +12,7 @@ import '../../../shared/widgets/cool_skeleton.dart';
 import '../../auth/models/user_profile.dart';
 import '../models/credit_dashboard.dart';
 import '../models/credit_readiness.dart';
+import '../../../core/l10n/l10n.dart';
 
 // ── Helpers ──────────────────────────────────────────────────────────────
 
@@ -99,15 +100,15 @@ class ReadinessNextMoveCard extends StatelessWidget {
             runSpacing: 10,
             children: [
               HistoryStatChip(
-                label: 'KYC',
+                label: context.l10n.kyc,
                 value: kycStatusLabel(user.kycStatus),
               ),
               HistoryStatChip(
-                label: 'Score',
+                label: context.l10n.score,
                 value: dashboard?.score?.toString() ?? 'Pending',
               ),
               HistoryStatChip(
-                label: 'Checks',
+                label: context.l10n.checks,
                 value: '${report.completedChecks}/${report.totalChecks}',
               ),
             ],

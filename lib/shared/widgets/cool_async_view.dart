@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'cool_empty_view.dart';
 import 'cool_error_view.dart';
 import 'cool_skeleton.dart';
+import '../../core/l10n/l10n.dart';
 
 /// Generic async-data renderer for Riverpod [AsyncValue].
 ///
@@ -73,7 +74,7 @@ class CoolAsyncView<T> extends StatelessWidget {
         loading: () => Semantics(
           container: true,
           liveRegion: true,
-          label: 'Loading content',
+          label: context.l10n.loadingContent,
           child: loadingWidget ?? const CoolSkeletonList(),
         ),
         error: (error, _) => CoolErrorView(

@@ -10,6 +10,7 @@ import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_providers.dart';
+import '../../../core/l10n/l10n.dart';
 
 /// Admin screen for managing partner services.
 class ManageServicesScreen extends ConsumerWidget {
@@ -37,7 +38,7 @@ class ManageServicesScreen extends ConsumerWidget {
       ),
       floatingActionButton: Semantics(
         button: true,
-        label: 'Add service',
+        label: context.l10n.addService,
         hint: 'New service',
         child: FloatingActionButton(
           backgroundColor: AppColors.accent,
@@ -143,7 +144,7 @@ class _ServiceTile extends StatelessWidget {
             if (isMock) const SizedBox(width: 8),
             if (isMock)
               Semantics(
-                label: 'Mock service',
+                label: context.l10n.mockService,
                 child: ExcludeSemantics(
                   child: Container(
                     padding: const EdgeInsets.symmetric(
@@ -397,7 +398,7 @@ class _EditServiceSheetState extends State<_EditServiceSheet> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Semantics(
-        label: 'Partner selector',
+        label: context.l10n.partnerSelector,
         hint: 'Choose partner',
         child: DropdownButtonFormField<String>(
           initialValue: _selectedPartnerId,

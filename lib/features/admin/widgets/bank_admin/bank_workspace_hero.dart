@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../models/bank_admin_models.dart';
+import '../../../../core/l10n/l10n.dart';
 
 class BankWorkspaceHero extends StatelessWidget {
   const BankWorkspaceHero({
@@ -52,19 +53,19 @@ class BankWorkspaceHero extends StatelessWidget {
             runSpacing: 12,
             children: [
               _MetricChip(
-                label: 'groups',
+                label: context.l10n.groups2,
                 value: snapshot.groups.totalCount.toString(),
               ),
               _MetricChip(
-                label: 'members',
+                label: context.l10n.members,
                 value: snapshot.members.totalCount.toString(),
               ),
               _MetricChip(
-                label: 'contributions',
+                label: context.l10n.contributions1,
                 value: snapshot.contributions.totalCount.toString(),
               ),
               _MetricChip(
-                label: 'manual review',
+                label: context.l10n.manualReview,
                 value: snapshot.allocations.totalCount.toString(),
               ),
             ],
@@ -106,11 +107,11 @@ class BankWorkspaceHero extends StatelessWidget {
                     runSpacing: 12,
                     children: [
                       _MetricChip(
-                        label: 'AUM',
+                        label: context.l10n.aum,
                         value: '${moneyFormat.format(totalAum)} RWF',
                       ),
                       _MetricChip(
-                        label: 'loans out',
+                        label: context.l10n.loansOut,
                         value:
                             '${moneyFormat.format(loansOutstanding)} RWF',
                       ),

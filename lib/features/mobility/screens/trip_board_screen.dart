@@ -18,6 +18,7 @@ import '../services/mobility_whatsapp_service.dart';
 import '../widgets/mobility_listing_sheet.dart';
 import '../widgets/trip_board_content_widgets.dart';
 import '../widgets/trip_board_header_widgets.dart';
+import '../../../core/l10n/l10n.dart';
 
 class TripBoardScreen extends ConsumerStatefulWidget {
   const TripBoardScreen({super.key});
@@ -413,7 +414,7 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
         elevation: 0,
         leading: IconButton(
           onPressed: () => context.pop(),
-          tooltip: 'Back',
+          tooltip: context.l10n.back,
           icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
       ),

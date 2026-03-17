@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/rs_colors.dart';
+import '../../core/l10n/l10n.dart';
 
 /// Grid of preset + optional custom amount chips.
 ///
@@ -128,7 +129,7 @@ class _RsAmountSelectorState extends State<RsAmountSelector> {
               const SizedBox(width: 10),
               Semantics(
                 button: true,
-                label: 'Confirm custom amount',
+                label: context.l10n.confirmCustomAmount,
                 child: GestureDetector(
                   onTap: _submitCustom,
                   child: Container(

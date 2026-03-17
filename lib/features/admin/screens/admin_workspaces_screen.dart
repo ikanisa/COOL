@@ -8,6 +8,7 @@ import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../providers/admin_workspace_access_provider.dart';
 import '../widgets/admin_workspace_gate.dart';
+import '../../../core/l10n/l10n.dart';
 
 class AdminWorkspacesScreen extends ConsumerWidget {
   const AdminWorkspacesScreen({super.key});
@@ -20,8 +21,8 @@ class AdminWorkspacesScreen extends ConsumerWidget {
     final bankWorkspacesAsync = ref.watch(adminBankWorkspacesProvider);
 
     if (!access.hasAnyAdminAccess) {
-      return const AdminAccessDeniedScaffold(
-        title: 'Admin Workspaces',
+      return AdminAccessDeniedScaffold(
+        title: context.l10n.adminWorkspaces,
         message: 'This account does not',
         fallbackLocation: AppRoutes.home,
       );
@@ -33,7 +34,7 @@ class AdminWorkspacesScreen extends ConsumerWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          tooltip: 'Back',
+          tooltip: context.l10n.back,
           onPressed: () => context.go(AppRoutes.profile),
           icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
@@ -58,8 +59,8 @@ class AdminWorkspacesScreen extends ConsumerWidget {
           ),
           if (access.hasPlatformAccess) ...[
             const SizedBox(height: 24),
-            const _SectionHeader(
-              title: 'Platform',
+            _SectionHeader(
+              title: context.l10n.platform,
               subtitle:
                   'Global app operations content',
             ),

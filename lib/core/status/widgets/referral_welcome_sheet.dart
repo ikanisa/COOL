@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../core/l10n/l10n.dart';
 
 class ReferralWelcomeSheet extends StatelessWidget {
   const ReferralWelcomeSheet({
@@ -24,17 +25,15 @@ class ReferralWelcomeSheet extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => ReferralWelcomeSheet(
-        inviterName: inviterName,
-        onAccept: onAccept,
-      ),
+      builder: (context) =>
+          ReferralWelcomeSheet(inviterName: inviterName, onAccept: onAccept),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
-    
+
     return Container(
       padding: const EdgeInsets.fromLTRB(24, 20, 24, 40),
       decoration: BoxDecoration(
@@ -53,10 +52,7 @@ class ReferralWelcomeSheet extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 32),
-          const Text(
-            '🤝',
-            style: TextStyle(fontSize: 64),
-          ),
+          const Text('🤝', style: TextStyle(fontSize: 64)),
           const SizedBox(height: 24),
           Text(
             'You\'re Invited!',
@@ -76,7 +72,7 @@ class ReferralWelcomeSheet extends StatelessWidget {
                 color: palette.text2,
               ),
               children: [
-                const TextSpan(text: 'Your friend '),
+                TextSpan(text: context.l10n.yourFriend),
                 TextSpan(
                   text: inviterName,
                   style: TextStyle(
@@ -84,7 +80,7 @@ class ReferralWelcomeSheet extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const TextSpan(text: ' invited you to join Cool.'),
+                TextSpan(text: context.l10n.invitedYouToJoin),
               ],
             ),
           ),
@@ -98,7 +94,11 @@ class ReferralWelcomeSheet extends StatelessWidget {
                     color: palette.accent.withValues(alpha: 0.12),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(Icons.stars_rounded, color: palette.accent, size: 24),
+                  child: Icon(
+                    Icons.stars_rounded,
+                    color: palette.accent,
+                    size: 24,
+                  ),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
@@ -129,7 +129,7 @@ class ReferralWelcomeSheet extends StatelessWidget {
           ),
           const SizedBox(height: 40),
           CoolButton(
-            label: 'Get Started',
+            label: context.l10n.getStarted,
             onTap: () {
               Navigator.pop(context);
               onAccept();

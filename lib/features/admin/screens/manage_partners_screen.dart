@@ -11,6 +11,7 @@ import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../providers/admin_providers.dart';
+import '../../../core/l10n/l10n.dart';
 
 /// Full CRUD admin screen for managing partners.
 class ManagePartnersScreen extends ConsumerStatefulWidget {
@@ -34,7 +35,7 @@ class _ManagePartnersScreenState extends ConsumerState<ManagePartnersScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          tooltip: 'Back',
+          tooltip: context.l10n.back,
           icon: const Icon(Icons.arrow_back_rounded),
           color: AppColors.text,
           onPressed: () => Navigator.of(context).pop(),
@@ -42,7 +43,7 @@ class _ManagePartnersScreenState extends ConsumerState<ManagePartnersScreen> {
       ),
       floatingActionButton: Semantics(
         button: true,
-        label: 'Add partner',
+        label: context.l10n.addPartner,
         child: FloatingActionButton(
           backgroundColor: AppColors.accent,
           onPressed: () => _openEditor(context, null),
@@ -222,7 +223,7 @@ class _ManagePartnersScreenState extends ConsumerState<ManagePartnersScreen> {
         actions: [
           CupertinoDialogAction(
             isDefaultAction: true,
-            child: const Text('Cancel'),
+            child: Text(context.l10n.cancel),
             onPressed: () => Navigator.pop(context, false),
           ),
           CupertinoDialogAction(

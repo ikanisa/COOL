@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/cool_palette.dart';
 
+
 /// A small pill badge used to indicate status, category, or role.
 ///
 /// Use the default constructor for custom colours, or one of the
@@ -31,7 +32,7 @@ class StatusBadge extends StatelessWidget {
   // ── Preset constructors ─────────────────────────────────────────────
 
   /// Green saving preset.
-  const StatusBadge.saving({Key? key})
+  StatusBadge.saving({Key? key})
     : this._(
         label: 'Saving',
         bgColor: null,
@@ -43,7 +44,7 @@ class StatusBadge extends StatelessWidget {
       );
 
   /// Orange community preset.
-  const StatusBadge.community({Key? key})
+  StatusBadge.community({Key? key})
     : this._(
         label: 'Community',
         bgColor: null,
@@ -55,7 +56,7 @@ class StatusBadge extends StatelessWidget {
       );
 
   /// Blue public preset.
-  const StatusBadge.public({Key? key})
+  StatusBadge.public({Key? key})
     : this._(
         label: 'Public',
         bgColor: null,
@@ -67,7 +68,7 @@ class StatusBadge extends StatelessWidget {
       );
 
   /// Muted private preset.
-  const StatusBadge.private({Key? key})
+  StatusBadge.private({Key? key})
     : this._(
         label: 'Private',
         bgColor: null,
@@ -79,7 +80,7 @@ class StatusBadge extends StatelessWidget {
       );
 
   /// Online with animated pulse dot.
-  const StatusBadge.online({Key? key})
+  StatusBadge.online({Key? key})
     : this._(
         label: 'Online',
         bgColor: null,
@@ -91,7 +92,7 @@ class StatusBadge extends StatelessWidget {
       );
 
   /// Offline preset.
-  const StatusBadge.offline({Key? key})
+  StatusBadge.offline({Key? key})
     : this._(
         label: 'Offline',
         bgColor: null,

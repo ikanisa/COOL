@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../core/l10n/l10n.dart';
 
 /// A card showing the route, departure time, and the key trip chips.
 ///
@@ -65,7 +66,7 @@ class TripCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       button: true,
-      label: 'Trip card',
+      label: context.l10n.tripCard,
       excludeSemantics: true,
       child: GestureDetector(
         onTap: onTap,
@@ -137,13 +138,13 @@ class TripCard extends StatelessWidget {
 
                   if (isReturn || isDriverReturnTrip)
                     _Chip(
-                      label: 'Return',
+                      label: context.l10n.returnKey,
                       bgColor: AppColors.purple.withValues(alpha: 0.15),
                       textColor: AppColors.purple,
                     ),
                   if (isRecurring)
-                    const _Chip(
-                      label: 'Repeat',
+                    _Chip(
+                      label: context.l10n.repeat,
                       bgColor: AppColors.accentGlow,
                       textColor: AppColors.accent,
                     ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../core/l10n/l10n.dart';
 
 /// A hero card showing the user's total balance with a gradient background,
 /// a change indicator, and four quick-action buttons (Send, Request, MOMO,
@@ -120,18 +121,18 @@ class BalanceCard extends StatelessWidget {
                 const SizedBox(height: 22),
 
                 // Action buttons row
-                const Wrap(
+                Wrap(
                   spacing: 12,
                   runSpacing: 10,
                   children: [
-                    _ActionButton(icon: Icons.upload_rounded, label: 'Send'),
+                    _ActionButton(icon: Icons.upload_rounded, label: context.l10n.send),
                     _ActionButton(
                       icon: Icons.phone_android_rounded,
-                      label: 'MOMO',
+                      label: context.l10n.momo1,
                     ),
                     _ActionButton(
                       icon: Icons.account_balance_wallet_rounded,
-                      label: 'Top Up',
+                      label: context.l10n.topUp,
                     ),
                   ],
                 ),

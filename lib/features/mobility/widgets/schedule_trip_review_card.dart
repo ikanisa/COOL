@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../core/l10n/l10n.dart';
 
 /// Summary card displayed on the review step of Schedule Trip.
 class ScheduleTripReviewCard extends StatelessWidget {
@@ -56,14 +57,14 @@ class ScheduleTripReviewCard extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           _TripReviewItem(label: roleFieldLabel, value: roleLabel),
-          _TripReviewItem(label: 'Route', value: routeLabel),
-          _TripReviewItem(label: 'Departure', value: departureLabel),
-          _TripReviewItem(label: 'Vehicle', value: vehicleLabel),
+          _TripReviewItem(label: context.l10n.route, value: routeLabel),
+          _TripReviewItem(label: context.l10n.departure, value: departureLabel),
+          _TripReviewItem(label: context.l10n.vehicle, value: vehicleLabel),
           _TripReviewItem(label: seatsFieldLabel, value: seatsLabel),
-          _TripReviewItem(label: 'Return', value: returnLabel),
-          _TripReviewItem(label: 'Repeat', value: recurringLabel),
+          _TripReviewItem(label: context.l10n.returnKey, value: returnLabel),
+          _TripReviewItem(label: context.l10n.repeat, value: recurringLabel),
           _TripReviewItem(label: detailsFieldLabel, value: detailsLabel),
-          _TripReviewItem(label: 'Preview', value: previewLabel, isLast: true),
+          _TripReviewItem(label: context.l10n.preview, value: previewLabel, isLast: true),
         ],
       ),
     );

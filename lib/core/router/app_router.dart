@@ -298,7 +298,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         ),
       ),
 
-
       // ── Main app (shell with bottom nav) ──────────────────────
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) => AppShell(
@@ -621,7 +620,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           child: const ReferralHubScreen(),
         ),
       ),
-
 
       // ── Admin routes (nested under /admin) ─────────────────────
       GoRoute(

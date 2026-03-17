@@ -13,6 +13,7 @@ import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_text_field.dart';
 import '../../../shared/widgets/momo_route_type_selector.dart';
 import '../providers/auth_provider.dart';
+import '../../../core/l10n/l10n.dart';
 
 /// Profile setup screen shown after OTP verification for new users.
 ///
@@ -165,7 +166,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         elevation: 0,
         leading: IconButton(
           onPressed: () => context.pop(),
-          tooltip: 'Back',
+          tooltip: context.l10n.back,
           icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
       ),
@@ -280,7 +281,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
                 // ── MOMO Number ────────────────────────────────────────
                 CoolTextField(
-                  label: 'Mobile Money Number',
+                  label: context.l10n.mobileMoneyNumber,
                   hint: selectedCountry.phoneExampleHint(),
                   controller: _momoController,
                   keyboardType: TextInputType.phone,
@@ -419,7 +420,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
                 // ── CTA ────────────────────────────────────────────────
                 CoolButton(
-                  label: 'Create Account',
+                  label: context.l10n.createAccount,
                   onTap: _createAccount,
                   isLoading: authState.isLoading,
                 ),

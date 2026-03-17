@@ -258,7 +258,7 @@ class _GroupsHeroCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: TabPill(
-                    label: 'My Groups',
+                    label: context.l10n.myGroups,
                     isActive: !isDiscover,
                     onTap: () => onViewChanged(_GroupsView.mine),
                   ),
@@ -266,7 +266,7 @@ class _GroupsHeroCard extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: TabPill(
-                    label: 'Discover',
+                    label: context.l10n.discover,
                     isActive: isDiscover,
                     onTap: () => onViewChanged(_GroupsView.discover),
                   ),
@@ -279,21 +279,21 @@ class _GroupsHeroCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   _FilterIconButton(
-                    tooltip: 'Savings',
+                    tooltip: context.l10n.savings,
                     icon: Icons.savings_outlined,
                     isActive: typeFilter == _GroupTypeFilter.saving,
                     onTap: () => onToggleType(_GroupTypeFilter.saving),
                   ),
                   const SizedBox(width: 14),
                   _FilterIconButton(
-                    tooltip: 'People Outline',
+                    tooltip: context.l10n.peopleOutline,
                     icon: Icons.people_outline_rounded,
                     isActive: typeFilter == _GroupTypeFilter.community,
                     onTap: () => onToggleType(_GroupTypeFilter.community),
                   ),
                   const SizedBox(width: 14),
                   _FilterIconButton(
-                    tooltip: 'Lock Outline',
+                    tooltip: context.l10n.lockOutline,
                     icon: Icons.lock_outline_rounded,
                     isActive: visibilityFilter == _GroupVisibilityFilter.privateOnly,
                     onTap: () => onToggleVisibility(_GroupVisibilityFilter.privateOnly),
@@ -445,13 +445,13 @@ class _GroupListItem extends StatelessWidget {
                     group.momoNumber!.trim().isNotEmpty)
                   _MetaChip(label: _shortenPhone(group.momoNumber!)),
                 if (group.type == 'saving')
-                  const StatusBadge.saving()
+                    StatusBadge.saving()
                 else
-                  const StatusBadge.community(),
+                    StatusBadge.community(),
                 if (group.visibility == 'public')
-                  const StatusBadge.public()
+                    StatusBadge.public()
                 else
-                  const StatusBadge.private(),
+                    StatusBadge.private(),
               ],
             ),
             const SizedBox(height: 6),

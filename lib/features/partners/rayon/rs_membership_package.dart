@@ -1,5 +1,6 @@
 import 'models/rs_models.dart';
 
+
 class RsMembershipPackageBenefit {
   const RsMembershipPackageBenefit({
     required this.title,
@@ -47,10 +48,10 @@ class RsMembershipPackage {
   int get minPoints => tier.minPoints;
 
   factory RsMembershipPackage.fallback() {
-    return const RsMembershipPackage(
+    return RsMembershipPackage(
       tier: FanTier.blue,
       title: 'Fan',
-      subtitle: 'Standard membership',
+      subtitle: 'Standard Membership',
     );
   }
 

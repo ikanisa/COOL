@@ -12,6 +12,7 @@ import '../../providers/rayon_sports_provider.dart';
 import '../models/rs_models.dart';
 import '../providers/rs_admin_provider.dart';
 import '../widgets/rs_admin_shell.dart';
+import '../../../../core/l10n/l10n.dart';
 
 /// Admin screen for managing RS memberships — list, adjust tier/points.
 class RsAdminMembersScreen extends ConsumerStatefulWidget {
@@ -31,7 +32,7 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
     final membersAsync = ref.watch(rsAdminMembersProvider);
 
     return RsAdminShell(
-      title: 'Members',
+      title: context.l10n.members4,
       subtitle:
           'Search, renew & export the supporter base',
       metrics: [
@@ -305,7 +306,7 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
                 ref.invalidate(rsAdminMembersProvider);
                 if (ctx.mounted) Navigator.pop(ctx);
               },
-              child: const Text('Save'),
+              child: Text(context.l10n.save),
             ),
           ],
         ),
@@ -354,8 +355,8 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
     Clipboard.setData(ClipboardData(text: buf.toString()));
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Member CSV copied to clipboard'),
+        SnackBar(
+          content: Text(context.l10n.memberCsvCopiedTo),
           behavior: SnackBarBehavior.floating,
         ),
       );

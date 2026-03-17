@@ -18,6 +18,7 @@ import '../../../../shared/widgets/rs_match_card.dart';
 import '../models/rs_models.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/rayon_screen_scaffold.dart';
+import '../../../../core/l10n/l10n.dart';
 
 class RayonHomeScreen extends StatelessWidget {
   const RayonHomeScreen({super.key});
@@ -33,7 +34,7 @@ class RayonHomeScreen extends StatelessWidget {
         final isRecoveringMembership = ref.watch(rayonActionLoadingProvider);
 
         return RayonScreenScaffold(
-          title: 'Rayon Sports',
+          title: context.l10n.rayonSports,
           fallbackLocation: AppRoutes.partners,
           scrollable: false,
           showHomeButton: true,
@@ -62,14 +63,14 @@ class RayonHomeScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 24),
-                    const _RsSectionTitle(title: 'Explore'),
+                    _RsSectionTitle(title: context.l10n.explore),
                     const SizedBox(height: 14),
                     rayon.when(
                       data: (data) => Column(
                         children: [
                           _HomeLinkCard(
                             icon: Icons.people_rounded,
-                            title: 'Member Registry',
+                            title: context.l10n.memberRegistry,
                             meta:
                                 '${_formatCount(data.registryMembers.length)} members',
                             accentColor: RsColors.rsBlue,

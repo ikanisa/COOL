@@ -21,6 +21,7 @@ import 'core/theme/theme_preference.dart';
 import 'core/theme/theme_preference_provider.dart';
 import 'core/theme/theme_preference_store.dart';
 import 'core/theme/theme_system_chrome.dart';
+import 'core/l10n/l10n.dart';
 
 Future<void> main() async {
   // ── Run everything inside runZonedGuarded so the binding, init, and
@@ -151,9 +152,7 @@ Future<void> main() async {
             themePreferenceStoreProvider.overrideWithValue(
               themePreferenceStore,
             ),
-            initialThemePreferenceProvider.overrideWithValue(
-              initialPreference,
-            ),
+            initialThemePreferenceProvider.overrideWithValue(initialPreference),
           ],
           child: configError == null
               ? const CoolApp()
@@ -180,7 +179,7 @@ class ConfigErrorApp extends ConsumerWidget {
     final themePreference = ref.watch(themePreferenceProvider);
 
     return MaterialApp(
-      title: 'Cool',
+      title: context.l10n.cool,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,

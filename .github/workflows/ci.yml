@@ -49,11 +49,11 @@ jobs:
       - run: flutter pub get
       - run: flutter analyze --fatal-infos
 
-  # ── 2. Tests (medium ~2.5min) ──────────────────────────────────────
-  test:
-    name: Test
+  # ── 2. Unit Tests (medium ~1.5min) ───────────────────────────────────
+  unit-test:
+    name: Unit Test
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
@@ -79,20 +79,65 @@ jobs:
       - run: flutter pub get
 
       - name: Run unit + widget tests
-        run: flutter test --concurrency=4 --exclude-tags=integration --file-reporter json:test-results.json
-
-      - name: Run integration smoke tests
-        run: flutter test --concurrency=4 test/integration_smoke
+        run: flutter test --concurrency=4 --exclude-tags=integration --file-reporter json:test-results.json --coverage
 
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results
+          name: unit-test-results
           path: test-results.json
           retention-days: 14
 
-  # ── 3. Governance docs + deep-link checks (fast ~15s) ──────────────
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/lcov.info
+          retention-days: 14
+
+  # ── 3. Integration Tests (medium ~1.5min) ────────────────────────────
+  integration-test:
+    name: Integration Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read pinned Flutter version
+        id: flutter-version
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+
+          with open(".fvmrc", "r", encoding="utf-8") as handle:
+              config = json.load(handle)
+
+          print(f"version={config['flutter']}")
+          PY
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ steps.flutter-version.outputs.version }}
+          cache: true
+
+      - run: flutter pub get
+
+      - name: Run integration smoke tests
+        run: flutter test --concurrency=4 test/integration_smoke
+
+      - name: Upload integration test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-test-results
+          path: test-results.json
+          retention-days: 14
+
+  # ── 4. Governance docs + deep-link checks (fast ~15s) ──────────────
   docs-check:
     name: Docs sync
     runs-on: ubuntu-latest
@@ -120,10 +165,22 @@ jobs:
           cache: true
 
       - run: flutter pub get
-      - run: dart tool/governance_docs.dart --check
-      - run: dart tool/deep_link_release_assets.dart --generate --check
+      - name: Run governance docs check
+        run: |
+          dart tool/governance_docs.dart --check || {
+            echo "::error::Governance docs check failed. Please run 'dart tool/governance_docs.dart --generate' locally and commit the changes."
+            echo "### ❌ Governance Docs Check Failed" >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          }
+      - name: Run deep link release assets check
+        run: |
+          dart tool/deep_link_release_assets.dart --generate --check || {
+            echo "::error::Deep link release assets check failed. Please run 'dart tool/deep_link_release_assets.dart --generate' locally and commit the changes."
+            echo "### ❌ Deep Link Release Assets Check Failed" >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          }
 
-  # ── 4. Deno checks (fast ~15s) ─────────────────────────────────────
+  # ── 5. Deno checks (fast ~15s) ─────────────────────────────────────
   deno-check:
     name: Deno (edge functions)
     runs-on: ubuntu-latest
@@ -151,7 +208,7 @@ jobs:
           done < <(find supabase/functions -type f -name '*.ts' | sort)
           deno check "${deno_files[@]}"
 
-  # ── 5. APK size gate (slow ~5min, depends on analyze) ──────────────
+  # ── 6. APK size gate (slow ~5min, depends on analyze) ──────────────
   apk-size:
     name: APK size check
     runs-on: ubuntu-latest

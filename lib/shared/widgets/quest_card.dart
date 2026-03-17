@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/status/services/quest_engine.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../core/l10n/l10n.dart';
 
 /// Compact quest card with emoji, title, subtitle, and CTA.
 ///
@@ -54,7 +55,7 @@ class QuestCard extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Semantics(
-                label: 'Open quest action',
+                label: context.l10n.openQuestAction,
                 button: true,
                 child: Container(
                   padding: const EdgeInsets.symmetric(

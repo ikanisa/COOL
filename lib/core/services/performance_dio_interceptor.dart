@@ -35,7 +35,10 @@ class PerformanceDioInterceptor extends Interceptor {
   }
 
   @override
-  void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
+  void onResponse(
+    Response<dynamic> response,
+    ResponseInterceptorHandler handler,
+  ) {
     _stopMetric(
       response.requestOptions,
       responseCode: response.statusCode,

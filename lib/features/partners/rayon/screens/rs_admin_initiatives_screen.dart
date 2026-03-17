@@ -12,6 +12,7 @@ import '../../providers/rayon_sports_provider.dart';
 import '../models/rs_models.dart';
 import '../providers/rs_admin_provider.dart';
 import '../widgets/rs_admin_shell.dart';
+import '../../../../core/l10n/l10n.dart';
 
 /// Admin screen for managing RS initiatives — CRUD, toggle active, progress.
 class RsAdminInitiativesScreen extends ConsumerStatefulWidget {
@@ -31,7 +32,7 @@ class _RsAdminInitiativesScreenState
     final initAsync = ref.watch(rsAdminInitiativesProvider);
 
     return RsAdminShell(
-      title: 'Initiatives',
+      title: context.l10n.initiatives,
       subtitle:
           'Track and manage community causes',
       floatingActionButton: Semantics(
@@ -184,12 +185,12 @@ class _RsAdminInitiativesScreenState
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(context.l10n.cancel),
           ),
           FilledButton(
             style: FilledButton.styleFrom(backgroundColor: AppColors.red),
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Delete'),
+            child: Text(context.l10n.delete),
           ),
         ],
       ),

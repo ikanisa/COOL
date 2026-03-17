@@ -9,6 +9,7 @@ import '../models/partner.dart';
 import '../models/partner_service.dart';
 import 'partner_shared_widgets.dart';
 
+
 // ═════════════════════════════════════════════════════════════════════════════
 // CONSTANTS
 // ═════════════════════════════════════════════════════════════════════════════
@@ -19,7 +20,7 @@ const ikanisaEmail = 'info@ikanisa.com';
 
 const prismaCategoryOrder = <String>['rwanda_agent', 'capability', 'support'];
 
-const prismaCategoryMeta = <String, CategoryMeta>{
+final prismaCategoryMeta = <String, CategoryMeta>{
   'rwanda_agent': CategoryMeta(
     title: 'Rwanda Agents',
     description:

@@ -7,6 +7,7 @@ import '../../../core/router/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_brand_mark.dart';
+import '../../../core/l10n/l10n.dart';
 
 /// Welcome / onboarding screen shown to first-time users.
 ///
@@ -67,7 +68,7 @@ class OnboardingScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 48),
                 CoolButton(
-                  label: 'Get Started',
+                  label: context.l10n.getStarted,
                   onTap: () => context.push(
                     AppRoutes.otpLocation(redirect: redirectPath),
                   ),

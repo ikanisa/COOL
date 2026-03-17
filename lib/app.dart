@@ -8,6 +8,7 @@ import 'core/theme/theme_preference.dart';
 import 'core/theme/theme_preference_provider.dart';
 import 'core/theme/theme_system_chrome.dart';
 import 'l10n/app_localizations.dart';
+import 'core/l10n/l10n.dart';
 
 /// Root application widget.
 ///
@@ -26,7 +27,7 @@ class CoolApp extends ConsumerWidget {
     final themePreference = ref.watch(themePreferenceProvider);
 
     return MaterialApp.router(
-      title: 'Cool',
+      title: context.l10n.cool,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,

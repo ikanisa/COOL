@@ -7,6 +7,7 @@ import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
 import '../../models/bank_admin_models.dart';
 import 'bank_admin_helpers.dart';
+import '../../../../core/l10n/l10n.dart';
 
 class BankContributionsTab extends StatelessWidget {
   const BankContributionsTab({
@@ -79,9 +80,9 @@ class BankContributionsTab extends StatelessWidget {
               isDense: true,
             ),
             items: [
-              const DropdownMenuItem<String?>(
+              DropdownMenuItem<String?>(
                 value: null,
-                child: Text('All groups'),
+                child: Text(context.l10n.allGroups),
               ),
               ...groups.map(
                 (g) => DropdownMenuItem<String?>(

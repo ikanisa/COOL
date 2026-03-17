@@ -13,6 +13,7 @@ import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_text_field.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import 'momo_send_sheet.dart';
+import '../../../core/l10n/l10n.dart';
 
 // ═════════════════════════════════════════════════════════════════════════════
 // QR CODE BOTTOM SHEET
@@ -62,7 +63,7 @@ class MomoQrSheet extends StatelessWidget {
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(),
                     icon: const Icon(Icons.close_rounded),
-                    tooltip: 'Close',
+                    tooltip: context.l10n.close,
                   ),
                 ],
               ),
@@ -102,7 +103,7 @@ class MomoReceiveQrScreen extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).maybePop(),
-          tooltip: 'Back',
+          tooltip: context.l10n.back,
           icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
         title: Text(

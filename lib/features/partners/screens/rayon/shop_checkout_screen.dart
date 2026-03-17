@@ -20,6 +20,7 @@ import '../../rayon/rayon_payment.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/rayon_screen_scaffold.dart';
 import '../../widgets/rayon_state_views.dart';
+import '../../../../core/l10n/l10n.dart';
 
 class ShopCheckoutScreen extends ConsumerStatefulWidget {
   const ShopCheckoutScreen({
@@ -342,12 +343,12 @@ class _ShopCheckoutOverviewCard extends StatelessWidget {
           Divider(color: AppColors.border),
           const SizedBox(height: 16),
           _SummaryRow(
-            label: 'Subtotal',
+            label: context.l10n.subtotal,
             value: _ShopCheckoutScreenState._fmtRwf(subtotal),
           ),
           if (discountAmount > 0)
             _SummaryRow(
-              label: 'Member discount',
+              label: context.l10n.memberDiscount,
               value: '-${_ShopCheckoutScreenState._fmtRwf(discountAmount)}',
               valueColor: AppColors.accent,
             ),
@@ -507,7 +508,7 @@ class _ShopCheckoutActionCard extends StatelessWidget {
           const SizedBox(height: 12),
           CoolTextField(
             controller: addressController,
-            label: 'Address',
+            label: context.l10n.address,
             hint: 'Kigali Pele pickup',
             maxLines: 2,
           ),
@@ -657,16 +658,16 @@ class _CheckoutStatusState extends StatelessWidget {
           ),
           const SizedBox(height: 18),
           CoolButton(
-            label: 'Refresh order status',
+            label: context.l10n.refreshOrderStatus,
             variant: CoolButtonVariant.secondary,
             onTap: onRefreshStatus,
             icon: Icons.sync_rounded,
           ),
           const SizedBox(height: 10),
-          CoolButton(label: 'Back to shop', onTap: onBackToShop),
+          CoolButton(label: context.l10n.backToShop, onTap: onBackToShop),
           const SizedBox(height: 10),
           CoolButton(
-            label: 'View profile orders',
+            label: context.l10n.viewProfileOrders,
             variant: CoolButtonVariant.secondary,
             onTap: onViewOrders,
           ),
@@ -730,16 +731,16 @@ class _OrderSummary extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 12),
-        _SummaryRow(label: 'Order ID', value: orderValue.id),
+        _SummaryRow(label: context.l10n.orderId, value: orderValue.id),
         _SummaryRow(
-          label: 'Amount',
+          label: context.l10n.amount,
           value: _ShopCheckoutScreenState._fmtRwf(orderValue.total),
           valueColor: AppColors.rsWhite,
         ),
-        _SummaryRow(label: 'MoMo ref', value: orderValue.momoReference),
-        _SummaryRow(label: 'Delivery', value: orderValue.deliveryAddress),
+        _SummaryRow(label: context.l10n.momoRef, value: orderValue.momoReference),
+        _SummaryRow(label: context.l10n.delivery, value: orderValue.deliveryAddress),
         _SummaryRow(
-          label: 'Created',
+          label: context.l10n.created,
           value: DateFormat('dd MMM, HH:mm').format(orderValue.createdAt),
         ),
         if (orderValue.status == OrderStatus.pending) ...[
@@ -828,7 +829,7 @@ class _OrderSummaryError extends StatelessWidget {
         TextButton.icon(
           onPressed: onRefreshStatus,
           icon: const Icon(Icons.sync_rounded, size: 18),
-          label: const Text('Try again'),
+          label: Text(context.l10n.tryAgain),
         ),
       ],
     );
@@ -900,7 +901,7 @@ class _EmptyCheckout extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 18),
-            CoolButton(label: 'Back to shop', onTap: onBackToShop),
+            CoolButton(label: context.l10n.backToShop, onTap: onBackToShop),
           ],
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/l10n/l10n.dart';
 
 class CoolBrandMark extends StatelessWidget {
   const CoolBrandMark({super.key, this.size = 120});
@@ -8,7 +9,7 @@ class CoolBrandMark extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Semantics(
-      label: 'Cool app logo',
+      label: context.l10n.coolAppLogo,
       image: true,
       excludeSemantics: true,
       child: SizedBox(

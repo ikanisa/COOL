@@ -59,7 +59,7 @@ class BankBasketsTab extends ConsumerWidget {
           child: basketsAsync.when(
             loading: () =>
                 const Center(child: CircularProgressIndicator()),
-            error: (e, _) => Center(child: Text('Error: $e')),
+            error: (e, _) => Center(child: Text(context.l10n.genericErrorText(e.toString()))),
             data: (baskets) {
               final filtered = statusFilter == 'all'
                   ? baskets

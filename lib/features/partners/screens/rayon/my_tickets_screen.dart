@@ -13,6 +13,7 @@ import '../../rayon/models/rs_models.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/rayon_screen_scaffold.dart';
 import '../../widgets/rayon_state_views.dart';
+import '../../../../core/l10n/l10n.dart';
 
 class MyTicketsScreen extends ConsumerWidget {
   const MyTicketsScreen({super.key});
@@ -23,7 +24,7 @@ class MyTicketsScreen extends ConsumerWidget {
     final paymentRoute = ref.watch(rayonPaymentRouteProvider).valueOrNull;
 
     return RayonScreenScaffold(
-      title: 'My Tickets',
+      title: context.l10n.myTickets,
       fallbackLocation: AppRoutes.rayonTickets,
       scrollable: false,
       child: ticketsAsync.when(
@@ -58,7 +59,7 @@ class MyTicketsScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 18),
                         CoolButton(
-                          label: 'Browse Matches',
+                          label: context.l10n.browseMatches,
                           onTap: () => context.go(AppRoutes.rayonTickets),
                         ),
                       ],
@@ -91,8 +92,8 @@ class MyTicketsScreen extends ConsumerWidget {
                   padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate([
-                      const _SectionLabel(
-                        text: 'PAYMENT PENDING',
+                      _SectionLabel(
+                        text: context.l10n.paymentPending,
                         color: RsColors.rsGoldLight,
                       ),
                       const SizedBox(height: 10),
@@ -136,8 +137,8 @@ class MyTicketsScreen extends ConsumerWidget {
                   ),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate([
-                      const _SectionLabel(
-                        text: 'READY FOR ENTRY',
+                      _SectionLabel(
+                        text: context.l10n.readyForEntry,
                         color: AppColors.accent,
                       ),
                       const SizedBox(height: 10),
@@ -165,7 +166,7 @@ class MyTicketsScreen extends ConsumerWidget {
                   sliver: SliverList(
                     delegate: SliverChildListDelegate([
                       _SectionLabel(
-                        text: 'PAST TICKETS',
+                        text: context.l10n.pastTickets,
                         color: AppColors.text3,
                       ),
                       const SizedBox(height: 10),

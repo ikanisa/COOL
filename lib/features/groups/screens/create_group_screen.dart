@@ -12,6 +12,7 @@ import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/providers/auth_provider.dart';
 
 import '../providers/groups_provider.dart';
+import '../../../core/l10n/l10n.dart';
 
 /// Single-screen group creation — saving or community fund.
 class CreateGroupScreen extends ConsumerStatefulWidget {
@@ -127,7 +128,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
       backgroundColor: AppColors.bg,
       appBar: AppBar(
         leading: IconButton(
-          tooltip: 'Back',
+          tooltip: context.l10n.back,
           onPressed: () => context.pop(),
           icon: const Icon(Icons.arrow_back_rounded),
         ),
@@ -157,7 +158,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
                     _AdaptiveCardPair(
                       first: _TypeCard(
                         icon: Icons.account_balance_rounded,
-                        title: 'Group Saving',
+                        title: context.l10n.groupSaving,
                         subtitle: 
  'Bank custodian',
                         isSelected: _isSaving,

@@ -15,6 +15,7 @@ import '../../widgets/partner_navigation.dart';
 import '../models/rs_models.dart';
 import '../rs_membership_package.dart';
 import '../widgets/rs_tier_badge.dart';
+import '../../../../core/l10n/l10n.dart';
 
 /// Full-screen page showing all Rayon Sports membership tiers with
 /// benefits, point thresholds, and the user's current position.
@@ -339,10 +340,10 @@ class _TierCard extends StatelessWidget {
                   ),
                 ),
                 if (isCurrent)
-                  _StatusChip(label: 'Current', color: tier.color, filled: true)
+                  _StatusChip(label: context.l10n.current, color: tier.color, filled: true)
                 else if (isUnlocked)
-                  const _StatusChip(
-                    label: 'Unlocked',
+                  _StatusChip(
+                    label: context.l10n.unlocked,
                     color: AppColors.accent,
                     filled: false,
                   )

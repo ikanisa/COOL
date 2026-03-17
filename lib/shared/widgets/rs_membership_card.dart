@@ -5,6 +5,7 @@ import '../../core/theme/app_colors.dart';
 import '../../features/partners/rayon/models/rs_models.dart';
 import 'cool_card.dart';
 import 'rs_tier_badge.dart';
+import '../../core/l10n/l10n.dart';
 
 class RsMembershipCard extends StatelessWidget {
   const RsMembershipCard({
@@ -80,13 +81,13 @@ class RsMembershipCard extends StatelessWidget {
               Row(
                 children: [
                   _RsMetric(
-                    label: 'Member ID',
+                    label: context.l10n.memberId,
                     value: membership.membershipNumber,
                   ),
                   const SizedBox(width: 12),
                   if (showPoints)
                     _RsMetric(
-                      label: 'Points',
+                      label: context.l10n.points2,
                       value: '${membership.points}',
                       accentColor: AppColors.rsGoldLight,
                     ),

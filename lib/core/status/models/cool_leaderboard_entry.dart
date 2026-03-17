@@ -40,7 +40,9 @@ class LeaderboardEntry extends Equatable {
 
 String _displayName(Map<String, dynamic> json) {
   // Try profile fields first, then fall back to user_id prefix
-  final first = (json['first_name'] ?? json['display_name'] ?? '').toString().trim();
+  final first = (json['first_name'] ?? json['display_name'] ?? '')
+      .toString()
+      .trim();
   if (first.isNotEmpty) return first;
   final userId = (json['user_id'] ?? '').toString();
   return userId.length > 6 ? 'User ${userId.substring(0, 6)}' : 'User';

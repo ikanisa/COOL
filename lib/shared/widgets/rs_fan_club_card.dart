@@ -6,6 +6,7 @@ import '../../core/theme/rs_colors.dart';
 import '../../features/partners/rayon/models/rs_models.dart';
 import 'cool_card.dart';
 
+
 /// Fan-club card with join/joined toggle and stats strip.
 class RsFanClubCard extends StatelessWidget {
   const RsFanClubCard({
@@ -158,9 +159,9 @@ class RsFanClubCard extends StatelessWidget {
                 children: [
                   _Stat(label: 'Members', value: '${club.memberCount}'),
                   _divider(),
-                  const _Stat(label: 'Events', value: '—'),
+                  _Stat(label: 'Events', value: '${club.eventCount}'),
                   _divider(),
-                  const _Stat(label: 'Rating', value: '—'),
+                  _Stat(label: 'Rating', value: '${club.rating}'),
                 ],
               ),
             ),

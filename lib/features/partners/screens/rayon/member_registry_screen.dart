@@ -12,6 +12,7 @@ import '../../providers/member_registry_provider.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/partner_navigation.dart';
 import '../../widgets/rayon_state_views.dart';
+import '../../../../core/l10n/l10n.dart';
 
 class MemberRegistryScreen extends ConsumerStatefulWidget {
   const MemberRegistryScreen({super.key});
@@ -155,7 +156,7 @@ class _MemberRegistryScreenState extends ConsumerState<MemberRegistryScreen> {
                                   TextButton(
                                     onPressed: () =>
                                         registryNotifier.init(partnerId),
-                                    child: const Text('Retry'),
+                                    child: Text(context.l10n.retry),
                                   ),
                                 ],
                               ),
@@ -348,7 +349,7 @@ class _SearchBar extends StatelessWidget {
         ),
         cursorColor: AppColors.rsBluePale,
         decoration: InputDecoration(
-          hintText: 'Search name or ID...',
+          hintText: context.l10n.searchNameOrId,
           hintStyle: GoogleFonts.barlow(
             fontSize: 15,
             fontWeight: FontWeight.w500,

@@ -49,7 +49,6 @@ abstract final class AppRoutes {
   static const scanner = '/scanner';
   static const kycSelfie = '/kyc/selfie';
 
-
   static const admin = '/admin';
   static const adminPlatform = '/admin/platform';
   static const adminUsers = '/admin/users';

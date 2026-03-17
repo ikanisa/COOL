@@ -17,6 +17,7 @@ import '../../../shared/widgets/cool_toast.dart';
 import '../services/nfc_hce_service.dart';
 import '../services/nfc_service.dart';
 import 'momo_send_sheet.dart';
+import '../../../core/l10n/l10n.dart';
 
 // ═════════════════════════════════════════════════════════════════════════════
 // NFC BOTTOM SHEET
@@ -70,7 +71,7 @@ class MomoNfcSheet extends StatelessWidget {
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(),
                     icon: const Icon(Icons.close_rounded),
-                    tooltip: 'Close',
+                    tooltip: context.l10n.close,
                   ),
                 ],
               ),

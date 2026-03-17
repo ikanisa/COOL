@@ -16,7 +16,7 @@ import '../providers/mobility_location_provider.dart';
 
 import '../providers/vehicle_type_provider.dart';
 
-const _fallbackVehicleFilters = [
+final _fallbackVehicleFilters = [
   MobilityVehicleFilter(label: 'All', value: 'All'),
   MobilityVehicleFilter(label: 'Moto', value: 'Moto'),
   MobilityVehicleFilter(label: 'Cab', value: 'Cab'),

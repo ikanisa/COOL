@@ -13,6 +13,7 @@ import '../../../../shared/widgets/rs_fan_club_card.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/rayon_screen_scaffold.dart';
 import '../../widgets/rayon_state_views.dart';
+import '../../../../core/l10n/l10n.dart';
 
 class FanClubsScreen extends ConsumerStatefulWidget {
   const FanClubsScreen({super.key});
@@ -31,7 +32,7 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
     final clubDirectory = ref.watch(rayonClubDirectoryProvider);
 
     return RayonScreenScaffold(
-      title: 'Fan Clubs',
+      title: context.l10n.fanClubs,
       fallbackLocation: AppRoutes.rayonHome,
       scrollable: false,
       actions: [

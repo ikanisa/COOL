@@ -1,3 +1,4 @@
+
 part of '../screens/partners_screen.dart';
 
 extension _PartnersScreenController on _PartnersScreenState {
@@ -104,7 +105,7 @@ extension _PartnersScreenController on _PartnersScreenState {
                   ),
                   const SizedBox(height: 18),
                   CoolButton(
-                    label: 'Open Rayon Sports',
+                    label: context.l10n.openRayonSports,
                     onTap: () => Navigator.of(sheetContext).pop(),
                   ),
                 ],

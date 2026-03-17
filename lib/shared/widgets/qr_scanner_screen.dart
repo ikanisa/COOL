@@ -14,6 +14,7 @@ import '../../features/momo/providers/momo_service_provider.dart';
 import 'cool_skeleton.dart';
 import 'cool_button.dart';
 import 'cool_toast.dart';
+import '../../core/l10n/l10n.dart';
 
 /// Scan mode for the QR scanner.
 enum QrScanMode { ticket, momo }
@@ -283,7 +284,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
       return Scaffold(
         backgroundColor: AppColors.bg,
         appBar: AppBar(
-          title: const Text('Scan Ticket'),
+          title: Text(context.l10n.scanTicket),
           backgroundColor: AppColors.bg,
         ),
         body: Center(
@@ -309,7 +310,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                 ),
                 const SizedBox(height: 20),
                 CoolButton(
-                  label: 'Go Back',
+                  label: context.l10n.goBack,
                   onTap: () => Navigator.of(context).pop(),
                 ),
               ],
@@ -332,7 +333,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
     if (!cameraAccess.isReady) {
       final gate = switch (cameraAccess.kind) {
         AppAccessStateKind.disabledInApp => (
-          title: 'Camera is off in',
+          title: context.l10n.cameraIsOffIn,
           message:
               'Enable camera access',
           actionLabel: 'Enable Camera',

@@ -20,6 +20,7 @@ import '../models/rs_models.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/rayon_screen_scaffold.dart';
 import '../widgets/rs_tier_badge.dart';
+import '../../../../core/l10n/l10n.dart';
 
 class FanProfileScreen extends ConsumerStatefulWidget {
   const FanProfileScreen({super.key});
@@ -68,7 +69,7 @@ class _FanProfileScreenState extends ConsumerState<FanProfileScreen> {
     final user = ref.watch(currentUserProvider);
 
     return RayonScreenScaffold(
-      title: 'Fan Profile',
+      title: context.l10n.fanProfile,
       fallbackLocation: AppRoutes.rayonHome,
       scrollable: false,
       child: CustomScrollView(
@@ -437,7 +438,7 @@ class _PerksAccessCard extends StatelessWidget {
           if (hasMembership) ...[
             const SizedBox(height: 14),
             CoolButton(
-              label: 'Show Fan QR',
+              label: context.l10n.showFanQr,
               variant: CoolButtonVariant.secondary,
               icon: Icons.qr_code_2_rounded,
               onTap: () => _showFanQr(context, fanId, tier),

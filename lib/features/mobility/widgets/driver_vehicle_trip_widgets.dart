@@ -11,6 +11,7 @@ import '../services/place_search_service.dart';
 import 'schedule_trip_place_search_sheet.dart';
 import '../../../shared/widgets/cool_text_field.dart';
 import 'driver_profile_models.dart';
+import '../../../core/l10n/l10n.dart';
 
 /// Card displaying a list of scheduled trips, or an empty-state message.
 class ScheduledTripsCard extends StatelessWidget {
@@ -158,14 +159,14 @@ class VehicleInfoCard extends StatelessWidget {
     return CoolCard(
       child: Column(
         children: [
-          _VehicleInfoTile(label: 'Vehicle Type', value: vehicle.type),
+          _VehicleInfoTile(label: context.l10n.vehicleType1, value: vehicle.type),
           Divider(color: AppColors.border, height: 1),
-          _VehicleInfoTile(label: 'Plate Number', value: vehicle.plateNumber),
+          _VehicleInfoTile(label: context.l10n.plateNumber1, value: vehicle.plateNumber),
           Divider(color: AppColors.border, height: 1),
-          _VehicleInfoTile(label: 'Base Location', value: vehicle.baseLocation),
+          _VehicleInfoTile(label: context.l10n.baseLocation1, value: vehicle.baseLocation),
           Divider(color: AppColors.border, height: 1),
           _VehicleInfoTile(
-            label: 'Verification',
+            label: context.l10n.verification,
             value: vehicle.status,
             valueColor: vehicle.statusColor,
           ),
@@ -256,7 +257,7 @@ class _EditVehicleSheetState extends ConsumerState<EditVehicleSheet> {
   Future<void> _openBaseLocationSearch() async {
     final result = await showPlaceSearchSheet(
       context,
-      title: 'Set base location',
+      title: context.l10n.setBaseLocation,
       initialQuery: _baseLocationController.text.trim(),
       service: ref.read(placeSearchServiceProvider),
       near: ref.read(mobilityLocationProvider).position,
@@ -354,7 +355,7 @@ class _EditVehicleSheetState extends ConsumerState<EditVehicleSheet> {
               ),
               const SizedBox(height: 18),
               CoolTextField(
-                label: 'Vehicle Type',
+                label: context.l10n.vehicleType2,
                 hint: 'Moto Taxi',
                 controller: _vehicleTypeController,
                 prefixIcon: Icons.directions_car_rounded,
@@ -362,7 +363,7 @@ class _EditVehicleSheetState extends ConsumerState<EditVehicleSheet> {
               ),
               const SizedBox(height: 14),
               CoolTextField(
-                label: 'Plate Number',
+                label: context.l10n.plateNumber2,
                 hint: 'RAB 123 C',
                 controller: _plateNumberController,
                 prefixIcon: Icons.pin_rounded,
@@ -370,7 +371,7 @@ class _EditVehicleSheetState extends ConsumerState<EditVehicleSheet> {
               ),
               const SizedBox(height: 14),
               CoolTextField(
-                label: 'Base Location',
+                label: context.l10n.baseLocation2,
                 hint: 'Nyamirambo, Kigali',
                 controller: _baseLocationController,
                 prefixIcon: Icons.location_on_rounded,
@@ -382,12 +383,12 @@ class _EditVehicleSheetState extends ConsumerState<EditVehicleSheet> {
                 child: TextButton.icon(
                   onPressed: _openBaseLocationSearch,
                   icon: const Icon(Icons.search_rounded, size: 18),
-                  label: const Text('Search Google Places'),
+                  label: Text(context.l10n.searchGooglePlaces),
                 ),
               ),
               const SizedBox(height: 20),
               CoolButton(
-                label: 'Save Vehicle Info',
+                label: context.l10n.saveVehicleInfo,
                 onTap: () => _save(),
                 isLoading: _isResolvingBaseLocation,
               ),

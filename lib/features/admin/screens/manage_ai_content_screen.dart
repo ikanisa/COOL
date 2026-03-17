@@ -9,6 +9,7 @@ import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../home/models/nexus_recommendation.dart';
 import '../../home/repositories/nexus_repository.dart';
+import '../../../core/l10n/l10n.dart';
 
 // ── Providers ────────────────────────────────────────────────
 
@@ -40,7 +41,7 @@ class ManageAiContentScreen extends ConsumerWidget {
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
-          tooltip: 'Back',
+          tooltip: context.l10n.back,
           icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
         ),
       ),
@@ -228,17 +229,17 @@ class ManageAiContentScreen extends ConsumerWidget {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Delete content?'),
+        title: Text(context.l10n.deleteContent),
         content: Text('Delete "${item.title}"? This cannot be undone.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(context.l10n.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
             child:
-                const Text('Delete', style: TextStyle(color: Colors.red)),
+                Text(context.l10n.delete, style: TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -444,8 +445,9 @@ class _AiContentCard extends StatelessWidget {
                   }
                 },
                 itemBuilder: (_) => [
-                  const PopupMenuItem(
-                      value: 'edit', child: Text('Edit')),
+                  PopupMenuItem(
+                      value: 'edit',
+                      child: Text(context.l10n.editChildTextedit)),
                   if (onToggle != null)
                     PopupMenuItem(
                       value: 'toggle',

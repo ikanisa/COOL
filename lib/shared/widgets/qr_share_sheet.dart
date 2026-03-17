@@ -9,6 +9,7 @@ import '../../core/providers/engagement_providers.dart';
 import '../../core/theme/app_colors.dart';
 import 'cool_toast.dart';
 import 'wa_button.dart';
+import '../../core/l10n/l10n.dart';
 
 /// A modal bottom sheet for sharing a group invite via QR code, copy link,
 /// or WhatsApp.
@@ -206,7 +207,7 @@ class QrShareSheet extends ConsumerWidget {
                     const SizedBox(width: 10),
                     Semantics(
                       button: true,
-                      label: 'Copy invite link',
+                      label: context.l10n.copyInviteLink,
                       child: GestureDetector(
                         onTap: () async {
                           Clipboard.setData(ClipboardData(text: inviteUrl));

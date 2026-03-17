@@ -409,7 +409,7 @@ class _WealthArchiveCardState extends State<_WealthArchiveCard> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: const Text('Wealth Archive saved to Google Drive & emailed!'),
+              content: Text(context.l10n.wealthArchiveSavedTo),
               action: SnackBarAction(
                 label: 'VIEW',
                 onPressed: () {
@@ -423,7 +423,7 @@ class _WealthArchiveCardState extends State<_WealthArchiveCard> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to complete archive.')),
+          SnackBar(content: Text(context.l10n.failedToCompleteArchive)),
         );
       }
     } finally {

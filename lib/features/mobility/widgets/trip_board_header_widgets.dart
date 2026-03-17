@@ -10,6 +10,7 @@ import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/vehicle_chip.dart';
 import '../providers/trip_board_provider.dart';
 import 'trip_display_strings.dart';
+import '../../../core/l10n/l10n.dart';
 
 /// Vehicle filter model.
 class VehicleFilter {
@@ -20,7 +21,7 @@ class VehicleFilter {
 }
 
 /// Default vehicle filters used on the trip board.
-const tripBoardVehicleFilters = [
+final tripBoardVehicleFilters = const [
   VehicleFilter(label: 'All', value: 'All'),
   VehicleFilter(label: 'Moto', value: 'Moto'),
   VehicleFilter(label: 'Cab', value: 'Cab'),
@@ -82,7 +83,7 @@ class TripBoardTopCard extends ConsumerWidget {
           const SizedBox(height: 14),
           SizedBox(
             width: double.infinity,
-            child: CoolButton(label: 'Post trip', onTap: onPostTrip),
+            child: CoolButton(label: context.l10n.postTrip1, onTap: onPostTrip),
           ),
           if (isExplore) ...[
             const SizedBox(height: 14),
@@ -97,7 +98,7 @@ class TripBoardTopCard extends ConsumerWidget {
             ),
             const SizedBox(height: 12),
             CoolButton(
-              label: 'Trip type',
+              label: context.l10n.tripType,
               onTap: onOpenTripType,
               variant: CoolButtonVariant.secondary,
             ),
@@ -173,8 +174,8 @@ class TripBoardExploreHeaderCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return TripBoardHeaderCard(
-      title: 'Explore trips',
-      subtitle: 'Find a ride nearby.',
+      title: context.l10n.exploreTrips,
+      subtitle: context.l10n.findARideNearby,
       primaryLabel: 'Post trip',
       onPrimaryTap: onPostTrip,
     );
@@ -216,7 +217,7 @@ class TripBoardExploreControlsCard extends ConsumerWidget {
           ),
           const SizedBox(height: 14),
           CoolButton(
-            label: 'Trip type',
+            label: context.l10n.tripType,
             onTap: onOpenTripType,
             variant: CoolButtonVariant.secondary,
           ),
@@ -237,8 +238,8 @@ class TripBoardMyTripsHeaderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TripBoardHeaderCard(
-      title: 'Manage your trips',
-      subtitle: 'Manage your posted trips.',
+      title: context.l10n.manageYourTrips,
+      subtitle: context.l10n.manageYourPostedTrips,
       primaryLabel: 'Post trip',
       onPrimaryTap: onPostTrip,
     );
@@ -450,19 +451,19 @@ class TripBoardTripTypeSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _TripBoardSelectionSheet<TripBoardTab>(
-      title: 'Trip type',
-      subtitle: 'Filter by trip type.',
+      title: context.l10n.tripType,
+      subtitle: context.l10n.filterByTripType,
       value: activeTab,
-      options: const <({TripBoardTab value, String label, String subtitle})>[
+      options:   <({TripBoardTab value, String label, String subtitle})>[
         (
           value: TripBoardTab.passengerTrips,
-          label: 'Passenger trips',
-          subtitle: 'Rides near you.',
+          label: context.l10n.passengerTrips,
+          subtitle: context.l10n.ridesNearYou,
         ),
         (
           value: TripBoardTab.driverReturnTrips,
-          label: 'Driver returns',
-          subtitle: 'Drivers with available seats.',
+          label: context.l10n.driverReturns,
+          subtitle: context.l10n.driversWithAvailableSeats,
         ),
       ],
     );

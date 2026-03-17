@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../providers/admin_workspace_access_provider.dart';
+import '../../../core/l10n/l10n.dart';
 
 class AdminLoadingScaffold extends StatelessWidget {
   const AdminLoadingScaffold({required this.title, super.key});
@@ -97,7 +98,7 @@ class AdminAccessDeniedScaffold extends StatelessWidget {
               const SizedBox(height: 18),
               ElevatedButton(
                 onPressed: () => context.go(fallbackLocation),
-                child: const Text('Back to admin'),
+                child: Text(context.l10n.backToAdmin),
               ),
             ],
           ),
@@ -118,8 +119,8 @@ class PlatformAdminGate extends ConsumerWidget {
     if (access.hasPlatformAccess) {
       return child;
     }
-    return const AdminAccessDeniedScaffold(
-      title: 'Platform Admin',
+    return AdminAccessDeniedScaffold(
+      title: context.l10n.platformAdmin,
       message: 'This workspace is reserved',
     );
   }
@@ -141,8 +142,8 @@ class PartnerAdminGate extends ConsumerWidget {
     if (access.canAccessPartnerId(partnerId)) {
       return child;
     }
-    return const AdminAccessDeniedScaffold(
-      title: 'Partner Admin',
+    return AdminAccessDeniedScaffold(
+      title: context.l10n.partnerAdmin,
       message:
           'You do not have',
     );

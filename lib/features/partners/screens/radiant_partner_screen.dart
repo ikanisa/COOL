@@ -16,6 +16,7 @@ import '../models/partner_service.dart';
 import '../providers/partner_provider.dart';
 import '../providers/partner_service_provider.dart';
 import '../widgets/partner_navigation.dart';
+import '../../../core/l10n/l10n.dart';
 
 // ═════════════════════════════════════════════════════════════════════════════
 // RADIANT INSURANCE — PARTNER DETAIL SCREEN (now DATA-DRIVEN)
@@ -222,7 +223,7 @@ class _RadiantBody extends ConsumerWidget {
           ),
 
           const SizedBox(height: 16),
-          CoolButton(label: 'Request a Quote', onTap: () => _openChat(context)),
+          CoolButton(label: context.l10n.requestAQuote, onTap: () => _openChat(context)),
         ],
       ),
     );

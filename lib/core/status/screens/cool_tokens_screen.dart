@@ -23,6 +23,7 @@ import '../providers/cool_missions_provider.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/cool_status_provider.dart';
 import '../widgets/referral_banner.dart';
+import '../../../core/l10n/l10n.dart';
 
 /// Full-page gamification hub for Cool Tokens.
 class CoolTokensScreen extends ConsumerWidget {
@@ -35,7 +36,7 @@ class CoolTokensScreen extends ConsumerWidget {
     final status = ref.watch(coolStatusProvider).valueOrNull;
 
     return Scaffold(
-      backgroundColor: palette.bg,
+      appBar: AppBar(title: Text(context.l10n.rewardsProgram)),
       body: CoolScreenBackground(
         child: SafeArea(
           child: CustomScrollView(
@@ -54,7 +55,7 @@ class CoolTokensScreen extends ConsumerWidget {
                       context.go(AppRoutes.profile);
                     }
                   },
-                  tooltip: 'Back',
+                  tooltip: context.l10n.back,
                   icon: Icon(Icons.arrow_back_rounded, color: palette.text),
                 ),
                 title: Text(
@@ -88,7 +89,7 @@ class CoolTokensScreen extends ConsumerWidget {
 
                     // ── 3. Ways to Earn ───────────────────────
                     const _SectionHeader(
-                      label: 'Ways to Earn',
+                      label: 'Welcome to COOL Tokens',
                       icon: Icons.auto_awesome_rounded,
                     ),
                     const SizedBox(height: 10),
@@ -97,7 +98,7 @@ class CoolTokensScreen extends ConsumerWidget {
 
                     // ── 4. Active Missions ────────────────────
                     _SectionHeader(
-                      label: 'Active Missions',
+                      label: context.l10n.activeMissions,
                       icon: Icons.flag_rounded,
                       trailing: TextButton(
                         onPressed: () => context.push(AppRoutes.missions),
@@ -128,9 +129,22 @@ class CoolTokensScreen extends ConsumerWidget {
                     const SizedBox(height: 24),
 
                     // ── 5. Top Earners ────────────────────────
-                    const _SectionHeader(
-                      label: 'Top Earners',
+                    _SectionHeader(
+                      label: 'Convert Tokens',
                       icon: Icons.leaderboard_rounded,
+                      trailing: TextButton(
+                        onPressed: () {
+                          CoolToast.info(context, 'Convert token flow coming soon');
+                        },
+                        child: Text(
+                          'Convert',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: palette.accent,
+                          ),
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 10),
                     const _TopEarnersSection(),
@@ -161,7 +175,7 @@ class _StreakStatsRow extends StatelessWidget {
           child: _StatCard(
             icon: Icons.local_fire_department_rounded,
             iconColor: AppColors.orange,
-            label: 'Current Streak',
+            label: context.l10n.currentStreak,
             value: '${status.currentStreak}',
             suffix: 'days',
           ),
@@ -171,7 +185,7 @@ class _StreakStatsRow extends StatelessWidget {
           child: _StatCard(
             icon: Icons.emoji_events_rounded,
             iconColor: AppColors.yellow,
-            label: 'Best Streak',
+            label: context.l10n.bestStreak,
             value: '${status.longestStreak}',
             suffix: 'days',
           ),
@@ -181,7 +195,7 @@ class _StreakStatsRow extends StatelessWidget {
           child: _StatCard(
             icon: Icons.shield_rounded,
             iconColor: palette.blue,
-            label: 'Grace',
+            label: context.l10n.grace,
             value: '${status.streakGraceRemaining}',
             suffix: 'left',
           ),
@@ -262,8 +276,7 @@ class _WaysToEarnGrid extends StatelessWidget {
       child: Column(
         children: [
           for (int i = 0; i < events.length; i++) ...[
-            if (i > 0)
-              Divider(height: 1, color: palette.border),
+            if (i > 0) Divider(height: 1, color: palette.border),
             _EarnRow(eventType: events[i]),
           ],
         ],
@@ -284,10 +297,7 @@ class _EarnRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
         children: [
-          Text(
-            eventType.emoji,
-            style: const TextStyle(fontSize: 20),
-          ),
+          Text(eventType.emoji, style: const TextStyle(fontSize: 20)),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
@@ -391,9 +401,25 @@ class _TopEarnersSection extends ConsumerWidget {
         return CoolCard(
           child: Column(
             children: [
+              ListTile(
+                title: Text(context.l10n.str14DaysStreak),
+                subtitle: Text(context.l10n.str50Tokens),
+                trailing: TextButton(
+                  onPressed: () {
+                    CoolToast.info(context, 'Token history coming soon');
+                  },
+                  child: Text(
+                    'View History',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: palette.accent,
+                    ),
+                  ),
+                ),
+              ),
               for (int i = 0; i < entries.length; i++) ...[
-                if (i > 0)
-                  Divider(height: 1, color: palette.border),
+                if (i > 0) Divider(height: 1, color: palette.border),
                 _LeaderboardRow(entry: entries[i]),
               ],
             ],

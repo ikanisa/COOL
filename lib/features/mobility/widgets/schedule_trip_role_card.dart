@@ -49,8 +49,8 @@ class _ScheduleTripRoleSheet extends StatelessWidget {
               ),
               const SizedBox(height: 18),
               _ScheduleTripRoleSheetOption(
-                label: 'Passenger',
-                subtitle: 'Default mode',
+                label: context.l10n.passenger,
+                subtitle: context.l10n.defaultMode,
                 selected: selectedRole == ScheduleTripPostingRole.passenger,
                 onTap: () => Navigator.of(
                   context,
@@ -58,7 +58,7 @@ class _ScheduleTripRoleSheet extends StatelessWidget {
               ),
               Divider(color: palette.border),
               _ScheduleTripRoleSheetOption(
-                label: 'Driver',
+                label: context.l10n.driver,
                 subtitle: canScheduleAsDriver
                     ? 'Post as driver'
                     : 'Setup required',
