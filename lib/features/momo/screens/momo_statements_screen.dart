@@ -12,6 +12,7 @@ import '../../../core/theme/cool_palette.dart';
 import '../../../core/utils/intl_locale.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_button.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
@@ -179,11 +180,12 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
                   ),
                   tabs: const [
                     Tab(
-                      icon: Icon(Icons.account_balance_wallet_rounded, size: 20),
+                      icon: Icon(
+                        Icons.account_balance_wallet_rounded,
+                        size: 20,
+                      ),
                     ),
-                    Tab(
-                      icon: Icon(Icons.savings_rounded, size: 20),
-                    ),
+                    Tab(icon: Icon(Icons.savings_rounded, size: 20)),
                   ],
                 ),
               ),
@@ -207,6 +209,12 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
                           periodSummary: _periodLabel(dateFormat),
                           optionsSummary: _optionsSummary(
                             viewModel.effectivePartyFilter,
+                          ),
+                          netBalance: _walletNetBalance(bundle.walletEntries),
+                          inflow: _walletInflow(bundle.walletEntries),
+                          outflow: _walletOutflow(bundle.walletEntries),
+                          savingsTotal: _confirmedSavingsTotal(
+                            bundle.savingsEntries,
                           ),
                           onSelectPeriod: _selectPeriod,
                           onOpenOptions: () => _showOptionsSheet(
@@ -250,4 +258,30 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
       ),
     );
   }
+}
+
+int _walletNetBalance(List<MomoWalletEntry> entries) {
+  var value = 0;
+  for (final entry in entries) {
+    value += entry.isCredit ? entry.amount : -entry.amount;
+  }
+  return value;
+}
+
+int _walletInflow(List<MomoWalletEntry> entries) {
+  return entries
+      .where((entry) => entry.isCredit)
+      .fold<int>(0, (sum, entry) => sum + entry.amount);
+}
+
+int _walletOutflow(List<MomoWalletEntry> entries) {
+  return entries
+      .where((entry) => entry.isDebit)
+      .fold<int>(0, (sum, entry) => sum + entry.amount);
+}
+
+int _confirmedSavingsTotal(List<SavingsStatementEntry> entries) {
+  return entries
+      .where((entry) => entry.isConfirmed)
+      .fold<int>(0, (sum, entry) => sum + entry.amount);
 }

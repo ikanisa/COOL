@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/theme/app_colors.dart';
 
+import '../../../../core/theme/cool_palette.dart';
 class RsServiceCard extends StatelessWidget {
   const RsServiceCard({
     required this.icon,
@@ -25,6 +26,7 @@ class RsServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final lineColor = accentColor ?? AppColors.rsBlue;
 
     return Semantics(
@@ -39,9 +41,9 @@ class RsServiceCard extends StatelessWidget {
           highlightColor: AppColors.rsBlueGlow.withValues(alpha: 0.22),
           child: Ink(
             decoration: BoxDecoration(
-              color: AppColors.surface2,
+              color: palette.surface2,
               borderRadius: BorderRadius.circular(18),
-              border: Border.all(color: AppColors.border2),
+              border: Border.all(color: palette.border2),
             ),
             child: Stack(
               children: [
@@ -82,10 +84,11 @@ class _TallContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(card.icon, size: 24, color: AppColors.text),
+        Icon(card.icon, size: 24, color: palette.text),
         const SizedBox(height: 14),
         Text(
           card.name,
@@ -102,7 +105,7 @@ class _TallContent extends StatelessWidget {
           style: GoogleFonts.barlow(
             fontSize: 13,
             fontWeight: FontWeight.w500,
-            color: AppColors.text2,
+            color: palette.text2,
             height: 1.3,
           ),
         ),
@@ -128,9 +131,10 @@ class _WideContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Row(
       children: [
-        Icon(card.icon, size: 26, color: AppColors.text),
+        Icon(card.icon, size: 26, color: palette.text),
         const SizedBox(width: 14),
         Expanded(
           child: Column(
@@ -151,7 +155,7 @@ class _WideContent extends StatelessWidget {
                 style: GoogleFonts.barlow(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.text2,
+                  color: palette.text2,
                   height: 1.3,
                 ),
               ),

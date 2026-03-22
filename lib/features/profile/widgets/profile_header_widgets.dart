@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../core/config/app_market.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../core/utils/phone_validator.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_glass_card.dart';
 import 'profile_data.dart';
 
 /// Top-of-screen card showing user name, phone, KYC badge, and member since.
@@ -46,98 +47,92 @@ class ProfileHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final memberSince = profile.createdAt != null
         ? DateFormat('MMM yyyy').format(profile.createdAt!)
         : null;
 
-    return CoolCard(
-      backgroundColor: palette.surface,
+    return CoolGlassCard(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: 60,
-            height: 60,
+            width: 72,
+            height: 72,
             decoration: BoxDecoration(
-              color: palette.surface2,
-              borderRadius: BorderRadius.circular(18),
+              color: colors.operationalSurface,
+              borderRadius: BorderRadius.circular(CoolRadii.md),
+              border: Border.all(color: colors.border),
             ),
             alignment: Alignment.center,
             child: Text(
               profile.initials,
-              style: GoogleFonts.dmSans(
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
-                color: palette.accent,
+              style: theme.textTheme.headlineSmall?.copyWith(
+                color: colors.accent,
+                fontWeight: FontWeight.w800,
               ),
             ),
           ),
-          const SizedBox(width: 14),
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   profile.name,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: palette.text,
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    color: colors.primaryText,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
                 if (profile.phone.isNotEmpty) ...[
-                  const SizedBox(height: 2),
+                  const SizedBox(height: 4),
                   Text(
                     profile.phone,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                      color: palette.text2,
+                    style: theme.textTheme.labelLarge?.copyWith(
+                      color: colors.secondaryText,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ],
-                const SizedBox(height: 6),
+                const SizedBox(height: 10),
                 Row(
                   children: [
-                    // KYC badge
                     Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 3,
+                        horizontal: 10,
+                        vertical: 6,
                       ),
                       decoration: BoxDecoration(
                         color: _kycColor(palette).withValues(alpha: 0.12),
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(CoolRadii.sm),
+                        border: Border.all(
+                          color: _kycColor(palette).withValues(alpha: 0.22),
+                        ),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(
-                            _kycIcon(),
-                            size: 12,
-                            color: _kycColor(palette),
-                          ),
+                          Icon(_kycIcon(), size: 16, color: _kycColor(palette)),
                           const SizedBox(width: 4),
                           Text(
                             _kycLabel(),
-                            style: GoogleFonts.dmSans(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w600,
+                            style: theme.textTheme.labelMedium?.copyWith(
                               color: _kycColor(palette),
+                              fontWeight: FontWeight.w800,
                             ),
                           ),
                         ],
                       ),
                     ),
-                    // Member since
                     if (memberSince != null) ...[
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 10),
                       Text(
                         'Since $memberSince',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w500,
-                          color: palette.text3,
+                        style: theme.textTheme.labelMedium?.copyWith(
+                          color: colors.secondaryText,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ],
@@ -166,6 +161,8 @@ class ProfileMomoQrCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final l10n = context.l10n;
     final country = AppMarket.country;
     final qrData = PhoneValidator.generateMomoQrData(
@@ -176,19 +173,18 @@ class ProfileMomoQrCard extends StatelessWidget {
     final providerLabel = PhoneValidator.providerLabel(momoNumber, countryCode);
 
     return CoolCard(
-      backgroundColor: palette.surface,
+      backgroundColor: colors.cardSurfaceStrong,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             l10n.profileMomoQrTitle,
-            style: GoogleFonts.dmSans(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: palette.text,
+            style: theme.textTheme.titleSmall?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
             ),
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: 16),
           Center(
             child: Container(
               decoration: BoxDecoration(
@@ -200,7 +196,7 @@ class ProfileMomoQrCard extends StatelessWidget {
               padding: const EdgeInsets.all(12),
               child: QrImageView(
                 data: qrData,
-                size: 132,
+                size: 156,
                 padding: const EdgeInsets.all(14),
                 backgroundColor: Colors.white,
                 errorCorrectionLevel: QrErrorCorrectLevel.H,
@@ -224,15 +220,15 @@ class ProfileMomoQrCard extends StatelessWidget {
                   vertical: 4,
                 ),
                 decoration: BoxDecoration(
-                  color: palette.accentGlow,
+                  color: colors.contactSurface,
                   borderRadius: BorderRadius.circular(999),
+                  border: Border.all(color: colors.border),
                 ),
                 child: Text(
                   providerLabel,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
-                    color: palette.accent,
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    color: colors.accent,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
               ),
@@ -253,9 +249,10 @@ class ProfileSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: palette.surface,
+        color: colors.overlaySurface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(

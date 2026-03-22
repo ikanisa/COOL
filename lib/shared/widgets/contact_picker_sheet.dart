@@ -4,7 +4,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../core/services/app_access_service.dart';
 import '../../core/services/contacts_service.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_palette.dart';
 import 'cool_skeleton.dart';
 import '../../core/l10n/l10n.dart';
 
@@ -264,13 +264,14 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final screenHeight = MediaQuery.sizeOf(context).height;
     final effectiveSubtitle = widget.message;
 
     return Container(
       constraints: BoxConstraints(maxHeight: screenHeight * 0.85),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: Column(
@@ -287,7 +288,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                     width: 40,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: AppColors.border2,
+                      color: palette.border2,
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -298,7 +299,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                     Icon(
                       Icons.contacts_rounded,
                       size: 22,
-                      color: AppColors.text2,
+                      color: palette.text2,
                     ),
                     const SizedBox(width: 10),
                     Expanded(
@@ -313,7 +314,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                             style: GoogleFonts.dmSans(
                               fontSize: 18,
                               fontWeight: FontWeight.w700,
-                              color: AppColors.text,
+                              color: palette.text,
                             ),
                           ),
                           if (effectiveSubtitle != null) ...[
@@ -323,7 +324,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                               style: GoogleFonts.dmSans(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400,
-                                color: AppColors.text3,
+                                color: palette.text3,
                               ),
                             ),
                           ],
@@ -334,6 +335,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                       _DoneButton(
                         count: _selected.length,
                         onTap: _confirmSelection,
+                        palette: palette,
                       ),
                   ],
                 ),
@@ -351,22 +353,22 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                       onChanged: _onSearch,
                       style: GoogleFonts.dmSans(
                         fontSize: 14,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
-                      cursorColor: AppColors.accent,
+                      cursorColor: palette.accent,
                       decoration: InputDecoration(
                         hintText: 'Search by name or',
                         hintStyle: GoogleFonts.dmSans(
                           fontSize: 14,
-                          color: AppColors.text3,
+                          color: palette.text3,
                         ),
                         prefixIcon: Icon(
                           Icons.search_rounded,
-                          color: AppColors.text3,
+                          color: palette.text3,
                           size: 20,
                         ),
                         filled: true,
-                        fillColor: AppColors.surface2,
+                        fillColor: palette.surface2,
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: 14,
                           vertical: 10,
@@ -384,7 +386,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
           ),
 
           // ── Body ──
-          Flexible(child: _buildBody()),
+          Flexible(child: _buildBody(palette)),
 
           // ── Bottom safe area ──
           SizedBox(height: MediaQuery.paddingOf(context).bottom + 8),
@@ -393,7 +395,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(CoolPalette palette) {
     // Loading state
     if (_isLoading) {
       return const Padding(
@@ -411,6 +413,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
             'You\'ve permanently denied contacts',
         actionLabel: 'Open Settings',
         action: _openContactsSettings,
+        palette: palette,
       );
     }
 
@@ -422,6 +425,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
             'Contacts access is currently',
         actionLabel: 'Enable Contacts',
         action: _enableContactsAccess,
+        palette: palette,
       );
     }
 
@@ -434,6 +438,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
             'Cool needs access to',
         actionLabel: 'Allow Access',
         action: _requestContactsPermission,
+        palette: palette,
       );
     }
 
@@ -445,6 +450,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
         message: _error!,
         actionLabel: 'Retry',
         action: _loadContacts,
+        palette: palette,
       );
     }
 
@@ -459,7 +465,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                 ? 'No contacts match "${_searchController.text.trim()}"'
                 : 'No contacts with phone numbers found.',
             textAlign: TextAlign.center,
-            style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text3),
+            style: GoogleFonts.dmSans(fontSize: 14, color: palette.text3),
           ),
         ),
       );
@@ -478,6 +484,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
           isSelected: isSelected,
           showCheckbox: widget.multiSelect,
           onTap: () => _toggleContact(contact),
+          palette: palette,
         );
       },
     );
@@ -494,12 +501,14 @@ class _ContactTile extends StatelessWidget {
     required this.isSelected,
     required this.showCheckbox,
     required this.onTap,
+    required this.palette,
   });
 
   final SimpleContact contact;
   final bool isSelected;
   final bool showCheckbox;
   final VoidCallback onTap;
+  final CoolPalette palette;
 
   @override
   Widget build(BuildContext context) {
@@ -510,7 +519,7 @@ class _ContactTile extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
         decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(color: AppColors.border, width: 0.5),
+            bottom: BorderSide(color: palette.border, width: 0.5),
           ),
         ),
         child: Row(
@@ -521,8 +530,8 @@ class _ContactTile extends StatelessWidget {
               height: 42,
               decoration: BoxDecoration(
                 color: isSelected
-                    ? AppColors.accent.withValues(alpha: 0.15)
-                    : AppColors.surface2,
+                    ? palette.accent.withValues(alpha: 0.15)
+                    : palette.surface2,
                 borderRadius: BorderRadius.circular(21),
               ),
               alignment: Alignment.center,
@@ -531,7 +540,7 @@ class _ContactTile extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
-                  color: isSelected ? AppColors.accent : AppColors.text2,
+                  color: isSelected ? palette.accent : palette.text2,
                 ),
               ),
             ),
@@ -547,7 +556,7 @@ class _ContactTile extends StatelessWidget {
                     style: GoogleFonts.dmSans(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.text,
+                      color: palette.text,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -558,7 +567,7 @@ class _ContactTile extends StatelessWidget {
                     style: GoogleFonts.dmMono(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
-                      color: AppColors.text3,
+                      color: palette.text3,
                     ),
                   ),
                 ],
@@ -572,10 +581,10 @@ class _ContactTile extends StatelessWidget {
                 width: 24,
                 height: 24,
                 decoration: BoxDecoration(
-                  color: isSelected ? AppColors.accent : Colors.transparent,
+                  color: isSelected ? palette.accent : Colors.transparent,
                   borderRadius: BorderRadius.circular(6),
                   border: Border.all(
-                    color: isSelected ? AppColors.accent : AppColors.border2,
+                    color: isSelected ? palette.accent : palette.border2,
                     width: 2,
                   ),
                 ),
@@ -590,7 +599,7 @@ class _ContactTile extends StatelessWidget {
             else
               Icon(
                 Icons.chevron_right_rounded,
-                color: AppColors.text3,
+                color: palette.text3,
                 size: 20,
               ),
           ],
@@ -611,6 +620,7 @@ class _PermissionState extends StatelessWidget {
     required this.message,
     required this.actionLabel,
     required this.action,
+    required this.palette,
   });
 
   final IconData icon;
@@ -618,6 +628,7 @@ class _PermissionState extends StatelessWidget {
   final String message;
   final String actionLabel;
   final VoidCallback action;
+  final CoolPalette palette;
 
   @override
   Widget build(BuildContext context) {
@@ -626,14 +637,14 @@ class _PermissionState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 44, color: AppColors.text2),
+          Icon(icon, size: 44, color: palette.text2),
           const SizedBox(height: 14),
           Text(
             title,
             style: GoogleFonts.dmSans(
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
           const SizedBox(height: 8),
@@ -643,7 +654,7 @@ class _PermissionState extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w400,
-              color: AppColors.text3,
+              color: palette.text3,
               height: 1.5,
             ),
           ),
@@ -653,7 +664,7 @@ class _PermissionState extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               decoration: BoxDecoration(
-                color: AppColors.accent,
+                color: palette.accent,
                 borderRadius: BorderRadius.circular(14),
               ),
               child: Text(
@@ -677,10 +688,11 @@ class _PermissionState extends StatelessWidget {
 // ═══════════════════════════════════════════════════════════════════════════
 
 class _DoneButton extends StatelessWidget {
-  const _DoneButton({required this.count, required this.onTap});
+  const _DoneButton({required this.count, required this.onTap, required this.palette});
 
   final int count;
   final VoidCallback onTap;
+  final CoolPalette palette;
 
   @override
   Widget build(BuildContext context) {
@@ -689,7 +701,7 @@ class _DoneButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: AppColors.accent,
+          color: palette.accent,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(

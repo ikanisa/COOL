@@ -5,13 +5,14 @@ import 'package:go_router/go_router.dart';
 import '../../../core/config/app_market.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/providers/auth_provider.dart';
 import 'kyc_id_scan_screen.dart';
 import '../providers/profile_view_provider.dart';
 import '../widgets/profile_dialogs.dart';
+import '../widgets/profile_momo_edit_sheet.dart';
 import '../widgets/profile_travel_role_sheet.dart';
 
 class ProfileWalletScreen extends ConsumerWidget {
@@ -107,8 +108,9 @@ class _ProfileDetailScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: palette.bg,
       appBar: AppBar(title: Text(title)),
       body: CoolScreenBackground(
         child: SafeArea(

@@ -6,7 +6,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/providers/engagement_providers.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_palette.dart';
 import 'cool_toast.dart';
 import 'wa_button.dart';
 import '../../core/l10n/l10n.dart';
@@ -111,9 +111,10 @@ class QrShareSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
@@ -128,7 +129,7 @@ class QrShareSheet extends ConsumerWidget {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: AppColors.border2,
+                  color: palette.border2,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -141,7 +142,7 @@ class QrShareSheet extends ConsumerWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
               const SizedBox(height: 6),
@@ -150,7 +151,7 @@ class QrShareSheet extends ConsumerWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
-                  color: AppColors.text3,
+                  color: palette.text3,
                 ),
               ),
               const SizedBox(height: 24),
@@ -159,7 +160,7 @@ class QrShareSheet extends ConsumerWidget {
               Container(
                 padding: const EdgeInsets.all(18),
                 decoration: BoxDecoration(
-                  color: AppColors.surface3,
+                  color: palette.surface3,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: QrImageView(
@@ -186,9 +187,9 @@ class QrShareSheet extends ConsumerWidget {
                   vertical: 12,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.surface2,
+                  color: palette.surface2,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.border),
+                  border: Border.all(color: palette.border),
                 ),
                 child: Row(
                   children: [
@@ -200,7 +201,7 @@ class QrShareSheet extends ConsumerWidget {
                         style: GoogleFonts.dmMono(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
-                          color: AppColors.text2,
+                          color: palette.text2,
                         ),
                       ),
                     ),
@@ -238,16 +239,16 @@ class QrShareSheet extends ConsumerWidget {
                             vertical: 6,
                           ),
                           decoration: BoxDecoration(
-                            color: AppColors.surface3,
+                            color: palette.surface3,
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(
+                              Icon(
                                 Icons.copy_rounded,
                                 size: 14,
-                                color: AppColors.accent,
+                                color: palette.accent,
                               ),
                               const SizedBox(width: 4),
                               Text(
@@ -255,7 +256,7 @@ class QrShareSheet extends ConsumerWidget {
                                 style: GoogleFonts.dmSans(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w600,
-                                  color: AppColors.accent,
+                                  color: palette.accent,
                                 ),
                               ),
                             ],

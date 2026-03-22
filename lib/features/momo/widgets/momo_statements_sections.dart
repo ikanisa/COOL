@@ -1,4 +1,3 @@
-
 part of '../screens/momo_statements_screen.dart';
 
 class StatementOverviewCard extends StatelessWidget {
@@ -6,6 +5,10 @@ class StatementOverviewCard extends StatelessWidget {
     required this.selectedPeriod,
     required this.periodSummary,
     required this.optionsSummary,
+    required this.netBalance,
+    required this.inflow,
+    required this.outflow,
+    required this.savingsTotal,
     required this.onSelectPeriod,
     required this.onOpenOptions,
     super.key,
@@ -14,16 +17,63 @@ class StatementOverviewCard extends StatelessWidget {
   final StatementPeriodPreset selectedPeriod;
   final String periodSummary;
   final String optionsSummary;
+  final int netBalance;
+  final int inflow;
+  final int outflow;
+  final int savingsTotal;
   final Future<void> Function(StatementPeriodPreset period) onSelectPeriod;
   final VoidCallback onOpenOptions;
 
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
+    final moneyFormat = decimalMoneyFormatForLocale(context);
     return CoolCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            'Statement command',
+            style: GoogleFonts.dmSans(
+              fontSize: 11,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 1,
+              color: palette.text3,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            '${netBalance >= 0 ? '' : '-'}${moneyFormat.format(netBalance.abs())} ${context.l10n.rwf}',
+            style: GoogleFonts.dmMono(
+              fontSize: 28,
+              fontWeight: FontWeight.w700,
+              color: palette.text,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            children: [
+              _SummaryMetric(
+                label: 'Inflow',
+                value: '${moneyFormat.format(inflow)} ${context.l10n.rwf}',
+                accentColor: palette.accent,
+              ),
+              _SummaryMetric(
+                label: 'Outflow',
+                value: '${moneyFormat.format(outflow)} ${context.l10n.rwf}',
+                accentColor: palette.orange,
+              ),
+              _SummaryMetric(
+                label: 'Savings',
+                value:
+                    '${moneyFormat.format(savingsTotal)} ${context.l10n.rwf}',
+                accentColor: palette.blue,
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
           Row(
             children: [
               Expanded(
@@ -384,6 +434,54 @@ class _OptionsSectionTitle extends StatelessWidget {
   }
 }
 
+class _SummaryMetric extends StatelessWidget {
+  const _SummaryMetric({
+    required this.label,
+    required this.value,
+    required this.accentColor,
+  });
+
+  final String label;
+  final String value;
+  final Color accentColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: const BoxConstraints(minWidth: 110),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: accentColor.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: accentColor.withValues(alpha: 0.18)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label.toUpperCase(),
+            style: GoogleFonts.dmSans(
+              fontSize: 10,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.8,
+              color: accentColor,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            value,
+            style: GoogleFonts.dmMono(
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+              color: accentColor,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 String _statementPeriodLabel(StatementPeriodPreset period) {
   return switch (period) {
     StatementPeriodPreset.day => 'Day',
@@ -455,33 +553,6 @@ class WalletStatementTab extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Text(
-                      entry.momoTxId != null ? 'Tx ID: ${entry.momoTxId}' : 'Tx ID: N/A',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                        color: palette.text3,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    dateFormat.format(entry.occurredAt),
-                    style: GoogleFonts.dmSans(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                      color: palette.text3,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
@@ -489,7 +560,9 @@ class WalletStatementTab extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          entry.payerName ?? entry.counterpartyName ?? entry.label,
+                          entry.payerName ??
+                              entry.counterpartyName ??
+                              entry.label,
                           style: GoogleFonts.dmSans(
                             fontSize: 15,
                             fontWeight: FontWeight.w700,
@@ -498,29 +571,68 @@ class WalletStatementTab extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 2),
+                        const SizedBox(height: 4),
                         Text(
-                          entry.payerPhone != null
-                              ? (entry.payerPhone!.length >= 4
-                                  ? '•••• ${entry.payerPhone!.substring(entry.payerPhone!.length - 4)}'
-                                  : entry.payerPhone!)
-                              : 'MoMo Transfer',
+                          entry.momoTxId != null
+                              ? 'Tx ID: ${entry.momoTxId}'
+                              : 'Tx ID pending',
                           style: GoogleFonts.dmSans(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                            color: palette.text2,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: palette.text3,
                           ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),
                   ),
                   const SizedBox(width: 8),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: (entry.isCredit ? palette.accent : palette.orange)
+                          .withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: Text(
+                      '${entry.isCredit ? '+' : '-'}${moneyFormat.format(entry.amount)} ${entry.currency}',
+                      style: GoogleFonts.dmMono(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                        color: entry.isCredit ? palette.accent : palette.orange,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      entry.payerPhone != null
+                          ? (entry.payerPhone!.length >= 4
+                                ? '•••• ${entry.payerPhone!.substring(entry.payerPhone!.length - 4)}'
+                                : entry.payerPhone!)
+                          : entry.counterpartyName ?? 'MoMo Transfer',
+                      style: GoogleFonts.dmSans(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: palette.text2,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
                   Text(
-                    '${entry.isCredit ? '+' : '-'}${moneyFormat.format(entry.amount)} ${entry.currency}',
+                    dateFormat.format(entry.occurredAt),
                     style: GoogleFonts.dmSans(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: entry.isCredit ? palette.accent : palette.text,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                      color: palette.text3,
                     ),
                   ),
                 ],
@@ -536,11 +648,14 @@ class WalletStatementTab extends StatelessWidget {
                         : context.l10n.outgoingLabel,
                     color: entry.isCredit ? palette.accent : palette.orange,
                   ),
-                  if (entry.ledgerStatus != 'draft' && entry.ledgerStatus != 'pending')
+                  if (entry.ledgerStatus != 'draft' &&
+                      entry.ledgerStatus != 'pending')
                     _StatusChip(
                       label: _humanizeToken(entry.ledgerStatus),
                       color: palette.purple,
                     ),
+                  if ((entry.reference?.trim().isNotEmpty ?? false))
+                    _StatusChip(label: 'Ref ready', color: palette.blue),
                 ],
               ),
             ],
@@ -637,13 +752,23 @@ class SavingsStatementTab extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 12),
-                  Text(
-                    '${moneyFormat.format(entry.amount)} ${context.l10n.rwf}',
-                    textAlign: TextAlign.right,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: palette.accent,
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: palette.blueGlow,
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: Text(
+                      '${moneyFormat.format(entry.amount)} ${context.l10n.rwf}',
+                      textAlign: TextAlign.right,
+                      style: GoogleFonts.dmMono(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                        color: palette.blue,
+                      ),
                     ),
                   ),
                 ],

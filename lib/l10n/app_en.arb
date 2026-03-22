@@ -137,6 +137,7 @@
   "scheduleTripRouteSameError": "Departure and destination must",
   "scheduleTripReturnInvalidError": "Return date and time",
   "scheduleTripRecurringDaysError": "Pick at least one",
+  "scheduleTripDepartureInPastError": "Departure time is in the past.",
   "scheduleTripDateFieldPrefix": "📅",
   "scheduleTripTimeFieldPrefix": "🕐",
   "driverMode": "Driver Mode",
@@ -1224,5 +1225,181 @@
   "str14DaysStreak": "14 Days Streak",
   "str50Tokens": "+50 Tokens",
   "wealthArchiveSavedTo": "Wealth Archive saved to Google Drive & emailed!",
-  "rwf1": "Rwf"
+  "rwf1": "Rwf",
+
+  "seasonsAndActivities": "Seasons & Activities",
+  "activeSeasons": "Active Seasons",
+  "pastSeasons": "Past Seasons",
+  "seasonEarnTokensSubtitle": "Earn tokens by completing activities during each season",
+  "seasonStatusLive": "Live",
+  "seasonStatusEnded": "Ended",
+  "seasonStatusUpcoming": "Upcoming",
+  "seasonsEmptyTitle": "No seasons or activities yet",
+  "earnTokensLabel": "Earn Tokens",
+
+  "creditReadinessTitle": "Credit readiness",
+
+  "groupDetailTitle": "Group Detail",
+  "groupNotFound": "Group not found.",
+  "couldNotJoinGroup": "Could not join group.",
+  "noInviteCodeYet": "This group does not have a shareable invite code yet.",
+  "noContributionsYet": "No contributions yet",
+  "recentContributions": "Recent contributions",
+  "showAll": "Show all",
+  "showLess": "Show less",
+  "more": "More",
+  "membersCount": "Members ({count})",
+  "@membersCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "targetAmountRwf": "Target: RWF {amount}",
+  "@targetAmountRwf": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "joinGroupShareText": "Join {groupName} on Cool: {url}",
+  "@joinGroupShareText": {
+    "placeholders": { "groupName": { "type": "String" }, "url": { "type": "String" } }
+  },
+  "joinGroupShareTextEmoji": "Join {groupName} on Cool! 🎉\n{url}",
+  "@joinGroupShareTextEmoji": {
+    "placeholders": { "groupName": { "type": "String" }, "url": { "type": "String" } }
+  },
+  "inviteToGroup": "Invite to {groupName}",
+  "@inviteToGroup": {
+    "placeholders": { "groupName": { "type": "String" } }
+  },
+  "alreadyMemberOf": "You are already a member of {groupName}.",
+  "@alreadyMemberOf": {
+    "placeholders": { "groupName": { "type": "String" } }
+  },
+  "youJoinedGroup": "You joined {groupName}.",
+  "@youJoinedGroup": {
+    "placeholders": { "groupName": { "type": "String" } }
+  },
+
+  "ledgerTitle": "Ledger & Statements",
+  "allContributors": "All contributors",
+  "allTime": "All time",
+  "chooseExportFormat": "Choose a format to download the group ledger.",
+  "exportLedger": "Export Ledger",
+  "exportAction": "Export",
+  "exportFailed": "Export failed. Please try again.",
+  "ledgerExported": "Ledger exported: {fileName}",
+  "@ledgerExported": {
+    "placeholders": { "fileName": { "type": "String" } }
+  },
+  "noDataToExport": "No data to export.",
+  "csvLabel": "CSV",
+  "excelLabel": "Excel",
+  "pdfLabel": "PDF",
+  "plainTextData": "Plain text data",
+  "printReadyStatement": "Print-ready statement",
+  "spreadsheetWithHeaders": "Spreadsheet with headers",
+  "newestFirst": "Newest first",
+  "noContributionsForFilter": "No contributions found for this filter.",
+  "filteredContributor": "Filtered contributor",
+  "last7Days": "Last 7 days",
+  "lastMonth": "Last month",
+  "lastYear": "Last year",
+  "week": "Week",
+  "month": "Month",
+  "year": "Year",
+  "group": "Group",
+  "unknown": "Unknown",
+
+  "kycFrontIdFirst": "Add front ID first",
+  "kycAlignBack": "Align back of {docType}",
+  "@kycAlignBack": {
+    "placeholders": { "docType": { "type": "String" } }
+  },
+  "kycAlignFront": "Align front of {docType}",
+  "@kycAlignFront": {
+    "placeholders": { "docType": { "type": "String" } }
+  },
+  "kycBackOfDocument": "Back of document",
+  "kycBackOfId": "Back of ID",
+  "kycChooseDocumentType": "Choose document type",
+  "kycFrontOfId": "Front of ID",
+  "personalInfo": "Personal Info",
+  "kycAutoFilled": "Cool has already filled",
+  "kycExtracting": "Cool is extracting your",
+  "kycCurrentIdentity": "Current identity on file",
+  "kycDrivingLicence": "Driving licence",
+  "kycExtractedReady": "Extracted profile ready",
+  "kycExtractionFailed": "Extraction failed",
+  "kycNationalId": "National ID",
+  "kycPassport": "Passport",
+  "kycNoImageYet": "No image yet",
+  "kycReadingId": "Reading your ID",
+  "kycSelfieForFaceMatch": "Take a selfie for face match",
+  "kycIdentityMismatch": "Identity mismatch detected.",
+  "kycDobValue": "DOB {dob}",
+  "@kycDobValue": {
+    "placeholders": { "dob": { "type": "String" } }
+  },
+  "kycIdMasked": "ID ••••{last4}",
+  "@kycIdMasked": {
+    "placeholders": { "last4": { "type": "String" } }
+  },
+
+  "adminPanelTitle": "Admin Panel",
+  "adminQuickActions": "Quick Actions",
+  "adminOperations": "Operations",
+  "adminAppConfig": "App Config",
+  "adminAppConfigDesc": "Key-value settings",
+  "adminAuditLog": "Audit Log",
+  "adminAuditLogDesc": "Who did what, when",
+  "adminMissions": "Missions",
+  "adminMissionsDesc": "Create & manage cooperative missions",
+  "adminAdminRoles": "Admin Roles",
+  "adminAdminRolesDesc": "Assign & manage admin access",
+  "adminPartners": "Partners",
+  "adminPartnersDesc": "Manage partner profiles",
+  "adminVehicleTypes": "Vehicle Types",
+  "adminVehicleTypesDesc": "Mobility filter chips",
+  "adminSeasons": "Seasons",
+  "adminSeasonsDesc": "Token-earning gamification activities",
+  "adminActivities": "Activities",
+  "adminServices": "Services",
+  "adminServicesDesc": "Partner service offerings",
+  "adminSpecialProducts": "Special Products",
+  "adminSpecialProductsDesc": "Home screen cards",
+  "adminAiContent": "AI Content",
+  "adminAiContentDesc": "AI-generated UI with approval gate",
+  "adminSystemAnalytics": "System Analytics",
+  "adminSystemAnalyticsDesc": "Platform-wide metrics & trends",
+  "adminUsers": "Users",
+  "adminUsersDesc": "Inspect profiles and demo batches",
+  "adminLiveOps": "Live-Ops",
+  "adminLiveOpsDesc": "Live-ops campaigns & rewards",
+  "adminRelease": "Release",
+  "adminReleaseDesc": "Release health and triage",
+  "adminSupportMode": "Support Mode",
+  "adminSupportModeDesc": "Open a bank or rayon workspace as support",
+  "adminSupportModeHint": "Navigate into a partner workspace to view and manage it as support.",
+  "adminNoPartnersFound": "No partners found",
+  "adminFailedToLoadPartners": "Failed to load partners: {error}",
+  "@adminFailedToLoadPartners": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+
+  "rsAdminUpdateStatus": "Update Status",
+  "rsAdminOrderNumber": "Order #{orderId}",
+  "@rsAdminOrderNumber": {
+    "placeholders": { "orderId": { "type": "String" } }
+  },
+  "rsAdminItemsCount": "Items ({count})",
+  "@rsAdminItemsCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "partnerNotFound": "Partner not found",
+  "prismaLabel": "PRISMA",
+  "couldNotLoadServices": "Could not load services",
+  "partnerLabel": "Partner",
+
+  "spreadsheetHeaders": "Spreadsheet with headers",
+  "contributorsLabel": "Contributors",
+  "kycIdentityVerification": "Identity verification",
+  "rsAdminNoOrders": "No orders yet"
 }

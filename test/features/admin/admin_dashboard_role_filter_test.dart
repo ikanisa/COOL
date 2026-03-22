@@ -28,8 +28,8 @@ void main() {
       expect(find.text('System Analytics'), findsOneWidget);
       expect(find.text('Audit Log'), findsOneWidget);
 
-      // Should show Platform Admin badge
-      expect(find.text('Platform Admin'), findsOneWidget);
+      // Should show Platform Admin badge (uppercased by _RoleBadge)
+      expect(find.text('PLATFORM ADMIN'), findsOneWidget);
     });
 
     testWidgets('non-admin user sees no cards', (tester) async {

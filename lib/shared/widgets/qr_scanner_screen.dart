@@ -9,7 +9,7 @@ import '../../core/models/momo_qr_payload.dart';
 import '../../core/providers/app_access_provider.dart';
 import '../../core/providers/supabase_client_provider.dart';
 import '../../core/services/app_access_service.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_palette.dart';
 import '../../features/momo/providers/momo_service_provider.dart';
 import 'cool_skeleton.dart';
 import 'cool_button.dart';
@@ -280,12 +280,13 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     if (widget.mode == QrScanMode.ticket && !widget.ticketScanningEnabled) {
       return Scaffold(
-        backgroundColor: AppColors.bg,
+        backgroundColor: palette.bg,
         appBar: AppBar(
           title: Text(context.l10n.scanTicket),
-          backgroundColor: AppColors.bg,
+          backgroundColor: palette.bg,
         ),
         body: Center(
           child: Padding(
@@ -296,7 +297,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                 Icon(
                   Icons.lock_outline_rounded,
                   size: 42,
-                  color: AppColors.text2,
+                  color: palette.text2,
                 ),
                 const SizedBox(height: 16),
                 Text(
@@ -305,7 +306,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                   style: GoogleFonts.dmSans(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -362,12 +363,12 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
       };
 
       return Scaffold(
-        backgroundColor: AppColors.bg,
+        backgroundColor: palette.bg,
         appBar: AppBar(
           title: Text(
             widget.mode == QrScanMode.ticket ? 'Scan Ticket' : 'Scan MoMo QR',
           ),
-          backgroundColor: AppColors.bg,
+          backgroundColor: palette.bg,
         ),
         body: Center(
           child: Padding(
@@ -378,7 +379,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                 Icon(
                   Icons.camera_alt_outlined,
                   size: 42,
-                  color: AppColors.text2,
+                  color: palette.text2,
                 ),
                 const SizedBox(height: 16),
                 Text(
@@ -387,7 +388,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                   style: GoogleFonts.dmSans(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -397,7 +398,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                   style: GoogleFonts.dmSans(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
+                    color: palette.text2,
                     height: 1.45,
                   ),
                 ),
@@ -587,7 +588,7 @@ class _ScannerOverlay extends StatelessWidget {
   Widget build(BuildContext context) {
     final accentColor = mode == QrScanMode.ticket
         ? Colors.white
-        : AppColors.accent;
+        : Theme.of(context).extension<CoolPalette>()!.accent;
     return Stack(
       children: [
         ColorFiltered(
@@ -730,9 +731,10 @@ class _TicketResultSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       padding: const EdgeInsets.fromLTRB(22, 16, 22, 32),
@@ -743,7 +745,7 @@ class _TicketResultSheet extends StatelessWidget {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: AppColors.border2,
+              color: palette.border2,
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -758,7 +760,7 @@ class _TicketResultSheet extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 20,
               fontWeight: FontWeight.w700,
-              color: result.isValid ? AppColors.accent : AppColors.red,
+              color: result.isValid ? palette.accent : palette.red,
             ),
           ),
           if (result.message != null) ...[
@@ -766,7 +768,7 @@ class _TicketResultSheet extends StatelessWidget {
             Text(
               result.message!,
               textAlign: TextAlign.center,
-              style: GoogleFonts.dmSans(fontSize: 13, color: AppColors.text2),
+              style: GoogleFonts.dmSans(fontSize: 13, color: palette.text2),
             ),
           ],
           if (result.matchTitle != null ||
@@ -777,9 +779,9 @@ class _TicketResultSheet extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: AppColors.surface2,
+                color: palette.surface2,
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: palette.border),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -790,7 +792,7 @@ class _TicketResultSheet extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                   if (result.seatType != null) ...[
@@ -800,7 +802,7 @@ class _TicketResultSheet extends StatelessWidget {
                       style: GoogleFonts.dmMono(
                         fontSize: 11,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.accent,
+                        color: palette.accent,
                       ),
                     ),
                   ],
@@ -811,7 +813,7 @@ class _TicketResultSheet extends StatelessWidget {
                       style: GoogleFonts.dmMono(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.text3,
+                        color: palette.text3,
                       ),
                     ),
                   ],
@@ -822,7 +824,7 @@ class _TicketResultSheet extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.accent,
+                        color: palette.accent,
                       ),
                     ),
                   ],

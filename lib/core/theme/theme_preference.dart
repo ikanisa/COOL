@@ -6,7 +6,7 @@ AppThemePreference appThemePreferenceFromStorage(String? value) {
   return switch (value?.trim().toLowerCase()) {
     'light' => AppThemePreference.light,
     'dark' => AppThemePreference.dark,
-    _ => AppThemePreference.system,
+    _ => AppThemePreference.dark,
   };
 }
 

@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_foundations.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/driver_card.dart';
@@ -39,6 +41,19 @@ final mobilityVehicleFiltersProvider = Provider<List<MobilityVehicleFilter>>((
     error: (_, _) => _fallbackVehicleFilters,
   );
 });
+
+String _tripStatusLabel(Trip trip) {
+  final normalized = trip.status.trim().toUpperCase();
+  if (normalized == 'PAUSED') {
+    return 'Paused';
+  }
+  if (normalized == 'OPEN' ||
+      normalized == 'MATCHED' ||
+      normalized == 'ACTIVE') {
+    return 'Open now';
+  }
+  return 'Scheduled';
+}
 
 // ═════════════════════════════════════════════════════════════════════════════
 // VEHICLE FILTER DATA MODEL
@@ -80,15 +95,61 @@ class _MobilityTopActionsCardState
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     // Current UI maps to a legacy 0/1/2 index for tabs.
     // 0 = Discovery (Nearby), 1 = Scheduled Trips, 2 = Schedule Trip Action
     // We maintain this index in DiscoveryNotifier for UI consistency.
     final activeTab = ref.watch(discoveryProvider.select((s) => s.selectedTab));
+    final discoveryState = ref.watch(discoveryProvider);
+    final nearbyDriverCount = discoveryState.nearbyDrivers.length;
+    final nearbyTripCount = discoveryState.nearbyTrips.length;
 
     return CoolCard(
+      backgroundColor: colors.routeSurface,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            'Dispatch Board',
+            style: theme.textTheme.headlineSmall?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          const SizedBox(height: CoolSpace.x2),
+          Text(
+            'Nearby supply, route demand, and direct WhatsApp handoff in one place.',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w700,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: CoolSpace.x4),
+          Wrap(
+            spacing: CoolSpace.x2,
+            runSpacing: CoolSpace.x2,
+            children: [
+              _MobilitySignalChip(
+                icon: Icons.people_outline_rounded,
+                label: '$nearbyDriverCount drivers nearby',
+                accentColor: colors.info,
+              ),
+              _MobilitySignalChip(
+                icon: Icons.alt_route_rounded,
+                label: '$nearbyTripCount open trips',
+                accentColor: colors.accent,
+              ),
+              _MobilitySignalChip(
+                icon: Icons.chat_rounded,
+                label: 'WhatsApp handoff',
+                accentColor: colors.warning,
+              ),
+            ],
+          ),
+          const SizedBox(height: CoolSpace.x4),
           _MobilityTabBar(
             activeIndex: activeTab,
             onChanged: (index) {
@@ -122,7 +183,9 @@ class MobilityFilterBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedVehicle = ref.watch(discoveryProvider.select((s) => s.selectedVehicle));
+    final selectedVehicle = ref.watch(
+      discoveryProvider.select((s) => s.selectedVehicle),
+    );
     final filters = ref.watch(mobilityVehicleFiltersProvider);
     final notifier = ref.read(discoveryProvider.notifier);
     final chips = [
@@ -164,16 +227,14 @@ class MobilityFilterBar extends ConsumerWidget {
 // ═════════════════════════════════════════════════════════════════════════════
 
 class _MobilityTabBar extends StatelessWidget {
-  const _MobilityTabBar({
-    required this.activeIndex,
-    required this.onChanged,
-  });
+  const _MobilityTabBar({required this.activeIndex, required this.onChanged});
 
   final int activeIndex;
   final ValueChanged<int> onChanged;
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final onPrimary = Theme.of(context).colorScheme.onPrimary;
 
     const tabs = [
@@ -183,11 +244,11 @@ class _MobilityTabBar extends StatelessWidget {
     ];
 
     return Container(
-      padding: const EdgeInsets.all(4),
+      padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-        color: AppColors.surface2,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: AppColors.border, width: 1.5),
+        color: colors.cardSurfaceStrong,
+        borderRadius: BorderRadius.circular(CoolRadii.md),
+        border: Border.all(color: colors.border, width: 1.2),
       ),
       child: Row(
         children: [
@@ -200,13 +261,13 @@ class _MobilityTabBar extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () => onChanged(i),
                   child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    duration: CoolMotion.quick,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
                     decoration: BoxDecoration(
                       color: activeIndex == i
-                          ? AppColors.accent
+                          ? colors.accent
                           : Colors.transparent,
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(CoolRadii.sm),
                     ),
                     alignment: Alignment.center,
                     child: Row(
@@ -217,7 +278,7 @@ class _MobilityTabBar extends StatelessWidget {
                           size: 18,
                           color: activeIndex == i
                               ? onPrimary
-                              : AppColors.text2,
+                              : colors.secondaryText,
                         ),
                         const SizedBox(width: 6),
                         Flexible(
@@ -225,10 +286,15 @@ class _MobilityTabBar extends StatelessWidget {
                             tabs[i].label,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                              fontWeight: activeIndex == i ? FontWeight.w800 : FontWeight.w600,
-                              color: activeIndex == i ? onPrimary : AppColors.text2,
-                            ),
+                            style: Theme.of(context).textTheme.labelLarge
+                                ?.copyWith(
+                                  fontWeight: activeIndex == i
+                                      ? FontWeight.w800
+                                      : FontWeight.w700,
+                                  color: activeIndex == i
+                                      ? onPrimary
+                                      : colors.secondaryText,
+                                ),
                           ),
                         ),
                       ],
@@ -318,7 +384,9 @@ class MobilityContentSliver extends ConsumerWidget {
 
     return MobilityNearbyDriversSliver(
       drivers: drivers,
-      selectedVehicle: ref.watch(discoveryProvider.select((s) => s.selectedVehicle)),
+      selectedVehicle: ref.watch(
+        discoveryProvider.select((s) => s.selectedVehicle),
+      ),
       onPreviewTap: onDriverPreviewTap,
       onWhatsAppTap: onDriverWhatsAppTap,
     );
@@ -394,6 +462,12 @@ class MobilityNearbyDriversSliver extends StatelessWidget {
                 vehicleType: driver.vehicleType,
                 distanceKm: driver.distanceKm,
                 isOnline: driver.isOnline,
+                rating: driver.rating,
+                tripCount: driver.tripCount,
+                scheduledRoute: driver.scheduledRoute,
+                baseLocation: driver.baseLocation,
+                vehicleStatus: driver.vehicleStatus,
+                isRegularDriver: driver.isRegularDriver,
                 onTap: () => onPreviewTap(driver),
                 onWhatsAppTap: () => onWhatsAppTap(driver),
               ),
@@ -443,11 +517,56 @@ class MobilityScheduledTripsSliver extends StatelessWidget {
                 isReturn: trip.isReturn,
                 isRecurring: trip.isRecurring,
                 isDriverReturnTrip: trip.isDriverReturnTrip,
+                distanceKm: trip.distanceKm,
+                priceNote: trip.priceNote,
+                statusLabel: _tripStatusLabel(trip),
+                demandLabel: trip.isDriverReturnTrip
+                    ? 'Return seat'
+                    : 'Fast response',
               ),
             );
           }, childCount: trips.length),
         ),
       ],
+    );
+  }
+}
+
+class _MobilitySignalChip extends StatelessWidget {
+  const _MobilitySignalChip({
+    required this.icon,
+    required this.label,
+    required this.accentColor,
+  });
+
+  final IconData icon;
+  final String label;
+  final Color accentColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: accentColor.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: accentColor.withValues(alpha: 0.2)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: accentColor),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: theme.textTheme.labelMedium?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: accentColor,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -469,9 +588,9 @@ class _MobilityStatusSliver extends StatelessWidget {
             message,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: color,
-                  fontWeight: FontWeight.w500,
-                ),
+              color: color,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
       ),

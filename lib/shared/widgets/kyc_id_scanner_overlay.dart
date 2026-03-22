@@ -5,7 +5,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_palette.dart';
 import '../../core/utils/privacy_redactor.dart';
 import '../../shared/widgets/cool_button.dart';
 
@@ -95,6 +95,7 @@ class _KycIdScannerOverlayState extends State<KycIdScannerOverlay> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -110,14 +111,14 @@ class _KycIdScannerOverlayState extends State<KycIdScannerOverlay> {
         ),
       ),
       body: _capturedPath != null
-          ? _buildPreview()
+          ? _buildPreview(palette)
           : _isInitialized
-              ? _buildCameraStack()
-              : const Center(child: CircularProgressIndicator(color: AppColors.accent)),
+              ? _buildCameraStack(palette)
+              : Center(child: CircularProgressIndicator(color: palette.accent)),
     );
   }
 
-  Widget _buildCameraStack() {
+  Widget _buildCameraStack(CoolPalette palette) {
     return Stack(
       children: [
         Positioned.fill(
@@ -127,7 +128,7 @@ class _KycIdScannerOverlayState extends State<KycIdScannerOverlay> {
         // Rectangular ID Overlay
         Positioned.fill(
           child: CustomPaint(
-            painter: _IdOverlayPainter(),
+            painter: _IdOverlayPainter(accentColor: palette.accent),
           ),
         ),
 
@@ -155,12 +156,12 @@ class _KycIdScannerOverlayState extends State<KycIdScannerOverlay> {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.shield_rounded, color: AppColors.accent, size: 14),
+                    const Icon(Icons.shield_rounded, color: Colors.white, size: 14),
                     const SizedBox(width: 6),
                     Text(
                       'PRIVACY GUARD ACTIVE',
                       style: GoogleFonts.dmSans(
-                        color: AppColors.accent,
+                        color: palette.accent,
                         fontSize: 10,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 0.5,
@@ -210,7 +211,7 @@ class _KycIdScannerOverlayState extends State<KycIdScannerOverlay> {
                       color: Colors.white,
                     ),
                     child: _isCapturing 
-                      ? const Center(child: CircularProgressIndicator(color: AppColors.blue))
+                      ? Center(child: CircularProgressIndicator(color: palette.blue))
                       : const Icon(Icons.camera_alt, color: Colors.black),
                   ),
                 ],
@@ -222,7 +223,7 @@ class _KycIdScannerOverlayState extends State<KycIdScannerOverlay> {
     );
   }
 
-  Widget _buildPreview() {
+  Widget _buildPreview(CoolPalette palette) {
     return Column(
       children: [
         Expanded(
@@ -230,7 +231,7 @@ class _KycIdScannerOverlayState extends State<KycIdScannerOverlay> {
             margin: const EdgeInsets.all(24),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: AppColors.accent.withValues(alpha: 0.5), width: 2),
+              border: Border.all(color: palette.accent.withValues(alpha: 0.5), width: 2),
               image: DecorationImage(
                 image: FileImage(File(_capturedPath!)),
                 fit: BoxFit.contain,
@@ -277,6 +278,9 @@ class _KycIdScannerOverlayState extends State<KycIdScannerOverlay> {
 }
 
 class _IdOverlayPainter extends CustomPainter {
+  _IdOverlayPainter({required this.accentColor});
+  final Color accentColor;
+
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
@@ -305,7 +309,7 @@ class _IdOverlayPainter extends CustomPainter {
 
     // Liquid glass glowing border
     final borderPaint = Paint()
-      ..color = AppColors.accent
+      ..color = accentColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3;
 

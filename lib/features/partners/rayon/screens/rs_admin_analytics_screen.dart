@@ -3,13 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../core/l10n/l10n.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_foundations.dart';
+import '../../../../shared/widgets/cool_async_view.dart';
 import '../../../../shared/widgets/cool_card.dart';
+import '../models/rs_models.dart';
 import '../providers/rs_admin_provider.dart';
 import '../widgets/rs_admin_shell.dart';
-import '../../../../core/l10n/l10n.dart';
 
-/// RS Fan Analytics Dashboard — engagement overview, revenue, tier breakdown.
+/// RS fan analytics dashboard.
 class RsAdminAnalyticsScreen extends ConsumerWidget {
   const RsAdminAnalyticsScreen({super.key});
 
@@ -19,30 +22,61 @@ class RsAdminAnalyticsScreen extends ConsumerWidget {
     final ordersAsync = ref.watch(rsAdminOrdersProvider);
     final membersAsync = ref.watch(rsAdminMembersProvider);
 
+    final shopRevenueLabel = ordersAsync.whenOrNull(
+      data: (orders) => _money(
+        orders
+            .where((order) => order.status != OrderStatus.cancelled)
+            .fold<int>(0, (sum, order) => sum + order.total),
+      ),
+    );
+
     return RsAdminShell(
       title: context.l10n.analytics,
-      subtitle: 'Fan engagement & revenue overview',
-      child: analyticsAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: Text(context.l10n.genericErrorText(e.toString()))),
-        data: (data) {
+      subtitle:
+          'Monitor revenue, supporter growth, and matchday performance from one executive scoreboard.',
+      metrics: [
+        RsAdminMetric(
+          label: 'members',
+          value:
+              membersAsync.whenOrNull(data: (members) => '${members.length}') ??
+              '...',
+        ),
+        RsAdminMetric(
+          label: 'orders',
+          value:
+              ordersAsync.whenOrNull(data: (orders) => '${orders.length}') ??
+              '...',
+        ),
+        RsAdminMetric(label: 'shop rev', value: shopRevenueLabel ?? '...'),
+      ],
+      child: CoolAsyncView<Map<String, dynamic>>(
+        value: analyticsAsync,
+        onRetry: () => ref.invalidate(rsAdminFanAnalyticsProvider),
+        builder: (data) {
+          final colors = context.coolSemanticColors;
           final moneyFmt = NumberFormat.decimalPattern('en_US');
+          final ticketRevenue = (data['ticket_revenue'] as num?)?.toInt() ?? 0;
+          final shopRevenue =
+              ordersAsync.whenOrNull(
+                data: (orders) => orders
+                    .where((order) => order.status != OrderStatus.cancelled)
+                    .fold<int>(0, (sum, order) => sum + order.total),
+              ) ??
+              0;
+          final totalRevenue = ticketRevenue + shopRevenue;
 
-          // Safely compute shop revenue from orders
-          final shopRevenue = ordersAsync.whenOrNull(
-            data: (orders) => orders
-                .where((o) => o.status.name != 'cancelled')
-                .fold<int>(0, (sum, o) => sum + o.total),
-          ) ?? 0;
-
-          // Tier breakdown from members
           final tierCounts = <String, int>{
-            'Blue': 0, 'Silver': 0, 'Gold': 0, 'Platinum': 0,
+            'Blue': 0,
+            'Silver': 0,
+            'Gold': 0,
+            'Platinum': 0,
           };
           membersAsync.whenOrNull(
             data: (members) {
-              for (final m in members) {
-                final tier = m.tier.name[0].toUpperCase() + m.tier.name.substring(1);
+              for (final member in members) {
+                final tier =
+                    member.tier.name[0].toUpperCase() +
+                    member.tier.name.substring(1);
                 tierCounts[tier] = (tierCounts[tier] ?? 0) + 1;
               }
             },
@@ -50,164 +84,177 @@ class RsAdminAnalyticsScreen extends ConsumerWidget {
 
           final metrics = <_MetricData>[
             _MetricData(
-              'Total Members',
-              '${data['total_members'] ?? 0}',
-              Icons.people_rounded,
+              label: 'Total Members',
+              value: '${data['total_members'] ?? 0}',
+              icon: Icons.people_alt_rounded,
+              tone: colors.teamSurface,
             ),
             _MetricData(
-              'Active Memberships',
-              '${data['active_memberships'] ?? 0}',
-              Icons.card_membership_rounded,
+              label: 'Active Memberships',
+              value: '${data['active_memberships'] ?? 0}',
+              icon: Icons.card_membership_rounded,
+              tone: colors.proximitySurface,
             ),
             _MetricData(
-              'Tickets Sold',
-              '${data['total_tickets_sold'] ?? 0}',
-              Icons.confirmation_number_rounded,
+              label: 'Tickets Sold',
+              value: '${data['total_tickets_sold'] ?? 0}',
+              icon: Icons.confirmation_number_rounded,
+              tone: colors.routeSurface,
             ),
             _MetricData(
-              'Ticket Revenue',
-              '${moneyFmt.format((data['ticket_revenue'] as num?)?.toInt() ?? 0)} RWF',
-              Icons.account_balance_wallet_rounded,
+              label: 'Upcoming Matches',
+              value: '${data['upcoming_matches'] ?? 0}',
+              icon: Icons.calendar_month_rounded,
+              tone: colors.operationalSurface,
             ),
             _MetricData(
-              'Shop Revenue',
-              '${moneyFmt.format(shopRevenue)} RWF',
-              Icons.shopping_bag_rounded,
+              label: 'Membership Packages',
+              value: '${data['membership_packages'] ?? 0}',
+              icon: Icons.workspace_premium_rounded,
+              tone: colors.analyticsSurface,
             ),
             _MetricData(
-              'Total Matches',
-              '${data['total_matches'] ?? 0}',
-              Icons.sports_soccer_rounded,
-            ),
-            _MetricData(
-              'Upcoming Matches',
-              '${data['upcoming_matches'] ?? 0}',
-              Icons.calendar_today_rounded,
-            ),
-            _MetricData(
-              'Membership Packages',
-              '${data['membership_packages'] ?? 0}',
-              Icons.workspace_premium_rounded,
-            ),
-            _MetricData(
-              'Notifications Sent',
-              '${data['notifications_sent'] ?? 0}',
-              Icons.notifications_rounded,
+              label: 'Notifications Sent',
+              value: '${data['notifications_sent'] ?? 0}',
+              icon: Icons.notifications_active_rounded,
+              tone: colors.contactSurface,
             ),
           ];
 
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // KPI grid
-              ...metrics.map((metric) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: CoolCard(
-                    borderColor: AppColors.border2,
-                    child: Row(
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              final isWide = constraints.maxWidth >= 560;
+              final cardWidth = isWide
+                  ? (constraints.maxWidth - CoolSpace.x3) / 2
+                  : constraints.maxWidth;
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CoolCard(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        AppColors.rsBlue.withValues(alpha: 0.94),
+                        const Color(0xFF041A39),
+                      ],
+                    ),
+                    borderColor: AppColors.rsBlueBorder,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          width: 46,
-                          height: 46,
-                          decoration: BoxDecoration(
-                            color: AppColors.rsBlueGlow,
-                            borderRadius: BorderRadius.circular(14),
-                            border: Border.all(color: AppColors.rsBlueBorder),
+                        Text(
+                          'Executive Scoreboard',
+                          style: GoogleFonts.barlow(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 0.5,
+                            color: Colors.white.withValues(alpha: 0.76),
                           ),
-                          alignment: Alignment.center,
-                          child: Icon(metric.icon, size: 22, color: AppColors.rsBlueLight),
                         ),
-                        const SizedBox(width: 14),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                metric.label,
-                                style: GoogleFonts.barlow(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.text2,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                metric.value,
-                                style: GoogleFonts.barlow(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w800,
-                                  color: AppColors.text,
-                                ),
-                              ),
-                            ],
+                        const SizedBox(height: 8),
+                        Text(
+                          _money(totalRevenue),
+                          style: GoogleFonts.barlowCondensed(
+                            fontSize: 44,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white,
+                            height: 0.92,
                           ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          'Total live platform revenue across ticketing and shop operations.',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white.withValues(alpha: 0.84),
+                            height: 1.45,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: [
+                            _SignalPill(
+                              label: 'Ticket Revenue',
+                              value: '${moneyFmt.format(ticketRevenue)} RWF',
+                              foreground: Colors.white,
+                              background: Colors.white.withValues(alpha: 0.08),
+                              border: Colors.white.withValues(alpha: 0.12),
+                            ),
+                            _SignalPill(
+                              label: 'Shop Revenue',
+                              value: '${moneyFmt.format(shopRevenue)} RWF',
+                              foreground: Colors.white,
+                              background: Colors.white.withValues(alpha: 0.08),
+                              border: Colors.white.withValues(alpha: 0.12),
+                            ),
+                            _SignalPill(
+                              label: 'Total Matches',
+                              value: '${data['total_matches'] ?? 0}',
+                              foreground: Colors.white,
+                              background: Colors.white.withValues(alpha: 0.08),
+                              border: Colors.white.withValues(alpha: 0.12),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
-                );
-              }),
-
-              // Tier breakdown
-              const SizedBox(height: 8),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                child: Text(
-                  'Members by Tier',
-                  style: GoogleFonts.barlow(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                  const SizedBox(height: CoolSpace.x5),
+                  Text(
+                    'Operational Signals',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                      color: colors.primaryText,
+                    ),
                   ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              CoolCard(
-                borderColor: AppColors.border2,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: tierCounts.entries.map((e) {
-                    final icon = switch (e.key) {
-                      'Blue' => Icons.favorite_rounded,
-                      'Silver' => Icons.workspace_premium_rounded,
-                      'Gold' => Icons.emoji_events_rounded,
-                      'Platinum' => Icons.diamond_rounded,
-                      _ => Icons.person,
-                    };
-                    final color = switch (e.key) {
-                      'Blue' => AppColors.blue,
-                      'Silver' => Colors.grey.shade400,
-                      'Gold' => AppColors.rsGold,
-                      'Platinum' => Colors.purple.shade300,
-                      _ => AppColors.text2,
-                    };
-                    return Column(
-                      children: [
-                        Icon(icon, size: 24, color: color),
-                        const SizedBox(height: 4),
-                        Text(
-                          '${e.value}',
-                          style: GoogleFonts.barlow(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w800,
-                            color: AppColors.text,
+                  const SizedBox(height: CoolSpace.x3),
+                  Wrap(
+                    spacing: CoolSpace.x3,
+                    runSpacing: CoolSpace.x3,
+                    children: metrics
+                        .map(
+                          (metric) => SizedBox(
+                            width: cardWidth,
+                            child: _AnalyticsMetricCard(metric: metric),
                           ),
-                        ),
-                        Text(
-                          e.key,
-                          style: GoogleFonts.barlow(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.text3,
-                          ),
-                        ),
-                      ],
-                    );
-                  }).toList(),
-                ),
-              ),
-            ],
+                        )
+                        .toList(growable: false),
+                  ),
+                  const SizedBox(height: CoolSpace.x5),
+                  Text(
+                    'Members by Tier',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                      color: colors.primaryText,
+                    ),
+                  ),
+                  const SizedBox(height: CoolSpace.x3),
+                  CoolCard(
+                    backgroundColor: colors.teamSurface,
+                    borderColor: colors.borderStrong,
+                    child: Wrap(
+                      spacing: CoolSpace.x3,
+                      runSpacing: CoolSpace.x3,
+                      children: tierCounts.entries
+                          .map(
+                            (entry) => _TierCountCard(
+                              label: entry.key,
+                              count: entry.value,
+                            ),
+                          )
+                          .toList(growable: false),
+                    ),
+                  ),
+                ],
+              );
+            },
           );
         },
       ),
@@ -216,8 +263,165 @@ class RsAdminAnalyticsScreen extends ConsumerWidget {
 }
 
 class _MetricData {
-  const _MetricData(this.label, this.value, this.icon);
+  const _MetricData({
+    required this.label,
+    required this.value,
+    required this.icon,
+    required this.tone,
+  });
+
   final String label;
   final String value;
   final IconData icon;
+  final Color tone;
 }
+
+class _AnalyticsMetricCard extends StatelessWidget {
+  const _AnalyticsMetricCard({required this.metric});
+
+  final _MetricData metric;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    return CoolCard(
+      backgroundColor: metric.tone,
+      borderColor: colors.borderStrong,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              color: AppColors.rsBlue.withValues(alpha: 0.14),
+              borderRadius: BorderRadius.circular(CoolRadii.lg),
+              border: Border.all(
+                color: AppColors.rsBlue.withValues(alpha: 0.2),
+              ),
+            ),
+            alignment: Alignment.center,
+            child: Icon(metric.icon, size: 22, color: AppColors.rsBlueLight),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  metric.label,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w800,
+                    color: colors.secondaryText,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  metric.value,
+                  style: GoogleFonts.barlowCondensed(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w900,
+                    color: colors.primaryText,
+                    height: 0.95,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TierCountCard extends StatelessWidget {
+  const _TierCountCard({required this.label, required this.count});
+
+  final String label;
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final color = switch (label) {
+      'Blue' => AppColors.rsBlueLight,
+      'Silver' => const Color(0xFFBFC6CF),
+      'Gold' => AppColors.rsGold,
+      'Platinum' => const Color(0xFFE7E3DD),
+      _ => colors.secondaryText,
+    };
+
+    return Container(
+      constraints: const BoxConstraints(minWidth: 132),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+      decoration: BoxDecoration(
+        color: colors.cardSurfaceStrong,
+        borderRadius: BorderRadius.circular(CoolRadii.lg),
+        border: Border.all(color: colors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '$count',
+            style: GoogleFonts.barlowCondensed(
+              fontSize: 28,
+              fontWeight: FontWeight.w900,
+              color: colors.primaryText,
+              height: 0.95,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            label,
+            style: GoogleFonts.dmSans(
+              fontSize: 13,
+              fontWeight: FontWeight.w800,
+              color: color,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SignalPill extends StatelessWidget {
+  const _SignalPill({
+    required this.label,
+    required this.value,
+    required this.foreground,
+    required this.background,
+    required this.border,
+  });
+
+  final String label;
+  final String value;
+  final Color foreground;
+  final Color background;
+  final Color border;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: background,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: border),
+      ),
+      child: Text(
+        '$label: $value',
+        style: GoogleFonts.dmSans(
+          fontSize: 12,
+          fontWeight: FontWeight.w800,
+          color: foreground,
+        ),
+      ),
+    );
+  }
+}
+
+String _money(int value) =>
+    '${NumberFormat.decimalPattern('en_US').format(value)} RWF';

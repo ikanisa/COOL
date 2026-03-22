@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/config/app_market.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
@@ -12,6 +13,8 @@ import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../providers/admin_providers.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 
 /// Admin screen for managing mobility vehicle types.
 class ManageVehicleTypesScreen extends ConsumerWidget {
@@ -19,17 +22,24 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
     final typesAsync = ref.watch(adminVehicleTypesProvider);
 
-    return Scaffold(
-      backgroundColor: AppColors.bg,
+    return CoolScreenBackground(
+
+
+      showGlow: false,
+
+
+      child: Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           tooltip: context.l10n.back,
           icon: const Icon(Icons.arrow_back_rounded),
-          color: AppColors.text,
+          color: palette.text,
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -38,7 +48,7 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
         label: context.l10n.addVehicleType,
         hint: 'New vehicle type',
         child: FloatingActionButton(
-          backgroundColor: AppColors.accent,
+          backgroundColor: palette.accent,
           onPressed: () => _showEditSheet(context, ref, null),
           child: const Icon(Icons.add_rounded, color: Colors.black),
         ),
@@ -54,7 +64,7 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
                 fontSize: 34,
                 fontWeight: FontWeight.w800,
                 height: 1.1,
-                color: AppColors.text,
+                color: palette.text,
               ),
             ),
           ),
@@ -91,21 +101,21 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
                             : Icon(
                                 Icons.directions_car_filled_rounded,
                                 size: 22,
-                                color: AppColors.text2,
+                                color: palette.text2,
                               ),
                         title: Text(
                           t['label']?.toString() ?? '',
                           style: GoogleFonts.dmSans(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.text,
+                            color: palette.text,
                           ),
                         ),
                         subtitle: Text(
                           'value: ${t['value']} · ${AppMarket.country.name}',
                           style: GoogleFonts.dmSans(
                             fontSize: 12,
-                            color: AppColors.text3,
+                            color: palette.text3,
                           ),
                         ),
                         trailing: Semantics(
@@ -117,7 +127,7 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
                             child: Icon(
                               Icons.edit_rounded,
                               size: 18,
-                              color: AppColors.text3,
+                              color: palette.text3,
                             ),
                           ),
                         ),
@@ -130,6 +140,9 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
           ),
         ],
       ),
+    ),
+
+
     );
   }
 
@@ -138,7 +151,7 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
     WidgetRef ref,
     Map<String, dynamic>? type,
   ) {
-    showModalBottomSheet<void>(
+    showCoolBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,

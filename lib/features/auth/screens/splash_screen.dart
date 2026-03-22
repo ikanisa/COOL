@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_brand_mark.dart';
 import '../providers/auth_provider.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 
 /// Animated splash screen that checks auth state and redirects.
 ///
@@ -47,13 +48,20 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final authState = ref.watch(authProvider);
     final showRestoreFailure =
         authState.session != null &&
         authState.profileRestoreState == AuthProfileRestoreState.failed;
 
-    return Scaffold(
-      backgroundColor: AppColors.bg,
+    return CoolScreenBackground(
+
+
+      showGlow: true,
+
+
+      child: Scaffold(
+      backgroundColor: Colors.transparent,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -71,9 +79,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                         width: 112,
                         height: 112,
                         decoration: BoxDecoration(
-                          color: AppColors.surface2,
+                          color: palette.surface2,
                           borderRadius: BorderRadius.circular(28),
-                          border: Border.all(color: AppColors.border),
+                          border: Border.all(color: palette.border),
                         ),
                         alignment: Alignment.center,
                         child: const CoolBrandMark(size: 68),
@@ -84,7 +92,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                         style: GoogleFonts.dmSans(
                           fontSize: 26,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.text,
+                          color: palette.text,
                           letterSpacing: -0.8,
                         ),
                       ),
@@ -92,12 +100,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                   ),
                 ),
                 const SizedBox(height: 20),
-                const SizedBox(
+                SizedBox(
                   width: 22,
                   height: 22,
                   child: CupertinoActivityIndicator(
                     radius: 11,
-                    color: AppColors.accent,
+                    color: palette.accent,
                   ),
                 ),
                 AnimatedSwitcher(
@@ -110,9 +118,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                             key: const ValueKey('restore_failure_card'),
                             padding: const EdgeInsets.all(18),
                             decoration: BoxDecoration(
-                              color: AppColors.surface2,
+                              color: palette.surface2,
                               borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: AppColors.border),
+                              border: Border.all(color: palette.border),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,7 +131,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                                   style: GoogleFonts.dmSans(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
-                                    color: AppColors.text,
+                                    color: palette.text,
                                   ),
                                 ),
                                 const SizedBox(height: 8),
@@ -133,7 +141,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                                   style: GoogleFonts.dmSans(
                                     fontSize: 13,
                                     height: 1.45,
-                                    color: AppColors.text2,
+                                    color: palette.text2,
                                   ),
                                 ),
                                 const SizedBox(height: 16),
@@ -155,6 +163,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
           ),
         ),
       ),
+    ),
+
+
     );
   }
 }

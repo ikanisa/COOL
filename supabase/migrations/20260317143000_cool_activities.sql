@@ -20,20 +20,24 @@ CREATE TABLE IF NOT EXISTS public.cool_activities (
 ALTER TABLE public.cool_activities ENABLE ROW LEVEL SECURITY;
 
 -- Public read for all authenticated users
+DROP POLICY IF EXISTS cool_activities_select ON public.cool_activities;
 CREATE POLICY cool_activities_select ON public.cool_activities
   FOR SELECT USING (true);
 
 -- Admin-only write policies
+DROP POLICY IF EXISTS cool_activities_admin_insert ON public.cool_activities;
 CREATE POLICY cool_activities_admin_insert ON public.cool_activities
   FOR INSERT WITH CHECK (
     (auth.jwt()->'app_metadata'->>'is_admin')::boolean = true
   );
 
+DROP POLICY IF EXISTS cool_activities_admin_update ON public.cool_activities;
 CREATE POLICY cool_activities_admin_update ON public.cool_activities
   FOR UPDATE USING (
     (auth.jwt()->'app_metadata'->>'is_admin')::boolean = true
   );
 
+DROP POLICY IF EXISTS cool_activities_admin_delete ON public.cool_activities;
 CREATE POLICY cool_activities_admin_delete ON public.cool_activities
   FOR DELETE USING (
     (auth.jwt()->'app_metadata'->>'is_admin')::boolean = true

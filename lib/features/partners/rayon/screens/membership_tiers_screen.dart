@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_palette.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../core/theme/rs_text_styles.dart';
 import '../../../../shared/widgets/cool_card.dart';
@@ -24,13 +25,15 @@ class MembershipTiersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Consumer(
       builder: (context, ref, _) {
+        final palette = context.coolPalette;
         final membershipAsync = ref.watch(rayonUserMembershipProvider);
         final packagesAsync = ref.watch(rayonMembershipPackagesProvider);
 
         return Scaffold(
-          backgroundColor: AppColors.bg,
+          backgroundColor: palette.bg,
           body: CoolScreenBackground(
             primaryColor: RsColors.rsBlue,
             secondaryColor: RsColors.rsGold,
@@ -94,7 +97,7 @@ class MembershipTiersScreen extends StatelessWidget {
                       child: Center(
                         child: Text(
                           'Could not load membership info',
-                          style: GoogleFonts.dmSans(color: AppColors.text3),
+                          style: GoogleFonts.dmSans(color: palette.text3),
                         ),
                       ),
                     ),
@@ -158,6 +161,7 @@ class _IntroCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final nextTier = currentTier.index < FanTier.values.length - 1
         ? FanTier.values[currentTier.index + 1]
         : null;
@@ -207,7 +211,7 @@ class _IntroCard extends StatelessWidget {
               style: GoogleFonts.barlow(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: AppColors.text2,
+                color: palette.text2,
                 height: 1.45,
               ),
             ),
@@ -231,6 +235,7 @@ class _ProgressToNext extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final floor = currentTier.minPoints;
     final ceiling = nextTier.minPoints;
     final span = ceiling - floor;
@@ -249,7 +254,7 @@ class _ProgressToNext extends StatelessWidget {
           style: GoogleFonts.barlow(
             fontSize: 12,
             fontWeight: FontWeight.w600,
-            color: AppColors.text2,
+            color: palette.text2,
           ),
         ),
       ],
@@ -274,6 +279,7 @@ class _TierCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final tier = package.tier;
 
     return CoolCard(
@@ -281,12 +287,12 @@ class _TierCard extends StatelessWidget {
           ? LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [tier.color.withValues(alpha: 0.18), AppColors.surface2],
+              colors: [tier.color.withValues(alpha: 0.18), palette.surface2],
             )
           : AppColors.cardGradient,
       borderColor: isCurrent
           ? tier.color.withValues(alpha: 0.5)
-          : AppColors.border,
+          : palette.border,
       child: Padding(
         padding: const EdgeInsets.all(18),
         child: Column(
@@ -309,7 +315,7 @@ class _TierCard extends StatelessWidget {
                   child: Icon(
                     _tierIcon(tier),
                     size: 22,
-                    color: isUnlocked ? tier.color : AppColors.text3,
+                    color: isUnlocked ? tier.color : palette.text3,
                   ),
                 ),
                 const SizedBox(width: 14),
@@ -324,7 +330,7 @@ class _TierCard extends StatelessWidget {
                           fontWeight: FontWeight.w800,
                           color: isUnlocked
                               ? AppColors.rsWhite
-                              : AppColors.text3,
+                              : palette.text3,
                         ),
                       ),
                       const SizedBox(height: 2),
@@ -333,7 +339,7 @@ class _TierCard extends StatelessWidget {
                         style: GoogleFonts.barlow(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.text2,
+                          color: palette.text2,
                         ),
                       ),
                     ],
@@ -344,13 +350,13 @@ class _TierCard extends StatelessWidget {
                 else if (isUnlocked)
                   _StatusChip(
                     label: context.l10n.unlocked,
-                    color: AppColors.accent,
+                    color: palette.accent,
                     filled: false,
                   )
                 else
                   _StatusChip(
                     label: '${tier.minPoints} Tokens',
-                    color: AppColors.text3,
+                    color: palette.text3,
                     filled: false,
                   ),
               ],
@@ -365,8 +371,8 @@ class _TierCard extends StatelessWidget {
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                   color: isUnlocked
-                      ? AppColors.text2
-                      : AppColors.text3.withValues(alpha: 0.75),
+                      ? palette.text2
+                      : palette.text3.withValues(alpha: 0.75),
                   height: 1.4,
                 ),
               ),
@@ -383,7 +389,7 @@ class _TierCard extends StatelessWidget {
                     Icon(
                       _benefitIcon(benefit.title),
                       size: 16,
-                      color: isUnlocked ? tier.color : AppColors.text3,
+                      color: isUnlocked ? tier.color : palette.text3,
                     ),
                     const SizedBox(width: 10),
                     Expanded(
@@ -397,7 +403,7 @@ class _TierCard extends StatelessWidget {
                               fontWeight: FontWeight.w700,
                               color: isUnlocked
                                   ? AppColors.rsWhite
-                                  : AppColors.text3,
+                                  : palette.text3,
                             ),
                           ),
                           const SizedBox(height: 2),
@@ -407,8 +413,8 @@ class _TierCard extends StatelessWidget {
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                               color: isUnlocked
-                                  ? AppColors.text2
-                                  : AppColors.text3.withValues(alpha: 0.6),
+                                  ? palette.text2
+                                  : palette.text3.withValues(alpha: 0.6),
                               height: 1.35,
                             ),
                           ),

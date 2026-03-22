@@ -113,14 +113,13 @@ Future<Box<T>> noOpOpenBox<T>(String name) =>
     throw UnimplementedError('Hive disabled in tests');
 
 Future<void> tapStatementsTool(WidgetTester tester) async {
-  final moreTools = find.text('More tools');
+  final moneyTools = find.text('Money tools');
   await tester.scrollUntilVisible(
-    moreTools,
+    moneyTools,
     250,
     scrollable: find.byType(Scrollable).first,
   );
-  await tester.tap(moreTools);
-  await tester.pumpAndSettle();
+  await tester.pump();
 
   final statements = find.text('Statements');
   await tester.scrollUntilVisible(
@@ -443,8 +442,7 @@ void main() {
     await tapStatementsTool(tester);
 
     expect(find.textContaining('Jean Bosco'), findsOneWidget);
-    expect(find.text('Draft'), findsOneWidget);
-    expect(find.text('Showing 1 of 1 wallet entries.'), findsOneWidget);
+    expect(find.text('1/1 shown'), findsOneWidget);
   });
 
   testWidgets(

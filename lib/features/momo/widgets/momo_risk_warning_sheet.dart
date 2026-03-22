@@ -2,11 +2,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../providers/momo_risk_provider.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
 
 class MomoRiskWarningSheet extends StatelessWidget {
   const MomoRiskWarningSheet({
@@ -17,7 +17,7 @@ class MomoRiskWarningSheet extends StatelessWidget {
   final MomoRiskResult risk;
 
   static Future<bool?> show(BuildContext context, MomoRiskResult risk) {
-    return showModalBottomSheet<bool>(
+    return showCoolBottomSheet<bool>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
@@ -56,12 +56,12 @@ class MomoRiskWarningSheet extends StatelessWidget {
               width: 64,
               height: 64,
               decoration: BoxDecoration(
-                color: AppColors.orange.withValues(alpha: 0.15),
+                color: palette.orange.withValues(alpha: 0.15),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.gpp_maybe_rounded,
-                color: AppColors.orange,
+                color: palette.orange,
                 size: 32,
               ),
             ),
@@ -94,7 +94,7 @@ class MomoRiskWarningSheet extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Row(
                 children: [
-                  const Icon(Icons.shield_rounded, color: AppColors.accent, size: 20),
+                  Icon(Icons.shield_rounded, color: palette.accent, size: 20),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(

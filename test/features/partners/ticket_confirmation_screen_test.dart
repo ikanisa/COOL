@@ -1,7 +1,7 @@
 import 'package:cool_app/features/partners/providers/rayon_sports_provider.dart';
 import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
 import 'package:cool_app/features/partners/rayon/rayon_ticket_qr.dart';
-import 'package:cool_app/features/partners/screens/rayon/ticket_confirmation_screen.dart';
+import 'package:cool_app/features/partners/rayon/screens/ticket_confirmation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -61,6 +61,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Ticket'), findsOneWidget);
+      expect(find.text('Official Matchday Entry'), findsOneWidget);
       expect(find.text('Valid Ticket'), findsOneWidget);
       expect(find.text('Back to Tickets'), findsOneWidget);
       expect(find.text('Add to Google Wallet'), findsNothing);

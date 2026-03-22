@@ -17,12 +17,16 @@ import '../../../core/theme/cool_palette.dart';
 import '../../../core/providers/app_access_provider.dart';
 import '../../../core/providers/app_lifecycle_providers.dart';
 import '../../../core/services/app_access_service.dart';
+import '../../../shared/widgets/balance_card.dart';
 import '../../../shared/widgets/cool_button.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/secure_screen_mixin.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../auth/providers/auth_provider.dart';
+import '../models/momo_statement.dart';
+import '../providers/momo_statement_providers.dart';
 import '../providers/momo_service_provider.dart';
 import '../screens/momo_nfc_screen.dart';
 import '../services/momo_sms_autoread_service.dart';
@@ -231,84 +235,92 @@ class _MomoScreenState extends ConsumerState<MomoScreen>
         ? user!.phone
         : '';
     final momoCode = user?.momoCode;
+    final statementBundle = ref
+        .watch(momoStatementBundleProvider(const MomoStatementQuery()))
+        .valueOrNull;
+    final walletBalance = _walletBalance(statementBundle);
+    final walletInflows = _walletInflows(statementBundle);
+    final walletOutflows = _walletOutflows(statementBundle);
+    final savingsTotal = _savingsTotal(statementBundle);
 
-    return Scaffold(
-      backgroundColor: palette.bg,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: Semantics(
-          button: true,
-          label: MaterialLocalizations.of(context).backButtonTooltip,
-          hint: 'Go back',
-          child: IconButton(
-            onPressed: _closeOrReturnHome,
-            tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-            icon: const Icon(Icons.arrow_back_rounded),
-          ),
-        ),
-        actions: [
-          Semantics(
+    return CoolScreenBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leading: Semantics(
             button: true,
-            label: l10n.navHome,
-            hint: 'Opens the home screen',
+            label: MaterialLocalizations.of(context).backButtonTooltip,
+            hint: 'Go back',
             child: IconButton(
-              onPressed: () => context.go(AppRoutes.home),
-              tooltip: l10n.navHome,
-              icon: const Icon(Icons.home_rounded),
+              onPressed: _closeOrReturnHome,
+              tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+              icon: const Icon(Icons.arrow_back_rounded),
             ),
           ),
-        ],
-      ),
-      body: Stack(
-        children: [
-          CoolScreenBackground(
-            child: CustomScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              slivers: [
-                SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(18, 18, 18, 96),
-                  sliver: SliverList(
-                    delegate: SliverChildListDelegate([
-                      Text(
-                        l10n.momoScreenTitle,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 34,
-                          fontWeight: FontWeight.w800,
-                          color: palette.text,
+          actions: [
+            Semantics(
+              button: true,
+              label: l10n.navHome,
+              hint: 'Opens the home screen',
+              child: IconButton(
+                onPressed: () => context.go(AppRoutes.home),
+                tooltip: l10n.navHome,
+                icon: const Icon(Icons.home_rounded),
+              ),
+            ),
+          ],
+        ),
+        body: Stack(
+          children: [
+            CoolScreenBackground(
+              child: CustomScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                slivers: [
+                  SliverPadding(
+                    padding: const EdgeInsets.fromLTRB(18, 18, 18, 96),
+                    sliver: SliverList(
+                      delegate: SliverChildListDelegate([
+                        Text(
+                          l10n.momoScreenTitle,
+                          style: GoogleFonts.dmSans(
+                            fontSize: 34,
+                            fontWeight: FontWeight.w800,
+                            color: palette.text,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 24),
-                      CoolCard(
-                        gradient: LinearGradient(
-                          colors: [palette.accent, palette.accent2],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              l10n.sendMoneyTitle,
-                              style: GoogleFonts.dmSans(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w800,
-                                color: Colors.white,
-                              ),
+                        const SizedBox(height: 24),
+                        BalanceCard(
+                          amount: walletBalance,
+                          currency: 'RWF',
+                          changeAmount: walletInflows - walletOutflows,
+                          subtitle:
+                              'Protected wallet surface for statements, payouts, and receive setup.',
+                          metrics: [
+                            BalanceCardMetric(
+                              label: 'Inflow',
+                              value:
+                                  '${_formatCompactAmount(walletInflows)} RWF',
+                              accentColor: const Color(0xFFAEE7C3),
                             ),
-                            const SizedBox(height: 8),
-                            Text(
-                              l10n.sendMoneyHint,
-                              style: GoogleFonts.dmSans(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white.withValues(alpha: 0.8),
-                                height: 1.4,
-                              ),
+                            BalanceCardMetric(
+                              label: 'Outflow',
+                              value:
+                                  '${_formatCompactAmount(walletOutflows)} RWF',
+                              accentColor: const Color(0xFFFFD598),
                             ),
-                            const SizedBox(height: 16),
-                            CoolButton(
+                            BalanceCardMetric(
+                              label: 'Savings',
+                              value:
+                                  '${_formatCompactAmount(savingsTotal)} RWF',
+                              accentColor: const Color(0xFFA8C8FF),
+                            ),
+                          ],
+                          actions: [
+                            BalanceCardAction(
                               label: l10n.sendMoney,
                               icon: Icons.send_rounded,
+                              isPrimary: true,
                               onTap: () {
                                 _showSendMoneySheet(
                                   context,
@@ -318,38 +330,16 @@ class _MomoScreenState extends ConsumerState<MomoScreen>
                                 );
                               },
                             ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      _SmsSyncCta(
-                        onSyncComplete: () {
-                          if (mounted) {
-                            CoolToast.success(
-                              context,
-                              'M-Money SMS synced!',
-                            );
-                          }
-                        },
-                      ),
-                      CoolCard(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Money tools',
-                              style: GoogleFonts.dmSans(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                                color: palette.text,
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-                            MomoActionGrid(
-                              onOpenStatements: () =>
+                            BalanceCardAction(
+                              label: l10n.statements,
+                              icon: Icons.receipt_long_rounded,
+                              onTap: () =>
                                   context.push(AppRoutes.momoStatements),
-                              onScanQr: _scanQrCode,
-                              onOpenQrCode: () {
+                            ),
+                            BalanceCardAction(
+                              label: l10n.momoQr,
+                              icon: Icons.qr_code_2_rounded,
+                              onTap: () {
                                 if (!_ensureReceiveRouteConfigured()) {
                                   return;
                                 }
@@ -365,72 +355,185 @@ class _MomoScreenState extends ConsumerState<MomoScreen>
                                   ),
                                 );
                               },
-                              onOpenNfcTools: () {
-                                if (!_ensureReceiveRouteConfigured()) {
-                                  return;
-                                }
-                                unawaited(
-                                  Navigator.of(context).push<void>(
-                                    MaterialPageRoute<void>(
-                                      builder: (_) => const MomoNfcScreen(),
-                                    ),
-                                  ),
-                                );
-                              },
                             ),
                           ],
                         ),
-                      ),
-                    ]),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          if (_launchingIncomingPayment)
-            Positioned(
-              left: 18,
-              right: 18,
-              top: 12,
-              child: Semantics(
-                liveRegion: true,
-                label: l10n.momoNfcLaunchingOverlay,
-                child: ExcludeSemantics(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      color: palette.surface,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: palette.border),
-                    ),
-                    child: Row(
-                      children: [
-                        const SizedBox(
-                          width: 18,
-                          height: 18,
-                          child: CupertinoActivityIndicator(radius: 9),
+                        const SizedBox(height: 24),
+                        _SmsSyncCta(
+                          onSyncComplete: () {
+                            if (mounted) {
+                              CoolToast.success(context, 'M-Money SMS synced!');
+                            }
+                          },
                         ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            l10n.momoNfcLaunchingOverlay,
-                            style: GoogleFonts.dmSans(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                              color: palette.text,
-                            ),
+                        CoolCard(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Trust and controls',
+                                style: GoogleFonts.dmSans(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w800,
+                                  color: palette.text,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'Keep payment actions, receive channels, and record review separate and easy to scan.',
+                                style: GoogleFonts.dmSans(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  color: palette.text2,
+                                  height: 1.4,
+                                ),
+                              ),
+                              const SizedBox(height: 14),
+                              Wrap(
+                                spacing: 8,
+                                runSpacing: 8,
+                                children: const [
+                                  _WalletTrustChip(
+                                    icon: Icons.verified_user_outlined,
+                                    label: 'Protected sessions',
+                                  ),
+                                  _WalletTrustChip(
+                                    icon: Icons.rule_folder_outlined,
+                                    label: 'Compliant records',
+                                  ),
+                                  _WalletTrustChip(
+                                    icon: Icons.account_balance_outlined,
+                                    label: 'Authoritative ledger',
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 18),
+                              MomoActionGrid(
+                                onOpenStatements: () =>
+                                    context.push(AppRoutes.momoStatements),
+                                onScanQr: _scanQrCode,
+                                onOpenQrCode: () {
+                                  if (!_ensureReceiveRouteConfigured()) {
+                                    return;
+                                  }
+                                  unawaited(
+                                    Navigator.of(context).push<void>(
+                                      MaterialPageRoute<void>(
+                                        builder: (_) => MomoReceiveQrScreen(
+                                          country: country,
+                                          momoNumber: momoNumber,
+                                          momoCode: momoCode,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                onOpenNfcTools: () {
+                                  if (!_ensureReceiveRouteConfigured()) {
+                                    return;
+                                  }
+                                  unawaited(
+                                    Navigator.of(context).push<void>(
+                                      MaterialPageRoute<void>(
+                                        builder: (_) => const MomoNfcScreen(),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
                           ),
                         ),
-                      ],
+                        const SizedBox(height: 20),
+                        CoolCard(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                l10n.sendMoneyTitle,
+                                style: GoogleFonts.dmSans(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w800,
+                                  color: palette.text,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                l10n.sendMoneyHint,
+                                style: GoogleFonts.dmSans(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  color: palette.text2,
+                                  height: 1.4,
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              CoolButton(
+                                label: l10n.sendMoney,
+                                icon: Icons.send_rounded,
+                                onTap: () {
+                                  _showSendMoneySheet(
+                                    context,
+                                    country: country,
+                                    momoNumber: momoNumber,
+                                    momoCode: momoCode,
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ]),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (_launchingIncomingPayment)
+              Positioned(
+                left: 18,
+                right: 18,
+                top: 12,
+                child: Semantics(
+                  liveRegion: true,
+                  label: l10n.momoNfcLaunchingOverlay,
+                  child: ExcludeSemantics(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        color: palette.surface,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: palette.border),
+                      ),
+                      child: Row(
+                        children: [
+                          const SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CupertinoActivityIndicator(radius: 9),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              l10n.momoNfcLaunchingOverlay,
+                              style: GoogleFonts.dmSans(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: palette.text,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -444,9 +547,8 @@ class _MomoScreenState extends ConsumerState<MomoScreen>
     String? initialAmount,
     MomoRecipientType initialRecipientType = MomoRecipientType.phoneNumber,
   }) {
-    showModalBottomSheet<void>(
+    showCoolBottomSheet<void>(
       context: context,
-      backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (_) => MomoSendMoneySheet(
         country: country,
@@ -459,6 +561,89 @@ class _MomoScreenState extends ConsumerState<MomoScreen>
       ),
     );
   }
+}
+
+class _WalletTrustChip extends StatelessWidget {
+  const _WalletTrustChip({required this.icon, required this.label});
+
+  final IconData icon;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      decoration: BoxDecoration(
+        color: palette.surface3,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: palette.border),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: palette.text2),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: GoogleFonts.dmSans(
+              fontSize: 11,
+              fontWeight: FontWeight.w700,
+              color: palette.text2,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+int _walletBalance(MomoStatementBundle? bundle) {
+  if (bundle == null) {
+    return 0;
+  }
+  var total = 0;
+  for (final entry in bundle.walletEntries) {
+    total += entry.isCredit ? entry.amount : -entry.amount;
+  }
+  return total;
+}
+
+int _walletInflows(MomoStatementBundle? bundle) {
+  if (bundle == null) {
+    return 0;
+  }
+  return bundle.walletEntries
+      .where((entry) => entry.isCredit)
+      .fold<int>(0, (sum, entry) => sum + entry.amount);
+}
+
+int _walletOutflows(MomoStatementBundle? bundle) {
+  if (bundle == null) {
+    return 0;
+  }
+  return bundle.walletEntries
+      .where((entry) => entry.isDebit)
+      .fold<int>(0, (sum, entry) => sum + entry.amount);
+}
+
+int _savingsTotal(MomoStatementBundle? bundle) {
+  if (bundle == null) {
+    return 0;
+  }
+  return bundle.savingsEntries
+      .where((entry) => entry.isConfirmed)
+      .fold<int>(0, (sum, entry) => sum + entry.amount);
+}
+
+String _formatCompactAmount(int amount) {
+  if (amount >= 1000000) {
+    return '${(amount / 1000000).toStringAsFixed(amount % 1000000 == 0 ? 0 : 1)}M';
+  }
+  if (amount >= 1000) {
+    return '${(amount / 1000).toStringAsFixed(amount % 1000 == 0 ? 0 : 1)}K';
+  }
+  return '$amount';
 }
 
 /// Shows a CTA card when SMS sync is not enabled, guiding users to enable it.
@@ -482,9 +667,9 @@ class _SmsSyncCtaState extends ConsumerState<_SmsSyncCta> {
   }
 
   Future<void> _checkSmsStatus() async {
-    final enabled = await ref.read(appAccessServiceProvider).isEnabled(
-      AppAccessPermission.sms,
-    );
+    final enabled = await ref
+        .read(appAccessServiceProvider)
+        .isEnabled(AppAccessPermission.sms);
     if (mounted) {
       setState(() => _smsEnabled = enabled);
     }
@@ -496,9 +681,9 @@ class _SmsSyncCtaState extends ConsumerState<_SmsSyncCta> {
 
     try {
       // 1. Enable SMS in app settings
-      await ref.read(appAccessServiceProvider).enableAndRequest(
-        AppAccessPermission.sms,
-      );
+      await ref
+          .read(appAccessServiceProvider)
+          .enableAndRequest(AppAccessPermission.sms);
 
       // 2. Refresh the autoread service (triggers permission + listener + sync)
       final service = ref.read(momoSmsAutoreadServiceProvider);

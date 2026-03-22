@@ -6,6 +6,7 @@ abstract final class AppRoutes {
   static const onboarding = '/onboarding';
   static const otp = '/otp';
   static const otpVerify = '/otp-verify';
+  static const appAccess = '/app-access';
   static const register = '/register';
   static const home = '/home';
   static const groups = '/groups';
@@ -99,6 +100,10 @@ abstract final class AppRoutes {
       queryParameters: <String, String>{'phone': phone},
       redirect: redirect,
     );
+  }
+
+  static String appAccessLocation({String? redirect}) {
+    return _location(appAccess, redirect: redirect);
   }
 
   static String registerLocation({String? phone, String? redirect}) {

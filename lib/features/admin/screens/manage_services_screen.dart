@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/config/app_market.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
@@ -12,6 +13,8 @@ import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../providers/admin_providers.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 
 /// Admin screen for managing partner services — grouped by partner.
 class ManageServicesScreen extends ConsumerWidget {
@@ -19,18 +22,25 @@ class ManageServicesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
     final servicesAsync = ref.watch(adminPartnerServicesProvider(null));
     final partners = ref.watch(adminPartnersProvider).valueOrNull ?? const [];
 
-    return Scaffold(
-      backgroundColor: AppColors.bg,
+    return CoolScreenBackground(
+
+
+      showGlow: false,
+
+
+      child: Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           tooltip: context.l10n.back,
           icon: const Icon(Icons.arrow_back_rounded),
-          color: AppColors.text,
+          color: palette.text,
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -39,7 +49,7 @@ class ManageServicesScreen extends ConsumerWidget {
         label: context.l10n.addService,
         hint: 'New service',
         child: FloatingActionButton(
-          backgroundColor: AppColors.accent,
+          backgroundColor: palette.accent,
           onPressed: () => _showEditSheet(context, ref, null, partners),
           child: const Icon(Icons.add_rounded, color: Colors.black),
         ),
@@ -55,7 +65,7 @@ class ManageServicesScreen extends ConsumerWidget {
                 fontSize: 34,
                 fontWeight: FontWeight.w800,
                 height: 1.1,
-                color: AppColors.text,
+                color: palette.text,
               ),
             ),
           ),
@@ -67,7 +77,7 @@ class ManageServicesScreen extends ConsumerWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: AppColors.text3,
+                color: palette.text3,
               ),
             ),
           ),
@@ -124,7 +134,7 @@ class ManageServicesScreen extends ConsumerWidget {
                                 style: GoogleFonts.dmSans(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w700,
-                                  color: AppColors.text,
+                                  color: palette.text,
                                 ),
                               ),
                             ),
@@ -137,14 +147,14 @@ class ManageServicesScreen extends ConsumerWidget {
                             children: [
                               const SizedBox(width: 26),
                               Icon(Icons.chat_rounded,
-                                  size: 12, color: AppColors.text3),
+                                  size: 12, color: palette.text3),
                               const SizedBox(width: 4),
                               Flexible(
                                 child: Text(
                                   'WhatsApp: $whatsapp',
                                   style: GoogleFonts.dmSans(
                                     fontSize: 11,
-                                    color: AppColors.text3,
+                                    color: palette.text3,
                                   ),
                                 ),
                               ),
@@ -176,6 +186,9 @@ class ManageServicesScreen extends ConsumerWidget {
           ),
         ],
       ),
+    ),
+
+
     );
   }
 
@@ -185,7 +198,7 @@ class ManageServicesScreen extends ConsumerWidget {
     Map<String, dynamic>? service,
     List<Map<String, dynamic>> partners,
   ) {
-    showModalBottomSheet<void>(
+    showCoolBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
@@ -265,10 +278,11 @@ class _CountBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: AppColors.surface2,
+        color: palette.surface2,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Text(
@@ -276,7 +290,7 @@ class _CountBadge extends StatelessWidget {
         style: GoogleFonts.dmSans(
           fontSize: 12,
           fontWeight: FontWeight.w600,
-          color: AppColors.text2,
+          color: palette.text2,
         ),
       ),
     );
@@ -302,6 +316,7 @@ class _ServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final title = service['title']?.toString() ?? '';
     final subtitle = service['subtitle']?.toString() ?? '';
     final emoji = service['emoji']?.toString() ?? '📋';
@@ -324,7 +339,7 @@ class _ServiceCard extends StatelessWidget {
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: AppColors.surface2,
+                  color: palette.surface2,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 alignment: Alignment.center,
@@ -340,7 +355,7 @@ class _ServiceCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     if (subtitle.isNotEmpty)
@@ -350,7 +365,7 @@ class _ServiceCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.dmSans(
                           fontSize: 12,
-                          color: AppColors.text3,
+                          color: palette.text3,
                         ),
                       ),
                   ],
@@ -448,20 +463,21 @@ class _Chip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: AppColors.surface2,
+        color: palette.surface2,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 12, color: AppColors.text3),
+          Icon(icon, size: 12, color: palette.text3),
           const SizedBox(width: 4),
           Text(
             label,
-            style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text2),
+            style: GoogleFonts.dmSans(fontSize: 11, color: palette.text2),
           ),
         ],
       ),
@@ -484,12 +500,13 @@ class _ActionBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = destructive ? Colors.red : AppColors.text2;
+    final palette = context.coolPalette;
+    final color = destructive ? Colors.red : palette.text2;
     return Semantics(
       button: true,
       label: label,
       child: Material(
-        color: AppColors.surface2,
+        color: palette.surface2,
         borderRadius: BorderRadius.circular(10),
         child: InkWell(
           onTap: onTap,
@@ -619,9 +636,10 @@ class _EditServiceSheetState extends State<_EditServiceSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
@@ -641,7 +659,7 @@ class _EditServiceSheetState extends State<_EditServiceSheet> {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: AppColors.border2,
+                    color: palette.border2,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -651,7 +669,7 @@ class _EditServiceSheetState extends State<_EditServiceSheet> {
                   style: GoogleFonts.dmSans(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -670,7 +688,7 @@ class _EditServiceSheetState extends State<_EditServiceSheet> {
                   child: ElevatedButton(
                     onPressed: _saving ? null : _save,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.accent,
+                      backgroundColor: palette.accent,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
                       ),

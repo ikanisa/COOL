@@ -6,6 +6,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_palette.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../core/theme/rs_text_styles.dart';
 import '../../../../features/auth/models/user_profile.dart';
@@ -13,6 +14,7 @@ import '../../../../features/auth/providers/auth_provider.dart';
 import '../../../../shared/widgets/cool_button.dart';
 import '../../../../shared/widgets/cool_toast.dart';
 import '../../../../shared/widgets/cool_card.dart';
+import '../../../../shared/widgets/cool_glass_card.dart';
 import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../../../shared/widgets/rs_achievement_badge.dart';
 import '../../../../shared/widgets/rs_progress_bar.dart';
@@ -21,6 +23,7 @@ import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/rayon_screen_scaffold.dart';
 import '../widgets/rs_tier_badge.dart';
 import '../../../../core/l10n/l10n.dart';
+import '../../../../shared/widgets/cool_bottom_sheet.dart';
 
 class FanProfileScreen extends ConsumerStatefulWidget {
   const FanProfileScreen({super.key});
@@ -189,21 +192,11 @@ class _ProfileHero extends StatelessWidget {
         ? null
         : _progressMeta(membership!.points, tier);
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        gradient: RsColors.rsHeroGradient,
-        borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: RsColors.rsBlueBorder, width: 1.5),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.15),
-            blurRadius: 32,
-            offset: const Offset(0, 12),
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(24),
+    return CoolGlassCard(
+      borderColor: RsColors.rsBlueBorder,
+      blur: 14,
+      opacity: 0.08,
+      padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -221,13 +214,6 @@ class _ProfileHero extends StatelessWidget {
                       end: Alignment.bottomRight,
                     ),
                     border: Border.all(color: AppColors.rsWhite, width: 2.5),
-                    boxShadow: [
-                      BoxShadow(
-                        color: RsColors.rsBlue.withValues(alpha: 0.3),
-                        blurRadius: 12,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
                   ),
                   alignment: Alignment.center,
                   child: Text(
@@ -349,7 +335,6 @@ class _ProfileHero extends StatelessWidget {
               ),
           ],
         ),
-      ),
     );
   }
 }
@@ -363,11 +348,12 @@ class _ChapterChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.rsWhite.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
@@ -392,6 +378,7 @@ class _PerksAccessCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final tier = membership?.tier ?? FanTier.blue;
     final currentTierIndex = FanTier.values.indexOf(tier);
     final benefits = _benefitsForDisplay(tier);
@@ -423,7 +410,7 @@ class _PerksAccessCard extends StatelessWidget {
             style: GoogleFonts.barlow(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              color: palette.text2,
               height: 1.45,
             ),
           ),
@@ -458,17 +445,18 @@ class _PerkRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: AppColors.surface2,
+        color: palette.surface2,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border2),
+        border: Border.all(color: palette.border2),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(benefit.icon, size: 22, color: AppColors.text2),
+          Icon(benefit.icon, size: 22, color: palette.text2),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -488,7 +476,7 @@ class _PerkRow extends StatelessWidget {
                   style: GoogleFonts.barlow(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
+                    color: palette.text2,
                     height: 1.35,
                   ),
                 ),
@@ -499,12 +487,12 @@ class _PerkRow extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(
-              color: active ? AppColors.accentGlow : AppColors.surface3,
+              color: active ? palette.accentGlow : palette.surface3,
               borderRadius: BorderRadius.circular(999),
               border: Border.all(
                 color: active
-                    ? AppColors.accent.withValues(alpha: 0.35)
-                    : AppColors.border,
+                    ? palette.accent.withValues(alpha: 0.35)
+                    : palette.border,
               ),
             ),
             child: Text(
@@ -512,7 +500,7 @@ class _PerkRow extends StatelessWidget {
               style: GoogleFonts.barlow(
                 fontSize: 11,
                 fontWeight: FontWeight.w700,
-                color: active ? AppColors.accent : AppColors.text3,
+                color: active ? palette.accent : palette.text3,
               ),
             ),
           ),
@@ -529,6 +517,7 @@ class _EmptyStrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return CoolCard(
       gradient: AppColors.cardGradient,
       borderColor: AppColors.rsBlueBorder,
@@ -541,7 +530,7 @@ class _EmptyStrip extends StatelessWidget {
             style: GoogleFonts.barlow(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              color: palette.text2,
             ),
           ),
         ),
@@ -594,6 +583,7 @@ class _OrderStatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final color = _orderStatusColor(order.status);
 
     return CoolCard(
@@ -641,7 +631,7 @@ class _OrderStatusCard extends StatelessWidget {
             style: GoogleFonts.dmMono(
               fontSize: 12,
               fontWeight: FontWeight.w700,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
           const SizedBox(height: 6),
@@ -650,7 +640,7 @@ class _OrderStatusCard extends StatelessWidget {
             style: GoogleFonts.barlow(
               fontSize: 12,
               fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              color: palette.text2,
               height: 1.35,
             ),
           ),
@@ -848,9 +838,10 @@ String _orderStatusCopy(OrderStatus status) {
 }
 
 void _showFanQr(BuildContext context, String fanId, FanTier tier) {
-  showModalBottomSheet<void>(
+  final palette = context.coolPalette;
+  showCoolBottomSheet<void>(
     context: context,
-    backgroundColor: AppColors.surface,
+    backgroundColor: palette.surface,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
     ),
@@ -870,7 +861,7 @@ void _showFanQr(BuildContext context, String fanId, FanTier tier) {
               style: GoogleFonts.dmMono(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
-                color: AppColors.accent,
+                color: palette.accent,
               ),
             ),
             const SizedBox(height: 20),
@@ -902,7 +893,7 @@ void _showFanQr(BuildContext context, String fanId, FanTier tier) {
               style: GoogleFonts.barlow(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: AppColors.text2,
+                color: palette.text2,
               ),
             ),
           ],

@@ -1,37 +1,35 @@
 import 'package:flutter/material.dart';
 
-/// Centralized layout constants following the Rule of 4 and
-/// Soft Liquid Glass design system.
+/// Centralized layout constants for the premium COOL mobile system.
 abstract final class CoolLayout {
   // ── Margins & Padding ───────────────────────────────────────────────
 
-  /// Standard horizontal page padding (18px based on home screen).
-  static const double horizontalPagePadding = 18.0;
+  /// Standard horizontal page padding.
+  static const double horizontalPagePadding = 24.0;
 
-  /// Standard vertical page padding (18px based on home screen).
-  static const double verticalPagePadding = 18.0;
+  /// Standard vertical page padding.
+  static const double verticalPagePadding = 24.0;
 
-  /// Standard gutter between cards or large sections (rule of 4: 16px or 24px).
-  static const double gutter = 24.0;
+  /// Standard gutter between cards or large sections.
+  static const double gutter = 28.0;
 
-  /// Standard small spacing between elements within a card (12px).
-  static const double smallSpacing = 12.0;
+  /// Standard small spacing between elements within a card.
+  static const double smallSpacing = 16.0;
 
   // ── Bottom Navigation Clearances ─────────────────────────────────────
 
-  /// Height of the bottom navigation bar chrome (standard 72px).
-  static const double bottomNavHeight = 72.0;
+  /// Height of the bottom navigation bar chrome.
+  static const double bottomNavHeight = 88.0;
 
-  /// Additional margin to ensure content doesn't touch the nav bar (38px).
-  static const double bottomNavMargin = 38.0;
+  /// Additional margin to ensure content doesn't touch the nav bar.
+  static const double bottomNavMargin = 40.0;
 
   /// Total clearance required at the bottom of root scroll views (110px).
   /// Combines [bottomNavHeight] + [bottomNavMargin].
   static const double rootBottomClearance = bottomNavHeight + bottomNavMargin;
 
-  /// Height from bottom where Floating Action Buttons should sit to
-  /// clear the bottom navigation (80px).
-  static const double fabBottomClearance = 80.0;
+  /// Height from bottom where Floating Action Buttons should sit.
+  static const double fabBottomClearance = 92.0;
 
   // ── Convenience Helpers ──────────────────────────────────────────────
 
@@ -44,9 +42,9 @@ abstract final class CoolLayout {
     rootBottomClearance,
   );
 
-  /// Standard border radius for large cards (28px).
-  static const double cardRadius = 28.0;
+  /// Standard border radius for large cards.
+  static const double cardRadius = 32.0;
 
-  /// Standard border radius for small interactive elements (14px).
-  static const double elementRadius = 14.0;
+  /// Standard border radius for small interactive elements.
+  static const double elementRadius = 20.0;
 }

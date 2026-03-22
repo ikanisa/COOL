@@ -334,8 +334,8 @@ void main() {
           'created_at': '2026-03-10T12:00:00Z',
         });
 
-        expect(paidOrder.status, OrderStatus.confirmed);
-        expect(fulfilledOrder.status, OrderStatus.delivered);
+        expect(paidOrder.status, OrderStatus.paid);
+        expect(fulfilledOrder.status, OrderStatus.fulfilled);
       },
     );
   });

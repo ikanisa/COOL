@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_palette.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/status_badge.dart';
 import '../../models/group.dart';
@@ -16,13 +16,14 @@ class GroupHeroCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final progress = group.targetAmount > 0
         ? (group.amount / group.targetAmount).clamp(0.0, 1.0)
         : 0.0;
     final percent = (progress * 100).round();
 
+
     return CoolCard(
-      gradient: AppColors.cardGradient,
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -32,7 +33,7 @@ class GroupHeroCard extends StatelessWidget {
             Text(
               group.name,
               style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                color: AppColors.text,
+                color: palette.text,
                 fontWeight: FontWeight.w800,
               ),
             ),
@@ -58,7 +59,7 @@ class GroupHeroCard extends StatelessWidget {
             Text(
               groupFormatAmount(group.amount),
               style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                color: AppColors.accent,
+                color: palette.accent,
                 fontWeight: FontWeight.w900,
                 fontFamily: GoogleFonts.dmMono().fontFamily,
               ),
@@ -76,8 +77,8 @@ class GroupHeroCard extends StatelessWidget {
               child: LinearProgressIndicator(
                 value: progress,
                 minHeight: 8,
-                backgroundColor: AppColors.surface3,
-                color: AppColors.accent,
+                backgroundColor: palette.surface3,
+                color: palette.accent,
               ),
             ),
             const SizedBox(height: 12),
@@ -87,7 +88,7 @@ class GroupHeroCard extends StatelessWidget {
               '$percent% reached',
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                 fontWeight: FontWeight.w700,
-                color: AppColors.text2,
+                color: palette.text2,
               ),
             ),
             const SizedBox(height: 20),

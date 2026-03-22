@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/providers/supabase_client_provider.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../home/models/nexus_recommendation.dart';
-import '../../home/repositories/nexus_repository.dart';
+import '../../home/providers/nexus_provider.dart';
 import '../../../core/l10n/l10n.dart';
+import '../widgets/ai_content_edit_sheet.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 
 // ── Providers ────────────────────────────────────────────────
 
@@ -18,14 +21,13 @@ final _aiContentFilterProvider = StateProvider<AiContentStatus?>((ref) => null);
 final _aiContentListProvider =
     FutureProvider.autoDispose<List<NexusRecommendation>>((ref) async {
   final filter = ref.watch(_aiContentFilterProvider);
-  final client = Supabase.instance.client;
-  final repo = NexusRepository(client: client);
+  final repo = ref.read(nexusRepositoryProvider);
   return repo.fetchAll(statusFilter: filter);
 });
 
 final _aiGenConfigProvider =
     FutureProvider.autoDispose<Map<String, dynamic>?>((ref) async {
-  final client = Supabase.instance.client;
+  final client = ref.read(supabaseClientProvider);
   final rows = await client
       .from('ai_content_generation_config')
       .select()
@@ -42,23 +44,30 @@ class ManageAiContentScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
     final contentAsync = ref.watch(_aiContentListProvider);
     final activeFilter = ref.watch(_aiContentFilterProvider);
     final genConfigAsync = ref.watch(_aiGenConfigProvider);
 
-    return Scaffold(
-      backgroundColor: AppColors.bg,
+    return CoolScreenBackground(
+
+
+      showGlow: false,
+
+
+      child: Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
           tooltip: context.l10n.back,
-          icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
+          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.accent,
+        backgroundColor: palette.accent,
         onPressed: () => _showEditSheet(context, ref, null),
         child: const Icon(Icons.add_rounded, color: Colors.black),
       ),
@@ -72,7 +81,7 @@ class ManageAiContentScreen extends ConsumerWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 34,
                 fontWeight: FontWeight.w800,
-                color: AppColors.text,
+                color: palette.text,
                 height: 1.1,
               ),
             ),
@@ -84,7 +93,7 @@ class ManageAiContentScreen extends ConsumerWidget {
               'AI-generated UI elements with admin approval gate.',
               style: GoogleFonts.dmSans(
                 fontSize: 13,
-                color: AppColors.text3,
+                color: palette.text3,
               ),
             ),
           ),
@@ -148,7 +157,7 @@ class ManageAiContentScreen extends ConsumerWidget {
                         'No content found',
                         style: GoogleFonts.dmSans(
                           fontSize: 14,
-                          color: AppColors.text3,
+                          color: palette.text3,
                         ),
                       ),
                     )
@@ -191,13 +200,16 @@ class ManageAiContentScreen extends ConsumerWidget {
               error: (e, _) => Center(
                 child: Text(
                   'Error: $e',
-                  style: GoogleFonts.dmSans(color: AppColors.text3),
+                  style: GoogleFonts.dmSans(color: palette.text3),
                 ),
               ),
             ),
           ),
         ],
       ),
+    ),
+
+
     );
   }
 
@@ -207,7 +219,7 @@ class ManageAiContentScreen extends ConsumerWidget {
       BuildContext context, WidgetRef ref, String id) async {
     try {
       HapticFeedback.mediumImpact();
-      final repo = NexusRepository(client: Supabase.instance.client);
+      final repo = ref.read(nexusRepositoryProvider);
       await repo.approve(id);
       ref.invalidate(_aiContentListProvider);
       if (context.mounted) {
@@ -224,7 +236,7 @@ class ManageAiContentScreen extends ConsumerWidget {
       BuildContext context, WidgetRef ref, String id) async {
     try {
       HapticFeedback.mediumImpact();
-      final repo = NexusRepository(client: Supabase.instance.client);
+      final repo = ref.read(nexusRepositoryProvider);
       await repo.reject(id);
       ref.invalidate(_aiContentListProvider);
       if (context.mounted) {
@@ -241,7 +253,7 @@ class ManageAiContentScreen extends ConsumerWidget {
       BuildContext context, WidgetRef ref, NexusRecommendation item) async {
     try {
       HapticFeedback.selectionClick();
-      final repo = NexusRepository(client: Supabase.instance.client);
+      final repo = ref.read(nexusRepositoryProvider);
       await repo.toggleActive(item.id, isActive: !item.isActive);
       ref.invalidate(_aiContentListProvider);
       if (context.mounted) {
@@ -279,7 +291,7 @@ class ManageAiContentScreen extends ConsumerWidget {
     if (confirmed != true) return;
 
     try {
-      final repo = NexusRepository(client: Supabase.instance.client);
+      final repo = ref.read(nexusRepositoryProvider);
       await repo.delete(item.id);
       ref.invalidate(_aiContentListProvider);
       if (context.mounted) {
@@ -294,16 +306,15 @@ class ManageAiContentScreen extends ConsumerWidget {
 
   void _showEditSheet(
       BuildContext context, WidgetRef ref, NexusRecommendation? item) {
-    showModalBottomSheet(
+    showCoolBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (sheetCtx) => _EditAiContentSheet(
+      builder: (sheetCtx) => EditAiContentSheet(
         initial: item,
         onSave: (saved) async {
           try {
-            final repo =
-                NexusRepository(client: Supabase.instance.client);
+            final repo = ref.read(nexusRepositoryProvider);
             await repo.upsert(saved);
             ref.invalidate(_aiContentListProvider);
             if (sheetCtx.mounted) Navigator.of(sheetCtx).pop();
@@ -325,7 +336,7 @@ class ManageAiContentScreen extends ConsumerWidget {
       BuildContext context, WidgetRef ref, bool enabled) async {
     try {
       HapticFeedback.mediumImpact();
-      await Supabase.instance.client
+      await ref.read(supabaseClientProvider)
           .from('ai_content_generation_config')
           .update({
         'is_enabled': enabled,
@@ -348,7 +359,7 @@ class ManageAiContentScreen extends ConsumerWidget {
     try {
       HapticFeedback.mediumImpact();
       CoolToast.info(context, 'Generating content…');
-      final response = await Supabase.instance.client.functions
+      final response = await ref.read(supabaseClientProvider).functions
           .invoke('generate-ai-content', queryParameters: {'manual': 'true'});
       ref.invalidate(_aiContentListProvider);
       ref.invalidate(_aiGenConfigProvider);
@@ -397,6 +408,7 @@ class _GenerationControlsCardState extends State<_GenerationControlsCard> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final lastGen = widget.lastGeneratedAt;
     final lastLabel = lastGen != null
         ? '${lastGen.day}/${lastGen.month}/${lastGen.year} ${lastGen.hour}:${lastGen.minute.toString().padLeft(2, '0')}'
@@ -404,20 +416,17 @@ class _GenerationControlsCardState extends State<_GenerationControlsCard> {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18),
-      child: Container(
+      child: CoolCard(
+        useGradient: false,
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: AppColors.border),
-        ),
+        borderRadius: 20,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                const Icon(Icons.smart_toy_rounded,
-                    size: 20, color: AppColors.accent),
+                Icon(Icons.smart_toy_rounded,
+                    size: 20, color: palette.accent),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
@@ -425,13 +434,13 @@ class _GenerationControlsCardState extends State<_GenerationControlsCard> {
                     style: GoogleFonts.dmSans(
                       fontSize: 15,
                       fontWeight: FontWeight.w800,
-                      color: AppColors.text,
+                      color: palette.text,
                     ),
                   ),
                 ),
                 Switch.adaptive(
                   value: widget.isEnabled,
-                  activeTrackColor: AppColors.accent,
+                  activeTrackColor: palette.accent,
                   onChanged: widget.onToggle,
                 ),
               ],
@@ -440,10 +449,10 @@ class _GenerationControlsCardState extends State<_GenerationControlsCard> {
             Text(
               widget.isEnabled
                   ? 'Generates 1 new content item every 12 hours'
-                  : 'Disabled — no content auto-generated',
+                  : 'Disabled \u2014 no content auto-generated',
               style: GoogleFonts.dmSans(
                 fontSize: 12,
-                color: AppColors.text3,
+                color: palette.text3,
               ),
             ),
             const SizedBox(height: 4),
@@ -451,7 +460,7 @@ class _GenerationControlsCardState extends State<_GenerationControlsCard> {
               'Last generated: $lastLabel',
               style: GoogleFonts.dmSans(
                 fontSize: 11,
-                color: AppColors.text3,
+                color: palette.text3,
                 fontStyle: FontStyle.italic,
               ),
             ),
@@ -464,7 +473,6 @@ class _GenerationControlsCardState extends State<_GenerationControlsCard> {
                     : () async {
                         setState(() => _isGenerating = true);
                         widget.onGenerateNow();
-                        // Small delay for visual feedback
                         await Future<void>.delayed(
                             const Duration(seconds: 2));
                         if (mounted) {
@@ -472,25 +480,25 @@ class _GenerationControlsCardState extends State<_GenerationControlsCard> {
                         }
                       },
                 icon: _isGenerating
-                    ? const SizedBox(
+                    ? SizedBox(
                         width: 16,
                         height: 16,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          color: AppColors.accent,
+                          color: palette.accent,
                         ),
                       )
                     : const Icon(Icons.auto_awesome_rounded, size: 16),
                 label: Text(
-                  _isGenerating ? 'Generating…' : 'Generate Now',
+                  _isGenerating ? 'Generating\u2026' : 'Generate Now',
                   style: GoogleFonts.dmSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: AppColors.accent,
-                  side: const BorderSide(color: AppColors.accent),
+                  foregroundColor: palette.accent,
+                  side: BorderSide(color: palette.accent),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -524,7 +532,8 @@ class _FilterChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final chipColor = color ?? AppColors.accent;
+    final palette = context.coolPalette;
+    final chipColor = color ?? palette.accent;
     return GestureDetector(
       onTap: () {
         HapticFeedback.selectionClick();
@@ -536,12 +545,12 @@ class _FilterChip extends StatelessWidget {
         decoration: BoxDecoration(
           color: isSelected
               ? chipColor.withValues(alpha: 0.2)
-              : AppColors.surface,
+              : palette.surface,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isSelected
                 ? chipColor.withValues(alpha: 0.5)
-                : AppColors.border,
+                : palette.border,
             width: 1.5,
           ),
         ),
@@ -550,7 +559,7 @@ class _FilterChip extends StatelessWidget {
           style: GoogleFonts.dmSans(
             fontSize: 12,
             fontWeight: FontWeight.w700,
-            color: isSelected ? chipColor : AppColors.text2,
+            color: isSelected ? chipColor : palette.text2,
           ),
         ),
       ),
@@ -581,15 +590,14 @@ class _AiContentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return CoolCard(
       onTap: onEdit,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ── Header ─────────────────────────────────────
           Row(
             children: [
-              // Status badge
               Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -608,12 +616,11 @@ class _AiContentCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              // Content type badge
               Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
-                  color: AppColors.surface2,
+                  color: palette.surface2,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
@@ -621,7 +628,7 @@ class _AiContentCard extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 9,
                     fontWeight: FontWeight.w800,
-                    color: AppColors.text3,
+                    color: palette.text3,
                     letterSpacing: 0.5,
                   ),
                 ),
@@ -644,10 +651,9 @@ class _AiContentCard extends StatelessWidget {
                     ),
                   ),
                 ),
-              // Menu
               PopupMenuButton<String>(
                 icon: Icon(Icons.more_vert_rounded,
-                    size: 20, color: AppColors.text3),
+                    size: 20, color: palette.text3),
                 onSelected: (value) {
                   switch (value) {
                     case 'edit':
@@ -678,8 +684,6 @@ class _AiContentCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-
-          // ── Icon + Title ───────────────────────────────
           Row(
             children: [
               Text(item.iconEmoji, style: const TextStyle(fontSize: 22)),
@@ -690,7 +694,7 @@ class _AiContentCard extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 16,
                     fontWeight: FontWeight.w800,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
               ),
@@ -704,13 +708,11 @@ class _AiContentCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.dmSans(
                 fontSize: 13,
-                color: AppColors.text2,
+                color: palette.text2,
                 height: 1.4,
               ),
             ),
           ],
-
-          // ── Approve / Reject buttons ────────────────────
           if (onApprove != null || onReject != null) ...[
             const SizedBox(height: 14),
             Row(
@@ -789,326 +791,5 @@ class _ActionButton extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-// ═══════════════════════════════════════════════════════════════
-// Edit / Create bottom sheet
-// ═══════════════════════════════════════════════════════════════
-
-class _EditAiContentSheet extends StatefulWidget {
-  const _EditAiContentSheet({this.initial, required this.onSave});
-
-  final NexusRecommendation? initial;
-  final Future<void> Function(NexusRecommendation) onSave;
-
-  @override
-  State<_EditAiContentSheet> createState() => _EditAiContentSheetState();
-}
-
-class _EditAiContentSheetState extends State<_EditAiContentSheet> {
-  late final TextEditingController _titleCtrl;
-  late final TextEditingController _subtitleCtrl;
-  late final TextEditingController _bodyCtrl;
-  late final TextEditingController _rationaleCtrl;
-  late final TextEditingController _iconCtrl;
-  late final TextEditingController _ctaActionCtrl;
-  late final TextEditingController _ctaLabelCtrl;
-  late final TextEditingController _sortOrderCtrl;
-  late AiContentType _contentType;
-  late AiContentStatus _status;
-  String? _country;
-  bool _saving = false;
-
-  @override
-  void initState() {
-    super.initState();
-    final i = widget.initial;
-    _titleCtrl = TextEditingController(text: i?.title ?? '');
-    _subtitleCtrl = TextEditingController(text: i?.subtitle ?? '');
-    _bodyCtrl = TextEditingController(text: i?.body ?? '');
-    _rationaleCtrl = TextEditingController(text: i?.rationale ?? '');
-    _iconCtrl = TextEditingController(text: i?.iconEmoji ?? '✨');
-    _ctaActionCtrl = TextEditingController(text: i?.ctaAction ?? '');
-    _ctaLabelCtrl = TextEditingController(text: i?.ctaLabel ?? '');
-    _sortOrderCtrl =
-        TextEditingController(text: (i?.sortOrder ?? 0).toString());
-    _contentType = i?.contentType ?? AiContentType.recommendation;
-    _status = i?.status ?? AiContentStatus.draft;
-    _country = i?.country;
-  }
-
-  @override
-  void dispose() {
-    _titleCtrl.dispose();
-    _subtitleCtrl.dispose();
-    _bodyCtrl.dispose();
-    _rationaleCtrl.dispose();
-    _iconCtrl.dispose();
-    _ctaActionCtrl.dispose();
-    _ctaLabelCtrl.dispose();
-    _sortOrderCtrl.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final isCreate = widget.initial == null;
-
-    return Container(
-      constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.88,
-      ),
-      decoration: BoxDecoration(
-        color: AppColors.bg,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(height: 14),
-          Container(
-            width: 44,
-            height: 4,
-            decoration: BoxDecoration(
-              color: AppColors.text3.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(99),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 22),
-            child: Row(
-              children: [
-                const Icon(Icons.auto_awesome_rounded,
-                    color: AppColors.accent, size: 22),
-                const SizedBox(width: 10),
-                Text(
-                  isCreate ? 'New AI Content' : 'Edit AI Content',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.text,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-          Flexible(
-            child: ListView(
-              padding: const EdgeInsets.fromLTRB(22, 0, 22, 32),
-              children: [
-                _buildTextField(_titleCtrl, 'Title *'),
-                const SizedBox(height: 14),
-                _buildTextField(_subtitleCtrl, 'Subtitle'),
-                const SizedBox(height: 14),
-                _buildTextField(_bodyCtrl, 'Body', maxLines: 3),
-                const SizedBox(height: 14),
-                _buildTextField(_rationaleCtrl, 'Rationale', maxLines: 2),
-                const SizedBox(height: 14),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 80,
-                      child: _buildTextField(_iconCtrl, 'Icon'),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildTextField(
-                          _sortOrderCtrl, 'Sort Order',
-                          keyboardType: TextInputType.number),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 14),
-                _buildTextField(_ctaActionCtrl, 'CTA Route (e.g. /momo)'),
-                const SizedBox(height: 14),
-                _buildTextField(_ctaLabelCtrl, 'CTA Label (e.g. Open)'),
-                const SizedBox(height: 18),
-
-                // ── Type dropdown ──────────────────────────
-                _buildDropdown<AiContentType>(
-                  label: 'Content Type',
-                  value: _contentType,
-                  items: AiContentType.values,
-                  itemLabel: (t) => t.label,
-                  onChanged: (v) => setState(() => _contentType = v!),
-                ),
-                const SizedBox(height: 14),
-
-                // ── Status dropdown ────────────────────────
-                _buildDropdown<AiContentStatus>(
-                  label: 'Status',
-                  value: _status,
-                  items: AiContentStatus.values,
-                  itemLabel: (s) => s.label,
-                  onChanged: (v) => setState(() => _status = v!),
-                ),
-                const SizedBox(height: 14),
-
-                // ── Country dropdown ───────────────────────
-                _buildDropdown<String?>(
-                  label: 'Country',
-                  value: _country,
-                  items: const [null, 'RW', 'MT'],
-                  itemLabel: (c) => c ?? 'All Countries',
-                  onChanged: (v) => setState(() => _country = v),
-                ),
-                const SizedBox(height: 24),
-
-                // ── Save button ────────────────────────────
-                SizedBox(
-                  width: double.infinity,
-                  height: 52,
-                  child: ElevatedButton(
-                    onPressed: _saving ? null : _onSave,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.accent,
-                      foregroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                    child: _saving
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.black,
-                            ),
-                          )
-                        : Text(
-                            isCreate ? 'Create' : 'Save Changes',
-                            style: GoogleFonts.dmSans(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTextField(
-    TextEditingController controller,
-    String label, {
-    int maxLines = 1,
-    TextInputType keyboardType = TextInputType.text,
-  }) {
-    return TextField(
-      controller: controller,
-      maxLines: maxLines,
-      keyboardType: keyboardType,
-      style: GoogleFonts.dmSans(
-        fontSize: 14,
-        color: AppColors.text,
-      ),
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: GoogleFonts.dmSans(
-          fontSize: 13,
-          color: AppColors.text3,
-        ),
-        filled: true,
-        fillColor: AppColors.surface,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: AppColors.border),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: AppColors.border),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: AppColors.accent, width: 2),
-        ),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      ),
-    );
-  }
-
-  Widget _buildDropdown<T>({
-    required String label,
-    required T value,
-    required List<T> items,
-    required String Function(T) itemLabel,
-    required ValueChanged<T?> onChanged,
-  }) {
-    return InputDecorator(
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: GoogleFonts.dmSans(
-          fontSize: 13,
-          color: AppColors.text3,
-        ),
-        filled: true,
-        fillColor: AppColors.surface,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: AppColors.border),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: AppColors.border),
-        ),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<T>(
-          value: value,
-          isExpanded: true,
-          dropdownColor: AppColors.bg,
-          style: GoogleFonts.dmSans(
-            fontSize: 14,
-            color: AppColors.text,
-          ),
-          items: items
-              .map((e) => DropdownMenuItem(
-                    value: e,
-                    child: Text(itemLabel(e)),
-                  ))
-              .toList(),
-          onChanged: onChanged,
-        ),
-      ),
-    );
-  }
-
-  Future<void> _onSave() async {
-    final title = _titleCtrl.text.trim();
-    if (title.isEmpty) {
-      CoolToast.error(context, 'Title is required');
-      return;
-    }
-
-    setState(() => _saving = true);
-
-    final item = NexusRecommendation(
-      id: widget.initial?.id ?? '',
-      title: title,
-      subtitle: _subtitleCtrl.text.trim(),
-      body: _bodyCtrl.text.trim(),
-      rationale: _rationaleCtrl.text.trim(),
-      contentType: _contentType,
-      status: _status,
-      iconEmoji: _iconCtrl.text.trim().isEmpty ? '✨' : _iconCtrl.text.trim(),
-      ctaAction: _ctaActionCtrl.text.trim(),
-      ctaLabel: _ctaLabelCtrl.text.trim(),
-      country: _country,
-      sortOrder: int.tryParse(_sortOrderCtrl.text.trim()) ?? 0,
-    );
-
-    await widget.onSave(item);
-    if (mounted) setState(() => _saving = false);
   }
 }

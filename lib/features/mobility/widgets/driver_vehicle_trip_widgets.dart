@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/utils/intl_locale.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../providers/mobility_location_provider.dart';
@@ -21,7 +22,9 @@ class ScheduledTripsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     if (trips.isEmpty) {
+      final palette = context.coolPalette;
       return CoolCard(
         child: Center(
           child: Padding(
@@ -31,7 +34,7 @@ class ScheduledTripsCard extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: AppColors.text3,
+                color: palette.text3,
               ),
             ),
           ),
@@ -45,7 +48,7 @@ class ScheduledTripsCard extends StatelessWidget {
           for (var index = 0; index < trips.length; index++) ...[
             ScheduledTripTile(trip: trips[index]),
             if (index != trips.length - 1)
-              Divider(color: AppColors.border, height: 1),
+              Divider(color: palette.border, height: 1),
           ],
         ],
       ),
@@ -61,6 +64,7 @@ class ScheduledTripTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final chips = <String>[
       trip.vehicleLabel,
       if (trip.isRecurring) 'Daily',
@@ -75,7 +79,7 @@ class ScheduledTripTile extends StatelessWidget {
             width: 42,
             height: 42,
             decoration: BoxDecoration(
-              color: AppColors.surface3,
+              color: palette.surface3,
               borderRadius: BorderRadius.circular(14),
             ),
             alignment: Alignment.center,
@@ -83,7 +87,7 @@ class ScheduledTripTile extends StatelessWidget {
               tripVehicleIcon(trip.vehicleLabel),
               width: 21,
               height: 21,
-              color: AppColors.accent,
+              color: palette.accent,
             ),
           ),
           const SizedBox(width: 12),
@@ -96,7 +100,7 @@ class ScheduledTripTile extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -105,7 +109,7 @@ class ScheduledTripTile extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
+                    color: palette.text2,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -121,8 +125,8 @@ class ScheduledTripTile extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           color: chip == 'Return'
-                              ? AppColors.blueGlow
-                              : AppColors.surface3,
+                              ? palette.blueGlow
+                              : palette.surface3,
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Text(
@@ -131,8 +135,8 @@ class ScheduledTripTile extends StatelessWidget {
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
                             color: chip == 'Return'
-                                ? AppColors.blue
-                                : AppColors.text2,
+                                ? palette.blue
+                                : palette.text2,
                           ),
                         ),
                       ),
@@ -155,15 +159,16 @@ class VehicleInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return CoolCard(
       child: Column(
         children: [
           _VehicleInfoTile(label: context.l10n.vehicleType1, value: vehicle.type),
-          Divider(color: AppColors.border, height: 1),
+          Divider(color: palette.border, height: 1),
           _VehicleInfoTile(label: context.l10n.plateNumber1, value: vehicle.plateNumber),
-          Divider(color: AppColors.border, height: 1),
+          Divider(color: palette.border, height: 1),
           _VehicleInfoTile(label: context.l10n.baseLocation1, value: vehicle.baseLocation),
-          Divider(color: AppColors.border, height: 1),
+          Divider(color: palette.border, height: 1),
           _VehicleInfoTile(
             label: context.l10n.verification,
             value: vehicle.status,
@@ -188,6 +193,7 @@ class _VehicleInfoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return ListTile(
       dense: true,
       contentPadding: EdgeInsets.zero,
@@ -196,7 +202,7 @@ class _VehicleInfoTile extends StatelessWidget {
         style: GoogleFonts.dmSans(
           fontSize: 13,
           fontWeight: FontWeight.w500,
-          color: AppColors.text2,
+          color: palette.text2,
         ),
       ),
       trailing: ConstrainedBox(
@@ -315,9 +321,10 @@ class _EditVehicleSheetState extends ConsumerState<EditVehicleSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
@@ -338,7 +345,7 @@ class _EditVehicleSheetState extends ConsumerState<EditVehicleSheet> {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: AppColors.border2,
+                    color: palette.border2,
                     borderRadius: BorderRadius.circular(999),
                   ),
                 ),
@@ -349,7 +356,7 @@ class _EditVehicleSheetState extends ConsumerState<EditVehicleSheet> {
                 style: GoogleFonts.dmSans(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
               const SizedBox(height: 18),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_palette.dart';
 import '../../../../shared/widgets/cool_button.dart';
 import '../../../../core/l10n/l10n.dart';
 
@@ -44,22 +44,23 @@ class GroupHeroInfoChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.surface2.withValues(alpha: 0.6),
+        color: palette.surface2.withValues(alpha: 0.6),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 16, color: AppColors.text2),
+          Icon(icon, size: 16, color: palette.text2),
           const SizedBox(width: 8),
           Text(
             label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
               fontWeight: FontWeight.w700,
-              color: AppColors.text2,
+              color: palette.text2,
             ),
           ),
         ],
@@ -84,9 +85,10 @@ class GroupMoreActionsSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
@@ -102,7 +104,7 @@ class GroupMoreActionsSheet extends StatelessWidget {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: AppColors.border2,
+                    color: palette.border2,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -113,7 +115,7 @@ class GroupMoreActionsSheet extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
               const SizedBox(height: 6),
@@ -122,7 +124,7 @@ class GroupMoreActionsSheet extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
-                  color: AppColors.text2,
+                  color: palette.text2,
                   height: 1.45,
                 ),
               ),

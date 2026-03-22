@@ -222,5 +222,69 @@ void main() {
         AppRoutes.admin,
       );
     });
+
+    // ── Platform admin = workspace admin for all partners ───────────
+    test('platform admin can access partner workspace routes', () {
+      expect(
+        resolveAppRedirect(
+          location: AppRoutes.adminPartnerWorkspaceLocation('any-partner-id'),
+          hasSession: true,
+          hasProfile: true,
+          profileRestoreState: AuthProfileRestoreState.available,
+          adminAccess: const AdminWorkspaceAccess(hasPlatformAccess: true),
+        ),
+        isNull,
+      );
+    });
+
+    test('platform admin can access bank workspace routes', () {
+      expect(
+        resolveAppRedirect(
+          location: AppRoutes.adminBankWorkspaceLocation('any-bank-id'),
+          hasSession: true,
+          hasProfile: true,
+          profileRestoreState: AuthProfileRestoreState.available,
+          adminAccess: const AdminWorkspaceAccess(hasPlatformAccess: true),
+        ),
+        isNull,
+      );
+    });
+
+    test('platform admin can access rayon admin routes', () {
+      expect(
+        resolveAppRedirect(
+          location: AppRoutes.adminRayon,
+          hasSession: true,
+          hasProfile: true,
+          profileRestoreState: AuthProfileRestoreState.available,
+          adminAccess: const AdminWorkspaceAccess(hasPlatformAccess: true),
+        ),
+        isNull,
+      );
+    });
+
+    test('platform admin can access all dashboard sub-routes', () {
+      for (final route in [
+        '/admin/missions',
+        '/admin/seasons',
+        '/admin/activities',
+        '/admin/analytics',
+        '/admin/audit-log',
+        '/admin/ai-content',
+        '/admin/roles',
+      ]) {
+        expect(
+          resolveAppRedirect(
+            location: route,
+            hasSession: true,
+            hasProfile: true,
+            profileRestoreState: AuthProfileRestoreState.available,
+            adminAccess: const AdminWorkspaceAccess(hasPlatformAccess: true),
+          ),
+          isNull,
+          reason: 'Platform admin should access $route',
+        );
+      }
+    });
   });
 }

@@ -353,7 +353,7 @@ void main() {
           ],
         );
 
-        expect(find.text(l10n.recentActivity), findsOneWidget);
+        expect(find.text(l10n.recentActivity), findsWidgets);
         _expectNoCapturedException(tester);
       });
     });

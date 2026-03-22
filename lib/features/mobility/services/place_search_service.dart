@@ -613,6 +613,7 @@ class PlaceSearchResult {
     this.primaryText,
     this.secondaryText,
     this.placeId,
+    this.distanceMeters,
   });
 
   final String label;
@@ -620,6 +621,8 @@ class PlaceSearchResult {
   final String? primaryText;
   final String? secondaryText;
   final String? placeId;
+  /// Straight-line distance from the user's position (when origin is set).
+  final int? distanceMeters;
 
   bool get hasCoordinates => position != null;
 
@@ -658,6 +661,8 @@ class PlaceSearchResult {
     final location = jh.asMapOrEmpty(json['position']);
     final latitude = jh.asDouble(location['latitude']);
     final longitude = jh.asDouble(location['longitude']);
+    final rawDistance = json['distanceMeters'];
+    final distanceMeters = rawDistance is num ? rawDistance.toInt() : null;
 
     final resolvedPrimary = primary == null || primary.isEmpty
         ? label ?? ''
@@ -675,6 +680,7 @@ class PlaceSearchResult {
       primaryText: resolvedPrimary.isEmpty ? null : resolvedPrimary,
       secondaryText: resolvedSecondary,
       placeId: json['placeId']?.toString(),
+      distanceMeters: distanceMeters,
       position: latitude == null || longitude == null
           ? null
           : GeoPoint(latitude: latitude, longitude: longitude),

@@ -18,6 +18,7 @@ import '../services/nfc_hce_service.dart';
 import '../services/nfc_service.dart';
 import 'momo_send_sheet.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
 
 // ═════════════════════════════════════════════════════════════════════════════
 // NFC BOTTOM SHEET
@@ -290,7 +291,7 @@ class _MomoNfcCardState extends State<MomoNfcCard>
     final recipientLabel = result.recipientType == MomoRecipientType.code
         ? 'MoMo Code'
         : 'MoMo Number';
-    showModalBottomSheet<void>(
+    showCoolBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       builder: (context) {
@@ -411,7 +412,7 @@ class _MomoNfcCardState extends State<MomoNfcCard>
       return;
     }
 
-    showModalBottomSheet<void>(
+    showCoolBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,

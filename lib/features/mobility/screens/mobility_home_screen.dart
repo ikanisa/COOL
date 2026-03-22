@@ -4,14 +4,17 @@ import 'package:cool_app/features/mobility/models/trip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../auth/providers/auth_provider.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/services/whatsapp_contact_service.dart';
 import '../services/mobility_whatsapp_service.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/cool_layout.dart';
 import '../../../core/theme/cool_palette.dart';
+import '../../../shared/widgets/cool_google_map.dart';
 import '../../../shared/widgets/cool_toast.dart';
 
 import '../../../shared/widgets/cool_screen_background.dart';
@@ -31,6 +34,7 @@ class MobilityHomeScreen extends ConsumerStatefulWidget {
 
 class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
   late final MobilityLocationNotifier _locationNotifier;
+  GoogleMapController? _mapController;
 
   @override
   void initState() {
@@ -47,7 +51,57 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
   @override
   void dispose() {
     unawaited(_locationNotifier.releaseTracking());
+    _mapController = null;
     super.dispose();
+  }
+
+  void _onMapCreated(GoogleMapController controller) {
+    _mapController = controller;
+  }
+
+  void _recenterMap() {
+    final pos = ref.read(mobilityLocationProvider).position;
+    if (pos != null && _mapController != null) {
+      _mapController!.animateCamera(
+        CameraUpdate.newLatLng(LatLng(pos.latitude, pos.longitude)),
+      );
+    }
+  }
+
+  Set<Marker> _buildDriverMarkers(List<DriverInfo> drivers) {
+    final markers = <Marker>{};
+    for (final driver in drivers) {
+      if (driver.latitude == null || driver.longitude == null) continue;
+      markers.add(
+        Marker(
+          markerId: MarkerId('driver_${driver.driverId}'),
+          position: LatLng(driver.latitude!, driver.longitude!),
+          infoWindow: InfoWindow(
+            title: driver.displayName ?? 'Driver',
+            snippet: driver.vehicleType,
+          ),
+          icon: BitmapDescriptor.defaultMarkerWithHue(
+            _vehicleTypeHue(driver.vehicleType),
+          ),
+        ),
+      );
+    }
+    return markers;
+  }
+
+  static double _vehicleTypeHue(String? type) {
+    switch (type?.toLowerCase()) {
+      case 'moto':
+        return BitmapDescriptor.hueGreen;
+      case 'cab':
+        return BitmapDescriptor.hueAzure;
+      case 'truck':
+        return BitmapDescriptor.hueOrange;
+      case 'trike':
+        return BitmapDescriptor.hueViolet;
+      default:
+        return BitmapDescriptor.hueRed;
+    }
   }
 
   Future<void> _refreshNearby() async {
@@ -136,6 +190,8 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final currentUser = ref.watch(currentUserProvider);
     final driverProfile = ref.watch(
       driverProvider.select((state) => state.profile),
@@ -143,7 +199,7 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
     final isDriver = (currentUser?.isDriver ?? false) || driverProfile != null;
 
     return Scaffold(
-      backgroundColor: palette.bg,
+      backgroundColor: colors.appBackground,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
@@ -151,13 +207,13 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
         leading: IconButton(
           onPressed: () => context.pop(),
           tooltip: context.l10n.back,
-          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
+          icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
         ),
       ),
       body: CoolScreenBackground(
         child: RefreshIndicator(
-          color: palette.accent,
-          backgroundColor: palette.surface2,
+          color: colors.accent,
+          backgroundColor: colors.cardSurfaceStrong,
           onRefresh: _refreshNearby,
           child: CustomScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
@@ -165,12 +221,47 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
               SliverPadding(
                 padding: CoolLayout.rootPagePadding.copyWith(bottom: 0, top: 0),
                 sliver: SliverToBoxAdapter(
-                  child: Text(
-                    l10n.navMobility,
-                    style: Theme.of(context).textTheme.displayLarge,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.navMobility,
+                        style: theme.textTheme.displayLarge?.copyWith(
+                          color: colors.primaryText,
+                        ),
+                      ),
+                      const SizedBox(height: CoolSpace.x2),
+                      Text(
+                        'Routes, nearby drivers, and direct action handoff with immediate clarity.',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colors.secondaryText,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
+
+              // ── Google Map ──────────────────────────────────────
+              SliverPadding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: CoolLayout.horizontalPagePadding,
+                  vertical: 10,
+                ),
+                sliver: SliverToBoxAdapter(
+                  child: _MobilityMapSection(
+                    onMapCreated: _onMapCreated,
+                    onRecenter: _recenterMap,
+                    driverMarkers: _buildDriverMarkers(
+                      ref.watch(
+                        discoveryProvider.select((s) => s.nearbyDrivers),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
               SliverPadding(
                 padding: EdgeInsets.fromLTRB(
                   CoolLayout.horizontalPagePadding,
@@ -214,3 +305,70 @@ bool _hasTripContact(Trip trip) =>
 
 bool _hasDriverContact(DriverInfo driver) =>
     driver.contactPhone?.trim().isNotEmpty ?? false;
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// MAP SECTION WIDGET
+// ═══════════════════════════════════════════════════════════════════════════════
+
+class _MobilityMapSection extends ConsumerWidget {
+  const _MobilityMapSection({
+    required this.onMapCreated,
+    required this.onRecenter,
+    required this.driverMarkers,
+  });
+
+  final void Function(GoogleMapController) onMapCreated;
+  final VoidCallback onRecenter;
+  final Set<Marker> driverMarkers;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
+    final locationState = ref.watch(mobilityLocationProvider);
+    final userPos = locationState.position;
+
+    final target = userPos != null
+        ? LatLng(userPos.latitude, userPos.longitude)
+        : null;
+
+    return SizedBox(
+      height: 200,
+      child: Stack(
+        children: [
+          CoolGoogleMap(
+            initialTarget: target,
+            initialZoom: 14.0,
+            markers: driverMarkers,
+            myLocationEnabled: locationState.hasLocation,
+            myLocationButtonEnabled: false,
+            onMapCreated: onMapCreated,
+          ),
+
+          // Recenter FAB
+          if (userPos != null)
+            Positioned(
+              right: 12,
+              bottom: 12,
+              child: Material(
+                color: palette.surface,
+                elevation: 4,
+                borderRadius: BorderRadius.circular(14),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(14),
+                  onTap: onRecenter,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Icon(
+                      Icons.my_location_rounded,
+                      color: palette.accent,
+                      size: 22,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}

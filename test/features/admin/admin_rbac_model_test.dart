@@ -195,5 +195,31 @@ void main() {
         expect(access.canAccessBankId(''), isFalse);
       });
     });
+
+    group('platform admin inherits workspace admin rights', () {
+      const platformAdmin = AdminWorkspaceAccess(hasPlatformAccess: true);
+
+      test('has partner admin access by default', () {
+        expect(platformAdmin.hasPartnerAdminAccess, isTrue);
+      });
+
+      test('has bank admin access by default', () {
+        expect(platformAdmin.hasBankAdminAccess, isTrue);
+      });
+
+      test('has any admin access by default', () {
+        expect(platformAdmin.hasAnyAdminAccess, isTrue);
+      });
+
+      test('can access any partner ID', () {
+        expect(platformAdmin.canAccessPartnerId('rayon-sports'), isTrue);
+        expect(platformAdmin.canAccessPartnerId('random-partner'), isTrue);
+      });
+
+      test('can access any bank ID', () {
+        expect(platformAdmin.canAccessBankId('equity-bank'), isTrue);
+        expect(platformAdmin.canAccessBankId('random-bank'), isTrue);
+      });
+    });
   });
 }

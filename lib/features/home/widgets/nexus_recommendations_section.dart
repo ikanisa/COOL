@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/router/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/cool_palette.dart';
 import '../models/nexus_recommendation.dart';
 import '../providers/nexus_provider.dart';
@@ -13,10 +12,12 @@ class NexusRecommendationsSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
     final recommendationsAsync = ref.watch(nexusRecommendationsProvider);
 
     return recommendationsAsync.when(
       data: (recommendations) {
+        final palette = context.coolPalette;
         if (recommendations.isEmpty) return const SizedBox.shrink();
 
         return Column(
@@ -24,10 +25,10 @@ class NexusRecommendationsSection extends ConsumerWidget {
           children: [
             Row(
               children: [
-                const Icon(
+                Icon(
                   Icons.auto_awesome_rounded,
                   size: 16,
-                  color: AppColors.accent,
+                  color: palette.accent,
                 ),
                 const SizedBox(width: 8),
                 Text(
@@ -35,7 +36,7 @@ class NexusRecommendationsSection extends ConsumerWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 11,
                     fontWeight: FontWeight.w900,
-                    color: AppColors.accent,
+                    color: palette.accent,
                     letterSpacing: 1,
                   ),
                 ),
@@ -83,7 +84,7 @@ class NexusCard extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [palette.surface, AppColors.accent.withValues(alpha: 0.03)],
+            colors: [palette.surface, palette.accent.withValues(alpha: 0.03)],
           ),
         ),
         child: Column(
@@ -98,7 +99,7 @@ class NexusCard extends StatelessWidget {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.accent.withValues(alpha: 0.1),
+                    color: palette.accent.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Text(
@@ -106,7 +107,7 @@ class NexusCard extends StatelessWidget {
                     style: GoogleFonts.dmSans(
                       fontSize: 9,
                       fontWeight: FontWeight.w900,
-                      color: AppColors.accent,
+                      color: palette.accent,
                     ),
                   ),
                 ),
@@ -145,7 +146,7 @@ class NexusCard extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 11,
                 fontWeight: FontWeight.w500,
-                color: AppColors.accent,
+                color: palette.accent,
                 fontStyle: FontStyle.italic,
               ),
             ),

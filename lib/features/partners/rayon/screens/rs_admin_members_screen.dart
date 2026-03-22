@@ -5,7 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
+import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
 import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../providers/rayon_sports_provider.dart';
@@ -13,6 +15,7 @@ import '../models/rs_models.dart';
 import '../providers/rs_admin_provider.dart';
 import '../widgets/rs_admin_shell.dart';
 import '../../../../core/l10n/l10n.dart';
+import '../../../../shared/widgets/cool_bottom_sheet.dart';
 
 /// Admin screen for managing RS memberships — list, adjust tier/tokens.
 class RsAdminMembersScreen extends ConsumerStatefulWidget {
@@ -29,12 +32,13 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final membersAsync = ref.watch(rsAdminMembersProvider);
 
     return RsAdminShell(
       title: context.l10n.members4,
       subtitle:
-          'Search, renew & export the supporter base',
+          'Search, renew, and correct supporter records from one high-trust roster.',
       metrics: [
         RsAdminMetric(
           label: 'members',
@@ -64,39 +68,73 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
       controls: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Filter tabs
           SizedBox(
-            height: 36,
+            height: 44,
             child: Row(
               children: [
-                _FilterTab('All', _filter == 'all', () => setState(() => _filter = 'all')),
+                _FilterTab(
+                  'All',
+                  _filter == 'all',
+                  () => setState(() => _filter = 'all'),
+                ),
                 const SizedBox(width: 6),
-                _FilterTab('Active', _filter == 'active', () => setState(() => _filter = 'active')),
+                _FilterTab(
+                  'Active',
+                  _filter == 'active',
+                  () => setState(() => _filter = 'active'),
+                ),
                 const SizedBox(width: 6),
-                _FilterTab('Expired', _filter == 'expired', () => setState(() => _filter = 'expired')),
+                _FilterTab(
+                  'Expired',
+                  _filter == 'expired',
+                  () => setState(() => _filter = 'expired'),
+                ),
               ],
             ),
           ),
-          const SizedBox(height: 8),
-          // Search
+          const SizedBox(height: 12),
           Semantics(
             textField: true,
             label: 'Search members',
             hint: 'Search members',
             child: TextField(
-              onChanged: (value) => setState(() => _search = value.toLowerCase()),
-              style: GoogleFonts.dmSans(color: AppColors.text, fontSize: 14),
+              onChanged: (value) =>
+                  setState(() => _search = value.toLowerCase()),
+              style: GoogleFonts.dmSans(
+                color: colors.primaryText,
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+              ),
               decoration: InputDecoration(
                 hintText: 'Search members…',
-                hintStyle: GoogleFonts.dmSans(color: AppColors.text3, fontSize: 14),
-                prefixIcon: Icon(Icons.search, color: AppColors.text3, size: 20),
+                hintStyle: GoogleFonts.dmSans(
+                  color: colors.tertiaryText,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                ),
+                prefixIcon: Icon(
+                  Icons.search_rounded,
+                  color: colors.tertiaryText,
+                  size: 22,
+                ),
                 filled: true,
-                fillColor: AppColors.surface,
+                fillColor: colors.inputSurface,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(CoolRadii.lg),
                   borderSide: BorderSide.none,
                 ),
-                contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(CoolRadii.lg),
+                  borderSide: BorderSide(color: colors.border),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(CoolRadii.lg),
+                  borderSide: const BorderSide(color: AppColors.rsBlue),
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 16,
+                ),
               ),
             ),
           ),
@@ -108,7 +146,11 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
             : FloatingActionButton.small(
                 backgroundColor: AppColors.rsBlue,
                 onPressed: () => _exportCsv(members),
-                child: const Icon(Icons.download_rounded, color: Colors.white, size: 20),
+                child: const Icon(
+                  Icons.download_rounded,
+                  color: Colors.white,
+                  size: 20,
+                ),
               ),
       ),
       child: CoolAsyncView<List<FanMembership>>(
@@ -153,6 +195,8 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
           }
           return ListView.separated(
             padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: filtered.length,
             separatorBuilder: (context, index) => const SizedBox(height: 8),
             itemBuilder: (context, index) {
@@ -171,9 +215,10 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
   }
 
   void _showTierPicker(FanMembership member) {
-    showModalBottomSheet(
+    final colors = context.coolSemanticColors;
+    showCoolBottomSheet(
       context: context,
-      backgroundColor: AppColors.surface,
+      backgroundColor: colors.overlaySurface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -195,8 +240,7 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
             ...FanTier.values.map(
               (tier) => Semantics(
                 button: true,
-                label:
-                    'Set ${member.displayName} tier to',
+                label: 'Set ${member.displayName} tier to',
                 hint: 'Edit member tier',
                 excludeSemantics: true,
                 child: ListTile(
@@ -239,10 +283,11 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
   }
 
   void _showPointsEditor(FanMembership member) {
+    final colors = context.coolSemanticColors;
     final controller = TextEditingController(text: member.points.toString());
-    showModalBottomSheet(
+    showCoolBottomSheet(
       context: context,
-      backgroundColor: AppColors.surface,
+      backgroundColor: colors.overlaySurface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -349,7 +394,7 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
       final expires = m.expiresAt != null ? dateFmt.format(m.expiresAt!) : '';
       buf.writeln(
         '"${m.displayName}","${m.membershipNumber}",'
-        '${m.tier.name},${ m.points},$joined,$expires',
+        '${m.tier.name},${m.points},$joined,$expires',
       );
     }
     Clipboard.setData(ClipboardData(text: buf.toString()));
@@ -385,126 +430,112 @@ class _MemberTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final expiryLabel = member.expiresAt == null
+        ? 'No expiry set'
+        : member.isExpired
+        ? 'Expired ${DateFormat('d MMM yyyy').format(member.expiresAt!)}'
+        : 'Expires ${DateFormat('d MMM yyyy').format(member.expiresAt!)}';
     return Semantics(
       container: true,
       label:
           'Member ${member.displayName}. Membership ${member.membershipNumber}.'
           'Tier ${member.tier.name.toUpperCase()}. ${member.points} tokens.',
-      child: Container(
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColors.border),
-        ),
+      child: CoolCard(
+        backgroundColor: colors.teamSurface,
+        borderColor: member.tier.color.withValues(alpha: 0.26),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(_tierIcon, size: 24, color: AppColors.rsGold),
-            const SizedBox(width: 12),
+            Container(
+              width: 52,
+              height: 52,
+              decoration: BoxDecoration(
+                color: member.tier.color.withValues(alpha: 0.16),
+                borderRadius: BorderRadius.circular(CoolRadii.lg),
+                border: Border.all(
+                  color: member.tier.color.withValues(alpha: 0.28),
+                ),
+              ),
+              alignment: Alignment.center,
+              child: Icon(_tierIcon, size: 26, color: AppColors.rsGold),
+            ),
+            const SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    member.displayName,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.text,
-                    ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          member.displayName,
+                          style: GoogleFonts.barlowCondensed(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w900,
+                            color: colors.primaryText,
+                            height: 0.95,
+                          ),
+                        ),
+                      ),
+                      _MemberStatusPill(member: member),
+                    ],
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    '${member.membershipNumber} · ${member.tier.name.toUpperCase()} · ${member.points} Tokens',
+                    '${member.membershipNumber}  •  ${member.tier.label.toUpperCase()}',
                     style: GoogleFonts.dmSans(
-                      fontSize: 11,
-                      color: AppColors.text3,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w800,
+                      color: colors.secondaryText,
                     ),
                   ),
-                  if (member.expiresAt != null) ...[
-                    const SizedBox(height: 2),
-                    Row(
-                      children: [
-                        Icon(
-                          member.isExpired
-                              ? Icons.warning_amber_rounded
-                              : Icons.event_available_rounded,
-                          size: 12,
-                          color: member.isExpired
-                              ? AppColors.red
-                              : AppColors.accent,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          member.isExpired
-                              ? 'Expired ${DateFormat('d MMM yyyy').format(member.expiresAt!)}'
-                              : 'Expires ${DateFormat('d MMM yyyy').format(member.expiresAt!)}',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w600,
-                            color: member.isExpired
-                                ? AppColors.red
-                                : AppColors.accent,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                  const SizedBox(height: 12),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      _MemberInfoPill(
+                        label: 'Tokens',
+                        value: '${member.points}',
+                      ),
+                      _MemberInfoPill(label: 'Chapter', value: member.chapter),
+                      _MemberInfoPill(label: 'Status', value: expiryLabel),
+                    ],
+                  ),
+                  const SizedBox(height: 14),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      _MemberActionPill(
+                        icon: Icons.military_tech_rounded,
+                        label: 'Tier',
+                        onTap: () {
+                          HapticFeedback.selectionClick();
+                          onEditTier();
+                        },
+                      ),
+                      _MemberActionPill(
+                        icon: Icons.stars_rounded,
+                        label: 'Tokens',
+                        onTap: () {
+                          HapticFeedback.selectionClick();
+                          onEditPoints();
+                        },
+                      ),
+                      _MemberActionPill(
+                        icon: Icons.autorenew_rounded,
+                        label: 'Renew',
+                        onTap: () {
+                          HapticFeedback.selectionClick();
+                          onRenew();
+                        },
+                      ),
+                    ],
+                  ),
                 ],
-              ),
-            ),
-            Semantics(
-              button: true,
-              label: 'Edit tier for ${member.displayName}',
-              hint: 'Edit member tier',
-              excludeSemantics: true,
-              child: GestureDetector(
-                onTap: () {
-                  HapticFeedback.selectionClick();
-                  onEditTier();
-                },
-                child: const Padding(
-                  padding: EdgeInsets.all(4),
-                  child: Icon(
-                    Icons.military_tech,
-                    size: 20,
-                    color: AppColors.rsGold,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            Semantics(
-              button: true,
-              label: 'Edit tokens for ${member.displayName}',
-              hint: 'Edit member tokens',
-              excludeSemantics: true,
-              child: GestureDetector(
-                onTap: () {
-                  HapticFeedback.selectionClick();
-                  onEditPoints();
-                },
-                child: const Padding(
-                  padding: EdgeInsets.all(4),
-                  child: Icon(Icons.stars, size: 20, color: AppColors.accent),
-                ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            Semantics(
-              button: true,
-              label: 'Renew membership for ${member.displayName}',
-              hint: 'Renew member',
-              excludeSemantics: true,
-              child: GestureDetector(
-                onTap: () {
-                  HapticFeedback.selectionClick();
-                  onRenew();
-                },
-                child: const Padding(
-                  padding: EdgeInsets.all(4),
-                  child: Icon(Icons.autorenew_rounded, size: 20, color: AppColors.blue),
-                ),
               ),
             ),
           ],
@@ -522,27 +553,137 @@ class _FilterTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return Expanded(
       child: GestureDetector(
         onTap: onTap,
-        child: Container(
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          curve: Curves.easeOutCubic,
           alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(vertical: 6),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
-            color: isSelected ? AppColors.rsBlue : AppColors.surface,
-            borderRadius: BorderRadius.circular(10),
+            color: isSelected
+                ? AppColors.rsBlue.withValues(alpha: 0.16)
+                : colors.chipBackground,
+            borderRadius: BorderRadius.circular(14),
             border: Border.all(
-              color: isSelected ? AppColors.rsBlue : AppColors.border,
+              color: isSelected ? AppColors.rsBlue : colors.border,
             ),
           ),
           child: Text(
             label,
             style: GoogleFonts.dmSans(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: isSelected ? Colors.white : AppColors.text2,
+              fontSize: 13,
+              fontWeight: FontWeight.w800,
+              color: isSelected ? AppColors.rsBlueLight : colors.secondaryText,
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _MemberInfoPill extends StatelessWidget {
+  const _MemberInfoPill({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+      decoration: BoxDecoration(
+        color: colors.cardSurface,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: colors.border),
+      ),
+      child: Text(
+        '$label: $value',
+        style: GoogleFonts.dmSans(
+          fontSize: 12,
+          fontWeight: FontWeight.w800,
+          color: colors.secondaryText,
+        ),
+      ),
+    );
+  }
+}
+
+class _MemberActionPill extends StatelessWidget {
+  const _MemberActionPill({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    return Semantics(
+      button: true,
+      label: label,
+      excludeSemantics: true,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          decoration: BoxDecoration(
+            color: colors.cardSurfaceStrong,
+            borderRadius: BorderRadius.circular(999),
+            border: Border.all(color: colors.borderStrong),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, size: 16, color: AppColors.rsBlueLight),
+              const SizedBox(width: 6),
+              Text(
+                label,
+                style: GoogleFonts.dmSans(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w800,
+                  color: colors.primaryText,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _MemberStatusPill extends StatelessWidget {
+  const _MemberStatusPill({required this.member});
+
+  final FanMembership member;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final color = member.isExpired ? colors.danger : colors.success;
+    final label = member.isExpired ? 'EXPIRED' : 'ACTIVE';
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.14),
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: color.withValues(alpha: 0.26)),
+      ),
+      child: Text(
+        label,
+        style: GoogleFonts.dmSans(
+          fontSize: 11,
+          fontWeight: FontWeight.w800,
+          color: color,
         ),
       ),
     );

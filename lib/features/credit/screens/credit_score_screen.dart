@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_glass_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../core/providers/supabase_client_provider.dart';
 import '../../../shared/widgets/secure_screen_mixin.dart';
@@ -103,14 +104,14 @@ class _InsightsDashboard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.auto_awesome_rounded, size: 18, color: AppColors.accent),
+                    Icon(Icons.auto_awesome_rounded, size: 18, color: palette.accent),
                     const SizedBox(width: 8),
                     Text(
                       'AI AGENT INSIGHT',
                       style: GoogleFonts.dmSans(
                         fontSize: 11,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.accent,
+                        color: palette.accent,
                         letterSpacing: 0.5,
                       ),
                     ),
@@ -209,17 +210,12 @@ class _CreditBridgeCardState extends State<_CreditBridgeCard> {
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
 
-    return Container(
-      width: double.infinity,
+    return CoolGlassCard(
+      borderColor: palette.blue.withValues(alpha: 0.15),
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: AppColors.blue.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppColors.blue.withValues(alpha: 0.15)),
-      ),
       child: Column(
         children: [
-          const Icon(Icons.account_balance_rounded, color: AppColors.blue, size: 32),
+          Icon(Icons.account_balance_rounded, color: palette.blue, size: 32),
           const SizedBox(height: 16),
           Text(
             'Official Bank Report',
@@ -265,8 +261,8 @@ class _ReadinessHero extends StatelessWidget {
     final palette = context.coolPalette;
     final color = _readinessColor(insights.creditReadiness);
 
-    return CoolCard(
-      gradient: AppColors.blueGradient,
+    return CoolGlassCard(
+      borderColor: palette.blue.withValues(alpha: 0.2),
       child: Column(
         children: [
           Row(
@@ -329,13 +325,13 @@ class _ReadinessHero extends StatelessWidget {
           _ScoreTrack(
             label: 'Savings Discipline',
             value: insights.savingsDisciplineScore / 100,
-            color: AppColors.accent,
+            color: palette.accent,
           ),
           const SizedBox(height: 12),
           _ScoreTrack(
             label: 'Income Stability',
             value: insights.incomeStabilityScore / 100,
-            color: AppColors.blue,
+            color: palette.blue,
           ),
         ],
       ),
@@ -411,6 +407,7 @@ class _InsightGrids extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -418,7 +415,7 @@ class _InsightGrids extends StatelessWidget {
           child: _InsightList(
             title: 'STRENGTHS',
             items: insights.keyStrengths,
-            color: AppColors.accent,
+            color: palette.accent,
             icon: Icons.check_circle_outline_rounded,
           ),
         ),
@@ -427,7 +424,7 @@ class _InsightGrids extends StatelessWidget {
           child: _InsightList(
             title: 'RISKS',
             items: insights.improvementAreas,
-            color: AppColors.orange,
+            color: palette.orange,
             icon: Icons.warning_amber_rounded,
           ),
         ),
@@ -515,9 +512,9 @@ class _CoachingCard extends StatelessWidget {
             height: 36,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: AppColors.blue.withValues(alpha: 0.1),
+              color: palette.blue.withValues(alpha: 0.1),
             ),
-            child: const Icon(Icons.lightbulb_outline_rounded, size: 18, color: AppColors.blue),
+            child: Icon(Icons.lightbulb_outline_rounded, size: 18, color: palette.blue),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -541,7 +538,8 @@ class _LoadingState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: CircularProgressIndicator(color: AppColors.accent));
+    final palette = context.coolPalette;
+    return Center(child: CircularProgressIndicator(color: palette.accent));
   }
 }
 

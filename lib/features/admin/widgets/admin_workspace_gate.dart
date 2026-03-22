@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/router/app_routes.dart';
-import '../../../core/theme/app_colors.dart';
-import '../providers/admin_workspace_access_provider.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../core/router/app_routes.dart';
+import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/cool_button.dart';
+import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
+import '../providers/admin_workspace_access_provider.dart';
 
 class AdminLoadingScaffold extends StatelessWidget {
   const AdminLoadingScaffold({required this.title, super.key});
@@ -15,22 +17,53 @@ class AdminLoadingScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.bg,
-      appBar: AppBar(
-        backgroundColor: AppColors.surface,
-        elevation: 0,
-        iconTheme: IconThemeData(color: AppColors.text),
-        title: Text(
-          title,
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: AppColors.text,
-          ),
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    return _AdminStateScaffold(
+      title: title,
+      child: CoolCard(
+        backgroundColor: colors.cardSurfaceStrong,
+        borderColor: colors.borderStrong,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 72,
+              height: 72,
+              decoration: BoxDecoration(
+                color: colors.analyticsSurface,
+                borderRadius: BorderRadius.circular(CoolRadii.lg),
+                border: Border.all(color: colors.borderStrong),
+              ),
+              alignment: Alignment.center,
+              child: SizedBox(
+                width: 28,
+                height: 28,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.8,
+                  color: colors.accent,
+                ),
+              ),
+            ),
+            const SizedBox(height: CoolSpace.x6),
+            Text(
+              'Loading workspace',
+              textAlign: TextAlign.center,
+              style: theme.textTheme.headlineSmall?.copyWith(
+                color: colors.primaryText,
+              ),
+            ),
+            const SizedBox(height: CoolSpace.x3),
+            Text(
+              'Access checks, role policy, and workspace data are being prepared.',
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colors.secondaryText,
+              ),
+            ),
+          ],
         ),
       ),
-      body: const Center(child: CircularProgressIndicator()),
     );
   }
 }
@@ -49,58 +82,100 @@ class AdminAccessDeniedScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.bg,
-      appBar: AppBar(
-        backgroundColor: AppColors.surface,
-        elevation: 0,
-        iconTheme: IconThemeData(color: AppColors.text),
-        title: Text(
-          title,
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: AppColors.text,
-          ),
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    return _AdminStateScaffold(
+      title: title,
+      child: CoolCard(
+        backgroundColor: colors.cardSurfaceStrong,
+        borderColor: colors.borderStrong,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 72,
+              height: 72,
+              decoration: BoxDecoration(
+                color: colors.danger.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(CoolRadii.lg),
+                border: Border.all(
+                  color: colors.danger.withValues(alpha: 0.24),
+                ),
+              ),
+              alignment: Alignment.center,
+              child: Icon(
+                Icons.lock_outline_rounded,
+                size: 34,
+                color: colors.danger,
+              ),
+            ),
+            const SizedBox(height: CoolSpace.x6),
+            Text(
+              'Access denied',
+              textAlign: TextAlign.center,
+              style: theme.textTheme.headlineSmall?.copyWith(
+                color: colors.primaryText,
+              ),
+            ),
+            const SizedBox(height: CoolSpace.x3),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colors.secondaryText,
+              ),
+            ),
+            const SizedBox(height: CoolSpace.x6),
+            CoolButton(
+              label: context.l10n.backToAdmin,
+              variant: CoolButtonVariant.secondary,
+              onTap: () => context.go(fallbackLocation),
+            ),
+          ],
         ),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                Icons.lock_outline_rounded,
-                size: 42,
-                color: AppColors.text3,
+    );
+  }
+}
+
+class _AdminStateScaffold extends StatelessWidget {
+  const _AdminStateScaffold({required this.title, required this.child});
+
+  final String title;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    return CoolScreenBackground(
+      showGlow: false,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
+          elevation: 0,
+          scrolledUnderElevation: 0,
+          iconTheme: IconThemeData(color: colors.primaryText),
+          title: Text(
+            title,
+            style: theme.textTheme.titleLarge?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+        ),
+        body: SafeArea(
+          top: false,
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 720),
+              child: SingleChildScrollView(
+                padding: CoolSpace.pagePadding,
+                child: child,
               ),
-              const SizedBox(height: 12),
-              Text(
-                'Access denied',
-                style: GoogleFonts.dmSans(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.text,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                message,
-                textAlign: TextAlign.center,
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.text2,
-                  height: 1.45,
-                ),
-              ),
-              const SizedBox(height: 18),
-              ElevatedButton(
-                onPressed: () => context.go(fallbackLocation),
-                child: Text(context.l10n.backToAdmin),
-              ),
-            ],
+            ),
           ),
         ),
       ),
@@ -121,7 +196,7 @@ class PlatformAdminGate extends ConsumerWidget {
     }
     return AdminAccessDeniedScaffold(
       title: context.l10n.platformAdmin,
-      message: 'This workspace is reserved',
+      message: 'This workspace is reserved for platform administrators.',
     );
   }
 }
@@ -144,14 +219,17 @@ class PartnerAdminGate extends ConsumerWidget {
     }
     return AdminAccessDeniedScaffold(
       title: context.l10n.partnerAdmin,
-      message:
-          'You do not have',
+      message: 'You do not have access to this partner workspace.',
     );
   }
 }
 
 class BankAdminGate extends ConsumerWidget {
-  const BankAdminGate({required this.partnerId, required this.child, super.key});
+  const BankAdminGate({
+    required this.partnerId,
+    required this.child,
+    super.key,
+  });
 
   final String partnerId;
   final Widget child;
@@ -164,8 +242,7 @@ class BankAdminGate extends ConsumerWidget {
     }
     return const AdminAccessDeniedScaffold(
       title: 'Bank Admin',
-      message:
-          'You do not have',
+      message: 'You do not have access to this banking workspace.',
     );
   }
 }
@@ -186,13 +263,14 @@ class RayonAdminGate extends ConsumerWidget {
         return const AdminAccessDeniedScaffold(
           title: 'Rayon Sports Admin',
           message:
-              'You do not have',
+              'You do not have access to the Rayon Sports admin workspace.',
         );
       },
       loading: () => const AdminLoadingScaffold(title: 'Rayon Sports Admin'),
       error: (_, _) => const AdminAccessDeniedScaffold(
         title: 'Rayon Sports Admin',
-        message: 'The Rayon Sports admin',
+        message:
+            'The Rayon Sports admin workspace could not be loaded. Please try again.',
       ),
     );
   }

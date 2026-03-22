@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_palette.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
 import '../../models/bank_admin_models.dart';
@@ -63,6 +64,7 @@ class BankAllocationsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final moneyFormat = NumberFormat.decimalPattern('en_US');
     final dateFormat = DateFormat('dd MMM yyyy, HH:mm');
 
@@ -95,19 +97,19 @@ class BankAllocationsTab extends StatelessWidget {
                     ),
                     selected: selected,
                     onSelected: (_) => onStatusFilterChanged(value),
-                    backgroundColor: AppColors.surface,
+                    backgroundColor: palette.surface,
                     selectedColor:
-                        AppColors.accent.withValues(alpha: 0.12),
+                        palette.accent.withValues(alpha: 0.12),
                     labelStyle: GoogleFonts.dmSans(
                       fontSize: 12,
                       fontWeight:
                           selected ? FontWeight.w700 : FontWeight.w500,
                       color:
-                          selected ? AppColors.accent : AppColors.text2,
+                          selected ? palette.accent : palette.text2,
                     ),
                     side: BorderSide(
                       color:
-                          selected ? AppColors.accent : AppColors.border,
+                          selected ? palette.accent : palette.border,
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
@@ -139,11 +141,11 @@ class BankAllocationsTab extends StatelessWidget {
                             _statusColor(item.matchStatus);
 
                         return CoolCard(
-                          backgroundColor: AppColors.surface,
+                          backgroundColor: palette.surface,
                           borderColor: item.isSuggested
                               ? const Color(0xFF6366F1)
                                   .withValues(alpha: 0.3)
-                              : AppColors.border,
+                              : palette.border,
                           child: Column(
                             crossAxisAlignment:
                                 CrossAxisAlignment.start,
@@ -156,7 +158,7 @@ class BankAllocationsTab extends StatelessWidget {
                                       style: GoogleFonts.dmSans(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w700,
-                                        color: AppColors.text,
+                                        color: palette.text,
                                       ),
                                     ),
                                   ),
@@ -176,7 +178,7 @@ class BankAllocationsTab extends StatelessWidget {
                                 style: GoogleFonts.dmSans(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
-                                  color: AppColors.text2,
+                                  color: palette.text2,
                                 ),
                               ),
                               const SizedBox(height: 8),
@@ -185,7 +187,7 @@ class BankAllocationsTab extends StatelessWidget {
                                 style: GoogleFonts.dmSans(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w700,
-                                  color: AppColors.text,
+                                  color: palette.text,
                                 ),
                               ),
                               const SizedBox(height: 6),
@@ -194,7 +196,7 @@ class BankAllocationsTab extends StatelessWidget {
                                 style: GoogleFonts.dmSans(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
-                                  color: AppColors.text2,
+                                  color: palette.text2,
                                 ),
                               ),
                               if ((item.reference
@@ -206,7 +208,7 @@ class BankAllocationsTab extends StatelessWidget {
                                   style: GoogleFonts.dmSans(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
-                                    color: AppColors.text2,
+                                    color: palette.text2,
                                   ),
                                 ),
                               if ((item.payeeDigits
@@ -218,7 +220,7 @@ class BankAllocationsTab extends StatelessWidget {
                                   style: GoogleFonts.dmSans(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
-                                    color: AppColors.text2,
+                                    color: palette.text2,
                                   ),
                                 ),
                               if (item.isSuggested) ...[
@@ -267,7 +269,7 @@ class BankAllocationsTab extends StatelessWidget {
                                     item.aiReasoning!,
                                     style: GoogleFonts.dmSans(
                                       fontSize: 11,
-                                      color: AppColors.text3,
+                                      color: palette.text3,
                                     ),
                                     maxLines: 2,
                                     overflow:
@@ -367,7 +369,7 @@ class BankAllocationsTab extends StatelessWidget {
                                 style: GoogleFonts.dmSans(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w500,
-                                  color: AppColors.text3,
+                                  color: palette.text3,
                                 ),
                               ),
                               if (index == 0 &&
@@ -379,7 +381,7 @@ class BankAllocationsTab extends StatelessWidget {
                                   style: GoogleFonts.dmSans(
                                     fontSize: 11,
                                     fontWeight: FontWeight.w600,
-                                    color: AppColors.text3,
+                                    color: palette.text3,
                                   ),
                                 ),
                               ],

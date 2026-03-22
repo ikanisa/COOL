@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../../core/providers/supabase_client_provider.dart';
 
 import '../../auth/providers/auth_provider.dart';
 import '../../partners/models/partner.dart';
@@ -12,7 +13,7 @@ import '../repositories/admin_role_repository.dart';
 // ═══════════════════════════════════════════════════════════════
 
 final adminRoleRepositoryProvider = Provider<AdminRoleRepository>((ref) {
-  return AdminRoleRepository(client: Supabase.instance.client);
+  return AdminRoleRepository(client: ref.read(supabaseClientProvider));
 });
 
 /// Async RPC-based admin access — single source of truth.

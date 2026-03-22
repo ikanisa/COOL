@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/theme/app_colors.dart';
 
+import '../../../../core/theme/cool_palette.dart';
 /// Shared helper widgets and functions for the Bank Admin screens.
 
 // ── Formatting helpers ──────────────────────────────────────────
@@ -35,10 +35,11 @@ class BankInfoPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.surface2,
+        color: palette.surface2,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(
@@ -46,7 +47,7 @@ class BankInfoPill extends StatelessWidget {
         style: GoogleFonts.dmSans(
           fontSize: 11,
           fontWeight: FontWeight.w600,
-          color: AppColors.text2,
+          color: palette.text2,
         ),
       ),
     );

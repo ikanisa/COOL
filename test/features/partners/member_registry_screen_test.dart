@@ -6,7 +6,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:cool_app/features/partners/providers/rayon_sports_provider.dart';
 import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
 import 'package:cool_app/features/partners/repositories/rayon_sports_repository.dart';
-import 'package:cool_app/features/partners/screens/rayon/member_registry_screen.dart';
+import 'package:cool_app/features/partners/rayon/screens/member_registry_screen.dart';
 
 class MockRayonSportsRepository extends Mock implements RayonSportsRepository {}
 
@@ -60,6 +60,7 @@ void main() {
       await tester.pump();
 
       expect(find.text('Alex Fan'), findsWidgets);
+      expect(find.text('Supporter Registry Command'), findsOneWidget);
       verify(
         () => repository.getMembers(
           'partner-1',

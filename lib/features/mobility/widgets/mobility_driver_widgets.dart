@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_card.dart';
 
 /// Resolves an Image asset path for a given vehicle type string.
@@ -35,6 +35,7 @@ class MobilityDriverToggleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final stateLabel = isOnline ? 'Online now' : 'Offline';
     final stateMessage = isOnline
         ? 'Visible to nearby riders.'
@@ -50,7 +51,7 @@ class MobilityDriverToggleCard extends StatelessWidget {
                 width: 42,
                 height: 42,
                 decoration: BoxDecoration(
-                  color: AppColors.surface2,
+                  color: palette.surface2,
                   borderRadius: BorderRadius.circular(14),
                 ),
                 alignment: Alignment.center,
@@ -71,7 +72,7 @@ class MobilityDriverToggleCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     const SizedBox(height: 2),
@@ -80,7 +81,7 @@ class MobilityDriverToggleCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
-                        color: AppColors.text2,
+                        color: palette.text2,
                       ),
                     ),
                   ],
@@ -94,10 +95,10 @@ class MobilityDriverToggleCard extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
-              color: isOnline ? AppColors.accentGlow : AppColors.surface2,
+              color: isOnline ? palette.accentGlow : palette.surface2,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: isOnline ? AppColors.accent : AppColors.border,
+                color: isOnline ? palette.accent : palette.border,
               ),
             ),
             child: Row(
@@ -105,7 +106,7 @@ class MobilityDriverToggleCard extends StatelessWidget {
                 Icon(
                   isOnline ? Icons.radio_button_checked : Icons.circle_outlined,
                   size: 14,
-                  color: isOnline ? AppColors.accent : AppColors.text2,
+                  color: isOnline ? palette.accent : palette.text2,
                 ),
                 const SizedBox(width: 8),
                 Expanded(
@@ -114,7 +115,7 @@ class MobilityDriverToggleCard extends StatelessWidget {
                     style: GoogleFonts.dmSans(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: isOnline ? AppColors.accent : AppColors.text2,
+                      color: isOnline ? palette.accent : palette.text2,
                     ),
                   ),
                 ),
@@ -140,6 +141,7 @@ class MobilityDriverModeToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Semantics(
       button: true,
       toggled: value,
@@ -152,7 +154,7 @@ class MobilityDriverModeToggle extends StatelessWidget {
           height: 28,
           padding: const EdgeInsets.all(3),
           decoration: BoxDecoration(
-            color: value ? AppColors.accent : AppColors.surface3,
+            color: value ? palette.accent : palette.surface3,
             borderRadius: BorderRadius.circular(14),
           ),
           alignment: value ? Alignment.centerRight : Alignment.centerLeft,
@@ -178,6 +180,7 @@ class MobilityOnlineStatusBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
       child: Container(
@@ -185,10 +188,10 @@ class MobilityOnlineStatusBanner extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
-          color: isOnline ? AppColors.accentGlow : AppColors.surface2,
+          color: isOnline ? palette.accentGlow : palette.surface2,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isOnline ? AppColors.accent : AppColors.border,
+            color: isOnline ? palette.accent : palette.border,
           ),
         ),
         child: Text(
@@ -196,7 +199,7 @@ class MobilityOnlineStatusBanner extends StatelessWidget {
           style: GoogleFonts.dmSans(
             fontSize: 13,
             fontWeight: FontWeight.w500,
-            color: isOnline ? AppColors.accent : AppColors.text2,
+            color: isOnline ? palette.accent : palette.text2,
           ),
         ),
       ),

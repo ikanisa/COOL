@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../core/utils/icon_mapper.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
@@ -20,6 +20,7 @@ class PrismaHeroCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final description =
         partner.description ??
         'AI professional services';
@@ -42,7 +43,7 @@ class PrismaHeroCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 24,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.text,
+                        color: palette.text,
                         letterSpacing: -0.5,
                       ),
                     ),
@@ -53,7 +54,7 @@ class PrismaHeroCard extends StatelessWidget {
                         style: GoogleFonts.dmSans(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.text2,
+                          color: palette.text2,
                         ),
                       ),
                     ],
@@ -65,9 +66,9 @@ class PrismaHeroCard extends StatelessWidget {
                 width: 52,
                 height: 52,
                 decoration: BoxDecoration(
-                  color: AppColors.surface3,
+                  color: palette.surface3,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppColors.border),
+                  border: Border.all(color: palette.border),
                 ),
                 alignment: Alignment.center,
                 child: Text(
@@ -83,7 +84,7 @@ class PrismaHeroCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 14,
               fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              color: palette.text2,
               height: 1.5,
             ),
           ),
@@ -160,6 +161,7 @@ class PrismaStatsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final stats = partner.metadata['stats'] as List<dynamic>?;
     if (stats == null || stats.isEmpty) {
       return const SizedBox.shrink();
@@ -174,7 +176,7 @@ class PrismaStatsCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 16,
               fontWeight: FontWeight.w800,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
           const SizedBox(height: 12),
@@ -207,6 +209,7 @@ class PrismaValuesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final values = partner.metadata['values'] as List<dynamic>?;
     if (values == null || values.isEmpty) {
       return const SizedBox.shrink();
@@ -221,7 +224,7 @@ class PrismaValuesCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 16,
               fontWeight: FontWeight.w800,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
           const SizedBox(height: 14),
@@ -251,6 +254,7 @@ class PrismaSupportCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final supportLines = partner.metadata['support_lines'] as List<dynamic>?;
     if (supportLines == null || supportLines.isEmpty) {
       return const SizedBox.shrink();
@@ -265,7 +269,7 @@ class PrismaSupportCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 18,
               fontWeight: FontWeight.w800,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
           const SizedBox(height: 14),
@@ -316,6 +320,7 @@ class PrismaValueRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -323,12 +328,12 @@ class PrismaValueRow extends StatelessWidget {
           width: 36,
           height: 36,
           decoration: BoxDecoration(
-            color: AppColors.surface3,
+            color: palette.surface3,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: palette.border),
           ),
           alignment: Alignment.center,
-          child: Icon(icon, size: 18, color: AppColors.accent),
+          child: Icon(icon, size: 18, color: palette.accent),
         ),
         const SizedBox(width: 12),
         Expanded(
@@ -340,7 +345,7 @@ class PrismaValueRow extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 14,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
               const SizedBox(height: 3),
@@ -349,7 +354,7 @@ class PrismaValueRow extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.text2,
+                  color: palette.text2,
                   height: 1.45,
                 ),
               ),
@@ -369,13 +374,14 @@ class PrismaStatTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Expanded(
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
         decoration: BoxDecoration(
-          color: AppColors.surface2,
+          color: palette.surface2,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: palette.border),
         ),
         child: Column(
           children: [
@@ -384,7 +390,7 @@ class PrismaStatTile extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 18,
                 fontWeight: FontWeight.w800,
-                color: AppColors.accent,
+                color: palette.accent,
               ),
             ),
             const SizedBox(height: 4),
@@ -394,7 +400,7 @@ class PrismaStatTile extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 11,
                 fontWeight: FontWeight.w600,
-                color: AppColors.text2,
+                color: palette.text2,
                 height: 1.2,
               ),
             ),

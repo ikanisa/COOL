@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/l10n/l10n.dart';
+
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../models/partner.dart';
@@ -21,6 +24,7 @@ class PrismaPartnerScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
     final partnerAsync = ref.watch(partnerBySlugProvider(_slug));
 
     return CoolScreenBackground(
@@ -34,19 +38,19 @@ class PrismaPartnerScreen extends ConsumerWidget {
             context,
             fallbackLocation: AppRoutes.partners,
             icon: Icons.arrow_back_ios_new_rounded,
-            color: AppColors.text,
+            color: palette.text,
           ),
           actions: buildPartnerAppBarActions(
             context,
-            homeColor: AppColors.text,
+            homeColor: palette.text,
           ),
           title: partnerAsync.when(
             data: (partner) => Text(
-              partner?.name ?? 'PRISMA',
+              partner?.name ?? context.l10n.prismaLabel,
               style: GoogleFonts.dmSans(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
-                color: AppColors.text,
+                color: palette.text,
               ),
             ),
             loading: () => const SizedBox.shrink(),
@@ -62,7 +66,7 @@ class PrismaPartnerScreen extends ConsumerWidget {
           error: (error, _) => PartnerErrorBody(message: error.toString()),
           data: (partner) {
             if (partner == null) {
-              return const PartnerErrorBody(message: 'Partner not found');
+              return PartnerErrorBody(message: context.l10n.partnerNotFound);
             }
             return _PrismaBody(partner: partner);
           },

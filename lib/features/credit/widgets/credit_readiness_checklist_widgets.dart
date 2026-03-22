@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
@@ -42,6 +42,7 @@ class ReadinessNextMoveCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final needsProfileWork =
         report.accountOpening.state == CreditReadinessState.actionNeeded ||
         report.loanApplication.state == CreditReadinessState.actionNeeded;
@@ -63,7 +64,7 @@ class ReadinessNextMoveCard extends StatelessWidget {
         : 'Let evidence mature';
 
     return CoolCard(
-      borderColor: AppColors.purple.withValues(alpha: 0.25),
+      borderColor: palette.purple.withValues(alpha: 0.25),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -72,7 +73,7 @@ class ReadinessNextMoveCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: AppColors.text2,
+              color: palette.text2,
             ),
           ),
           const SizedBox(height: 6),
@@ -81,7 +82,7 @@ class ReadinessNextMoveCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 20,
               fontWeight: FontWeight.w700,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
           const SizedBox(height: 8),
@@ -90,7 +91,7 @@ class ReadinessNextMoveCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              color: palette.text2,
               height: 1.45,
             ),
           ),
@@ -143,6 +144,7 @@ class ReadinessChecklistCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final visibleChecks = report.checks
         .where((check) => !check.isComplete)
         .take(3)
@@ -161,7 +163,7 @@ class ReadinessChecklistCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
           const SizedBox(height: 6),
@@ -170,7 +172,7 @@ class ReadinessChecklistCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: AppColors.text2,
+              color: palette.text2,
             ),
           ),
           const SizedBox(height: 10),
@@ -181,7 +183,7 @@ class ReadinessChecklistCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 12,
               fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              color: palette.text2,
               height: 1.45,
             ),
           ),
@@ -198,7 +200,7 @@ class ReadinessChecklistCard extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: AppColors.text3,
+                color: palette.text3,
               ),
             ),
         ],
@@ -214,9 +216,10 @@ class _ChecklistRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final color = check.isComplete
-        ? AppColors.accent
-        : (check.isBlocking ? AppColors.orange : AppColors.text3);
+        ? palette.accent
+        : (check.isBlocking ? palette.orange : palette.text3);
     final icon = check.isComplete
         ? Icons.check_circle_rounded
         : (check.isBlocking
@@ -227,12 +230,12 @@ class _ChecklistRow extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: AppColors.surface2,
+        color: palette.surface2,
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
           color: check.isComplete
-              ? AppColors.accent.withValues(alpha: 0.18)
-              : AppColors.border2,
+              ? palette.accent.withValues(alpha: 0.18)
+              : palette.border2,
         ),
       ),
       child: Row(
@@ -255,7 +258,7 @@ class _ChecklistRow extends StatelessWidget {
                         style: GoogleFonts.dmSans(
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.text,
+                          color: palette.text,
                         ),
                       ),
                     ),
@@ -266,7 +269,7 @@ class _ChecklistRow extends StatelessWidget {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.orange.withValues(alpha: 0.12),
+                          color: palette.orange.withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(999),
                         ),
                         child: Text(
@@ -274,7 +277,7 @@ class _ChecklistRow extends StatelessWidget {
                           style: GoogleFonts.dmSans(
                             fontSize: 10,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.orange,
+                            color: palette.orange,
                           ),
                         ),
                       ),
@@ -286,7 +289,7 @@ class _ChecklistRow extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
+                    color: palette.text2,
                     height: 1.45,
                   ),
                 ),
@@ -308,12 +311,13 @@ class HistoryStatChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.surface2,
+        color: palette.surface2,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border2),
+        border: Border.all(color: palette.border2),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -323,7 +327,7 @@ class HistoryStatChip extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 10,
               fontWeight: FontWeight.w600,
-              color: AppColors.text3,
+              color: palette.text3,
             ),
           ),
           const SizedBox(height: 2),
@@ -332,7 +336,7 @@ class HistoryStatChip extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 12,
               fontWeight: FontWeight.w700,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
         ],

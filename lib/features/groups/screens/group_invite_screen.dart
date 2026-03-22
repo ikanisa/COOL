@@ -8,6 +8,7 @@ import '../../../core/providers/engagement_providers.dart';
 import '../../../core/providers/referral_providers.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_error_view.dart';
@@ -18,6 +19,7 @@ import '../../auth/providers/auth_provider.dart';
 import '../models/group_detail.dart';
 import '../providers/groups_provider.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 
 class GroupInviteScreen extends ConsumerStatefulWidget {
   const GroupInviteScreen({
@@ -146,13 +148,20 @@ class _GroupInviteScreenState extends ConsumerState<GroupInviteScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final detail = ref.watch(groupInvitePreviewProvider);
     final isPreviewLoading = ref.watch(groupInvitePreviewLoadingProvider);
     final previewError = ref.watch(groupInvitePreviewErrorProvider);
     final isJoining = ref.watch(groupJoinLoadingProvider);
 
-    return Scaffold(
-      backgroundColor: AppColors.bg,
+    return CoolScreenBackground(
+
+
+      showGlow: true,
+
+
+      child: Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         leading: IconButton(
           tooltip: context.l10n.back,
@@ -164,7 +173,7 @@ class _GroupInviteScreenState extends ConsumerState<GroupInviteScreen> {
           style: GoogleFonts.dmSans(
             fontSize: 18,
             fontWeight: FontWeight.w600,
-            color: AppColors.text,
+            color: palette.text,
           ),
         ),
       ),
@@ -200,7 +209,7 @@ class _GroupInviteScreenState extends ConsumerState<GroupInviteScreen> {
                           style: GoogleFonts.dmMono(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.accent,
+                            color: palette.accent,
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -211,16 +220,16 @@ class _GroupInviteScreenState extends ConsumerState<GroupInviteScreen> {
                             width: double.infinity,
                             padding: const EdgeInsets.all(14),
                             decoration: BoxDecoration(
-                              color: AppColors.accentGlow,
+                              color: palette.accentGlow,
                               borderRadius: BorderRadius.circular(16),
-                              border: Border.all(color: AppColors.accent),
+                              border: Border.all(color: palette.accent),
                             ),
                             child: Text(
                               'You\'ll join this group',
                               style: GoogleFonts.dmSans(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
-                                color: AppColors.text,
+                                color: palette.text,
                                 height: 1.45,
                               ),
                             ),
@@ -230,16 +239,16 @@ class _GroupInviteScreenState extends ConsumerState<GroupInviteScreen> {
                             width: double.infinity,
                             padding: const EdgeInsets.all(14),
                             decoration: BoxDecoration(
-                              color: AppColors.surface2,
+                              color: palette.surface2,
                               borderRadius: BorderRadius.circular(16),
-                              border: Border.all(color: AppColors.border),
+                              border: Border.all(color: palette.border),
                             ),
                             child: Text(
                               'You\'re already a member.',
                               style: GoogleFonts.dmSans(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
-                                color: AppColors.text2,
+                                color: palette.text2,
                               ),
                             ),
                           ),
@@ -255,6 +264,9 @@ class _GroupInviteScreenState extends ConsumerState<GroupInviteScreen> {
                 ),
               ],
             ),
+    ),
+
+
     );
   }
 }
@@ -266,6 +278,7 @@ class _InviteHeroCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final group = detail.group;
     final amountLabel = _formatAmount(group.amount);
     final targetLabel = _formatAmount(group.targetAmount);
@@ -303,7 +316,7 @@ class _InviteHeroCard extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
-                color: AppColors.text,
+                color: palette.text,
               ),
             ),
             const SizedBox(height: 8),
@@ -312,7 +325,7 @@ class _InviteHeroCard extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: AppColors.text2,
+                color: palette.text2,
               ),
             ),
             const SizedBox(height: 16),
@@ -322,8 +335,8 @@ class _InviteHeroCard extends StatelessWidget {
                 fontSize: 28,
                 fontWeight: FontWeight.w700,
                 color: group.type == 'saving'
-                    ? AppColors.accent
-                    : AppColors.orange,
+                    ? palette.accent
+                    : palette.orange,
               ),
             ),
             const SizedBox(height: 4),
@@ -332,7 +345,7 @@ class _InviteHeroCard extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
-                color: AppColors.text2,
+                color: palette.text2,
               ),
             ),
             if (group.description?.trim().isNotEmpty ?? false) ...[
@@ -342,7 +355,7 @@ class _InviteHeroCard extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
-                  color: AppColors.text2,
+                  color: palette.text2,
                   height: 1.45,
                 ),
               ),

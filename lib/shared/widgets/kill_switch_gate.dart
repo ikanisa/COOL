@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_palette.dart';
 import 'cool_button.dart';
 import '../../core/l10n/l10n.dart';
 
@@ -49,18 +49,19 @@ class KillSwitchGate extends StatelessWidget {
       return child;
     }
 
+    final palette = context.coolPalette;
     final displayMessage =
         message ??
         '${featureName ?? 'This feature'} is temporarily unavailable. '
             'Please try again later.';
 
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: palette.bg,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
+          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
           tooltip: MaterialLocalizations.of(context).backButtonTooltip,
           onPressed: onBackPressed ?? () => Navigator.of(context).pop(),
         ),
@@ -78,20 +79,20 @@ class KillSwitchGate extends StatelessWidget {
                   width: 80,
                   height: 80,
                   decoration: BoxDecoration(
-                    color: AppColors.surface,
+                    color: palette.surface,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Icon(
                     Icons.engineering_rounded,
                     size: 40,
-                    color: AppColors.text3,
+                    color: palette.text3,
                   ),
                 ),
                 const SizedBox(height: 24),
                 Text(
                   'Temporarily Unavailable',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: AppColors.text,
+                    color: palette.text,
                     fontWeight: FontWeight.w600,
                   ),
                   textAlign: TextAlign.center,
@@ -100,7 +101,7 @@ class KillSwitchGate extends StatelessWidget {
                 Text(
                   displayMessage,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.text3,
+                    color: palette.text3,
                     height: 1.5,
                   ),
                   textAlign: TextAlign.center,

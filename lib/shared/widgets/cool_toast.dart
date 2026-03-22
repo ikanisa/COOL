@@ -40,7 +40,7 @@ abstract final class CoolToast {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
     final palette = context.coolPalette;
-    final config = _config(variant);
+    final config = _config(variant, palette);
     final direction = Directionality.of(context);
 
     // Haptic feedback for success and error.
@@ -92,19 +92,19 @@ abstract final class CoolToast {
     );
   }
 
-  static _VariantConfig _config(_Variant variant) {
+  static _VariantConfig _config(_Variant variant, CoolPalette palette) {
     return switch (variant) {
       _Variant.success => _VariantConfig(
         icon: Icons.check_circle_outline_rounded,
-        color: CoolPalette.dark.accent,
+        color: palette.accent,
       ),
       _Variant.error => _VariantConfig(
         icon: Icons.error_outline_rounded,
-        color: CoolPalette.dark.red,
+        color: palette.red,
       ),
       _Variant.info => _VariantConfig(
         icon: Icons.info_outline_rounded,
-        color: CoolPalette.dark.blue,
+        color: palette.blue,
       ),
     };
   }

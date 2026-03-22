@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../../core/providers/supabase_client_provider.dart';
 
 import '../../../core/status/models/cool_activity.dart';
 import '../../../core/status/models/cool_mission.dart';
@@ -10,7 +11,7 @@ import '../repositories/admin_gamification_repository.dart';
 
 final adminGamificationRepositoryProvider =
     Provider<AdminGamificationRepository>((ref) {
-  return AdminGamificationRepository(client: Supabase.instance.client);
+  return AdminGamificationRepository(client: ref.read(supabaseClientProvider));
 });
 
 // ─── Missions ────────────────────────────────────────────────────

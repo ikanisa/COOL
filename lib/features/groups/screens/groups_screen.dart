@@ -7,11 +7,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/cool_layout.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_glass_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_state_view.dart';
@@ -253,7 +253,7 @@ class _GroupsHeroCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDiscover = activeView == _GroupsView.discover;
 
-    return CoolCard(
+    return CoolGlassCard(
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -529,10 +529,11 @@ class _MetaChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: AppColors.surface3,
+        color: palette.surface3,
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
@@ -540,7 +541,7 @@ class _MetaChip extends StatelessWidget {
         style: GoogleFonts.dmSans(
           fontSize: 11,
           fontWeight: FontWeight.w600,
-          color: AppColors.text2,
+          color: palette.text2,
         ),
       ),
     );

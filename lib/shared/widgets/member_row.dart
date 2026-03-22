@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/identity/public_user_identity.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_palette.dart';
 
 /// A single-row widget displaying a group member with their avatar,
 /// name / userId, admin badge (if applicable), and contribution amount.
@@ -36,6 +36,7 @@ class MemberRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final resolvedIdentity = PublicUserIdentity.resolve(
       publicUserId: displayName,
       userId: userId,
@@ -54,7 +55,7 @@ class MemberRow extends StatelessWidget {
         child: Row(
           children: [
             // ── Avatar ──────────────────────────────────────────────
-            _Avatar(initials: _initials, isAnonymous: isAnonymous),
+            _Avatar(initials: _initials, isAnonymous: isAnonymous, palette: palette),
             const SizedBox(width: 12),
 
             // ── Name + ID ───────────────────────────────────────────
@@ -74,12 +75,12 @@ class MemberRow extends StatelessWidget {
                               ? GoogleFonts.dmMono(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
-                                  color: AppColors.text2,
+                                  color: palette.text2,
                                 )
                               : GoogleFonts.dmSans(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
-                                  color: AppColors.text,
+                                  color: palette.text,
                                 ),
                         ),
                       ),
@@ -91,7 +92,7 @@ class MemberRow extends StatelessWidget {
                             vertical: 2,
                           ),
                           decoration: BoxDecoration(
-                            color: AppColors.accentGlow,
+                            color: palette.accentGlow,
                             borderRadius: BorderRadius.circular(30),
                           ),
                           child: Text(
@@ -99,7 +100,7 @@ class MemberRow extends StatelessWidget {
                             style: GoogleFonts.dmSans(
                               fontSize: 11,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.accent,
+                              color: palette.accent,
                             ),
                           ),
                         ),
@@ -116,7 +117,7 @@ class MemberRow extends StatelessWidget {
               style: GoogleFonts.dmMono(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
-                color: AppColors.accent,
+                color: palette.accent,
               ),
             ),
           ],
@@ -140,9 +141,10 @@ class MemberRow extends StatelessWidget {
 // ── Avatar ──────────────────────────────────────────────────────────────
 
 class _Avatar extends StatelessWidget {
-  const _Avatar({required this.initials, required this.isAnonymous});
+  const _Avatar({required this.initials, required this.isAnonymous, required this.palette});
   final String initials;
   final bool isAnonymous;
+  final CoolPalette palette;
 
   @override
   Widget build(BuildContext context) {
@@ -151,9 +153,9 @@ class _Avatar extends StatelessWidget {
       height: 40,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        gradient: isAnonymous ? AppColors.purpleGradient : null,
-        color: isAnonymous ? null : AppColors.accentGlow,
-        border: Border.all(color: AppColors.border2),
+        gradient: isAnonymous ? LinearGradient(colors: [palette.purple, palette.purple.withValues(alpha: 0.6)]) : null,
+        color: isAnonymous ? null : palette.accentGlow,
+        border: Border.all(color: palette.border2),
       ),
       alignment: Alignment.center,
       child: Text(
@@ -161,7 +163,7 @@ class _Avatar extends StatelessWidget {
         style: GoogleFonts.dmSans(
           fontSize: 13,
           fontWeight: FontWeight.w700,
-          color: isAnonymous ? AppColors.purple : AppColors.accent,
+          color: isAnonymous ? palette.purple : palette.accent,
         ),
       ),
     );

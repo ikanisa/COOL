@@ -4,18 +4,21 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../providers/admin_providers.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 
 class OperationalDashboardScreen extends ConsumerWidget {
   const OperationalDashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
     final dashboardAsync = ref.watch(adminOperationalReleaseDashboardProvider);
     final triageAsync = ref.watch(adminOperationalTriageIssuesProvider);
     final eventsAsync = ref.watch(adminRecentOperationalHealthEventsProvider);
@@ -26,15 +29,21 @@ class OperationalDashboardScreen extends ConsumerWidget {
       ref.invalidate(adminRecentOperationalHealthEventsProvider);
     }
 
-    return Scaffold(
-      backgroundColor: AppColors.bg,
+    return CoolScreenBackground(
+
+
+      showGlow: false,
+
+
+      child: Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           tooltip: context.l10n.back,
           icon: const Icon(Icons.arrow_back_rounded),
-          color: AppColors.text,
+          color: palette.text,
           onPressed: () => Navigator.of(context).pop(),
         ),
         actions: [
@@ -42,7 +51,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
             tooltip: context.l10n.refresh,
             onPressed: refresh,
             icon: const Icon(Icons.refresh_rounded),
-            color: AppColors.text,
+            color: palette.text,
           ),
         ],
       ),
@@ -57,7 +66,7 @@ class OperationalDashboardScreen extends ConsumerWidget {
                 fontSize: 34,
                 fontWeight: FontWeight.w800,
                 height: 1.1,
-                color: AppColors.text,
+                color: palette.text,
               ),
             ),
             const SizedBox(height: 24),
@@ -145,6 +154,9 @@ class OperationalDashboardScreen extends ConsumerWidget {
           ],
         ),
       ),
+    ),
+
+
     );
   }
 }
@@ -157,6 +169,7 @@ class _SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -165,7 +178,7 @@ class _SectionHeader extends StatelessWidget {
           style: GoogleFonts.dmSans(
             fontSize: 20,
             fontWeight: FontWeight.w700,
-            color: AppColors.text,
+            color: palette.text,
           ),
         ),
         const SizedBox(height: 4),
@@ -174,7 +187,7 @@ class _SectionHeader extends StatelessWidget {
           style: GoogleFonts.dmSans(
             fontSize: 13,
             fontWeight: FontWeight.w500,
-            color: AppColors.text2,
+            color: palette.text2,
             height: 1.4,
           ),
         ),
@@ -190,6 +203,7 @@ class _DashboardCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final status = _text(row['health_status']) ?? 'unknown';
     final issueCount = _count(row['issue_count']);
     final okCount = _count(row['ok_count_24h']);
@@ -209,7 +223,7 @@ class _DashboardCard extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
               ),
@@ -250,7 +264,7 @@ class _DashboardCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              color: palette.text2,
               height: 1.4,
             ),
           ),
@@ -260,7 +274,7 @@ class _DashboardCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 11,
               fontWeight: FontWeight.w500,
-              color: AppColors.text3,
+              color: palette.text3,
             ),
           ),
         ],
@@ -276,6 +290,7 @@ class _IssueCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final severity = _text(row['severity']) ?? 'warning';
     final reference = _text(row['reference']);
     final subjectTable = _text(row['subject_table']);
@@ -294,7 +309,7 @@ class _IssueCard extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
               ),
@@ -310,7 +325,7 @@ class _IssueCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              color: palette.text2,
               height: 1.45,
             ),
           ),
@@ -339,7 +354,7 @@ class _IssueCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 11,
               fontWeight: FontWeight.w500,
-              color: AppColors.text3,
+              color: palette.text3,
             ),
           ),
         ],
@@ -355,6 +370,7 @@ class _EventTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final status = _text(row['status']) ?? 'ok';
     final functionName = _text(row['function_name']);
 
@@ -373,7 +389,7 @@ class _EventTile extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
               ),
@@ -382,7 +398,7 @@ class _EventTile extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.text3,
+                  color: palette.text3,
                 ),
               ),
             ],
@@ -393,7 +409,7 @@ class _EventTile extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              color: palette.text2,
               height: 1.4,
             ),
           ),
@@ -425,10 +441,11 @@ class _MetricChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: AppColors.surface2,
+        color: palette.surface2,
         borderRadius: BorderRadius.circular(999),
       ),
       child: Text(
@@ -436,7 +453,7 @@ class _MetricChip extends StatelessWidget {
         style: GoogleFonts.dmSans(
           fontSize: 11,
           fontWeight: FontWeight.w600,
-          color: AppColors.text,
+          color: palette.text,
         ),
       ),
     );
@@ -451,6 +468,7 @@ class _FactLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Padding(
       padding: const EdgeInsets.only(bottom: 6),
       child: RichText(
@@ -458,7 +476,7 @@ class _FactLine extends StatelessWidget {
           style: GoogleFonts.dmSans(
             fontSize: 12,
             fontWeight: FontWeight.w500,
-            color: AppColors.text2,
+            color: palette.text2,
             height: 1.4,
           ),
           children: [

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_foundations.dart';
 import '../../core/theme/cool_palette.dart';
-
 
 /// A small pill badge used to indicate status, category, or role.
 ///
@@ -113,6 +111,8 @@ class StatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final defaults = _colorsForTone(palette);
     final bg = bgColor ?? defaults.$1;
     final fg = textColor ?? defaults.$2;
@@ -120,10 +120,11 @@ class StatusBadge extends StatelessWidget {
     return Semantics(
       label: 'Status: $label',
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
         decoration: BoxDecoration(
           color: bg,
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(CoolRadii.pill),
+          border: Border.all(color: colors.border.withValues(alpha: 0.65)),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -134,15 +135,15 @@ class StatusBadge extends StatelessWidget {
             ],
             if (emoji != null) ...[
               ExcludeSemantics(
-                child: Text(emoji!, style: const TextStyle(fontSize: 12)),
+                child: Text(emoji!, style: const TextStyle(fontSize: 14)),
               ),
               const SizedBox(width: 4),
             ],
             Text(
               label,
-              style: GoogleFonts.dmSans(
-                fontSize: 11,
-                fontWeight: FontWeight.w600,
+              style: theme.textTheme.labelSmall?.copyWith(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
                 color: fg,
                 height: 1.3,
               ),
@@ -156,7 +157,7 @@ class StatusBadge extends StatelessWidget {
   (Color, Color) _colorsForTone(CoolPalette palette) {
     return switch (_tone) {
       _StatusBadgeTone.community => (
-        AppColors.orange.withValues(alpha: 0.15),
+        palette.orange.withValues(alpha: 0.15),
         palette.orange,
       ),
       _StatusBadgeTone.public => (palette.blueGlow, palette.blue),
@@ -209,8 +210,8 @@ class _PulseDotState extends State<_PulseDot>
     return FadeTransition(
       opacity: _animation,
       child: Container(
-        width: 6,
-        height: 6,
+        width: 8,
+        height: 8,
         decoration: BoxDecoration(color: widget.color, shape: BoxShape.circle),
       ),
     );

@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'package:cool_app/core/router/app_router.dart';
+
+
 import 'package:cool_app/core/services/location_service.dart';
 import 'package:cool_app/core/services/hive_runtime.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart';
@@ -25,10 +25,10 @@ import 'package:cool_app/features/mobility/screens/mobility_home_screen.dart';
 import 'package:cool_app/features/momo/screens/momo_screen.dart';
 import 'package:cool_app/features/partners/providers/rayon_sports_provider.dart';
 import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
-import 'package:cool_app/features/partners/rayon/rs_membership_package.dart';
+
 import 'package:cool_app/features/partners/repositories/rayon_sports_repository.dart';
-import 'package:cool_app/features/partners/screens/rayon/tickets_screen.dart';
-import 'package:cool_app/shared/widgets/cool_button.dart';
+import 'package:cool_app/features/partners/rayon/screens/tickets_screen.dart';
+
 
 import '../test/integration_smoke/test_harness.dart';
 

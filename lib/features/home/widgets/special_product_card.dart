@@ -1,36 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/config/country_catalog.dart' show MomoRecipientType;
 import '../../../core/services/momo_service.dart';
 import '../../../shared/widgets/cool_toast.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../../admin/models/special_product.dart';
+import '../../momo/providers/momo_service_provider.dart';
 
 /// Customer-facing card for a special product with USSD auto-launch CTA.
-class SpecialProductCard extends StatefulWidget {
+class SpecialProductCard extends ConsumerStatefulWidget {
   const SpecialProductCard({super.key, required this.product});
 
   final SpecialProduct product;
 
   @override
-  State<SpecialProductCard> createState() => _SpecialProductCardState();
+  ConsumerState<SpecialProductCard> createState() => _SpecialProductCardState();
 }
 
-class _SpecialProductCardState extends State<SpecialProductCard> {
+class _SpecialProductCardState extends ConsumerState<SpecialProductCard> {
   bool _launching = false;
 
   Future<void> _launchUssd() async {
     setState(() => _launching = true);
     try {
-      final momo = MomoService(client: Supabase.instance.client);
+      final momo = ref.read(momoServiceProvider);
       final recipientType = widget.product.momoRecipientType == 'code'
           ? MomoRecipientType.code
           : MomoRecipientType.phoneNumber;
       await momo.initiatePayment(
         recipientMomo: widget.product.momoRecipient,
         amount: widget.product.amount,
-        reference: 'SP-${widget.product.slug}-${DateTime.now().millisecondsSinceEpoch}',
+        reference:
+            'SP-${widget.product.slug}-${DateTime.now().millisecondsSinceEpoch}',
         recipientType: recipientType,
       );
       if (mounted) {
@@ -55,19 +58,18 @@ class _SpecialProductCardState extends State<SpecialProductCard> {
     final accent = p.accentColor;
     final accentLight = p.accentColorLight;
 
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color.lerp(accent, Colors.black, 0.75)!,
-            Color.lerp(accent, Colors.black, 0.65)!,
-          ],
-        ),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: accent.withValues(alpha: 0.3)),
+    return CoolCard(
+      useGradient: true,
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Color.lerp(accent, Colors.black, 0.75)!,
+          Color.lerp(accent, Colors.black, 0.65)!,
+        ],
       ),
+      borderRadius: 20,
+      borderColor: accent.withValues(alpha: 0.3),
       padding: const EdgeInsets.all(18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,9 +105,7 @@ class _SpecialProductCardState extends State<SpecialProductCard> {
                 decoration: BoxDecoration(
                   color: accent.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(999),
-                  border: Border.all(
-                    color: accent.withValues(alpha: 0.4),
-                  ),
+                  border: Border.all(color: accent.withValues(alpha: 0.4)),
                 ),
                 child: Text(
                   p.targetAudience,
@@ -149,16 +149,11 @@ class _SpecialProductCardState extends State<SpecialProductCard> {
           GestureDetector(
             onTap: _launching ? null : _launchUssd,
             child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 14,
-                vertical: 10,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
               decoration: BoxDecoration(
                 color: accentLight.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(999),
-                border: Border.all(
-                  color: accentLight.withValues(alpha: 0.3),
-                ),
+                border: Border.all(color: accentLight.withValues(alpha: 0.3)),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,

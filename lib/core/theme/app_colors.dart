@@ -15,26 +15,26 @@ abstract final class AppColors {
   }
 
   // Dark semantic colors.
-  static const darkBg = Color(0xFF0A0A0F);
-  static const darkSurface = Color(0xFF13131A);
-  static const darkSurface2 = Color(0xFF1C1C26);
-  static const darkSurface3 = Color(0xFF252532);
-  static const darkBorder = Color(0x12FFFFFF);
-  static const darkBorder2 = Color(0x1FFFFFFF);
-  static const darkText = Color(0xFFF0F0F5);
-  static const darkText2 = Color(0xFF8888A0);
-  static const darkText3 = Color(0xFF555568);
+  static const darkBg = Color(0xFF080C09);
+  static const darkSurface = Color(0xFF0D110E);
+  static const darkSurface2 = Color(0xFF161D18);
+  static const darkSurface3 = Color(0xFF1F2721);
+  static const darkBorder = Color(0x1FFFFFFF);
+  static const darkBorder2 = Color(0x2EFFFFFF);
+  static const darkText = Color(0xFFF5F3EE);
+  static const darkText2 = Color(0xFFB4BCB2);
+  static const darkText3 = Color(0xFF7A857C);
 
   // Light semantic colors.
-  static const lightBg = Color(0xFFF7F8FC);
-  static const lightSurface = Color(0xFFFFFFFF);
-  static const lightSurface2 = Color(0xFFF0F2F7);
-  static const lightSurface3 = Color(0xFFE4E7EF);
-  static const lightBorder = Color(0x140A0A0F);
-  static const lightBorder2 = Color(0x220A0A0F);
-  static const lightText = Color(0xFF10131C);
-  static const lightText2 = Color(0xFF5C6679);
-  static const lightText3 = Color(0xFF8B93A4);
+  static const lightBg = Color(0xFFF2F0EB);
+  static const lightSurface = Color(0xFFFCFAF7);
+  static const lightSurface2 = Color(0xFFF5F1EA);
+  static const lightSurface3 = Color(0xFFE7E0D7);
+  static const lightBorder = Color(0x1A0A0C0B);
+  static const lightBorder2 = Color(0x260A0C0B);
+  static const lightText = Color(0xFF0A0C0B);
+  static const lightText2 = Color(0xFF4F584F);
+  static const lightText3 = Color(0xFF7B837A);
 
   // Backgrounds and surfaces.
   static Color get bg => _useLightPalette ? lightBg : darkBg;
@@ -52,20 +52,20 @@ abstract final class AppColors {
   static Color get text3 => _useLightPalette ? lightText3 : darkText3;
 
   // Accent and brand colors.
-  static const accent = Color(0xFF00E5A0);
-  static const accent2 = Color(0xFF00B87A);
-  static const accentGlow = Color(0x1400E5A0);
+  static const accent = Color(0xFF2C6A49);
+  static const accent2 = Color(0xFF103322);
+  static const accentGlow = Color(0x162C6A49);
 
   // Semantic colors.
-  static const blue = Color(0xFF4D8EFF);
-  static const blueGlow = Color(0x144D8EFF);
-  static const orange = Color(0xFFFF6B35);
-  static const purple = Color(0xFF9B6DFF);
-  static const yellow = Color(0xFFFFD166);
-  static const red = Color(0xFFFF4D6A);
+  static const blue = Color(0xFF56728E);
+  static const blueGlow = Color(0x1456728E);
+  static const orange = Color(0xFFB57A30);
+  static const purple = Color(0xFF7D6A8E);
+  static const yellow = Color(0xFFD6AE65);
+  static const red = Color(0xFFB85A65);
 
   // Brand partners.
-  static const whatsapp = Color(0xFF25D166);
+  static const whatsapp = Color(0xFF2E8A57);
 
   // Rayon Sports FC.
   static const rsBlue = Color(0xFF0047AB);
@@ -82,7 +82,7 @@ abstract final class AppColors {
   static const accentGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [accent, blue],
+    colors: [accent, accent2],
     transform: GradientRotation(135 * math.pi / 180),
   );
 
@@ -90,8 +90,8 @@ abstract final class AppColors {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: _useLightPalette
-        ? const [Color(0xFFFFFFFF), Color(0xFFF0F3FA)]
-        : const [Color(0xFF151520), Color(0xFF1A1A28)],
+        ? const [Color(0xFFFEFCF8), Color(0xFFF5EFE6)]
+        : const [Color(0xFF1C231E), Color(0xFF101511)],
     transform: const GradientRotation(135 * math.pi / 180),
   );
 
@@ -99,8 +99,8 @@ abstract final class AppColors {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: _useLightPalette
-        ? const [Color(0xFFF7F0FF), Color(0xFFEADFFF)]
-        : const [Color(0xFF12102A), Color(0xFF1A1040)],
+        ? const [Color(0xFFF8F4FA), Color(0xFFEEE8F2)]
+        : const [Color(0xFF16131A), Color(0xFF221D26)],
     transform: const GradientRotation(135 * math.pi / 180),
   );
 
@@ -108,8 +108,8 @@ abstract final class AppColors {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: _useLightPalette
-        ? const [Color(0xFFF2F7FF), Color(0xFFE2ECFF)]
-        : const [Color(0xFF0D1B2A), Color(0xFF1A2D4A)],
+        ? const [Color(0xFFF5F7FA), Color(0xFFE8EEF3)]
+        : const [Color(0xFF141B1C), Color(0xFF1A2527)],
     transform: const GradientRotation(135 * math.pi / 180),
   );
 

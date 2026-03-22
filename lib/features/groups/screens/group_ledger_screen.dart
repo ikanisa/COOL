@@ -4,7 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../core/l10n/l10n.dart';
+
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
@@ -16,6 +19,7 @@ import '../models/group_contribution.dart';
 import '../models/group_member.dart';
 import '../providers/group_ledger_provider.dart';
 import '../providers/groups_provider.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
 
 /// Period presets for the group ledger filter.
 enum _LedgerPeriod { week, month, year, all }
@@ -58,14 +62,15 @@ class _GroupLedgerScreenState extends ConsumerState<GroupLedgerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final detailAsync = ref.watch(groupDetailProvider(widget.groupId));
     final ledgerAsync = ref.watch(groupLedgerProvider(_query));
     final groupName =
-        detailAsync.valueOrNull?.group.name ?? 'Group';
+        detailAsync.valueOrNull?.group.name ?? context.l10n.group;
     final members = detailAsync.valueOrNull?.members ?? const <GroupMember>[];
 
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: palette.bg,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -80,21 +85,21 @@ class _GroupLedgerScreenState extends ConsumerState<GroupLedgerScreen> {
                   ?.copyWith(fontWeight: FontWeight.w700),
             ),
             Text(
-              'Ledger & Statements',
+               context.l10n.ledgerTitle,
               style: Theme.of(context)
                   .textTheme
                   .bodySmall
-                  ?.copyWith(color: AppColors.text3),
+                  ?.copyWith(color: palette.text3),
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: AppColors.accent,
+        backgroundColor: palette.accent,
         onPressed: () => _showExportSheet(context, ledgerAsync, groupName),
         icon: const Icon(Icons.download_rounded, color: Colors.white),
         label: Text(
-          'Export',
+           context.l10n.exportAction,
           style: GoogleFonts.dmSans(
             color: Colors.white,
             fontWeight: FontWeight.w600,
@@ -102,8 +107,8 @@ class _GroupLedgerScreenState extends ConsumerState<GroupLedgerScreen> {
         ),
       ),
       body: CoolScreenBackground(
-        primaryColor: AppColors.accent,
-        secondaryColor: AppColors.blue,
+        primaryColor: palette.accent,
+        secondaryColor: palette.blue,
         child: Column(
           children: [
             // ── Filters ──
@@ -132,8 +137,8 @@ class _GroupLedgerScreenState extends ConsumerState<GroupLedgerScreen> {
                   child: CoolSkeletonList(itemCount: 6),
                 ),
                 emptyCheck: (entries) => entries.isEmpty,
-                emptyWidget: const CoolEmptyView(
-                  message: 'No contributions found for this filter.',
+                emptyWidget: CoolEmptyView(
+                  message: context.l10n.noContributionsForFilter,
                 ),
                 builder: (entries) => ListView.separated(
                   padding: const EdgeInsets.fromLTRB(18, 4, 18, 96),
@@ -156,15 +161,32 @@ class _GroupLedgerScreenState extends ConsumerState<GroupLedgerScreen> {
     AsyncValue<List<GroupContribution>> ledgerAsync,
     String groupName,
   ) async {
+    final palette = context.coolPalette;
     final entries = ledgerAsync.valueOrNull;
     if (entries == null || entries.isEmpty) {
-      CoolToast.info(context, 'No data to export.');
+      CoolToast.info(context, context.l10n.noDataToExport);
       return;
     }
 
-    final format = await showModalBottomSheet<StatementExportFormat>(
+    // Cache l10n values before async gap.
+    final l10n = context.l10n;
+    final periodLabel = switch (_selectedPeriod) {
+      _LedgerPeriod.week => l10n.last7Days,
+      _LedgerPeriod.month => l10n.lastMonth,
+      _LedgerPeriod.year => l10n.lastYear,
+      _LedgerPeriod.all => l10n.allTime,
+    };
+    final contributorLabel = _selectedContributorId == null
+        ? l10n.allContributors
+        : entries.firstWhere(
+            (e) => e.userId == _selectedContributorId,
+            orElse: () => entries.first,
+          ).contributorName ?? l10n.filteredContributor;
+    final sortLabelCached = l10n.newestFirst;
+
+    final format = await showCoolBottomSheet<StatementExportFormat>(
       context: context,
-      backgroundColor: AppColors.surface,
+      backgroundColor: palette.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -174,20 +196,6 @@ class _GroupLedgerScreenState extends ConsumerState<GroupLedgerScreen> {
     if (format == null || !mounted) return;
 
     try {
-      final periodLabel = switch (_selectedPeriod) {
-        _LedgerPeriod.week => 'Last 7 days',
-        _LedgerPeriod.month => 'Last month',
-        _LedgerPeriod.year => 'Last year',
-        _LedgerPeriod.all => 'All time',
-      };
-
-      final contributorLabel = _selectedContributorId == null
-          ? 'All contributors'
-          : entries.firstWhere(
-              (e) => e.userId == _selectedContributorId,
-              orElse: () => entries.first,
-            ).contributorName ?? 'Filtered contributor';
-
       final exportService = MomoStatementExportService();
       final result = await exportService.buildGroupLedgerExport(
         format: format,
@@ -200,7 +208,7 @@ class _GroupLedgerScreenState extends ConsumerState<GroupLedgerScreen> {
           generatedAt: DateTime.now(),
           periodLabel: periodLabel,
           filterLabel: contributorLabel,
-          sortLabel: 'Newest first',
+          sortLabel: sortLabelCached,
         ),
       );
 
@@ -213,11 +221,11 @@ class _GroupLedgerScreenState extends ConsumerState<GroupLedgerScreen> {
       );
 
       if (mounted) {
-        CoolToast.success(context, 'Ledger exported: ${result.fileName}');
+        CoolToast.success(context, l10n.ledgerExported(result.fileName));
       }
     } catch (e) {
       if (mounted) {
-        CoolToast.error(context, 'Export failed. Please try again.');
+        CoolToast.error(context, l10n.exportFailed);
       }
     }
   }
@@ -243,6 +251,7 @@ class _FiltersBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Padding(
       padding: const EdgeInsets.fromLTRB(18, 8, 18, 4),
       child: Column(
@@ -255,20 +264,20 @@ class _FiltersBar extends StatelessWidget {
               children: _LedgerPeriod.values.map((p) {
                 final isSelected = p == selectedPeriod;
                 final label = switch (p) {
-                  _LedgerPeriod.week => 'Week',
-                  _LedgerPeriod.month => 'Month',
-                  _LedgerPeriod.year => 'Year',
-                  _LedgerPeriod.all => 'All time',
+                  _LedgerPeriod.week => context.l10n.week,
+                  _LedgerPeriod.month => context.l10n.month,
+                  _LedgerPeriod.year => context.l10n.year,
+                  _LedgerPeriod.all => context.l10n.allTime,
                 };
                 return Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: ChoiceChip(
                     label: Text(label),
                     selected: isSelected,
-                    selectedColor: AppColors.accent,
-                    backgroundColor: AppColors.surface2,
+                    selectedColor: palette.accent,
+                    backgroundColor: palette.surface2,
                     labelStyle: TextStyle(
-                      color: isSelected ? Colors.white : AppColors.text2,
+                      color: isSelected ? Colors.white : palette.text2,
                       fontWeight: FontWeight.w600,
                       fontSize: 13,
                     ),
@@ -285,7 +294,7 @@ class _FiltersBar extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
-                color: AppColors.surface2,
+                color: palette.surface2,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: DropdownButtonHideUnderline(
@@ -293,24 +302,24 @@ class _FiltersBar extends StatelessWidget {
                   value: selectedContributorId,
                   isExpanded: true,
                   icon: Icon(Icons.keyboard_arrow_down_rounded,
-                      color: AppColors.text3),
-                  dropdownColor: AppColors.surface,
+                      color: palette.text3),
+                  dropdownColor: palette.surface,
                   style: GoogleFonts.dmSans(
-                    color: AppColors.text,
+                    color: palette.text,
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
                   hint: Text(
-                    'All contributors',
+                    context.l10n.allContributors,
                     style: GoogleFonts.dmSans(
-                      color: AppColors.text3,
+                      color: palette.text3,
                       fontSize: 14,
                     ),
                   ),
                   items: [
-                    const DropdownMenuItem<String?>(
+                    DropdownMenuItem<String?>(
                       value: null,
-                      child: Text('All contributors'),
+                      child: Text(context.l10n.allContributors),
                     ),
                     ...members.map((m) => DropdownMenuItem<String?>(
                           value: m.userId,
@@ -342,6 +351,7 @@ class _SummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final total = entries.fold<int>(0, (sum, e) => sum + e.amount);
     final contributors =
         entries.map((e) => e.userId).toSet().length;
@@ -356,33 +366,33 @@ class _SummaryCard extends StatelessWidget {
             children: [
               Expanded(
                 child: _MetricColumn(
-                  label: 'Total',
+                  label: context.l10n.total,
                   value: 'RWF ${_amountFmt.format(total)}',
-                  color: AppColors.accent,
+                  color: palette.accent,
                 ),
               ),
               Container(
                 width: 1,
                 height: 36,
-                color: AppColors.surface3,
+                color: palette.surface3,
               ),
               Expanded(
                 child: _MetricColumn(
-                  label: 'Contributors',
+                  label: context.l10n.contributorsLabel,
                   value: contributors.toString(),
-                  color: AppColors.blue,
+                  color: palette.blue,
                 ),
               ),
               Container(
                 width: 1,
                 height: 36,
-                color: AppColors.surface3,
+                color: palette.surface3,
               ),
               Expanded(
                 child: _MetricColumn(
-                  label: 'Entries',
+                  label: context.l10n.entries,
                   value: entries.length.toString(),
-                  color: AppColors.purple,
+                  color: palette.purple,
                 ),
               ),
             ],
@@ -406,6 +416,7 @@ class _MetricColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Column(
       children: [
         Text(
@@ -423,7 +434,7 @@ class _MetricColumn extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .bodySmall
-              ?.copyWith(color: AppColors.text3),
+              ?.copyWith(color: palette.text3),
         ),
       ],
     );
@@ -442,11 +453,12 @@ class _ContributionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final statusColor = switch (entry.status) {
-      'confirmed' || 'completed' => AppColors.accent,
+      'confirmed' || 'completed' => palette.accent,
       'pending' => Colors.amber,
       'failed' => Colors.redAccent,
-      _ => AppColors.text3,
+      _ => palette.text3,
     };
 
     return CoolCard(
@@ -457,11 +469,11 @@ class _ContributionTile extends StatelessWidget {
             // Avatar
             CircleAvatar(
               radius: 20,
-              backgroundColor: AppColors.surface3,
+              backgroundColor: palette.surface3,
               child: Text(
                 (entry.contributorName ?? '?')[0].toUpperCase(),
                 style: GoogleFonts.dmSans(
-                  color: AppColors.text,
+                  color: palette.text,
                   fontWeight: FontWeight.w700,
                   fontSize: 16,
                 ),
@@ -478,7 +490,7 @@ class _ContributionTile extends StatelessWidget {
                     style: GoogleFonts.dmSans(
                       fontWeight: FontWeight.w600,
                       fontSize: 14,
-                      color: AppColors.text,
+                      color: palette.text,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -491,7 +503,7 @@ class _ContributionTile extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall
-                        ?.copyWith(color: AppColors.text3, fontSize: 12),
+                        ?.copyWith(color: palette.text3, fontSize: 12),
                   ),
                 ],
               ),
@@ -505,7 +517,7 @@ class _ContributionTile extends StatelessWidget {
                   style: GoogleFonts.dmMono(
                     fontWeight: FontWeight.w700,
                     fontSize: 14,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
                 const SizedBox(height: 3),
@@ -549,6 +561,7 @@ class _ContributionTile extends StatelessWidget {
 class _ExportFormatSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -557,7 +570,7 @@ class _ExportFormatSheet extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Export Ledger',
+              context.l10n.exportLedger,
               style: Theme.of(context)
                   .textTheme
                   .titleLarge
@@ -565,17 +578,17 @@ class _ExportFormatSheet extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              'Choose a format to download the group ledger.',
+              context.l10n.chooseExportFormat,
               style: Theme.of(context)
                   .textTheme
                   .bodySmall
-                  ?.copyWith(color: AppColors.text3),
+                  ?.copyWith(color: palette.text3),
             ),
             const SizedBox(height: 20),
             _ExportOption(
               icon: Icons.picture_as_pdf_rounded,
               label: 'PDF',
-              subtitle: 'Print-ready statement',
+              subtitle: context.l10n.printReadyStatement,
               color: Colors.redAccent,
               onTap: () =>
                   Navigator.pop(context, StatementExportFormat.pdf),
@@ -584,7 +597,7 @@ class _ExportFormatSheet extends StatelessWidget {
             _ExportOption(
               icon: Icons.table_chart_rounded,
               label: 'Excel',
-              subtitle: 'Spreadsheet with headers',
+              subtitle: context.l10n.spreadsheetHeaders,
               color: Colors.green,
               onTap: () =>
                   Navigator.pop(context, StatementExportFormat.excel),
@@ -593,8 +606,8 @@ class _ExportFormatSheet extends StatelessWidget {
             _ExportOption(
               icon: Icons.text_snippet_rounded,
               label: 'CSV',
-              subtitle: 'Plain text data',
-              color: AppColors.blue,
+              subtitle: context.l10n.plainTextData,
+              color: palette.blue,
               onTap: () =>
                   Navigator.pop(context, StatementExportFormat.csv),
             ),
@@ -622,8 +635,9 @@ class _ExportOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Material(
-      color: AppColors.surface2,
+      color: palette.surface2,
       borderRadius: BorderRadius.circular(14),
       child: InkWell(
         borderRadius: BorderRadius.circular(14),
@@ -651,7 +665,7 @@ class _ExportOption extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontWeight: FontWeight.w600,
                         fontSize: 15,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     Text(
@@ -659,12 +673,12 @@ class _ExportOption extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .bodySmall
-                          ?.copyWith(color: AppColors.text3),
+                          ?.copyWith(color: palette.text3),
                     ),
                   ],
                 ),
               ),
-              Icon(Icons.chevron_right_rounded, color: AppColors.text3),
+              Icon(Icons.chevron_right_rounded, color: palette.text3),
             ],
           ),
         ),

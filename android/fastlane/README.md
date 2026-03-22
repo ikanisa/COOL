@@ -21,7 +21,7 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 [bundle exec] fastlane android upload_to_play
 ```
 
-Upload AAB to Google Play internal testing track
+Upload AAB to Google Play production track
 
 ### android upload_metadata
 

@@ -35,9 +35,11 @@ bool isPausedTrip(Trip trip) => trip.status.trim().toUpperCase() == 'PAUSED';
 String vehicleIconForType(String vehicleType) {
   final normalized = vehicleType.trim().toLowerCase();
   if (normalized.contains('moto')) return 'assets/icons/vehicle_moto.png';
-  if (normalized.contains('cab') || normalized.contains('car')) return 'assets/icons/vehicle_cab.png';
+  if (normalized.contains('cab') || normalized.contains('car'))
+    return 'assets/icons/vehicle_cab.png';
   if (normalized.contains('truck')) return 'assets/icons/vehicle_truck.png';
-  if (normalized.contains('pickup') || normalized.contains('others')) return 'assets/icons/vehicle_others.png';
+  if (normalized.contains('pickup') || normalized.contains('others'))
+    return 'assets/icons/vehicle_others.png';
   if (normalized.contains('trike') || normalized.contains('van')) {
     return 'assets/icons/vehicle_trike.png';
   }
@@ -332,6 +334,7 @@ class TripBoardTripTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -345,11 +348,41 @@ class TripBoardTripTile extends StatelessWidget {
           isReturn: trip.isReturn,
           isRecurring: trip.isRecurring,
           isDriverReturnTrip: trip.isDriverReturnTrip,
+          distanceKm: trip.distanceKm,
+          priceNote: trip.priceNote,
+          statusLabel: isPausedTrip(trip)
+              ? 'Paused'
+              : isActiveTrip(trip)
+              ? 'Open now'
+              : 'Scheduled',
+          demandLabel: trip.isDriverReturnTrip
+              ? 'Driver return'
+              : 'Immediate contact',
         ),
         const SizedBox(height: 8),
-        Align(
-          alignment: Alignment.centerRight,
-          child: WaButton(label: buttonLabel, onTap: onWhatsAppTap),
+        Row(
+          children: [
+            Expanded(
+              child: OutlinedButton.icon(
+                onPressed: onPreviewTap,
+                icon: const Icon(Icons.visibility_outlined, size: 18),
+                label: const Text('View details'),
+                style: OutlinedButton.styleFrom(
+                  minimumSize: const Size(0, 48),
+                  foregroundColor: palette.text,
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: WaButton(
+                label: buttonLabel,
+                iconOnly: false,
+                fullWidth: true,
+                onTap: onWhatsAppTap,
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -430,10 +463,7 @@ class MyTripTile extends StatelessWidget {
                   IconButton(
                     onPressed: onShowActions,
                     tooltip: 'Trip actions',
-                    icon: Icon(
-                      Icons.more_horiz_rounded,
-                      color: palette.text2,
-                    ),
+                    icon: Icon(Icons.more_horiz_rounded, color: palette.text2),
                   ),
               ],
             ),
@@ -483,6 +513,7 @@ class _MyTripStatusBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
     if (isExpired) {
+      final palette = context.coolPalette;
       return StatusBadge(
         label: 'Expired',
         bgColor: palette.surface3,

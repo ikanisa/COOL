@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
 
 class MomoSmsRationaleSheet extends StatelessWidget {
   const MomoSmsRationaleSheet({
@@ -20,7 +21,7 @@ class MomoSmsRationaleSheet extends StatelessWidget {
     required VoidCallback onAccept,
     required VoidCallback onDecline,
   }) {
-    return showModalBottomSheet<void>(
+    return showCoolBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,

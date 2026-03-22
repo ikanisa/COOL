@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/router/app_routes.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../core/theme/cool_palette.dart';
 import '../../../../core/utils/intl_locale.dart';
 import '../../../../shared/widgets/cool_card.dart';
@@ -17,45 +17,55 @@ class GroupSavingsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final localeName = resolveIntlLocale(context);
     final totalBalance = data?.totalBalance ?? 0;
     final memberCount = data?.memberCount ?? 0;
 
     return CoolCard(
-      backgroundColor: palette.surface,
+      backgroundColor: colors.financialSurface,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
               Container(
-                width: 40,
-                height: 40,
+                width: 48,
+                height: 48,
                 decoration: BoxDecoration(
-                  color: palette.accentGlow,
-                  borderRadius: BorderRadius.circular(12),
+                  color: colors.cardSurfaceStrong.withValues(alpha: 0.88),
+                  borderRadius: BorderRadius.circular(CoolRadii.md),
+                  border: Border.all(color: colors.border),
                 ),
                 alignment: Alignment.center,
                 child: Icon(
                   Icons.people_alt_outlined,
-                  size: 20,
-                  color: palette.accent,
+                  size: 22,
+                  color: colors.accent,
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
                   'Group Savings',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 18,
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    color: colors.primaryText,
                     fontWeight: FontWeight.w800,
-                    color: palette.text,
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x2),
+          Text(
+            'Liquidity, member participation, and next action in one block.',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: CoolSpace.x4),
           Wrap(
             spacing: 10,
             runSpacing: 10,
@@ -63,25 +73,25 @@ class GroupSavingsCard extends StatelessWidget {
               HomeStatPill(
                 label: context.l10n.saved,
                 value: _formatCurrency(totalBalance, localeName),
-                valueColor: palette.accent,
-                bgColor: palette.surface2,
-                borderColor: palette.border,
+                valueColor: colors.accent,
+                bgColor: colors.cardSurfaceStrong,
+                borderColor: colors.border,
               ),
               HomeStatPill(
                 label: context.l10n.groups,
                 value: '$memberCount',
-                valueColor: palette.text,
-                bgColor: palette.surface2,
-                borderColor: palette.border,
+                valueColor: colors.primaryText,
+                bgColor: colors.cardSurfaceStrong,
+                borderColor: colors.border,
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           HomeCtaChip(
             label: context.l10n.explore,
             icon: Icons.search_rounded,
             onTap: () => context.push(AppRoutes.groups),
-            color: palette.accent,
+            color: colors.accent,
           ),
         ],
       ),
@@ -119,6 +129,7 @@ class HomeStatPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return DecoratedBox(
       decoration: BoxDecoration(
         color: bgColor,
@@ -132,19 +143,17 @@ class HomeStatPill extends StatelessWidget {
           children: [
             Text(
               label,
-              style: GoogleFonts.dmSans(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: valueColor.withValues(alpha: 0.6),
+              style: theme.textTheme.labelMedium?.copyWith(
+                color: valueColor.withValues(alpha: 0.74),
+                fontWeight: FontWeight.w800,
               ),
             ),
             const SizedBox(width: 8),
             Text(
               value,
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
+              style: theme.textTheme.labelLarge?.copyWith(
                 color: valueColor,
+                fontWeight: FontWeight.w800,
               ),
             ),
           ],
@@ -170,6 +179,7 @@ class HomeCtaChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -188,10 +198,9 @@ class HomeCtaChip extends StatelessWidget {
               const SizedBox(width: 6),
               Text(
                 label,
-                style: GoogleFonts.dmSans(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
+                style: theme.textTheme.labelMedium?.copyWith(
                   color: color,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
             ],

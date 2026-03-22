@@ -1,4 +1,3 @@
-
 part of '../screens/partners_screen.dart';
 
 extension _PartnersScreenController on _PartnersScreenState {
@@ -44,11 +43,12 @@ extension _PartnersScreenController on _PartnersScreenState {
   }
 
   Future<void> _showRayonWelcomeSheet(RsFanMembership membership) {
-    return showModalBottomSheet<void>(
+    return showCoolBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (sheetContext) {
+        final palette = context.coolPalette;
         return Padding(
           padding: EdgeInsets.only(
             left: 16,
@@ -57,9 +57,9 @@ extension _PartnersScreenController on _PartnersScreenState {
           ),
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: AppColors.surface,
+              color: palette.surface,
               borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: AppColors.border2),
+              border: Border.all(color: palette.border2),
             ),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(18, 16, 18, 18),
@@ -72,7 +72,7 @@ extension _PartnersScreenController on _PartnersScreenState {
                     height: 4,
                     margin: const EdgeInsets.only(bottom: 16),
                     decoration: BoxDecoration(
-                      color: AppColors.border2,
+                      color: palette.border2,
                       borderRadius: BorderRadius.circular(999),
                     ),
                   ),
@@ -90,7 +90,7 @@ extension _PartnersScreenController on _PartnersScreenState {
                     style: GoogleFonts.barlow(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
-                      color: AppColors.text2,
+                      color: palette.text2,
                       height: 1.45,
                     ),
                   ),

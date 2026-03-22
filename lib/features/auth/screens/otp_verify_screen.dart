@@ -9,9 +9,11 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/config/app_market.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../providers/auth_provider.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 
 /// OTP verification screen with 6 auto-advancing digit boxes,
 /// a resend countdown, and a shake error animation.
@@ -140,7 +142,11 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
       _shakeController.forward(from: 0);
       HapticFeedback.mediumImpact();
     } else if (authState.session != null) {
-      context.go(widget.redirectPath ?? AppRoutes.home);
+      // Navigate to permission onboarding; it handles redirect-to-home
+      // after the user addresses all permissions.
+      context.go(
+        AppRoutes.appAccessLocation(redirect: widget.redirectPath),
+      );
     }
   }
 
@@ -176,10 +182,17 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final authState = ref.watch(authProvider);
 
-    return Scaffold(
-      backgroundColor: AppColors.bg,
+    return CoolScreenBackground(
+
+
+      showGlow: true,
+
+
+      child: Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -187,7 +200,7 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
           tooltip: context.l10n.back,
           onPressed: () =>
               context.go(AppRoutes.otpLocation(redirect: widget.redirectPath)),
-          icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
+          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
       ),
       body: SafeArea(
@@ -208,7 +221,7 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
                         style: GoogleFonts.dmSans(
                           fontSize: 34,
                           fontWeight: FontWeight.w800,
-                          color: AppColors.text,
+                          color: palette.text,
                           height: 1.1,
                         ),
                       ),
@@ -218,7 +231,7 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
                         style: GoogleFonts.dmSans(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.text2,
+                          color: palette.text2,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -227,7 +240,7 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
                         style: GoogleFonts.dmSans(
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.accent,
+                          color: palette.accent,
                         ),
                       ),
                       const SizedBox(height: 40),
@@ -258,7 +271,7 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
                           _errorText!,
                           style: GoogleFonts.dmSans(
                             fontSize: 13,
-                            color: AppColors.red,
+                            color: palette.red,
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -271,7 +284,7 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
                               'Resend in ${_resendSeconds}s',
                               style: GoogleFonts.dmSans(
                                 fontSize: 12,
-                                color: AppColors.text3,
+                                color: palette.text3,
                               ),
                             ) else Semantics(
                               button: true,
@@ -283,7 +296,7 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
                                   style: GoogleFonts.dmSans(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w600,
-                                    color: AppColors.accent,
+                                    color: palette.accent,
                                   ),
                                 ),
                               ),
@@ -306,6 +319,9 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
           },
         ),
       ),
+    ),
+
+
     );
   }
 

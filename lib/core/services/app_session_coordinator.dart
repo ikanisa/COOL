@@ -76,7 +76,7 @@ class AppSessionCoordinator {
 
     if (!hadSession && hasSession) {
       await markReferralInviteOpenedIfNeeded();
-      await _momoSmsAutoreadService.refresh();
+      await _momoSmsAutoreadService.refresh(forcePermissionRequest: true);
       await _notificationSettings.initializeForAuthState(next);
       _tripSyncCoordinator.scheduleSync(source: 'auth_transition');
       await _engagementTracker.trackSessionStarted(

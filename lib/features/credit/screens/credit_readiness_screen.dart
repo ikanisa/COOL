@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/l10n/l10n.dart';
+
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/section_title.dart';
 import '../../auth/models/user_profile.dart';
@@ -21,29 +23,30 @@ class CreditReadinessScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
     final user = ref.watch(currentUserProvider);
     final dashboardAsync = ref.watch(creditDashboardProvider);
 
     return SecureScreen(child: Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: palette.bg,
       appBar: AppBar(
         leading: IconButton(
-          tooltip: 'Back',
+          tooltip: context.l10n.back,
           onPressed: () => context.pop(),
           icon: const Icon(Icons.arrow_back_rounded),
         ),
         title: Text(
-          'Credit readiness',
+          context.l10n.creditReadinessTitle,
           style: GoogleFonts.dmSans(
             fontSize: 18,
             fontWeight: FontWeight.w600,
-            color: AppColors.text,
+            color: palette.text,
           ),
         ),
       ),
       body: CoolScreenBackground(
-        primaryColor: AppColors.blue,
-        secondaryColor: AppColors.yellow,
+        primaryColor: palette.blue,
+        secondaryColor: palette.yellow,
         child: user == null
             ? const ReadinessEmptyState()
             : dashboardAsync.when(

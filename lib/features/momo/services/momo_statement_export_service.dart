@@ -1207,9 +1207,7 @@ class MomoStatementExportService {
             data: entries
                 .map(
                   (e) => <String>[
-                    e.createdAt != null
-                        ? _dateTimeFormat.format(e.createdAt!)
-                        : '-',
+                    if (e.createdAt != null) _dateTimeFormat.format(e.createdAt!) else '-',
                     e.contributorName ?? e.userId,
                     _formatAmount(e.amount),
                     'RWF',
@@ -1313,7 +1311,7 @@ class MomoStatementExportService {
       const <String>['Date', 'Contributor', 'Amount', 'Currency', 'Status'],
       for (final e in entries)
         <String>[
-          e.createdAt != null ? _dateTimeFormat.format(e.createdAt!) : '',
+          if (e.createdAt != null) _dateTimeFormat.format(e.createdAt!) else '',
           e.contributorName ?? e.userId,
           e.amount.toString(),
           'RWF',

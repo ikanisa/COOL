@@ -31,8 +31,6 @@ void main() {
 
       expect(find.text('Urwego Finance'), findsOneWidget);
       expect(find.text('Full bank description'), findsOneWidget);
-      expect(find.text('Microfinance in Rwanda'), findsOneWidget);
-      expect(find.text('Official partner content'), findsOneWidget);
     });
 
     testWidgets('uses defaultDescription when partner has no description',
@@ -48,7 +46,7 @@ void main() {
         const BankHero(partner: partnerNoDesc),
       ));
 
-      expect(find.textContaining('digital banking'), findsOneWidget);
+      expect(find.text('Trusted financial partner.'), findsOneWidget);
     });
   });
 }

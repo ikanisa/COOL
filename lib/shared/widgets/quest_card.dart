@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/status/services/quest_engine.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../core/l10n/l10n.dart';
 
 /// Compact quest card with emoji, title, subtitle, and CTA.
@@ -16,6 +16,7 @@ class QuestCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Semantics(
       button: true,
       label: '${quest.title}. ${quest.subtitle}',
@@ -26,22 +27,22 @@ class QuestCard extends StatelessWidget {
           width: 220,
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: palette.surface,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: palette.border),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(quest.icon, size: 24, color: AppColors.text2),
+              Icon(quest.icon, size: 24, color: palette.text2),
               const SizedBox(height: 8),
               Text(
                 quest.title,
                 style: GoogleFonts.dmSans(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -49,7 +50,7 @@ class QuestCard extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 quest.subtitle,
-                style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
+                style: GoogleFonts.dmSans(fontSize: 12, color: palette.text3),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -63,7 +64,7 @@ class QuestCard extends StatelessWidget {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.accent.withValues(alpha: 0.12),
+                    color: palette.accent.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
@@ -71,7 +72,7 @@ class QuestCard extends StatelessWidget {
                     style: GoogleFonts.dmSans(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.accent,
+                      color: palette.accent,
                     ),
                   ),
                 ),
@@ -92,6 +93,7 @@ class QuestCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     if (quests.isEmpty) return const SizedBox.shrink();
 
     return Column(
@@ -105,7 +107,7 @@ class QuestCarousel extends StatelessWidget {
               fontSize: 13,
               fontWeight: FontWeight.w600,
               letterSpacing: 0.3,
-              color: AppColors.text3,
+              color: palette.text3,
             ),
           ),
         ),

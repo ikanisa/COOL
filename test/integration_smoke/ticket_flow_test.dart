@@ -5,7 +5,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:cool_app/features/partners/providers/rayon_sports_provider.dart';
 import 'package:cool_app/features/partners/rayon/models/rs_models.dart';
 import 'package:cool_app/features/partners/repositories/rayon_sports_repository.dart';
-import 'package:cool_app/features/partners/screens/rayon/tickets_screen.dart';
+import 'package:cool_app/features/partners/rayon/screens/tickets_screen.dart';
 
 import 'test_harness.dart';
 

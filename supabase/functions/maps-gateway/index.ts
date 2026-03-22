@@ -40,6 +40,89 @@ const RWANDA_BOUNDS = {
   high: { latitude: -1.0, longitude: 30.95 },
 } as const;
 
+// ── Rate Limiter ────────────────────────────────────────────────────────
+
+const RATE_LIMIT_WINDOW_MS = 5 * 60 * 1000; // 5 minutes
+const RATE_LIMIT_MAX_REQUESTS = 100;
+
+class RateLimiter {
+  private buckets = new Map<string, { count: number; windowStart: number }>();
+
+  /** Returns true if the request is allowed, false if rate-limited. */
+  allow(userId: string): boolean {
+    const now = Date.now();
+    const bucket = this.buckets.get(userId);
+
+    if (!bucket || now - bucket.windowStart > RATE_LIMIT_WINDOW_MS) {
+      this.buckets.set(userId, { count: 1, windowStart: now });
+      return true;
+    }
+
+    bucket.count++;
+    return bucket.count <= RATE_LIMIT_MAX_REQUESTS;
+  }
+
+  /** Periodic cleanup to avoid unbounded memory growth. */
+  prune(): void {
+    const now = Date.now();
+    for (const [userId, bucket] of this.buckets) {
+      if (now - bucket.windowStart > RATE_LIMIT_WINDOW_MS) {
+        this.buckets.delete(userId);
+      }
+    }
+  }
+}
+
+const rateLimiter = new RateLimiter();
+
+// Prune stale rate-limit buckets every 10 minutes.
+setInterval(() => rateLimiter.prune(), 10 * 60 * 1000);
+
+// ── Response Cache ──────────────────────────────────────────────────────
+
+const CACHE_TTL_AUTOCOMPLETE_MS = 60 * 1000; // 60 seconds
+const CACHE_TTL_REVERSE_GEOCODE_MS = 300 * 1000; // 5 minutes
+const CACHE_MAX_ENTRIES = 500;
+
+class ResponseCache {
+  private entries = new Map<
+    string,
+    { data: Record<string, unknown>; expiresAt: number }
+  >();
+
+  get(key: string): Record<string, unknown> | null {
+    const entry = this.entries.get(key);
+    if (!entry) return null;
+    if (Date.now() > entry.expiresAt) {
+      this.entries.delete(key);
+      return null;
+    }
+    return entry.data;
+  }
+
+  set(key: string, data: Record<string, unknown>, ttlMs: number): void {
+    // Evict oldest entries if cache is full.
+    if (this.entries.size >= CACHE_MAX_ENTRIES) {
+      const firstKey = this.entries.keys().next().value;
+      if (firstKey !== undefined) this.entries.delete(firstKey);
+    }
+    this.entries.set(key, { data, expiresAt: Date.now() + ttlMs });
+  }
+
+  /** Build a stable cache key from request parameters. */
+  static key(action: string, params: Record<string, unknown>): string {
+    const sorted = Object.keys(params)
+      .sort()
+      .map((k) => `${k}=${JSON.stringify(params[k])}`)
+      .join("&");
+    return `${action}:${sorted}`;
+  }
+}
+
+const responseCache = new ResponseCache();
+
+// ── API Key Resolution ──────────────────────────────────────────────────
+
 const mapsApiKeyConfig = resolveMapsApiKey();
 const mapsApiKey = mapsApiKeyConfig.apiKey;
 
@@ -73,10 +156,48 @@ Deno.serve(async (request: Request) => {
   try {
     const user = await requireUser(authorization);
     userIdForTelemetry = user.id;
+
+    // ── Rate limiting ───────────────────────────────────────────────
+    if (!rateLimiter.allow(user.id)) {
+      console.warn(
+        JSON.stringify({
+          service: "maps-gateway",
+          event: "rate_limited",
+          user_id: user.id,
+        }),
+      );
+      return errorResponse(
+        "Too many requests. Please try again later.",
+        429,
+        { retryAfterSeconds: 60 },
+      );
+    }
+
     const body = await request.json() as MapsGatewayRequest;
     const startedAt = Date.now();
 
+    // ── Cache check ─────────────────────────────────────────────────
+    const cacheable = body.action === "autocomplete" ||
+      body.action === "reverse_geocode";
+    let cacheKey: string | null = null;
+
+    if (cacheable) {
+      cacheKey = ResponseCache.key(body.action!, body as Record<string, unknown>);
+      const cached = responseCache.get(cacheKey);
+      if (cached) {
+        return jsonResponse({ success: true, cached: true, ...cached });
+      }
+    }
+
     const response = await handleAction(body);
+
+    // ── Cache store ─────────────────────────────────────────────────
+    if (cacheable && cacheKey) {
+      const ttl = body.action === "autocomplete"
+        ? CACHE_TTL_AUTOCOMPLETE_MS
+        : CACHE_TTL_REVERSE_GEOCODE_MS;
+      responseCache.set(cacheKey, response, ttl);
+    }
 
     console.info(
       JSON.stringify({
@@ -158,7 +279,33 @@ async function autocompletePlaces(body: MapsGatewayRequest) {
     includedRegionCodes: [RWANDA_REGION_CODE],
     locationRestriction: rwandaLocationRestriction(),
     regionCode: RWANDA_REGION_CODE,
+    includedPrimaryTypes: [
+      "route",
+      "street_address",
+      "establishment",
+      "premise",
+      "subpremise",
+      "point_of_interest",
+      "neighborhood",
+      "sublocality",
+      "locality",
+    ],
   };
+
+  // Bias results toward user's current location for proximity ranking.
+  // locationBias + locationRestriction coexist: restriction limits WHERE
+  // results come from, bias ranks results by proximity WITHIN the restriction.
+  const near = parseLatLng(body.near, "near");
+  if (near && isWithinRwanda(near)) {
+    payload.locationBias = {
+      circle: {
+        center: near,
+        radius: 10000.0,
+      },
+    };
+    // origin enables distanceMeters on each prediction
+    payload.origin = near;
+  }
 
   const languageCode = normalizeLanguageCode(body.languageCode);
   if (languageCode) {
@@ -177,7 +324,7 @@ async function autocompletePlaces(body: MapsGatewayRequest) {
       headers: {
         "Content-Type": "application/json",
         "X-Goog-FieldMask":
-          "suggestions.placePrediction.place,suggestions.placePrediction.placeId,suggestions.placePrediction.text.text,suggestions.placePrediction.structuredFormat.mainText.text,suggestions.placePrediction.structuredFormat.secondaryText.text",
+          "suggestions.placePrediction.place,suggestions.placePrediction.placeId,suggestions.placePrediction.text.text,suggestions.placePrediction.structuredFormat.mainText.text,suggestions.placePrediction.structuredFormat.secondaryText.text,suggestions.placePrediction.distanceMeters",
       },
       body: JSON.stringify(payload),
     },
@@ -200,11 +347,14 @@ async function autocompletePlaces(body: MapsGatewayRequest) {
         ? `${primaryText}, ${secondaryText}`
         : primaryText;
 
+      const distanceMeters = asNumber(prediction.distanceMeters);
+
       return {
         placeId,
         label,
         primaryText,
         secondaryText: secondaryText || null,
+        distanceMeters,
       };
     })
     .filter((prediction) => prediction.placeId && prediction.label)
@@ -546,14 +696,13 @@ function clampInt(
   return Math.min(max, Math.max(min, parsed));
 }
 
-function normalizeLanguageCode(value?: string): string | null {
-  const normalized = value?.trim().toLowerCase();
-  if (!normalized) {
-    return RWANDA_LANGUAGE_CODE;
-  }
-  return normalized.startsWith("en")
-    ? RWANDA_LANGUAGE_CODE
-    : RWANDA_LANGUAGE_CODE;
+/**
+ * Returns the language code for Google API requests. Currently hardcoded
+ * to English ('en') for the Rwanda market. When multi-market / multi-language
+ * support is added, this should resolve the language from the request.
+ */
+function normalizeLanguageCode(_value?: string): string {
+  return RWANDA_LANGUAGE_CODE;
 }
 
 function normalizeTravelMode(value?: string): string {

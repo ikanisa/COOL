@@ -1,164 +1,6 @@
 part of 'schedule_trip_screen.dart';
 
 extension on _ScheduleTripScreenState {
-  // ── Smart Parse ─────────────────────────────────────────────────
-
-  Future<void> _parseSmartInput() async {
-    final text = _smartInputController.text.trim();
-    if (text.isEmpty) return;
-
-    _updateState(() => _isParsingSmartInput = true);
-
-    try {
-      final locationState = ref.read(mobilityLocationProvider);
-      final client = ref.read(supabaseClientProvider);
-      
-      final response = await client.functions.invoke(
-        'parse-trip-request',
-        body: {
-          'text': text,
-          'latitude': locationState.position?.latitude,
-          'longitude': locationState.position?.longitude,
-          'timezone': DateTime.now().timeZoneName,
-        },
-      );
-
-      if (!mounted) return;
-
-      if (response.status == 200 && response.data != null) {
-        final data = response.data['data'] as Map<String, dynamic>?;
-        if (data != null) {
-          _updateState(() {
-            final originLabel = data['origin_label'] as String? ?? data['origin'] as String?;
-            final originLat = data['origin_lat'] as double?;
-            final originLng = data['origin_lng'] as double?;
-
-            if (originLabel != null && originLabel.isNotEmpty) {
-              _fromController.text = originLabel;
-              if (originLat != null && originLng != null) {
-                _fromSelection = PlaceSearchResult(
-                  label: originLabel,
-                  position: GeoPoint(latitude: originLat, longitude: originLng),
-                  primaryText: originLabel,
-                );
-              } else {
-                _fromSelection = null; // Clear to force geocode if missing
-              }
-            }
-
-            final destLabel = data['destination_label'] as String? ?? data['destination'] as String?;
-            final destLat = data['destination_lat'] as double?;
-            final destLng = data['destination_lng'] as double?;
-
-            if (destLabel != null && destLabel.isNotEmpty) {
-              _toController.text = destLabel;
-              if (destLat != null && destLng != null) {
-                _toSelection = PlaceSearchResult(
-                  label: destLabel,
-                  position: GeoPoint(latitude: destLat, longitude: destLng),
-                  primaryText: destLabel,
-                );
-              } else {
-                _toSelection = null;
-              }
-            }
-
-            final dateStr = data['date'] as String?;
-            if (dateStr != null) {
-              final parsedDate = DateTime.tryParse(dateStr);
-              if (parsedDate != null &&
-                  parsedDate.isAfter(
-                      DateTime.now().subtract(const Duration(days: 1)))) {
-                _selectedDate = parsedDate;
-              }
-            }
-
-            final timeStr = data['time'] as String?;
-            if (timeStr != null) {
-              final parts = timeStr.split(':');
-              if (parts.length >= 2) {
-                final hour = int.tryParse(parts[0]);
-                final min = int.tryParse(parts[1]);
-                if (hour != null && min != null) {
-                  _selectedTime = TimeOfDay(hour: hour, minute: min);
-                }
-              }
-            }
-
-            final priceNote = data['price_note'] as String?;
-            if (priceNote != null && priceNote.isNotEmpty) {
-              _priceNoteController.text = priceNote;
-              _showAdditionalDetails = true;
-            }
-
-            final seats = data['seats'] as int?;
-            if (seats != null && seats > 0 && seats <= 3) {
-              _seats = seats;
-            }
-
-            final vehicle = data['vehicle_preference'] as String?;
-            if (vehicle == 'moto') {
-              _vehiclePreference = TripVehiclePreference.moto;
-            } else if (vehicle == 'cab') {
-              _vehiclePreference = TripVehiclePreference.cab;
-            } else {
-              _vehiclePreference = TripVehiclePreference.any;
-            }
-
-            _syncResolvedLocations();
-          });
-
-          // P2.13: Track smart input parsed
-          ref.read(engagementTrackerProvider).trackSmartInputParsed(
-            success: true,
-            hasOrigin: _fromController.text.isNotEmpty,
-            hasDestination: _toController.text.isNotEmpty,
-          );
-
-          // P1.8: Auto-geocode locations that lack coordinates
-          unawaited(_autoGeocodeLocations());
-
-          _showSnackBar(
-            message: 'Trip details auto-filled',
-            kind: _ScheduleTripToastKind.success,
-          );
-        } else {
-          ref.read(engagementTrackerProvider).trackSmartInputParsed(
-            success: false,
-            hasOrigin: false,
-            hasDestination: false,
-          );
-          _showSnackBar(
-            message: 'Could not extract trip details',
-            kind: _ScheduleTripToastKind.error,
-          );
-        }
-      } else {
-        ref.read(engagementTrackerProvider).trackSmartInputParsed(
-          success: false,
-          hasOrigin: false,
-          hasDestination: false,
-        );
-        _showSnackBar(
-          message: 'Smart parse failed',
-          kind: _ScheduleTripToastKind.error,
-        );
-      }
-    } catch (e) {
-      debugPrint('Smart parse error: $e');
-      if (mounted) {
-        _showSnackBar(
-          message: 'Failed to process request',
-          kind: _ScheduleTripToastKind.error,
-        );
-      }
-    } finally {
-      if (mounted) {
-        _updateState(() => _isParsingSmartInput = false);
-      }
-    }
-  }
-
   // ── Sync & route preview ────────────────────────────────────────
 
   void _syncResolvedLocations() {
@@ -179,61 +21,6 @@ extension on _ScheduleTripScreenState {
     if (changed && mounted) {
       _updateState(() {});
       unawaited(_refreshRoutePreview());
-    }
-  }
-
-  /// P1.8: Auto-geocode locations that were parsed from smart input but
-  /// lack coordinates. After both resolve, trigger route preview.
-  Future<void> _autoGeocodeLocations() async {
-    final placeService = ref.read(placeSearchServiceProvider);
-    final languageTag = resolveIntlLocale(context);
-    var didResolve = false;
-
-    // Geocode "from" if text is present but no coordinates
-    if (_fromController.text.trim().isNotEmpty && _fromSelection == null) {
-      try {
-        final result = await placeService.geocodeQuery(
-          _fromController.text.trim(),
-          languageTag: languageTag,
-        );
-        if (mounted && result != null) {
-          _fromSelection = result;
-          didResolve = true;
-          ref.read(engagementTrackerProvider).trackPlaceSelected(
-            placeLabel: result.label,
-            hasCoordinates: result.hasCoordinates,
-            source: 'smart_input_geocode',
-          );
-        }
-      } catch (_) {
-        // Geocode failed — user can still manually resolve
-      }
-    }
-
-    // Geocode "to" if text is present but no coordinates
-    if (_toController.text.trim().isNotEmpty && _toSelection == null) {
-      try {
-        final result = await placeService.geocodeQuery(
-          _toController.text.trim(),
-          languageTag: languageTag,
-        );
-        if (mounted && result != null) {
-          _toSelection = result;
-          didResolve = true;
-          ref.read(engagementTrackerProvider).trackPlaceSelected(
-            placeLabel: result.label,
-            hasCoordinates: result.hasCoordinates,
-            source: 'smart_input_geocode',
-          );
-        }
-      } catch (_) {
-        // Geocode failed — user can still manually resolve
-      }
-    }
-
-    if (didResolve && mounted) {
-      _updateState(() {});
-      _refreshRoutePreview();
     }
   }
 
@@ -312,11 +99,10 @@ extension on _ScheduleTripScreenState {
 
   // ── Pickers ─────────────────────────────────────────────────────
 
-  Future<void> _pickDate({bool isReturn = false}) async {
-    final initialDate = isReturn ? _returnDate : _selectedDate;
+  Future<void> _pickDate() async {
     final picked = await showDatePicker(
       context: context,
-      initialDate: initialDate,
+      initialDate: _selectedDate,
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 120)),
       builder: (context, child) {
@@ -341,21 +127,14 @@ extension on _ScheduleTripScreenState {
     if (picked == null) return;
 
     _updateState(() {
-      if (isReturn) {
-        _returnDate = picked;
-      } else {
-        _selectedDate = picked;
-        if (_returnDate.isBefore(_selectedDate)) {
-          _returnDate = _selectedDate;
-        }
-      }
+      _selectedDate = picked;
     });
   }
 
-  Future<void> _pickTime({bool isReturn = false}) async {
+  Future<void> _pickTime() async {
     final picked = await showTimePicker(
       context: context,
-      initialTime: isReturn ? _returnTime : _selectedTime,
+      initialTime: _selectedTime,
       builder: (context, child) {
         final palette = context.coolPalette;
         final theme = Theme.of(context);
@@ -378,11 +157,7 @@ extension on _ScheduleTripScreenState {
     if (picked == null) return;
 
     _updateState(() {
-      if (isReturn) {
-        _returnTime = picked;
-      } else {
-        _selectedTime = picked;
-      }
+      _selectedTime = picked;
     });
   }
 
@@ -407,15 +182,15 @@ extension on _ScheduleTripScreenState {
 
   void _showSnackBar({
     required String message,
-    required _ScheduleTripToastKind kind,
+    String kind = 'info',
   }) {
     switch (kind) {
-      case _ScheduleTripToastKind.info:
-        CoolToast.info(context, message);
-      case _ScheduleTripToastKind.success:
+      case 'success':
         CoolToast.success(context, message);
-      case _ScheduleTripToastKind.error:
+      case 'error':
         CoolToast.error(context, message);
+      default:
+        CoolToast.info(context, message);
     }
   }
 
@@ -457,7 +232,7 @@ extension on _ScheduleTripScreenState {
 
     if (message == null) return true;
 
-    _showSnackBar(message: message, kind: _ScheduleTripToastKind.error);
+    _showSnackBar(message: message, kind: 'error');
     return false;
   }
 
@@ -465,21 +240,20 @@ extension on _ScheduleTripScreenState {
     final l10n = context.l10n;
     final departureAt = _combineDateAndTime(_selectedDate, _selectedTime);
 
-    if (_returnTrip) {
-      final returnAt = _combineDateAndTime(_returnDate, _returnTime);
-      if (!returnAt.isAfter(departureAt)) {
-        _showSnackBar(
-          message: l10n.scheduleTripReturnInvalidError,
-          kind: _ScheduleTripToastKind.error,
-        );
-        return false;
-      }
+    // F-01: Reject past departure times (non-recurring trips only).
+    if (!_recurringTrip && departureAt.isBefore(DateTime.now())) {
+      _showSnackBar(
+        message: l10n.scheduleTripDepartureInPastError,
+        kind: 'error',
+      );
+      return false;
     }
+
 
     if (_recurringTrip && _recurringDays.isEmpty) {
       _showSnackBar(
         message: l10n.scheduleTripRecurringDaysError,
-        kind: _ScheduleTripToastKind.error,
+        kind: 'error',
       );
       return false;
     }
@@ -491,7 +265,7 @@ extension on _ScheduleTripScreenState {
   // _activeStep kept for legacy compatibility (e.g. role card references).
 
   Future<void> _openRoleSheet(bool canScheduleAsDriver) async {
-    final nextRole = await showModalBottomSheet<ScheduleTripPostingRole>(
+    final nextRole = await showCoolBottomSheet<ScheduleTripPostingRole>(
       context: context,
       backgroundColor: Colors.transparent,
       builder: (_) => _ScheduleTripRoleSheet(
@@ -628,7 +402,7 @@ extension on _ScheduleTripScreenState {
       _showSnackBar(
         message:
             'Could not pin exactly',
-        kind: _ScheduleTripToastKind.info,
+        kind: 'info',
       );
     }
   }
@@ -650,7 +424,7 @@ extension on _ScheduleTripScreenState {
         message:
             locationState.error ??
             'Location unavailable',
-        kind: _ScheduleTripToastKind.error,
+        kind: 'error',
       );
       return;
     }
@@ -694,7 +468,7 @@ extension on _ScheduleTripScreenState {
       _showSnackBar(
         message:
             'Pickup coordinates were attached',
-        kind: _ScheduleTripToastKind.info,
+        kind: 'info',
       );
     } finally {
       if (mounted) {
@@ -752,6 +526,18 @@ extension on _ScheduleTripScreenState {
   // ── Submit ──────────────────────────────────────────────────────
 
   Future<void> _submit({required bool canScheduleAsDriver}) async {
+    // F-04: Prevent double-submit from rapid taps.
+    if (_isSubmitting) return;
+    _isSubmitting = true;
+
+    try {
+      await _submitInner(canScheduleAsDriver: canScheduleAsDriver);
+    } finally {
+      _isSubmitting = false;
+    }
+  }
+
+  Future<void> _submitInner({required bool canScheduleAsDriver}) async {
     FocusScope.of(context).unfocus();
 
     final l10n = context.l10n;
@@ -759,7 +545,7 @@ extension on _ScheduleTripScreenState {
     if (isDriverPosting && !canScheduleAsDriver) {
       _showSnackBar(
         message: 'Finish driver setup before',
-        kind: _ScheduleTripToastKind.error,
+        kind: 'error',
       );
       return;
     }
@@ -781,10 +567,11 @@ extension on _ScheduleTripScreenState {
       return;
     }
 
+    // F-17: Confirmation dialog before final submission.
     final departureAt = _combineDateAndTime(_selectedDate, _selectedTime);
-    final returnAt = _returnTrip
-        ? _combineDateAndTime(_returnDate, _returnTime)
-        : null;
+    final confirmed = await _showPostConfirmation(departureAt: departureAt);
+    if (!confirmed || !mounted) return;
+
 
     // Auto-populate contact info from user profile
     final authState = ref.read(authProvider);
@@ -798,7 +585,7 @@ extension on _ScheduleTripScreenState {
             fromLocation: _fromController.text.trim(),
             toLocation: _toController.text.trim(),
             departureAt: departureAt,
-            returnAt: returnAt,
+            returnAt: null,
             vehiclePreference: _vehiclePreference,
             seatsNeeded: _seats,
             recurringDays: _recurringTrip
@@ -812,6 +599,7 @@ extension on _ScheduleTripScreenState {
             destinationLongitude: _toSelection?.longitude,
             contactPhone: userPhone,
             contactName: userName,
+            distanceKm: _routePreview?.distanceKm,
             priceNote: _priceNoteController.text.trim().isEmpty
                 ? null
                 : _priceNoteController.text.trim(),
@@ -834,7 +622,7 @@ extension on _ScheduleTripScreenState {
         message: result.storedOffline
             ? l10n.scheduleTripPostedPendingSync
             : l10n.scheduleTripPostedSuccess,
-        kind: _ScheduleTripToastKind.success,
+        kind: 'success',
       );
       if (!result.storedOffline) {
         context.go('/mobility/trips');
@@ -844,7 +632,171 @@ extension on _ScheduleTripScreenState {
 
     final error = ref.read(mobilitySubmissionErrorProvider);
     if (error != null) {
-      _showSnackBar(message: error, kind: _ScheduleTripToastKind.error);
+      _showSnackBar(message: error, kind: 'error');
     }
+  }
+
+  // ── F-17: Confirmation dialog ─────────────────────────────────────
+
+  Future<bool> _showPostConfirmation({required DateTime departureAt}) async {
+    final palette = context.coolPalette;
+    final l10n = context.l10n;
+    final from = _fromController.text.trim();
+    final to = _toController.text.trim();
+    final isRecurring = _recurringTrip && _recurringDays.isNotEmpty;
+    final isDriver = _postingRole == ScheduleTripPostingRole.driver;
+
+    final dateStr = '${departureAt.day}/${departureAt.month}/${departureAt.year}';
+    final timeStr = TimeOfDay.fromDateTime(departureAt).format(context);
+
+    final result = await showModalBottomSheet<bool>(
+      context: context,
+      backgroundColor: palette.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) {
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: palette.text3.withValues(alpha: 0.3),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                'Confirm Trip',
+                style: GoogleFonts.dmSans(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: palette.text,
+                ),
+              ),
+              const SizedBox(height: 16),
+              _ConfirmRow(
+                icon: Icons.trip_origin_rounded,
+                label: from,
+                palette: palette,
+              ),
+              const SizedBox(height: 8),
+              _ConfirmRow(
+                icon: Icons.location_on_rounded,
+                label: to,
+                palette: palette,
+              ),
+              const SizedBox(height: 8),
+              _ConfirmRow(
+                icon: Icons.schedule_rounded,
+                label: '$dateStr at $timeStr${isRecurring ? ' (recurring)' : ''}',
+                palette: palette,
+              ),
+              const SizedBox(height: 8),
+              _ConfirmRow(
+                icon: isDriver
+                    ? Icons.directions_car_rounded
+                    : Icons.airline_seat_recline_normal_rounded,
+                label: isDriver
+                    ? 'Posting as driver'
+                    : '${_vehiclePreference.name} · $_seats seat${_seats > 1 ? 's' : ''}',
+                palette: palette,
+              ),
+              const SizedBox(height: 24),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => Navigator.of(ctx).pop(false),
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(color: palette.border),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                      ),
+                      child: Text(
+                        l10n.cancel,
+                        style: GoogleFonts.dmSans(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: palette.text,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () => Navigator.of(ctx).pop(true),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: palette.accent,
+                        foregroundColor: Colors.white,
+                        elevation: 0,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                      ),
+                      child: Text(
+                        l10n.scheduleTripPostCta,
+                        style: GoogleFonts.dmSans(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+    return result ?? false;
+  }
+}
+
+// ── Confirm row helper ──────────────────────────────────────────────
+
+class _ConfirmRow extends StatelessWidget {
+  const _ConfirmRow({
+    required this.icon,
+    required this.label,
+    required this.palette,
+  });
+
+  final IconData icon;
+  final String label;
+  final CoolPalette palette;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(icon, size: 18, color: palette.accent),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Text(
+            label,
+            style: GoogleFonts.dmSans(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: palette.text2,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    );
   }
 }

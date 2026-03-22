@@ -3,8 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../core/l10n/l10n.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
+import '../../../../shared/widgets/cool_bottom_sheet.dart';
+import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
 import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../providers/rayon_sports_provider.dart';
@@ -12,12 +16,11 @@ import '../models/rs_models.dart';
 import '../providers/rs_admin_provider.dart';
 import '../widgets/rs_admin_shell.dart';
 
-/// Admin screen for managing shop orders — all orders, status pipeline,
-/// detail bottom sheet, status filter.
+/// Admin screen for managing shop orders.
 class RsAdminOrdersScreen extends ConsumerStatefulWidget {
   const RsAdminOrdersScreen({super.key});
 
-  static const _statusFlow = [
+  static const _statusFlow = <String>[
     'pending',
     'paid',
     'confirmed',
@@ -36,7 +39,17 @@ class RsAdminOrdersScreen extends ConsumerStatefulWidget {
 class _RsAdminOrdersScreenState extends ConsumerState<RsAdminOrdersScreen> {
   String _statusFilter = 'all';
 
-  static const _filters = ['all', 'pending', 'paid', 'confirmed', 'packed', 'shipped', 'fulfilled', 'delivered', 'cancelled'];
+  static const _filters = <String>[
+    'all',
+    'pending',
+    'paid',
+    'confirmed',
+    'packed',
+    'shipped',
+    'fulfilled',
+    'delivered',
+    'cancelled',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +57,8 @@ class _RsAdminOrdersScreenState extends ConsumerState<RsAdminOrdersScreen> {
 
     return RsAdminShell(
       title: 'Shop Orders',
-      subtitle: 'Manage fulfilment queue and track order status.',
+      subtitle:
+          'Control payment confirmation, fulfilment movement, and delivery exceptions from one command queue.',
       metrics: [
         RsAdminMetric(
           label: 'orders',
@@ -67,8 +81,8 @@ class _RsAdminOrdersScreenState extends ConsumerState<RsAdminOrdersScreen> {
               ordersAsync.whenOrNull(
                 data: (orders) {
                   final total = orders
-                    .where((o) => o.status != OrderStatus.cancelled)
-                    .fold<int>(0, (sum, o) => sum + o.total);
+                      .where((order) => order.status != OrderStatus.cancelled)
+                      .fold<int>(0, (sum, order) => sum + order.total);
                   return '${NumberFormat.decimalPattern('en_US').format(total)} RWF';
                 },
               ) ??
@@ -76,29 +90,34 @@ class _RsAdminOrdersScreenState extends ConsumerState<RsAdminOrdersScreen> {
         ),
       ],
       controls: SizedBox(
-        height: 36,
-        child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          itemCount: _filters.length,
-          separatorBuilder: (_, _) => const SizedBox(width: 8),
-          itemBuilder: (context, index) {
-            final f = _filters[index];
-            final active = f == _statusFilter;
-            return FilterChip(
-              label: Text(f == 'all' ? 'All' : f[0].toUpperCase() + f.substring(1)),
-              selected: active,
-              onSelected: (_) => setState(() => _statusFilter = f),
-              backgroundColor: AppColors.surface,
-              selectedColor: AppColors.rsBlue.withValues(alpha: 0.15),
-              labelStyle: GoogleFonts.dmSans(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: active ? AppColors.rsBlue : AppColors.text2,
-              ),
-            );
-          },
-        ),
+        height: 44,
+        child:
+            ordersAsync.whenOrNull(
+              data: (orders) {
+                final counts = <String, int>{};
+                for (final order in orders) {
+                  final status = order.status.name;
+                  counts[status] = (counts[status] ?? 0) + 1;
+                }
+                return ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: _filters.length,
+                  separatorBuilder: (_, _) => const SizedBox(width: 8),
+                  itemBuilder: (context, index) {
+                    final filter = _filters[index];
+                    final count = filter == 'all'
+                        ? orders.length
+                        : (counts[filter] ?? 0);
+                    return _OrderFilterChip(
+                      label: '${_title(filter)} ($count)',
+                      isSelected: filter == _statusFilter,
+                      onTap: () => setState(() => _statusFilter = filter),
+                    );
+                  },
+                );
+              },
+            ) ??
+            const SizedBox.shrink(),
       ),
       child: CoolAsyncView<List<RsShopOrder>>(
         value: ordersAsync,
@@ -108,15 +127,17 @@ class _RsAdminOrdersScreenState extends ConsumerState<RsAdminOrdersScreen> {
           child: CoolSkeletonList(itemCount: 4),
         ),
         emptyCheck: (orders) => orders.isEmpty,
-        emptyWidget: const CoolEmptyView(
-          subtitle: 'No shop orders yet',
+        emptyWidget: CoolEmptyView(
+          subtitle: context.l10n.rsAdminNoOrders,
           icon: Icons.shopping_bag_outlined,
           isPremium: true,
         ),
         builder: (orders) {
           final filtered = _statusFilter == 'all'
               ? orders
-              : orders.where((o) => o.status.value == _statusFilter).toList();
+              : orders
+                    .where((order) => order.status.value == _statusFilter)
+                    .toList();
           if (filtered.isEmpty) {
             return const CoolEmptyView(
               subtitle: 'No orders match this filter',
@@ -126,6 +147,8 @@ class _RsAdminOrdersScreenState extends ConsumerState<RsAdminOrdersScreen> {
           }
           return ListView.separated(
             padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: filtered.length,
             separatorBuilder: (context, index) => const SizedBox(height: 10),
             itemBuilder: (context, index) {
@@ -147,12 +170,13 @@ class _RsAdminOrdersScreenState extends ConsumerState<RsAdminOrdersScreen> {
   }
 
   void _showOrderDetail(RsShopOrder order) {
+    final colors = context.coolSemanticColors;
     final dateStr = DateFormat('d MMM yyyy, HH:mm').format(order.createdAt);
     final moneyFmt = NumberFormat.decimalPattern('en_US');
 
-    showModalBottomSheet(
+    showCoolBottomSheet(
       context: context,
-      backgroundColor: AppColors.surface,
+      backgroundColor: colors.overlaySurface,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -172,106 +196,108 @@ class _RsAdminOrdersScreenState extends ConsumerState<RsAdminOrdersScreen> {
                 height: 4,
                 margin: const EdgeInsets.only(bottom: 16),
                 decoration: BoxDecoration(
-                  color: AppColors.border,
+                  color: colors.border,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
             ),
+            _OrderDetailCommandCard(
+              order: order,
+              dateStr: dateStr,
+              moneyFmt: moneyFmt,
+            ),
+            const SizedBox(height: 20),
             Text(
-              'Order #${order.id.substring(0, 8).toUpperCase()}',
+              context.l10n.rsAdminItemsCount(order.items.length),
               style: GoogleFonts.dmSans(
-                fontSize: 20,
+                fontSize: 18,
                 fontWeight: FontWeight.w800,
-                color: AppColors.text,
+                color: colors.primaryText,
               ),
             ),
-            const SizedBox(height: 8),
-            _DetailRow(label: 'Status', value: order.status.value.toUpperCase()),
-            _DetailRow(label: 'Date', value: dateStr),
-            _DetailRow(label: 'Total', value: '${moneyFmt.format(order.total)} RWF'),
-            if (order.deliveryAddress.isNotEmpty)
-              _DetailRow(label: 'Address', value: order.deliveryAddress),
-            if (order.momoReference.isNotEmpty)
-              _DetailRow(label: 'MoMo Ref', value: order.momoReference),
+            const SizedBox(height: 10),
+            ...order.items.map(
+              (item) => Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: CoolCard(
+                  backgroundColor: colors.commerceSurface,
+                  borderColor: colors.border,
+                  child: Row(
+                    children: [
+                      Text(
+                        item.product.imageEmoji.isNotEmpty
+                            ? item.product.imageEmoji
+                            : '📦',
+                        style: const TextStyle(fontSize: 28),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item.product.name,
+                              style: GoogleFonts.dmSans(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w800,
+                                color: colors.primaryText,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              '${item.quantity}x  •  ${moneyFmt.format(item.product.price)} RWF each',
+                              style: GoogleFonts.dmSans(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                                color: colors.secondaryText,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Text(
+                        '${moneyFmt.format(item.quantity * item.product.price)} RWF',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w800,
+                          color: colors.primaryText,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
             const SizedBox(height: 16),
             Text(
-              'Items (${order.items.length})',
+              'Move Order',
               style: GoogleFonts.dmSans(
                 fontSize: 16,
-                fontWeight: FontWeight.w700,
-                color: AppColors.text,
+                fontWeight: FontWeight.w800,
+                color: colors.primaryText,
               ),
             ),
-            const SizedBox(height: 8),
-            ...order.items.map((item) => Container(
-              margin: const EdgeInsets.only(bottom: 8),
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: AppColors.surface2,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Row(
-                children: [
-                  Text(item.product.imageEmoji.isNotEmpty ? item.product.imageEmoji : '📦',
-                      style: const TextStyle(fontSize: 24)),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          item.product.name,
-                          style: GoogleFonts.dmSans(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.text,
-                          ),
-                        ),
-                        Text(
-                          '${item.quantity}x · ${moneyFmt.format(item.product.price)} RWF each',
-                          style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Text(
-                    '${moneyFmt.format(item.quantity * item.product.price)} RWF',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.text,
-                    ),
-                  ),
-                ],
-              ),
-            )),
-            const SizedBox(height: 16),
-            Text(
-              'Update Status',
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-                color: AppColors.text,
-              ),
-            ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 10),
             Wrap(
-              spacing: 8,
-              runSpacing: 8,
+              spacing: 10,
+              runSpacing: 10,
               children: RsAdminOrdersScreen._statusFlow
-                  .where((s) => s != order.status.value)
+                  .where((status) => status != order.status.value)
                   .map(
-                    (s) => OutlinedButton(
-                      onPressed: () async {
+                    (status) => _OrderActionPill(
+                      label: 'Move to ${_title(status)}',
+                      onTap: () async {
                         final repo = ref.read(rayonSportsRepositoryProvider);
-                        await repo.updateOrderStatus(order.id, status: s);
+                        await repo.updateOrderStatus(order.id, status: status);
                         ref.invalidate(rsAdminOrdersProvider);
-                        if (ctx.mounted) Navigator.pop(ctx);
+                        if (ctx.mounted) {
+                          Navigator.pop(ctx);
+                        }
                       },
-                      child: Text('→ ${s[0].toUpperCase()}${s.substring(1)}'),
                     ),
                   )
-                  .toList(),
+                  .toList(growable: false),
             ),
           ],
         ),
@@ -280,25 +306,158 @@ class _RsAdminOrdersScreenState extends ConsumerState<RsAdminOrdersScreen> {
   }
 }
 
+String _title(String value) => '${value[0].toUpperCase()}${value.substring(1)}';
+
+Color _orderStatusColor(BuildContext context, String status) {
+  final colors = context.coolSemanticColors;
+  return switch (status) {
+    'paid' => colors.success,
+    'confirmed' => colors.info,
+    'packed' || 'shipped' => AppColors.rsBlueLight,
+    'fulfilled' || 'delivered' => colors.accent,
+    'cancelled' => colors.danger,
+    _ => colors.warning,
+  };
+}
+
+class _OrderFilterChip extends StatelessWidget {
+  const _OrderFilterChip({
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        curve: Curves.easeOutCubic,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? AppColors.rsBlue.withValues(alpha: 0.18)
+              : colors.chipBackground,
+          borderRadius: BorderRadius.circular(999),
+          border: Border.all(
+            color: isSelected ? AppColors.rsBlue : colors.border,
+          ),
+        ),
+        child: Text(
+          label,
+          style: GoogleFonts.dmSans(
+            fontSize: 13,
+            fontWeight: FontWeight.w800,
+            color: isSelected ? AppColors.rsBlueLight : colors.secondaryText,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _OrderDetailCommandCard extends StatelessWidget {
+  const _OrderDetailCommandCard({
+    required this.order,
+    required this.dateStr,
+    required this.moneyFmt,
+  });
+
+  final RsShopOrder order;
+  final String dateStr;
+  final NumberFormat moneyFmt;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+
+    return CoolCard(
+      backgroundColor: colors.cardSurfaceStrong,
+      borderColor: _orderStatusColor(
+        context,
+        order.status.value,
+      ).withValues(alpha: 0.34),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Official Fulfilment Order',
+            style: GoogleFonts.barlow(
+              fontSize: 13,
+              fontWeight: FontWeight.w800,
+              letterSpacing: 0.5,
+              color: colors.secondaryText,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            context.l10n.rsAdminOrderNumber(
+              order.id.substring(0, 8).toUpperCase(),
+            ),
+            style: GoogleFonts.barlowCondensed(
+              fontSize: 28,
+              fontWeight: FontWeight.w900,
+              color: colors.primaryText,
+              height: 0.96,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              _StatusBadge(status: order.status.value),
+              _OrderValuePill(
+                label: 'Total',
+                value: '${moneyFmt.format(order.total)} RWF',
+              ),
+              _OrderValuePill(label: 'Created', value: dateStr),
+            ],
+          ),
+          const SizedBox(height: 14),
+          if (order.deliveryAddress.isNotEmpty)
+            _DetailRow(label: 'Delivery', value: order.deliveryAddress),
+          if (order.momoReference.isNotEmpty)
+            _DetailRow(label: 'MoMo Ref', value: order.momoReference),
+          _DetailRow(
+            label: 'Items',
+            value:
+                '${order.items.length} line${order.items.length == 1 ? '' : 's'}',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _DetailRow extends StatelessWidget {
   const _DetailRow({required this.label, required this.value});
+
   final String label;
   final String value;
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return Padding(
-      padding: const EdgeInsets.only(bottom: 6),
+      padding: const EdgeInsets.only(bottom: 10),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: 100,
+            width: 92,
             child: Text(
               label,
               style: GoogleFonts.dmSans(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: AppColors.text3,
+                fontSize: 13,
+                fontWeight: FontWeight.w800,
+                color: colors.tertiaryText,
               ),
             ),
           ),
@@ -306,9 +465,9 @@ class _DetailRow extends StatelessWidget {
             child: Text(
               value,
               style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: AppColors.text,
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: colors.primaryText,
               ),
             ),
           ),
@@ -324,125 +483,186 @@ class _OrderTile extends StatelessWidget {
     required this.onStatusChange,
     required this.onTap,
   });
+
   final RsShopOrder order;
   final void Function(String status) onStatusChange;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final dateStr = DateFormat('d MMM HH:mm').format(order.createdAt);
-    final itemCount = order.items.length;
     final moneyFmt = NumberFormat.decimalPattern('en_US');
 
     return RepaintBoundary(
-      child: GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColors.border),
-        ),
+      child: CoolCard(
+        onTap: onTap,
+        backgroundColor: colors.commerceSurface,
+        borderColor: _orderStatusColor(
+          context,
+          order.status.value,
+        ).withValues(alpha: 0.28),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: Text(
-                    '#${order.id.substring(0, 8).toUpperCase()} · $itemCount items',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.text,
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '#${order.id.substring(0, 8).toUpperCase()}',
+                        style: GoogleFonts.barlowCondensed(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w900,
+                          color: colors.primaryText,
+                          height: 0.95,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        '${order.items.length} items  •  ${moneyFmt.format(order.total)} RWF',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w800,
+                          color: colors.secondaryText,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 _StatusBadge(status: order.status.value),
               ],
             ),
-            const SizedBox(height: 4),
-            Text(
-              '${moneyFmt.format(order.total)} RWF · $dateStr',
-              style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
-            ),
-            if (order.deliveryAddress.isNotEmpty) ...[
-              const SizedBox(height: 2),
-              Text(
-                '📍 ${order.deliveryAddress}',
-                style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-            const SizedBox(height: 8),
+            const SizedBox(height: 12),
             Wrap(
               spacing: 8,
+              runSpacing: 8,
+              children: [
+                _OrderValuePill(label: 'Created', value: dateStr),
+                if (order.deliveryAddress.isNotEmpty)
+                  _OrderValuePill(label: 'Route', value: order.deliveryAddress),
+              ],
+            ),
+            if (order.deliveryAddress.isNotEmpty) ...[
+              const SizedBox(height: 10),
+              Text(
+                'Delivery: ${order.deliveryAddress}',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.dmSans(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: colors.tertiaryText,
+                ),
+              ),
+            ],
+            const SizedBox(height: 14),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
               children: RsAdminOrdersScreen._statusFlow
-                  .where((s) => s != order.status.value)
+                  .where((status) => status != order.status.value)
                   .take(3)
                   .map(
-                    (s) => GestureDetector(
-                      onTap: () => onStatusChange(s),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 5,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.surface2,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          '→ $s',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 11,
-                            color: AppColors.accent,
-                          ),
-                        ),
-                      ),
+                    (status) => _OrderActionPill(
+                      label: 'Move to ${_title(status)}',
+                      onTap: () => onStatusChange(status),
                     ),
                   )
-                  .toList(),
+                  .toList(growable: false),
             ),
           ],
         ),
       ),
-    ),
     );
   }
 }
 
 class _StatusBadge extends StatelessWidget {
   const _StatusBadge({required this.status});
-  final String status;
 
-  Color get _color => switch (status) {
-    'paid' => AppColors.accent,
-    'confirmed' => AppColors.blue,
-    'packed' => AppColors.purple,
-    'shipped' => AppColors.purple,
-    'fulfilled' => AppColors.accent,
-    'delivered' => AppColors.accent,
-    'cancelled' => AppColors.red,
-    _ => AppColors.yellow,
-  };
+  final String status;
 
   @override
   Widget build(BuildContext context) {
+    final color = _orderStatusColor(context, status);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
       decoration: BoxDecoration(
-        color: _color.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(8),
+        color: color.withValues(alpha: 0.15),
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: color.withValues(alpha: 0.28)),
       ),
       child: Text(
         status.toUpperCase(),
         style: GoogleFonts.dmSans(
-          fontSize: 10,
+          fontSize: 11,
           fontWeight: FontWeight.w700,
-          color: _color,
+          color: color,
+        ),
+      ),
+    );
+  }
+}
+
+class _OrderValuePill extends StatelessWidget {
+  const _OrderValuePill({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+      decoration: BoxDecoration(
+        color: colors.cardSurface,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: colors.border),
+      ),
+      child: Text(
+        '$label: $value',
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: GoogleFonts.dmSans(
+          fontSize: 12,
+          fontWeight: FontWeight.w800,
+          color: colors.secondaryText,
+        ),
+      ),
+    );
+  }
+}
+
+class _OrderActionPill extends StatelessWidget {
+  const _OrderActionPill({required this.label, required this.onTap});
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        decoration: BoxDecoration(
+          color: colors.cardSurfaceStrong,
+          borderRadius: BorderRadius.circular(999),
+          border: Border.all(color: colors.borderStrong),
+        ),
+        child: Text(
+          label,
+          style: GoogleFonts.dmSans(
+            fontSize: 12,
+            fontWeight: FontWeight.w800,
+            color: AppColors.rsBlueLight,
+          ),
         ),
       ),
     );

@@ -6,8 +6,8 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/rs_colors.dart';
-import '../../../../core/theme/rs_text_styles.dart';
+import '../../../../core/theme/cool_foundations.dart';
+import '../../../../shared/widgets/cool_button.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../../../shared/widgets/rs_initiative_card.dart';
@@ -23,6 +23,7 @@ class SupportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, _) {
+        final theme = Theme.of(context);
         final initiativesAsync = ref.watch(rayonInitiativesProvider);
         final summaryAsync = ref.watch(rayonInitiativesSummaryProvider);
 
@@ -37,17 +38,15 @@ class SupportScreen extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
-                    _SupportIntroCard(
-                      summary: summaryAsync.valueOrNull,
-                    ),
-                    const SizedBox(height: 24),
+                    _SupportIntroCard(summary: summaryAsync.valueOrNull),
+                    const SizedBox(height: CoolSpace.x7),
                     Text(
                       'Active Causes',
-                      style: RsTextStyles.sectionTitle(
-                        color: RsColors.rsWhite,
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        color: Colors.white,
                       ),
                     ),
-                    const SizedBox(height: 14),
+                    const SizedBox(height: CoolSpace.x4),
                   ]),
                 ),
               ),
@@ -67,8 +66,7 @@ class SupportScreen extends StatelessWidget {
                         title: 'Failed to load causes',
                         subtitle: 'Pull to retry',
                         actionLabel: 'Retry',
-                        onTap: () =>
-                            ref.invalidate(rayonInitiativesProvider),
+                        onTap: () => ref.invalidate(rayonInitiativesProvider),
                       ),
                     ),
                   ),
@@ -89,16 +87,11 @@ class SupportScreen extends StatelessWidget {
                     SliverPadding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       sliver: SliverList(
-                        delegate: SliverChildBuilderDelegate((
-                          context,
-                          index,
-                        ) {
+                        delegate: SliverChildBuilderDelegate((context, index) {
                           final initiative = initiatives[index];
                           return Padding(
                             padding: EdgeInsets.only(
-                              bottom: index == initiatives.length - 1
-                                  ? 0
-                                  : 14,
+                              bottom: index == initiatives.length - 1 ? 0 : 14,
                             ),
                             child: RsInitiativeCard(
                               initiative: initiative,
@@ -132,34 +125,64 @@ class _SupportIntroCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return CoolCard(
-      borderColor: AppColors.border2,
+      borderColor: colors.borderStrong,
       gradient: AppColors.cardGradient,
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: _SummaryMetric(
-              value: summary == null
-                  ? '--'
-                  : _formatRwf(summary!.totalRaised),
-              label: 'Raised',
+          Text(
+            'Official support network',
+            style: theme.textTheme.labelLarge?.copyWith(
+              color: Colors.white.withValues(alpha: 0.74),
+              letterSpacing: 0.3,
             ),
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: _SummaryMetric(
-              value: summary == null
-                  ? '--'
-                  : _compactCount(summary!.totalSupporters),
-              label: 'Supporters',
+          const SizedBox(height: CoolSpace.x3),
+          Text(
+            'Club causes, verified giving, and visible impact for every contribution.',
+            style: theme.textTheme.headlineSmall?.copyWith(color: Colors.white),
+          ),
+          const SizedBox(height: CoolSpace.x3),
+          Text(
+            'Each initiative is structured for fast scanning, credible fundraising, and direct supporter action.',
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: Colors.white.withValues(alpha: 0.78),
             ),
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: _SummaryMetric(
-              value: summary == null ? '--' : '${summary!.activeCauses}',
-              label: 'Causes',
-            ),
+          const SizedBox(height: CoolSpace.x6),
+          Row(
+            children: [
+              Expanded(
+                child: _SummaryMetric(
+                  value: summary == null
+                      ? '--'
+                      : _formatRwf(summary!.totalRaised),
+                  label: 'Raised',
+                  surfaceColor: colors.financialSurface,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _SummaryMetric(
+                  value: summary == null
+                      ? '--'
+                      : _compactCount(summary!.totalSupporters),
+                  label: 'Supporters',
+                  surfaceColor: colors.proximitySurface,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _SummaryMetric(
+                  value: summary == null ? '--' : '${summary!.activeCauses}',
+                  label: 'Causes',
+                  surfaceColor: colors.teamSurface,
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -168,34 +191,50 @@ class _SupportIntroCard extends StatelessWidget {
 }
 
 class _SummaryMetric extends StatelessWidget {
-  const _SummaryMetric({required this.value, required this.label});
+  const _SummaryMetric({
+    required this.value,
+    required this.label,
+    required this.surfaceColor,
+  });
 
   final String value;
   final String label;
+  final Color surfaceColor;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          value,
-          style: GoogleFonts.dmMono(
-            fontSize: 14,
-            fontWeight: FontWeight.w700,
-            color: RsColors.rsWhite,
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    return Container(
+      padding: const EdgeInsets.all(CoolSpace.x4),
+      decoration: BoxDecoration(
+        color: surfaceColor.withValues(alpha: 0.92),
+        borderRadius: BorderRadius.circular(CoolRadii.md),
+        border: Border.all(color: colors.borderStrong),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            value,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: theme.textTheme.titleLarge?.copyWith(
+              color: Colors.white,
+              fontFamily: GoogleFonts.dmMono().fontFamily,
+              fontWeight: FontWeight.w800,
+            ),
           ),
-        ),
-        const SizedBox(height: 6),
-        Text(
-          label,
-          style: GoogleFonts.barlow(
-            fontSize: 11,
-            fontWeight: FontWeight.w500,
-            color: AppColors.text3,
+          const SizedBox(height: 6),
+          Text(
+            label,
+            style: theme.textTheme.labelMedium?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w800,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -205,30 +244,45 @@ class _EmptyInitiativesState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 36),
-      child: Center(
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    return CoolCard(
+      backgroundColor: colors.cardSurfaceStrong.withValues(alpha: 0.86),
+      borderColor: colors.borderStrong,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: CoolSpace.x3),
         child: Column(
           children: [
-            Icon(
-              Icons.stadium_rounded,
-              size: 52,
-              color: AppColors.rsWhite.withValues(alpha: 0.8),
+            Container(
+              width: 68,
+              height: 68,
+              decoration: BoxDecoration(
+                color: colors.teamSurface,
+                borderRadius: BorderRadius.circular(CoolRadii.lg),
+                border: Border.all(color: colors.borderStrong),
+              ),
+              alignment: Alignment.center,
+              child: Icon(
+                Icons.stadium_rounded,
+                size: 34,
+                color: colors.primaryText,
+              ),
             ),
-            const SizedBox(height: 14),
+            const SizedBox(height: CoolSpace.x5),
             Text(
               'No active causes right now',
-              style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
+              style: theme.textTheme.headlineSmall?.copyWith(
+                color: Colors.white,
+              ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: CoolSpace.x2),
             Text(
-              'Check back soon',
-              style: GoogleFonts.barlow(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: AppColors.text2,
+              'Check back soon for new fundraising programs and club-backed initiatives.',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colors.secondaryText,
               ),
+              textAlign: TextAlign.center,
             ),
           ],
         ),
@@ -254,42 +308,50 @@ class _StateCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return CoolCard(
-      borderColor: AppColors.border2,
-      gradient: AppColors.cardGradient,
+      borderColor: colors.borderStrong,
+      backgroundColor: colors.cardSurfaceStrong.withValues(alpha: 0.86),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: CoolSpace.x3),
         child: Column(
           children: [
-            Icon(icon, size: 42, color: AppColors.text2),
-            const SizedBox(height: 10),
-            Text(
-              title,
-              style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 6),
-            Text(
-              subtitle,
-              style: GoogleFonts.barlow(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: AppColors.text2,
-                height: 1.4,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 14),
-            TextButton(
-              onPressed: onTap,
-              child: Text(
-                actionLabel,
-                style: GoogleFonts.barlow(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.accent,
+            Container(
+              width: 68,
+              height: 68,
+              decoration: BoxDecoration(
+                color: colors.warning.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(CoolRadii.lg),
+                border: Border.all(
+                  color: colors.warning.withValues(alpha: 0.2),
                 ),
               ),
+              alignment: Alignment.center,
+              child: Icon(icon, size: 34, color: colors.warning),
+            ),
+            const SizedBox(height: CoolSpace.x5),
+            Text(
+              title,
+              style: theme.textTheme.headlineSmall?.copyWith(
+                color: Colors.white,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: CoolSpace.x2),
+            Text(
+              subtitle,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colors.secondaryText,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: CoolSpace.x5),
+            CoolButton(
+              label: actionLabel,
+              variant: CoolButtonVariant.secondary,
+              fullWidth: false,
+              onTap: onTap,
             ),
           ],
         ),

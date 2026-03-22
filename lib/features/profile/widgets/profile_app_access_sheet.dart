@@ -10,17 +10,19 @@ import '../../../core/providers/app_lifecycle_providers.dart';
 import '../../mobility/providers/mobility_location_provider.dart';
 import '../../../core/services/fcm_service.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../core/services/app_access_service.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import 'profile_settings_widgets.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
 
 class ProfileAppAccessSheet extends ConsumerStatefulWidget {
   const ProfileAppAccessSheet({super.key});
 
   static Future<void> show(BuildContext context) {
-    return showModalBottomSheet<void>(
+    return showCoolBottomSheet<void>(
       context: context,
       useRootNavigator: true,
       backgroundColor: Colors.transparent,
@@ -41,6 +43,7 @@ class _ProfileAppAccessSheetState extends ConsumerState<ProfileAppAccessSheet>
     AppAccessPermission.location,
     AppAccessPermission.camera,
     AppAccessPermission.contacts,
+    AppAccessPermission.photos,
     AppAccessPermission.nfc,
   ];
 
@@ -140,6 +143,7 @@ class _ProfileAppAccessSheetState extends ConsumerState<ProfileAppAccessSheet>
         case AppAccessPermission.contacts:
         case AppAccessPermission.camera:
         case AppAccessPermission.nfc:
+        case AppAccessPermission.photos:
           break;
       }
     }
@@ -189,6 +193,7 @@ class _ProfileAppAccessSheetState extends ConsumerState<ProfileAppAccessSheet>
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final notificationSettings = ref.watch(notificationSettingsProvider);
     final readyCount =
         _snapshots.values.where((snapshot) => snapshot.isReady).length +
@@ -200,7 +205,7 @@ class _ProfileAppAccessSheetState extends ConsumerState<ProfileAppAccessSheet>
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
@@ -221,7 +226,7 @@ class _ProfileAppAccessSheetState extends ConsumerState<ProfileAppAccessSheet>
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: AppColors.border2,
+                    color: palette.border2,
                     borderRadius: BorderRadius.circular(999),
                   ),
                 ),
@@ -232,7 +237,7 @@ class _ProfileAppAccessSheetState extends ConsumerState<ProfileAppAccessSheet>
                 style: GoogleFonts.dmSans(
                   fontSize: 20,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
               const SizedBox(height: 8),
@@ -241,7 +246,7 @@ class _ProfileAppAccessSheetState extends ConsumerState<ProfileAppAccessSheet>
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
-                  color: AppColors.text2,
+                  color: palette.text2,
                   height: 1.45,
                 ),
               ),
@@ -298,13 +303,14 @@ class _SummaryBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: AppColors.surface2,
+        color: palette.surface2,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: Row(
         children: [
@@ -312,12 +318,12 @@ class _SummaryBanner extends StatelessWidget {
             width: 42,
             height: 42,
             decoration: BoxDecoration(
-              color: AppColors.accentGlow,
+              color: palette.accentGlow,
               borderRadius: BorderRadius.circular(14),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.admin_panel_settings_outlined,
-              color: AppColors.accent,
+              color: palette.accent,
             ),
           ),
           const SizedBox(width: 12),
@@ -330,7 +336,7 @@ class _SummaryBanner extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -339,7 +345,7 @@ class _SummaryBanner extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
-                    color: AppColors.text2,
+                    color: palette.text2,
                     height: 1.4,
                   ),
                 ),
@@ -365,6 +371,7 @@ class _NotificationAccessCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final isBlockedInSystem =
         settings.status.authorizationStatus == FcmAuthorizationStatus.denied;
     final statusLabel = settings.status.preferenceEnabled
@@ -372,12 +379,12 @@ class _NotificationAccessCard extends StatelessWidget {
         : (isBlockedInSystem ? 'Blocked in system' : 'Off in COOL');
     final statusColor =
         settings.status.preferenceEnabled && settings.status.isAuthorized
-        ? AppColors.accent
+        ? palette.accent
         : isBlockedInSystem
-        ? AppColors.red
+        ? palette.red
         : settings.status.preferenceEnabled
-        ? AppColors.orange
-        : AppColors.text2;
+        ? palette.orange
+        : palette.text2;
     final canOpenSettings = isBlockedInSystem;
 
     return _AccessCardShell(
@@ -429,6 +436,7 @@ class _PermissionAccessCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final status = _statusFor(snapshot);
     final footerAction = switch (snapshot.kind) {
       AppAccessStateKind.blockedInSystem => _InlineActionButton(
@@ -461,7 +469,7 @@ class _PermissionAccessCard extends StatelessWidget {
               onChanged: snapshot.kind == AppAccessStateKind.notAvailable
                   ? null
                   : onChanged,
-              activeTrackColor: AppColors.accent,
+              activeTrackColor: palette.accent,
             ),
       footerAction: footerAction,
       helperText: _helperText(snapshot, metadata),
@@ -494,17 +502,19 @@ class _AccessCardShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return LayoutBuilder(
       builder: (context, constraints) {
+        final palette = context.coolPalette;
         final isNarrow = constraints.maxWidth < 380;
 
         return Container(
           width: double.infinity,
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: AppColors.surface2,
+            color: palette.surface2,
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: palette.border),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -516,11 +526,11 @@ class _AccessCardShell extends StatelessWidget {
                     width: 44,
                     height: 44,
                     decoration: BoxDecoration(
-                      color: AppColors.surface3,
+                      color: palette.surface3,
                       borderRadius: BorderRadius.circular(14),
                     ),
                     alignment: Alignment.center,
-                    child: Icon(icon, color: AppColors.text, size: 22),
+                    child: Icon(icon, color: palette.text, size: 22),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -533,7 +543,7 @@ class _AccessCardShell extends StatelessWidget {
                             style: GoogleFonts.dmSans(
                               fontSize: 15,
                               fontWeight: FontWeight.w700,
-                              color: AppColors.text,
+                              color: palette.text,
                             ),
                           ),
                           const SizedBox(height: 8),
@@ -559,7 +569,7 @@ class _AccessCardShell extends StatelessWidget {
                                   style: GoogleFonts.dmSans(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w700,
-                                    color: AppColors.text,
+                                    color: palette.text,
                                   ),
                                 ),
                               ),
@@ -576,7 +586,7 @@ class _AccessCardShell extends StatelessWidget {
                           style: GoogleFonts.dmSans(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
-                            color: AppColors.text2,
+                            color: palette.text2,
                             height: 1.45,
                           ),
                         ),
@@ -598,7 +608,7 @@ class _AccessCardShell extends StatelessWidget {
                           vertical: 6,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.surface3,
+                          color: palette.surface3,
                           borderRadius: BorderRadius.circular(999),
                         ),
                         child: Text(
@@ -606,7 +616,7 @@ class _AccessCardShell extends StatelessWidget {
                           style: GoogleFonts.dmSans(
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.text2,
+                            color: palette.text2,
                           ),
                         ),
                       ),
@@ -619,7 +629,7 @@ class _AccessCardShell extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
-                  color: AppColors.text3,
+                  color: palette.text3,
                   height: 1.45,
                 ),
               ),
@@ -669,6 +679,7 @@ class _InlineActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Semantics(
       button: true,
       label: label,
@@ -677,7 +688,7 @@ class _InlineActionButton extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           decoration: BoxDecoration(
-            color: AppColors.accentGlow,
+            color: palette.accentGlow,
             borderRadius: BorderRadius.circular(14),
           ),
           child: Text(
@@ -685,7 +696,7 @@ class _InlineActionButton extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 12,
               fontWeight: FontWeight.w700,
-              color: AppColors.accent,
+              color: palette.accent,
             ),
           ),
         ),
@@ -699,13 +710,14 @@ class _SmsPolicyNotice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: AppColors.surface2,
+        color: palette.surface2,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -714,11 +726,11 @@ class _SmsPolicyNotice extends StatelessWidget {
             width: 38,
             height: 38,
             decoration: BoxDecoration(
-              color: AppColors.surface3,
+              color: palette.surface3,
               borderRadius: BorderRadius.circular(12),
             ),
             alignment: Alignment.center,
-            child: Icon(Icons.sms_outlined, color: AppColors.text2, size: 20),
+            child: Icon(Icons.sms_outlined, color: palette.text2, size: 20),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -730,7 +742,7 @@ class _SmsPolicyNotice extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -743,7 +755,7 @@ class _SmsPolicyNotice extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
-                    color: AppColors.text3,
+                    color: palette.text3,
                     height: 1.45,
                   ),
                 ),
@@ -815,6 +827,14 @@ _PermissionMetadata _metadataFor(AppAccessPermission permission) {
           'Controls NFC receive/read flows',
       linkedFeatures: ['MoMo receive tap', 'NFC payment tags'],
       serviceActionLabel: 'Open NFC settings',
+    ),
+    AppAccessPermission.photos => const _PermissionMetadata(
+      icon: Icons.photo_library_outlined,
+      title: 'Photos & Media',
+      subtitle:
+          'Choose profile photos and upload documents from gallery.',
+      linkedFeatures: ['Profile photo', 'Document upload'],
+      serviceActionLabel: 'Open system settings',
     ),
   };
 }

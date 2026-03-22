@@ -1,20 +1,20 @@
 default_platform(:android)
 
 platform :android do
-  desc "Upload AAB to Google Play internal testing track"
+  desc "Upload AAB to Google Play production track"
   lane :upload_to_play do
     upload_to_play_store(
-      track: "internal",
+      track: "production",
       aab: "../build/app/outputs/bundle/productionRelease/app-production-release.aab",
       json_key: "/Volumes/PRO-G40/COOL/output/play_store/play-store-sa-key.json",
       package_name: "app.cool.mobile",
-      release_status: "draft",
+      release_status: "completed",
       skip_upload_metadata: true,
       skip_upload_images: true,
       skip_upload_screenshots: true,
       skip_upload_changelogs: false,
-      version_name: "1.0.0",
-      version_code: 2
+      version_name: "1.1.1",
+      version_code: 4
     )
   end
 
@@ -30,7 +30,7 @@ platform :android do
       skip_upload_images: false,
       skip_upload_screenshots: false,
       skip_upload_changelogs: false,
-      version_code: 2
+      version_code: 3
     )
   end
 

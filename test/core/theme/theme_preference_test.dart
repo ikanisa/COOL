@@ -12,12 +12,12 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('appThemePreferenceFromStorage', () {
-    test('defaults unknown values to system', () {
+    test('defaults unknown values to dark', () {
       expect(
         appThemePreferenceFromStorage('unexpected'),
-        AppThemePreference.system,
+        AppThemePreference.dark,
       );
-      expect(appThemePreferenceFromStorage(null), AppThemePreference.system);
+      expect(appThemePreferenceFromStorage(null), AppThemePreference.dark);
     });
 
     test('parses light and dark values', () {
@@ -43,11 +43,11 @@ void main() {
       await hiveDir.delete(recursive: true);
     });
 
-    test('defaults to system when unset', () async {
+    test('defaults to dark when unset', () async {
       final store = HiveThemePreferenceStore(openBox: Hive.openBox<String>);
 
       final result = await store.read();
-      expect(result.preference, AppThemePreference.system);
+      expect(result.preference, AppThemePreference.dark);
       expect(result.updatedAt, isNull);
     });
 
@@ -74,7 +74,7 @@ void main() {
 
       expect(
         container.read(themePreferenceProvider),
-        AppThemePreference.system,
+        AppThemePreference.dark,
       );
 
       await pumpEventQueue();

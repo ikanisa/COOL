@@ -19,6 +19,7 @@ import '../widgets/mobility_listing_sheet.dart';
 import '../widgets/trip_board_content_widgets.dart';
 import '../widgets/trip_board_header_widgets.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
 
 class TripBoardScreen extends ConsumerStatefulWidget {
   const TripBoardScreen({super.key});
@@ -253,7 +254,7 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
     final isPaused = isPausedTrip(trip);
     final isActive = isActiveTrip(trip);
 
-    await showModalBottomSheet<void>(
+    await showCoolBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       shape: const RoundedRectangleBorder(
@@ -390,7 +391,7 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
 
   Future<void> _openTripTypeSheet() async {
     final activeTab = ref.read(tripBoardActiveTabProvider);
-    final nextTab = await showModalBottomSheet<TripBoardTab>(
+    final nextTab = await showCoolBottomSheet<TripBoardTab>(
       context: context,
       backgroundColor: Colors.transparent,
       builder: (_) => TripBoardTripTypeSheet(activeTab: activeTab),

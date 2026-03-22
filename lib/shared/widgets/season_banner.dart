@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/status/models/cool_season.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../core/utils/icon_mapper.dart';
 
 /// Home screen banner showing the active season: theme, countdown, and reward preview.
@@ -15,6 +15,7 @@ class SeasonBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     if (!season.isLive) return const SizedBox.shrink();
 
     return GestureDetector(
@@ -29,12 +30,12 @@ class SeasonBanner extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              AppColors.accent.withValues(alpha: 0.12),
-              AppColors.blue.withValues(alpha: 0.08),
+              palette.accent.withValues(alpha: 0.12),
+              palette.blue.withValues(alpha: 0.08),
             ],
           ),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.accent.withValues(alpha: 0.2)),
+          border: Border.all(color: palette.accent.withValues(alpha: 0.2)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +46,7 @@ class SeasonBanner extends StatelessWidget {
                 Icon(
                   IconMapper.from(season.emoji),
                   size: 22,
-                  color: AppColors.text2,
+                  color: palette.text2,
                 ),
                 const SizedBox(width: 8),
                 Expanded(
@@ -54,7 +55,7 @@ class SeasonBanner extends StatelessWidget {
                     style: GoogleFonts.dmSans(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.text,
+                      color: palette.text,
                     ),
                   ),
                 ),
@@ -66,7 +67,7 @@ class SeasonBanner extends StatelessWidget {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.accent.withValues(alpha: 0.15),
+                      color: palette.accent.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
@@ -74,7 +75,7 @@ class SeasonBanner extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.accent,
+                        color: palette.accent,
                       ),
                     ),
                   ),
@@ -93,9 +94,9 @@ class SeasonBanner extends StatelessWidget {
                 child: LinearProgressIndicator(
                   value: season.progressThroughSeason,
                   minHeight: 4,
-                  backgroundColor: AppColors.surface3,
+                  backgroundColor: palette.surface3,
                   valueColor: AlwaysStoppedAnimation<Color>(
-                    AppColors.accent.withValues(alpha: 0.6),
+                    palette.accent.withValues(alpha: 0.6),
                   ),
                 ),
               ),
@@ -115,7 +116,7 @@ class SeasonBanner extends StatelessWidget {
                         Icon(
                           Icons.star_rounded,
                           size: 14,
-                          color: AppColors.text2,
+                          color: palette.text2,
                         ),
                         const SizedBox(width: 4),
                         Flexible(
@@ -126,7 +127,7 @@ class SeasonBanner extends StatelessWidget {
                             style: GoogleFonts.dmSans(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.text2,
+                              color: palette.text2,
                             ),
                           ),
                         ),
@@ -143,7 +144,7 @@ class SeasonBanner extends StatelessWidget {
                         season.rewardsDescription!,
                         style: GoogleFonts.dmSans(
                           fontSize: 11,
-                          color: AppColors.text3,
+                          color: palette.text3,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

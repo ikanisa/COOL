@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 
 import '../../../core/config/deep_link_config.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../core/utils/intl_locale.dart';
 import '../../../shared/widgets/share_card.dart';
 import '../../../shared/widgets/wa_button.dart';
@@ -16,6 +17,7 @@ import '../models/mobility_route_preview.dart';
 import '../models/trip.dart';
 import '../services/place_search_service.dart';
 import 'schedule_trip_route_preview.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
 
 Future<void> showTripListingSheet(
   BuildContext context, {
@@ -23,9 +25,10 @@ Future<void> showTripListingSheet(
   required String buttonLabel,
   VoidCallback? onOpenWhatsApp,
 }) {
-  return showModalBottomSheet<void>(
+  final palette = context.coolPalette;
+  return showCoolBottomSheet<void>(
     context: context,
-    backgroundColor: AppColors.surface,
+    backgroundColor: palette.surface,
     isScrollControlled: true,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
@@ -55,9 +58,10 @@ Future<void> showDriverListingSheet(
   required String buttonLabel,
   VoidCallback? onOpenWhatsApp,
 }) {
-  return showModalBottomSheet<void>(
+  final palette = context.coolPalette;
+  return showCoolBottomSheet<void>(
     context: context,
-    backgroundColor: AppColors.surface,
+    backgroundColor: palette.surface,
     isScrollControlled: true,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
@@ -182,6 +186,7 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final trip = widget.trip;
     final departure = DateFormat(
       'EEE d MMM • HH:mm',
@@ -217,14 +222,14 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
             if (trip.isReturn || trip.isDriverReturnTrip)
               _SheetChip(
                 label: 'Return trip',
-                bgColor: AppColors.purple.withValues(alpha: 0.16),
-                textColor: AppColors.purple,
+                bgColor: palette.purple.withValues(alpha: 0.16),
+                textColor: palette.purple,
               ),
             if (trip.isRecurring)
               _SheetChip(
                 label: 'Recurring',
-                bgColor: AppColors.accentGlow,
-                textColor: AppColors.accent,
+                bgColor: palette.accentGlow,
+                textColor: palette.accent,
               ),
           ],
         ),
@@ -295,6 +300,7 @@ class _DriverListingSheetBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final distance = driver.distanceKm < 1
         ? '${(driver.distanceKm * 1000).round()} m away'
         : '${driver.distanceKm.toStringAsFixed(1)} km away';
@@ -315,12 +321,12 @@ class _DriverListingSheetBody extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 24,
-              backgroundColor: AppColors.accentGlow,
+              backgroundColor: palette.accentGlow,
               child: Text(
                 _initialsFor(driver.displayName, fallback: 'DR'),
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.w800,
-                      color: AppColors.accent,
+                      color: palette.accent,
                     ),
               ),
             ),
@@ -354,21 +360,21 @@ class _DriverListingSheetBody extends StatelessWidget {
             _SheetChip(
               label: driver.isOnline ? 'Online now' : 'Offline',
               bgColor: driver.isOnline
-                  ? AppColors.accentGlow
-                  : AppColors.surface3,
-              textColor: driver.isOnline ? AppColors.accent : AppColors.text2,
+                  ? palette.accentGlow
+                  : palette.surface3,
+              textColor: driver.isOnline ? palette.accent : palette.text2,
             ),
             if (driver.hasReturnTrip)
               _SheetChip(
                 label: 'Has return trip',
-                bgColor: AppColors.purple.withValues(alpha: 0.16),
-                textColor: AppColors.purple,
+                bgColor: palette.purple.withValues(alpha: 0.16),
+                textColor: palette.purple,
               ),
             if (driver.isRegularDriver)
               _SheetChip(
                 label: 'Regular driver',
-                bgColor: AppColors.blueGlow,
-                textColor: AppColors.blue,
+                bgColor: palette.blueGlow,
+                textColor: palette.blue,
               ),
           ],
         ),
@@ -404,12 +410,13 @@ class _SheetHandle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Center(
       child: Container(
         width: 44,
         height: 4,
         decoration: BoxDecoration(
-          color: AppColors.border2,
+          color: palette.border2,
           borderRadius: BorderRadius.circular(999),
         ),
       ),
@@ -425,15 +432,16 @@ class _RouteHeadline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _RoutePoint(label: from, color: AppColors.accent),
+        _RoutePoint(label: from, color: palette.accent),
         Padding(
           padding: const EdgeInsets.only(left: 5),
-          child: Container(width: 1.5, height: 16, color: AppColors.border2),
+          child: Container(width: 1.5, height: 16, color: palette.border2),
         ),
-        _RoutePoint(label: to, color: AppColors.orange),
+        _RoutePoint(label: to, color: palette.orange),
       ],
     );
   }
@@ -476,6 +484,7 @@ class _DetailRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
@@ -488,7 +497,7 @@ class _DetailRow extends StatelessWidget {
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                     fontWeight: FontWeight.w700,
                     letterSpacing: 0.8,
-                    color: AppColors.text3,
+                    color: palette.text3,
                   ),
             ),
           ),
@@ -497,7 +506,7 @@ class _DetailRow extends StatelessWidget {
               value,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: AppColors.text2,
+                    color: palette.text2,
                   ),
             ),
           ),
@@ -514,12 +523,13 @@ class _UnavailableHint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Text(
       text,
       style: GoogleFonts.dmSans(
         fontSize: 13,
         fontWeight: FontWeight.w500,
-        color: AppColors.text2,
+        color: palette.text2,
       ),
     );
   }

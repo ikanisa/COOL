@@ -266,7 +266,7 @@ void main() {
 
     await settleTestApp(tester);
 
-    expect(find.text('Custody Bank Admin'), findsOneWidget);
+    expect(find.text('Custody Bank Terminal'), findsOneWidget);
     expect(find.text('Kigali Market Circle'), findsOneWidget);
     expect(find.text('1 manual review'), findsOneWidget);
 
@@ -285,12 +285,12 @@ void main() {
 
     expect(find.text('Posted payment ledger'), findsOneWidget);
 
-    await tester.tap(find.text('Allocations'));
+    await tester.tap(find.text('ALLOCATIONS'));
     await tester.pumpAndSettle();
 
     expect(find.text('Manual Review'), findsOneWidget);
 
-    await tester.tap(find.text('Ledgers'));
+    await tester.tap(find.text('LEDGERS'));
     await tester.pumpAndSettle();
 
     expect(find.text('Posted payment ledger'), findsOneWidget);
@@ -343,7 +343,7 @@ void main() {
 
     await settleTestApp(tester);
 
-    await tester.tap(find.text('Allocations'));
+    await tester.tap(find.text('ALLOCATIONS'));
     await tester.pumpAndSettle();
 
     expect(find.text('Allocate'), findsOneWidget);

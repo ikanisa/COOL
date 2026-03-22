@@ -424,21 +424,16 @@ async function ensureGroupContributionByPayeeRoute(
   );
 
   if (existing) {
-    const updateResult = await adminClient
-      .from("group_contributions")
-      .update({
-        status: "confirmed",
-      })
-      .eq("id", existing.id);
-
-    if (updateResult.error) {
-      throw updateResult.error;
-    }
+    // Atomically confirm the contribution and update group balance.
+    // confirm_contribution() sets status → 'completed' and adds to groups.amount.
+    await adminClient.rpc("confirm_contribution", {
+      p_contribution_id: existing.id,
+    });
 
     return {
       id: existing.id,
       group_id: existing.group_id,
-      status: "confirmed",
+      status: "completed",
     };
   }
 
@@ -450,7 +445,7 @@ async function ensureGroupContributionByPayeeRoute(
       group_id: group.id,
       user_id: rawSms.user_id,
       amount: parsed.amount ?? 0,
-      status: "confirmed",
+      status: "pending",
       momo_reference: insertReference,
       created_at: parsed.tx_datetime_iso ?? rawSms.sms_received_at ?? timestamp,
     })
@@ -461,10 +456,17 @@ async function ensureGroupContributionByPayeeRoute(
     throw insertResult.error;
   }
 
+  const insertedId = asString(insertResult.data.id) ?? "";
+
+  // Atomically confirm the contribution and update group balance.
+  await adminClient.rpc("confirm_contribution", {
+    p_contribution_id: insertedId,
+  });
+
   return {
-    id: asString(insertResult.data.id) ?? "",
+    id: insertedId,
     group_id: asString(insertResult.data.group_id),
-    status: asString(insertResult.data.status) ?? "confirmed",
+    status: "completed",
   };
 }
 
@@ -973,10 +975,11 @@ export async function reconcileParsedSms(
   if (contributionCandidate) {
     const matchedReference = contributionCandidate.momo_reference ??
       sourceReference(rawSms, parsed);
+
+    // Update the momo_reference (keep status as 'pending' for the RPC).
     const updateResult = await adminClient
       .from("group_contributions")
       .update({
-        status: "confirmed",
         momo_reference: matchedReference,
       })
       .eq("id", contributionCandidate.id);
@@ -984,6 +987,11 @@ export async function reconcileParsedSms(
     if (updateResult.error) {
       throw updateResult.error;
     }
+
+    // Atomically confirm the contribution and update group balance.
+    await adminClient.rpc("confirm_contribution", {
+      p_contribution_id: contributionCandidate.id,
+    });
 
     return {
       matchType: "group_contribution",

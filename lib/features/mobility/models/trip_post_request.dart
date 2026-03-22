@@ -38,6 +38,7 @@ class TripPostRequest {
     this.whatsappNumber,
     this.isDriverReturnTrip = false,
     this.priceNote,
+    this.distanceKm,
   });
 
   final String fromLocation;
@@ -59,6 +60,7 @@ class TripPostRequest {
   final String? whatsappNumber;
   final bool isDriverReturnTrip;
   final String? priceNote;
+  final double? distanceKm;
 
   bool get isReturnTrip => returnAt != null;
   bool get isRecurringTrip => recurringDays.isNotEmpty;
@@ -69,7 +71,11 @@ class TripPostRequest {
       'to_location': toLocation,
       'travel_time': departureAt.toIso8601String(),
       'return_at': returnAt?.toIso8601String(),
-      'expires_at': departureAt.add(const Duration(hours: 1)).toIso8601String(),
+      'expires_at': departureAt
+          .add(isRecurringTrip
+              ? const Duration(days: 7)
+              : const Duration(hours: 1))
+          .toIso8601String(),
       'user_id': userId,
       'client_request_id': clientRequestId,
       'role': _normalizedRole(role, isDriverReturnTrip: isDriverReturnTrip),
@@ -91,6 +97,7 @@ class TripPostRequest {
       if (includeContactFields) 'contact_name': contactName,
       'whatsapp_number': whatsappNumber ?? contactPhone,
       'price_note': priceNote,
+      'distance_km': distanceKm,
     };
 
     payload.removeWhere((_, value) => value == null);

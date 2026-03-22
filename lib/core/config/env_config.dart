@@ -171,7 +171,10 @@ class EnvConfig {
     }
 
     if (kReleaseMode && !isConfigured) {
-      throw StateError(
+      // Log the error but do NOT throw — the app handles this gracefully
+      // by showing ConfigErrorApp. Throwing here crashes before runApp()
+      // and leaves the user stuck on the native splash with zero feedback.
+      debugPrint(
         'FATAL: ${criticalConfigurationError ?? "Missing critical env vars."} '
         'Cannot start in release mode without valid Supabase configuration.',
       );

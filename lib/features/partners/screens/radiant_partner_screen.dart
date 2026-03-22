@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/services/whatsapp_contact_service.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../core/utils/icon_mapper.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_button.dart';
@@ -29,6 +30,7 @@ class RadiantPartnerScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
     final partnerAsync = ref.watch(partnerBySlugProvider(_slug));
 
     return CoolScreenBackground(
@@ -42,11 +44,11 @@ class RadiantPartnerScreen extends ConsumerWidget {
             context,
             fallbackLocation: AppRoutes.partners,
             icon: Icons.arrow_back_ios_new_rounded,
-            color: AppColors.text,
+            color: palette.text,
           ),
           actions: buildPartnerAppBarActions(
             context,
-            homeColor: AppColors.text,
+            homeColor: palette.text,
           ),
           title: partnerAsync.when(
             data: (p) => Text(
@@ -54,7 +56,7 @@ class RadiantPartnerScreen extends ConsumerWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
-                color: AppColors.text,
+                color: palette.text,
               ),
             ),
             loading: () => const SizedBox.shrink(),
@@ -70,7 +72,7 @@ class RadiantPartnerScreen extends ConsumerWidget {
           error: (e, _) => Center(
             child: Text(
               e.toString(),
-              style: GoogleFonts.dmSans(color: AppColors.text2),
+              style: GoogleFonts.dmSans(color: palette.text2),
             ),
           ),
           data: (partner) {
@@ -78,7 +80,7 @@ class RadiantPartnerScreen extends ConsumerWidget {
               return Center(
                 child: Text(
                   'Partner not found',
-                  style: GoogleFonts.dmSans(color: AppColors.text2),
+                  style: GoogleFonts.dmSans(color: palette.text2),
                 ),
               );
             }
@@ -113,6 +115,7 @@ class _RadiantBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
     final servicesAsync = ref.watch(
       currentCountryPartnerServicesProvider(partner.id),
     );
@@ -146,10 +149,10 @@ class _RadiantBody extends ConsumerWidget {
                           vertical: 5,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.blue.withValues(alpha: 0.15),
+                          color: palette.blue.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                            color: AppColors.blue.withValues(alpha: 0.3),
+                            color: palette.blue.withValues(alpha: 0.3),
                           ),
                         ),
                         child: Row(
@@ -158,7 +161,7 @@ class _RadiantBody extends ConsumerWidget {
                             Icon(
                               IconMapper.from(partner.emoji),
                               size: 13,
-                              color: AppColors.blue,
+                              color: palette.blue,
                             ),
                             const SizedBox(width: 4),
                             Text(
@@ -166,7 +169,7 @@ class _RadiantBody extends ConsumerWidget {
                               style: GoogleFonts.dmSans(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.blue,
+                                color: palette.blue,
                               ),
                             ),
                           ],
@@ -178,7 +181,7 @@ class _RadiantBody extends ConsumerWidget {
                         style: GoogleFonts.dmSans(
                           fontSize: 22,
                           fontWeight: FontWeight.w800,
-                          color: AppColors.text,
+                          color: palette.text,
                         ),
                       ),
                       if (partner.subtitle != null) ...[
@@ -188,7 +191,7 @@ class _RadiantBody extends ConsumerWidget {
                           style: GoogleFonts.dmSans(
                             fontSize: 13,
                             fontWeight: FontWeight.w400,
-                            color: AppColors.text2,
+                            color: palette.text2,
                           ),
                         ),
                       ],
@@ -206,7 +209,7 @@ class _RadiantBody extends ConsumerWidget {
             error: (e, _) => CoolCard(
               child: Text(
                 e.toString(),
-                style: GoogleFonts.dmSans(color: AppColors.text2),
+                style: GoogleFonts.dmSans(color: palette.text2),
               ),
             ),
             data: (services) => Column(
@@ -238,6 +241,7 @@ class _InsuranceServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return CoolCard(
       onTap: onTap,
       child: Column(
@@ -249,14 +253,14 @@ class _InsuranceServiceCard extends StatelessWidget {
                 width: 38,
                 height: 38,
                 decoration: BoxDecoration(
-                  color: AppColors.blue.withValues(alpha: 0.12),
+                  color: palette.blue.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 alignment: Alignment.center,
                 child: Icon(
                   IconMapper.from(service.emoji),
                   size: 20,
-                  color: AppColors.text2,
+                  color: palette.text2,
                 ),
               ),
               const SizedBox(width: 12),
@@ -269,7 +273,7 @@ class _InsuranceServiceCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     if (service.subtitle != null)
@@ -278,7 +282,7 @@ class _InsuranceServiceCard extends StatelessWidget {
                         style: GoogleFonts.dmSans(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
-                          color: AppColors.text2,
+                          color: palette.text2,
                         ),
                       ),
                   ],
@@ -292,9 +296,9 @@ class _InsuranceServiceCard extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: AppColors.surface2,
+                color: palette.surface2,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: palette.border),
               ),
               child: Column(
                 children: [
@@ -327,16 +331,17 @@ class _InfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Row(
       children: [
-        Icon(IconMapper.from(detail.icon), size: 14, color: AppColors.text2),
+        Icon(IconMapper.from(detail.icon), size: 14, color: palette.text2),
         const SizedBox(width: 8),
         Text(
           detail.label,
           style: GoogleFonts.dmSans(
             fontSize: 12,
             fontWeight: FontWeight.w500,
-            color: AppColors.text3,
+            color: palette.text3,
           ),
         ),
         const Spacer(),
@@ -345,7 +350,7 @@ class _InfoRow extends StatelessWidget {
           style: GoogleFonts.dmMono(
             fontSize: 13,
             fontWeight: FontWeight.w700,
-            color: AppColors.accent,
+            color: palette.accent,
           ),
         ),
       ],

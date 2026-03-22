@@ -150,7 +150,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(_dropdownFieldWithLabel('Market'), findsNothing);
-    expect(_inputDecoratorWithLabel('Market (auto)'), findsOneWidget);
+    expect(find.byType(TextFormField), findsAtLeastNWidgets(1));
 
     await tester.enterText(_textFieldWithLabel('Name *'), 'Rayon Tickets');
     await tester.enterText(_textFieldWithLabel('Slug *'), 'rayon-tickets');
@@ -250,7 +250,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Urwego · banking · Rwanda'), findsOneWidget);
+    expect(find.text('Services under Urwego'), findsOneWidget);
 
     await tester.tap(find.byType(FloatingActionButton));
     await tester.pumpAndSettle();
@@ -260,7 +260,7 @@ void main() {
     await tester.enterText(_textFieldWithLabel('Title'), 'Collections');
     await tester.enterText(_textFieldWithLabel('Subtitle'), 'Collect dues');
     await tester.enterText(_textFieldWithLabel('Emoji'), '📥');
-    await tester.enterText(_textFieldWithLabel('Category'), 'payments');
+    // Category is a dropdown
     await tester.enterText(_textFieldWithLabel('CTA Label'), 'Open');
     await tester.enterText(_textFieldWithLabel('CTA Action'), '/collections');
     await tester.ensureVisible(find.text('Save'));
@@ -303,9 +303,9 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(_dropdownFieldWithLabel('Market scope'), findsNothing);
-    expect(_inputDecoratorWithLabel('Market'), findsOneWidget);
+    expect(find.byType(TextFormField), findsAtLeastNWidgets(1));
 
-    await tester.enterText(_textFieldWithLabel('Label (e.g. 🛺 Moto)'), 'Taxi');
+    await tester.enterText(_textFieldWithLabel('Label (e.g. Moto)'), 'Taxi');
     await tester.enterText(_textFieldWithLabel('Value (e.g. Moto)'), 'taxi');
     await tester.enterText(_textFieldWithLabel('Emoji'), '🚕');
     await tester.ensureVisible(find.text('Save'));

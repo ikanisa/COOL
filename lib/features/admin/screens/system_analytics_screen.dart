@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../providers/admin_providers.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 
 /// System-wide analytics dashboard for platform admins.
 class SystemAnalyticsScreen extends ConsumerWidget {
@@ -14,10 +15,17 @@ class SystemAnalyticsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
     final analyticsAsync = ref.watch(platformAnalyticsProvider);
 
-    return Scaffold(
-      backgroundColor: AppColors.bg,
+    return CoolScreenBackground(
+
+
+      showGlow: false,
+
+
+      child: Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         automaticallyImplyLeading: true,
         backgroundColor: Colors.transparent,
@@ -25,7 +33,7 @@ class SystemAnalyticsScreen extends ConsumerWidget {
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
           tooltip: context.l10n.back,
-          icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
+          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
       ),
       body: CoolAsyncView<Map<String, dynamic>>(
@@ -45,7 +53,7 @@ class SystemAnalyticsScreen extends ConsumerWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 34,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.text,
+                  color: palette.text,
                   height: 1.1,
                 ),
               ),
@@ -55,7 +63,7 @@ class SystemAnalyticsScreen extends ConsumerWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
-                  color: AppColors.text3,
+                  color: palette.text3,
                 ),
               ),
               const SizedBox(height: 24),
@@ -65,7 +73,7 @@ class SystemAnalyticsScreen extends ConsumerWidget {
               const SizedBox(height: 12),
               _MetricGrid(metrics: [
                 _Metric('Users', _fmt(data['total_users']),
-                    Icons.person_rounded, AppColors.blue),
+                    Icons.person_rounded, palette.blue),
                 _Metric('Real Users', _fmt(data['real_users']),
                     Icons.verified_user_rounded, Colors.green),
                 _Metric('Mock Users', _fmt(data['mock_users']),
@@ -77,7 +85,7 @@ class SystemAnalyticsScreen extends ConsumerWidget {
                 _Metric('Partners', _fmt(data['total_partners']),
                     Icons.handshake_rounded, Colors.indigo),
                 _Metric('Groups', _fmt(data['total_groups']),
-                    Icons.group_rounded, AppColors.blue),
+                    Icons.group_rounded, palette.blue),
                 _Metric('Trips', _fmt(data['total_trips']),
                     Icons.route_rounded, Colors.deepOrange),
               ]),
@@ -90,7 +98,7 @@ class SystemAnalyticsScreen extends ConsumerWidget {
                 _Metric('Signups (7d)', _fmt(data['signups_7d']),
                     Icons.trending_up_rounded, Colors.green),
                 _Metric('Signups (30d)', _fmt(data['signups_30d']),
-                    Icons.show_chart_rounded, AppColors.blue),
+                    Icons.show_chart_rounded, palette.blue),
                 _Metric('Trips (7d)', _fmt(data['trips_7d']),
                     Icons.local_taxi_rounded, Colors.deepOrange),
                 _Metric('Active Partners', _fmt(data['active_partners']),
@@ -127,6 +135,9 @@ class SystemAnalyticsScreen extends ConsumerWidget {
           );
         },
       ),
+    ),
+
+
     );
   }
 
@@ -155,12 +166,13 @@ class _SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Text(
       label,
       style: GoogleFonts.dmSans(
         fontSize: 16,
         fontWeight: FontWeight.w700,
-        color: AppColors.text,
+        color: palette.text,
       ),
     );
   }
@@ -180,6 +192,7 @@ class _MetricGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -195,9 +208,9 @@ class _MetricGrid extends StatelessWidget {
         return Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: palette.surface,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: palette.border),
           ),
           child: Row(
             children: [
@@ -221,7 +234,7 @@ class _MetricGrid extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 18,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     Text(
@@ -229,7 +242,7 @@ class _MetricGrid extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 11,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.text3,
+                        color: palette.text3,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -252,20 +265,22 @@ class _DistributionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     if (data.isEmpty) {
+      final palette = context.coolPalette;
       return Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: palette.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: palette.border),
         ),
         child: Text(
           emptyLabel,
           style: GoogleFonts.dmSans(
             fontSize: 13,
             fontWeight: FontWeight.w400,
-            color: AppColors.text3,
+            color: palette.text3,
           ),
         ),
       );
@@ -278,9 +293,9 @@ class _DistributionCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: Column(
         children: [
@@ -293,7 +308,7 @@ class _DistributionCard extends StatelessWidget {
                     style: GoogleFonts.dmSans(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.text,
+                      color: palette.text,
                     ),
                   ),
                 ),
@@ -302,7 +317,7 @@ class _DistributionCard extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
               ],
@@ -313,9 +328,9 @@ class _DistributionCard extends StatelessWidget {
               child: LinearProgressIndicator(
                 value: total > 0 ? entry.value / total : 0,
                 minHeight: 6,
-                backgroundColor: AppColors.border,
+                backgroundColor: palette.border,
                 valueColor:
-                    const AlwaysStoppedAnimation<Color>(AppColors.blue),
+                    AlwaysStoppedAnimation<Color>(palette.blue),
               ),
             ),
             const SizedBox(height: 12),

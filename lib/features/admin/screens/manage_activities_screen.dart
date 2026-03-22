@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/status/models/cool_activity.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_gamification_providers.dart';
 import '../repositories/admin_gamification_repository.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 
 /// Admin CRUD screen for managing token-earning activities.
 class ManageActivitiesScreen extends ConsumerWidget {
@@ -17,21 +18,28 @@ class ManageActivitiesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
     final activitiesAsync = ref.watch(adminActivitiesProvider);
 
-    return Scaffold(
-      backgroundColor: AppColors.bg,
+    return CoolScreenBackground(
+
+
+      showGlow: false,
+
+
+      child: Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
           tooltip: context.l10n.back,
-          icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
+          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.accent,
+        backgroundColor: palette.accent,
         onPressed: () => _showEditSheet(context, ref, null),
         child: const Icon(Icons.add_rounded, color: Colors.black),
       ),
@@ -41,7 +49,7 @@ class ManageActivitiesScreen extends ConsumerWidget {
                 child: Text(
                   'No activities yet',
                   style:
-                      GoogleFonts.dmSans(fontSize: 14, color: AppColors.text3),
+                      GoogleFonts.dmSans(fontSize: 14, color: palette.text3),
                 ),
               )
             : ListView.separated(
@@ -55,7 +63,7 @@ class ManageActivitiesScreen extends ConsumerWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 34,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.text,
+                        color: palette.text,
                         height: 1.1,
                       ),
                     );
@@ -71,20 +79,24 @@ class ManageActivitiesScreen extends ConsumerWidget {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(
           child: Text(context.l10n.genericErrorText(e.toString()),
-              style: GoogleFonts.dmSans(color: AppColors.text3)),
+              style: GoogleFonts.dmSans(color: palette.text3)),
         ),
       ),
+    ),
+
+
     );
   }
 
   void _showEditSheet(
       BuildContext context, WidgetRef ref, CoolActivity? activity) {
-    showModalBottomSheet<void>(
+    showCoolBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (_) => _ActivityEditSheet(
         activity: activity,
+        repo: ref.read(adminGamificationRepositoryProvider),
         onSaved: () => ref.invalidate(adminActivitiesProvider),
       ),
     );
@@ -96,8 +108,7 @@ class ManageActivitiesScreen extends ConsumerWidget {
     CoolActivity activity,
   ) async {
     try {
-      final repo =
-          AdminGamificationRepository(client: Supabase.instance.client);
+      final repo = ref.read(adminGamificationRepositoryProvider);
       await repo.toggleActivityActive(activity.id,
           isActive: !activity.isActive);
       ref.invalidate(adminActivitiesProvider);
@@ -130,6 +141,7 @@ class _ActivityAdminCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return CoolCard(
       onTap: onEdit,
       child: Row(
@@ -138,7 +150,7 @@ class _ActivityAdminCard extends StatelessWidget {
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: AppColors.accent.withValues(alpha: 0.12),
+              color: palette.accent.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(14),
             ),
             alignment: Alignment.center,
@@ -157,7 +169,7 @@ class _ActivityAdminCard extends StatelessWidget {
                         style: GoogleFonts.dmSans(
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.text,
+                          color: palette.text,
                         ),
                       ),
                     ),
@@ -168,14 +180,14 @@ class _ActivityAdminCard extends StatelessWidget {
                 Text(
                   '${_categoryLabel(activity.category)} · ${activity.tokensAwarded} Tokens',
                   style:
-                      GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
+                      GoogleFonts.dmSans(fontSize: 12, color: palette.text3),
                 ),
                 if (activity.description.isNotEmpty) ...[
                   const SizedBox(height: 2),
                   Text(
                     activity.description,
                     style: GoogleFonts.dmSans(
-                        fontSize: 11, color: AppColors.text3),
+                        fontSize: 11, color: palette.text3),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -189,7 +201,7 @@ class _ActivityAdminCard extends StatelessWidget {
               activity.isActive
                   ? Icons.toggle_on_rounded
                   : Icons.toggle_off_rounded,
-              color: activity.isActive ? Colors.green : AppColors.text3,
+              color: activity.isActive ? Colors.green : palette.text3,
               size: 32,
             ),
             onPressed: onToggle,
@@ -213,9 +225,10 @@ class _ActivityAdminCard extends StatelessWidget {
 // ─── Edit / Create Sheet ─────────────────────────────────────────────────
 
 class _ActivityEditSheet extends StatefulWidget {
-  const _ActivityEditSheet({this.activity, required this.onSaved});
+  const _ActivityEditSheet({this.activity, required this.repo, required this.onSaved});
 
   final CoolActivity? activity;
+  final AdminGamificationRepository repo;
   final VoidCallback onSaved;
 
   @override
@@ -291,8 +304,7 @@ class _ActivityEditSheetState extends State<_ActivityEditSheet> {
         'is_active': _isActive,
       };
 
-      final repo =
-          AdminGamificationRepository(client: Supabase.instance.client);
+      final repo = widget.repo;
       await repo.upsertActivity(data);
 
       widget.onSaved();
@@ -312,12 +324,13 @@ class _ActivityEditSheetState extends State<_ActivityEditSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.92,
       ),
       decoration: BoxDecoration(
-        color: AppColors.bg,
+        color: palette.bg,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: Column(
@@ -328,7 +341,7 @@ class _ActivityEditSheetState extends State<_ActivityEditSheet> {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: AppColors.border,
+              color: palette.border,
               borderRadius: BorderRadius.circular(999),
             ),
           ),
@@ -343,7 +356,7 @@ class _ActivityEditSheetState extends State<_ActivityEditSheet> {
                     style: GoogleFonts.dmSans(
                       fontSize: 20,
                       fontWeight: FontWeight.w800,
-                      color: AppColors.text,
+                      color: palette.text,
                     ),
                   ),
                 ),
@@ -353,7 +366,7 @@ class _ActivityEditSheetState extends State<_ActivityEditSheet> {
                     children: [
                       Text(context.l10n.active,
                           style: GoogleFonts.dmSans(
-                              fontSize: 12, color: AppColors.text3)),
+                              fontSize: 12, color: palette.text3)),
                       const SizedBox(width: 4),
                       Switch.adaptive(
                         value: _isActive,
@@ -401,7 +414,7 @@ class _ActivityEditSheetState extends State<_ActivityEditSheet> {
                   child: ElevatedButton(
                     onPressed: _saving ? null : _save,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.accent,
+                      backgroundColor: palette.accent,
                       foregroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
@@ -473,6 +486,7 @@ class _Field extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: TextField(
@@ -481,26 +495,26 @@ class _Field extends StatelessWidget {
         maxLines: maxLines,
         style: GoogleFonts.dmSans(
             fontSize: 14,
-            color: AppColors.text,
+            color: palette.text,
             fontWeight: FontWeight.w500),
         decoration: InputDecoration(
           labelText: label,
           labelStyle:
-              GoogleFonts.dmSans(fontSize: 13, color: AppColors.text3),
+              GoogleFonts.dmSans(fontSize: 13, color: palette.text3),
           filled: true,
-          fillColor: AppColors.surface,
+          fillColor: palette.surface,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: AppColors.border),
+            borderSide: BorderSide(color: palette.border),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: AppColors.border),
+            borderSide: BorderSide(color: palette.border),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide:
-                const BorderSide(color: AppColors.accent, width: 1.5),
+                BorderSide(color: palette.accent, width: 1.5),
           ),
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
@@ -525,27 +539,28 @@ class _DropdownField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label,
-            style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3)),
+            style: GoogleFonts.dmSans(fontSize: 12, color: palette.text3)),
         const SizedBox(height: 4),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 14),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: palette.surface,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: palette.border),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               value: value,
               isExpanded: true,
-              dropdownColor: AppColors.surface,
+              dropdownColor: palette.surface,
               style: GoogleFonts.dmSans(
                 fontSize: 14,
-                color: AppColors.text,
+                color: palette.text,
                 fontWeight: FontWeight.w500,
               ),
               items: items

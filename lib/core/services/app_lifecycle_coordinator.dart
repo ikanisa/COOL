@@ -59,7 +59,16 @@ class AppLifecycleCoordinator {
     }
     _started = true;
 
-    await Future.wait([_refreshFeatureFlags(), _refreshSupportedCountries()]);
+    // Timeout network-dependent init to prevent infinite splash if backend is
+    // unreachable. Feature flags and country list fall back to compiled defaults.
+    try {
+      await Future.any([
+        Future.wait([_refreshFeatureFlags(), _refreshSupportedCountries()]),
+        Future<void>.delayed(const Duration(seconds: 8)),
+      ]);
+    } catch (_) {
+      // Non-fatal: proceed with defaults.
+    }
     await _engagementTracker.initialize();
     await _crashlytics.initialize();
     await _performance.initialize();

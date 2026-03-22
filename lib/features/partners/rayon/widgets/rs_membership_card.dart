@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_palette.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../core/theme/rs_text_styles.dart';
 import '../models/rs_models.dart';
@@ -33,6 +34,7 @@ class RsMembershipCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return ClipRRect(
       borderRadius: BorderRadius.circular(18),
       child: DecoratedBox(
@@ -74,10 +76,10 @@ class RsMembershipCard extends StatelessWidget {
                         style: RsTextStyles.badge(color: RsColors.rsGoldLight),
                       ),
                       const Spacer(),
-                      const Icon(
+                      Icon(
                         Icons.favorite_rounded,
                         size: 20,
-                        color: AppColors.accent,
+                        color: palette.accent,
                       ),
                     ],
                   ),

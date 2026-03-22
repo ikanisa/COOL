@@ -36,6 +36,18 @@ class CoolStatusCard extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(color: tier.color.withValues(alpha: 0.28)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.06),
+              blurRadius: 16,
+              offset: const Offset(0, 6),
+            ),
+            BoxShadow(
+              color: Colors.white.withValues(alpha: 0.6),
+              blurRadius: 1,
+              offset: const Offset(0, -1),
+            ),
+          ],
         ),
         padding: const EdgeInsets.all(18),
         child: Column(

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_palette.dart';
 import '../../../../shared/widgets/cool_button.dart';
 import '../../../../shared/widgets/cool_toast.dart';
 import '../../../auth/providers/auth_provider.dart';
 import '../../models/group_detail.dart';
 import '../../models/group_member.dart';
 import '../../providers/groups_provider.dart';
+import '../../../../shared/widgets/cool_bottom_sheet.dart';
 
 // ═════════════════════════════════════════════════════════════════════════
 // Group Settings Sheet (admin / creator only)
@@ -92,7 +93,7 @@ class _GroupSettingsSheetState extends ConsumerState<GroupSettingsSheet> {
     List<GroupMember> members,
     List<GroupMember> admins,
   ) {
-    showModalBottomSheet<void>(
+    showCoolBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
@@ -111,13 +112,14 @@ class _GroupSettingsSheetState extends ConsumerState<GroupSettingsSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final currentUserId = ref.read(currentUserProvider)?.id;
     final members = widget.detail.members;
     final admins = members.where((m) => m.isAdmin).toList();
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
@@ -142,7 +144,7 @@ class _GroupSettingsSheetState extends ConsumerState<GroupSettingsSheet> {
                     width: 40,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: AppColors.border2,
+                      color: palette.border2,
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -155,7 +157,7 @@ class _GroupSettingsSheetState extends ConsumerState<GroupSettingsSheet> {
                   style: GoogleFonts.dmSans(
                     fontSize: 20,
                     fontWeight: FontWeight.w800,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -224,10 +226,10 @@ class _GroupSettingsSheetState extends ConsumerState<GroupSettingsSheet> {
                     padding: const EdgeInsets.only(bottom: 4),
                     child: Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.admin_panel_settings_outlined,
                           size: 18,
-                          color: AppColors.accent,
+                          color: palette.accent,
                         ),
                         const SizedBox(width: 8),
                         Expanded(
@@ -235,20 +237,35 @@ class _GroupSettingsSheetState extends ConsumerState<GroupSettingsSheet> {
                             a.displayName ?? '#${a.userId.substring(0, 6)}',
                             style: GoogleFonts.dmSans(
                               fontSize: 14,
-                              color: AppColors.text,
+                              color: palette.text,
                             ),
                           ),
                         ),
                         if (a.userId != currentUserId)
                           IconButton(
-                            tooltip: 'Action',
-                            icon: const Icon(
+                            tooltip: 'Remove admin',
+                            icon: Icon(
                               Icons.remove_circle_outline,
                               size: 18,
-                              color: AppColors.red,
+                              color: palette.red,
                             ),
-                            onPressed: () {
-                              // TODO: remove admin
+                            onPressed: () async {
+                              final groupId = widget.detail.group.id;
+                              if (groupId == null) return;
+                              try {
+                                await ref.read(groupsProvider.notifier).removeGroupAdmin(
+                                  groupId: groupId,
+                                  userId: a.userId,
+                                );
+                                if (mounted) {
+                                  ref.invalidate(groupDetailProvider(groupId));
+                                  CoolToast.success(context, '${a.displayName ?? 'User'} removed as admin');
+                                }
+                              } catch (e) {
+                                if (mounted) {
+                                  CoolToast.error(context, 'Failed to remove admin: $e');
+                                }
+                              }
                             },
                           ),
                       ],
@@ -258,17 +275,17 @@ class _GroupSettingsSheetState extends ConsumerState<GroupSettingsSheet> {
                 const SizedBox(height: 8),
                 TextButton.icon(
                   onPressed: () => _showAddAdminSheet(context, members, admins),
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.person_add_alt_1_rounded,
                       size: 18,
-                      color: AppColors.accent,
+                      color: palette.accent,
                     ),
                     label: Text(
                       'Add admin',
                       style: GoogleFonts.dmSans(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.accent,
+                        color: palette.accent,
                       ),
                     ),
                   ),
@@ -302,12 +319,13 @@ class _SettingsLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Text(
       text,
       style: GoogleFonts.dmSans(
         fontSize: 12,
         fontWeight: FontWeight.w700,
-        color: AppColors.text2,
+        color: palette.text2,
         letterSpacing: 0.4,
       ),
     );
@@ -329,29 +347,30 @@ class _SettingsInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return TextField(
       controller: controller,
       maxLines: maxLines,
       keyboardType: keyboardType,
-      style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
+      style: GoogleFonts.dmSans(fontSize: 14, color: palette.text),
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: GoogleFonts.dmSans(fontSize: 13, color: AppColors.text3),
+        hintStyle: GoogleFonts.dmSans(fontSize: 13, color: palette.text3),
         filled: true,
-        fillColor: AppColors.surface2,
+        fillColor: palette.surface2,
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: palette.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: palette.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: AppColors.accent, width: 1.5),
+          borderSide: BorderSide(color: palette.accent, width: 1.5),
         ),
       ),
     );
@@ -398,15 +417,16 @@ class _SettingsToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.accentGlow : AppColors.surface2,
+          color: isSelected ? palette.accentGlow : palette.surface2,
           borderRadius: BorderRadius.circular(30),
           border: Border.all(
-            color: isSelected ? AppColors.accent : AppColors.border,
+            color: isSelected ? palette.accent : palette.border,
           ),
         ),
         alignment: Alignment.center,
@@ -415,7 +435,7 @@ class _SettingsToggle extends StatelessWidget {
           style: GoogleFonts.dmSans(
             fontSize: 12,
             fontWeight: FontWeight.w600,
-            color: isSelected ? AppColors.accent : AppColors.text2,
+            color: isSelected ? palette.accent : palette.text2,
           ),
         ),
       ),
@@ -471,13 +491,14 @@ class _AdminSelectionSheetState extends ConsumerState<_AdminSelectionSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     // Filter out existing admins
     final adminIds = widget.currentAdmins.map((a) => a.userId).toSet();
     final eligibleMembers = widget.members.where((m) => !adminIds.contains(m.userId)).toList();
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
@@ -494,7 +515,7 @@ class _AdminSelectionSheetState extends ConsumerState<_AdminSelectionSheet> {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: AppColors.border2,
+                    color: palette.border2,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -507,7 +528,7 @@ class _AdminSelectionSheetState extends ConsumerState<_AdminSelectionSheet> {
                   style: GoogleFonts.dmSans(
                     fontSize: 20,
                     fontWeight: FontWeight.w800,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
               ),
@@ -518,7 +539,7 @@ class _AdminSelectionSheetState extends ConsumerState<_AdminSelectionSheet> {
                   'Select a member to grant admin access.',
                   style: GoogleFonts.dmSans(
                     fontSize: 13,
-                    color: AppColors.text2,
+                    color: palette.text2,
                   ),
                 ),
               ),
@@ -530,7 +551,7 @@ class _AdminSelectionSheetState extends ConsumerState<_AdminSelectionSheet> {
                       'All members are already admins.',
                       style: GoogleFonts.dmSans(
                         fontSize: 14,
-                        color: AppColors.text3,
+                        color: palette.text3,
                       ),
                     ),
                   ),
@@ -547,8 +568,8 @@ class _AdminSelectionSheetState extends ConsumerState<_AdminSelectionSheet> {
                         children: [
                           CircleAvatar(
                             radius: 18,
-                            backgroundColor: AppColors.surface2,
-                            child: Icon(Icons.person, size: 18, color: AppColors.text2),
+                            backgroundColor: palette.surface2,
+                            child: Icon(Icons.person, size: 18, color: palette.text2),
                           ),
                           const SizedBox(width: 12),
                           Expanded(
@@ -560,14 +581,14 @@ class _AdminSelectionSheetState extends ConsumerState<_AdminSelectionSheet> {
                                   style: GoogleFonts.dmSans(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,
-                                    color: AppColors.text,
+                                    color: palette.text,
                                   ),
                                 ),
                                 Text(
                                   '#${member.userId.substring(0, 8)}',
                                   style: GoogleFonts.dmMono(
                                     fontSize: 12,
-                                    color: AppColors.text3,
+                                    color: palette.text3,
                                   ),
                                 ),
                               ],

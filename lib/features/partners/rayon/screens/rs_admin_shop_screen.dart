@@ -4,7 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_foundations.dart';
+import '../../../../core/theme/cool_palette.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
+import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
 import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../providers/rayon_sports_provider.dart';
@@ -12,6 +15,7 @@ import '../models/rs_models.dart';
 import '../providers/rs_admin_provider.dart';
 import '../widgets/rs_admin_shell.dart';
 import '../../../../core/l10n/l10n.dart';
+import '../../../../shared/widgets/cool_bottom_sheet.dart';
 
 /// Admin screen for managing RS shop products — CRUD, toggle active, stock.
 class RsAdminShopScreen extends ConsumerStatefulWidget {
@@ -29,7 +33,7 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
     return RsAdminShell(
       title: context.l10n.shopProducts,
       subtitle:
-          'Keep the catalog current',
+          'Keep the club catalog current, visible, and ready for fulfilment operations.',
       floatingActionButton: Semantics(
         button: true,
         label: 'Add product',
@@ -92,6 +96,8 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
         ),
         builder: (products) => ListView.separated(
           padding: EdgeInsets.zero,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: products.length,
           separatorBuilder: (context, index) => const SizedBox(height: 10),
           itemBuilder: (context, index) {
@@ -142,7 +148,10 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: Text(context.l10n.delete, style: const TextStyle(color: AppColors.red)),
+            child: Text(
+              context.l10n.delete,
+              style: const TextStyle(color: AppColors.red),
+            ),
           ),
         ],
       ),
@@ -154,6 +163,7 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
   }
 
   void _showProductForm(BuildContext context, {RsProduct? product}) {
+    final palette = context.coolPalette;
     final isEdit = product != null;
     final nameCtrl = TextEditingController(text: product?.name);
     final descCtrl = TextEditingController(text: product?.description);
@@ -168,10 +178,10 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
     );
     final emojiCtrl = TextEditingController(text: product?.imageEmoji ?? '👕');
 
-    showModalBottomSheet(
+    showCoolBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: AppColors.surface,
+      backgroundColor: palette.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -192,16 +202,12 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
                 style: GoogleFonts.dmSans(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
               const SizedBox(height: 16),
               _Field(controller: nameCtrl, label: 'Name'),
-              _Field(
-                controller: descCtrl,
-                label: 'Description',
-                maxLines: 2,
-              ),
+              _Field(controller: descCtrl, label: 'Description', maxLines: 2),
               _Field(controller: categoryCtrl, label: 'Category'),
               Row(
                 children: [
@@ -282,19 +288,16 @@ class _ProductTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return Semantics(
       container: true,
       label:
-          'Product ${product.name}. ${product.isActive ?'Active' : 'Inactive'}. '
+          'Product ${product.name}. ${product.isActive ? 'Active' : 'Inactive'}. '
           'Price ${product.price} Rwandan francs. Stock ${product.stock}. '
           'Category ${product.category.value}.',
-      child: Container(
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColors.border),
-        ),
+      child: CoolCard(
+        backgroundColor: colors.cardSurfaceStrong,
+        borderColor: colors.borderStrong,
         child: Row(
           children: [
             Text(product.imageEmoji, style: const TextStyle(fontSize: 28)),
@@ -309,9 +312,9 @@ class _ProductTile extends StatelessWidget {
                         child: Text(
                           product.name,
                           style: GoogleFonts.dmSans(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.text,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800,
+                            color: colors.primaryText,
                           ),
                         ),
                       ),
@@ -326,13 +329,15 @@ class _ProductTile extends StatelessWidget {
                               ),
                               decoration: BoxDecoration(
                                 color: AppColors.red.withValues(alpha: 0.15),
-                                borderRadius: BorderRadius.circular(6),
+                                borderRadius: BorderRadius.circular(
+                                  CoolRadii.sm,
+                                ),
                               ),
                               child: Text(
                                 'INACTIVE',
                                 style: GoogleFonts.dmSans(
-                                  fontSize: 9,
-                                  fontWeight: FontWeight.w700,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w800,
                                   color: AppColors.red,
                                 ),
                               ),
@@ -345,21 +350,26 @@ class _ProductTile extends StatelessWidget {
                   Text(
                     '${product.price} RWF · Stock ${product.stock}',
                     style: GoogleFonts.dmSans(
-                      fontSize: 11,
-                      color: AppColors.text3,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: colors.secondaryText,
                     ),
                   ),
                   if (product.stock <= 5 && product.isActive) ...[
                     const SizedBox(height: 2),
                     Row(
                       children: [
-                        const Icon(Icons.warning_amber_rounded, size: 12, color: AppColors.red),
+                        const Icon(
+                          Icons.warning_amber_rounded,
+                          size: 13,
+                          color: AppColors.red,
+                        ),
                         const SizedBox(width: 3),
                         Text(
                           'Low stock',
                           style: GoogleFonts.dmSans(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w600,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
                             color: AppColors.red,
                           ),
                         ),
@@ -371,8 +381,9 @@ class _ProductTile extends StatelessWidget {
                     Text(
                       product.description,
                       style: GoogleFonts.dmSans(
-                        fontSize: 11,
-                        color: AppColors.text3,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: colors.secondaryText,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -406,8 +417,9 @@ class _ProductTile extends StatelessWidget {
                       Text(
                         'Stock',
                         style: GoogleFonts.dmSans(
-                          fontSize: 10,
-                          color: AppColors.text3,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          color: colors.secondaryText,
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -422,16 +434,13 @@ class _ProductTile extends StatelessWidget {
                         child: Text(
                           '${product.stock}',
                           style: GoogleFonts.dmSans(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.text,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w800,
+                            color: colors.primaryText,
                           ),
                         ),
                       ),
-                      _StockBtn(
-                        icon: Icons.add,
-                        onTap: () => onAdjustStock(1),
-                      ),
+                      _StockBtn(icon: Icons.add, onTap: () => onAdjustStock(1)),
                       const SizedBox(width: 8),
                       _StockBtn(
                         icon: Icons.add,
@@ -464,7 +473,8 @@ class _Action extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final c = color ?? AppColors.text2;
+    final colors = context.coolSemanticColors;
+    final c = color ?? colors.secondaryText;
     return Semantics(
       button: true,
       label: label,
@@ -480,7 +490,25 @@ class _Action extends StatelessWidget {
           children: [
             Icon(icon, size: 14, color: c),
             const SizedBox(width: 3),
-            Text(label, style: GoogleFonts.dmSans(fontSize: 10, color: c)),
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: CoolSpace.x3,
+                vertical: CoolSpace.x2,
+              ),
+              decoration: BoxDecoration(
+                color: c.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(CoolRadii.pill),
+                border: Border.all(color: c.withValues(alpha: 0.18)),
+              ),
+              child: Text(
+                label,
+                style: GoogleFonts.dmSans(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w700,
+                  color: c,
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -502,6 +530,7 @@ class _Field extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Semantics(
@@ -512,15 +541,12 @@ class _Field extends StatelessWidget {
           controller: controller,
           keyboardType: keyboardType,
           maxLines: maxLines,
-          style: GoogleFonts.dmSans(color: AppColors.text, fontSize: 14),
+          style: GoogleFonts.dmSans(color: palette.text, fontSize: 14),
           decoration: InputDecoration(
             labelText: label,
-            labelStyle: GoogleFonts.dmSans(
-              color: AppColors.text3,
-              fontSize: 13,
-            ),
+            labelStyle: GoogleFonts.dmSans(color: palette.text3, fontSize: 13),
             filled: true,
-            fillColor: AppColors.surface2,
+            fillColor: palette.surface2,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide.none,
@@ -544,30 +570,36 @@ class _StockBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final enabled = onTap != null;
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
           color: enabled
               ? AppColors.rsBlue.withValues(alpha: 0.12)
-              : AppColors.surface2,
-          borderRadius: BorderRadius.circular(8),
+              : colors.chipBackground,
+          borderRadius: BorderRadius.circular(CoolRadii.sm),
+          border: Border.all(
+            color: enabled
+                ? AppColors.rsBlue.withValues(alpha: 0.18)
+                : colors.border,
+          ),
         ),
         child: label != null
             ? Text(
                 label!,
                 style: GoogleFonts.dmSans(
                   fontSize: 11,
-                  fontWeight: FontWeight.w600,
-                  color: enabled ? AppColors.rsBlue : AppColors.text3,
+                  fontWeight: FontWeight.w700,
+                  color: enabled ? AppColors.rsBlue : colors.secondaryText,
                 ),
               )
             : Icon(
                 icon,
                 size: 14,
-                color: enabled ? AppColors.rsBlue : AppColors.text3,
+                color: enabled ? AppColors.rsBlue : colors.secondaryText,
               ),
       ),
     );

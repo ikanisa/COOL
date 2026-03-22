@@ -18,6 +18,7 @@ class ScheduleTripCalendarSuggestions extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
     final suggestionsAsync = ref.watch(calendarSuggestionsProvider);
 
     return suggestionsAsync.when(

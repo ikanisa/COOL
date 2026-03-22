@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/services/momo_service.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import 'driver_profile_models.dart';
@@ -29,9 +30,10 @@ class DriverSubscriptionBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return CoolCard(
       gradient: AppColors.blueGradient,
-      borderColor: AppColors.blue.withValues(alpha: 0.35),
+      borderColor: palette.blue.withValues(alpha: 0.35),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -40,7 +42,7 @@ class DriverSubscriptionBanner extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 18,
               fontWeight: FontWeight.w700,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
           const SizedBox(height: 6),
@@ -49,7 +51,7 @@ class DriverSubscriptionBanner extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w400,
-              color: AppColors.text2,
+              color: palette.text2,
               height: 1.45,
             ),
           ),
@@ -104,11 +106,12 @@ class DriverPlanCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final borderColor = isSelected
-        ? AppColors.accent
+        ? palette.accent
         : isFeatured
-        ? AppColors.blue
-        : AppColors.border;
+        ? palette.blue
+        : palette.border;
 
     return Semantics(
       button: true,
@@ -121,8 +124,8 @@ class DriverPlanCard extends StatelessWidget {
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
             color: isSelected
-                ? AppColors.accentGlow
-                : AppColors.surface2.withValues(alpha: 0.92),
+                ? palette.accentGlow
+                : palette.surface2.withValues(alpha: 0.92),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: borderColor,
@@ -135,7 +138,7 @@ class DriverPlanCard extends StatelessWidget {
               Icon(
                 plan.icon,
                 size: 24,
-                color: AppColors.text2,
+                color: palette.text2,
               ),
               const SizedBox(height: 8),
               Text(
@@ -143,7 +146,7 @@ class DriverPlanCard extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
               const SizedBox(height: 4),
@@ -152,7 +155,7 @@ class DriverPlanCard extends StatelessWidget {
                 style: GoogleFonts.dmMono(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
-                  color: isSelected ? AppColors.accent : AppColors.blue,
+                  color: isSelected ? palette.accent : palette.blue,
                 ),
               ),
               Text(
@@ -160,7 +163,7 @@ class DriverPlanCard extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.text3,
+                  color: palette.text3,
                 ),
               ),
             ],
@@ -184,6 +187,7 @@ class ActiveSubscriptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final totalDays = subscription.expiresAt
         .difference(subscription.startedAt)
         .inDays
@@ -198,9 +202,9 @@ class ActiveSubscriptionCard extends StatelessWidget {
       gradient: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: [AppColors.accentGlow, AppColors.surface2],
+        colors: [palette.accentGlow, palette.surface2],
       ),
-      borderColor: AppColors.accent.withValues(alpha: 0.35),
+      borderColor: palette.accent.withValues(alpha: 0.35),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -210,13 +214,13 @@ class ActiveSubscriptionCard extends StatelessWidget {
                 width: 42,
                 height: 42,
                 decoration: BoxDecoration(
-                  color: AppColors.accentGlow,
+                  color: palette.accentGlow,
                   borderRadius: BorderRadius.circular(14),
                 ),
                 alignment: Alignment.center,
-                child: const Icon(
+                child: Icon(
                   Icons.verified_rounded,
-                  color: AppColors.accent,
+                  color: palette.accent,
                 ),
               ),
               const SizedBox(width: 12),
@@ -229,7 +233,7 @@ class ActiveSubscriptionCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     const SizedBox(height: 2),
@@ -239,7 +243,7 @@ class ActiveSubscriptionCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.text2,
+                        color: palette.text2,
                       ),
                     ),
                   ],
@@ -253,7 +257,7 @@ class ActiveSubscriptionCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: AppColors.accent,
+              color: palette.accent,
             ),
           ),
           const SizedBox(height: 8),
@@ -262,8 +266,8 @@ class ActiveSubscriptionCard extends StatelessWidget {
             child: LinearProgressIndicator(
               value: progress,
               minHeight: 6,
-              backgroundColor: AppColors.surface3,
-              color: AppColors.accent,
+              backgroundColor: palette.surface3,
+              color: palette.accent,
             ),
           ),
         ],

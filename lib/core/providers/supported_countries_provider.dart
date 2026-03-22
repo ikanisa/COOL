@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../config/country_catalog.dart';
 import '../repositories/supported_countries_repository.dart';
-import 'supabase_client_provider.dart';
+
 
 /// Provider for the [SupportedCountriesRepository].
 final supportedCountriesRepositoryProvider =

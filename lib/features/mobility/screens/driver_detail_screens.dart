@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/services/momo_service.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_scaffold.dart';
@@ -16,6 +17,7 @@ import '../widgets/driver_profile_models.dart';
 import '../widgets/driver_subscription_widgets.dart';
 import '../widgets/driver_vehicle_trip_widgets.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
 
 class DriverVehicleScreen extends ConsumerStatefulWidget {
   const DriverVehicleScreen({super.key});
@@ -35,7 +37,7 @@ class _DriverVehicleScreenState extends ConsumerState<DriverVehicleScreen> {
       baseLocation: profile?.baseLocation ?? '',
       status: _vehicleVerificationLabel(profile?.vehicleStatus),
     );
-    final updatedVehicle = await showModalBottomSheet<VehicleData>(
+    final updatedVehicle = await showCoolBottomSheet<VehicleData>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
@@ -162,6 +164,7 @@ class _DriverSubscriptionScreenState
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final currentUser = ref.watch(currentUserProvider);
     final driverState = ref.watch(driverProvider);
     final profile = driverState.profile;
@@ -239,7 +242,7 @@ class _DriverSubscriptionScreenState
                   'Active until ${formatDate(activeSubscription.expiresAt)}.',
               // ignore: unused_field
               icon: Icons.schedule_rounded,
-              accentColor: AppColors.blue,
+              accentColor: palette.blue,
             ),
           ] else ...[
             DriverSubscriptionBanner(
@@ -258,7 +261,7 @@ class _DriverSubscriptionScreenState
               message:
                   '${_selectedPlan.displayName} ${formatAmount(_selectedPlan.amountRwf)} RWF/month via',
               icon: Icons.phone_forwarded_rounded,
-              accentColor: AppColors.accent,
+              accentColor: palette.accent,
             ),
           ],
         ],
@@ -275,6 +278,7 @@ class _VehicleSummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final summaryLine = vehicle.hasPlateNumber
         ? 'Plate ${vehicle.plateNumber}'
         : 'Plate number missing';
@@ -285,7 +289,7 @@ class _VehicleSummaryCard extends StatelessWidget {
         end: Alignment.bottomRight,
         colors: [
           vehicle.statusColor.withValues(alpha: 0.14),
-          AppColors.surface2,
+          palette.surface2,
         ],
       ),
       borderColor: vehicle.statusColor.withValues(alpha: 0.34),
@@ -299,7 +303,7 @@ class _VehicleSummaryCard extends StatelessWidget {
                 width: 56,
                 height: 56,
                 decoration: BoxDecoration(
-                  color: AppColors.surface3,
+                  color: palette.surface3,
                   borderRadius: BorderRadius.circular(18),
                 ),
                 alignment: Alignment.center,
@@ -307,7 +311,7 @@ class _VehicleSummaryCard extends StatelessWidget {
                   tripVehicleIcon(vehicle.type),
                   width: 32,
                   height: 32,
-                  color: AppColors.accent,
+                  color: palette.accent,
                 ),
               ),
               const SizedBox(width: 14),
@@ -320,7 +324,7 @@ class _VehicleSummaryCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -329,7 +333,7 @@ class _VehicleSummaryCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.text2,
+                        color: palette.text2,
                       ),
                     ),
                   ],
@@ -345,7 +349,7 @@ class _VehicleSummaryCard extends StatelessWidget {
                 Icon(
                   Icons.location_on_outlined,
                   size: 18,
-                  color: AppColors.text3,
+                  color: palette.text3,
                 ),
                 const SizedBox(width: 8),
                 Expanded(
@@ -354,7 +358,7 @@ class _VehicleSummaryCard extends StatelessWidget {
                     style: GoogleFonts.dmSans(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
-                      color: AppColors.text2,
+                      color: palette.text2,
                     ),
                   ),
                 ),
@@ -380,6 +384,7 @@ class _VehicleReadinessCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return CoolCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -389,7 +394,7 @@ class _VehicleReadinessCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
           const SizedBox(height: 6),
@@ -398,7 +403,7 @@ class _VehicleReadinessCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w400,
-              color: AppColors.text2,
+              color: palette.text2,
               height: 1.45,
             ),
           ),
@@ -408,7 +413,7 @@ class _VehicleReadinessCard extends StatelessWidget {
             value: vehicle.type,
             isReady: vehicle.hasType,
           ),
-          Divider(color: AppColors.border, height: 20),
+          Divider(color: palette.border, height: 20),
           _VehicleReadinessRow(
             label: 'Plate number',
             value: vehicle.hasPlateNumber
@@ -416,7 +421,7 @@ class _VehicleReadinessCard extends StatelessWidget {
                 : 'Add plate number',
             isReady: vehicle.hasPlateNumber,
           ),
-          Divider(color: AppColors.border, height: 20),
+          Divider(color: palette.border, height: 20),
           _VehicleReadinessRow(
             label: 'Base location',
             value: vehicle.hasBaseLocation
@@ -424,7 +429,7 @@ class _VehicleReadinessCard extends StatelessWidget {
                 : 'Add base location',
             isReady: vehicle.hasBaseLocation,
           ),
-          Divider(color: AppColors.border, height: 20),
+          Divider(color: palette.border, height: 20),
           _VehicleReadinessRow(
             label: 'Verification',
             value: vehicle.status,
@@ -452,8 +457,9 @@ class _VehicleReadinessRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final accent =
-        valueColor ?? (isReady ? AppColors.accent : AppColors.orange);
+        valueColor ?? (isReady ? palette.accent : palette.orange);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -472,7 +478,7 @@ class _VehicleReadinessRow extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
               const SizedBox(height: 2),
@@ -481,7 +487,7 @@ class _VehicleReadinessRow extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
-                  color: valueColor ?? AppColors.text2,
+                  color: valueColor ?? palette.text2,
                 ),
               ),
             ],
@@ -509,6 +515,7 @@ class _SubscriptionAccessCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final stateColor = _subscriptionStateColor(
       activeSubscription: activeSubscription,
       freeTripsRemaining: freeTripsRemaining,
@@ -523,7 +530,7 @@ class _SubscriptionAccessCard extends StatelessWidget {
       gradient: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: [stateColor.withValues(alpha: 0.12), AppColors.surface2],
+        colors: [stateColor.withValues(alpha: 0.12), palette.surface2],
       ),
       borderColor: stateColor.withValues(alpha: 0.34),
       child: Column(
@@ -541,7 +548,7 @@ class _SubscriptionAccessCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     const SizedBox(height: 6),
@@ -554,7 +561,7 @@ class _SubscriptionAccessCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
-                        color: AppColors.text2,
+                        color: palette.text2,
                         height: 1.45,
                       ),
                     ),
@@ -579,7 +586,7 @@ class _SubscriptionAccessCard extends StatelessWidget {
                 child: DriverStatBox(
                   label: 'Plan',
                   value: planLabel,
-                  valueColor: AppColors.text,
+                  valueColor: palette.text,
                   isMonospace: false,
                 ),
               ),
@@ -591,10 +598,10 @@ class _SubscriptionAccessCard extends StatelessWidget {
                       ? 'Unlimited'
                       : '$freeTripsRemaining',
                   valueColor: activeSubscription != null
-                      ? AppColors.accent
+                      ? palette.accent
                       : freeTripsRemaining > 0
-                      ? AppColors.yellow
-                      : AppColors.orange,
+                      ? palette.yellow
+                      : palette.orange,
                   isMonospace: false,
                 ),
               ),
@@ -603,7 +610,7 @@ class _SubscriptionAccessCard extends StatelessWidget {
                 child: DriverStatBox(
                   label: 'This month',
                   value: '$tripsUsedThisMonth',
-                  valueColor: AppColors.blue,
+                  valueColor: palette.blue,
                 ),
               ),
             ],
@@ -629,6 +636,7 @@ class _DriverDetailNoteCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return CoolCard(
       borderColor: accentColor.withValues(alpha: 0.3),
       child: Row(
@@ -654,7 +662,7 @@ class _DriverDetailNoteCard extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -663,7 +671,7 @@ class _DriverDetailNoteCard extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w400,
-                    color: AppColors.text2,
+                    color: palette.text2,
                     height: 1.45,
                   ),
                 ),
@@ -684,6 +692,7 @@ class _DriverDetailIntroCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return CoolCard(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -697,7 +706,7 @@ class _DriverDetailIntroCard extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
                 const SizedBox(height: 6),
@@ -706,7 +715,7 @@ class _DriverDetailIntroCard extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w400,
-                    color: AppColors.text2,
+                    color: palette.text2,
                     height: 1.45,
                   ),
                 ),

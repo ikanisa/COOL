@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/app_colors.dart';
 import '../../core/l10n/l10n.dart';
+import '../../core/theme/cool_foundations.dart';
+import '../../core/theme/cool_palette.dart';
 
-/// A card showing the route, departure time, and the key trip chips.
-///
-/// Tapping the card triggers [onTap].
+/// Premium route listing with route blocks, timing, demand, and trust status.
 class TripCard extends StatelessWidget {
   const TripCard({
     required this.fromLocation,
@@ -18,6 +16,12 @@ class TripCard extends StatelessWidget {
     this.isReturn = false,
     this.isRecurring = false,
     this.isDriverReturnTrip = false,
+    this.distanceKm,
+    this.priceNote,
+    this.statusLabel,
+    this.demandLabel,
+    this.statusColor,
+    this.demandColor,
     super.key,
   });
 
@@ -30,10 +34,13 @@ class TripCard extends StatelessWidget {
   final bool isReturn;
   final bool isRecurring;
   final bool isDriverReturnTrip;
+  final double? distanceKm;
+  final String? priceNote;
+  final String? statusLabel;
+  final String? demandLabel;
+  final Color? statusColor;
+  final Color? demandColor;
 
-  // ── Helpers ─────────────────────────────────────────────────────────
-
-  /// Formatted departure string: "Thu 12 Mar · 08:30 AM"
   String get _formattedDeparture {
     final dayName = _weekday(departureTime.weekday);
     final month = _month(departureTime.month);
@@ -44,10 +51,20 @@ class TripCard extends StatelessWidget {
     return '$dayName $day $month · $hour:$minute $period';
   }
 
-  static String _weekday(int w) =>
-      const ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][w - 1];
+  String? get _distanceLabel {
+    if (distanceKm == null) {
+      return null;
+    }
+    if (distanceKm! < 1) {
+      return '${(distanceKm! * 1000).round()} m away';
+    }
+    return '${distanceKm!.toStringAsFixed(1)} km away';
+  }
 
-  static String _month(int m) => const [
+  static String _weekday(int weekday) =>
+      const ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][weekday - 1];
+
+  static String _month(int month) => const [
     'Jan',
     'Feb',
     'Mar',
@@ -60,96 +77,162 @@ class TripCard extends StatelessWidget {
     'Oct',
     'Nov',
     'Dec',
-  ][m - 1];
+  ][month - 1];
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    final effectiveStatusColor = statusColor ?? palette.accent;
+    final effectiveDemandColor = demandColor ?? palette.orange;
+
     return Semantics(
       button: true,
-      label: context.l10n.tripCard,
+      label:
+          '$fromLocation to $toLocation. $_formattedDeparture. ${statusLabel ?? 'Open listing'}.',
       excludeSemantics: true,
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          padding: const EdgeInsets.all(18),
+          padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: AppColors.surface2,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: AppColors.border),
+            color: colors.routeSurface,
+            gradient: colors.surfaceGradient,
+            borderRadius: BorderRadius.circular(CoolRadii.lg),
+            border: Border.all(color: colors.borderStrong),
+            boxShadow: CoolShadows.clay(theme.brightness, strength: 0.55),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ── Route (from → to) ─────────────────────────────────
-              _RouteLine(dotColor: AppColors.accent, location: fromLocation),
-              Padding(
-                padding: const EdgeInsets.only(left: 5),
-                child: Container(
-                  width: 1.5,
-                  height: 16,
-                  color: AppColors.border2,
-                ),
-              ),
-              _RouteLine(dotColor: AppColors.orange, location: toLocation),
-              const SizedBox(height: 14),
-
-              // ── Time row ──────────────────────────────────────────
               Row(
                 children: [
-                  Icon(
-                    Icons.access_time_rounded,
-                    size: 14,
-                    color: AppColors.text3,
-                  ),
-                  const SizedBox(width: 6),
                   Expanded(
                     child: Text(
                       _formattedDeparture,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.text2,
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: colors.primaryText,
                       ),
                     ),
                   ),
+                  if (statusLabel != null)
+                    _SignalChip(
+                      icon: Icons.bolt_rounded,
+                      label: statusLabel!,
+                      color: effectiveStatusColor,
+                    ),
                 ],
               ),
-              const SizedBox(height: 12),
-
-              // ── Bottom row: vehicle + tags ─────────────────────────
+              const SizedBox(height: 14),
+              _RouteBlock(
+                palette: palette,
+                label: 'FROM',
+                location: fromLocation,
+                dotColor: palette.accent,
+              ),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.only(left: 9),
+                child: Container(
+                  width: 2,
+                  height: 16,
+                  decoration: BoxDecoration(
+                    color: palette.border2,
+                    borderRadius: BorderRadius.circular(999),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              _RouteBlock(
+                palette: palette,
+                label: 'TO',
+                location: toLocation,
+                dotColor: palette.orange,
+              ),
+              const SizedBox(height: 16),
               Wrap(
                 spacing: 8,
-                runSpacing: 6,
+                runSpacing: 8,
                 children: [
-                  // Vehicle chip
-                  _Chip(
+                  _DetailChip(
+                    icon: Icons.local_shipping_outlined,
                     label: vehicleType,
-                    bgColor: AppColors.surface3,
-                    textColor: AppColors.text2,
                   ),
-
-                  // Seats
                   if (seats != null)
-                    _Chip(
-                      label: '$seats seat${seats! > 1 ? 's' : ''}',
-                      bgColor: AppColors.surface3,
-                      textColor: AppColors.text2,
+                    _DetailChip(
+                      icon: Icons.event_seat_outlined,
+                      label: '$seats seat${seats == 1 ? '' : 's'}',
                     ),
-
+                  if (_distanceLabel != null)
+                    _DetailChip(
+                      icon: Icons.near_me_rounded,
+                      label: _distanceLabel!,
+                    ),
+                  if (demandLabel != null)
+                    _DetailChip(
+                      icon: Icons.schedule_send_rounded,
+                      label: demandLabel!,
+                      foregroundColor: effectiveDemandColor,
+                      backgroundColor: effectiveDemandColor.withValues(
+                        alpha: 0.12,
+                      ),
+                      borderColor: effectiveDemandColor.withValues(alpha: 0.22),
+                    ),
                   if (isReturn || isDriverReturnTrip)
-                    _Chip(
+                    _DetailChip(
+                      icon: Icons.repeat_rounded,
                       label: context.l10n.returnKey,
-                      bgColor: AppColors.purple.withValues(alpha: 0.15),
-                      textColor: AppColors.purple,
+                      foregroundColor: palette.purple,
+                      backgroundColor: palette.purple.withValues(alpha: 0.12),
+                      borderColor: palette.purple.withValues(alpha: 0.22),
                     ),
                   if (isRecurring)
-                    _Chip(
+                    _DetailChip(
+                      icon: Icons.update_rounded,
                       label: context.l10n.repeat,
-                      bgColor: AppColors.accentGlow,
-                      textColor: AppColors.accent,
+                      foregroundColor: palette.accent,
+                      backgroundColor: palette.accentGlow,
+                      borderColor: palette.accent.withValues(alpha: 0.18),
                     ),
                 ],
               ),
+              if (priceNote?.trim().isNotEmpty ?? false) ...[
+                const SizedBox(height: 14),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: palette.surface,
+                    borderRadius: BorderRadius.circular(CoolRadii.md),
+                    border: Border.all(color: colors.border),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.payments_outlined,
+                        size: 16,
+                        color: palette.text3,
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          priceNote!,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            color: colors.secondaryText,
+                            height: 1.35,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ],
           ),
         ),
@@ -158,67 +241,164 @@ class TripCard extends StatelessWidget {
   }
 }
 
-// ── Route line (dot + location text) ────────────────────────────────────
+class _RouteBlock extends StatelessWidget {
+  const _RouteBlock({
+    required this.palette,
+    required this.label,
+    required this.location,
+    required this.dotColor,
+  });
 
-class _RouteLine extends StatelessWidget {
-  const _RouteLine({required this.dotColor, required this.location});
-  final Color dotColor;
+  final CoolPalette palette;
+  final String label;
   final String location;
+  final Color dotColor;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: 10,
-          height: 10,
-          decoration: BoxDecoration(color: dotColor, shape: BoxShape.circle),
-        ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: Text(
-            location,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.dmSans(
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-              color: AppColors.text,
+    final theme = Theme.of(context);
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: palette.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: palette.border),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 12,
+            height: 12,
+            decoration: BoxDecoration(
+              color: dotColor,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: dotColor.withValues(alpha: 0.28),
+                  blurRadius: 10,
+                  spreadRadius: 1,
+                ),
+              ],
             ),
           ),
-        ),
-      ],
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.2,
+                    color: palette.text3,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  location,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w800,
+                    color: palette.text,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
 
-// ── Small pill chip ─────────────────────────────────────────────────────
-
-class _Chip extends StatelessWidget {
-  const _Chip({
+class _DetailChip extends StatelessWidget {
+  const _DetailChip({
+    required this.icon,
     required this.label,
-    required this.bgColor,
-    required this.textColor,
+    this.backgroundColor,
+    this.foregroundColor,
+    this.borderColor,
   });
+
+  final IconData icon;
   final String label;
-  final Color bgColor;
-  final Color textColor;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
+  final Color? borderColor;
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final bg = backgroundColor ?? palette.surface3;
+    final fg = foregroundColor ?? palette.text2;
+    final border = borderColor ?? palette.border;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
       decoration: BoxDecoration(
-        color: bgColor,
-        borderRadius: BorderRadius.circular(30),
+        color: bg,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: border),
       ),
-      child: Text(
-        label,
-        style: GoogleFonts.dmSans(
-          fontSize: 11,
-          fontWeight: FontWeight.w600,
-          color: textColor,
-        ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: fg),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: theme.textTheme.labelSmall?.copyWith(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: fg,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SignalChip extends StatelessWidget {
+  const _SignalChip({
+    required this.icon,
+    required this.label,
+    required this.color,
+  });
+
+  final IconData icon;
+  final String label;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: color.withValues(alpha: 0.2)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: color),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: theme.textTheme.labelSmall?.copyWith(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: color,
+            ),
+          ),
+        ],
       ),
     );
   }

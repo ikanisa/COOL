@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_foundations.dart';
+import '../../../../core/theme/cool_palette.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
@@ -13,6 +15,7 @@ import '../providers/rs_admin_provider.dart';
 import '../rs_membership_package.dart';
 import '../widgets/rs_admin_shell.dart';
 import 'package:cool_app/core/l10n/l10n.dart';
+import '../../../../shared/widgets/cool_bottom_sheet.dart';
 
 class RsAdminPackagesScreen extends ConsumerStatefulWidget {
   const RsAdminPackagesScreen({super.key});
@@ -44,7 +47,7 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
     );
     var isActive = package.isActive;
 
-    await showModalBottomSheet<void>(
+    await showCoolBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       backgroundColor: AppColors.surface,
@@ -53,6 +56,7 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
       ),
       builder: (context) => StatefulBuilder(
         builder: (context, setModalState) {
+          final palette = context.coolPalette;
           return SafeArea(
             top: false,
             child: Padding(
@@ -71,27 +75,28 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
                         width: 42,
                         height: 4,
                         decoration: BoxDecoration(
-                          color: AppColors.border,
+                          color: palette.border,
                           borderRadius: BorderRadius.circular(999),
                         ),
                       ),
                     ),
                     const SizedBox(height: 18),
                     Text(
-                      'Edit ${package.tier.label} package',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.text,
+                      'Official ${package.tier.label} Package',
+                      style: GoogleFonts.barlowCondensed(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w900,
+                        color: palette.text,
+                        height: 0.94,
                       ),
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      'Supporter-facing tier copy and',
+                      'Control supporter-facing copy, benefit promises, and package visibility from one editor.',
                       style: GoogleFonts.dmSans(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.text2,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: palette.text2,
                         height: 1.45,
                       ),
                     ),
@@ -120,16 +125,14 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
                       decoration: const InputDecoration(
                         labelText: 'Benefits',
                         helperText:
-                            'One line per benefit',
+                            'One line per benefit using "Title | Description"',
                       ),
                     ),
                     const SizedBox(height: 12),
                     SwitchListTile.adaptive(
                       contentPadding: EdgeInsets.zero,
                       title: Text(context.l10n.packageActive),
-                      subtitle: const Text(
-                        'Inactive packages remain hidden',
-                      ),
+                      subtitle: const Text('Inactive packages remain hidden'),
                       value: isActive,
                       onChanged: (value) =>
                           setModalState(() => isActive = value),
@@ -276,7 +279,7 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
     return RsAdminShell(
       title: 'Membership Packages',
       subtitle:
-          'Manage supporter-facing tier copy',
+          'Curate supporter plans, benefit copy, and package visibility with one controlled membership deck.',
       metrics: [
         RsAdminMetric(
           label: 'plans',
@@ -303,6 +306,8 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
           isPremium: true,
         ),
         builder: (packages) => ListView(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
           children: packages
               .map(
                 (package) => Padding(
@@ -340,11 +345,12 @@ class _PackageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final tier = package.tier;
     return CoolCard(
       borderColor: package.isActive
           ? tier.color.withValues(alpha: 0.32)
-          : AppColors.border2,
+          : palette.border2,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -359,16 +365,16 @@ class _PackageCard extends StatelessWidget {
                       style: GoogleFonts.barlow(
                         fontSize: 18,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       package.subtitle,
                       style: GoogleFonts.barlow(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.text2,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: palette.text2,
                         height: 1.4,
                       ),
                     ),
@@ -396,9 +402,9 @@ class _PackageCard extends StatelessWidget {
             Text(
               package.description,
               style: GoogleFonts.dmSans(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: AppColors.text2,
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: palette.text2,
                 height: 1.45,
               ),
             ),
@@ -413,7 +419,7 @@ class _PackageCard extends StatelessWidget {
                   Icon(
                     _benefitIcon(benefit.title),
                     size: 16,
-                    color: package.isActive ? tier.color : AppColors.text3,
+                    color: package.isActive ? tier.color : palette.text3,
                   ),
                   const SizedBox(width: 10),
                   Expanded(
@@ -423,9 +429,9 @@ class _PackageCard extends StatelessWidget {
                         Text(
                           benefit.title,
                           style: GoogleFonts.dmSans(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.text,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w800,
+                            color: palette.text,
                           ),
                         ),
                         if (benefit.description.trim().isNotEmpty) ...[
@@ -433,9 +439,9 @@ class _PackageCard extends StatelessWidget {
                           Text(
                             benefit.description,
                             style: GoogleFonts.dmSans(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.text2,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                              color: palette.text2,
                               height: 1.35,
                             ),
                           ),
@@ -454,12 +460,24 @@ class _PackageCard extends StatelessWidget {
             children: [
               OutlinedButton(
                 onPressed: isBusy ? null : onEdit,
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: CoolSpace.x4,
+                    vertical: CoolSpace.x3,
+                  ),
+                ),
                 child: Text(
                   isBusy && busyAction == 'save' ? 'Saving...' : 'Edit package',
                 ),
               ),
               TextButton(
                 onPressed: isBusy ? null : onToggleActive,
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: CoolSpace.x4,
+                    vertical: CoolSpace.x3,
+                  ),
+                ),
                 child: Text(
                   isBusy && busyAction != 'save'
                       ? (busyAction == 'activate'
@@ -483,7 +501,8 @@ class _PackageStatusPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = package.isActive ? package.tier.color : AppColors.text3;
+    final palette = context.coolPalette;
+    final color = package.isActive ? package.tier.color : palette.text3;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
@@ -511,19 +530,20 @@ class _InfoPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.surface2,
+        color: palette.surface2,
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: Text(
         '$label: $value',
         style: GoogleFonts.dmSans(
           fontSize: 11,
           fontWeight: FontWeight.w600,
-          color: AppColors.text,
+          color: palette.text,
         ),
       ),
     );

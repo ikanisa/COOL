@@ -3,6 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/l10n/l10n.dart';
+
+import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/cool_layout.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../core/router/app_routes.dart';
@@ -11,6 +14,7 @@ import '../../../shared/widgets/cool_screen_background.dart';
 import '../models/admin_workspace_access.dart';
 import '../providers/admin_providers.dart';
 import '../providers/admin_workspace_access_provider.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
 
 /// Admin Dashboard — role-filtered card grid for admin management screens.
 ///
@@ -19,151 +23,159 @@ import '../providers/admin_workspace_access_provider.dart';
 class AdminDashboardScreen extends ConsumerWidget {
   const AdminDashboardScreen({super.key});
 
-  /// All available admin sections with role visibility tags.
-  /// `null` roles means platform-admin-only (default).
-  static const _allSections = [
-    _AdminSection(
-      'Users',
-      Icons.person_rounded,
-      '/admin/users',
-      'Inspect profiles and demo batches',
-    ),
-    _AdminSection(
-      'Partners',
-      Icons.handshake_rounded,
-      '/admin/partners',
-      'Manage partner profiles',
-    ),
-    _AdminSection(
-      'Services',
-      Icons.assignment_rounded,
-      '/admin/services',
-      'Partner service offerings',
-    ),
-    _AdminSection(
-      'Quick Actions',
-      Icons.bolt_rounded,
-      '/admin/quick-actions',
-      'Home screen cards',
-    ),
-    _AdminSection(
-      'Vehicle Types',
-      Icons.directions_car_filled_rounded,
-      '/admin/vehicle-types',
-      'Mobility filter chips',
-    ),
-    _AdminSection(
-      'App Config',
-      Icons.settings_rounded,
-      '/admin/app-config',
-      'Key-value settings',
-    ),
-    _AdminSection(
-      'Operations',
-      Icons.monitor_heart_rounded,
-      '/admin/operations',
-      'Release health and triage',
-    ),
-    _AdminSection(
-      'Rayon Sports',
-      Icons.sports_soccer_rounded,
-      '/admin/rayon',
-      'Matches, tickets, shop, members',
-      visibleTo: {AdminRole.admin, AdminRole.rayonSport},
-    ),
-    _AdminSection(
-      'Special Products',
-      Icons.star_rounded,
-      '/admin/special-products',
-      'Buri Munsi and savings cards',
-      visibleTo: {AdminRole.admin, AdminRole.bank},
-    ),
-    _AdminSection(
-      'Missions',
-      Icons.flag_rounded,
-      '/admin/missions',
-      'Create & manage cooperative missions',
-    ),
-    _AdminSection(
-      'Seasons',
-      Icons.emoji_events_rounded,
-      '/admin/seasons',
-      'Live-ops campaigns & rewards',
-    ),
-    _AdminSection(
-      'Activities',
-      Icons.local_fire_department_rounded,
-      '/admin/activities',
-      'Token-earning gamification activities',
-    ),
-    _AdminSection(
-      'Admin Roles',
-      Icons.admin_panel_settings_rounded,
-      '/admin/roles',
-      'Assign & manage admin access',
-    ),
-    _AdminSection(
-      'System Analytics',
-      Icons.analytics_rounded,
-      '/admin/analytics',
-      'Platform-wide metrics & trends',
-    ),
-    _AdminSection(
-      'AI Content',
-      Icons.auto_awesome_rounded,
-      '/admin/ai-content',
-      'AI-generated UI with approval gate',
-    ),
-    _AdminSection(
-      'Audit Log',
-      Icons.history_rounded,
-      '/admin/audit-log',
-      'Who did what, when',
-    ),
-  ];
+  static List<_AdminSection> _buildSections(BuildContext context) {
+    final l = context.l10n;
+    return [
+      _AdminSection(
+        l.adminUsers,
+        Icons.person_rounded,
+        '/admin/users',
+        l.adminUsersDesc,
+      ),
+      _AdminSection(
+        l.adminPartners,
+        Icons.handshake_rounded,
+        '/admin/partners',
+        l.adminPartnersDesc,
+      ),
+      _AdminSection(
+        l.adminServices,
+        Icons.assignment_rounded,
+        '/admin/services',
+        l.adminServicesDesc,
+      ),
+      _AdminSection(
+        l.adminQuickActions,
+        Icons.bolt_rounded,
+        '/admin/quick-actions',
+        l.adminSpecialProductsDesc,
+      ),
+      _AdminSection(
+        l.adminVehicleTypes,
+        Icons.directions_car_filled_rounded,
+        '/admin/vehicle-types',
+        l.adminVehicleTypesDesc,
+      ),
+      _AdminSection(
+        l.adminAppConfig,
+        Icons.settings_rounded,
+        '/admin/app-config',
+        l.adminAppConfigDesc,
+      ),
+      _AdminSection(
+        l.adminOperations,
+        Icons.monitor_heart_rounded,
+        '/admin/operations',
+        l.adminReleaseDesc,
+      ),
+      _AdminSection(
+        l.rayonSports,
+        Icons.sports_soccer_rounded,
+        '/admin/rayon',
+        'Matches, tickets, shop, members',
+        visibleTo: {AdminRole.admin, AdminRole.rayonSport},
+      ),
+      _AdminSection(
+        l.adminSpecialProducts,
+        Icons.star_rounded,
+        '/admin/special-products',
+        'Buri Munsi and savings cards',
+        visibleTo: {AdminRole.admin, AdminRole.bank},
+      ),
+      _AdminSection(
+        l.adminMissions,
+        Icons.flag_rounded,
+        '/admin/missions',
+        l.adminMissionsDesc,
+        visibleTo: {AdminRole.admin, AdminRole.rayonSport, AdminRole.bank},
+      ),
+      _AdminSection(
+        l.adminSeasons,
+        Icons.emoji_events_rounded,
+        '/admin/seasons',
+        l.adminLiveOpsDesc,
+        visibleTo: {AdminRole.admin, AdminRole.rayonSport, AdminRole.bank},
+      ),
+      _AdminSection(
+        l.adminActivities,
+        Icons.local_fire_department_rounded,
+        '/admin/activities',
+        l.adminSeasonsDesc,
+        visibleTo: {AdminRole.admin, AdminRole.rayonSport, AdminRole.bank},
+      ),
+      _AdminSection(
+        l.adminAdminRoles,
+        Icons.admin_panel_settings_rounded,
+        '/admin/roles',
+        l.adminAdminRolesDesc,
+      ),
+      _AdminSection(
+        l.adminSystemAnalytics,
+        Icons.analytics_rounded,
+        '/admin/analytics',
+        l.adminSystemAnalyticsDesc,
+      ),
+      _AdminSection(
+        l.adminAiContent,
+        Icons.auto_awesome_rounded,
+        '/admin/ai-content',
+        l.adminAiContentDesc,
+      ),
+      _AdminSection(
+        l.adminAuditLog,
+        Icons.history_rounded,
+        '/admin/audit-log',
+        l.adminAuditLogDesc,
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final access = ref.watch(adminWorkspaceAccessProvider);
 
     // Filter sections based on user's role
-    final sections = _allSections.where((section) {
-      // If visibleTo is null, only platform admins can see it
-      if (section.visibleTo == null) {
-        return access.hasPlatformAccess;
-      }
-      // Platform admins always see everything
-      if (access.hasPlatformAccess) return true;
-      // Check specific role visibility
-      if (section.visibleTo!.contains(AdminRole.bank) &&
-          access.hasBankAdminAccess) {
-        return true;
-      }
-      if (section.visibleTo!.contains(AdminRole.rayonSport) &&
-          access.hasPartnerAdminAccess) {
-        return true;
-      }
-      return false;
-    }).toList(growable: false);
+    final sections = _buildSections(context)
+        .where((section) {
+          // If visibleTo is null, only platform admins can see it
+          if (section.visibleTo == null) {
+            return access.hasPlatformAccess;
+          }
+          // Platform admins always see everything
+          if (access.hasPlatformAccess) return true;
+          // Check specific role visibility
+          if (section.visibleTo!.contains(AdminRole.bank) &&
+              access.hasBankAdminAccess) {
+            return true;
+          }
+          if (section.visibleTo!.contains(AdminRole.rayonSport) &&
+              access.hasPartnerAdminAccess) {
+            return true;
+          }
+          return false;
+        })
+        .toList(growable: false);
 
-    return Scaffold(
-      backgroundColor: palette.bg,
-      appBar: AppBar(
+    return CoolScreenBackground(
+      child: Scaffold(
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: Semantics(
-          button: true,
-          label: 'Back to profile',
-          child: IconButton(
-            tooltip: 'Back',
-            icon: Icon(Icons.arrow_back_rounded, color: palette.text),
-            onPressed: () => context.pop(),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: Semantics(
+            button: true,
+            label: context.l10n.backToProfile,
+            child: IconButton(
+              tooltip: context.l10n.back,
+              icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
+              onPressed: () => context.pop(),
+            ),
           ),
         ),
-      ),
-      body: CoolScreenBackground(
-        child: SafeArea(
+        body: SafeArea(
           child: ListView(
             padding: const EdgeInsets.fromLTRB(
               CoolLayout.horizontalPagePadding,
@@ -172,21 +184,62 @@ class AdminDashboardScreen extends ConsumerWidget {
               CoolLayout.gutter,
             ),
             children: [
-              Text(
-                'Admin Panel',
-                style: Theme.of(context).textTheme.displayLarge,
+              Semantics(
+                header: true,
+                label: context.l10n.adminPanelTitle,
+                child: Text(
+                  context.l10n.adminPanelTitle,
+                  style: theme.textTheme.displayLarge?.copyWith(
+                    color: colors.primaryText,
+                  ),
+                ),
               ),
-              const SizedBox(height: 12),
-              _RoleBadgeRow(access: access),
+              const SizedBox(height: 8),
+              Text(
+                'Platform controls, partner workspaces, and operational oversight in one command surface.',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colors.secondaryText,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: 24),
+              CoolCard(
+                backgroundColor: colors.operationalSurface,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Admin command',
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        color: colors.primaryText,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      access.hasPlatformAccess
+                          ? 'Full platform visibility with audit, content, and workspace management.'
+                          : 'Role-scoped access with only the surfaces assigned to your institution or partner.',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colors.secondaryText,
+                        fontWeight: FontWeight.w700,
+                        height: 1.35,
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+                    _RoleBadgeRow(access: access),
+                  ],
+                ),
+              ),
               const SizedBox(height: 24),
               GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  mainAxisSpacing: 12,
-                  crossAxisSpacing: 12,
-                  childAspectRatio: 1.2,
+                  mainAxisSpacing: 14,
+                  crossAxisSpacing: 14,
+                  childAspectRatio: 1.02,
                 ),
                 itemCount: sections.length,
                 itemBuilder: (context, index) {
@@ -220,20 +273,16 @@ class _RoleBadgeRow extends StatelessWidget {
     final palette = context.coolPalette;
     final badges = <_RoleBadge>[
       if (access.hasPlatformAccess)
-        const _RoleBadge('Platform Admin', Colors.green),
+        _RoleBadge(context.l10n.platformAdmin, Colors.green),
       if (access.hasBankAdminAccess)
-        _RoleBadge('Bank Admin', palette.blue),
+        _RoleBadge(context.l10n.bankAdmin, palette.blue),
       if (access.hasPartnerAdminAccess)
-        const _RoleBadge('Rayon Sport', Colors.purple),
+        _RoleBadge(context.l10n.rayonSports, Colors.purple),
     ];
 
     if (badges.isEmpty) return const SizedBox.shrink();
 
-    return Wrap(
-      spacing: 8,
-      runSpacing: 6,
-      children: badges,
-    );
+    return Wrap(spacing: 10, runSpacing: 8, children: badges);
   }
 }
 
@@ -244,20 +293,21 @@ class _RoleBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(CoolRadii.sm),
         border: Border.all(color: color.withValues(alpha: 0.2), width: 1),
       ),
       child: Text(
         label.toUpperCase(),
-        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              fontWeight: FontWeight.w800,
-              color: color,
-              letterSpacing: 0.5,
-            ),
+        style: theme.textTheme.labelMedium?.copyWith(
+          fontWeight: FontWeight.w800,
+          color: color,
+          letterSpacing: 0.5,
+        ),
       ),
     );
   }
@@ -292,8 +342,11 @@ class _AdminCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return CoolCard(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(18),
+      backgroundColor: colors.cardSurfaceStrong,
       onTap: () {
         HapticFeedback.selectionClick();
         context.push(section.route);
@@ -303,31 +356,35 @@ class _AdminCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 38,
-            height: 38,
+            width: 48,
+            height: 48,
             decoration: BoxDecoration(
-              color: palette.surface2,
-              borderRadius: BorderRadius.circular(12),
+              color: colors.operationalSurface,
+              borderRadius: BorderRadius.circular(CoolRadii.md),
+              border: Border.all(color: colors.border),
             ),
-            child: Icon(section.icon, size: 20, color: palette.text2),
+            child: Icon(section.icon, size: 22, color: colors.primaryText),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 14),
           Text(
             section.title,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  fontWeight: FontWeight.w800,
-                ),
-            maxLines: 1,
+            style: theme.textTheme.titleSmall?.copyWith(
+              fontWeight: FontWeight.w800,
+              color: colors.primaryText,
+            ),
+            maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(height: 3),
+          const SizedBox(height: 6),
           Expanded(
             child: Text(
               section.subtitle,
-              style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: palette.text3,
-                  ),
-              maxLines: 2,
+              style: theme.textTheme.labelMedium?.copyWith(
+                color: colors.secondaryText,
+                fontWeight: FontWeight.w700,
+                height: 1.3,
+              ),
+              maxLines: 3,
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -345,70 +402,77 @@ class _SupportModeCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return GestureDetector(
       onTap: () {
         HapticFeedback.selectionClick();
         _showSupportSheet(context, ref);
       },
-      child: Container(
+      child: SizedBox(
         width: double.infinity,
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
+        child: CoolCard(
+          padding: const EdgeInsets.all(20),
+          useGradient: true,
           gradient: LinearGradient(
-            colors: [
-              palette.blue.withValues(alpha: 0.12),
-              Colors.purple.withValues(alpha: 0.08),
+            colors: [colors.analyticsSurface, colors.teamSurface],
+          ),
+          borderRadius: 28,
+          borderColor: palette.blue.withValues(alpha: 0.3),
+          child: Row(
+            children: [
+              Container(
+                width: 52,
+                height: 52,
+                decoration: BoxDecoration(
+                  color: palette.blue.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(CoolRadii.md),
+                  border: Border.all(
+                    color: palette.blue.withValues(alpha: 0.18),
+                  ),
+                ),
+                child: Icon(
+                  Icons.support_agent_rounded,
+                  size: 24,
+                  color: palette.blue,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      context.l10n.adminSupportMode,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        color: colors.primaryText,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      context.l10n.adminSupportModeDesc,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colors.secondaryText,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(Icons.chevron_right_rounded, color: palette.text3, size: 24),
             ],
           ),
-          borderRadius: BorderRadius.circular(28),
-          border:
-              Border.all(color: palette.blue.withValues(alpha: 0.3), width: 1.5),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 48,
-              height: 48,
-              decoration: BoxDecoration(
-                color: palette.blue.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: Icon(
-                Icons.support_agent_rounded,
-                size: 24,
-                color: palette.blue,
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Support Mode',
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.w800,
-                        ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Open a bank or rayon workspace as support',
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                ],
-              ),
-            ),
-            Icon(Icons.chevron_right_rounded, color: palette.text3, size: 24),
-          ],
         ),
       ),
     );
   }
 
   void _showSupportSheet(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
     final partnersAsync = ref.read(adminPartnersProvider);
 
-    showModalBottomSheet(
+    showCoolBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
@@ -417,12 +481,6 @@ class _SupportModeCard extends ConsumerWidget {
         return Container(
           constraints: BoxConstraints(
             maxHeight: MediaQuery.of(sheetCtx).size.height * 0.7,
-          ),
-          decoration: BoxDecoration(
-            color: palette.bg,
-            borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(28),
-            ),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -441,11 +499,14 @@ class _SupportModeCard extends ConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 22),
                 child: Row(
                   children: [
-                    Icon(Icons.support_agent_rounded,
-                        color: palette.blue, size: 22),
+                    Icon(
+                      Icons.support_agent_rounded,
+                      color: palette.blue,
+                      size: 22,
+                    ),
                     const SizedBox(width: 10),
                     Text(
-                      'Support Mode',
+                      context.l10n.adminSupportMode,
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
                   ],
@@ -455,7 +516,7 @@ class _SupportModeCard extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 22),
                 child: Text(
-                  'Navigate into a partner workspace to view and manage it as support.',
+                  context.l10n.adminSupportModeHint,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ),
@@ -469,7 +530,7 @@ class _SupportModeCard extends ConsumerWidget {
                   error: (e, _) => Padding(
                     padding: const EdgeInsets.all(22),
                     child: Text(
-                      'Failed to load partners: $e',
+                      context.l10n.adminFailedToLoadPartners(e.toString()),
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
@@ -478,7 +539,7 @@ class _SupportModeCard extends ConsumerWidget {
                       return Padding(
                         padding: const EdgeInsets.all(22),
                         child: Text(
-                          'No partners found',
+                          context.l10n.adminNoPartnersFound,
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                       );
@@ -490,7 +551,8 @@ class _SupportModeCard extends ConsumerWidget {
                       separatorBuilder: (_, _) => const SizedBox(height: 12),
                       itemBuilder: (ctx, index) {
                         final p = partners[index];
-                        final name = p['name']?.toString() ?? 'Unknown';
+                        final name =
+                            p['name']?.toString() ?? context.l10n.unknown;
                         final id = p['id']?.toString() ?? '';
                         final type = p['partner_type']?.toString() ?? 'partner';
                         final isBank = type.toLowerCase().contains('bank');
@@ -499,12 +561,16 @@ class _SupportModeCard extends ConsumerWidget {
                           padding: const EdgeInsets.only(bottom: 12),
                           child: ListTile(
                             contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 18, vertical: 8),
+                              horizontal: 18,
+                              vertical: 8,
+                            ),
                             tileColor: palette.surface,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18),
-                              side:
-                                  BorderSide(color: palette.border, width: 1.5),
+                              side: BorderSide(
+                                color: palette.border,
+                                width: 1.5,
+                              ),
                             ),
                             leading: Container(
                               width: 44,
@@ -524,18 +590,12 @@ class _SupportModeCard extends ConsumerWidget {
                             ),
                             title: Text(
                               name,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.w800,
-                                  ),
+                              style: Theme.of(context).textTheme.bodyLarge
+                                  ?.copyWith(fontWeight: FontWeight.w800),
                             ),
                             subtitle: Text(
                               type.toUpperCase(),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelSmall
+                              style: Theme.of(context).textTheme.labelSmall
                                   ?.copyWith(
                                     color: palette.text3,
                                     fontWeight: FontWeight.w700,
@@ -569,4 +629,3 @@ class _SupportModeCard extends ConsumerWidget {
     );
   }
 }
-

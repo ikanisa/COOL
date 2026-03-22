@@ -91,7 +91,7 @@ class HiveFcmPreferenceStore implements FcmPreferenceStore {
   @override
   Future<bool> readEnabled() async {
     final box = await _openBox(boxName);
-    return box.get(enabledKey, defaultValue: false) as bool;
+    return box.get(enabledKey, defaultValue: true) as bool;
   }
 
   @override

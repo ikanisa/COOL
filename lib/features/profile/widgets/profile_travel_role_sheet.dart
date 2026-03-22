@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import 'profile_data.dart';
 import 'profile_settings_widgets.dart';
 import '../../../core/l10n/l10n.dart';
@@ -20,6 +20,7 @@ class ProfileTravelRoleSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final driverValue = profile.isDriver
         ? profile.driverSummary
         : 'Setup driver profile';
@@ -32,7 +33,7 @@ class ProfileTravelRoleSheet extends StatelessWidget {
           style: GoogleFonts.dmSans(
             fontSize: 18,
             fontWeight: FontWeight.w700,
-            color: AppColors.text,
+            color: palette.text,
           ),
         ),
         const SizedBox(height: 8),
@@ -41,7 +42,7 @@ class ProfileTravelRoleSheet extends StatelessWidget {
           style: GoogleFonts.dmSans(
             fontSize: 13,
             fontWeight: FontWeight.w400,
-            color: AppColors.text2,
+            color: palette.text2,
             height: 1.45,
           ),
         ),
@@ -56,11 +57,11 @@ class ProfileTravelRoleSheet extends StatelessWidget {
                   ? 'Default travel role'
                   : 'Add wallet first',
               valueColor: profile.momoLinked
-                  ? AppColors.accent
-                  : AppColors.text2,
+                  ? palette.accent
+                  : palette.text2,
               trailing: _TravelRoleBadge(
                 label: profile.momoLinked ? 'Default' : 'Needs wallet',
-                color: profile.momoLinked ? AppColors.accent : AppColors.orange,
+                color: profile.momoLinked ? palette.accent : palette.orange,
               ),
               onTap: onOpenPassengerTools,
               showArrow: onOpenPassengerTools != null,
@@ -75,10 +76,10 @@ class ProfileTravelRoleSheet extends StatelessWidget {
               icon: Icons.directions_car_outlined,
               label: profile.isDriver ? 'Driver setup' : 'Switch to driver',
               value: driverValue,
-              valueColor: profile.isDriver ? AppColors.accent : AppColors.text2,
+              valueColor: profile.isDriver ? palette.accent : palette.text2,
               trailing: _TravelRoleBadge(
                 label: profile.isDriver ? 'Open' : 'Set up',
-                color: AppColors.blue,
+                color: palette.blue,
               ),
               onTap: onOpenDriverSetup,
               showArrow: false,

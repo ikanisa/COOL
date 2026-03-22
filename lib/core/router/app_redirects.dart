@@ -9,6 +9,7 @@ const _authRoutes = {
   AppRoutes.onboarding,
   AppRoutes.otp,
   AppRoutes.otpVerify,
+  AppRoutes.appAccess,
 };
 
 bool _isAdminRoute(String location) {

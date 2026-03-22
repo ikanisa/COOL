@@ -1,12 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/providers/supabase_client_provider.dart';
+
 import '../models/special_product.dart';
 
 /// All special products (active + inactive) for admin management.
 final adminSpecialProductsProvider =
     FutureProvider.autoDispose<List<SpecialProduct>>((ref) async {
-  final rows = await Supabase.instance.client
+  final rows = await ref.read(supabaseClientProvider)
       .from('special_products')
       .select()
       .order('sort_order');
@@ -16,12 +18,18 @@ final adminSpecialProductsProvider =
 /// Active special products only (for customer home screen).
 final activeSpecialProductsProvider =
     FutureProvider.autoDispose<List<SpecialProduct>>((ref) async {
-  final rows = await Supabase.instance.client
+  final rows = await ref.read(supabaseClientProvider)
       .from('special_products')
       .select()
       .eq('is_active', true)
       .order('sort_order');
   return rows.map((r) => SpecialProduct.fromJson(r)).toList();
+});
+
+/// DI-provided repository for admin CRUD.
+final specialProductsRepositoryProvider =
+    Provider<SpecialProductsRepository>((ref) {
+  return SpecialProductsRepository(ref.read(supabaseClientProvider));
 });
 
 /// CRUD operations for admin.

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../models/special_product.dart';
 import '../providers/special_products_provider.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 
 /// Admin CRUD screen for managing special product cards.
 class ManageSpecialProductsScreen extends ConsumerWidget {
@@ -16,21 +17,28 @@ class ManageSpecialProductsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
     final productsAsync = ref.watch(adminSpecialProductsProvider);
 
-    return Scaffold(
-      backgroundColor: AppColors.bg,
+    return CoolScreenBackground(
+
+
+      showGlow: false,
+
+
+      child: Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
           tooltip: context.l10n.back,
-          icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
+          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.accent,
+        backgroundColor: palette.accent,
         onPressed: () => _showEditSheet(context, ref, null),
         child: const Icon(Icons.add_rounded, color: Colors.black),
       ),
@@ -42,7 +50,7 @@ class ManageSpecialProductsScreen extends ConsumerWidget {
                   textAlign: TextAlign.center,
                   style: GoogleFonts.dmSans(
                     fontSize: 14,
-                    color: AppColors.text3,
+                    color: palette.text3,
                   ),
                 ),
               )
@@ -57,7 +65,7 @@ class ManageSpecialProductsScreen extends ConsumerWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 34,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.text,
+                        color: palette.text,
                         height: 1.1,
                       ),
                     );
@@ -74,10 +82,13 @@ class ManageSpecialProductsScreen extends ConsumerWidget {
         error: (e, _) => Center(
           child: Text(
             'Error: $e',
-            style: GoogleFonts.dmSans(color: AppColors.text3),
+            style: GoogleFonts.dmSans(color: palette.text3),
           ),
         ),
       ),
+    ),
+
+
     );
   }
 
@@ -86,12 +97,13 @@ class ManageSpecialProductsScreen extends ConsumerWidget {
     WidgetRef ref,
     SpecialProduct? product,
   ) {
-    showModalBottomSheet<void>(
+    showCoolBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (_) => _SpecialProductEditSheet(
         product: product,
+        repo: ref.read(specialProductsRepositoryProvider),
         onSaved: () => ref.invalidate(adminSpecialProductsProvider),
       ),
     );
@@ -103,8 +115,7 @@ class ManageSpecialProductsScreen extends ConsumerWidget {
     SpecialProduct product,
   ) async {
     try {
-      final repo =
-          SpecialProductsRepository(Supabase.instance.client);
+      final repo = ref.read(specialProductsRepositoryProvider);
       await repo.toggleActive(product.id, isActive: !product.isActive);
       ref.invalidate(adminSpecialProductsProvider);
       if (context.mounted) {
@@ -136,6 +147,7 @@ class _ProductAdminCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return CoolCard(
       onTap: onEdit,
       child: Row(
@@ -164,7 +176,7 @@ class _ProductAdminCard extends StatelessWidget {
                         style: GoogleFonts.dmSans(
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.text,
+                          color: palette.text,
                         ),
                       ),
                     ),
@@ -196,7 +208,7 @@ class _ProductAdminCard extends StatelessWidget {
                   '${product.formattedAmount} · ${product.targetAudience} · ${product.momoRecipient}',
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
-                    color: AppColors.text3,
+                    color: palette.text3,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -210,7 +222,7 @@ class _ProductAdminCard extends StatelessWidget {
               product.isActive
                   ? Icons.toggle_on_rounded
                   : Icons.toggle_off_rounded,
-              color: product.isActive ? Colors.green : AppColors.text3,
+              color: product.isActive ? Colors.green : palette.text3,
               size: 32,
             ),
             onPressed: onToggle,
@@ -225,9 +237,10 @@ class _ProductAdminCard extends StatelessWidget {
 // ─── Edit / Create Bottom Sheet ─────────────────────────────────────────────
 
 class _SpecialProductEditSheet extends StatefulWidget {
-  const _SpecialProductEditSheet({this.product, required this.onSaved});
+  const _SpecialProductEditSheet({this.product, required this.repo, required this.onSaved});
 
   final SpecialProduct? product;
+  final SpecialProductsRepository repo;
   final VoidCallback onSaved;
 
   @override
@@ -325,8 +338,7 @@ class _SpecialProductEditSheetState
         sortOrder: int.tryParse(_sortCtrl.text.trim()) ?? 0,
       );
 
-      final repo =
-          SpecialProductsRepository(Supabase.instance.client);
+      final repo = widget.repo;
       await repo.upsert(product);
 
       widget.onSaved();
@@ -348,12 +360,13 @@ class _SpecialProductEditSheetState
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.9,
       ),
       decoration: BoxDecoration(
-        color: AppColors.bg,
+        color: palette.bg,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: Column(
@@ -364,7 +377,7 @@ class _SpecialProductEditSheetState
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: AppColors.border,
+              color: palette.border,
               borderRadius: BorderRadius.circular(999),
             ),
           ),
@@ -379,7 +392,7 @@ class _SpecialProductEditSheetState
                     style: GoogleFonts.dmSans(
                       fontSize: 20,
                       fontWeight: FontWeight.w800,
-                      color: AppColors.text,
+                      color: palette.text,
                     ),
                   ),
                 ),
@@ -391,7 +404,7 @@ class _SpecialProductEditSheetState
                         'Active',
                         style: GoogleFonts.dmSans(
                           fontSize: 12,
-                          color: AppColors.text3,
+                          color: palette.text3,
                         ),
                       ),
                       const SizedBox(width: 4),
@@ -469,7 +482,7 @@ class _SpecialProductEditSheetState
                   child: ElevatedButton(
                     onPressed: _saving ? null : _save,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.accent,
+                      backgroundColor: palette.accent,
                       foregroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
@@ -517,6 +530,7 @@ class _Field extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: TextField(
@@ -525,28 +539,28 @@ class _Field extends StatelessWidget {
         maxLines: maxLines,
         style: GoogleFonts.dmSans(
           fontSize: 14,
-          color: AppColors.text,
+          color: palette.text,
           fontWeight: FontWeight.w500,
         ),
         decoration: InputDecoration(
           labelText: label,
           labelStyle: GoogleFonts.dmSans(
             fontSize: 13,
-            color: AppColors.text3,
+            color: palette.text3,
           ),
           filled: true,
-          fillColor: AppColors.surface,
+          fillColor: palette.surface,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: AppColors.border),
+            borderSide: BorderSide(color: palette.border),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: AppColors.border),
+            borderSide: BorderSide(color: palette.border),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: AppColors.accent, width: 1.5),
+            borderSide: BorderSide(color: palette.accent, width: 1.5),
           ),
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 14,
@@ -573,29 +587,30 @@ class _DropdownField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
+          style: GoogleFonts.dmSans(fontSize: 12, color: palette.text3),
         ),
         const SizedBox(height: 4),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 14),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: palette.surface,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: palette.border),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               value: value,
               isExpanded: true,
-              dropdownColor: AppColors.surface,
+              dropdownColor: palette.surface,
               style: GoogleFonts.dmSans(
                 fontSize: 14,
-                color: AppColors.text,
+                color: palette.text,
                 fontWeight: FontWeight.w500,
               ),
               items: items

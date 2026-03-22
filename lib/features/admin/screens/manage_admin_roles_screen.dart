@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
@@ -13,6 +14,8 @@ import '../models/admin_workspace_access.dart';
 import '../providers/admin_workspace_access_provider.dart';
 import '../providers/admin_providers.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 
 /// Super admin screen for managing admin role assignments.
 /// Allows viewing, assigning, and revoking admin/bank/rayon_sport roles.
@@ -21,10 +24,17 @@ class ManageAdminRolesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
     final assignmentsAsync = ref.watch(adminRoleAssignmentsProvider);
 
-    return Scaffold(
-      backgroundColor: AppColors.bg,
+    return CoolScreenBackground(
+
+
+      showGlow: false,
+
+
+      child: Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         automaticallyImplyLeading: true,
         backgroundColor: Colors.transparent,
@@ -32,12 +42,12 @@ class ManageAdminRolesScreen extends ConsumerWidget {
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
           tooltip: context.l10n.back,
-          icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
+          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showAssignRoleSheet(context, ref),
-        backgroundColor: AppColors.blue,
+        backgroundColor: palette.blue,
         foregroundColor: Colors.white,
         shape: const CircleBorder(),
         child: const Icon(Icons.add_rounded, size: 28),
@@ -78,7 +88,7 @@ class ManageAdminRolesScreen extends ConsumerWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 34,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.text,
+                        color: palette.text,
                         height: 1.1,
                       ),
                     ),
@@ -100,14 +110,18 @@ class ManageAdminRolesScreen extends ConsumerWidget {
           );
         },
       ),
+    ),
+
+
     );
   }
 
   void _showAssignRoleSheet(BuildContext context, WidgetRef ref) {
-    showModalBottomSheet(
+    final palette = context.coolPalette;
+    showCoolBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: AppColors.surface,
+      backgroundColor: palette.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -135,12 +149,13 @@ class _SummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,7 +165,7 @@ class _SummaryCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
           const SizedBox(height: 12),
@@ -179,7 +194,7 @@ class _SummaryCard extends StatelessWidget {
                 child: _MetricChip(
                   label: context.l10n.bank,
                   value: bankCount.toString(),
-                  color: AppColors.blue,
+                  color: palette.blue,
                 ),
               ),
               const SizedBox(width: 8),
@@ -211,16 +226,17 @@ class _MetricChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.bg,
+        color: palette.bg,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: RichText(
         text: TextSpan(
-          style: GoogleFonts.dmSans(color: AppColors.text),
+          style: GoogleFonts.dmSans(color: palette.text),
           children: [
             TextSpan(
               text: '$value ',
@@ -232,7 +248,7 @@ class _MetricChip extends StatelessWidget {
             TextSpan(
               text: label,
               style: TextStyle(
-                color: AppColors.text3,
+                color: palette.text3,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -330,6 +346,7 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final a = widget.assignment;
     final displayName = a.userName ?? a.userPhone ?? a.userId;
     final grantedDate = '${a.grantedAt.day}/${a.grantedAt.month}/${a.grantedAt.year}';
@@ -337,9 +354,9 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -356,7 +373,7 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
                       style: GoogleFonts.dmSans(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     if (a.userPhone != null && a.userName != null) ...[
@@ -366,7 +383,7 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
                         style: GoogleFonts.dmSans(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.text3,
+                          color: palette.text3,
                         ),
                       ),
                     ],
@@ -398,7 +415,7 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
               style: GoogleFonts.dmSans(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
-                color: AppColors.text3,
+                color: palette.text3,
               ),
             ),
           Text(
@@ -406,7 +423,7 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
             style: GoogleFonts.dmSans(
               fontSize: 11,
               fontWeight: FontWeight.w400,
-              color: AppColors.text3,
+              color: palette.text3,
             ),
           ),
           if (a.notes != null && a.notes!.isNotEmpty) ...[
@@ -416,7 +433,7 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
               style: GoogleFonts.dmSans(
                 fontSize: 11,
                 fontWeight: FontWeight.w400,
-                color: AppColors.text3,
+                color: palette.text3,
                 fontStyle: FontStyle.italic,
               ),
             ),
@@ -515,6 +532,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final partnersAsync = ref.watch(adminPartnersProvider);
 
     return Padding(
@@ -534,7 +552,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: AppColors.border,
+                  color: palette.border,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -545,7 +563,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
               style: GoogleFonts.dmSans(
                 fontSize: 22,
                 fontWeight: FontWeight.w800,
-                color: AppColors.text,
+                color: palette.text,
               ),
             ),
             const SizedBox(height: 24),
@@ -556,33 +574,33 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
               style: GoogleFonts.dmSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: AppColors.text,
+                color: palette.text,
               ),
             ),
             const SizedBox(height: 8),
             TextField(
               controller: _userIdController,
-              style: GoogleFonts.dmSans(color: AppColors.text, fontSize: 14),
+              style: GoogleFonts.dmSans(color: palette.text, fontSize: 14),
               decoration: InputDecoration(
                 hintText: 'Paste user UUID',
                 hintStyle:
-                    GoogleFonts.dmSans(color: AppColors.text3, fontSize: 14),
+                    GoogleFonts.dmSans(color: palette.text3, fontSize: 14),
                 filled: true,
-                fillColor: AppColors.bg,
+                fillColor: palette.bg,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
-                  borderSide: BorderSide(color: AppColors.border),
+                  borderSide: BorderSide(color: palette.border),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
-                  borderSide: BorderSide(color: AppColors.border),
+                  borderSide: BorderSide(color: palette.border),
                 ),
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
                 suffixIcon: IconButton(
                   tooltip: 'Paste',
                   icon: Icon(Icons.paste_rounded,
-                      size: 18, color: AppColors.text3),
+                      size: 18, color: palette.text3),
                   onPressed: () async {
                     final clipboard = await Clipboard.getData('text/plain');
                     if (clipboard?.text != null) {
@@ -600,7 +618,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
               style: GoogleFonts.dmSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: AppColors.text,
+                color: palette.text,
               ),
             ),
             const SizedBox(height: 8),
@@ -615,15 +633,15 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
                     _selectedRole = role;
                     if (!_needsPartnerScope) _selectedPartnerId = null;
                   }),
-                  backgroundColor: AppColors.bg,
-                  selectedColor: AppColors.blue.withValues(alpha: 0.2),
+                  backgroundColor: Colors.transparent,
+                  selectedColor: palette.blue.withValues(alpha: 0.2),
                   labelStyle: GoogleFonts.dmSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: isSelected ? AppColors.blue : AppColors.text3,
+                    color: isSelected ? palette.blue : palette.text3,
                   ),
                   side: BorderSide(
-                    color: isSelected ? AppColors.blue : AppColors.border,
+                    color: isSelected ? palette.blue : palette.border,
                   ),
                 );
               }).toList(),
@@ -637,7 +655,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
               const SizedBox(height: 8),
@@ -656,14 +674,14 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
                     initialValue: _selectedPartnerId,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: AppColors.bg,
+                      fillColor: palette.bg,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
-                        borderSide: BorderSide(color: AppColors.border),
+                        borderSide: BorderSide(color: palette.border),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
-                        borderSide: BorderSide(color: AppColors.border),
+                        borderSide: BorderSide(color: palette.border),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                           horizontal: 14, vertical: 14),
@@ -671,16 +689,16 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
                     hint: Text(
                       'Select partner',
                       style: GoogleFonts.dmSans(
-                          color: AppColors.text3, fontSize: 14),
+                          color: palette.text3, fontSize: 14),
                     ),
-                    dropdownColor: AppColors.surface,
+                    dropdownColor: palette.surface,
                     items: filtered
                         .map((p) => DropdownMenuItem(
                               value: p['id']?.toString(),
                               child: Text(
                                 p['name']?.toString() ?? 'Unknown',
                                 style: GoogleFonts.dmSans(
-                                  color: AppColors.text,
+                                  color: palette.text,
                                   fontSize: 14,
                                 ),
                               ),
@@ -708,7 +726,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
               child: FilledButton(
                 onPressed: _isSubmitting ? null : _submit,
                 style: FilledButton.styleFrom(
-                  backgroundColor: AppColors.blue,
+                  backgroundColor: palette.blue,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(

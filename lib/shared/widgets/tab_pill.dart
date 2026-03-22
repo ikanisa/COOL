@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/cool_palette.dart';
+import '../../core/theme/cool_foundations.dart';
 
-/// A pill-shaped tab selector used in horizontal filter rows.
-///
-/// Active state uses an accent glow background and accent border;
-/// inactive uses the default surface2 + border treatment.
 class TabPill extends StatelessWidget {
   const TabPill({
     required this.label,
@@ -21,30 +16,42 @@ class TabPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
+    final brightness = theme.brightness;
     return Semantics(
       label: label,
       button: true,
       selected: isActive,
-      child: GestureDetector(
-        onTap: onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          curve: Curves.easeOut,
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
-          decoration: BoxDecoration(
-            color: isActive ? palette.accentGlow : palette.surface2,
-            borderRadius: BorderRadius.circular(30),
-            border: Border.all(
-              color: isActive ? palette.accent : palette.border,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(CoolRadii.md),
+          child: AnimatedContainer(
+            duration: CoolMotion.quick,
+            curve: CoolMotion.enterCurve,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+            decoration: BoxDecoration(
+              color: isActive
+                  ? colors.chipSelectedBackground
+                  : colors.chipBackground,
+              borderRadius: BorderRadius.circular(CoolRadii.md),
+              border: Border.all(
+                color: isActive ? colors.accent : colors.border,
+              ),
+              boxShadow: isActive
+                  ? CoolShadows.clay(brightness, strength: 0.4)
+                  : null,
             ),
-          ),
-          child: Text(
-            label,
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
-              color: isActive ? palette.accent : palette.text2,
+            child: Text(
+              label,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.labelMedium?.copyWith(
+                fontSize: 15,
+                fontWeight: isActive ? FontWeight.w800 : FontWeight.w700,
+                color: isActive ? colors.primaryText : colors.secondaryText,
+              ),
             ),
           ),
         ),

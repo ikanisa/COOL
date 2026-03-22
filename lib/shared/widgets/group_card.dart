@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_palette.dart';
 import 'status_badge.dart';
 
 /// A horizontally-scrollable group card showing type, amount, progress,
@@ -36,13 +36,15 @@ class GroupCard extends StatelessWidget {
 
   bool get _isSaving => type == 'saving';
 
-  Color get _accentColor => _isSaving ? AppColors.accent : AppColors.orange;
+  Color _accentColor(CoolPalette palette) => _isSaving ? palette.accent : palette.orange;
 
   double get _progress =>
       targetAmount > 0 ? (amount / targetAmount).clamp(0.0, 1.0) : 0.0;
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+    final accent = _accentColor(palette);
     return Semantics(
       button: true,
       label:
@@ -55,9 +57,9 @@ class GroupCard extends StatelessWidget {
           constraints: const BoxConstraints(minWidth: 200),
           padding: const EdgeInsets.all(18),
           decoration: BoxDecoration(
-            color: AppColors.surface2,
+            color: palette.surface2,
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: palette.border),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +83,7 @@ class GroupCard extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
               const SizedBox(height: 8),
@@ -94,7 +96,7 @@ class GroupCard extends StatelessWidget {
                 style: GoogleFonts.dmMono(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
-                  color: _accentColor,
+                  color: accent,
                 ),
               ),
               const SizedBox(height: 12),
@@ -105,8 +107,8 @@ class GroupCard extends StatelessWidget {
                 child: LinearProgressIndicator(
                   value: _progress,
                   minHeight: 4,
-                  backgroundColor: AppColors.surface3,
-                  color: _accentColor,
+                  backgroundColor: palette.surface3,
+                  color: accent,
                 ),
               ),
               const SizedBox(height: 4),
@@ -115,7 +117,7 @@ class GroupCard extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 11,
                   fontWeight: FontWeight.w400,
-                  color: AppColors.text3,
+                  color: palette.text3,
                 ),
               ),
               const SizedBox(height: 12),
@@ -123,7 +125,8 @@ class GroupCard extends StatelessWidget {
               // ── Member stack ──────────────────────────────────────────
               _MemberAvatarStack(
                 memberCount: memberCount,
-                accentColor: _accentColor,
+                accentColor: accent,
+                palette: palette,
               ),
             ],
           ),
@@ -150,10 +153,12 @@ class _MemberAvatarStack extends StatelessWidget {
   const _MemberAvatarStack({
     required this.memberCount,
     required this.accentColor,
+    required this.palette,
   });
 
   final int memberCount;
   final Color accentColor;
+  final CoolPalette palette;
 
   static const _size = 28.0;
   static const _overlap = 10.0;
@@ -184,7 +189,7 @@ class _MemberAvatarStack extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: accentColor.withValues(alpha: 0.15),
                       shape: BoxShape.circle,
-                      border: Border.all(color: AppColors.surface2, width: 2),
+                      border: Border.all(color: palette.surface2, width: 2),
                     ),
                     alignment: Alignment.center,
                     child: Text(
@@ -207,7 +212,7 @@ class _MemberAvatarStack extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 11,
                 fontWeight: FontWeight.w500,
-                color: AppColors.text3,
+                color: palette.text3,
               ),
             ),
           ],

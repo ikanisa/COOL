@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../models/partner.dart';
@@ -21,6 +21,7 @@ class BankHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return CoolCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,7 +35,7 @@ class BankHero extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 24,
                     fontWeight: FontWeight.w800,
-                    color: AppColors.text,
+                    color: palette.text,
                     letterSpacing: -0.5,
                   ),
                 ),
@@ -57,7 +58,7 @@ class BankHero extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 14,
               fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              color: palette.text2,
               height: 1.5,
             ),
           ),

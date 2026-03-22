@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_palette.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
@@ -17,6 +18,7 @@ import '../providers/rs_admin_provider.dart';
 import '../rayon_payment.dart';
 import '../widgets/rs_admin_shell.dart';
 import '../../../../core/l10n/l10n.dart';
+import '../../../../shared/widgets/cool_bottom_sheet.dart';
 
 class RsAdminFinanceScreen extends ConsumerStatefulWidget {
   const RsAdminFinanceScreen({super.key});
@@ -111,7 +113,7 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
     );
     var selectedStatus = route?.status ?? PartnerPaymentRouteStatus.active;
 
-    await showModalBottomSheet<void>(
+    await showCoolBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       backgroundColor: AppColors.surface,
@@ -120,6 +122,7 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
       ),
       builder: (context) => StatefulBuilder(
         builder: (context, setModalState) {
+          final palette = context.coolPalette;
           return SafeArea(
             top: false,
             child: Padding(
@@ -138,7 +141,7 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
                       width: 42,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: AppColors.border,
+                        color: palette.border,
                         borderRadius: BorderRadius.circular(999),
                       ),
                     ),
@@ -149,7 +152,7 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
                     style: GoogleFonts.dmSans(
                       fontSize: 17,
                       fontWeight: FontWeight.w800,
-                      color: AppColors.text,
+                      color: palette.text,
                     ),
                   ),
                   const SizedBox(height: 14),
@@ -326,14 +329,15 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final partnerIdAsync = ref.watch(rayonPartnerIdProvider);
     return partnerIdAsync.when(
       loading: () => Scaffold(
-        backgroundColor: AppColors.bg,
+        backgroundColor: palette.bg,
         body: const Center(child: CircularProgressIndicator()),
       ),
       error: (_, _) => Scaffold(
-        backgroundColor: AppColors.bg,
+        backgroundColor: palette.bg,
         body: Center(
           child: Text(context.l10n.financeWorkspaceCouldNot),
         ),
@@ -374,6 +378,8 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
             RsAdminMetric(label: 'ledger entries', value: '$ledgerCount'),
           ],
           child: ListView(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             children: [
               _RouteCardList(
                 routesAsync: routesAsync,
@@ -436,8 +442,9 @@ class _RouteCardList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return CoolCard(
-      borderColor: AppColors.border2,
+      borderColor: palette.border2,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -452,7 +459,7 @@ class _RouteCardList extends StatelessWidget {
                       style: GoogleFonts.barlow(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -461,7 +468,7 @@ class _RouteCardList extends StatelessWidget {
                       style: GoogleFonts.barlow(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.text2,
+                        color: palette.text2,
                         height: 1.4,
                       ),
                     ),
@@ -523,19 +530,20 @@ class _RouteRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final statusColor = switch (route.status) {
-      PartnerPaymentRouteStatus.active => AppColors.accent,
-      PartnerPaymentRouteStatus.inactive => AppColors.orange,
-      PartnerPaymentRouteStatus.draft => AppColors.text3,
+      PartnerPaymentRouteStatus.active => palette.accent,
+      PartnerPaymentRouteStatus.inactive => palette.orange,
+      PartnerPaymentRouteStatus.draft => palette.text3,
     };
 
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
-          color: isActiveRoute ? AppColors.rsBlueBorder : AppColors.border,
+          color: isActiveRoute ? AppColors.rsBlueBorder : palette.border,
         ),
       ),
       child: Column(
@@ -549,7 +557,7 @@ class _RouteRow extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
               ),
@@ -562,7 +570,7 @@ class _RouteRow extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: AppColors.text2,
+              color: palette.text2,
             ),
           ),
           const SizedBox(height: 4),
@@ -571,7 +579,7 @@ class _RouteRow extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 12,
               fontWeight: FontWeight.w500,
-              color: AppColors.text3,
+              color: palette.text3,
             ),
           ),
           if (route.ussdPattern.isNotEmpty) ...[
@@ -581,7 +589,7 @@ class _RouteRow extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
-                color: AppColors.text3,
+                color: palette.text3,
               ),
             ),
           ],
@@ -621,8 +629,9 @@ class _PartnerLedgerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return CoolCard(
-      borderColor: AppColors.border2,
+      borderColor: palette.border2,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -631,7 +640,7 @@ class _PartnerLedgerCard extends StatelessWidget {
             style: GoogleFonts.barlow(
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
           const SizedBox(height: 6),
@@ -640,7 +649,7 @@ class _PartnerLedgerCard extends StatelessWidget {
             style: GoogleFonts.barlow(
               fontSize: 12,
               fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              color: palette.text2,
               height: 1.4,
             ),
           ),
@@ -656,12 +665,11 @@ class _PartnerLedgerCard extends StatelessWidget {
             ),
             builder: (page) => Column(
               children: [
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      OutlinedButton.icon(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Flexible(
+                      child: OutlinedButton.icon(
                         onPressed: isExporting
                             ? null
                             : () => onExport(StatementExportFormat.pdf, page.entries),
@@ -674,8 +682,10 @@ class _PartnerLedgerCard extends StatelessWidget {
                             : const Icon(Icons.picture_as_pdf_outlined),
                         label: Text(isExporting ? 'Exporting...' : 'Export PDF'),
                       ),
-                      const SizedBox(width: 12),
-                      FilledButton.icon(
+                    ),
+                    const SizedBox(width: 12),
+                    Flexible(
+                      child: FilledButton.icon(
                         onPressed: isExporting
                             ? null
                             : () => onExport(StatementExportFormat.excel, page.entries),
@@ -688,8 +698,8 @@ class _PartnerLedgerCard extends StatelessWidget {
                             : const Icon(Icons.table_view_rounded),
                         label: Text(isExporting ? 'Exporting...' : 'Export Excel'),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 12),
                 ...page.entries.map(
@@ -714,15 +724,16 @@ class _LedgerRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final money = NumberFormat.decimalPattern('en_US');
     final dateFormat = DateFormat('dd MMM yyyy, HH:mm');
 
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -735,7 +746,7 @@ class _LedgerRow extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
               ),
@@ -744,7 +755,7 @@ class _LedgerRow extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
             ],
@@ -755,7 +766,7 @@ class _LedgerRow extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 12,
               fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              color: palette.text2,
             ),
           ),
           const SizedBox(height: 10),
@@ -788,19 +799,20 @@ class _LedgerPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.surface2,
+        color: palette.surface2,
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: Text(
         '$label: $value',
         style: GoogleFonts.dmSans(
           fontSize: 11,
           fontWeight: FontWeight.w600,
-          color: AppColors.text,
+          color: palette.text,
         ),
       ),
     );

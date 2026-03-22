@@ -8,7 +8,6 @@ import '../../../core/providers/supabase_client_provider.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../momo/providers/momo_service_provider.dart';
 import '../models/group.dart';
-import '../models/group_contribution.dart';
 import '../models/group_detail.dart';
 import '../models/group_join_result.dart';
 import '../repositories/group_repository.dart';
@@ -214,7 +213,7 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
       state.error;
 
   String? get _currentUserId =>
-      (_authState.user?.id as String?) ?? (_authState.session?.user.id as String?);
+      _authState.user?.id ?? _authState.session?.user.id;
 
   String get _defaultCountry => AppMarket.countryCode;
 
@@ -406,14 +405,19 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
     state = state.copyWith(isContributing: false, contributionError: null);
   }
 
-  Future<GroupContribution?> contribute(String groupId, int amount) async {
+  /// Launches MoMo USSD for a group contribution.
+  ///
+  /// No DB write happens here — the SMS pipeline creates/confirms the
+  /// contribution row after the MoMo SMS is received and parsed.
+  /// Returns `true` on success (USSD launched).
+  Future<bool> contribute(String groupId, int amount) async {
     final userId = _currentUserId;
     if (userId == null) {
       state = state.copyWith(
         isContributing: false,
         contributionError: 'You must be signed in to contribute to a group.',
       );
-      return null;
+      return false;
     }
 
     state = state.copyWith(isContributing: true, contributionError: null);
@@ -422,21 +426,13 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
       () => _repository.contribute(groupId, amount),
     );
 
-    GroupContribution? contribution;
+    bool success = false;
 
     result.when(
       data: (_) {
-        final value = GroupContribution(
-          groupId: groupId,
-          userId: userId as String,
-          amount: amount,
-          status: 'pending',
-          contributorName: _authState.user?.displayUserId,
-          createdAt: DateTime.now(),
-        );
-        contribution = value;
+        success = true;
         state = state.copyWith(isContributing: false, contributionError: null);
-        unawaited(loadMyGroups());
+        // No local group reload needed — contribution will appear after SMS sync.
       },
       error: (error, _) {
         state = state.copyWith(
@@ -447,7 +443,7 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
       loading: () {},
     );
 
-    return contribution;
+    return success;
   }
 
   Future<GroupJoinResult?> joinGroupByInviteCode(String inviteCode) async {
@@ -510,6 +506,15 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
     required String userId,
   }) async {
     await _repository.addGroupAdmin(groupId: groupId, userId: userId);
+    unawaited(loadMyGroups());
+  }
+
+  /// Revokes admin role from a group member.
+  Future<void> removeGroupAdmin({
+    required String groupId,
+    required String userId,
+  }) async {
+    await _repository.removeGroupAdmin(groupId: groupId, userId: userId);
     unawaited(loadMyGroups());
   }
 

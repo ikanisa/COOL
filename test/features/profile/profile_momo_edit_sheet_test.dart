@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:cool_app/core/config/country_catalog.dart';
-import 'package:cool_app/features/profile/widgets/profile_dialogs.dart';
+import 'package:cool_app/features/profile/widgets/profile_momo_edit_sheet.dart';
 import 'package:cool_app/l10n/app_localizations.dart';
 
 void main() {

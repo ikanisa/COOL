@@ -9,6 +9,7 @@ import '../models/rs_models.dart';
 
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_palette.dart';
 import '../providers/rs_admin_provider.dart';
 import '../widgets/rs_admin_shell.dart';
 import '../../../../shared/widgets/cool_card.dart';
@@ -228,6 +229,7 @@ class _AdminCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Semantics(
       button: true,
       label: '${section.title}. ${section.subtitle}',
@@ -239,7 +241,7 @@ class _AdminCard extends StatelessWidget {
           context.push(section.route);
         },
         semanticsLabel: '${section.title}. ${section.subtitle}',
-        borderColor: AppColors.border2,
+        borderColor: palette.border2,
         child: Row(
           children: [
             Container(
@@ -263,7 +265,7 @@ class _AdminCard extends StatelessWidget {
                     style: GoogleFonts.barlow(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.text,
+                      color: palette.text,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -272,7 +274,7 @@ class _AdminCard extends StatelessWidget {
                     style: GoogleFonts.barlow(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
-                      color: AppColors.text2,
+                      color: palette.text2,
                       height: 1.35,
                     ),
                   ),
@@ -280,7 +282,7 @@ class _AdminCard extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 12),
-            Icon(Icons.arrow_forward_rounded, size: 18, color: AppColors.text2),
+            Icon(Icons.arrow_forward_rounded, size: 18, color: palette.text2),
           ],
         ),
       ),
@@ -300,25 +302,26 @@ class _RevenueCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: palette.surface,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: palette.border),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(icon, size: 16, color: AppColors.accent),
+            Icon(icon, size: 16, color: palette.accent),
             const SizedBox(height: 6),
             Text(
               value,
               style: GoogleFonts.dmSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
-                color: AppColors.text,
+                color: palette.text,
               ),
             ),
             const SizedBox(height: 2),
@@ -326,7 +329,7 @@ class _RevenueCard extends StatelessWidget {
               label,
               style: GoogleFonts.dmSans(
                 fontSize: 10,
-                color: AppColors.text3,
+                color: palette.text3,
               ),
             ),
           ],
@@ -388,13 +391,14 @@ class _TierChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Expanded(
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: palette.surface,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: palette.border),
         ),
         child: Column(
           children: [
@@ -405,14 +409,14 @@ class _TierChip extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
-                color: AppColors.text,
+                color: palette.text,
               ),
             ),
             Text(
               label,
               style: GoogleFonts.dmSans(
                 fontSize: 10,
-                color: AppColors.text3,
+                color: palette.text3,
               ),
             ),
           ],

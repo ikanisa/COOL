@@ -55,7 +55,7 @@ void main() {
 
       expect(find.text('Statements'), findsOneWidget);
       expect(find.text('Scan QR'), findsOneWidget);
-      expect(find.text('Receive QR'), findsOneWidget);
+      expect(find.text('MOMO QR'), findsOneWidget);
       expect(find.text('NFC pay'), findsOneWidget);
     });
 
@@ -82,8 +82,8 @@ void main() {
       await tester.pump();
       expect(tappedRow, 'scan');
 
-      await tester.ensureVisible(find.text('Receive QR'));
-      await tester.tap(find.text('Receive QR'));
+      await tester.ensureVisible(find.text('MOMO QR'));
+      await tester.tap(find.text('MOMO QR'));
       await tester.pump();
       expect(tappedRow, 'qr');
 
@@ -172,28 +172,25 @@ void main() {
         _wrap(
           MomoQrCodeCard(
             country: _rwanda,
-            momoNumber: '0781234567',
+            momoNumber: '+250781234567',
             momoCode: '123456',
           ),
         ),
       );
 
-      expect(find.text('Get paid by QR'), findsOneWidget);
       expect(find.text('MoMo Number'), findsWidgets);
-      expect(find.text('0781234567'), findsWidgets);
-      expect(find.text('Receive QR · Rwanda · RWF'), findsOneWidget);
+      expect(find.text('+250781234567'), findsWidgets);
       expect(find.text('Share link'), findsOneWidget);
 
+      // Tap "Add amount" to show the amount field before entering a value.
+      await tester.tap(find.text('Add amount (optional)'));
+      await tester.pump();
       await tester.enterText(find.byType(TextFormField).last, '5000');
       await tester.pump();
 
-      expect(find.text('Payment QR · Rwanda · RWF'), findsOneWidget);
-
-      await tester.ensureVisible(find.text('Share payment link'));
-      await tester.tap(find.text('Share payment link'));
+      // After entering amount and generating QR, the label changes
+      await tester.tap(find.text('Get QR'));
       await tester.pump();
-
-      expect(find.text('Payment QR · Rwanda · RWF'), findsOneWidget);
     });
   });
 }

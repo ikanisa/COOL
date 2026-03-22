@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../core/utils/phone_validator.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
@@ -155,11 +155,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final authState = ref.watch(authProvider);
     final selectedCountry = _country;
 
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: palette.bg,
       appBar: AppBar(
         automaticallyImplyLeading: true,
         backgroundColor: Colors.transparent,
@@ -167,12 +168,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         leading: IconButton(
           onPressed: () => context.pop(),
           tooltip: context.l10n.back,
-          icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
+          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
       ),
       body: CoolScreenBackground(
-        primaryColor: AppColors.accent,
-        secondaryColor: AppColors.blue,
+        primaryColor: palette.accent,
+        secondaryColor: palette.blue,
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
@@ -185,7 +186,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   style: GoogleFonts.dmSans(
                     fontSize: 34,
                     fontWeight: FontWeight.w800,
-                    color: AppColors.text,
+                    color: palette.text,
                     height: 1.1,
                   ),
                 ),
@@ -195,7 +196,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   style: GoogleFonts.dmSans(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
+                    color: palette.text2,
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -207,18 +208,18 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: AppColors.blueGlow,
+                    color: palette.blueGlow,
                     borderRadius: BorderRadius.circular(18),
                     border: Border.all(
-                      color: AppColors.blue.withValues(alpha: 0.18),
+                      color: palette.blue.withValues(alpha: 0.18),
                     ),
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.badge_outlined,
-                        color: AppColors.blue,
+                        color: palette.blue,
                         size: 20,
                       ),
                       const SizedBox(width: 12),
@@ -228,7 +229,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           style: GoogleFonts.dmSans(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.text,
+                            color: palette.text,
                             height: 1.45,
                           ),
                         ),
@@ -244,7 +245,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   style: GoogleFonts.dmSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
+                    color: palette.text2,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -254,9 +255,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     vertical: 14,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.surface2,
+                    color: palette.surface2,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColors.border),
+                    border: Border.all(color: palette.border),
                   ),
                   child: Row(
                     children: [
@@ -270,7 +271,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         style: GoogleFonts.dmSans(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.text,
+                          color: palette.text,
                         ),
                       ),
                     ],
@@ -306,7 +307,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.accentGlow,
+                          color: palette.accentGlow,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
@@ -314,7 +315,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           style: GoogleFonts.dmSans(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.accent,
+                            color: palette.accent,
                           ),
                         ),
                       ),
@@ -341,7 +342,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             style: GoogleFonts.dmSans(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.text2,
+                              color: palette.text2,
                             ),
                           ),
                           const Spacer(),
@@ -349,7 +350,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             _showOptionalDetails
                                 ? Icons.keyboard_arrow_up_rounded
                                 : Icons.keyboard_arrow_down_rounded,
-                            color: AppColors.text3,
+                            color: palette.text3,
                           ),
                         ],
                       ),
@@ -383,7 +384,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           style: GoogleFonts.dmSans(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.text2,
+                            color: palette.text2,
                           ),
                         ),
                         const SizedBox(height: 8),
@@ -412,7 +413,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     style: GoogleFonts.dmSans(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
-                      color: AppColors.red,
+                      color: palette.red,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -440,20 +441,21 @@ class _VerifiedPhoneCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: AppColors.accentGlow,
+        color: palette.accentGlow,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.accent),
+        border: Border.all(color: palette.accent),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(
+          Icon(
             Icons.check_circle_rounded,
             size: 18,
-            color: AppColors.accent,
+            color: palette.accent,
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -462,7 +464,7 @@ class _VerifiedPhoneCard extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: AppColors.accent,
+                color: palette.accent,
                 height: 1.4,
               ),
             ),

@@ -9,12 +9,13 @@ import '../../../core/config/app_market.dart';
 import '../../../core/config/env_config.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../core/utils/phone_validator.dart';
 import '../../../core/providers/supported_countries_provider.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/auth_provider.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 
 /// Screen for entering a phone number to receive a WhatsApp OTP.
 ///
@@ -115,14 +116,21 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final l10n = context.l10n;
     final authState = ref.watch(authProvider);
     final countries = ref.watch(supportedCountriesProvider);
     final currentCountry = countries.firstOrNull ?? AppMarket.country;
     final keyboardInset = MediaQuery.viewInsetsOf(context).bottom;
 
-    return Scaffold(
-      backgroundColor: AppColors.bg,
+    return CoolScreenBackground(
+
+
+      showGlow: true,
+
+
+      child: Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -131,7 +139,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
           onPressed: () => context.go(
             AppRoutes.onboardingLocation(redirect: widget.redirectPath),
           ),
-          icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
+          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
       ),
       body: SafeArea(
@@ -152,7 +160,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                       style: GoogleFonts.dmSans(
                         fontSize: 34,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.text,
+                        color: palette.text,
                         height: 1.1,
                       ),
                     ),
@@ -162,7 +170,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                       style: GoogleFonts.dmSans(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.text2,
+                        color: palette.text2,
                         height: 1.4,
                       ),
                     ),
@@ -171,9 +179,9 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                     // ── Phone input card ──────────────────────────────
                     DecoratedBox(
                       decoration: BoxDecoration(
-                        color: AppColors.surface2,
+                        color: palette.surface2,
                         borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: AppColors.border),
+                        border: Border.all(color: palette.border),
                       ),
                       child: Semantics(
                         textField: true,
@@ -189,7 +197,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                               ),
                               decoration: BoxDecoration(
                                 border: Border(
-                                  right: BorderSide(color: AppColors.border),
+                                  right: BorderSide(color: palette.border),
                                 ),
                               ),
                               child: Row(
@@ -205,7 +213,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                                     style: GoogleFonts.dmSans(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
-                                      color: AppColors.text,
+                                      color: palette.text,
                                     ),
                                   ),
                                 ],
@@ -221,15 +229,15 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                                 style: GoogleFonts.dmSans(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w400,
-                                  color: AppColors.text,
+                                  color: palette.text,
                                   letterSpacing: 0.8,
                                 ),
-                                cursorColor: AppColors.accent,
+                                cursorColor: palette.accent,
                                 decoration: InputDecoration(
                                   hintText: currentCountry.mobileExampleNational,
                                   hintStyle: GoogleFonts.dmSans(
                                     fontSize: 16,
-                                    color: AppColors.text3.withValues(
+                                    color: palette.text3.withValues(
                                       alpha: 0.5,
                                     ),
                                     letterSpacing: 0.5,
@@ -253,7 +261,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                         _errorText!,
                         style: GoogleFonts.dmSans(
                           fontSize: 13,
-                          color: AppColors.red,
+                          color: palette.red,
                         ),
                       ),
                     ],
@@ -273,20 +281,20 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                       TextSpan(
                         style: GoogleFonts.dmSans(
                           fontSize: 12,
-                          color: AppColors.text3,
+                          color: palette.text3,
                           height: 1.4,
                         ),
                         children: [
                           TextSpan(text: l10n.otpLegalPrefix),
                           TextSpan(
                             text: l10n.termsLabel,
-                            style: const TextStyle(color: AppColors.accent),
+                            style: TextStyle(color: palette.accent),
                             recognizer: _termsRecognizer,
                           ),
                           TextSpan(text: l10n.otpLegalAnd),
                           TextSpan(
                             text: l10n.privacyPolicyLabel,
-                            style: const TextStyle(color: AppColors.accent),
+                            style: TextStyle(color: palette.accent),
                             recognizer: _privacyRecognizer,
                           ),
                           const TextSpan(text: '.'),
@@ -302,6 +310,9 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
           ),
         ),
       ),
+    ),
+
+
     );
   }
 }

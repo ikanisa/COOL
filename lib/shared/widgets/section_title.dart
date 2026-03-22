@@ -1,17 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_foundations.dart';
 
-/// A section header row with a bold title and an optional trailing action.
-///
-/// ```dart
-/// SectionTitle(
-///   title: 'My Groups',
-///   actionLabel: 'See all',
-///   action: () => context.push('/groups'),
-/// )
-/// ```
 class SectionTitle extends StatelessWidget {
   const SectionTitle({
     required this.title,
@@ -28,6 +18,8 @@ class SectionTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     final effectiveAction = onAction ?? action;
     return Semantics(
       header: true,
@@ -36,30 +28,24 @@ class SectionTitle extends StatelessWidget {
         children: [
           Text(
             title,
-            style: GoogleFonts.dmSans(
-              fontSize: 20,
+            style: theme.textTheme.headlineMedium?.copyWith(
+              fontSize: 30,
               fontWeight: FontWeight.w800,
-              color: AppColors.text,
+              color: colors.primaryText,
             ),
           ),
           if (actionLabel != null)
-            Semantics(
-              button: true,
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
-                child: GestureDetector(
-                  onTap: effectiveAction,
-                  behavior: HitTestBehavior.opaque,
-                  child: Center(
-                    child: Text(
-                      actionLabel!,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.accent,
-                      ),
-                    ),
-                  ),
+            TextButton(
+              onPressed: effectiveAction,
+              style: TextButton.styleFrom(
+                minimumSize: const Size(52, CoolTapTargets.minimum),
+              ),
+              child: Text(
+                actionLabel!,
+                style: theme.textTheme.labelLarge?.copyWith(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w800,
+                  color: colors.accent,
                 ),
               ),
             ),

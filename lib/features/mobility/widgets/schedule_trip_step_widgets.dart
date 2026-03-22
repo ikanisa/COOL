@@ -13,130 +13,23 @@ import 'schedule_trip_route_preview.dart';
 import 'schedule_trip_route_widgets.dart';
 import 'schedule_trip_shared.dart';
 
-// ── Smart Input ───────────────────────────────────────────────────
 
-class ScheduleTripSmartInputCard extends StatelessWidget {
-  const ScheduleTripSmartInputCard({
-    required this.controller,
-    required this.isParsing,
-    required this.onParseTap,
-    super.key,
-  });
 
-  final TextEditingController controller;
-  final bool isParsing;
-  final VoidCallback onParseTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-
-    return CoolCard(
-      gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          palette.surface2,
-          palette.surface3,
-        ],
-      ),
-      borderColor: Colors.white.withValues(alpha: 0.05),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(Icons.auto_awesome_rounded, size: 20, color: palette.accent),
-              const SizedBox(width: 8),
-              Text(
-                'Smart Schedule',
-                style: GoogleFonts.dmSans(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: palette.text,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          TextFormField(
-            controller: controller,
-            minLines: 2,
-            maxLines: 4,
-            style: GoogleFonts.dmSans(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: palette.text,
-            ),
-            decoration: InputDecoration(
-              hintText:
-                  'e.g., "Pick me up at the airport at 5pm tomorrow and take me home"',
-              hintStyle: GoogleFonts.dmSans(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                color: palette.text3,
-              ),
-              filled: true,
-              fillColor: palette.surface3,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: palette.border),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: palette.border),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: palette.accent, width: 1.2),
-              ),
-            ),
-          ),
-          const SizedBox(height: 12),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: isParsing ? null : onParseTap,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: palette.accent.withValues(alpha: 0.1),
-                foregroundColor: palette.accent,
-                elevation: 0,
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: isParsing
-                  ? SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation(palette.accent),
-                      ),
-                    )
-                  : Text(
-                      'Auto-fill details',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 // ── Data helpers ────────────────────────────────────────────────────
 
 class VehicleOption {
-  const VehicleOption({required this.value, required this.label});
+  const VehicleOption({
+    required this.value,
+    required this.label,
+    this.assetPath,
+  });
 
   final TripVehiclePreference value;
   final String label;
+
+  /// Path to the vehicle image asset, if available.
+  final String? assetPath;
 }
 
 class DayOption {
@@ -146,17 +39,48 @@ class DayOption {
   final String label;
 }
 
-const seatOptions = <int>[1, 2, 3];
+/// F-11: Dynamic seat options based on vehicle type.
+List<int> seatOptionsFor(TripVehiclePreference vehicle) {
+  return switch (vehicle) {
+    TripVehiclePreference.truck || TripVehiclePreference.trike =>
+      const <int>[1, 2, 3, 5, 8],
+    TripVehiclePreference.moto => const <int>[1],
+    _ => const <int>[1, 2, 3],
+  };
+}
 
 List<VehicleOption> buildVehicleOptions(BuildContext context) {
   final l10n = context.l10n;
   return <VehicleOption>[
-    VehicleOption(value: TripVehiclePreference.moto, label: l10n.vehicleMoto),
-    VehicleOption(value: TripVehiclePreference.cab, label: l10n.vehicleCab),
-    const VehicleOption(value: TripVehiclePreference.trike, label: 'Trike'),
-    const VehicleOption(value: TripVehiclePreference.truck, label: 'Truck'),
-    const VehicleOption(value: TripVehiclePreference.others, label: 'Others'),
-    VehicleOption(value: TripVehiclePreference.any, label: l10n.vehicleAny),
+    VehicleOption(
+      value: TripVehiclePreference.moto,
+      label: l10n.vehicleMoto,
+      assetPath: 'assets/icons/vehicle_moto.png',
+    ),
+    VehicleOption(
+      value: TripVehiclePreference.cab,
+      label: l10n.vehicleCab,
+      assetPath: 'assets/icons/vehicle_cab.png',
+    ),
+    const VehicleOption(
+      value: TripVehiclePreference.trike,
+      label: 'Trike',
+      assetPath: 'assets/icons/vehicle_trike.png',
+    ),
+    const VehicleOption(
+      value: TripVehiclePreference.truck,
+      label: 'Truck',
+      assetPath: 'assets/icons/vehicle_truck.png',
+    ),
+    const VehicleOption(
+      value: TripVehiclePreference.others,
+      label: 'Others',
+      assetPath: 'assets/icons/vehicle_others.png',
+    ),
+    VehicleOption(
+      value: TripVehiclePreference.any,
+      label: l10n.vehicleAny,
+    ),
   ];
 }
 
@@ -582,10 +506,11 @@ class ScheduleTripOptionsStep extends StatelessWidget {
                   runSpacing: 8,
                   children: [
                     for (final option in vehicleOptions)
-                      ScheduleTripSelectionChip(
+                      ScheduleTripVehicleChip(
                         label: option.label,
                         selected: vehiclePreference == option.value,
                         onTap: () => onVehicleChanged(option.value),
+                        assetPath: option.assetPath,
                       ),
                   ],
                 ),
@@ -597,9 +522,9 @@ class ScheduleTripOptionsStep extends StatelessWidget {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  for (final seat in seatOptions)
+                  for (final seat in seatOptionsFor(vehiclePreference))
                     ScheduleTripSeatChip(
-                      label: seat >= 3 ? '3+' : '$seat',
+                      label: '$seat',
                       selected: seats == seat,
                       onTap: () => onSeatChanged(seat),
                     ),

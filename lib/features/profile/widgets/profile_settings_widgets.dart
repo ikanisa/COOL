@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/cool_palette.dart';
 import '../../../core/theme/theme_preference.dart';
 import '../../../shared/widgets/cool_card.dart';
@@ -23,6 +23,7 @@ class ProfileSettingsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     if (rows.isEmpty) {
       return const SizedBox.shrink();
     }
@@ -36,15 +37,15 @@ class ProfileSettingsSection extends StatelessWidget {
             child: Text(
               title.toUpperCase(),
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 1.2,
-                    color: palette.text3,
-                  ),
+                fontWeight: FontWeight.w800,
+                letterSpacing: 1.2,
+                color: colors.secondaryText,
+              ),
             ),
           ),
         ),
         CoolCard(
-          backgroundColor: palette.surface,
+          backgroundColor: colors.cardSurfaceStrong,
           padding: EdgeInsets.zero,
           child: Column(
             children: [
@@ -139,9 +140,9 @@ class _ProfileFactTile extends StatelessWidget {
             Text(
               item.label,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: palette.text3,
-                    fontWeight: FontWeight.w700,
-                  ),
+                color: palette.text3,
+                fontWeight: FontWeight.w700,
+              ),
             ),
             const SizedBox(height: 6),
             Text(
@@ -149,9 +150,9 @@ class _ProfileFactTile extends StatelessWidget {
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    color: item.valueColor ?? palette.text,
-                    fontWeight: FontWeight.w800,
-                  ),
+                color: item.valueColor ?? palette.text,
+                fontWeight: FontWeight.w800,
+              ),
             ),
           ],
         ),
@@ -188,10 +189,12 @@ class ProfileSettingsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final resolvedLabelColor = labelColor ?? palette.text;
     final resolvedValueColor = valueColor ?? palette.text2;
     final content = LayoutBuilder(
       builder: (context, constraints) {
+        final palette = context.coolPalette;
         final shouldStackValue =
             trailing == null && value != null && constraints.maxWidth < 390;
 
@@ -203,16 +206,17 @@ class ProfileSettingsRow extends StatelessWidget {
                 : CrossAxisAlignment.center,
             children: [
               Container(
-                width: 42,
-                height: 42,
+                width: 48,
+                height: 48,
                 decoration: BoxDecoration(
-                  color: palette.surface2,
-                  borderRadius: BorderRadius.circular(14),
+                  color: colors.operationalSurface,
+                  borderRadius: BorderRadius.circular(CoolRadii.md),
+                  border: Border.all(color: colors.border),
                 ),
                 alignment: Alignment.center,
                 child: Icon(
                   icon,
-                  size: 20,
+                  size: 22,
                   color: iconColor ?? resolvedLabelColor.withValues(alpha: 0.9),
                 ),
               ),
@@ -224,7 +228,8 @@ class ProfileSettingsRow extends StatelessWidget {
                         children: [
                           Text(
                             label,
-                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            style: Theme.of(context).textTheme.bodyLarge
+                                ?.copyWith(
                                   fontWeight: FontWeight.w700,
                                   color: resolvedLabelColor,
                                 ),
@@ -234,8 +239,9 @@ class ProfileSettingsRow extends StatelessWidget {
                             value!,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  fontWeight: FontWeight.w500,
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(
+                                  fontWeight: FontWeight.w700,
                                   color: resolvedValueColor,
                                   height: 1.4,
                                 ),
@@ -245,9 +251,9 @@ class ProfileSettingsRow extends StatelessWidget {
                     : Text(
                         label,
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: resolvedLabelColor,
-                            ),
+                          fontWeight: FontWeight.w700,
+                          color: resolvedLabelColor,
+                        ),
                       ),
               ),
               if (trailing != null)
@@ -261,9 +267,9 @@ class ProfileSettingsRow extends StatelessWidget {
                     textAlign: TextAlign.right,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: resolvedValueColor,
-                        ),
+                      fontWeight: FontWeight.w600,
+                      color: resolvedValueColor,
+                    ),
                   ),
                 ),
               ],
@@ -273,7 +279,7 @@ class ProfileSettingsRow extends StatelessWidget {
                   padding: EdgeInsets.only(top: shouldStackValue ? 4 : 0),
                   child: Icon(
                     Icons.chevron_right_rounded,
-                    size: 20,
+                    size: 22,
                     color: palette.text3,
                   ),
                 ),
@@ -323,10 +329,8 @@ class ProfileSectionToggleCard extends StatelessWidget {
     final palette = context.coolPalette;
     return Semantics(
       button: true,
-      label: '$title. $subtitle. ${isExpanded ?'Expanded' : 'Collapsed'}',
-      hint: isExpanded
-          ? 'Collapse section'
-          : 'Expand section',
+      label: '$title. $subtitle. ${isExpanded ? 'Expanded' : 'Collapsed'}',
+      hint: isExpanded ? 'Collapse section' : 'Expand section',
       child: ExcludeSemantics(
         child: CoolCard(
           backgroundColor: palette.surface,
@@ -552,9 +556,9 @@ class _ProfileAppearanceOption extends StatelessWidget {
               Expanded(
                 child: Text(
                   _label(context),
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w800,
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w800),
                 ),
               ),
               const SizedBox(width: 12),
@@ -580,6 +584,7 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final l10n = context.l10n;
     return Semantics(
       button: true,
@@ -589,18 +594,19 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
         onTap: () => context.push(AppRoutes.registerLocation(phone: phone)),
         child: ExcludeSemantics(
           child: CoolCard(
-            backgroundColor: palette.surface,
+            backgroundColor: colors.cardSurfaceStrong,
             borderColor: palette.accent.withValues(alpha: 0.35),
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Row(
                 children: [
                   Container(
-                    width: 40,
-                    height: 40,
+                    width: 48,
+                    height: 48,
                     decoration: BoxDecoration(
-                      color: palette.accentGlow,
-                      borderRadius: BorderRadius.circular(12),
+                      color: colors.operationalSurface,
+                      borderRadius: BorderRadius.circular(CoolRadii.md),
+                      border: Border.all(color: colors.border),
                     ),
                     alignment: Alignment.center,
                     child: Icon(
@@ -612,10 +618,9 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
                   Expanded(
                     child: Text(
                       l10n.completeProfileTitle,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: palette.text,
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        color: colors.primaryText,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                   ),

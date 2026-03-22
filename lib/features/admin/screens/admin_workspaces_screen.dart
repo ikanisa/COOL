@@ -9,6 +9,7 @@ import '../../../shared/widgets/cool_card.dart';
 import '../providers/admin_workspace_access_provider.dart';
 import '../widgets/admin_workspace_gate.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 
 class AdminWorkspacesScreen extends ConsumerWidget {
   const AdminWorkspacesScreen({super.key});
@@ -28,7 +29,13 @@ class AdminWorkspacesScreen extends ConsumerWidget {
       );
     }
 
-    return Scaffold(
+    return CoolScreenBackground(
+
+
+      showGlow: false,
+
+
+      child: Scaffold(
       backgroundColor: palette.bg,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -160,6 +167,9 @@ class AdminWorkspacesScreen extends ConsumerWidget {
           ],
         ],
       ),
+    ),
+
+
     );
   }
 }
@@ -179,9 +189,9 @@ class _IntroCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
     final roles = <String>[
-      if (hasPlatformAccess) 'platform admin',
-      if (hasPartnerAccess) 'partner admin',
-      if (hasBankAccess) 'bank admin',
+      if (hasPlatformAccess) 'platform admin (full access to all workspaces)',
+      if (!hasPlatformAccess && hasPartnerAccess) 'partner admin',
+      if (!hasPlatformAccess && hasBankAccess) 'bank admin',
     ];
     return CoolCard(
       child: Column(

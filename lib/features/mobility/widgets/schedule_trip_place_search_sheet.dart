@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../services/place_search_service.dart';
 import '../../../core/models/geo_point.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
 
 Future<PlaceSearchResult?> showPlaceSearchSheet(
   BuildContext context, {
@@ -17,7 +19,7 @@ Future<PlaceSearchResult?> showPlaceSearchSheet(
   required String languageTag,
   GeoPoint? near,
 }) {
-  return showModalBottomSheet<PlaceSearchResult>(
+  return showCoolBottomSheet<PlaceSearchResult>(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
@@ -73,8 +75,7 @@ class _ScheduleTripPlaceSearchSheetState
   @override
   void initState() {
     super.initState();
-    _sessionToken =
-        'cool_${DateTime.now().microsecondsSinceEpoch}_${identityHashCode(this)}';
+    _sessionToken = const Uuid().v4();
     _controller = TextEditingController(text: widget.initialQuery);
     _controller.addListener(_handleQueryChanged);
     if (widget.initialQuery.trim().length >= 3) {
@@ -338,6 +339,27 @@ class _ScheduleTripPlaceSearchSheetState
                       ],
                     ),
                   ),
+                  if (result.distanceMeters != null) ...[
+                    const SizedBox(width: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: palette.accentGlow,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        _formatDistance(result.distanceMeters!),
+                        style: GoogleFonts.dmSans(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          color: palette.accent,
+                        ),
+                      ),
+                    ),
+                  ],
                   if (_isResolvingSelection &&
                       _resolvingPlaceId == result.placeId)
                     const Padding(
@@ -355,6 +377,14 @@ class _ScheduleTripPlaceSearchSheetState
         );
       },
     );
+  }
+
+  String _formatDistance(int meters) {
+    if (meters >= 1000) {
+      final km = meters / 1000;
+      return km >= 10 ? '${km.round()} km' : '${km.toStringAsFixed(1)} km';
+    }
+    return '$meters m';
   }
 }
 

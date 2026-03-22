@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_foundations.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import 'partner_navigation.dart';
 
@@ -30,29 +32,33 @@ class RayonScreenScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: colors.appBackground,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: showBackButton
             ? buildPartnerBackButton(
                 context,
                 fallbackLocation: fallbackLocation,
+                color: AppColors.rsWhite,
               )
             : null,
         title: Text(
           title,
           style: GoogleFonts.barlowCondensed(
-            fontSize: 26,
+            fontSize: 30,
             fontWeight: FontWeight.w900,
             color: AppColors.rsWhite,
-            letterSpacing: 0.2,
+            letterSpacing: 0.3,
           ),
         ),
         actions: buildPartnerAppBarActions(
           context,
           actions: actions,
           showHomeButton: showHomeButton,
+          homeColor: AppColors.rsWhite,
         ),
       ),
       body: CoolScreenBackground(

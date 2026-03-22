@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_foundations.dart';
 import '../../features/partners/rayon/models/rs_models.dart';
 
 enum SelectedSeatType { general, vip }
@@ -68,9 +68,10 @@ class _RsMatchCardState extends State<RsMatchCard> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final match = widget.match;
     final effectiveSeat = widget.selectedSeat ?? _internalSeat;
-    final cardRadius = BorderRadius.circular(18);
+    final cardRadius = BorderRadius.circular(widget.isCompact ? 24 : 28);
     final buttonEnabled =
         match.isOnSale && !match.isSoldOut && widget.tierAccessible;
     final buttonLabel = match.isSoldOut
@@ -85,6 +86,25 @@ class _RsMatchCardState extends State<RsMatchCard> {
         match.capacity > 0 &&
         !match.isSoldOut &&
         match.remainingCapacity < (match.capacity * 0.2);
+    final statusLabel = match.isSoldOut
+        ? 'SOLD OUT'
+        : !widget.tierAccessible && match.isOnSale
+        ? 'TIER ACCESS'
+        : match.isOnSale
+        ? 'ON SALE'
+        : 'UPCOMING';
+    final statusBackground = match.isSoldOut
+        ? AppColors.red.withValues(alpha: 0.18)
+        : !widget.tierAccessible && match.isOnSale
+        ? AppColors.rsGold.withValues(alpha: 0.16)
+        : match.isOnSale
+        ? AppColors.accent.withValues(alpha: 0.18)
+        : AppColors.rsBlue.withValues(alpha: 0.14);
+    final statusForeground = match.isSoldOut
+        ? const Color(0xFFFFC0C5)
+        : !widget.tierAccessible && match.isOnSale
+        ? AppColors.rsGoldLight
+        : AppColors.rsWhite;
 
     return Semantics(
       label:
@@ -95,13 +115,7 @@ class _RsMatchCardState extends State<RsMatchCard> {
       child: DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: cardRadius,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 16,
-              offset: const Offset(0, 8),
-            ),
-          ],
+          boxShadow: CoolShadows.clay(theme.brightness, strength: 0.42),
         ),
         child: Material(
           color: Colors.transparent,
@@ -115,131 +129,149 @@ class _RsMatchCardState extends State<RsMatchCard> {
             ),
             child: Padding(
               padding: EdgeInsets.all(cardPadding),
-                  child: Column(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        match.competition.toUpperCase(),
-                        style: GoogleFonts.barlow(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 1.2,
-                          color: AppColors.rsGoldLight,
+                      Expanded(
+                        child: Text(
+                          match.competition.toUpperCase(),
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 0.2,
+                            color: AppColors.rsGoldLight,
+                          ),
                         ),
                       ),
-                      SizedBox(height: widget.isCompact ? 10 : 12),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: _TeamName(
-                              name: match.homeTeam,
-                              alignment: TextAlign.left,
-                              isCompact: widget.isCompact,
-                            ),
-                          ),
-                          SizedBox(width: widget.isCompact ? 8 : 12),
-                          _VsBlock(
-                            date: match.matchDate,
-                            kickoffTime: match.kickoffTime,
-                            isCompact: widget.isCompact,
-                          ),
-                          SizedBox(width: widget.isCompact ? 8 : 12),
-                          Expanded(
-                            child: _TeamName(
-                              name: match.awayTeam,
-                              alignment: TextAlign.right,
-                              isCompact: widget.isCompact,
-                            ),
-                          ),
-                        ],
+                      const SizedBox(width: 10),
+                      _MatchStatusBadge(
+                        label: statusLabel,
+                        backgroundColor: statusBackground,
+                        foregroundColor: statusForeground,
                       ),
-                      SizedBox(height: widget.isCompact ? 12 : 14),
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: [
-                          _DetailChip(
-                            icon: Icons.place_outlined,
-                            label: match.venue,
-                          ),
-                          _DetailChip(
-                            icon: Icons.people_outline_rounded,
-                            label: _capacityForVenue(match.venue),
-                          ),
-                          if (showRemainingChip)
-                            _DetailChip(
-                              icon: Icons.local_fire_department_rounded,
-                              label: '${match.remainingCapacity} left',
-                              highlight: true,
-                            ),
-                        ],
+                    ],
+                  ),
+                  SizedBox(height: widget.isCompact ? 10 : 12),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: _TeamPanel(
+                          name: match.homeTeam,
+                          alignment: CrossAxisAlignment.start,
+                          sideLabel: 'HOME',
+                          isCompact: widget.isCompact,
+                        ),
                       ),
-                      SizedBox(height: widget.isCompact ? 14 : 16),
-                      const _TicketTearDivider(),
-                      SizedBox(height: widget.isCompact ? 14 : 16),
-                      if (widget.isCompact)
-                        _CompactFooter(
-                          match: match,
-                          seat: effectiveSeat,
-                          onSeatSelected: _selectSeat,
-                          onBuyTap: widget.onBuyTap,
-                          enabled: buttonEnabled,
-                          label: buttonLabel,
-                        )
-                      else
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Expanded(
-                              child: _PriceBlock(
-                                price: effectiveSeat.priceFor(match),
-                                seatLabel: effectiveSeat.label,
-                              ),
-                            ),
-                            const SizedBox(width: 14),
-                            Expanded(
-                              flex: 2,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      _SeatTypeChip(
-                                        label: SelectedSeatType.general.label,
-                                        selected:
-                                            effectiveSeat ==
-                                            SelectedSeatType.general,
-                                        onTap: () => _selectSeat(
-                                          SelectedSeatType.general,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      _SeatTypeChip(
-                                        label: SelectedSeatType.vip.label,
-                                        selected:
-                                            effectiveSeat ==
-                                            SelectedSeatType.vip,
-                                        onTap: () =>
-                                            _selectSeat(SelectedSeatType.vip),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 12),
-                                  _BuyButton(
-                                    enabled: buttonEnabled,
-                                    onTap: widget.onBuyTap,
-                                    label: buttonLabel,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                      SizedBox(width: widget.isCompact ? 8 : 12),
+                      _VsBlock(
+                        date: match.matchDate,
+                        kickoffTime: match.kickoffTime,
+                        isCompact: widget.isCompact,
+                      ),
+                      SizedBox(width: widget.isCompact ? 8 : 12),
+                      Expanded(
+                        child: _TeamPanel(
+                          name: match.awayTeam,
+                          alignment: CrossAxisAlignment.end,
+                          sideLabel: 'AWAY',
+                          isCompact: widget.isCompact,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: widget.isCompact ? 12 : 14),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      _DetailChip(
+                        icon: Icons.place_outlined,
+                        label: match.venue,
+                      ),
+                      _DetailChip(
+                        icon: Icons.people_outline_rounded,
+                        label: _capacityForVenue(match.venue),
+                      ),
+                      _DetailChip(
+                        icon: Icons.sell_outlined,
+                        label: _ticketingMeta(match, widget.tierAccessible),
+                        highlight: match.isOnSale && !match.isSoldOut,
+                      ),
+                      if (showRemainingChip)
+                        _DetailChip(
+                          icon: Icons.local_fire_department_rounded,
+                          label: '${match.remainingCapacity} left',
+                          highlight: true,
                         ),
                     ],
                   ),
-                ),
+                  SizedBox(height: widget.isCompact ? 14 : 16),
+                  const _TicketTearDivider(),
+                  SizedBox(height: widget.isCompact ? 14 : 16),
+                  if (widget.isCompact)
+                    _CompactFooter(
+                      match: match,
+                      seat: effectiveSeat,
+                      onSeatSelected: _selectSeat,
+                      onBuyTap: widget.onBuyTap,
+                      enabled: buttonEnabled,
+                      label: buttonLabel,
+                    )
+                  else
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Expanded(
+                          child: _PriceBlock(
+                            price: effectiveSeat.priceFor(match),
+                            seatLabel: effectiveSeat.label,
+                          ),
+                        ),
+                        const SizedBox(width: 14),
+                        Expanded(
+                          flex: 2,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  _SeatTypeChip(
+                                    label: SelectedSeatType.general.label,
+                                    selected:
+                                        effectiveSeat ==
+                                        SelectedSeatType.general,
+                                    onTap: () =>
+                                        _selectSeat(SelectedSeatType.general),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  _SeatTypeChip(
+                                    label: SelectedSeatType.vip.label,
+                                    selected:
+                                        effectiveSeat == SelectedSeatType.vip,
+                                    onTap: () =>
+                                        _selectSeat(SelectedSeatType.vip),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 12),
+                              _BuyButton(
+                                enabled: buttonEnabled,
+                                onTap: widget.onBuyTap,
+                                label: buttonLabel,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -247,29 +279,103 @@ class _RsMatchCardState extends State<RsMatchCard> {
   }
 }
 
-class _TeamName extends StatelessWidget {
-  const _TeamName({
+class _TeamPanel extends StatelessWidget {
+  const _TeamPanel({
     required this.name,
     required this.alignment,
+    required this.sideLabel,
     required this.isCompact,
   });
 
   final String name;
-  final TextAlign alignment;
+  final CrossAxisAlignment alignment;
+  final String sideLabel;
   final bool isCompact;
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      name,
-      textAlign: alignment,
-      maxLines: 2,
-      overflow: TextOverflow.ellipsis,
-      style: GoogleFonts.barlowCondensed(
-        fontSize: isCompact ? 24 : 28,
-        fontWeight: FontWeight.w900,
-        color: AppColors.rsWhite,
-        height: 0.95,
+    final theme = Theme.of(context);
+    final abbreviation = _teamAbbreviation(name);
+
+    return Column(
+      crossAxisAlignment: alignment,
+      children: [
+        Container(
+          width: isCompact ? 40 : 46,
+          height: isCompact ? 40 : 46,
+          decoration: BoxDecoration(
+            color: AppColors.surface.withValues(alpha: 0.3),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppColors.border),
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            abbreviation,
+            style: theme.textTheme.labelLarge?.copyWith(
+              fontSize: isCompact ? 14 : 15,
+              fontWeight: FontWeight.w800,
+              color: AppColors.rsWhite,
+            ),
+          ),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          sideLabel,
+          style: theme.textTheme.labelSmall?.copyWith(
+            fontSize: 11,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 0.8,
+            color: AppColors.text3,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          name,
+          textAlign: alignment == CrossAxisAlignment.end
+              ? TextAlign.right
+              : TextAlign.left,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: theme.textTheme.headlineMedium?.copyWith(
+            fontSize: isCompact ? 24 : 28,
+            fontWeight: FontWeight.w800,
+            color: AppColors.rsWhite,
+            height: 0.95,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _MatchStatusBadge extends StatelessWidget {
+  const _MatchStatusBadge({
+    required this.label,
+    required this.backgroundColor,
+    required this.foregroundColor,
+  });
+
+  final String label;
+  final Color backgroundColor;
+  final Color foregroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: foregroundColor.withValues(alpha: 0.24)),
+      ),
+      child: Text(
+        label,
+        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+          fontSize: 11,
+          fontWeight: FontWeight.w800,
+          letterSpacing: 0.6,
+          color: foregroundColor,
+        ),
       ),
     );
   }
@@ -288,6 +394,7 @@ class _VsBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final dateLabel = DateFormat('d MMM').format(date).toUpperCase();
 
     return Container(
@@ -305,9 +412,9 @@ class _VsBlock extends StatelessWidget {
         children: [
           Text(
             'VS',
-            style: GoogleFonts.barlowCondensed(
-              fontSize: isCompact ? 18 : 20,
-              fontWeight: FontWeight.w700,
+            style: theme.textTheme.labelLarge?.copyWith(
+              fontSize: isCompact ? 16 : 18,
+              fontWeight: FontWeight.w800,
               color: AppColors.text3,
             ),
           ),
@@ -315,9 +422,9 @@ class _VsBlock extends StatelessWidget {
           Text(
             '$dateLabel $kickoffTime',
             textAlign: TextAlign.center,
-            style: GoogleFonts.dmMono(
-              fontSize: isCompact ? 10 : 11,
-              fontWeight: FontWeight.w600,
+            style: theme.textTheme.labelSmall?.copyWith(
+              fontSize: isCompact ? 14 : 15,
+              fontWeight: FontWeight.w700,
               color: AppColors.rsBluePale,
               height: 1.25,
             ),
@@ -341,6 +448,7 @@ class _DetailChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
@@ -365,9 +473,9 @@ class _DetailChip extends StatelessWidget {
             child: Text(
               label,
               overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.barlow(
-                fontSize: 11,
-                fontWeight: FontWeight.w600,
+              style: theme.textTheme.labelSmall?.copyWith(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
                 color: highlight
                     ? AppColors.rsGoldLight
                     : AppColors.rsWhite.withValues(alpha: 0.84),
@@ -448,24 +556,25 @@ class _PriceBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           seatLabel.toUpperCase(),
-          style: GoogleFonts.barlow(
-            fontSize: 10,
-            fontWeight: FontWeight.w700,
-            letterSpacing: 1.1,
+          style: theme.textTheme.labelSmall?.copyWith(
+            fontSize: 14,
+            fontWeight: FontWeight.w800,
+            letterSpacing: 0.2,
             color: AppColors.text2,
           ),
         ),
         const SizedBox(height: 6),
         Text(
           _formatRwf(price),
-          style: GoogleFonts.dmMono(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontSize: 24,
+            fontWeight: FontWeight.w800,
             color: AppColors.rsGoldLight,
           ),
         ),
@@ -487,11 +596,12 @@ class _SeatTypeChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
       child: Ink(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
           color: selected ? AppColors.rsBlue : AppColors.surface2,
           borderRadius: BorderRadius.circular(12),
@@ -499,9 +609,9 @@ class _SeatTypeChip extends StatelessWidget {
         ),
         child: Text(
           label,
-          style: GoogleFonts.barlow(
-            fontSize: 12,
-            fontWeight: FontWeight.w700,
+          style: theme.textTheme.labelSmall?.copyWith(
+            fontSize: 14,
+            fontWeight: FontWeight.w800,
             color: selected ? AppColors.rsWhite : AppColors.text2,
           ),
         ),
@@ -523,8 +633,9 @@ class _BuyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return SizedBox(
-      height: 44,
+      height: 52,
       width: double.infinity,
       child: DecoratedBox(
         decoration: BoxDecoration(
@@ -539,11 +650,10 @@ class _BuyButton extends StatelessWidget {
             child: Center(
               child: Text(
                 label,
-                style: GoogleFonts.barlowCondensed(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
+                style: theme.textTheme.labelLarge?.copyWith(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w800,
                   color: enabled ? AppColors.rsWhite : AppColors.text3,
-                  letterSpacing: 0.5,
                 ),
               ),
             ),
@@ -619,6 +729,41 @@ String _capacityForVenue(String venue) {
     return '10,000 cap';
   }
   return '10,000 cap';
+}
+
+String _ticketingMeta(RsMatch match, bool tierAccessible) {
+  if (match.isSoldOut) {
+    return 'Allocation exhausted';
+  }
+  if (!tierAccessible && match.isOnSale) {
+    return 'Tier priority';
+  }
+  if (match.isOnSale) {
+    return 'Digital entry live';
+  }
+  return 'Ticketing opens soon';
+}
+
+String _teamAbbreviation(String name) {
+  final parts = name
+      .split(RegExp(r'\s+'))
+      .where((part) => part.isNotEmpty)
+      .toList(growable: false);
+  if (parts.isEmpty) {
+    return 'FC';
+  }
+  if (parts.length == 1) {
+    final value = parts.first;
+    return value.length >= 3
+        ? value.substring(0, 3).toUpperCase()
+        : value.toUpperCase();
+  }
+
+  final buffer = StringBuffer();
+  for (final part in parts.take(3)) {
+    buffer.write(part[0].toUpperCase());
+  }
+  return buffer.toString();
 }
 
 String _formatRwf(int amount) {

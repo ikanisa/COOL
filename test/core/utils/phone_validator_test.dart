@@ -127,7 +127,7 @@ void main() {
       test('formats correctly', () {
         expect(
           PhoneValidator.formatRwandanDisplay('+250781234567'),
-          '+250 781 234 567',
+          '078 123 4567',
         );
       });
 

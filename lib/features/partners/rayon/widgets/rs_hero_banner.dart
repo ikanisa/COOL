@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_palette.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../core/theme/rs_text_styles.dart';
 import '../models/rs_models.dart';
@@ -27,6 +28,7 @@ class RsHeroBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: DecoratedBox(
@@ -83,10 +85,10 @@ class RsHeroBanner extends StatelessWidget {
                           ),
                         ),
                         alignment: Alignment.center,
-                        child: const Icon(
+                        child: Icon(
                           Icons.favorite_rounded,
                           size: 26,
-                          color: AppColors.accent,
+                          color: palette.accent,
                         ),
                       ),
                       const SizedBox(width: 14),
@@ -148,7 +150,7 @@ class RsHeroBanner extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.black.withValues(alpha: 0.14),
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: AppColors.border),
+                        border: Border.all(color: palette.border),
                       ),
                       child: Row(
                         children: [
@@ -195,6 +197,7 @@ class _StatItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14),
       child: Column(
@@ -210,7 +213,7 @@ class _StatItem extends StatelessWidget {
             style: GoogleFonts.barlow(
               fontSize: 12,
               fontWeight: FontWeight.w500,
-              color: AppColors.text3,
+              color: palette.text3,
             ),
           ),
         ],

@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_text_field.dart';
 import '../../../shared/widgets/cool_toast.dart';
@@ -15,6 +16,7 @@ import '../providers/groups_provider.dart';
 import '../../partners/providers/partner_provider.dart';
 import '../../partners/models/partner.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 
 /// Single-screen group creation — saving or community fund.
 class CreateGroupScreen extends ConsumerStatefulWidget {
@@ -120,6 +122,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final isCreating = ref.watch(groupsCreateLoadingProvider);
     final createError = ref.watch(groupsCreateErrorProvider);
     final user = ref.watch(authProvider).user;
@@ -137,10 +140,12 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
     // Auto-default to community when no bank partner is available.
     if (!hasBankPartner && _isSaving) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) setState(() {
-          _type = 'community';
-          _frequency = 'one_off';
-        });
+        if (mounted) {
+          setState(() {
+            _type = 'community';
+            _frequency = 'one_off';
+          });
+        }
       });
     }
 
@@ -151,8 +156,14 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
       });
     }
 
-    return Scaffold(
-      backgroundColor: AppColors.bg,
+    return CoolScreenBackground(
+
+
+      showGlow: true,
+
+
+      child: Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         leading: IconButton(
           tooltip: context.l10n.back,
@@ -164,7 +175,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
           style: GoogleFonts.dmSans(
             fontSize: 18,
             fontWeight: FontWeight.w600,
-            color: AppColors.text,
+            color: palette.text,
           ),
         ),
       ),
@@ -220,11 +231,11 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
                     AnimatedSwitcher(
                       duration: const Duration(milliseconds: 250),
                       child: _isSaving
-                          ? const _InfoBanner(
-                              key: ValueKey('saving'),
+                          ? _InfoBanner(
+                              key: const ValueKey('saving'),
                               icon: Icons.account_balance_rounded,
                               text: 'Bank-held and insured.',
-                              color: AppColors.accent,
+                              color: palette.accent,
                             )
                           : _InfoBanner(
                               key: const ValueKey('community'),
@@ -232,7 +243,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
                               text: communityCountry.supportsMomoCode
                                   ? 'Sent to your MOMO phone or code.'
                                   : 'Sent to your MOMO number.',
-                              color: AppColors.orange,
+                              color: palette.orange,
                             ),
                     ),
                     const SizedBox(height: 24),
@@ -388,7 +399,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
                           text: 'Contributions go to ${_selectedBankPartner!.name} '
                               '(code: ${_selectedBankPartner!.momoCode}). '
                               'This cannot be changed.',
-                          color: AppColors.accent,
+                          color: palette.accent,
                         ),
                       if (_selectedBankPartner != null &&
                           (_selectedBankPartner!.momoCode?.isNotEmpty ?? false))
@@ -444,7 +455,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
                         style: GoogleFonts.dmSans(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.red,
+                          color: palette.red,
                         ),
                       ),
                     ],
@@ -464,6 +475,9 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
           ],
         ),
       ),
+    ),
+
+
     );
   }
 
@@ -532,6 +546,7 @@ class _TypeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Semantics(
       button: true,
       selected: isSelected,
@@ -542,10 +557,10 @@ class _TypeCard extends StatelessWidget {
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 14),
           decoration: BoxDecoration(
-            color: isSelected ? AppColors.accentGlow : AppColors.surface2,
+            color: isSelected ? palette.accentGlow : palette.surface2,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: isSelected ? AppColors.accent : AppColors.border,
+              color: isSelected ? palette.accent : palette.border,
               width: 2,
             ),
           ),
@@ -554,7 +569,7 @@ class _TypeCard extends StatelessWidget {
               Icon(
                 icon,
                 size: 28,
-                color: isSelected ? AppColors.accent : AppColors.text,
+                color: isSelected ? palette.accent : palette.text,
               ),
               const SizedBox(height: 8),
               Text(
@@ -563,7 +578,7 @@ class _TypeCard extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
-                  color: isSelected ? AppColors.accent : AppColors.text,
+                  color: isSelected ? palette.accent : palette.text,
                 ),
               ),
               const SizedBox(height: 2),
@@ -573,7 +588,7 @@ class _TypeCard extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
-                  color: AppColors.text2,
+                  color: palette.text2,
                 ),
               ),
             ],
@@ -619,6 +634,7 @@ class _BankChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Semantics(
       button: true,
       selected: isSelected,
@@ -629,10 +645,10 @@ class _BankChip extends StatelessWidget {
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
           decoration: BoxDecoration(
-            color: isSelected ? AppColors.accentGlow : AppColors.surface2,
+            color: isSelected ? palette.accentGlow : palette.surface2,
             borderRadius: BorderRadius.circular(30),
             border: Border.all(
-              color: isSelected ? AppColors.accent : AppColors.border,
+              color: isSelected ? palette.accent : palette.border,
             ),
           ),
           child: Text(
@@ -641,7 +657,7 @@ class _BankChip extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: isSelected ? AppColors.accent : AppColors.text2,
+              color: isSelected ? palette.accent : palette.text2,
             ),
           ),
         ),

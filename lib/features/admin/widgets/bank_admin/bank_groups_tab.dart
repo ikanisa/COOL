@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_palette.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
 import '../../models/bank_admin_models.dart';
@@ -29,6 +30,7 @@ class BankGroupsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final moneyFormat = NumberFormat.decimalPattern('en_US');
     final dateFormat = DateFormat('dd MMM yyyy');
     final lowerSearch = search.toLowerCase();
@@ -75,8 +77,8 @@ class BankGroupsTab extends StatelessWidget {
               itemBuilder: (context, index) {
                 final item = filtered[index];
                 return CoolCard(
-                  backgroundColor: AppColors.surface,
-                  borderColor: AppColors.border,
+                  backgroundColor: palette.surface,
+                  borderColor: palette.border,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -92,7 +94,7 @@ class BankGroupsTab extends StatelessWidget {
                                   style: GoogleFonts.dmSans(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
-                                    color: AppColors.text,
+                                    color: palette.text,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
@@ -101,7 +103,7 @@ class BankGroupsTab extends StatelessWidget {
                                   style: GoogleFonts.dmSans(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w600,
-                                    color: AppColors.text3,
+                                    color: palette.text3,
                                   ),
                                 ),
                               ],
@@ -117,7 +119,7 @@ class BankGroupsTab extends StatelessWidget {
                           style: GoogleFonts.dmSans(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.text2,
+                            color: palette.text2,
                             height: 1.4,
                           ),
                         ),
@@ -182,7 +184,7 @@ class BankGroupsTab extends StatelessWidget {
                           style: GoogleFonts.dmSans(
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.text3,
+                            color: palette.text3,
                           ),
                         ),
                       ],
@@ -213,6 +215,7 @@ class BankGroupDetailSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final moneyFormat = NumberFormat.decimalPattern('en_US');
     final dateFormat = DateFormat('dd MMM yyyy, HH:mm');
 
@@ -234,7 +237,7 @@ class BankGroupDetailSheet extends StatelessWidget {
                   width: 42,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: AppColors.border,
+                    color: palette.border,
                     borderRadius: BorderRadius.circular(999),
                   ),
                 ),
@@ -245,7 +248,7 @@ class BankGroupDetailSheet extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 18,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
               const SizedBox(height: 6),
@@ -254,7 +257,7 @@ class BankGroupDetailSheet extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.text2,
+                  color: palette.text2,
                   height: 1.45,
                 ),
               ),
@@ -298,7 +301,7 @@ class BankGroupDetailSheet extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
               const SizedBox(height: 10),
@@ -314,9 +317,9 @@ class BankGroupDetailSheet extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: AppColors.surface2,
+                        color: palette.surface2,
                         borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: AppColors.border),
+                        border: Border.all(color: palette.border),
                       ),
                       child: Row(
                         children: [
@@ -329,7 +332,7 @@ class BankGroupDetailSheet extends StatelessWidget {
                                   style: GoogleFonts.dmSans(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w700,
-                                    color: AppColors.text,
+                                    color: palette.text,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
@@ -338,7 +341,7 @@ class BankGroupDetailSheet extends StatelessWidget {
                                   style: GoogleFonts.dmSans(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
-                                    color: AppColors.text2,
+                                    color: palette.text2,
                                   ),
                                 ),
                               ],
@@ -361,7 +364,7 @@ class BankGroupDetailSheet extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
               const SizedBox(height: 10),
@@ -377,9 +380,9 @@ class BankGroupDetailSheet extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: AppColors.surface2,
+                        color: palette.surface2,
                         borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: AppColors.border),
+                        border: Border.all(color: palette.border),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -392,7 +395,7 @@ class BankGroupDetailSheet extends StatelessWidget {
                                   style: GoogleFonts.dmSans(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w700,
-                                    color: AppColors.text,
+                                    color: palette.text,
                                   ),
                                 ),
                               ),
@@ -400,14 +403,14 @@ class BankGroupDetailSheet extends StatelessWidget {
                                 label: bankTitle(contribution.status),
                                 backgroundColor:
                                     contribution.status == 'confirmed'
-                                        ? AppColors.accent
+                                        ? palette.accent
                                             .withValues(alpha: 0.12)
-                                        : AppColors.orange
+                                        : palette.orange
                                             .withValues(alpha: 0.12),
                                 foregroundColor:
                                     contribution.status == 'confirmed'
-                                        ? AppColors.accent
-                                        : AppColors.orange,
+                                        ? palette.accent
+                                        : palette.orange,
                               ),
                             ],
                           ),
@@ -417,7 +420,7 @@ class BankGroupDetailSheet extends StatelessWidget {
                             style: GoogleFonts.dmSans(
                               fontSize: 14,
                               fontWeight: FontWeight.w700,
-                              color: AppColors.text,
+                              color: palette.text,
                             ),
                           ),
                           const SizedBox(height: 4),
@@ -426,7 +429,7 @@ class BankGroupDetailSheet extends StatelessWidget {
                             style: GoogleFonts.dmSans(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
-                              color: AppColors.text2,
+                              color: palette.text2,
                             ),
                           ),
                           if ((contribution.reference?.trim().isNotEmpty ??
@@ -437,7 +440,7 @@ class BankGroupDetailSheet extends StatelessWidget {
                               style: GoogleFonts.dmSans(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
-                                color: AppColors.text2,
+                                color: palette.text2,
                               ),
                             ),
                           ],

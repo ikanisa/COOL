@@ -123,10 +123,9 @@ class Trip {
       role: role,
       repeatDays: repeatDays,
       contactPhone: contactPhone,
-      contactName: PublicUserIdentity.resolve(
-        publicUserId:
-            json['contact_name']?.toString() ??
-            profile['public_user_id']?.toString(),
+      contactName: _resolveContactName(
+        dbContactName: json['contact_name']?.toString(),
+        publicUserId: profile['public_user_id']?.toString(),
         userId: userId,
         phone: contactPhone,
       ),
@@ -228,4 +227,24 @@ List<String> _asStringList(dynamic value) {
 bool _isDriverRole(String? value) {
   final normalized = value?.trim().toLowerCase();
   return normalized == 'driver' || normalized == 'driver_return';
+}
+
+/// Uses the real name from the DB contact trigger. Falls back to a masked
+/// 6-digit identifier only when no readable name is available.
+String _resolveContactName({
+  String? dbContactName,
+  String? publicUserId,
+  String? userId,
+  String? phone,
+}) {
+  final name = dbContactName?.trim() ?? '';
+  if (name.isNotEmpty) {
+    return name;
+  }
+  // No real name available — fall back to anonymous hash.
+  return PublicUserIdentity.resolve(
+    publicUserId: publicUserId,
+    userId: userId,
+    phone: phone,
+  );
 }

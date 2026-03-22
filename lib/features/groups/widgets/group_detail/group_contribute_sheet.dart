@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_palette.dart';
 import '../../../../shared/widgets/cool_button.dart';
 import '../../../../shared/widgets/cool_toast.dart';
 import '../../models/group_contribution.dart';
@@ -20,6 +20,7 @@ class GroupContributionRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final dateLabel = contribution.createdAt != null
         ? DateFormat('d MMM y').format(contribution.createdAt!)
         : '';
@@ -31,7 +32,7 @@ class GroupContributionRow extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: AppColors.border)),
+        border: Border(bottom: BorderSide(color: palette.border)),
       ),
       child: Row(
         children: [
@@ -40,14 +41,14 @@ class GroupContributionRow extends StatelessWidget {
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: AppColors.accent.withValues(alpha: 0.12),
+              color: palette.accent.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(14),
             ),
             alignment: Alignment.center,
             child: Icon(
               Icons.download_rounded,
               size: 20,
-              color: AppColors.text2,
+              color: palette.text2,
             ),
           ),
           const SizedBox(width: 14),
@@ -77,7 +78,7 @@ class GroupContributionRow extends StatelessWidget {
             '+${groupFormatAmount(contribution.amount)} RWF',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w800,
-              color: AppColors.accent,
+              color: palette.accent,
               fontFamily: GoogleFonts.dmMono().fontFamily,
             ),
           ),
@@ -153,13 +154,18 @@ class _GroupContributeSheetState extends ConsumerState<GroupContributeSheet> {
       return;
     }
 
-    final contribution = await ref
+    final success = await ref
         .read(groupsProvider.notifier)
         .contribute(widget.groupId, amount);
 
     if (!mounted) return;
 
-    if (contribution != null) {
+    if (success) {
+      CoolToast.success(
+        context,
+        'MoMo payment initiated. Your contribution will appear '
+        'once the payment is confirmed via SMS.',
+      );
       widget.onSuccess?.call(widget.groupId);
       Navigator.of(context).pop();
       return;
@@ -168,6 +174,7 @@ class _GroupContributeSheetState extends ConsumerState<GroupContributeSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final isLoading = ref.watch(groupContributionLoadingProvider);
     final error = ref.watch(groupContributionErrorProvider);
     final half = widget.monthlyAmount ~/ 2;
@@ -176,7 +183,7 @@ class _GroupContributeSheetState extends ConsumerState<GroupContributeSheet> {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
@@ -193,7 +200,7 @@ class _GroupContributeSheetState extends ConsumerState<GroupContributeSheet> {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: AppColors.border2,
+                    color: palette.border2,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -206,7 +213,7 @@ class _GroupContributeSheetState extends ConsumerState<GroupContributeSheet> {
                 style: GoogleFonts.dmSans(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
               const SizedBox(height: 4),
@@ -216,7 +223,7 @@ class _GroupContributeSheetState extends ConsumerState<GroupContributeSheet> {
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
-                  color: AppColors.text2,
+                  color: palette.text2,
                 ),
               ),
               const SizedBox(height: 20),
@@ -227,7 +234,7 @@ class _GroupContributeSheetState extends ConsumerState<GroupContributeSheet> {
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.text2,
+                  color: palette.text2,
                 ),
               ),
               const SizedBox(height: 8),
@@ -241,32 +248,32 @@ class _GroupContributeSheetState extends ConsumerState<GroupContributeSheet> {
                   style: GoogleFonts.dmMono(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.accent,
+                    color: palette.accent,
                   ),
-                  cursorColor: AppColors.accent,
+                  cursorColor: palette.accent,
                   decoration: InputDecoration(
                     prefix: Text(
                       'RWF',
                       style: GoogleFonts.dmSans(
                         fontSize: 15,
                         fontWeight: FontWeight.w400,
-                        color: AppColors.text3,
+                        color: palette.text3,
                       ),
                     ),
                     filled: true,
-                    fillColor: AppColors.surface2,
+                    fillColor: palette.surface2,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: AppColors.border),
+                      borderSide: BorderSide(color: palette.border),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: AppColors.border),
+                      borderSide: BorderSide(color: palette.border),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(
-                        color: AppColors.accent,
+                      borderSide: BorderSide(
+                        color: palette.accent,
                         width: 1.5,
                       ),
                     ),
@@ -314,7 +321,7 @@ class _GroupContributeSheetState extends ConsumerState<GroupContributeSheet> {
                   style: GoogleFonts.dmSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.red,
+                    color: palette.red,
                   ),
                 ),
               ],
@@ -324,15 +331,15 @@ class _GroupContributeSheetState extends ConsumerState<GroupContributeSheet> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: AppColors.yellow.withValues(alpha: 0.08),
+                  color: palette.yellow.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: AppColors.yellow.withValues(alpha: 0.3),
+                    color: palette.yellow.withValues(alpha: 0.3),
                   ),
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.phone_rounded, size: 16, color: AppColors.text2),
+                    Icon(Icons.phone_rounded, size: 16, color: palette.text2),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
@@ -340,7 +347,7 @@ class _GroupContributeSheetState extends ConsumerState<GroupContributeSheet> {
                         style: GoogleFonts.dmSans(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
-                          color: AppColors.yellow,
+                          color: palette.yellow,
                           height: 1.4,
                         ),
                       ),
@@ -378,6 +385,7 @@ class _AmountChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Expanded(
       child: GestureDetector(
         onTap: onTap,
@@ -385,10 +393,10 @@ class _AmountChip extends StatelessWidget {
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
-            color: isSelected ? AppColors.accentGlow : AppColors.surface2,
+            color: isSelected ? palette.accentGlow : palette.surface2,
             borderRadius: BorderRadius.circular(30),
             border: Border.all(
-              color: isSelected ? AppColors.accent : AppColors.border,
+              color: isSelected ? palette.accent : palette.border,
             ),
           ),
           alignment: Alignment.center,
@@ -397,7 +405,7 @@ class _AmountChip extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 12,
               fontWeight: FontWeight.w600,
-              color: isSelected ? AppColors.accent : AppColors.text2,
+              color: isSelected ? palette.accent : palette.text2,
             ),
           ),
         ),

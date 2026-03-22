@@ -1,0 +1,4 @@
+What's new in Cool 1.1.1:
+• Fixed app startup issue that could cause the app to freeze on the splash screen
+• Improved app reliability when network connectivity is limited
+• Stability and performance improvements

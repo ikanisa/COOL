@@ -19,9 +19,7 @@ class _FootballTab extends ConsumerWidget {
       ),
       data: (partners) {
         if (partners.isEmpty) {
-          return const _EmptyState(
-            label: 'No football partners yet',
-          );
+          return const _EmptyState(label: 'No football partners yet');
         }
 
         return Column(
@@ -93,6 +91,9 @@ class _FootballHeroCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final isRayon = partner.slug == 'rayon-sports';
     return Semantics(
       button: true,
@@ -101,7 +102,7 @@ class _FootballHeroCard extends StatelessWidget {
         onTap: onTap,
         child: CoolCard(
           gradient: isRayon ? AppColors.rsHeroGradient : AppColors.blueGradient,
-          borderColor: isRayon ? AppColors.rsBlueBorder : AppColors.border,
+          borderColor: isRayon ? AppColors.rsBlueBorder : palette.border,
           child: Stack(
             children: [
               Positioned(
@@ -120,18 +121,18 @@ class _FootballHeroCard extends StatelessWidget {
                   children: [
                     Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 5,
+                        horizontal: 12,
+                        vertical: 7,
                       ),
                       decoration: BoxDecoration(
                         color: isRayon
                             ? AppColors.rsGold.withValues(alpha: 0.18)
-                            : AppColors.blue.withValues(alpha: 0.2),
+                            : palette.blue.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
                           color: isRayon
                               ? AppColors.rsGold.withValues(alpha: 0.4)
-                              : AppColors.blue.withValues(alpha: 0.4),
+                              : palette.blue.withValues(alpha: 0.4),
                         ),
                       ),
                       child: Row(
@@ -142,7 +143,7 @@ class _FootballHeroCard extends StatelessWidget {
                             size: 13,
                             color: isRayon
                                 ? AppColors.rsGoldLight
-                                : AppColors.blue,
+                                : palette.blue,
                           ),
                           const SizedBox(width: 4),
                           Text(
@@ -150,11 +151,11 @@ class _FootballHeroCard extends StatelessWidget {
                                 ? 'Rayon hub'
                                 : context.l10n.officialPartner,
                             style: GoogleFonts.dmSans(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w600,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
                               color: isRayon
                                   ? AppColors.rsGoldLight
-                                  : AppColors.blue,
+                                  : palette.blue,
                             ),
                           ),
                         ],
@@ -163,19 +164,18 @@ class _FootballHeroCard extends StatelessWidget {
                     const SizedBox(height: 12),
                     Text(
                       partner.name,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.text,
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        color: colors.primaryText,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: 4),
                     Text(
                       partner.subtitle ?? '',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.text2,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colors.secondaryText,
+                        fontWeight: FontWeight.w700,
+                        height: 1.35,
                       ),
                     ),
                     const SizedBox(height: 18),
@@ -213,7 +213,7 @@ class _FootballHeroCard extends StatelessWidget {
           Text(
             value,
             style: GoogleFonts.dmMono(
-              fontSize: 20,
+              fontSize: 22,
               fontWeight: FontWeight.w700,
               color: isRayon ? AppColors.rsGoldLight : AppColors.blue,
             ),
@@ -221,8 +221,8 @@ class _FootballHeroCard extends StatelessWidget {
           Text(
             label,
             style: GoogleFonts.dmSans(
-              fontSize: 11,
-              fontWeight: FontWeight.w400,
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
               color: AppColors.text3,
             ),
           ),
@@ -259,31 +259,49 @@ class _FeatureTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return CoolCard(
+      backgroundColor: colors.cardSurfaceStrong,
       onTap: onTap,
       semanticsLabel: title,
       child: Padding(
-        padding: const EdgeInsets.all(14),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 26, color: AppColors.text),
-            const SizedBox(height: 8),
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: colors.operationalSurface,
+                borderRadius: BorderRadius.circular(CoolRadii.md),
+                border: Border.all(color: colors.border),
+              ),
+              alignment: Alignment.center,
+              child: Icon(icon, size: 26, color: colors.primaryText),
+            ),
+            const SizedBox(height: 10),
             Text(
               title,
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-                color: AppColors.text,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: theme.textTheme.titleSmall?.copyWith(
+                color: colors.primaryText,
+                fontWeight: FontWeight.w800,
               ),
             ),
-            Text(
-              subtitle,
-              style: GoogleFonts.dmSans(
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-                color: AppColors.text2,
+            const SizedBox(height: 4),
+            Expanded(
+              child: Text(
+                subtitle,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                style: theme.textTheme.labelMedium?.copyWith(
+                  color: colors.secondaryText,
+                  fontWeight: FontWeight.w700,
+                  height: 1.3,
+                ),
               ),
             ),
           ],
@@ -311,7 +329,7 @@ class _ResponsiveFeatureGrid extends StatelessWidget {
             crossAxisCount: crossAxisCount,
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
-            childAspectRatio: constraints.maxWidth >= 860 ? 1.15 : 1.1,
+            childAspectRatio: constraints.maxWidth >= 860 ? 1.1 : 0.92,
           ),
           itemBuilder: (context, index) {
             final item = items[index];
@@ -350,6 +368,8 @@ class _BanksTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final l10n = context.l10n;
     final partnersAsync = ref.watch(bankPartnersProvider);
 
@@ -368,25 +388,24 @@ class _BanksTab extends ConsumerWidget {
         return Column(
           children: [
             CoolCard(
-              borderColor: AppColors.blue.withValues(alpha: 0.24),
+              backgroundColor: colors.financialSurface,
+              borderColor: colors.info.withValues(alpha: 0.24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Credit readiness comes first',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.text,
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      color: colors.primaryText,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: 8),
                   Text(
-                    'Check your savings and',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.text2,
+                    'Check your savings, statements, and contribution discipline before you request finance.',
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: colors.secondaryText,
+                      fontWeight: FontWeight.w700,
                       height: 1.45,
                     ),
                   ),
@@ -418,6 +437,9 @@ class _BankPartnerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Semantics(
       button: true,
       label: 'Open ${partner.name}',
@@ -440,18 +462,18 @@ class _BankPartnerCard extends StatelessWidget {
                           vertical: 5,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.accent.withValues(alpha: 0.15),
+                          color: palette.accent.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                            color: AppColors.accent.withValues(alpha: 0.3),
+                            color: palette.accent.withValues(alpha: 0.3),
                           ),
                         ),
                         child: Text(
                           context.l10n.bankingPartner,
                           style: GoogleFonts.dmSans(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.accent,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            color: palette.accent,
                           ),
                         ),
                       ),
@@ -471,18 +493,16 @@ class _BankPartnerCard extends StatelessWidget {
                 const SizedBox(height: 12),
                 Text(
                   partner.name,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    color: colors.primaryText,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
                 Text(
                   partner.subtitle ?? '',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.text2,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colors.secondaryText,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
                 const SizedBox(height: 14),
@@ -491,7 +511,7 @@ class _BankPartnerCard extends StatelessWidget {
                     _bankStat(
                       partner.fanCount > 0 ? partner.fanCount.toString() : '—',
                       context.l10n.activeGroups,
-                      AppColors.accent,
+                      palette.accent,
                     ),
                     const SizedBox(width: 20),
                     _bankStat(
@@ -499,7 +519,7 @@ class _BankPartnerCard extends StatelessWidget {
                           ? _formatRwf(partner.clubCount)
                           : '—',
                       context.l10n.rwfHeld,
-                      AppColors.accent,
+                      palette.accent,
                     ),
                   ],
                 ),
@@ -518,7 +538,7 @@ class _BankPartnerCard extends StatelessWidget {
         Text(
           value,
           style: GoogleFonts.dmMono(
-            fontSize: 18,
+            fontSize: 20,
             fontWeight: FontWeight.w700,
             color: color,
           ),
@@ -526,8 +546,8 @@ class _BankPartnerCard extends StatelessWidget {
         Text(
           label,
           style: GoogleFonts.dmSans(
-            fontSize: 11,
-            fontWeight: FontWeight.w400,
+            fontSize: 13,
+            fontWeight: FontWeight.w700,
             color: AppColors.text3,
           ),
         ),
@@ -557,8 +577,7 @@ class _OrgsTab extends ConsumerWidget {
     return WhatsAppContactService.openChat(
       context,
       phoneNumber: phone,
-      message:
-          'Hello ${partner.name} I would',
+      message: 'Hello ${partner.name} I would',
     );
   }
 
@@ -604,6 +623,9 @@ class _OrgPartnerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final isInsurance = partner.slug == 'radiant';
     return CoolCard(
       gradient: isInsurance ? AppColors.blueGradient : AppColors.accentGradient,
@@ -631,13 +653,13 @@ class _OrgPartnerCard extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     color: isInsurance
-                        ? AppColors.blue.withValues(alpha: 0.15)
-                        : AppColors.accent.withValues(alpha: 0.15),
+                        ? palette.blue.withValues(alpha: 0.15)
+                        : palette.accent.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
                       color: isInsurance
-                          ? AppColors.blue.withValues(alpha: 0.3)
-                          : AppColors.accent.withValues(alpha: 0.3),
+                          ? palette.blue.withValues(alpha: 0.3)
+                          : palette.accent.withValues(alpha: 0.3),
                     ),
                   ),
                   child: Row(
@@ -646,17 +668,15 @@ class _OrgPartnerCard extends StatelessWidget {
                       Icon(
                         IconMapper.from(partner.emoji),
                         size: 13,
-                        color: isInsurance ? AppColors.blue : AppColors.accent,
+                        color: isInsurance ? palette.blue : palette.accent,
                       ),
                       const SizedBox(width: 4),
                       Text(
                         _categoryLabel(context, partner),
                         style: GoogleFonts.dmSans(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                          color: isInsurance
-                              ? AppColors.blue
-                              : AppColors.accent,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          color: isInsurance ? palette.blue : palette.accent,
                         ),
                       ),
                     ],
@@ -665,18 +685,16 @@ class _OrgPartnerCard extends StatelessWidget {
                 const SizedBox(height: 10),
                 Text(
                   partner.name,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    color: colors.primaryText,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
                 Text(
                   partner.subtitle ?? '',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.text2,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colors.secondaryText,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
                 const SizedBox(height: 14),

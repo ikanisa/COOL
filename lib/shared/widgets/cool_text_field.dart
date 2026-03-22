@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../core/theme/cool_foundations.dart';
 import '../../core/theme/cool_palette.dart';
 
-/// A styled text field matching the Cool design system.
-///
-/// Includes an optional label above the field, a prefix icon or emoji
-/// inside the field, and validation support.
+/// A styled text field matching the COOL design system.
 class CoolTextField extends StatelessWidget {
   const CoolTextField({
     required this.hint,
@@ -39,102 +37,117 @@ class CoolTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final semanticsLabel = label ?? hint;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        // ── Label ─────────────────────────────────────────────────
         if (label != null) ...[
           Semantics(
             label: '${label!} field label',
             child: Text(
               label!,
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: palette.text2,
-              ),
+              style:
+                  theme.textTheme.labelLarge?.copyWith(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w800,
+                    color: colors.secondaryText,
+                  ) ??
+                  GoogleFonts.manrope(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w800,
+                    color: colors.secondaryText,
+                  ),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 10),
         ],
-
-        // ── Field ─────────────────────────────────────────────────
         Semantics(
           textField: true,
           label: semanticsLabel,
           hint: obscureText ? 'Secure entry field' : 'Double tap to enter text',
-          child: TextFormField(
-            controller: controller,
-            keyboardType: keyboardType,
-            obscureText: obscureText,
-            validator: validator,
-            maxLines: maxLines,
-            onChanged: onChanged,
-            autofocus: autofocus,
-            textInputAction: textInputAction,
-            style: GoogleFonts.dmSans(
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-              color: palette.text,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(CoolRadii.md),
+              boxShadow: CoolShadows.clay(theme.brightness, strength: 0.45),
             ),
-            cursorColor: palette.accent,
-            decoration: InputDecoration(
-              hintText: hint,
-              hintStyle: GoogleFonts.dmSans(
-                fontSize: 15,
-                fontWeight: FontWeight.w400,
-                color: palette.text3,
-              ),
-              filled: true,
-              fillColor: palette.surface2,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 18,
-                vertical: 16,
-              ),
-              prefixIcon: prefixIcon != null
-                  ? Padding(
-                      padding: const EdgeInsets.only(left: 16, right: 8),
-                      child: Icon(prefixIcon, size: 18, color: palette.text2),
-                    )
-                  : prefixEmoji != null
-                  ? Padding(
-                      padding: const EdgeInsets.only(left: 16, right: 8),
-                      child: Text(
-                        prefixEmoji!,
-                        style: const TextStyle(fontSize: 18),
-                      ),
-                    )
-                  : null,
-              prefixIconConstraints: (prefixIcon != null || prefixEmoji != null)
-                  ? const BoxConstraints(minWidth: 0, minHeight: 0)
-                  : null,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: palette.border),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: palette.border),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: palette.accent, width: 1.5),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: palette.red),
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: palette.red, width: 1.5),
-              ),
-              errorStyle: GoogleFonts.dmSans(
-                fontSize: 11,
-                fontWeight: FontWeight.w400,
-                color: palette.red,
+            child: TextFormField(
+              controller: controller,
+              keyboardType: keyboardType,
+              obscureText: obscureText,
+              validator: validator,
+              maxLines: maxLines,
+              onChanged: onChanged,
+              autofocus: autofocus,
+              textInputAction: textInputAction,
+              style:
+                  theme.textTheme.titleSmall?.copyWith(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                    color: colors.primaryText,
+                  ) ??
+                  GoogleFonts.manrope(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                    color: colors.primaryText,
+                  ),
+              cursorColor: colors.accent,
+              decoration: InputDecoration(
+                hintText: hint,
+                hintStyle: theme.inputDecorationTheme.hintStyle,
+                filled: true,
+                fillColor: colors.inputSurface,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 22,
+                  vertical: 20,
+                ),
+                prefixIcon: prefixIcon != null
+                    ? Padding(
+                        padding: const EdgeInsets.only(left: 18, right: 10),
+                        child: Icon(
+                          prefixIcon,
+                          size: 20,
+                          color: colors.secondaryText,
+                        ),
+                      )
+                    : prefixEmoji != null
+                    ? Padding(
+                        padding: const EdgeInsets.only(left: 18, right: 10),
+                        child: Text(
+                          prefixEmoji!,
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                      )
+                    : null,
+                prefixIconConstraints:
+                    (prefixIcon != null || prefixEmoji != null)
+                    ? const BoxConstraints(minWidth: 0, minHeight: 0)
+                    : null,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(CoolRadii.md),
+                  borderSide: BorderSide(color: colors.border),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(CoolRadii.md),
+                  borderSide: BorderSide(color: colors.border),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(CoolRadii.md),
+                  borderSide: BorderSide(color: colors.accent, width: 1.6),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(CoolRadii.md),
+                  borderSide: BorderSide(color: palette.red),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(CoolRadii.md),
+                  borderSide: BorderSide(color: palette.red, width: 1.6),
+                ),
+                errorStyle: theme.inputDecorationTheme.errorStyle,
               ),
             ),
           ),

@@ -5,7 +5,7 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../core/providers/app_access_provider.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_palette.dart';
 import 'contact_picker_sheet.dart';
 import 'qr_share_sheet.dart';
 
@@ -104,19 +104,20 @@ class ShareCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(icon, size: 20, color: AppColors.text2),
+              Icon(icon, size: 20, color: palette.text2),
               const SizedBox(width: 10),
               Expanded(
                 child: Column(
@@ -127,7 +128,7 @@ class ShareCard extends ConsumerWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     if (_effectiveSubtitle != null) ...[
@@ -137,7 +138,7 @@ class ShareCard extends ConsumerWidget {
                         style: GoogleFonts.dmSans(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
-                          color: AppColors.text3,
+                          color: palette.text3,
                         ),
                       ),
                     ],
@@ -154,6 +155,7 @@ class ShareCard extends ConsumerWidget {
                 child: _ShareButton(
                   icon: Icons.qr_code_rounded,
                   label: 'QR / Share',
+                  palette: palette,
                   onTap: () {
                     _openQrSheet(context);
                   },
@@ -165,6 +167,7 @@ class ShareCard extends ConsumerWidget {
                 child: _ShareButton(
                   icon: Icons.share_rounded,
                   label: 'Share',
+                  palette: palette,
                   onTap: () {
                     _shareLink();
                   },
@@ -176,6 +179,7 @@ class ShareCard extends ConsumerWidget {
                 child: _ShareButton(
                   icon: Icons.contacts_rounded,
                   label: 'Contacts',
+                  palette: palette,
                   onTap: () => _shareViaContacts(context, ref),
                 ),
               ),
@@ -192,11 +196,13 @@ class _ShareButton extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.onTap,
+    required this.palette,
   });
 
   final IconData icon;
   final String label;
   final VoidCallback onTap;
+  final CoolPalette palette;
 
   @override
   Widget build(BuildContext context) {
@@ -209,21 +215,21 @@ class _ShareButton extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
-            color: AppColors.accent.withValues(alpha: 0.1),
+            color: palette.accent.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.accent.withValues(alpha: 0.25)),
+            border: Border.all(color: palette.accent.withValues(alpha: 0.25)),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, size: 18, color: AppColors.accent),
+              Icon(icon, size: 18, color: palette.accent),
               const SizedBox(width: 6),
               Text(
                 label,
                 style: GoogleFonts.dmSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.accent,
+                  color: palette.accent,
                 ),
               ),
             ],

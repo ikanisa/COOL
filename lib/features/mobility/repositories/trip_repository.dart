@@ -111,6 +111,14 @@ class TripRepository {
         continue;
       }
 
+      // F-08: Discard trips that have exceeded the retry limit.
+      final attempts = jh.asInt(entry['sync_attempts']) ?? 0;
+      if (attempts >= 5) {
+        await box.delete(key);
+        discardedCount++;
+        continue;
+      }
+
       try {
         await _insertTrip(request);
         await box.delete(key);

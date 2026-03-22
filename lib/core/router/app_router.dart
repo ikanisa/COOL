@@ -10,6 +10,7 @@ import 'app_redirects.dart';
 import '../../features/auth/screens/onboarding_screen.dart';
 import '../../features/auth/screens/otp_screen.dart';
 import '../../features/auth/screens/otp_verify_screen.dart';
+import '../../features/auth/screens/app_access_onboarding_screen.dart';
 import '../../features/auth/screens/register_screen.dart';
 import '../../features/auth/screens/splash_screen.dart';
 import '../../features/credit/screens/credit_score_screen.dart';
@@ -40,19 +41,19 @@ import '../../features/profile/screens/profile_detail_screens.dart';
 
 import '../../features/partners/screens/prisma_partner_screen.dart';
 import '../../features/partners/screens/radiant_partner_screen.dart';
-import '../../features/partners/screens/rayon/club_shop_screen.dart';
-import '../../features/partners/screens/rayon/fan_club_detail_screen.dart';
-import '../../features/partners/screens/rayon/fan_clubs_screen.dart';
+import '../../features/partners/rayon/screens/club_shop_screen.dart';
+import '../../features/partners/rayon/screens/fan_club_detail_screen.dart';
+import '../../features/partners/rayon/screens/fan_clubs_screen.dart';
 import '../../features/partners/rayon/screens/fan_profile_screen.dart';
 import '../../features/partners/rayon/screens/membership_tiers_screen.dart';
-import '../../features/partners/screens/rayon/member_registry_screen.dart';
-import '../../features/partners/screens/rayon/my_tickets_screen.dart';
+import '../../features/partners/rayon/screens/member_registry_screen.dart';
+import '../../features/partners/rayon/screens/my_tickets_screen.dart';
 import '../../features/partners/rayon/screens/rayon_home_screen.dart';
-import '../../features/partners/screens/rayon/shop_checkout_screen.dart';
-import '../../features/partners/screens/rayon/ticket_confirmation_screen.dart';
+import '../../features/partners/rayon/screens/shop_checkout_screen.dart';
+import '../../features/partners/rayon/screens/ticket_confirmation_screen.dart';
 import '../../features/partners/rayon/screens/support_detail_screen.dart';
 import '../../features/partners/rayon/screens/support_screen.dart';
-import '../../features/partners/screens/rayon/tickets_screen.dart';
+import '../../features/partners/rayon/screens/tickets_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
 import '../../shared/widgets/qr_scanner_screen.dart';
 import '../../features/admin/screens/admin_dashboard_screen.dart';
@@ -260,6 +261,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             redirectPath: state.uri.queryParameters['redirect'],
           );
         },
+      ),
+      GoRoute(
+        path: AppRoutes.appAccess,
+        builder: (context, state) => AppAccessOnboardingScreen(
+          redirectPath: state.uri.queryParameters['redirect'],
+        ),
       ),
       GoRoute(
         path: AppRoutes.groupInvite,

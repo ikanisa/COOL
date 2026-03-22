@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/cool_palette.dart';
+import '../../core/theme/cool_foundations.dart';
+import 'cool_screen_background.dart';
 
 class CoolScreenScaffold extends StatelessWidget {
   const CoolScreenScaffold({
@@ -10,7 +10,7 @@ class CoolScreenScaffold extends StatelessWidget {
     this.title,
     this.actions,
     this.showBackButton = true,
-    this.padding = const EdgeInsets.fromLTRB(18, 0, 18, 96),
+    this.padding = const EdgeInsets.fromLTRB(24, 0, 24, 96),
     super.key,
   });
 
@@ -22,44 +22,61 @@ class CoolScreenScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    return Scaffold(
-      backgroundColor: palette.bg,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    return CoolScreenBackground(
+      child: Scaffold(
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading:
-            showBackButton
-                ? IconButton(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: showBackButton
+              ? IconButton(
                   onPressed: () => context.pop(),
-                  tooltip: 'Back',
-                  icon: Icon(Icons.arrow_back_rounded, color: palette.text),
+                  tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+                  icon: Icon(
+                    Icons.arrow_back_rounded,
+                    color: colors.primaryText,
+                  ),
                 )
-                : null,
-        actions: actions,
-      ),
-      body: SafeArea(
-        top: false,
-        child: SingleChildScrollView(
-          padding: padding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (title != null) ...[
-                Text(
-                  title!,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 34,
-                    fontWeight: FontWeight.w800,
-                    color: palette.text,
-                    height: 1.1,
+              : null,
+          actions: actions,
+        ),
+        body: SafeArea(
+          top: false,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final maxWidth = CoolResponsive.maxContentWidthForWidth(
+                constraints.maxWidth,
+              );
+              return SingleChildScrollView(
+                padding: padding,
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: maxWidth),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (title != null) ...[
+                          Semantics(
+                            header: true,
+                            child: Text(
+                              title!,
+                              style: theme.textTheme.displayMedium?.copyWith(
+                                color: colors.primaryText,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: CoolSpace.x7),
+                        ],
+                        child,
+                      ],
+                    ),
                   ),
                 ),
-                const SizedBox(height: 24),
-              ],
-              child,
-            ],
+              );
+            },
           ),
         ),
       ),

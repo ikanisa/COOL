@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_palette.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
 import '../../models/bank_admin_models.dart';
@@ -33,6 +33,7 @@ class BankContributionsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final moneyFormat = NumberFormat.decimalPattern('en_US');
     final dateFormat = DateFormat('dd MMM yyyy, HH:mm');
 
@@ -59,12 +60,12 @@ class BankContributionsTab extends StatelessWidget {
                 label: Text(bankTitle(status)),
                 selected: isActive,
                 onSelected: (_) => onStatusFilterChanged(status),
-                backgroundColor: AppColors.surface2,
-                selectedColor: AppColors.accent.withValues(alpha: 0.15),
+                backgroundColor: palette.surface2,
+                selectedColor: palette.accent.withValues(alpha: 0.15),
                 labelStyle: GoogleFonts.dmSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  color: isActive ? AppColors.accent : AppColors.text2,
+                  color: isActive ? palette.accent : palette.text2,
                 ),
               );
             },
@@ -110,8 +111,8 @@ class BankContributionsTab extends StatelessWidget {
               itemBuilder: (context, index) {
                 final contribution = filtered[index];
                 return CoolCard(
-                  backgroundColor: AppColors.surface,
-                  borderColor: AppColors.border,
+                  backgroundColor: palette.surface,
+                  borderColor: palette.border,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -123,7 +124,7 @@ class BankContributionsTab extends StatelessWidget {
                               style: GoogleFonts.dmSans(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w700,
-                                color: AppColors.text,
+                                color: palette.text,
                               ),
                             ),
                           ),
@@ -131,14 +132,14 @@ class BankContributionsTab extends StatelessWidget {
                             label: bankTitle(contribution.status),
                             backgroundColor:
                                 contribution.status == 'confirmed'
-                                    ? AppColors.accent
+                                    ? palette.accent
                                         .withValues(alpha: 0.12)
-                                    : AppColors.orange
+                                    : palette.orange
                                         .withValues(alpha: 0.12),
                             foregroundColor:
                                 contribution.status == 'confirmed'
-                                    ? AppColors.accent
-                                    : AppColors.orange,
+                                    ? palette.accent
+                                    : palette.orange,
                           ),
                         ],
                       ),
@@ -148,7 +149,7 @@ class BankContributionsTab extends StatelessWidget {
                         style: GoogleFonts.dmSans(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.text3,
+                          color: palette.text3,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -157,7 +158,7 @@ class BankContributionsTab extends StatelessWidget {
                         style: GoogleFonts.dmSans(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.text,
+                          color: palette.text,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -166,7 +167,7 @@ class BankContributionsTab extends StatelessWidget {
                         style: GoogleFonts.dmSans(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.text2,
+                          color: palette.text2,
                         ),
                       ),
                       if ((contribution.reference?.trim().isNotEmpty ??
@@ -177,7 +178,7 @@ class BankContributionsTab extends StatelessWidget {
                           style: GoogleFonts.dmSans(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.text2,
+                            color: palette.text2,
                           ),
                         ),
                       ],

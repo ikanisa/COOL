@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../core/theme/theme_preference.dart';
 import '../../../core/theme/theme_preference_provider.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
 
 class ProfileThemeSheet extends ConsumerWidget {
   const ProfileThemeSheet({super.key});
 
   static Future<void> show(BuildContext context) {
-    return showModalBottomSheet<void>(
+    return showCoolBottomSheet<void>(
       context: context,
       useRootNavigator: true,
       backgroundColor: Colors.transparent,
@@ -22,11 +23,12 @@ class ProfileThemeSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
     final currentPreference = ref.watch(themePreferenceProvider);
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
@@ -47,7 +49,7 @@ class ProfileThemeSheet extends ConsumerWidget {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: AppColors.border2,
+                    color: palette.border2,
                     borderRadius: BorderRadius.circular(999),
                   ),
                 ),
@@ -58,7 +60,7 @@ class ProfileThemeSheet extends ConsumerWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 20,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
               const SizedBox(height: 20),
@@ -114,16 +116,17 @@ class _ThemeOptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.accentGlow : AppColors.surface2,
+          color: isSelected ? palette.accentGlow : palette.surface2,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ? AppColors.accent : AppColors.border,
+            color: isSelected ? palette.accent : palette.border,
             width: isSelected ? 1.5 : 1,
           ),
         ),
@@ -133,13 +136,13 @@ class _ThemeOptionCard extends StatelessWidget {
               width: 44,
               height: 44,
               decoration: BoxDecoration(
-                color: isSelected ? AppColors.surface : AppColors.surface3,
+                color: isSelected ? palette.surface : palette.surface3,
                 borderRadius: BorderRadius.circular(14),
               ),
               alignment: Alignment.center,
               child: Icon(
                 icon,
-                color: isSelected ? AppColors.accent : AppColors.text,
+                color: isSelected ? palette.accent : palette.text,
                 size: 22,
               ),
             ),
@@ -150,14 +153,14 @@ class _ThemeOptionCard extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
             ),
             if (isSelected)
-              const Icon(
+              Icon(
                 Icons.check_circle_rounded,
-                color: AppColors.accent,
+                color: palette.accent,
                 size: 24,
               ),
           ],

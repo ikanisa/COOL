@@ -7,7 +7,10 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../core/l10n/l10n.dart';
+
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/kyc_id_scanner_overlay.dart';
@@ -41,10 +44,10 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
     final XFile? result = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => KycIdScannerOverlay(
-          title: isFront ? 'Front of ID' : 'Back of ID',
+          title: isFront ? context.l10n.kycFrontOfId : context.l10n.kycBackOfId,
           instruction: isFront 
-            ? 'Align front of ${_documentTypeLabel(_documentType)}'
-            : 'Align back of ${_documentTypeLabel(_documentType)}',
+            ? context.l10n.kycAlignFront(_documentTypeLabel(context, _documentType))
+            : context.l10n.kycAlignBack(_documentTypeLabel(context, _documentType)),
         ),
       ),
     );
@@ -101,13 +104,13 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
   Future<void> _extractIdentity() async {
     if (_frontImage == null) {
       setState(() {
-        _errorMessage = 'Add front ID first';
+        _errorMessage = context.l10n.kycFrontIdFirst;
       });
       return;
     }
     if (_selfieImage == null) {
       setState(() {
-        _errorMessage = 'Take a selfie for face match';
+        _errorMessage = context.l10n.kycSelfieForFaceMatch;
       });
       return;
     }
@@ -135,7 +138,7 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
     if (result == null) {
       setState(() {
         _step = _KycStep.capture;
-        _errorMessage = ref.read(authProvider).error ?? 'Extraction failed';
+        _errorMessage = ref.read(authProvider).error ?? context.l10n.kycExtractionFailed;
       });
       return;
     }
@@ -153,7 +156,7 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
     if (faceMatch == null || !faceMatch.isMatch) {
       setState(() {
         _step = _KycStep.capture;
-        _errorMessage = faceMatch?.reason ?? 'Identity mismatch detected.';
+        _errorMessage = faceMatch?.reason ?? context.l10n.kycIdentityMismatch;
       });
       return;
     }
@@ -188,11 +191,12 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: palette.bg,
       appBar: AppBar(
         title: Text(
-          'Personal Info',
+          context.l10n.personalInfo,
           style: GoogleFonts.dmSans(fontWeight: FontWeight.w700),
         ),
       ),
@@ -226,7 +230,7 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
             const SizedBox(height: 24),
           ],
           Text(
-            'Choose document type',
+            context.l10n.kycChooseDocumentType,
             style: Theme.of(context).textTheme.headlineSmall,
           ),
           const SizedBox(height: 16),
@@ -248,14 +252,14 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
           ),
           const SizedBox(height: 32),
           _DocumentInputCard(
-            title: 'Front of ID',
+            title: context.l10n.kycFrontOfId,
             image: _frontImage,
             onTakePhoto: () => _openScanner(isFront: true),
             onUpload: () => _pickFromGallery(isFront: true),
           ),
           const SizedBox(height: 16),
           _DocumentInputCard(
-            title: _backImageRecommended ? 'Back of ID' : 'Back of document',
+            title: _backImageRecommended ? context.l10n.kycBackOfId : context.l10n.kycBackOfDocument,
             image: _backImage,
             onTakePhoto: () => _openScanner(isFront: false),
             onUpload: () => _pickFromGallery(isFront: false),
@@ -292,7 +296,7 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
           ],
           const SizedBox(height: 18),
           CoolButton(
-            label: 'Verify Identity',
+            label: context.l10n.kycIdentityVerification,
             icon: Icons.verified_user_rounded,
             onTap: _extractIdentity,
           ),
@@ -325,7 +329,7 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
             ),
             const SizedBox(height: 18),
             Text(
-              'Reading your ID',
+              context.l10n.kycReadingId,
               style: GoogleFonts.dmSans(
                 fontSize: 18,
                 fontWeight: FontWeight.w800,
@@ -334,7 +338,7 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Cool is extracting your',
+              context.l10n.kycExtracting,
               textAlign: TextAlign.center,
               style: GoogleFonts.dmSans(
                 fontSize: 13,
@@ -379,7 +383,7 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Extracted profile ready',
+                  context.l10n.kycExtractedReady,
                   style: GoogleFonts.dmSans(
                     fontSize: 16,
                     fontWeight: FontWeight.w800,
@@ -388,7 +392,7 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Cool has already filled',
+                  context.l10n.kycAutoFilled,
                   style: GoogleFonts.dmSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
@@ -438,10 +442,11 @@ class _CurrentIdentityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final trimmedNationalId = user.nationalIdNumber?.trim() ?? '';
     final details = <String>[
       if (user.kycDocumentType?.trim().isNotEmpty == true)
-        _documentTypeLabel(user.kycDocumentType!),
+        _documentTypeLabel(context, user.kycDocumentType!),
       if (user.dateOfBirth?.trim().isNotEmpty == true)
         'DOB ${user.dateOfBirth!.trim()}',
       if (trimmedNationalId.isNotEmpty)
@@ -452,19 +457,19 @@ class _CurrentIdentityCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Current identity on file',
+            context.l10n.kycCurrentIdentity,
             style: GoogleFonts.dmSans(
               fontSize: 14,
               fontWeight: FontWeight.w800,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
           const SizedBox(height: 8),
@@ -475,7 +480,7 @@ class _CurrentIdentityCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 18,
               fontWeight: FontWeight.w800,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
           if (details.isNotEmpty) ...[
@@ -485,7 +490,7 @@ class _CurrentIdentityCard extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: AppColors.text2,
+                color: palette.text2,
               ),
             ),
           ],
@@ -510,13 +515,14 @@ class _DocumentInputCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: AppColors.border, width: 1.5),
+        border: Border.all(color: palette.border, width: 1.5),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -541,13 +547,13 @@ class _DocumentInputCard extends StatelessWidget {
             Container(
               height: 180,
               decoration: BoxDecoration(
-                color: AppColors.surface2,
+                color: palette.surface2,
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: AppColors.border, width: 1.5),
+                border: Border.all(color: palette.border, width: 1.5),
               ),
               child: Center(
                 child: Text(
-                  'No image yet',
+                  context.l10n.kycNoImageYet,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -590,14 +596,15 @@ class _ReviewField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppColors.border, width: 1.5),
+        border: Border.all(color: palette.border, width: 1.5),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -608,7 +615,7 @@ class _ReviewField extends StatelessWidget {
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                     fontWeight: FontWeight.w700,
                     letterSpacing: 0.8,
-                    color: AppColors.text3,
+                    color: palette.text3,
                   ),
             ),
           ),
@@ -641,16 +648,17 @@ class _DocumentTypeChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
-          color: selected ? AppColors.blueGlow : AppColors.surface,
+          color: selected ? palette.blueGlow : palette.surface,
           borderRadius: BorderRadius.circular(999),
           border: Border.all(
-            color: selected ? AppColors.blue : AppColors.border,
+            color: selected ? palette.blue : palette.border,
           ),
         ),
         child: Text(
@@ -658,7 +666,7 @@ class _DocumentTypeChip extends StatelessWidget {
           style: GoogleFonts.dmSans(
             fontSize: 13,
             fontWeight: FontWeight.w700,
-            color: selected ? AppColors.blue : AppColors.text2,
+            color: selected ? palette.blue : palette.text2,
           ),
         ),
       ),
@@ -679,11 +687,11 @@ const _documentTypeOptions = <_DocumentTypeOption>[
   _DocumentTypeOption(value: 'driving_license', label: 'Driving licence'),
 ];
 
-String _documentTypeLabel(String value) {
+String _documentTypeLabel(BuildContext context, String value) {
   return switch (value.trim().toLowerCase()) {
-    'national_id' => 'National ID',
-    'passport' => 'Passport',
-    'driving_license' => 'Driving licence',
+    'national_id' => context.l10n.kycNationalId,
+    'passport' => context.l10n.kycPassport,
+    'driving_license' => context.l10n.kycDrivingLicence,
     _ => 'your ID',
   };
 }

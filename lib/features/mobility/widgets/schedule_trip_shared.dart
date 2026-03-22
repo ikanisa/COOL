@@ -225,6 +225,74 @@ class ScheduleTripSelectionChip extends StatelessWidget {
   }
 }
 
+/// Vehicle selection chip with an optional vehicle image asset.
+class ScheduleTripVehicleChip extends StatelessWidget {
+  const ScheduleTripVehicleChip({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+    this.assetPath,
+    super.key,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+  final String? assetPath;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+    return Material(
+      color: selected ? palette.accentGlow : palette.surface2,
+      borderRadius: BorderRadius.circular(14),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(14),
+        child: Container(
+          width: 88,
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(
+              color: selected ? palette.accent : palette.border,
+              width: selected ? 1.5 : 1,
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (assetPath != null)
+                Image.asset(
+                  assetPath!,
+                  width: 36,
+                  height: 36,
+                  fit: BoxFit.contain,
+                )
+              else
+                Icon(
+                  Icons.commute_rounded,
+                  size: 32,
+                  color: selected ? palette.accent : palette.text3,
+                ),
+              const SizedBox(height: 6),
+              Text(
+                label,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.dmSans(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: selected ? palette.accent : palette.text2,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 /// Square chip for seat count selection.
 class ScheduleTripSeatChip extends StatelessWidget {
   const ScheduleTripSeatChip({

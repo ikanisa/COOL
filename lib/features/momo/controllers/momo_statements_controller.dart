@@ -137,7 +137,7 @@ extension _MomoStatementsController on _MomoStatementsScreenState {
     required List<MomoWalletEntry> walletEntries,
     required List<SavingsStatementEntry> savingsEntries,
   }) {
-    return showModalBottomSheet<void>(
+    return showCoolBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       useSafeArea: true,

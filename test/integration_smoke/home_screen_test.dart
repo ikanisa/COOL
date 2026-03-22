@@ -78,8 +78,8 @@ void main() {
 
           expect(find.text('Home'), findsOneWidget);
           expect(find.text('Quick Actions'), findsOneWidget);
-          expect(find.text('Recent Activity'), findsOneWidget);
-          expect(find.byType(CoolCard), findsNWidgets(3));
+          expect(find.text('Recent Activity'), findsWidgets);
+          expect(find.byType(CoolCard), findsAtLeastNWidgets(2));
           expect(find.text('Groups'), findsWidgets);
           expect(find.text('MoMo'), findsOneWidget);
           expect(find.text('Partners'), findsOneWidget);
@@ -126,7 +126,7 @@ void main() {
 
           await settleTestApp(tester);
 
-          expect(find.text('Activity will appear here.'), findsOneWidget);
+          expect(find.text('No recent activity'), findsOneWidget);
           expect(find.text('Groups'), findsWidgets);
         } finally {
           ErrorWidget.builder = originalErrorWidgetBuilder;

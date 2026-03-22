@@ -280,8 +280,6 @@ class GroupRepository {
       throw StateError('You are not a member of this group.');
     }
 
-    final reference =
-        'GCT-${DateTime.now().millisecondsSinceEpoch}-${currentUser.id.substring(0, 8)}';
     final country = AppMarket.country;
     final rawRecipientMomo =
         groupRow['receiving_momo_code']?.toString() ??
@@ -299,32 +297,19 @@ class GroupRepository {
             ? MomoRecipientType.phoneNumber
             : _inferRecipientType(country, rawRecipientMomo));
 
-    await _client.from('group_contributions').insert(<String, dynamic>{
-      'group_id': groupId,
-      'user_id': currentUser.id,
-      'amount': amount,
-      'status': 'pending',
-      'momo_reference': reference,
-      'created_at': DateTime.now().toIso8601String(),
-    });
-
-    try {
-      await _momoService.initiatePayment(
-        recipientMomo: recipientMomo,
-        amount: amount,
-        reference: reference,
-        recipientType: recipientType,
-        countryCode: country.isoCode,
-      );
-    } catch (error) {
-      await _client
-          .from('group_contributions')
-          .update(<String, dynamic>{'status': 'failed'})
-          .eq('group_id', groupId)
-          .eq('user_id', currentUser.id)
-          .eq('momo_reference', reference);
-      rethrow;
-    }
+    // Launch MoMo USSD only — no DB write here.
+    // The SMS pipeline (sms-ingest → parse-momo-sms → reconciliation)
+    // will create/confirm the group_contributions row with the actual
+    // amount from the MoMo SMS and update the group balance.
+    final reference =
+        'GCT-${DateTime.now().millisecondsSinceEpoch}-${currentUser.id.substring(0, 8)}';
+    await _momoService.initiatePayment(
+      recipientMomo: recipientMomo,
+      amount: amount,
+      reference: reference,
+      recipientType: recipientType,
+      countryCode: country.isoCode,
+    );
   }
 
   Future<GroupJoinResult> joinGroupByInviteCode(
@@ -536,6 +521,18 @@ class GroupRepository {
     await _client
         .from('group_members')
         .update(<String, dynamic>{'is_admin': true})
+        .eq('group_id', groupId)
+        .eq('user_id', userId);
+  }
+
+  /// Revoke admin role from a specific member
+  Future<void> removeGroupAdmin({
+    required String groupId,
+    required String userId,
+  }) async {
+    await _client
+        .from('group_members')
+        .update(<String, dynamic>{'is_admin': false})
         .eq('group_id', groupId)
         .eq('user_id', userId);
   }

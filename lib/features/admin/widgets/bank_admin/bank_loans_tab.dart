@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_palette.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
 import '../../providers/bank_admin_providers.dart';
@@ -35,6 +35,7 @@ class BankLoansTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
     final loansAsync = ref.watch(bankLoansProvider(partnerId));
     final moneyFmt = NumberFormat.decimalPattern('en_US');
 
@@ -53,12 +54,12 @@ class BankLoansTab extends ConsumerWidget {
                 label: Text(bankTitle(s)),
                 selected: active,
                 onSelected: (_) => onStatusFilterChanged(s),
-                backgroundColor: AppColors.surface2,
-                selectedColor: AppColors.accent.withValues(alpha: 0.15),
+                backgroundColor: palette.surface2,
+                selectedColor: palette.accent.withValues(alpha: 0.15),
                 labelStyle: GoogleFonts.dmSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  color: active ? AppColors.accent : AppColors.text2,
+                  color: active ? palette.accent : palette.text2,
                 ),
               );
             },
@@ -104,8 +105,8 @@ class BankLoansTab extends ConsumerWidget {
                       loan['group_name']?.toString() ?? '—';
 
                   return CoolCard(
-                    backgroundColor: AppColors.surface,
-                    borderColor: AppColors.border,
+                    backgroundColor: palette.surface,
+                    borderColor: palette.border,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -117,7 +118,7 @@ class BankLoansTab extends ConsumerWidget {
                                 style: GoogleFonts.dmSans(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w700,
-                                  color: AppColors.text,
+                                  color: palette.text,
                                 ),
                               ),
                             ),
@@ -136,7 +137,7 @@ class BankLoansTab extends ConsumerWidget {
                           groupName,
                           style: GoogleFonts.dmSans(
                             fontSize: 12,
-                            color: AppColors.text3,
+                            color: palette.text3,
                           ),
                         ),
                         const SizedBox(height: 10),

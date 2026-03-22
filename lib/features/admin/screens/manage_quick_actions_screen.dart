@@ -5,12 +5,15 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/config/app_market.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_providers.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 
 /// Admin screen for managing home-screen quick action cards.
 class ManageQuickActionsScreen extends ConsumerStatefulWidget {
@@ -45,29 +48,36 @@ class _ManageQuickActionsScreenState
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final actionsAsync = ref.watch(adminQuickActionsProvider);
 
-    return Scaffold(
-      backgroundColor: AppColors.bg,
+    return CoolScreenBackground(
+
+
+      showGlow: false,
+
+
+      child: Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
-        backgroundColor: AppColors.surface,
+        backgroundColor: palette.surface,
         elevation: 0,
         title: Text(
           'Quick Actions',
           style: GoogleFonts.dmSans(
             fontSize: 18,
             fontWeight: FontWeight.w600,
-            color: AppColors.text,
+            color: palette.text,
           ),
         ),
-        iconTheme: IconThemeData(color: AppColors.text),
+        iconTheme: IconThemeData(color: palette.text),
       ),
       floatingActionButton: Semantics(
         button: true,
         label: context.l10n.addQuickAction,
         hint: 'New action',
         child: FloatingActionButton(
-          backgroundColor: AppColors.accent,
+          backgroundColor: palette.accent,
           onPressed: () => _showEditSheet(context, ref, null),
           child: const Icon(Icons.add_rounded, color: Colors.black),
         ),
@@ -99,9 +109,9 @@ class _ManageQuickActionsScreenState
                   padding: const EdgeInsets.only(bottom: 8),
                   child: DecoratedBox(
                     decoration: BoxDecoration(
-                      color: AppColors.surface,
+                      color: palette.surface,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: AppColors.border),
+                      border: Border.all(color: palette.border),
                     ),
                     child: Semantics(
                       container: true,
@@ -118,14 +128,14 @@ class _ManageQuickActionsScreenState
                           style: GoogleFonts.dmSans(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.text,
+                            color: palette.text,
                           ),
                         ),
                         subtitle: Text(
                           '${a['route']} · ${AppMarket.country.name}',
                           style: GoogleFonts.dmSans(
                             fontSize: 12,
-                            color: AppColors.text3,
+                            color: palette.text3,
                           ),
                         ),
                         trailing: Semantics(
@@ -137,7 +147,7 @@ class _ManageQuickActionsScreenState
                             child: Icon(
                               Icons.edit_rounded,
                               size: 18,
-                              color: AppColors.text3,
+                              color: palette.text3,
                             ),
                           ),
                         ),
@@ -150,6 +160,9 @@ class _ManageQuickActionsScreenState
           },
         ),
       ),
+    ),
+
+
     );
   }
 
@@ -158,7 +171,7 @@ class _ManageQuickActionsScreenState
     WidgetRef ref,
     Map<String, dynamic>? action,
   ) {
-    showModalBottomSheet<void>(
+    showCoolBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
@@ -235,9 +248,10 @@ class _EditQuickActionSheetState extends State<_EditQuickActionSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
@@ -257,7 +271,7 @@ class _EditQuickActionSheetState extends State<_EditQuickActionSheet> {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: AppColors.border2,
+                    color: palette.border2,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -269,7 +283,7 @@ class _EditQuickActionSheetState extends State<_EditQuickActionSheet> {
                   style: GoogleFonts.dmSans(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -285,7 +299,7 @@ class _EditQuickActionSheetState extends State<_EditQuickActionSheet> {
                   child: ElevatedButton(
                     onPressed: _saving ? null : _save,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.accent,
+                      backgroundColor: palette.accent,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
                       ),

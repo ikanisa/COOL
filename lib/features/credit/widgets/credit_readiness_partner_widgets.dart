@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
@@ -18,6 +19,7 @@ import '../models/partner_credit_application.dart';
 import '../providers/credit_provider.dart';
 import 'credit_readiness_checklist_widgets.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
 
 // ── Partner Handoff Section ──────────────────────────────────────────────
 
@@ -134,6 +136,7 @@ class _ApplicationHistoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final statusColor = _applicationStatusColor(application.status);
     final createdAt = application.createdAt?.toLocal();
     final handoffAt = application.lastHandoffAt?.toLocal();
@@ -155,7 +158,7 @@ class _ApplicationHistoryCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -164,7 +167,7 @@ class _ApplicationHistoryCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.text2,
+                        color: palette.text2,
                       ),
                     ),
                   ],
@@ -222,9 +225,9 @@ class _ApplicationHistoryCard extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: AppColors.surface2,
+                color: palette.surface2,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.border2),
+                border: Border.all(color: palette.border2),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -235,7 +238,7 @@ class _ApplicationHistoryCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                   if ((application.requestedProduct?.trim().isNotEmpty ??
@@ -248,7 +251,7 @@ class _ApplicationHistoryCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.text2,
+                        color: palette.text2,
                         height: 1.45,
                       ),
                     ),
@@ -259,7 +262,7 @@ class _ApplicationHistoryCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.blue,
+                        color: palette.blue,
                       ),
                     ),
                   ],
@@ -280,7 +283,7 @@ class _PartnerReadinessCard extends StatelessWidget {
   final CreditReadinessReport report;
 
   Future<void> _startApplication(BuildContext context) async {
-    final shouldOpenPartner = await showModalBottomSheet<bool>(
+    final shouldOpenPartner = await showCoolBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
@@ -299,6 +302,7 @@ class _PartnerReadinessCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final loanState = report.loanApplication.state;
     final accountState = report.accountOpening.state;
     final canDiscussLoans =
@@ -335,7 +339,7 @@ class _PartnerReadinessCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -346,7 +350,7 @@ class _PartnerReadinessCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.text2,
+                        color: palette.text2,
                         height: 1.45,
                       ),
                     ),
@@ -370,16 +374,16 @@ class _PartnerReadinessCard extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 10),
             decoration: BoxDecoration(
-              color: AppColors.surface2,
+              color: palette.surface2,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.border2),
+              border: Border.all(color: palette.border2),
             ),
             child: Text(
               recommendation,
               style: GoogleFonts.dmSans(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: AppColors.text,
+                color: palette.text,
                 height: 1.4,
               ),
             ),
@@ -449,15 +453,16 @@ class _PartnerApplicationComposerSheetState
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final viewInsets = MediaQuery.of(context).viewInsets.bottom;
 
     return Padding(
       padding: EdgeInsets.fromLTRB(16, 16, 16, viewInsets + 16),
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: palette.surface,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: AppColors.border2),
+          border: Border.all(color: palette.border2),
         ),
         child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(18, 16, 18, 18),
@@ -470,7 +475,7 @@ class _PartnerApplicationComposerSheetState
                 height: 4,
                 margin: const EdgeInsets.only(bottom: 16),
                 decoration: BoxDecoration(
-                  color: AppColors.border2,
+                  color: palette.border2,
                   borderRadius: BorderRadius.circular(999),
                 ),
               ),
@@ -479,7 +484,7 @@ class _PartnerApplicationComposerSheetState
                 style: GoogleFonts.dmSans(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
               const SizedBox(height: 4),
@@ -488,7 +493,7 @@ class _PartnerApplicationComposerSheetState
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.blue,
+                  color: palette.blue,
                 ),
               ),
               const SizedBox(height: 14),
@@ -511,7 +516,7 @@ class _PartnerApplicationComposerSheetState
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.text,
+                    color: palette.text,
                     height: 1.45,
                   ),
                 ),
@@ -572,7 +577,7 @@ class _PartnerApplicationComposerSheetState
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.orange,
+                    color: palette.orange,
                     height: 1.45,
                   ),
                 ),

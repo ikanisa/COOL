@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/l10n/l10n.dart';
 import '../../../../core/router/app_routes.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../core/theme/cool_palette.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../../shared/widgets/cool_card.dart';
 import '../providers/quick_action_provider.dart';
 
 class QuickActionSection extends ConsumerWidget {
@@ -43,14 +44,14 @@ class QuickActionListCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final visibleItems = items.take(4).toList(growable: false);
-    return Container(
-      decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: palette.border),
-      ),
-      padding: const EdgeInsets.symmetric(vertical: 6),
+    return CoolCard(
+      useGradient: false,
+      backgroundColor: colors.cardSurfaceStrong,
+      borderRadius: CoolRadii.lg,
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
         children: [
           for (var index = 0; index < visibleItems.length; index++) ...[
@@ -63,8 +64,8 @@ class QuickActionListCard extends StatelessWidget {
               Divider(
                 color: palette.border,
                 height: 1,
-                indent: 16,
-                endIndent: 16,
+                indent: 20,
+                endIndent: 20,
               ),
           ],
         ],
@@ -87,27 +88,30 @@ class QuickActionRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final compactTitle = _shortActionTitle(context, title, route);
     final compactSubtitle = subtitle.trim();
 
     Widget leadingIcon() {
       return Container(
-        width: 48,
-        height: 48,
+        width: 56,
+        height: 56,
         decoration: BoxDecoration(
-          color: palette.surface2,
-          borderRadius: BorderRadius.circular(14),
+          color: colors.operationalSurface,
+          borderRadius: BorderRadius.circular(CoolRadii.md),
+          border: Border.all(color: colors.border),
         ),
         alignment: Alignment.center,
-        child: Icon(_iconForRoute(route), size: 20, color: palette.accent),
+        child: Icon(_iconForRoute(route), size: 24, color: colors.accent),
       );
     }
 
     final trailingIcon = Icon(
       Icons.arrow_forward_rounded,
-      size: 18,
-      color: palette.text3,
+      size: 20,
+      color: colors.secondaryText,
     );
 
     return Semantics(
@@ -118,16 +122,16 @@ class QuickActionRow extends StatelessWidget {
       hint: 'Double tap to open',
       child: ExcludeSemantics(
         child: InkWell(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(CoolRadii.md),
           onTap: () => openQuickActionRoute(context, route),
           child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 56),
+            constraints: const BoxConstraints(minHeight: 76),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
               child: Row(
                 children: [
                   leadingIcon(),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 14),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,22 +141,21 @@ class QuickActionRow extends StatelessWidget {
                           compactTitle,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.dmSans(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                            color: palette.text,
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            color: colors.primaryText,
+                            fontWeight: FontWeight.w800,
                           ),
                         ),
                         if (compactSubtitle.isNotEmpty) ...[
                           const SizedBox(height: 4),
                           Text(
                             compactSubtitle,
-                            maxLines: 1,
+                            maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.dmSans(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: palette.text3,
+                            style: theme.textTheme.labelMedium?.copyWith(
+                              color: colors.secondaryText,
+                              fontWeight: FontWeight.w700,
+                              height: 1.3,
                             ),
                           ),
                         ],

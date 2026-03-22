@@ -21,6 +21,7 @@ ON CONFLICT DO NOTHING;
 ALTER TABLE public.ai_content_generation_config ENABLE ROW LEVEL SECURITY;
 
 -- Anyone authenticated can read config
+DROP POLICY IF EXISTS "ai_gen_config_read" ON public.ai_content_generation_config;
 CREATE POLICY "ai_gen_config_read"
   ON public.ai_content_generation_config
   FOR SELECT
@@ -28,6 +29,7 @@ CREATE POLICY "ai_gen_config_read"
   USING (true);
 
 -- Only admins can update
+DROP POLICY IF EXISTS "ai_gen_config_admin_write" ON public.ai_content_generation_config;
 CREATE POLICY "ai_gen_config_admin_write"
   ON public.ai_content_generation_config
   FOR UPDATE

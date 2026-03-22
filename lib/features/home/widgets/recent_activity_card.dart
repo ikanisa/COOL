@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/router/app_routes.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../core/theme/cool_palette.dart';
 import '../../../../core/utils/intl_locale.dart';
 import '../../../../shared/widgets/cool_card.dart';
@@ -22,11 +22,13 @@ class RecentActivityCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final localeName = resolveIntlLocale(context);
     final displayed = recentTransactions.take(3).toList();
 
     return CoolCard(
-      backgroundColor: palette.surface,
+      backgroundColor: colors.cardSurfaceStrong,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -35,24 +37,25 @@ class RecentActivityCard extends StatelessWidget {
             children: [
               Text(
                 'Recent Activity',
-                style: GoogleFonts.dmSans(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: palette.text,
+                style: theme.textTheme.titleLarge?.copyWith(
+                  color: colors.primaryText,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
               if (activityCount > 3)
-                GestureDetector(
-                  onTap: () {
-                    // Navigate to full statements
-                    context.push(AppRoutes.momo);
-                  },
+                TextButton(
+                  onPressed: () => context.push(AppRoutes.momo),
+                  style: TextButton.styleFrom(
+                    foregroundColor: colors.accent,
+                    padding: EdgeInsets.zero,
+                    minimumSize: const Size(52, CoolTapTargets.minimum),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
                   child: Text(
                     'See All',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: palette.accent,
+                    style: theme.textTheme.labelLarge?.copyWith(
+                      color: colors.accent,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                 ),
@@ -64,10 +67,9 @@ class RecentActivityCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: Text(
                 'No recent activity',
-                style: GoogleFonts.dmSans(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: palette.text3,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: colors.secondaryText,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             )
@@ -96,8 +98,10 @@ class _TransactionRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final isCredit = tx.isPositive;
-    final amountColor = isCredit ? const Color(0xFF22C55E) : palette.text;
+    final amountColor = isCredit ? colors.success : colors.primaryText;
     final amountString = signedCurrency(
       tx.signedAmount,
       localeName,
@@ -111,23 +115,23 @@ class _TransactionRow extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: 40,
-              height: 40,
+              width: 48,
+              height: 48,
               decoration: BoxDecoration(
-                color: palette.surface2,
-                shape: BoxShape.circle,
-                border: Border.all(color: palette.border),
+                color: isCredit ? colors.financialSurface : colors.routeSurface,
+                borderRadius: BorderRadius.circular(CoolRadii.md),
+                border: Border.all(color: colors.border),
               ),
               alignment: Alignment.center,
               child: Icon(
                 isCredit
                     ? Icons.arrow_downward_rounded
                     : Icons.arrow_upward_rounded,
-                size: 18,
-                color: isCredit ? const Color(0xFF22C55E) : palette.text3,
+                size: 22,
+                color: isCredit ? colors.success : colors.secondaryText,
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,19 +140,17 @@ class _TransactionRow extends StatelessWidget {
                     tx.title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: palette.text,
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      color: colors.primaryText,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  const SizedBox(height: 4),
                   Text(
                     DateFormat.yMd(localeName).format(tx.recordedAt),
-                    style: GoogleFonts.dmSans(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: palette.text3,
+                    style: theme.textTheme.labelMedium?.copyWith(
+                      color: colors.secondaryText,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ],
@@ -157,10 +159,9 @@ class _TransactionRow extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               amountString,
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
-                fontWeight: FontWeight.w800,
+              style: theme.textTheme.titleSmall?.copyWith(
                 color: amountColor,
+                fontWeight: FontWeight.w800,
               ),
             ),
           ],

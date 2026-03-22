@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_palette.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../models/bank_admin_models.dart';
 import '../../../../core/l10n/l10n.dart';
@@ -22,10 +22,11 @@ class BankWorkspaceHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final moneyFormat = NumberFormat.decimalPattern('en_US');
     return CoolCard(
-      backgroundColor: AppColors.surface,
-      borderColor: AppColors.border,
+      backgroundColor: palette.surface,
+      borderColor: palette.border,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -34,7 +35,7 @@ class BankWorkspaceHero extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 20,
               fontWeight: FontWeight.w800,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
           const SizedBox(height: 8),
@@ -43,7 +44,7 @@ class BankWorkspaceHero extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              color: palette.text2,
               height: 1.45,
             ),
           ),
@@ -91,14 +92,14 @@ class BankWorkspaceHero extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 16),
-                  Divider(color: AppColors.border, height: 1),
+                  Divider(color: palette.border, height: 1),
                   const SizedBox(height: 16),
                   Text(
                     'Financial Summary',
                     style: GoogleFonts.dmSans(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.text,
+                      color: palette.text,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -143,19 +144,20 @@ class _MetricChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: AppColors.surface2,
+        color: palette.surface2,
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: Text(
         '$value $label',
         style: GoogleFonts.dmSans(
           fontSize: 12,
           fontWeight: FontWeight.w700,
-          color: AppColors.text,
+          color: palette.text,
         ),
       ),
     );

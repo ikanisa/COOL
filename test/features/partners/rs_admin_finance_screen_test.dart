@@ -1,5 +1,7 @@
+import 'dart:ui';
 import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -107,6 +109,13 @@ void main() {
   testWidgets('renders payment routes and exports the partner ledger', (
     tester,
   ) async {
+    tester.view.devicePixelRatio = 1;
+    tester.view.physicalSize = const Size(1440, 2560);
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
+
     final exportService = _FakeStatementExportService();
     final downloadService = _FakeStatementDownloadService();
 
@@ -140,6 +149,8 @@ void main() {
     expect(find.text('Posted partner ledger'), findsOneWidget);
     expect(find.text('Jean Bosco'), findsOneWidget);
 
+    await tester.ensureVisible(find.text('Export Excel'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Export Excel'));
     await settleTestApp(tester);
 

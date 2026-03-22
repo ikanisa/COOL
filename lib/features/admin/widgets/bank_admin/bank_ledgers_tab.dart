@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_palette.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
@@ -37,6 +37,7 @@ class BankLedgersTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     if (groups.isEmpty) {
       return const CoolEmptyView(
         message: 'Link at least one',
@@ -51,8 +52,8 @@ class BankLedgersTab extends StatelessWidget {
     return Column(
       children: [
         CoolCard(
-          backgroundColor: AppColors.surface,
-          borderColor: AppColors.border,
+          backgroundColor: palette.surface,
+          borderColor: palette.border,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -61,7 +62,7 @@ class BankLedgersTab extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
               const SizedBox(height: 8),
@@ -70,7 +71,7 @@ class BankLedgersTab extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.text2,
+                  color: palette.text2,
                   height: 1.4,
                 ),
               ),
@@ -110,8 +111,9 @@ class BankLedgersTab extends StatelessWidget {
               children: [
                 Align(
                   alignment: Alignment.centerRight,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
+                  child: Wrap(
+                    spacing: 12,
+                    runSpacing: 8,
                     children: [
                       OutlinedButton.icon(
                         onPressed: isExporting ||
@@ -135,7 +137,6 @@ class BankLedgersTab extends StatelessWidget {
                           isExporting ? 'Exporting...' : 'Export PDF',
                         ),
                       ),
-                      const SizedBox(width: 12),
                       FilledButton.icon(
                         onPressed: isExporting ||
                                 onExport == null ||
@@ -189,12 +190,13 @@ class _LedgerEntryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final moneyFormat = NumberFormat.decimalPattern('en_US');
     final dateFormat = DateFormat('dd MMM yyyy, HH:mm');
 
     return CoolCard(
-      backgroundColor: AppColors.surface,
-      borderColor: AppColors.border,
+      backgroundColor: palette.surface,
+      borderColor: palette.border,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -210,7 +212,7 @@ class _LedgerEntryCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -219,7 +221,7 @@ class _LedgerEntryCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.text2,
+                        color: palette.text2,
                       ),
                     ),
                   ],
@@ -230,7 +232,7 @@ class _LedgerEntryCard extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
             ],
@@ -267,7 +269,7 @@ class _LedgerEntryCard extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
-                color: AppColors.text2,
+                color: palette.text2,
               ),
             ),
           ],

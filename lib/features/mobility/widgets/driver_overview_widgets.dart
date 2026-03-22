@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_card.dart';
 import 'driver_profile_models.dart';
 import '../../../core/l10n/l10n.dart';
@@ -14,6 +14,7 @@ class DriverStatsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final hasUnlimitedTrips = driver.subscription != null;
     final isLowOnTrips = !hasUnlimitedTrips && driver.freeTripsRemaining < 5;
 
@@ -25,12 +26,12 @@ class DriverStatsCard extends StatelessWidget {
               Container(
                 width: 56,
                 height: 56,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: [AppColors.accent, AppColors.blue],
+                    colors: [palette.accent, palette.blue],
                   ),
                 ),
                 alignment: Alignment.center,
@@ -39,7 +40,7 @@ class DriverStatsCard extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.surface,
+                    color: palette.surface,
                   ),
                 ),
               ),
@@ -53,7 +54,7 @@ class DriverStatsCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     const SizedBox(height: 3),
@@ -62,7 +63,7 @@ class DriverStatsCard extends StatelessWidget {
                       style: GoogleFonts.dmMono(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.text2,
+                        color: palette.text2,
                       ),
                     ),
                   ],
@@ -75,12 +76,12 @@ class DriverStatsCard extends StatelessWidget {
                 ),
                 decoration: BoxDecoration(
                   color:
-                      (driver.isOnline ? AppColors.accent : AppColors.surface3)
+                      (driver.isOnline ? palette.accent : palette.surface3)
                           .withValues(alpha: 0.14),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
                     color:
-                        (driver.isOnline ? AppColors.accent : AppColors.border)
+                        (driver.isOnline ? palette.accent : palette.border)
                             .withValues(alpha: 0.35),
                   ),
                 ),
@@ -91,8 +92,8 @@ class DriverStatsCard extends StatelessWidget {
                       Icons.circle,
                       size: 15,
                       color: driver.isOnline
-                          ? AppColors.accent
-                          : AppColors.text3,
+                          ? palette.accent
+                          : palette.text3,
                     ),
                     const SizedBox(width: 4),
                     Text(
@@ -101,8 +102,8 @@ class DriverStatsCard extends StatelessWidget {
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
                         color: driver.isOnline
-                            ? AppColors.accent
-                            : AppColors.text2,
+                            ? palette.accent
+                            : palette.text2,
                       ),
                     ),
                   ],
@@ -117,7 +118,7 @@ class DriverStatsCard extends StatelessWidget {
                 child: DriverStatBox(
                   label: context.l10n.tripsPosted,
                   value: '${driver.tripsDone}',
-                  valueColor: AppColors.accent,
+                  valueColor: palette.accent,
                 ),
               ),
               const SizedBox(width: 8),
@@ -127,7 +128,7 @@ class DriverStatsCard extends StatelessWidget {
                   value: hasUnlimitedTrips
                       ? 'Unlimited'
                       : '${driver.freeTripsRemaining}',
-                  valueColor: AppColors.yellow,
+                  valueColor: palette.yellow,
                 ),
               ),
               const SizedBox(width: 8),
@@ -138,8 +139,8 @@ class DriverStatsCard extends StatelessWidget {
                       ? 'Subscribed'
                       : (isLowOnTrips ? 'Low' : 'Ready'),
                   valueColor: isLowOnTrips
-                      ? AppColors.orange
-                      : AppColors.accent,
+                      ? palette.orange
+                      : palette.accent,
                   isMonospace: false,
                 ),
               ),
@@ -168,10 +169,11 @@ class DriverStatBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
       decoration: BoxDecoration(
-        color: AppColors.surface3,
+        color: palette.surface3,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -193,7 +195,7 @@ class DriverStatBox extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 11,
               fontWeight: FontWeight.w500,
-              color: AppColors.text3,
+              color: palette.text3,
             ),
           ),
         ],
@@ -217,8 +219,9 @@ class DriverAvailabilityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return CoolCard(
-      borderColor: isOnline ? AppColors.accent.withValues(alpha: 0.35) : null,
+      borderColor: isOnline ? palette.accent.withValues(alpha: 0.35) : null,
       child: Column(
         children: [
           Row(
@@ -227,7 +230,7 @@ class DriverAvailabilityCard extends StatelessWidget {
                 width: 42,
                 height: 42,
                 decoration: BoxDecoration(
-                  color: AppColors.surface2,
+                  color: palette.surface2,
                   borderRadius: BorderRadius.circular(14),
                 ),
                 alignment: Alignment.center,
@@ -235,7 +238,7 @@ class DriverAvailabilityCard extends StatelessWidget {
                   tripVehicleIcon(vehicleType),
                   width: 22,
                   height: 22,
-                  color: AppColors.accent,
+                  color: palette.accent,
                 ),
               ),
               const SizedBox(width: 12),
@@ -248,7 +251,7 @@ class DriverAvailabilityCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     const SizedBox(height: 2),
@@ -257,7 +260,7 @@ class DriverAvailabilityCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.text2,
+                        color: palette.text2,
                       ),
                     ),
                   ],
@@ -271,10 +274,10 @@ class DriverAvailabilityCard extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             decoration: BoxDecoration(
-              color: isOnline ? AppColors.accentGlow : AppColors.surface3,
+              color: isOnline ? palette.accentGlow : palette.surface3,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: isOnline ? AppColors.accent : AppColors.border,
+                color: isOnline ? palette.accent : palette.border,
               ),
             ),
             child: Row(
@@ -283,7 +286,7 @@ class DriverAvailabilityCard extends StatelessWidget {
                   width: 10,
                   height: 10,
                   decoration: BoxDecoration(
-                    color: isOnline ? AppColors.accent : AppColors.text3,
+                    color: isOnline ? palette.accent : palette.text3,
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -296,7 +299,7 @@ class DriverAvailabilityCard extends StatelessWidget {
                     style: GoogleFonts.dmSans(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
-                      color: isOnline ? AppColors.accent : AppColors.text2,
+                      color: isOnline ? palette.accent : palette.text2,
                       height: 1.4,
                     ),
                   ),
@@ -323,6 +326,7 @@ class DriverModeToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Semantics(
       button: true,
       toggled: value,
@@ -335,7 +339,7 @@ class DriverModeToggle extends StatelessWidget {
           height: 28,
           padding: const EdgeInsets.all(3),
           decoration: BoxDecoration(
-            color: value ? AppColors.accent : AppColors.surface3,
+            color: value ? palette.accent : palette.surface3,
             borderRadius: BorderRadius.circular(14),
           ),
           alignment: value ? Alignment.centerRight : Alignment.centerLeft,
@@ -343,7 +347,7 @@ class DriverModeToggle extends StatelessWidget {
             width: 22,
             height: 22,
             decoration: BoxDecoration(
-              color: AppColors.text,
+              color: palette.text,
               shape: BoxShape.circle,
             ),
           ),
@@ -370,6 +374,7 @@ class DriverSubscriptionSummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return CoolCard(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -378,13 +383,13 @@ class DriverSubscriptionSummaryCard extends StatelessWidget {
             width: 42,
             height: 42,
             decoration: BoxDecoration(
-              color: AppColors.surface2,
+              color: palette.surface2,
               borderRadius: BorderRadius.circular(14),
             ),
             alignment: Alignment.center,
             child: Icon(
               Icons.account_balance_wallet_outlined,
-              color: AppColors.text2,
+              color: palette.text2,
             ),
           ),
           const SizedBox(width: 12),
@@ -397,7 +402,7 @@ class DriverSubscriptionSummaryCard extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -406,7 +411,7 @@ class DriverSubscriptionSummaryCard extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w400,
-                    color: AppColors.text2,
+                    color: palette.text2,
                     height: 1.4,
                   ),
                 ),
@@ -441,13 +446,14 @@ class DriverViewSwitcher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final onPrimary = Theme.of(context).colorScheme.onPrimary;
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: AppColors.surface2,
+        color: palette.surface2,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: Row(
         children: [
@@ -464,7 +470,7 @@ class DriverViewSwitcher extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     decoration: BoxDecoration(
                       color: activeIndex == i
-                          ? AppColors.accent
+                          ? palette.accent
                           : Colors.transparent,
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -474,7 +480,7 @@ class DriverViewSwitcher extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
-                        color: activeIndex == i ? onPrimary : AppColors.text2,
+                        color: activeIndex == i ? onPrimary : palette.text2,
                       ),
                     ),
                   ),

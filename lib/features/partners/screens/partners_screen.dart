@@ -7,6 +7,8 @@ import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/services/whatsapp_contact_service.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_foundations.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../core/utils/icon_mapper.dart';
 import '../../../features/auth/providers/auth_provider.dart';
 import '../../../features/partners/models/partner.dart';
@@ -17,6 +19,7 @@ import '../../../features/partners/rayon/widgets/rs_membership_card.dart';
 import '../../../features/partners/widgets/partner_brand_mark.dart';
 import '../../../features/partners/widgets/partner_navigation.dart';
 import '../../../shared/widgets/cool_button.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_state_view.dart';
@@ -43,10 +46,13 @@ class _PartnersScreenState extends ConsumerState<PartnersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final tabs = _tabLabels(context);
 
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: colors.appBackground,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
@@ -54,31 +60,45 @@ class _PartnersScreenState extends ConsumerState<PartnersScreen> {
         leading: buildPartnerBackButton(
           context,
           fallbackLocation: AppRoutes.home,
-          color: AppColors.text,
+          color: colors.primaryText,
         ),
-        actions: buildPartnerAppBarActions(context, homeColor: AppColors.text),
+        actions: buildPartnerAppBarActions(
+          context,
+          homeColor: colors.primaryText,
+        ),
       ),
       body: CoolScreenBackground(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(18, 0, 18, 96),
+          padding: const EdgeInsets.fromLTRB(24, 0, 24, 96),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                context.l10n.partnersTitle,
-                style: GoogleFonts.dmSans(
-                  fontSize: 34,
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.text,
-                  height: 1.1,
+              Semantics(
+                header: true,
+                child: Text(
+                  context.l10n.partnersTitle,
+                  semanticsLabel: context.l10n.partnersTitle,
+                  style: theme.textTheme.displayLarge?.copyWith(
+                    color: colors.primaryText,
+                    height: 1.0,
+                  ),
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: CoolSpace.x2),
+              Text(
+                'Official clubs, finance partners, and service operators in one trusted network.',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colors.secondaryText,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: CoolSpace.x6),
               Container(
-                padding: const EdgeInsets.all(3),
+                padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
-                  color: AppColors.surface2,
-                  borderRadius: BorderRadius.circular(12),
+                  color: colors.cardSurfaceStrong,
+                  borderRadius: BorderRadius.circular(CoolRadii.md),
+                  border: Border.all(color: colors.border),
                 ),
                 child: Row(
                   children: List.generate(tabs.length, (index) {
@@ -96,20 +116,23 @@ class _PartnersScreenState extends ConsumerState<PartnersScreen> {
                             duration: disableAnimations
                                 ? Duration.zero
                                 : const Duration(milliseconds: 200),
-                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            padding: const EdgeInsets.symmetric(vertical: 14),
                             decoration: BoxDecoration(
                               color: isActive
-                                  ? AppColors.accent
+                                  ? colors.accent
                                   : Colors.transparent,
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(CoolRadii.sm),
                             ),
                             alignment: Alignment.center,
                             child: Text(
                               tabs[index],
-                              style: GoogleFonts.dmSans(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: isActive ? onPrimary : AppColors.text2,
+                              style: theme.textTheme.labelLarge?.copyWith(
+                                fontWeight: isActive
+                                    ? FontWeight.w800
+                                    : FontWeight.w700,
+                                color: isActive
+                                    ? onPrimary
+                                    : colors.secondaryText,
                               ),
                             ),
                           ),
@@ -119,7 +142,7 @@ class _PartnersScreenState extends ConsumerState<PartnersScreen> {
                   }),
                 ),
               ),
-              const SizedBox(height: 18),
+              const SizedBox(height: CoolSpace.x5),
               IndexedStack(
                 index: _activeTab,
                 children: [

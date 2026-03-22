@@ -7,7 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart'
     show GoTrueClient, SupabaseClient;
 
 import 'package:cool_app/core/providers/app_access_provider.dart';
-import 'package:cool_app/core/services/app_access_service.dart';
+
 import 'fake_app_access_service.dart';
 
 class MockGoTrueClient extends Mock implements GoTrueClient {}

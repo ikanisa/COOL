@@ -475,7 +475,7 @@ abstract class AppLocalizations {
   /// No description provided for @recentContributions.
   ///
   /// In en, this message translates to:
-  /// **'Recent Contributions'**
+  /// **'Recent contributions'**
   String get recentContributions;
 
   /// No description provided for @shareInvite.
@@ -915,6 +915,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pick at least one'**
   String get scheduleTripRecurringDaysError;
+
+  /// No description provided for @scheduleTripDepartureInPastError.
+  ///
+  /// In en, this message translates to:
+  /// **'Departure time is in the past.'**
+  String get scheduleTripDepartureInPastError;
 
   /// No description provided for @scheduleTripDateFieldPrefix.
   ///
@@ -1742,7 +1748,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Invite to {groupName}'**
-  String inviteToGroup(Object groupName);
+  String inviteToGroup(String groupName);
 
   /// No description provided for @scanQrOrShareLink.
   ///
@@ -7395,6 +7401,714 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Rwf'**
   String get rwf1;
+
+  /// No description provided for @seasonsAndActivities.
+  ///
+  /// In en, this message translates to:
+  /// **'Seasons & Activities'**
+  String get seasonsAndActivities;
+
+  /// No description provided for @activeSeasons.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Seasons'**
+  String get activeSeasons;
+
+  /// No description provided for @pastSeasons.
+  ///
+  /// In en, this message translates to:
+  /// **'Past Seasons'**
+  String get pastSeasons;
+
+  /// No description provided for @seasonEarnTokensSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Earn tokens by completing activities during each season'**
+  String get seasonEarnTokensSubtitle;
+
+  /// No description provided for @seasonStatusLive.
+  ///
+  /// In en, this message translates to:
+  /// **'Live'**
+  String get seasonStatusLive;
+
+  /// No description provided for @seasonStatusEnded.
+  ///
+  /// In en, this message translates to:
+  /// **'Ended'**
+  String get seasonStatusEnded;
+
+  /// No description provided for @seasonStatusUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get seasonStatusUpcoming;
+
+  /// No description provided for @seasonsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No seasons or activities yet'**
+  String get seasonsEmptyTitle;
+
+  /// No description provided for @earnTokensLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Earn Tokens'**
+  String get earnTokensLabel;
+
+  /// No description provided for @creditReadinessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit readiness'**
+  String get creditReadinessTitle;
+
+  /// No description provided for @groupDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Group Detail'**
+  String get groupDetailTitle;
+
+  /// No description provided for @groupNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Group not found.'**
+  String get groupNotFound;
+
+  /// No description provided for @couldNotJoinGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not join group.'**
+  String get couldNotJoinGroup;
+
+  /// No description provided for @noInviteCodeYet.
+  ///
+  /// In en, this message translates to:
+  /// **'This group does not have a shareable invite code yet.'**
+  String get noInviteCodeYet;
+
+  /// No description provided for @noContributionsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No contributions yet'**
+  String get noContributionsYet;
+
+  /// No description provided for @showAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all'**
+  String get showAll;
+
+  /// No description provided for @showLess.
+  ///
+  /// In en, this message translates to:
+  /// **'Show less'**
+  String get showLess;
+
+  /// No description provided for @membersCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Members ({count})'**
+  String membersCount(int count);
+
+  /// No description provided for @targetAmountRwf.
+  ///
+  /// In en, this message translates to:
+  /// **'Target: RWF {amount}'**
+  String targetAmountRwf(String amount);
+
+  /// No description provided for @joinGroupShareText.
+  ///
+  /// In en, this message translates to:
+  /// **'Join {groupName} on Cool: {url}'**
+  String joinGroupShareText(String groupName, String url);
+
+  /// No description provided for @joinGroupShareTextEmoji.
+  ///
+  /// In en, this message translates to:
+  /// **'Join {groupName} on Cool! 🎉\n{url}'**
+  String joinGroupShareTextEmoji(String groupName, String url);
+
+  /// No description provided for @alreadyMemberOf.
+  ///
+  /// In en, this message translates to:
+  /// **'You are already a member of {groupName}.'**
+  String alreadyMemberOf(String groupName);
+
+  /// No description provided for @youJoinedGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'You joined {groupName}.'**
+  String youJoinedGroup(String groupName);
+
+  /// No description provided for @ledgerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ledger & Statements'**
+  String get ledgerTitle;
+
+  /// No description provided for @allContributors.
+  ///
+  /// In en, this message translates to:
+  /// **'All contributors'**
+  String get allContributors;
+
+  /// No description provided for @allTime.
+  ///
+  /// In en, this message translates to:
+  /// **'All time'**
+  String get allTime;
+
+  /// No description provided for @chooseExportFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a format to download the group ledger.'**
+  String get chooseExportFormat;
+
+  /// No description provided for @exportLedger.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Ledger'**
+  String get exportLedger;
+
+  /// No description provided for @exportAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get exportAction;
+
+  /// No description provided for @exportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Export failed. Please try again.'**
+  String get exportFailed;
+
+  /// No description provided for @ledgerExported.
+  ///
+  /// In en, this message translates to:
+  /// **'Ledger exported: {fileName}'**
+  String ledgerExported(String fileName);
+
+  /// No description provided for @noDataToExport.
+  ///
+  /// In en, this message translates to:
+  /// **'No data to export.'**
+  String get noDataToExport;
+
+  /// No description provided for @csvLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'CSV'**
+  String get csvLabel;
+
+  /// No description provided for @excelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Excel'**
+  String get excelLabel;
+
+  /// No description provided for @pdfLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF'**
+  String get pdfLabel;
+
+  /// No description provided for @plainTextData.
+  ///
+  /// In en, this message translates to:
+  /// **'Plain text data'**
+  String get plainTextData;
+
+  /// No description provided for @printReadyStatement.
+  ///
+  /// In en, this message translates to:
+  /// **'Print-ready statement'**
+  String get printReadyStatement;
+
+  /// No description provided for @spreadsheetWithHeaders.
+  ///
+  /// In en, this message translates to:
+  /// **'Spreadsheet with headers'**
+  String get spreadsheetWithHeaders;
+
+  /// No description provided for @newestFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest first'**
+  String get newestFirst;
+
+  /// No description provided for @noContributionsForFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'No contributions found for this filter.'**
+  String get noContributionsForFilter;
+
+  /// No description provided for @filteredContributor.
+  ///
+  /// In en, this message translates to:
+  /// **'Filtered contributor'**
+  String get filteredContributor;
+
+  /// No description provided for @last7Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 7 days'**
+  String get last7Days;
+
+  /// No description provided for @lastMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Last month'**
+  String get lastMonth;
+
+  /// No description provided for @lastYear.
+  ///
+  /// In en, this message translates to:
+  /// **'Last year'**
+  String get lastYear;
+
+  /// No description provided for @week.
+  ///
+  /// In en, this message translates to:
+  /// **'Week'**
+  String get week;
+
+  /// No description provided for @month.
+  ///
+  /// In en, this message translates to:
+  /// **'Month'**
+  String get month;
+
+  /// No description provided for @year.
+  ///
+  /// In en, this message translates to:
+  /// **'Year'**
+  String get year;
+
+  /// No description provided for @group.
+  ///
+  /// In en, this message translates to:
+  /// **'Group'**
+  String get group;
+
+  /// No description provided for @unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get unknown;
+
+  /// No description provided for @kycFrontIdFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Add front ID first'**
+  String get kycFrontIdFirst;
+
+  /// No description provided for @kycAlignBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Align back of {docType}'**
+  String kycAlignBack(String docType);
+
+  /// No description provided for @kycAlignFront.
+  ///
+  /// In en, this message translates to:
+  /// **'Align front of {docType}'**
+  String kycAlignFront(String docType);
+
+  /// No description provided for @kycBackOfDocument.
+  ///
+  /// In en, this message translates to:
+  /// **'Back of document'**
+  String get kycBackOfDocument;
+
+  /// No description provided for @kycBackOfId.
+  ///
+  /// In en, this message translates to:
+  /// **'Back of ID'**
+  String get kycBackOfId;
+
+  /// No description provided for @kycChooseDocumentType.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose document type'**
+  String get kycChooseDocumentType;
+
+  /// No description provided for @kycFrontOfId.
+  ///
+  /// In en, this message translates to:
+  /// **'Front of ID'**
+  String get kycFrontOfId;
+
+  /// No description provided for @kycAutoFilled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cool has already filled'**
+  String get kycAutoFilled;
+
+  /// No description provided for @kycExtracting.
+  ///
+  /// In en, this message translates to:
+  /// **'Cool is extracting your'**
+  String get kycExtracting;
+
+  /// No description provided for @kycCurrentIdentity.
+  ///
+  /// In en, this message translates to:
+  /// **'Current identity on file'**
+  String get kycCurrentIdentity;
+
+  /// No description provided for @kycDrivingLicence.
+  ///
+  /// In en, this message translates to:
+  /// **'Driving licence'**
+  String get kycDrivingLicence;
+
+  /// No description provided for @kycExtractedReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Extracted profile ready'**
+  String get kycExtractedReady;
+
+  /// No description provided for @kycExtractionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Extraction failed'**
+  String get kycExtractionFailed;
+
+  /// No description provided for @kycNationalId.
+  ///
+  /// In en, this message translates to:
+  /// **'National ID'**
+  String get kycNationalId;
+
+  /// No description provided for @kycPassport.
+  ///
+  /// In en, this message translates to:
+  /// **'Passport'**
+  String get kycPassport;
+
+  /// No description provided for @kycNoImageYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No image yet'**
+  String get kycNoImageYet;
+
+  /// No description provided for @kycReadingId.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading your ID'**
+  String get kycReadingId;
+
+  /// No description provided for @kycSelfieForFaceMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a selfie for face match'**
+  String get kycSelfieForFaceMatch;
+
+  /// No description provided for @kycIdentityMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Identity mismatch detected.'**
+  String get kycIdentityMismatch;
+
+  /// No description provided for @kycDobValue.
+  ///
+  /// In en, this message translates to:
+  /// **'DOB {dob}'**
+  String kycDobValue(String dob);
+
+  /// No description provided for @kycIdMasked.
+  ///
+  /// In en, this message translates to:
+  /// **'ID ••••{last4}'**
+  String kycIdMasked(String last4);
+
+  /// No description provided for @adminPanelTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin Panel'**
+  String get adminPanelTitle;
+
+  /// No description provided for @adminQuickActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Actions'**
+  String get adminQuickActions;
+
+  /// No description provided for @adminOperations.
+  ///
+  /// In en, this message translates to:
+  /// **'Operations'**
+  String get adminOperations;
+
+  /// No description provided for @adminAppConfig.
+  ///
+  /// In en, this message translates to:
+  /// **'App Config'**
+  String get adminAppConfig;
+
+  /// No description provided for @adminAppConfigDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Key-value settings'**
+  String get adminAppConfigDesc;
+
+  /// No description provided for @adminAuditLog.
+  ///
+  /// In en, this message translates to:
+  /// **'Audit Log'**
+  String get adminAuditLog;
+
+  /// No description provided for @adminAuditLogDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Who did what, when'**
+  String get adminAuditLogDesc;
+
+  /// No description provided for @adminMissions.
+  ///
+  /// In en, this message translates to:
+  /// **'Missions'**
+  String get adminMissions;
+
+  /// No description provided for @adminMissionsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Create & manage cooperative missions'**
+  String get adminMissionsDesc;
+
+  /// No description provided for @adminAdminRoles.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin Roles'**
+  String get adminAdminRoles;
+
+  /// No description provided for @adminAdminRolesDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign & manage admin access'**
+  String get adminAdminRolesDesc;
+
+  /// No description provided for @adminPartners.
+  ///
+  /// In en, this message translates to:
+  /// **'Partners'**
+  String get adminPartners;
+
+  /// No description provided for @adminPartnersDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage partner profiles'**
+  String get adminPartnersDesc;
+
+  /// No description provided for @adminVehicleTypes.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle Types'**
+  String get adminVehicleTypes;
+
+  /// No description provided for @adminVehicleTypesDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobility filter chips'**
+  String get adminVehicleTypesDesc;
+
+  /// No description provided for @adminSeasons.
+  ///
+  /// In en, this message translates to:
+  /// **'Seasons'**
+  String get adminSeasons;
+
+  /// No description provided for @adminSeasonsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Token-earning gamification activities'**
+  String get adminSeasonsDesc;
+
+  /// No description provided for @adminActivities.
+  ///
+  /// In en, this message translates to:
+  /// **'Activities'**
+  String get adminActivities;
+
+  /// No description provided for @adminServices.
+  ///
+  /// In en, this message translates to:
+  /// **'Services'**
+  String get adminServices;
+
+  /// No description provided for @adminServicesDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Partner service offerings'**
+  String get adminServicesDesc;
+
+  /// No description provided for @adminSpecialProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'Special Products'**
+  String get adminSpecialProducts;
+
+  /// No description provided for @adminSpecialProductsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Home screen cards'**
+  String get adminSpecialProductsDesc;
+
+  /// No description provided for @adminAiContent.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Content'**
+  String get adminAiContent;
+
+  /// No description provided for @adminAiContentDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'AI-generated UI with approval gate'**
+  String get adminAiContentDesc;
+
+  /// No description provided for @adminSystemAnalytics.
+  ///
+  /// In en, this message translates to:
+  /// **'System Analytics'**
+  String get adminSystemAnalytics;
+
+  /// No description provided for @adminSystemAnalyticsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Platform-wide metrics & trends'**
+  String get adminSystemAnalyticsDesc;
+
+  /// No description provided for @adminUsers.
+  ///
+  /// In en, this message translates to:
+  /// **'Users'**
+  String get adminUsers;
+
+  /// No description provided for @adminUsersDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Inspect profiles and demo batches'**
+  String get adminUsersDesc;
+
+  /// No description provided for @adminLiveOps.
+  ///
+  /// In en, this message translates to:
+  /// **'Live-Ops'**
+  String get adminLiveOps;
+
+  /// No description provided for @adminLiveOpsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Live-ops campaigns & rewards'**
+  String get adminLiveOpsDesc;
+
+  /// No description provided for @adminRelease.
+  ///
+  /// In en, this message translates to:
+  /// **'Release'**
+  String get adminRelease;
+
+  /// No description provided for @adminReleaseDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Release health and triage'**
+  String get adminReleaseDesc;
+
+  /// No description provided for @adminSupportMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Support Mode'**
+  String get adminSupportMode;
+
+  /// No description provided for @adminSupportModeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Open a bank or rayon workspace as support'**
+  String get adminSupportModeDesc;
+
+  /// No description provided for @adminSupportModeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Navigate into a partner workspace to view and manage it as support.'**
+  String get adminSupportModeHint;
+
+  /// No description provided for @adminNoPartnersFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No partners found'**
+  String get adminNoPartnersFound;
+
+  /// No description provided for @adminFailedToLoadPartners.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load partners: {error}'**
+  String adminFailedToLoadPartners(String error);
+
+  /// No description provided for @rsAdminUpdateStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Status'**
+  String get rsAdminUpdateStatus;
+
+  /// No description provided for @rsAdminOrderNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Order #{orderId}'**
+  String rsAdminOrderNumber(String orderId);
+
+  /// No description provided for @rsAdminItemsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Items ({count})'**
+  String rsAdminItemsCount(int count);
+
+  /// No description provided for @partnerNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Partner not found'**
+  String get partnerNotFound;
+
+  /// No description provided for @prismaLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'PRISMA'**
+  String get prismaLabel;
+
+  /// No description provided for @couldNotLoadServices.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load services'**
+  String get couldNotLoadServices;
+
+  /// No description provided for @partnerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Partner'**
+  String get partnerLabel;
+
+  /// No description provided for @spreadsheetHeaders.
+  ///
+  /// In en, this message translates to:
+  /// **'Spreadsheet with headers'**
+  String get spreadsheetHeaders;
+
+  /// No description provided for @contributorsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Contributors'**
+  String get contributorsLabel;
+
+  /// No description provided for @kycIdentityVerification.
+  ///
+  /// In en, this message translates to:
+  /// **'Identity verification'**
+  String get kycIdentityVerification;
+
+  /// No description provided for @rsAdminNoOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'No orders yet'**
+  String get rsAdminNoOrders;
 }
 
 class _AppLocalizationsDelegate

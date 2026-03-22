@@ -4,10 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_brand_mark.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 
 /// Welcome / onboarding screen shown to first-time users.
 ///
@@ -20,8 +21,13 @@ class OnboardingScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      backgroundColor: AppColors.bg,
+    final palette = context.coolPalette;
+    return CoolScreenBackground(
+
+      showGlow: true,
+
+      child: Scaffold(
+      backgroundColor: Colors.transparent,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(24, 32, 24, 40),
@@ -34,9 +40,9 @@ class OnboardingScreen extends ConsumerWidget {
                   width: 96,
                   height: 96,
                   decoration: BoxDecoration(
-                    color: AppColors.surface2,
+                    color: palette.surface2,
                     borderRadius: BorderRadius.circular(28),
-                    border: Border.all(color: AppColors.border),
+                    border: Border.all(color: palette.border),
                   ),
                   alignment: Alignment.center,
                   child: const CoolBrandMark(size: 68),
@@ -48,7 +54,7 @@ class OnboardingScreen extends ConsumerWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 34,
                     fontWeight: FontWeight.w800,
-                    color: AppColors.text,
+                    color: palette.text,
                     height: 1.1,
                   ),
                 ),
@@ -61,7 +67,7 @@ class OnboardingScreen extends ConsumerWidget {
                     style: GoogleFonts.dmSans(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
-                      color: AppColors.text2,
+                      color: palette.text2,
                       height: 1.4,
                     ),
                   ),
@@ -78,6 +84,8 @@ class OnboardingScreen extends ConsumerWidget {
           ),
         ),
       ),
+    ),
+
     );
   }
 }

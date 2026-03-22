@@ -162,6 +162,15 @@ class FakeGroupRepository implements GroupRepository {
     required String groupId,
     required String userId,
   }) async {}
+
+  @override
+  Future<void> removeGroupAdmin({
+    required String groupId,
+    required String userId,
+  }) async {}
+
+  @override
+  Future<void> confirmContribution(String contributionId) async {}
 }
 
 const _signedInUser = UserProfile(

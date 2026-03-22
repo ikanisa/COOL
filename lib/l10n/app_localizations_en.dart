@@ -202,7 +202,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get groupMembers => 'Members';
 
   @override
-  String get recentContributions => 'Recent Contributions';
+  String get recentContributions => 'Recent contributions';
 
   @override
   String get shareInvite => 'Share / QR';
@@ -433,6 +433,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get scheduleTripRecurringDaysError => 'Pick at least one';
+
+  @override
+  String get scheduleTripDepartureInPastError =>
+      'Departure time is in the past.';
 
   @override
   String get scheduleTripDateFieldPrefix => '📅';
@@ -864,7 +868,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get seeAll => 'See all';
 
   @override
-  String inviteToGroup(Object groupName) {
+  String inviteToGroup(String groupName) {
     return 'Invite to $groupName';
   }
 
@@ -3756,4 +3760,392 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rwf1 => 'Rwf';
+
+  @override
+  String get seasonsAndActivities => 'Seasons & Activities';
+
+  @override
+  String get activeSeasons => 'Active Seasons';
+
+  @override
+  String get pastSeasons => 'Past Seasons';
+
+  @override
+  String get seasonEarnTokensSubtitle =>
+      'Earn tokens by completing activities during each season';
+
+  @override
+  String get seasonStatusLive => 'Live';
+
+  @override
+  String get seasonStatusEnded => 'Ended';
+
+  @override
+  String get seasonStatusUpcoming => 'Upcoming';
+
+  @override
+  String get seasonsEmptyTitle => 'No seasons or activities yet';
+
+  @override
+  String get earnTokensLabel => 'Earn Tokens';
+
+  @override
+  String get creditReadinessTitle => 'Credit readiness';
+
+  @override
+  String get groupDetailTitle => 'Group Detail';
+
+  @override
+  String get groupNotFound => 'Group not found.';
+
+  @override
+  String get couldNotJoinGroup => 'Could not join group.';
+
+  @override
+  String get noInviteCodeYet =>
+      'This group does not have a shareable invite code yet.';
+
+  @override
+  String get noContributionsYet => 'No contributions yet';
+
+  @override
+  String get showAll => 'Show all';
+
+  @override
+  String get showLess => 'Show less';
+
+  @override
+  String membersCount(int count) {
+    return 'Members ($count)';
+  }
+
+  @override
+  String targetAmountRwf(String amount) {
+    return 'Target: RWF $amount';
+  }
+
+  @override
+  String joinGroupShareText(String groupName, String url) {
+    return 'Join $groupName on Cool: $url';
+  }
+
+  @override
+  String joinGroupShareTextEmoji(String groupName, String url) {
+    return 'Join $groupName on Cool! 🎉\n$url';
+  }
+
+  @override
+  String alreadyMemberOf(String groupName) {
+    return 'You are already a member of $groupName.';
+  }
+
+  @override
+  String youJoinedGroup(String groupName) {
+    return 'You joined $groupName.';
+  }
+
+  @override
+  String get ledgerTitle => 'Ledger & Statements';
+
+  @override
+  String get allContributors => 'All contributors';
+
+  @override
+  String get allTime => 'All time';
+
+  @override
+  String get chooseExportFormat =>
+      'Choose a format to download the group ledger.';
+
+  @override
+  String get exportLedger => 'Export Ledger';
+
+  @override
+  String get exportAction => 'Export';
+
+  @override
+  String get exportFailed => 'Export failed. Please try again.';
+
+  @override
+  String ledgerExported(String fileName) {
+    return 'Ledger exported: $fileName';
+  }
+
+  @override
+  String get noDataToExport => 'No data to export.';
+
+  @override
+  String get csvLabel => 'CSV';
+
+  @override
+  String get excelLabel => 'Excel';
+
+  @override
+  String get pdfLabel => 'PDF';
+
+  @override
+  String get plainTextData => 'Plain text data';
+
+  @override
+  String get printReadyStatement => 'Print-ready statement';
+
+  @override
+  String get spreadsheetWithHeaders => 'Spreadsheet with headers';
+
+  @override
+  String get newestFirst => 'Newest first';
+
+  @override
+  String get noContributionsForFilter =>
+      'No contributions found for this filter.';
+
+  @override
+  String get filteredContributor => 'Filtered contributor';
+
+  @override
+  String get last7Days => 'Last 7 days';
+
+  @override
+  String get lastMonth => 'Last month';
+
+  @override
+  String get lastYear => 'Last year';
+
+  @override
+  String get week => 'Week';
+
+  @override
+  String get month => 'Month';
+
+  @override
+  String get year => 'Year';
+
+  @override
+  String get group => 'Group';
+
+  @override
+  String get unknown => 'Unknown';
+
+  @override
+  String get kycFrontIdFirst => 'Add front ID first';
+
+  @override
+  String kycAlignBack(String docType) {
+    return 'Align back of $docType';
+  }
+
+  @override
+  String kycAlignFront(String docType) {
+    return 'Align front of $docType';
+  }
+
+  @override
+  String get kycBackOfDocument => 'Back of document';
+
+  @override
+  String get kycBackOfId => 'Back of ID';
+
+  @override
+  String get kycChooseDocumentType => 'Choose document type';
+
+  @override
+  String get kycFrontOfId => 'Front of ID';
+
+  @override
+  String get kycAutoFilled => 'Cool has already filled';
+
+  @override
+  String get kycExtracting => 'Cool is extracting your';
+
+  @override
+  String get kycCurrentIdentity => 'Current identity on file';
+
+  @override
+  String get kycDrivingLicence => 'Driving licence';
+
+  @override
+  String get kycExtractedReady => 'Extracted profile ready';
+
+  @override
+  String get kycExtractionFailed => 'Extraction failed';
+
+  @override
+  String get kycNationalId => 'National ID';
+
+  @override
+  String get kycPassport => 'Passport';
+
+  @override
+  String get kycNoImageYet => 'No image yet';
+
+  @override
+  String get kycReadingId => 'Reading your ID';
+
+  @override
+  String get kycSelfieForFaceMatch => 'Take a selfie for face match';
+
+  @override
+  String get kycIdentityMismatch => 'Identity mismatch detected.';
+
+  @override
+  String kycDobValue(String dob) {
+    return 'DOB $dob';
+  }
+
+  @override
+  String kycIdMasked(String last4) {
+    return 'ID ••••$last4';
+  }
+
+  @override
+  String get adminPanelTitle => 'Admin Panel';
+
+  @override
+  String get adminQuickActions => 'Quick Actions';
+
+  @override
+  String get adminOperations => 'Operations';
+
+  @override
+  String get adminAppConfig => 'App Config';
+
+  @override
+  String get adminAppConfigDesc => 'Key-value settings';
+
+  @override
+  String get adminAuditLog => 'Audit Log';
+
+  @override
+  String get adminAuditLogDesc => 'Who did what, when';
+
+  @override
+  String get adminMissions => 'Missions';
+
+  @override
+  String get adminMissionsDesc => 'Create & manage cooperative missions';
+
+  @override
+  String get adminAdminRoles => 'Admin Roles';
+
+  @override
+  String get adminAdminRolesDesc => 'Assign & manage admin access';
+
+  @override
+  String get adminPartners => 'Partners';
+
+  @override
+  String get adminPartnersDesc => 'Manage partner profiles';
+
+  @override
+  String get adminVehicleTypes => 'Vehicle Types';
+
+  @override
+  String get adminVehicleTypesDesc => 'Mobility filter chips';
+
+  @override
+  String get adminSeasons => 'Seasons';
+
+  @override
+  String get adminSeasonsDesc => 'Token-earning gamification activities';
+
+  @override
+  String get adminActivities => 'Activities';
+
+  @override
+  String get adminServices => 'Services';
+
+  @override
+  String get adminServicesDesc => 'Partner service offerings';
+
+  @override
+  String get adminSpecialProducts => 'Special Products';
+
+  @override
+  String get adminSpecialProductsDesc => 'Home screen cards';
+
+  @override
+  String get adminAiContent => 'AI Content';
+
+  @override
+  String get adminAiContentDesc => 'AI-generated UI with approval gate';
+
+  @override
+  String get adminSystemAnalytics => 'System Analytics';
+
+  @override
+  String get adminSystemAnalyticsDesc => 'Platform-wide metrics & trends';
+
+  @override
+  String get adminUsers => 'Users';
+
+  @override
+  String get adminUsersDesc => 'Inspect profiles and demo batches';
+
+  @override
+  String get adminLiveOps => 'Live-Ops';
+
+  @override
+  String get adminLiveOpsDesc => 'Live-ops campaigns & rewards';
+
+  @override
+  String get adminRelease => 'Release';
+
+  @override
+  String get adminReleaseDesc => 'Release health and triage';
+
+  @override
+  String get adminSupportMode => 'Support Mode';
+
+  @override
+  String get adminSupportModeDesc =>
+      'Open a bank or rayon workspace as support';
+
+  @override
+  String get adminSupportModeHint =>
+      'Navigate into a partner workspace to view and manage it as support.';
+
+  @override
+  String get adminNoPartnersFound => 'No partners found';
+
+  @override
+  String adminFailedToLoadPartners(String error) {
+    return 'Failed to load partners: $error';
+  }
+
+  @override
+  String get rsAdminUpdateStatus => 'Update Status';
+
+  @override
+  String rsAdminOrderNumber(String orderId) {
+    return 'Order #$orderId';
+  }
+
+  @override
+  String rsAdminItemsCount(int count) {
+    return 'Items ($count)';
+  }
+
+  @override
+  String get partnerNotFound => 'Partner not found';
+
+  @override
+  String get prismaLabel => 'PRISMA';
+
+  @override
+  String get couldNotLoadServices => 'Could not load services';
+
+  @override
+  String get partnerLabel => 'Partner';
+
+  @override
+  String get spreadsheetHeaders => 'Spreadsheet with headers';
+
+  @override
+  String get contributorsLabel => 'Contributors';
+
+  @override
+  String get kycIdentityVerification => 'Identity verification';
+
+  @override
+  String get rsAdminNoOrders => 'No orders yet';
 }

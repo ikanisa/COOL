@@ -108,6 +108,12 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        // Google Maps SDK reads its API key from AndroidManifest.xml's
+        // <meta-data android:name="com.google.android.geo.API_KEY">.
+        // We resolve it from the same config chain used for Dart defines.
+        manifestPlaceholders["GOOGLE_MAPS_ANDROID_API_KEY"] =
+            buildConfigValue("GOOGLE_MAPS_ANDROID_API_KEY")
     }
 
     flavorDimensions += "environment"

@@ -2,6 +2,13 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract final class AppConfigKeys {
   static const mobilitySubscriptionMomoCode = 'mobility_subscription_momo_code';
+  static const productionRedesignEnabled = 'production_redesign_enabled';
+  static const productionRedesignRoutes = 'production_redesign_routes';
+  static const productionRedesignPartners = 'production_redesign_partners';
+  static const productionRedesignCohortPercent =
+      'production_redesign_cohort_percent';
+  static const productionRedesignAdminOverride =
+      'production_redesign_admin_override';
 }
 
 /// Fetches key-value config from the `app_config` Supabase table.

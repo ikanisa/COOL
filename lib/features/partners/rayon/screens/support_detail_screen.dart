@@ -7,24 +7,25 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/config/deep_link_config.dart';
-import '../../../../core/router/app_routes.dart';
 import '../../../../core/providers/referral_providers.dart';
+import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_foundations.dart';
+import '../../../../core/theme/cool_palette.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../core/theme/rs_text_styles.dart';
 import '../../../../shared/widgets/cool_button.dart';
-import '../../../../shared/widgets/cool_toast.dart';
-import '../../../../shared/widgets/share_card.dart';
 import '../../../../shared/widgets/cool_card.dart';
-import '../../../../shared/widgets/cool_screen_background.dart';
 import '../../../../shared/widgets/cool_skeleton.dart';
+import '../../../../shared/widgets/cool_toast.dart';
 import '../../../../shared/widgets/rs_amount_selector.dart';
 import '../../../../shared/widgets/rs_progress_bar.dart';
+import '../../../../shared/widgets/share_card.dart';
 import '../models/rs_models.dart';
 
 import '../rayon_payment.dart';
 import '../../providers/rayon_sports_provider.dart';
-import '../../widgets/partner_navigation.dart';
+import '../../widgets/rayon_screen_scaffold.dart';
 import '../theme/rs_theme.dart';
 import '../../../../core/l10n/l10n.dart';
 
@@ -115,59 +116,85 @@ class SupportDetailScreen extends StatelessWidget {
         );
         final referralInviteId = _resolveReferralInviteId(ref);
 
-        return Scaffold(
-          backgroundColor: AppColors.bg,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            surfaceTintColor: Colors.transparent,
-            elevation: 0,
-            leading: buildPartnerBackButton(
-              context,
-              fallbackLocation: AppRoutes.rayonSupport,
+        return RayonScreenScaffold(
+          title: 'Support Club',
+          fallbackLocation: AppRoutes.rayonSupport,
+          scrollable: false,
+          child: initiativeAsync.when(
+            loading: () => const _DetailLoadingState(),
+            error: (error, stackTrace) => _DetailStateCard(
+              icon: Icons.warning_amber_rounded,
+              title: context.l10n.loadThisCauseFailed,
+              subtitle: context.l10n.tryAgain,
+              actionLabel: 'Back',
+              onTap: () => context.go(AppRoutes.rayonSupport),
             ),
-            title: Text(
-              'Support Club',
-              style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
-            ),
-            actions: buildPartnerAppBarActions(context),
-          ),
-          body: CoolScreenBackground(
-            primaryColor: RsColors.rsBlue,
-            secondaryColor: RsColors.rsGold,
-            child: initiativeAsync.when(
-              loading: () => const _DetailLoadingState(),
-              error: (error, stackTrace) => _DetailStateCard(
-                icon: Icons.warning_amber_rounded,
-                title: context.l10n.loadThisCauseFailed,
-                subtitle: context.l10n.tryAgain,
-                actionLabel: 'Back',
-                onTap: () => popOrGo(context, AppRoutes.rayonSupport),
-              ),
-              data: (initiative) {
-                if (initiative == null) {
-                  return _DetailStateCard(
-                    icon: Icons.search_off_rounded,
-                    title: context.l10n.initiativeNotFound,
-                    subtitle: context.l10n.thisCauseMayHave,
-                    actionLabel: 'Back to support',
-                    onTap: () => context.go(AppRoutes.rayonSupport),
+            data: (initiative) {
+              if (initiative == null) {
+                return _DetailStateCard(
+                  icon: Icons.search_off_rounded,
+                  title: context.l10n.initiativeNotFound,
+                  subtitle: context.l10n.thisCauseMayHave,
+                  actionLabel: 'Back to support',
+                  onTap: () => context.go(AppRoutes.rayonSupport),
+                );
+              }
+
+              final category = RsTheme.parseCategory(
+                initiative.category.value.toLowerCase(),
+              );
+              final categoryColor = RsTheme.categoryColor(category);
+              final pendingContribution = _findContributionById(
+                contributionsAsync.valueOrNull,
+                pendingContributionId,
+              );
+              final supportCtaLabel = paymentRoute == null
+                  ? 'Support ${_formatRwf(selectedAmount)}'
+                  : 'Support ${paymentRoute.amountLabel(selectedAmount)} via ${paymentRoute.providerLabel}';
+
+              Future<void> submitSupport() async {
+                final notifier = ref.read(rayonSportsProvider.notifier);
+                ref
+                        .read(
+                          supportDetailSubmittingProvider(
+                            initiativeId,
+                          ).notifier,
+                        )
+                        .state =
+                    true;
+                try {
+                  final result = await notifier.supportInitiative(
+                    initiativeId: initiative.id,
+                    amount: selectedAmount,
+                    referralInviteId: referralInviteId,
                   );
-                }
-
-                final category = RsTheme.parseCategory(
-                  initiative.category.value.toLowerCase(),
-                );
-                final categoryColor = RsTheme.categoryColor(category);
-                final pendingContribution = _findContributionById(
-                  contributionsAsync.valueOrNull,
-                  pendingContributionId,
-                );
-                final supportCtaLabel = paymentRoute == null
-                    ? 'Support ${_formatRwf(selectedAmount)}'
-                    : 'Support ${paymentRoute.amountLabel(selectedAmount)} via ${paymentRoute.providerLabel}';
-
-                Future<void> submitSupport() async {
-                  final notifier = ref.read(rayonSportsProvider.notifier);
+                  ref
+                          .read(
+                            supportDetailPendingContributionIdProvider(
+                              initiativeId,
+                            ).notifier,
+                          )
+                          .state =
+                      result.contributionId;
+                  if (referralInviteId != null && referralInviteId.isNotEmpty) {
+                    ref
+                        .read(activeReferralAttributionProvider.notifier)
+                        .clearIfMatches(referralInviteId);
+                  }
+                  ref.invalidate(
+                    rayonRecentContributorsProvider(initiative.id),
+                  );
+                  // Points are awarded server-side after payment confirmation.
+                  if (!context.mounted) {
+                    return;
+                  }
+                  CoolToast.info(context, result.message);
+                } catch (error) {
+                  if (!context.mounted) {
+                    return;
+                  }
+                  CoolToast.error(context, error.toString());
+                } finally {
                   ref
                           .read(
                             supportDetailSubmittingProvider(
@@ -175,136 +202,212 @@ class SupportDetailScreen extends StatelessWidget {
                             ).notifier,
                           )
                           .state =
-                      true;
-                  try {
-                    final result = await notifier.supportInitiative(
-                      initiativeId: initiative.id,
-                      amount: selectedAmount,
-                      referralInviteId: referralInviteId,
-                    );
-                    ref
-                            .read(
-                              supportDetailPendingContributionIdProvider(
-                                initiativeId,
-                              ).notifier,
-                            )
-                            .state =
-                        result.contributionId;
-                    if (referralInviteId != null &&
-                        referralInviteId.isNotEmpty) {
-                      ref
-                          .read(activeReferralAttributionProvider.notifier)
-                          .clearIfMatches(referralInviteId);
-                    }
-                    ref.invalidate(
-                      rayonRecentContributorsProvider(initiative.id),
-                    );
-                    // Points are awarded server-side after payment confirmation.
-                    if (!context.mounted) {
-                      return;
-                    }
-                    CoolToast.info(context, result.message);
-                  } catch (error) {
-                    if (!context.mounted) {
-                      return;
-                    }
-                    CoolToast.error(context, error.toString());
-                  } finally {
-                    ref
-                            .read(
-                              supportDetailSubmittingProvider(
-                                initiativeId,
-                              ).notifier,
-                            )
-                            .state =
-                        false;
-                  }
+                      false;
                 }
+              }
 
-                return SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(16, 10, 16, 96),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _DetailHero(
-                        initiative: initiative,
-                        categoryColor: categoryColor,
-                      ),
-                      const SizedBox(height: 18),
-                      _CauseSummaryCard(
-                        initiative: initiative,
-                        categoryColor: categoryColor,
-                      ),
+              return SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(16, 10, 16, 96),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _SupportCommandCard(
+                      initiative: initiative,
+                      paymentRoute: paymentRoute,
+                      amount: selectedAmount,
+                    ),
+                    const SizedBox(height: 18),
+                    _DetailHero(
+                      initiative: initiative,
+                      categoryColor: categoryColor,
+                    ),
+                    const SizedBox(height: 18),
+                    _CauseSummaryCard(
+                      initiative: initiative,
+                      categoryColor: categoryColor,
+                    ),
+                    const SizedBox(height: 16),
+                    _SupportCheckoutCard(
+                      amount: selectedAmount,
+                      paymentRoute: paymentRoute,
+                      ctaLabel: supportCtaLabel,
+                      isLoading: isSubmitting,
+                      onAmountSelected: (amount) {
+                        ref
+                                .read(
+                                  supportDetailAmountProvider(
+                                    initiativeId,
+                                  ).notifier,
+                                )
+                                .state =
+                            amount;
+                      },
+                      onTap: submitSupport,
+                    ),
+                    if (pendingContribution != null &&
+                        pendingContribution.status.toLowerCase() ==
+                            'pending') ...[
                       const SizedBox(height: 16),
-                      _SupportCheckoutCard(
-                        amount: selectedAmount,
-                        paymentRoute: paymentRoute,
-                        ctaLabel: supportCtaLabel,
-                        isLoading: isSubmitting,
-                        onAmountSelected: (amount) {
-                          ref
-                                  .read(
-                                    supportDetailAmountProvider(
-                                      initiativeId,
-                                    ).notifier,
-                                  )
-                                  .state =
-                              amount;
-                        },
-                        onTap: submitSupport,
-                      ),
-                      if (pendingContribution != null &&
-                          pendingContribution.status.toLowerCase() ==
-                              'pending') ...[
-                        const SizedBox(height: 16),
-                        _PendingContributionCard(
-                          contribution: pendingContribution,
-                          onRefreshStatus: () => ref.invalidate(
-                            rayonRecentContributorsProvider(initiative.id),
-                          ),
-                        ),
-                      ],
-                      const SizedBox(height: 24),
-                      Text(
-                        'More details',
-                        style: RsTextStyles.sectionTitle(
-                          color: RsColors.rsWhite,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      _PerksCard(),
-                      const SizedBox(height: 16),
-                      _RecentSupportersCard(
-                        contributionsAsync: contributionsAsync,
+                      _PendingContributionCard(
+                        contribution: pendingContribution,
                         onRefreshStatus: () => ref.invalidate(
                           rayonRecentContributorsProvider(initiative.id),
                         ),
                       ),
-                      const SizedBox(height: 16),
-
-                      // ── Share initiative ──────────────────────
-                      ShareCard(
-                        title: context.l10n.shareThisInitiative,
-                        icon: Icons.link_rounded,
-                        subtitle: initiative.title,
-                        shareUrl: DeepLinkConfig.initiativeUri(
-                          initiative.id,
-                        ).toString(),
-                        shareText: 'Support ${initiative.title} on Cool!',
-                        sheetTitle: 'Share Initiative',
-                        sheetSubtitle:
-                            'Invite supporters to back',
-                        analyticsTargetType: 'rayon_support',
-                        resolveShareUrl: () => _buildShareUrl(ref, initiative),
-                      ),
                     ],
-                  ),
-                );
-              },
-            ),
+                    const SizedBox(height: 24),
+                    Text(
+                      'More details',
+                      style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
+                    ),
+                    const SizedBox(height: 12),
+                    _PerksCard(),
+                    const SizedBox(height: 16),
+                    _RecentSupportersCard(
+                      contributionsAsync: contributionsAsync,
+                      onRefreshStatus: () => ref.invalidate(
+                        rayonRecentContributorsProvider(initiative.id),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    // ── Share initiative ──────────────────────
+                    ShareCard(
+                      title: context.l10n.shareThisInitiative,
+                      icon: Icons.link_rounded,
+                      subtitle: initiative.title,
+                      shareUrl: DeepLinkConfig.initiativeUri(
+                        initiative.id,
+                      ).toString(),
+                      shareText: 'Support ${initiative.title} on Cool!',
+                      sheetTitle: 'Share Initiative',
+                      sheetSubtitle: 'Invite supporters to back',
+                      analyticsTargetType: 'rayon_support',
+                      resolveShareUrl: () => _buildShareUrl(ref, initiative),
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
         );
       },
+    );
+  }
+}
+
+class _SupportCommandCard extends StatelessWidget {
+  const _SupportCommandCard({
+    required this.initiative,
+    required this.paymentRoute,
+    required this.amount,
+  });
+
+  final RsInitiative initiative;
+  final PartnerPaymentRoute? paymentRoute;
+  final int amount;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return CoolCard(
+      gradient: const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Color(0xFF06152D), Color(0xFF0B2351), Color(0xFF143B72)],
+      ),
+      borderColor: AppColors.rsBlueBorder,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Verified giving',
+            style: theme.textTheme.labelLarge?.copyWith(
+              color: Colors.white.withValues(alpha: 0.72),
+              letterSpacing: 0.35,
+            ),
+          ),
+          const SizedBox(height: CoolSpace.x3),
+          Text(
+            'Official Support Desk',
+            style: GoogleFonts.barlow(
+              fontSize: 28,
+              fontWeight: FontWeight.w900,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            'Direct club-backed contribution routing, visible progress, and trusted supporter confirmation.',
+            style: GoogleFonts.barlow(
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              color: Colors.white.withValues(alpha: 0.8),
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 14),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              _DetailSignalPill(
+                icon: Icons.favorite_border_rounded,
+                label:
+                    '${NumberFormat.decimalPattern('en').format(initiative.supporterCount)} supporters',
+              ),
+              _DetailSignalPill(
+                icon: Icons.payments_outlined,
+                label: paymentRoute == null
+                    ? _formatRwf(amount)
+                    : paymentRoute!.amountLabel(amount),
+              ),
+              _DetailSignalPill(
+                icon: paymentRoute == null
+                    ? Icons.timelapse_rounded
+                    : Icons.shield_outlined,
+                label: paymentRoute == null
+                    ? 'Payment route syncing'
+                    : '${paymentRoute!.providerLabel} live',
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DetailSignalPill extends StatelessWidget {
+  const _DetailSignalPill({required this.icon, required this.label});
+
+  final IconData icon;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 15, color: Colors.white.withValues(alpha: 0.8)),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: GoogleFonts.barlow(
+              fontSize: 13,
+              fontWeight: FontWeight.w800,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -317,6 +420,7 @@ class _DetailHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return ClipRRect(
       borderRadius: BorderRadius.circular(22),
       child: SizedBox(
@@ -368,8 +472,8 @@ class _DetailHero extends StatelessWidget {
                     end: Alignment.bottomCenter,
                     colors: [
                       Colors.transparent,
-                      AppColors.surface.withValues(alpha: 0.22),
-                      AppColors.surface,
+                      palette.surface.withValues(alpha: 0.22),
+                      palette.surface,
                     ],
                   ),
                 ),
@@ -393,10 +497,11 @@ class _CauseSummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final percentage = (initiative.progress * 100).round();
 
     return CoolCard(
-      borderColor: AppColors.border2,
+      borderColor: colors.borderStrong,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -416,18 +521,18 @@ class _CauseSummaryCard extends StatelessWidget {
                   Text(
                     _formatRwf(initiative.raisedAmount),
                     style: GoogleFonts.dmMono(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.blue,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                      color: colors.accent,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     'raised so far',
                     style: GoogleFonts.barlow(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.text3,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: colors.secondaryText,
                     ),
                   ),
                 ],
@@ -448,9 +553,9 @@ class _CauseSummaryCard extends StatelessWidget {
           Text(
             initiative.description,
             style: GoogleFonts.barlow(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              color: colors.secondaryText,
               height: 1.45,
             ),
           ),
@@ -467,9 +572,9 @@ class _CauseSummaryCard extends StatelessWidget {
                 child: Text(
                   '${NumberFormat.decimalPattern('en').format(initiative.supporterCount)} supporters',
                   style: GoogleFonts.barlow(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.text2,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: colors.secondaryText,
                   ),
                 ),
               ),
@@ -478,8 +583,8 @@ class _CauseSummaryCard extends StatelessWidget {
                 '$percentage% of ${_formatRwf(initiative.targetAmount)}',
                 textAlign: TextAlign.right,
                 style: GoogleFonts.dmMono(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w800,
                   color: categoryColor,
                 ),
               ),
@@ -494,8 +599,9 @@ class _CauseSummaryCard extends StatelessWidget {
 class _PerksCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return CoolCard(
-      borderColor: AppColors.border2,
+      borderColor: colors.borderStrong,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -507,9 +613,9 @@ class _PerksCard extends StatelessWidget {
           Text(
             'Recognition scales with the',
             style: GoogleFonts.barlow(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              color: colors.secondaryText,
               height: 1.45,
             ),
           ),
@@ -588,8 +694,9 @@ class _SupportCheckoutCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return CoolCard(
-      borderColor: AppColors.border2,
+      borderColor: colors.borderStrong,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -601,9 +708,9 @@ class _SupportCheckoutCard extends StatelessWidget {
           Text(
             'Choose an amount confirm',
             style: GoogleFonts.barlow(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              color: colors.secondaryText,
               height: 1.45,
             ),
           ),
@@ -637,6 +744,7 @@ class _SupportPaymentSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final title = paymentRoute == null
         ? 'Payment route pending'
         : paymentRoute!.providerLabel;
@@ -685,9 +793,9 @@ class _SupportPaymentSummary extends StatelessWidget {
                 Text(
                   detail,
                   style: GoogleFonts.barlow(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: colors.secondaryText,
                     height: 1.45,
                   ),
                 ),
@@ -711,8 +819,9 @@ class _RecentSupportersCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return CoolCard(
-      borderColor: AppColors.border2,
+      borderColor: colors.borderStrong,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -724,9 +833,9 @@ class _RecentSupportersCard extends StatelessWidget {
           Text(
             'Latest confirmed and pending',
             style: GoogleFonts.barlow(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              color: colors.secondaryText,
               height: 1.45,
             ),
           ),
@@ -741,9 +850,9 @@ class _RecentSupportersCard extends StatelessWidget {
                       'Support activity will appear',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.barlow(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.text2,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: colors.secondaryText,
                         height: 1.4,
                       ),
                     ),
@@ -758,7 +867,7 @@ class _RecentSupportersCard extends StatelessWidget {
                     if (i < contributions.length - 1)
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 12),
-                        child: Divider(height: 1, color: AppColors.border),
+                        child: Divider(height: 1, color: colors.borderStrong),
                       ),
                   ],
                 ],
@@ -796,9 +905,9 @@ class _RecentSupportersCard extends StatelessWidget {
                     'Recent support activity could',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.barlow(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.text2,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: colors.secondaryText,
                       height: 1.4,
                     ),
                   ),
@@ -825,6 +934,7 @@ class _SupporterRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final supporterName = contribution.supporterName ?? 'Supporter';
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -882,7 +992,7 @@ class _SupporterRow extends StatelessWidget {
           style: GoogleFonts.dmMono(
             fontSize: 12,
             fontWeight: FontWeight.w700,
-            color: AppColors.blue,
+            color: palette.blue,
           ),
         ),
       ],
@@ -901,6 +1011,7 @@ class _PendingContributionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return CoolCard(
       borderColor: RsColors.rsGold.withValues(alpha: 0.28),
       child: Column(
@@ -922,7 +1033,7 @@ class _PendingContributionCard extends StatelessWidget {
             style: GoogleFonts.barlow(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              color: palette.text2,
               height: 1.45,
             ),
           ),
@@ -959,6 +1070,7 @@ class _PendingContributionMeta extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Padding(
       padding: const EdgeInsets.only(bottom: 6),
       child: Row(
@@ -971,7 +1083,7 @@ class _PendingContributionMeta extends StatelessWidget {
               style: GoogleFonts.barlow(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: AppColors.text3,
+                color: palette.text3,
               ),
             ),
           ),
@@ -983,7 +1095,7 @@ class _PendingContributionMeta extends StatelessWidget {
               style: GoogleFonts.dmMono(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
-                color: AppColors.text,
+                color: palette.text,
               ),
             ),
           ),
@@ -1065,15 +1177,16 @@ class _DetailStateCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: CoolCard(
-          borderColor: AppColors.border2,
+          borderColor: palette.border2,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, size: 44, color: AppColors.text2),
+              Icon(icon, size: 44, color: palette.text2),
               const SizedBox(height: 12),
               Text(
                 title,
@@ -1087,7 +1200,7 @@ class _DetailStateCard extends StatelessWidget {
                 style: GoogleFonts.barlow(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.text2,
+                  color: palette.text2,
                   height: 1.4,
                 ),
               ),
@@ -1099,7 +1212,7 @@ class _DetailStateCard extends StatelessWidget {
                   style: GoogleFonts.barlow(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.accent,
+                    color: palette.accent,
                   ),
                 ),
               ),

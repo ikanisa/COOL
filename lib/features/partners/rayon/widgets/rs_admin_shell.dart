@@ -3,7 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../shared/widgets/cool_card.dart';
+import '../../../../shared/widgets/cool_screen_background.dart';
 import '../../widgets/partner_navigation.dart';
 
 class RsAdminMetric {
@@ -37,75 +39,124 @@ class RsAdminShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.bg,
-      appBar: AppBar(
+    final theme = Theme.of(context);
+
+    return CoolScreenBackground(
+      primaryColor: AppColors.rsBlue,
+      secondaryColor: AppColors.rsGold,
+      showGlow: false,
+      child: Scaffold(
         backgroundColor: Colors.transparent,
-        surfaceTintColor: Colors.transparent,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        leading: buildPartnerBackButton(
-          context,
-          fallbackLocation: fallbackLocation,
-          color: AppColors.text,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
+          elevation: 0,
+          scrolledUnderElevation: 0,
+          leading: buildPartnerBackButton(
+            context,
+            fallbackLocation: fallbackLocation,
+            color: AppColors.rsWhite,
+          ),
+          actions: buildPartnerAppBarActions(
+            context,
+            homeColor: AppColors.rsWhite,
+          ),
         ),
-        actions: buildPartnerAppBarActions(context, homeColor: AppColors.text),
-      ),
-      floatingActionButton: floatingActionButton,
-      body: SafeArea(
-        top: false,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(18, 0, 18, 96),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: GoogleFonts.barlowCondensed(
-                  fontSize: 42,
-                  fontWeight: FontWeight.w900,
-                  color: AppColors.text,
-                  height: 1.0,
-                  letterSpacing: -0.5,
+        floatingActionButton: floatingActionButton,
+        body: SafeArea(
+          top: false,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final maxWidth = expandBody
+                  ? CoolResponsive.maxContentWidthForWidth(constraints.maxWidth)
+                  : 840.0;
+              final horizontalPadding =
+                  CoolResponsive.horizontalPaddingForWidth(
+                    constraints.maxWidth,
+                  );
+
+              return SingleChildScrollView(
+                padding: EdgeInsets.fromLTRB(
+                  horizontalPadding,
+                  0,
+                  horizontalPadding,
+                  112,
                 ),
-              ),
-              const SizedBox(height: 24),
-              CoolCard(
-                borderColor: AppColors.border2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      subtitle,
-                      style: GoogleFonts.barlow(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.text2,
-                        height: 1.45,
-                      ),
-                    ),
-                    if (metrics.isNotEmpty) ...[
-                      const SizedBox(height: 16),
-                      Wrap(
-                        spacing: 10,
-                        runSpacing: 10,
-                        children: metrics
-                            .map(
-                              (metric) => _MetricChip(
-                                label: metric.label,
-                                value: metric.value,
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: maxWidth),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'RAYON SPORTS COMMAND',
+                          style: theme.textTheme.labelLarge?.copyWith(
+                            color: Colors.white.withValues(alpha: 0.72),
+                            letterSpacing: 0.6,
+                          ),
+                        ),
+                        const SizedBox(height: CoolSpace.x3),
+                        Text(
+                          title,
+                          style: GoogleFonts.barlowCondensed(
+                            fontSize: 44,
+                            fontWeight: FontWeight.w900,
+                            color: AppColors.rsWhite,
+                            height: 0.94,
+                            letterSpacing: 0.1,
+                          ),
+                        ),
+                        const SizedBox(height: CoolSpace.x6),
+                        CoolCard(
+                          gradient: const LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Color(0xFF05172F),
+                              Color(0xFF0A2550),
+                              Color(0xFF11376A),
+                            ],
+                          ),
+                          borderColor: AppColors.rsBlueBorder,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                subtitle,
+                                style: theme.textTheme.bodyLarge?.copyWith(
+                                  color: Colors.white.withValues(alpha: 0.88),
+                                ),
                               ),
-                            )
-                            .toList(growable: false),
-                      ),
-                    ],
-                  ],
+                              if (metrics.isNotEmpty) ...[
+                                const SizedBox(height: CoolSpace.x6),
+                                Wrap(
+                                  spacing: CoolSpace.x3,
+                                  runSpacing: CoolSpace.x3,
+                                  children: metrics
+                                      .map(
+                                        (metric) => _MetricChip(
+                                          label: metric.label,
+                                          value: metric.value,
+                                        ),
+                                      )
+                                      .toList(growable: false),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                        if (controls != null) ...[
+                          const SizedBox(height: CoolSpace.x5),
+                          controls!,
+                        ],
+                        const SizedBox(height: CoolSpace.x6),
+                        child,
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-              if (controls != null) ...[const SizedBox(height: 16), controls!],
-              const SizedBox(height: 24),
-              child,
-            ],
+              );
+            },
           ),
         ),
       ),
@@ -122,19 +173,38 @@ class _MetricChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: AppColors.surface2,
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: AppColors.border2),
+      constraints: const BoxConstraints(minWidth: 112),
+      padding: const EdgeInsets.symmetric(
+        horizontal: CoolSpace.x4,
+        vertical: CoolSpace.x4,
       ),
-      child: Text(
-        '$value $label',
-        style: GoogleFonts.dmMono(
-          fontSize: 11,
-          fontWeight: FontWeight.w700,
-          color: AppColors.rsBlue,
-        ),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(CoolRadii.md),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            value,
+            style: GoogleFonts.dmMono(
+              fontSize: 20,
+              fontWeight: FontWeight.w800,
+              color: AppColors.rsGoldLight,
+            ),
+          ),
+          const SizedBox(height: CoolSpace.x1),
+          Text(
+            label.toUpperCase(),
+            style: GoogleFonts.barlow(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: Colors.white.withValues(alpha: 0.78),
+            ),
+          ),
+        ],
       ),
     );
   }

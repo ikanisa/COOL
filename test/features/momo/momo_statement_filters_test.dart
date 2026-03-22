@@ -44,7 +44,7 @@ void main() {
             .having(
               (value) => value.startDate,
               'startDate',
-              DateTime(2026, 2, 12),
+              DateTime(2026, 2, 11),
             )
             .having((value) => value.endDate, 'endDate', DateTime(2026, 3, 13)),
       );
@@ -58,7 +58,7 @@ void main() {
             .having(
               (value) => value.startDate,
               'startDate',
-              DateTime(2026, 2, 11),
+              DateTime(2025, 3, 13),
             )
             .having((value) => value.endDate, 'endDate', DateTime(2026, 3, 13)),
       );

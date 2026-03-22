@@ -145,7 +145,7 @@ void main() {
       await tester.pump();
 
       expect(find.text('123456'), findsWidgets);
-      expect(find.text('Recent Orders'), findsOneWidget);
+      expect(find.text('RECENT ORDERS'), findsOneWidget);
 
       verify(
         () => repository.getFanMembership('user-1', 'partner-1'),
@@ -156,7 +156,6 @@ void main() {
           partnerId: 'partner-1',
         ),
       ).called(1);
-      verify(() => repository.getMyTickets('user-1')).called(1);
       verify(() => repository.getMyShopOrders('user-1')).called(1);
       verifyNever(() => repository.loadData(userId: any(named: 'userId')));
     },

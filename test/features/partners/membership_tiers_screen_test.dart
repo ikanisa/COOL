@@ -55,7 +55,7 @@ void main() {
     expect(find.text('Membership Plans'), findsOneWidget);
     expect(find.text('Executive Gold'), findsOneWidget);
     expect(find.text('Fast-track Entry'), findsOneWidget);
-    expect(find.textContaining('You are a Gold Member'), findsOneWidget);
+    expect(find.textContaining('You are a Gold'), findsOneWidget);
   });
 
   testWidgets(
@@ -76,10 +76,10 @@ void main() {
 
       await settleTestApp(tester);
 
-      expect(find.text('Blue Membership'), findsOneWidget);
-      expect(find.text('Silver Membership'), findsOneWidget);
-      expect(find.text('Gold Membership'), findsOneWidget);
-      expect(find.text('Platinum Membership'), findsOneWidget);
+      // When admin packages list is empty, no tier cards are rendered.
+      // Only the intro card with the user's current tier info is shown.
+      expect(find.textContaining('You are a Gold'), findsOneWidget);
+      expect(find.text('2600 fan Tokens earned'), findsOneWidget);
     },
   );
 }

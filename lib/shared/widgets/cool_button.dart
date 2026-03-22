@@ -3,15 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../core/theme/cool_foundations.dart';
 import '../../core/theme/cool_palette.dart';
 
 /// Variants available for [CoolButton].
 enum CoolButtonVariant { primary, secondary }
 
-/// A styled button used throughout the Cool app.
-///
-/// Buttons stay visually simple so the label carries the action instead of the
-/// decoration.
+/// A styled button used throughout the COOL app.
 class CoolButton extends StatefulWidget {
   const CoolButton({
     required this.label,
@@ -36,7 +34,8 @@ class CoolButton extends StatefulWidget {
   State<CoolButton> createState() => _CoolButtonState();
 }
 
-class _CoolButtonState extends State<CoolButton> with SingleTickerProviderStateMixin {
+class _CoolButtonState extends State<CoolButton>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _scaleController;
   late final Animation<double> _scaleAnimation;
 
@@ -62,29 +61,31 @@ class _CoolButtonState extends State<CoolButton> with SingleTickerProviderStateM
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final brightness = theme.brightness;
     final enabled = !widget.isLoading;
-    
+    final isPrimary = widget.variant == CoolButtonVariant.primary;
+
     final backgroundDecoration = BoxDecoration(
-      color: widget.variant == CoolButtonVariant.primary
-          ? (enabled ? palette.accent : palette.surface3)
-          : (enabled ? palette.surface : palette.surface2),
-      borderRadius: BorderRadius.circular(16.0),
+      color: isPrimary
+          ? (enabled ? null : palette.surface3)
+          : (enabled
+                ? colors.buttonSecondaryBackground
+                : colors.chipBackground),
+      gradient: isPrimary && enabled ? colors.accentGradient : null,
+      borderRadius: BorderRadius.circular(CoolRadii.md),
       border: Border.all(
-        color: widget.variant == CoolButtonVariant.primary
-            ? (enabled ? Colors.white.withValues(alpha: 0.1) : palette.border)
-            : (enabled ? palette.border : palette.border),
-        width: 1.0,
+        color: isPrimary
+            ? (enabled
+                  ? Colors.white.withValues(alpha: 0.14)
+                  : colors.border.withValues(alpha: 0.6))
+            : (enabled ? colors.borderStrong : colors.border),
+        width: isPrimary ? 1.0 : 1.1,
       ),
       boxShadow: enabled
-          ? [
-              BoxShadow(
-                color: widget.variant == CoolButtonVariant.primary 
-                    ? palette.accent.withValues(alpha: 0.15) 
-                    : Colors.black.withValues(alpha: 0.04),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
-              ),
-            ]
+          ? (isPrimary
+                ? CoolShadows.floating(brightness, strength: 0.72)
+                : CoolShadows.clay(brightness, strength: 0.55))
           : null,
     );
 
@@ -103,10 +104,12 @@ class _CoolButtonState extends State<CoolButton> with SingleTickerProviderStateM
             child: SizedBox(
               width: widget.fullWidth ? double.infinity : null,
               child: ConstrainedBox(
-                constraints: const BoxConstraints(minHeight: 56.0),
+                constraints: const BoxConstraints(
+                  minHeight: CoolTapTargets.comfortable,
+                ),
                 child: Material(
                   color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(16.0),
+                  borderRadius: BorderRadius.circular(CoolRadii.md),
                   child: Ink(
                     decoration: backgroundDecoration,
                     child: InkWell(
@@ -115,7 +118,7 @@ class _CoolButtonState extends State<CoolButton> with SingleTickerProviderStateM
                       onTapCancel: () => _scaleController.reverse(),
                       onTap: enabled
                           ? () {
-                              if (widget.variant == CoolButtonVariant.primary) {
+                              if (isPrimary) {
                                 HapticFeedback.mediumImpact();
                               } else {
                                 HapticFeedback.lightImpact();
@@ -123,17 +126,35 @@ class _CoolButtonState extends State<CoolButton> with SingleTickerProviderStateM
                               widget.onTap();
                             }
                           : null,
-                      borderRadius: BorderRadius.circular(16.0),
-                      splashColor: widget.variant == CoolButtonVariant.primary
+                      borderRadius: BorderRadius.circular(CoolRadii.md),
+                      splashColor: isPrimary
                           ? theme.colorScheme.onPrimary.withValues(alpha: 0.1)
-                          : palette.text.withValues(alpha: 0.1),
+                          : colors.primaryText.withValues(alpha: 0.08),
                       highlightColor: Colors.transparent,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 12,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: isPrimary || !enabled
+                              ? null
+                              : LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    colors.highlightColor.withValues(
+                                      alpha: brightness == Brightness.light
+                                          ? 0.38
+                                          : 0.04,
+                                    ),
+                                    Colors.transparent,
+                                  ],
+                                ),
                         ),
-                        child: _buildChild(context, palette, enabled),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 22,
+                            vertical: 16,
+                          ),
+                          child: _buildChild(context, palette, enabled),
+                        ),
                       ),
                     ),
                   ),
@@ -148,8 +169,8 @@ class _CoolButtonState extends State<CoolButton> with SingleTickerProviderStateM
 
   Widget _buildChild(BuildContext context, CoolPalette palette, bool enabled) {
     final textColor = widget.variant == CoolButtonVariant.primary
-        ? Colors.white
-        : (enabled ? palette.text : palette.text3);
+        ? Theme.of(context).colorScheme.onPrimary
+        : (enabled ? context.coolSemanticColors.primaryText : palette.text3);
 
     Widget child;
     if (widget.isLoading) {
@@ -165,12 +186,19 @@ class _CoolButtonState extends State<CoolButton> with SingleTickerProviderStateM
         softWrap: true,
         textAlign: TextAlign.center,
         overflow: TextOverflow.ellipsis,
-        style: GoogleFonts.dmSans(
-          fontSize: 17.0,
-          fontWeight: FontWeight.w700,
-          color: textColor,
-          letterSpacing: -0.2,
-        ),
+        style:
+            Theme.of(context).textTheme.labelLarge?.copyWith(
+              fontSize: 16.0,
+              fontWeight: FontWeight.w800,
+              color: textColor,
+              letterSpacing: -0.2,
+            ) ??
+            GoogleFonts.manrope(
+              fontSize: 16.0,
+              fontWeight: FontWeight.w800,
+              color: textColor,
+              letterSpacing: -0.2,
+            ),
       );
 
       if (widget.icon == null) {
@@ -191,12 +219,8 @@ class _CoolButtonState extends State<CoolButton> with SingleTickerProviderStateM
     }
 
     return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 200),
-      child: Container(
-        key: ValueKey(widget.isLoading),
-        child: child,
-      ),
+      duration: CoolMotion.quick,
+      child: Container(key: ValueKey(widget.isLoading), child: child),
     );
   }
 }
-

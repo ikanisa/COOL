@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/config/country_catalog.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_palette.dart';
 
 /// Two-option selector for choosing the default MoMo receive route.
 class MomoRouteTypeSelector extends StatelessWidget {
@@ -21,6 +21,7 @@ class MomoRouteTypeSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Row(
       children: [
         Expanded(
@@ -28,6 +29,7 @@ class MomoRouteTypeSelector extends StatelessWidget {
             label: phoneLabel,
             isActive: value == MomoRecipientType.phoneNumber,
             onTap: () => onChanged(MomoRecipientType.phoneNumber),
+            palette: palette,
           ),
         ),
         const SizedBox(width: 10),
@@ -36,6 +38,7 @@ class MomoRouteTypeSelector extends StatelessWidget {
             label: codeLabel,
             isActive: value == MomoRecipientType.code,
             onTap: () => onChanged(MomoRecipientType.code),
+            palette: palette,
           ),
         ),
       ],
@@ -48,11 +51,13 @@ class _MomoRouteTypeOption extends StatelessWidget {
     required this.label,
     required this.isActive,
     required this.onTap,
+    required this.palette,
   });
 
   final String label;
   final bool isActive;
   final VoidCallback onTap;
+  final CoolPalette palette;
 
   @override
   Widget build(BuildContext context) {
@@ -66,10 +71,10 @@ class _MomoRouteTypeOption extends StatelessWidget {
           duration: const Duration(milliseconds: 180),
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
-            color: isActive ? AppColors.accentGlow : AppColors.surface2,
+            color: isActive ? palette.accentGlow : palette.surface2,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: isActive ? AppColors.accent : AppColors.border,
+              color: isActive ? palette.accent : palette.border,
             ),
           ),
           alignment: Alignment.center,
@@ -78,7 +83,7 @@ class _MomoRouteTypeOption extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w700,
-              color: isActive ? AppColors.accent : AppColors.text2,
+              color: isActive ? palette.accent : palette.text2,
             ),
           ),
         ),

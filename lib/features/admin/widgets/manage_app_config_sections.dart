@@ -16,6 +16,7 @@ class AppConfigSectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -24,13 +25,13 @@ class AppConfigSectionHeader extends StatelessWidget {
           style: GoogleFonts.dmSans(
             fontSize: 16,
             fontWeight: FontWeight.w700,
-            color: AppColors.text,
+            color: palette.text,
           ),
         ),
         const SizedBox(height: 4),
         Text(
           message,
-          style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
+          style: GoogleFonts.dmSans(fontSize: 12, color: palette.text3),
         ),
       ],
     );
@@ -44,16 +45,17 @@ class EmptyConfigCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: Text(
         message,
-        style: GoogleFonts.dmSans(fontSize: 13, color: AppColors.text3),
+        style: GoogleFonts.dmSans(fontSize: 13, color: palette.text3),
       ),
     );
   }
@@ -67,15 +69,16 @@ class ConfigTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final value = config['value']?.toString() ?? '';
     final preview = value.length > 60 ? '${value.substring(0, 60)}…' : value;
     final scopeLabel = _configScopeLabel(config['country']?.toString());
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: ListTile(
         title: Text(
@@ -83,13 +86,13 @@ class ConfigTile extends StatelessWidget {
           style: GoogleFonts.dmSans(
             fontSize: 13,
             fontWeight: FontWeight.w600,
-            color: AppColors.text,
+            color: palette.text,
             fontFeatures: const [FontFeature.tabularFigures()],
           ),
         ),
         subtitle: Text(
           '$preview ${config['description'] ?? ''} ($scopeLabel)',
-          style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
+          style: GoogleFonts.dmSans(fontSize: 11, color: palette.text3),
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
         ),
@@ -98,7 +101,7 @@ class ConfigTile extends StatelessWidget {
           label: 'Edit ${config['key'] ?? 'config'}',
           child: GestureDetector(
             onTap: onEdit,
-            child: Icon(Icons.edit_rounded, size: 18, color: AppColors.text3),
+            child: Icon(Icons.edit_rounded, size: 18, color: palette.text3),
           ),
         ),
       ),
@@ -114,14 +117,15 @@ class RolloutCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final stageLabel = rollout.rollout.stage.remoteConfigValue.toUpperCase();
 
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,7 +141,7 @@ class RolloutCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -145,7 +149,7 @@ class RolloutCard extends StatelessWidget {
                       rollout.description,
                       style: GoogleFonts.dmSans(
                         fontSize: 12,
-                        color: AppColors.text3,
+                        color: palette.text3,
                       ),
                     ),
                   ],
@@ -154,7 +158,7 @@ class RolloutCard extends StatelessWidget {
               IconButton(
                 onPressed: onEdit,
                 tooltip: context.l10n.editRolloutSettings,
-                icon: Icon(Icons.tune_rounded, color: AppColors.text),
+                icon: Icon(Icons.tune_rounded, color: palette.text),
               ),
             ],
           ),
@@ -242,13 +246,14 @@ class MobilitySubscriptionConfigTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final code = config['value']?.toString() ?? '';
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: ListTile(
         title: Text(
@@ -256,19 +261,19 @@ class MobilitySubscriptionConfigTile extends StatelessWidget {
           style: GoogleFonts.dmSans(
             fontSize: 13,
             fontWeight: FontWeight.w700,
-            color: AppColors.text,
+            color: palette.text,
           ),
         ),
         subtitle: Text(
           'MoMo code: $code',
-          style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
+          style: GoogleFonts.dmSans(fontSize: 12, color: palette.text3),
         ),
         trailing: Semantics(
           button: true,
           label: context.l10n.editMomoSubscriptionConfig,
           child: GestureDetector(
             onTap: onEdit,
-            child: Icon(Icons.edit_rounded, size: 18, color: AppColors.text3),
+            child: Icon(Icons.edit_rounded, size: 18, color: palette.text3),
           ),
         ),
       ),
@@ -290,6 +295,7 @@ class PartnerPaymentRouteConfigTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final partnerName = config['partner_name']?.toString() ?? 'Partner';
     final provider = config['provider']?.toString() ?? 'provider';
     final recipientCode = config['recipient_code']?.toString() ?? 'missing';
@@ -304,9 +310,9 @@ class PartnerPaymentRouteConfigTile extends StatelessWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: ListTile(
         title: Text(
@@ -314,7 +320,7 @@ class PartnerPaymentRouteConfigTile extends StatelessWidget {
           style: GoogleFonts.dmSans(
             fontSize: 13,
             fontWeight: FontWeight.w700,
-            color: AppColors.text,
+            color: palette.text,
           ),
         ),
         subtitle: Padding(
@@ -324,12 +330,12 @@ class PartnerPaymentRouteConfigTile extends StatelessWidget {
             children: [
               Text(
                 '${provider.toUpperCase()} · code $recipientCode',
-                style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text2),
+                style: GoogleFonts.dmSans(fontSize: 12, color: palette.text2),
               ),
               const SizedBox(height: 4),
               Text(
                 'Reconciliation: $reconciliationLabel',
-                style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
+                style: GoogleFonts.dmSans(fontSize: 11, color: palette.text3),
               ),
             ],
           ),
@@ -351,7 +357,7 @@ class PartnerPaymentRouteConfigTile extends StatelessWidget {
                 child: Icon(
                   Icons.edit_rounded,
                   size: 18,
-                  color: AppColors.text3,
+                  color: palette.text3,
                 ),
               ),
             ),

@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_error_view.dart';
@@ -54,17 +55,18 @@ class CreditInfoBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: AppColors.yellow.withValues(alpha: 0.1),
+        color: palette.yellow.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AppColors.yellow.withValues(alpha: 0.3)),
+        border: Border.all(color: palette.yellow.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [
-          Icon(icon, size: 16, color: AppColors.yellow),
+          Icon(icon, size: 16, color: palette.yellow),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
@@ -72,7 +74,7 @@ class CreditInfoBanner extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
-                color: AppColors.yellow,
+                color: palette.yellow,
               ),
             ),
           ),
@@ -90,6 +92,7 @@ class HowToImproveCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final items = _buildItems(dashboard);
 
     return CoolCard(
@@ -101,7 +104,7 @@ class HowToImproveCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 15,
               fontWeight: FontWeight.w700,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
           const SizedBox(height: 12),
@@ -116,7 +119,7 @@ class HowToImproveCard extends StatelessWidget {
                         ? Icons.check_circle_rounded
                         : Icons.radio_button_unchecked_rounded,
                     size: 18,
-                    color: item.completed ? AppColors.accent : AppColors.text3,
+                    color: item.completed ? palette.accent : palette.text3,
                   ),
                   const SizedBox(width: 10),
                   Expanded(
@@ -126,8 +129,8 @@ class HowToImproveCard extends StatelessWidget {
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: item.completed
-                            ? AppColors.text
-                            : AppColors.text2,
+                            ? palette.text
+                            : palette.text2,
                         height: 1.4,
                       ),
                     ),
@@ -197,6 +200,7 @@ class ApplicationReadinessEntryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final title = dashboard?.hasReport == true
         ? 'Ready for a formal handoff'
         : 'Build readiness first';
@@ -205,7 +209,7 @@ class ApplicationReadinessEntryCard extends StatelessWidget {
         : 'See what still needs to be completed.';
 
     return CoolCard(
-      borderColor: AppColors.blue.withValues(alpha: 0.24),
+      borderColor: palette.blue.withValues(alpha: 0.24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -214,7 +218,7 @@ class ApplicationReadinessEntryCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 15,
               fontWeight: FontWeight.w700,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
           const SizedBox(height: 8),
@@ -223,7 +227,7 @@ class ApplicationReadinessEntryCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              color: palette.text2,
               height: 1.45,
             ),
           ),
@@ -247,8 +251,10 @@ class ScoreExplanationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final data = dashboard;
     if (data == null) {
+      final palette = context.coolPalette;
       return CoolCard(
         child: Padding(
           padding: const EdgeInsets.all(18),
@@ -257,7 +263,7 @@ class ScoreExplanationCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              color: palette.text2,
               height: 1.5,
             ),
           ),
@@ -274,7 +280,7 @@ class ScoreExplanationCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              color: palette.text2,
               height: 1.5,
             ),
           ),
@@ -321,25 +327,25 @@ class ScoreExplanationCard extends StatelessWidget {
                   label: context.l10n.walletIn,
                   value:
                       '${_formatCurrency(data.creditTotal)} RWF\n${data.creditEntryCount} credits',
-                  color: AppColors.accent,
+                  color: palette.accent,
                 ),
                 _SnapshotStatTile(
                   label: context.l10n.walletOut,
                   value:
                       '${_formatCurrency(data.debitTotal)} RWF\n${data.debitEntryCount} debits',
-                  color: AppColors.orange,
+                  color: palette.orange,
                 ),
                 _SnapshotStatTile(
                   label: context.l10n.savings,
                   value:
                       '${_formatCurrency(data.groupTotal)} RWF\n${data.groupContributionCount} contributions',
-                  color: AppColors.blue,
+                  color: palette.blue,
                 ),
                 _SnapshotStatTile(
                   label: context.l10n.averageSave,
                   value:
                       '${_formatCurrency(data.averageGroupContribution)} RWF\n${data.activeMonthCount} months',
-                  color: AppColors.purple,
+                  color: palette.purple,
                 ),
               ],
             ),
@@ -408,17 +414,18 @@ class _ReportMetaChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: AppColors.surface2,
+        color: palette.surface2,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border2),
+        border: Border.all(color: palette.border2),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 14, color: AppColors.text2),
+          Icon(icon, size: 14, color: palette.text2),
           const SizedBox(width: 8),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -429,7 +436,7 @@ class _ReportMetaChip extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 10,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.text3,
+                  color: palette.text3,
                 ),
               ),
               const SizedBox(height: 2),
@@ -438,7 +445,7 @@ class _ReportMetaChip extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
             ],
@@ -462,14 +469,15 @@ class _SnapshotStatTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return SizedBox(
       width: 152,
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: AppColors.surface2,
+          color: palette.surface2,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColors.border2),
+          border: Border.all(color: palette.border2),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -479,7 +487,7 @@ class _SnapshotStatTile extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 11,
                 fontWeight: FontWeight.w600,
-                color: AppColors.text3,
+                color: palette.text3,
               ),
             ),
             const SizedBox(height: 8),
@@ -506,13 +514,14 @@ class _ReasonInsightTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: AppColors.surface2,
+        color: palette.surface2,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border2),
+        border: Border.all(color: palette.border2),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -537,7 +546,7 @@ class _ReasonInsightTile extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
                 const SizedBox(height: 5),
@@ -546,7 +555,7 @@ class _ReasonInsightTile extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
+                    color: palette.text2,
                     height: 1.45,
                   ),
                 ),

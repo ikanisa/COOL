@@ -6,13 +6,16 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/config/app_market.dart';
 import '../../../core/identity/public_user_identity.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_providers.dart';
 import 'package:cool_app/core/l10n/l10n.dart';
+import '../widgets/edit_user_sheet.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 
 /// Admin screen for inspecting user profiles, toggling admin status, editing
 /// user fields, and cleaning demo data.
@@ -26,10 +29,17 @@ class ManageUsersScreen extends ConsumerStatefulWidget {
 class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
   String _search = '';  @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final usersAsync = ref.watch(adminUsersProvider);
 
-    return Scaffold(
-      backgroundColor: AppColors.bg,
+    return CoolScreenBackground(
+
+
+      showGlow: false,
+
+
+      child: Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         automaticallyImplyLeading: true,
         backgroundColor: Colors.transparent,
@@ -37,7 +47,7 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
           tooltip: 'Back',
-          icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
+          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
       ),
       body: CoolAsyncView<List<Map<String, dynamic>>>(
@@ -105,7 +115,7 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
                       style: GoogleFonts.dmSans(
                         fontSize: 34,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.text,
+                        color: palette.text,
                         height: 1.1,
                       ),
                     ),
@@ -116,37 +126,37 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
                       onChanged: (v) => setState(() => _search = v),
                       style: GoogleFonts.dmSans(
                         fontSize: 14,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                       decoration: InputDecoration(
                         hintText: 'Search by name, phone, or ID…',
                         hintStyle: GoogleFonts.dmSans(
                           fontSize: 13,
-                          color: AppColors.text3,
+                          color: palette.text3,
                         ),
                         prefixIcon: Icon(
                           Icons.search_rounded,
                           size: 20,
-                          color: AppColors.text3,
+                          color: palette.text3,
                         ),
                         filled: true,
-                        fillColor: AppColors.surface,
+                        fillColor: palette.surface,
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: 14,
                           vertical: 12,
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(14),
-                          borderSide: BorderSide(color: AppColors.border),
+                          borderSide: BorderSide(color: palette.border),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(14),
-                          borderSide: BorderSide(color: AppColors.border),
+                          borderSide: BorderSide(color: palette.border),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(14),
-                          borderSide: const BorderSide(
-                            color: AppColors.accent,
+                          borderSide: BorderSide(
+                            color: palette.accent,
                             width: 1.5,
                           ),
                         ),
@@ -170,7 +180,7 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
                         style: GoogleFonts.dmSans(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.text3,
+                          color: palette.text3,
                         ),
                       ),
                     ],
@@ -186,15 +196,18 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
           );
         },
       ),
+    ),
+
+
     );
   }
 
   void _openEditSheet(BuildContext context, Map<String, dynamic> user) {
-    showModalBottomSheet(
+    showCoolBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) => _EditUserSheet(
+      builder: (_) => EditUserSheet(
         user: user,
         onSaved: () => ref.invalidate(adminUsersProvider),
       ),
@@ -223,12 +236,13 @@ class _SummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -238,7 +252,7 @@ class _SummaryCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
           const SizedBox(height: 8),
@@ -247,7 +261,7 @@ class _SummaryCard extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 12,
               fontWeight: FontWeight.w400,
-              color: AppColors.text3,
+              color: palette.text3,
             ),
           ),
           const SizedBox(height: 12),
@@ -315,7 +329,7 @@ class _SummaryCard extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
-                color: AppColors.text,
+                color: palette.text,
               ),
             ),
             const SizedBox(height: 8),
@@ -344,16 +358,17 @@ class _MetricChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.bg,
+        color: palette.bg,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: RichText(
         text: TextSpan(
-          style: GoogleFonts.dmSans(color: AppColors.text),
+          style: GoogleFonts.dmSans(color: palette.text),
           children: [
             TextSpan(
               text: '$value ',
@@ -362,7 +377,7 @@ class _MetricChip extends StatelessWidget {
             TextSpan(
               text: label,
               style: TextStyle(
-                color: AppColors.text3,
+                color: palette.text3,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -380,6 +395,7 @@ class _UserTile extends ConsumerWidget {
   final VoidCallback onEdit;
 
   Future<void> _toggleAdmin(BuildContext context, WidgetRef ref) async {
+    final palette = context.coolPalette;
     final userId = user['id']?.toString();
     if (userId == null || userId.isEmpty) return;
 
@@ -389,17 +405,17 @@ class _UserTile extends ConsumerWidget {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: AppColors.surface,
+        backgroundColor: palette.surface,
         title: Text(
           '$action?',
           style: GoogleFonts.dmSans(
             fontWeight: FontWeight.w700,
-            color: AppColors.text,
+            color: palette.text,
           ),
         ),
         content: Text(
           'This will ${isAdmin ? "remove" : "grant"} platform admin access for this user.',
-          style: GoogleFonts.dmSans(color: AppColors.text3),
+          style: GoogleFonts.dmSans(color: palette.text3),
         ),
         actions: [
           TextButton(
@@ -439,6 +455,7 @@ class _UserTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
     final publicUserId = PublicUserIdentity.resolve(
       publicUserId: user['public_user_id']?.toString(),
       userId: user['id']?.toString(),
@@ -462,9 +479,9 @@ class _UserTile extends ConsumerWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: palette.surface,
           borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: palette.border),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -481,7 +498,7 @@ class _UserTile extends ConsumerWidget {
                         style: GoogleFonts.dmSans(
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.text,
+                          color: palette.text,
                         ),
                       ),
                       if (user['phone']?.toString().isNotEmpty ?? false) ...[
@@ -491,7 +508,7 @@ class _UserTile extends ConsumerWidget {
                           style: GoogleFonts.dmSans(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.text2,
+                            color: palette.text2,
                           ),
                         ),
                       ],
@@ -509,13 +526,13 @@ class _UserTile extends ConsumerWidget {
                     ],
                     if (isDriver) ...[
                       if (isMock || isAdmin) const SizedBox(height: 6),
-                      const _MarkerChip(label: 'Driver', color: AppColors.blue),
+                      _MarkerChip(label: 'Driver', color: palette.blue),
                     ],
                     if (kycStatus == 'verified') ...[
                       const SizedBox(height: 6),
-                      const _MarkerChip(
+                      _MarkerChip(
                         label: 'KYC ✓',
-                        color: AppColors.accent,
+                        color: palette.accent,
                       ),
                     ] else if (kycStatus == 'pending_review') ...[
                       const SizedBox(height: 6),
@@ -526,9 +543,9 @@ class _UserTile extends ConsumerWidget {
                     ],
                     if (momoNumber.isNotEmpty) ...[
                       const SizedBox(height: 6),
-                      const _MarkerChip(
+                      _MarkerChip(
                         label: 'MoMo',
-                        color: AppColors.purple,
+                        color: palette.purple,
                       ),
                     ],
                   ],
@@ -542,7 +559,7 @@ class _UserTile extends ConsumerWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
-                color: AppColors.text3,
+                color: palette.text3,
               ),
             ),
             if (vehicleType.isNotEmpty) ...[
@@ -552,7 +569,7 @@ class _UserTile extends ConsumerWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.text3,
+                  color: palette.text3,
                 ),
               ),
             ],
@@ -574,7 +591,7 @@ class _UserTile extends ConsumerWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 11,
                   fontWeight: FontWeight.w400,
-                  color: AppColors.text3,
+                  color: palette.text3,
                 ),
               ),
             ],
@@ -589,7 +606,7 @@ class _UserTile extends ConsumerWidget {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.accent.withValues(alpha: 0.1),
+                    color: palette.accent.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
@@ -597,7 +614,7 @@ class _UserTile extends ConsumerWidget {
                     style: GoogleFonts.dmSans(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.accent,
+                      color: palette.accent,
                     ),
                   ),
                 ),
@@ -653,14 +670,15 @@ class _BatchCleanupButtonState extends ConsumerState<_BatchCleanupButton> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) {
+        final palette = context.coolPalette;
         return AlertDialog(
-          backgroundColor: AppColors.surface,
+          backgroundColor: palette.surface,
           title: Text(
             'Remove Mock Batch?',
             style: GoogleFonts.dmSans(
               fontSize: 17,
               fontWeight: FontWeight.w700,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
           content: Text(
@@ -669,7 +687,7 @@ class _BatchCleanupButtonState extends ConsumerState<_BatchCleanupButton> {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w400,
-              color: AppColors.text3,
+              color: palette.text3,
             ),
           ),
           actions: [
@@ -757,286 +775,6 @@ class _BatchCleanupButtonState extends ConsumerState<_BatchCleanupButton> {
       label: Text(
         widget.batch,
         style: GoogleFonts.dmSans(fontSize: 12, fontWeight: FontWeight.w600),
-      ),
-    );
-  }
-}
-
-// ═══════════════════════════════════════════════════════════════
-// Edit user bottom sheet
-// ═══════════════════════════════════════════════════════════════
-
-class _EditUserSheet extends ConsumerStatefulWidget {
-  const _EditUserSheet({required this.user, required this.onSaved});
-  final Map<String, dynamic> user;
-  final VoidCallback onSaved;
-
-  @override
-  ConsumerState<_EditUserSheet> createState() => _EditUserSheetState();
-}
-
-class _EditUserSheetState extends ConsumerState<_EditUserSheet> {
-  late final TextEditingController _nameController;
-  late bool _isDriver;
-  late bool _isAdmin;
-  late final TextEditingController _vehicleController;
-  bool _isSaving = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _nameController = TextEditingController(
-      text: widget.user['full_name']?.toString() ?? '',
-    );
-    _isDriver = widget.user['is_driver'] == true;
-    _isAdmin = widget.user['is_admin'] == true;
-    _vehicleController = TextEditingController(
-      text: widget.user['vehicle_type']?.toString() ?? '',
-    );
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _vehicleController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _save() async {
-    if (_isSaving) return;
-    setState(() => _isSaving = true);
-
-    final userId = widget.user['id']?.toString();
-    if (userId == null || userId.isEmpty) return;
-
-    try {
-      final fields = <String, dynamic>{
-        'full_name': _nameController.text.trim(),
-        'is_admin': _isAdmin,
-        'is_driver': _isDriver,
-        'vehicle_type': _vehicleController.text.trim().isEmpty
-            ? null
-            : _vehicleController.text.trim(),
-      };
-
-      await ref.read(adminRepositoryProvider).updateUserFields(userId, fields);
-
-      widget.onSaved();
-      if (mounted) {
-        Navigator.of(context).pop();
-        CoolToast.success(context, 'User updated');
-      }
-    } catch (e) {
-      if (mounted) CoolToast.error(context, 'Failed: $e');
-    } finally {
-      if (mounted) setState(() => _isSaving = false);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final userId = widget.user['id']?.toString() ?? '';
-    final phone = widget.user['phone']?.toString() ?? '';
-
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(
-            22,
-            12,
-            22,
-            MediaQuery.of(context).viewInsets.bottom + 22,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Handle
-              Center(
-                child: Container(
-                  width: 40,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: AppColors.border,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              Text(
-                'Edit User',
-                style: GoogleFonts.dmSans(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.text,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                '$phone · ${userId.substring(0, 8.clamp(0, userId.length))}',
-                style: GoogleFonts.dmSans(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.text3,
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              // Full name
-              const _FieldLabel('Full name'),
-              const SizedBox(height: 6),
-              _EditInput(controller: _nameController),
-              const SizedBox(height: 16),
-
-              // Admin toggle
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Platform Admin',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.orange,
-                      ),
-                    ),
-                  ),
-                  Switch.adaptive(
-                    value: _isAdmin,
-                    onChanged: (v) => setState(() => _isAdmin = v),
-                    activeTrackColor: Colors.orange,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-
-              // Driver toggle
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Driver',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.text,
-                      ),
-                    ),
-                  ),
-                  Switch.adaptive(
-                    value: _isDriver,
-                    onChanged: (v) => setState(() => _isDriver = v),
-                    activeTrackColor: AppColors.accent,
-                  ),
-                ],
-              ),
-
-              // Vehicle type (only when driver)
-              if (_isDriver) ...[
-                const SizedBox(height: 8),
-                const _FieldLabel('Vehicle type'),
-                const SizedBox(height: 6),
-                _EditInput(
-                  controller: _vehicleController,
-                  hint: 'e.g. motorcycle, car',
-                ),
-              ],
-              const SizedBox(height: 24),
-
-              // Save
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton(
-                  onPressed: _isSaving ? null : _save,
-                  style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.accent,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                  ),
-                  child: _isSaving
-                      ? const SizedBox(
-                          width: 18,
-                          height: 18,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
-                          ),
-                        )
-                      : Text(
-                          'Save',
-                          style: GoogleFonts.dmSans(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 15,
-                          ),
-                        ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _FieldLabel extends StatelessWidget {
-  const _FieldLabel(this.text);
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: GoogleFonts.dmSans(
-        fontSize: 12,
-        fontWeight: FontWeight.w700,
-        color: AppColors.text3,
-        letterSpacing: 0.4,
-      ),
-    );
-  }
-}
-
-class _EditInput extends StatelessWidget {
-  const _EditInput({required this.controller, this.hint});
-  final TextEditingController controller;
-  final String? hint;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: GoogleFonts.dmSans(fontSize: 13, color: AppColors.text3),
-        filled: true,
-        fillColor: AppColors.bg,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 14,
-          vertical: 12,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: AppColors.border),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: AppColors.border),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: AppColors.accent, width: 1.5),
-        ),
       ),
     );
   }

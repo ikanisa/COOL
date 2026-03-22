@@ -5,7 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_foundations.dart';
+import '../../../../core/theme/cool_palette.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
+import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
 import '../../../../shared/widgets/cool_skeleton.dart';
 import '../../providers/rayon_sports_provider.dart';
@@ -13,6 +16,7 @@ import '../models/rs_models.dart';
 import '../providers/rs_admin_provider.dart';
 import '../widgets/rs_admin_shell.dart';
 import '../../../../core/l10n/l10n.dart';
+import '../../../../shared/widgets/cool_bottom_sheet.dart';
 
 /// Admin screen for managing RS matches — create, edit, toggle sale, delete.
 class RsAdminMatchesScreen extends ConsumerStatefulWidget {
@@ -31,7 +35,7 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
     return RsAdminShell(
       title: context.l10n.matches1,
       subtitle:
-          'Schedule fixtures adjust pricing',
+          'Schedule fixtures, adjust pricing, and control sale status with one operational board.',
       floatingActionButton: Semantics(
         button: true,
         label: 'Add match',
@@ -74,6 +78,8 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
         ),
         builder: (matches) => ListView.separated(
           padding: EdgeInsets.zero,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: matches.length,
           separatorBuilder: (context, index) => const SizedBox(height: 10),
           itemBuilder: (context, index) {
@@ -116,7 +122,10 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: Text(context.l10n.delete, style: const TextStyle(color: AppColors.red)),
+            child: Text(
+              context.l10n.delete,
+              style: const TextStyle(color: AppColors.red),
+            ),
           ),
         ],
       ),
@@ -128,6 +137,7 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
   }
 
   void _showMatchForm(BuildContext context, {RsMatch? match}) {
+    final palette = context.coolPalette;
     final isEdit = match != null;
     final homeCtrl = TextEditingController(
       text: match?.homeTeam ?? 'Rayon Sports',
@@ -147,10 +157,10 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
       text: match?.capacity.toString() ?? '20000',
     );
 
-    showModalBottomSheet(
+    showCoolBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: AppColors.surface,
+      backgroundColor: palette.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -171,7 +181,7 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
                 style: GoogleFonts.dmSans(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
               const SizedBox(height: 16),
@@ -268,6 +278,7 @@ class _MatchTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final dateStr = DateFormat('d MMM yyyy').format(match.matchDate);
     return Semantics(
       container: true,
@@ -277,13 +288,9 @@ class _MatchTile extends StatelessWidget {
           '$dateStr at ${match.kickoffTime}. Venue ${match.venue}. '
           'General price ${match.ticketGeneralPrice} Rwandan francs. '
           'VIP price ${match.ticketVipPrice} Rwandan francs. Capacity ${match.capacity}.',
-      child: Container(
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.border, width: 1),
-        ),
+      child: CoolCard(
+        backgroundColor: colors.cardSurfaceStrong,
+        borderColor: colors.borderStrong,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -293,9 +300,9 @@ class _MatchTile extends StatelessWidget {
                   child: Text(
                     '${match.homeTeam} vs ${match.awayTeam}',
                     style: GoogleFonts.dmSans(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.text,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800,
+                      color: colors.primaryText,
                     ),
                   ),
                 ),
@@ -309,18 +316,16 @@ class _MatchTile extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         color: match.isOnSale
-                            ? AppColors.accent.withValues(alpha: 0.15)
+                            ? colors.accent.withValues(alpha: 0.15)
                             : AppColors.red.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(CoolRadii.sm),
                       ),
                       child: Text(
                         match.isOnSale ? 'ON SALE' : 'OFF SALE',
                         style: GoogleFonts.dmSans(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w700,
-                          color: match.isOnSale
-                              ? AppColors.accent
-                              : AppColors.red,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w800,
+                          color: match.isOnSale ? colors.accent : AppColors.red,
                         ),
                       ),
                     ),
@@ -331,11 +336,19 @@ class _MatchTile extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               '$dateStr · ${match.kickoffTime} · ${match.venue}',
-              style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
+              style: GoogleFonts.dmSans(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: colors.secondaryText,
+              ),
             ),
             Text(
               '${match.competition} Gen ${match.ticketGeneralPrice} RWF',
-              style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
+              style: GoogleFonts.dmSans(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: colors.secondaryText,
+              ),
             ),
             const SizedBox(height: 8),
             Row(
@@ -377,7 +390,8 @@ class _TileAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final c = color ?? AppColors.text2;
+    final colors = context.coolSemanticColors;
+    final c = color ?? colors.secondaryText;
     return Semantics(
       button: true,
       label: label,
@@ -393,7 +407,25 @@ class _TileAction extends StatelessWidget {
           children: [
             Icon(icon, size: 16, color: c),
             const SizedBox(width: 4),
-            Text(label, style: GoogleFonts.dmSans(fontSize: 11, color: c)),
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: CoolSpace.x3,
+                vertical: CoolSpace.x2,
+              ),
+              decoration: BoxDecoration(
+                color: c.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(CoolRadii.pill),
+                border: Border.all(color: c.withValues(alpha: 0.18)),
+              ),
+              child: Text(
+                label,
+                style: GoogleFonts.dmSans(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                  color: c,
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -413,6 +445,7 @@ class _FormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Semantics(
@@ -422,15 +455,12 @@ class _FormField extends StatelessWidget {
         child: TextField(
           controller: controller,
           keyboardType: keyboardType,
-          style: GoogleFonts.dmSans(color: AppColors.text, fontSize: 14),
+          style: GoogleFonts.dmSans(color: palette.text, fontSize: 14),
           decoration: InputDecoration(
             labelText: label,
-            labelStyle: GoogleFonts.dmSans(
-              color: AppColors.text3,
-              fontSize: 13,
-            ),
+            labelStyle: GoogleFonts.dmSans(color: palette.text3, fontSize: 13),
             filled: true,
-            fillColor: AppColors.surface2,
+            fillColor: palette.surface2,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide.none,

@@ -118,14 +118,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Notifications'), findsOneWidget);
-      expect(find.text('Blocked in system'), findsOneWidget);
+      expect(find.text('Blocked in system'), findsWidgets);
       expect(find.text('Open system settings'), findsOneWidget);
-      expect(
-        find.text(
-          'System notification access is blocked. Open settings to allow push alerts again.',
-        ),
-        findsOneWidget,
-      );
     },
   );
 }

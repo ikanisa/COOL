@@ -10,11 +10,14 @@ import '../../../core/models/engagement_feature_flags.dart';
 import '../../../core/providers/engagement_providers.dart';
 import '../../../core/providers/supported_countries_provider.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../models/admin_feature_rollout.dart';
 import '../providers/admin_providers.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 
 part '../controllers/manage_app_config_view_model.dart';
 part '../widgets/manage_app_config_sections.dart';
@@ -26,13 +29,20 @@ class ManageAppConfigScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
     final configAsync = ref.watch(adminAppConfigProvider);
     final partnerRoutesAsync = ref.watch(adminPartnerPaymentRoutesProvider);
     final partnersAsync = ref.watch(adminPartnersProvider);
     final countries = ref.watch(supportedCountriesProvider);
 
-    return Scaffold(
-      backgroundColor: AppColors.bg,
+    return CoolScreenBackground(
+
+
+      showGlow: false,
+
+
+      child: Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         automaticallyImplyLeading: true,
         backgroundColor: Colors.transparent,
@@ -40,7 +50,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
           tooltip: context.l10n.back,
-          icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
+          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
       ),
       floatingActionButton: Semantics(
@@ -48,7 +58,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
         label: context.l10n.addConfigEntry,
         hint: 'New config',
         child: FloatingActionButton(
-          backgroundColor: AppColors.accent,
+          backgroundColor: palette.accent,
           onPressed: () => _showEditSheet(context, ref, null, countries),
           child: const Icon(Icons.add_rounded, color: Colors.black),
         ),
@@ -69,7 +79,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 34,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.text,
+                  color: palette.text,
                   height: 1.1,
                 ),
               ),
@@ -108,8 +118,8 @@ class ManageAppConfigScreen extends ConsumerWidget {
                     countries,
                   ),
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.text,
-                    side: BorderSide(color: AppColors.border),
+                    foregroundColor: palette.text,
+                    side: BorderSide(color: palette.border),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -160,8 +170,8 @@ class ManageAppConfigScreen extends ConsumerWidget {
                             partners,
                           ),
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.text,
-                    side: BorderSide(color: AppColors.border),
+                    foregroundColor: palette.text,
+                    side: BorderSide(color: palette.border),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
                     ),
@@ -232,6 +242,9 @@ class ManageAppConfigScreen extends ConsumerWidget {
           );
         },
       ),
+    ),
+
+
     );
   }
 
@@ -242,7 +255,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
     List<CoolCountry> countries,
     List<Map<String, dynamic>> partners,
   ) {
-    showModalBottomSheet<void>(
+    showCoolBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
@@ -261,7 +274,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
     Map<String, dynamic>? config,
     List<CoolCountry> countries,
   ) {
-    showModalBottomSheet<void>(
+    showCoolBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
@@ -276,7 +289,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
     AdminFeatureRolloutConfig rollout,
     List<CoolCountry> countries,
   ) {
-    showModalBottomSheet<void>(
+    showCoolBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
@@ -291,7 +304,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
     Map<String, dynamic>? config,
     List<CoolCountry> countries,
   ) {
-    showModalBottomSheet<void>(
+    showCoolBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,

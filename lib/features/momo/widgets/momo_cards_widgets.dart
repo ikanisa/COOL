@@ -30,27 +30,31 @@ class MomoActionGrid extends StatelessWidget {
       crossAxisCount: 2,
       mainAxisSpacing: 12,
       crossAxisSpacing: 12,
-      childAspectRatio: 1.1,
+      childAspectRatio: 1.02,
       children: [
         MomoActionCard(
           icon: Icons.receipt_long_rounded,
           title: context.l10n.statements,
+          subtitle: 'Ledger and statements',
           onTap: onOpenStatements,
         ),
         MomoActionCard(
           icon: Icons.center_focus_strong_rounded,
           title: context.l10n.scanQr,
+          subtitle: 'Scan a payment request',
           onTap: onScanQr,
           isPrimary: true,
         ),
         MomoActionCard(
           icon: Icons.qr_code_2_rounded,
           title: context.l10n.momoQr,
+          subtitle: 'Share your receive code',
           onTap: onOpenQrCode,
         ),
         MomoActionCard(
           icon: Icons.nfc_rounded,
           title: context.l10n.nfcPay,
+          subtitle: 'Tap and receive',
           onTap: onOpenNfcTools,
         ),
       ],
@@ -62,6 +66,7 @@ class MomoActionCard extends StatelessWidget {
   const MomoActionCard({
     required this.icon,
     required this.title,
+    required this.subtitle,
     required this.onTap,
     this.isPrimary = false,
     super.key,
@@ -69,6 +74,7 @@ class MomoActionCard extends StatelessWidget {
 
   final IconData icon;
   final String title;
+  final String subtitle;
   final VoidCallback onTap;
   final bool isPrimary;
 
@@ -84,20 +90,46 @@ class MomoActionCard extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: isPrimary ? palette.accent : palette.surface2,
+            gradient: isPrimary
+                ? LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [palette.accent, palette.accent2],
+                  )
+                : null,
+            color: isPrimary ? null : palette.surface2,
             borderRadius: BorderRadius.circular(24),
             border: Border.all(
-              color: isPrimary ? palette.accent : palette.border,
-              width: 1,
+              color: isPrimary ? palette.accent : palette.border2,
+              width: 1.1,
             ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: isPrimary ? 0.18 : 0.08),
+                blurRadius: 20,
+                spreadRadius: -12,
+                offset: const Offset(0, 14),
+              ),
+            ],
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(
-                icon,
-                size: 28,
-                color: isPrimary ? Colors.white : palette.text,
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: isPrimary
+                      ? Colors.white.withValues(alpha: 0.12)
+                      : palette.surface3,
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                alignment: Alignment.center,
+                child: Icon(
+                  icon,
+                  size: 22,
+                  color: isPrimary ? Colors.white : palette.text,
+                ),
               ),
               const SizedBox(height: 12),
               Text(
@@ -107,7 +139,39 @@ class MomoActionCard extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                   color: isPrimary ? Colors.white : palette.text,
                 ),
-                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 6),
+              Text(
+                subtitle,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.dmSans(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: isPrimary
+                      ? Colors.white.withValues(alpha: 0.78)
+                      : palette.text2,
+                  height: 1.35,
+                ),
+              ),
+              const Spacer(),
+              Row(
+                children: [
+                  Text(
+                    isPrimary ? 'Launch' : 'Open',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: isPrimary ? Colors.white : palette.text,
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  Icon(
+                    Icons.arrow_forward_rounded,
+                    size: 16,
+                    color: isPrimary ? Colors.white : palette.text,
+                  ),
+                ],
               ),
             ],
           ),

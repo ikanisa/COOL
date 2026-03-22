@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../providers/supabase_client_provider.dart';
 
 import '../models/cool_activity.dart';
 
@@ -9,7 +10,7 @@ import '../models/cool_activity.dart';
 /// and various quest/gamification surfaces.
 final coolActivitiesProvider =
     FutureProvider.autoDispose<List<CoolActivity>>((ref) async {
-  final client = Supabase.instance.client;
+  final client = ref.read(supabaseClientProvider);
   final rows = await client
       .from('cool_activities')
       .select()

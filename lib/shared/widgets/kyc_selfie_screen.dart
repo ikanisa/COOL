@@ -5,7 +5,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_palette.dart';
 import '../../shared/widgets/cool_button.dart';
 
 class KycSelfieScreen extends StatefulWidget {
@@ -87,6 +87,7 @@ class _KycSelfieScreenState extends State<KycSelfieScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -104,12 +105,12 @@ class _KycSelfieScreenState extends State<KycSelfieScreen> {
       body: _capturedPath != null
           ? _buildPreview()
           : _isInitialized
-              ? _buildCameraStack()
-              : const Center(child: CircularProgressIndicator(color: AppColors.accent)),
+              ? _buildCameraStack(palette)
+              : Center(child: CircularProgressIndicator(color: palette.accent)),
     );
   }
 
-  Widget _buildCameraStack() {
+  Widget _buildCameraStack(CoolPalette palette) {
     return Stack(
       children: [
         // Camera Preview
@@ -120,7 +121,7 @@ class _KycSelfieScreenState extends State<KycSelfieScreen> {
         // Oval Overlay
         Positioned.fill(
           child: CustomPaint(
-            painter: _OvalOverlayPainter(),
+            painter: _OvalOverlayPainter(accentColor: palette.accent),
           ),
         ),
 
@@ -227,6 +228,9 @@ class _KycSelfieScreenState extends State<KycSelfieScreen> {
 }
 
 class _OvalOverlayPainter extends CustomPainter {
+  _OvalOverlayPainter({required this.accentColor});
+  final Color accentColor;
+
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
@@ -249,7 +253,7 @@ class _OvalOverlayPainter extends CustomPainter {
     canvas.drawPath(path, paint);
 
     final borderPaint = Paint()
-      ..color = AppColors.accent
+      ..color = accentColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3;
 

@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_palette.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
 import '../../models/bank_admin_models.dart';
@@ -21,6 +22,7 @@ class BankMembersTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final moneyFormat = NumberFormat.decimalPattern('en_US');
     final dateFormat = DateFormat('dd MMM yyyy');
 
@@ -37,8 +39,8 @@ class BankMembersTab extends StatelessWidget {
       itemBuilder: (context, index) {
         final member = members[index];
         return CoolCard(
-          backgroundColor: AppColors.surface,
-          borderColor: AppColors.border,
+          backgroundColor: palette.surface,
+          borderColor: palette.border,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -51,7 +53,7 @@ class BankMembersTab extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -60,7 +62,7 @@ class BankMembersTab extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.text3,
+                        color: palette.text3,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -69,7 +71,7 @@ class BankMembersTab extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.text2,
+                        color: palette.text2,
                       ),
                     ),
                     Text(
@@ -79,7 +81,7 @@ class BankMembersTab extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.text2,
+                        color: palette.text2,
                       ),
                     ),
                   ],

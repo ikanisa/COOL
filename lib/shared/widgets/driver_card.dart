@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/identity/public_user_identity.dart';
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_foundations.dart';
+import '../../core/theme/cool_palette.dart';
 
 import 'wa_button.dart';
 
-/// A card displaying driver information for the mobility feature.
-///
-/// Shows initials avatar, online/offline badge, distance, rating,
-/// vehicle chip, and a WhatsApp action button. The driver's phone
-/// number is **never** displayed — only the WA button.
+/// Premium mobility listing for a driver with trust, proximity, and CTA hierarchy.
 class DriverCard extends StatelessWidget {
   const DriverCard({
     required this.driverId,
@@ -20,6 +16,12 @@ class DriverCard extends StatelessWidget {
     required this.isOnline,
     required this.onWhatsAppTap,
     this.onTap,
+    this.rating,
+    this.tripCount,
+    this.scheduledRoute,
+    this.baseLocation,
+    this.vehicleStatus,
+    this.isRegularDriver = false,
     super.key,
   });
 
@@ -30,6 +32,12 @@ class DriverCard extends StatelessWidget {
   final bool isOnline;
   final VoidCallback onWhatsAppTap;
   final VoidCallback? onTap;
+  final double? rating;
+  final int? tripCount;
+  final String? scheduledRoute;
+  final String? baseLocation;
+  final String? vehicleStatus;
+  final bool isRegularDriver;
 
   String get _initials {
     final source = PublicUserIdentity.resolve(
@@ -53,79 +61,191 @@ class DriverCard extends StatelessWidget {
   }
 
   String get _distanceLabel {
-    if (distanceKm < 1) return '${(distanceKm * 1000).round()} m';
-    return '${distanceKm.toStringAsFixed(1)} km';
+    if (distanceKm < 1) {
+      return '${(distanceKm * 1000).round()} m away';
+    }
+    return '${distanceKm.toStringAsFixed(1)} km away';
   }
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final name = PublicUserIdentity.resolve(
       publicUserId: displayName,
       userId: driverId,
     );
+    final availabilityLabel = isOnline ? 'Live now' : 'Recently active';
+    final trustLabel = isRegularDriver ? 'Trusted regular' : 'Verified listing';
+    final routeSummary = scheduledRoute?.trim();
+    final area = baseLocation?.trim();
+
     final content = Semantics(
       label:
-          '$name. $vehicleType. $_distanceLabel away.'
-          '${isOnline ? 'Online' : 'Offline'}.',
+          '$name. $vehicleType. $_distanceLabel. $availabilityLabel. $trustLabel.',
       excludeSemantics: true,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
-          color: AppColors.surface2,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.border),
+          color: colors.proximitySurface,
+          gradient: colors.surfaceGradient,
+          borderRadius: BorderRadius.circular(CoolRadii.lg),
+          border: Border.all(
+            color: isOnline
+                ? palette.accent.withValues(alpha: 0.32)
+                : colors.borderStrong,
+          ),
+          boxShadow: CoolShadows.clay(theme.brightness, strength: 0.55),
         ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Avatar
-            _Avatar(initials: _initials, isOnline: isOnline),
-            const SizedBox(width: 10),
-
-            // Info column — compact
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _Avatar(
+                  initials: _initials,
+                  isOnline: isOnline,
+                  palette: palette,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: Text(
-                          name,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.dmSans(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.text,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w800,
+                                color: colors.primaryText,
+                              ),
+                            ),
                           ),
+                          const SizedBox(width: 8),
+                          _StatusBadge(
+                            label: availabilityLabel,
+                            foregroundColor: isOnline
+                                ? palette.accent
+                                : palette.text2,
+                            backgroundColor: isOnline
+                                ? palette.accentGlow
+                                : palette.surface3,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        vehicleType,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: colors.secondaryText,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      _VehicleChip(
-                        icon: _vehicleIconFromType(vehicleType),
-                        type: vehicleType,
+                ),
+              ],
+            ),
+            const SizedBox(height: 14),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                _MetricChip(icon: Icons.near_me_rounded, label: _distanceLabel),
+                if (rating != null)
+                  _MetricChip(
+                    icon: Icons.star_rounded,
+                    label: '${rating!.toStringAsFixed(1)} rating',
+                    accentColor: palette.yellow,
+                  ),
+                if (tripCount != null && tripCount! > 0)
+                  _MetricChip(
+                    icon: Icons.route_rounded,
+                    label: '$tripCount trips',
+                    accentColor: palette.blue,
+                  ),
+                _MetricChip(
+                  icon: Icons.verified_user_outlined,
+                  label: trustLabel,
+                  accentColor: palette.accent,
+                ),
+              ],
+            ),
+            if ((routeSummary?.isNotEmpty ?? false) ||
+                (area?.isNotEmpty ?? false)) ...[
+              const SizedBox(height: 14),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: colors.cardSurfaceStrong,
+                  borderRadius: BorderRadius.circular(CoolRadii.md),
+                  border: Border.all(color: colors.border),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (routeSummary?.isNotEmpty ?? false)
+                      _DetailLine(
+                        icon: Icons.alt_route_rounded,
+                        label: 'Current route',
+                        value: routeSummary!,
                       ),
-                      const SizedBox(width: 6),
-                      _InfoChip(
-                        icon: Icons.near_me_rounded,
-                        label: _distanceLabel,
+                    if ((routeSummary?.isNotEmpty ?? false) &&
+                        (area?.isNotEmpty ?? false))
+                      const SizedBox(height: 10),
+                    if (area?.isNotEmpty ?? false)
+                      _DetailLine(
+                        icon: Icons.place_outlined,
+                        label: 'Base area',
+                        value: area!,
+                      ),
+                    if ((vehicleStatus?.trim().isNotEmpty ?? false)) ...[
+                      const SizedBox(height: 10),
+                      _DetailLine(
+                        icon: Icons.info_outline_rounded,
+                        label: 'Vehicle status',
+                        value: vehicleStatus!.trim(),
                       ),
                     ],
-                  ),
-                ],
+                  ],
+                ),
               ),
+            ],
+            const SizedBox(height: 14),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: onTap,
+                    icon: const Icon(Icons.visibility_outlined, size: 18),
+                    label: const Text('Preview'),
+                    style: OutlinedButton.styleFrom(
+                      minimumSize: const Size(0, 48),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: WaButton(
+                    label: 'Contact Driver',
+                    iconOnly: MediaQuery.sizeOf(context).width < 380,
+                    fullWidth: true,
+                    onTap: onWhatsAppTap,
+                  ),
+                ),
+              ],
             ),
-
-            const SizedBox(width: 8),
-
-            // WA button — inline right
-            WaButton(onTap: onWhatsAppTap),
           ],
         ),
       ),
@@ -139,99 +259,133 @@ class DriverCard extends StatelessWidget {
   }
 }
 
-/// Maps a vehicle type string to an asset image path.
-String _vehicleIconFromType(String vehicleType) {
-  final normalized = vehicleType.trim().toLowerCase();
-  if (normalized.contains('moto')) return 'assets/icons/vehicle_moto.png';
-  if (normalized.contains('cab') || normalized.contains('car')) return 'assets/icons/vehicle_cab.png';
-  if (normalized.contains('truck')) return 'assets/icons/vehicle_truck.png';
-  if (normalized.contains('pickup') || normalized.contains('others')) return 'assets/icons/vehicle_others.png';
-  if (normalized.contains('trike') || normalized.contains('van')) {
-    return 'assets/icons/vehicle_trike.png';
-  }
-  return 'assets/icons/vehicle_cab.png';
-}
-
-
-
-// ── Avatar with online indicator ────────────────────────────────────────
-
 class _Avatar extends StatelessWidget {
-  const _Avatar({required this.initials, required this.isOnline});
+  const _Avatar({
+    required this.initials,
+    required this.isOnline,
+    required this.palette,
+  });
+
   final String initials;
   final bool isOnline;
+  final CoolPalette palette;
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return SizedBox(
-      width: 44,
-      height: 44,
+      width: 50,
+      height: 50,
       child: Stack(
         children: [
           Container(
-            width: 44,
-            height: 44,
+            width: 50,
+            height: 50,
             decoration: BoxDecoration(
-              color: AppColors.accentGlow,
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [palette.accentGlow, palette.blueGlow],
+              ),
               shape: BoxShape.circle,
-              border: Border.all(color: AppColors.border2),
+              border: Border.all(color: palette.border2),
             ),
             alignment: Alignment.center,
             child: Text(
               initials,
-              style: GoogleFonts.dmSans(
+              style: theme.textTheme.labelMedium?.copyWith(
                 fontSize: 15,
-                fontWeight: FontWeight.w700,
-                color: AppColors.accent,
+                fontWeight: FontWeight.w800,
+                color: palette.text,
               ),
             ),
           ),
-          if (isOnline)
-            Positioned(
-              right: 0,
-              bottom: 0,
-              child: Container(
-                width: 12,
-                height: 12,
-                decoration: BoxDecoration(
-                  color: AppColors.accent,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.surface2, width: 2),
-                ),
+          Positioned(
+            right: 1,
+            bottom: 1,
+            child: Container(
+              width: 14,
+              height: 14,
+              decoration: BoxDecoration(
+                color: isOnline ? palette.accent : palette.orange,
+                shape: BoxShape.circle,
+                border: Border.all(color: palette.surface2, width: 2),
               ),
             ),
+          ),
         ],
       ),
     );
   }
 }
 
-// ── Vehicle chip ────────────────────────────────────────────────────────
+class _StatusBadge extends StatelessWidget {
+  const _StatusBadge({
+    required this.label,
+    required this.foregroundColor,
+    required this.backgroundColor,
+  });
 
-class _VehicleChip extends StatelessWidget {
-  const _VehicleChip({required this.icon, required this.type});
-  final String icon;
-  final String type;
+  final String label;
+  final Color foregroundColor;
+  final Color backgroundColor;
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
       decoration: BoxDecoration(
-        color: AppColors.surface3,
-        borderRadius: BorderRadius.circular(30),
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: foregroundColor.withValues(alpha: 0.2)),
+      ),
+      child: Text(
+        label,
+        style: theme.textTheme.labelSmall?.copyWith(
+          fontSize: 14,
+          fontWeight: FontWeight.w700,
+          color: foregroundColor,
+        ),
+      ),
+    );
+  }
+}
+
+class _MetricChip extends StatelessWidget {
+  const _MetricChip({
+    required this.icon,
+    required this.label,
+    this.accentColor,
+  });
+
+  final IconData icon;
+  final String label;
+  final Color? accentColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final color = accentColor ?? palette.text2;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+      decoration: BoxDecoration(
+        color: palette.surface3,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: palette.border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.asset(icon, width: 14, height: 14, color: AppColors.text2),
-          const SizedBox(width: 4),
+          Icon(icon, size: 14, color: color),
+          const SizedBox(width: 6),
           Text(
-            type,
-            style: GoogleFonts.dmSans(
-              fontSize: 11,
-              fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+            label,
+            style: theme.textTheme.labelSmall?.copyWith(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: color,
             ),
           ),
         ],
@@ -240,26 +394,46 @@ class _VehicleChip extends StatelessWidget {
   }
 }
 
-// ── Info chip ───────────────────────────────────────────────────────────
+class _DetailLine extends StatelessWidget {
+  const _DetailLine({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
 
-class _InfoChip extends StatelessWidget {
-  const _InfoChip({required this.icon, required this.label});
   final IconData icon;
   final String label;
+  final String value;
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
+    final theme = Theme.of(context);
     return Row(
-      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, size: 14, color: AppColors.text3),
-        const SizedBox(width: 3),
-        Text(
-          label,
-          style: GoogleFonts.dmSans(
-            fontSize: 11,
-            fontWeight: FontWeight.w500,
-            color: AppColors.text2,
+        Icon(icon, size: 16, color: palette.text3),
+        const SizedBox(width: 8),
+        Expanded(
+          child: RichText(
+            text: TextSpan(
+              style: theme.textTheme.bodySmall?.copyWith(
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+                color: palette.text2,
+                height: 1.35,
+              ),
+              children: [
+                TextSpan(
+                  text: '$label: ',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: palette.text,
+                  ),
+                ),
+                TextSpan(text: value),
+              ],
+            ),
           ),
         ),
       ],

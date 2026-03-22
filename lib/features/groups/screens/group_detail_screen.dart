@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../core/l10n/l10n.dart';
+
 import '../../auth/providers/auth_provider.dart';
 
 import '../../../core/config/deep_link_config.dart';
@@ -12,6 +14,7 @@ import '../../../core/providers/referral_providers.dart';
 import '../../../core/status/cool_status_awarder.dart';
 import '../../../core/status/models/cool_event.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
@@ -29,6 +32,7 @@ import '../providers/groups_provider.dart';
 import '../widgets/group_detail/group_contribute_sheet.dart';
 import '../widgets/group_detail/group_detail_helpers.dart';
 import '../widgets/group_detail/group_settings_sheet.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
 
 /// Detailed view of a single savings or community group.
 ///
@@ -48,19 +52,20 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final detailAsync = ref.watch(groupDetailProvider(widget.groupId));
     final isJoiningGroup = ref.watch(groupJoinLoadingProvider);
 
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: palette.bg,
       appBar: AppBar(
         automaticallyImplyLeading: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           onPressed: () => context.pop(),
-          tooltip: 'Back',
-          icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
+          tooltip: context.l10n.back,
+          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
         actions: [
           if (detailAsync.valueOrNull != null)
@@ -68,15 +73,15 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
         ],
       ),
       body: CoolScreenBackground(
-        primaryColor: AppColors.accent,
-        secondaryColor: AppColors.blue,
+        primaryColor: palette.accent,
+        secondaryColor: palette.blue,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(18, 0, 18, 24),
               child: Text(
-                'Group Detail',
+                context.l10n.groupDetailTitle,
                 style: Theme.of(context).textTheme.displayLarge,
               ),
             ),
@@ -90,8 +95,8 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
                   child: CoolSkeletonList(itemCount: 4),
                 ),
                 emptyCheck: (detail) => detail == null,
-                emptyWidget: const CoolEmptyView(
-                  message: 'Group not found.',
+                emptyWidget: CoolEmptyView(
+                  message: context.l10n.groupNotFound,
                 ),
                 builder: (detail) => _buildContent(detail!, isJoiningGroup),
               ),
@@ -136,7 +141,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
       context,
       groupName: group.name,
       inviteUrl: shareUri.toString(),
-      shareText: 'Join ${group.name} on Cool: ${shareUri.toString()}',
+      shareText: context.l10n.joinGroupShareText(group.name, shareUri.toString()),
       analyticsTargetType: 'group_invite',
     );
   }
@@ -146,7 +151,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
       context,
       appAccessService: ref.read(appAccessServiceProvider),
       multiSelect: true,
-      title: 'Invite to ${detail.group.name}',
+      title: context.l10n.inviteToGroup(detail.group.name),
     );
 
     if (contacts.isEmpty || !mounted) return;
@@ -179,12 +184,12 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
 
     if (!mounted) return;
 
-    final shareText = 'Join ${group.name} on Cool! 🎉\n${shareUri.toString()}';
+    final shareText = context.l10n.joinGroupShareTextEmoji(group.name, shareUri.toString());
     await SharePlus.instance.share(ShareParams(text: shareText));
   }
 
   Future<void> _openMoreActions(GroupDetail detail) async {
-    await showModalBottomSheet<void>(
+    await showCoolBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       builder: (_) => GroupMoreActionsSheet(
@@ -268,7 +273,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    'Target: RWF ${groupFormatAmount(group.targetAmount)}',
+                    context.l10n.targetAmountRwf(groupFormatAmount(group.targetAmount)),
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                   const SizedBox(height: 20),
@@ -332,14 +337,14 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
                         onTap: () => _showContributeSheet(context, detail),
                       )
                     : CoolButton(
-                        label: 'Join Group',
+                        label: context.l10n.joinGroup,
                         isLoading: isLoading,
                         onTap: () => _joinGroup(detail),
                       ),
               ),
               const SizedBox(width: 12),
               CoolButton(
-                label: 'More',
+                label: context.l10n.more,
                 icon: Icons.more_horiz_rounded,
                 fullWidth: false,
                 variant: CoolButtonVariant.secondary,
@@ -354,9 +359,9 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
           // MEMBERS SECTION
           // ═══════════════════════════════════════════════════════
           SectionTitle(
-            title: 'Members (${members.length})',
+            title: context.l10n.membersCount(members.length),
             actionLabel: members.length > 3
-                ? (_showAllMembers ? 'Show less' : 'Show all')
+                ? (_showAllMembers ? context.l10n.showLess : context.l10n.showAll)
                 : null,
             onAction: members.length > 3
                 ? () => setState(() => _showAllMembers = !_showAllMembers)
@@ -383,8 +388,8 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
           // CONTRIBUTIONS HISTORY
           // ═══════════════════════════════════════════════════════
           SectionTitle(
-            title: 'Recent contributions',
-            actionLabel: contributions.length > 3 ? 'Show all' : null,
+            title: context.l10n.recentContributions,
+            actionLabel: contributions.length > 3 ? context.l10n.showAll : null,
             onAction: contributions.length > 3
                 ? () => context.push('/groups/${group.id}/ledger')
                 : null,
@@ -396,7 +401,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
               padding: const EdgeInsets.symmetric(vertical: 24),
               child: Center(
                 child: Text(
-                  'No contributions yet',
+                  context.l10n.noContributionsYet,
                   style: GoogleFonts.dmSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w400,
@@ -416,7 +421,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
 
   void _showContributeSheet(BuildContext context, GroupDetail detail) {
     ref.read(groupsProvider.notifier).clearContributionState();
-    showModalBottomSheet<void>(
+    showCoolBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
@@ -443,7 +448,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
     if (inviteCode == null || inviteCode.isEmpty) {
       CoolToast.info(
         context,
-        'This group does not have a shareable invite code yet.',
+        context.l10n.noInviteCodeYet,
       );
       return;
     }
@@ -457,14 +462,14 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
     }
 
     if (result == null) {
-      final error = ref.read(groupJoinErrorProvider) ?? 'Could not join group.';
+      final error = ref.read(groupJoinErrorProvider) ?? context.l10n.couldNotJoinGroup;
       CoolToast.error(context, error);
       return;
     }
 
     final message = result.didJoin
-        ? 'You joined ${result.detail.group.name}.'
-        : 'You are already a member of ${result.detail.group.name}.';
+        ? context.l10n.youJoinedGroup(result.detail.group.name)
+        : context.l10n.alreadyMemberOf(result.detail.group.name);
     ref.invalidate(groupDetailProvider(widget.groupId));
     CoolToast.success(context, message);
   }
@@ -475,6 +480,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
     BuildContext context,
     GroupDetail detail,
   ) {
+    final palette = context.coolPalette;
     final currentUserId = ref.read(currentUserProvider)?.id;
     final isCreator = currentUserId != null &&
         currentUserId == detail.group.creatorId;
@@ -486,13 +492,13 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen>
 
     return IconButton(
       onPressed: () => _openGroupSettings(context, detail),
-      icon: Icon(Icons.settings_outlined, color: AppColors.text2, size: 22),
-      tooltip: 'Group settings',
+      icon: Icon(Icons.settings_outlined, color: palette.text2, size: 22),
+      tooltip: context.l10n.groupSettings,
     );
   }
 
   void _openGroupSettings(BuildContext context, GroupDetail detail) {
-    showModalBottomSheet<void>(
+    showCoolBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,

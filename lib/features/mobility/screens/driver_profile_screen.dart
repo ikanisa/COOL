@@ -5,7 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/router/app_routes.dart';
 import '../../../core/services/momo_service.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
+import '../../../shared/widgets/cool_glass_card.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_screen_scaffold.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
@@ -63,6 +64,7 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final currentUser = ref.watch(currentUserProvider);
     final driverState = ref.watch(driverProvider);
     final profile = driverState.profile;
@@ -88,10 +90,10 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(
+                Icon(
                   Icons.warning_amber_rounded,
                   size: 40,
-                  color: AppColors.orange,
+                  color: palette.orange,
                 ),
                 const SizedBox(height: 16),
                 Text(
@@ -100,7 +102,7 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
                   style: GoogleFonts.dmSans(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
+                    color: palette.text2,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -116,7 +118,7 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
                         vertical: 10,
                       ),
                       decoration: BoxDecoration(
-                        color: AppColors.accentGlow,
+                        color: palette.accentGlow,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
@@ -124,7 +126,7 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
                         style: GoogleFonts.dmSans(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.accent,
+                          color: palette.accent,
                         ),
                       ),
                     ),
@@ -262,21 +264,17 @@ class _DriverDashboardCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final creditsLabel = driver.subscription != null
         ? 'Unlimited'
         : '${driver.freeTripsRemaining} left';
 
-    return Container(
+    return CoolGlassCard(
       padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: driver.isOnline
-              ? AppColors.accent.withValues(alpha: 0.32)
-              : AppColors.border,
-        ),
-      ),
+      borderRadius: 20,
+      borderColor: driver.isOnline
+          ? palette.accent.withValues(alpha: 0.32)
+          : palette.border,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -292,7 +290,7 @@ class _DriverDashboardCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.text3,
+                        color: palette.text3,
                       ),
                     ),
                     const SizedBox(height: 6),
@@ -301,7 +299,7 @@ class _DriverDashboardCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -310,7 +308,7 @@ class _DriverDashboardCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.text2,
+                        color: palette.text2,
                       ),
                     ),
                   ],
@@ -328,11 +326,11 @@ class _DriverDashboardCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             decoration: BoxDecoration(
               color: driver.isOnline
-                  ? AppColors.accentGlow
-                  : AppColors.surface3,
+                  ? palette.accentGlow
+                  : palette.surface3,
               borderRadius: BorderRadius.circular(14),
               border: Border.all(
-                color: driver.isOnline ? AppColors.accent : AppColors.border,
+                color: driver.isOnline ? palette.accent : palette.border,
               ),
             ),
             child: Text(
@@ -342,7 +340,7 @@ class _DriverDashboardCard extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: driver.isOnline ? AppColors.accent : AppColors.text2,
+                color: driver.isOnline ? palette.accent : palette.text2,
                 height: 1.4,
               ),
             ),
@@ -354,7 +352,7 @@ class _DriverDashboardCard extends StatelessWidget {
                 child: _DriverQuickStat(
                   label: 'Trips',
                   value: '${driver.tripsDone}',
-                  valueColor: AppColors.accent,
+                  valueColor: palette.accent,
                 ),
               ),
               const SizedBox(width: 10),
@@ -362,7 +360,7 @@ class _DriverDashboardCard extends StatelessWidget {
                 child: _DriverQuickStat(
                   label: 'Credits',
                   value: creditsLabel,
-                  valueColor: AppColors.yellow,
+                  valueColor: palette.yellow,
                 ),
               ),
               const SizedBox(width: 10),
@@ -370,7 +368,7 @@ class _DriverDashboardCard extends StatelessWidget {
                 child: _DriverQuickStat(
                   label: 'Plan',
                   value: planLabel,
-                  valueColor: AppColors.blue,
+                  valueColor: palette.blue,
                   isMonospace: false,
                 ),
               ),
@@ -414,10 +412,11 @@ class _DriverQuickStat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
       decoration: BoxDecoration(
-        color: AppColors.surface3,
+        color: palette.surface3,
         borderRadius: BorderRadius.circular(14),
       ),
       child: Column(
@@ -440,7 +439,7 @@ class _DriverQuickStat extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 11,
               fontWeight: FontWeight.w500,
-              color: AppColors.text3,
+              color: palette.text3,
             ),
           ),
         ],
@@ -457,6 +456,7 @@ class _DriverSectionIntro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -465,7 +465,7 @@ class _DriverSectionIntro extends StatelessWidget {
           style: GoogleFonts.dmSans(
             fontSize: 16,
             fontWeight: FontWeight.w700,
-            color: AppColors.text,
+            color: palette.text,
           ),
         ),
         const SizedBox(height: 4),
@@ -474,7 +474,7 @@ class _DriverSectionIntro extends StatelessWidget {
           style: GoogleFonts.dmSans(
             fontSize: 12,
             fontWeight: FontWeight.w500,
-            color: AppColors.text3,
+            color: palette.text3,
           ),
         ),
       ],

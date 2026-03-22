@@ -25,6 +25,8 @@ import '../widgets/bank_admin/bank_loans_tab.dart';
 import '../widgets/bank_admin/bank_members_tab.dart';
 import '../widgets/bank_admin/bank_workspace_hero.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 
 class BankAdminWorkspaceScreen extends ConsumerStatefulWidget {
   const BankAdminWorkspaceScreen({required this.partnerId, super.key});
@@ -103,7 +105,7 @@ class _BankAdminWorkspaceScreenState
     BankAdminGroupSummary group,
     BankAdminWorkspaceSnapshot snapshot,
   ) {
-    showModalBottomSheet<void>(
+    showCoolBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       backgroundColor: AppColors.surface,
@@ -394,7 +396,7 @@ class _BankAdminWorkspaceScreenState
     final nameCtrl = TextEditingController();
     bool isCreatingMember = false;
 
-    await showModalBottomSheet<void>(
+    await showCoolBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       backgroundColor: AppColors.surface,
@@ -403,6 +405,7 @@ class _BankAdminWorkspaceScreenState
       ),
       builder: (context) => StatefulBuilder(
         builder: (context, setModalState) {
+          final palette = context.coolPalette;
           var scopedMembers = membersFor(selectedGroupId);
           // Apply search filter
           if (memberSearchQuery.isNotEmpty) {
@@ -439,7 +442,7 @@ class _BankAdminWorkspaceScreenState
                         width: 42,
                         height: 4,
                         decoration: BoxDecoration(
-                          color: AppColors.border,
+                          color: palette.border,
                           borderRadius: BorderRadius.circular(999),
                         ),
                       ),
@@ -450,7 +453,7 @@ class _BankAdminWorkspaceScreenState
                       style: GoogleFonts.dmSans(
                         fontSize: 17,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -459,7 +462,7 @@ class _BankAdminWorkspaceScreenState
                       style: GoogleFonts.dmSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.text2,
+                        color: palette.text2,
                       ),
                     ),
                     // ── AI suggestion banner ──
@@ -468,23 +471,23 @@ class _BankAdminWorkspaceScreenState
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: AppColors.accent.withValues(alpha: 0.08),
+                          color: palette.accent.withValues(alpha: 0.08),
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: AppColors.accent.withValues(alpha: 0.3)),
+                          border: Border.all(color: palette.accent.withValues(alpha: 0.3)),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               children: [
-                                const Icon(Icons.auto_awesome, size: 16, color: AppColors.accent),
+                                Icon(Icons.auto_awesome, size: 16, color: palette.accent),
                                 const SizedBox(width: 6),
                                 Text(
                                   'AI Suggestion · ${(item.suggestedConfidence ?? 0).toStringAsFixed(0)}% match',
                                   style: GoogleFonts.dmSans(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w700,
-                                    color: AppColors.accent,
+                                    color: palette.accent,
                                   ),
                                 ),
                               ],
@@ -493,14 +496,14 @@ class _BankAdminWorkspaceScreenState
                               const SizedBox(height: 4),
                               Text(
                                 'Suggested member: ${item.suggestedMemberName}',
-                                style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text2),
+                                style: GoogleFonts.dmSans(fontSize: 12, color: palette.text2),
                               ),
                             ],
                             if (item.aiReasoning != null) ...[
                               const SizedBox(height: 4),
                               Text(
                                 item.aiReasoning!,
-                                style: GoogleFonts.dmSans(fontSize: 11, color: AppColors.text3),
+                                style: GoogleFonts.dmSans(fontSize: 11, color: palette.text3),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -578,7 +581,7 @@ class _BankAdminWorkspaceScreenState
                         style: GoogleFonts.dmSans(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.orange,
+                          color: palette.orange,
                         ),
                       ),
                     ],
@@ -591,7 +594,7 @@ class _BankAdminWorkspaceScreenState
                           Icon(
                             showCreateMember ? Icons.remove_circle_outline : Icons.add_circle_outline,
                             size: 18,
-                            color: AppColors.accent,
+                            color: palette.accent,
                           ),
                           const SizedBox(width: 6),
                           Text(
@@ -599,7 +602,7 @@ class _BankAdminWorkspaceScreenState
                             style: GoogleFonts.dmSans(
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.accent,
+                              color: palette.accent,
                             ),
                           ),
                         ],
@@ -718,7 +721,13 @@ class _BankAdminWorkspaceScreenState
                 bankAdminWorkspaceProvider(widget.partnerId),
               );
 
-              return Scaffold(
+              return CoolScreenBackground(
+
+
+                showGlow: false,
+
+
+                child: Scaffold(
                 backgroundColor: palette.bg,
                 appBar: AppBar(
                   backgroundColor: Colors.transparent,
@@ -885,6 +894,9 @@ class _BankAdminWorkspaceScreenState
                     );
                   },
                 ),
+              ),
+
+
               );
             },
             loading: () => const AdminLoadingScaffold(title: 'Bank Admin'),

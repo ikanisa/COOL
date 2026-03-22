@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../core/utils/icon_mapper.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
@@ -49,6 +49,7 @@ class PartnerSectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final meta = categoryMeta[category] ?? categoryMeta[fallbackCategory]!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +73,7 @@ class PartnerSectionHeader extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 18,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
             ),
@@ -84,7 +85,7 @@ class PartnerSectionHeader extends StatelessWidget {
           style: GoogleFonts.dmSans(
             fontSize: 13,
             fontWeight: FontWeight.w500,
-            color: AppColors.text2,
+            color: palette.text2,
             height: 1.45,
           ),
         ),
@@ -129,6 +130,7 @@ class PartnerServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final normalizedCategory = normalizeCategory(service.category);
     final meta =
         categoryMeta[normalizedCategory] ?? categoryMeta[fallbackCategory]!;
@@ -152,7 +154,7 @@ class PartnerServiceCard extends StatelessWidget {
                 child: Icon(
                   IconMapper.from(service.emoji),
                   size: 22,
-                  color: AppColors.text2,
+                  color: palette.text2,
                 ),
               ),
               const SizedBox(width: 12),
@@ -165,7 +167,7 @@ class PartnerServiceCard extends StatelessWidget {
                       style: GoogleFonts.dmSans(
                         fontSize: 16,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                     if (service.subtitle != null &&
@@ -176,7 +178,7 @@ class PartnerServiceCard extends StatelessWidget {
                         style: GoogleFonts.dmSans(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.text2,
+                          color: palette.text2,
                           height: 1.45,
                         ),
                       ),
@@ -192,9 +194,9 @@ class PartnerServiceCard extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: AppColors.surface2,
+                color: palette.surface2,
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: palette.border),
               ),
               child: Column(
                 children: [
@@ -247,6 +249,7 @@ class PartnerDetailRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -261,7 +264,7 @@ class PartnerDetailRow extends StatelessWidget {
           child: Icon(
             IconMapper.from(detail.icon),
             size: 13,
-            color: AppColors.text2,
+            color: palette.text2,
           ),
         ),
         const SizedBox(width: 10),
@@ -274,7 +277,7 @@ class PartnerDetailRow extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.text3,
+                  color: palette.text3,
                 ),
               ),
               const SizedBox(height: 2),
@@ -283,7 +286,7 @@ class PartnerDetailRow extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.text,
+                  color: palette.text,
                   height: 1.35,
                 ),
               ),
@@ -316,6 +319,7 @@ class PartnerQuickActionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Semantics(
       button: true,
       label: '$title action',
@@ -329,14 +333,14 @@ class PartnerQuickActionTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(icon, color: AppColors.accent, size: 22),
+                Icon(icon, color: palette.accent, size: 22),
                 const SizedBox(height: 10),
                 Text(
                   title,
                   style: GoogleFonts.dmSans(
                     fontSize: 14,
                     fontWeight: FontWeight.w800,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -345,7 +349,7 @@ class PartnerQuickActionTile extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
+                    color: palette.text2,
                     height: 1.35,
                   ),
                 ),
@@ -371,24 +375,25 @@ class PartnerHeroPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.70),
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 16, color: AppColors.accent),
+          Icon(icon, size: 16, color: palette.accent),
           const SizedBox(width: 8),
           Text(
             label,
             style: GoogleFonts.dmSans(
               fontSize: 12,
               fontWeight: FontWeight.w700,
-              color: AppColors.text,
+              color: palette.text,
             ),
           ),
         ],
@@ -416,10 +421,11 @@ class PartnerSupportLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, size: 18, color: AppColors.accent),
+        Icon(icon, size: 18, color: palette.accent),
         const SizedBox(width: 10),
         Expanded(
           child: Column(
@@ -430,7 +436,7 @@ class PartnerSupportLine extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.text3,
+                  color: palette.text3,
                 ),
               ),
               const SizedBox(height: 2),
@@ -439,7 +445,7 @@ class PartnerSupportLine extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.text,
+                  color: palette.text,
                 ),
               ),
             ],
@@ -508,10 +514,10 @@ class PartnerEmptyServicesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CoolCard(
+    return CoolCard(
       child: CoolEmptyView(
         message:
-            'Services for partnerName will',
+            'Services for $partnerName will appear here once configured.',
         compact: true,
         icon: Icons.assignment_outlined,
       ),

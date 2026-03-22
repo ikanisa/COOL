@@ -311,6 +311,7 @@ class _EditPartnerPaymentRouteSheetState
         onChanged: _saving || _deleting
             ? null
             : (value) {
+              final palette = context.coolPalette;
                 setState(() {
                   _selectedPartnerId = value;
                 });
@@ -836,9 +837,10 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: palette.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
@@ -860,7 +862,7 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
                     width: 40,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: AppColors.border2,
+                      color: palette.border2,
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -871,7 +873,7 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
                   style: GoogleFonts.dmSans(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -879,18 +881,18 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
                   widget.rollout.description,
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
-                    color: AppColors.text3,
+                    color: palette.text3,
                   ),
                 ),
                 const SizedBox(height: 16),
                 DropdownButtonFormField<FeatureRolloutStage>(
                   initialValue: _stage,
-                  dropdownColor: AppColors.surface2,
+                  dropdownColor: palette.surface2,
                   decoration: InputDecoration(
                     labelText: 'Rollout stage',
-                    labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
+                    labelStyle: GoogleFonts.dmSans(color: palette.text3),
                     filled: true,
-                    fillColor: AppColors.surface2,
+                    fillColor: palette.surface2,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
@@ -918,21 +920,21 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
                   onChanged: _saving
                       ? null
                       : (value) => setState(() => _killSwitch = value),
-                  activeThumbColor: AppColors.accent,
-                  activeTrackColor: AppColors.accent.withValues(alpha: 0.35),
+                  activeThumbColor: palette.accent,
+                  activeTrackColor: palette.accent.withValues(alpha: 0.35),
                   title: Text(
                     'Kill switch',
                     style: GoogleFonts.dmSans(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.text,
+                      color: palette.text,
                     ),
                   ),
                   subtitle: Text(
                     'Immediately blocks the feature',
                     style: GoogleFonts.dmSans(
                       fontSize: 12,
-                      color: AppColors.text3,
+                      color: palette.text3,
                     ),
                   ),
                 ),
@@ -941,21 +943,21 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
                   onChanged: _saving
                       ? null
                       : (value) => setState(() => _adminOnly = value),
-                  activeThumbColor: AppColors.accent,
-                  activeTrackColor: AppColors.accent.withValues(alpha: 0.35),
+                  activeThumbColor: palette.accent,
+                  activeTrackColor: palette.accent.withValues(alpha: 0.35),
                   title: Text(
                     'Admin only',
                     style: GoogleFonts.dmSans(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.text,
+                      color: palette.text,
                     ),
                   ),
                   subtitle: Text(
                     'Requires admin access even',
                     style: GoogleFonts.dmSans(
                       fontSize: 12,
-                      color: AppColors.text3,
+                      color: palette.text3,
                     ),
                   ),
                 ),
@@ -965,7 +967,7 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
                   style: GoogleFonts.dmSans(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -973,7 +975,7 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
                   'This app is restricted',
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
-                    color: AppColors.text3,
+                    color: palette.text3,
                   ),
                 ),
                 const SizedBox(height: 18),
@@ -983,7 +985,7 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
                   child: ElevatedButton(
                     onPressed: _saving ? null : _save,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.accent,
+                      backgroundColor: palette.accent,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
                       ),

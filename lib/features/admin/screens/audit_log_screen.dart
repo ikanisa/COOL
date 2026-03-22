@@ -4,11 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../providers/admin_providers.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 
 /// Audit log viewer — shows all admin actions captured by DB triggers.
 class AuditLogScreen extends ConsumerStatefulWidget {
@@ -30,10 +32,17 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final logsAsync = ref.watch(adminAuditLogProvider(_selectedAction));
 
-    return Scaffold(
-      backgroundColor: AppColors.bg,
+    return CoolScreenBackground(
+
+
+      showGlow: false,
+
+
+      child: Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         automaticallyImplyLeading: true,
         backgroundColor: Colors.transparent,
@@ -41,7 +50,7 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
           tooltip: context.l10n.back,
-          icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
+          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
       ),
       body: Column(
@@ -54,7 +63,7 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
               style: GoogleFonts.dmSans(
                 fontSize: 34,
                 fontWeight: FontWeight.w800,
-                color: AppColors.text,
+                color: palette.text,
                 height: 1.1,
               ),
             ),
@@ -67,7 +76,7 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
               style: GoogleFonts.dmSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
-                color: AppColors.text3,
+                color: palette.text3,
               ),
             ),
           ),
@@ -94,15 +103,15 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
                     HapticFeedback.selectionClick();
                     setState(() => _selectedAction = action);
                   },
-                  backgroundColor: AppColors.bg,
-                  selectedColor: AppColors.blue.withValues(alpha: 0.2),
+                  backgroundColor: Colors.transparent,
+                  selectedColor: palette.blue.withValues(alpha: 0.2),
                   labelStyle: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color: isSelected ? AppColors.blue : AppColors.text3,
+                    color: isSelected ? palette.blue : palette.text3,
                   ),
                   side: BorderSide(
-                    color: isSelected ? AppColors.blue : AppColors.border,
+                    color: isSelected ? palette.blue : palette.border,
                   ),
                   visualDensity: VisualDensity.compact,
                 );
@@ -139,6 +148,9 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
           ),
         ],
       ),
+    ),
+
+
     );
   }
 }
@@ -186,6 +198,7 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final e = widget.entry;
     final actorName = e['actor_name']?.toString().trim();
     final actorPhone = e['actor_phone']?.toString().trim();
@@ -208,9 +221,9 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: palette.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: palette.border),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -236,7 +249,7 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
                         style: GoogleFonts.dmSans(
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.text,
+                          color: palette.text,
                         ),
                       ),
                       Text(
@@ -244,7 +257,7 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
                         style: GoogleFonts.dmSans(
                           fontSize: 11,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.text3,
+                          color: palette.text3,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -257,7 +270,7 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
                   style: GoogleFonts.dmSans(
                     fontSize: 10,
                     fontWeight: FontWeight.w400,
-                    color: AppColors.text3,
+                    color: palette.text3,
                   ),
                 ),
                 const SizedBox(width: 4),
@@ -266,7 +279,7 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
                       ? Icons.expand_less_rounded
                       : Icons.expand_more_rounded,
                   size: 18,
-                  color: AppColors.text3,
+                  color: palette.text3,
                 ),
               ],
             ),
@@ -323,6 +336,7 @@ class _JsonPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final text = data is Map
         ? (data as Map)
             .entries
@@ -335,16 +349,16 @@ class _JsonPreview extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: AppColors.bg,
+        color: palette.bg,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: palette.border),
       ),
       child: Text(
         text,
         style: GoogleFonts.jetBrainsMono(
           fontSize: 10,
           fontWeight: FontWeight.w400,
-          color: AppColors.text3,
+          color: palette.text3,
         ),
         maxLines: 8,
         overflow: TextOverflow.ellipsis,

@@ -10,7 +10,7 @@ import 'hive_runtime.dart';
 import 'device_settings_service.dart';
 import 'location_service.dart';
 
-enum AppAccessPermission { contacts, camera, location, nfc, sms }
+enum AppAccessPermission { contacts, camera, location, nfc, sms, photos }
 
 enum AppAccessStateKind {
   ready,
@@ -56,6 +56,7 @@ class AppAccessService {
        _nfcHceService = nfcHceService ?? NfcHceService.instance;
 
   static const boxName = 'app_access_preferences';
+  static const _onboardingKey = 'permission_onboarding_complete';
 
   final OpenHiveBox<bool> _openBox;
   final LocationService _locationService;
@@ -64,6 +65,18 @@ class AppAccessService {
   final ValueNotifier<int> _changeRevision = ValueNotifier<int>(0);
 
   ValueListenable<int> get changes => _changeRevision;
+
+  /// Whether the user has completed the one-time permission onboarding.
+  Future<bool> hasCompletedPermissionOnboarding() async {
+    final box = await _openBox(boxName);
+    return box.get(_onboardingKey, defaultValue: false) ?? false;
+  }
+
+  /// Marks the one-time permission onboarding as complete.
+  Future<void> markPermissionOnboardingComplete() async {
+    final box = await _openBox(boxName);
+    await box.put(_onboardingKey, true);
+  }
 
   Future<bool> isEnabled(AppAccessPermission permission) async {
     final box = await _openBox(boxName);
@@ -117,6 +130,10 @@ class AppAccessService {
       AppAccessPermission.location => _locationSnapshot(permission),
       AppAccessPermission.nfc => _nfcSnapshot(permission),
       AppAccessPermission.sms => _smsSnapshot(permission),
+      AppAccessPermission.photos => _permissionSnapshot(
+        permission: permission,
+        status: await Permission.photos.status,
+      ),
     };
   }
 
@@ -149,6 +166,9 @@ class AppAccessService {
           await Permission.sms.request();
         }
         break;
+      case AppAccessPermission.photos:
+        await Permission.photos.request();
+        break;
     }
     return getSnapshot(permission);
   }
@@ -174,6 +194,7 @@ class AppAccessService {
       case AppAccessPermission.contacts:
       case AppAccessPermission.camera:
       case AppAccessPermission.sms:
+      case AppAccessPermission.photos:
         return openAppSettings();
     }
   }
@@ -315,10 +336,5 @@ class AppAccessService {
     return Platform.isAndroid;
   }
 
-  bool _defaultEnabled(AppAccessPermission permission) {
-    return switch (permission) {
-      AppAccessPermission.sms => false,
-      _ => true,
-    };
-  }
+  bool _defaultEnabled(AppAccessPermission _) => true;
 }

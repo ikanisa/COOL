@@ -164,6 +164,23 @@ class RsShopItem extends StatelessWidget {
                     _MetaPill(label: '${product.availableSizes.length} sizes'),
                 ],
               ),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 6,
+                runSpacing: 6,
+                children: [
+                  const _TrustFlag(
+                    icon: Icons.verified_outlined,
+                    label: 'Official seller',
+                  ),
+                  _TrustFlag(
+                    icon: showDiscount
+                        ? Icons.local_offer_outlined
+                        : Icons.inventory_2_outlined,
+                    label: showDiscount ? 'Member offer' : 'Direct fulfilment',
+                  ),
+                ],
+              ),
               const Spacer(),
               if (showDiscount) ...[
                 Text(
@@ -224,7 +241,7 @@ class RsShopItem extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12),
                             child: Center(
                               child: Text(
-                                'ADD TO CART',
+                                quantity > 0 ? 'ADD MORE' : 'ADD TO BAG',
                                 style: GoogleFonts.barlowCondensed(
                                   fontSize: 17,
                                   fontWeight: FontWeight.w700,
@@ -345,6 +362,40 @@ class _MetaPill extends StatelessWidget {
           fontWeight: FontWeight.w700,
           color: AppColors.text2,
         ),
+      ),
+    );
+  }
+}
+
+class _TrustFlag extends StatelessWidget {
+  const _TrustFlag({required this.icon, required this.label});
+
+  final IconData icon;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+      decoration: BoxDecoration(
+        color: AppColors.surface3,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 12, color: AppColors.text2),
+          const SizedBox(width: 5),
+          Text(
+            label,
+            style: GoogleFonts.barlow(
+              fontSize: 9,
+              fontWeight: FontWeight.w700,
+              color: AppColors.rsWhite,
+            ),
+          ),
+        ],
       ),
     );
   }

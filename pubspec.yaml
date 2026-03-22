@@ -1,7 +1,7 @@
 name: cool_app
 description: Cool community finance, mobility, and partner platform.
 publish_to: 'none'
-version: 1.1.0+3
+version: 1.1.1+4
 
 environment:
   sdk: ^3.10.8
@@ -83,6 +83,7 @@ dependencies:
   path_provider: ^2.1.5
   flutter_svg: ^2.2.4
   no_screenshot: ^1.0.0
+  uuid: ^4.5.3
 
 dev_dependencies:
   flutter_test:
@@ -105,6 +106,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/fonts/
+    - google_fonts/
 
 flutter_launcher_icons:
   android: true

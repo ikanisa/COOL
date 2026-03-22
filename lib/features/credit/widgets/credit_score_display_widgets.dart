@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../models/credit_dashboard.dart';
 
@@ -68,12 +69,13 @@ class ScoreHeroCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final score = dashboard?.score ?? 0;
     final hasReport = dashboard?.score != null;
 
     return CoolCard(
-      backgroundColor: AppColors.surface,
-      borderColor: AppColors.purple.withValues(alpha: 0.24),
+      gradient: AppColors.purpleGradient,
+      borderColor: palette.purple.withValues(alpha: 0.24),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -95,7 +97,7 @@ class ScoreHeroCard extends StatelessWidget {
                       style: GoogleFonts.dmMono(
                         fontSize: 28,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.text,
+                        color: palette.text,
                       ),
                     ),
                   ),
@@ -113,7 +115,7 @@ class ScoreHeroCard extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.text3,
+                    color: palette.text3,
                     letterSpacing: 0.4,
                   ),
                 ),
@@ -123,7 +125,7 @@ class ScoreHeroCard extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.purple,
+                    color: palette.purple,
                   ),
                 ),
                 const SizedBox(height: 6),
@@ -132,7 +134,7 @@ class ScoreHeroCard extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w400,
-                    color: AppColors.text2,
+                    color: palette.text2,
                     height: 1.45,
                   ),
                 ),
@@ -144,7 +146,7 @@ class ScoreHeroCard extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.text3,
+                    color: palette.text3,
                   ),
                 ),
               ],
@@ -211,7 +213,9 @@ class ScoreFactors extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     if (factors.isEmpty) {
+      final palette = context.coolPalette;
       return CoolCard(
         child: Padding(
           padding: const EdgeInsets.all(18),
@@ -220,7 +224,7 @@ class ScoreFactors extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              color: palette.text2,
               height: 1.5,
             ),
           ),
@@ -240,7 +244,7 @@ class ScoreFactors extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(factor.icon, size: 18, color: AppColors.text2),
+                      Icon(factor.icon, size: 18, color: palette.text2),
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
@@ -248,7 +252,7 @@ class ScoreFactors extends StatelessWidget {
                           style: GoogleFonts.dmSans(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.text,
+                            color: palette.text,
                           ),
                         ),
                       ),
@@ -268,7 +272,7 @@ class ScoreFactors extends StatelessWidget {
                     child: LinearProgressIndicator(
                       value: factor.score / 100,
                       minHeight: 6,
-                      backgroundColor: AppColors.surface3,
+                      backgroundColor: palette.surface3,
                       color: color,
                     ),
                   ),
@@ -297,7 +301,9 @@ class ScoreHistoryChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     if (history.isEmpty) {
+      final palette = context.coolPalette;
       return CoolCard(
         child: Padding(
           padding: const EdgeInsets.all(18),
@@ -306,7 +312,7 @@ class ScoreHistoryChart extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: AppColors.text2,
+              color: palette.text2,
             ),
           ),
         ),
@@ -339,7 +345,7 @@ class ScoreHistoryChart extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 11,
                     fontWeight: FontWeight.w400,
-                    color: AppColors.text3,
+                    color: palette.text3,
                   ),
                 );
               }).toList(),

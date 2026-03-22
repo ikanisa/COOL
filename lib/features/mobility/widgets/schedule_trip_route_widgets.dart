@@ -143,6 +143,7 @@ class _RouteDash extends StatelessWidget {
   Widget build(BuildContext context) {
     final palette = context.coolPalette;
     if (axis == Axis.horizontal) {
+      final palette = context.coolPalette;
       return SizedBox(
         width: 44,
         child: Row(

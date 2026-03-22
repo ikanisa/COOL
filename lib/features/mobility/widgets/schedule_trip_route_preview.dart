@@ -2,9 +2,11 @@ import 'package:cool_app/core/models/geo_point.dart';
 import 'package:cool_app/core/theme/cool_palette.dart';
 import 'package:cool_app/features/mobility/models/mobility_route_preview.dart';
 import 'package:cool_app/shared/widgets/cool_card.dart';
+import 'package:cool_app/shared/widgets/cool_google_map.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../core/l10n/l10n.dart';
 
 class ScheduleTripRoutePreview extends StatelessWidget {
@@ -65,6 +67,15 @@ class ScheduleTripRoutePreview extends StatelessWidget {
               height: 1.4,
             ),
           ),
+          // ── Route Map ──────────────────────────────────────
+          if (origin != null || destination != null) ...[
+            const SizedBox(height: 14),
+            _RouteMapPreview(
+              origin: origin,
+              destination: destination,
+              polylinePoints: preview?.polylinePoints,
+            ),
+          ],
           const SizedBox(height: 14),
           Container(
             width: double.infinity,
@@ -252,6 +263,139 @@ class _PreviewChip extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// ═════════════════════════════════════════════════════════════════════════════
+// ROUTE MAP PREVIEW
+// ═════════════════════════════════════════════════════════════════════════════
+
+class _RouteMapPreview extends StatefulWidget {
+  const _RouteMapPreview({
+    this.origin,
+    this.destination,
+    this.polylinePoints,
+  });
+
+  final GeoPoint? origin;
+  final GeoPoint? destination;
+  final List<GeoPoint>? polylinePoints;
+
+  @override
+  State<_RouteMapPreview> createState() => _RouteMapPreviewState();
+}
+
+class _RouteMapPreviewState extends State<_RouteMapPreview> {
+  GoogleMapController? _controller;
+
+  LatLng? get _originLatLng => widget.origin != null
+      ? LatLng(widget.origin!.latitude, widget.origin!.longitude)
+      : null;
+
+  LatLng? get _destinationLatLng => widget.destination != null
+      ? LatLng(widget.destination!.latitude, widget.destination!.longitude)
+      : null;
+
+  Set<Marker> get _markers {
+    final markers = <Marker>{};
+    if (_originLatLng != null) {
+      markers.add(
+        Marker(
+          markerId: const MarkerId('pickup'),
+          position: _originLatLng!,
+          icon: BitmapDescriptor.defaultMarkerWithHue(
+            BitmapDescriptor.hueGreen,
+          ),
+          infoWindow: const InfoWindow(title: 'Pickup'),
+        ),
+      );
+    }
+    if (_destinationLatLng != null) {
+      markers.add(
+        Marker(
+          markerId: const MarkerId('destination'),
+          position: _destinationLatLng!,
+          icon: BitmapDescriptor.defaultMarkerWithHue(
+            BitmapDescriptor.hueRed,
+          ),
+          infoWindow: const InfoWindow(title: 'Destination'),
+        ),
+      );
+    }
+    return markers;
+  }
+
+  Set<Polyline> get _polylines {
+    final points = widget.polylinePoints;
+    if (points == null || points.length < 2) return const {};
+    return {
+      Polyline(
+        polylineId: const PolylineId('route'),
+        points: points
+            .map((p) => LatLng(p.latitude, p.longitude))
+            .toList(growable: false),
+        color: const Color(0xFF00BCD4),
+        width: 4,
+      ),
+    };
+  }
+
+  void _fitBounds() {
+    if (_controller == null) return;
+    if (_originLatLng != null && _destinationLatLng != null) {
+      final bounds = LatLngBounds(
+        southwest: LatLng(
+          _originLatLng!.latitude < _destinationLatLng!.latitude
+              ? _originLatLng!.latitude
+              : _destinationLatLng!.latitude,
+          _originLatLng!.longitude < _destinationLatLng!.longitude
+              ? _originLatLng!.longitude
+              : _destinationLatLng!.longitude,
+        ),
+        northeast: LatLng(
+          _originLatLng!.latitude > _destinationLatLng!.latitude
+              ? _originLatLng!.latitude
+              : _destinationLatLng!.latitude,
+          _originLatLng!.longitude > _destinationLatLng!.longitude
+              ? _originLatLng!.longitude
+              : _destinationLatLng!.longitude,
+        ),
+      );
+      _controller!.animateCamera(
+        CameraUpdate.newLatLngBounds(bounds, 40),
+      );
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant _RouteMapPreview oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.origin != oldWidget.origin ||
+        widget.destination != oldWidget.destination) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _fitBounds());
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 160,
+      child: CoolGoogleMap(
+        initialTarget: _originLatLng ?? _destinationLatLng,
+        initialZoom: 13.0,
+        markers: _markers,
+        polylines: _polylines,
+        myLocationEnabled: false,
+        myLocationButtonEnabled: false,
+        onMapCreated: (controller) {
+          _controller = controller;
+          Future.delayed(
+            const Duration(milliseconds: 400),
+            _fitBounds,
+          );
+        },
       ),
     );
   }

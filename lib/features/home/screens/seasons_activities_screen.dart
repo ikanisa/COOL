@@ -3,12 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/l10n/l10n.dart';
+
 import '../../../core/status/models/cool_activity.dart';
 import '../../../core/status/models/cool_season.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_palette.dart';
 import '../../../core/utils/icon_mapper.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../admin/providers/admin_gamification_providers.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 
 /// User-facing read-only screen showing seasons & token-earning activities.
 class SeasonsActivitiesScreen extends ConsumerWidget {
@@ -16,25 +20,32 @@ class SeasonsActivitiesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.coolPalette;
     final seasonsAsync = ref.watch(adminSeasonsProvider);
     final activitiesAsync = ref.watch(adminActivitiesProvider);
 
-    return Scaffold(
-      backgroundColor: AppColors.bg,
+    return CoolScreenBackground(
+
+
+      showGlow: true,
+
+
+      child: Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
-          icon: Icon(Icons.arrow_back_rounded, color: AppColors.text),
+          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
       ),
       body: seasonsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(
           child: Text(
-            'Something went wrong',
-            style: GoogleFonts.dmSans(color: AppColors.text3),
+            context.l10n.somethingWentWrong,
+            style: GoogleFonts.dmSans(color: palette.text3),
           ),
         ),
         data: (seasons) {
@@ -54,29 +65,29 @@ class SeasonsActivitiesScreen extends ConsumerWidget {
             children: [
               // ── Title ──────────────────────────────────────────
               Text(
-                'Seasons & Activities',
+                context.l10n.seasonsAndActivities,
                 style: GoogleFonts.dmSans(
                   fontSize: 30,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.text,
+                  color: palette.text,
                   height: 1.1,
                 ),
               ),
               const SizedBox(height: 6),
               Text(
-                'Earn tokens by completing activities during each season',
+                context.l10n.seasonEarnTokensSubtitle,
                 style: GoogleFonts.dmSans(
                   fontSize: 13,
-                  color: AppColors.text3,
+                  color: palette.text3,
                 ),
               ),
 
               // ── Active / Upcoming Seasons ──────────────────────
               if (liveSeasons.isNotEmpty) ...[
                 const SizedBox(height: 28),
-                const _SectionHeader(
+                _SectionHeader(
                   icon: Icons.bolt_rounded,
-                  label: 'Active Seasons',
+                  label: context.l10n.activeSeasons,
                 ),
                 const SizedBox(height: 12),
                 ...liveSeasons.map((s) => Padding(
@@ -88,9 +99,9 @@ class SeasonsActivitiesScreen extends ConsumerWidget {
               // ── Token Activities ───────────────────────────────
               if (activeActivities.isNotEmpty) ...[
                 const SizedBox(height: 24),
-                const _SectionHeader(
+                _SectionHeader(
                   icon: Icons.star_rounded,
-                  label: 'Earn Tokens',
+                  label: context.l10n.earnTokensLabel,
                 ),
                 const SizedBox(height: 12),
                 ..._buildCategoryGroups(activeActivities),
@@ -99,9 +110,9 @@ class SeasonsActivitiesScreen extends ConsumerWidget {
               // ── Past Seasons ───────────────────────────────────
               if (pastSeasons.isNotEmpty) ...[
                 const SizedBox(height: 28),
-                const _SectionHeader(
+                _SectionHeader(
                   icon: Icons.history_rounded,
-                  label: 'Past Seasons',
+                  label: context.l10n.pastSeasons,
                 ),
                 const SizedBox(height: 12),
                 ...pastSeasons.map((s) => Padding(
@@ -120,12 +131,12 @@ class SeasonsActivitiesScreen extends ConsumerWidget {
                     child: Column(
                       children: [
                         Icon(Icons.emoji_events_rounded,
-                            size: 48, color: AppColors.text3),
+                            size: 48, color: palette.text3),
                         const SizedBox(height: 12),
                         Text(
-                          'No seasons or activities yet',
+                          context.l10n.seasonsEmptyTitle,
                           style: GoogleFonts.dmSans(
-                              color: AppColors.text3, fontSize: 14),
+                              color: palette.text3, fontSize: 14),
                         ),
                       ],
                     ),
@@ -135,6 +146,9 @@ class SeasonsActivitiesScreen extends ConsumerWidget {
           );
         },
       ),
+    ),
+
+
     );
   }
 
@@ -201,16 +215,17 @@ class _SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return Row(
       children: [
-        Icon(icon, size: 18, color: AppColors.accent),
+        Icon(icon, size: 18, color: palette.accent),
         const SizedBox(width: 6),
         Text(
           label,
           style: GoogleFonts.dmSans(
             fontSize: 16,
             fontWeight: FontWeight.w800,
-            color: AppColors.text,
+            color: palette.text,
           ),
         ),
       ],
@@ -227,17 +242,18 @@ class _SeasonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     final dateFmt = DateFormat('dd MMM');
     final statusLabel = season.isLive
-        ? 'Live'
+        ? context.l10n.seasonStatusLive
         : season.isUpcoming
-            ? 'Upcoming'
-            : 'Ended';
+            ? context.l10n.seasonStatusUpcoming
+            : context.l10n.seasonStatusEnded;
     final statusColor = season.isLive
         ? Colors.green
         : season.isUpcoming
             ? Colors.orange
-            : AppColors.text3;
+            : palette.text3;
 
     return Opacity(
       opacity: dimmed ? 0.55 : 1.0,
@@ -251,14 +267,14 @@ class _SeasonCard extends StatelessWidget {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: AppColors.accent.withValues(alpha: 0.12),
+                    color: palette.accent.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   alignment: Alignment.center,
                   child: Icon(
                     IconMapper.from(season.emoji),
                     size: 20,
-                    color: AppColors.text2,
+                    color: palette.text2,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -271,7 +287,7 @@ class _SeasonCard extends StatelessWidget {
                         style: GoogleFonts.dmSans(
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.text,
+                          color: palette.text,
                         ),
                       ),
                       const SizedBox(height: 2),
@@ -279,7 +295,7 @@ class _SeasonCard extends StatelessWidget {
                         '${dateFmt.format(season.startsAt)} – ${dateFmt.format(season.endsAt)}',
                         style: GoogleFonts.dmSans(
                           fontSize: 12,
-                          color: AppColors.text3,
+                          color: palette.text3,
                         ),
                       ),
                     ],
@@ -310,9 +326,9 @@ class _SeasonCard extends StatelessWidget {
                 child: LinearProgressIndicator(
                   value: season.progressThroughSeason,
                   minHeight: 4,
-                  backgroundColor: AppColors.surface3,
+                  backgroundColor: palette.surface3,
                   valueColor: AlwaysStoppedAnimation<Color>(
-                    AppColors.accent.withValues(alpha: 0.6),
+                    palette.accent.withValues(alpha: 0.6),
                   ),
                 ),
               ),
@@ -324,7 +340,7 @@ class _SeasonCard extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.accent,
+                    color: palette.accent,
                   ),
                 ),
               ),
@@ -335,7 +351,7 @@ class _SeasonCard extends StatelessWidget {
               Text(
                 season.rewardsDescription!,
                 style:
-                    GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
+                    GoogleFonts.dmSans(fontSize: 12, color: palette.text3),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -355,6 +371,7 @@ class _ActivityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.coolPalette;
     return CoolCard(
       child: Row(
         children: [
@@ -369,7 +386,7 @@ class _ActivityCard extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.text,
+                    color: palette.text,
                   ),
                 ),
                 if (activity.description.isNotEmpty) ...[
@@ -377,7 +394,7 @@ class _ActivityCard extends StatelessWidget {
                   Text(
                     activity.description,
                     style: GoogleFonts.dmSans(
-                        fontSize: 11, color: AppColors.text3),
+                        fontSize: 11, color: palette.text3),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -389,21 +406,21 @@ class _ActivityCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(
-              color: AppColors.accent.withValues(alpha: 0.12),
+              color: palette.accent.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.star_rounded,
-                    size: 13, color: AppColors.accent),
+                Icon(Icons.star_rounded,
+                    size: 13, color: palette.accent),
                 const SizedBox(width: 3),
                 Text(
                   '${activity.tokensAwarded}',
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.accent,
+                    color: palette.accent,
                   ),
                 ),
               ],
