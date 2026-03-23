@@ -1,17 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/l10n/l10n.dart';
 import '../../../core/status/models/cool_season.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/cool_async_view.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
+import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_empty_view.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
+import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_gamification_providers.dart';
 import '../repositories/admin_gamification_repository.dart';
-import '../../../core/l10n/l10n.dart';
-import '../../../shared/widgets/cool_bottom_sheet.dart';
-import '../../../shared/widgets/cool_screen_background.dart';
+import '../widgets/live_ops_admin_widgets.dart';
+
+EdgeInsets _liveOpsHeaderPadding() =>
+    CoolSpace.pagePadding.copyWith(top: 0, bottom: 0);
+
+EdgeInsets _liveOpsLoadingPadding() => CoolSpace.scaffoldPadding;
+
+EdgeInsets _liveOpsListPadding() => CoolSpace.scaffoldPadding;
+
+EdgeInsets _liveOpsSheetHeaderPadding() =>
+    CoolSpace.pagePadding.copyWith(top: 0, bottom: 0);
+
+EdgeInsets _liveOpsSheetListPadding() =>
+    CoolSpace.pagePadding.copyWith(top: 0, bottom: CoolSpace.x7);
 
 /// Admin CRUD screen for managing seasons (live-ops campaigns).
 class ManageSeasonsScreen extends ConsumerWidget {
@@ -19,71 +36,114 @@ class ManageSeasonsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final seasonsAsync = ref.watch(adminSeasonsProvider);
 
     return CoolScreenBackground(
-
-
       showGlow: false,
-
-
       child: Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: AppBar(
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          tooltip: context.l10n.back,
-          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            onPressed: () => Navigator.of(context).pop(),
+            tooltip: context.l10n.back,
+            icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: palette.accent,
-        onPressed: () => _showEditSheet(context, ref, null),
-        child: const Icon(Icons.add_rounded, color: Colors.black),
-      ),
-      body: seasonsAsync.when(
-        data: (seasons) => seasons.isEmpty
-            ? Center(
+        floatingActionButton: Semantics(
+          button: true,
+          label: 'Create season',
+          hint: 'Open season form',
+          child: FloatingActionButton(
+            backgroundColor: colors.accent,
+            foregroundColor: colors.accentForeground,
+            onPressed: () => _showEditSheet(context, ref, null),
+            child: const Icon(Icons.add_rounded),
+          ),
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: _liveOpsHeaderPadding(),
+              child: Semantics(
+                header: true,
                 child: Text(
-                  'No seasons yet',
-                  style: GoogleFonts.dmSans(fontSize: 14, color: palette.text3),
+                  'Seasons',
+                  style: theme.textTheme.headlineMedium?.copyWith(
+                    color: colors.primaryText,
+                    fontWeight: FontWeight.w800,
+                    height: 1.1,
+                  ),
                 ),
-              )
-            : ListView.separated(
-                padding: const EdgeInsets.fromLTRB(18, 0, 18, 96),
-                itemCount: seasons.length + 1,
-                separatorBuilder: (context, i) => const SizedBox(height: 12),
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return Text(
-                      'Seasons',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 34,
-                        fontWeight: FontWeight.w800,
-                        color: palette.text,
-                        height: 1.1,
-                      ),
-                    );
-                  }
-                  final season = seasons[index - 1];
-                  return _SeasonAdminCard(
-                    season: season,
-                    onEdit: () => _showEditSheet(context, ref, season),
-                    onToggle: () => _toggleActive(context, ref, season),
+              ),
+            ),
+            const SizedBox(height: 6),
+            Padding(
+              padding: _liveOpsHeaderPadding(),
+              child: Text(
+                'Schedule live campaigns and reward windows',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colors.secondaryText,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: CoolAsyncView<List<CoolSeason>>(
+                value: seasonsAsync,
+                onRetry: () => ref.invalidate(adminSeasonsProvider),
+                loadingWidget: Padding(
+                  padding: _liveOpsLoadingPadding(),
+                  child: CoolSkeletonList(itemCount: 4),
+                ),
+                emptyCheck: (seasons) => seasons.isEmpty,
+                emptyWidget: CoolEmptyView(
+                  message: 'No seasons yet',
+                  icon: Icons.event_available_outlined,
+                  actionLabel: 'Create Season',
+                  onAction: () => _showEditSheet(context, ref, null),
+                ),
+                builder: (seasons) {
+                  final liveCount = seasons.where((s) => s.isLive).length;
+                  final upcomingCount = seasons
+                      .where((s) => s.isUpcoming)
+                      .length;
+                  final activeCount = seasons.where((s) => s.isActive).length;
+
+                  return ListView.separated(
+                    padding: _liveOpsListPadding(),
+                    itemCount: seasons.length + 1,
+                    separatorBuilder: (_, __) => const SizedBox(height: 12),
+                    itemBuilder: (context, index) {
+                      if (index == 0) {
+                        return _SeasonSummaryCard(
+                          totalCount: seasons.length,
+                          liveCount: liveCount,
+                          upcomingCount: upcomingCount,
+                          activeCount: activeCount,
+                        );
+                      }
+
+                      final season = seasons[index - 1];
+                      return _SeasonAdminCard(
+                        season: season,
+                        onEdit: () => _showEditSheet(context, ref, season),
+                        onToggle: () => _toggleActive(context, ref, season),
+                      );
+                    },
                   );
                 },
               ),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(
-          child: Text(context.l10n.genericErrorText(e.toString()), style: GoogleFonts.dmSans(color: palette.text3)),
+            ),
+          ],
         ),
       ),
-    ),
-
-
     );
   }
 
@@ -112,16 +172,99 @@ class ManageSeasonsScreen extends ConsumerWidget {
       if (context.mounted) {
         CoolToast.success(
           context,
-          season.isActive ? '${season.title} deactivated' : '${season.title} activated',
+          season.isActive
+              ? '${season.title} deactivated'
+              : '${season.title} activated',
         );
       }
     } catch (e) {
-      if (context.mounted) CoolToast.error(context, 'Failed: $e');
+      if (context.mounted) {
+        CoolToast.error(context, 'Failed: $e');
+      }
     }
   }
 }
 
-// ─── Season Card ──────────────────────────────────────────────────────────
+class _SeasonSummaryCard extends StatelessWidget {
+  const _SeasonSummaryCard({
+    required this.totalCount,
+    required this.liveCount,
+    required this.upcomingCount,
+    required this.activeCount,
+  });
+
+  final int totalCount;
+  final int liveCount;
+  final int upcomingCount;
+  final int activeCount;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+
+    return CoolCard(
+      backgroundColor: colors.analyticsSurface,
+      useGradient: false,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Campaign Window',
+            style: theme.textTheme.titleMedium?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            'Track what is live now and what launches next',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 14),
+          Row(
+            children: [
+              Expanded(
+                child: LiveOpsMetricPill(
+                  label: 'Total',
+                  value: '$totalCount',
+                  color: colors.primaryText,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: LiveOpsMetricPill(
+                  label: 'Live',
+                  value: '$liveCount',
+                  color: colors.success,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: LiveOpsMetricPill(
+                  label: 'Upcoming',
+                  value: '$upcomingCount',
+                  color: colors.warning,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            '$activeCount active campaigns configured',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.tertiaryText,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class _SeasonAdminCard extends StatelessWidget {
   const _SeasonAdminCard({
@@ -136,36 +279,33 @@ class _SeasonAdminCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final dateFmt = DateFormat('dd MMM yyyy');
-    final statusLabel = season.isLive
-        ? 'Live'
-        : season.isUpcoming
-            ? 'Upcoming'
-            : season.isExpired
-                ? 'Ended'
-                : season.isActive
-                    ? 'Active'
-                    : 'Inactive';
-    final statusColor = season.isLive
-        ? Colors.green
-        : season.isUpcoming
-            ? Colors.orange
-            : Colors.red;
+    final status = _seasonStatus(context, season);
 
     return CoolCard(
       onTap: onEdit,
+      backgroundColor: colors.operationalSurface,
+      useGradient: false,
+      semanticsLabel: 'Edit ${season.title}',
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: palette.accent.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(14),
+              color: colors.analyticsSurface,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(CoolRadii.xs),
+              ),
             ),
             alignment: Alignment.center,
-            child: Text(season.emoji, style: const TextStyle(fontSize: 22)),
+            child: Text(
+              season.emoji,
+              style: theme.textTheme.titleLarge?.copyWith(height: 1),
+            ),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -173,64 +313,94 @@ class _SeasonAdminCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
                       child: Text(
                         season.title,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: palette.text,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          color: colors.primaryText,
+                          fontWeight: FontWeight.w800,
                         ),
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: statusColor.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(999),
-                      ),
-                      child: Text(
-                        statusLabel,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w700,
-                          color: statusColor,
-                        ),
-                      ),
+                    const SizedBox(width: 8),
+                    LiveOpsStatusBadge(
+                      label: status.label,
+                      color: status.color,
                     ),
                   ],
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 6),
                 Text(
-                  '${season.theme} · ${dateFmt.format(season.startsAt)} – ${dateFmt.format(season.endsAt)}',
-                  style: GoogleFonts.dmSans(fontSize: 12, color: palette.text3),
+                  '${_themeLabel(season.theme)} · ${dateFmt.format(season.startsAt)} – ${dateFmt.format(season.endsAt)}',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colors.tertiaryText,
+                    fontWeight: FontWeight.w700,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
+                if ((season.rewardsDescription ?? '').isNotEmpty) ...[
+                  const SizedBox(height: 4),
+                  Text(
+                    season.rewardsDescription!,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: colors.secondaryText,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ],
             ),
           ),
           const SizedBox(width: 8),
           IconButton(
-            icon: Icon(
-              season.isActive ? Icons.toggle_on_rounded : Icons.toggle_off_rounded,
-              color: season.isActive ? Colors.green : palette.text3,
-              size: 32,
-            ),
             onPressed: onToggle,
-            tooltip: season.isActive ? 'Deactivate' : 'Activate',
+            tooltip: season.isActive ? 'Deactivate season' : 'Activate season',
+            icon: Icon(
+              season.isActive
+                  ? Icons.toggle_on_rounded
+                  : Icons.toggle_off_rounded,
+              size: 32,
+              color: season.isActive ? colors.success : colors.tertiaryText,
+            ),
           ),
         ],
       ),
     );
   }
+
+  _LifecycleState _seasonStatus(BuildContext context, CoolSeason season) {
+    final colors = context.coolSemanticColors;
+    if (!season.isActive) {
+      return _LifecycleState('Inactive', colors.danger);
+    }
+    if (season.isExpired) {
+      return _LifecycleState('Ended', colors.neutral);
+    }
+    if (season.isUpcoming) {
+      return _LifecycleState('Upcoming', colors.warning);
+    }
+    return _LifecycleState('Live', colors.success);
+  }
+
+  String _themeLabel(String theme) {
+    final parts = theme.split('_').where((part) => part.isNotEmpty);
+    return parts
+        .map((part) => '${part[0].toUpperCase()}${part.substring(1)}')
+        .join(' ');
+  }
 }
 
-// ─── Edit / Create Sheet ─────────────────────────────────────────────────
-
 class _SeasonEditSheet extends StatefulWidget {
-  const _SeasonEditSheet({this.season, required this.repo, required this.onSaved});
+  const _SeasonEditSheet({
+    this.season,
+    required this.repo,
+    required this.onSaved,
+  });
 
   final CoolSeason? season;
   final AdminGamificationRepository repo;
@@ -252,20 +422,29 @@ class _SeasonEditSheetState extends State<_SeasonEditSheet> {
 
   bool get _isNew => widget.season == null;
 
-  static const _themes = ['savings', 'supporter', 'commuter', 'matchday'];
+  static const List<String> _themes = <String>[
+    'savings',
+    'supporter',
+    'commuter',
+    'matchday',
+  ];
 
   @override
   void initState() {
     super.initState();
-    final s = widget.season;
-    _titleCtrl = TextEditingController(text: s?.title ?? '');
-    _emojiCtrl = TextEditingController(text: s?.emoji ?? '🏅');
-    _rewardsCtrl = TextEditingController(text: s?.rewardsDescription ?? '');
-    _theme = s?.theme ?? _themes.first;
-    if (!_themes.contains(_theme)) _theme = _themes.first;
-    _startsAt = s?.startsAt ?? DateTime.now();
-    _endsAt = s?.endsAt ?? DateTime.now().add(const Duration(days: 28));
-    _isActive = s?.isActive ?? false;
+    final season = widget.season;
+    _titleCtrl = TextEditingController(text: season?.title ?? '');
+    _emojiCtrl = TextEditingController(text: season?.emoji ?? '🏅');
+    _rewardsCtrl = TextEditingController(
+      text: season?.rewardsDescription ?? '',
+    );
+    _theme = season?.theme ?? _themes.first;
+    if (!_themes.contains(_theme)) {
+      _theme = _themes.first;
+    }
+    _startsAt = season?.startsAt ?? DateTime.now();
+    _endsAt = season?.endsAt ?? DateTime.now().add(const Duration(days: 28));
+    _isActive = season?.isActive ?? false;
   }
 
   @override
@@ -284,15 +463,16 @@ class _SeasonEditSheetState extends State<_SeasonEditSheet> {
       firstDate: DateTime(2024),
       lastDate: DateTime(2030),
     );
-    if (picked != null) {
-      setState(() {
-        if (isStart) {
-          _startsAt = picked;
-        } else {
-          _endsAt = picked;
-        }
-      });
+    if (picked == null) {
+      return;
     }
+    setState(() {
+      if (isStart) {
+        _startsAt = picked;
+      } else {
+        _endsAt = picked;
+      }
+    });
   }
 
   Future<void> _save() async {
@@ -311,13 +491,12 @@ class _SeasonEditSheetState extends State<_SeasonEditSheet> {
         'starts_at': _startsAt.toIso8601String(),
         'ends_at': _endsAt.toIso8601String(),
         'is_active': _isActive,
-        'rewards_description':
-            _rewardsCtrl.text.trim().isEmpty ? null : _rewardsCtrl.text.trim(),
+        'rewards_description': _rewardsCtrl.text.trim().isEmpty
+            ? null
+            : _rewardsCtrl.text.trim(),
       };
 
-      final repo = widget.repo;
-      await repo.upsertSeason(data);
-
+      await widget.repo.upsertSeason(data);
       widget.onSaved();
       if (mounted) {
         Navigator.of(context).pop();
@@ -327,23 +506,31 @@ class _SeasonEditSheetState extends State<_SeasonEditSheet> {
         );
       }
     } catch (e) {
-      if (mounted) CoolToast.error(context, 'Save failed: $e');
+      if (mounted) {
+        CoolToast.error(context, 'Save failed: $e');
+      }
     } finally {
-      if (mounted) setState(() => _saving = false);
+      if (mounted) {
+        setState(() => _saving = false);
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final dateFmt = DateFormat('dd MMM yyyy');
+
     return Container(
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.85,
+        maxHeight: MediaQuery.of(context).size.height * 0.9,
       ),
       decoration: BoxDecoration(
-        color: palette.bg,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        color: colors.overlaySurface,
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(CoolRadii.lg),
+        ),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -353,60 +540,79 @@ class _SeasonEditSheetState extends State<_SeasonEditSheet> {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: palette.border,
-              borderRadius: BorderRadius.circular(999),
+              color: colors.border,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(CoolRadii.pill),
+              ),
             ),
           ),
           const SizedBox(height: 16),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
+            padding: _liveOpsSheetHeaderPadding(),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: Text(
-                    _isNew ? 'Create Season' : 'Edit Season',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                      color: palette.text,
-                    ),
-                  ),
-                ),
-                if (!_isNew)
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(context.l10n.active, style: GoogleFonts.dmSans(fontSize: 12, color: palette.text3)),
-                      const SizedBox(width: 4),
-                      Switch.adaptive(
-                        value: _isActive,
-                        activeTrackColor: Colors.green,
-                        onChanged: (v) => setState(() => _isActive = v),
+                      Text(
+                        _isNew ? 'Create Season' : 'Edit Season',
+                        style: theme.textTheme.headlineSmall?.copyWith(
+                          color: colors.primaryText,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Set the campaign window and reward pitch',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colors.secondaryText,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ],
                   ),
+                ),
+                const SizedBox(width: 12),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      context.l10n.active,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colors.tertiaryText,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Switch.adaptive(
+                      value: _isActive,
+                      activeTrackColor: colors.success,
+                      onChanged: (value) => setState(() => _isActive = value),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
           const SizedBox(height: 12),
           Flexible(
             child: ListView(
-              padding: const EdgeInsets.fromLTRB(18, 0, 18, 32),
+              padding: _liveOpsSheetListPadding(),
               shrinkWrap: true,
               children: [
-                _Field(label: 'Title', controller: _titleCtrl),
-                _Field(label: 'Emoji', controller: _emojiCtrl),
-                _DropdownField(
+                LiveOpsTextField(label: 'Title', controller: _titleCtrl),
+                LiveOpsTextField(label: 'Emoji', controller: _emojiCtrl),
+                LiveOpsDropdownField(
                   label: 'Theme',
                   value: _theme,
                   items: _themes,
-                  onChanged: (v) => setState(() => _theme = v),
+                  onChanged: (value) => setState(() => _theme = value),
                 ),
-                const SizedBox(height: 12),
                 Row(
                   children: [
                     Expanded(
-                      child: _DateButton(
+                      child: LiveOpsDateButton(
                         label: 'Starts',
                         value: dateFmt.format(_startsAt),
                         onTap: () => _pickDate(true),
@@ -414,7 +620,7 @@ class _SeasonEditSheetState extends State<_SeasonEditSheet> {
                     ),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: _DateButton(
+                      child: LiveOpsDateButton(
                         label: 'Ends',
                         value: dateFmt.format(_endsAt),
                         onTap: () => _pickDate(false),
@@ -423,30 +629,16 @@ class _SeasonEditSheetState extends State<_SeasonEditSheet> {
                   ],
                 ),
                 const SizedBox(height: 12),
-                _Field(label: 'Rewards Description', controller: _rewardsCtrl, maxLines: 2),
+                LiveOpsTextField(
+                  label: 'Rewards Description',
+                  controller: _rewardsCtrl,
+                  maxLines: 2,
+                ),
                 const SizedBox(height: 16),
-                SizedBox(
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: _saving ? null : _save,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: palette.accent,
-                      foregroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                    ),
-                    child: _saving
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.black),
-                          )
-                        : Text(
-                            _isNew ? 'Create' : 'Save',
-                            style: GoogleFonts.dmSans(fontSize: 15, fontWeight: FontWeight.w700),
-                          ),
-                  ),
+                CoolButton(
+                  label: _isNew ? 'Create Season' : 'Save Season',
+                  onTap: _save,
+                  isLoading: _saving,
                 ),
               ],
             ),
@@ -457,146 +649,9 @@ class _SeasonEditSheetState extends State<_SeasonEditSheet> {
   }
 }
 
-// ─── Shared reusable widgets ─────────────────────────────────────────────
-
-class _DateButton extends StatelessWidget {
-  const _DateButton({
-    required this.label,
-    required this.value,
-    required this.onTap,
-  });
+class _LifecycleState {
+  const _LifecycleState(this.label, this.color);
 
   final String label;
-  final String value;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-        decoration: BoxDecoration(
-          color: palette.surface,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: palette.border),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(label, style: GoogleFonts.dmSans(fontSize: 11, color: palette.text3)),
-            const SizedBox(height: 4),
-            Text(
-              value,
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: palette.text,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _Field extends StatelessWidget {
-  const _Field({
-    required this.label,
-    required this.controller,
-    this.maxLines = 1,
-  });
-
-  final String label;
-  final TextEditingController controller;
-  final int maxLines;
-
-  @override
-  Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: TextField(
-        controller: controller,
-        maxLines: maxLines,
-        style: GoogleFonts.dmSans(fontSize: 14, color: palette.text, fontWeight: FontWeight.w500),
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: GoogleFonts.dmSans(fontSize: 13, color: palette.text3),
-          filled: true,
-          fillColor: palette.surface,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: palette.border),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: palette.border),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: palette.accent, width: 1.5),
-          ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-        ),
-      ),
-    );
-  }
-}
-
-class _DropdownField extends StatelessWidget {
-  const _DropdownField({
-    required this.label,
-    required this.value,
-    required this.items,
-    required this.onChanged,
-  });
-
-  final String label;
-  final String value;
-  final List<String> items;
-  final ValueChanged<String> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: GoogleFonts.dmSans(fontSize: 12, color: palette.text3)),
-        const SizedBox(height: 4),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14),
-          decoration: BoxDecoration(
-            color: palette.surface,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: palette.border),
-          ),
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton<String>(
-              value: value,
-              isExpanded: true,
-              dropdownColor: palette.surface,
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
-                color: palette.text,
-                fontWeight: FontWeight.w500,
-              ),
-              items: items
-                  .map((e) => DropdownMenuItem(
-                        value: e,
-                        child: Text(e[0].toUpperCase() + e.substring(1)),
-                      ))
-                  .toList(),
-              onChanged: (v) {
-                if (v != null) onChanged(v);
-              },
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+  final Color color;
 }

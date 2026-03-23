@@ -1,16 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/l10n/l10n.dart';
 import '../../../core/status/models/cool_activity.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/cool_async_view.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
+import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_empty_view.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
+import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_gamification_providers.dart';
 import '../repositories/admin_gamification_repository.dart';
-import '../../../core/l10n/l10n.dart';
-import '../../../shared/widgets/cool_bottom_sheet.dart';
-import '../../../shared/widgets/cool_screen_background.dart';
+import '../widgets/live_ops_admin_widgets.dart';
+
+EdgeInsets _liveOpsHeaderPadding() =>
+    CoolSpace.pagePadding.copyWith(top: 0, bottom: 0);
+
+EdgeInsets _liveOpsLoadingPadding() => CoolSpace.scaffoldPadding;
+
+EdgeInsets _liveOpsListPadding() => CoolSpace.scaffoldPadding;
+
+EdgeInsets _liveOpsSheetHeaderPadding() =>
+    CoolSpace.pagePadding.copyWith(top: 0, bottom: 0);
+
+EdgeInsets _liveOpsSheetListPadding() =>
+    CoolSpace.pagePadding.copyWith(top: 0, bottom: CoolSpace.x7);
 
 /// Admin CRUD screen for managing token-earning activities.
 class ManageActivitiesScreen extends ConsumerWidget {
@@ -18,78 +35,128 @@ class ManageActivitiesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final activitiesAsync = ref.watch(adminActivitiesProvider);
 
     return CoolScreenBackground(
-
-
       showGlow: false,
-
-
       child: Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: AppBar(
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          tooltip: context.l10n.back,
-          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            onPressed: () => Navigator.of(context).pop(),
+            tooltip: context.l10n.back,
+            icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: palette.accent,
-        onPressed: () => _showEditSheet(context, ref, null),
-        child: const Icon(Icons.add_rounded, color: Colors.black),
-      ),
-      body: activitiesAsync.when(
-        data: (activities) => activities.isEmpty
-            ? Center(
+        floatingActionButton: Semantics(
+          button: true,
+          label: 'Create activity',
+          hint: 'Open activity form',
+          child: FloatingActionButton(
+            backgroundColor: colors.accent,
+            foregroundColor: colors.accentForeground,
+            onPressed: () => _showEditSheet(context, ref, null),
+            child: const Icon(Icons.add_rounded),
+          ),
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: _liveOpsHeaderPadding(),
+              child: Semantics(
+                header: true,
                 child: Text(
-                  'No activities yet',
-                  style:
-                      GoogleFonts.dmSans(fontSize: 14, color: palette.text3),
+                  'Activities',
+                  style: theme.textTheme.headlineMedium?.copyWith(
+                    color: colors.primaryText,
+                    fontWeight: FontWeight.w800,
+                    height: 1.1,
+                  ),
                 ),
-              )
-            : ListView.separated(
-                padding: const EdgeInsets.fromLTRB(18, 0, 18, 96),
-                itemCount: activities.length + 1,
-                separatorBuilder: (context, i) => const SizedBox(height: 12),
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return Text(
-                      'Activities',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 34,
-                        fontWeight: FontWeight.w800,
-                        color: palette.text,
-                        height: 1.1,
-                      ),
-                    );
-                  }
-                  final activity = activities[index - 1];
-                  return _ActivityAdminCard(
-                    activity: activity,
-                    onEdit: () => _showEditSheet(context, ref, activity),
-                    onToggle: () => _toggleActive(context, ref, activity),
+              ),
+            ),
+            const SizedBox(height: 6),
+            Padding(
+              padding: _liveOpsHeaderPadding(),
+              child: Text(
+                'Define token actions and sort order',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colors.secondaryText,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: CoolAsyncView<List<CoolActivity>>(
+                value: activitiesAsync,
+                onRetry: () => ref.invalidate(adminActivitiesProvider),
+                loadingWidget: Padding(
+                  padding: _liveOpsLoadingPadding(),
+                  child: CoolSkeletonList(itemCount: 4),
+                ),
+                emptyCheck: (activities) => activities.isEmpty,
+                emptyWidget: CoolEmptyView(
+                  message: 'No activities yet',
+                  icon: Icons.bolt_outlined,
+                  actionLabel: 'Create Activity',
+                  onAction: () => _showEditSheet(context, ref, null),
+                ),
+                builder: (activities) {
+                  final activeCount = activities
+                      .where((activity) => activity.isActive)
+                      .length;
+                  final totalTokens = activities.fold<int>(
+                    0,
+                    (sum, activity) => sum + activity.tokensAwarded,
+                  );
+                  final categories = activities
+                      .map((activity) => activity.category)
+                      .toSet()
+                      .length;
+
+                  return ListView.separated(
+                    padding: _liveOpsListPadding(),
+                    itemCount: activities.length + 1,
+                    separatorBuilder: (_, __) => const SizedBox(height: 12),
+                    itemBuilder: (context, index) {
+                      if (index == 0) {
+                        return _ActivitySummaryCard(
+                          totalCount: activities.length,
+                          activeCount: activeCount,
+                          totalTokens: totalTokens,
+                          categoryCount: categories,
+                        );
+                      }
+
+                      final activity = activities[index - 1];
+                      return _ActivityAdminCard(
+                        activity: activity,
+                        onEdit: () => _showEditSheet(context, ref, activity),
+                        onToggle: () => _toggleActive(context, ref, activity),
+                      );
+                    },
                   );
                 },
               ),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(
-          child: Text(context.l10n.genericErrorText(e.toString()),
-              style: GoogleFonts.dmSans(color: palette.text3)),
+            ),
+          ],
         ),
       ),
-    ),
-
-
     );
   }
 
   void _showEditSheet(
-      BuildContext context, WidgetRef ref, CoolActivity? activity) {
+    BuildContext context,
+    WidgetRef ref,
+    CoolActivity? activity,
+  ) {
     showCoolBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
@@ -109,8 +176,10 @@ class ManageActivitiesScreen extends ConsumerWidget {
   ) async {
     try {
       final repo = ref.read(adminGamificationRepositoryProvider);
-      await repo.toggleActivityActive(activity.id,
-          isActive: !activity.isActive);
+      await repo.toggleActivityActive(
+        activity.id,
+        isActive: !activity.isActive,
+      );
       ref.invalidate(adminActivitiesProvider);
       if (context.mounted) {
         CoolToast.success(
@@ -121,12 +190,93 @@ class ManageActivitiesScreen extends ConsumerWidget {
         );
       }
     } catch (e) {
-      if (context.mounted) CoolToast.error(context, 'Failed: $e');
+      if (context.mounted) {
+        CoolToast.error(context, 'Failed: $e');
+      }
     }
   }
 }
 
-// ─── Activity Card ──────────────────────────────────────────────────────
+class _ActivitySummaryCard extends StatelessWidget {
+  const _ActivitySummaryCard({
+    required this.totalCount,
+    required this.activeCount,
+    required this.totalTokens,
+    required this.categoryCount,
+  });
+
+  final int totalCount;
+  final int activeCount;
+  final int totalTokens;
+  final int categoryCount;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+
+    return CoolCard(
+      backgroundColor: colors.analyticsSurface,
+      useGradient: false,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Activity Coverage',
+            style: theme.textTheme.titleMedium?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            'Keep earning actions clear and reward values balanced',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 14),
+          Row(
+            children: [
+              Expanded(
+                child: LiveOpsMetricPill(
+                  label: 'Total',
+                  value: '$totalCount',
+                  color: colors.primaryText,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: LiveOpsMetricPill(
+                  label: 'Active',
+                  value: '$activeCount',
+                  color: colors.success,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: LiveOpsMetricPill(
+                  label: 'Categories',
+                  value: '$categoryCount',
+                  color: colors.info,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            '$totalTokens total tokens across the current catalog',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.tertiaryText,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class _ActivityAdminCard extends StatelessWidget {
   const _ActivityAdminCard({
@@ -141,20 +291,31 @@ class _ActivityAdminCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+
     return CoolCard(
       onTap: onEdit,
+      backgroundColor: colors.operationalSurface,
+      useGradient: false,
+      semanticsLabel: 'Edit ${activity.title}',
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: palette.accent.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(14),
+              color: colors.contactSurface,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(CoolRadii.xs),
+              ),
             ),
             alignment: Alignment.center,
-            child: Text(activity.emoji, style: const TextStyle(fontSize: 22)),
+            child: Text(
+              activity.emoji,
+              style: theme.textTheme.titleLarge?.copyWith(height: 1),
+            ),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -162,32 +323,40 @@ class _ActivityAdminCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
                       child: Text(
                         activity.title,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: palette.text,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          color: colors.primaryText,
+                          fontWeight: FontWeight.w800,
                         ),
                       ),
                     ),
-                    _ActiveBadge(isActive: activity.isActive),
+                    const SizedBox(width: 8),
+                    LiveOpsStatusBadge(
+                      label: activity.isActive ? 'Active' : 'Inactive',
+                      color: activity.isActive ? colors.success : colors.danger,
+                    ),
                   ],
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 6),
                 Text(
-                  '${_categoryLabel(activity.category)} · ${activity.tokensAwarded} Tokens',
-                  style:
-                      GoogleFonts.dmSans(fontSize: 12, color: palette.text3),
+                  '${_categoryLabel(activity.category)} · ${activity.tokensAwarded} tokens · sort ${activity.sortOrder}',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colors.tertiaryText,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 if (activity.description.isNotEmpty) ...[
-                  const SizedBox(height: 2),
+                  const SizedBox(height: 4),
                   Text(
                     activity.description,
-                    style: GoogleFonts.dmSans(
-                        fontSize: 11, color: palette.text3),
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: colors.secondaryText,
+                      fontWeight: FontWeight.w700,
+                    ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -197,35 +366,37 @@ class _ActivityAdminCard extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           IconButton(
+            onPressed: onToggle,
+            tooltip: activity.isActive
+                ? 'Deactivate activity'
+                : 'Activate activity',
             icon: Icon(
               activity.isActive
                   ? Icons.toggle_on_rounded
                   : Icons.toggle_off_rounded,
-              color: activity.isActive ? Colors.green : palette.text3,
               size: 32,
+              color: activity.isActive ? colors.success : colors.tertiaryText,
             ),
-            onPressed: onToggle,
-            tooltip: activity.isActive ? 'Deactivate' : 'Activate',
           ),
         ],
       ),
     );
   }
 
-  static String _categoryLabel(String category) => switch (category) {
-        'groups' => '💰 Groups',
-        'rayon' => '⚽ Rayon',
-        'mobility' => '🚗 Mobility',
-        'social' => '📲 Social',
-        'general' => '⭐ General',
-        _ => category,
-      };
+  String _categoryLabel(String category) {
+    final parts = category.split('_').where((part) => part.isNotEmpty);
+    return parts
+        .map((part) => '${part[0].toUpperCase()}${part.substring(1)}')
+        .join(' ');
+  }
 }
 
-// ─── Edit / Create Sheet ─────────────────────────────────────────────────
-
 class _ActivityEditSheet extends StatefulWidget {
-  const _ActivityEditSheet({this.activity, required this.repo, required this.onSaved});
+  const _ActivityEditSheet({
+    this.activity,
+    required this.repo,
+    required this.onSaved,
+  });
 
   final CoolActivity? activity;
   final AdminGamificationRepository repo;
@@ -248,7 +419,7 @@ class _ActivityEditSheetState extends State<_ActivityEditSheet> {
 
   bool get _isNew => widget.activity == null;
 
-  static const _categories = [
+  static const List<String> _categories = <String>[
     'groups',
     'rayon',
     'mobility',
@@ -259,18 +430,22 @@ class _ActivityEditSheetState extends State<_ActivityEditSheet> {
   @override
   void initState() {
     super.initState();
-    final a = widget.activity;
-    _titleCtrl = TextEditingController(text: a?.title ?? '');
-    _descCtrl = TextEditingController(text: a?.description ?? '');
-    _emojiCtrl = TextEditingController(text: a?.emoji ?? '⭐');
-    _slugCtrl = TextEditingController(text: a?.slug ?? '');
-    _tokensCtrl =
-        TextEditingController(text: a != null ? '${a.tokensAwarded}' : '20');
-    _sortCtrl =
-        TextEditingController(text: a != null ? '${a.sortOrder}' : '0');
-    _category = a?.category ?? _categories.first;
-    if (!_categories.contains(_category)) _category = 'general';
-    _isActive = a?.isActive ?? true;
+    final activity = widget.activity;
+    _titleCtrl = TextEditingController(text: activity?.title ?? '');
+    _descCtrl = TextEditingController(text: activity?.description ?? '');
+    _emojiCtrl = TextEditingController(text: activity?.emoji ?? '⭐');
+    _slugCtrl = TextEditingController(text: activity?.slug ?? '');
+    _tokensCtrl = TextEditingController(
+      text: activity != null ? '${activity.tokensAwarded}' : '20',
+    );
+    _sortCtrl = TextEditingController(
+      text: activity != null ? '${activity.sortOrder}' : '0',
+    );
+    _category = activity?.category ?? _categories.first;
+    if (!_categories.contains(_category)) {
+      _category = _categories.first;
+    }
+    _isActive = activity?.isActive ?? true;
   }
 
   @override
@@ -304,9 +479,7 @@ class _ActivityEditSheetState extends State<_ActivityEditSheet> {
         'is_active': _isActive,
       };
 
-      final repo = widget.repo;
-      await repo.upsertActivity(data);
-
+      await widget.repo.upsertActivity(data);
       widget.onSaved();
       if (mounted) {
         Navigator.of(context).pop();
@@ -316,22 +489,30 @@ class _ActivityEditSheetState extends State<_ActivityEditSheet> {
         );
       }
     } catch (e) {
-      if (mounted) CoolToast.error(context, 'Save failed: $e');
+      if (mounted) {
+        CoolToast.error(context, 'Save failed: $e');
+      }
     } finally {
-      if (mounted) setState(() => _saving = false);
+      if (mounted) {
+        setState(() => _saving = false);
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+
     return Container(
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.92,
       ),
       decoration: BoxDecoration(
-        color: palette.bg,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        color: colors.overlaySurface,
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(CoolRadii.lg),
+        ),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -341,239 +522,102 @@ class _ActivityEditSheetState extends State<_ActivityEditSheet> {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: palette.border,
-              borderRadius: BorderRadius.circular(999),
+              color: colors.border,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(CoolRadii.pill),
+              ),
             ),
           ),
           const SizedBox(height: 16),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
+            padding: _liveOpsSheetHeaderPadding(),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: Text(
-                    _isNew ? 'Create Activity' : 'Edit Activity',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                      color: palette.text,
-                    ),
-                  ),
-                ),
-                if (!_isNew)
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(context.l10n.active,
-                          style: GoogleFonts.dmSans(
-                              fontSize: 12, color: palette.text3)),
-                      const SizedBox(width: 4),
-                      Switch.adaptive(
-                        value: _isActive,
-                        activeTrackColor: Colors.green,
-                        onChanged: (v) => setState(() => _isActive = v),
+                      Text(
+                        _isNew ? 'Create Activity' : 'Edit Activity',
+                        style: theme.textTheme.headlineSmall?.copyWith(
+                          color: colors.primaryText,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Define the action, reward, and rank',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colors.secondaryText,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ],
                   ),
+                ),
+                const SizedBox(width: 12),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      context.l10n.active,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colors.tertiaryText,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Switch.adaptive(
+                      value: _isActive,
+                      activeTrackColor: colors.success,
+                      onChanged: (value) => setState(() => _isActive = value),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
           const SizedBox(height: 12),
           Flexible(
             child: ListView(
-              padding: const EdgeInsets.fromLTRB(18, 0, 18, 32),
+              padding: _liveOpsSheetListPadding(),
               shrinkWrap: true,
               children: [
-                _Field(label: 'Title', controller: _titleCtrl),
-                _Field(label: 'Slug (unique key)', controller: _slugCtrl),
-                _Field(
-                    label: 'Description',
-                    controller: _descCtrl,
-                    maxLines: 2),
-                _Field(label: 'Emoji', controller: _emojiCtrl),
-                _DropdownField(
+                LiveOpsTextField(label: 'Title', controller: _titleCtrl),
+                LiveOpsTextField(label: 'Slug', controller: _slugCtrl),
+                LiveOpsTextField(
+                  label: 'Description',
+                  controller: _descCtrl,
+                  maxLines: 2,
+                ),
+                LiveOpsTextField(label: 'Emoji', controller: _emojiCtrl),
+                LiveOpsDropdownField(
                   label: 'Category',
                   value: _category,
                   items: _categories,
-                  onChanged: (v) => setState(() => _category = v),
+                  onChanged: (value) => setState(() => _category = value),
                 ),
-                const SizedBox(height: 12),
-                _Field(
+                LiveOpsTextField(
                   label: 'Tokens Awarded',
                   controller: _tokensCtrl,
                   keyboardType: TextInputType.number,
                 ),
-                _Field(
+                LiveOpsTextField(
                   label: 'Sort Order',
                   controller: _sortCtrl,
                   keyboardType: TextInputType.number,
                 ),
                 const SizedBox(height: 16),
-                SizedBox(
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: _saving ? null : _save,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: palette.accent,
-                      foregroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                    ),
-                    child: _saving
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                                strokeWidth: 2, color: Colors.black),
-                          )
-                        : Text(
-                            _isNew ? 'Create' : 'Save',
-                            style: GoogleFonts.dmSans(
-                                fontSize: 15, fontWeight: FontWeight.w700),
-                          ),
-                  ),
+                CoolButton(
+                  label: _isNew ? 'Create Activity' : 'Save Activity',
+                  onTap: _save,
+                  isLoading: _saving,
                 ),
               ],
             ),
           ),
         ],
       ),
-    );
-  }
-}
-
-// ─── Shared reusable widgets ─────────────────────────────────────────────
-
-class _ActiveBadge extends StatelessWidget {
-  const _ActiveBadge({required this.isActive});
-  final bool isActive;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-      decoration: BoxDecoration(
-        color: isActive
-            ? Colors.green.withValues(alpha: 0.1)
-            : Colors.red.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(999),
-      ),
-      child: Text(
-        isActive ? 'Active' : 'Inactive',
-        style: GoogleFonts.dmSans(
-          fontSize: 10,
-          fontWeight: FontWeight.w700,
-          color: isActive ? Colors.green : Colors.red,
-        ),
-      ),
-    );
-  }
-}
-
-class _Field extends StatelessWidget {
-  const _Field({
-    required this.label,
-    required this.controller,
-    this.keyboardType,
-    this.maxLines = 1,
-  });
-
-  final String label;
-  final TextEditingController controller;
-  final TextInputType? keyboardType;
-  final int maxLines;
-
-  @override
-  Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: TextField(
-        controller: controller,
-        keyboardType: keyboardType,
-        maxLines: maxLines,
-        style: GoogleFonts.dmSans(
-            fontSize: 14,
-            color: palette.text,
-            fontWeight: FontWeight.w500),
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle:
-              GoogleFonts.dmSans(fontSize: 13, color: palette.text3),
-          filled: true,
-          fillColor: palette.surface,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: palette.border),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: palette.border),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide:
-                BorderSide(color: palette.accent, width: 1.5),
-          ),
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-        ),
-      ),
-    );
-  }
-}
-
-class _DropdownField extends StatelessWidget {
-  const _DropdownField({
-    required this.label,
-    required this.value,
-    required this.items,
-    required this.onChanged,
-  });
-
-  final String label;
-  final String value;
-  final List<String> items;
-  final ValueChanged<String> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label,
-            style: GoogleFonts.dmSans(fontSize: 12, color: palette.text3)),
-        const SizedBox(height: 4),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14),
-          decoration: BoxDecoration(
-            color: palette.surface,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: palette.border),
-          ),
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton<String>(
-              value: value,
-              isExpanded: true,
-              dropdownColor: palette.surface,
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
-                color: palette.text,
-                fontWeight: FontWeight.w500,
-              ),
-              items: items
-                  .map((e) => DropdownMenuItem(
-                      value: e, child: Text(e.replaceAll('_', ' '))))
-                  .toList(),
-              onChanged: (v) {
-                if (v != null) onChanged(v);
-              },
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
