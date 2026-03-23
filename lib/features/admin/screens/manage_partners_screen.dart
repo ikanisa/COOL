@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
+import '../../../core/theme/cool_layout.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
@@ -14,6 +12,57 @@ import '../providers/admin_providers.dart';
 import '../../../core/l10n/l10n.dart';
 import '../widgets/partner_editor_page.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
+
+EdgeInsets _managePartnersHeaderPadding() =>
+    CoolSpace.pagePadding.copyWith(top: 0, bottom: 0);
+
+EdgeInsets _managePartnersListPadding() => CoolSpace.pagePadding.copyWith(
+  top: 0,
+  bottom: CoolLayout.rootBottomClearance,
+);
+
+EdgeInsets _partnerSearchContentPadding() => CoolSpace.sectionPadding.copyWith(
+  left: CoolSpace.x3,
+  right: CoolSpace.x3,
+  top: CoolSpace.x3,
+  bottom: CoolSpace.x3,
+);
+
+EdgeInsets _partnerChipPadding() => CoolSpace.sectionPadding.copyWith(
+  left: CoolSpace.x2,
+  right: CoolSpace.x2,
+  top: CoolSpace.x1,
+  bottom: CoolSpace.x1,
+);
+
+EdgeInsets _partnerActionPadding() => CoolSpace.sectionPadding.copyWith(
+  left: 0,
+  right: 0,
+  top: CoolSpace.x2,
+  bottom: CoolSpace.x2,
+);
+
+EdgeInsets _partnerMetricPadding() => CoolSpace.sectionPadding.copyWith(
+  left: CoolSpace.x3,
+  right: CoolSpace.x3,
+  top: CoolSpace.x2,
+  bottom: CoolSpace.x2,
+);
+
+({Color tone, Color foreground}) _partnerTone(Color foreground) {
+  return (tone: foreground.withValues(alpha: 0.12), foreground: foreground);
+}
+
+OutlineInputBorder _partnerSearchBorder(
+  CoolSemanticColors colors, {
+  Color? borderColor,
+  double width = 1,
+}) {
+  return OutlineInputBorder(
+    borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.xs)),
+    borderSide: BorderSide(color: borderColor ?? colors.border, width: width),
+  );
+}
 
 /// Full CRUD admin screen for managing partners.
 class ManagePartnersScreen extends ConsumerStatefulWidget {
@@ -29,187 +78,168 @@ class _ManagePartnersScreenState extends ConsumerState<ManagePartnersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    final space = context.coolSpace;
     final partnersAsync = ref.watch(adminPartnersProvider);
 
     return CoolScreenBackground(
-
-
       showGlow: false,
-
-
       child: Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: AppBar(
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          tooltip: context.l10n.back,
-          icon: const Icon(Icons.arrow_back_rounded),
-          color: palette.text,
-          onPressed: () => Navigator.of(context).pop(),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            tooltip: context.l10n.back,
+            icon: const Icon(Icons.arrow_back_rounded),
+            color: colors.primaryText,
+            onPressed: () => Navigator.of(context).pop(),
+          ),
         ),
-      ),
-      floatingActionButton: Semantics(
-        button: true,
-        label: context.l10n.addPartner,
-        child: FloatingActionButton(
-          backgroundColor: palette.accent,
-          onPressed: () => _openEditor(context, null),
-          child: const Icon(Icons.add_rounded, color: Colors.black),
+        floatingActionButton: Semantics(
+          button: true,
+          label: context.l10n.addPartner,
+          child: FloatingActionButton(
+            backgroundColor: colors.accent,
+            onPressed: () => _openEditor(context, null),
+            child: Icon(Icons.add_rounded, color: colors.accentForeground),
+          ),
         ),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: Text(
-              'Manage Partners',
-              style: GoogleFonts.dmSans(
-                fontSize: 34,
-                fontWeight: FontWeight.w800,
-                height: 1.1,
-                color: palette.text,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: _managePartnersHeaderPadding(),
+              child: Text(
+                'Manage Partners',
+                style: theme.textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.w800,
+                  height: 1.1,
+                  color: colors.primaryText,
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 6),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: Text(
-              'Create, edit, and manage all platform partners',
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: palette.text3,
+            SizedBox(height: space.x2),
+            Padding(
+              padding: _managePartnersHeaderPadding(),
+              child: Text(
+                'Create, edit, and manage all platform partners',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: colors.tertiaryText,
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 14),
-          // ── Search bar ──────────────────────────
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: TextField(
-              onChanged: (v) => setState(() => _search = v),
-              style: GoogleFonts.dmSans(fontSize: 14, color: palette.text),
-              decoration: InputDecoration(
-                hintText: 'Search partners…',
-                hintStyle: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  color: palette.text3,
+            SizedBox(height: space.x3),
+            Padding(
+              padding: _managePartnersHeaderPadding(),
+              child: TextField(
+                onChanged: (v) => setState(() => _search = v),
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: colors.primaryText,
                 ),
-                prefixIcon: Icon(
-                  Icons.search_rounded,
-                  size: 20,
-                  color: palette.text3,
-                ),
-                filled: true,
-                fillColor: palette.surface,
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 14,
-                  vertical: 12,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(14),
-                  borderSide: BorderSide(color: palette.border),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(14),
-                  borderSide: BorderSide(color: palette.border),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(14),
-                  borderSide: BorderSide(
-                    color: palette.accent,
+                decoration: InputDecoration(
+                  hintText: 'Search partners…',
+                  hintStyle: theme.textTheme.bodySmall?.copyWith(
+                    color: colors.tertiaryText,
+                  ),
+                  prefixIcon: Icon(
+                    Icons.search_rounded,
+                    size: 20,
+                    color: colors.tertiaryText,
+                  ),
+                  filled: true,
+                  fillColor: colors.inputSurface,
+                  contentPadding: _partnerSearchContentPadding(),
+                  border: _partnerSearchBorder(colors),
+                  enabledBorder: _partnerSearchBorder(colors),
+                  focusedBorder: _partnerSearchBorder(
+                    colors,
+                    borderColor: colors.accent,
                     width: 1.5,
                   ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(height: 14),
-          Expanded(
-            child: CoolAsyncView<List<Map<String, dynamic>>>(
-              value: partnersAsync,
-              onRetry: () => ref.invalidate(adminPartnersProvider),
-              loadingWidget: const CoolSkeletonList(itemCount: 4),
-              emptyCheck: (p) => p.isEmpty,
-              emptyWidget: const CoolEmptyView(
-                message: 'No partners yet',
-                icon: Icons.handshake_rounded,
-              ),
-              builder: (partners) {
-                final query = _search.trim().toLowerCase();
-                final filtered = query.isEmpty
-                    ? partners
-                    : partners.where((p) {
-                        final name =
-                            (p['name']?.toString() ?? '').toLowerCase();
-                        final slug =
-                            (p['slug']?.toString() ?? '').toLowerCase();
-                        final cat =
-                            (p['category']?.toString() ?? '').toLowerCase();
-                        return name.contains(query) ||
-                            slug.contains(query) ||
-                            cat.contains(query);
-                      }).toList();
+            SizedBox(height: space.x3),
+            Expanded(
+              child: CoolAsyncView<List<Map<String, dynamic>>>(
+                value: partnersAsync,
+                onRetry: () => ref.invalidate(adminPartnersProvider),
+                loadingWidget: const CoolSkeletonList(itemCount: 4),
+                emptyCheck: (p) => p.isEmpty,
+                emptyWidget: const CoolEmptyView(
+                  message: 'No partners yet',
+                  icon: Icons.handshake_rounded,
+                ),
+                builder: (partners) {
+                  final query = _search.trim().toLowerCase();
+                  final filtered = query.isEmpty
+                      ? partners
+                      : partners.where((p) {
+                          final name = (p['name']?.toString() ?? '')
+                              .toLowerCase();
+                          final slug = (p['slug']?.toString() ?? '')
+                              .toLowerCase();
+                          final cat = (p['category']?.toString() ?? '')
+                              .toLowerCase();
+                          return name.contains(query) ||
+                              slug.contains(query) ||
+                              cat.contains(query);
+                        }).toList();
 
-                final activeCount =
-                    partners.where((p) => p['is_active'] == true).length;
-                final inactiveCount = partners.length - activeCount;
+                  final activeCount = partners
+                      .where((p) => p['is_active'] == true)
+                      .length;
+                  final inactiveCount = partners.length - activeCount;
 
-                return ListView.separated(
-                  padding: const EdgeInsets.fromLTRB(18, 0, 18, 100),
-                  itemCount: filtered.length + 1,
-                  separatorBuilder: (_, i) =>
-                      SizedBox(height: i == 0 ? 14 : 12),
-                  itemBuilder: (context, index) {
-                    if (index == 0) {
-                      return Row(
-                        children: [
-                          _MetricBadge(
-                            label: 'Total',
-                            value: partners.length.toString(),
-                          ),
-                          const SizedBox(width: 8),
-                          _MetricBadge(
-                            label: 'Active',
-                            value: activeCount.toString(),
-                            color: palette.accent,
-                          ),
-                          const SizedBox(width: 8),
-                          _MetricBadge(
-                            label: 'Inactive',
-                            value: inactiveCount.toString(),
-                            color: palette.orange,
-                          ),
-                        ],
+                  return ListView.separated(
+                    padding: _managePartnersListPadding(),
+                    itemCount: filtered.length + 1,
+                    separatorBuilder: (_, i) =>
+                        SizedBox(height: i == 0 ? CoolSpace.x3 : CoolSpace.x2),
+                    itemBuilder: (context, index) {
+                      if (index == 0) {
+                        return Row(
+                          children: [
+                            _MetricBadge(
+                              label: 'Total',
+                              value: partners.length.toString(),
+                            ),
+                            const SizedBox(width: CoolSpace.x2),
+                            _MetricBadge(
+                              label: 'Active',
+                              value: activeCount.toString(),
+                              color: colors.accent,
+                            ),
+                            const SizedBox(width: CoolSpace.x2),
+                            _MetricBadge(
+                              label: 'Inactive',
+                              value: inactiveCount.toString(),
+                              color: colors.warning,
+                            ),
+                          ],
+                        );
+                      }
+                      final p = filtered[index - 1];
+                      return _PartnerCard(
+                        partner: p,
+                        onEdit: () => _openEditor(context, p),
+                        onToggleActive: () => _toggleActive(context, p),
                       );
-                    }
-                    final p = filtered[index - 1];
-                    return _PartnerCard(
-                      partner: p,
-                      onEdit: () => _openEditor(context, p),
-                      onToggleActive: () => _toggleActive(context, p),
-                    );
-                  },
-                );
-              },
+                    },
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-
-
     );
   }
 
-  void _openEditor(
-    BuildContext context,
-    Map<String, dynamic>? partner,
-  ) {
+  void _openEditor(BuildContext context, Map<String, dynamic>? partner) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (_) => PartnerEditorPage(partner: partner, ref: ref),
@@ -284,7 +314,9 @@ class _PartnerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    final space = context.coolSpace;
     final name = partner['name']?.toString() ?? '';
     final slug = partner['slug']?.toString() ?? '';
     final category = partner['category']?.toString() ?? '';
@@ -298,7 +330,8 @@ class _PartnerCard extends StatelessWidget {
 
     return CoolCard(
       onTap: onEdit,
-      semanticsLabel: '$name partner. $category. ${isActive ? "Active" : "Inactive"}',
+      semanticsLabel:
+          '$name partner. $category. ${isActive ? "Active" : "Inactive"}',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -309,31 +342,31 @@ class _PartnerCard extends StatelessWidget {
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: palette.surface2,
-                  borderRadius: BorderRadius.circular(14),
+                  color: colors.operationalSurface,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(CoolRadii.xs),
+                  ),
                 ),
                 alignment: Alignment.center,
-                child: Text(emoji, style: const TextStyle(fontSize: 22)),
+                child: Text(emoji, style: theme.textTheme.titleMedium),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: space.x3),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       name,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 15,
+                      style: theme.textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.w700,
-                        color: palette.text,
+                        color: colors.primaryText,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: CoolSpace.x1),
                     Text(
                       '$slug · $category',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
-                        color: palette.text3,
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: colors.tertiaryText,
                       ),
                     ),
                   ],
@@ -341,35 +374,37 @@ class _PartnerCard extends StatelessWidget {
               ),
               _StatusChip(isActive: isActive),
               if (isMock) ...[
-                const SizedBox(width: 6),
-                const _TagChip(label: 'Mock', color: Colors.orange),
+                const SizedBox(width: CoolSpace.x1),
+                _TagChip(label: 'Mock', color: colors.warning),
               ],
             ],
           ),
 
           // ── Description ──
           if (description.isNotEmpty) ...[
-            const SizedBox(height: 10),
+            SizedBox(height: space.x3),
             Text(
               description,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.dmSans(
-                fontSize: 12,
-                color: palette.text2,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: colors.secondaryText,
                 height: 1.4,
               ),
             ),
           ],
 
           // ── Detail chips ──
-          const SizedBox(height: 10),
+          SizedBox(height: space.x3),
           Wrap(
-            spacing: 8,
-            runSpacing: 6,
+            spacing: space.x2,
+            runSpacing: space.x1,
             children: [
               if (momoCode.isNotEmpty)
-                _InfoChip(icon: Icons.phone_android_rounded, label: 'MoMo: $momoCode'),
+                _InfoChip(
+                  icon: Icons.phone_android_rounded,
+                  label: 'MoMo: $momoCode',
+                ),
               if (whatsapp.isNotEmpty)
                 _InfoChip(icon: Icons.chat_rounded, label: whatsapp),
               if (website.isNotEmpty)
@@ -378,7 +413,7 @@ class _PartnerCard extends StatelessWidget {
           ),
 
           // ── Actions ──
-          const SizedBox(height: 12),
+          SizedBox(height: space.x3),
           Row(
             children: [
               Expanded(
@@ -388,7 +423,7 @@ class _PartnerCard extends StatelessWidget {
                   onTap: onEdit,
                 ),
               ),
-              const SizedBox(width: 10),
+              SizedBox(width: space.x3),
               Expanded(
                 child: _ActionButton(
                   icon: isActive
@@ -413,19 +448,21 @@ class _StatusChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isActive ? Colors.green : Colors.red;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    final tone = _partnerTone(isActive ? colors.success : colors.danger);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: _partnerChipPadding(),
+
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(8),
+        color: tone.tone,
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.xs)),
       ),
       child: Text(
         isActive ? 'Active' : 'Off',
-        style: GoogleFonts.dmSans(
-          fontSize: 11,
+        style: theme.textTheme.labelSmall?.copyWith(
           fontWeight: FontWeight.w600,
-          color: color,
+          color: tone.foreground,
         ),
       ),
     );
@@ -439,15 +476,17 @@ class _TagChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final tone = _partnerTone(color);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: _partnerChipPadding(),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(8),
+        color: tone.tone,
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.xs)),
       ),
       child: Text(
         label,
-        style: GoogleFonts.dmSans(fontSize: 11, color: color),
+        style: theme.textTheme.labelSmall?.copyWith(color: tone.foreground),
       ),
     );
   }
@@ -460,21 +499,25 @@ class _InfoChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: _partnerChipPadding(),
       decoration: BoxDecoration(
-        color: palette.surface2,
-        borderRadius: BorderRadius.circular(8),
+        color: colors.operationalSurface,
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.xs)),
+        border: Border.all(color: colors.border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 12, color: palette.text3),
+          Icon(icon, size: 12, color: colors.tertiaryText),
           const SizedBox(width: 4),
           Text(
             label,
-            style: GoogleFonts.dmSans(fontSize: 11, color: palette.text2),
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: colors.secondaryText,
+            ),
           ),
         ],
       ),
@@ -497,28 +540,28 @@ class _ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    final color = destructive ? Colors.red : palette.text2;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    final color = destructive ? colors.danger : colors.secondaryText;
     return Semantics(
       button: true,
       label: label,
       child: Material(
-        color: palette.surface2,
-        borderRadius: BorderRadius.circular(10),
+        color: colors.operationalSurface,
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.xs)),
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.xs)),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
+            padding: _partnerActionPadding(),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(icon, size: 14, color: color),
-                const SizedBox(width: 6),
+                const SizedBox(width: CoolSpace.x1),
                 Text(
                   label,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
+                  style: theme.textTheme.labelMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: color,
                   ),
@@ -532,14 +575,8 @@ class _ActionButton extends StatelessWidget {
   }
 }
 
-
-
 class _MetricBadge extends StatelessWidget {
-  const _MetricBadge({
-    required this.label,
-    required this.value,
-    this.color,
-  });
+  const _MetricBadge({required this.label, required this.value, this.color});
 
   final String label;
   final String value;
@@ -547,32 +584,31 @@ class _MetricBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    final c = color ?? palette.text2;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    final c = color ?? colors.secondaryText;
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        padding: _partnerMetricPadding(),
         decoration: BoxDecoration(
           color: c.withValues(alpha: 0.08),
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.xs)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               value,
-              style: GoogleFonts.dmSans(
-                fontSize: 18,
+              style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w700,
                 color: c,
               ),
             ),
             Text(
               label,
-              style: GoogleFonts.dmSans(
-                fontSize: 11,
+              style: theme.textTheme.labelSmall?.copyWith(
                 fontWeight: FontWeight.w500,
-                color: palette.text3,
+                color: colors.tertiaryText,
               ),
             ),
           ],
