@@ -10,7 +10,6 @@ import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/status/providers/cool_status_provider.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../core/theme/cool_palette.dart';
 import '../../../core/theme/theme_preference.dart';
 import '../../../core/theme/theme_preference_provider.dart';
 import '../../../shared/widgets/cool_bottom_sheet.dart';
@@ -209,7 +208,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final l10n = context.l10n;
     final themePreference = ref.watch(themePreferenceProvider);
     final profile = ref.watch(profileViewProvider);
@@ -222,7 +221,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         icon: Icons.account_balance_wallet_outlined,
         label: 'Wallet',
         value: profile.momoLinked ? profile.momoDisplayLabel : 'Link wallet',
-        valueColor: profile.momoLinked ? palette.accent : palette.text3,
+        valueColor: profile.momoLinked ? colors.accent : colors.tertiaryText,
         onTap: () => context.push(AppRoutes.profileWallet),
       ),
       if (status != null)
@@ -230,21 +229,21 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           icon: Icons.token_rounded,
           label: 'Cool Tokens',
           value: '${_tierLabel(status.tier)} · ${status.totalPoints} Tokens',
-          valueColor: palette.accent,
+          valueColor: colors.accent,
           onTap: () => context.push(AppRoutes.tokens),
         ),
       ProfileSettingsRow(
         icon: Icons.card_giftcard_rounded,
         label: 'Invite Friends',
         value: 'Share & earn tokens',
-        valueColor: palette.accent,
+        valueColor: colors.accent,
         onTap: () => context.push(AppRoutes.referral),
       ),
       ProfileSettingsRow(
         icon: Icons.swap_horiz_rounded,
         label: 'Mobility',
         value: profile.isDriver ? 'Driver' : 'Passenger',
-        valueColor: profile.travelRoleValueColor,
+        valueColor: profile.travelRoleValueColor(colors),
         onTap: () => context.push(AppRoutes.profileTravelRole),
       ),
       ProfileSettingsRow(
@@ -252,8 +251,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         label: 'MoMo Statements',
         value: profile.mobileMoneyActivityLabel,
         valueColor: profile.momoStatementCount > 0
-            ? palette.blue
-            : palette.text3,
+            ? colors.info
+            : colors.tertiaryText,
         onTap: () => context.push(
           profile.momoStatementCount > 0
               ? AppRoutes.momoStatements
@@ -267,8 +266,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             ? profile.officialName
             : profile.kycLabel,
         valueColor: profile.officialName.isNotEmpty
-            ? palette.blue
-            : profile.kycValueColor,
+            ? colors.info
+            : profile.kycValueColor(colors),
         onTap: () => context.push(AppRoutes.profileIdentity),
       ),
     ];
@@ -280,16 +279,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           icon: Icons.qr_code_rounded,
           label: l10n.profileMomoQrTitle,
           value: l10n.openAction,
-          valueColor: palette.accent,
+          valueColor: colors.accent,
           onTap: () => _showMomoQrSheet(profile),
         ),
       if (adminAccess.hasAnyAdminAccess)
         ProfileSettingsRow(
           icon: Icons.admin_panel_settings_outlined,
-          iconColor: palette.purple,
+          iconColor: colors.accentStrong,
           label: l10n.profileAdminPanel,
           value: l10n.openAction,
-          valueColor: palette.purple,
+          valueColor: colors.accentStrong,
           onTap: () => context.push(AppRoutes.admin),
         ),
       ProfileSettingsRow(
@@ -359,7 +358,6 @@ class _ProfileCompletionBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
     final fraction = profile.completionFraction;

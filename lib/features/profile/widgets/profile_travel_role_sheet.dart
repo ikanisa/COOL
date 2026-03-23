@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import 'profile_data.dart';
 import 'profile_settings_widgets.dart';
 import '../../../core/l10n/l10n.dart';
@@ -20,7 +19,7 @@ class ProfileTravelRoleSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final driverValue = profile.isDriver
         ? profile.driverSummary
         : 'Setup driver profile';
@@ -33,7 +32,7 @@ class ProfileTravelRoleSheet extends StatelessWidget {
           style: GoogleFonts.dmSans(
             fontSize: 18,
             fontWeight: FontWeight.w700,
-            color: palette.text,
+            color: colors.primaryText,
           ),
         ),
         const SizedBox(height: 8),
@@ -42,7 +41,7 @@ class ProfileTravelRoleSheet extends StatelessWidget {
           style: GoogleFonts.dmSans(
             fontSize: 13,
             fontWeight: FontWeight.w400,
-            color: palette.text2,
+            color: colors.secondaryText,
             height: 1.45,
           ),
         ),
@@ -57,11 +56,11 @@ class ProfileTravelRoleSheet extends StatelessWidget {
                   ? 'Default travel role'
                   : 'Add wallet first',
               valueColor: profile.momoLinked
-                  ? palette.accent
-                  : palette.text2,
+                  ? colors.accent
+                  : colors.secondaryText,
               trailing: _TravelRoleBadge(
                 label: profile.momoLinked ? 'Default' : 'Needs wallet',
-                color: profile.momoLinked ? palette.accent : palette.orange,
+                color: profile.momoLinked ? colors.accent : colors.warning,
               ),
               onTap: onOpenPassengerTools,
               showArrow: onOpenPassengerTools != null,
@@ -76,10 +75,12 @@ class ProfileTravelRoleSheet extends StatelessWidget {
               icon: Icons.directions_car_outlined,
               label: profile.isDriver ? 'Driver setup' : 'Switch to driver',
               value: driverValue,
-              valueColor: profile.isDriver ? palette.accent : palette.text2,
+              valueColor: profile.isDriver
+                  ? colors.accent
+                  : colors.secondaryText,
               trailing: _TravelRoleBadge(
                 label: profile.isDriver ? 'Open' : 'Set up',
-                color: palette.blue,
+                color: colors.info,
               ),
               onTap: onOpenDriverSetup,
               showArrow: false,

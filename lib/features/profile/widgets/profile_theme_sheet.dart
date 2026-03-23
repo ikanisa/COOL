@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/theme_preference.dart';
 import '../../../core/theme/theme_preference_provider.dart';
 import '../../../core/l10n/l10n.dart';
@@ -23,12 +22,13 @@ class ProfileThemeSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final currentPreference = ref.watch(themePreferenceProvider);
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: palette.surface,
+        color: colors.overlaySurface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
@@ -49,7 +49,7 @@ class ProfileThemeSheet extends ConsumerWidget {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: palette.border2,
+                    color: colors.borderStrong,
                     borderRadius: BorderRadius.circular(999),
                   ),
                 ),
@@ -57,10 +57,9 @@ class ProfileThemeSheet extends ConsumerWidget {
               const SizedBox(height: 18),
               Text(
                 'Appearance',
-                style: GoogleFonts.dmSans(
-                  fontSize: 20,
+                style: theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.w800,
-                  color: palette.text,
+                  color: colors.primaryText,
                 ),
               ),
               const SizedBox(height: 20),
@@ -116,17 +115,20 @@ class _ThemeOptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: isSelected ? palette.accentGlow : palette.surface2,
+          color: isSelected
+              ? colors.chipSelectedBackground
+              : colors.cardSurface,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ? palette.accent : palette.border,
+            color: isSelected ? colors.accent : colors.border,
             width: isSelected ? 1.5 : 1,
           ),
         ),
@@ -136,13 +138,15 @@ class _ThemeOptionCard extends StatelessWidget {
               width: 44,
               height: 44,
               decoration: BoxDecoration(
-                color: isSelected ? palette.surface : palette.surface3,
+                color: isSelected
+                    ? colors.cardSurfaceStrong
+                    : colors.operationalSurface,
                 borderRadius: BorderRadius.circular(14),
               ),
               alignment: Alignment.center,
               child: Icon(
                 icon,
-                color: isSelected ? palette.accent : palette.text,
+                color: isSelected ? colors.accent : colors.primaryText,
                 size: 22,
               ),
             ),
@@ -150,19 +154,14 @@ class _ThemeOptionCard extends StatelessWidget {
             Expanded(
               child: Text(
                 title,
-                style: GoogleFonts.dmSans(
-                  fontSize: 15,
+                style: theme.textTheme.bodyLarge?.copyWith(
                   fontWeight: FontWeight.w700,
-                  color: palette.text,
+                  color: colors.primaryText,
                 ),
               ),
             ),
             if (isSelected)
-              Icon(
-                Icons.check_circle_rounded,
-                color: palette.accent,
-                size: 24,
-              ),
+              Icon(Icons.check_circle_rounded, color: colors.accent, size: 24),
           ],
         ),
       ),

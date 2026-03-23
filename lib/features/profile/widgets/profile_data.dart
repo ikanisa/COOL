@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/phone_validator.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../mobility/providers/driver_provider.dart';
@@ -204,14 +204,14 @@ class ProfileData {
     return l10n.profileDriverRoleLabel;
   }
 
-  Color get travelRoleValueColor {
+  Color travelRoleValueColor(CoolSemanticColors colors) {
     if (!isDriver) {
-      return AppColors.text2;
+      return colors.secondaryText;
     }
     if ((vehicleType?.trim().isEmpty ?? true)) {
-      return AppColors.orange;
+      return colors.warning;
     }
-    return AppColors.blue;
+    return colors.info;
   }
 
   String get initials {
@@ -239,16 +239,16 @@ class ProfileData {
     }
   }
 
-  Color get kycValueColor {
+  Color kycValueColor(CoolSemanticColors colors) {
     switch (kycStatus) {
       case 'verified':
-        return AppColors.accent;
+        return colors.accent;
       case 'pending_review':
-        return AppColors.orange;
+        return colors.warning;
       case 'rejected':
-        return AppColors.red;
+        return colors.danger;
       default:
-        return AppColors.text3;
+        return colors.tertiaryText;
     }
   }
 

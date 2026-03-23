@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/config/country_catalog.dart';
 import '../../../core/l10n/l10n.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 
 class ProfileOfficialIdentityEditResult {
   const ProfileOfficialIdentityEditResult({
@@ -83,9 +82,7 @@ class _ProfileOfficialIdentityEditSheetState
         widget.country.normalizeNationalPhone(officialPhone);
       } on FormatException catch (error) {
         final message = error.message.toString().trim();
-        phoneError = message.isEmpty
-            ? 'Invalid phone number'
-            : message;
+        phoneError = message.isEmpty ? 'Invalid phone number' : message;
       }
     }
 
@@ -123,7 +120,7 @@ class _ProfileOfficialIdentityEditSheetState
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final l10n = context.l10n;
     final bottomInset = MediaQuery.viewInsetsOf(context).bottom;
     final verifiedAt = widget.kycVerifiedAt == null
@@ -146,7 +143,7 @@ class _ProfileOfficialIdentityEditSheetState
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: palette.border2,
+                  color: colors.borderStrong,
                   borderRadius: BorderRadius.circular(999),
                 ),
               ),
@@ -158,7 +155,7 @@ class _ProfileOfficialIdentityEditSheetState
             style: GoogleFonts.dmSans(
               fontSize: 18,
               fontWeight: FontWeight.w700,
-              color: palette.text,
+              color: colors.primaryText,
             ),
           ),
           const SizedBox(height: 18),
@@ -166,9 +163,9 @@ class _ProfileOfficialIdentityEditSheetState
             width: double.infinity,
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: palette.surface2,
+              color: colors.cardSurface,
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: palette.border),
+              border: Border.all(color: colors.border),
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -197,7 +194,7 @@ class _ProfileOfficialIdentityEditSheetState
                         style: GoogleFonts.dmSans(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
-                          color: palette.text3,
+                          color: colors.tertiaryText,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -216,7 +213,7 @@ class _ProfileOfficialIdentityEditSheetState
                           style: GoogleFonts.dmSans(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
-                            color: palette.text2,
+                            color: colors.secondaryText,
                           ),
                         ),
                       ],
@@ -232,7 +229,7 @@ class _ProfileOfficialIdentityEditSheetState
             style: GoogleFonts.dmSans(
               fontSize: 11,
               fontWeight: FontWeight.w700,
-              color: palette.text3,
+              color: colors.tertiaryText,
               letterSpacing: 1.2,
             ),
           ),
@@ -244,27 +241,30 @@ class _ProfileOfficialIdentityEditSheetState
             child: TextField(
               controller: _nameController,
               textCapitalization: TextCapitalization.words,
-              style: GoogleFonts.dmSans(fontSize: 15, color: palette.text),
-              cursorColor: palette.accent,
+              style: GoogleFonts.dmSans(
+                fontSize: 15,
+                color: colors.primaryText,
+              ),
+              cursorColor: colors.accent,
               decoration: InputDecoration(
                 hintText: 'Legal name for reports',
                 hintStyle: GoogleFonts.dmSans(
                   fontSize: 15,
-                  color: palette.text3.withValues(alpha: 0.5),
+                  color: colors.tertiaryText.withValues(alpha: 0.5),
                 ),
                 filled: true,
-                fillColor: palette.surface2,
+                fillColor: colors.inputSurface,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: palette.border),
+                  borderSide: BorderSide(color: colors.border),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: palette.border),
+                  borderSide: BorderSide(color: colors.border),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: palette.accent),
+                  borderSide: BorderSide(color: colors.accent),
                 ),
                 errorText: _nameError,
               ),
@@ -276,7 +276,7 @@ class _ProfileOfficialIdentityEditSheetState
             style: GoogleFonts.dmSans(
               fontSize: 11,
               fontWeight: FontWeight.w700,
-              color: palette.text3,
+              color: colors.tertiaryText,
               letterSpacing: 1.2,
             ),
           ),
@@ -288,31 +288,33 @@ class _ProfileOfficialIdentityEditSheetState
             child: TextField(
               controller: _phoneController,
               keyboardType: TextInputType.phone,
-              style: GoogleFonts.dmSans(fontSize: 15, color: palette.text),
-              cursorColor: palette.accent,
+              style: GoogleFonts.dmSans(
+                fontSize: 15,
+                color: colors.primaryText,
+              ),
+              cursorColor: colors.accent,
               decoration: InputDecoration(
                 hintText: widget.country.phoneExampleHint(),
                 hintStyle: GoogleFonts.dmSans(
                   fontSize: 15,
-                  color: palette.text3.withValues(alpha: 0.5),
+                  color: colors.tertiaryText.withValues(alpha: 0.5),
                 ),
                 filled: true,
-                fillColor: palette.surface2,
+                fillColor: colors.inputSurface,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: palette.border),
+                  borderSide: BorderSide(color: colors.border),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: palette.border),
+                  borderSide: BorderSide(color: colors.border),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: palette.accent),
+                  borderSide: BorderSide(color: colors.accent),
                 ),
                 errorText: _phoneError,
-                helperText:
-                    'Use the real phone',
+                helperText: 'Use the real phone',
                 helperMaxLines: 2,
               ),
             ),
@@ -324,8 +326,8 @@ class _ProfileOfficialIdentityEditSheetState
             child: ElevatedButton(
               onPressed: _isSubmitting ? null : _save,
               style: ElevatedButton.styleFrom(
-                backgroundColor: palette.accent,
-                foregroundColor: Colors.black,
+                backgroundColor: colors.buttonPrimaryBackground,
+                foregroundColor: colors.accentForeground,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -355,7 +357,7 @@ class _ProfileOfficialIdentityEditSheetState
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: palette.surface,
+        color: colors.overlaySurface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(top: false, child: content),

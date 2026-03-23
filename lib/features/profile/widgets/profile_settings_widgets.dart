@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../core/theme/cool_palette.dart';
 import '../../../core/theme/theme_preference.dart';
 import '../../../shared/widgets/cool_card.dart';
 
@@ -22,7 +21,6 @@ class ProfileSettingsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
     if (rows.isEmpty) {
       return const SizedBox.shrink();
@@ -52,7 +50,7 @@ class ProfileSettingsSection extends StatelessWidget {
               for (var i = 0; i < rows.length; i++) ...[
                 rows[i],
                 if (i < rows.length - 1)
-                  Divider(color: palette.border, height: 1, indent: 68),
+                  Divider(color: colors.border, height: 1, indent: 68),
               ],
             ],
           ),
@@ -82,13 +80,13 @@ class ProfileFactsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     if (items.isEmpty) {
       return const SizedBox.shrink();
     }
 
     return CoolCard(
-      backgroundColor: palette.surface,
+      backgroundColor: colors.cardSurface,
       child: LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth < 560) {
@@ -97,7 +95,7 @@ class ProfileFactsCard extends StatelessWidget {
                 for (var index = 0; index < items.length; index++) ...[
                   _ProfileFactTile(item: items[index]),
                   if (index < items.length - 1)
-                    Divider(color: palette.border, height: 20),
+                    Divider(color: colors.border, height: 20),
                 ],
               ],
             );
@@ -112,7 +110,7 @@ class ProfileFactsCard extends StatelessWidget {
                     width: 1,
                     height: 44,
                     margin: const EdgeInsets.symmetric(horizontal: 14),
-                    color: palette.border,
+                    color: colors.border,
                   ),
               ],
             ],
@@ -130,7 +128,7 @@ class _ProfileFactTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     return Semantics(
       label: '${item.label}: ${item.value}',
       child: ExcludeSemantics(
@@ -140,7 +138,7 @@ class _ProfileFactTile extends StatelessWidget {
             Text(
               item.label,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                color: palette.text3,
+                color: colors.tertiaryText,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -150,7 +148,7 @@ class _ProfileFactTile extends StatelessWidget {
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                color: item.valueColor ?? palette.text,
+                color: item.valueColor ?? colors.primaryText,
                 fontWeight: FontWeight.w800,
               ),
             ),
@@ -188,13 +186,11 @@ class ProfileSettingsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
-    final resolvedLabelColor = labelColor ?? palette.text;
-    final resolvedValueColor = valueColor ?? palette.text2;
+    final resolvedLabelColor = labelColor ?? colors.primaryText;
+    final resolvedValueColor = valueColor ?? colors.secondaryText;
     final content = LayoutBuilder(
       builder: (context, constraints) {
-        final palette = context.coolPalette;
         final shouldStackValue =
             trailing == null && value != null && constraints.maxWidth < 390;
 
@@ -280,7 +276,7 @@ class ProfileSettingsRow extends StatelessWidget {
                   child: Icon(
                     Icons.chevron_right_rounded,
                     size: 22,
-                    color: palette.text3,
+                    color: colors.tertiaryText,
                   ),
                 ),
               ],
@@ -301,7 +297,7 @@ class ProfileSettingsRow extends StatelessWidget {
       hint: 'Open $label',
       child: InkWell(
         onTap: onTap,
-        splashColor: palette.accentGlow,
+        splashColor: colors.accent.withValues(alpha: 0.08),
         highlightColor: Colors.transparent,
         child: content,
       ),
@@ -326,14 +322,14 @@ class ProfileSectionToggleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     return Semantics(
       button: true,
       label: '$title. $subtitle. ${isExpanded ? 'Expanded' : 'Collapsed'}',
       hint: isExpanded ? 'Collapse section' : 'Expand section',
       child: ExcludeSemantics(
         child: CoolCard(
-          backgroundColor: palette.surface,
+          backgroundColor: colors.cardSurface,
           onTap: onTap,
           child: Row(
             children: [
@@ -348,7 +344,9 @@ class ProfileSectionToggleCard extends StatelessWidget {
                     const SizedBox(height: 6),
                     Text(
                       subtitle,
-                      style: Theme.of(context).textTheme.bodySmall,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: colors.secondaryText,
+                      ),
                     ),
                   ],
                 ),
@@ -358,7 +356,7 @@ class ProfileSectionToggleCard extends StatelessWidget {
                 isExpanded
                     ? Icons.keyboard_arrow_up_rounded
                     : Icons.keyboard_arrow_down_rounded,
-                color: palette.text2,
+                color: colors.secondaryText,
                 size: 24,
               ),
             ],
@@ -382,7 +380,7 @@ class ProfileDangerZone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final l10n = context.l10n;
     return ProfileSettingsSection(
       title: l10n.accountActionsTitle,
@@ -394,9 +392,9 @@ class ProfileDangerZone extends StatelessWidget {
         ),
         ProfileSettingsRow(
           icon: Icons.delete_outline_rounded,
-          iconColor: palette.red,
+          iconColor: colors.danger,
           label: l10n.deleteAccountAction,
-          labelColor: palette.red,
+          labelColor: colors.danger,
           onTap: onDeleteAccount,
           showArrow: false,
         ),
@@ -420,7 +418,7 @@ class ProfileNotificationToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     return Semantics(
       label: context.l10n.notificationsLabel,
       toggled: value,
@@ -438,7 +436,7 @@ class ProfileNotificationToggle extends StatelessWidget {
           Switch.adaptive(
             value: value,
             onChanged: isLoading ? null : onChanged,
-            activeTrackColor: palette.accent,
+            activeTrackColor: colors.accent,
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
         ],
@@ -460,7 +458,7 @@ class ProfileAppearanceSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final l10n = context.l10n;
 
     return Column(
@@ -472,7 +470,7 @@ class ProfileAppearanceSheet extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         CoolCard(
-          backgroundColor: palette.surface,
+          backgroundColor: colors.cardSurfaceStrong,
           padding: EdgeInsets.zero,
           child: Column(
             children: [
@@ -488,7 +486,7 @@ class ProfileAppearanceSheet extends StatelessWidget {
                   onTap: () => onSelected(AppThemePreference.values[index]),
                 ),
                 if (index < AppThemePreference.values.length - 1)
-                  Divider(color: palette.border, height: 1, indent: 72),
+                  Divider(color: colors.border, height: 1, indent: 72),
               ],
             ],
           ),
@@ -528,7 +526,7 @@ class _ProfileAppearanceOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
 
     return Semantics(
       button: true,
@@ -536,7 +534,7 @@ class _ProfileAppearanceOption extends StatelessWidget {
       label: _label(context),
       child: InkWell(
         onTap: onTap,
-        splashColor: palette.accentGlow,
+        splashColor: colors.accent.withValues(alpha: 0.08),
         highlightColor: Colors.transparent,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
@@ -546,25 +544,26 @@ class _ProfileAppearanceOption extends StatelessWidget {
                 width: 42,
                 height: 42,
                 decoration: BoxDecoration(
-                  color: palette.surface2,
+                  color: colors.cardSurface,
                   borderRadius: BorderRadius.circular(14),
                 ),
                 alignment: Alignment.center,
-                child: Icon(_icon(), size: 20, color: palette.text2),
+                child: Icon(_icon(), size: 20, color: colors.secondaryText),
               ),
               const SizedBox(width: 14),
               Expanded(
                 child: Text(
                   _label(context),
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w800),
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w800,
+                    color: colors.primaryText,
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
               Icon(
                 isSelected ? Icons.check_circle_rounded : Icons.circle_outlined,
-                color: isSelected ? palette.accent : palette.text3,
+                color: isSelected ? colors.accent : colors.tertiaryText,
                 size: 24,
               ),
             ],
@@ -583,7 +582,6 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
     final l10n = context.l10n;
     return Semantics(
@@ -595,7 +593,7 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
         child: ExcludeSemantics(
           child: CoolCard(
             backgroundColor: colors.cardSurfaceStrong,
-            borderColor: palette.accent.withValues(alpha: 0.35),
+            borderColor: colors.accent.withValues(alpha: 0.35),
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Row(
@@ -611,7 +609,7 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
                     alignment: Alignment.center,
                     child: Icon(
                       Icons.person_outline_rounded,
-                      color: palette.accent,
+                      color: colors.accent,
                     ),
                   ),
                   const SizedBox(width: 14),
@@ -628,7 +626,7 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
                   Icon(
                     Icons.arrow_forward_ios_rounded,
                     size: 16,
-                    color: palette.text3,
+                    color: colors.tertiaryText,
                   ),
                 ],
               ),

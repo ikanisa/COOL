@@ -4,16 +4,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../core/l10n/l10n.dart';
-
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/kyc_id_scanner_overlay.dart';
+import '../../../shared/widgets/tab_pill.dart';
 import 'kyc_selfie_screen.dart';
 import '../../auth/models/user_profile.dart';
 import '../../auth/providers/auth_provider.dart';
@@ -45,9 +44,13 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
       MaterialPageRoute(
         builder: (context) => KycIdScannerOverlay(
           title: isFront ? context.l10n.kycFrontOfId : context.l10n.kycBackOfId,
-          instruction: isFront 
-            ? context.l10n.kycAlignFront(_documentTypeLabel(context, _documentType))
-            : context.l10n.kycAlignBack(_documentTypeLabel(context, _documentType)),
+          instruction: isFront
+              ? context.l10n.kycAlignFront(
+                  _documentTypeLabel(context, _documentType),
+                )
+              : context.l10n.kycAlignBack(
+                  _documentTypeLabel(context, _documentType),
+                ),
         ),
       ),
     );
@@ -66,11 +69,9 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
   }
 
   Future<void> _takeSelfie() async {
-    final XFile? result = await Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const KycSelfieScreen(),
-      ),
-    );
+    final XFile? result = await Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => const KycSelfieScreen()));
 
     if (result != null && mounted) {
       setState(() {
@@ -123,7 +124,9 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
     final frontBytes = await _frontImage!.readAsBytes();
     final selfieBytes = await _selfieImage!.readAsBytes();
 
-    final result = await ref.read(authProvider.notifier).submitKycDocument(
+    final result = await ref
+        .read(authProvider.notifier)
+        .submitKycDocument(
           documentType: _documentType,
           frontImageBase64: base64Encode(frontBytes),
           frontMimeType: _mimeTypeFor(_frontImage!),
@@ -138,18 +141,21 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
     if (result == null) {
       setState(() {
         _step = _KycStep.capture;
-        _errorMessage = ref.read(authProvider).error ?? context.l10n.kycExtractionFailed;
+        _errorMessage =
+            ref.read(authProvider).error ?? context.l10n.kycExtractionFailed;
       });
       return;
     }
 
     // Perform Agentic Face Match
-    final faceMatch = await ref.read(authProvider.notifier).verifyFaceMatch(
-      idImageBase64: base64Encode(frontBytes),
-      selfieBase64: base64Encode(selfieBytes),
-      idMimeType: _mimeTypeFor(_frontImage!),
-      selfieMimeType: _mimeTypeFor(_selfieImage!),
-    );
+    final faceMatch = await ref
+        .read(authProvider.notifier)
+        .verifyFaceMatch(
+          idImageBase64: base64Encode(frontBytes),
+          selfieBase64: base64Encode(selfieBytes),
+          idMimeType: _mimeTypeFor(_frontImage!),
+          selfieMimeType: _mimeTypeFor(_selfieImage!),
+        );
 
     if (!mounted) return;
 
@@ -191,16 +197,21 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     return Scaffold(
-      backgroundColor: palette.bg,
+      backgroundColor: colors.appBackground,
       appBar: AppBar(
         title: Text(
           context.l10n.personalInfo,
-          style: GoogleFonts.dmSans(fontWeight: FontWeight.w700),
+          style: theme.textTheme.titleLarge?.copyWith(
+            color: colors.primaryText,
+            fontWeight: FontWeight.w800,
+          ),
         ),
       ),
       body: CoolScreenBackground(
+        showGlow: false,
         child: SafeArea(
           top: false,
           child: AnimatedSwitcher(
@@ -259,7 +270,9 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
           ),
           const SizedBox(height: 16),
           _DocumentInputCard(
-            title: _backImageRecommended ? context.l10n.kycBackOfId : context.l10n.kycBackOfDocument,
+            title: _backImageRecommended
+                ? context.l10n.kycBackOfId
+                : context.l10n.kycBackOfDocument,
             image: _backImage,
             onTakePhoto: () => _openScanner(isFront: false),
             onUpload: () => _pickFromGallery(isFront: false),
@@ -269,29 +282,35 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
             title: 'Live Selfie',
             image: _selfieImage,
             onTakePhoto: _takeSelfie,
-            onUpload: () {}, // Not used for selfie
+            takePhotoLabel: 'Take selfie',
+            onUpload: null,
           ),
           if (_errorMessage != null) ...[
             const SizedBox(height: 14),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: AppColors.red.withValues(alpha: 0.10),
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: AppColors.red.withValues(alpha: 0.18),
-                ),
-              ),
-              child: Text(
-                _errorMessage!,
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.red,
-                  height: 1.45,
-                ),
-              ),
+            Builder(
+              builder: (context) {
+                final theme = Theme.of(context);
+                final colors = context.coolSemanticColors;
+                return Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: colors.danger.withValues(alpha: 0.10),
+                    borderRadius: BorderRadius.circular(CoolRadii.lg),
+                    border: Border.all(
+                      color: colors.danger.withValues(alpha: 0.18),
+                    ),
+                  ),
+                  child: Text(
+                    _errorMessage!,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: colors.danger,
+                      fontWeight: FontWeight.w700,
+                      height: 1.45,
+                    ),
+                  ),
+                );
+              },
             ),
           ],
           const SizedBox(height: 18),
@@ -306,6 +325,8 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
   }
 
   Widget _buildProcessingView() {
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     return Center(
       key: const ValueKey('kyc-processing-view'),
       child: Padding(
@@ -316,13 +337,13 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
             Container(
               width: 72,
               height: 72,
-              decoration: const BoxDecoration(
-                color: AppColors.blueGlow,
+              decoration: BoxDecoration(
+                color: colors.chipSelectedBackground,
                 shape: BoxShape.circle,
               ),
-              child: const Center(
+              child: Center(
                 child: CircularProgressIndicator(
-                  color: AppColors.blue,
+                  color: colors.info,
                   strokeWidth: 3,
                 ),
               ),
@@ -330,20 +351,18 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
             const SizedBox(height: 18),
             Text(
               context.l10n.kycReadingId,
-              style: GoogleFonts.dmSans(
-                fontSize: 18,
+              style: theme.textTheme.titleLarge?.copyWith(
+                color: colors.primaryText,
                 fontWeight: FontWeight.w800,
-                color: AppColors.text,
               ),
             ),
             const SizedBox(height: 8),
             Text(
               context.l10n.kycExtracting,
               textAlign: TextAlign.center,
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: AppColors.text2,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colors.secondaryText,
+                fontWeight: FontWeight.w600,
                 height: 1.5,
               ),
             ),
@@ -354,6 +373,8 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
   }
 
   Widget _buildReviewView() {
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     final extracted = _extracted ?? const <String, Object?>{};
     final fullName = extracted['fullName']?.toString() ?? '';
     final dateOfBirth = extracted['dateOfBirth']?.toString();
@@ -369,34 +390,26 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: AppColors.accentGlow,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: AppColors.accent.withValues(alpha: 0.14),
-              ),
-            ),
+          CoolCard(
+            backgroundColor: colors.cardSurfaceStrong,
+            borderColor: colors.borderStrong,
+            useGradient: false,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   context.l10n.kycExtractedReady,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 16,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: colors.primaryText,
                     fontWeight: FontWeight.w800,
-                    color: AppColors.text,
                   ),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   context.l10n.kycAutoFilled,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: colors.secondaryText,
+                    fontWeight: FontWeight.w600,
                     height: 1.45,
                   ),
                 ),
@@ -442,7 +455,8 @@ class _CurrentIdentityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     final trimmedNationalId = user.nationalIdNumber?.trim() ?? '';
     final details = <String>[
       if (user.kycDocumentType?.trim().isNotEmpty == true)
@@ -453,23 +467,18 @@ class _CurrentIdentityCard extends StatelessWidget {
         'ID ••••${trimmedNationalId.substring(trimmedNationalId.length > 4 ? trimmedNationalId.length - 4 : 0)}',
     ];
 
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: palette.border),
-      ),
+    return CoolCard(
+      backgroundColor: colors.cardSurfaceStrong,
+      borderColor: colors.borderStrong,
+      useGradient: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             context.l10n.kycCurrentIdentity,
-            style: GoogleFonts.dmSans(
-              fontSize: 14,
+            style: theme.textTheme.titleSmall?.copyWith(
+              color: colors.primaryText,
               fontWeight: FontWeight.w800,
-              color: palette.text,
             ),
           ),
           const SizedBox(height: 8),
@@ -477,20 +486,18 @@ class _CurrentIdentityCard extends StatelessWidget {
             user.officialName?.trim().isNotEmpty == true
                 ? user.officialName!.trim()
                 : user.fullName,
-            style: GoogleFonts.dmSans(
-              fontSize: 18,
+            style: theme.textTheme.titleLarge?.copyWith(
+              color: colors.primaryText,
               fontWeight: FontWeight.w800,
-              color: palette.text,
             ),
           ),
           if (details.isNotEmpty) ...[
             const SizedBox(height: 6),
             Text(
               details.join(' · '),
-              style: GoogleFonts.dmSans(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: palette.text2,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: colors.secondaryText,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ],
@@ -506,32 +513,31 @@ class _DocumentInputCard extends StatelessWidget {
     required this.onTakePhoto,
     required this.onUpload,
     this.image,
+    this.takePhotoLabel = 'Take photo',
   });
 
   final String title;
   final XFile? image;
   final VoidCallback onTakePhoto;
-  final VoidCallback onUpload;
+  final VoidCallback? onUpload;
+  final String takePhotoLabel;
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: palette.border, width: 1.5),
-      ),
+    final colors = context.coolSemanticColors;
+    return CoolCard(
+      backgroundColor: colors.cardSurfaceStrong,
+      borderColor: colors.borderStrong,
+      borderRadius: CoolRadii.xxl,
+      useGradient: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             title,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontSize: 18,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(fontSize: 18),
           ),
           const SizedBox(height: 16),
 
@@ -547,16 +553,16 @@ class _DocumentInputCard extends StatelessWidget {
             Container(
               height: 180,
               decoration: BoxDecoration(
-                color: palette.surface2,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: palette.border, width: 1.5),
+                color: colors.inputSurface,
+                borderRadius: BorderRadius.circular(CoolRadii.xl),
+                border: Border.all(color: colors.border, width: 1.2),
               ),
               child: Center(
                 child: Text(
                   context.l10n.kycNoImageYet,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),
                 ),
               ),
             ),
@@ -565,21 +571,23 @@ class _DocumentInputCard extends StatelessWidget {
             children: [
               Expanded(
                 child: CoolButton(
-                  label: 'Take photo',
+                  label: takePhotoLabel,
                   variant: CoolButtonVariant.secondary,
                   icon: Icons.camera_alt_outlined,
                   onTap: onTakePhoto,
                 ),
               ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: CoolButton(
-                  label: 'Upload',
-                  variant: CoolButtonVariant.secondary,
-                  icon: Icons.upload_file_outlined,
-                  onTap: onUpload,
+              if (onUpload != null) ...[
+                const SizedBox(width: 10),
+                Expanded(
+                  child: CoolButton(
+                    label: 'Upload',
+                    variant: CoolButtonVariant.secondary,
+                    icon: Icons.upload_file_outlined,
+                    onTap: onUpload,
+                  ),
                 ),
-              ),
+              ],
             ],
           ),
         ],
@@ -596,15 +604,16 @@ class _ReviewField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
       decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: palette.border, width: 1.5),
+        color: colors.cardSurfaceStrong,
+        borderRadius: BorderRadius.circular(CoolRadii.xl),
+        border: Border.all(color: colors.border, width: 1.2),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -612,11 +621,11 @@ class _ReviewField extends StatelessWidget {
           Expanded(
             child: Text(
               label.toUpperCase(),
-              style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0.8,
-                    color: palette.text3,
-                  ),
+              style: theme.textTheme.labelSmall?.copyWith(
+                fontWeight: FontWeight.w700,
+                letterSpacing: 0.8,
+                color: colors.tertiaryText,
+              ),
             ),
           ),
           const SizedBox(width: 14),
@@ -624,9 +633,10 @@ class _ReviewField extends StatelessWidget {
             child: Text(
               value,
               textAlign: TextAlign.right,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.w800,
-                  ),
+              style: theme.textTheme.bodyLarge?.copyWith(
+                fontWeight: FontWeight.w800,
+                color: colors.primaryText,
+              ),
             ),
           ),
         ],
@@ -648,29 +658,7 @@ class _DocumentTypeChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-        decoration: BoxDecoration(
-          color: selected ? palette.blueGlow : palette.surface,
-          borderRadius: BorderRadius.circular(999),
-          border: Border.all(
-            color: selected ? palette.blue : palette.border,
-          ),
-        ),
-        child: Text(
-          label,
-          style: GoogleFonts.dmSans(
-            fontSize: 13,
-            fontWeight: FontWeight.w700,
-            color: selected ? palette.blue : palette.text2,
-          ),
-        ),
-      ),
-    );
+    return TabPill(label: label, isActive: selected, onTap: onTap);
   }
 }
 

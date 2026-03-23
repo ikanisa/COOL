@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/l10n/l10n.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 
 // ═════════════════════════════════════════════════════════════════════════════
 // SIGN OUT DIALOG
@@ -14,28 +13,27 @@ class ProfileSignOutDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final l10n = context.l10n;
+    final theme = Theme.of(context);
     return AlertDialog(
-      backgroundColor: palette.surface,
+      backgroundColor: colors.overlaySurface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: palette.border),
+        side: BorderSide(color: colors.border),
       ),
       title: Text(
         l10n.signOutAction,
-        style: GoogleFonts.dmSans(
-          fontSize: 18,
+        style: theme.textTheme.titleLarge?.copyWith(
           fontWeight: FontWeight.w700,
-          color: palette.text,
+          color: colors.primaryText,
         ),
       ),
       content: Text(
         l10n.signOutMessage,
-        style: GoogleFonts.dmSans(
-          fontSize: 14,
+        style: theme.textTheme.bodyMedium?.copyWith(
           fontWeight: FontWeight.w400,
-          color: palette.text2,
+          color: colors.secondaryText,
           height: 1.5,
         ),
       ),
@@ -44,10 +42,9 @@ class ProfileSignOutDialog extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(false),
           child: Text(
             l10n.cancelAction,
-            style: GoogleFonts.dmSans(
-              fontSize: 14,
+            style: theme.textTheme.labelLarge?.copyWith(
               fontWeight: FontWeight.w600,
-              color: palette.text2,
+              color: colors.secondaryText,
             ),
           ),
         ),
@@ -55,10 +52,9 @@ class ProfileSignOutDialog extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(true),
           child: Text(
             l10n.signOutAction,
-            style: GoogleFonts.dmSans(
-              fontSize: 14,
+            style: theme.textTheme.labelLarge?.copyWith(
               fontWeight: FontWeight.w700,
-              color: palette.red,
+              color: colors.danger,
             ),
           ),
         ),
@@ -76,25 +72,24 @@ class ProfileDeleteAccountDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final l10n = context.l10n;
+    final theme = Theme.of(context);
     return AlertDialog(
-      backgroundColor: palette.surface2,
+      backgroundColor: colors.cardSurface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
       title: Text(
         l10n.deleteAccountQuestion,
-        style: GoogleFonts.dmSans(
-          fontSize: 18,
+        style: theme.textTheme.titleLarge?.copyWith(
           fontWeight: FontWeight.w700,
-          color: palette.text,
+          color: colors.primaryText,
         ),
       ),
       content: Text(
         l10n.deleteAccountMessage,
-        style: GoogleFonts.dmSans(
-          fontSize: 14,
+        style: theme.textTheme.bodyMedium?.copyWith(
           fontWeight: FontWeight.w500,
-          color: palette.text2,
+          color: colors.secondaryText,
           height: 1.45,
         ),
       ),
@@ -103,9 +98,9 @@ class ProfileDeleteAccountDialog extends StatelessWidget {
           onPressed: () => Navigator.pop(context, false),
           child: Text(
             l10n.cancelAction,
-            style: GoogleFonts.dmSans(
+            style: theme.textTheme.labelLarge?.copyWith(
               fontWeight: FontWeight.w700,
-              color: palette.text2,
+              color: colors.secondaryText,
             ),
           ),
         ),
@@ -113,9 +108,9 @@ class ProfileDeleteAccountDialog extends StatelessWidget {
           onPressed: () => Navigator.pop(context, true),
           child: Text(
             l10n.delete,
-            style: GoogleFonts.dmSans(
+            style: theme.textTheme.labelLarge?.copyWith(
               fontWeight: FontWeight.w800,
-              color: palette.red,
+              color: colors.danger,
             ),
           ),
         ),
@@ -135,9 +130,10 @@ class ProfileBlockingProgressDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return AlertDialog(
-      backgroundColor: palette.surface2,
+      backgroundColor: colors.cardSurface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
       content: Row(
         children: [
@@ -150,10 +146,9 @@ class ProfileBlockingProgressDialog extends StatelessWidget {
           Expanded(
             child: Text(
               message,
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
+              style: theme.textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: palette.text,
+                color: colors.primaryText,
               ),
             ),
           ),
@@ -162,4 +157,3 @@ class ProfileBlockingProgressDialog extends StatelessWidget {
     );
   }
 }
-

@@ -5,7 +5,6 @@ import 'package:qr_flutter/qr_flutter.dart';
 import '../../../core/config/app_market.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../core/theme/cool_palette.dart';
 import '../../../core/utils/phone_validator.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_glass_card.dart';
@@ -17,12 +16,12 @@ class ProfileHeader extends StatelessWidget {
 
   final ProfileData profile;
 
-  Color _kycColor(CoolPalette palette) {
+  Color _kycColor(CoolSemanticColors colors) {
     return switch (profile.kycStatus) {
-      'verified' => palette.accent,
-      'pending_review' => const Color(0xFFF59E0B),
-      'rejected' => palette.red,
-      _ => palette.text3,
+      'verified' => colors.accent,
+      'pending_review' => colors.warning,
+      'rejected' => colors.danger,
+      _ => colors.tertiaryText,
     };
   }
 
@@ -46,9 +45,9 @@ class ProfileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
+    final kycColor = _kycColor(colors);
     final memberSince = profile.createdAt != null
         ? DateFormat('MMM yyyy').format(profile.createdAt!)
         : null;
@@ -105,21 +104,21 @@ class ProfileHeader extends StatelessWidget {
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: _kycColor(palette).withValues(alpha: 0.12),
+                        color: kycColor.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(CoolRadii.sm),
                         border: Border.all(
-                          color: _kycColor(palette).withValues(alpha: 0.22),
+                          color: kycColor.withValues(alpha: 0.22),
                         ),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(_kycIcon(), size: 16, color: _kycColor(palette)),
+                          Icon(_kycIcon(), size: 16, color: kycColor),
                           const SizedBox(width: 4),
                           Text(
                             _kycLabel(),
                             style: theme.textTheme.labelMedium?.copyWith(
-                              color: _kycColor(palette),
+                              color: kycColor,
                               fontWeight: FontWeight.w800,
                             ),
                           ),
@@ -160,7 +159,6 @@ class ProfileMomoQrCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
     final l10n = context.l10n;
@@ -248,7 +246,6 @@ class ProfileSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -266,7 +263,7 @@ class ProfileSheet extends StatelessWidget {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: palette.border2,
+                  color: colors.borderStrong,
                   borderRadius: BorderRadius.circular(999),
                 ),
               ),
