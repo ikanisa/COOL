@@ -55,7 +55,7 @@ class _VehicleSummaryCard extends StatelessWidget {
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: CoolSpace.x1),
                     Text(
                       summaryLine,
                       style: theme.textTheme.bodyMedium?.copyWith(
@@ -136,7 +136,7 @@ class _VehicleReadinessCard extends StatelessWidget {
               height: 1.4,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           _VehicleReadinessRow(
             label: 'Vehicle type',
             value: vehicle.type,
@@ -303,7 +303,7 @@ class _SubscriptionAccessCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           Row(
             children: [
               Expanded(
@@ -391,7 +391,7 @@ class _DriverDetailNoteCard extends StatelessWidget {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: CoolSpace.x1),
                 Text(
                   message,
                   style: theme.textTheme.bodySmall?.copyWith(
@@ -574,7 +574,7 @@ class _DriverDetailErrorState extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(Icons.warning_amber_rounded, size: 40, color: colors.warning),
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             Text(
               message,
               textAlign: TextAlign.center,
@@ -583,7 +583,7 @@ class _DriverDetailErrorState extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             SizedBox(
               width: 160,
               child: CoolButton(

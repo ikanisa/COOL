@@ -361,7 +361,7 @@ class TripBoardTripTile extends StatelessWidget {
               ? 'Driver return'
               : 'Immediate contact',
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: CoolSpace.x2),
         Row(
           children: [
             Expanded(
@@ -446,7 +446,7 @@ class MyTripTile extends StatelessWidget {
                           fontWeight: FontWeight.w800,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: CoolSpace.x1),
                       Text(
                         DateFormat(
                           'EEE d MMM • HH:mm',
@@ -616,7 +616,7 @@ class TripBoardEmptyState extends StatelessWidget {
         child: Column(
           children: [
             Icon(icon, size: 34, color: colors.secondaryText),
-            const SizedBox(height: 12),
+            const SizedBox(height: CoolSpace.x3),
             Text(
               title,
               textAlign: TextAlign.center,

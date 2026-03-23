@@ -88,7 +88,7 @@ class ScheduleTripRouteEditor extends StatelessWidget {
                   _RouteDot(color: colors.warning),
                 ],
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               fields,
             ],
           );
@@ -461,7 +461,7 @@ class ScheduleTripLocationAttachmentCard extends StatelessWidget {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: CoolSpace.x1),
                 Text(
                   subtitle,
                   style: theme.textTheme.bodyMedium?.copyWith(
@@ -471,7 +471,7 @@ class ScheduleTripLocationAttachmentCard extends StatelessWidget {
                   ),
                 ),
                 if (actionLabel != null && action != null) ...[
-                  const SizedBox(height: 12),
+                  const SizedBox(height: CoolSpace.x3),
                   SizedBox(
                     width: 168,
                     child: CoolButton(

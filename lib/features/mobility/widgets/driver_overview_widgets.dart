@@ -104,7 +104,7 @@ class DriverStatsCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           Row(
             children: [
               Expanded(
@@ -179,7 +179,7 @@ class DriverStatBox extends StatelessWidget {
               fontWeight: FontWeight.w800,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: CoolSpace.x1),
           Text(
             label,
             textAlign: TextAlign.center,
@@ -382,7 +382,7 @@ class DriverSubscriptionSummaryCard extends StatelessWidget {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: CoolSpace.x1),
                 Text(
                   '$freeTripsRemaining credits left. $tripsUsedThisMonth used this month.',
                   style: theme.textTheme.bodyMedium?.copyWith(

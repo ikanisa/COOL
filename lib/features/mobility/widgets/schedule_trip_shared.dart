@@ -38,7 +38,7 @@ class ScheduleTripAdaptiveFieldPair extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth < 420) {
-          return Column(children: [first, const SizedBox(height: 12), second]);
+          return Column(children: [first, const SizedBox(height: CoolSpace.x3), second]);
         }
 
         return Row(

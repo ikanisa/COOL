@@ -105,7 +105,7 @@ class ScheduledTripTile extends StatelessWidget {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: CoolSpace.x1),
                 Text(
                   formatTripDate(trip.departureTime),
                   style: theme.textTheme.bodySmall?.copyWith(
@@ -113,7 +113,7 @@ class ScheduledTripTile extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: CoolSpace.x2),
                 Wrap(
                   spacing: 6,
                   runSpacing: 6,
@@ -373,7 +373,7 @@ class _EditVehicleSheetState extends ConsumerState<EditVehicleSheet> {
           prefixIcon: Icons.location_on_rounded,
           textInputAction: TextInputAction.done,
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: CoolSpace.x2),
         Align(
           alignment: Alignment.centerLeft,
           child: TextButton.icon(
@@ -382,7 +382,7 @@ class _EditVehicleSheetState extends ConsumerState<EditVehicleSheet> {
             label: Text(context.l10n.searchGooglePlaces),
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: CoolSpace.x5),
         CoolButton(
           label: context.l10n.saveVehicleInfo,
           onTap: _save,

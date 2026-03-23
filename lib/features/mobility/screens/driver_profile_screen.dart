@@ -95,7 +95,7 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
                   size: 40,
                   color: colors.warning,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: CoolSpace.x4),
                 Text(
                   driverState.error!,
                   textAlign: TextAlign.center,
@@ -104,7 +104,7 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: CoolSpace.x4),
                 SizedBox(
                   width: 160,
                   child: CoolButton(
@@ -187,7 +187,7 @@ class _DriverProfileScreenState extends ConsumerState<DriverProfileScreen> {
             onOpenSubscription: () =>
                 context.push(AppRoutes.mobilityDriverSubscription),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           if (activeSubscription != null)
             ActiveSubscriptionCard(subscription: activeSubscription, now: now)
           else
@@ -283,7 +283,7 @@ class _DriverDashboardCard extends StatelessWidget {
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: CoolSpace.x1),
                     Text(
                       '${driver.vehicle.type} · Driver ${driver.driverId}',
                       style: theme.textTheme.bodyMedium?.copyWith(
@@ -355,9 +355,9 @@ class _DriverDashboardCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           CoolButton(label: 'Add return trip', onTap: onAddReturnTrip),
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
           Wrap(
             spacing: 4,
             runSpacing: 4,
@@ -414,7 +414,7 @@ class _DriverQuickStat extends StatelessWidget {
               fontWeight: FontWeight.w800,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: CoolSpace.x1),
           Text(
             label,
             textAlign: TextAlign.center,
@@ -449,7 +449,7 @@ class _DriverSectionIntro extends StatelessWidget {
             fontWeight: FontWeight.w800,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: CoolSpace.x1),
         Text(
           subtitle,
           style: theme.textTheme.bodySmall?.copyWith(

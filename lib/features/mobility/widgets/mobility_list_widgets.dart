@@ -501,7 +501,7 @@ class MobilityNearbyDriversSliver extends StatelessWidget {
 
     return SliverMainAxisGroup(
       slivers: [
-        const SliverToBoxAdapter(child: SizedBox(height: 4)),
+        const SliverToBoxAdapter(child: SizedBox(height: CoolSpace.x1)),
         SliverList(
           delegate: SliverChildBuilderDelegate((context, index) {
             final driver = drivers[index];
@@ -554,7 +554,7 @@ class MobilityScheduledTripsSliver extends StatelessWidget {
 
     return SliverMainAxisGroup(
       slivers: [
-        const SliverToBoxAdapter(child: SizedBox(height: 4)),
+        const SliverToBoxAdapter(child: SizedBox(height: CoolSpace.x1)),
         SliverList(
           delegate: SliverChildBuilderDelegate((context, index) {
             final trip = trips[index];
@@ -750,7 +750,7 @@ class _MobilityLocationStateCard extends StatelessWidget {
             ],
           ),
           if (actionLabel != null && action != null) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             CoolButton(
               label: actionLabel,
               onTap: action,

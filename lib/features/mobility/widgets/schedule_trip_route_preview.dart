@@ -60,7 +60,7 @@ class ScheduleTripRoutePreview extends StatelessWidget {
                 ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
           Text(
             preview == null ? 'Add both points' : 'Review before posting',
             style: theme.textTheme.bodySmall?.copyWith(
@@ -140,14 +140,14 @@ class _RouteSummaryPane extends StatelessWidget {
           label: context.l10n.pickup,
           value: originLabel,
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: CoolSpace.x3),
         _RouteStopRow(
           icon: Icons.place_outlined,
           label: context.l10n.dropoff,
           value: destinationLabel,
         ),
         if (preview != null) ...[
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           _PreviewChips(preview: preview!),
         ],
       ],

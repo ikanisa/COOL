@@ -111,11 +111,11 @@ class _DriverVehicleScreenState extends ConsumerState<DriverVehicleScreen> {
             title: context.l10n.vehicleDetails,
             message: 'Keep vehicle details current.',
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           _VehicleSummaryCard(vehicle: vehicle, onEdit: _openVehicleEditor),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           VehicleInfoCard(vehicle: vehicle),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           _VehicleReadinessCard(vehicle: vehicle),
         ],
       ),
@@ -240,7 +240,7 @@ class _DriverSubscriptionScreenState
             title: 'Subscription access',
             message: 'Credits and status.',
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           _SubscriptionAccessCard(
             activeSubscription: activeSubscription,
             latestSubscription: driver.subscription,
@@ -248,10 +248,10 @@ class _DriverSubscriptionScreenState
             tripsUsedThisMonth: driver.tripsUsedThisMonth,
             hasExpiredSubscription: hasExpiredSubscription,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           if (activeSubscription != null) ...[
             ActiveSubscriptionCard(subscription: activeSubscription, now: now),
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             _DriverDetailNoteCard(
               title: 'Renewal note',
               message:
@@ -271,7 +271,7 @@ class _DriverSubscriptionScreenState
               },
               onPayTap: _paySubscription,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             _DriverDetailNoteCard(
               title: 'Selected plan',
               message:

@@ -652,16 +652,16 @@ extension on _ScheduleTripScreenState {
                 fontWeight: FontWeight.w800,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             _ConfirmRow(icon: Icons.trip_origin_rounded, label: from),
-            const SizedBox(height: 8),
+            const SizedBox(height: CoolSpace.x2),
             _ConfirmRow(icon: Icons.location_on_rounded, label: to),
-            const SizedBox(height: 8),
+            const SizedBox(height: CoolSpace.x2),
             _ConfirmRow(
               icon: Icons.schedule_rounded,
               label: '$dateStr at $timeStr${isRecurring ? ' (recurring)' : ''}',
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: CoolSpace.x2),
             _ConfirmRow(
               icon: isDriver
                   ? Icons.directions_car_rounded
@@ -670,7 +670,7 @@ extension on _ScheduleTripScreenState {
                   ? 'Posting as driver'
                   : '${_vehiclePreference.name} · $_seats seat${_seats > 1 ? 's' : ''}',
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: CoolSpace.x6),
             Row(
               children: [
                 Expanded(

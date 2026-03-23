@@ -151,7 +151,7 @@ class ScheduleTripRouteStep extends StatelessWidget {
                   fontWeight: FontWeight.w800,
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: CoolSpace.x4),
               ScheduleTripRouteEditor(
                 fromController: fromController,
                 toController: toController,
@@ -202,7 +202,7 @@ class ScheduleTripRouteStep extends StatelessWidget {
                 ),
         ),
         if (shouldShowLocationCard) ...[
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           ScheduleTripLocationAttachmentCard(
             locationState: locationState,
             onEnableLocation: onEnableLocation,
@@ -264,9 +264,9 @@ class ScheduleTripTimingStep extends StatelessWidget {
               fontWeight: FontWeight.w800,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           ScheduleTripFieldLabel(label: context.l10n.scheduleTripDateTimeLabel),
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
           ScheduleTripAdaptiveFieldPair(
             first: ScheduleTripPickerField(
               prefix: context.l10n.scheduleTripDateFieldPrefix,
@@ -287,7 +287,7 @@ class ScheduleTripTimingStep extends StatelessWidget {
               fontWeight: FontWeight.w800,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           ScheduleTripToggleCard(
             icon: Icons.sync_rounded,
             title: context.l10n.scheduleTripRecurringTitle,
@@ -308,7 +308,7 @@ class ScheduleTripTimingStep extends StatelessWidget {
                         ScheduleTripFieldLabel(
                           label: context.l10n.scheduleTripRecurringDaysLabel,
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: CoolSpace.x2),
                         Wrap(
                           spacing: 8,
                           runSpacing: 8,
@@ -387,7 +387,7 @@ class ScheduleTripOptionsStep extends StatelessWidget {
             ),
           ),
           if (hasDriverVehicle) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(12),
@@ -430,13 +430,13 @@ class ScheduleTripOptionsStep extends StatelessWidget {
               ),
             ),
           ] else ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             ScheduleTripFieldLabel(
               label: isDriverPosting
                   ? 'Vehicle'
                   : context.l10n.scheduleTripVehicleLabel,
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: CoolSpace.x2),
             Wrap(
               spacing: 8,
               runSpacing: 8,
@@ -453,7 +453,7 @@ class ScheduleTripOptionsStep extends StatelessWidget {
           ],
           const SizedBox(height: 18),
           ScheduleTripFieldLabel(label: seatsLabel),
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -495,7 +495,7 @@ class ScheduleTripOptionsStep extends StatelessWidget {
             crossFadeState: showAdditionalDetails
                 ? CrossFadeState.showSecond
                 : CrossFadeState.showFirst,
-            firstChild: const SizedBox(height: 12),
+            firstChild: const SizedBox(height: CoolSpace.x3),
             secondChild: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -528,7 +528,7 @@ class ScheduleTripOptionsStep extends StatelessWidget {
                                 fontWeight: FontWeight.w800,
                               ),
                             ),
-                            const SizedBox(height: 4),
+                            const SizedBox(height: CoolSpace.x1),
                             Text(
                               context.l10n.scheduleTripExpirySubtitle,
                               style: theme.textTheme.bodyMedium?.copyWith(
@@ -545,7 +545,7 @@ class ScheduleTripOptionsStep extends StatelessWidget {
                 ),
                 const SizedBox(height: 14),
                 ScheduleTripFieldLabel(label: noteFieldLabel),
-                const SizedBox(height: 8),
+                const SizedBox(height: CoolSpace.x2),
                 TextFormField(
                   controller: priceNoteController,
                   style: theme.textTheme.bodyLarge?.copyWith(

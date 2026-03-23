@@ -61,7 +61,7 @@ class TripBoardTopCard extends ConsumerWidget {
             activeView: activeView,
             onChanged: onViewChanged,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           Text(
             isExplore ? 'Explore trips' : 'Manage your trips',
             style: theme.textTheme.titleMedium?.copyWith(
@@ -94,13 +94,13 @@ class TripBoardTopCard extends ConsumerWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: CoolSpace.x3),
             CoolButton(
               label: context.l10n.tripType,
               onTap: onOpenTripType,
               variant: CoolButtonVariant.secondary,
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: CoolSpace.x3),
             const TripBoardFilterBar(),
           ],
         ],
@@ -157,7 +157,7 @@ class TripBoardHeaderCard extends StatelessWidget {
             width: double.infinity,
             child: CoolButton(label: primaryLabel, onTap: onPrimaryTap),
           ),
-          if (child != null) ...[const SizedBox(height: 16), child!],
+          if (child != null) ...[const SizedBox(height: CoolSpace.x4), child!],
         ],
       ),
     );
@@ -219,7 +219,7 @@ class TripBoardExploreControlsCard extends ConsumerWidget {
             onTap: onOpenTripType,
             variant: CoolButtonVariant.secondary,
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           const TripBoardFilterBar(),
         ],
       ),
@@ -463,7 +463,7 @@ class _TripBoardSelectionSheet<T> extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: CoolSpace.x5),
               Text(
                 title,
                 style: theme.textTheme.titleLarge?.copyWith(

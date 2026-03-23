@@ -38,7 +38,7 @@ class _ScheduleTripRoleSheet extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: CoolSpace.x5),
               Text(
                 'Choose role',
                 style: theme.textTheme.titleMedium?.copyWith(

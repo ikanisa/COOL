@@ -201,9 +201,9 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const _SheetHandle(),
-        const SizedBox(height: 20),
+        const SizedBox(height: CoolSpace.x5),
         Text('Trip Listing', style: Theme.of(context).textTheme.headlineSmall),
-        const SizedBox(height: 12),
+        const SizedBox(height: CoolSpace.x3),
         _RouteHeadline(from: trip.fromLocation, to: trip.toLocation),
         const SizedBox(height: 14),
         Wrap(
@@ -240,7 +240,7 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
             error: _routePreviewError,
           ),
         ],
-        const SizedBox(height: 16),
+        const SizedBox(height: CoolSpace.x4),
         if (contactName != null && contactName.isNotEmpty)
           _DetailRow(label: 'Posted by', value: contactName),
         _DetailRow(
@@ -306,12 +306,12 @@ class _DriverListingSheetBody extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const _SheetHandle(),
-        const SizedBox(height: 20),
+        const SizedBox(height: CoolSpace.x5),
         Text(
           'Driver Listing',
           style: Theme.of(context).textTheme.headlineSmall,
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: CoolSpace.x3),
         Row(
           children: [
             CircleAvatar(
@@ -337,7 +337,7 @@ class _DriverListingSheetBody extends StatelessWidget {
                       color: colors.primaryText,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: CoolSpace.x1),
                   Text(
                     driver.vehicleType,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -376,7 +376,7 @@ class _DriverListingSheetBody extends StatelessWidget {
               ),
           ],
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: CoolSpace.x4),
         if (driver.scheduledRoute?.trim().isNotEmpty ?? false)
           _DetailRow(
             label: 'Current route',

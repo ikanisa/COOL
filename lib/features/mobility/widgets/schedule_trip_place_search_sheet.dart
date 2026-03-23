@@ -215,7 +215,7 @@ class _ScheduleTripPlaceSearchSheetState
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: CoolSpace.x5),
                   Text(
                     widget.title,
                     style: theme.textTheme.headlineSmall?.copyWith(
@@ -285,7 +285,7 @@ class _ScheduleTripPlaceSearchSheetState
     return ListView.separated(
       itemCount: _results.length,
       padding: const EdgeInsets.only(bottom: 24),
-      separatorBuilder: (_, index) => const SizedBox(height: 12),
+      separatorBuilder: (_, index) => const SizedBox(height: CoolSpace.x3),
       itemBuilder: (context, index) {
         final result = _results[index];
         return Material(
@@ -332,7 +332,7 @@ class _ScheduleTripPlaceSearchSheetState
                         ),
                         if (result.secondaryText != null &&
                             result.secondaryText!.isNotEmpty) ...[
-                          const SizedBox(height: 4),
+                          const SizedBox(height: CoolSpace.x1),
                           Text(
                             result.secondaryText!,
                             style: theme.textTheme.bodySmall?.copyWith(
@@ -489,7 +489,7 @@ class _PlaceSearchControls extends StatelessWidget {
           return Column(
             children: [
               field,
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               SizedBox(width: double.infinity, height: 60, child: button),
             ],
           );

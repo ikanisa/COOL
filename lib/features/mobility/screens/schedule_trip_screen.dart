@@ -181,7 +181,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
                           driverVehicleType: driverVehicleType,
                           canScheduleAsDriver: canScheduleAsDriver,
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: CoolSpace.x5),
                       ],
                       // ── Role selector ──────────────────────────
                       _ScheduleTripRoleRow(
@@ -190,7 +190,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
                         onOpenRoleSheet: () =>
                             unawaited(_openRoleSheet(canScheduleAsDriver)),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: CoolSpace.x5),
 
                       // ── Route ──────────────────────────────────
                       ScheduleTripRouteStep(
@@ -245,7 +245,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
                           return null;
                         },
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: CoolSpace.x5),
 
                       // ── Timing ─────────────────────────────────
                       ScheduleTripTimingStep(
@@ -274,7 +274,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
                           });
                         },
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: CoolSpace.x5),
 
                       // ── Options ────────────────────────────────
                       ScheduleTripOptionsStep(
@@ -296,7 +296,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
                           });
                         },
                       ),
-                      const SizedBox(height: 32),
+                      const SizedBox(height: CoolSpace.x7),
 
                       if (useProductionRedesign) ...[
                         _ScheduleTripSubmissionCard(
@@ -310,7 +310,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
                           routePreview: _routePreview,
                           recurringTrip: _recurringTrip,
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: CoolSpace.x4),
                       ],
 
                       // ── CTA ────────────────────────────────────
@@ -659,7 +659,7 @@ class _ScheduleSurfaceMetric extends StatelessWidget {
               fontWeight: FontWeight.w800,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: CoolSpace.x1),
           Text(
             value,
             style: theme.textTheme.bodyMedium?.copyWith(

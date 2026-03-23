@@ -53,7 +53,7 @@ class DriverSubscriptionBanner extends StatelessWidget {
               height: 1.4,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           Row(
             children: [
               Expanded(
@@ -75,7 +75,7 @@ class DriverSubscriptionBanner extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           CoolButton(
             label: context.l10n.payViaMomoUssd1,
             isLoading: isLoading,
@@ -153,7 +153,7 @@ class DriverPlanCard extends StatelessWidget {
                 fontWeight: FontWeight.w800,
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: CoolSpace.x1),
             Text(
               '${formatAmount(plan.amountRwf)} RWF',
               style: text.mono(
@@ -269,7 +269,7 @@ class ActiveSubscriptionCard extends StatelessWidget {
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
           ClipRRect(
             borderRadius: BorderRadius.circular(999),
             child: LinearProgressIndicator(
