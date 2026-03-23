@@ -115,8 +115,8 @@ abstract final class AppColors {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: _useLightPalette
-        ? const [Color(0xFFFEFCF8), Color(0xFFF5EFE6)]
-        : const [Color(0xFF1C231E), Color(0xFF101511)],
+        ? const [Color(0xFFF7F8F6), Color(0xFFE7EBE7)]
+        : const [Color(0xFF353836), Color(0xFF2E312F)],
     transform: const GradientRotation(135 * math.pi / 180),
   );
 

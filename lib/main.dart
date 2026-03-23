@@ -120,7 +120,7 @@ Future<void> main() async {
                       size: 48,
                       color: Color(0xFFFF4D6A),
                     ),
-                    SizedBox(height: 16),
+                    SizedBox(height: CoolSpace.x4),
                     Text(
                       'Something went wrong',
                       style: TextStyle(
@@ -130,7 +130,7 @@ Future<void> main() async {
                         decoration: TextDecoration.none,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: CoolSpace.x2),
                     Text(
                       'Please restart the app.',
                       style: TextStyle(
@@ -219,7 +219,7 @@ class ConfigErrorApp extends ConsumerWidget {
                               color: colors.danger,
                               size: 32,
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: CoolSpace.x4),
                             Text(
                               'Backend configuration required',
                               style: TextStyle(
@@ -228,7 +228,7 @@ class ConfigErrorApp extends ConsumerWidget {
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                            const SizedBox(height: 12),
+                            const SizedBox(height: CoolSpace.x3),
                             Text(
                               message,
                               style: TextStyle(
@@ -237,7 +237,7 @@ class ConfigErrorApp extends ConsumerWidget {
                                 height: 1.45,
                               ),
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: CoolSpace.x4),
                             Text(
                               'Local runs usually need'
                               '--dart-define-from-file=.env.json',

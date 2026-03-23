@@ -4,9 +4,9 @@ Generated from [`lib/core/router/app_router.dart`](../lib/core/router/app_router
 
 Current router shape:
 
-- `77` `GoRoute` declarations
+- `81` `GoRoute` declarations
 - `4` shell branches
-- `75` screen files under `lib/features/**/screens/*.dart`
+- `79` screen files under `lib/features/**/screens/*.dart`
 
 Change policy:
 
@@ -56,6 +56,10 @@ Change policy:
 | `/kyc/selfie` | [`KycSelfieScreen`](../lib/features/profile/screens/kyc_selfie_screen.dart) | No |
 | `/missions` | [`MissionsScreen`](../lib/core/status/screens/missions_screen.dart) | No |
 | `/momo` | [`MomoScreen`](../lib/features/momo/screens/momo_screen.dart) | No |
+| `/momo/biopay` | [`BiopayHomeScreen`](../lib/features/biopay/screens/biopay_home_screen.dart) | No |
+| `/momo/biopay/confirm` | [`BiopayConfirmScreen`](../lib/features/biopay/screens/biopay_confirm_screen.dart) | No |
+| `/momo/biopay/register` | [`BiopayRegisterScreen`](../lib/features/biopay/screens/biopay_register_screen.dart) | No |
+| `/momo/biopay/scan` | [`BiopayScanScreen`](../lib/features/biopay/screens/biopay_scan_screen.dart) | No |
 | `/momo/statements` | [`MomoStatementsScreen`](../lib/features/momo/screens/momo_statements_screen.dart) | No |
 | `/referral` | [`ReferralHubScreen`](../lib/core/status/screens/referral_hub_screen.dart) | No |
 | `/seasons` | [`SeasonsActivitiesScreen`](../lib/features/home/screens/seasons_activities_screen.dart) | No |
