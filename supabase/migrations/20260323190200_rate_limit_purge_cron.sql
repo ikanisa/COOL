@@ -3,8 +3,7 @@
 -- Prevents unbounded table growth.
 -- ════════════════════════════════════════════════════════════════
 
--- Ensure pg_cron is available (Supabase enables it by default).
-CREATE EXTENSION IF NOT EXISTS pg_cron;
+-- pg_cron is already enabled on Supabase by default.
 
 -- Schedule a job every 15 minutes to delete events older than 1 hour.
 SELECT cron.schedule(
