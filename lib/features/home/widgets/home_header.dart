@@ -25,6 +25,8 @@ class HomeHeader extends ConsumerWidget {
         .valueOrNull;
 
     return CoolCard(
+      useGradient: false,
+      backgroundColor: colors.cardSurface,
       borderRadius: CoolRadii.xxl,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,7 +40,7 @@ class HomeHeader extends ConsumerWidget {
           ),
           const SizedBox(height: CoolSpace.x2),
           Text(
-            'HOME COMMAND',
+            'COMMAND HUB',
             style: theme.textTheme.labelSmall?.copyWith(
               color: colors.secondaryText,
               fontWeight: FontWeight.w800,
@@ -47,24 +49,24 @@ class HomeHeader extends ConsumerWidget {
           ),
           const SizedBox(height: CoolSpace.x3),
           Text(
-            'Money, movement, and partner activity in one executive view.',
+            'Money. Mobility. Signals.',
             style: theme.textTheme.titleMedium?.copyWith(
               color: colors.secondaryText,
-              height: 1.22,
+              height: 1.18,
             ),
           ),
-          const SizedBox(height: CoolSpace.x6),
+          const SizedBox(height: CoolSpace.x7),
           _MetricGrid(
             metrics: [
               _HeaderMetricData(
-                label: 'Tracked balance',
+                label: 'Balance',
                 value: _compactCurrency(dashboard?.totalBalance ?? 0),
                 icon: Icons.account_balance_wallet_outlined,
                 surfaceColor: colors.financialSurface,
                 valueColor: colors.primaryText,
               ),
               _HeaderMetricData(
-                label: 'Net this month',
+                label: 'Net month',
                 value: _signedCompactCurrency(dashboard?.monthlyNetChange ?? 0),
                 icon: Icons.show_chart_rounded,
                 surfaceColor: colors.analyticsSurface,
@@ -73,22 +75,15 @@ class HomeHeader extends ConsumerWidget {
                     : colors.danger,
               ),
               _HeaderMetricData(
-                label: 'Live priorities',
+                label: 'Priority queue',
                 value: '${quickActions?.take(4).length ?? 4} queues',
                 icon: Icons.grid_view_rounded,
                 surfaceColor: colors.operationalSurface,
                 valueColor: colors.primaryText,
               ),
-              _HeaderMetricData(
-                label: 'Recent signals',
-                value: _activityLabel(dashboard),
-                icon: Icons.notifications_active_outlined,
-                surfaceColor: colors.contactSurface,
-                valueColor: colors.primaryText,
-              ),
             ],
           ),
-          const SizedBox(height: CoolSpace.x6),
+          const SizedBox(height: CoolSpace.x7),
           Row(
             children: [
               Expanded(
@@ -134,7 +129,7 @@ class _MetricGrid extends StatelessWidget {
           children: [
             for (final metric in metrics)
               SizedBox(
-                width: tileWidth.clamp(150.0, 220.0).toDouble(),
+                width: tileWidth.clamp(160.0, 260.0).toDouble(),
                 child: _HeaderMetric(metric: metric),
               ),
           ],
@@ -158,35 +153,32 @@ class _HeaderMetric extends StatelessWidget {
       decoration: BoxDecoration(
         color: metric.surfaceColor,
         borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.md)),
-        border: Border.all(color: colors.border, width: 1.0),
+        boxShadow: CoolShadows.floating(
+          Theme.of(context).brightness,
+          strength: 0.2,
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.all(CoolSpace.x4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: 42,
-              height: 42,
-              decoration: BoxDecoration(
-                color: colors.cardSurfaceStrong.withValues(alpha: 0.88),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(CoolRadii.sm),
+            Row(
+              children: [
+                Icon(metric.icon, size: 18, color: metric.valueColor),
+                const SizedBox(width: CoolSpace.x2),
+                Expanded(
+                  child: Text(
+                    metric.label,
+                    style: theme.textTheme.labelMedium?.copyWith(
+                      color: colors.secondaryText,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
                 ),
-                border: Border.all(color: colors.border),
-              ),
-              alignment: Alignment.center,
-              child: Icon(metric.icon, size: 20, color: metric.valueColor),
+              ],
             ),
             const SizedBox(height: CoolSpace.x4),
-            Text(
-              metric.label,
-              style: theme.textTheme.labelMedium?.copyWith(
-                color: colors.secondaryText,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-            const SizedBox(height: CoolSpace.x2),
             Text(
               metric.value,
               maxLines: 2,
@@ -195,6 +187,14 @@ class _HeaderMetric extends StatelessWidget {
                 color: metric.valueColor,
                 fontWeight: FontWeight.w800,
                 height: 1.12,
+              ),
+            ),
+            const SizedBox(height: CoolSpace.x1),
+            Text(
+              _metricDetail(metric.label),
+              style: theme.textTheme.labelSmall?.copyWith(
+                color: colors.tertiaryText,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ],
@@ -229,6 +229,15 @@ String _activityLabel(HomeDashboardData? dashboard) {
     return '1 update';
   }
   return '$activityCount updates';
+}
+
+String _metricDetail(String label) {
+  return switch (label) {
+    'Balance' => 'Tracked now',
+    'Net month' => 'Month to date',
+    'Priority queue' => 'Open actions',
+    _ => 'Live status',
+  };
 }
 
 String _compactCurrency(int amount) {

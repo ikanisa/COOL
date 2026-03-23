@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/l10n/l10n.dart';
-import '../../../../core/router/app_routes.dart';
-import '../../../../core/theme/cool_foundations.dart';
-import '../../../../l10n/app_localizations.dart';
-import '../../../../shared/widgets/cool_card.dart';
+import '../../../core/l10n/l10n.dart';
+import '../../../core/router/app_routes.dart';
+import '../../../core/theme/cool_foundations.dart';
+import '../../../l10n/app_localizations.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../providers/quick_action_provider.dart';
 
 class QuickActionSection extends ConsumerWidget {
-  const QuickActionSection({super.key});
+  const QuickActionSection({this.useCard = true, this.maxItems = 4, super.key});
+
+  final bool useCard;
+  final int maxItems;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,7 +22,7 @@ class QuickActionSection extends ConsumerWidget {
     return actionsAsync.when(
       data: (actions) => QuickActionListCard(
         items: actions
-            .take(4)
+            .take(maxItems)
             .map(
               (action) => QuickActionData(
                 title: action.title,
@@ -28,46 +31,58 @@ class QuickActionSection extends ConsumerWidget {
               ),
             )
             .toList(),
+        useCard: useCard,
       ),
-      loading: () => QuickActionListCard(items: _fallbackQuickActions(l10n)),
-      error: (_, _) => QuickActionListCard(items: _fallbackQuickActions(l10n)),
+      loading: () => QuickActionListCard(
+        items: _fallbackQuickActions(l10n).take(maxItems).toList(),
+        useCard: useCard,
+      ),
+      error: (_, _) => QuickActionListCard(
+        items: _fallbackQuickActions(l10n).take(maxItems).toList(),
+        useCard: useCard,
+      ),
     );
   }
 }
 
 class QuickActionListCard extends StatelessWidget {
-  const QuickActionListCard({super.key, required this.items});
+  const QuickActionListCard({
+    required this.items,
+    this.useCard = true,
+    super.key,
+  });
 
   final List<QuickActionData> items;
+  final bool useCard;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
     final visibleItems = items.take(4).toList(growable: false);
+    final list = Column(
+      children: [
+        for (var index = 0; index < visibleItems.length; index++) ...[
+          QuickActionRow(
+            title: visibleItems[index].title,
+            subtitle: visibleItems[index].subtitle,
+            route: visibleItems[index].route,
+          ),
+          if (index != visibleItems.length - 1)
+            SizedBox(height: useCard ? CoolSpace.x2 : CoolSpace.x3),
+        ],
+      ],
+    );
+
+    if (!useCard) {
+      return list;
+    }
+
     return CoolCard(
       useGradient: false,
       backgroundColor: colors.cardSurfaceStrong,
       borderRadius: CoolRadii.lg,
       padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Column(
-        children: [
-          for (var index = 0; index < visibleItems.length; index++) ...[
-            QuickActionRow(
-              title: visibleItems[index].title,
-              subtitle: visibleItems[index].subtitle,
-              route: visibleItems[index].route,
-            ),
-            if (index != visibleItems.length - 1)
-              Divider(
-                color: colors.border,
-                height: 1,
-                indent: 20,
-                endIndent: 20,
-              ),
-          ],
-        ],
-      ),
+      child: list,
     );
   }
 }
@@ -92,16 +107,22 @@ class QuickActionRow extends StatelessWidget {
     final compactSubtitle = subtitle.trim();
 
     Widget leadingIcon() {
-      return Container(
+      return SizedBox(
         width: 56,
         height: 56,
-        decoration: BoxDecoration(
-          color: colors.operationalSurface,
-          borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.md)),
-          border: Border.all(color: colors.border),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: colors.operationalSurface.withValues(alpha: 0.92),
+            borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.md)),
+            boxShadow: CoolShadows.floating(
+              Theme.of(context).brightness,
+              strength: 0.2,
+            ),
+          ),
+          child: Center(
+            child: Icon(_iconForRoute(route), size: 24, color: colors.accent),
+          ),
         ),
-        alignment: Alignment.center,
-        child: Icon(_iconForRoute(route), size: 24, color: colors.accent),
       );
     }
 
@@ -122,7 +143,7 @@ class QuickActionRow extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.md)),
           onTap: () => openQuickActionRoute(context, route),
           child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 76),
+            constraints: const BoxConstraints(minHeight: 84),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
               child: Row(
@@ -147,12 +168,12 @@ class QuickActionRow extends StatelessWidget {
                           const SizedBox(height: 4),
                           Text(
                             compactSubtitle,
-                            maxLines: 2,
+                            maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: theme.textTheme.labelMedium?.copyWith(
                               color: colors.secondaryText,
                               fontWeight: FontWeight.w700,
-                              height: 1.3,
+                              height: 1.2,
                             ),
                           ),
                         ],
@@ -230,7 +251,7 @@ List<QuickActionData> _fallbackQuickActions(AppLocalizations l10n) {
     ),
     const QuickActionData(
       title: 'Momo Pay',
-      subtitle: 'Pay At Shops And',
+      subtitle: 'Pay fast',
       route: AppRoutes.momo,
     ),
     QuickActionData(

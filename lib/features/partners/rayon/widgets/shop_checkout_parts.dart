@@ -667,7 +667,7 @@ class _OrderSummary extends StatelessWidget {
   Widget build(BuildContext context) {
     final orderValue = order;
     if (orderValue == null) {
-      final palette = context.coolPalette;
+      final colors = context.coolSemanticColors;
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -685,7 +685,7 @@ class _OrderSummary extends StatelessWidget {
             style: GoogleFonts.barlow(
               fontSize: 15,
               fontWeight: FontWeight.w700,
-              color: palette.text2,
+              color: colors.secondaryText,
               height: 1.4,
             ),
           ),
@@ -754,7 +754,7 @@ class _OrderSummaryLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -772,7 +772,7 @@ class _OrderSummaryLoading extends StatelessWidget {
           style: GoogleFonts.barlow(
             fontSize: 15,
             fontWeight: FontWeight.w700,
-            color: palette.text2,
+            color: colors.secondaryText,
             height: 1.4,
           ),
         ),
@@ -792,7 +792,7 @@ class _OrderSummaryError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -810,7 +810,7 @@ class _OrderSummaryError extends StatelessWidget {
           style: GoogleFonts.barlow(
             fontSize: 15,
             fontWeight: FontWeight.w700,
-            color: palette.text2,
+            color: colors.secondaryText,
             height: 1.4,
           ),
         ),
@@ -939,15 +939,15 @@ String _checkoutTitle(OrderStatus status) {
 }
 
 Color _statusColor(BuildContext context, OrderStatus status) {
-  final palette = context.coolPalette;
+  final colors = context.coolSemanticColors;
   return switch (status) {
     OrderStatus.pending => RsColors.rsGoldLight,
-    OrderStatus.paid => palette.accent,
-    OrderStatus.confirmed => palette.accent,
+    OrderStatus.paid => colors.accent,
+    OrderStatus.confirmed => colors.accent,
     OrderStatus.packed => RsColors.rsBluePale,
     OrderStatus.shipped => RsColors.rsBluePale,
     OrderStatus.fulfilled || OrderStatus.delivered => RsColors.rsWhite,
-    OrderStatus.cancelled => palette.text3,
+    OrderStatus.cancelled => colors.tertiaryText,
   };
 }
 
@@ -1006,4 +1006,4 @@ String _statusBody(
     OrderStatus.cancelled =>
       'Order cancelled. Refresh or contact support if you paid.',
   };
-
+}

@@ -260,11 +260,7 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
                     ),
                   ),
                   trailing: member.tier == tier
-                      ? const Icon(
-                          Icons.check_circle,
-                          color: colors.accent,
-                          size: 20,
-                        )
+                      ? Icon(Icons.check_circle, color: colors.accent, size: 20)
                       : null,
                   onTap: () async {
                     final repo = ref.read(rayonSportsRepositoryProvider);

@@ -207,7 +207,7 @@ class _UpcomingMissionTile extends StatelessWidget {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(
+                Icon(
                   Icons.emoji_events_rounded,
                   size: 14,
                   color: context.coolSemanticColors.warning,

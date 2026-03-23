@@ -467,18 +467,19 @@ class _MomoScreenState extends ConsumerState<MomoScreen>
                                 ),
                               ),
                               const SizedBox(height: 14),
-                              Wrapconst (
+                              Wrap(
                                 spacing: 8,
                                 runSpacing: 8,
-                                children: cons                                const _WalletTrustChip(
+                                children: const [
+                                  _WalletTrustChip(
                                     icon: Icons.verified_user_outlined,
                                     label: 'Protected sessions',
                                   ),
-                                  const _WalletTrustChip(
+                                  _WalletTrustChip(
                                     icon: Icons.rule_folder_outlined,
                                     label: 'Compliant records',
                                   ),
-                                  const _WalletTrustChip(
+                                  _WalletTrustChip(
                                     icon: Icons.account_balance_outlined,
                                     label: 'Authoritative ledger',
                                   ),
@@ -564,7 +565,7 @@ class _MomoScreenState extends ConsumerState<MomoScreen>
                 ],
               ),
             ),
-            if (_launchingIncomingPayment) {
+            if (_launchingIncomingPayment)
               Positioned(
                 left: 18,
                 right: 18,
@@ -607,12 +608,11 @@ class _MomoScreenState extends ConsumerState<MomoScreen>
                     ),
                   ),
                 ),
-              )
-            },
+              ),
           ],
         ),
       ),
-    )
+    );
   }
 
   void _showSendMoneySheet(

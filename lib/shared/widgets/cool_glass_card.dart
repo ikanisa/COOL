@@ -62,9 +62,7 @@ class CoolGlassCard extends StatelessWidget {
               stops: const <double>[0.0, 0.28, 1.0],
             ),
             borderRadius: BorderRadius.circular(borderRadius),
-            border: hasBorder
-                ? Border.all(color: borderCol!, width: 1.0)
-                : null,
+            border: Border.all(color: borderCol, width: 1.0),
             boxShadow: CoolShadows.glass(brightness),
           ),
           child: Material(

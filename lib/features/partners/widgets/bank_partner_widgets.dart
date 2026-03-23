@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../models/partner.dart';
@@ -23,19 +24,31 @@ class BankHero extends StatelessWidget {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
     return CoolCard(
+      useGradient: false,
+      backgroundColor: colors.cardSurface,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            'BANK PARTNER',
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w800,
+              letterSpacing: 1.4,
+            ),
+          ),
+          const SizedBox(height: CoolSpace.x3),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: Text(
                   partner.name,
-                  style: theme.textTheme.headlineSmall?.copyWith(
+                  style: theme.textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.w800,
                     color: colors.primaryText,
-                    letterSpacing: -0.5,
+                    letterSpacing: -0.8,
                   ),
                 ),
               ),
@@ -54,11 +67,23 @@ class BankHero extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             partner.description ?? 'Trusted financial partner.',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w500,
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w700,
               color: colors.secondaryText,
-              height: 1.5,
+              height: 1.25,
             ),
+          ),
+          const SizedBox(height: CoolSpace.x5),
+          Wrap(
+            spacing: CoolSpace.x2,
+            runSpacing: CoolSpace.x2,
+            children: const [
+              PartnerHeroPill(
+                icon: Icons.verified_user_outlined,
+                label: 'Secure onboarding',
+              ),
+              PartnerHeroPill(icon: Icons.bolt_rounded, label: 'Fast approval'),
+            ],
           ),
         ],
       ),
@@ -111,6 +136,9 @@ class BankServiceGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
+
     // Filter incoming services to only standard actions, preserving
     // admin-customized titles/subtitles if they exist.
     final matched = <String, PartnerService>{};
@@ -121,22 +149,89 @@ class BankServiceGrid extends StatelessWidget {
       }
     }
 
-    return GridView.count(
-      crossAxisCount: 2,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      childAspectRatio: 1.0,
-      mainAxisSpacing: 10,
-      crossAxisSpacing: 10,
+    final actions = [
+      for (final fallback in _fallbackTiles)
+        _ResolvedBankCta(fallback: fallback, service: matched[fallback.action]),
+    ];
+    final primary = actions.first;
+    final secondary = actions.skip(1).toList(growable: false);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        for (final fallback in _fallbackTiles)
-          PartnerQuickActionTile(
-            icon: fallback.icon,
-            title: matched[fallback.action]?.title ?? fallback.title,
-            subtitle: matched[fallback.action]?.subtitle ?? fallback.subtitle,
-            onTap: () =>
-                launchPartnerAction(context, partner, action: fallback.action),
+        Text(
+          'START HERE',
+          style: theme.textTheme.labelSmall?.copyWith(
+            color: colors.secondaryText,
+            fontWeight: FontWeight.w800,
+            letterSpacing: 1.4,
           ),
+        ),
+        const SizedBox(height: CoolSpace.x3),
+        CoolCard(
+          useGradient: false,
+          backgroundColor: colors.cardSurface,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(primary.fallback.icon, color: colors.accent, size: 24),
+              const SizedBox(height: CoolSpace.x4),
+              Text(
+                primary.title,
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  color: colors.primaryText,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              const SizedBox(height: CoolSpace.x2),
+              Text(
+                primary.subtitle,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: colors.secondaryText,
+                  fontWeight: FontWeight.w700,
+                  height: 1.35,
+                ),
+              ),
+              const SizedBox(height: CoolSpace.x6),
+              CoolButton(
+                label: 'Continue',
+                fullWidth: false,
+                icon: primary.fallback.icon,
+                onTap: () => launchPartnerAction(
+                  context,
+                  partner,
+                  action: primary.fallback.action,
+                ),
+              ),
+            ],
+          ),
+        ),
+        if (secondary.isNotEmpty) ...[
+          const SizedBox(height: CoolSpace.x6),
+          Text(
+            'MORE SERVICES',
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w800,
+              letterSpacing: 1.4,
+            ),
+          ),
+          const SizedBox(height: CoolSpace.x3),
+          for (var index = 0; index < secondary.length; index++) ...[
+            PartnerQuickActionTile(
+              icon: secondary[index].fallback.icon,
+              title: secondary[index].title,
+              subtitle: secondary[index].subtitle,
+              onTap: () => launchPartnerAction(
+                context,
+                partner,
+                action: secondary[index].fallback.action,
+              ),
+            ),
+            if (index != secondary.length - 1)
+              const SizedBox(height: CoolSpace.x3),
+          ],
+        ],
       ],
     );
   }
@@ -154,6 +249,16 @@ class _BankCta {
   final String title;
   final String subtitle;
   final IconData icon;
+}
+
+class _ResolvedBankCta {
+  const _ResolvedBankCta({required this.fallback, required this.service});
+
+  final _BankCta fallback;
+  final PartnerService? service;
+
+  String get title => service?.title ?? fallback.title;
+  String get subtitle => service?.subtitle ?? fallback.subtitle;
 }
 
 Future<void> launchPartnerAction(

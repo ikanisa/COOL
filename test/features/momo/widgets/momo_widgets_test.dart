@@ -185,8 +185,8 @@ void main() {
     ) async {
       await tester.pumpWidget(
         _wrap(
-          Momoconst RiskWarningSheet(
-            risk: consRiskResult(
+          const MomoRiskWarningSheet(
+            risk: MomoRiskResult(
               riskScore: 0.72,
               isAnomaly: true,
               reason: 'High-risk transfer pattern detected.',

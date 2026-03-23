@@ -34,19 +34,24 @@ class VehicleChip extends StatelessWidget {
           decoration: BoxDecoration(
             color: isSelected
                 ? colors.chipSelectedBackground
-                : colors.cardSurface,
+                : colors.cardSurfaceStrong,
             borderRadius: const BorderRadius.all(
               Radius.circular(CoolRadii.pill),
             ),
-            border: Border.all(
-              color: isSelected ? colors.accent : colors.border,
-            ),
+            boxShadow: isSelected
+                ? CoolShadows.floating(
+                    Theme.of(context).brightness,
+                    strength: 0.2,
+                  )
+                : null,
           ),
           child: Text(
             label,
             style: theme.textTheme.labelMedium?.copyWith(
-              fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
-              color: isSelected ? colors.accent : colors.secondaryText,
+              fontWeight: isSelected ? FontWeight.w800 : FontWeight.w700,
+              color: isSelected
+                  ? colors.accentForeground
+                  : colors.secondaryText,
             ),
           ),
         ),

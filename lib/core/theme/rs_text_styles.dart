@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/gooRayon Sports FC typography scale.
+import 'package:google_fonts/google_fonts.dart';
+
+/// Rayon Sports FC typography scale.
 ///
 /// Uses Barlow Condensed (weight 800–900) for headings and stats,
 /// consistent with the club's strong, condensed branding.
+///
+/// All methods require an explicit [color] — callers should pass
+/// `colors.primaryText` (or another semantic token) from the build context.
 abstract final class RsTextStyles {
   /// Hero / display heading — 48 w900 uppercase.
   static TextStyle display({Color? color}) => GoogleFonts.barlowCondensed(
     fontSize: 48,
     fontWeight: FontWeight.w900,
-    color: color ?? AppColors.text,
+    color: color,
     height: 1,
   );
 
@@ -16,7 +21,7 @@ abstract final class RsTextStyles {
   static TextStyle clubName({Color? color}) => GoogleFonts.barlowCondensed(
     fontSize: 28,
     fontWeight: FontWeight.w900,
-    color: color ?? AppColors.text,
+    color: color,
     letterSpacing: 1,
     height: 1.1,
   );
@@ -25,7 +30,7 @@ abstract final class RsTextStyles {
   static TextStyle sectionTitle({Color? color}) => GoogleFonts.barlowCondensed(
     fontSize: 18,
     fontWeight: FontWeight.w800,
-    color: color ?? AppColors.text,
+    color: color,
     letterSpacing: 0.5,
     height: 1.2,
   );
@@ -34,7 +39,7 @@ abstract final class RsTextStyles {
   static TextStyle matchTeam({Color? color}) => GoogleFonts.barlowCondensed(
     fontSize: 22,
     fontWeight: FontWeight.w900,
-    color: color ?? AppColors.text,
+    color: color,
     height: 1,
   );
 
@@ -42,7 +47,7 @@ abstract final class RsTextStyles {
   static TextStyle statValue({Color? color}) => GoogleFonts.barlowCondensed(
     fontSize: 22,
     fontWeight: FontWeight.w800,
-    color: color ?? AppColors.text,
+    color: color,
     height: 1.1,
   );
 
@@ -50,7 +55,7 @@ abstract final class RsTextStyles {
   static TextStyle badge({Color? color}) => GoogleFonts.barlowCondensed(
     fontSize: 11,
     fontWeight: FontWeight.w800,
-    color: color ?? AppColors.text,
+    color: color,
     letterSpacing: 0.5,
     height: 1.2,
   );

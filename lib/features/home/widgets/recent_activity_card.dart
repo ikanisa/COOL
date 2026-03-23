@@ -2,21 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/router/app_routes.dart';
-import '../../../../core/theme/cool_foundations.dart';
-import '../../../../core/utils/intl_locale.dart';
-import '../../../../shared/widgets/cool_card.dart';
+import '../../../core/router/app_routes.dart';
+import '../../../core/theme/cool_foundations.dart';
+import '../../../core/utils/intl_locale.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../models/home_dashboard_data.dart';
 
 class RecentActivityCard extends StatelessWidget {
   const RecentActivityCard({
-    super.key,
     required this.activityCount,
     required this.recentTransactions,
+    this.useCard = true,
+    this.showHeader = true,
+    super.key,
   });
 
   final int activityCount;
   final List<HomeDashboardTransaction> recentTransactions;
+  final bool useCard;
+  final bool showHeader;
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +29,10 @@ class RecentActivityCard extends StatelessWidget {
     final localeName = resolveIntlLocale(context);
     final displayed = recentTransactions.take(3).toList();
 
-    return CoolCard(
-      backgroundColor: colors.cardSurfaceStrong,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+    final content = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (showHeader) ...[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -60,30 +63,35 @@ class RecentActivityCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          if (displayed.isEmpty)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Text(
-                'No recent activity',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: colors.secondaryText,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            )
-          else
-            Column(
-              children: [
-                for (var i = 0; i < displayed.length; i++) ...[
-                  if (i > 0)
-                    Divider(height: 24, thickness: 1, color: colors.border),
-                  _TransactionRow(tx: displayed[i], localeName: localeName),
-                ],
-              ],
-            ),
         ],
-      ),
+        if (displayed.isEmpty)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Text(
+              'No recent activity',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colors.secondaryText,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          )
+        else
+          Column(
+            children: [
+              for (var i = 0; i < displayed.length; i++) ...[
+                if (i > 0) const SizedBox(height: CoolSpace.x4),
+                _TransactionRow(tx: displayed[i], localeName: localeName),
+              ],
+            ],
+          ),
+      ],
     );
+
+    if (!useCard) {
+      return content;
+    }
+
+    return CoolCard(backgroundColor: colors.cardSurfaceStrong, child: content);
   }
 }
 
@@ -112,23 +120,29 @@ class _TransactionRow extends StatelessWidget {
       child: ExcludeSemantics(
         child: Row(
           children: [
-            Container(
-              width: 48,
-              height: 48,
+            DecoratedBox(
               decoration: BoxDecoration(
                 color: isCredit ? colors.financialSurface : colors.routeSurface,
                 borderRadius: const BorderRadius.all(
                   Radius.circular(CoolRadii.md),
                 ),
-                border: Border.all(color: colors.border),
+                boxShadow: CoolShadows.floating(
+                  Theme.of(context).brightness,
+                  strength: 0.2,
+                ),
               ),
-              alignment: Alignment.center,
-              child: Icon(
-                isCredit
-                    ? Icons.arrow_downward_rounded
-                    : Icons.arrow_upward_rounded,
-                size: 22,
-                color: isCredit ? colors.success : colors.secondaryText,
+              child: SizedBox(
+                width: 48,
+                height: 48,
+                child: Center(
+                  child: Icon(
+                    isCredit
+                        ? Icons.arrow_downward_rounded
+                        : Icons.arrow_upward_rounded,
+                    size: 22,
+                    color: isCredit ? colors.success : colors.secondaryText,
+                  ),
+                ),
               ),
             ),
             const SizedBox(width: 14),

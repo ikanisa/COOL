@@ -98,21 +98,22 @@ class _MobilityTopActionsCardState
     final theme = Theme.of(context);
     final locationState = ref.watch(mobilityLocationProvider);
     final hasDiscoveryLocation = locationState.hasLocation;
-    // Current UI maps to a legacy 0/1/2 index for tabs.
-    // 0 = Discovery (Nearby), 1 = Scheduled Trips, 2 = Schedule Trip Action
-    // We maintain this index in DiscoveryNotifier for UI consistency.
-    final activeTab = ref.watch(discoveryProvider.select((s) => s.selectedTab));
+    final selectedTab = ref.watch(
+      discoveryProvider.select((s) => s.selectedTab),
+    );
+    final activeTab = selectedTab == 1 ? 1 : 0;
     final discoveryState = ref.watch(discoveryProvider);
     final nearbyDriverCount = discoveryState.nearbyDrivers.length;
     final nearbyTripCount = discoveryState.nearbyTrips.length;
 
     return CoolCard(
-      backgroundColor: colors.routeSurface,
+      useGradient: false,
+      backgroundColor: colors.cardSurface,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Dispatch Board',
+            'Dispatch',
             style: theme.textTheme.headlineSmall?.copyWith(
               color: colors.primaryText,
               fontWeight: FontWeight.w800,
@@ -120,11 +121,11 @@ class _MobilityTopActionsCardState
           ),
           const SizedBox(height: CoolSpace.x2),
           Text(
-            'Nearby supply, route demand, and direct WhatsApp handoff in one place.',
+            'Drivers. Trips. Handoff.',
             style: theme.textTheme.bodySmall?.copyWith(
               color: colors.secondaryText,
               fontWeight: FontWeight.w700,
-              height: 1.4,
+              height: 1.2,
             ),
           ),
           const SizedBox(height: CoolSpace.x4),
@@ -135,17 +136,17 @@ class _MobilityTopActionsCardState
                 ? [
                     _MobilitySignalChip(
                       icon: Icons.people_outline_rounded,
-                      label: '$nearbyDriverCount drivers nearby',
+                      label: '$nearbyDriverCount drivers',
                       accentColor: colors.info,
                     ),
                     _MobilitySignalChip(
                       icon: Icons.alt_route_rounded,
-                      label: '$nearbyTripCount open trips',
+                      label: '$nearbyTripCount trips',
                       accentColor: colors.accent,
                     ),
                     _MobilitySignalChip(
                       icon: Icons.chat_rounded,
-                      label: 'WhatsApp handoff',
+                      label: 'WhatsApp ready',
                       accentColor: colors.warning,
                     ),
                   ]
@@ -157,12 +158,12 @@ class _MobilityTopActionsCardState
                     ),
                     _MobilitySignalChip(
                       icon: Icons.edit_location_alt_outlined,
-                      label: 'Text-first trip setup',
+                      label: 'Trip setup',
                       accentColor: colors.info,
                     ),
                     _MobilitySignalChip(
                       icon: Icons.chat_rounded,
-                      label: 'WhatsApp handoff',
+                      label: 'WhatsApp ready',
                       accentColor: colors.accent,
                     ),
                   ],
@@ -171,10 +172,6 @@ class _MobilityTopActionsCardState
           _MobilityTabBar(
             activeIndex: activeTab,
             onChanged: (index) {
-              if (index == 2) {
-                widget.onScheduleTrip();
-                return;
-              }
               final notifier = ref.read(discoveryProvider.notifier);
               notifier.setSelectedTab(index);
               if (index == 0) {
@@ -184,8 +181,15 @@ class _MobilityTopActionsCardState
               }
             },
           ),
+          const SizedBox(height: CoolSpace.x4),
+          CoolButton(
+            label: 'Schedule Trip',
+            fullWidth: false,
+            icon: Icons.add_circle_outline_rounded,
+            onTap: widget.onScheduleTrip,
+          ),
           if (hasDiscoveryLocation) ...[
-            const SizedBox(height: 12),
+            const SizedBox(height: CoolSpace.x4),
             const MobilityFilterBar(),
           ],
         ],
@@ -243,7 +247,7 @@ class MobilityFilterBar extends ConsumerWidget {
 }
 
 // ═════════════════════════════════════════════════════════════════════════════
-// 3-TAB BAR (Nearby Drivers | Trips | Schedule trip)
+// 2-TAB BAR (Nearby Drivers | Trips)
 // ═════════════════════════════════════════════════════════════════════════════
 
 class _MobilityTabBar extends StatelessWidget {
@@ -260,15 +264,13 @@ class _MobilityTabBar extends StatelessWidget {
     const tabs = [
       (icon: Icons.people_outline_rounded, label: 'Nearby'),
       (icon: Icons.route_rounded, label: 'Trips'),
-      (icon: Icons.add_circle_outline_rounded, label: 'Schedule'),
     ];
 
     return Container(
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-        color: colors.cardSurfaceStrong,
+        color: colors.inputSurface,
         borderRadius: BorderRadius.circular(CoolRadii.md),
-        border: Border.all(color: colors.border, width: 1.2),
       ),
       child: Row(
         children: [
@@ -286,7 +288,7 @@ class _MobilityTabBar extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: activeIndex == i
                           ? colors.accent
-                          : Colors.transparent,
+                          : colors.cardSurfaceStrong.withValues(alpha: 0.68),
                       borderRadius: BorderRadius.circular(CoolRadii.sm),
                     ),
                     alignment: Alignment.center,
@@ -602,7 +604,6 @@ class _MobilitySignalChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: accentColor.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: accentColor.withValues(alpha: 0.2)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -612,7 +613,7 @@ class _MobilitySignalChip extends StatelessWidget {
           Text(
             label,
             style: theme.textTheme.labelMedium?.copyWith(
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w800,
               color: accentColor,
             ),
           ),
@@ -701,7 +702,7 @@ class _MobilityLocationStateCard extends StatelessWidget {
 
     return CoolCard(
       backgroundColor: colors.routeSurface,
-      borderColor: colors.borderStrong,
+      useGradient: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -714,7 +715,10 @@ class _MobilityLocationStateCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: colors.cardSurfaceStrong,
                   borderRadius: BorderRadius.circular(CoolRadii.sm),
-                  border: Border.all(color: colors.border),
+                  boxShadow: CoolShadows.floating(
+                    Theme.of(context).brightness,
+                    strength: 0.2,
+                  ),
                 ),
                 alignment: Alignment.center,
                 child: Icon(icon, size: 20, color: colors.primaryText),
