@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/cool_foundations.dart';
-import '../../../../core/theme/cool_palette.dart';
 import '../../../../core/utils/intl_locale.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../models/home_dashboard_data.dart';
@@ -21,7 +20,6 @@ class RecentActivityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
     final localeName = resolveIntlLocale(context);
@@ -78,7 +76,7 @@ class RecentActivityCard extends StatelessWidget {
               children: [
                 for (var i = 0; i < displayed.length; i++) ...[
                   if (i > 0)
-                    Divider(height: 24, thickness: 1, color: palette.border),
+                    Divider(height: 24, thickness: 1, color: colors.border),
                   _TransactionRow(tx: displayed[i], localeName: localeName),
                 ],
               ],
@@ -97,8 +95,8 @@ class _TransactionRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
+    final text = context.coolText;
     final theme = Theme.of(context);
     final isCredit = tx.isPositive;
     final amountColor = isCredit ? colors.success : colors.primaryText;
@@ -119,7 +117,9 @@ class _TransactionRow extends StatelessWidget {
               height: 48,
               decoration: BoxDecoration(
                 color: isCredit ? colors.financialSurface : colors.routeSurface,
-                borderRadius: BorderRadius.circular(CoolRadii.md),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(CoolRadii.md),
+                ),
                 border: Border.all(color: colors.border),
               ),
               alignment: Alignment.center,
@@ -159,7 +159,8 @@ class _TransactionRow extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               amountString,
-              style: theme.textTheme.titleSmall?.copyWith(
+              style: text.mono(
+                theme.textTheme.titleSmall,
                 color: amountColor,
                 fontWeight: FontWeight.w800,
               ),

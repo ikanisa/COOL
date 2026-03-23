@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/l10n/l10n.dart';
-import '../../../../core/theme/cool_palette.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_error_view.dart';
 import '../../../../shared/widgets/cool_skeleton.dart';
@@ -11,9 +11,9 @@ class OverviewLoadingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     return CoolCard(
-      backgroundColor: palette.surface,
+      backgroundColor: colors.elevatedBackground,
       child: const Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -33,9 +33,9 @@ class ActivityLoadingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     return CoolCard(
-      backgroundColor: palette.surface,
+      backgroundColor: colors.elevatedBackground,
       child: const Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -57,9 +57,9 @@ class OverviewErrorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     return CoolCard(
-      backgroundColor: palette.surface,
+      backgroundColor: colors.elevatedBackground,
       child: CoolErrorView(
         subtitle: context.l10n.homeLoadErrorMessage,
         onRetry: onRetry,

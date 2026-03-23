@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/l10n/l10n.dart';
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/cool_foundations.dart';
-import '../../../../core/theme/cool_palette.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../providers/quick_action_provider.dart';
@@ -43,7 +42,6 @@ class QuickActionListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
     final visibleItems = items.take(4).toList(growable: false);
@@ -62,7 +60,7 @@ class QuickActionListCard extends StatelessWidget {
             ),
             if (index != visibleItems.length - 1)
               Divider(
-                color: palette.border,
+                color: colors.border,
                 height: 1,
                 indent: 20,
                 endIndent: 20,
@@ -89,7 +87,6 @@ class QuickActionRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
     final compactTitle = _shortActionTitle(context, title, route);
     final compactSubtitle = subtitle.trim();
@@ -100,7 +97,7 @@ class QuickActionRow extends StatelessWidget {
         height: 56,
         decoration: BoxDecoration(
           color: colors.operationalSurface,
-          borderRadius: BorderRadius.circular(CoolRadii.md),
+          borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.md)),
           border: Border.all(color: colors.border),
         ),
         alignment: Alignment.center,
@@ -122,7 +119,7 @@ class QuickActionRow extends StatelessWidget {
       hint: 'Double tap to open',
       child: ExcludeSemantics(
         child: InkWell(
-          borderRadius: BorderRadius.circular(CoolRadii.md),
+          borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.md)),
           onTap: () => openQuickActionRoute(context, route),
           child: ConstrainedBox(
             constraints: const BoxConstraints(minHeight: 76),

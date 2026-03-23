@@ -25,7 +25,7 @@ class HomeDashboardRepository {
         .from('group_contributions')
         .select('amount, status')
         .eq('user_id', userId)
-        .eq('status', 'confirmed');
+        .inFilter('status', ['confirmed', 'completed']);
     final walletRecentRowsFuture = _client
         .from('momo_ledger_entries')
         .select(
@@ -130,7 +130,7 @@ int calculateHomeMonthlyNetChange({
   for (final row in contributionRows) {
     final status = row['status']?.toString() ?? 'pending';
     final recordedAt = _parseDateTime(row['created_at']);
-    if (status != 'confirmed' ||
+    if (!_isConfirmedContributionStatus(status) ||
         recordedAt == null ||
         recordedAt.isBefore(monthStart)) {
       continue;
@@ -148,6 +148,10 @@ int calculateHomeMonthlyNetChange({
   }
 
   return monthlyNetChange;
+}
+
+bool _isConfirmedContributionStatus(String status) {
+  return status == 'confirmed' || status == 'completed';
 }
 
 HomeDashboardTransaction _contributionToDashboardTransaction(

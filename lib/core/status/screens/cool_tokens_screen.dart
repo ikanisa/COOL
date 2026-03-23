@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_glass_card.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
@@ -32,7 +30,9 @@ class CoolTokensScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
     final userId = ref.watch(authProvider).user?.id ?? '';
     final status = ref.watch(coolStatusProvider).valueOrNull;
 
@@ -57,35 +57,37 @@ class CoolTokensScreen extends ConsumerWidget {
                     }
                   },
                   tooltip: context.l10n.back,
-                  icon: Icon(Icons.arrow_back_rounded, color: palette.text),
+                  icon: Icon(
+                    Icons.arrow_back_rounded,
+                    color: colors.primaryText,
+                  ),
                 ),
                 title: Text(
                   'Cool Tokens',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 20,
+                  style: theme.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w700,
-                    color: palette.text,
+                    color: colors.primaryText,
                   ),
                 ),
                 centerTitle: false,
               ),
 
               SliverPadding(
-                padding: const EdgeInsets.fromLTRB(18, 8, 18, 96),
+                padding: EdgeInsets.fromLTRB(space.x4, space.x2, space.x4, 96),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
                     // ── 1. Hero Card (tier + points + progress) ──
                     if (status != null) ...[
                       CoolStatusCard(status: status),
-                      const SizedBox(height: 12),
+                      SizedBox(height: space.x3),
                       const ReferralBanner(),
-                      const SizedBox(height: 20),
+                      SizedBox(height: space.x5),
                     ],
 
                     // ── 2. Streak & Stats ─────────────────────
                     if (status != null) ...[
                       _StreakStatsRow(status: status),
-                      const SizedBox(height: 24),
+                      SizedBox(height: space.x6),
                     ],
 
                     // ── 3. Ways to Earn ───────────────────────
@@ -93,9 +95,9 @@ class CoolTokensScreen extends ConsumerWidget {
                       label: 'Welcome to COOL Tokens',
                       icon: Icons.auto_awesome_rounded,
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: space.x2),
                     const _WaysToEarnGrid(),
-                    const SizedBox(height: 24),
+                    SizedBox(height: space.x6),
 
                     // ── 4. Active Missions ────────────────────
                     _SectionHeader(
@@ -105,29 +107,28 @@ class CoolTokensScreen extends ConsumerWidget {
                         onPressed: () => context.push(AppRoutes.missions),
                         child: Text(
                           'View all',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 12,
+                          style: theme.textTheme.labelSmall?.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: palette.accent,
+                            color: colors.accent,
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: space.x2),
                     _ActiveMissionsSection(userId: userId),
-                    const SizedBox(height: 24),
+                    SizedBox(height: space.x6),
 
                     // ── 4.5 Rewards Marketplace ───────────────
                     const _SectionHeader(
                       label: 'Rewards Marketplace',
                       icon: Icons.redeem_rounded,
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: space.x2),
                     _RewardsMarketplace(
                       userId: userId,
                       currentPoints: status?.totalPoints ?? 0,
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: space.x6),
 
                     // ── 5. Top Earners ────────────────────────
                     _SectionHeader(
@@ -135,19 +136,21 @@ class CoolTokensScreen extends ConsumerWidget {
                       icon: Icons.leaderboard_rounded,
                       trailing: TextButton(
                         onPressed: () {
-                          CoolToast.info(context, 'Convert token flow coming soon');
+                          CoolToast.info(
+                            context,
+                            'Convert token flow coming soon',
+                          );
                         },
                         child: Text(
                           'Convert',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 12,
+                          style: theme.textTheme.labelSmall?.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: palette.accent,
+                            color: colors.accent,
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: space.x2),
                     const _TopEarnersSection(),
                   ]),
                 ),
@@ -169,33 +172,35 @@ class _StreakStatsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+
     return Row(
       children: [
         Expanded(
           child: _StatCard(
             icon: Icons.local_fire_department_rounded,
-            iconColor: AppColors.orange,
+            iconColor: colors.warning,
             label: context.l10n.currentStreak,
             value: '${status.currentStreak}',
             suffix: 'days',
           ),
         ),
-        const SizedBox(width: 10),
+        SizedBox(width: space.x2),
         Expanded(
           child: _StatCard(
             icon: Icons.emoji_events_rounded,
-            iconColor: AppColors.yellow,
+            iconColor: colors.warning,
             label: context.l10n.bestStreak,
             value: '${status.longestStreak}',
             suffix: 'days',
           ),
         ),
-        const SizedBox(width: 10),
+        SizedBox(width: space.x2),
         Expanded(
           child: _StatCard(
             icon: Icons.shield_rounded,
-            iconColor: palette.blue,
+            iconColor: colors.info,
             label: context.l10n.grace,
             value: '${status.streakGraceRemaining}',
             suffix: 'left',
@@ -223,38 +228,40 @@ class _StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
+
     return CoolGlassCard(
-      padding: const EdgeInsets.all(12),
-      borderRadius: 14,
+      padding: EdgeInsets.all(space.x3),
+      borderRadius: radii.sm,
       child: Column(
         children: [
           Icon(icon, size: 20, color: iconColor),
-          const SizedBox(height: 6),
+          SizedBox(height: space.x1),
           Text(
             value,
-            style: GoogleFonts.dmSans(
-              fontSize: 20,
+            style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.w700,
-              color: palette.text,
+              color: colors.primaryText,
             ),
           ),
           Text(
             suffix,
-            style: GoogleFonts.dmSans(
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: colors.tertiaryText,
               fontSize: 10,
-              fontWeight: FontWeight.w500,
-              color: palette.text3,
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: space.x1),
           Text(
             label,
             textAlign: TextAlign.center,
-            style: GoogleFonts.dmSans(
-              fontSize: 10,
+            style: theme.textTheme.labelSmall?.copyWith(
               fontWeight: FontWeight.w600,
-              color: palette.text2,
+              color: colors.secondaryText,
+              fontSize: 10,
             ),
           ),
         ],
@@ -268,7 +275,9 @@ class _WaysToEarnGrid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
     final activitiesAsync = ref.watch(coolActivitiesProvider);
 
     return activitiesAsync.when(
@@ -292,13 +301,12 @@ class _WaysToEarnGrid extends ConsumerWidget {
           children: [
             for (final entry in grouped.entries) ...[
               Padding(
-                padding: const EdgeInsets.only(top: 12, bottom: 6),
+                padding: EdgeInsets.only(top: space.x3, bottom: space.x1),
                 child: Text(
                   _categoryLabel(entry.key),
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
+                  style: theme.textTheme.labelSmall?.copyWith(
                     fontWeight: FontWeight.w700,
-                    color: palette.text3,
+                    color: colors.tertiaryText,
                     letterSpacing: 0.5,
                   ),
                 ),
@@ -307,7 +315,7 @@ class _WaysToEarnGrid extends ConsumerWidget {
                 child: Column(
                   children: [
                     for (int i = 0; i < entry.value.length; i++) ...[
-                      if (i > 0) Divider(height: 1, color: palette.border),
+                      if (i > 0) Divider(height: 1, color: colors.border),
                       _EarnRow(activity: entry.value[i]),
                     ],
                   ],
@@ -343,49 +351,53 @@ class _EarnRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
+
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: EdgeInsets.symmetric(vertical: space.x2),
       child: Row(
         children: [
           Text(activity.emoji, style: const TextStyle(fontSize: 20)),
-          const SizedBox(width: 12),
+          SizedBox(width: space.x3),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   activity.title,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
+                  style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: palette.text,
+                    color: colors.primaryText,
                   ),
                 ),
                 if (activity.description.isNotEmpty)
                   Text(
                     activity.description,
-                    style: GoogleFonts.dmSans(
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: colors.tertiaryText,
                       fontSize: 11,
-                      fontWeight: FontWeight.w400,
-                      color: palette.text3,
                     ),
                   ),
               ],
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            padding: EdgeInsets.symmetric(
+              horizontal: space.x2,
+              vertical: space.x1,
+            ),
             decoration: BoxDecoration(
-              color: palette.accent.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(20),
+              color: colors.accent.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(radii.md),
             ),
             child: Text(
               '+${activity.tokensAwarded} Tokens',
-              style: GoogleFonts.dmSans(
-                fontSize: 12,
+              style: theme.textTheme.labelSmall?.copyWith(
                 fontWeight: FontWeight.w700,
-                color: palette.accent,
+                color: colors.accent,
               ),
             ),
           ),
@@ -412,6 +424,7 @@ class _ActiveMissionsSection extends ConsumerWidget {
       );
     }
 
+    final space = context.coolSpace;
     final missionsAsync = ref.watch(activeMissionsProvider(userId));
 
     return missionsAsync.when(
@@ -428,7 +441,7 @@ class _ActiveMissionsSection extends ConsumerWidget {
         return Column(
           children: [
             for (int i = 0; i < shown.length; i++) ...[
-              if (i > 0) const SizedBox(height: 10),
+              if (i > 0) SizedBox(height: space.x2),
               MissionProgressCard(mission: shown[i]),
             ],
           ],
@@ -452,7 +465,9 @@ class _TopEarnersSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final leaderboardAsync = ref.watch(topEarnersProvider);
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
 
     return leaderboardAsync.when(
       data: (entries) {
@@ -475,16 +490,15 @@ class _TopEarnersSection extends ConsumerWidget {
                   },
                   child: Text(
                     'View History',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 12,
+                    style: theme.textTheme.labelSmall?.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: palette.accent,
+                      color: colors.accent,
                     ),
                   ),
                 ),
               ),
               for (int i = 0; i < entries.length; i++) ...[
-                if (i > 0) Divider(height: 1, color: palette.border),
+                if (i > 0) Divider(height: 1, color: colors.border),
                 _LeaderboardRow(entry: entries[i]),
               ],
             ],
@@ -508,11 +522,13 @@ class _LeaderboardRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
     final isTopThree = entry.rank <= 3;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: EdgeInsets.symmetric(vertical: space.x2),
       child: Row(
         children: [
           // Rank badge
@@ -523,19 +539,20 @@ class _LeaderboardRow extends StatelessWidget {
               shape: BoxShape.circle,
               color: isTopThree
                   ? _rankColor(entry.rank).withValues(alpha: 0.16)
-                  : palette.surface2,
+                  : colors.cardSurface,
             ),
             alignment: Alignment.center,
             child: Text(
               '${entry.rank}',
-              style: GoogleFonts.dmSans(
-                fontSize: 12,
+              style: theme.textTheme.labelSmall?.copyWith(
                 fontWeight: FontWeight.w700,
-                color: isTopThree ? _rankColor(entry.rank) : palette.text2,
+                color: isTopThree
+                    ? _rankColor(entry.rank)
+                    : colors.secondaryText,
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: space.x3),
           // Tier dot
           Container(
             width: 8,
@@ -545,15 +562,14 @@ class _LeaderboardRow extends StatelessWidget {
               color: entry.tier.color,
             ),
           ),
-          const SizedBox(width: 8),
+          SizedBox(width: space.x2),
           // Name
           Expanded(
             child: Text(
               entry.displayName,
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
+              style: theme.textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: palette.text,
+                color: colors.primaryText,
               ),
               overflow: TextOverflow.ellipsis,
             ),
@@ -561,10 +577,9 @@ class _LeaderboardRow extends StatelessWidget {
           // Points
           Text(
             '${entry.totalPoints} Tokens',
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
+            style: theme.textTheme.bodySmall?.copyWith(
               fontWeight: FontWeight.w700,
-              color: palette.accent,
+              color: colors.accent,
             ),
           ),
         ],
@@ -576,7 +591,7 @@ class _LeaderboardRow extends StatelessWidget {
     1 => const Color(0xFFFFD700), // gold
     2 => const Color(0xFFC0C0C0), // silver
     3 => const Color(0xFFCD7F32), // bronze
-    _ => AppColors.text2,
+    _ => const Color(0xFF8C8C8C), // fallback grey
   };
 }
 
@@ -593,6 +608,7 @@ class _RewardsMarketplace extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final space = context.coolSpace;
     final rewardsAsync = ref.watch(availableRewardsProvider);
 
     return rewardsAsync.when(
@@ -612,7 +628,7 @@ class _RewardsMarketplace extends ConsumerWidget {
                 canAfford: currentPoints >= reward.tokenCost,
                 onRedeem: () => _handleRedeem(context, ref, reward),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: space.x2),
             ],
           ],
         );
@@ -631,32 +647,34 @@ class _RewardsMarketplace extends ConsumerWidget {
     WidgetRef ref,
     CoolReward reward,
   ) async {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: context.coolPalette.surface,
+        backgroundColor: colors.elevatedBackground,
         title: Text(
           'Redeem ${reward.title}?',
-          style: GoogleFonts.dmSans(fontWeight: FontWeight.w700),
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.w700,
+          ),
         ),
         content: Text(
           'This will cost ${reward.tokenCost} Cool Tokens.',
-          style: GoogleFonts.dmSans(),
+          style: theme.textTheme.bodyMedium,
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: Text(
-              'Cancel',
-              style: TextStyle(color: context.coolPalette.text3),
-            ),
+            child: Text('Cancel', style: TextStyle(color: colors.tertiaryText)),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
             child: Text(
               'Redeem',
               style: TextStyle(
-                color: context.coolPalette.accent,
+                color: colors.accent,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -693,53 +711,57 @@ class _RewardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
+
     return CoolGlassCard(
       onTap: canAfford ? onRedeem : null,
-      padding: const EdgeInsets.all(18),
-      borderRadius: 24,
+      padding: EdgeInsets.all(space.x4),
+      borderRadius: radii.lg,
       child: Row(
         children: [
           Text(reward.emoji, style: const TextStyle(fontSize: 24)),
-          const SizedBox(width: 12),
+          SizedBox(width: space.x3),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   reward.title,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
+                  style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w700,
-                    color: palette.text,
+                    color: colors.primaryText,
                   ),
                 ),
                 Text(
                   reward.description,
-                  style: GoogleFonts.dmSans(
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colors.tertiaryText,
                     fontSize: 11,
-                    fontWeight: FontWeight.w500,
-                    color: palette.text3,
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: space.x3),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            padding: EdgeInsets.symmetric(
+              horizontal: space.x2,
+              vertical: space.x1,
+            ),
             decoration: BoxDecoration(
               color: canAfford
-                  ? palette.accent.withValues(alpha: 0.12)
-                  : palette.border,
-              borderRadius: BorderRadius.circular(12),
+                  ? colors.accent.withValues(alpha: 0.12)
+                  : colors.border,
+              borderRadius: BorderRadius.circular(radii.sm),
             ),
             child: Text(
               '${reward.tokenCost} Tokens',
-              style: GoogleFonts.dmSans(
-                fontSize: 12,
+              style: theme.textTheme.labelSmall?.copyWith(
                 fontWeight: FontWeight.w700,
-                color: canAfford ? palette.accent : palette.text3,
+                color: canAfford ? colors.accent : colors.tertiaryText,
               ),
             ),
           ),
@@ -764,18 +786,20 @@ class _SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
+
     return Row(
       children: [
-        Icon(icon, size: 16, color: palette.text2),
-        const SizedBox(width: 8),
+        Icon(icon, size: 16, color: colors.secondaryText),
+        SizedBox(width: space.x2),
         Expanded(
           child: Text(
             label,
-            style: GoogleFonts.dmSans(
-              fontSize: 15,
+            style: theme.textTheme.titleSmall?.copyWith(
               fontWeight: FontWeight.w700,
-              color: palette.text,
+              color: colors.primaryText,
             ),
           ),
         ),

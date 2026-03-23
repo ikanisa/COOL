@@ -157,7 +157,7 @@ class _HeaderMetric extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: metric.surfaceColor,
-        borderRadius: BorderRadius.circular(CoolRadii.md),
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.md)),
         border: Border.all(color: colors.border, width: 1.0),
       ),
       child: Padding(
@@ -170,7 +170,9 @@ class _HeaderMetric extends StatelessWidget {
               height: 42,
               decoration: BoxDecoration(
                 color: colors.cardSurfaceStrong.withValues(alpha: 0.88),
-                borderRadius: BorderRadius.circular(CoolRadii.sm),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(CoolRadii.sm),
+                ),
                 border: Border.all(color: colors.border),
               ),
               alignment: Alignment.center,

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_glass_card.dart';
 
 class ReferralBanner extends StatelessWidget {
@@ -11,19 +10,23 @@ class ReferralBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
+
     return CoolGlassCard(
       onTap: () => context.push(AppRoutes.referral),
       padding: EdgeInsets.zero,
-      borderRadius: 24,
+      borderRadius: radii.lg,
       opacity: 0.1,
       child: Container(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(space.x5),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              palette.accent.withValues(alpha: 0.4),
-              palette.accent.withValues(alpha: 0.1),
+              colors.accent.withValues(alpha: 0.4),
+              colors.accent.withValues(alpha: 0.1),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -32,32 +35,29 @@ class ReferralBanner extends StatelessWidget {
         child: Row(
           children: [
             const Text('🎁', style: TextStyle(fontSize: 28)),
-            const SizedBox(width: 16),
+            SizedBox(width: space.x4),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Share Cool & Earn Tokens',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 16,
+                    style: theme.textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.w800,
-                      color: palette.text,
+                      color: colors.primaryText,
                     ),
                   ),
                   const SizedBox(height: 2),
                   Text(
                     'Invite friends & grow together',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: palette.text2,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: colors.secondaryText,
                     ),
                   ),
                 ],
               ),
             ),
-            Icon(Icons.chevron_right_rounded, color: palette.accent, size: 28),
+            Icon(Icons.chevron_right_rounded, color: colors.accent, size: 28),
           ],
         ),
       ),

@@ -77,10 +77,6 @@ class HomeScreen extends ConsumerWidget {
                   ],
                   children: [
                     const HomeHeader(),
-                    const SizedBox(height: 20),
-                    const NexusRecommendationsSection(),
-                    const SizedBox(height: 14),
-                    const ReferralBanner(),
                     const SizedBox(height: 24),
 
                     SectionTitle(title: l10n.quickActions),
@@ -88,35 +84,6 @@ class HomeScreen extends ConsumerWidget {
                     const QuickActionSection(),
                     const SizedBox(height: 24),
 
-                    RayonSportCard(
-                      membershipAsync: ref.watch(rayonMembershipProvider),
-                      clubsAsync: ref.watch(rayonFanClubsProvider),
-                      matchesAsync: ref.watch(rayonMatchesProvider),
-                      initiativesAsync: ref.watch(rayonInitiativesProvider),
-                    ),
-                    if (ref.watch(hasActiveBankPartnerProvider)) ...[
-                      const SizedBox(height: 14),
-                      dashboardAsync.when(
-                        data: (dashboard) => GroupSavingsCard(data: dashboard),
-                        loading: () => const OverviewLoadingCard(),
-                        error: (_, _) => OverviewErrorCard(
-                          onRetry: () => ref.invalidate(homeDashboardProvider),
-                        ),
-                      ),
-                    ],
-                    const SizedBox(height: 14),
-                    ...ref
-                        .watch(activeSpecialProductsProvider)
-                        .maybeWhen(
-                          data: (products) => products.map(
-                            (p) => Padding(
-                              padding: const EdgeInsets.only(bottom: 14),
-                              child: SpecialProductCard(product: p),
-                            ),
-                          ),
-                          orElse: () => [const SizedBox.shrink()],
-                        ),
-                    const SizedBox(height: 10),
                     SectionTitle(
                       title: l10n.recentActivity,
                       actionLabel: l10n.statementsLabel,
@@ -135,6 +102,39 @@ class HomeScreen extends ConsumerWidget {
                         onRetry: () => ref.invalidate(homeDashboardProvider),
                       ),
                     ),
+
+                    RayonSportCard(
+                      membershipAsync: ref.watch(rayonMembershipProvider),
+                      clubsAsync: ref.watch(rayonFanClubsProvider),
+                      matchesAsync: ref.watch(rayonMatchesProvider),
+                      initiativesAsync: ref.watch(rayonInitiativesProvider),
+                    ),
+                    if (ref.watch(hasActiveBankPartnerProvider)) ...[
+                      const SizedBox(height: 14),
+                      dashboardAsync.when(
+                        data: (dashboard) => GroupSavingsCard(data: dashboard),
+                        loading: () => const OverviewLoadingCard(),
+                        error: (_, _) => OverviewErrorCard(
+                          onRetry: () => ref.invalidate(homeDashboardProvider),
+                        ),
+                      ),
+                    ],
+                    const SizedBox(height: 14),
+                    const ReferralBanner(),
+                    const SizedBox(height: 20),
+                    const NexusRecommendationsSection(),
+                    const SizedBox(height: 14),
+                    ...ref
+                        .watch(activeSpecialProductsProvider)
+                        .maybeWhen(
+                          data: (products) => products.map(
+                            (p) => Padding(
+                              padding: const EdgeInsets.only(bottom: 14),
+                              child: SpecialProductCard(product: p),
+                            ),
+                          ),
+                          orElse: () => [const SizedBox.shrink()],
+                        ),
 
                     // ── Lower Priority ──────────────────────
                     ref

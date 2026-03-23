@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/config/country_catalog.dart' show MomoRecipientType;
 import '../../../core/services/momo_service.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../admin/models/special_product.dart';
@@ -57,6 +57,10 @@ class _SpecialProductCardState extends ConsumerState<SpecialProductCard> {
     final p = widget.product;
     final accent = p.accentColor;
     final accentLight = p.accentColorLight;
+    final text = context.coolText;
+    final radii = context.coolRadii;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
 
     return CoolCard(
       useGradient: true,
@@ -68,9 +72,9 @@ class _SpecialProductCardState extends ConsumerState<SpecialProductCard> {
           Color.lerp(accent, Colors.black, 0.65)!,
         ],
       ),
-      borderRadius: 20,
+      borderRadius: radii.lg,
       borderColor: accent.withValues(alpha: 0.3),
-      padding: const EdgeInsets.all(18),
+      padding: EdgeInsets.all(space.x5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -81,47 +85,47 @@ class _SpecialProductCardState extends ConsumerState<SpecialProductCard> {
                 height: 40,
                 decoration: BoxDecoration(
                   color: accent.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.all(Radius.circular(radii.sm)),
                 ),
                 alignment: Alignment.center,
                 child: Icon(p.icon, size: 20, color: accentLight),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: space.x3),
               Expanded(
                 child: Text(
                   p.title,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 18,
+                  style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w800,
                     color: accentLight,
                   ),
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 5,
+                padding: EdgeInsets.symmetric(
+                  horizontal: space.x2,
+                  vertical: space.x1,
                 ),
                 decoration: BoxDecoration(
                   color: accent.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(999),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(CoolRadii.pill),
+                  ),
                   border: Border.all(color: accent.withValues(alpha: 0.4)),
                 ),
                 child: Text(
                   p.targetAudience,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    fontWeight: FontWeight.w800,
                     color: accentLight,
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: space.x4),
           Wrap(
-            spacing: 10,
-            runSpacing: 10,
+            spacing: space.x3,
+            runSpacing: space.x3,
             children: [
               _Pill(
                 label: 'Amount',
@@ -145,44 +149,67 @@ class _SpecialProductCardState extends ConsumerState<SpecialProductCard> {
                 ),
             ],
           ),
-          const SizedBox(height: 16),
-          GestureDetector(
-            onTap: _launching ? null : _launchUssd,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-              decoration: BoxDecoration(
-                color: accentLight.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(999),
-                border: Border.all(color: accentLight.withValues(alpha: 0.3)),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (_launching)
-                    SizedBox(
-                      width: 14,
-                      height: 14,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: accentLight,
+          SizedBox(height: space.x4),
+          Semantics(
+            button: true,
+            label: 'Pay ${p.title} with MoMo',
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: _launching ? null : _launchUssd,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(CoolRadii.pill),
+                ),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    minHeight: CoolTapTargets.minimum,
+                  ),
+                  child: Ink(
+                    decoration: BoxDecoration(
+                      color: accentLight.withValues(alpha: 0.15),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(CoolRadii.pill),
                       ),
-                    )
-                  else
-                    Icon(
-                      Icons.phone_android_rounded,
-                      size: 14,
-                      color: accentLight,
+                      border: Border.all(
+                        color: accentLight.withValues(alpha: 0.3),
+                      ),
                     ),
-                  const SizedBox(width: 6),
-                  Text(
-                    'Pay Now',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: accentLight,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: space.x3,
+                        vertical: space.x2,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (_launching)
+                            SizedBox(
+                              width: 14,
+                              height: 14,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: accentLight,
+                              ),
+                            )
+                          else
+                            Icon(
+                              Icons.phone_android_rounded,
+                              size: 14,
+                              color: accentLight,
+                            ),
+                          SizedBox(width: space.x1),
+                          Text(
+                            'Pay Now',
+                            style: theme.textTheme.labelMedium?.copyWith(
+                              fontWeight: FontWeight.w800,
+                              color: accentLight,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ],
+                ),
               ),
             ),
           ),
@@ -207,31 +234,35 @@ class _Pill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.coolText;
+    final radii = context.coolRadii;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
+
     return DecoratedBox(
       decoration: BoxDecoration(
         color: accent.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.pill)),
         border: Border.all(color: accent.withValues(alpha: 0.25)),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        padding: EdgeInsets.symmetric(horizontal: space.x3, vertical: space.x1),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               label,
-              style: GoogleFonts.dmSans(
-                fontSize: 10,
-                fontWeight: FontWeight.w500,
+              style: theme.textTheme.labelSmall?.copyWith(
+                fontWeight: FontWeight.w700,
                 color: accentLight.withValues(alpha: 0.7),
               ),
             ),
             Text(
               value,
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w800,
+              style: text.mono(
+                theme.textTheme.bodySmall,
                 color: accentLight,
+                fontWeight: FontWeight.w800,
               ),
             ),
           ],

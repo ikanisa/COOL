@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/router/app_routes.dart';
-import '../../../../core/theme/cool_palette.dart';
+import '../../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../models/nexus_recommendation.dart';
 import '../providers/nexus_provider.dart';
 
@@ -12,12 +12,14 @@ class NexusRecommendationsSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
     final recommendationsAsync = ref.watch(nexusRecommendationsProvider);
 
     return recommendationsAsync.when(
       data: (recommendations) {
-        final palette = context.coolPalette;
         if (recommendations.isEmpty) return const SizedBox.shrink();
 
         return Column(
@@ -28,27 +30,26 @@ class NexusRecommendationsSection extends ConsumerWidget {
                 Icon(
                   Icons.auto_awesome_rounded,
                   size: 16,
-                  color: palette.accent,
+                  color: colors.accent,
                 ),
-                const SizedBox(width: 8),
+                SizedBox(width: space.x2),
                 Text(
                   'OPPORTUNITIES FOR YOU',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 11,
+                  style: theme.textTheme.labelSmall?.copyWith(
                     fontWeight: FontWeight.w900,
-                    color: palette.accent,
+                    color: colors.accent,
                     letterSpacing: 1,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: space.x3),
             SizedBox(
               height: 160,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemCount: recommendations.length,
-                separatorBuilder: (context, index) => const SizedBox(width: 12),
+                separatorBuilder: (context, index) => SizedBox(width: space.x3),
                 itemBuilder: (context, index) {
                   return NexusCard(recommendation: recommendations[index]);
                 },
@@ -70,22 +71,25 @@ class NexusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
 
-    return GestureDetector(
-      onTap: () => openQuickActionRoute(context, recommendation.ctaAction),
-      child: Container(
-        width: 260,
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: palette.surface,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: palette.border),
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [palette.surface, palette.accent.withValues(alpha: 0.03)],
-          ),
+    return SizedBox(
+      width: 260,
+      child: CoolCard(
+        onTap: () => openQuickActionRoute(context, recommendation.ctaAction),
+        semanticsLabel: recommendation.title,
+        borderRadius: radii.lg,
+        padding: EdgeInsets.all(space.x4),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            colors.elevatedBackground,
+            colors.accent.withValues(alpha: 0.03),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,26 +98,26 @@ class NexusCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: space.x2,
+                    vertical: space.x1,
                   ),
                   decoration: BoxDecoration(
-                    color: palette.accent.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(6),
+                    color: colors.accent.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.all(Radius.circular(radii.xs)),
                   ),
                   child: Text(
                     recommendation.contentType.label,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 9,
+                    style: theme.textTheme.labelSmall?.copyWith(
                       fontWeight: FontWeight.w900,
-                      color: palette.accent,
+                      color: colors.accent,
+                      letterSpacing: 0.3,
                     ),
                   ),
                 ),
                 Text(
                   sanitizeEmoji(recommendation.iconEmoji),
-                  style: const TextStyle(fontSize: 16),
+                  style: theme.textTheme.titleSmall?.copyWith(height: 1),
                 ),
               ],
             ),
@@ -122,31 +126,28 @@ class NexusCard extends StatelessWidget {
               recommendation.title,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.dmSans(
-                fontSize: 15,
+              style: theme.textTheme.bodyLarge?.copyWith(
                 fontWeight: FontWeight.w800,
-                color: palette.text,
+                color: colors.primaryText,
               ),
             ),
             Text(
               recommendation.subtitle,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.dmSans(
-                fontSize: 12,
+              style: theme.textTheme.bodySmall?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: palette.text2,
+                color: colors.secondaryText,
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: space.x2),
             Text(
               recommendation.rationale,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.dmSans(
-                fontSize: 11,
-                fontWeight: FontWeight.w500,
-                color: palette.accent,
+              style: theme.textTheme.labelSmall?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: colors.accent,
                 fontStyle: FontStyle.italic,
               ),
             ),

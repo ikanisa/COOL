@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/router/app_routes.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../core/theme/rs_colors.dart';
+import '../../../../shared/widgets/cool_card.dart';
 import '../../partners/rayon/models/rs_models.dart';
 import 'group_savings_card.dart';
 import '../../../core/l10n/l10n.dart';
@@ -30,6 +31,10 @@ class RayonSportCard extends StatelessWidget {
     final clubs = clubsAsync.valueOrNull ?? const <RsFanClub>[];
     final matches = matchesAsync.valueOrNull ?? const <RsMatch>[];
     final initiatives = initiativesAsync.valueOrNull ?? const <RsInitiative>[];
+    final text = context.coolText;
+    final radii = context.coolRadii;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
 
     final isMember = membership != null;
     final totalFans = clubs.fold<int>(0, (sum, c) => sum + c.memberCount);
@@ -37,13 +42,11 @@ class RayonSportCard extends StatelessWidget {
     final hasOpenTickets = onSaleMatches.isNotEmpty;
     final hasInitiatives = initiatives.isNotEmpty;
 
-    return Container(
-      decoration: BoxDecoration(
-        gradient: RsColors.rsCardGradient,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: RsColors.rsBlueBorder),
-      ),
-      padding: const EdgeInsets.all(18),
+    return CoolCard(
+      gradient: RsColors.rsCardGradient,
+      borderRadius: radii.lg,
+      borderColor: RsColors.rsBlueBorder,
+      padding: EdgeInsets.all(space.x5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -54,50 +57,56 @@ class RayonSportCard extends StatelessWidget {
                 height: 40,
                 decoration: BoxDecoration(
                   color: RsColors.rsBlue.withValues(alpha: 0.3),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.all(Radius.circular(radii.sm)),
                 ),
                 alignment: Alignment.center,
-                child: const Text('⚽', style: TextStyle(fontSize: 20)),
+                child: Text(
+                  '⚽',
+                  style: theme.textTheme.titleMedium?.copyWith(height: 1),
+                ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: space.x3),
               Expanded(
                 child: Text(
                   'Rayon Sports FC',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800,
+                  style: text.rayonCondensed(
+                    theme.textTheme.titleLarge,
                     color: RsColors.rsWhite,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: -0.4,
                   ),
                 ),
               ),
               if (isMember)
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 5,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: space.x2,
+                    vertical: space.x1,
                   ),
                   decoration: BoxDecoration(
                     color: RsColors.rsGold.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(999),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(CoolRadii.pill),
+                    ),
                     border: Border.all(
                       color: RsColors.rsGold.withValues(alpha: 0.5),
                     ),
                   ),
                   child: Text(
                     membership.tier.label,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w700,
+                    style: text.rayon(
+                      theme.textTheme.labelSmall,
                       color: RsColors.rsGoldLight,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                 ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: space.x4),
           Wrap(
-            spacing: 10,
-            runSpacing: 10,
+            spacing: space.x3,
+            runSpacing: space.x3,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               HomeStatPill(
@@ -116,10 +125,10 @@ class RayonSportCard extends StatelessWidget {
                 ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: space.x4),
           Wrap(
-            spacing: 8,
-            runSpacing: 8,
+            spacing: space.x2,
+            runSpacing: space.x2,
             children: [
               if (!isMember)
                 HomeCtaChip(

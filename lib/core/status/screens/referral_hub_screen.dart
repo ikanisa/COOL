@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
@@ -36,10 +35,11 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
     setState(() => _isLoading = true);
     try {
       final repo = ref.read(referralRepositoryProvider);
-      // Using a generic invite code for the hub
       final link = await repo.createInviteLink(
         inviteCode: 'COOL-APP-SHARE',
-        baseUri: Uri.parse('https://play.google.com/store/apps/details?id=app.cool.mobile'),
+        baseUri: Uri.parse(
+          'https://play.google.com/store/apps/details?id=app.cool.mobile',
+        ),
         campaignId: 'REFER-AND-EARN-2026',
       );
       if (mounted) {
@@ -82,10 +82,13 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: palette.bg,
+      backgroundColor: colors.appBackground,
       body: CoolScreenBackground(
         child: SafeArea(
           child: CustomScrollView(
@@ -97,73 +100,76 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
                 leading: IconButton(
                   onPressed: () => context.pop(),
                   tooltip: context.l10n.back,
-                  icon: Icon(Icons.arrow_back_rounded, color: palette.text),
+                  icon: Icon(
+                    Icons.arrow_back_rounded,
+                    color: colors.primaryText,
+                  ),
                 ),
                 title: Text(
                   'Refer & Earn',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 20,
+                  style: theme.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w700,
-                    color: palette.text,
+                    color: colors.primaryText,
                   ),
                 ),
               ),
               SliverPadding(
-                padding: const EdgeInsets.fromLTRB(18, 8, 18, 32),
+                padding: EdgeInsets.fromLTRB(
+                  space.x4,
+                  space.x2,
+                  space.x4,
+                  space.x8,
+                ),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
                     // ── Hero Banner ──
                     Container(
-                      padding: const EdgeInsets.all(24),
+                      padding: EdgeInsets.all(space.x6),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            palette.accent,
-                            palette.accent.withValues(alpha: 0.8),
+                            colors.accent,
+                            colors.accent.withValues(alpha: 0.8),
                           ],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius: BorderRadius.circular(radii.lg),
                       ),
                       child: Column(
                         children: [
                           const Text('🎁', style: TextStyle(fontSize: 48)),
-                          const SizedBox(height: 12),
+                          SizedBox(height: space.x3),
                           Text(
                             'Invite Friends, Earn Tokens',
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.dmSans(
-                              fontSize: 22,
+                            style: theme.textTheme.titleLarge?.copyWith(
                               fontWeight: FontWeight.w800,
                               color: Colors.white,
                             ),
                           ),
-                          const SizedBox(height: 8),
+                          SizedBox(height: space.x2),
                           Text(
                             'Earn Cool Tokens for every friend who joins and completes their first activity.',
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.dmSans(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
+                            style: theme.textTheme.bodySmall?.copyWith(
                               color: Colors.white.withValues(alpha: 0.9),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 32),
+                    SizedBox(height: space.x8),
 
                     // ── Your Link ──
                     Text(
                       'Your Invite Link',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 16,
+                      style: theme.textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.w700,
-                        color: palette.text,
+                        color: colors.primaryText,
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: space.x3),
                     CoolCard(
                       child: Column(
                         children: [
@@ -171,14 +177,15 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
                             const LinearProgressIndicator()
                           else if (_inviteLink != null)
                             Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 12,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: space.x4,
+                                vertical: space.x3,
                               ),
                               decoration: BoxDecoration(
-                                color: palette.surface2,
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: palette.border),
+                                color: colors.cardSurface,
+                                borderRadius:
+                                    BorderRadius.circular(radii.sm),
+                                border: Border.all(color: colors.border),
                               ),
                               child: Row(
                                 children: [
@@ -187,19 +194,20 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
                                       _inviteLink!.uri.toString(),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style: GoogleFonts.dmMono(
-                                        fontSize: 13,
-                                        color: palette.text2,
+                                      style:
+                                          theme.textTheme.bodySmall?.copyWith(
+                                        color: colors.secondaryText,
+                                        fontFamily: 'monospace',
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 8),
+                                  SizedBox(width: space.x2),
                                   GestureDetector(
                                     onTap: _copyLink,
                                     child: Icon(
                                       Icons.copy_rounded,
                                       size: 20,
-                                      color: palette.accent,
+                                      color: colors.accent,
                                     ),
                                   ),
                                 ],
@@ -209,7 +217,7 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
                             const Text(
                               'Could not generate link. Please try again.',
                             ),
-                          const SizedBox(height: 20),
+                          SizedBox(height: space.x5),
                           Row(
                             children: [
                               Expanded(
@@ -219,7 +227,7 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
                                   onTap: _shareNative,
                                 ),
                               ),
-                              const SizedBox(width: 12),
+                              SizedBox(width: space.x3),
                               Expanded(
                                 child: CoolButton(
                                   label: context.l10n.qrCode,
@@ -233,36 +241,36 @@ class _ReferralHubScreenState extends ConsumerState<ReferralHubScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 32),
+                    SizedBox(height: space.x8),
 
                     // ── How it works ──
                     Text(
                       'How it works',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 16,
+                      style: theme.textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.w700,
-                        color: palette.text,
+                        color: colors.primaryText,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: space.x4),
                     _StepRow(
                       number: '1',
                       title: context.l10n.sendInvite,
                       message: 'Share your link or QR code with friends.',
                       icon: Icons.send_rounded,
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: space.x5),
                     _StepRow(
                       number: '2',
                       title: context.l10n.friendJoins,
                       message: 'They sign up using your unique link.',
                       icon: Icons.person_add_rounded,
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: space.x5),
                     _StepRow(
                       number: '3',
                       title: context.l10n.earnTokens,
-                      message: 'Earn tokens when they complete an activity.',
+                      message:
+                          'Earn tokens when they complete an activity.',
                       icon: Icons.stars_rounded,
                     ),
                   ]),
@@ -291,52 +299,51 @@ class _StepRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
+
     return Row(
       children: [
         Container(
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: palette.surface,
+            color: colors.elevatedBackground,
             shape: BoxShape.circle,
-            border: Border.all(color: palette.border),
+            border: Border.all(color: colors.border),
           ),
           alignment: Alignment.center,
           child: Text(
             number,
-            style: GoogleFonts.dmSans(
-              fontSize: 16,
+            style: theme.textTheme.titleSmall?.copyWith(
               fontWeight: FontWeight.w800,
-              color: palette.accent,
+              color: colors.accent,
             ),
           ),
         ),
-        const SizedBox(width: 16),
+        SizedBox(width: space.x4),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,
-                style: GoogleFonts.dmSans(
-                  fontSize: 15,
+                style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w700,
-                  color: palette.text,
+                  color: colors.primaryText,
                 ),
               ),
               Text(
                 message,
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: palette.text3,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colors.tertiaryText,
                 ),
               ),
             ],
           ),
         ),
-        Icon(icon, color: palette.text3, size: 24),
+        Icon(icon, color: colors.tertiaryText, size: 24),
       ],
     );
   }

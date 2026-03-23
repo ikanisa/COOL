@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../core/l10n/l10n.dart';
@@ -32,13 +31,16 @@ class ReferralWelcomeSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
 
     return Container(
-      padding: const EdgeInsets.fromLTRB(24, 20, 24, 40),
+      padding: EdgeInsets.fromLTRB(space.x6, space.x5, space.x6, space.x10),
       decoration: BoxDecoration(
-        color: palette.bg,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
+        color: colors.appBackground,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(radii.xl)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -47,36 +49,33 @@ class ReferralWelcomeSheet extends StatelessWidget {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: palette.border,
+              color: colors.border,
               borderRadius: BorderRadius.circular(2),
             ),
           ),
-          const SizedBox(height: 32),
+          SizedBox(height: space.x8),
           const Text('🤝', style: TextStyle(fontSize: 64)),
-          const SizedBox(height: 24),
+          SizedBox(height: space.x6),
           Text(
             'You\'re Invited!',
-            style: GoogleFonts.dmSans(
-              fontSize: 24,
+            style: theme.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.w800,
-              color: palette.text,
+              color: colors.primaryText,
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: space.x3),
           RichText(
             textAlign: TextAlign.center,
             text: TextSpan(
-              style: GoogleFonts.dmSans(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: palette.text2,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colors.secondaryText,
               ),
               children: [
                 TextSpan(text: context.l10n.yourFriend),
                 TextSpan(
                   text: inviterName,
                   style: TextStyle(
-                    color: palette.accent,
+                    color: colors.accent,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -84,41 +83,38 @@ class ReferralWelcomeSheet extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 32),
+          SizedBox(height: space.x8),
           CoolCard(
             child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: EdgeInsets.all(space.x3),
                   decoration: BoxDecoration(
-                    color: palette.accent.withValues(alpha: 0.12),
+                    color: colors.accent.withValues(alpha: 0.12),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     Icons.stars_rounded,
-                    color: palette.accent,
+                    color: colors.accent,
                     size: 24,
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: space.x4),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'Bonus Tokens Waiting',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 15,
+                        style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w700,
-                          color: palette.text,
+                          color: colors.primaryText,
                         ),
                       ),
                       Text(
                         'Complete your first activity to earn 50 Cool Tokens.',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: palette.text3,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colors.tertiaryText,
                         ),
                       ),
                     ],
@@ -127,7 +123,7 @@ class ReferralWelcomeSheet extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 40),
+          SizedBox(height: space.x10),
           CoolButton(
             label: context.l10n.getStarted,
             onTap: () {

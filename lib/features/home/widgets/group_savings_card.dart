@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/cool_foundations.dart';
-import '../../../../core/theme/cool_palette.dart';
 import '../../../../core/utils/intl_locale.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../models/home_dashboard_data.dart';
@@ -16,8 +15,8 @@ class GroupSavingsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
     final theme = Theme.of(context);
     final localeName = resolveIntlLocale(context);
     final totalBalance = data?.totalBalance ?? 0;
@@ -35,7 +34,9 @@ class GroupSavingsCard extends StatelessWidget {
                 height: 48,
                 decoration: BoxDecoration(
                   color: colors.cardSurfaceStrong.withValues(alpha: 0.88),
-                  borderRadius: BorderRadius.circular(CoolRadii.md),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(CoolRadii.md),
+                  ),
                   border: Border.all(color: colors.border),
                 ),
                 alignment: Alignment.center,
@@ -45,7 +46,7 @@ class GroupSavingsCard extends StatelessWidget {
                   color: colors.accent,
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: space.x3),
               Expanded(
                 child: Text(
                   'Group Savings',
@@ -129,15 +130,17 @@ class HomeStatPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.coolText;
+    final space = context.coolSpace;
     final theme = Theme.of(context);
     return DecoratedBox(
       decoration: BoxDecoration(
         color: bgColor,
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.pill)),
         border: Border.all(color: borderColor),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: space.x3, vertical: space.x2),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -148,10 +151,11 @@ class HomeStatPill extends StatelessWidget {
                 fontWeight: FontWeight.w800,
               ),
             ),
-            const SizedBox(width: 8),
+            SizedBox(width: space.x2),
             Text(
               value,
-              style: theme.textTheme.labelLarge?.copyWith(
+              style: text.mono(
+                theme.textTheme.labelLarge,
                 color: valueColor,
                 fontWeight: FontWeight.w800,
               ),
@@ -179,23 +183,29 @@ class HomeCtaChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final space = context.coolSpace;
     final theme = Theme.of(context);
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.pill)),
         onTap: onTap,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+          padding: EdgeInsets.symmetric(
+            horizontal: space.x3,
+            vertical: space.x2,
+          ),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(999),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(CoolRadii.pill),
+            ),
             border: Border.all(color: color.withValues(alpha: 0.4)),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(icon, size: 16, color: color),
-              const SizedBox(width: 6),
+              SizedBox(width: space.x1 + space.x0),
               Text(
                 label,
                 style: theme.textTheme.labelMedium?.copyWith(
