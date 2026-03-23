@@ -1,11 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../core/theme/cool_foundations.dart';
 
-import '../../../../core/theme/cool_palette.dart';
 /// Shared helper widgets and functions for the Bank Admin screens.
 
-// ── Formatting helpers ──────────────────────────────────────────
+EdgeInsets _bankInfoPillPadding() => CoolSpace.sectionPadding.copyWith(
+  left: CoolSpace.x2 + 2,
+  right: CoolSpace.x2 + 2,
+  top: CoolSpace.x2,
+  bottom: CoolSpace.x2,
+);
+
+EdgeInsets _bankStatusTagPadding() => CoolSpace.sectionPadding.copyWith(
+  left: CoolSpace.x2 + 2,
+  right: CoolSpace.x2 + 2,
+  top: CoolSpace.x1 + 2,
+  bottom: CoolSpace.x1 + 2,
+);
+
+const BorderRadius _bankInfoPillRadius = BorderRadius.all(
+  Radius.circular(CoolRadii.xs),
+);
+
+const BorderRadius _bankStatusTagRadius = BorderRadius.all(
+  Radius.circular(CoolRadii.pill),
+);
 
 String bankTitle(String raw) {
   if (raw.trim().isEmpty) return '-';
@@ -25,7 +44,9 @@ String bankFileSafe(String raw) {
       .replaceAll(RegExp(r'^_|_$'), '');
 }
 
-// ── Shared widgets ──────────────────────────────────────────────
+bool bankIsConfirmedContributionStatus(String status) {
+  return status == 'confirmed' || status == 'completed';
+}
 
 class BankInfoPill extends StatelessWidget {
   const BankInfoPill({required this.label, required this.value, super.key});
@@ -35,19 +56,21 @@ class BankInfoPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      padding: _bankInfoPillPadding(),
       decoration: BoxDecoration(
-        color: palette.surface2,
-        borderRadius: BorderRadius.circular(12),
+        color: colors.cardSurfaceStrong.withValues(alpha: 0.72),
+        borderRadius: _bankInfoPillRadius,
+        border: Border.all(color: colors.border),
       ),
       child: Text(
         '$label: $value',
-        style: GoogleFonts.dmSans(
-          fontSize: 11,
-          fontWeight: FontWeight.w600,
-          color: palette.text2,
+        style: theme.textTheme.labelSmall?.copyWith(
+          color: colors.secondaryText,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );
@@ -68,37 +91,39 @@ class BankStatusTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      padding: _bankStatusTagPadding(),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: _bankStatusTagRadius,
       ),
       child: Text(
         label,
-        style: GoogleFonts.dmSans(
-          fontSize: 11,
-          fontWeight: FontWeight.w700,
+        style: theme.textTheme.labelSmall?.copyWith(
           color: foregroundColor,
+          fontWeight: FontWeight.w800,
         ),
       ),
     );
   }
 }
 
-Color bankLoanStatusColor(String status) {
+Color bankLoanStatusColor(BuildContext context, String status) {
+  final colors = context.coolSemanticColors;
   switch (status) {
     case 'approved':
     case 'completed':
-      return Colors.green;
+      return colors.success;
     case 'disbursed':
     case 'repaying':
-      return Colors.blue;
+      return colors.info;
     case 'defaulted':
-      return Colors.red;
+      return colors.danger;
     case 'rejected':
-      return Colors.orange;
+      return colors.warning;
     default:
-      return Colors.grey;
+      return colors.neutral;
   }
 }

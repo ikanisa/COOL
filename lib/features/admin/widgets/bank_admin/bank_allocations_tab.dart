@@ -1,13 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/cool_palette.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
 import '../../models/bank_admin_models.dart';
 import 'bank_admin_helpers.dart';
+
+EdgeInsets _bankAllocationFilterPadding() => CoolSpace.sectionPadding.copyWith(
+  left: CoolSpace.x1,
+  right: CoolSpace.x1,
+  top: 0,
+  bottom: 0,
+);
+
+EdgeInsets _bankAllocationListPadding() =>
+    CoolSpace.scaffoldPadding.copyWith(left: 0, right: 0, top: 0);
+
+EdgeInsets _bankAllocationSuggestionPadding() =>
+    CoolSpace.sectionPadding.copyWith(
+      left: CoolSpace.x3,
+      right: CoolSpace.x3,
+      top: CoolSpace.x2,
+      bottom: CoolSpace.x2,
+    );
+
+const BorderRadius _bankAllocationChipRadius = BorderRadius.all(
+  Radius.circular(CoolRadii.pill),
+);
+
+const BorderRadius _bankAllocationSuggestionRadius = BorderRadius.all(
+  Radius.circular(CoolRadii.xs),
+);
 
 class BankAllocationsTab extends StatelessWidget {
   const BankAllocationsTab({
@@ -37,7 +61,7 @@ class BankAllocationsTab extends StatelessWidget {
   final VoidCallback onTriggerAi;
   final bool isAiRunning;
 
-  static const _filters = [
+  static const List<(String, String)> _filters = <(String, String)>[
     ('all', 'All'),
     ('suggested', 'Suggested'),
     ('manual_review', 'Manual'),
@@ -45,32 +69,33 @@ class BankAllocationsTab extends StatelessWidget {
     ('rejected', 'Rejected'),
   ];
 
-  Color _statusColor(String status) {
+  Color _statusColor(BuildContext context, String status) {
+    final colors = context.coolSemanticColors;
     switch (status) {
       case 'suggested':
-        return const Color(0xFF6366F1);
+        return colors.info;
       case 'manual_review':
-        return AppColors.orange;
+        return colors.warning;
       case 'pending_review':
-        return AppColors.yellow;
+        return colors.neutral;
       case 'rejected':
-        return AppColors.red;
+        return colors.danger;
       case 'matched':
-        return AppColors.accent;
+        return colors.success;
       default:
-        return AppColors.text3;
+        return colors.tertiaryText;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final moneyFormat = NumberFormat.decimalPattern('en_US');
     final dateFormat = DateFormat('dd MMM yyyy, HH:mm');
-
     final filtered = statusFilter == 'all'
         ? items
-        : items.where((i) => i.matchStatus == statusFilter).toList();
+        : items.where((item) => item.matchStatus == statusFilter).toList();
 
     return Stack(
       children: [
@@ -80,7 +105,7 @@ class BankAllocationsTab extends StatelessWidget {
               height: 44,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 4),
+                padding: _bankAllocationFilterPadding(),
                 itemCount: _filters.length,
                 separatorBuilder: (_, _) => const SizedBox(width: 8),
                 itemBuilder: (context, index) {
@@ -88,31 +113,24 @@ class BankAllocationsTab extends StatelessWidget {
                   final selected = statusFilter == value;
                   final count = value == 'all'
                       ? items.length
-                      : items
-                            .where((i) => i.matchStatus == value)
-                            .length;
+                      : items.where((item) => item.matchStatus == value).length;
                   return FilterChip(
-                    label: Text(
-                      '$label${count > 0 ? ' ($count)' : ''}',
-                    ),
+                    label: Text('$label${count > 0 ? ' ($count)' : ''}'),
                     selected: selected,
                     onSelected: (_) => onStatusFilterChanged(value),
-                    backgroundColor: palette.surface,
-                    selectedColor:
-                        palette.accent.withValues(alpha: 0.12),
-                    labelStyle: GoogleFonts.dmSans(
-                      fontSize: 12,
-                      fontWeight:
-                          selected ? FontWeight.w700 : FontWeight.w500,
-                      color:
-                          selected ? palette.accent : palette.text2,
+                    backgroundColor: colors.chipBackground,
+                    selectedColor: colors.chipSelectedBackground,
+                    labelStyle: theme.textTheme.bodySmall?.copyWith(
+                      color: selected
+                          ? colors.primaryText
+                          : colors.secondaryText,
+                      fontWeight: selected ? FontWeight.w800 : FontWeight.w600,
                     ),
                     side: BorderSide(
-                      color:
-                          selected ? palette.accent : palette.border,
+                      color: selected ? colors.accent : colors.border,
                     ),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: _bankAllocationChipRadius,
                     ),
                     visualDensity: VisualDensity.compact,
                   );
@@ -129,45 +147,40 @@ class BankAllocationsTab extends StatelessWidget {
                       compact: true,
                     )
                   : ListView.separated(
-                      padding: const EdgeInsets.only(bottom: 80),
+                      padding: _bankAllocationListPadding(),
                       itemCount: filtered.length,
-                      separatorBuilder: (_, _) =>
-                          const SizedBox(height: 12),
+                      separatorBuilder: (_, _) => const SizedBox(height: 12),
                       itemBuilder: (context, index) {
                         final item = filtered[index];
-                        final isActive =
-                            activeReviewId == item.reviewId;
-                        final color =
-                            _statusColor(item.matchStatus);
+                        final isActive = activeReviewId == item.reviewId;
+                        final color = _statusColor(context, item.matchStatus);
 
                         return CoolCard(
-                          backgroundColor: palette.surface,
+                          backgroundColor: colors.operationalSurface,
                           borderColor: item.isSuggested
-                              ? const Color(0xFF6366F1)
-                                  .withValues(alpha: 0.3)
-                              : palette.border,
+                              ? colors.info.withValues(alpha: 0.3)
+                              : colors.border,
+                          useGradient: false,
                           child: Column(
-                            crossAxisAlignment:
-                                CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
                                 children: [
                                   Expanded(
                                     child: Text(
                                       item.groupName,
-                                      style: GoogleFonts.dmSans(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w700,
-                                        color: palette.text,
-                                      ),
+                                      style: theme.textTheme.titleSmall
+                                          ?.copyWith(
+                                            color: colors.primaryText,
+                                            fontWeight: FontWeight.w800,
+                                          ),
                                     ),
                                   ),
                                   BankStatusTag(
-                                    label: bankTitle(
-                                      item.matchStatus,
+                                    label: bankTitle(item.matchStatus),
+                                    backgroundColor: color.withValues(
+                                      alpha: 0.12,
                                     ),
-                                    backgroundColor: color
-                                        .withValues(alpha: 0.12),
                                     foregroundColor: color,
                                   ),
                                 ],
@@ -175,105 +188,89 @@ class BankAllocationsTab extends StatelessWidget {
                               const SizedBox(height: 6),
                               Text(
                                 item.payerName,
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                  color: palette.text2,
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: colors.secondaryText,
+                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
                               const SizedBox(height: 8),
                               Text(
                                 '${moneyFormat.format(item.amount)} RWF',
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w700,
-                                  color: palette.text,
+                                style: theme.textTheme.titleSmall?.copyWith(
+                                  color: colors.primaryText,
+                                  fontWeight: FontWeight.w800,
                                 ),
                               ),
                               const SizedBox(height: 6),
                               Text(
                                 'Reason: ${bankTitle(item.reason)}',
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: palette.text2,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: colors.secondaryText,
+                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
-                              if ((item.reference
-                                      ?.trim()
-                                      .isNotEmpty ??
-                                  false))
+                              if ((item.reference?.trim().isNotEmpty ?? false))
                                 Text(
                                   'Reference: ${item.reference}',
-                                  style: GoogleFonts.dmSans(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: palette.text2,
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    color: colors.secondaryText,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                              if ((item.payeeDigits
-                                      ?.trim()
-                                      .isNotEmpty ??
+                              if ((item.payeeDigits?.trim().isNotEmpty ??
                                   false))
                                 Text(
                                   'Payee: ${item.payeeDigits}',
-                                  style: GoogleFonts.dmSans(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: palette.text2,
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    color: colors.secondaryText,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
                               if (item.isSuggested) ...[
                                 const SizedBox(height: 10),
                                 Container(
-                                  padding:
-                                      const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                    vertical: 8,
-                                  ),
+                                  padding: _bankAllocationSuggestionPadding(),
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFF6366F1)
-                                        .withValues(alpha: 0.06),
+                                    color: colors.info.withValues(alpha: 0.08),
                                     borderRadius:
-                                        BorderRadius.circular(8),
+                                        _bankAllocationSuggestionRadius,
+                                    border: Border.all(
+                                      color: colors.info.withValues(
+                                        alpha: 0.22,
+                                      ),
+                                    ),
                                   ),
                                   child: Row(
                                     children: [
-                                      const Icon(
+                                      Icon(
                                         Icons.auto_awesome,
                                         size: 16,
-                                        color: Color(0xFF6366F1),
+                                        color: colors.info,
                                       ),
                                       const SizedBox(width: 6),
                                       Expanded(
                                         child: Text(
                                           '→ ${item.suggestedMemberName ?? 'Suggested member'} · ${(item.suggestedConfidence ?? 0).toStringAsFixed(0)}%',
-                                          style:
-                                              GoogleFonts.dmSans(
-                                            fontSize: 12,
-                                            fontWeight:
-                                                FontWeight.w600,
-                                            color: const Color(
-                                              0xFF6366F1,
-                                            ),
-                                          ),
+                                          style: theme.textTheme.bodySmall
+                                              ?.copyWith(
+                                                color: colors.info,
+                                                fontWeight: FontWeight.w700,
+                                              ),
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
-                                if (item.aiReasoning !=
-                                    null) ...[
+                                if (item.aiReasoning != null) ...[
                                   const SizedBox(height: 4),
                                   Text(
                                     item.aiReasoning!,
-                                    style: GoogleFonts.dmSans(
-                                      fontSize: 11,
-                                      color: palette.text3,
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                      color: colors.tertiaryText,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                     maxLines: 2,
-                                    overflow:
-                                        TextOverflow.ellipsis,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ],
                               ],
@@ -286,77 +283,52 @@ class BankAllocationsTab extends StatelessWidget {
                                     FilledButton.icon(
                                       onPressed: isActive
                                           ? null
-                                          : () =>
-                                              onAcceptSuggestion(
-                                                item,
-                                              ),
-                                      icon: isActive &&
-                                              activeAction ==
-                                                  'accept'
-                                          ? const SizedBox(
+                                          : () => onAcceptSuggestion(item),
+                                      icon: isActive && activeAction == 'accept'
+                                          ? SizedBox(
                                               width: 14,
                                               height: 14,
-                                              child:
-                                                  CircularProgressIndicator(
+                                              child: CircularProgressIndicator(
                                                 strokeWidth: 2,
-                                                color:
-                                                    Colors.white,
+                                                color: colors.accentForeground,
                                               ),
                                             )
-                                          : const Icon(
-                                              Icons.check,
-                                              size: 16,
-                                            ),
+                                          : const Icon(Icons.check, size: 16),
                                       label: Text(
-                                        isActive &&
-                                                activeAction ==
-                                                    'accept'
+                                        isActive && activeAction == 'accept'
                                             ? 'Accepting...'
                                             : 'Accept',
                                       ),
-                                      style:
-                                          FilledButton.styleFrom(
-                                        backgroundColor:
-                                            const Color(
-                                          0xFF6366F1,
-                                        ),
-                                        textStyle:
-                                            GoogleFonts.dmSans(
-                                          fontSize: 12,
-                                          fontWeight:
-                                              FontWeight.w600,
-                                        ),
-                                        visualDensity:
-                                            VisualDensity
-                                                .compact,
+                                      style: FilledButton.styleFrom(
+                                        backgroundColor: colors.info,
+                                        foregroundColor:
+                                            colors.accentForeground,
+                                        textStyle: theme.textTheme.bodySmall
+                                            ?.copyWith(
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                        visualDensity: VisualDensity.compact,
                                       ),
                                     ),
                                   OutlinedButton(
                                     onPressed: isActive
                                         ? null
-                                        : () =>
-                                            onAllocate(item),
+                                        : () => onAllocate(item),
                                     child: Text(
-                                      isActive &&
-                                              activeAction ==
-                                                  'allocate'
+                                      isActive && activeAction == 'allocate'
                                           ? 'Allocating...'
                                           : item.isSuggested
-                                              ? 'Override'
-                                              : 'Allocate',
+                                          ? 'Override'
+                                          : 'Allocate',
                                     ),
                                   ),
-                                  if (item.matchStatus !=
-                                      'rejected')
+                                  if (item.matchStatus != 'rejected')
                                     TextButton(
                                       onPressed: isActive
                                           ? null
-                                          : () =>
-                                              onReject(item),
+                                          : () => onReject(item),
                                       child: Text(
-                                        isActive &&
-                                                activeAction ==
-                                                    'reject'
+                                        isActive && activeAction == 'reject'
                                             ? 'Rejecting...'
                                             : 'Reject',
                                       ),
@@ -366,22 +338,19 @@ class BankAllocationsTab extends StatelessWidget {
                               const SizedBox(height: 6),
                               Text(
                                 'Updated ${dateFormat.format(item.updatedAt)}',
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w500,
-                                  color: palette.text3,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: colors.tertiaryText,
+                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
                               if (index == 0 &&
-                                  totalCount >
-                                      filtered.length) ...[
+                                  totalCount > filtered.length) ...[
                                 const SizedBox(height: 10),
                                 Text(
                                   '${filtered.length}/$totalCount shown',
-                                  style: GoogleFonts.dmSans(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w600,
-                                    color: palette.text3,
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    color: colors.tertiaryText,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
                               ],
@@ -399,27 +368,23 @@ class BankAllocationsTab extends StatelessWidget {
           child: FloatingActionButton.extended(
             heroTag: 'ai_allocation',
             onPressed: isAiRunning ? null : onTriggerAi,
-            backgroundColor: const Color(0xFF6366F1),
+            backgroundColor: colors.info,
+            foregroundColor: colors.accentForeground,
             icon: isAiRunning
-                ? const SizedBox(
+                ? SizedBox(
                     width: 18,
                     height: 18,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      color: Colors.white,
+                      color: colors.accentForeground,
                     ),
                   )
-                : const Icon(
-                    Icons.auto_awesome,
-                    size: 18,
-                    color: Colors.white,
-                  ),
+                : const Icon(Icons.auto_awesome, size: 18),
             label: Text(
               isAiRunning ? 'Running...' : 'Run AI',
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: colors.accentForeground,
+                fontWeight: FontWeight.w800,
               ),
             ),
           ),

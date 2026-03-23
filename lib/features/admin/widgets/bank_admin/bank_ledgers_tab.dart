@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/theme/cool_palette.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
+import '../../../../shared/widgets/cool_button.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
 import '../../../momo/models/momo_statement.dart';
 import '../../../momo/services/momo_statement_export_service.dart';
 import '../../models/bank_admin_models.dart';
 import 'bank_admin_helpers.dart';
+
+OutlineInputBorder _bankLedgerDropdownBorder(
+  CoolSemanticColors colors, {
+  Color? borderColor,
+  double width = 1,
+}) {
+  return OutlineInputBorder(
+    borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.lg)),
+    borderSide: BorderSide(color: borderColor ?? colors.border, width: width),
+  );
+}
 
 class BankLedgersTab extends StatelessWidget {
   const BankLedgersTab({
@@ -32,17 +43,17 @@ class BankLedgersTab extends StatelessWidget {
   final Future<void> Function(
     StatementExportFormat format,
     List<PayeePaymentLedgerEntry> entries,
-  )? onExport;
+  )?
+  onExport;
   final bool isExporting;
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+
     if (groups.isEmpty) {
-      return const CoolEmptyView(
-        message: 'Link at least one',
-        compact: true,
-      );
+      return const CoolEmptyView(message: 'Link at least one', compact: true);
     }
 
     final selected = selectedGroupId;
@@ -52,36 +63,50 @@ class BankLedgersTab extends StatelessWidget {
     return Column(
       children: [
         CoolCard(
-          backgroundColor: palette.surface,
-          borderColor: palette.border,
+          backgroundColor: colors.operationalSurface,
+          useGradient: false,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 'Posted payment ledger',
-                style: GoogleFonts.dmSans(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                  color: palette.text,
+                style: theme.textTheme.titleSmall?.copyWith(
+                  color: colors.primaryText,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
               const SizedBox(height: 8),
               Text(
-                'Select a group to',
-                style: GoogleFonts.dmSans(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: palette.text2,
+                'Select a group to review and export posted payments',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colors.secondaryText,
+                  fontWeight: FontWeight.w700,
                   height: 1.4,
                 ),
               ),
               const SizedBox(height: 14),
               DropdownButtonFormField<String>(
                 initialValue: resolvedValue,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Custodial group',
-                  border: OutlineInputBorder(),
-                  isDense: true,
+                  labelStyle: theme.textTheme.bodySmall?.copyWith(
+                    color: colors.tertiaryText,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  filled: true,
+                  fillColor: colors.inputSurface,
+                  border: _bankLedgerDropdownBorder(colors),
+                  enabledBorder: _bankLedgerDropdownBorder(colors),
+                  focusedBorder: _bankLedgerDropdownBorder(
+                    colors,
+                    borderColor: colors.accent,
+                    width: 1.4,
+                  ),
+                ),
+                dropdownColor: colors.inputSurface,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: colors.primaryText,
+                  fontWeight: FontWeight.w600,
                 ),
                 items: groups
                     .map(
@@ -98,8 +123,7 @@ class BankLedgersTab extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         Expanded(
-          child:
-              CoolAsyncView<MomoStatementPage<PayeePaymentLedgerEntry>>(
+          child: CoolAsyncView<MomoStatementPage<PayeePaymentLedgerEntry>>(
             value: ledgerAsync,
             onRetry: onRetry,
             emptyCheck: (page) => page.entries.isEmpty,
@@ -115,49 +139,36 @@ class BankLedgersTab extends StatelessWidget {
                     spacing: 12,
                     runSpacing: 8,
                     children: [
-                      OutlinedButton.icon(
-                        onPressed: isExporting ||
+                      CoolButton(
+                        label: isExporting ? 'Exporting...' : 'Export PDF',
+                        variant: CoolButtonVariant.secondary,
+                        fullWidth: false,
+                        isLoading: isExporting,
+                        onTap:
+                            isExporting ||
                                 onExport == null ||
                                 page.entries.isEmpty
                             ? null
                             : () => onExport!(
-                                  StatementExportFormat.pdf,
-                                  page.entries,
-                                ),
-                        icon: isExporting
-                            ? const SizedBox(
-                                width: 16,
-                                height: 16,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                ),
-                              )
-                            : const Icon(Icons.picture_as_pdf_outlined),
-                        label: Text(
-                          isExporting ? 'Exporting...' : 'Export PDF',
-                        ),
+                                StatementExportFormat.pdf,
+                                page.entries,
+                              ),
+                        icon: Icons.picture_as_pdf_outlined,
                       ),
-                      FilledButton.icon(
-                        onPressed: isExporting ||
+                      CoolButton(
+                        label: isExporting ? 'Exporting...' : 'Export Excel',
+                        fullWidth: false,
+                        isLoading: isExporting,
+                        onTap:
+                            isExporting ||
                                 onExport == null ||
                                 page.entries.isEmpty
                             ? null
                             : () => onExport!(
-                                  StatementExportFormat.excel,
-                                  page.entries,
-                                ),
-                        icon: isExporting
-                            ? const SizedBox(
-                                width: 16,
-                                height: 16,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                ),
-                              )
-                            : const Icon(Icons.table_view_rounded),
-                        label: Text(
-                          isExporting ? 'Exporting...' : 'Export Excel',
-                        ),
+                                StatementExportFormat.excel,
+                                page.entries,
+                              ),
+                        icon: Icons.table_view_rounded,
                       ),
                     ],
                   ),
@@ -166,11 +177,9 @@ class BankLedgersTab extends StatelessWidget {
                 Expanded(
                   child: ListView.separated(
                     itemCount: page.entries.length,
-                    separatorBuilder: (_, _) =>
-                        const SizedBox(height: 12),
+                    separatorBuilder: (_, _) => const SizedBox(height: 12),
                     itemBuilder: (context, index) {
-                      final entry = page.entries[index];
-                      return _LedgerEntryCard(entry: entry);
+                      return _LedgerEntryCard(entry: page.entries[index]);
                     },
                   ),
                 ),
@@ -190,13 +199,14 @@ class _LedgerEntryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final moneyFormat = NumberFormat.decimalPattern('en_US');
     final dateFormat = DateFormat('dd MMM yyyy, HH:mm');
 
     return CoolCard(
-      backgroundColor: palette.surface,
-      borderColor: palette.border,
+      backgroundColor: colors.financialSurface,
+      useGradient: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -209,19 +219,17 @@ class _LedgerEntryCard extends StatelessWidget {
                   children: [
                     Text(
                       entry.payerName,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: palette.text,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        color: colors.primaryText,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       dateFormat.format(entry.occurredAt),
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: palette.text2,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colors.secondaryText,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ],
@@ -229,10 +237,9 @@ class _LedgerEntryCard extends StatelessWidget {
               ),
               Text(
                 '${moneyFormat.format(entry.amount)} ${entry.currency}',
-                style: GoogleFonts.dmSans(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                  color: palette.text,
+                style: theme.textTheme.titleSmall?.copyWith(
+                  color: colors.primaryText,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
             ],
@@ -266,10 +273,9 @@ class _LedgerEntryCard extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               'Phone: ${entry.payerPhone}',
-              style: GoogleFonts.dmSans(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: palette.text2,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: colors.secondaryText,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ],

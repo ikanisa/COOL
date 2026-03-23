@@ -1,10 +1,9 @@
+import 'package:cool_app/core/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/l10n/l10n.dart';
-import '../../../../core/theme/cool_palette.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
 import '../../providers/bank_admin_providers.dart';
@@ -22,11 +21,17 @@ class BankBasketsTab extends ConsumerWidget {
   final String statusFilter;
   final ValueChanged<String> onStatusFilterChanged;
 
-  static const _statuses = ['all', 'active', 'completed', 'closed'];
+  static const List<String> _statuses = <String>[
+    'all',
+    'active',
+    'completed',
+    'closed',
+  ];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final basketsAsync = ref.watch(bankBasketsProvider(partnerId));
     final moneyFmt = NumberFormat.decimalPattern('en_US');
 
@@ -39,18 +44,17 @@ class BankBasketsTab extends ConsumerWidget {
             itemCount: _statuses.length,
             separatorBuilder: (_, _) => const SizedBox(width: 8),
             itemBuilder: (context, index) {
-              final s = _statuses[index];
-              final active = s == statusFilter;
+              final status = _statuses[index];
+              final active = status == statusFilter;
               return FilterChip(
-                label: Text(bankTitle(s)),
+                label: Text(bankTitle(status)),
                 selected: active,
-                onSelected: (_) => onStatusFilterChanged(s),
-                backgroundColor: palette.surface2,
-                selectedColor: palette.accent.withValues(alpha: 0.15),
-                labelStyle: GoogleFonts.dmSans(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: active ? palette.accent : palette.text2,
+                onSelected: (_) => onStatusFilterChanged(status),
+                backgroundColor: colors.chipBackground,
+                selectedColor: colors.chipSelectedBackground,
+                labelStyle: theme.textTheme.bodySmall?.copyWith(
+                  color: active ? colors.primaryText : colors.secondaryText,
+                  fontWeight: FontWeight.w700,
                 ),
               );
             },
@@ -59,128 +63,107 @@ class BankBasketsTab extends ConsumerWidget {
         const SizedBox(height: 12),
         Expanded(
           child: basketsAsync.when(
-            loading: () =>
-                const Center(child: CircularProgressIndicator()),
-            error: (e, _) => Center(child: Text(context.l10n.genericErrorText(e.toString()))),
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (error, _) => Center(
+              child: Text(context.l10n.genericErrorText(error.toString())),
+            ),
             data: (baskets) {
               final filtered = statusFilter == 'all'
                   ? baskets
-                  : baskets
-                        .where(
-                          (b) =>
-                              (b['status']?.toString() ?? '') ==
-                              statusFilter,
-                        )
-                        .toList();
+                  : baskets.where((basket) {
+                      return (basket['status']?.toString() ?? '') ==
+                          statusFilter;
+                    }).toList();
+
               if (filtered.isEmpty) {
                 return const CoolEmptyView(
                   message: 'No baskets match filter',
                   compact: true,
                 );
               }
+
               return ListView.separated(
                 itemCount: filtered.length,
-                separatorBuilder: (_, _) =>
-                    const SizedBox(height: 10),
+                separatorBuilder: (_, _) => const SizedBox(height: 10),
                 itemBuilder: (context, index) {
                   final basket = filtered[index];
-                  final name =
-                      basket['name']?.toString() ?? 'Basket';
-                  final groupName =
-                      basket['group_name']?.toString() ?? '—';
+                  final name = basket['name']?.toString() ?? 'Basket';
+                  final groupName = basket['group_name']?.toString() ?? '—';
                   final targetAmount =
-                      (basket['target_amount'] as num?)
-                          ?.toDouble() ??
-                      0;
+                      (basket['target_amount'] as num?)?.toDouble() ?? 0;
                   final currentAmount =
-                      (basket['current_amount'] as num?)
-                          ?.toDouble() ??
-                      0;
+                      (basket['current_amount'] as num?)?.toDouble() ?? 0;
                   final progressPct =
-                      (basket['progress_pct'] as num?)
-                          ?.toDouble() ??
-                      0;
-                  final status =
-                      basket['status']?.toString() ?? 'active';
+                      (basket['progress_pct'] as num?)?.toDouble() ?? 0;
+                  final status = basket['status']?.toString() ?? 'active';
+                  final completed = status == 'completed';
 
                   return CoolCard(
-                    backgroundColor: palette.surface,
-                    borderColor: palette.border,
+                    backgroundColor: colors.operationalSurface,
+                    useGradient: false,
                     child: Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           children: [
                             Expanded(
                               child: Text(
                                 name,
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w700,
-                                  color: palette.text,
+                                style: theme.textTheme.titleSmall?.copyWith(
+                                  color: colors.primaryText,
+                                  fontWeight: FontWeight.w800,
                                 ),
                               ),
                             ),
                             BankStatusTag(
                               label: bankTitle(status),
-                              backgroundColor:
-                                  status == 'completed'
-                                      ? Colors.green
-                                          .withValues(alpha: 0.15)
-                                      : palette.surface2,
-                              foregroundColor:
-                                  status == 'completed'
-                                      ? Colors.green
-                                      : palette.text3,
+                              backgroundColor: completed
+                                  ? colors.success.withValues(alpha: 0.15)
+                                  : colors.cardSurfaceStrong,
+                              foregroundColor: completed
+                                  ? colors.success
+                                  : colors.tertiaryText,
                             ),
                           ],
                         ),
                         const SizedBox(height: 6),
                         Text(
                           groupName,
-                          style: GoogleFonts.dmSans(
-                            fontSize: 12,
-                            color: palette.text3,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: colors.tertiaryText,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
                         const SizedBox(height: 12),
                         ClipRRect(
-                          borderRadius:
-                              BorderRadius.circular(6),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(CoolSpace.x1 + 2),
+                          ),
                           child: LinearProgressIndicator(
-                            value: (progressPct / 100)
-                                .clamp(0.0, 1.0),
-                            backgroundColor:
-                                palette.surface2,
-                            color: progressPct >= 100
-                                ? Colors.green
-                                : palette.blue,
+                            value: (progressPct / 100).clamp(0.0, 1.0),
+                            backgroundColor: colors.cardSurfaceStrong,
+                            color: completed ? colors.success : colors.info,
                             minHeight: 8,
                           ),
                         ),
                         const SizedBox(height: 8),
                         Row(
-                          mainAxisAlignment:
-                              MainAxisAlignment
-                                  .spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               '${moneyFmt.format(currentAmount)} / ${moneyFmt.format(targetAmount)} RWF',
-                              style: GoogleFonts.dmSans(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: palette.text2,
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: colors.secondaryText,
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
                             Text(
                               '${progressPct.toStringAsFixed(1)}%',
-                              style: GoogleFonts.dmSans(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                                color: progressPct >= 100
-                                    ? Colors.green
-                                    : palette.text,
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: completed
+                                    ? colors.success
+                                    : colors.primaryText,
+                                fontWeight: FontWeight.w800,
                               ),
                             ),
                           ],

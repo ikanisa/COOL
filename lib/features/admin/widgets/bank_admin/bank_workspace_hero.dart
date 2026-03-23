@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/theme/cool_palette.dart';
+import '../../../../core/l10n/l10n.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../models/bank_admin_models.dart';
-import '../../../../core/l10n/l10n.dart';
+import 'bank_admin_helpers.dart';
+
+EdgeInsets _bankWorkspaceHeroMetricPadding() =>
+    CoolSpace.sectionPadding.copyWith(
+      left: CoolSpace.x3,
+      right: CoolSpace.x3,
+      top: CoolSpace.x2 + 2,
+      bottom: CoolSpace.x2 + 2,
+    );
+
+const BorderRadius _bankWorkspaceHeroMetricRadius = BorderRadius.all(
+  Radius.circular(CoolRadii.pill),
+);
 
 class BankWorkspaceHero extends StatelessWidget {
   const BankWorkspaceHero({
@@ -22,30 +34,30 @@ class BankWorkspaceHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final moneyFormat = NumberFormat.decimalPattern('en_US');
+
     return CoolCard(
-      backgroundColor: palette.surface,
-      borderColor: palette.border,
+      backgroundColor: colors.operationalSurface,
+      useGradient: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             partnerName,
-            style: GoogleFonts.dmSans(
-              fontSize: 20,
+            style: theme.textTheme.headlineSmall?.copyWith(
+              color: colors.primaryText,
               fontWeight: FontWeight.w800,
-              color: palette.text,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             'Custodian workspace for group savings and loans.',
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: palette.text2,
-              height: 1.45,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w600,
+              height: 1.4,
             ),
           ),
           const SizedBox(height: 16),
@@ -75,7 +87,10 @@ class BankWorkspaceHero extends StatelessWidget {
             loading: () => const SizedBox.shrink(),
             error: (_, _) => const SizedBox.shrink(),
             data: (data) {
-              if (data.isEmpty) return const SizedBox.shrink();
+              if (data.isEmpty) {
+                return const SizedBox.shrink();
+              }
+
               final totalAum = (data['total_aum'] as num?)?.toDouble() ?? 0;
               final loansOutstanding =
                   (data['loans_outstanding'] as num?)?.toDouble() ?? 0;
@@ -83,23 +98,25 @@ class BankWorkspaceHero extends StatelessWidget {
                   (data['active_baskets_count'] as num?)?.toInt() ?? 0;
               final activeLoansCount =
                   (data['active_loans_count'] as num?)?.toInt() ?? 0;
+
               if (totalAum == 0 &&
                   loansOutstanding == 0 &&
-                  activeBasketsCount == 0) {
+                  activeBasketsCount == 0 &&
+                  activeLoansCount == 0) {
                 return const SizedBox.shrink();
               }
+
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 16),
-                  Divider(color: palette.border, height: 1),
+                  Divider(color: colors.border, height: 1),
                   const SizedBox(height: 16),
                   Text(
                     'Financial Summary',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: palette.text,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: colors.primaryText,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -113,15 +130,14 @@ class BankWorkspaceHero extends StatelessWidget {
                       ),
                       _MetricChip(
                         label: context.l10n.loansOut,
-                        value:
-                            '${moneyFormat.format(loansOutstanding)} RWF',
+                        value: '${moneyFormat.format(loansOutstanding)} RWF',
                       ),
                       _MetricChip(
-                        label: 'active loans',
+                        label: 'Active loans',
                         value: activeLoansCount.toString(),
                       ),
                       _MetricChip(
-                        label: 'active baskets',
+                        label: 'Active baskets',
                         value: activeBasketsCount.toString(),
                       ),
                     ],
@@ -144,20 +160,21 @@ class _MetricChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      padding: _bankWorkspaceHeroMetricPadding(),
       decoration: BoxDecoration(
-        color: palette.surface2,
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: palette.border),
+        color: colors.cardSurfaceStrong.withValues(alpha: 0.72),
+        borderRadius: _bankWorkspaceHeroMetricRadius,
+        border: Border.all(color: colors.border),
       ),
       child: Text(
         '$value $label',
-        style: GoogleFonts.dmSans(
-          fontSize: 12,
-          fontWeight: FontWeight.w700,
-          color: palette.text,
+        style: theme.textTheme.labelSmall?.copyWith(
+          color: colors.primaryText,
+          fontWeight: FontWeight.w800,
         ),
       ),
     );

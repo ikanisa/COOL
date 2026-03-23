@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/cool_palette.dart';
+import '../../../../core/l10n/l10n.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
 import '../../models/bank_admin_models.dart';
 import 'bank_admin_helpers.dart';
-import '../../../../core/l10n/l10n.dart';
 
 class BankMembersTab extends StatelessWidget {
   const BankMembersTab({
@@ -22,7 +20,8 @@ class BankMembersTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final moneyFormat = NumberFormat.decimalPattern('en_US');
     final dateFormat = DateFormat('dd MMM yyyy');
 
@@ -39,8 +38,8 @@ class BankMembersTab extends StatelessWidget {
       itemBuilder: (context, index) {
         final member = members[index];
         return CoolCard(
-          backgroundColor: palette.surface,
-          borderColor: palette.border,
+          backgroundColor: colors.operationalSurface,
+          useGradient: false,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -50,38 +49,34 @@ class BankMembersTab extends StatelessWidget {
                   children: [
                     Text(
                       member.displayName,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: palette.text,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        color: colors.primaryText,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       member.groupName,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: palette.text3,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colors.tertiaryText,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       'Contribution total: ${moneyFormat.format(member.contributionAmount)} RWF',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: palette.text2,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colors.secondaryText,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                     Text(
                       member.joinedAt == null
                           ? 'Joined: -'
                           : 'Joined: ${dateFormat.format(member.joinedAt!)}',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: palette.text2,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colors.secondaryText,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ],
@@ -90,8 +85,8 @@ class BankMembersTab extends StatelessWidget {
               if (member.isAdmin)
                 BankStatusTag(
                   label: context.l10n.admin,
-                  backgroundColor: AppColors.rsBlueGlow,
-                  foregroundColor: AppColors.rsWhite,
+                  backgroundColor: colors.info.withValues(alpha: 0.14),
+                  foregroundColor: colors.info,
                 ),
             ],
           ),

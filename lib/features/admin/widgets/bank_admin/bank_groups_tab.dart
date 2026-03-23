@@ -1,14 +1,71 @@
+import 'package:cool_app/core/l10n/l10n.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/cool_palette.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
 import '../../models/bank_admin_models.dart';
 import 'bank_admin_helpers.dart';
-import 'package:cool_app/core/l10n/l10n.dart';
+
+EdgeInsets _bankGroupsSearchPadding() => CoolSpace.sectionPadding.copyWith(
+  left: 0,
+  right: 0,
+  top: 0,
+  bottom: CoolSpace.x3,
+);
+
+EdgeInsets _bankGroupsSearchContentPadding() =>
+    CoolSpace.sectionPadding.copyWith(
+      left: CoolSpace.x3,
+      right: CoolSpace.x3,
+      top: CoolSpace.x2,
+      bottom: CoolSpace.x2,
+    );
+
+EdgeInsets _bankGroupsSheetInsets(BuildContext context) {
+  final space = context.coolSpace;
+  return CoolSpace.pagePadding.copyWith(
+    top: space.x5,
+    bottom: MediaQuery.of(context).viewInsets.bottom + space.x5,
+  );
+}
+
+EdgeInsets _bankGroupsRecordPadding() => CoolSpace.sectionPadding.copyWith(
+  left: CoolSpace.x3,
+  right: CoolSpace.x3,
+  top: CoolSpace.x3,
+  bottom: CoolSpace.x3,
+);
+
+EdgeInsets _bankGroupsRecordSpacing() => CoolSpace.sectionPadding.copyWith(
+  left: 0,
+  right: 0,
+  top: 0,
+  bottom: CoolSpace.x2,
+);
+
+const BorderRadius _bankGroupsSearchRadius = BorderRadius.all(
+  Radius.circular(CoolRadii.lg),
+);
+const BorderRadius _bankGroupsSheetHandleRadius = BorderRadius.all(
+  Radius.circular(CoolRadii.pill),
+);
+const BorderRadius _bankGroupsRecordRadius = BorderRadius.all(
+  Radius.circular(CoolRadii.xs),
+);
+
+OutlineInputBorder _bankGroupsSearchBorder(
+  BuildContext context, {
+  Color? color,
+  double width = 1,
+}) {
+  final colors = context.coolSemanticColors;
+  return OutlineInputBorder(
+    borderRadius: _bankGroupsSearchRadius,
+    borderSide: BorderSide(color: color ?? colors.border, width: width),
+  );
+}
 
 class BankGroupsTab extends StatelessWidget {
   const BankGroupsTab({
@@ -30,7 +87,8 @@ class BankGroupsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final moneyFormat = NumberFormat.decimalPattern('en_US');
     final dateFormat = DateFormat('dd MMM yyyy');
     final lowerSearch = search.toLowerCase();
@@ -38,26 +96,41 @@ class BankGroupsTab extends StatelessWidget {
         ? groups
         : groups
               .where(
-                (g) => g.group.name.toLowerCase().contains(lowerSearch),
+                (group) => group.group.name.toLowerCase().contains(lowerSearch),
               )
-              .toList();
+              .toList(growable: false);
 
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: 12),
+          padding: _bankGroupsSearchPadding(),
           child: TextField(
             decoration: InputDecoration(
               hintText: 'Search groups...',
-              prefixIcon: const Icon(Icons.search, size: 20),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+              hintStyle: theme.textTheme.bodySmall?.copyWith(
+                color: colors.tertiaryText,
+                fontWeight: FontWeight.w600,
+              ),
+              prefixIcon: Icon(
+                Icons.search,
+                size: 20,
+                color: colors.tertiaryText,
+              ),
+              filled: true,
+              fillColor: colors.inputSurface,
+              border: _bankGroupsSearchBorder(context),
+              enabledBorder: _bankGroupsSearchBorder(context),
+              focusedBorder: _bankGroupsSearchBorder(
+                context,
+                color: colors.accent,
+                width: 1.4,
               ),
               isDense: true,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 12,
-                vertical: 10,
-              ),
+              contentPadding: _bankGroupsSearchContentPadding(),
+            ),
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w600,
             ),
             onChanged: onSearchChanged,
           ),
@@ -77,8 +150,8 @@ class BankGroupsTab extends StatelessWidget {
               itemBuilder: (context, index) {
                 final item = filtered[index];
                 return CoolCard(
-                  backgroundColor: palette.surface,
-                  borderColor: palette.border,
+                  backgroundColor: colors.operationalSurface,
+                  useGradient: false,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -91,19 +164,17 @@ class BankGroupsTab extends StatelessWidget {
                               children: [
                                 Text(
                                   item.group.name,
-                                  style: GoogleFonts.dmSans(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    color: palette.text,
+                                  style: theme.textTheme.titleSmall?.copyWith(
+                                    color: colors.primaryText,
+                                    fontWeight: FontWeight.w800,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
                                   '${bankTitle(item.group.type)} · ${bankTitle(item.group.visibility)}',
-                                  style: GoogleFonts.dmSans(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                    color: palette.text3,
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    color: colors.tertiaryText,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
                               ],
@@ -116,10 +187,9 @@ class BankGroupsTab extends StatelessWidget {
                         const SizedBox(height: 8),
                         Text(
                           item.group.description!.trim(),
-                          style: GoogleFonts.dmSans(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: palette.text2,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: colors.secondaryText,
+                            fontWeight: FontWeight.w600,
                             height: 1.4,
                           ),
                         ),
@@ -181,10 +251,9 @@ class BankGroupsTab extends StatelessWidget {
                         const SizedBox(height: 12),
                         Text(
                           '${filtered.length}/$totalCount shown',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: palette.text3,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: colors.tertiaryText,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
                       ],
@@ -215,19 +284,15 @@ class BankGroupDetailSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final moneyFormat = NumberFormat.decimalPattern('en_US');
     final dateFormat = DateFormat('dd MMM yyyy, HH:mm');
 
     return SafeArea(
       top: false,
       child: Padding(
-        padding: EdgeInsets.only(
-          left: 20,
-          right: 20,
-          top: 20,
-          bottom: MediaQuery.of(context).viewInsets.bottom + 20,
-        ),
+        padding: _bankGroupsSheetInsets(context),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -237,27 +302,25 @@ class BankGroupDetailSheet extends StatelessWidget {
                   width: 42,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: palette.border,
-                    borderRadius: BorderRadius.circular(999),
+                    color: colors.border,
+                    borderRadius: _bankGroupsSheetHandleRadius,
                   ),
                 ),
               ),
               const SizedBox(height: 18),
               Text(
                 group.group.name,
-                style: GoogleFonts.dmSans(
-                  fontSize: 18,
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  color: colors.primaryText,
                   fontWeight: FontWeight.w800,
-                  color: palette.text,
                 ),
               ),
               const SizedBox(height: 6),
               Text(
                 'Linked group profile active',
-                style: GoogleFonts.dmSans(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: palette.text2,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colors.secondaryText,
+                  fontWeight: FontWeight.w600,
                   height: 1.45,
                 ),
               ),
@@ -280,8 +343,7 @@ class BankGroupDetailSheet extends StatelessWidget {
                   ),
                   BankInfoPill(
                     label: 'Raised',
-                    value:
-                        '${moneyFormat.format(group.contributionTotal)} RWF',
+                    value: '${moneyFormat.format(group.contributionTotal)} RWF',
                   ),
                 ],
               ),
@@ -298,10 +360,9 @@ class BankGroupDetailSheet extends StatelessWidget {
               const SizedBox(height: 20),
               Text(
                 'Members',
-                style: GoogleFonts.dmSans(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: palette.text,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  color: colors.primaryText,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
               const SizedBox(height: 10),
@@ -313,13 +374,13 @@ class BankGroupDetailSheet extends StatelessWidget {
               else
                 ...members.map(
                   (member) => Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
+                    padding: _bankGroupsRecordSpacing(),
                     child: Container(
-                      padding: const EdgeInsets.all(12),
+                      padding: _bankGroupsRecordPadding(),
                       decoration: BoxDecoration(
-                        color: palette.surface2,
-                        borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: palette.border),
+                        color: colors.operationalSurface,
+                        borderRadius: _bankGroupsRecordRadius,
+                        border: Border.all(color: colors.border),
                       ),
                       child: Row(
                         children: [
@@ -329,29 +390,29 @@ class BankGroupDetailSheet extends StatelessWidget {
                               children: [
                                 Text(
                                   member.displayName,
-                                  style: GoogleFonts.dmSans(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w700,
-                                    color: palette.text,
+                                  style: theme.textTheme.titleSmall?.copyWith(
+                                    color: colors.primaryText,
+                                    fontWeight: FontWeight.w800,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
                                   '${moneyFormat.format(member.contributionAmount)} RWF contributed',
-                                  style: GoogleFonts.dmSans(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: palette.text2,
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    color: colors.secondaryText,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
                               ],
                             ),
                           ),
                           if (member.isAdmin)
-                            const BankStatusTag(
+                            BankStatusTag(
                               label: 'Admin',
-                              backgroundColor: AppColors.rsBlueGlow,
-                              foregroundColor: AppColors.rsWhite,
+                              backgroundColor: colors.info.withValues(
+                                alpha: 0.14,
+                              ),
+                              foregroundColor: colors.info,
                             ),
                         ],
                       ),
@@ -361,10 +422,9 @@ class BankGroupDetailSheet extends StatelessWidget {
               const SizedBox(height: 20),
               Text(
                 'Recent contributions',
-                style: GoogleFonts.dmSans(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: palette.text,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  color: colors.primaryText,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
               const SizedBox(height: 10),
@@ -376,13 +436,13 @@ class BankGroupDetailSheet extends StatelessWidget {
               else
                 ...contributions.map(
                   (contribution) => Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
+                    padding: _bankGroupsRecordSpacing(),
                     child: Container(
-                      padding: const EdgeInsets.all(12),
+                      padding: _bankGroupsRecordPadding(),
                       decoration: BoxDecoration(
-                        color: palette.surface2,
-                        borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: palette.border),
+                        color: colors.operationalSurface,
+                        borderRadius: _bankGroupsRecordRadius,
+                        border: Border.all(color: colors.border),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -392,44 +452,43 @@ class BankGroupDetailSheet extends StatelessWidget {
                               Expanded(
                                 child: Text(
                                   contribution.contributorName,
-                                  style: GoogleFonts.dmSans(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w700,
-                                    color: palette.text,
+                                  style: theme.textTheme.titleSmall?.copyWith(
+                                    color: colors.primaryText,
+                                    fontWeight: FontWeight.w800,
                                   ),
                                 ),
                               ),
                               BankStatusTag(
                                 label: bankTitle(contribution.status),
                                 backgroundColor:
-                                    contribution.status == 'confirmed'
-                                        ? palette.accent
-                                            .withValues(alpha: 0.12)
-                                        : palette.orange
-                                            .withValues(alpha: 0.12),
+                                    bankIsConfirmedContributionStatus(
+                                      contribution.status,
+                                    )
+                                    ? colors.success.withValues(alpha: 0.12)
+                                    : colors.warning.withValues(alpha: 0.12),
                                 foregroundColor:
-                                    contribution.status == 'confirmed'
-                                        ? palette.accent
-                                        : palette.orange,
+                                    bankIsConfirmedContributionStatus(
+                                      contribution.status,
+                                    )
+                                    ? colors.success
+                                    : colors.warning,
                               ),
                             ],
                           ),
                           const SizedBox(height: 6),
                           Text(
                             '${moneyFormat.format(contribution.amount)} RWF',
-                            style: GoogleFonts.dmSans(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                              color: palette.text,
+                            style: theme.textTheme.titleSmall?.copyWith(
+                              color: colors.primaryText,
+                              fontWeight: FontWeight.w800,
                             ),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             dateFormat.format(contribution.createdAt),
-                            style: GoogleFonts.dmSans(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: palette.text2,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: colors.secondaryText,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                           if ((contribution.reference?.trim().isNotEmpty ??
@@ -437,10 +496,9 @@ class BankGroupDetailSheet extends StatelessWidget {
                             const SizedBox(height: 4),
                             Text(
                               'Reference: ${contribution.reference}',
-                              style: GoogleFonts.dmSans(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: palette.text2,
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: colors.secondaryText,
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
                           ],

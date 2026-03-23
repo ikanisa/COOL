@@ -1,13 +1,23 @@
+import 'package:cool_app/core/l10n/l10n.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/theme/cool_palette.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
 import '../../models/bank_admin_models.dart';
 import 'bank_admin_helpers.dart';
-import '../../../../core/l10n/l10n.dart';
+
+OutlineInputBorder _bankContributionFilterBorder(
+  CoolSemanticColors colors, {
+  Color? borderColor,
+  double width = 1,
+}) {
+  return OutlineInputBorder(
+    borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.lg)),
+    borderSide: BorderSide(color: borderColor ?? colors.border, width: width),
+  );
+}
 
 class BankContributionsTab extends StatelessWidget {
   const BankContributionsTab({
@@ -29,20 +39,26 @@ class BankContributionsTab extends StatelessWidget {
   final ValueChanged<String?> onGroupFilterChanged;
   final List<BankAdminGroupSummary> groups;
 
-  static const _statuses = ['all', 'confirmed', 'pending'];
+  static const List<String> _statuses = <String>['all', 'confirmed', 'pending'];
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final moneyFormat = NumberFormat.decimalPattern('en_US');
     final dateFormat = DateFormat('dd MMM yyyy, HH:mm');
 
     var filtered = contributions;
     if (statusFilter != 'all') {
-      filtered = filtered.where((c) => c.status == statusFilter).toList();
+      filtered = filtered.where((contribution) {
+        if (statusFilter == 'confirmed') {
+          return bankIsConfirmedContributionStatus(contribution.status);
+        }
+        return contribution.status == statusFilter;
+      }).toList();
     }
     if (groupFilter != null && groupFilter!.isNotEmpty) {
-      filtered = filtered.where((c) => c.groupId == groupFilter).toList();
+      filtered = filtered.where((item) => item.groupId == groupFilter).toList();
     }
 
     return Column(
@@ -60,12 +76,11 @@ class BankContributionsTab extends StatelessWidget {
                 label: Text(bankTitle(status)),
                 selected: isActive,
                 onSelected: (_) => onStatusFilterChanged(status),
-                backgroundColor: palette.surface2,
-                selectedColor: palette.accent.withValues(alpha: 0.15),
-                labelStyle: GoogleFonts.dmSans(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: isActive ? palette.accent : palette.text2,
+                backgroundColor: colors.chipBackground,
+                selectedColor: colors.chipSelectedBackground,
+                labelStyle: theme.textTheme.bodySmall?.copyWith(
+                  color: isActive ? colors.primaryText : colors.secondaryText,
+                  fontWeight: FontWeight.w700,
                 ),
               );
             },
@@ -75,10 +90,27 @@ class BankContributionsTab extends StatelessWidget {
           const SizedBox(height: 8),
           DropdownButtonFormField<String?>(
             initialValue: groupFilter,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               labelText: 'Filter by group',
-              border: OutlineInputBorder(),
+              labelStyle: theme.textTheme.bodySmall?.copyWith(
+                color: colors.tertiaryText,
+                fontWeight: FontWeight.w700,
+              ),
+              filled: true,
+              fillColor: colors.inputSurface,
+              border: _bankContributionFilterBorder(colors),
+              enabledBorder: _bankContributionFilterBorder(colors),
+              focusedBorder: _bankContributionFilterBorder(
+                colors,
+                borderColor: colors.accent,
+                width: 1.4,
+              ),
               isDense: true,
+            ),
+            dropdownColor: colors.inputSurface,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w600,
             ),
             items: [
               DropdownMenuItem<String?>(
@@ -86,9 +118,9 @@ class BankContributionsTab extends StatelessWidget {
                 child: Text(context.l10n.allGroups),
               ),
               ...groups.map(
-                (g) => DropdownMenuItem<String?>(
-                  value: g.id,
-                  child: Text(g.group.name),
+                (group) => DropdownMenuItem<String?>(
+                  value: group.id,
+                  child: Text(group.group.name),
                 ),
               ),
             ],
@@ -110,9 +142,12 @@ class BankContributionsTab extends StatelessWidget {
               separatorBuilder: (_, _) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
                 final contribution = filtered[index];
+                final confirmed = bankIsConfirmedContributionStatus(
+                  contribution.status,
+                );
                 return CoolCard(
-                  backgroundColor: palette.surface,
-                  borderColor: palette.border,
+                  backgroundColor: colors.operationalSurface,
+                  useGradient: false,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -121,53 +156,45 @@ class BankContributionsTab extends StatelessWidget {
                           Expanded(
                             child: Text(
                               contribution.contributorName,
-                              style: GoogleFonts.dmSans(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w700,
-                                color: palette.text,
+                              style: theme.textTheme.titleSmall?.copyWith(
+                                color: colors.primaryText,
+                                fontWeight: FontWeight.w800,
                               ),
                             ),
                           ),
                           BankStatusTag(
                             label: bankTitle(contribution.status),
-                            backgroundColor:
-                                contribution.status == 'confirmed'
-                                    ? palette.accent
-                                        .withValues(alpha: 0.12)
-                                    : palette.orange
-                                        .withValues(alpha: 0.12),
-                            foregroundColor:
-                                contribution.status == 'confirmed'
-                                    ? palette.accent
-                                    : palette.orange,
+                            backgroundColor: confirmed
+                                ? colors.success.withValues(alpha: 0.12)
+                                : colors.warning.withValues(alpha: 0.12),
+                            foregroundColor: confirmed
+                                ? colors.success
+                                : colors.warning,
                           ),
                         ],
                       ),
                       const SizedBox(height: 4),
                       Text(
                         contribution.groupName,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: palette.text3,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colors.tertiaryText,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                       const SizedBox(height: 8),
                       Text(
                         '${moneyFormat.format(contribution.amount)} RWF',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: palette.text,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          color: colors.primaryText,
+                          fontWeight: FontWeight.w800,
                         ),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         dateFormat.format(contribution.createdAt),
-                        style: GoogleFonts.dmSans(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: palette.text2,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colors.secondaryText,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                       if ((contribution.reference?.trim().isNotEmpty ??
@@ -175,10 +202,9 @@ class BankContributionsTab extends StatelessWidget {
                         const SizedBox(height: 4),
                         Text(
                           'Reference: ${contribution.reference}',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: palette.text2,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: colors.secondaryText,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
                       ],
