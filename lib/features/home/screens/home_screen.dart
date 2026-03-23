@@ -9,13 +9,14 @@ import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/cool_layout.dart';
 
 import '../../../shared/widgets/cool_error_boundary.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/quest_card.dart';
 import '../../../shared/widgets/season_banner.dart';
-import '../../../shared/widgets/section_title.dart';
 import '../../partners/providers/partner_provider.dart';
 import '../../partners/providers/rayon_sports_provider.dart';
 import '../../admin/providers/special_products_provider.dart';
+import '../models/home_dashboard_data.dart';
 import '../providers/home_dashboard_provider.dart';
 import '../providers/quick_action_provider.dart';
 import '../../../core/status/widgets/referral_banner.dart';
@@ -37,14 +38,29 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.coolSemanticColors;
-    final l10n = context.l10n;
     final dashboardAsync = ref.watch(homeDashboardProvider);
     final quests = ref.watch(questsProvider);
+    final hasActiveBankPartner = ref.watch(hasActiveBankPartnerProvider);
 
     Future<void> refresh() async {
       ref.invalidate(homeDashboardProvider);
       await ref.read(homeDashboardProvider.future);
     }
+
+    final priorityModule = hasActiveBankPartner
+        ? dashboardAsync.when(
+            data: (dashboard) => GroupSavingsCard(data: dashboard),
+            loading: () => const OverviewLoadingCard(),
+            error: (_, _) => OverviewErrorCard(
+              onRetry: () => ref.invalidate(homeDashboardProvider),
+            ),
+          )
+        : RayonSportCard(
+            membershipAsync: ref.watch(rayonMembershipProvider),
+            clubsAsync: ref.watch(rayonFanClubsProvider),
+            matchesAsync: ref.watch(rayonMatchesProvider),
+            initiativesAsync: ref.watch(rayonInitiativesProvider),
+          );
 
     return CoolScreenBackground(
       child: Scaffold(
@@ -77,59 +93,32 @@ class HomeScreen extends ConsumerWidget {
                   ],
                   children: [
                     const HomeHeader(),
+                    const SizedBox(height: CoolSpace.x8),
+                    _HomeCommandDeck(dashboardAsync: dashboardAsync),
+                    const SizedBox(height: CoolSpace.x8),
+                    priorityModule,
+                    const SizedBox(height: CoolSpace.x8),
+                    const ReferralBanner(),
                     const SizedBox(height: CoolSpace.x6),
-
-                    SectionTitle(title: l10n.quickActions),
-                    const SizedBox(height: CoolSpace.x3),
-                    const QuickActionSection(),
-                    const SizedBox(height: CoolSpace.x6),
-
-                    SectionTitle(
-                      title: l10n.recentActivity,
-                      actionLabel: l10n.statementsLabel,
-                      action: () => context.push(AppRoutes.momoStatements),
-                    ),
-                    const SizedBox(height: CoolSpace.x3),
-                    dashboardAsync.when(
-                      data: (dashboard) => RecentActivityCard(
-                        activityCount:
-                            dashboard?.recentTransactions.length ?? 0,
-                        recentTransactions:
-                            dashboard?.recentTransactions ?? const [],
-                      ),
-                      loading: () => const ActivityLoadingCard(),
-                      error: (_, _) => OverviewErrorCard(
-                        onRetry: () => ref.invalidate(homeDashboardProvider),
-                      ),
-                    ),
-
-                    RayonSportCard(
-                      membershipAsync: ref.watch(rayonMembershipProvider),
-                      clubsAsync: ref.watch(rayonFanClubsProvider),
-                      matchesAsync: ref.watch(rayonMatchesProvider),
-                      initiativesAsync: ref.watch(rayonInitiativesProvider),
-                    ),
-                    if (ref.watch(hasActiveBankPartnerProvider)) ...[
-                      const SizedBox(height: CoolSpace.x3),
-                      dashboardAsync.when(
-                        data: (dashboard) => GroupSavingsCard(data: dashboard),
-                        loading: () => const OverviewLoadingCard(),
-                        error: (_, _) => OverviewErrorCard(
-                          onRetry: () => ref.invalidate(homeDashboardProvider),
-                        ),
+                    const NexusRecommendationsSection(),
+                    if (hasActiveBankPartner) ...[
+                      const SizedBox(height: CoolSpace.x6),
+                      RayonSportCard(
+                        membershipAsync: ref.watch(rayonMembershipProvider),
+                        clubsAsync: ref.watch(rayonFanClubsProvider),
+                        matchesAsync: ref.watch(rayonMatchesProvider),
+                        initiativesAsync: ref.watch(rayonInitiativesProvider),
                       ),
                     ],
-                    const SizedBox(height: CoolSpace.x3),
-                    const ReferralBanner(),
-                    const SizedBox(height: CoolSpace.x5),
-                    const NexusRecommendationsSection(),
                     const SizedBox(height: CoolSpace.x3),
                     ...ref
                         .watch(activeSpecialProductsProvider)
                         .maybeWhen(
                           data: (products) => products.map(
                             (p) => Padding(
-                              padding: const EdgeInsets.only(bottom: CoolSpace.x3),
+                              padding: const EdgeInsets.only(
+                                bottom: CoolSpace.x3,
+                              ),
                               child: SpecialProductCard(product: p),
                             ),
                           ),
@@ -157,12 +146,15 @@ class HomeScreen extends ConsumerWidget {
                         ),
                     if (quests.isNotEmpty) ...[
                       const SizedBox(height: CoolSpace.x7),
-                      SectionTitle(
-                        title: l10n.homeMissionsTitle,
-                        actionLabel: l10n.openAction,
-                        action: () => context.push(AppRoutes.missions),
+                      Text(
+                        context.l10n.homeMissionsTitle,
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              color: colors.primaryText,
+                              fontWeight: FontWeight.w800,
+                            ),
                       ),
-                      const SizedBox(height: CoolSpace.x3),
+                      const SizedBox(height: CoolSpace.x4),
                       SizedBox(
                         height: 170,
                         child: ListView.separated(
@@ -183,6 +175,99 @@ class HomeScreen extends ConsumerWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _HomeCommandDeck extends ConsumerWidget {
+  const _HomeCommandDeck({required this.dashboardAsync});
+
+  final AsyncValue<HomeDashboardData?> dashboardAsync;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+
+    return CoolCard(
+      useGradient: false,
+      backgroundColor: colors.cardSurface,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Daily Command',
+            style: theme.textTheme.headlineSmall?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          const SizedBox(height: CoolSpace.x2),
+          Text(
+            'Act fast. Check flow.',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: CoolSpace.x6),
+          _DeckLabel(label: context.l10n.quickActions),
+          const SizedBox(height: CoolSpace.x3),
+          const QuickActionSection(useCard: false, maxItems: 4),
+          const SizedBox(height: CoolSpace.x6),
+          _DeckLabel(label: context.l10n.recentActivity),
+          const SizedBox(height: CoolSpace.x3),
+          dashboardAsync.when(
+            data: (dashboard) => RecentActivityCard(
+              activityCount: dashboard?.recentTransactions.length ?? 0,
+              recentTransactions: dashboard?.recentTransactions ?? const [],
+              useCard: false,
+              showHeader: false,
+            ),
+            loading: () => const ActivityLoadingCard(useCard: false),
+            error: (_, _) => OverviewErrorCard(
+              onRetry: () => ref.invalidate(homeDashboardProvider),
+              useCard: false,
+            ),
+          ),
+          const SizedBox(height: CoolSpace.x5),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TextButton(
+              onPressed: () => context.push(AppRoutes.momoStatements),
+              style: TextButton.styleFrom(
+                foregroundColor: colors.accent,
+                padding: EdgeInsets.zero,
+              ),
+              child: Text(
+                context.l10n.statementsLabel,
+                style: theme.textTheme.labelLarge?.copyWith(
+                  color: colors.accent,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DeckLabel extends StatelessWidget {
+  const _DeckLabel({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      label,
+      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+        color: context.coolSemanticColors.secondaryText,
+        fontWeight: FontWeight.w800,
+        letterSpacing: 0.6,
       ),
     );
   }

@@ -9,17 +9,13 @@ import 'cool_foundations.dart';
 /// Delegates to [AppThemeText] for typography and
 /// [AppThemeComponents] for individual component themes.
 abstract final class AppTheme {
-  static ThemeData get dark =>
-      _build(brightness: Brightness.dark, palette: CoolPalette.dark);
+  static ThemeData get dark => _build(brightness: Brightness.dark);
 
-  static ThemeData get light =>
-      _build(brightness: Brightness.light, palette: CoolPalette.light);
+  static ThemeData get light => _build(brightness: Brightness.light);
 
-  static ThemeData _build({
-    required Brightness brightness,
-    required CoolPalette palette,
-  }) {
+  static ThemeData _build({required Brightness brightness}) {
     final isDark = brightness == Brightness.dark;
+    final palette = isDark ? CoolPalette.dark : CoolPalette.light;
     final semanticColors = isDark
         ? CoolSemanticColors.dark
         : CoolSemanticColors.light;
@@ -61,61 +57,32 @@ abstract final class AppTheme {
       textTheme: textTheme,
 
       // ── Component themes (delegated) ─────────────────────────────────
-      appBarTheme: AppThemeComponents.appBar(
-        palette,
-        semanticColors,
-        textTheme,
-        isDark,
-      ),
-      cardTheme: AppThemeComponents.card(palette, semanticColors, isDark),
-      bottomAppBarTheme: AppThemeComponents.bottomAppBar(
-        palette,
-        semanticColors,
-      ),
+      appBarTheme: AppThemeComponents.appBar(semanticColors, textTheme, isDark),
+      cardTheme: AppThemeComponents.card(semanticColors, isDark),
+      bottomAppBarTheme: AppThemeComponents.bottomAppBar(semanticColors),
       bottomNavigationBarTheme: AppThemeComponents.bottomNavigationBar(
-        palette,
         semanticColors,
       ),
-      navigationBarTheme: AppThemeComponents.navigationBar(
-        palette,
-        semanticColors,
-      ),
-      inputDecorationTheme: AppThemeComponents.inputDecoration(
-        palette,
-        semanticColors,
-      ),
-      elevatedButtonTheme: AppThemeComponents.elevatedButton(
-        palette,
-        semanticColors,
-      ),
-      outlinedButtonTheme: AppThemeComponents.outlinedButton(
-        palette,
-        semanticColors,
-      ),
-      textButtonTheme: AppThemeComponents.textButton(palette, semanticColors),
-      floatingActionButtonTheme: AppThemeComponents.fab(
-        palette,
-        semanticColors,
-      ),
-      bottomSheetTheme: AppThemeComponents.bottomSheet(
-        palette,
-        semanticColors,
-        isDark,
-      ),
-      dialogTheme: AppThemeComponents.dialog(palette, semanticColors, isDark),
-      dividerTheme: AppThemeComponents.divider(palette, semanticColors),
-      chipTheme: AppThemeComponents.chip(palette, semanticColors, isDark),
-      snackBarTheme: AppThemeComponents.snackBar(palette, semanticColors),
-      tabBarTheme: AppThemeComponents.tabBar(palette, semanticColors),
+      navigationBarTheme: AppThemeComponents.navigationBar(semanticColors),
+      inputDecorationTheme: AppThemeComponents.inputDecoration(semanticColors),
+      elevatedButtonTheme: AppThemeComponents.elevatedButton(semanticColors),
+      outlinedButtonTheme: AppThemeComponents.outlinedButton(semanticColors),
+      textButtonTheme: AppThemeComponents.textButton(semanticColors),
+      floatingActionButtonTheme: AppThemeComponents.fab(semanticColors),
+      bottomSheetTheme: AppThemeComponents.bottomSheet(semanticColors, isDark),
+      dialogTheme: AppThemeComponents.dialog(semanticColors, isDark),
+      dividerTheme: AppThemeComponents.divider(semanticColors),
+      chipTheme: AppThemeComponents.chip(semanticColors, isDark),
+      snackBarTheme: AppThemeComponents.snackBar(semanticColors),
+      tabBarTheme: AppThemeComponents.tabBar(semanticColors),
       iconButtonTheme: AppThemeComponents.iconButton(),
-      tooltipTheme: AppThemeComponents.tooltip(palette, semanticColors),
+      tooltipTheme: AppThemeComponents.tooltip(semanticColors),
       progressIndicatorTheme: AppThemeComponents.progressIndicator(
-        palette,
         semanticColors,
       ),
-      switchTheme: AppThemeComponents.switchTheme(palette, semanticColors),
-      checkboxTheme: AppThemeComponents.checkbox(palette, semanticColors),
-      radioTheme: AppThemeComponents.radio(palette, semanticColors),
+      switchTheme: AppThemeComponents.switchTheme(semanticColors),
+      checkboxTheme: AppThemeComponents.checkbox(semanticColors),
+      radioTheme: AppThemeComponents.radio(semanticColors),
 
       // ── Global interaction overrides ─────────────────────────────────
       splashColor: Colors.transparent,

@@ -17,7 +17,7 @@ import 'core/services/app_check_service.dart';
 import 'core/services/firebase_bootstrap_service.dart';
 import 'core/services/hive_runtime.dart';
 import 'core/theme/app_theme.dart';
-import 'core/theme/cool_palette.dart';
+import 'core/theme/cool_foundations.dart';
 import 'core/theme/theme_preference.dart';
 import 'core/theme/theme_preference_provider.dart';
 import 'core/theme/theme_preference_store.dart';
@@ -193,9 +193,9 @@ class ConfigErrorApp extends ConsumerWidget {
           ThemeSystemChrome(child: child ?? const SizedBox.shrink()),
       home: Builder(
         builder: (context) {
-          final palette = context.coolPalette;
+          final colors = context.coolSemanticColors;
           return Scaffold(
-            backgroundColor: palette.bg,
+            backgroundColor: colors.appBackground,
             body: SafeArea(
               child: Center(
                 child: Padding(
@@ -204,9 +204,9 @@ class ConfigErrorApp extends ConsumerWidget {
                     constraints: const BoxConstraints(maxWidth: 420),
                     child: DecoratedBox(
                       decoration: BoxDecoration(
-                        color: palette.surface,
+                        color: colors.elevatedBackground,
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: palette.border2),
+                        border: Border.all(color: colors.borderStrong),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(24),
@@ -216,14 +216,14 @@ class ConfigErrorApp extends ConsumerWidget {
                           children: [
                             Icon(
                               Icons.settings_rounded,
-                              color: palette.red,
+                              color: colors.danger,
                               size: 32,
                             ),
                             const SizedBox(height: 16),
                             Text(
                               'Backend configuration required',
                               style: TextStyle(
-                                color: palette.text,
+                                color: colors.primaryText,
                                 fontSize: 22,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -232,7 +232,7 @@ class ConfigErrorApp extends ConsumerWidget {
                             Text(
                               message,
                               style: TextStyle(
-                                color: palette.text2,
+                                color: colors.secondaryText,
                                 fontSize: 14,
                                 height: 1.45,
                               ),
@@ -242,7 +242,7 @@ class ConfigErrorApp extends ConsumerWidget {
                               'Local runs usually need'
                               '--dart-define-from-file=.env.json',
                               style: TextStyle(
-                                color: palette.text3,
+                                color: colors.tertiaryText,
                                 fontSize: 13,
                                 height: 1.4,
                               ),

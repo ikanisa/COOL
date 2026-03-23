@@ -227,7 +227,7 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
                       ),
                       const SizedBox(height: CoolSpace.x2),
                       Text(
-                        'Routes, nearby drivers, and direct action handoff with immediate clarity.',
+                        'Routes. Drivers. Dispatch.',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: colors.secondaryText,
                           fontWeight: FontWeight.w700,
@@ -323,41 +323,59 @@ class _MobilityMapSection extends ConsumerWidget {
         : null;
 
     return SizedBox(
-      height: 200,
-      child: Stack(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CoolGoogleMap(
-            initialTarget: target,
-            initialZoom: 14.0,
-            markers: driverMarkers,
-            myLocationEnabled: locationState.hasLocation,
-            myLocationButtonEnabled: false,
-            onMapCreated: onMapCreated,
+          Text(
+            'LIVE MAP',
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w800,
+              letterSpacing: 1.4,
+            ),
           ),
-
-          // Recenter FAB
-          if (userPos != null)
-            Positioned(
-              right: CoolSpace.x3,
-              bottom: CoolSpace.x3,
-              child: Material(
-                color: colors.cardSurfaceStrong,
-                elevation: 4,
-                borderRadius: BorderRadius.circular(CoolRadii.sm),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(CoolRadii.sm),
-                  onTap: onRecenter,
-                  child: Padding(
-                    padding: const EdgeInsets.all(CoolSpace.x3),
-                    child: Icon(
-                      Icons.my_location_rounded,
-                      color: colors.accent,
-                      size: 22,
-                    ),
+          const SizedBox(height: CoolSpace.x3),
+          SizedBox(
+            height: 200,
+            child: Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(CoolRadii.lg),
+                  child: CoolGoogleMap(
+                    initialTarget: target,
+                    initialZoom: 14.0,
+                    markers: driverMarkers,
+                    myLocationEnabled: locationState.hasLocation,
+                    myLocationButtonEnabled: false,
+                    onMapCreated: onMapCreated,
                   ),
                 ),
-              ),
+
+                if (userPos != null)
+                  Positioned(
+                    right: CoolSpace.x3,
+                    bottom: CoolSpace.x3,
+                    child: Material(
+                      color: colors.cardSurfaceStrong,
+                      elevation: 4,
+                      borderRadius: BorderRadius.circular(CoolRadii.sm),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(CoolRadii.sm),
+                        onTap: onRecenter,
+                        child: Padding(
+                          padding: const EdgeInsets.all(CoolSpace.x3),
+                          child: Icon(
+                            Icons.my_location_rounded,
+                            color: colors.accent,
+                            size: 22,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
             ),
+          ),
         ],
       ),
     );

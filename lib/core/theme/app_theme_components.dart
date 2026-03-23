@@ -7,7 +7,6 @@ import 'cool_foundations.dart';
 /// Component-level [ThemeData] overrides for the COOL design system.
 abstract final class AppThemeComponents {
   static AppBarTheme appBar(
-    CoolPalette palette,
     CoolSemanticColors colors,
     TextTheme textTheme,
     bool isDark,
@@ -31,10 +30,7 @@ abstract final class AppThemeComponents {
     );
   }
 
-  static BottomAppBarThemeData bottomAppBar(
-    CoolPalette palette,
-    CoolSemanticColors colors,
-  ) {
+  static BottomAppBarThemeData bottomAppBar(CoolSemanticColors colors) {
     return BottomAppBarThemeData(
       color: colors.glassSurface,
       surfaceTintColor: Colors.transparent,
@@ -43,7 +39,6 @@ abstract final class AppThemeComponents {
   }
 
   static BottomNavigationBarThemeData bottomNavigationBar(
-    CoolPalette palette,
     CoolSemanticColors colors,
   ) {
     return BottomNavigationBarThemeData(
@@ -65,10 +60,7 @@ abstract final class AppThemeComponents {
     );
   }
 
-  static NavigationBarThemeData navigationBar(
-    CoolPalette palette,
-    CoolSemanticColors colors,
-  ) {
+  static NavigationBarThemeData navigationBar(CoolSemanticColors colors) {
     return NavigationBarThemeData(
       backgroundColor: Colors.transparent,
       elevation: 0,
@@ -94,11 +86,7 @@ abstract final class AppThemeComponents {
     );
   }
 
-  static CardThemeData card(
-    CoolPalette palette,
-    CoolSemanticColors colors,
-    bool isDark,
-  ) {
+  static CardThemeData card(CoolSemanticColors colors, bool isDark) {
     return CardThemeData(
       color: colors.cardSurface,
       surfaceTintColor: Colors.transparent,
@@ -113,7 +101,6 @@ abstract final class AppThemeComponents {
   }
 
   static BottomSheetThemeData bottomSheet(
-    CoolPalette palette,
     CoolSemanticColors colors,
     bool isDark,
   ) {
@@ -135,11 +122,7 @@ abstract final class AppThemeComponents {
     );
   }
 
-  static DialogThemeData dialog(
-    CoolPalette palette,
-    CoolSemanticColors colors,
-    bool isDark,
-  ) {
+  static DialogThemeData dialog(CoolSemanticColors colors, bool isDark) {
     return DialogThemeData(
       backgroundColor: colors.overlaySurface.withValues(
         alpha: isDark ? 0.95 : 0.98,
@@ -165,10 +148,7 @@ abstract final class AppThemeComponents {
     );
   }
 
-  static InputDecorationTheme inputDecoration(
-    CoolPalette palette,
-    CoolSemanticColors colors,
-  ) {
+  static InputDecorationTheme inputDecoration(CoolSemanticColors colors) {
     final border = OutlineInputBorder(
       borderRadius: BorderRadius.circular(CoolRadii.md),
       borderSide: BorderSide.none,
@@ -219,15 +199,12 @@ abstract final class AppThemeComponents {
     );
   }
 
-  static ElevatedButtonThemeData elevatedButton(
-    CoolPalette palette,
-    CoolSemanticColors colors,
-  ) {
+  static ElevatedButtonThemeData elevatedButton(CoolSemanticColors colors) {
     return ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: colors.buttonPrimaryBackground,
         foregroundColor: colors.accentForeground,
-        disabledBackgroundColor: palette.surface3,
+        disabledBackgroundColor: colors.cardSurfaceStrong,
         disabledForegroundColor: colors.tertiaryText,
         elevation: 0,
         minimumSize: const Size(double.infinity, CoolTapTargets.comfortable),
@@ -244,10 +221,7 @@ abstract final class AppThemeComponents {
     );
   }
 
-  static OutlinedButtonThemeData outlinedButton(
-    CoolPalette palette,
-    CoolSemanticColors colors,
-  ) {
+  static OutlinedButtonThemeData outlinedButton(CoolSemanticColors colors) {
     return OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         foregroundColor: colors.primaryText,
@@ -270,10 +244,7 @@ abstract final class AppThemeComponents {
     );
   }
 
-  static TextButtonThemeData textButton(
-    CoolPalette palette,
-    CoolSemanticColors colors,
-  ) {
+  static TextButtonThemeData textButton(CoolSemanticColors colors) {
     return TextButtonThemeData(
       style: TextButton.styleFrom(
         foregroundColor: colors.buttonPrimaryBackground,
@@ -286,10 +257,7 @@ abstract final class AppThemeComponents {
     );
   }
 
-  static FloatingActionButtonThemeData fab(
-    CoolPalette palette,
-    CoolSemanticColors colors,
-  ) {
+  static FloatingActionButtonThemeData fab(CoolSemanticColors colors) {
     return FloatingActionButtonThemeData(
       backgroundColor: colors.buttonPrimaryBackground,
       foregroundColor: colors.accentForeground,
@@ -300,18 +268,11 @@ abstract final class AppThemeComponents {
     );
   }
 
-  static DividerThemeData divider(
-    CoolPalette palette,
-    CoolSemanticColors colors,
-  ) {
+  static DividerThemeData divider(CoolSemanticColors colors) {
     return DividerThemeData(color: colors.divider, thickness: 0.6, space: 0);
   }
 
-  static ChipThemeData chip(
-    CoolPalette palette,
-    CoolSemanticColors colors,
-    bool isDark,
-  ) {
+  static ChipThemeData chip(CoolSemanticColors colors, bool isDark) {
     return ChipThemeData(
       backgroundColor: colors.chipBackground,
       selectedColor: colors.chipSelectedBackground,
@@ -328,10 +289,7 @@ abstract final class AppThemeComponents {
     );
   }
 
-  static SnackBarThemeData snackBar(
-    CoolPalette palette,
-    CoolSemanticColors colors,
-  ) {
+  static SnackBarThemeData snackBar(CoolSemanticColors colors) {
     return SnackBarThemeData(
       backgroundColor: colors.cardSurfaceStrong,
       contentTextStyle: TextStyle(
@@ -346,10 +304,7 @@ abstract final class AppThemeComponents {
     );
   }
 
-  static TabBarThemeData tabBar(
-    CoolPalette palette,
-    CoolSemanticColors colors,
-  ) {
+  static TabBarThemeData tabBar(CoolSemanticColors colors) {
     return TabBarThemeData(
       labelColor: colors.primaryText,
       unselectedLabelColor: colors.secondaryText,
@@ -376,10 +331,7 @@ abstract final class AppThemeComponents {
     );
   }
 
-  static TooltipThemeData tooltip(
-    CoolPalette palette,
-    CoolSemanticColors colors,
-  ) {
+  static TooltipThemeData tooltip(CoolSemanticColors colors) {
     return TooltipThemeData(
       decoration: BoxDecoration(
         color: colors.overlaySurface,
@@ -394,7 +346,6 @@ abstract final class AppThemeComponents {
   }
 
   static ProgressIndicatorThemeData progressIndicator(
-    CoolPalette palette,
     CoolSemanticColors colors,
   ) {
     return ProgressIndicatorThemeData(
@@ -403,10 +354,7 @@ abstract final class AppThemeComponents {
     );
   }
 
-  static SwitchThemeData switchTheme(
-    CoolPalette palette,
-    CoolSemanticColors colors,
-  ) {
+  static SwitchThemeData switchTheme(CoolSemanticColors colors) {
     return SwitchThemeData(
       thumbColor: WidgetStateProperty.resolveWith((states) {
         return states.contains(WidgetState.selected)
@@ -421,10 +369,7 @@ abstract final class AppThemeComponents {
     );
   }
 
-  static CheckboxThemeData checkbox(
-    CoolPalette palette,
-    CoolSemanticColors colors,
-  ) {
+  static CheckboxThemeData checkbox(CoolSemanticColors colors) {
     return CheckboxThemeData(
       fillColor: WidgetStateProperty.resolveWith((states) {
         return states.contains(WidgetState.selected)
@@ -437,7 +382,7 @@ abstract final class AppThemeComponents {
     );
   }
 
-  static RadioThemeData radio(CoolPalette palette, CoolSemanticColors colors) {
+  static RadioThemeData radio(CoolSemanticColors colors) {
     return RadioThemeData(
       fillColor: WidgetStateProperty.resolveWith((states) {
         return states.contains(WidgetState.selected)

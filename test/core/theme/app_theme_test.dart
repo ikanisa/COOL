@@ -3,11 +3,8 @@ import 'dart:io';
 
 import 'package:cool_app/core/theme/app_theme.dart';
 import 'package:cool_app/core/theme/cool_foundations.dart';
-import 'package:cool_app/core/theme/cool_palette.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:google_fonts/src/google_fonts_base.dart';
 
 void main() {
