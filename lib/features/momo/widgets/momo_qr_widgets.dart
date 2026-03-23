@@ -56,7 +56,7 @@ class MomoQrSheet extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const SizedBox(height: 8),
+              const SizedBox(height: CoolSpace.x2),
               Row(
                 children: [
                   const SizedBox(width: 4),

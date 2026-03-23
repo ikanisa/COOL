@@ -298,7 +298,7 @@ class _MomoScreenState extends ConsumerState<MomoScreen>
                             color: colors.primaryText,
                           ),
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: CoolSpace.x6),
                         BalanceCard(
                           amount: walletBalance,
                           currency: 'RWF',
@@ -367,7 +367,7 @@ class _MomoScreenState extends ConsumerState<MomoScreen>
                             ),
                           ],
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: CoolSpace.x6),
                         MomoSmsSyncStatusCard(
                           onManageAccess: () =>
                               ProfileAppAccessSheet.show(context),
@@ -543,7 +543,7 @@ class _MomoScreenState extends ConsumerState<MomoScreen>
                                   height: 1.4,
                                 ),
                               ),
-                              const SizedBox(height: 16),
+                              const SizedBox(height: CoolSpace.x4),
                               CoolButton(
                                 label: l10n.sendMoney,
                                 icon: Icons.send_rounded,

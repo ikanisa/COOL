@@ -64,7 +64,7 @@ class MomoNfcSheet extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const SizedBox(height: 8),
+              const SizedBox(height: CoolSpace.x2),
               Row(
                 children: [
                   const SizedBox(width: 4),
@@ -341,7 +341,7 @@ class _MomoNfcCardState extends State<MomoNfcCard>
                   color: colors.primaryText,
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               if (result.hasPaymentData) ...[
                 _nfcInfoRow(recipientLabel, result.recipientValue!),
                 SizedBox(height: space.x2),
@@ -765,7 +765,7 @@ class _MomoNfcCardState extends State<MomoNfcCard>
                       : 'MoMo Number',
                   activePayload.recipientValue,
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: CoolSpace.x2),
                 _nfcInfoRow(
                   'Amount',
                   '${activePayload.amount} ${widget.country.currencyCode}',

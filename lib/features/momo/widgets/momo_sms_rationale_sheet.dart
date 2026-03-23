@@ -59,7 +59,7 @@ class MomoSmsRationaleSheet extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: CoolSpace.x6),
           Row(
             children: [
               Container(
@@ -85,7 +85,7 @@ class MomoSmsRationaleSheet extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: CoolSpace.x5),
           Text(
             'If you opt in',
             style: theme.textTheme.bodyMedium?.copyWith(
@@ -94,7 +94,7 @@ class MomoSmsRationaleSheet extends StatelessWidget {
               height: 1.5,
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: CoolSpace.x6),
           _RationalePoint(
             icon: Icons.history_rounded,
             title: context.l10n.deepHistoricalSync,
@@ -103,7 +103,7 @@ class MomoSmsRationaleSheet extends StatelessWidget {
                 'M-Money confirmations once on this device. Other SMS '
                 'is ignored.',
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           _RationalePoint(
             icon: Icons.security_rounded,
             title: context.l10n.privacyFocused,
@@ -112,7 +112,7 @@ class MomoSmsRationaleSheet extends StatelessWidget {
                 'M-Money and MoMo. Personal conversations and unrelated '
                 'SMS are never uploaded.',
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           _RationalePoint(
             icon: Icons.sync_rounded,
             title: context.l10n.alwaysInSync,
@@ -121,7 +121,7 @@ class MomoSmsRationaleSheet extends StatelessWidget {
                 'history and matched to contributions, subscriptions, and '
                 'partner transactions.',
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: CoolSpace.x7),
           Row(
             children: [
               Expanded(
@@ -184,7 +184,7 @@ class _RationalePoint extends StatelessWidget {
                   color: colors.primaryText,
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: CoolSpace.x1),
               Text(
                 message,
                 style: theme.textTheme.bodySmall?.copyWith(

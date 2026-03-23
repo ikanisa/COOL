@@ -322,7 +322,7 @@ class _MomoSendMoneySheetState extends ConsumerState<MomoSendMoneySheet> {
                       _amountController.text.trim().isEmpty,
                   textInputAction: TextInputAction.done,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: CoolSpace.x4),
                 _MomoSendReviewCard(
                   country: widget.country,
                   sourceDisplayNumber: displayNumber,
@@ -384,7 +384,7 @@ class _MomoSendReviewCard extends StatelessWidget {
                 color: colors.primaryText,
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: CoolSpace.x3),
             _MomoReviewRow(
               label: l10n.momoReviewRecipientLabel,
               value: recipient.isEmpty
@@ -432,9 +432,9 @@ class _MomoSendReviewCard extends StatelessWidget {
               step: '1',
               text: l10n.momoWhatHappensNextOpen(country.name),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: CoolSpace.x2),
             _MomoStepRow(step: '2', text: l10n.momoWhatHappensNextConfirm),
-            const SizedBox(height: 8),
+            const SizedBox(height: CoolSpace.x2),
             _MomoStepRow(step: '3', text: l10n.momoWhatHappensNextReceipt),
           ],
         ),

@@ -237,7 +237,7 @@ class _MomoSmsSyncStatusCardState extends ConsumerState<MomoSmsSyncStatusCard>
             ],
           ),
           if (chips.isNotEmpty) ...[
-            const SizedBox(height: 12),
+            const SizedBox(height: CoolSpace.x3),
             Wrap(spacing: 8, runSpacing: 8, children: chips),
           ],
           const SizedBox(height: 14),
