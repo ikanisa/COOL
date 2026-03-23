@@ -25,6 +25,7 @@ void main() {
   group('AppTheme', () {
     test('dark theme exposes the institutional dark palette', () {
       final theme = AppTheme.dark;
+      // ignore: deprecated_member_use_from_same_package
       final palette = theme.extension<CoolPalette>();
       final semanticColors = theme.extension<CoolSemanticColors>();
 
@@ -49,6 +50,7 @@ void main() {
 
     test('light theme exposes the institutional light palette', () {
       final theme = AppTheme.light;
+      // ignore: deprecated_member_use_from_same_package
       final palette = theme.extension<CoolPalette>();
       final semanticColors = theme.extension<CoolSemanticColors>();
 

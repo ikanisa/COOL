@@ -12,7 +12,6 @@ class WhatsAppHintChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
     return Semantics(
       label: label,

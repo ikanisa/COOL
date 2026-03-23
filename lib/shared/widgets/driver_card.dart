@@ -73,7 +73,6 @@ class DriverCard extends StatelessWidget {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
     final onlineColor = colors.demandLow;
-    final offlineColor = colors.warning;
     final name = PublicUserIdentity.resolve(
       publicUserId: displayName,
       userId: driverId,
@@ -273,7 +272,6 @@ class _Avatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final radii = context.coolRadii;
     final theme = Theme.of(context);
     final statusColor = isOnline ? colors.demandLow : colors.warning;
     return SizedBox(

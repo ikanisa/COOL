@@ -14,7 +14,6 @@ class NexusRecommendationsSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.coolSemanticColors;
     final space = context.coolSpace;
-    final radii = context.coolRadii;
     final theme = Theme.of(context);
     final recommendationsAsync = ref.watch(nexusRecommendationsProvider);
 

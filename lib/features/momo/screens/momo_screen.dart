@@ -224,7 +224,6 @@ class _MomoScreenState extends ConsumerState<MomoScreen>
     final l10n = context.l10n;
     final colors = context.coolSemanticColors;
     final space = context.coolSpace;
-    final radii = context.coolRadii;
     final theme = Theme.of(context);
     final authState = ref.watch(authProvider);
     final user = authState.user;
@@ -467,10 +466,10 @@ class _MomoScreenState extends ConsumerState<MomoScreen>
                                 ),
                               ),
                               const SizedBox(height: 14),
-                              Wrap(
+                              const Wrap(
                                 spacing: 8,
                                 runSpacing: 8,
-                                children: const [
+                                children: [
                                   _WalletTrustChip(
                                     icon: Icons.verified_user_outlined,
                                     label: 'Protected sessions',

@@ -376,7 +376,6 @@ class _MomoNfcCardState extends State<MomoNfcCard>
 
   Widget _nfcInfoRow(String label, String value) {
     final colors = context.coolSemanticColors;
-    final space = context.coolSpace;
     final theme = Theme.of(context);
     return Container(
       width: double.infinity,

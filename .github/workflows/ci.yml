@@ -54,15 +54,15 @@ jobs:
         run: |
           WARN=800
           FAIL=1200
-          # Waiver list: files explicitly allowed to exceed limits
-          WAIVER_LIST=""
           EXIT_CODE=0
 
           while IFS= read -r file; do
             lines=$(wc -l < "$file" | tr -d ' ')
-            if echo "$WAIVER_LIST" | grep -qF "$file"; then
-              continue
-            fi
+            case "$file" in
+              lib/l10n/app_localizations.dart|lib/l10n/app_localizations_*.dart)
+                continue
+                ;;
+            esac
             if [ "$lines" -gt "$FAIL" ]; then
               echo "::error::$file ($lines lines) exceeds hard limit ($FAIL)"
               EXIT_CODE=1

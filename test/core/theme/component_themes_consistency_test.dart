@@ -87,6 +87,7 @@ void main() {
       });
 
       test('CoolPalette extension is registered (backcompat)', () {
+        // ignore: deprecated_member_use_from_same_package
         expect(themeData().extension<CoolPalette>(), isNotNull);
       });
 

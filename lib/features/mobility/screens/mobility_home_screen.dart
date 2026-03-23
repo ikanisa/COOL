@@ -265,7 +265,7 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
               ),
               if (locationState.hasLocation)
                 SliverPadding(
-                  padding: EdgeInsets.fromLTRB(
+                  padding: const EdgeInsets.fromLTRB(
                     CoolLayout.horizontalPagePadding,
                     CoolSpace.x3,
                     CoolLayout.horizontalPagePadding,

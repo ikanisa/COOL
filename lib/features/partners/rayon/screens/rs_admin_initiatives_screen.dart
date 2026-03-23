@@ -31,7 +31,6 @@ class _RsAdminInitiativesScreenState
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
     final initAsync = ref.watch(rsAdminInitiativesProvider);
 
     return RsAdminShell(

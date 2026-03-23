@@ -466,7 +466,6 @@ class _TopEarnersSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final leaderboardAsync = ref.watch(topEarnersProvider);
     final colors = context.coolSemanticColors;
-    final space = context.coolSpace;
     final theme = Theme.of(context);
 
     return leaderboardAsync.when(

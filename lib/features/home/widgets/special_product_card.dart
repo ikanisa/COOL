@@ -57,7 +57,6 @@ class _SpecialProductCardState extends ConsumerState<SpecialProductCard> {
     final p = widget.product;
     final accent = p.accentColor;
     final accentLight = p.accentColorLight;
-    final text = context.coolText;
     final radii = context.coolRadii;
     final space = context.coolSpace;
     final theme = Theme.of(context);
@@ -235,7 +234,6 @@ class _Pill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = context.coolText;
-    final radii = context.coolRadii;
     final space = context.coolSpace;
     final theme = Theme.of(context);
 

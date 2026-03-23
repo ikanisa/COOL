@@ -81,7 +81,7 @@ class BiopayRepository {
         'biopay-match',
         body: <String, Object?>{
           'embedding': embedding,
-          if (liveness != null) 'liveness': liveness,
+          'liveness': ?liveness,
         },
       );
       final payload = jh.asMap(response.data);

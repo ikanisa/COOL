@@ -19,7 +19,6 @@ class SeasonsActivitiesScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.coolSemanticColors;
     final space = context.coolSpace;
-    final radii = context.coolRadii;
     final theme = Theme.of(context);
     final seasonsAsync = ref.watch(adminSeasonsProvider);
     final activitiesAsync = ref.watch(adminActivitiesProvider);
@@ -253,7 +252,6 @@ class _SeasonCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final text = context.coolText;
     final radii = context.coolRadii;
     final space = context.coolSpace;
     final theme = Theme.of(context);
@@ -388,7 +386,6 @@ class _ActivityCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final text = context.coolText;
-    final radii = context.coolRadii;
     final space = context.coolSpace;
     final theme = Theme.of(context);
 

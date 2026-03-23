@@ -19,7 +19,6 @@ class RsMembershipCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
     final text = context.coolText;
     final space = context.coolSpace;
     final radii = context.coolRadii;

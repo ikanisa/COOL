@@ -215,10 +215,10 @@ class _GroupLedgerScreenState extends ConsumerState<GroupLedgerScreen> {
         ),
       );
 
-      if (!mounted) return;
+      if (!context.mounted) return;
       CoolToast.success(context, l10n.ledgerExported(result.fileName));
     } catch (_) {
-      if (!mounted) return;
+      if (!context.mounted) return;
       CoolToast.error(context, l10n.exportFailed);
     }
   }

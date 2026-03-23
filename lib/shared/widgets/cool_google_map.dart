@@ -90,10 +90,8 @@ class _CoolGoogleMapState extends State<CoolGoogleMap> {
   }
 
   void _handleMapCreated(GoogleMapController controller) {
-    // Apply dark style regardless of cloud Map ID — the JSON style is our
-    // fallback/baseline, and cloud styling would override it if a Map ID
-    // is set on the Google Cloud Console side.
-    controller.setMapStyle(_kDarkMapStyle);
+    // Style is now applied via GoogleMap.style parameter.
+    // No need for controller.setMapStyle() call.
 
     setState(() => _isMapReady = true);
     widget.onMapCreated?.call(controller);
@@ -113,7 +111,8 @@ class _CoolGoogleMapState extends State<CoolGoogleMap> {
               target: target,
               zoom: widget.initialZoom,
             ),
-            cloudMapId: _mapId,
+            mapId: _mapId,
+            style: _kDarkMapStyle,
             markers: widget.markers,
             polylines: widget.polylines,
             myLocationEnabled: widget.myLocationEnabled,

@@ -449,7 +449,6 @@ class _SyncChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final radii = context.coolRadii;
     final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(

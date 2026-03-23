@@ -105,7 +105,6 @@ class _AppShellState extends ConsumerState<AppShell> {
     });
 
     final colors = context.coolSemanticColors;
-    final radii = context.coolRadii;
     final space = context.coolSpace;
     final theme = Theme.of(context);
     final brightness = theme.brightness;

@@ -178,7 +178,6 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final space = context.coolSpace;
-    final radii = context.coolRadii;
     final theme = Theme.of(context);
     final authState = ref.watch(authProvider);
 

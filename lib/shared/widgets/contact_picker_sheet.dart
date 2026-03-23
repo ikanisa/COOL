@@ -265,7 +265,6 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final textTheme = Theme.of(context).textTheme;
-    final text = context.coolText;
     final space = context.coolSpace;
     final radii = context.coolRadii;
     final screenHeight = MediaQuery.sizeOf(context).height;
@@ -400,7 +399,6 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
   Widget _buildBody() {
     final colors = context.coolSemanticColors;
     final textTheme = Theme.of(context).textTheme;
-    final text = context.coolText;
     final space = context.coolSpace;
 
     // Loading state

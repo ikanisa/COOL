@@ -23,7 +23,6 @@ class MembershipTiersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
     return Consumer(
       builder: (context, ref, _) {
         final colors = context.coolSemanticColors;
@@ -125,7 +124,6 @@ class _TierList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
     final sortedPackages = packages.toList(growable: false)
       ..sort((left, right) => left.sortOrder.compareTo(right.sortOrder));
 
@@ -450,7 +448,6 @@ class _StatusChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
     return DecoratedBox(
       decoration: BoxDecoration(
         color: filled ? color.withValues(alpha: 0.2) : Colors.transparent,

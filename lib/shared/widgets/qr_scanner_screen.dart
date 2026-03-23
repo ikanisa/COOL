@@ -329,7 +329,6 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
     final textTheme = Theme.of(context).textTheme;
     final space = context.coolSpace;
     final radii = context.coolRadii;
-    final text = context.coolText;
     if (widget.mode == QrScanMode.ticket && !widget.ticketScanningEnabled) {
       return Scaffold(
         backgroundColor: colors.appBackground,

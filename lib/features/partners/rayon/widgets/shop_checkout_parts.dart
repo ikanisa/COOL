@@ -18,15 +18,19 @@ class _SummaryRow extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: CoolSpace.x3),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            label,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: colors.secondaryText,
+          Expanded(
+            child: Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: colors.secondaryText,
+              ),
             ),
           ),
+          const SizedBox(width: 8),
           Text(
             value,
             style: theme.textTheme.titleMedium?.copyWith(
@@ -181,12 +185,16 @@ class _CheckoutSignalChip extends StatelessWidget {
                 : Colors.white.withValues(alpha: 0.76),
           ),
           const SizedBox(width: 6),
-          Text(
-            label,
-            style: context.coolText.rayon(
-              const TextStyle(fontSize: 16),
-              fontWeight: FontWeight.w800,
-              color: highlighted ? RsColors.rsGoldLight : Colors.white,
+          Flexible(
+            child: Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: context.coolText.rayon(
+                const TextStyle(fontSize: 16),
+                fontWeight: FontWeight.w800,
+                color: highlighted ? RsColors.rsGoldLight : Colors.white,
+              ),
             ),
           ),
         ],

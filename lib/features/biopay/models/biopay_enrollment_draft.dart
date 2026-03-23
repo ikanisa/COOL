@@ -23,7 +23,7 @@ class BiopayEnrollmentDraft {
       'display_name': displayName,
       'consent_version': consentVersion,
       'embedding': embedding,
-      if (liveness != null) 'liveness': liveness,
+      'liveness': ?liveness,
     };
   }
 }

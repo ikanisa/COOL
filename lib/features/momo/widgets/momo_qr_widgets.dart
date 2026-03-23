@@ -105,7 +105,6 @@ class MomoReceiveQrScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final space = context.coolSpace;
     final theme = Theme.of(context);
     return Scaffold(
       backgroundColor: colors.appBackground,

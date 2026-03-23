@@ -193,22 +193,24 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Migration Safety'), findsOneWidget);
     await tester.scrollUntilVisible(
-      find.text('Sender Audit'),
+      find.text('Sender Inventory Audit'),
       250,
       scrollable: find.byType(Scrollable).first,
     );
     await tester.pumpAndSettle();
-    expect(find.text('Sender Audit'), findsOneWidget);
+    expect(find.text('Sender Inventory Audit'), findsOneWidget);
     expect(find.text('+250788767816'), findsOneWidget);
     expect(find.text('Acknowledge visible (1)'), findsOneWidget);
     expect(find.text('Acknowledge legacy'), findsOneWidget);
     await tester.scrollUntilVisible(
-      find.text('Manual Review Queue'),
+      find.text('Generic Manual Review'),
       250,
       scrollable: find.byType(Scrollable).first,
     );
     await tester.pumpAndSettle();
-    expect(find.text('Manual Review Queue'), findsOneWidget);
+    expect(find.text('Generic Manual Review'), findsOneWidget);
+    await tester.tap(find.text('Unmatched (1)'));
+    await tester.pumpAndSettle();
     expect(find.text('Close visible (1)'), findsOneWidget);
     expect(find.text('M-Money'), findsOneWidget);
     await tester.scrollUntilVisible(
@@ -291,7 +293,7 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.scrollUntilVisible(
-      find.text('Sender Audit'),
+      find.text('Sender Inventory Audit'),
       250,
       scrollable: find.byType(Scrollable).first,
     );

@@ -73,15 +73,6 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
     }
   }
 
-  void _closeOrReturnHome() {
-    if (context.canPop()) {
-      context.pop();
-      return;
-    }
-
-    context.go(AppRoutes.home);
-  }
-
   void _refresh() {
     ref.invalidate(momoStatementBundleProvider(_query));
   }

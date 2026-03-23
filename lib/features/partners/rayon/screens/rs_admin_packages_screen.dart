@@ -265,7 +265,6 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
     final packagesAsync = ref.watch(rsAdminMembershipPackagesProvider);
     final membersAsync = ref.watch(rsAdminMembersProvider);
     final activeCount =

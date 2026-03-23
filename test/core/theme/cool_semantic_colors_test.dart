@@ -6,8 +6,8 @@ void main() {
   group('CoolSemanticColors', () {
     group('dark / light parity', () {
       test('dark and light define the same set of non-null properties', () {
-        final dark = CoolSemanticColors.dark;
-        final light = CoolSemanticColors.light;
+        const dark = CoolSemanticColors.dark;
+        const light = CoolSemanticColors.light;
 
         // Core surfaces
         expect(dark.appBackground, isNotNull);
@@ -45,7 +45,7 @@ void main() {
 
     group('status colors', () {
       test('success, warning, danger, info are distinct', () {
-        final colors = CoolSemanticColors.dark;
+        const colors = CoolSemanticColors.dark;
         final statusSet = {
           colors.success,
           colors.warning,
@@ -70,7 +70,7 @@ void main() {
 
     group('domain surfaces', () {
       test('domain surfaces are all non-null and distinct', () {
-        final c = CoolSemanticColors.dark;
+        const c = CoolSemanticColors.dark;
         final surfaceSet = {
           c.operationalSurface,
           c.financialSurface,
@@ -107,8 +107,8 @@ void main() {
 
     group('lerp', () {
       test('lerp at 0.0 returns a-like colors', () {
-        final a = CoolSemanticColors.dark;
-        final b = CoolSemanticColors.light;
+        const a = CoolSemanticColors.dark;
+        const b = CoolSemanticColors.light;
         final lerped = a.lerp(b, 0.0);
 
         expect(lerped.appBackground, a.appBackground);
@@ -117,8 +117,8 @@ void main() {
       });
 
       test('lerp at 1.0 returns b-like colors', () {
-        final a = CoolSemanticColors.dark;
-        final b = CoolSemanticColors.light;
+        const a = CoolSemanticColors.dark;
+        const b = CoolSemanticColors.light;
         final lerped = a.lerp(b, 1.0);
 
         expect(lerped.appBackground, b.appBackground);
@@ -127,8 +127,8 @@ void main() {
       });
 
       test('lerp at 0.5 produces an intermediate color', () {
-        final a = CoolSemanticColors.dark;
-        final b = CoolSemanticColors.light;
+        const a = CoolSemanticColors.dark;
+        const b = CoolSemanticColors.light;
         final lerped = a.lerp(b, 0.5);
 
         // Intermediate should differ from both endpoints
@@ -139,7 +139,7 @@ void main() {
 
     group('copyWith', () {
       test('copyWith preserves all fields when no args given', () {
-        final original = CoolSemanticColors.dark;
+        const original = CoolSemanticColors.dark;
         final copy = original.copyWith();
 
         expect(copy.appBackground, original.appBackground);
@@ -153,7 +153,7 @@ void main() {
       });
 
       test('copyWith overrides only the specified field', () {
-        final original = CoolSemanticColors.dark;
+        const original = CoolSemanticColors.dark;
         const override = Color(0xFFFF00FF);
         final copy = original.copyWith(appBackground: override);
 
@@ -167,7 +167,7 @@ void main() {
 
     group('demand colors', () {
       test('demand colors form a severity gradient', () {
-        final c = CoolSemanticColors.dark;
+        const c = CoolSemanticColors.dark;
         // All three should exist and be distinct
         expect({c.demandHigh, c.demandMedium, c.demandLow}.length, 3);
       });

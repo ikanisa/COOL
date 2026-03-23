@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:cool_app/core/providers/production_redesign_provider.dart';
 import 'package:cool_app/features/auth/models/user_profile.dart';

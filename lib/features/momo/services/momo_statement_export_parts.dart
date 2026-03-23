@@ -1,121 +1,6 @@
-import 'dart:convert';
+part of 'momo_statement_export_service.dart';
 
-import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column;
-
-import '../models/momo_statement.dart';
-import '../../groups/models/group_contribution.dart';
-
-part 'momo_statement_export_group_ledger.dart';
-
-enum StatementExportFormat { pdf, excel, csv }
-
-class StatementExportMetadata {
-  const StatementExportMetadata({
-    required this.statementTitle,
-    required this.fileStem,
-    required this.userName,
-    required this.officialPhone,
-    required this.generatedAt,
-    required this.periodLabel,
-    required this.filterLabel,
-    required this.sortLabel,
-    this.searchQuery = '',
-  });
-
-  final String statementTitle;
-  final String fileStem;
-  final String userName;
-  final String officialPhone;
-  final DateTime generatedAt;
-  final String periodLabel;
-  final String filterLabel;
-  final String sortLabel;
-  final String searchQuery;
-}
-
-class StatementExportFile {
-  const StatementExportFile({
-    required this.bytes,
-    required this.fileName,
-    required this.mimeType,
-  });
-
-  final Uint8List bytes;
-  final String fileName;
-  final String mimeType;
-}
-
-class MomoStatementExportService {
-  MomoStatementExportService({AssetBundle? assets})
-    : _assets = assets ?? rootBundle;
-
-  final AssetBundle _assets;
-
-  static const String _brandName = 'COOL APP';
-  static const String _logoAssetPath = 'assets/images/cool_logo_mark.png';
-  static const String _baseFontAssetPath = 'assets/fonts/Lato-Regular.ttf';
-  static const String _boldFontAssetPath = 'assets/fonts/Lato-Bold.ttf';
-  static final DateFormat _fileStampFormat = DateFormat('yyyyMMdd_HHmm');
-  static final DateFormat _dateTimeFormat = DateFormat('dd MMM yyyy, HH:mm');
-  static final NumberFormat _moneyFormat = NumberFormat.decimalPattern('en_US');
-  static const double _pdfFontSizeCaption = 8;
-  static const double _pdfFontSizeLabel = 9;
-  static const double _pdfFontSizeValue = 10;
-  static const double _pdfFontSizeBody = 11;
-  static const double _pdfFontSizeMetric = 13;
-  static const double _pdfFontSizeSection = 16;
-  static const double _pdfFontSizeLogoMark = 24;
-  static const double _pdfFontSizeBrand = 28;
-
-  Future<StatementExportFile> buildWalletExport({
-    required StatementExportFormat format,
-    required List<MomoWalletEntry> entries,
-    required StatementExportMetadata metadata,
-  }) async {
-    switch (format) {
-      case StatementExportFormat.pdf:
-        return _buildWalletPdf(entries: entries, metadata: metadata);
-      case StatementExportFormat.excel:
-        return _buildWalletExcel(entries: entries, metadata: metadata);
-      case StatementExportFormat.csv:
-        return _buildWalletCsv(entries: entries, metadata: metadata);
-    }
-  }
-
-  Future<StatementExportFile> buildSavingsExport({
-    required StatementExportFormat format,
-    required List<SavingsStatementEntry> entries,
-    required StatementExportMetadata metadata,
-  }) async {
-    switch (format) {
-      case StatementExportFormat.pdf:
-        return _buildSavingsPdf(entries: entries, metadata: metadata);
-      case StatementExportFormat.excel:
-        return _buildSavingsExcel(entries: entries, metadata: metadata);
-      case StatementExportFormat.csv:
-        return _buildSavingsCsv(entries: entries, metadata: metadata);
-    }
-  }
-
-  Future<StatementExportFile> buildPayeeLedgerExport({
-    required StatementExportFormat format,
-    required List<PayeePaymentLedgerEntry> entries,
-    required StatementExportMetadata metadata,
-  }) async {
-    switch (format) {
-      case StatementExportFormat.pdf:
-        return _buildPayeeLedgerPdf(entries: entries, metadata: metadata);
-      case StatementExportFormat.excel:
-        return _buildPayeeLedgerExcel(entries: entries, metadata: metadata);
-      case StatementExportFormat.csv:
-        return _buildPayeeLedgerCsv(entries: entries, metadata: metadata);
-    }
-  }
-
+extension MomoStatementExportServiceExtensions on MomoStatementExportService {
   Future<StatementExportFile> _buildWalletPdf({
     required List<MomoWalletEntry> entries,
     required StatementExportMetadata metadata,
@@ -183,7 +68,9 @@ class MomoStatementExportService {
             data: entries
                 .map(
                   (entry) => <String>[
-                    _dateTimeFormat.format(entry.occurredAt),
+                    MomoStatementExportService._dateTimeFormat.format(
+                      entry.occurredAt,
+                    ),
                     if (entry.isCredit) 'Incoming' else 'Outgoing',
                     _titleize(entry.txCategory),
                     _titleize(entry.cashflowBucket),
@@ -288,7 +175,9 @@ class MomoStatementExportService {
             data: entries
                 .map(
                   (entry) => <String>[
-                    _dateTimeFormat.format(entry.createdAt),
+                    MomoStatementExportService._dateTimeFormat.format(
+                      entry.createdAt,
+                    ),
                     entry.groupName,
                     _formatAmount(entry.amount),
                     'RWF',
@@ -394,7 +283,9 @@ class MomoStatementExportService {
             data: entries
                 .map(
                   (entry) => <String>[
-                    _dateTimeFormat.format(entry.occurredAt),
+                    MomoStatementExportService._dateTimeFormat.format(
+                      entry.occurredAt,
+                    ),
                     entry.payerName,
                     entry.payerPhone ?? '-',
                     _titleize(entry.txCategory),
@@ -523,12 +414,15 @@ class MomoStatementExportService {
     required StatementExportMetadata metadata,
   }) {
     final rows = <List<String>>[
-      <String>[_brandName],
+      <String>[MomoStatementExportService._brandName],
       <String>[metadata.statementTitle],
       <String>['Official Holder', metadata.userName],
       <String>['Official Phone', metadata.officialPhone],
       <String>['Statement Period', metadata.periodLabel],
-      <String>['Generated At', metadata.generatedAt.toIso8601String()],
+      <String>[
+        'Generated At',
+        metadata.generatedAt.toIso8601String(),
+      ],
       <String>['Search Query', metadata.searchQuery],
       <String>['Filter', metadata.filterLabel],
       <String>['Sort', metadata.sortLabel],
@@ -547,7 +441,7 @@ class MomoStatementExportService {
       ],
       for (final entry in entries)
         <String>[
-          _dateTimeFormat.format(entry.occurredAt),
+          MomoStatementExportService._dateTimeFormat.format(entry.occurredAt),
           if (entry.isCredit) 'Incoming' else 'Outgoing',
           entry.txCategory,
           entry.cashflowBucket,
@@ -572,12 +466,15 @@ class MomoStatementExportService {
     required StatementExportMetadata metadata,
   }) {
     final rows = <List<String>>[
-      <String>[_brandName],
+      <String>[MomoStatementExportService._brandName],
       <String>[metadata.statementTitle],
       <String>['Official Holder', metadata.userName],
       <String>['Official Phone', metadata.officialPhone],
       <String>['Statement Period', metadata.periodLabel],
-      <String>['Generated At', metadata.generatedAt.toIso8601String()],
+      <String>[
+        'Generated At',
+        metadata.generatedAt.toIso8601String(),
+      ],
       <String>['Search Query', metadata.searchQuery],
       <String>['Filter', metadata.filterLabel],
       <String>['Sort', metadata.sortLabel],
@@ -592,7 +489,7 @@ class MomoStatementExportService {
       ],
       for (final entry in entries)
         <String>[
-          _dateTimeFormat.format(entry.createdAt),
+          MomoStatementExportService._dateTimeFormat.format(entry.createdAt),
           entry.groupName,
           entry.amount.toString(),
           'RWF',
@@ -613,12 +510,15 @@ class MomoStatementExportService {
     required StatementExportMetadata metadata,
   }) {
     final rows = <List<String>>[
-      <String>[_brandName],
+      <String>[MomoStatementExportService._brandName],
       <String>[metadata.statementTitle],
       <String>['Official Holder', metadata.userName],
       <String>['Official Phone', metadata.officialPhone],
       <String>['Statement Period', metadata.periodLabel],
-      <String>['Generated At', metadata.generatedAt.toIso8601String()],
+      <String>[
+        'Generated At',
+        metadata.generatedAt.toIso8601String(),
+      ],
       <String>['Search Query', metadata.searchQuery],
       <String>['Filter', metadata.filterLabel],
       <String>['Sort', metadata.sortLabel],
@@ -637,7 +537,7 @@ class MomoStatementExportService {
       ],
       for (final entry in entries)
         <String>[
-          _dateTimeFormat.format(entry.occurredAt),
+          MomoStatementExportService._dateTimeFormat.format(entry.occurredAt),
           entry.payerName,
           entry.payerPhone ?? '',
           entry.txCategory,
@@ -664,7 +564,7 @@ class MomoStatementExportService {
   }) async {
     final titleRange = sheet.getRangeByName('B1:${columnEnd}2');
     titleRange.merge();
-    titleRange.setText(_brandName);
+    titleRange.setText(MomoStatementExportService._brandName);
     titleRange.cellStyle.backColor = '#0A0A0F';
     titleRange.cellStyle.fontColor = '#FFFFFF';
     titleRange.cellStyle.bold = true;
@@ -684,7 +584,10 @@ class MomoStatementExportService {
       ('Official Holder', metadata.userName),
       ('Official Phone', metadata.officialPhone),
       ('Statement Period', metadata.periodLabel),
-      ('Generated At', _dateTimeFormat.format(metadata.generatedAt)),
+      (
+        'Generated At',
+        MomoStatementExportService._dateTimeFormat.format(metadata.generatedAt),
+      ),
       (
         'Search Query',
         metadata.searchQuery.isEmpty ? 'None' : metadata.searchQuery,
@@ -761,9 +664,9 @@ class MomoStatementExportService {
     for (var i = 0; i < entries.length; i++) {
       final row = startRow + i + 1;
       final entry = entries[i];
-      sheet
-          .getRangeByIndex(row, 1)
-          .setText(_dateTimeFormat.format(entry.occurredAt));
+      sheet.getRangeByIndex(row, 1).setText(
+        MomoStatementExportService._dateTimeFormat.format(entry.occurredAt),
+      );
       sheet
           .getRangeByIndex(row, 2)
           .setText(entry.isCredit ? 'Incoming' : 'Outgoing');
@@ -815,9 +718,9 @@ class MomoStatementExportService {
     for (var i = 0; i < entries.length; i++) {
       final row = startRow + i + 1;
       final entry = entries[i];
-      sheet
-          .getRangeByIndex(row, 1)
-          .setText(_dateTimeFormat.format(entry.createdAt));
+      sheet.getRangeByIndex(row, 1).setText(
+        MomoStatementExportService._dateTimeFormat.format(entry.createdAt),
+      );
       sheet.getRangeByIndex(row, 2).setText(entry.groupName);
       sheet.getRangeByIndex(row, 3).setNumber(entry.amount.toDouble());
       sheet.getRangeByIndex(row, 3).numberFormat = '#,##0';
@@ -867,9 +770,9 @@ class MomoStatementExportService {
     for (var i = 0; i < entries.length; i++) {
       final row = startRow + i + 1;
       final entry = entries[i];
-      sheet
-          .getRangeByIndex(row, 1)
-          .setText(_dateTimeFormat.format(entry.occurredAt));
+      sheet.getRangeByIndex(row, 1).setText(
+        MomoStatementExportService._dateTimeFormat.format(entry.occurredAt),
+      );
       sheet.getRangeByIndex(row, 2).setText(entry.payerName);
       sheet.getRangeByIndex(row, 3).setText(entry.payerPhone ?? '-');
       sheet.getRangeByIndex(row, 4).setText(_titleize(entry.txCategory));
@@ -931,7 +834,8 @@ class MomoStatementExportService {
                         child: pw.Text(
                           'C',
                           style: _pdfTextStyle(
-                            size: _pdfFontSizeLogoMark,
+                            size: MomoStatementExportService
+                                ._pdfFontSizeLogoMark,
                             color: PdfColor.fromHex('#0A0A0F'),
                             fontWeight: pw.FontWeight.bold,
                           ),
@@ -942,9 +846,9 @@ class MomoStatementExportService {
                       crossAxisAlignment: pw.CrossAxisAlignment.start,
                       children: [
                         pw.Text(
-                          _brandName,
+                          MomoStatementExportService._brandName,
                           style: _pdfTextStyle(
-                            size: _pdfFontSizeBrand,
+                            size: MomoStatementExportService._pdfFontSizeBrand,
                             color: PdfColors.black,
                             fontWeight: pw.FontWeight.bold,
                           ),
@@ -952,7 +856,7 @@ class MomoStatementExportService {
                         pw.Text(
                           'OFFICIAL STATEMENT',
                           style: _pdfTextStyle(
-                            size: _pdfFontSizeValue,
+                            size: MomoStatementExportService._pdfFontSizeValue,
                             color: PdfColors.grey600,
                             fontWeight: pw.FontWeight.bold,
                             letterSpacing: 1.5,
@@ -966,7 +870,7 @@ class MomoStatementExportService {
                 pw.Text(
                   metadata.statementTitle.toUpperCase(),
                   style: _pdfTextStyle(
-                    size: _pdfFontSizeSection,
+                    size: MomoStatementExportService._pdfFontSizeSection,
                     color: PdfColors.black,
                     fontWeight: pw.FontWeight.bold,
                   ),
@@ -975,7 +879,7 @@ class MomoStatementExportService {
                 pw.Text(
                   metadata.periodLabel,
                   style: _pdfTextStyle(
-                    size: _pdfFontSizeBody,
+                    size: MomoStatementExportService._pdfFontSizeBody,
                     color: PdfColors.grey700,
                   ),
                 ),
@@ -992,7 +896,9 @@ class MomoStatementExportService {
                   _pdfMetaRow('REGISTERED PHONE', metadata.officialPhone),
                 _pdfMetaRow(
                   'DATE GENERATED',
-                  _dateTimeFormat.format(metadata.generatedAt),
+                  MomoStatementExportService._dateTimeFormat.format(
+                    metadata.generatedAt,
+                  ),
                 ),
                 _pdfMetaRow('FILTER APPLIED', metadata.filterLabel),
                 _pdfMetaRow('SORT ORDER', metadata.sortLabel),
@@ -1012,7 +918,7 @@ class MomoStatementExportService {
       child: pw.Text(
         'Page ${context.pageNumber} of ${context.pagesCount}',
         style: _pdfTextStyle(
-          size: _pdfFontSizeCaption,
+          size: MomoStatementExportService._pdfFontSizeCaption,
           color: PdfColors.grey700,
         ),
       ),
@@ -1037,7 +943,7 @@ class MomoStatementExportService {
           pw.Text(
             label,
             style: _pdfTextStyle(
-              size: _pdfFontSizeLabel,
+              size: MomoStatementExportService._pdfFontSizeLabel,
               color: PdfColors.grey700,
             ),
           ),
@@ -1045,7 +951,7 @@ class MomoStatementExportService {
           pw.Text(
             value,
             style: _pdfTextStyle(
-              size: _pdfFontSizeMetric,
+              size: MomoStatementExportService._pdfFontSizeMetric,
               fontWeight: pw.FontWeight.bold,
               color: accent,
             ),
@@ -1064,7 +970,7 @@ class MomoStatementExportService {
           pw.Text(
             label,
             style: _pdfTextStyle(
-              size: _pdfFontSizeLabel,
+              size: MomoStatementExportService._pdfFontSizeLabel,
               color: PdfColors.grey600,
             ),
           ),
@@ -1074,7 +980,7 @@ class MomoStatementExportService {
               value,
               textAlign: pw.TextAlign.right,
               style: _pdfTextStyle(
-                size: _pdfFontSizeValue,
+                size: MomoStatementExportService._pdfFontSizeValue,
                 color: PdfColors.black,
                 fontWeight: pw.FontWeight.bold,
               ),
@@ -1095,8 +1001,8 @@ class MomoStatementExportService {
 
   Future<_PdfFontBundle?> _loadPdfFonts() async {
     try {
-      final base = await _assets.load(_baseFontAssetPath);
-      final bold = await _assets.load(_boldFontAssetPath);
+      final base = await _assets.load(MomoStatementExportService._baseFontAssetPath);
+      final bold = await _assets.load(MomoStatementExportService._boldFontAssetPath);
       return _PdfFontBundle(base: pw.Font.ttf(base), bold: pw.Font.ttf(bold));
     } catch (_) {
       return null;
@@ -1127,19 +1033,19 @@ class MomoStatementExportService {
 
   pw.TextStyle _pdfTableHeaderTextStyle() {
     return _pdfTextStyle(
-      size: _pdfFontSizeLabel,
+      size: MomoStatementExportService._pdfFontSizeLabel,
       color: PdfColors.white,
       fontWeight: pw.FontWeight.bold,
     );
   }
 
   pw.TextStyle _pdfTableCellTextStyle() {
-    return _pdfTextStyle(size: _pdfFontSizeCaption);
+    return _pdfTextStyle(size: MomoStatementExportService._pdfFontSizeCaption);
   }
 
   Future<Uint8List?> _loadLogoBytes() async {
     try {
-      final asset = await _assets.load(_logoAssetPath);
+      final asset = await _assets.load(MomoStatementExportService._logoAssetPath);
       return asset.buffer.asUint8List();
     } catch (_) {
       return null;
@@ -1147,7 +1053,7 @@ class MomoStatementExportService {
   }
 
   String _fileName(String stem, DateTime timestamp, String extension) {
-    return '${stem}_${_fileStampFormat.format(timestamp)}.$extension';
+    return '${stem}_${MomoStatementExportService._fileStampFormat.format(timestamp)}.$extension';
   }
 
   String _csvRow(List<String> values) {
@@ -1159,36 +1065,5 @@ class MomoStatementExportService {
         .join(',');
   }
 
-  String _formatAmount(int amount) => _moneyFormat.format(amount);
-
-  Future<StatementExportFile> buildGroupLedgerExport({
-    required StatementExportFormat format,
-    required List<GroupContribution> entries,
-    required StatementExportMetadata metadata,
-  }) async {
-    switch (format) {
-      case StatementExportFormat.pdf:
-        return _buildGroupLedgerPdf(this, entries: entries, metadata: metadata);
-      case StatementExportFormat.excel:
-        return _buildGroupLedgerExcel(
-          this,
-          entries: entries,
-          metadata: metadata,
-        );
-      case StatementExportFormat.csv:
-        return _buildGroupLedgerCsv(this, entries: entries, metadata: metadata);
-    }
-  }
-
-  String _titleize(String raw) {
-    if (raw.trim().isEmpty) {
-      return '-';
-    }
-
-    return raw
-        .split('_')
-        .where((part) => part.isNotEmpty)
-        .map((part) => '${part[0].toUpperCase()}${part.substring(1)}')
-        .join(' ');
-  }
+  String _formatAmount(int amount) => MomoStatementExportService._moneyFormat.format(amount);
 }

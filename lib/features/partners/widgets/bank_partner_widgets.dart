@@ -74,10 +74,10 @@ class BankHero extends StatelessWidget {
             ),
           ),
           const SizedBox(height: CoolSpace.x5),
-          Wrap(
+          const Wrap(
             spacing: CoolSpace.x2,
             runSpacing: CoolSpace.x2,
-            children: const [
+            children: [
               PartnerHeroPill(
                 icon: Icons.verified_user_outlined,
                 label: 'Secure onboarding',

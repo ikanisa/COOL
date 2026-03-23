@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../models/home_dashboard_data.dart';
 import '../providers/home_dashboard_provider.dart';
 import '../providers/quick_action_provider.dart';
 import '../../../shared/widgets/cool_button.dart';
@@ -218,17 +217,6 @@ class _HeaderMetricData {
   final IconData icon;
   final Color surfaceColor;
   final Color valueColor;
-}
-
-String _activityLabel(HomeDashboardData? dashboard) {
-  final activityCount = dashboard?.recentTransactions.length ?? 0;
-  if (activityCount <= 0) {
-    return 'Quiet';
-  }
-  if (activityCount == 1) {
-    return '1 update';
-  }
-  return '$activityCount updates';
 }
 
 String _metricDetail(String label) {

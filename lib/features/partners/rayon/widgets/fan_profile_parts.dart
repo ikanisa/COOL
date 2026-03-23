@@ -15,7 +15,6 @@ class _ProfileHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
     final fanName = membership?.displayName ?? user?.displayUserId ?? '';
     final tier = membership?.tier ?? FanTier.blue;
     final chapter = membership?.chapter ?? 'Official membership pending';
@@ -382,7 +381,6 @@ class _RecentOrdersSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
     return ordersAsync.when(
       data: (orders) {
         if (orders.isEmpty) {
@@ -497,7 +495,6 @@ class _AchievementSkeletonRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
     return ListView.separated(
       scrollDirection: Axis.horizontal,
       itemCount: 4,

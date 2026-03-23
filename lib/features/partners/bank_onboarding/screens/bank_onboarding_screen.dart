@@ -79,7 +79,6 @@ class _BankOnboardingScreenState extends ConsumerState<BankOnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
     final user = ref.watch(currentUserProvider);
     final config = bankConfigForSlug(widget.slug);
 

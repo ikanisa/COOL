@@ -15,6 +15,7 @@ abstract final class AppTheme {
 
   static ThemeData _build({required Brightness brightness}) {
     final isDark = brightness == Brightness.dark;
+    // ignore: deprecated_member_use
     final palette = isDark ? CoolPalette.dark : CoolPalette.light;
     final semanticColors = isDark
         ? CoolSemanticColors.dark
