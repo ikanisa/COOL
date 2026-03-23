@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_async_view.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../providers/admin_providers.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
+
+EdgeInsets _auditHorizontalPadding() =>
+    CoolSpace.sectionPadding.copyWith(top: 0, bottom: 0);
+
+EdgeInsets _auditLogListPadding() =>
+    CoolSpace.scaffoldPadding.copyWith(bottom: CoolSpace.x7);
 
 /// Audit log viewer — shows all admin actions captured by DB triggers.
 class AuditLogScreen extends ConsumerStatefulWidget {
@@ -24,7 +29,7 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
   String? _selectedAction;
 
   static const _actionFilters = [
-    null,       // all
+    null, // all
     'create',
     'update',
     'delete',
@@ -32,125 +37,124 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final logsAsync = ref.watch(adminAuditLogProvider(_selectedAction));
 
     return CoolScreenBackground(
-
-
       showGlow: false,
-
-
       child: Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          tooltip: context.l10n.back,
-          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            onPressed: () => Navigator.of(context).pop(),
+            tooltip: context.l10n.back,
+            icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
+          ),
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: _auditHorizontalPadding(),
+              child: Semantics(
+                header: true,
+                child: Text(
+                  'Audit Log',
+                  style: theme.textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.w800,
+                    height: 1.1,
+                    color: colors.primaryText,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 6),
+            Padding(
+              padding: _auditHorizontalPadding(),
+              child: Text(
+                'Who changed what and when',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colors.secondaryText,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              height: 48,
+              child: ListView.separated(
+                padding: _auditHorizontalPadding(),
+                scrollDirection: Axis.horizontal,
+                itemCount: _actionFilters.length,
+                separatorBuilder: (_, _) => const SizedBox(width: 8),
+                itemBuilder: (context, index) {
+                  final action = _actionFilters[index];
+                  final isSelected = _selectedAction == action;
+                  final label = action == null
+                      ? 'All'
+                      : action[0].toUpperCase() + action.substring(1);
+                  return ChoiceChip(
+                    showCheckmark: false,
+                    label: Text(label),
+                    selected: isSelected,
+                    onSelected: (_) {
+                      HapticFeedback.selectionClick();
+                      setState(() => _selectedAction = action);
+                    },
+                    backgroundColor: colors.chipBackground,
+                    selectedColor: colors.chipSelectedBackground,
+                    labelStyle: theme.textTheme.labelLarge?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: isSelected
+                          ? colors.accentStrong
+                          : colors.secondaryText,
+                    ),
+                    side: BorderSide(
+                      color: isSelected ? colors.accent : colors.border,
+                    ),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(CoolRadii.pill),
+                      ),
+                    ),
+                    visualDensity: VisualDensity.compact,
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: CoolAsyncView<List<Map<String, dynamic>>>(
+                value: logsAsync,
+                onRetry: () =>
+                    ref.invalidate(adminAuditLogProvider(_selectedAction)),
+                loadingWidget: const Padding(
+                  padding: CoolSpace.scaffoldPadding,
+                  child: CoolSkeletonList(itemCount: 6),
+                ),
+                emptyCheck: (logs) => logs.isEmpty,
+                emptyWidget: const CoolEmptyView(
+                  message: 'No audit entries yet',
+                  icon: Icons.history_rounded,
+                ),
+                builder: (logs) {
+                  return ListView.separated(
+                    padding: _auditLogListPadding(),
+                    itemCount: logs.length,
+                    separatorBuilder: (_, _) => const SizedBox(height: 10),
+                    itemBuilder: (context, index) =>
+                        _AuditEntryTile(entry: logs[index]),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
-            child: Text(
-              'Audit Log',
-              style: GoogleFonts.dmSans(
-                fontSize: 34,
-                fontWeight: FontWeight.w800,
-                color: palette.text,
-                height: 1.1,
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
-            child: Text(
-              'Who did what, when',
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w400,
-                color: palette.text3,
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
-
-          // ── Action filter chips ──────────────────────────────────
-          SizedBox(
-            height: 36,
-            child: ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
-              scrollDirection: Axis.horizontal,
-              itemCount: _actionFilters.length,
-              separatorBuilder: (_, _) => const SizedBox(width: 8),
-              itemBuilder: (context, index) {
-                final action = _actionFilters[index];
-                final isSelected = _selectedAction == action;
-                final label = action == null
-                    ? 'All'
-                    : action[0].toUpperCase() + action.substring(1);
-                return ChoiceChip(
-                  label: Text(label),
-                  selected: isSelected,
-                  onSelected: (_) {
-                    HapticFeedback.selectionClick();
-                    setState(() => _selectedAction = action);
-                  },
-                  backgroundColor: Colors.transparent,
-                  selectedColor: palette.blue.withValues(alpha: 0.2),
-                  labelStyle: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: isSelected ? palette.blue : palette.text3,
-                  ),
-                  side: BorderSide(
-                    color: isSelected ? palette.blue : palette.border,
-                  ),
-                  visualDensity: VisualDensity.compact,
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 16),
-
-          // ── Log entries ──────────────────────────────────────────
-          Expanded(
-            child: CoolAsyncView<List<Map<String, dynamic>>>(
-              value: logsAsync,
-              onRetry: () =>
-                  ref.invalidate(adminAuditLogProvider(_selectedAction)),
-              loadingWidget: const Padding(
-                padding: EdgeInsets.fromLTRB(18, 0, 18, 16),
-                child: CoolSkeletonList(itemCount: 6),
-              ),
-              emptyCheck: (logs) => logs.isEmpty,
-              emptyWidget: const CoolEmptyView(
-                message: 'No audit entries yet',
-                icon: Icons.history_rounded,
-              ),
-              builder: (logs) {
-                return ListView.separated(
-                  padding: const EdgeInsets.fromLTRB(18, 0, 18, 32),
-                  itemCount: logs.length,
-                  separatorBuilder: (_, _) => const SizedBox(height: 10),
-                  itemBuilder: (context, index) =>
-                      _AuditEntryTile(entry: logs[index]),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    ),
-
-
     );
   }
 }
@@ -170,16 +174,16 @@ class _AuditEntryTile extends StatefulWidget {
 class _AuditEntryTileState extends State<_AuditEntryTile> {
   bool _expanded = false;
 
-  Color get _actionColor {
+  Color _actionColor(CoolSemanticColors colors) {
     switch (widget.entry['action']?.toString()) {
       case 'create':
-        return Colors.green;
+        return colors.success;
       case 'update':
-        return AppColors.blue;
+        return colors.info;
       case 'delete':
-        return Colors.red;
+        return colors.danger;
       default:
-        return AppColors.text3;
+        return colors.neutral;
     }
   }
 
@@ -198,33 +202,34 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final e = widget.entry;
     final actorName = e['actor_name']?.toString().trim();
     final actorPhone = e['actor_phone']?.toString().trim();
     final displayActor = actorName?.isNotEmpty == true
         ? actorName!
         : actorPhone?.isNotEmpty == true
-            ? actorPhone!
-            : 'Unknown';
+        ? actorPhone!
+        : 'Unknown';
     final action = e['action']?.toString() ?? '';
     final targetTable = e['target_table']?.toString() ?? '';
     final targetId = e['target_id']?.toString() ?? '';
     final createdAt = _formatTimestamp(e['created_at']?.toString());
+    final actionColor = _actionColor(colors);
 
-    return GestureDetector(
-      onTap: () {
-        HapticFeedback.selectionClick();
-        setState(() => _expanded = !_expanded);
-      },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: palette.surface,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: palette.border),
-        ),
+    return AnimatedSize(
+      duration: CoolMotion.quick,
+      curve: Curves.easeOutCubic,
+      child: CoolCard(
+        backgroundColor: colors.operationalSurface,
+        useGradient: false,
+        onTap: () {
+          HapticFeedback.selectionClick();
+          setState(() => _expanded = !_expanded);
+        },
+        semanticsLabel:
+            'Audit entry ${action.toUpperCase()} by $displayActor for $targetTable',
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -234,10 +239,12 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
                   width: 32,
                   height: 32,
                   decoration: BoxDecoration(
-                    color: _actionColor.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(8),
+                    color: actionColor.withValues(alpha: 0.12),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(CoolRadii.xs),
+                    ),
                   ),
-                  child: Icon(_actionIcon, size: 16, color: _actionColor),
+                  child: Icon(_actionIcon, size: 16, color: actionColor),
                 ),
                 const SizedBox(width: 10),
                 Expanded(
@@ -246,18 +253,16 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
                     children: [
                       Text(
                         '$displayActor · ${action.toUpperCase()}',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w700,
-                          color: palette.text,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w800,
+                          color: colors.primaryText,
                         ),
                       ),
                       Text(
                         '$targetTable${targetId.isNotEmpty ? ' · $targetId' : ''}',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w500,
-                          color: palette.text3,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colors.tertiaryText,
+                          fontWeight: FontWeight.w600,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -267,10 +272,9 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
                 ),
                 Text(
                   createdAt,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w400,
-                    color: palette.text3,
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: colors.tertiaryText,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(width: 4),
@@ -279,23 +283,20 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
                       ? Icons.expand_less_rounded
                       : Icons.expand_more_rounded,
                   size: 18,
-                  color: palette.text3,
+                  color: colors.tertiaryText,
                 ),
               ],
             ),
-
-            // ── Expanded details ──────────────────────────────────
             if (_expanded) ...[
               const SizedBox(height: 12),
-              const Divider(height: 1),
+              Divider(height: 1, color: colors.divider),
               const SizedBox(height: 12),
               if (e['old_data'] != null) ...[
                 Text(
                   'Previous',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.red.shade300,
+                  style: theme.textTheme.labelLarge?.copyWith(
+                    color: colors.danger,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -305,10 +306,9 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
               if (e['new_data'] != null) ...[
                 Text(
                   'New',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.green.shade300,
+                  style: theme.textTheme.labelLarge?.copyWith(
+                    color: colors.success,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -336,29 +336,31 @@ class _JsonPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final text = data is Map
-        ? (data as Map)
-            .entries
-            .take(8)
-            .map((e) => '${e.key}: ${e.value}')
-            .join('\n')
+        ? (data as Map).entries
+              .take(8)
+              .map((e) => '${e.key}: ${e.value}')
+              .join('\n')
         : data.toString();
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(10),
+      padding: CoolSpace.denseSectionPadding.copyWith(
+        top: CoolSpace.x2 + 2,
+        bottom: CoolSpace.x2 + 2,
+      ),
       decoration: BoxDecoration(
-        color: palette.bg,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: palette.border),
+        color: colors.inputSurface,
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.xs)),
+        border: Border.all(color: colors.border),
       ),
       child: Text(
         text,
-        style: GoogleFonts.jetBrainsMono(
-          fontSize: 10,
-          fontWeight: FontWeight.w400,
-          color: palette.text3,
+        style: context.coolText.mono(
+          theme.textTheme.labelSmall?.copyWith(color: colors.tertiaryText),
+          height: 1.4,
         ),
         maxLines: 8,
         overflow: TextOverflow.ellipsis,

@@ -379,6 +379,106 @@ class AdminRepository {
     return _asListOfMaps(data);
   }
 
+  Future<List<Map<String, dynamic>>> fetchMomoSmsOperationalSummary() async {
+    final data = await _client.rpc('get_momo_sms_operational_summary');
+    return _asListOfMaps(data);
+  }
+
+  Future<List<Map<String, dynamic>>> fetchMomoSmsSenderInventory({
+    int limit = 20,
+    bool includeApproved = false,
+  }) async {
+    final data = await _client.rpc(
+      'get_momo_sms_sender_inventory',
+      params: <String, dynamic>{
+        'p_limit': limit,
+        'p_include_approved': includeApproved,
+      },
+    );
+    return _asListOfMaps(data);
+  }
+
+  Future<void> acknowledgeMomoSmsSenderInventory({
+    required String senderToken,
+    String? note,
+  }) async {
+    await _client.rpc(
+      'admin_acknowledge_momo_sms_sender_inventory',
+      params: <String, dynamic>{
+        'p_sender_token': senderToken,
+        'p_note': _trimmed(note),
+      },
+    );
+  }
+
+  Future<int> acknowledgeMomoSmsSenderInventoryBatch({
+    required List<String> senderTokens,
+    String? note,
+  }) async {
+    if (senderTokens.isEmpty) {
+      return 0;
+    }
+
+    final data = await _client.rpc(
+      'admin_acknowledge_momo_sms_sender_inventory_batch',
+      params: <String, dynamic>{
+        'p_sender_tokens': senderTokens,
+        'p_note': _trimmed(note),
+      },
+    );
+    final rows = _asListOfMaps(data);
+    if (rows.isEmpty) {
+      return 0;
+    }
+    return _asInt(rows.first['acknowledged_count']);
+  }
+
+  Future<List<Map<String, dynamic>>> fetchMomoSmsManualReviewQueue({
+    int limit = 50,
+    int offset = 0,
+  }) async {
+    final data = await _client.rpc(
+      'get_momo_sms_manual_review_queue',
+      params: <String, dynamic>{'p_limit': limit, 'p_offset': offset},
+    );
+    return _asListOfMaps(data);
+  }
+
+  Future<void> rejectMomoSmsManualReview({
+    required String reviewId,
+    String? note,
+  }) async {
+    await _client.rpc(
+      'admin_reject_momo_sms_manual_review',
+      params: <String, dynamic>{
+        'p_review_id': reviewId,
+        'p_note': _trimmed(note),
+      },
+    );
+  }
+
+  Future<int> rejectMomoSmsManualReviewBatch({
+    required List<String> reviewIds,
+    String? note,
+  }) async {
+    if (reviewIds.isEmpty) {
+      return 0;
+    }
+
+    final data = await _client.rpc(
+      'admin_reject_momo_sms_manual_review_batch',
+      params: <String, dynamic>{
+        'p_review_ids': reviewIds,
+        'p_note': _trimmed(note),
+      },
+    );
+    final rows = _asListOfMaps(data);
+    if (rows.isEmpty) {
+      return 0;
+    }
+    return _asInt(rows.first['rejected_count']);
+  }
+
   Future<List<Map<String, dynamic>>> fetchRecentOperationalHealthEvents({
     int limit = 40,
   }) async {
@@ -946,5 +1046,15 @@ class AdminRepository {
       return null;
     }
     return text;
+  }
+
+  int _asInt(dynamic value) {
+    if (value is int) {
+      return value;
+    }
+    if (value is num) {
+      return value.toInt();
+    }
+    return int.tryParse(value?.toString() ?? '') ?? 0;
   }
 }

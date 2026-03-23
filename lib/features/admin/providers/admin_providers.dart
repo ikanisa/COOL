@@ -64,6 +64,21 @@ final adminOperationalTriageIssuesProvider =
       return ref.read(adminRepositoryProvider).fetchOperationalTriageIssues();
     });
 
+final adminMomoSmsOperationalSummaryProvider =
+    FutureProvider<List<Map<String, dynamic>>>((ref) async {
+      return ref.read(adminRepositoryProvider).fetchMomoSmsOperationalSummary();
+    });
+
+final adminMomoSmsSenderInventoryProvider =
+    FutureProvider<List<Map<String, dynamic>>>((ref) async {
+      return ref.read(adminRepositoryProvider).fetchMomoSmsSenderInventory();
+    });
+
+final adminMomoSmsManualReviewQueueProvider =
+    FutureProvider<List<Map<String, dynamic>>>((ref) async {
+      return ref.read(adminRepositoryProvider).fetchMomoSmsManualReviewQueue();
+    });
+
 final adminRecentOperationalHealthEventsProvider =
     FutureProvider<List<Map<String, dynamic>>>((ref) async {
       return ref
@@ -71,16 +86,18 @@ final adminRecentOperationalHealthEventsProvider =
           .fetchRecentOperationalHealthEvents();
     });
 
-final platformAnalyticsProvider =
-    FutureProvider<Map<String, dynamic>>((ref) async {
-      return ref.read(adminRepositoryProvider).fetchPlatformAnalytics();
-    });
+final platformAnalyticsProvider = FutureProvider<Map<String, dynamic>>((
+  ref,
+) async {
+  return ref.read(adminRepositoryProvider).fetchPlatformAnalytics();
+});
 
 final adminAuditLogProvider =
-    FutureProvider.family<List<Map<String, dynamic>>, String?>(
-      (ref, actionFilter) async {
-        return ref.read(adminRepositoryProvider).fetchAuditLog(
-          action: actionFilter,
-        );
-      },
-    );
+    FutureProvider.family<List<Map<String, dynamic>>, String?>((
+      ref,
+      actionFilter,
+    ) async {
+      return ref
+          .read(adminRepositoryProvider)
+          .fetchAuditLog(action: actionFilter);
+    });
