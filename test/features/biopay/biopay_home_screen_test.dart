@@ -11,7 +11,6 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          biopayEnabledProvider.overrideWith((ref) async => true),
           biopayModelAssetIssueProvider.overrideWith(
             (ref) async =>
                 'BioPay face model is not bundled in this build yet.',
