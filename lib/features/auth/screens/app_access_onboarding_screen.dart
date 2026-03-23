@@ -2,21 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/providers/app_access_provider.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/services/app_access_service.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 
-/// One-time post-auth permission onboarding screen.
+/// Optional app access setup screen.
 ///
-/// Shown once after user's first successful OTP verification. Requests
-/// SMS, Location, Contacts, Camera, Photos, and NFC permissions. The user
-/// can allow or skip each one; skipped permissions are re-triggered
-/// contextually when the user initiates a feature requiring that access.
+/// Permissions stay contextual in COOL. This screen gives users a single
+/// place to review and enable access ahead of time, but every permission
+/// can still be granted later from the feature that needs it.
 class AppAccessOnboardingScreen extends ConsumerStatefulWidget {
   const AppAccessOnboardingScreen({this.redirectPath, super.key});
 
@@ -56,9 +55,7 @@ class _AppAccessOnboardingScreenState
     setState(() {
       _snapshots
         ..clear()
-        ..addEntries(
-          snapshots.map((s) => MapEntry(s.permission, s)),
-        );
+        ..addEntries(snapshots.map((s) => MapEntry(s.permission, s)));
       _isLoading = false;
     });
   }
@@ -73,8 +70,7 @@ class _AppAccessOnboardingScreenState
     });
   }
 
-  int get _grantedCount =>
-      _snapshots.values.where((s) => s.isReady).length;
+  int get _grantedCount => _snapshots.values.where((s) => s.isReady).length;
 
   Future<void> _continue() async {
     setState(() => _isContinuing = true);
@@ -85,7 +81,10 @@ class _AppAccessOnboardingScreenState
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
 
     return CoolScreenBackground(
       showGlow: true,
@@ -94,72 +93,68 @@ class _AppAccessOnboardingScreenState
         body: SafeArea(
           child: Column(
             children: [
-              const SizedBox(height: 48),
+              SizedBox(height: space.x12),
 
               // ── Header ──────────────────────────────────────────
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
+                padding: EdgeInsets.symmetric(horizontal: space.x6),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       width: 56,
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: palette.accentGlow,
-                        borderRadius: BorderRadius.circular(18),
-                      ),
-                      child: Icon(
-                        Icons.admin_panel_settings_outlined,
-                        color: palette.accent,
-                        size: 28,
+                      child: CoolCard(
+                        padding: EdgeInsets.all(space.x3),
+                        borderRadius: radii.lg,
+                        backgroundColor: colors.chipSelectedBackground,
+                        borderColor: colors.accent.withValues(alpha: 0.18),
+                        child: Icon(
+                          Icons.admin_panel_settings_outlined,
+                          color: colors.accent,
+                          size: 28,
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: space.x5),
                     Text(
                       'App Access',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 30,
+                      style: theme.textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.w800,
-                        color: palette.text,
+                        color: colors.primaryText,
                         height: 1.1,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: space.x2),
                     Text(
-                      'Cool needs a few permissions to deliver the best '
-                      'experience. You can always change these later in Settings.',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: palette.text2,
+                      'Turn on access only when you need it. You can skip now '
+                      'and manage permissions later in Settings.',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: colors.secondaryText,
                         height: 1.45,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: space.x2),
                     if (!_isLoading)
                       Text(
                         '$_grantedCount/${_permissions.length} ready',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 13,
+                        style: theme.textTheme.bodySmall?.copyWith(
                           fontWeight: FontWeight.w700,
-                          color: palette.accent,
+                          color: colors.accent,
                         ),
                       ),
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: space.x5),
 
               // ── Permission list ─────────────────────────────────
               Expanded(
                 child: _isLoading
                     ? const Center(child: CupertinoActivityIndicator())
                     : ListView.separated(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        padding: EdgeInsets.symmetric(horizontal: space.x6),
                         itemCount: _permissions.length,
-                        separatorBuilder: (_, _) =>
-                            const SizedBox(height: 10),
+                        separatorBuilder: (_, _) => SizedBox(height: space.x2),
                         itemBuilder: (context, index) {
                           final permission = _permissions[index];
                           final snapshot = _snapshots[permission];
@@ -176,7 +171,12 @@ class _AppAccessOnboardingScreenState
 
               // ── CTA ──────────────────────────────────────────────
               Padding(
-                padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
+                padding: EdgeInsets.fromLTRB(
+                  space.x6,
+                  space.x3,
+                  space.x6,
+                  space.x6,
+                ),
                 child: CoolButton(
                   label: 'Continue',
                   onTap: _continue,
@@ -208,56 +208,55 @@ class _PermissionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
     final isReady = snapshot.isReady;
-    final isUnavailable =
-        snapshot.kind == AppAccessStateKind.notAvailable;
+    final isUnavailable = snapshot.kind == AppAccessStateKind.notAvailable;
 
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: palette.surface2,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(
-          color: isReady ? palette.accent.withValues(alpha: 0.3) : palette.border,
-        ),
-      ),
+    return CoolCard(
+      padding: EdgeInsets.all(space.x3),
+      backgroundColor: colors.cardSurface,
+      borderRadius: radii.lg,
+      borderColor: isReady
+          ? colors.accent.withValues(alpha: 0.3)
+          : colors.border,
       child: Row(
         children: [
           Container(
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: isReady ? palette.accentGlow : palette.surface3,
-              borderRadius: BorderRadius.circular(14),
+              color: isReady
+                  ? colors.accent.withValues(alpha: 0.08)
+                  : colors.cardSurfaceStrong,
+              borderRadius: BorderRadius.all(Radius.circular(radii.sm)),
             ),
             alignment: Alignment.center,
             child: Icon(
               metadata.icon,
-              color: isReady ? palette.accent : palette.text2,
+              color: isReady ? colors.accent : colors.secondaryText,
               size: 22,
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: space.x3),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   metadata.title,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
+                  style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w700,
-                    color: palette.text,
+                    color: colors.primaryText,
                   ),
                 ),
-                const SizedBox(height: 3),
+                SizedBox(height: space.x1),
                 Text(
                   metadata.subtitle,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: palette.text3,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colors.tertiaryText,
                     height: 1.4,
                   ),
                   maxLines: 2,
@@ -266,7 +265,7 @@ class _PermissionCard extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(width: 10),
+          SizedBox(width: space.x2),
           if (isBusy)
             const SizedBox(
               width: 24,
@@ -278,18 +277,17 @@ class _PermissionCard extends StatelessWidget {
               width: 32,
               height: 32,
               decoration: BoxDecoration(
-                color: palette.accentGlow,
-                borderRadius: BorderRadius.circular(10),
+                color: colors.accent.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.all(Radius.circular(radii.xs)),
               ),
-              child: Icon(Icons.check_rounded, color: palette.accent, size: 18),
+              child: Icon(Icons.check_rounded, color: colors.accent, size: 18),
             )
           else if (isUnavailable)
             Text(
               'N/A',
-              style: GoogleFonts.dmSans(
-                fontSize: 11,
+              style: theme.textTheme.labelSmall?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: palette.text3,
+                color: colors.tertiaryText,
               ),
             )
           else
@@ -307,22 +305,25 @@ class _AllowButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
+
+    return TextButton(
+      onPressed: onTap,
+      style: TextButton.styleFrom(
+        minimumSize: const Size(72, 48),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-        decoration: BoxDecoration(
-          color: palette.accent,
-          borderRadius: BorderRadius.circular(12),
+        backgroundColor: colors.accent,
+        foregroundColor: colors.accentForeground,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(radii.sm)),
         ),
-        child: Text(
-          'Allow',
-          style: GoogleFonts.dmSans(
-            fontSize: 12,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-          ),
+      ),
+      child: Text(
+        'Allow',
+        style: theme.textTheme.labelSmall?.copyWith(
+          fontWeight: FontWeight.w700,
         ),
       ),
     );
@@ -349,7 +350,7 @@ _OnboardingPermissionMeta _metadataFor(AppAccessPermission permission) {
       icon: Icons.sms_outlined,
       title: 'SMS Access',
       subtitle:
-          'Auto-verify M-Money payments and reconcile group contributions.',
+          'Optional. Import approved M-Money confirmations and auto-verify payments.',
     ),
     AppAccessPermission.location => const _OnboardingPermissionMeta(
       icon: Icons.location_on_outlined,
@@ -359,8 +360,7 @@ _OnboardingPermissionMeta _metadataFor(AppAccessPermission permission) {
     AppAccessPermission.contacts => const _OnboardingPermissionMeta(
       icon: Icons.contacts_outlined,
       title: 'Contacts',
-      subtitle:
-          'Send money, invite friends, and pick contacts for groups.',
+      subtitle: 'Send money, invite friends, and pick contacts for groups.',
     ),
     AppAccessPermission.camera => const _OnboardingPermissionMeta(
       icon: Icons.camera_alt_outlined,

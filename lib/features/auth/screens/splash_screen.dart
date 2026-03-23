@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_brand_mark.dart';
-import '../providers/auth_provider.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
+import '../providers/auth_provider.dart';
 
 /// Animated splash screen that checks auth state and redirects.
 ///
@@ -48,124 +48,116 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
     final authState = ref.watch(authProvider);
     final showRestoreFailure =
         authState.session != null &&
         authState.profileRestoreState == AuthProfileRestoreState.failed;
 
     return CoolScreenBackground(
-
-
       showGlow: true,
-
-
       child: Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 360),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // ── Brand mark ────────────────────────────────────────
-                FadeTransition(
-                  opacity: _logoFade,
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 112,
-                        height: 112,
-                        decoration: BoxDecoration(
-                          color: palette.surface2,
-                          borderRadius: BorderRadius.circular(28),
-                          border: Border.all(color: palette.border),
-                        ),
-                        alignment: Alignment.center,
-                        child: const CoolBrandMark(size: 68),
-                      ),
-                      const SizedBox(height: 14),
-                      Text(
-                        'Cool',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 26,
-                          fontWeight: FontWeight.w700,
-                          color: palette.text,
-                          letterSpacing: -0.8,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20),
-                SizedBox(
-                  width: 22,
-                  height: 22,
-                  child: CupertinoActivityIndicator(
-                    radius: 11,
-                    color: palette.accent,
-                  ),
-                ),
-                AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 220),
-                  child: !showRestoreFailure
-                      ? const SizedBox.shrink()
-                      : Padding(
-                          padding: const EdgeInsets.only(top: 28),
-                          child: Container(
-                            key: const ValueKey('restore_failure_card'),
-                            padding: const EdgeInsets.all(18),
-                            decoration: BoxDecoration(
-                              color: palette.surface2,
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: palette.border),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  'We could not restore',
-                                  style: GoogleFonts.dmSans(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    color: palette.text,
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  authState.error ??
-                                      'Check your connection and try again.',
-                                  style: GoogleFonts.dmSans(
-                                    fontSize: 13,
-                                    height: 1.45,
-                                    color: palette.text2,
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-                                CoolButton(
-                                  label: context.l10n.retry,
-                                  onTap: () {
-                                    ref
-                                        .read(authProvider.notifier)
-                                        .restoreCurrentUser();
-                                  },
-                                ),
-                              ],
+        backgroundColor: Colors.transparent,
+        body: Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: space.x6),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 360),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // ── Brand mark ────────────────────────────────────────
+                  FadeTransition(
+                    opacity: _logoFade,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          width: 112,
+                          child: CoolCard(
+                            padding: EdgeInsets.all(space.x4),
+                            borderRadius: radii.xl,
+                            backgroundColor: colors.cardSurface,
+                            child: const AspectRatio(
+                              aspectRatio: 1,
+                              child: Center(child: CoolBrandMark(size: 68)),
                             ),
                           ),
                         ),
-                ),
-              ],
+                        SizedBox(height: space.x3),
+                        Text(
+                          'Cool',
+                          style: theme.textTheme.headlineSmall?.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: colors.primaryText,
+                            letterSpacing: -0.8,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: space.x5),
+                  SizedBox(
+                    width: 22,
+                    height: 22,
+                    child: CupertinoActivityIndicator(
+                      radius: 11,
+                      color: colors.accent,
+                    ),
+                  ),
+                  AnimatedSwitcher(
+                    duration: CoolMotion.medium,
+                    child: !showRestoreFailure
+                        ? const SizedBox.shrink()
+                        : Padding(
+                            padding: EdgeInsets.only(top: space.x7),
+                            child: CoolCard(
+                              key: const ValueKey('restore_failure_card'),
+                              padding: EdgeInsets.all(space.x4),
+                              borderRadius: radii.md,
+                              backgroundColor: colors.cardSurface,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    'We could not restore',
+                                    style: theme.textTheme.titleSmall?.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      color: colors.primaryText,
+                                    ),
+                                  ),
+                                  SizedBox(height: space.x2),
+                                  Text(
+                                    authState.error ??
+                                        'Check your connection and try again.',
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                      color: colors.secondaryText,
+                                      height: 1.45,
+                                    ),
+                                  ),
+                                  SizedBox(height: space.x4),
+                                  CoolButton(
+                                    label: context.l10n.retry,
+                                    onTap: () {
+                                      ref
+                                          .read(authProvider.notifier)
+                                          .restoreCurrentUser();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
-    ),
-
-
     );
   }
 }

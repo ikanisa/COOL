@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/config/app_market.dart';
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../providers/auth_provider.dart';
 import '../../../core/l10n/l10n.dart';
@@ -142,11 +140,7 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
       _shakeController.forward(from: 0);
       HapticFeedback.mediumImpact();
     } else if (authState.session != null) {
-      // Navigate to permission onboarding; it handles redirect-to-home
-      // after the user addresses all permissions.
-      context.go(
-        AppRoutes.appAccessLocation(redirect: widget.redirectPath),
-      );
+      context.go(widget.redirectPath ?? AppRoutes.home);
     }
   }
 
@@ -182,158 +176,155 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
     final authState = ref.watch(authProvider);
 
     return CoolScreenBackground(
-
-
       showGlow: true,
-
-
       child: Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: AppBar(
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          tooltip: context.l10n.back,
-          onPressed: () =>
-              context.go(AppRoutes.otpLocation(redirect: widget.redirectPath)),
-          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            tooltip: context.l10n.back,
+            onPressed: () => context.go(
+              AppRoutes.otpLocation(redirect: widget.redirectPath),
+            ),
+            icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
+          ),
         ),
-      ),
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                child: IntrinsicHeight(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 48),
+        body: SafeArea(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: space.x6),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: IntrinsicHeight(
+                    child: Column(
+                      children: [
+                        SizedBox(height: space.x12),
 
-                      // ── Title ─────────────────────────────────────────
-                      Text(
-                        'Verify code',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 34,
-                          fontWeight: FontWeight.w800,
-                          color: palette.text,
-                          height: 1.1,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        'Enter the 6-digit code',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                          color: palette.text2,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        widget.phoneNumber,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: palette.accent,
-                        ),
-                      ),
-                      const SizedBox(height: 40),
-
-                      // ── OTP boxes ─────────────────────────────────────
-                      AnimatedBuilder(
-                        animation: _shakeAnimation,
-                        builder: (context, child) {
-                          final dx =
-                              _shakeAnimation.value *
-                              8 *
-                              _shakeOffset(_shakeController.value);
-                          return Transform.translate(
-                            offset: Offset(dx, 0),
-                            child: child,
-                          );
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: List.generate(_codeLength, _buildBox),
-                        ),
-                      ),
-
-                      // ── Error ─────────────────────────────────────────
-                      if (_errorText != null) ...[
-                        const SizedBox(height: 12),
+                        // ── Title ─────────────────────────────────────────
                         Text(
-                          _errorText!,
-                          style: GoogleFonts.dmSans(
-                            fontSize: 13,
-                            color: palette.red,
+                          'Verify code',
+                          style: theme.textTheme.displaySmall?.copyWith(
+                            fontWeight: FontWeight.w800,
+                            color: colors.primaryText,
+                            height: 1.1,
                           ),
-                          textAlign: TextAlign.center,
                         ),
-                      ],
+                        SizedBox(height: space.x3),
+                        Text(
+                          'Enter the 6-digit code',
+                          style: theme.textTheme.bodyLarge?.copyWith(
+                            color: colors.secondaryText,
+                          ),
+                        ),
+                        SizedBox(height: space.x1),
+                        Text(
+                          widget.phoneNumber,
+                          style: theme.textTheme.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: colors.accent,
+                          ),
+                        ),
+                        SizedBox(height: space.x10),
 
-                      const SizedBox(height: 24),
+                        // ── OTP boxes ─────────────────────────────────────
+                        AnimatedBuilder(
+                          animation: _shakeAnimation,
+                          builder: (context, child) {
+                            final dx =
+                                _shakeAnimation.value *
+                                8 *
+                                _shakeOffset(_shakeController.value);
+                            return Transform.translate(
+                              offset: Offset(dx, 0),
+                              child: child,
+                            );
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: List.generate(_codeLength, _buildBox),
+                          ),
+                        ),
 
-                      // ── Resend ────────────────────────────────────────
-                      if (_resendSeconds > 0) Text(
-                              'Resend in ${_resendSeconds}s',
-                              style: GoogleFonts.dmSans(
-                                fontSize: 12,
-                                color: palette.text3,
-                              ),
-                            ) else Semantics(
-                              button: true,
-                              label: 'Resend verification code',
-                              child: GestureDetector(
-                                onTap: _resend,
-                                child: Text(
-                                  'Resend Code',
-                                  style: GoogleFonts.dmSans(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w600,
-                                    color: palette.accent,
-                                  ),
+                        // ── Error ─────────────────────────────────────────
+                        if (_errorText != null) ...[
+                          SizedBox(height: space.x3),
+                          Text(
+                            _errorText!,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: colors.danger,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+
+                        SizedBox(height: space.x6),
+
+                        // ── Resend ────────────────────────────────────────
+                        if (_resendSeconds > 0)
+                          Text(
+                            'Resend in ${_resendSeconds}s',
+                            style: theme.textTheme.labelSmall?.copyWith(
+                              color: colors.tertiaryText,
+                            ),
+                          )
+                        else
+                          Semantics(
+                            button: true,
+                            label: 'Resend verification code',
+                            child: GestureDetector(
+                              onTap: _resend,
+                              child: Text(
+                                'Resend Code',
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: colors.accent,
                                 ),
                               ),
                             ),
+                          ),
 
-                      const Spacer(),
+                        const Spacer(),
 
-                      // ── CTA ───────────────────────────────────────────
-                      CoolButton(
-                        label: 'Verify',
-                        onTap: _verify,
-                        isLoading: authState.isLoading,
-                      ),
-                      const SizedBox(height: 24),
-                    ],
+                        // ── CTA ───────────────────────────────────────────
+                        CoolButton(
+                          label: 'Verify',
+                          onTap: _verify,
+                          isLoading: authState.isLoading,
+                        ),
+                        SizedBox(height: space.x6),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
-    ),
-
-
     );
   }
 
   // ── Individual OTP box ────────────────────────────────────────────
 
   Widget _buildBox(int index) {
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
     final hasFocus = _focusNodes[index].hasFocus;
     final borderColor = _hasError
-        ? AppColors.red
+        ? colors.danger
         : hasFocus
-        ? AppColors.accent
-        : AppColors.border;
+        ? colors.accent
+        : colors.border;
 
     return Focus(
       onKeyEvent: (_, event) => _handleBackspace(index, event),
@@ -351,29 +342,29 @@ class _OtpVerifyScreenState extends ConsumerState<OtpVerifyScreen>
             maxLength: 1,
             keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            style: GoogleFonts.dmMono(
-              fontSize: 24,
+            style: theme.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.w700,
-              color: AppColors.text,
+              color: colors.primaryText,
+              fontFamily: 'monospace',
             ),
-            cursorColor: AppColors.accent,
+            cursorColor: colors.accent,
             decoration: InputDecoration(
               counterText: '',
               filled: true,
-              fillColor: AppColors.surface2,
+              fillColor: colors.cardSurface,
               contentPadding: const EdgeInsets.symmetric(vertical: 14),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.all(Radius.circular(radii.sm)),
                 borderSide: BorderSide(color: borderColor),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.all(Radius.circular(radii.sm)),
                 borderSide: BorderSide(color: borderColor),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.all(Radius.circular(radii.sm)),
                 borderSide: BorderSide(
-                  color: _hasError ? AppColors.red : AppColors.accent,
+                  color: _hasError ? colors.danger : colors.accent,
                   width: 1.5,
                 ),
               ),

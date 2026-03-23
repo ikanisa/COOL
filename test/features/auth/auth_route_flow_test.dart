@@ -164,12 +164,12 @@ void main() {
         authRepositoryProvider.overrideWithValue(repository),
         authProvider.overrideWith(
           (ref) => TestRouteAuthNotifier(
-                repository: ref.watch(authRepositoryProvider),
-                crashlytics: ref.read(crashlyticsServiceProvider),
-                performance: ref.read(performanceServiceProvider),
-                momoService: ref.read(momoServiceProvider),
-                session: session,
-              ),
+            repository: ref.watch(authRepositoryProvider),
+            crashlytics: ref.read(crashlyticsServiceProvider),
+            performance: ref.read(performanceServiceProvider),
+            momoService: ref.read(momoServiceProvider),
+            session: session,
+          ),
         ),
         supportedCountriesRepositoryProvider.overrideWithValue(
           supportedCountriesRepository ?? FakeSupportedCountriesRepository(),
@@ -196,6 +196,20 @@ void main() {
   }
 
   group('auth route builders', () {
+    testWidgets('onboarding primary CTA opens the OTP route', (tester) async {
+      await pumpRouterApp(tester, initialLocation: AppRoutes.onboarding);
+      await _settleRouter(tester);
+
+      expect(find.text('Welcome to COOL'), findsOneWidget);
+      expect(find.text('Pay, save, and move.'), findsOneWidget);
+
+      await tester.tap(find.text('Get Started'));
+      await tester.pump();
+      await _settleRouter(tester);
+
+      expect(find.byType(OtpScreen), findsOneWidget);
+    });
+
     testWidgets('otp routes preserve redirect params while signed out', (
       tester,
     ) async {
@@ -258,7 +272,7 @@ void main() {
 
       await tester.enterText(phoneField, '700000001');
       await tester.pump();
-      tester.widget<CoolButton>(continueButton).onTap();
+      await tester.tap(continueButton);
       await tester.pump();
       await _settleRouter(tester);
 

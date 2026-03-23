@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/phone_validator.dart';
 import '../../../shared/widgets/cool_button.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_text_field.dart';
 import '../../../shared/widgets/momo_route_type_selector.dart';
@@ -155,12 +155,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
     final authState = ref.watch(authProvider);
     final selectedCountry = _country;
 
     return Scaffold(
-      backgroundColor: palette.bg,
+      backgroundColor: colors.appBackground,
       appBar: AppBar(
         automaticallyImplyLeading: true,
         backgroundColor: Colors.transparent,
@@ -168,68 +171,57 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         leading: IconButton(
           onPressed: () => context.pop(),
           tooltip: context.l10n.back,
-          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
+          icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
         ),
       ),
       body: CoolScreenBackground(
-        primaryColor: palette.accent,
-        secondaryColor: palette.blue,
+        primaryColor: colors.accent,
+        secondaryColor: colors.info,
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(18, 12, 18, 96),
+            padding: EdgeInsets.fromLTRB(space.x5, space.x3, space.x5, 96),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Create Profile',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 34,
+                  'Finish setup',
+                  style: theme.textTheme.displaySmall?.copyWith(
                     fontWeight: FontWeight.w800,
-                    color: palette.text,
+                    color: colors.primaryText,
                     height: 1.1,
                   ),
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: space.x3),
                 Text(
-                  'Setup your account to',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    color: palette.text2,
+                  'Choose your default payout route.',
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    color: colors.secondaryText,
                   ),
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: space.x6),
 
                 if (widget.phone.isNotEmpty) ...[
                   _VerifiedPhoneCard(phoneNumber: widget.phone),
-                  const SizedBox(height: 24),
+                  SizedBox(height: space.x6),
                 ],
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: palette.blueGlow,
-                    borderRadius: BorderRadius.circular(18),
-                    border: Border.all(
-                      color: palette.blue.withValues(alpha: 0.18),
-                    ),
-                  ),
+                CoolCard(
+                  padding: EdgeInsets.all(space.x4),
+                  useGradient: false,
+                  backgroundColor: colors.info.withValues(alpha: 0.08),
+                  borderColor: colors.info.withValues(alpha: 0.18),
+                  borderRadius: radii.lg,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(
-                        Icons.badge_outlined,
-                        color: palette.blue,
-                        size: 20,
-                      ),
-                      const SizedBox(width: 12),
+                      Icon(Icons.badge_outlined, color: colors.info, size: 20),
+                      SizedBox(width: space.x3),
                       Expanded(
                         child: Text(
-                           'Your name will be',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 13,
+                          'Add name later in Profile.',
+                          style: theme.textTheme.bodySmall?.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: palette.text,
+                            color: colors.primaryText,
                             height: 1.45,
                           ),
                         ),
@@ -237,48 +229,46 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: space.x5),
 
                 // ── Market (fixed to Rwanda) ──────────────────────────
                 Text(
                   'Market',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 13,
+                  style: theme.textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w500,
-                    color: palette.text2,
+                    color: colors.secondaryText,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: space.x2),
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 14,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: space.x3,
+                    vertical: space.x3,
                   ),
                   decoration: BoxDecoration(
-                    color: palette.surface2,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: palette.border),
+                    color: colors.cardSurface,
+                    borderRadius: BorderRadius.all(Radius.circular(radii.sm)),
+                    border: Border.all(color: colors.border),
                   ),
                   child: Row(
                     children: [
                       Text(
                         selectedCountry.flagEmoji,
-                        style: const TextStyle(fontSize: 18),
+                        style: theme.textTheme.titleSmall?.copyWith(height: 1),
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: space.x2),
                       Text(
                         '${selectedCountry.name} ${selectedCountry.dialCode}',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 15,
+                        style: theme.textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.w500,
-                          color: palette.text,
+                          color: colors.primaryText,
                         ),
                       ),
                     ],
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                SizedBox(height: space.x5),
 
                 // ── MOMO Number ────────────────────────────────────────
                 CoolTextField(
@@ -300,29 +290,30 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     );
                     if (label == null) return const SizedBox.shrink();
                     return Padding(
-                      padding: const EdgeInsets.only(top: 8),
+                      padding: EdgeInsets.only(top: space.x2),
                       child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 4,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: space.x2,
+                          vertical: space.x1,
                         ),
                         decoration: BoxDecoration(
-                          color: palette.accentGlow,
-                          borderRadius: BorderRadius.circular(8),
+                          color: colors.accent.withValues(alpha: 0.08),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(radii.xs),
+                          ),
                         ),
                         child: Text(
                           label,
-                          style: GoogleFonts.dmSans(
-                            fontSize: 12,
+                          style: theme.textTheme.labelSmall?.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: palette.accent,
+                            color: colors.accent,
                           ),
                         ),
                       ),
                     );
                   },
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: space.x4),
                 Semantics(
                   button: true,
                   label: _showOptionalDetails
@@ -334,15 +325,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ),
                     behavior: HitTestBehavior.opaque,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 6),
+                      padding: EdgeInsets.symmetric(vertical: space.x1),
                       child: Row(
                         children: [
                           Text(
                             'Optional details',
-                            style: GoogleFonts.dmSans(
-                              fontSize: 14,
+                            style: theme.textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
-                              color: palette.text2,
+                              color: colors.secondaryText,
                             ),
                           ),
                           const Spacer(),
@@ -350,7 +340,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             _showOptionalDetails
                                 ? Icons.keyboard_arrow_up_rounded
                                 : Icons.keyboard_arrow_down_rounded,
-                            color: palette.text3,
+                            color: colors.tertiaryText,
                           ),
                         ],
                       ),
@@ -366,7 +356,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (selectedCountry.supportsMomoCode) ...[
-                        const SizedBox(height: 8),
+                        SizedBox(height: space.x2),
                         CoolTextField(
                           label: 'MoMo Code (optional)',
                           hint: selectedCountry.momoCodeExample ?? '123456',
@@ -378,16 +368,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           validator: (v) =>
                               _validateMomoCode(selectedCountry, v),
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: space.x4),
                         Text(
                           'Default receive route',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 13,
+                          style: theme.textTheme.bodySmall?.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: palette.text2,
+                            color: colors.secondaryText,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: space.x2),
                         MomoRouteTypeSelector(
                           value: _selectedMomoRouteType,
                           onChanged: (value) {
@@ -397,26 +386,25 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             });
                           },
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: space.x2),
                         const SizedBox.shrink(),
                       ],
                     ],
                   ),
                   secondChild: const SizedBox.shrink(),
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: space.x6),
 
                 // ── Error text ─────────────────────────────────────────
                 if (_errorText != null) ...[
                   Text(
                     _errorText!,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
+                    style: theme.textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w500,
-                      color: palette.red,
+                      color: colors.danger,
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: space.x3),
                 ],
 
                 // ── CTA ────────────────────────────────────────────────
@@ -441,30 +429,28 @@ class _VerifiedPhoneCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: palette.accentGlow,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: palette.accent),
-      ),
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
+
+    return CoolCard(
+      padding: EdgeInsets.all(space.x3),
+      useGradient: false,
+      backgroundColor: colors.accent.withValues(alpha: 0.08),
+      borderColor: colors.accent,
+      borderRadius: radii.sm,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            Icons.check_circle_rounded,
-            size: 18,
-            color: palette.accent,
-          ),
-          const SizedBox(width: 10),
+          Icon(Icons.check_circle_rounded, size: 18, color: colors.accent),
+          SizedBox(width: space.x2),
           Expanded(
             child: Text(
               'Verified: $phoneNumber',
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
+              style: theme.textTheme.bodySmall?.copyWith(
                 fontWeight: FontWeight.w500,
-                color: palette.accent,
+                color: colors.accent,
                 height: 1.4,
               ),
             ),

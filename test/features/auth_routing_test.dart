@@ -136,6 +136,17 @@ void main() {
       expect(result, isNull);
     });
 
+    test('/app-access stays available for signed-in users', () {
+      final result = resolveAppRedirect(
+        location: AppRoutes.appAccess,
+        hasSession: true,
+        hasProfile: false,
+        profileRestoreState: AuthProfileRestoreState.available,
+        sessionPhone: '250781234567',
+      );
+      expect(result, isNull);
+    });
+
     test('protected route redirects back to splash when restore failed', () {
       final result = resolveAppRedirect(
         location: AppRoutes.groups,

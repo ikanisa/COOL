@@ -2,17 +2,17 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/config/app_market.dart';
 import '../../../core/config/env_config.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/phone_validator.dart';
 import '../../../core/providers/supported_countries_provider.dart';
 import '../../../shared/widgets/cool_button.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/auth_provider.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
@@ -116,7 +116,10 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
     final l10n = context.l10n;
     final authState = ref.watch(authProvider);
     final countries = ref.watch(supportedCountriesProvider);
@@ -124,195 +127,186 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
     final keyboardInset = MediaQuery.viewInsetsOf(context).bottom;
 
     return CoolScreenBackground(
-
-
       showGlow: true,
-
-
       child: Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: AppBar(
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          tooltip: context.l10n.back,
-          onPressed: () => context.go(
-            AppRoutes.onboardingLocation(redirect: widget.redirectPath),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            tooltip: context.l10n.back,
+            onPressed: () => context.go(
+              AppRoutes.onboardingLocation(redirect: widget.redirectPath),
+            ),
+            icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
           ),
-          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
         ),
-      ),
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) => SingleChildScrollView(
-            padding: EdgeInsets.fromLTRB(24, 0, 24, keyboardInset + 24),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: IntrinsicHeight(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 24),
+        body: SafeArea(
+          child: LayoutBuilder(
+            builder: (context, constraints) => SingleChildScrollView(
+              padding: EdgeInsets.fromLTRB(
+                space.x6,
+                0,
+                space.x6,
+                keyboardInset + space.x6,
+              ),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: space.x6),
 
-                    // ── Title ─────────────────────────────────────────
-                    Text(
-                      'Enter your number',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 34,
-                        fontWeight: FontWeight.w800,
-                        color: palette.text,
-                        height: 1.1,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      'A one-time code will be sent to your number',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: palette.text2,
-                        height: 1.4,
-                      ),
-                    ),
-                    const SizedBox(height: 32),
-
-                    // ── Phone input card ──────────────────────────────
-                    DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: palette.surface2,
-                        borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: palette.border),
-                      ),
-                      child: Semantics(
-                        textField: true,
-                        label: l10n.phoneLabel,
-                        hint: 'Enter your phone number',
-                        child: Row(
-                          children: [
-                            // Country code prefix
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 14,
-                                vertical: 16,
-                              ),
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  right: BorderSide(color: palette.border),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    currentCountry.flagEmoji,
-                                    style: const TextStyle(fontSize: 18),
-                                  ),
-                                  const SizedBox(width: 6),
-                                  Text(
-                                    currentCountry.dialCode,
-                                    style: GoogleFonts.dmSans(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                      color: palette.text,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            // Phone number input
-                            Expanded(
-                              child: TextField(
-                                controller: _phoneController,
-                                keyboardType: TextInputType.phone,
-                                textInputAction: TextInputAction.done,
-                                onSubmitted: (_) => _sendOtp(),
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: palette.text,
-                                  letterSpacing: 0.8,
-                                ),
-                                cursorColor: palette.accent,
-                                decoration: InputDecoration(
-                                  hintText: currentCountry.mobileExampleNational,
-                                  hintStyle: GoogleFonts.dmSans(
-                                    fontSize: 16,
-                                    color: palette.text3.withValues(
-                                      alpha: 0.5,
-                                    ),
-                                    letterSpacing: 0.5,
-                                  ),
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 14,
-                                  ),
-                                  border: InputBorder.none,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    // ── Error ─────────────────────────────────────────
-                    if (_errorText != null) ...[
-                      const SizedBox(height: 10),
+                      // ── Title ─────────────────────────────────────────
                       Text(
-                        _errorText!,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 13,
-                          color: palette.red,
+                        'Enter your number',
+                        style: theme.textTheme.displaySmall?.copyWith(
+                          fontWeight: FontWeight.w800,
+                          color: colors.primaryText,
+                          height: 1.1,
                         ),
                       ),
-                    ],
-
-                    const Spacer(),
-
-
-
-                    // ── CTA ───────────────────────────────────────────
-                    CoolButton(
-                      label: l10n.otpContinue,
-                      onTap: _sendOtp,
-                      isLoading: authState.isLoading,
-                    ),
-                    const SizedBox(height: 14),
-                    Text.rich(
-                      TextSpan(
-                        style: GoogleFonts.dmSans(
-                          fontSize: 12,
-                          color: palette.text3,
+                      SizedBox(height: space.x3),
+                      Text(
+                        'A one-time code will be sent to your number',
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          color: colors.secondaryText,
                           height: 1.4,
                         ),
-                        children: [
-                          TextSpan(text: l10n.otpLegalPrefix),
-                          TextSpan(
-                            text: l10n.termsLabel,
-                            style: TextStyle(color: palette.accent),
-                            recognizer: _termsRecognizer,
-                          ),
-                          TextSpan(text: l10n.otpLegalAnd),
-                          TextSpan(
-                            text: l10n.privacyPolicyLabel,
-                            style: TextStyle(color: palette.accent),
-                            recognizer: _privacyRecognizer,
-                          ),
-                          const TextSpan(text: '.'),
-                        ],
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 24),
-                  ],
+                      SizedBox(height: space.x8),
+
+                      // ── Phone input card ──────────────────────────────
+                      CoolCard(
+                        useGradient: false,
+                        padding: EdgeInsets.zero,
+                        backgroundColor: colors.cardSurface,
+                        borderRadius: radii.sm,
+                        child: Semantics(
+                          textField: true,
+                          label: l10n.phoneLabel,
+                          hint: 'Enter your phone number',
+                          child: Row(
+                            children: [
+                              // Country code prefix
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: space.x3,
+                                  vertical: space.x4,
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    right: BorderSide(color: colors.border),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      currentCountry.flagEmoji,
+                                      style: theme.textTheme.titleSmall
+                                          ?.copyWith(height: 1),
+                                    ),
+                                    SizedBox(width: space.x1),
+                                    Text(
+                                      currentCountry.dialCode,
+                                      style: theme.textTheme.bodyLarge
+                                          ?.copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            color: colors.primaryText,
+                                          ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              // Phone number input
+                              Expanded(
+                                child: TextField(
+                                  controller: _phoneController,
+                                  keyboardType: TextInputType.phone,
+                                  textInputAction: TextInputAction.done,
+                                  onSubmitted: (_) => _sendOtp(),
+                                  style: theme.textTheme.bodyLarge?.copyWith(
+                                    color: colors.primaryText,
+                                    letterSpacing: 0.8,
+                                  ),
+                                  cursorColor: colors.accent,
+                                  decoration: InputDecoration(
+                                    hintText:
+                                        currentCountry.mobileExampleNational,
+                                    hintStyle: theme.textTheme.bodyLarge
+                                        ?.copyWith(
+                                          color: colors.tertiaryText.withValues(
+                                            alpha: 0.5,
+                                          ),
+                                          letterSpacing: 0.5,
+                                        ),
+                                    contentPadding: EdgeInsets.symmetric(
+                                      horizontal: space.x3,
+                                    ),
+                                    border: InputBorder.none,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      // ── Error ─────────────────────────────────────────
+                      if (_errorText != null) ...[
+                        SizedBox(height: space.x2),
+                        Text(
+                          _errorText!,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: colors.danger,
+                          ),
+                        ),
+                      ],
+
+                      const Spacer(),
+
+                      // ── CTA ───────────────────────────────────────────
+                      CoolButton(
+                        label: l10n.otpContinue,
+                        onTap: _sendOtp,
+                        isLoading: authState.isLoading,
+                      ),
+                      SizedBox(height: space.x3),
+                      Text.rich(
+                        TextSpan(
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: colors.tertiaryText,
+                            height: 1.4,
+                          ),
+                          children: [
+                            TextSpan(text: l10n.otpLegalPrefix),
+                            TextSpan(
+                              text: l10n.termsLabel,
+                              style: TextStyle(color: colors.accent),
+                              recognizer: _termsRecognizer,
+                            ),
+                            TextSpan(text: l10n.otpLegalAnd),
+                            TextSpan(
+                              text: l10n.privacyPolicyLabel,
+                              style: TextStyle(color: colors.accent),
+                              recognizer: _privacyRecognizer,
+                            ),
+                            const TextSpan(text: '.'),
+                          ],
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: space.x6),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
         ),
       ),
-    ),
-
-
     );
   }
 }

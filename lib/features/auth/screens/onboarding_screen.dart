@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_brand_mark.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 
@@ -21,71 +21,74 @@ class OnboardingScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
+
     return CoolScreenBackground(
-
       showGlow: true,
-
       child: Scaffold(
-      backgroundColor: Colors.transparent,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(24, 32, 24, 40),
-          child: SizedBox(
-            width: double.infinity,
-            child: Column(
-              children: [
-                const SizedBox(height: 36),
-                Container(
-                  width: 96,
-                  height: 96,
-                  decoration: BoxDecoration(
-                    color: palette.surface2,
-                    borderRadius: BorderRadius.circular(28),
-                    border: Border.all(color: palette.border),
-                  ),
-                  alignment: Alignment.center,
-                  child: const CoolBrandMark(size: 68),
-                ),
-                const SizedBox(height: 28),
-                Text(
-                  'Welcome to Cool',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 34,
-                    fontWeight: FontWeight.w800,
-                    color: palette.text,
-                    height: 1.1,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                SizedBox(
-                  width: 300,
-                  child: Text(
-                    'Save pay and move',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: palette.text2,
-                      height: 1.4,
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.fromLTRB(
+              space.x6,
+              space.x8,
+              space.x6,
+              space.x10,
+            ),
+            child: SizedBox(
+              width: double.infinity,
+              child: Column(
+                children: [
+                  SizedBox(height: space.x9),
+                  SizedBox(
+                    width: 96,
+                    height: 96,
+                    child: CoolCard(
+                      useGradient: false,
+                      backgroundColor: colors.cardSurface,
+                      borderRadius: radii.xl,
+                      padding: EdgeInsets.zero,
+                      child: const Center(child: CoolBrandMark(size: 68)),
                     ),
                   ),
-                ),
-                const SizedBox(height: 48),
-                CoolButton(
-                  label: context.l10n.getStarted,
-                  onTap: () => context.push(
-                    AppRoutes.otpLocation(redirect: redirectPath),
+                  SizedBox(height: space.x7),
+                  Text(
+                    'Welcome to COOL',
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.displaySmall?.copyWith(
+                      fontWeight: FontWeight.w800,
+                      color: colors.primaryText,
+                      height: 1.1,
+                    ),
                   ),
-                ),
-              ],
+                  SizedBox(height: space.x4),
+                  SizedBox(
+                    width: 300,
+                    child: Text(
+                      'Pay, save, and move.',
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.bodyLarge?.copyWith(
+                        color: colors.secondaryText,
+                        height: 1.4,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: space.x12),
+                  CoolButton(
+                    label: context.l10n.getStarted,
+                    onTap: () => context.push(
+                      AppRoutes.otpLocation(redirect: redirectPath),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
-    ),
-
     );
   }
 }
