@@ -275,7 +275,7 @@ class _AdminCard extends StatelessWidget {
                       color: colors.primaryText,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: CoolSpace.x1),
                   Text(
                     section.subtitle,
                     style: context.coolText.rayon(

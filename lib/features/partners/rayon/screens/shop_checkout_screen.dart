@@ -141,7 +141,7 @@ class _ShopCheckoutScreenState extends ConsumerState<ShopCheckoutScreen>
                           hasMemberDiscount: shop.hasMemberDiscount,
                           paymentRoute: paymentRoute,
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: CoolSpace.x4),
                       ],
                       _ShopCheckoutOverviewCard(
                         products: products,
@@ -152,7 +152,7 @@ class _ShopCheckoutScreenState extends ConsumerState<ShopCheckoutScreen>
                         deliveryFee: delivery,
                         total: total,
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: CoolSpace.x4),
                       _ShopCheckoutActionCard(
                         addressController: _addressController,
                         total: total,

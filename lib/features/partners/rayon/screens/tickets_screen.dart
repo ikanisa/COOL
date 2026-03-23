@@ -118,7 +118,7 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
                       hub: hub,
                       paymentRouteReady: paymentRoute != null,
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: CoolSpace.x4),
                     DecoratedBox(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -172,7 +172,7 @@ class _TicketsScreenState extends ConsumerState<TicketsScreen>
                         ],
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: CoolSpace.x4),
                   ]),
                 ),
               ),

@@ -92,11 +92,11 @@ class _PrismaBody extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           PrismaHeroCard(partner: partner),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           PrismaQuickActions(partner: partner),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           PrismaStatsCard(partner: partner),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           PrismaValuesCard(partner: partner),
           const SizedBox(height: 18),
           servicesAsync.when(
@@ -117,7 +117,7 @@ class _PrismaBody extends ConsumerWidget {
                       categoryMeta: prismaCategoryMeta,
                       fallbackCategory: 'capability',
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: CoolSpace.x3),
                     for (final service in group.value) ...[
                       PartnerServiceCard(
                         service: service,
@@ -143,7 +143,7 @@ class _PrismaBody extends ConsumerWidget {
                               )
                             : null,
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: CoolSpace.x3),
                     ],
                     const SizedBox(height: 6),
                   ],
@@ -151,7 +151,7 @@ class _PrismaBody extends ConsumerWidget {
               );
             },
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
           PrismaSupportCard(partner: partner),
         ],
       ),

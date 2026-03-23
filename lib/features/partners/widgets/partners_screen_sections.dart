@@ -164,7 +164,7 @@ class _FootballHeroCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: CoolSpace.x3),
                   Text(
                     partner.name,
                     style: theme.textTheme.headlineSmall?.copyWith(
@@ -172,7 +172,7 @@ class _FootballHeroCard extends StatelessWidget {
                       fontWeight: FontWeight.w800,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: CoolSpace.x1),
                   Text(
                     partner.subtitle ?? '',
                     style: theme.textTheme.bodySmall?.copyWith(
@@ -317,7 +317,7 @@ class _FeatureTile extends StatelessWidget {
                 fontWeight: FontWeight.w800,
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: CoolSpace.x1),
             Expanded(
               child: Text(
                 subtitle,
@@ -426,7 +426,7 @@ class _BanksTab extends ConsumerWidget {
                       fontWeight: FontWeight.w800,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: CoolSpace.x2),
                   Text(
                     'Check your savings, statements, and contribution discipline before you request finance.',
                     style: theme.textTheme.bodySmall?.copyWith(
@@ -444,9 +444,9 @@ class _BanksTab extends ConsumerWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: CoolSpace.x3),
             for (var index = 0; index < partners.length; index++) ...[
-              if (index > 0) const SizedBox(height: 12),
+              if (index > 0) const SizedBox(height: CoolSpace.x3),
               _BankPartnerCard(partner: partners[index]),
             ],
           ],
@@ -516,7 +516,7 @@ class _BankPartnerCard extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               Text(
                 partner.name,
                 style: theme.textTheme.titleLarge?.copyWith(
@@ -640,7 +640,7 @@ class _OrgsTab extends ConsumerWidget {
         return Column(
           children: [
             for (var index = 0; index < partners.length; index++) ...[
-              if (index > 0) const SizedBox(height: 12),
+              if (index > 0) const SizedBox(height: CoolSpace.x3),
               _OrgPartnerCard(
                 partner: partners[index],
                 onTap: () =>

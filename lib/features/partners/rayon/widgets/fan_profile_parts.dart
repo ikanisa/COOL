@@ -65,7 +65,7 @@ class _ProfileHero extends StatelessWidget {
                       fanName,
                       style: RsTextStyles.clubName(color: RsColors.rsWhite),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: CoolSpace.x1),
                     Text(
                       fanId,
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
@@ -78,7 +78,7 @@ class _ProfileHero extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: CoolSpace.x5),
           Row(
             children: [
               RsTierBadge(tier: tier),
@@ -86,7 +86,7 @@ class _ProfileHero extends StatelessWidget {
               _ChapterChip(label: chapter),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: CoolSpace.x6),
           if (progressMeta != null)
             Container(
               padding: const EdgeInsets.all(20),
@@ -118,13 +118,13 @@ class _ProfileHero extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: CoolSpace.x4),
                   RsProgressBar(
                     progress: progressMeta.progress,
                     fillColor: RsColors.rsGold,
                     height: 12,
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: CoolSpace.x3),
                   Center(
                     child: Text(
                       'Next Tier: ${progressMeta.targetTierLabel}'
@@ -236,7 +236,7 @@ class _PerksAccessCard extends StatelessWidget {
               if (hasMembership) RsTierBadge(tier: tier),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
           Text(
             hasMembership
                 ? 'Supporter pricing and match access unlocked.'
@@ -248,7 +248,7 @@ class _PerksAccessCard extends StatelessWidget {
               height: 1.45,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           ...benefits.map((benefit) {
             final active = currentTierIndex >= benefit.minTierIndex;
             return Padding(
@@ -304,7 +304,7 @@ class _PerkRow extends StatelessWidget {
                     color: RsColors.rsWhite,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: CoolSpace.x1),
                 Text(
                   benefit.subtitle,
                   style: context.coolText.rayon(
@@ -457,7 +457,7 @@ class _OrderStatusCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Text(
             '${_formatRwf(order.total)} • ${DateFormat('dd MMM, HH:mm').format(order.createdAt)}',
             style: GoogleFonts.dmMono(
@@ -476,7 +476,7 @@ class _OrderStatusCard extends StatelessWidget {
               height: 1.35,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
           Text(
             _orderStatusCopy(order.status),
             style: context.coolText.rayon(
@@ -505,7 +505,7 @@ class _AchievementSkeletonRow extends StatelessWidget {
       itemBuilder: (context, index) => const Column(
         children: [
           CoolSkeleton(width: 56, height: 56, borderRadius: 28),
-          SizedBox(height: 8),
+          SizedBox(height: CoolSpace.x2),
           CoolSkeleton(width: 64, height: 14, borderRadius: 6),
         ],
       ),
@@ -697,7 +697,7 @@ void _showFanQr(BuildContext context, String fanId, FanTier tier) {
                 color: colors.accent,
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: CoolSpace.x5),
             DecoratedBox(
               decoration: BoxDecoration(
                 color: RsColors.rsWhite,
@@ -720,7 +720,7 @@ void _showFanQr(BuildContext context, String fanId, FanTier tier) {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             Text(
               'Show at stadium gates',
               style: context.coolText.rayon(

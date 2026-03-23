@@ -247,7 +247,7 @@ class _CauseSummaryCard extends StatelessWidget {
                       color: colors.accent,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: CoolSpace.x1),
                   Text(
                     'raised so far',
                     style: text.rayon(
@@ -280,13 +280,13 @@ class _CauseSummaryCard extends StatelessWidget {
               height: 1.45,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           RsProgressBar(
             progress: initiative.progress,
             fillColor: categoryColor,
             height: 8,
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Row(
             children: [
               Expanded(
@@ -458,7 +458,7 @@ class _SupportCheckoutCard extends StatelessWidget {
           ),
           const SizedBox(height: 14),
           _SupportPaymentSummary(amount: amount, paymentRoute: paymentRoute),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           CoolButton(
             label: ctaLabel,
             icon: Icons.favorite_border_rounded,
@@ -527,7 +527,7 @@ class _SupportPaymentSummary extends StatelessWidget {
                     color: RsColors.rsWhite,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: CoolSpace.x1),
                 Text(
                   detail,
                   style: text.rayon(
@@ -626,13 +626,13 @@ class _RecentSupportersCard extends StatelessWidget {
                     height: 52,
                     borderRadius: 14,
                   ),
-                  SizedBox(height: 12),
+                  SizedBox(height: CoolSpace.x3),
                   CoolSkeleton(
                     width: double.infinity,
                     height: 52,
                     borderRadius: 14,
                   ),
-                  SizedBox(height: 12),
+                  SizedBox(height: CoolSpace.x3),
                   CoolSkeleton(
                     width: double.infinity,
                     height: 52,
@@ -655,7 +655,7 @@ class _RecentSupportersCard extends StatelessWidget {
                       height: 1.4,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: CoolSpace.x2),
                   TextButton.icon(
                     onPressed: onRefreshStatus,
                     icon: const Icon(Icons.sync_rounded, size: 18),
@@ -720,7 +720,7 @@ class _SupporterRow extends StatelessWidget {
                   color: colors.primaryText,
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: CoolSpace.x1),
               Text(
                 '${_contributionStatusLabel(contribution.status)} • ${DateFormat('dd MMM, HH:mm').format(contribution.createdAt)}',
                 style: text.rayon(
@@ -789,7 +789,7 @@ class _PendingContributionCard extends StatelessWidget {
               height: 1.45,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           _PendingContributionMeta(
             label: 'Amount',
             value: _formatRwf(contribution.amount),
@@ -947,7 +947,7 @@ class _DetailStateCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(icon, size: 44, color: colors.secondaryText),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               Text(
                 title,
                 textAlign: TextAlign.center,
@@ -957,7 +957,7 @@ class _DetailStateCard extends StatelessWidget {
                   color: colors.primaryText,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: CoolSpace.x2),
               Text(
                 subtitle,
                 textAlign: TextAlign.center,
@@ -968,7 +968,7 @@ class _DetailStateCard extends StatelessWidget {
                   height: 1.4,
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: CoolSpace.x4),
               CoolButton(
                 label: actionLabel,
                 onTap: onTap,

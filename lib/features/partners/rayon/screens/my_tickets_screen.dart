@@ -44,7 +44,7 @@ class MyTicketsScreen extends ConsumerWidget {
                       borderColor: colors.borderStrong,
                       child: Column(
                         children: [
-                          const SizedBox(height: 16),
+                          const SizedBox(height: CoolSpace.x4),
                           Container(
                             width: 68,
                             height: 68,
@@ -132,7 +132,7 @@ class MyTicketsScreen extends ConsumerWidget {
                           height: 1.35,
                         ),
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: CoolSpace.x3),
                     ]),
                   ),
                 ),

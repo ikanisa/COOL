@@ -41,7 +41,7 @@ class _RouteCardList extends StatelessWidget {
                         color: colors.primaryText,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: CoolSpace.x1),
                     Text(
                       'Partner-admin managed recipient codes',
                       style: context.coolText.rayon(
@@ -143,7 +143,7 @@ class _RouteRow extends StatelessWidget {
               _StatusPill(label: _title(route.status.name), color: statusColor),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
           Text(
             route.payToLabel,
             style: GoogleFonts.dmSans(
@@ -152,7 +152,7 @@ class _RouteRow extends StatelessWidget {
               color: colors.secondaryText,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: CoolSpace.x1),
           Text(
             'Label: ${route.reconciliationLabel}',
             style: GoogleFonts.dmSans(
@@ -162,7 +162,7 @@ class _RouteRow extends StatelessWidget {
             ),
           ),
           if (route.ussdPattern.isNotEmpty) ...[
-            const SizedBox(height: 4),
+            const SizedBox(height: CoolSpace.x1),
             Text(
               'USSD: ${route.ussdPattern}',
               style: GoogleFonts.dmSans(
@@ -172,7 +172,7 @@ class _RouteRow extends StatelessWidget {
               ),
             ),
           ],
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Wrap(
             spacing: 12,
             runSpacing: 8,
@@ -233,7 +233,7 @@ class _PartnerLedgerCard extends StatelessWidget {
               height: 1.4,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           CoolAsyncView<MomoStatementPage<PayeePaymentLedgerEntry>>(
             value: ledgerAsync,
             onRetry: onRetry,
@@ -295,7 +295,7 @@ class _PartnerLedgerCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: CoolSpace.x3),
                 ...page.entries.map(
                   (entry) => Padding(
                     padding: const EdgeInsets.only(bottom: 12),
@@ -353,7 +353,7 @@ class _LedgerRow extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: CoolSpace.x1),
           Text(
             dateFormat.format(entry.occurredAt),
             style: GoogleFonts.dmSans(

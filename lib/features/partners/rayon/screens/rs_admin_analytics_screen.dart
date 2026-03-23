@@ -152,7 +152,7 @@ class RsAdminAnalyticsScreen extends ConsumerWidget {
                             color: Colors.white.withValues(alpha: 0.76),
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: CoolSpace.x2),
                         Text(
                           _money(totalRevenue),
                           style: context.coolText.rayonCondensed(
@@ -172,7 +172,7 @@ class RsAdminAnalyticsScreen extends ConsumerWidget {
                             height: 1.45,
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: CoolSpace.x4),
                         Wrap(
                           spacing: 8,
                           runSpacing: 8,

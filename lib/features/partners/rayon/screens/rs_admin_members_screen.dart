@@ -91,7 +91,7 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
               ],
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Semantics(
             textField: true,
             label: 'Search members',
@@ -197,7 +197,7 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: filtered.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 8),
+            separatorBuilder: (context, index) => const SizedBox(height: CoolSpace.x2),
             itemBuilder: (context, index) {
               final member = filtered[index];
               return _MemberTile(
@@ -235,7 +235,7 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
                 color: colors.primaryText,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             ...FanTier.values.map(
               (tier) => Semantics(
                 button: true,
@@ -305,7 +305,7 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
                 color: colors.primaryText,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             Semantics(
               textField: true,
               label: 'Tokens',
@@ -332,7 +332,7 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: RsColors.rsBlue,
@@ -489,7 +489,7 @@ class _MemberTile extends StatelessWidget {
                       color: colors.secondaryText,
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: CoolSpace.x3),
                   Wrap(
                     spacing: 8,
                     runSpacing: 8,

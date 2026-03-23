@@ -204,7 +204,7 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
                   color: colors.primaryText,
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: CoolSpace.x4),
               _Field(controller: nameCtrl, label: 'Name'),
               _Field(controller: descCtrl, label: 'Description', maxLines: 2),
               _Field(controller: categoryCtrl, label: 'Category'),
@@ -228,7 +228,7 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
                 ],
               ),
               _Field(controller: emojiCtrl, label: 'Emoji Icon'),
-              const SizedBox(height: 16),
+              const SizedBox(height: CoolSpace.x4),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: RsColors.rsBlue,

@@ -302,7 +302,7 @@ class _ClubOverviewCard extends StatelessWidget {
                         height: 0.95,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: CoolSpace.x2),
                     _JoinLeaveButton(joined: joined, onTap: onJoinTap),
                   ],
                 ),
@@ -328,7 +328,7 @@ class _ClubOverviewCard extends StatelessWidget {
                 ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           Text(
             description,
             style: text.rayon(
@@ -338,7 +338,7 @@ class _ClubOverviewCard extends StatelessWidget {
               height: 1.45,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           Row(
             children: [
               _StatTile(label: 'Members', value: '$memberCount'),
@@ -525,7 +525,7 @@ class _StatTile extends StatelessWidget {
                   fontWeight: FontWeight.w800,
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: CoolSpace.x1),
               Text(
                 label,
                 style: text.rayon(

@@ -64,7 +64,7 @@ class BankHero extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           Text(
             partner.description ?? 'Trusted financial partner.',
             style: theme.textTheme.titleMedium?.copyWith(

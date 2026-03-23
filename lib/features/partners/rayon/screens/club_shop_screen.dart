@@ -169,7 +169,7 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
                                 hasMemberDiscount: hasMemberDiscount,
                                 checkoutReady: paymentRoute != null,
                               ),
-                              const SizedBox(height: 16),
+                              const SizedBox(height: CoolSpace.x4),
                             ],
                             SizedBox(
                               height: 44,
@@ -275,7 +275,7 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
                                 },
                               ),
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: CoolSpace.x4),
                           ]),
                         ),
                       ),
@@ -570,7 +570,7 @@ class _EmptyFilteredCatalog extends StatelessWidget {
                 : 'No items in $categoryLabel',
             style: theme.textTheme.headlineSmall?.copyWith(color: Colors.white),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
           Text(
             query.isNotEmpty
                 ? 'Try another product name, collection, or category.'
@@ -676,7 +676,7 @@ class _ShopCommandCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           TextField(
             controller: searchController,
             style: GoogleFonts.dmSans(

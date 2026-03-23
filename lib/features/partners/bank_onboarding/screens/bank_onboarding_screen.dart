@@ -172,12 +172,12 @@ class _BankOnboardingScreenState extends ConsumerState<BankOnboardingScreen> {
           'Review your KYC details',
           style: GoogleFonts.dmSans(fontSize: 20, fontWeight: FontWeight.w800),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: CoolSpace.x2),
         Text(
           'These details will be',
           style: GoogleFonts.dmSans(fontSize: 14, color: colors.secondaryText),
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: CoolSpace.x6),
         CoolCard(
           child: Column(
             children: [
@@ -197,7 +197,7 @@ class _BankOnboardingScreenState extends ConsumerState<BankOnboardingScreen> {
             ],
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: CoolSpace.x5),
         Text(
           'If these details are',
           style: GoogleFonts.dmSans(
@@ -219,12 +219,12 @@ class _BankOnboardingScreenState extends ConsumerState<BankOnboardingScreen> {
           'Needed amount',
           style: GoogleFonts.dmSans(fontSize: 20, fontWeight: FontWeight.w800),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: CoolSpace.x2),
         Text(
           'Enter the amount you',
           style: GoogleFonts.dmSans(fontSize: 14, color: colors.secondaryText),
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: CoolSpace.x6),
         TextField(
           controller: _amountController,
           keyboardType: TextInputType.number,
@@ -248,12 +248,12 @@ class _BankOnboardingScreenState extends ConsumerState<BankOnboardingScreen> {
           'Verification Selfie',
           style: GoogleFonts.dmSans(fontSize: 20, fontWeight: FontWeight.w800),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: CoolSpace.x2),
         Text(
           'Take clear selfie',
           style: GoogleFonts.dmSans(fontSize: 14, color: colors.secondaryText),
         ),
-        const SizedBox(height: 32),
+        const SizedBox(height: CoolSpace.x7),
         Center(
           child: GestureDetector(
             onTap: () async {
@@ -290,7 +290,7 @@ class _BankOnboardingScreenState extends ConsumerState<BankOnboardingScreen> {
                           size: 40,
                           color: colors.tertiaryText,
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: CoolSpace.x3),
                         Text(
                           'Tap to take selfie',
                           style: TextStyle(color: colors.tertiaryText),

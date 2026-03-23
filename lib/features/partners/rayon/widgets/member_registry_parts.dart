@@ -297,7 +297,7 @@ class _TopFanSpotlight extends StatelessWidget {
                     letterSpacing: 0.3,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: CoolSpace.x2),
                 Text(
                   member.displayName,
                   style: text.rayonCondensed(
@@ -307,7 +307,7 @@ class _TopFanSpotlight extends StatelessWidget {
                     height: 0.98,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: CoolSpace.x2),
                 Text(
                   '#${member.membershipNumber} · ${_formatPoints(member.points)} Tokens',
                   style: text.mono(
@@ -383,7 +383,7 @@ class _MemberListTile extends StatelessWidget {
                     color: colors.primaryText,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: CoolSpace.x1),
                 Text(
                   '#${member.membershipNumber} · ${member.chapter} · ${_formatPoints(member.points)} Tokens',
                   style: text.mono(
@@ -442,7 +442,7 @@ class _TierLegendCard extends StatelessWidget {
               letterSpacing: 0.3,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           for (final tier in FanTier.values) ...[
             _TierLegendRow(tier: tier, range: _tierRangeFor(tier)),
             if (tier != FanTier.values.last) const SizedBox(height: 10),

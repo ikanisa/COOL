@@ -228,7 +228,7 @@ class SupportDetailScreen extends StatelessWidget {
                       initiative: initiative,
                       categoryColor: categoryColor,
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: CoolSpace.x4),
                     _SupportCheckoutCard(
                       amount: selectedAmount,
                       paymentRoute: paymentRoute,
@@ -249,7 +249,7 @@ class SupportDetailScreen extends StatelessWidget {
                     if (pendingContribution != null &&
                         pendingContribution.status.toLowerCase() ==
                             'pending') ...[
-                      const SizedBox(height: 16),
+                      const SizedBox(height: CoolSpace.x4),
                       _PendingContributionCard(
                         contribution: pendingContribution,
                         onRefreshStatus: () => ref.invalidate(
@@ -257,7 +257,7 @@ class SupportDetailScreen extends StatelessWidget {
                         ),
                       ),
                     ],
-                    const SizedBox(height: 24),
+                    const SizedBox(height: CoolSpace.x6),
                     Text(
                       'More details',
                       style: text.rayonCondensed(
@@ -266,16 +266,16 @@ class SupportDetailScreen extends StatelessWidget {
                         color: colors.primaryText,
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: CoolSpace.x3),
                     _PerksCard(),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: CoolSpace.x4),
                     _RecentSupportersCard(
                       contributionsAsync: contributionsAsync,
                       onRefreshStatus: () => ref.invalidate(
                         rayonRecentContributorsProvider(initiative.id),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: CoolSpace.x4),
 
                     // ── Share initiative ──────────────────────
                     ShareCard(

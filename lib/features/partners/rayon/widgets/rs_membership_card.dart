@@ -107,7 +107,7 @@ class RsMembershipCard extends StatelessWidget {
                     ),
                   ),
                   if (perks.isNotEmpty) ...[
-                    const SizedBox(height: 16),
+                    const SizedBox(height: CoolSpace.x4),
                     Wrap(
                       spacing: 8,
                       runSpacing: 8,

@@ -89,7 +89,7 @@ class TicketConfirmationScreen extends ConsumerWidget {
                                   )
                                   .fadeIn(duration: 300.ms),
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: CoolSpace.x6),
                       Text(
                         statusMeta.title,
                         textAlign: TextAlign.center,
@@ -99,7 +99,7 @@ class TicketConfirmationScreen extends ConsumerWidget {
                           color: colors.primaryText,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: CoolSpace.x2),
                       Text(
                         statusMeta.subtitle,
                         textAlign: TextAlign.center,
@@ -109,9 +109,9 @@ class TicketConfirmationScreen extends ConsumerWidget {
                           color: colors.secondaryText,
                         ),
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: CoolSpace.x6),
                       RsDigitalTicket(ticket: ticket),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: CoolSpace.x5),
                       Row(
                         children: [
                           Expanded(
@@ -124,7 +124,7 @@ class TicketConfirmationScreen extends ConsumerWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: CoolSpace.x3),
                       Text(
                         statusMeta.note,
                         textAlign: TextAlign.center,
@@ -135,7 +135,7 @@ class TicketConfirmationScreen extends ConsumerWidget {
                           height: 1.3,
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: CoolSpace.x5),
                       ShareCard(
                         title: l10n.ticketShareMatchTitle,
                         icon: Icons.sports_soccer_rounded,

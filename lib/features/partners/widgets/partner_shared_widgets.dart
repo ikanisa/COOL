@@ -170,7 +170,7 @@ class PartnerServiceCard extends StatelessWidget {
                     ),
                     if (service.subtitle != null &&
                         service.subtitle!.trim().isNotEmpty) ...[
-                      const SizedBox(height: 4),
+                      const SizedBox(height: CoolSpace.x1),
                       Text(
                         service.subtitle!,
                         style: theme.textTheme.bodySmall?.copyWith(
@@ -333,7 +333,7 @@ class PartnerQuickActionTile extends StatelessWidget {
               fontWeight: FontWeight.w800,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: CoolSpace.x1),
           Text(
             subtitle,
             style: theme.textTheme.labelMedium?.copyWith(

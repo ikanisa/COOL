@@ -205,7 +205,7 @@ class _RsAdminOrdersScreenState extends ConsumerState<RsAdminOrdersScreen> {
               dateStr: dateStr,
               moneyFmt: moneyFmt,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: CoolSpace.x5),
             Text(
               context.l10n.rsAdminItemsCount(order.items.length),
               style: GoogleFonts.dmSans(
@@ -242,7 +242,7 @@ class _RsAdminOrdersScreenState extends ConsumerState<RsAdminOrdersScreen> {
                                 color: colors.primaryText,
                               ),
                             ),
-                            const SizedBox(height: 4),
+                            const SizedBox(height: CoolSpace.x1),
                             Text(
                               '${item.quantity}x  •  ${moneyFmt.format(item.product.price)} RWF each',
                               style: GoogleFonts.dmSans(
@@ -268,7 +268,7 @@ class _RsAdminOrdersScreenState extends ConsumerState<RsAdminOrdersScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             Text(
               'Move Order',
               style: GoogleFonts.dmSans(
@@ -394,7 +394,7 @@ class _OrderDetailCommandCard extends StatelessWidget {
               color: colors.secondaryText,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
           Text(
             context.l10n.rsAdminOrderNumber(
               order.id.substring(0, 8).toUpperCase(),
@@ -406,7 +406,7 @@ class _OrderDetailCommandCard extends StatelessWidget {
               height: 0.96,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -520,7 +520,7 @@ class _OrderTile extends StatelessWidget {
                           height: 0.95,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: CoolSpace.x1),
                       Text(
                         '${order.items.length} items  •  ${moneyFmt.format(order.total)} RWF',
                         style: GoogleFonts.dmSans(
@@ -535,7 +535,7 @@ class _OrderTile extends StatelessWidget {
                 _StatusBadge(status: order.status.value),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: CoolSpace.x3),
             Wrap(
               spacing: 8,
               runSpacing: 8,

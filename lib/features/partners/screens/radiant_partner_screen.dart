@@ -177,7 +177,7 @@ class _RadiantBody extends ConsumerWidget {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: CoolSpace.x3),
                       Text(
                         partner.name,
                         style: GoogleFonts.dmSans(
@@ -203,7 +203,7 @@ class _RadiantBody extends ConsumerWidget {
               ],
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
 
           // ── Dynamic service cards ──────────────────────────
           servicesAsync.when(
@@ -221,13 +221,13 @@ class _RadiantBody extends ConsumerWidget {
                     service: service,
                     onTap: () => _openChat(context, topic: service.title),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: CoolSpace.x3),
                 ],
               ],
             ),
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           CoolButton(
             label: context.l10n.requestAQuote,
             onTap: () => _openChat(context),
@@ -310,7 +310,7 @@ class _InsuranceServiceCard extends StatelessWidget {
                   for (var i = 0; i < service.details.length; i++) ...[
                     _InfoRow(detail: service.details[i]),
                     if (i < service.details.length - 1)
-                      const SizedBox(height: 8),
+                      const SizedBox(height: CoolSpace.x2),
                   ],
                 ],
               ),

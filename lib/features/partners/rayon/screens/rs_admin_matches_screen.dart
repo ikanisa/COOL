@@ -183,7 +183,7 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
                   color: colors.primaryText,
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: CoolSpace.x4),
               _FormField(controller: homeCtrl, label: 'Home Team'),
               _FormField(controller: awayCtrl, label: 'Away Team'),
               _FormField(controller: compCtrl, label: 'Competition'),
@@ -212,7 +212,7 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
                 label: 'Capacity',
                 keyboardType: TextInputType.number,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: CoolSpace.x4),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: RsColors.rsBlue,
@@ -349,7 +349,7 @@ class _MatchTile extends StatelessWidget {
                 color: colors.secondaryText,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: CoolSpace.x2),
             Row(
               children: [
                 _TileAction(

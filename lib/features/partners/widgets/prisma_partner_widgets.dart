@@ -74,7 +74,7 @@ class PrismaHeroCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           Text(
             description,
             style: theme.textTheme.bodyMedium?.copyWith(
@@ -84,7 +84,7 @@ class PrismaHeroCard extends StatelessWidget {
             ),
           ),
           if (pills != null && pills.isNotEmpty) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             Wrap(
               spacing: 8,
               runSpacing: 8,
@@ -174,7 +174,7 @@ class PrismaStatsCard extends StatelessWidget {
               color: colors.primaryText,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Row(
             children: [
               for (var i = 0; i < stats.length; i++) ...[
@@ -230,7 +230,7 @@ class PrismaValuesCard extends StatelessWidget {
                 title: values[i]['title']?.toString() ?? '',
                 description: values[i]['description']?.toString() ?? '',
               ),
-            if (i != values.length - 1) const SizedBox(height: 12),
+            if (i != values.length - 1) const SizedBox(height: CoolSpace.x3),
           ],
         ],
       ),
@@ -280,7 +280,7 @@ class PrismaSupportCard extends StatelessWidget {
             if (i != supportLines.length - 1) const SizedBox(height: 10),
           ],
           if (partner.metadata['support_cta'] != null) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             SizedBox(
               width: 200,
               child: CoolButton(
@@ -393,7 +393,7 @@ class PrismaStatTile extends StatelessWidget {
                 color: colors.accent,
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: CoolSpace.x1),
             Text(
               label,
               textAlign: TextAlign.center,

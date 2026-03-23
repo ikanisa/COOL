@@ -133,7 +133,7 @@ class _TierList extends StatelessWidget {
       delegate: SliverChildListDelegate([
         // Introductory card
         _IntroCard(currentTier: currentTier, currentPoints: currentPoints),
-        const SizedBox(height: 20),
+        const SizedBox(height: CoolSpace.x5),
 
         // One card per tier, from Blue (lowest) to Platinum (highest)
         for (final package in sortedPackages) ...[
@@ -247,7 +247,7 @@ class _ProgressToNext extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         RsProgressBar(progress: progress, fillColor: nextTier.color, height: 8),
-        const SizedBox(height: 8),
+        const SizedBox(height: CoolSpace.x2),
         Text(
           '$remaining Tokens to ${nextTier.label}',
           style: context.coolText.rayon(
@@ -365,7 +365,7 @@ class _TierCard extends StatelessWidget {
               ],
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
 
             if (package.description.trim().isNotEmpty) ...[
               Text(

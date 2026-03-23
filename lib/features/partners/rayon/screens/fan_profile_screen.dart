@@ -96,7 +96,7 @@ class _FanProfileScreenState extends ConsumerState<FanProfileScreen> {
                     onRecoverMembership: () => _ensureMembership(context),
                   ),
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: CoolSpace.x7),
                 Padding(
                   padding: const EdgeInsets.only(left: 8, bottom: 12),
                   child: Text(
@@ -135,7 +135,7 @@ class _FanProfileScreenState extends ConsumerState<FanProfileScreen> {
                     child: _EmptyStrip(message: 'Achievements unavailable.'),
                   ),
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: CoolSpace.x7),
                 Padding(
                   padding: const EdgeInsets.only(left: 8, bottom: 12),
                   child: Text(
@@ -148,7 +148,7 @@ class _FanProfileScreenState extends ConsumerState<FanProfileScreen> {
                   ),
                 ),
                 _RecentOrdersSection(ordersAsync: ordersAsync),
-                const SizedBox(height: 32),
+                const SizedBox(height: CoolSpace.x7),
                 membershipAsync.when(
                   data: (membership) =>
                       _PerksAccessCard(membership: membership, user: user),

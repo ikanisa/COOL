@@ -501,7 +501,7 @@ class _CreateClubSheetState extends State<_CreateClubSheet> {
               color: RsColors.rsWhite,
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: CoolSpace.x5),
           CoolTextField(
             hint: 'Club name',
             label: 'Name',
@@ -521,7 +521,7 @@ class _CreateClubSheetState extends State<_CreateClubSheet> {
                   color: colors.secondaryText,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: CoolSpace.x2),
               Wrap(
                 spacing: 8,
                 runSpacing: 8,
@@ -542,7 +542,7 @@ class _CreateClubSheetState extends State<_CreateClubSheet> {
             controller: _descController,
             maxLines: 3,
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: CoolSpace.x5),
           CoolButton(
             label: 'Create Club',
             onTap: () {

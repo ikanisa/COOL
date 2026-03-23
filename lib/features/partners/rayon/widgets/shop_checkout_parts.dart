@@ -239,7 +239,7 @@ class _ShopCheckoutOverviewCard extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: CoolSpace.x2),
                     Text(
                       '$itemCount item${itemCount == 1 ? '' : 's'} · ${products.length} product${products.length == 1 ? '' : 's'}',
                       style: theme.textTheme.bodyMedium?.copyWith(
@@ -275,7 +275,7 @@ class _ShopCheckoutOverviewCard extends StatelessWidget {
                 ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: CoolSpace.x6),
           for (var index = 0; index < products.length; index++) ...[
             _CheckoutLineItemRow(
               product: products[index],
@@ -288,9 +288,9 @@ class _ShopCheckoutOverviewCard extends StatelessWidget {
                 child: Divider(height: 1, color: colors.border),
               ),
           ],
-          const SizedBox(height: 24),
+          const SizedBox(height: CoolSpace.x6),
           Divider(color: colors.border),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           _SummaryRow(
             label: context.l10n.subtotal,
             value: _ShopCheckoutScreenState._fmtRwf(subtotal),
@@ -307,9 +307,9 @@ class _ShopCheckoutOverviewCard extends StatelessWidget {
                 ? 'Free'
                 : _ShopCheckoutScreenState._fmtRwf(deliveryFee),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
           Divider(color: colors.border),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -382,7 +382,7 @@ class _CheckoutLineItemRow extends StatelessWidget {
                   color: colors.primaryText,
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: CoolSpace.x1),
               Text(
                 'Qty $quantity',
                 style: GoogleFonts.dmSans(
@@ -457,7 +457,7 @@ class _ShopCheckoutActionCard extends StatelessWidget {
               height: 1.4,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           CoolTextField(
             controller: addressController,
             label: context.l10n.address,
@@ -517,7 +517,7 @@ class _ShopCheckoutActionCard extends StatelessWidget {
                           color: RsColors.rsWhite,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: CoolSpace.x1),
                       Text(
                         paymentBody,
                         style: context.coolText.rayon(
@@ -533,7 +533,7 @@ class _ShopCheckoutActionCard extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           CoolButton(
             label: paymentLabel,
             isDisabled: onSubmit == null,
@@ -604,7 +604,7 @@ class _CheckoutStatusState extends StatelessWidget {
             alignment: Alignment.center,
             child: Icon(_statusIcon(status), size: 44, color: color),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: CoolSpace.x6),
           Text(
             _statusHeadline(status),
             textAlign: TextAlign.center,
@@ -614,7 +614,7 @@ class _CheckoutStatusState extends StatelessWidget {
               letterSpacing: -1.0,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Text(
             _statusBody(status, total, message, paymentRoute),
             textAlign: TextAlign.center,
@@ -711,7 +711,7 @@ class _OrderSummary extends StatelessWidget {
             _OrderStatusChip(status: orderValue.status),
           ],
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: CoolSpace.x3),
         _SummaryRow(label: context.l10n.orderId, value: orderValue.id),
         _SummaryRow(
           label: context.l10n.amount,

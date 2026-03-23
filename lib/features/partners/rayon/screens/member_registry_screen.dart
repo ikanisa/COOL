@@ -111,7 +111,7 @@ class _MemberRegistryScreenState extends ConsumerState<MemberRegistryScreen> {
                                   color: colors.secondaryText,
                                 ),
                               ),
-                              const SizedBox(height: 12),
+                              const SizedBox(height: CoolSpace.x3),
                               TextButton(
                                 onPressed: () =>
                                     registryNotifier.init(partnerId),

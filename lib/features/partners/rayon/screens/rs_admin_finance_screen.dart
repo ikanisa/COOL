@@ -163,12 +163,12 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
                     textCapitalization: TextCapitalization.characters,
                     decoration: const InputDecoration(labelText: 'Country'),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: CoolSpace.x3),
                   TextField(
                     controller: providerController,
                     decoration: const InputDecoration(labelText: 'Provider'),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: CoolSpace.x3),
                   TextField(
                     controller: recipientController,
                     keyboardType: TextInputType.number,
@@ -176,14 +176,14 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
                       labelText: 'Recipient code',
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: CoolSpace.x3),
                   TextField(
                     controller: labelController,
                     decoration: const InputDecoration(
                       labelText: 'Reconciliation label',
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: CoolSpace.x3),
                   DropdownButtonFormField<PartnerPaymentRouteStatus>(
                     initialValue: selectedStatus,
                     decoration: const InputDecoration(labelText: 'Status'),
@@ -387,7 +387,7 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
                 onEditRoute: (route) => _openRouteEditor(route: route),
                 onDeleteRoute: _deleteRoute,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: CoolSpace.x4),
               _PartnerLedgerCard(
                 ledgerAsync: ledgerAsync,
                 onRetry: partnerId.trim().isEmpty

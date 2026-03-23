@@ -98,17 +98,17 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
                         height: 1.45,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: CoolSpace.x4),
                     TextField(
                       controller: titleController,
                       decoration: const InputDecoration(labelText: 'Title'),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: CoolSpace.x3),
                     TextField(
                       controller: subtitleController,
                       decoration: const InputDecoration(labelText: 'Subtitle'),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: CoolSpace.x3),
                     TextField(
                       controller: descriptionController,
                       maxLines: 3,
@@ -116,7 +116,7 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
                         labelText: 'Description',
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: CoolSpace.x3),
                     TextField(
                       controller: benefitsController,
                       maxLines: 6,
@@ -126,7 +126,7 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
                             'One line per benefit using "Title | Description"',
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: CoolSpace.x3),
                     SwitchListTile.adaptive(
                       contentPadding: EdgeInsets.zero,
                       title: Text(context.l10n.packageActive),
@@ -367,7 +367,7 @@ class _PackageCard extends StatelessWidget {
                         color: colors.primaryText,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: CoolSpace.x1),
                     Text(
                       package.subtitle,
                       style: context.coolText.rayon(
@@ -397,7 +397,7 @@ class _PackageCard extends StatelessWidget {
             ],
           ),
           if (package.description.trim().isNotEmpty) ...[
-            const SizedBox(height: 12),
+            const SizedBox(height: CoolSpace.x3),
             Text(
               package.description,
               style: GoogleFonts.dmSans(

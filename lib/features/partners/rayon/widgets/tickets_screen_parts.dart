@@ -119,7 +119,7 @@ class _TicketHubCommandCard extends StatelessWidget {
             ],
           ),
           if (featuredMatch != null) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(14),
@@ -141,7 +141,7 @@ class _TicketHubCommandCard extends StatelessWidget {
                       color: Colors.white.withValues(alpha: 0.82),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: CoolSpace.x2),
                   Text(
                     '${featuredMatch.homeTeam} vs ${featuredMatch.awayTeam}',
                     style: text.rayonCondensed(
@@ -150,7 +150,7 @@ class _TicketHubCommandCard extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: CoolSpace.x2),
                   Text(
                     '${DateFormat('d MMM').format(featuredMatch.matchDate)} · ${featuredMatch.kickoffTime} · ${featuredMatch.venue}',
                     style: text.mono(
@@ -425,11 +425,11 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
               borderRadius: BorderRadius.circular(99),
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: CoolSpace.x6),
 
           // Match summary
           RsMatchCard(match: match, isCompact: true, onBuyTap: () {}),
-          const SizedBox(height: 24),
+          const SizedBox(height: CoolSpace.x6),
 
           // Seat type selector
           Text(
@@ -441,7 +441,7 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
               color: colors.tertiaryText,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Row(
             children: SelectedSeatType.values.map((type) {
               final selected = type == _seat;
@@ -487,7 +487,7 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
                                       : colors.primaryText,
                                 ),
                               ),
-                              const SizedBox(height: 4),
+                              const SizedBox(height: CoolSpace.x1),
                               Text(
                                 '${type.priceFor(match)} RWF',
                                 style: text.mono(
@@ -508,7 +508,7 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
               );
             }).toList(),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: CoolSpace.x6),
 
           // Quantity selector
           Text(
@@ -520,7 +520,7 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
               color: colors.tertiaryText,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [1, 2, 3].map((q) {
@@ -567,7 +567,7 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
               );
             }).toList(),
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: CoolSpace.x7),
 
           // Total
           Column(
@@ -580,7 +580,7 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
                   color: colors.secondaryText,
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: CoolSpace.x1),
               Text(
                 '${NumberFormat.decimalPattern('en').format(_total)} RWF',
                 style: text.mono(
@@ -592,7 +592,7 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
               ),
             ],
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: CoolSpace.x7),
 
           CoolCard(
             borderColor: RsColors.rsBlueBorder,
@@ -610,7 +610,7 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
                     color: colors.primaryText,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: CoolSpace.x2),
                 Text(
                   widget.paymentRoute == null
                       ? 'No active backend route'
@@ -621,7 +621,7 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
                     color: RsColors.rsGoldLight,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: CoolSpace.x2),
                 Text(
                   widget.paymentRoute == null
                       ? 'An admin must activate a recipient code before ticket checkout can open.'
@@ -636,7 +636,7 @@ class _TicketPurchaseSheetState extends State<_TicketPurchaseSheet> {
               ],
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: CoolSpace.x6),
 
           // Pay button
           CoolButton(

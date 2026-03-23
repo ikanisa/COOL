@@ -88,7 +88,7 @@ extension _PartnersScreenController on _PartnersScreenState {
                       color: colors.primaryText,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: CoolSpace.x2),
                   Text(
                     'Membership is active across tickets, clubs, and store access.',
                     style: text.rayon(

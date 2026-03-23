@@ -260,7 +260,7 @@ class _RsAdminInitiativesScreenState
                   height: 1.45,
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: CoolSpace.x4),
               _Field(controller: titleCtrl, label: 'Title'),
               _Field(controller: descCtrl, label: 'Description', maxLines: 3),
               _Field(controller: categoryCtrl, label: 'Category'),
@@ -269,7 +269,7 @@ class _RsAdminInitiativesScreenState
                 label: 'Target Amount (RWF)',
                 keyboardType: TextInputType.number,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: CoolSpace.x4),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: RsColors.rsBlue,
@@ -368,7 +368,7 @@ class _InitiativeTile extends StatelessWidget {
                           height: 0.95,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: CoolSpace.x1),
                       Text(
                         initiative.category.value.toUpperCase(),
                         style: GoogleFonts.dmSans(
@@ -417,7 +417,7 @@ class _InitiativeTile extends StatelessWidget {
               ],
             ),
             if (initiative.description.isNotEmpty) ...[
-              const SizedBox(height: 4),
+              const SizedBox(height: CoolSpace.x1),
               Text(
                 initiative.description,
                 style: GoogleFonts.dmSans(
@@ -429,7 +429,7 @@ class _InitiativeTile extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             ],
-            const SizedBox(height: 8),
+            const SizedBox(height: CoolSpace.x2),
             Semantics(
               label:
                   'Progress ${(progress * 100).round()} percent.'
@@ -640,7 +640,7 @@ class _ContributorsSheet extends ConsumerWidget {
               ),
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Text(
             initiative.title,
             style: context.coolText.rayonCondensed(
@@ -650,7 +650,7 @@ class _ContributorsSheet extends ConsumerWidget {
               height: 0.95,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: CoolSpace.x1),
           Text(
             '${initiative.supporterCount} supporters · ${moneyFmt.format(initiative.raisedAmount)} RWF raised',
             style: GoogleFonts.dmSans(
@@ -659,7 +659,7 @@ class _ContributorsSheet extends ConsumerWidget {
               color: colors.secondaryText,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           Text(
             'Recent Contributions',
             style: GoogleFonts.dmSans(
@@ -668,7 +668,7 @@ class _ContributorsSheet extends ConsumerWidget {
               color: colors.primaryText,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
           Expanded(
             child: contributionsAsync.when(
               loading: () => const Center(child: CircularProgressIndicator()),
