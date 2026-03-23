@@ -35,7 +35,7 @@ class ProfileTravelRoleSheet extends StatelessWidget {
             color: colors.primaryText,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: CoolSpace.x2),
         Text(
           'Passenger stays available by',
           style: GoogleFonts.dmSans(

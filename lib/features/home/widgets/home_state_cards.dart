@@ -45,9 +45,9 @@ class ActivityLoadingCard extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         CoolSkeleton(width: double.infinity, height: 16, borderRadius: 8),
-        SizedBox(height: 12),
+        SizedBox(height: CoolSpace.x3),
         CoolSkeleton(width: double.infinity, height: 16, borderRadius: 8),
-        SizedBox(height: 12),
+        SizedBox(height: CoolSpace.x3),
         CoolSkeleton(width: 160, height: 16, borderRadius: 8),
       ],
     );

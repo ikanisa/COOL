@@ -165,7 +165,7 @@ class QuickActionRow extends StatelessWidget {
                           ),
                         ),
                         if (compactSubtitle.isNotEmpty) ...[
-                          const SizedBox(height: 4),
+                          const SizedBox(height: CoolSpace.x1),
                           Text(
                             compactSubtitle,
                             maxLines: 1,

@@ -62,7 +62,7 @@ class RecentActivityCard extends StatelessWidget {
                 ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
         ],
         if (displayed.isEmpty)
           Padding(
@@ -159,7 +159,7 @@ class _TransactionRow extends StatelessWidget {
                       fontWeight: FontWeight.w800,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: CoolSpace.x1),
                   Text(
                     DateFormat.yMd(localeName).format(tx.recordedAt),
                     style: theme.textTheme.labelMedium?.copyWith(

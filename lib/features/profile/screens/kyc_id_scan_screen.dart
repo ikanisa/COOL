@@ -238,13 +238,13 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
         children: [
           if (user != null && user.hasOfficialIdentity) ...[
             _CurrentIdentityCard(user: user),
-            const SizedBox(height: 24),
+            const SizedBox(height: CoolSpace.x6),
           ],
           Text(
             context.l10n.kycChooseDocumentType,
             style: Theme.of(context).textTheme.headlineSmall,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           Wrap(
             spacing: 12,
             runSpacing: 12,
@@ -261,14 +261,14 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
                 ),
             ],
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: CoolSpace.x7),
           _DocumentInputCard(
             title: context.l10n.kycFrontOfId,
             image: _frontImage,
             onTakePhoto: () => _openScanner(isFront: true),
             onUpload: () => _pickFromGallery(isFront: true),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           _DocumentInputCard(
             title: _backImageRecommended
                 ? context.l10n.kycBackOfId
@@ -277,7 +277,7 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
             onTakePhoto: () => _openScanner(isFront: false),
             onUpload: () => _pickFromGallery(isFront: false),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           _DocumentInputCard(
             title: 'Live Selfie',
             image: _selfieImage,
@@ -356,7 +356,7 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
                 fontWeight: FontWeight.w800,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: CoolSpace.x2),
             Text(
               context.l10n.kycExtracting,
               textAlign: TextAlign.center,
@@ -404,7 +404,7 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: CoolSpace.x2),
                 Text(
                   context.l10n.kycAutoFilled,
                   style: theme.textTheme.bodyMedium?.copyWith(
@@ -436,7 +436,7 @@ class _KycIdScanScreenState extends ConsumerState<KycIdScanScreen> {
             icon: Icons.check_circle_outline_rounded,
             onTap: () => context.pop(true),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           CoolButton(
             label: 'Scan again',
             variant: CoolButtonVariant.secondary,
@@ -481,7 +481,7 @@ class _CurrentIdentityCard extends StatelessWidget {
               fontWeight: FontWeight.w800,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
           Text(
             user.officialName?.trim().isNotEmpty == true
                 ? user.officialName!.trim()
@@ -539,7 +539,7 @@ class _DocumentInputCard extends StatelessWidget {
               context,
             ).textTheme.headlineSmall?.copyWith(fontSize: 18),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
 
           if (image != null)
             ClipRRect(

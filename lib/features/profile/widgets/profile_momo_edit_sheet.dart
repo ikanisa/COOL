@@ -202,7 +202,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: CoolSpace.x5),
           ],
 
           Text(
@@ -213,7 +213,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
               color: colors.primaryText,
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: CoolSpace.x5),
 
           Text(
             l10n.momoNumberLabel.toUpperCase(),
@@ -224,7 +224,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
               letterSpacing: 1.2,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
           Semantics(
             textField: true,
             label: l10n.momoNumberLabel,
@@ -264,7 +264,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
           ),
 
           if (_detectedProvider != null) ...[
-            const SizedBox(height: 8),
+            const SizedBox(height: CoolSpace.x2),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
@@ -283,7 +283,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
           ],
 
           if (country.supportsMomoCode) ...[
-            const SizedBox(height: 20),
+            const SizedBox(height: CoolSpace.x5),
             Text(
               l10n.profileMomoCodeOptional,
               style: GoogleFonts.dmSans(
@@ -293,7 +293,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
                 letterSpacing: 1.2,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: CoolSpace.x2),
             Semantics(
               textField: true,
               label: l10n.profileMomoCodeOptional,
@@ -330,7 +330,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: CoolSpace.x5),
             Text(
               'DEFAULT RECEIVE ROUTE',
               style: GoogleFonts.dmSans(
@@ -340,7 +340,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
                 letterSpacing: 1.2,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: CoolSpace.x2),
             MomoRouteTypeSelector(
               value: _selectedRouteType,
               onChanged: (value) {
@@ -353,7 +353,7 @@ class _ProfileMomoEditSheetState extends State<ProfileMomoEditSheet> {
             ),
           ],
 
-          const SizedBox(height: 24),
+          const SizedBox(height: CoolSpace.x6),
           SizedBox(
             width: double.infinity,
             height: 48,

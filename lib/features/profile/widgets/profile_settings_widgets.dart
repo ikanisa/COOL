@@ -52,7 +52,7 @@ class ProfileSettingsSection extends StatelessWidget {
               children: [
                 for (var i = 0; i < rows.length; i++) ...[
                   rows[i],
-                  if (i < rows.length - 1) const SizedBox(height: 8),
+                  if (i < rows.length - 1) const SizedBox(height: CoolSpace.x2),
                 ],
               ],
             ),
@@ -62,7 +62,7 @@ class ProfileSettingsSection extends StatelessWidget {
             children: [
               for (var i = 0; i < rows.length; i++) ...[
                 rows[i],
-                if (i < rows.length - 1) const SizedBox(height: 8),
+                if (i < rows.length - 1) const SizedBox(height: CoolSpace.x2),
               ],
             ],
           ),
@@ -105,7 +105,7 @@ class ProfileFactsCard extends StatelessWidget {
               children: [
                 for (var index = 0; index < items.length; index++) ...[
                   _ProfileFactTile(item: items[index]),
-                  if (index < items.length - 1) const SizedBox(height: 16),
+                  if (index < items.length - 1) const SizedBox(height: CoolSpace.x4),
                 ],
               ],
             );
@@ -237,7 +237,7 @@ class ProfileSettingsRow extends StatelessWidget {
                                   color: resolvedLabelColor,
                                 ),
                           ),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: CoolSpace.x1),
                           Text(
                             value!,
                             maxLines: 2,
@@ -475,7 +475,7 @@ class ProfileAppearanceSheet extends StatelessWidget {
           l10n.appearanceLabel,
           style: Theme.of(context).textTheme.headlineSmall,
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: CoolSpace.x4),
         CoolCard(
           backgroundColor: colors.cardSurfaceStrong,
           padding: EdgeInsets.zero,
@@ -493,7 +493,7 @@ class ProfileAppearanceSheet extends StatelessWidget {
                   onTap: () => onSelected(AppThemePreference.values[index]),
                 ),
                 if (index < AppThemePreference.values.length - 1)
-                  const SizedBox(height: 8),
+                  const SizedBox(height: CoolSpace.x2),
               ],
             ],
           ),

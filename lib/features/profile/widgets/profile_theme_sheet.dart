@@ -62,7 +62,7 @@ class ProfileThemeSheet extends ConsumerWidget {
                   color: colors.primaryText,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: CoolSpace.x5),
               _ThemeOptionCard(
                 preference: AppThemePreference.system,
                 title: context.l10n.systemDefault,
@@ -70,7 +70,7 @@ class ProfileThemeSheet extends ConsumerWidget {
                 isSelected: currentPreference == AppThemePreference.system,
                 onTap: () => _setTheme(ref, AppThemePreference.system),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               _ThemeOptionCard(
                 preference: AppThemePreference.light,
                 title: context.l10n.lightMode,
@@ -78,7 +78,7 @@ class ProfileThemeSheet extends ConsumerWidget {
                 isSelected: currentPreference == AppThemePreference.light,
                 onTap: () => _setTheme(ref, AppThemePreference.light),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               _ThemeOptionCard(
                 preference: AppThemePreference.dark,
                 title: context.l10n.darkMode,

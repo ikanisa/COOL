@@ -240,7 +240,7 @@ class _ProfileAppAccessSheetState extends ConsumerState<ProfileAppAccessSheet>
                   fontWeight: FontWeight.w900,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: CoolSpace.x2),
               Text(
                 'Toggle feature access',
                 style: theme.textTheme.bodyMedium?.copyWith(
@@ -251,7 +251,7 @@ class _ProfileAppAccessSheetState extends ConsumerState<ProfileAppAccessSheet>
               ),
               const SizedBox(height: 14),
               _SummaryBanner(readyCount: readyCount, totalCount: totalCount),
-              const SizedBox(height: 16),
+              const SizedBox(height: CoolSpace.x4),
               Flexible(
                 child: SingleChildScrollView(
                   child: Column(
@@ -261,7 +261,7 @@ class _ProfileAppAccessSheetState extends ConsumerState<ProfileAppAccessSheet>
                         onChanged: _toggleNotifications,
                         onOpenSettings: _openNotificationSettings,
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: CoolSpace.x3),
                       if (_isLoading)
                         const Padding(
                           padding: EdgeInsets.symmetric(vertical: 48),
@@ -278,9 +278,9 @@ class _ProfileAppAccessSheetState extends ConsumerState<ProfileAppAccessSheet>
                             onOpenSettings: () => _openSettings(permission),
                           ),
                           if (permission != _permissions.last)
-                            const SizedBox(height: 12),
+                            const SizedBox(height: CoolSpace.x3),
                         ],
-                      const SizedBox(height: 12),
+                      const SizedBox(height: CoolSpace.x3),
                       const _SmsPolicyNotice(),
                     ],
                   ),
@@ -338,7 +338,7 @@ class _SummaryBanner extends StatelessWidget {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: CoolSpace.x1),
                 Text(
                   'All access controls',
                   style: theme.textTheme.bodySmall?.copyWith(
@@ -543,7 +543,7 @@ class _AccessCardShell extends StatelessWidget {
                               fontWeight: FontWeight.w800,
                             ),
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: CoolSpace.x2),
                           Wrap(
                             spacing: 8,
                             runSpacing: 8,
@@ -591,7 +591,7 @@ class _AccessCardShell extends StatelessWidget {
                   if (!isNarrow) ...[const SizedBox(width: 12), trailing],
                 ],
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               Wrap(
                 spacing: 8,
                 runSpacing: 8,
@@ -618,7 +618,7 @@ class _AccessCardShell extends StatelessWidget {
                     )
                     .toList(),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               Text(
                 helperText,
                 style: theme.textTheme.bodySmall?.copyWith(
@@ -628,7 +628,7 @@ class _AccessCardShell extends StatelessWidget {
                 ),
               ),
               if (footerAction != null) ...[
-                const SizedBox(height: 12),
+                const SizedBox(height: CoolSpace.x3),
                 footerAction!,
               ],
             ],
@@ -742,7 +742,7 @@ class _SmsPolicyNotice extends StatelessWidget {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: CoolSpace.x1),
                 Text(
                   'Reads approved M-Money SMS only. A one-time import can backfill the last year.',
                   style: theme.textTheme.bodySmall?.copyWith(

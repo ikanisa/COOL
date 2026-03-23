@@ -90,7 +90,7 @@ class ProfileHeader extends StatelessWidget {
                   ),
                 ),
                 if (profile.phone.isNotEmpty) ...[
-                  const SizedBox(height: 4),
+                  const SizedBox(height: CoolSpace.x1),
                   Text(
                     profile.phone,
                     style: theme.textTheme.labelLarge?.copyWith(
@@ -183,7 +183,7 @@ class ProfileMomoQrCard extends StatelessWidget {
               fontWeight: FontWeight.w800,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           Center(
             child: Container(
               decoration: BoxDecoration(
@@ -211,7 +211,7 @@ class ProfileMomoQrCard extends StatelessWidget {
             ),
           ),
           if (providerLabel != null) ...[
-            const SizedBox(height: 12),
+            const SizedBox(height: CoolSpace.x3),
             Center(
               child: Container(
                 padding: const EdgeInsets.symmetric(
@@ -267,7 +267,7 @@ class ProfileSheet extends StatelessWidget {
                   borderRadius: BorderRadius.circular(999),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: CoolSpace.x4),
               child,
             ],
           ),

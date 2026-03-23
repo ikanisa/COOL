@@ -156,7 +156,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                                   ? null
                                   : () => context.push(AppRoutes.groupCreate),
                             ),
-                            const SizedBox(height: 20),
+                            const SizedBox(height: CoolSpace.x5),
                           ],
                         ),
                       ),
@@ -189,7 +189,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                             return _GroupListItem(group: groups[index]);
                           },
                           separatorBuilder: (_, _) =>
-                              const SizedBox(height: 12),
+                              const SizedBox(height: CoolSpace.x3),
                         ),
                       ),
                   ],

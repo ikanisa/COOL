@@ -323,20 +323,20 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         children: [
           ProfileHeader(profile: profile),
           if (profile.showCompletionBanner) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             _ProfileCompletionBar(profile: profile),
           ],
-          const SizedBox(height: 32),
+          const SizedBox(height: CoolSpace.x7),
           _ProfileCommandDeck(
             accountRows: accountRows,
             settingsRows: settingsRows,
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: CoolSpace.x6),
           ProfileDangerZone(
             onDeleteAccount: _confirmDeleteAccount,
             onSignOut: _confirmSignOut,
           ),
-          const SizedBox(height: 40),
+          const SizedBox(height: CoolSpace.x8),
           Center(
             child: Text(
               'COOL v1.1.0',
@@ -418,7 +418,7 @@ class _ProfileCompletionBar extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: LinearProgressIndicator(
@@ -428,7 +428,7 @@ class _ProfileCompletionBar extends StatelessWidget {
               valueColor: AlwaysStoppedAnimation(colors.accent),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           Wrap(
             spacing: 12,
             runSpacing: 8,
@@ -495,7 +495,7 @@ class _ProfileCommandDeck extends StatelessWidget {
               fontWeight: FontWeight.w800,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
           Text(
             'Identity. Wallet. Access.',
             style: theme.textTheme.bodySmall?.copyWith(
@@ -503,13 +503,13 @@ class _ProfileCommandDeck extends StatelessWidget {
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: CoolSpace.x6),
           ProfileSettingsSection(
             title: 'Account',
             rows: accountRows,
             useCard: false,
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: CoolSpace.x5),
           ProfileSettingsSection(
             title: 'Settings',
             rows: settingsRows,
