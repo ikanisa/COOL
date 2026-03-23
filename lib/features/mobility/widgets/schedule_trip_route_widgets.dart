@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/l10n/l10n.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../providers/mobility_location_provider.dart';
-import '../../../core/l10n/l10n.dart';
 
 /// Combined pickup / destination text-field editor with route dots.
 class ScheduleTripRouteEditor extends StatelessWidget {
@@ -45,7 +44,7 @@ class ScheduleTripRouteEditor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final fields = Column(
       children: [
         _RouteField(
@@ -82,11 +81,11 @@ class ScheduleTripRouteEditor extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  _RouteDot(color: palette.accent),
+                  _RouteDot(color: colors.accent),
                   const SizedBox(width: 8),
                   const _RouteDash(axis: Axis.horizontal),
                   const SizedBox(width: 8),
-                  _RouteDot(color: palette.orange),
+                  _RouteDot(color: colors.warning),
                 ],
               ),
               const SizedBox(height: 12),
@@ -102,9 +101,9 @@ class ScheduleTripRouteEditor extends StatelessWidget {
               padding: const EdgeInsets.only(top: 14),
               child: Column(
                 children: [
-                  _RouteDot(color: palette.accent),
+                  _RouteDot(color: colors.accent),
                   const _RouteDash(),
-                  _RouteDot(color: palette.orange),
+                  _RouteDot(color: colors.warning),
                 ],
               ),
             ),
@@ -116,8 +115,6 @@ class ScheduleTripRouteEditor extends StatelessWidget {
     );
   }
 }
-
-// ── Internal helpers ──────────────────────────────────────────────
 
 class _RouteDot extends StatelessWidget {
   const _RouteDot({required this.color});
@@ -141,9 +138,8 @@ class _RouteDash extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     if (axis == Axis.horizontal) {
-      final palette = context.coolPalette;
       return SizedBox(
         width: 44,
         child: Row(
@@ -154,7 +150,7 @@ class _RouteDash extends StatelessWidget {
               width: 4,
               height: 2,
               decoration: BoxDecoration(
-                color: palette.text3,
+                color: colors.tertiaryText,
                 borderRadius: BorderRadius.circular(1),
               ),
             ),
@@ -173,7 +169,7 @@ class _RouteDash extends StatelessWidget {
             width: 2,
             height: 4,
             decoration: BoxDecoration(
-              color: palette.text3,
+              color: colors.tertiaryText,
               borderRadius: BorderRadius.circular(1),
             ),
           ),
@@ -206,16 +202,17 @@ class _RouteField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     final suffixIcons = <Widget>[
       if (onUseCurrentLocationTap != null)
         Padding(
-          padding: const EdgeInsets.only(right: 4),
+          padding: const EdgeInsets.only(right: 2),
           child: isResolvingCurrentLocation
               ? const SizedBox(
-                  width: 18,
-                  height: 18,
-                  child: CupertinoActivityIndicator(radius: 9),
+                  width: CoolTapTargets.minimum,
+                  height: CoolTapTargets.minimum,
+                  child: Center(child: CupertinoActivityIndicator(radius: 9)),
                 )
               : _RouteActionIcon(
                   icon: Icons.my_location_rounded,
@@ -231,11 +228,11 @@ class _RouteField extends StatelessWidget {
         ),
       if (isResolved)
         Padding(
-          padding: const EdgeInsets.only(left: 6, right: 4),
+          padding: const EdgeInsets.only(left: 4, right: 2),
           child: Icon(
             Icons.check_circle_rounded,
             size: 20,
-            color: palette.accent,
+            color: colors.accent,
           ),
         ),
     ];
@@ -244,21 +241,19 @@ class _RouteField extends StatelessWidget {
       controller: controller,
       validator: validator,
       textInputAction: textInputAction,
-      style: GoogleFonts.dmSans(
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
-        color: palette.text,
+      style: theme.textTheme.bodyLarge?.copyWith(
+        color: colors.primaryText,
+        fontWeight: FontWeight.w700,
       ),
-      cursorColor: palette.accent,
+      cursorColor: colors.accent,
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: GoogleFonts.dmSans(
-          fontSize: 14,
-          fontWeight: FontWeight.w400,
-          color: palette.text3,
+        hintStyle: theme.textTheme.bodyLarge?.copyWith(
+          color: colors.tertiaryText,
+          fontWeight: FontWeight.w600,
         ),
         filled: true,
-        fillColor: palette.surface3,
+        fillColor: colors.inputSurface,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 14,
           vertical: 14,
@@ -266,7 +261,7 @@ class _RouteField extends StatelessWidget {
         suffixIcon: suffixIcons.isEmpty
             ? null
             : Padding(
-                padding: const EdgeInsets.only(right: 10),
+                padding: const EdgeInsets.only(right: 8),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: suffixIcons,
@@ -274,24 +269,24 @@ class _RouteField extends StatelessWidget {
               ),
         suffixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: palette.border),
+          borderRadius: BorderRadius.circular(CoolRadii.md),
+          borderSide: BorderSide(color: colors.border),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: palette.border),
+          borderRadius: BorderRadius.circular(CoolRadii.md),
+          borderSide: BorderSide(color: colors.border),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: palette.accent, width: 1.2),
+          borderRadius: BorderRadius.circular(CoolRadii.md),
+          borderSide: BorderSide(color: colors.accent, width: 1.2),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: palette.red),
+          borderRadius: BorderRadius.circular(CoolRadii.md),
+          borderSide: BorderSide(color: colors.danger),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: palette.red, width: 1.2),
+          borderRadius: BorderRadius.circular(CoolRadii.md),
+          borderSide: BorderSide(color: colors.danger, width: 1.2),
         ),
       ),
     );
@@ -311,15 +306,20 @@ class _RouteActionIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    return Tooltip(
-      message: tooltip,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(20),
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Icon(icon, size: 20, color: palette.text2),
+    final colors = context.coolSemanticColors;
+    return IconButton(
+      onPressed: onTap,
+      tooltip: tooltip,
+      icon: Icon(icon, size: 20, color: colors.secondaryText),
+      constraints: const BoxConstraints.tightFor(
+        width: CoolTapTargets.minimum,
+        height: CoolTapTargets.minimum,
+      ),
+      style: IconButton.styleFrom(
+        backgroundColor: colors.chipBackground,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(CoolRadii.md),
+          side: BorderSide(color: colors.border),
         ),
       ),
     );
@@ -334,7 +334,8 @@ class _RouteResolutionHint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     return Padding(
       padding: const EdgeInsets.only(left: 2),
       child: Row(
@@ -343,17 +344,15 @@ class _RouteResolutionHint extends StatelessWidget {
           Icon(
             highlighted ? Icons.check_circle_rounded : Icons.place_outlined,
             size: 14,
-            color: highlighted ? palette.accent : palette.text3,
+            color: highlighted ? colors.accent : colors.tertiaryText,
           ),
           const SizedBox(width: 6),
           Expanded(
             child: Text(
               text,
-              style: GoogleFonts.dmSans(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: highlighted ? palette.accent : palette.text2,
-                height: 1.35,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: highlighted ? colors.primaryText : colors.secondaryText,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
@@ -380,7 +379,8 @@ class ScheduleTripLocationAttachmentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     late final IconData icon;
     late final String title;
     late final String subtitle;
@@ -391,24 +391,22 @@ class ScheduleTripLocationAttachmentCard extends StatelessWidget {
       case MobilityLocationStatus.ready:
       case MobilityLocationStatus.approximateReady:
         icon = Icons.pin_drop_rounded;
-        title = 'Current location is ready';
+        title = 'Location ready';
         subtitle = locationState.isApproximate
-            ? 'Fill pickup field'
-            : 'Bias place search';
+            ? 'Fill pickup field.'
+            : 'Biasing place search.';
         break;
       case MobilityLocationStatus.checking:
       case MobilityLocationStatus.requesting:
       case MobilityLocationStatus.idle:
         icon = Icons.satellite_alt_rounded;
-        title = 'Checking current location';
-        subtitle =
-            'Location fix available';
+        title = 'Checking location';
+        subtitle = 'Trip posting still works.';
         break;
       case MobilityLocationStatus.accessDisabled:
         icon = Icons.admin_panel_settings_outlined;
-        title = 'Location is off in COOL';
-        subtitle =
-            'Enable in Profile';
+        title = 'Location off';
+        subtitle = 'Turn it on in Profile.';
         actionLabel = 'Enable Location';
         action = onEnableLocation;
         break;
@@ -416,43 +414,41 @@ class ScheduleTripLocationAttachmentCard extends StatelessWidget {
       case MobilityLocationStatus.denied:
         icon = Icons.pin_drop_rounded;
         title = 'Allow location';
-        subtitle =
-            'Text-only mode available';
+        subtitle = 'Text-only entry works.';
         actionLabel = 'Allow Location';
         action = onEnableLocation;
         break;
       case MobilityLocationStatus.deniedForever:
         icon = Icons.settings_rounded;
-        title = 'Location access is blocked';
-        subtitle =
-            'Open settings to allow';
+        title = 'Location blocked';
+        subtitle = 'Open settings to allow.';
         actionLabel = 'Open Settings';
         action = onOpenAppSettings;
         break;
       case MobilityLocationStatus.serviceDisabled:
         icon = Icons.satellite_alt_rounded;
-        title = 'Turn on device location';
-        subtitle =
-            'Location services off';
+        title = 'Turn on location';
+        subtitle = 'Device services are off.';
         actionLabel = 'Turn On Location';
         action = onOpenLocationSettings;
         break;
       case MobilityLocationStatus.error:
         icon = Icons.warning_amber_rounded;
-        title = 'Location could not be attached';
-        subtitle =
-            locationState.error ??
-            'Pickup location unavailable';
+        title = 'Location unavailable';
+        subtitle = locationState.error ?? 'Use text route entry.';
         actionLabel = 'Try Again';
         action = onEnableLocation;
         break;
     }
 
     return CoolCard(
+      backgroundColor: colors.proximitySurface,
+      borderColor: colors.borderStrong,
+      useGradient: false,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 20, color: palette.text2),
+          Icon(icon, size: 20, color: colors.secondaryText),
           const SizedBox(width: 10),
           Expanded(
             child: Column(
@@ -460,26 +456,24 @@ class ScheduleTripLocationAttachmentCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: palette.text,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    color: colors.primaryText,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   subtitle,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,
-                    color: palette.text2,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: colors.secondaryText,
+                    fontWeight: FontWeight.w600,
                     height: 1.4,
                   ),
                 ),
                 if (actionLabel != null && action != null) ...[
                   const SizedBox(height: 12),
                   SizedBox(
-                    width: 160,
+                    width: 168,
                     child: CoolButton(
                       label: actionLabel,
                       variant: CoolButtonVariant.secondary,

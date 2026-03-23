@@ -13,7 +13,6 @@ import '../../../core/services/whatsapp_contact_service.dart';
 import '../services/mobility_whatsapp_service.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/cool_layout.dart';
-import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_google_map.dart';
 import '../../../shared/widgets/cool_toast.dart';
 
@@ -44,13 +43,11 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
     Future.microtask(() async {
       await ref.read(driverProvider.notifier).loadDriverProfile();
       await _locationNotifier.bootstrap();
-      await _locationNotifier.acquireTracking();
     });
   }
 
   @override
   void dispose() {
-    unawaited(_locationNotifier.releaseTracking());
     _mapController = null;
     super.dispose();
   }
@@ -77,7 +74,7 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
           markerId: MarkerId('driver_${driver.driverId}'),
           position: LatLng(driver.latitude!, driver.longitude!),
           infoWindow: InfoWindow(
-            title: driver.displayName ?? 'Driver',
+            title: driver.displayName,
             snippet: driver.vehicleType,
           ),
           icon: BitmapDescriptor.defaultMarkerWithHue(
@@ -189,12 +186,15 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
+    final locationState = ref.watch(mobilityLocationProvider);
     final currentUser = ref.watch(currentUserProvider);
     final driverProfile = ref.watch(
       driverProvider.select((state) => state.profile),
+    );
+    final nearbyDrivers = ref.watch(
+      discoveryProvider.select((state) => state.nearbyDrivers),
     );
     final isDriver = (currentUser?.isDriver ?? false) || driverProfile != null;
 
@@ -204,11 +204,6 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          onPressed: () => context.pop(),
-          tooltip: context.l10n.back,
-          icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
-        ),
       ),
       body: CoolScreenBackground(
         child: RefreshIndicator(
@@ -242,26 +237,6 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
                   ),
                 ),
               ),
-
-              // ── Google Map ──────────────────────────────────────
-              SliverPadding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: CoolLayout.horizontalPagePadding,
-                  vertical: 10,
-                ),
-                sliver: SliverToBoxAdapter(
-                  child: _MobilityMapSection(
-                    onMapCreated: _onMapCreated,
-                    onRecenter: _recenterMap,
-                    driverMarkers: _buildDriverMarkers(
-                      ref.watch(
-                        discoveryProvider.select((s) => s.nearbyDrivers),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-
               SliverPadding(
                 padding: EdgeInsets.fromLTRB(
                   CoolLayout.horizontalPagePadding,
@@ -288,6 +263,22 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
                   unawaited(_showTripPreview(trip));
                 },
               ),
+              if (locationState.hasLocation)
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(
+                    CoolLayout.horizontalPagePadding,
+                    12,
+                    CoolLayout.horizontalPagePadding,
+                    0,
+                  ),
+                  sliver: SliverToBoxAdapter(
+                    child: _MobilityMapSection(
+                      onMapCreated: _onMapCreated,
+                      onRecenter: _recenterMap,
+                      driverMarkers: _buildDriverMarkers(nearbyDrivers),
+                    ),
+                  ),
+                ),
               const SliverToBoxAdapter(
                 child: SizedBox(height: CoolLayout.rootBottomClearance),
               ),
@@ -323,7 +314,7 @@ class _MobilityMapSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final locationState = ref.watch(mobilityLocationProvider);
     final userPos = locationState.position;
 
@@ -350,7 +341,7 @@ class _MobilityMapSection extends ConsumerWidget {
               right: 12,
               bottom: 12,
               child: Material(
-                color: palette.surface,
+                color: colors.cardSurfaceStrong,
                 elevation: 4,
                 borderRadius: BorderRadius.circular(14),
                 child: InkWell(
@@ -360,7 +351,7 @@ class _MobilityMapSection extends ConsumerWidget {
                     padding: const EdgeInsets.all(10),
                     child: Icon(
                       Icons.my_location_rounded,
-                      color: palette.accent,
+                      color: colors.accent,
                       size: 22,
                     ),
                   ),

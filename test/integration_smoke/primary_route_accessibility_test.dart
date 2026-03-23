@@ -447,6 +447,10 @@ void main() {
         expect(find.bySemanticsLabel(l10n.partnersTitle), findsWidgets);
         _expectTouchTarget(
           tester,
+          find.byKey(const ValueKey('partners_tab_0')),
+        );
+        _expectTouchTarget(
+          tester,
           find.byKey(const ValueKey('partner_feature_fan_registry')),
         );
         _expectNoCapturedException(tester);

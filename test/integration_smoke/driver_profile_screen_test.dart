@@ -216,6 +216,7 @@ void main() {
         expect(find.text('Current access'), findsOneWidget);
         expect(find.text('Selected plan'), findsOneWidget);
         expect(find.text('Unlock Unlimited Trips'), findsOneWidget);
+        expect(find.text('12 trips posted. 3 free left.'), findsOneWidget);
       },
     );
 

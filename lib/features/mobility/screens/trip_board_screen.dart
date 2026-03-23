@@ -4,11 +4,10 @@ import 'package:cool_app/features/mobility/models/trip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../auth/providers/auth_provider.dart';
 import '../../../core/services/whatsapp_contact_service.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../providers/discovery_provider.dart';
@@ -42,7 +41,14 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
 
   @override
   void dispose() {
-    unawaited(_locationNotifier.releaseTracking());
+    // Defer provider mutation until after this consumer is fully removed.
+    unawaited(
+      Future<void>.microtask(() async {
+        if (_locationNotifier.mounted) {
+          await _locationNotifier.releaseTracking();
+        }
+      }),
+    );
     super.dispose();
   }
 
@@ -129,29 +135,27 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) {
-        final palette = context.coolPalette;
+        final colors = context.coolSemanticColors;
+        final theme = Theme.of(context);
         return AlertDialog(
-          backgroundColor: palette.surface,
+          backgroundColor: colors.overlaySurface,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
-            side: BorderSide(color: palette.border),
+            side: BorderSide(color: colors.border),
           ),
           title: Text(
             'Delete Trip?',
-            style: GoogleFonts.dmSans(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: palette.text,
+            style: theme.textTheme.titleLarge?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
             ),
           ),
           content: Text(
-            'This will permanently delete'
-            '${trip.fromLocation} to ${trip.toLocation}. '
+            'This will permanently delete ${trip.fromLocation} to ${trip.toLocation}. '
             'This action cannot be undone.',
-            style: GoogleFonts.dmSans(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: palette.text2,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w600,
               height: 1.5,
             ),
           ),
@@ -160,10 +164,9 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
               onPressed: () => Navigator.of(context).pop(false),
               child: Text(
                 'Cancel',
-                style: GoogleFonts.dmSans(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: palette.text2,
+                style: theme.textTheme.labelLarge?.copyWith(
+                  color: colors.secondaryText,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             ),
@@ -171,10 +174,9 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
               onPressed: () => Navigator.of(context).pop(true),
               child: Text(
                 'Delete',
-                style: GoogleFonts.dmSans(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: palette.red,
+                style: theme.textTheme.labelLarge?.copyWith(
+                  color: colors.danger,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
             ),
@@ -261,123 +263,132 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       builder: (context) {
-        final palette = context.coolPalette;
-        return SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(18, 18, 18, 24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Trip Actions',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: palette.text,
+        final colors = context.coolSemanticColors;
+        final theme = Theme.of(context);
+        return DecoratedBox(
+          decoration: BoxDecoration(
+            color: colors.overlaySurface,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          child: SafeArea(
+            top: false,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(18, 18, 18, 24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Trip Actions',
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      color: colors.primaryText,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  '${trip.fromLocation} \u2192 ${trip.toLocation}',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: palette.text2,
+                  const SizedBox(height: 6),
+                  Text(
+                    '${trip.fromLocation} \u2192 ${trip.toLocation}',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: colors.secondaryText,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 18),
-                if (isActive) ...[
+                  const SizedBox(height: 18),
+                  if (isActive) ...[
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: Icon(
+                        Icons.pause_circle_outline_rounded,
+                        color: colors.warning,
+                      ),
+                      title: Text(
+                        'Pause Trip',
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: colors.primaryText,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      subtitle: Text(
+                        'Temporarily hide from others',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colors.tertiaryText,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        unawaited(_pauseTrip(trip));
+                      },
+                    ),
+                    Divider(color: colors.border),
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: Icon(
+                        Icons.cancel_outlined,
+                        color: colors.danger,
+                      ),
+                      title: Text(
+                        'Cancel Trip',
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: colors.primaryText,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        unawaited(_cancelTrip(trip));
+                      },
+                    ),
+                    Divider(color: colors.border),
+                  ],
+                  if (isPaused) ...[
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: Icon(
+                        Icons.play_circle_outline_rounded,
+                        color: colors.accent,
+                      ),
+                      title: Text(
+                        'Repost Trip',
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: colors.primaryText,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      subtitle: Text(
+                        'Make visible to others',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colors.tertiaryText,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        unawaited(_repostTrip(trip));
+                      },
+                    ),
+                    Divider(color: colors.border),
+                  ],
                   ListTile(
                     contentPadding: EdgeInsets.zero,
                     leading: Icon(
-                      Icons.pause_circle_outline_rounded,
-                      color: palette.orange,
+                      Icons.delete_outline_rounded,
+                      color: colors.danger,
                     ),
                     title: Text(
-                      'Pause Trip',
-                      style: GoogleFonts.dmSans(
-                        fontWeight: FontWeight.w600,
-                        color: palette.text,
-                      ),
-                    ),
-                    subtitle: Text(
-                      'Temporarily hide from others',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
-                        color: palette.text3,
+                      'Delete Trip',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: colors.primaryText,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                     onTap: () {
                       Navigator.of(context).pop();
-                      unawaited(_pauseTrip(trip));
+                      unawaited(_deleteTrip(trip));
                     },
                   ),
-                  Divider(color: palette.border),
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    leading: Icon(Icons.cancel_outlined, color: palette.red),
-                    title: Text(
-                      'Cancel Trip',
-                      style: GoogleFonts.dmSans(
-                        fontWeight: FontWeight.w600,
-                        color: palette.text,
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      unawaited(_cancelTrip(trip));
-                    },
-                  ),
-                  Divider(color: palette.border),
                 ],
-                if (isPaused) ...[
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    leading: Icon(
-                      Icons.play_circle_outline_rounded,
-                      color: palette.accent,
-                    ),
-                    title: Text(
-                      'Repost Trip',
-                      style: GoogleFonts.dmSans(
-                        fontWeight: FontWeight.w600,
-                        color: palette.text,
-                      ),
-                    ),
-                    subtitle: Text(
-                      'Make visible to others',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
-                        color: palette.text3,
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      unawaited(_repostTrip(trip));
-                    },
-                  ),
-                  Divider(color: palette.border),
-                ],
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Icon(
-                    Icons.delete_outline_rounded,
-                    color: palette.red,
-                  ),
-                  title: Text(
-                    'Delete Trip',
-                    style: GoogleFonts.dmSans(
-                      fontWeight: FontWeight.w600,
-                      color: palette.text,
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    unawaited(_deleteTrip(trip));
-                  },
-                ),
-              ],
+              ),
             ),
           ),
         );
@@ -406,9 +417,10 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: palette.bg,
+      backgroundColor: colors.appBackground,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
@@ -416,10 +428,11 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
         leading: IconButton(
           onPressed: () => context.pop(),
           tooltip: context.l10n.back,
-          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
+          icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
         ),
       ),
       body: CoolScreenBackground(
+        showGlow: false,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -427,18 +440,17 @@ class _TripBoardScreenState extends ConsumerState<TripBoardScreen> {
               padding: const EdgeInsets.fromLTRB(18, 0, 18, 24),
               child: Text(
                 'Trip Board',
-                style: GoogleFonts.dmSans(
-                  fontSize: 34,
+                style: theme.textTheme.headlineMedium?.copyWith(
+                  color: colors.primaryText,
                   fontWeight: FontWeight.w800,
-                  color: palette.text,
                   height: 1.1,
                 ),
               ),
             ),
             Expanded(
               child: RefreshIndicator(
-                color: palette.accent,
-                backgroundColor: palette.surface,
+                color: colors.accent,
+                backgroundColor: colors.cardSurface,
                 onRefresh: _refreshTrips,
                 child: CustomScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),

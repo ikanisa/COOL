@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/l10n/l10n.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../models/mobility_route_preview.dart';
 import '../models/trip_post_request.dart';
 import '../providers/mobility_location_provider.dart';
 import '../services/place_search_service.dart';
 import 'schedule_trip_route_preview.dart';
-
 import 'schedule_trip_route_widgets.dart';
 import 'schedule_trip_shared.dart';
-
-
-
-
-// ── Data helpers ────────────────────────────────────────────────────
 
 class VehicleOption {
   const VehicleOption({
@@ -27,8 +20,6 @@ class VehicleOption {
 
   final TripVehiclePreference value;
   final String label;
-
-  /// Path to the vehicle image asset, if available.
   final String? assetPath;
 }
 
@@ -39,11 +30,10 @@ class DayOption {
   final String label;
 }
 
-/// F-11: Dynamic seat options based on vehicle type.
 List<int> seatOptionsFor(TripVehiclePreference vehicle) {
   return switch (vehicle) {
-    TripVehiclePreference.truck || TripVehiclePreference.trike =>
-      const <int>[1, 2, 3, 5, 8],
+    TripVehiclePreference.truck ||
+    TripVehiclePreference.trike => const <int>[1, 2, 3, 5, 8],
     TripVehiclePreference.moto => const <int>[1],
     _ => const <int>[1, 2, 3],
   };
@@ -77,10 +67,7 @@ List<VehicleOption> buildVehicleOptions(BuildContext context) {
       label: 'Others',
       assetPath: 'assets/icons/vehicle_others.png',
     ),
-    VehicleOption(
-      value: TripVehiclePreference.any,
-      label: l10n.vehicleAny,
-    ),
+    VehicleOption(value: TripVehiclePreference.any, label: l10n.vehicleAny),
   ];
 }
 
@@ -97,9 +84,6 @@ List<DayOption> buildDayOptions(BuildContext context) {
   ];
 }
 
-// ── Route step ────────────────────────────────────────────────────
-
-/// Step 1: Route – pickup and destination input.
 class ScheduleTripRouteStep extends StatelessWidget {
   const ScheduleTripRouteStep({
     required this.isDriverPosting,
@@ -110,7 +94,6 @@ class ScheduleTripRouteStep extends StatelessWidget {
     required this.isResolvingCurrentLocation,
     required this.routePreview,
     required this.loadingRoutePreview,
-    required this.resolvingTypedRoute,
     required this.routePreviewError,
     required this.locationState,
     required this.shouldShowLocationCard,
@@ -133,7 +116,6 @@ class ScheduleTripRouteStep extends StatelessWidget {
   final bool isResolvingCurrentLocation;
   final MobilityRoutePreview? routePreview;
   final bool loadingRoutePreview;
-  final bool resolvingTypedRoute;
   final String? routePreviewError;
   final MobilityLocationState locationState;
   final bool shouldShowLocationCard;
@@ -148,40 +130,33 @@ class ScheduleTripRouteStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    final l10n = context.l10n;
-    final title = isDriverPosting ? 'Return route' : 'Pickup and destination';
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
+    final title = isDriverPosting ? 'Return route' : 'Route';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CoolCard(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              palette.surface2,
-              palette.surface3,
-            ],
-          ),
-          borderColor: Colors.white.withValues(alpha: 0.05),
+          backgroundColor: colors.routeSurface,
+          borderColor: colors.borderStrong,
+          useGradient: false,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,
-                style: GoogleFonts.dmSans(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: palette.text,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  color: colors.primaryText,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
               const SizedBox(height: 16),
               ScheduleTripRouteEditor(
                 fromController: fromController,
                 toController: toController,
-                fromHint: l10n.scheduleTripFromHint,
-                toHint: l10n.scheduleTripToHint,
+                fromHint: context.l10n.scheduleTripFromHint,
+                toHint: context.l10n.scheduleTripToHint,
                 fromResolved: fromSelection != null,
                 toResolved: toSelection != null,
                 isResolvingCurrentLocation: isResolvingCurrentLocation,
@@ -191,18 +166,18 @@ class ScheduleTripRouteStep extends StatelessWidget {
                 fromValidator: fromValidator,
                 toValidator: toValidator,
                 fromHintText: fromSelection != null
-                    ? 'Google pickup pin attached.'
-                    : 'Search Google Places or use current location.',
+                    ? 'Pickup attached.'
+                    : 'Search or use location.',
                 toHintText: toSelection != null
-                    ? 'Google destination pin attached.'
-                    : 'Search Google Places for a destination.',
+                    ? 'Destination attached.'
+                    : 'Search destination.',
               ),
             ],
           ),
         ),
         AnimatedSize(
-          duration: const Duration(milliseconds: 280),
-          curve: Curves.easeOut,
+          duration: CoolMotion.standard,
+          curve: CoolMotion.enterCurve,
           alignment: Alignment.topCenter,
           child:
               fromSelection == null &&
@@ -240,9 +215,6 @@ class ScheduleTripRouteStep extends StatelessWidget {
   }
 }
 
-// ── Timing step ───────────────────────────────────────────────────
-
-/// Step 2: Timing – date/time, return trip, recurring.
 class ScheduleTripTimingStep extends StatelessWidget {
   const ScheduleTripTimingStep({
     required this.isDriverPosting,
@@ -273,114 +245,92 @@ class ScheduleTripTimingStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     final dayOptions = buildDayOptions(context);
-    final title = isDriverPosting ? 'Departure timing' : 'When';
-    final extraTitle = isDriverPosting
-        ? 'Extra scheduling'
-        : 'Repeat';
+    final title = isDriverPosting ? 'Departure' : 'Timing';
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CoolCard(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              palette.surface2,
-              palette.surface3,
-            ],
+    return CoolCard(
+      backgroundColor: colors.routeSurface,
+      borderColor: colors.borderStrong,
+      useGradient: false,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: theme.textTheme.titleMedium?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
+            ),
           ),
-          borderColor: Colors.white.withValues(alpha: 0.05),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: GoogleFonts.dmSans(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: palette.text,
-                ),
-              ),
-              const SizedBox(height: 16),
-              ScheduleTripFieldLabel(label: l10n.scheduleTripDateTimeLabel),
-              const SizedBox(height: 8),
-              ScheduleTripAdaptiveFieldPair(
-                first: ScheduleTripPickerField(
-                  prefix: l10n.scheduleTripDateFieldPrefix,
-                  value: formatDate(selectedDate),
-                  onTap: onPickDate,
-                ),
-                second: ScheduleTripPickerField(
-                  prefix: l10n.scheduleTripTimeFieldPrefix,
-                  value: formatTime(selectedTime),
-                  onTap: onPickTime,
-                ),
-              ),
-              const SizedBox(height: 18),
-              Text(
-                extraTitle,
-                style: GoogleFonts.dmSans(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: palette.text,
-                ),
-              ),
-              const SizedBox(height: 12),
-              ScheduleTripToggleCard(
-                icon: Icons.sync_rounded,
-                title: l10n.scheduleTripRecurringTitle,
-                subtitle: l10n.scheduleTripRecurringSubtitle,
-                value: recurringTrip,
-                onChanged: onRecurringTripToggled,
-              ),
-              AnimatedSize(
-                duration: const Duration(milliseconds: 180),
-                curve: Curves.easeOut,
-                child: !recurringTrip
-                    ? const SizedBox.shrink()
-                    : Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+          const SizedBox(height: 16),
+          ScheduleTripFieldLabel(label: context.l10n.scheduleTripDateTimeLabel),
+          const SizedBox(height: 8),
+          ScheduleTripAdaptiveFieldPair(
+            first: ScheduleTripPickerField(
+              prefix: context.l10n.scheduleTripDateFieldPrefix,
+              value: formatDate(selectedDate),
+              onTap: onPickDate,
+            ),
+            second: ScheduleTripPickerField(
+              prefix: context.l10n.scheduleTripTimeFieldPrefix,
+              value: formatTime(selectedTime),
+              onTap: onPickTime,
+            ),
+          ),
+          const SizedBox(height: 18),
+          Text(
+            'Repeat',
+            style: theme.textTheme.titleSmall?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          const SizedBox(height: 12),
+          ScheduleTripToggleCard(
+            icon: Icons.sync_rounded,
+            title: context.l10n.scheduleTripRecurringTitle,
+            subtitle: context.l10n.scheduleTripRecurringSubtitle,
+            value: recurringTrip,
+            onChanged: onRecurringTripToggled,
+          ),
+          AnimatedSize(
+            duration: CoolMotion.quick,
+            curve: CoolMotion.enterCurve,
+            child: !recurringTrip
+                ? const SizedBox.shrink()
+                : Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ScheduleTripFieldLabel(
+                          label: context.l10n.scheduleTripRecurringDaysLabel,
+                        ),
+                        const SizedBox(height: 8),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
                           children: [
-                            ScheduleTripFieldLabel(
-                              label: l10n.scheduleTripRecurringDaysLabel,
-                            ),
-                            const SizedBox(height: 8),
-                            Wrap(
-                              spacing: 8,
-                              runSpacing: 8,
-                              children: [
-                                for (final option in dayOptions)
-                                  ScheduleTripDayChip(
-                                    label: option.label,
-                                    selected: recurringDays.contains(
-                                      option.day,
-                                    ),
-                                    onTap: () =>
-                                        onRecurringDayToggled(option.day),
-                                  ),
-                              ],
-                            ),
+                            for (final option in dayOptions)
+                              ScheduleTripDayChip(
+                                label: option.label,
+                                selected: recurringDays.contains(option.day),
+                                onTap: () => onRecurringDayToggled(option.day),
+                              ),
                           ],
                         ),
-                      ),
-              ),
-            ],
+                      ],
+                    ),
+                  ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
 
-// ── Options step ──────────────────────────────────────────────────
-
-/// Step 3: Options – vehicle, seats, price note.
 class ScheduleTripOptionsStep extends StatelessWidget {
   const ScheduleTripOptionsStep({
     required this.isDriverPosting,
@@ -407,64 +357,164 @@ class ScheduleTripOptionsStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     final vehicleOptions = buildVehicleOptions(context);
     final normalizedVehicle = driverVehicleLabel?.trim() ?? '';
     final hasDriverVehicle = isDriverPosting && normalizedVehicle.isNotEmpty;
-    final headerTitle = isDriverPosting ? 'Driver return setup' : 'Trip setup';
+    final headerTitle = isDriverPosting ? 'Driver setup' : 'Trip setup';
     final seatsLabel = isDriverPosting
         ? 'Seats available'
-        : l10n.scheduleTripSeatsLabel;
+        : context.l10n.scheduleTripSeatsLabel;
     final detailsTitle = isDriverPosting ? 'Rider note' : 'Add details';
-    final noteFieldLabel = isDriverPosting
-        ? 'Rider note (optional)'
-        : 'Price note (optional)';
+    final noteFieldLabel = isDriverPosting ? 'Rider note' : 'Price note';
     final noteHint = isDriverPosting
         ? 'e.g. 500 RWF · Pickup near main road'
         : 'e.g. 500 RWF · Negotiable';
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CoolCard(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              palette.surface2,
-              palette.surface3,
+    return CoolCard(
+      backgroundColor: colors.routeSurface,
+      borderColor: colors.borderStrong,
+      useGradient: false,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            headerTitle,
+            style: theme.textTheme.titleMedium?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          if (hasDriverVehicle) ...[
+            const SizedBox(height: 16),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: colors.cardSurfaceStrong,
+                borderRadius: BorderRadius.circular(CoolRadii.lg),
+                border: Border.all(color: colors.border),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.directions_car_filled_rounded,
+                    size: 18,
+                    color: colors.accent,
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Posting vehicle',
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            color: colors.primaryText,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        Text(
+                          normalizedVehicle,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: colors.secondaryText,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ] else ...[
+            const SizedBox(height: 16),
+            ScheduleTripFieldLabel(
+              label: isDriverPosting
+                  ? 'Vehicle'
+                  : context.l10n.scheduleTripVehicleLabel,
+            ),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (final option in vehicleOptions)
+                  ScheduleTripVehicleChip(
+                    label: option.label,
+                    selected: vehiclePreference == option.value,
+                    onTap: () => onVehicleChanged(option.value),
+                    assetPath: option.assetPath,
+                  ),
+              ],
+            ),
+          ],
+          const SizedBox(height: 18),
+          ScheduleTripFieldLabel(label: seatsLabel),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              for (final seat in seatOptionsFor(vehiclePreference))
+                ScheduleTripSeatChip(
+                  label: '$seat',
+                  selected: seats == seat,
+                  onTap: () => onSeatChanged(seat),
+                ),
             ],
           ),
-          borderColor: Colors.white.withValues(alpha: 0.05),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          const SizedBox(height: 18),
+          Row(
             children: [
-              Text(
-                headerTitle,
-                style: GoogleFonts.dmSans(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: palette.text,
+              Expanded(
+                child: Text(
+                  detailsTitle,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    color: colors.primaryText,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
               ),
-              if (hasDriverVehicle) ...[
-                const SizedBox(height: 16),
+              TextButton(
+                onPressed: onToggleDetails,
+                child: Text(
+                  showAdditionalDetails ? 'Hide' : 'Show',
+                  style: theme.textTheme.labelLarge?.copyWith(
+                    color: colors.accent,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          AnimatedCrossFade(
+            duration: CoolMotion.quick,
+            crossFadeState: showAdditionalDetails
+                ? CrossFadeState.showSecond
+                : CrossFadeState.showFirst,
+            firstChild: const SizedBox(height: 12),
+            secondChild: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 14),
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: palette.surface2,
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: palette.border2),
+                    color: colors.cardSurfaceStrong,
+                    borderRadius: BorderRadius.circular(CoolRadii.lg),
+                    border: Border.all(color: colors.border),
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Icon(
-                        Icons.directions_car_filled_rounded,
+                        Icons.schedule_rounded,
                         size: 18,
-                        color: palette.accent,
+                        color: colors.secondaryText,
                       ),
                       const SizedBox(width: 10),
                       Expanded(
@@ -472,19 +522,19 @@ class ScheduleTripOptionsStep extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Posting vehicle',
-                              style: GoogleFonts.dmSans(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                color: palette.text,
+                              context.l10n.scheduleTripExpiryTitle,
+                              style: theme.textTheme.titleSmall?.copyWith(
+                                color: colors.primaryText,
+                                fontWeight: FontWeight.w800,
                               ),
                             ),
+                            const SizedBox(height: 4),
                             Text(
-                              normalizedVehicle,
-                              style: GoogleFonts.dmSans(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                color: palette.text2,
+                              context.l10n.scheduleTripExpirySubtitle,
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: colors.secondaryText,
+                                fontWeight: FontWeight.w600,
+                                height: 1.4,
                               ),
                             ),
                           ],
@@ -493,165 +543,47 @@ class ScheduleTripOptionsStep extends StatelessWidget {
                     ],
                   ),
                 ),
-              ] else ...[
-                const SizedBox(height: 16),
-                ScheduleTripFieldLabel(
-                  label: isDriverPosting
-                      ? 'Vehicle for this trip'
-                      : l10n.scheduleTripVehicleLabel,
-                ),
+                const SizedBox(height: 14),
+                ScheduleTripFieldLabel(label: noteFieldLabel),
                 const SizedBox(height: 8),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: [
-                    for (final option in vehicleOptions)
-                      ScheduleTripVehicleChip(
-                        label: option.label,
-                        selected: vehiclePreference == option.value,
-                        onTap: () => onVehicleChanged(option.value),
-                        assetPath: option.assetPath,
-                      ),
-                  ],
+                TextFormField(
+                  controller: priceNoteController,
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    color: colors.primaryText,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  maxLength: 60,
+                  decoration: InputDecoration(
+                    hintText: noteHint,
+                    hintStyle: theme.textTheme.bodyMedium?.copyWith(
+                      color: colors.tertiaryText,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    counterStyle: theme.textTheme.labelSmall?.copyWith(
+                      color: colors.tertiaryText,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    filled: true,
+                    fillColor: colors.inputSurface,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(CoolRadii.md),
+                      borderSide: BorderSide(color: colors.border),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(CoolRadii.md),
+                      borderSide: BorderSide(color: colors.border),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(CoolRadii.md),
+                      borderSide: BorderSide(color: colors.accent, width: 1.2),
+                    ),
+                  ),
                 ),
               ],
-              const SizedBox(height: 18),
-              ScheduleTripFieldLabel(label: seatsLabel),
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  for (final seat in seatOptionsFor(vehiclePreference))
-                    ScheduleTripSeatChip(
-                      label: '$seat',
-                      selected: seats == seat,
-                      onTap: () => onSeatChanged(seat),
-                    ),
-                ],
-              ),
-              const SizedBox(height: 18),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      detailsTitle,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: palette.text,
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: onToggleDetails,
-                    child: Text(showAdditionalDetails ? 'Hide' : 'Show'),
-                  ),
-                ],
-              ),
-              AnimatedCrossFade(
-                duration: const Duration(milliseconds: 220),
-                crossFadeState: showAdditionalDetails
-                    ? CrossFadeState.showSecond
-                    : CrossFadeState.showFirst,
-                firstChild: const SizedBox(height: 12),
-                secondChild: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 14),
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: palette.surface2,
-                        borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: palette.border2),
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Icon(
-                            Icons.schedule_rounded,
-                            size: 18,
-                            color: palette.text2,
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  l10n.scheduleTripExpiryTitle,
-                                  style: GoogleFonts.dmSans(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                    color: palette.text,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  l10n.scheduleTripExpirySubtitle,
-                                  style: GoogleFonts.dmSans(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w400,
-                                    color: palette.text2,
-                                    height: 1.4,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 14),
-                    ScheduleTripFieldLabel(label: noteFieldLabel),
-                    const SizedBox(height: 8),
-                    TextFormField(
-                      controller: priceNoteController,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: palette.text,
-                      ),
-                      maxLength: 60,
-                      decoration: InputDecoration(
-                        hintText: noteHint,
-                        hintStyle: GoogleFonts.dmSans(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: palette.text3,
-                        ),
-                        counterStyle: GoogleFonts.dmSans(
-                          fontSize: 11,
-                          color: palette.text3,
-                        ),
-                        filled: true,
-                        fillColor: palette.surface3,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: palette.border),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: palette.border),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(
-                            color: palette.accent,
-                            width: 1.2,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -1,11 +1,8 @@
-
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'package:mocktail/mocktail.dart';
-
 
 import 'package:cool_app/core/services/location_service.dart';
 import 'package:cool_app/features/mobility/models/subscription_status.dart';
@@ -157,12 +154,15 @@ void main() {
       expect(find.text('Nearby'), findsOneWidget);
       expect(find.text('Trips'), findsOneWidget);
       expect(find.text('Schedule'), findsOneWidget);
-      expect(find.text('All'), findsOneWidget);
+      expect(find.text('Location needed'), findsOneWidget);
+      expect(find.text('Text-first trip setup'), findsOneWidget);
+      expect(find.text('All'), findsNothing);
 
       await tester.tap(find.text('Trips'));
       await settleTestApp(tester);
 
-      expect(find.text('No scheduled trips found'), findsOneWidget);
+      expect(find.text('Turn on device location'), findsOneWidget);
+      expect(find.text('Turn on location'), findsOneWidget);
     },
   );
 }

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/services/momo_service.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import 'driver_profile_models.dart';
@@ -30,29 +28,29 @@ class DriverSubscriptionBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     return CoolCard(
-      gradient: AppColors.blueGradient,
-      borderColor: palette.blue.withValues(alpha: 0.35),
+      backgroundColor: colors.routeSurface,
+      borderColor: colors.info.withValues(alpha: 0.35),
+      useGradient: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'Unlock Unlimited Trips',
-            style: GoogleFonts.dmSans(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: palette.text,
+            style: theme.textTheme.titleMedium?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
             ),
           ),
           const SizedBox(height: 6),
           Text(
-            'tripsUsedCount trips posted freeTripsRemaining',
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w400,
-              color: palette.text2,
-              height: 1.45,
+            '$tripsUsedCount trips posted. $freeTripsRemaining free left.',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w600,
+              height: 1.4,
             ),
           ),
           const SizedBox(height: 16),
@@ -106,68 +104,73 @@ class DriverPlanCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
     final borderColor = isSelected
-        ? palette.accent
+        ? colors.accent
         : isFeatured
-        ? palette.blue
-        : palette.border;
+        ? colors.info
+        : colors.border;
 
     return Semantics(
       button: true,
       selected: isSelected,
       label: '${plan.displayName} plan',
-      child: GestureDetector(
+      child: CoolCard(
         onTap: onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 220),
-          padding: const EdgeInsets.all(14),
-          decoration: BoxDecoration(
-            color: isSelected
-                ? palette.accentGlow
-                : palette.surface2.withValues(alpha: 0.92),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: borderColor,
-              width: isSelected || isFeatured ? 1.5 : 1,
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(
+        semanticsLabel: '${plan.displayName} plan',
+        padding: const EdgeInsets.all(14),
+        backgroundColor: isSelected
+            ? colors.chipSelectedBackground
+            : colors.cardSurfaceStrong,
+        borderColor: borderColor,
+        useGradient: false,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(
+                color: isSelected
+                    ? colors.accent.withValues(alpha: 0.12)
+                    : colors.inputSurface,
+                borderRadius: BorderRadius.circular(CoolRadii.md),
+              ),
+              alignment: Alignment.center,
+              child: Icon(
                 plan.icon,
-                size: 24,
-                color: palette.text2,
+                size: 20,
+                color: isSelected ? colors.accent : colors.secondaryText,
               ),
-              const SizedBox(height: 8),
-              Text(
-                plan.displayName,
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w700,
-                  color: palette.text,
-                ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              plan.displayName,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colors.primaryText,
+                fontWeight: FontWeight.w800,
               ),
-              const SizedBox(height: 4),
-              Text(
-                '${formatAmount(plan.amountRwf)} RWF',
-                style: GoogleFonts.dmMono(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: isSelected ? palette.accent : palette.blue,
-                ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              '${formatAmount(plan.amountRwf)} RWF',
+              style: text.mono(
+                theme.textTheme.titleSmall,
+                color: isSelected ? colors.accent : colors.info,
+                fontWeight: FontWeight.w800,
               ),
-              Text(
-                '/month',
-                style: GoogleFonts.dmSans(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w500,
-                  color: palette.text3,
-                ),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              '/month',
+              style: theme.textTheme.labelSmall?.copyWith(
+                color: colors.tertiaryText,
+                fontWeight: FontWeight.w700,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -187,7 +190,9 @@ class ActiveSubscriptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
     final totalDays = subscription.expiresAt
         .difference(subscription.startedAt)
         .inDays
@@ -199,12 +204,9 @@ class ActiveSubscriptionCard extends StatelessWidget {
     final progress = daysRemaining / totalDays;
 
     return CoolCard(
-      gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [palette.accentGlow, palette.surface2],
-      ),
-      borderColor: palette.accent.withValues(alpha: 0.35),
+      backgroundColor: colors.routeSurface,
+      borderColor: colors.success.withValues(alpha: 0.35),
+      useGradient: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -214,14 +216,11 @@ class ActiveSubscriptionCard extends StatelessWidget {
                 width: 42,
                 height: 42,
                 decoration: BoxDecoration(
-                  color: palette.accentGlow,
+                  color: colors.chipSelectedBackground,
                   borderRadius: BorderRadius.circular(14),
                 ),
                 alignment: Alignment.center,
-                child: Icon(
-                  Icons.verified_rounded,
-                  color: palette.accent,
-                ),
+                child: Icon(Icons.verified_rounded, color: colors.success),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -230,21 +229,32 @@ class ActiveSubscriptionCard extends StatelessWidget {
                   children: [
                     Text(
                       subscription.plan.displayName,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: palette.text,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        color: colors.primaryText,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                     const SizedBox(height: 2),
-                    Text(
-                      '${formatAmount(subscription.plan.amountRwf)} RWF ·'
-                      'Expires ${formatDate(subscription.expiresAt)}',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: palette.text2,
-                      ),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 4,
+                      children: [
+                        Text(
+                          '${formatAmount(subscription.plan.amountRwf)} RWF',
+                          style: text.mono(
+                            theme.textTheme.bodySmall,
+                            color: colors.success,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        Text(
+                          'Expires ${formatDate(subscription.expiresAt)}',
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: colors.secondaryText,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -254,10 +264,9 @@ class ActiveSubscriptionCard extends StatelessWidget {
           const SizedBox(height: 14),
           Text(
             '$daysRemaining days remaining',
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: palette.accent,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.success,
+              fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(height: 8),
@@ -266,8 +275,8 @@ class ActiveSubscriptionCard extends StatelessWidget {
             child: LinearProgressIndicator(
               value: progress,
               minHeight: 6,
-              backgroundColor: palette.surface3,
-              color: palette.accent,
+              backgroundColor: colors.inputSurface,
+              color: colors.success,
             ),
           ),
         ],

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/cool_palette.dart';
-import '../../../shared/widgets/cool_card.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/cool_card.dart';
 
-/// Summary card displayed on the review step of Schedule Trip.
 class ScheduleTripReviewCard extends StatelessWidget {
   const ScheduleTripReviewCard({
     required this.title,
@@ -42,17 +40,20 @@ class ScheduleTripReviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     return CoolCard(
+      backgroundColor: colors.routeSurface,
+      borderColor: colors.borderStrong,
+      useGradient: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             title,
-            style: GoogleFonts.dmSans(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: palette.text,
+            style: theme.textTheme.titleMedium?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
             ),
           ),
           const SizedBox(height: 16),
@@ -64,7 +65,11 @@ class ScheduleTripReviewCard extends StatelessWidget {
           _TripReviewItem(label: context.l10n.returnKey, value: returnLabel),
           _TripReviewItem(label: context.l10n.repeat, value: recurringLabel),
           _TripReviewItem(label: detailsFieldLabel, value: detailsLabel),
-          _TripReviewItem(label: context.l10n.preview, value: previewLabel, isLast: true),
+          _TripReviewItem(
+            label: context.l10n.preview,
+            value: previewLabel,
+            isLast: true,
+          ),
         ],
       ),
     );
@@ -99,24 +104,25 @@ class ScheduleTripPostingGuideCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     return Semantics(
       container: true,
       label:
-          'title visibilityLabel visibilityValue precisionLabel'
+          '$title. $visibilityLabel: $visibilityValue. $precisionLabel: $precisionValue. '
           '$coordinationLabel: $coordinationValue. $offlineLabel: $offlineValue.',
       child: CoolCard(
-        backgroundColor: palette.surface,
-        borderColor: palette.accent.withValues(alpha: 0.16),
+        backgroundColor: colors.routeSurface,
+        borderColor: colors.borderStrong,
+        useGradient: false,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               title,
-              style: GoogleFonts.dmSans(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                color: palette.text,
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: colors.primaryText,
+                fontWeight: FontWeight.w800,
               ),
             ),
             const SizedBox(height: 16),
@@ -148,7 +154,8 @@ class _TripReviewItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     return Padding(
       padding: EdgeInsets.only(bottom: isLast ? 0 : 12),
       child: Row(
@@ -158,20 +165,18 @@ class _TripReviewItem extends StatelessWidget {
             width: 82,
             child: Text(
               label,
-              style: GoogleFonts.dmSans(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: palette.text3,
+              style: theme.textTheme.labelMedium?.copyWith(
+                color: colors.tertiaryText,
+                fontWeight: FontWeight.w800,
               ),
             ),
           ),
           Expanded(
             child: Text(
               value,
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: palette.text,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colors.primaryText,
+                fontWeight: FontWeight.w700,
                 height: 1.4,
               ),
             ),

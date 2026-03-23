@@ -2,14 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/models/geo_point.dart';
+import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../services/place_search_service.dart';
-import '../../../core/models/geo_point.dart';
-import '../../../shared/widgets/cool_bottom_sheet.dart';
 
 Future<PlaceSearchResult?> showPlaceSearchSheet(
   BuildContext context, {
@@ -22,10 +21,6 @@ Future<PlaceSearchResult?> showPlaceSearchSheet(
   return showCoolBottomSheet<PlaceSearchResult>(
     context: context,
     isScrollControlled: true,
-    backgroundColor: Colors.transparent,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-    ),
     builder: (context) {
       return ScheduleTripPlaceSearchSheet(
         title: title,
@@ -38,7 +33,6 @@ Future<PlaceSearchResult?> showPlaceSearchSheet(
   );
 }
 
-/// Bottom sheet for searching and selecting a place.
 class ScheduleTripPlaceSearchSheet extends StatefulWidget {
   const ScheduleTripPlaceSearchSheet({
     required this.title,
@@ -147,8 +141,7 @@ class _ScheduleTripPlaceSearchSheetState
       }
       setState(() {
         _results = const <PlaceSearchResult>[];
-        _error =
-            'Search unavailable now';
+        _error = 'Search unavailable now';
       });
     } finally {
       if (mounted) {
@@ -181,18 +174,18 @@ class _ScheduleTripPlaceSearchSheetState
       setState(() {
         _isResolvingSelection = false;
         _resolvingPlaceId = null;
-        _error =
-            'Place unresolved';
+        _error = 'Place unresolved';
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     final keyboardInset = MediaQuery.of(context).viewInsets.bottom;
     final viewportHeight = MediaQuery.sizeOf(context).height;
     final sheetHeight = (viewportHeight * 0.78).clamp(360.0, 680.0);
-    final palette = context.coolPalette;
 
     return Padding(
       padding: EdgeInsets.only(bottom: keyboardInset),
@@ -200,8 +193,10 @@ class _ScheduleTripPlaceSearchSheetState
         height: sheetHeight,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: palette.surface,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+            color: colors.overlaySurface,
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(CoolRadii.xxl),
+            ),
           ),
           child: SafeArea(
             top: false,
@@ -215,7 +210,7 @@ class _ScheduleTripPlaceSearchSheetState
                       width: 44,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: palette.border2,
+                        color: colors.borderStrong,
                         borderRadius: BorderRadius.circular(999),
                       ),
                     ),
@@ -223,12 +218,18 @@ class _ScheduleTripPlaceSearchSheetState
                   const SizedBox(height: 20),
                   Text(
                     widget.title,
-                    style: Theme.of(context).textTheme.headlineSmall,
+                    style: theme.textTheme.headlineSmall?.copyWith(
+                      color: colors.primaryText,
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                   const SizedBox(height: 6),
                   Text(
                     'Powered by Google Places',
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: colors.secondaryText,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   const SizedBox(height: 14),
                   _PlaceSearchControls(
@@ -241,10 +242,9 @@ class _ScheduleTripPlaceSearchSheetState
                   if (_results.isNotEmpty) ...[
                     Text(
                       '${_results.length} places found',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: palette.text3,
+                      style: theme.textTheme.labelMedium?.copyWith(
+                        color: colors.tertiaryText,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -260,12 +260,13 @@ class _ScheduleTripPlaceSearchSheetState
   }
 
   Widget _buildResults() {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     if (_isSearching && _results.isEmpty) {
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(24),
-          child: CupertinoActivityIndicator(color: palette.accent),
+          child: CupertinoActivityIndicator(color: colors.accent),
         ),
       );
     }
@@ -276,13 +277,9 @@ class _ScheduleTripPlaceSearchSheetState
 
     if (_results.isEmpty) {
       if (!_hasSearched) {
-        return const _PlaceSearchEmptyState(
-          message: 'Search Google Places to',
-        );
+        return const _PlaceSearchEmptyState(message: 'Search to start');
       }
-      return const _PlaceSearchEmptyState(
-        message: 'No matching places found',
-      );
+      return const _PlaceSearchEmptyState(message: 'No places found');
     }
 
     return ListView.separated(
@@ -292,15 +289,19 @@ class _ScheduleTripPlaceSearchSheetState
       itemBuilder: (context, index) {
         final result = _results[index];
         return Material(
-          color: palette.surface2,
-          borderRadius: BorderRadius.circular(18),
+          color: colors.routeSurface,
+          borderRadius: BorderRadius.circular(CoolRadii.xl),
           child: InkWell(
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(CoolRadii.xl),
             onTap: _isResolvingSelection
                 ? null
                 : () => _selectPrediction(result),
-            child: Padding(
+            child: Container(
               padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(CoolRadii.xl),
+                border: Border.all(color: colors.border),
+              ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -308,12 +309,12 @@ class _ScheduleTripPlaceSearchSheetState
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: palette.accentGlow,
-                      borderRadius: BorderRadius.circular(12),
+                      color: colors.chipSelectedBackground,
+                      borderRadius: BorderRadius.circular(CoolRadii.md),
                     ),
                     child: Icon(
                       Icons.place_rounded,
-                      color: palette.accent,
+                      color: colors.accent,
                       size: 20,
                     ),
                   ),
@@ -324,16 +325,20 @@ class _ScheduleTripPlaceSearchSheetState
                       children: [
                         Text(
                           result.primaryText ?? result.label,
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                fontWeight: FontWeight.w800,
-                              ),
+                          style: theme.textTheme.bodyLarge?.copyWith(
+                            color: colors.primaryText,
+                            fontWeight: FontWeight.w800,
+                          ),
                         ),
                         if (result.secondaryText != null &&
                             result.secondaryText!.isNotEmpty) ...[
                           const SizedBox(height: 4),
                           Text(
                             result.secondaryText!,
-                            style: Theme.of(context).textTheme.bodySmall,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: colors.secondaryText,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ],
                       ],
@@ -347,15 +352,15 @@ class _ScheduleTripPlaceSearchSheetState
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        color: palette.accentGlow,
-                        borderRadius: BorderRadius.circular(8),
+                        color: colors.chipBackground,
+                        borderRadius: BorderRadius.circular(CoolRadii.sm),
+                        border: Border.all(color: colors.border),
                       ),
                       child: Text(
                         _formatDistance(result.distanceMeters!),
-                        style: GoogleFonts.dmSans(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w700,
-                          color: palette.accent,
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: colors.secondaryText,
+                          fontWeight: FontWeight.w800,
                         ),
                       ),
                     ),
@@ -395,17 +400,17 @@ class _PlaceSearchEmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
         child: Text(
           message,
           textAlign: TextAlign.center,
-          style: GoogleFonts.dmSans(
-            fontSize: 13,
-            fontWeight: FontWeight.w500,
-            color: palette.text2,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: colors.secondaryText,
+            fontWeight: FontWeight.w600,
             height: 1.45,
           ),
         ),
@@ -429,7 +434,8 @@ class _PlaceSearchControls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     final field = Semantics(
       textField: true,
       label: 'Trip destination search',
@@ -438,31 +444,33 @@ class _PlaceSearchControls extends StatelessWidget {
         controller: controller,
         textInputAction: TextInputAction.search,
         onSubmitted: (_) => onSubmitted(),
-        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+        style: theme.textTheme.bodyLarge?.copyWith(
+          color: colors.primaryText,
+          fontWeight: FontWeight.w700,
+        ),
         decoration: InputDecoration(
           hintText: 'Search landmark or address',
-          hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: palette.text3,
-              ),
+          hintStyle: theme.textTheme.bodyMedium?.copyWith(
+            color: colors.tertiaryText,
+            fontWeight: FontWeight.w600,
+          ),
           filled: true,
-          fillColor: palette.surface2,
+          fillColor: colors.inputSurface,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 18,
             vertical: 18,
           ),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide(color: palette.border, width: 1.5),
+            borderRadius: BorderRadius.circular(CoolRadii.lg),
+            borderSide: BorderSide(color: colors.border, width: 1.5),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide(color: palette.border, width: 1.5),
+            borderRadius: BorderRadius.circular(CoolRadii.lg),
+            borderSide: BorderSide(color: colors.border, width: 1.5),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide(color: palette.accent, width: 2.0),
+            borderRadius: BorderRadius.circular(CoolRadii.lg),
+            borderSide: BorderSide(color: colors.accent, width: 2),
           ),
         ),
       ),

@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/l10n/l10n.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/intl_locale.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_text_field.dart';
 import '../providers/mobility_location_provider.dart';
 import '../services/place_search_service.dart';
-import 'schedule_trip_place_search_sheet.dart';
-import '../../../shared/widgets/cool_text_field.dart';
 import 'driver_profile_models.dart';
-import '../../../core/l10n/l10n.dart';
+import 'schedule_trip_place_search_sheet.dart';
 
-/// Card displaying a list of scheduled trips, or an empty-state message.
 class ScheduledTripsCard extends StatelessWidget {
   const ScheduledTripsCard({required this.trips, super.key});
 
@@ -22,19 +19,21 @@ class ScheduledTripsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     if (trips.isEmpty) {
-      final palette = context.coolPalette;
       return CoolCard(
+        backgroundColor: colors.routeSurface,
+        borderColor: colors.borderStrong,
+        useGradient: false,
         child: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 18),
             child: Text(
               'No scheduled trips yet.',
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: palette.text3,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colors.tertiaryText,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
@@ -43,12 +42,15 @@ class ScheduledTripsCard extends StatelessWidget {
     }
 
     return CoolCard(
+      backgroundColor: colors.routeSurface,
+      borderColor: colors.borderStrong,
+      useGradient: false,
       child: Column(
         children: [
           for (var index = 0; index < trips.length; index++) ...[
             ScheduledTripTile(trip: trips[index]),
             if (index != trips.length - 1)
-              Divider(color: palette.border, height: 1),
+              Divider(color: colors.divider, height: 1),
           ],
         ],
       ),
@@ -56,7 +58,6 @@ class ScheduledTripsCard extends StatelessWidget {
   }
 }
 
-/// Single trip row inside the scheduled trips card.
 class ScheduledTripTile extends StatelessWidget {
   const ScheduledTripTile({required this.trip, super.key});
 
@@ -64,9 +65,11 @@ class ScheduledTripTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     final chips = <String>[
       trip.vehicleLabel,
+      if (trip.isReturnTrip) 'Return',
       if (trip.isRecurring) 'Daily',
     ];
 
@@ -79,15 +82,15 @@ class ScheduledTripTile extends StatelessWidget {
             width: 42,
             height: 42,
             decoration: BoxDecoration(
-              color: palette.surface3,
-              borderRadius: BorderRadius.circular(14),
+              color: colors.inputSurface,
+              borderRadius: BorderRadius.circular(CoolRadii.md),
             ),
             alignment: Alignment.center,
             child: Image.asset(
               tripVehicleIcon(trip.vehicleLabel),
               width: 21,
               height: 21,
-              color: palette.accent,
+              color: colors.accent,
             ),
           ),
           const SizedBox(width: 12),
@@ -97,19 +100,17 @@ class ScheduledTripTile extends StatelessWidget {
               children: [
                 Text(
                   '${trip.fromLocation} → ${trip.toLocation}',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: palette.text,
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    color: colors.primaryText,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   formatTripDate(trip.departureTime),
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: palette.text2,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colors.secondaryText,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -121,22 +122,26 @@ class ScheduledTripTile extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 10,
-                          vertical: 4,
+                          vertical: 5,
                         ),
                         decoration: BoxDecoration(
                           color: chip == 'Return'
-                              ? palette.blueGlow
-                              : palette.surface3,
+                              ? colors.chipSelectedBackground
+                              : colors.chipBackground,
                           borderRadius: BorderRadius.circular(30),
+                          border: Border.all(
+                            color: chip == 'Return'
+                                ? colors.info
+                                : colors.border,
+                          ),
                         ),
                         child: Text(
                           chip,
-                          style: GoogleFonts.dmSans(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
+                          style: theme.textTheme.labelSmall?.copyWith(
                             color: chip == 'Return'
-                                ? palette.blue
-                                : palette.text2,
+                                ? colors.primaryText
+                                : colors.secondaryText,
+                            fontWeight: FontWeight.w800,
                           ),
                         ),
                       ),
@@ -151,7 +156,6 @@ class ScheduledTripTile extends StatelessWidget {
   }
 }
 
-/// Card showing vehicle info tiles.
 class VehicleInfoCard extends StatelessWidget {
   const VehicleInfoCard({required this.vehicle, super.key});
 
@@ -159,20 +163,33 @@ class VehicleInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final statusColor = vehicle.statusColor(context);
     return CoolCard(
+      backgroundColor: colors.routeSurface,
+      borderColor: colors.borderStrong,
+      useGradient: false,
       child: Column(
         children: [
-          _VehicleInfoTile(label: context.l10n.vehicleType1, value: vehicle.type),
-          Divider(color: palette.border, height: 1),
-          _VehicleInfoTile(label: context.l10n.plateNumber1, value: vehicle.plateNumber),
-          Divider(color: palette.border, height: 1),
-          _VehicleInfoTile(label: context.l10n.baseLocation1, value: vehicle.baseLocation),
-          Divider(color: palette.border, height: 1),
+          _VehicleInfoTile(
+            label: context.l10n.vehicleType1,
+            value: vehicle.type,
+          ),
+          Divider(color: colors.divider, height: 1),
+          _VehicleInfoTile(
+            label: context.l10n.plateNumber1,
+            value: vehicle.plateNumber,
+          ),
+          Divider(color: colors.divider, height: 1),
+          _VehicleInfoTile(
+            label: context.l10n.baseLocation1,
+            value: vehicle.baseLocation,
+          ),
+          Divider(color: colors.divider, height: 1),
           _VehicleInfoTile(
             label: context.l10n.verification,
             value: vehicle.status,
-            valueColor: vehicle.statusColor,
+            valueColor: statusColor,
           ),
         ],
       ),
@@ -181,28 +198,28 @@ class VehicleInfoCard extends StatelessWidget {
 }
 
 class _VehicleInfoTile extends StatelessWidget {
-  _VehicleInfoTile({
+  const _VehicleInfoTile({
     required this.label,
     required this.value,
-    Color? valueColor,
-  }) : valueColor = valueColor ?? AppColors.text;
+    this.valueColor,
+  });
 
   final String label;
   final String value;
-  final Color valueColor;
+  final Color? valueColor;
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     return ListTile(
       dense: true,
       contentPadding: EdgeInsets.zero,
       title: Text(
         label,
-        style: GoogleFonts.dmSans(
-          fontSize: 13,
-          fontWeight: FontWeight.w500,
-          color: palette.text2,
+        style: theme.textTheme.bodyMedium?.copyWith(
+          color: colors.secondaryText,
+          fontWeight: FontWeight.w600,
         ),
       ),
       trailing: ConstrainedBox(
@@ -212,10 +229,9 @@ class _VehicleInfoTile extends StatelessWidget {
           textAlign: TextAlign.end,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
-          style: GoogleFonts.dmSans(
-            fontSize: 14,
-            fontWeight: FontWeight.w700,
-            color: valueColor,
+          style: theme.textTheme.bodyLarge?.copyWith(
+            color: valueColor ?? colors.primaryText,
+            fontWeight: FontWeight.w800,
           ),
         ),
       ),
@@ -223,7 +239,6 @@ class _VehicleInfoTile extends StatelessWidget {
   }
 }
 
-/// Bottom sheet for editing vehicle info.
 class EditVehicleSheet extends ConsumerStatefulWidget {
   const EditVehicleSheet({required this.vehicle, super.key});
 
@@ -321,87 +336,59 @@ class _EditVehicleSheetState extends ConsumerState<EditVehicleSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(
-            22,
-            12,
-            22,
-            22 + MediaQuery.of(context).viewInsets.bottom,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Container(
-                  width: 40,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: palette.border2,
-                    borderRadius: BorderRadius.circular(999),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                'Edit Vehicle',
-                style: GoogleFonts.dmSans(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: palette.text,
-                ),
-              ),
-              const SizedBox(height: 18),
-              CoolTextField(
-                label: context.l10n.vehicleType2,
-                hint: 'Moto Taxi',
-                controller: _vehicleTypeController,
-                prefixIcon: Icons.directions_car_rounded,
-                textInputAction: TextInputAction.next,
-              ),
-              const SizedBox(height: 14),
-              CoolTextField(
-                label: context.l10n.plateNumber2,
-                hint: 'RAB 123 C',
-                controller: _plateNumberController,
-                prefixIcon: Icons.pin_rounded,
-                textInputAction: TextInputAction.next,
-              ),
-              const SizedBox(height: 14),
-              CoolTextField(
-                label: context.l10n.baseLocation2,
-                hint: 'Nyamirambo, Kigali',
-                controller: _baseLocationController,
-                prefixIcon: Icons.location_on_rounded,
-                textInputAction: TextInputAction.done,
-              ),
-              const SizedBox(height: 8),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: TextButton.icon(
-                  onPressed: _openBaseLocationSearch,
-                  icon: const Icon(Icons.search_rounded, size: 18),
-                  label: Text(context.l10n.searchGooglePlaces),
-                ),
-              ),
-              const SizedBox(height: 20),
-              CoolButton(
-                label: context.l10n.saveVehicleInfo,
-                onTap: () => _save(),
-                isLoading: _isResolvingBaseLocation,
-              ),
-            ],
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Edit Vehicle',
+          style: theme.textTheme.titleMedium?.copyWith(
+            color: colors.primaryText,
+            fontWeight: FontWeight.w800,
           ),
         ),
-      ),
+        const SizedBox(height: 18),
+        CoolTextField(
+          label: context.l10n.vehicleType2,
+          hint: 'Moto Taxi',
+          controller: _vehicleTypeController,
+          prefixIcon: Icons.directions_car_rounded,
+          textInputAction: TextInputAction.next,
+        ),
+        const SizedBox(height: 14),
+        CoolTextField(
+          label: context.l10n.plateNumber2,
+          hint: 'RAB 123 C',
+          controller: _plateNumberController,
+          prefixIcon: Icons.pin_rounded,
+          textInputAction: TextInputAction.next,
+        ),
+        const SizedBox(height: 14),
+        CoolTextField(
+          label: context.l10n.baseLocation2,
+          hint: 'Nyamirambo, Kigali',
+          controller: _baseLocationController,
+          prefixIcon: Icons.location_on_rounded,
+          textInputAction: TextInputAction.done,
+        ),
+        const SizedBox(height: 8),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: TextButton.icon(
+            onPressed: _openBaseLocationSearch,
+            icon: const Icon(Icons.search_rounded, size: 18),
+            label: Text(context.l10n.searchGooglePlaces),
+          ),
+        ),
+        const SizedBox(height: 20),
+        CoolButton(
+          label: context.l10n.saveVehicleInfo,
+          onTap: _save,
+          isLoading: _isResolvingBaseLocation,
+        ),
+      ],
     );
   }
 }

@@ -1,8 +1,5 @@
 part of '../screens/schedule_trip_screen.dart';
 
-// _ScheduleTripProgressCard and _ScheduleTripRolePill removed —
-// replaced by _ScheduleTripRoleRow in the main screen file.
-
 class _ScheduleTripRoleSheet extends StatelessWidget {
   const _ScheduleTripRoleSheet({
     required this.selectedRole,
@@ -14,11 +11,14 @@ class _ScheduleTripRoleSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+        color: colors.overlaySurface,
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(CoolRadii.xxl),
+        ),
       ),
       child: SafeArea(
         top: false,
@@ -33,7 +33,7 @@ class _ScheduleTripRoleSheet extends StatelessWidget {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: palette.border2,
+                    color: colors.borderStrong,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -41,10 +41,9 @@ class _ScheduleTripRoleSheet extends StatelessWidget {
               const SizedBox(height: 20),
               Text(
                 'Choose role',
-                style: GoogleFonts.dmSans(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: palette.text,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  color: colors.primaryText,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
               const SizedBox(height: 18),
@@ -56,7 +55,7 @@ class _ScheduleTripRoleSheet extends StatelessWidget {
                   context,
                 ).pop(ScheduleTripPostingRole.passenger),
               ),
-              Divider(color: palette.border),
+              Divider(color: colors.divider),
               _ScheduleTripRoleSheetOption(
                 label: context.l10n.driver,
                 subtitle: canScheduleAsDriver
@@ -89,29 +88,29 @@ class _ScheduleTripRoleSheetOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     return ListTile(
+      minTileHeight: CoolTapTargets.comfortable,
       contentPadding: EdgeInsets.zero,
       leading: Icon(
         selected
             ? Icons.radio_button_checked_rounded
             : Icons.radio_button_off_rounded,
-        color: selected ? palette.accent : palette.text3,
+        color: selected ? colors.accent : colors.tertiaryText,
       ),
       title: Text(
         label,
-        style: GoogleFonts.dmSans(
-          fontSize: 14,
-          fontWeight: FontWeight.w600,
-          color: palette.text,
+        style: theme.textTheme.titleSmall?.copyWith(
+          color: colors.primaryText,
+          fontWeight: FontWeight.w800,
         ),
       ),
       subtitle: Text(
         subtitle,
-        style: GoogleFonts.dmSans(
-          fontSize: 12,
-          fontWeight: FontWeight.w400,
-          color: palette.text2,
+        style: theme.textTheme.bodySmall?.copyWith(
+          color: colors.secondaryText,
+          fontWeight: FontWeight.w600,
         ),
       ),
       onTap: onTap,

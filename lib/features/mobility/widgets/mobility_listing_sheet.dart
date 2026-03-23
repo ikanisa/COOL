@@ -3,13 +3,12 @@ import 'dart:async';
 import 'package:cool_app/core/models/geo_point.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/config/deep_link_config.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/intl_locale.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
 import '../../../shared/widgets/share_card.dart';
 import '../../../shared/widgets/wa_button.dart';
 import '../models/driver_info.dart';
@@ -17,7 +16,6 @@ import '../models/mobility_route_preview.dart';
 import '../models/trip.dart';
 import '../services/place_search_service.dart';
 import 'schedule_trip_route_preview.dart';
-import '../../../shared/widgets/cool_bottom_sheet.dart';
 
 Future<void> showTripListingSheet(
   BuildContext context, {
@@ -25,10 +23,10 @@ Future<void> showTripListingSheet(
   required String buttonLabel,
   VoidCallback? onOpenWhatsApp,
 }) {
-  final palette = context.coolPalette;
+  final colors = context.coolSemanticColors;
   return showCoolBottomSheet<void>(
     context: context,
-    backgroundColor: palette.surface,
+    backgroundColor: colors.overlaySurface,
     isScrollControlled: true,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
@@ -58,10 +56,10 @@ Future<void> showDriverListingSheet(
   required String buttonLabel,
   VoidCallback? onOpenWhatsApp,
 }) {
-  final palette = context.coolPalette;
+  final colors = context.coolSemanticColors;
   return showCoolBottomSheet<void>(
     context: context,
-    backgroundColor: palette.surface,
+    backgroundColor: colors.overlaySurface,
     isScrollControlled: true,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
@@ -186,7 +184,7 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final trip = widget.trip;
     final departure = DateFormat(
       'EEE d MMM • HH:mm',
@@ -204,10 +202,7 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
       children: [
         const _SheetHandle(),
         const SizedBox(height: 20),
-        Text(
-          'Trip Listing',
-          style: Theme.of(context).textTheme.headlineSmall,
-        ),
+        Text('Trip Listing', style: Theme.of(context).textTheme.headlineSmall),
         const SizedBox(height: 12),
         _RouteHeadline(from: trip.fromLocation, to: trip.toLocation),
         const SizedBox(height: 14),
@@ -222,14 +217,14 @@ class _TripListingSheetBodyState extends ConsumerState<_TripListingSheetBody> {
             if (trip.isReturn || trip.isDriverReturnTrip)
               _SheetChip(
                 label: 'Return trip',
-                bgColor: palette.purple.withValues(alpha: 0.16),
-                textColor: palette.purple,
+                bgColor: colors.teamSurface,
+                textColor: colors.primaryText,
               ),
             if (trip.isRecurring)
               _SheetChip(
                 label: 'Recurring',
-                bgColor: palette.accentGlow,
-                textColor: palette.accent,
+                bgColor: colors.chipSelectedBackground,
+                textColor: colors.accent,
               ),
           ],
         ),
@@ -300,7 +295,7 @@ class _DriverListingSheetBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final distance = driver.distanceKm < 1
         ? '${(driver.distanceKm * 1000).round()} m away'
         : '${driver.distanceKm.toStringAsFixed(1)} km away';
@@ -321,13 +316,13 @@ class _DriverListingSheetBody extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 24,
-              backgroundColor: palette.accentGlow,
+              backgroundColor: colors.chipSelectedBackground,
               child: Text(
                 _initialsFor(driver.displayName, fallback: 'DR'),
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w800,
-                      color: palette.accent,
-                    ),
+                  fontWeight: FontWeight.w800,
+                  color: colors.accent,
+                ),
               ),
             ),
             const SizedBox(width: 14),
@@ -338,13 +333,16 @@ class _DriverListingSheetBody extends StatelessWidget {
                   Text(
                     driver.displayName,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w800,
-                        ),
+                      fontWeight: FontWeight.w800,
+                      color: colors.primaryText,
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     driver.vehicleType,
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: colors.secondaryText,
+                    ),
                   ),
                 ],
               ),
@@ -360,21 +358,21 @@ class _DriverListingSheetBody extends StatelessWidget {
             _SheetChip(
               label: driver.isOnline ? 'Online now' : 'Offline',
               bgColor: driver.isOnline
-                  ? palette.accentGlow
-                  : palette.surface3,
-              textColor: driver.isOnline ? palette.accent : palette.text2,
+                  ? colors.chipSelectedBackground
+                  : colors.cardSurfaceStrong,
+              textColor: driver.isOnline ? colors.accent : colors.secondaryText,
             ),
             if (driver.hasReturnTrip)
               _SheetChip(
                 label: 'Has return trip',
-                bgColor: palette.purple.withValues(alpha: 0.16),
-                textColor: palette.purple,
+                bgColor: colors.teamSurface,
+                textColor: colors.primaryText,
               ),
             if (driver.isRegularDriver)
               _SheetChip(
                 label: 'Regular driver',
-                bgColor: palette.blueGlow,
-                textColor: palette.blue,
+                bgColor: colors.info.withValues(alpha: 0.12),
+                textColor: colors.info,
               ),
           ],
         ),
@@ -410,13 +408,13 @@ class _SheetHandle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     return Center(
       child: Container(
         width: 44,
         height: 4,
         decoration: BoxDecoration(
-          color: palette.border2,
+          color: colors.borderStrong,
           borderRadius: BorderRadius.circular(999),
         ),
       ),
@@ -432,16 +430,16 @@ class _RouteHeadline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _RoutePoint(label: from, color: palette.accent),
+        _RoutePoint(label: from, color: colors.accent),
         Padding(
           padding: const EdgeInsets.only(left: 5),
-          child: Container(width: 1.5, height: 16, color: palette.border2),
+          child: Container(width: 1.5, height: 16, color: colors.borderStrong),
         ),
-        _RoutePoint(label: to, color: palette.orange),
+        _RoutePoint(label: to, color: colors.warning),
       ],
     );
   }
@@ -466,9 +464,9 @@ class _RoutePoint extends StatelessWidget {
         Expanded(
           child: Text(
             label,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  fontWeight: FontWeight.w800,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w800),
           ),
         ),
       ],
@@ -484,7 +482,7 @@ class _DetailRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
@@ -495,19 +493,19 @@ class _DetailRow extends StatelessWidget {
             child: Text(
               label.toUpperCase(),
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0.8,
-                    color: palette.text3,
-                  ),
+                fontWeight: FontWeight.w700,
+                letterSpacing: 0.8,
+                color: colors.tertiaryText,
+              ),
             ),
           ),
           Expanded(
             child: Text(
               value,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: palette.text2,
-                  ),
+                fontWeight: FontWeight.w600,
+                color: colors.secondaryText,
+              ),
             ),
           ),
         ],
@@ -523,41 +521,38 @@ class _UnavailableHint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     return Text(
       text,
-      style: GoogleFonts.dmSans(
-        fontSize: 13,
+      style: Theme.of(context).textTheme.bodySmall?.copyWith(
         fontWeight: FontWeight.w500,
-        color: palette.text2,
+        color: context.coolSemanticColors.secondaryText,
       ),
     );
   }
 }
 
 class _SheetChip extends StatelessWidget {
-  _SheetChip({required this.label, Color? bgColor, Color? textColor})
-    : bgColor = bgColor ?? AppColors.surface3,
-      textColor = textColor ?? AppColors.text2;
+  const _SheetChip({required this.label, this.bgColor, this.textColor});
 
   final String label;
-  final Color bgColor;
-  final Color textColor;
+  final Color? bgColor;
+  final Color? textColor;
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: bgColor,
+        color: bgColor ?? colors.chipBackground,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(
         label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              fontWeight: FontWeight.w800,
-              color: textColor,
-            ),
+          fontWeight: FontWeight.w800,
+          color: textColor ?? colors.secondaryText,
+        ),
       ),
     );
   }

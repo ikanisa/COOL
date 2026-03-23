@@ -6,14 +6,12 @@ import 'package:cool_app/features/mobility/models/trip_post_request.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/router/app_routes.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/providers/production_redesign_provider.dart';
 import '../../../core/status/cool_status_awarder.dart';
 import '../../../core/status/models/cool_event.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/intl_locale.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../../core/providers/engagement_providers.dart';
@@ -119,7 +117,8 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     final useProductionRedesign = ref.watch(
       productionRedesignEnabledProvider(
         const ProductionRedesignScope(
@@ -144,7 +143,7 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
     final isDriverPosting = _postingRole == ScheduleTripPostingRole.driver;
 
     return Scaffold(
-      backgroundColor: palette.bg,
+      backgroundColor: colors.appBackground,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
@@ -152,18 +151,18 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
         leading: IconButton(
           onPressed: () => context.pop(),
           tooltip: context.l10n.back,
-          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
+          icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
         ),
         title: Text(
           l10n.scheduleTripTitle,
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: palette.text,
+          style: theme.textTheme.titleLarge?.copyWith(
+            color: colors.primaryText,
+            fontWeight: FontWeight.w800,
           ),
         ),
       ),
       body: CoolScreenBackground(
+        showGlow: false,
         child: SafeArea(
           top: false,
           child: Form(
@@ -190,8 +189,6 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
                         canScheduleAsDriver: canScheduleAsDriver,
                         onOpenRoleSheet: () =>
                             unawaited(_openRoleSheet(canScheduleAsDriver)),
-                        onOpenDriverSetup: () =>
-                            context.push(AppRoutes.mobilityDriver),
                       ),
                       const SizedBox(height: 20),
 
@@ -205,7 +202,6 @@ class _ScheduleTripScreenState extends ConsumerState<ScheduleTripScreen>
                         isResolvingCurrentLocation: _resolvingCurrentLocation,
                         routePreview: _routePreview,
                         loadingRoutePreview: _loadingRoutePreview,
-                        resolvingTypedRoute: _resolvingTypedRoute,
                         routePreviewError: _routePreviewError,
                         locationState: locationState,
                         shouldShowLocationCard:
@@ -351,55 +347,60 @@ class _ScheduleTripRoleRow extends StatelessWidget {
     required this.selectedRole,
     required this.canScheduleAsDriver,
     required this.onOpenRoleSheet,
-    required this.onOpenDriverSetup,
   });
 
   final ScheduleTripPostingRole selectedRole;
   final bool canScheduleAsDriver;
   final VoidCallback onOpenRoleSheet;
-  final VoidCallback onOpenDriverSetup;
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     final isDriver = selectedRole == ScheduleTripPostingRole.driver;
     final label = isDriver ? 'Posting as driver' : 'Posting as passenger';
+    final status = canScheduleAsDriver
+        ? (isDriver ? 'Driver ready' : 'Passenger mode')
+        : 'Driver setup';
 
-    return Semantics(
-      button: true,
-      label: '$label — tap to switch role',
-      excludeSemantics: true,
-      child: GestureDetector(
-        onTap: onOpenRoleSheet,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          decoration: BoxDecoration(
-            color: palette.surface2,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: palette.border),
+    return CoolCard(
+      onTap: onOpenRoleSheet,
+      semanticsLabel: '$label. Tap to switch role.',
+      backgroundColor: colors.routeSurface,
+      borderColor: colors.borderStrong,
+      useGradient: false,
+      child: Row(
+        children: [
+          Icon(
+            isDriver ? Icons.directions_car_rounded : Icons.person_rounded,
+            size: 20,
+            color: colors.accent,
           ),
-          child: Row(
-            children: [
-              Icon(
-                isDriver ? Icons.directions_car_rounded : Icons.person_rounded,
-                size: 20,
-                color: palette.accent,
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
                   label,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: palette.text,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    color: colors.primaryText,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
-              ),
-              Icon(Icons.swap_horiz_rounded, size: 20, color: palette.text3),
-            ],
+                const SizedBox(height: 2),
+                Text(
+                  status,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colors.secondaryText,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
+          Icon(Icons.swap_horiz_rounded, size: 20, color: colors.tertiaryText),
+        ],
       ),
     );
   }
@@ -420,35 +421,30 @@ class _ScheduleTripCommandCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     final isDriverPosting = postingRole == ScheduleTripPostingRole.driver;
 
     return CoolCard(
-      gradient: const LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [Color(0xFF101A17), Color(0xFF132822), Color(0xFF1F473A)],
-      ),
-      borderColor: Colors.white.withValues(alpha: 0.08),
+      backgroundColor: colors.routeSurface,
+      borderColor: colors.borderStrong,
+      useGradient: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            isDriverPosting ? 'Dispatch Preparation' : 'Trip Dispatch',
-            style: GoogleFonts.dmSans(
-              fontSize: 22,
-              fontWeight: FontWeight.w800,
-              color: Colors.white,
+            isDriverPosting ? 'Driver trip' : 'Passenger trip',
+            style: theme.textTheme.headlineSmall?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w900,
             ),
           ),
           const SizedBox(height: 6),
           Text(
-            isDriverPosting
-                ? 'Set route, timing, and return capacity with clear board-ready details.'
-                : 'Build a clean route request with timing, vehicle preference, and immediate board visibility.',
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: Colors.white.withValues(alpha: 0.72),
+            isDriverPosting ? 'Set route and seats.' : 'Set route and timing.',
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w600,
               height: 1.4,
             ),
           ),
@@ -469,7 +465,7 @@ class _ScheduleTripCommandCard extends StatelessWidget {
                     ? Icons.verified_outlined
                     : Icons.info_outline_rounded,
                 label: canScheduleAsDriver
-                    ? 'Driver role available'
+                    ? 'Driver ready'
                     : 'Passenger mode only',
               ),
               if ((driverVehicleType?.trim().isNotEmpty ?? false))
@@ -518,31 +514,40 @@ class _ScheduleTripSubmissionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     final routeLabel = fromLabel.isEmpty || toLabel.isEmpty
-        ? 'Route details appear after origin and destination are entered.'
+        ? 'Add route first.'
         : '$fromLabel → $toLabel';
+    final vehicleLabel = switch (vehiclePreference) {
+      TripVehiclePreference.any => 'Any',
+      TripVehiclePreference.cab => 'Cab',
+      TripVehiclePreference.moto => 'Moto',
+      TripVehiclePreference.trike => 'Trike',
+      TripVehiclePreference.truck => 'Truck',
+      TripVehiclePreference.others => 'Others',
+    };
 
     return CoolCard(
-      borderColor: palette.border2,
+      backgroundColor: colors.routeSurface,
+      borderColor: colors.borderStrong,
+      useGradient: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Board Submission Review',
-            style: GoogleFonts.dmSans(
-              fontSize: 18,
+            'Trip review',
+            style: theme.textTheme.titleMedium?.copyWith(
+              color: colors.primaryText,
               fontWeight: FontWeight.w800,
-              color: palette.text,
             ),
           ),
           const SizedBox(height: 6),
           Text(
             routeLabel,
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: palette.text2,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w600,
               height: 1.4,
             ),
           ),
@@ -559,10 +564,7 @@ class _ScheduleTripSubmissionCard extends StatelessWidget {
               ),
               _ScheduleSurfaceMetric(label: 'Departure', value: departureLabel),
               _ScheduleSurfaceMetric(label: 'Seats', value: '$seats'),
-              _ScheduleSurfaceMetric(
-                label: 'Vehicle',
-                value: vehiclePreference.name.toUpperCase(),
-              ),
+              _ScheduleSurfaceMetric(label: 'Vehicle', value: vehicleLabel),
               _ScheduleSurfaceMetric(
                 label: 'Repeat',
                 value: recurringTrip ? 'Recurring' : 'One time',
@@ -594,26 +596,31 @@ class _ScheduleSignalPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
         color: highlighted
-            ? Colors.white.withValues(alpha: 0.14)
-            : Colors.white.withValues(alpha: 0.08),
+            ? colors.chipSelectedBackground
+            : colors.chipBackground,
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+        border: Border.all(color: highlighted ? colors.accent : colors.border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 14, color: Colors.white.withValues(alpha: 0.8)),
+          Icon(
+            icon,
+            size: 14,
+            color: highlighted ? colors.accent : colors.secondaryText,
+          ),
           const SizedBox(width: 6),
           Text(
             label,
-            style: GoogleFonts.dmSans(
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
+            style: theme.textTheme.labelMedium?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
             ),
           ),
         ],
@@ -630,15 +637,16 @@ class _ScheduleSurfaceMetric extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
 
     return Container(
       constraints: const BoxConstraints(minWidth: 110),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: palette.surface2,
+        color: colors.cardSurfaceStrong,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: palette.border),
+        border: Border.all(color: colors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -646,19 +654,17 @@ class _ScheduleSurfaceMetric extends StatelessWidget {
         children: [
           Text(
             label.toUpperCase(),
-            style: GoogleFonts.dmSans(
-              fontSize: 11,
-              fontWeight: FontWeight.w700,
-              color: palette.text3,
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: colors.tertiaryText,
+              fontWeight: FontWeight.w800,
             ),
           ),
           const SizedBox(height: 4),
           Text(
             value,
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w700,
-              color: palette.text,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
             ),
           ),
         ],

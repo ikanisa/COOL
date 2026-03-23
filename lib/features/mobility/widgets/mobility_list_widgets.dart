@@ -4,9 +4,8 @@ import 'package:cool_app/features/mobility/models/trip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/driver_card.dart';
@@ -95,9 +94,10 @@ class _MobilityTopActionsCardState
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
+    final locationState = ref.watch(mobilityLocationProvider);
+    final hasDiscoveryLocation = locationState.hasLocation;
     // Current UI maps to a legacy 0/1/2 index for tabs.
     // 0 = Discovery (Nearby), 1 = Scheduled Trips, 2 = Schedule Trip Action
     // We maintain this index in DiscoveryNotifier for UI consistency.
@@ -131,23 +131,41 @@ class _MobilityTopActionsCardState
           Wrap(
             spacing: CoolSpace.x2,
             runSpacing: CoolSpace.x2,
-            children: [
-              _MobilitySignalChip(
-                icon: Icons.people_outline_rounded,
-                label: '$nearbyDriverCount drivers nearby',
-                accentColor: colors.info,
-              ),
-              _MobilitySignalChip(
-                icon: Icons.alt_route_rounded,
-                label: '$nearbyTripCount open trips',
-                accentColor: colors.accent,
-              ),
-              _MobilitySignalChip(
-                icon: Icons.chat_rounded,
-                label: 'WhatsApp handoff',
-                accentColor: colors.warning,
-              ),
-            ],
+            children: hasDiscoveryLocation
+                ? [
+                    _MobilitySignalChip(
+                      icon: Icons.people_outline_rounded,
+                      label: '$nearbyDriverCount drivers nearby',
+                      accentColor: colors.info,
+                    ),
+                    _MobilitySignalChip(
+                      icon: Icons.alt_route_rounded,
+                      label: '$nearbyTripCount open trips',
+                      accentColor: colors.accent,
+                    ),
+                    _MobilitySignalChip(
+                      icon: Icons.chat_rounded,
+                      label: 'WhatsApp handoff',
+                      accentColor: colors.warning,
+                    ),
+                  ]
+                : [
+                    _MobilitySignalChip(
+                      icon: Icons.pin_drop_outlined,
+                      label: 'Location needed',
+                      accentColor: colors.warning,
+                    ),
+                    _MobilitySignalChip(
+                      icon: Icons.edit_location_alt_outlined,
+                      label: 'Text-first trip setup',
+                      accentColor: colors.info,
+                    ),
+                    _MobilitySignalChip(
+                      icon: Icons.chat_rounded,
+                      label: 'WhatsApp handoff',
+                      accentColor: colors.accent,
+                    ),
+                  ],
           ),
           const SizedBox(height: CoolSpace.x4),
           _MobilityTabBar(
@@ -166,8 +184,10 @@ class _MobilityTopActionsCardState
               }
             },
           ),
-          const SizedBox(height: 12),
-          const MobilityFilterBar(),
+          if (hasDiscoveryLocation) ...[
+            const SizedBox(height: 12),
+            const MobilityFilterBar(),
+          ],
         ],
       ),
     );
@@ -329,6 +349,7 @@ class MobilityContentSliver extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final discoveryState = ref.watch(discoveryProvider);
     final locationState = ref.watch(mobilityLocationProvider);
+    final locationNotifier = ref.read(mobilityLocationProvider.notifier);
     final isLoading = discoveryState.isLoading;
     final error = discoveryState.error;
     final drivers = discoveryState.nearbyDrivers;
@@ -337,10 +358,31 @@ class MobilityContentSliver extends ConsumerWidget {
     // We determine "tab" based on state for now (Drivers view is primary)
     final isTripsView = discoveryState.selectedTab == 1;
 
+    if (!locationState.hasLocation) {
+      return SliverPadding(
+        padding: const EdgeInsets.fromLTRB(18, 14, 18, 0),
+        sliver: SliverToBoxAdapter(
+          child: _MobilityLocationStateCard(
+            locationState: locationState,
+            onEnableLocation: () {
+              unawaited(locationNotifier.requestForegroundAccess());
+            },
+            onOpenAppSettings: () {
+              unawaited(locationNotifier.openAppSettings());
+            },
+            onOpenLocationSettings: () {
+              unawaited(locationNotifier.openLocationSettings());
+            },
+          ),
+        ),
+      );
+    }
+
     if (isTripsView) {
       return SliverPadding(
         padding: const EdgeInsets.fromLTRB(18, 14, 18, 0),
         sliver: _buildTripSliver(
+          context: context,
           locationState: locationState,
           isLoading: isLoading,
           error: error,
@@ -353,6 +395,7 @@ class MobilityContentSliver extends ConsumerWidget {
     return SliverPadding(
       padding: const EdgeInsets.fromLTRB(18, 14, 18, 0),
       sliver: _buildDriverSliver(
+        context,
         ref,
         locationState: locationState,
         isLoading: isLoading,
@@ -363,6 +406,7 @@ class MobilityContentSliver extends ConsumerWidget {
   }
 
   Widget _buildDriverSliver(
+    BuildContext context,
     WidgetRef ref, {
     required MobilityLocationState locationState,
     required bool isLoading,
@@ -379,7 +423,10 @@ class MobilityContentSliver extends ConsumerWidget {
     }
 
     if (error != null && drivers.isEmpty && locationState.hasLocation) {
-      return _MobilityStatusSliver(message: error, color: AppColors.red);
+      return _MobilityStatusSliver(
+        message: error,
+        color: context.coolSemanticColors.danger,
+      );
     }
 
     return MobilityNearbyDriversSliver(
@@ -393,6 +440,7 @@ class MobilityContentSliver extends ConsumerWidget {
   }
 
   Widget _buildTripSliver({
+    required BuildContext context,
     required MobilityLocationState locationState,
     required bool isLoading,
     required String? error,
@@ -409,7 +457,10 @@ class MobilityContentSliver extends ConsumerWidget {
     }
 
     if (error != null && trips.isEmpty && locationState.hasLocation) {
-      return _MobilityStatusSliver(message: error, color: AppColors.red);
+      return _MobilityStatusSliver(
+        message: error,
+        color: context.coolSemanticColors.danger,
+      );
     }
 
     return MobilityScheduledTripsSliver(
@@ -496,7 +547,7 @@ class MobilityScheduledTripsSliver extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (trips.isEmpty) {
-      return _MobilityStatusSliver(message: 'No scheduled trips found');
+      return const _MobilityStatusSliver(message: 'No scheduled trips found');
     }
 
     return SliverMainAxisGroup(
@@ -571,15 +622,153 @@ class _MobilitySignalChip extends StatelessWidget {
   }
 }
 
-class _MobilityStatusSliver extends StatelessWidget {
-  _MobilityStatusSliver({required this.message, Color? color})
-    : color = color ?? AppColors.text2;
+class _MobilityLocationStateCard extends StatelessWidget {
+  const _MobilityLocationStateCard({
+    required this.locationState,
+    required this.onEnableLocation,
+    required this.onOpenAppSettings,
+    required this.onOpenLocationSettings,
+  });
 
-  final String message;
-  final Color color;
+  final MobilityLocationState locationState;
+  final VoidCallback onEnableLocation;
+  final VoidCallback onOpenAppSettings;
+  final VoidCallback onOpenLocationSettings;
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+
+    late final IconData icon;
+    late final String title;
+    late final String subtitle;
+    String? actionLabel;
+    VoidCallback? action;
+
+    switch (locationState.status) {
+      case MobilityLocationStatus.checking:
+      case MobilityLocationStatus.requesting:
+      case MobilityLocationStatus.idle:
+        icon = Icons.satellite_alt_rounded;
+        title = 'Checking your location';
+        subtitle = 'Nearby trips and drivers need location access.';
+        break;
+      case MobilityLocationStatus.accessDisabled:
+        icon = Icons.admin_panel_settings_outlined;
+        title = 'Location is off in COOL';
+        subtitle = 'Enable location to load nearby drivers and trips.';
+        actionLabel = 'Enable location';
+        action = onEnableLocation;
+        break;
+      case MobilityLocationStatus.needsPermission:
+      case MobilityLocationStatus.denied:
+        icon = Icons.pin_drop_rounded;
+        title = 'Allow location';
+        subtitle = 'Nearby trips and drivers need location access.';
+        actionLabel = 'Use current location';
+        action = onEnableLocation;
+        break;
+      case MobilityLocationStatus.deniedForever:
+        icon = Icons.settings_rounded;
+        title = 'Location blocked';
+        subtitle = 'Open system settings to allow mobility access.';
+        actionLabel = 'Open settings';
+        action = onOpenAppSettings;
+        break;
+      case MobilityLocationStatus.serviceDisabled:
+        icon = Icons.location_off_rounded;
+        title = 'Turn on device location';
+        subtitle = 'Location services are off on this device.';
+        actionLabel = 'Turn on location';
+        action = onOpenLocationSettings;
+        break;
+      case MobilityLocationStatus.error:
+        icon = Icons.warning_amber_rounded;
+        title = 'Location unavailable';
+        subtitle =
+            locationState.error ?? 'Refresh or enable location to continue.';
+        actionLabel = 'Retry';
+        action = onEnableLocation;
+        break;
+      case MobilityLocationStatus.ready:
+      case MobilityLocationStatus.approximateReady:
+        icon = Icons.pin_drop_rounded;
+        title = 'Location ready';
+        subtitle = 'Nearby trips and drivers are available.';
+        break;
+    }
+
+    return CoolCard(
+      backgroundColor: colors.routeSurface,
+      borderColor: colors.borderStrong,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 42,
+                height: 42,
+                decoration: BoxDecoration(
+                  color: colors.cardSurfaceStrong,
+                  borderRadius: BorderRadius.circular(CoolRadii.sm),
+                  border: Border.all(color: colors.border),
+                ),
+                alignment: Alignment.center,
+                child: Icon(icon, size: 20, color: colors.primaryText),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w800,
+                        color: colors.primaryText,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      subtitle,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: colors.secondaryText,
+                        height: 1.4,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          if (actionLabel != null && action != null) ...[
+            const SizedBox(height: 16),
+            CoolButton(
+              label: actionLabel,
+              onTap: action,
+              fullWidth: false,
+              icon: Icons.my_location_rounded,
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _MobilityStatusSliver extends StatelessWidget {
+  const _MobilityStatusSliver({required this.message, this.color});
+
+  final String message;
+  final Color? color;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 48),
@@ -588,7 +777,7 @@ class _MobilityStatusSliver extends StatelessWidget {
             message,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: color,
+              color: color ?? colors.secondaryText,
               fontWeight: FontWeight.w700,
             ),
           ),

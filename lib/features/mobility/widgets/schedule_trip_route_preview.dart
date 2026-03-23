@@ -1,12 +1,12 @@
 import 'package:cool_app/core/models/geo_point.dart';
-import 'package:cool_app/core/theme/cool_palette.dart';
+import 'package:cool_app/core/theme/cool_foundations.dart';
 import 'package:cool_app/features/mobility/models/mobility_route_preview.dart';
 import 'package:cool_app/shared/widgets/cool_card.dart';
 import 'package:cool_app/shared/widgets/cool_google_map.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import '../../../core/l10n/l10n.dart';
 
 class ScheduleTripRoutePreview extends StatelessWidget {
@@ -31,10 +31,14 @@ class ScheduleTripRoutePreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     final hasAnyPoint = origin != null || destination != null;
 
     return CoolCard(
+      backgroundColor: colors.routeSurface,
+      borderColor: colors.borderStrong,
+      useGradient: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -42,10 +46,9 @@ class ScheduleTripRoutePreview extends StatelessWidget {
             children: [
               Text(
                 'Route summary',
-                style: GoogleFonts.dmSans(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                  color: palette.text,
+                style: theme.textTheme.titleSmall?.copyWith(
+                  color: colors.primaryText,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
               const Spacer(),
@@ -59,30 +62,21 @@ class ScheduleTripRoutePreview extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            preview == null ? 'Resolve both points' : 'Review before posting',
-            style: GoogleFonts.dmSans(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: palette.text2,
+            preview == null ? 'Add both points' : 'Review before posting',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w600,
               height: 1.4,
             ),
           ),
-          // ── Route Map ──────────────────────────────────────
-          if (origin != null || destination != null) ...[
-            const SizedBox(height: 14),
-            _RouteMapPreview(
-              origin: origin,
-              destination: destination,
-              polylinePoints: preview?.polylinePoints,
-            ),
-          ],
           const SizedBox(height: 14),
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: palette.surface3,
-              borderRadius: BorderRadius.circular(18),
+              color: colors.cardSurfaceStrong,
+              borderRadius: BorderRadius.circular(CoolRadii.xl),
+              border: Border.all(color: colors.border),
             ),
             child: hasAnyPoint
                 ? _RouteSummaryPane(
@@ -93,22 +87,28 @@ class ScheduleTripRoutePreview extends StatelessWidget {
                 : Text(
                     'Add one stop',
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                      color: palette.text2,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: colors.secondaryText,
+                      fontWeight: FontWeight.w600,
                       height: 1.45,
                     ),
                   ),
           ),
+          if (origin != null || destination != null) ...[
+            const SizedBox(height: 14),
+            _RouteMapPreview(
+              origin: origin,
+              destination: destination,
+              polylinePoints: preview?.polylinePoints,
+            ),
+          ],
           if (error?.trim().isNotEmpty ?? false) ...[
             const SizedBox(height: 10),
             Text(
               error!.trim(),
-              style: GoogleFonts.dmSans(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: palette.orange,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: colors.warning,
+                fontWeight: FontWeight.w700,
                 height: 1.35,
               ),
             ),
@@ -168,11 +168,12 @@ class _RouteStopRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, size: 18, color: palette.text2),
+        Icon(icon, size: 18, color: colors.secondaryText),
         const SizedBox(width: 10),
         Expanded(
           child: Column(
@@ -180,19 +181,17 @@ class _RouteStopRow extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: GoogleFonts.dmSans(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w700,
-                  color: palette.text3,
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: colors.tertiaryText,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
               const SizedBox(height: 2),
               Text(
                 value.trim().isEmpty ? 'Not set yet' : value.trim(),
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: palette.text,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: colors.primaryText,
+                  fontWeight: FontWeight.w700,
                   height: 1.35,
                 ),
               ),
@@ -241,25 +240,25 @@ class _PreviewChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
-        color: palette.surface.withValues(alpha: 0.9),
+        color: colors.chipBackground,
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: palette.border),
+        border: Border.all(color: colors.border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 14, color: palette.accent),
+          Icon(icon, size: 14, color: colors.accent),
           const SizedBox(width: 6),
           Text(
             label,
-            style: GoogleFonts.dmSans(
-              fontSize: 11,
-              fontWeight: FontWeight.w700,
-              color: palette.text,
+            style: theme.textTheme.labelMedium?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
             ),
           ),
         ],
@@ -268,16 +267,8 @@ class _PreviewChip extends StatelessWidget {
   }
 }
 
-// ═════════════════════════════════════════════════════════════════════════════
-// ROUTE MAP PREVIEW
-// ═════════════════════════════════════════════════════════════════════════════
-
 class _RouteMapPreview extends StatefulWidget {
-  const _RouteMapPreview({
-    this.origin,
-    this.destination,
-    this.polylinePoints,
-  });
+  const _RouteMapPreview({this.origin, this.destination, this.polylinePoints});
 
   final GeoPoint? origin;
   final GeoPoint? destination;
@@ -317,9 +308,7 @@ class _RouteMapPreviewState extends State<_RouteMapPreview> {
         Marker(
           markerId: const MarkerId('destination'),
           position: _destinationLatLng!,
-          icon: BitmapDescriptor.defaultMarkerWithHue(
-            BitmapDescriptor.hueRed,
-          ),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
           infoWindow: const InfoWindow(title: 'Destination'),
         ),
       );
@@ -327,16 +316,16 @@ class _RouteMapPreviewState extends State<_RouteMapPreview> {
     return markers;
   }
 
-  Set<Polyline> get _polylines {
+  Set<Polyline> _polylines(BuildContext context) {
     final points = widget.polylinePoints;
-    if (points == null || points.length < 2) return const {};
-    return {
+    if (points == null || points.length < 2) return const <Polyline>{};
+    return <Polyline>{
       Polyline(
         polylineId: const PolylineId('route'),
         points: points
             .map((p) => LatLng(p.latitude, p.longitude))
             .toList(growable: false),
-        color: const Color(0xFF00BCD4),
+        color: context.coolSemanticColors.info,
         width: 4,
       ),
     };
@@ -363,9 +352,7 @@ class _RouteMapPreviewState extends State<_RouteMapPreview> {
               : _destinationLatLng!.longitude,
         ),
       );
-      _controller!.animateCamera(
-        CameraUpdate.newLatLngBounds(bounds, 40),
-      );
+      _controller!.animateCamera(CameraUpdate.newLatLngBounds(bounds, 40));
     }
   }
 
@@ -380,22 +367,29 @@ class _RouteMapPreviewState extends State<_RouteMapPreview> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 160,
-      child: CoolGoogleMap(
-        initialTarget: _originLatLng ?? _destinationLatLng,
-        initialZoom: 13.0,
-        markers: _markers,
-        polylines: _polylines,
-        myLocationEnabled: false,
-        myLocationButtonEnabled: false,
-        onMapCreated: (controller) {
-          _controller = controller;
-          Future.delayed(
-            const Duration(milliseconds: 400),
-            _fitBounds,
-          );
-        },
+    final colors = context.coolSemanticColors;
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(CoolRadii.xl),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          border: Border.all(color: colors.border),
+          borderRadius: BorderRadius.circular(CoolRadii.xl),
+        ),
+        child: SizedBox(
+          height: 160,
+          child: CoolGoogleMap(
+            initialTarget: _originLatLng ?? _destinationLatLng,
+            initialZoom: 13.0,
+            markers: _markers,
+            polylines: _polylines(context),
+            myLocationEnabled: false,
+            myLocationButtonEnabled: false,
+            onMapCreated: (controller) {
+              _controller = controller;
+              Future.delayed(const Duration(milliseconds: 400), _fitBounds);
+            },
+          ),
+        ),
       ),
     );
   }

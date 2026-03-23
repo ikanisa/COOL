@@ -26,14 +26,12 @@ extension on _ScheduleTripScreenState {
 
   MobilityRouteTravelMode _selectedTravelMode() {
     return switch (_vehiclePreference) {
-      TripVehiclePreference.moto =>
-        MobilityRouteTravelMode.twoWheeler,
+      TripVehiclePreference.moto => MobilityRouteTravelMode.twoWheeler,
       TripVehiclePreference.cab ||
       TripVehiclePreference.trike ||
       TripVehiclePreference.truck ||
       TripVehiclePreference.others ||
-      TripVehiclePreference.any =>
-        MobilityRouteTravelMode.drive,
+      TripVehiclePreference.any => MobilityRouteTravelMode.drive,
     };
   }
 
@@ -71,19 +69,19 @@ extension on _ScheduleTripScreenState {
       _updateState(() {
         _routePreview = preview;
         _loadingRoutePreview = false;
-        _routePreviewError = preview == null
-            ? 'Route data unavailable'
-            : null;
+        _routePreviewError = preview == null ? 'Route data unavailable' : null;
       });
 
       // P2.13: Track route preview loaded
       if (preview != null) {
-        ref.read(engagementTrackerProvider).trackRoutePreviewLoaded(
-          origin: _fromController.text,
-          destination: _toController.text,
-          distanceKm: preview.distanceKm,
-          durationMinutes: preview.duration.inMinutes,
-        );
+        ref
+            .read(engagementTrackerProvider)
+            .trackRoutePreviewLoaded(
+              origin: _fromController.text,
+              destination: _toController.text,
+              distanceKm: preview.distanceKm,
+              durationMinutes: preview.duration.inMinutes,
+            );
       }
     } catch (_) {
       if (!mounted || requestId != _routePreviewRequestId) return;
@@ -91,8 +89,7 @@ extension on _ScheduleTripScreenState {
       _updateState(() {
         _loadingRoutePreview = false;
         _routePreview = null;
-        _routePreviewError =
-            'Route preview failed';
+        _routePreviewError = 'Route preview failed';
       });
     }
   }
@@ -106,18 +103,20 @@ extension on _ScheduleTripScreenState {
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 120)),
       builder: (context, child) {
-        final palette = context.coolPalette;
+        final colors = context.coolSemanticColors;
         final theme = Theme.of(context);
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: theme.colorScheme.copyWith(
               brightness: theme.brightness,
-              primary: palette.accent,
+              primary: colors.accent,
               onPrimary: theme.colorScheme.onPrimary,
-              surface: palette.surface,
-              onSurface: palette.text,
+              surface: colors.overlaySurface,
+              onSurface: colors.primaryText,
             ),
-            dialogTheme: DialogThemeData(backgroundColor: palette.surface),
+            dialogTheme: DialogThemeData(
+              backgroundColor: colors.overlaySurface,
+            ),
           ),
           child: child!,
         );
@@ -136,18 +135,20 @@ extension on _ScheduleTripScreenState {
       context: context,
       initialTime: _selectedTime,
       builder: (context, child) {
-        final palette = context.coolPalette;
+        final colors = context.coolSemanticColors;
         final theme = Theme.of(context);
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: theme.colorScheme.copyWith(
               brightness: theme.brightness,
-              primary: palette.accent,
+              primary: colors.accent,
               onPrimary: theme.colorScheme.onPrimary,
-              surface: palette.surface,
-              onSurface: palette.text,
+              surface: colors.overlaySurface,
+              onSurface: colors.primaryText,
             ),
-            dialogTheme: DialogThemeData(backgroundColor: palette.surface),
+            dialogTheme: DialogThemeData(
+              backgroundColor: colors.overlaySurface,
+            ),
           ),
           child: child!,
         );
@@ -180,10 +181,7 @@ extension on _ScheduleTripScreenState {
 
   // ── Toast helper ────────────────────────────────────────────────
 
-  void _showSnackBar({
-    required String message,
-    String kind = 'info',
-  }) {
+  void _showSnackBar({required String message, String kind = 'info'}) {
     switch (kind) {
       case 'success':
         CoolToast.success(context, message);
@@ -195,8 +193,6 @@ extension on _ScheduleTripScreenState {
   }
 
   // ── Location helpers ────────────────────────────────────────────
-
-
 
   bool _shouldShowLocationAttachmentCard(MobilityLocationState locationState) {
     return switch (locationState.status) {
@@ -249,7 +245,6 @@ extension on _ScheduleTripScreenState {
       return false;
     }
 
-
     if (_recurringTrip && _recurringDays.isEmpty) {
       _showSnackBar(
         message: l10n.scheduleTripRecurringDaysError,
@@ -293,12 +288,14 @@ extension on _ScheduleTripScreenState {
 
   Future<void> _openPlaceSearch({required bool isOrigin}) async {
     // P2.13: Track place autocomplete requested
-    ref.read(engagementTrackerProvider).trackPlaceAutocompleteRequested(
-      query: isOrigin
-          ? _fromController.text.trim()
-          : _toController.text.trim(),
-      source: isOrigin ? 'origin' : 'destination',
-    );
+    ref
+        .read(engagementTrackerProvider)
+        .trackPlaceAutocompleteRequested(
+          query: isOrigin
+              ? _fromController.text.trim()
+              : _toController.text.trim(),
+          source: isOrigin ? 'origin' : 'destination',
+        );
 
     final result = await showPlaceSearchSheet(
       context,
@@ -314,11 +311,13 @@ extension on _ScheduleTripScreenState {
     if (!mounted || result == null) return;
 
     // P2.13: Track place selected
-    ref.read(engagementTrackerProvider).trackPlaceSelected(
-      placeLabel: result.label,
-      hasCoordinates: result.hasCoordinates,
-      source: isOrigin ? 'origin_search' : 'destination_search',
-    );
+    ref
+        .read(engagementTrackerProvider)
+        .trackPlaceSelected(
+          placeLabel: result.label,
+          hasCoordinates: result.hasCoordinates,
+          source: isOrigin ? 'origin_search' : 'destination_search',
+        );
 
     _updateState(() {
       if (isOrigin) {
@@ -399,11 +398,7 @@ extension on _ScheduleTripScreenState {
     }
 
     if (failedFields.isNotEmpty && mounted) {
-      _showSnackBar(
-        message:
-            'Could not pin exactly',
-        kind: 'info',
-      );
+      _showSnackBar(message: 'Could not pin exactly', kind: 'info');
     }
   }
 
@@ -421,9 +416,7 @@ extension on _ScheduleTripScreenState {
     final position = locationState.position;
     if (position == null) {
       _showSnackBar(
-        message:
-            locationState.error ??
-            'Location unavailable',
+        message: locationState.error ?? 'Location unavailable',
         kind: 'error',
       );
       return;
@@ -465,11 +458,7 @@ extension on _ScheduleTripScreenState {
         _fromController.text = fallback.label;
       });
       unawaited(_refreshRoutePreview());
-      _showSnackBar(
-        message:
-            'Pickup coordinates were attached',
-        kind: 'info',
-      );
+      _showSnackBar(message: 'Pickup coordinates were attached', kind: 'info');
     } finally {
       if (mounted) {
         _updateState(() => _resolvingCurrentLocation = false);
@@ -543,19 +532,18 @@ extension on _ScheduleTripScreenState {
     final l10n = context.l10n;
     final isDriverPosting = _postingRole == ScheduleTripPostingRole.driver;
     if (isDriverPosting && !canScheduleAsDriver) {
-      _showSnackBar(
-        message: 'Finish driver setup before',
-        kind: 'error',
-      );
+      _showSnackBar(message: 'Finish driver setup before', kind: 'error');
       return;
     }
     final tripRole = isDriverPosting ? 'DRIVER' : 'PASSENGER';
 
     // P2.13: Track trip post started
-    ref.read(engagementTrackerProvider).trackTripPostStarted(
-      role: tripRole,
-      vehicleType: _vehiclePreference.name,
-    );
+    ref
+        .read(engagementTrackerProvider)
+        .trackTripPostStarted(
+          role: tripRole,
+          vehicleType: _vehiclePreference.name,
+        );
     if (!_validateRouteStep()) {
       return;
     }
@@ -571,7 +559,6 @@ extension on _ScheduleTripScreenState {
     final departureAt = _combineDateAndTime(_selectedDate, _selectedTime);
     final confirmed = await _showPostConfirmation(departureAt: departureAt);
     if (!confirmed || !mounted) return;
-
 
     // Auto-populate contact info from user profile
     final authState = ref.read(authProvider);
@@ -639,125 +626,70 @@ extension on _ScheduleTripScreenState {
   // ── F-17: Confirmation dialog ─────────────────────────────────────
 
   Future<bool> _showPostConfirmation({required DateTime departureAt}) async {
-    final palette = context.coolPalette;
     final l10n = context.l10n;
     final from = _fromController.text.trim();
     final to = _toController.text.trim();
     final isRecurring = _recurringTrip && _recurringDays.isNotEmpty;
     final isDriver = _postingRole == ScheduleTripPostingRole.driver;
 
-    final dateStr = '${departureAt.day}/${departureAt.month}/${departureAt.year}';
+    final dateStr =
+        '${departureAt.day}/${departureAt.month}/${departureAt.year}';
     final timeStr = TimeOfDay.fromDateTime(departureAt).format(context);
 
-    final result = await showModalBottomSheet<bool>(
+    final result = await showCoolBottomSheet<bool>(
       context: context,
-      backgroundColor: palette.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
       builder: (ctx) {
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Container(
-                  width: 40,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: palette.text3.withValues(alpha: 0.3),
-                    borderRadius: BorderRadius.circular(2),
+        final theme = Theme.of(ctx);
+        final colors = ctx.coolSemanticColors;
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Confirm Trip',
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: colors.primaryText,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            const SizedBox(height: 16),
+            _ConfirmRow(icon: Icons.trip_origin_rounded, label: from),
+            const SizedBox(height: 8),
+            _ConfirmRow(icon: Icons.location_on_rounded, label: to),
+            const SizedBox(height: 8),
+            _ConfirmRow(
+              icon: Icons.schedule_rounded,
+              label: '$dateStr at $timeStr${isRecurring ? ' (recurring)' : ''}',
+            ),
+            const SizedBox(height: 8),
+            _ConfirmRow(
+              icon: isDriver
+                  ? Icons.directions_car_rounded
+                  : Icons.airline_seat_recline_normal_rounded,
+              label: isDriver
+                  ? 'Posting as driver'
+                  : '${_vehiclePreference.name} · $_seats seat${_seats > 1 ? 's' : ''}',
+            ),
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                Expanded(
+                  child: CoolButton(
+                    label: l10n.cancel,
+                    variant: CoolButtonVariant.secondary,
+                    onTap: () => Navigator.of(ctx).pop(false),
                   ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                'Confirm Trip',
-                style: GoogleFonts.dmSans(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: palette.text,
+                const SizedBox(width: 12),
+                Expanded(
+                  child: CoolButton(
+                    label: l10n.scheduleTripPostCta,
+                    onTap: () => Navigator.of(ctx).pop(true),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              _ConfirmRow(
-                icon: Icons.trip_origin_rounded,
-                label: from,
-                palette: palette,
-              ),
-              const SizedBox(height: 8),
-              _ConfirmRow(
-                icon: Icons.location_on_rounded,
-                label: to,
-                palette: palette,
-              ),
-              const SizedBox(height: 8),
-              _ConfirmRow(
-                icon: Icons.schedule_rounded,
-                label: '$dateStr at $timeStr${isRecurring ? ' (recurring)' : ''}',
-                palette: palette,
-              ),
-              const SizedBox(height: 8),
-              _ConfirmRow(
-                icon: isDriver
-                    ? Icons.directions_car_rounded
-                    : Icons.airline_seat_recline_normal_rounded,
-                label: isDriver
-                    ? 'Posting as driver'
-                    : '${_vehiclePreference.name} · $_seats seat${_seats > 1 ? 's' : ''}',
-                palette: palette,
-              ),
-              const SizedBox(height: 24),
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () => Navigator.of(ctx).pop(false),
-                      style: OutlinedButton.styleFrom(
-                        side: BorderSide(color: palette.border),
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                      ),
-                      child: Text(
-                        l10n.cancel,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: palette.text,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () => Navigator.of(ctx).pop(true),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: palette.accent,
-                        foregroundColor: Colors.white,
-                        elevation: 0,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                      ),
-                      child: Text(
-                        l10n.scheduleTripPostCta,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+              ],
+            ),
+          ],
         );
       },
     );
@@ -768,29 +700,25 @@ extension on _ScheduleTripScreenState {
 // ── Confirm row helper ──────────────────────────────────────────────
 
 class _ConfirmRow extends StatelessWidget {
-  const _ConfirmRow({
-    required this.icon,
-    required this.label,
-    required this.palette,
-  });
+  const _ConfirmRow({required this.icon, required this.label});
 
   final IconData icon;
   final String label;
-  final CoolPalette palette;
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     return Row(
       children: [
-        Icon(icon, size: 18, color: palette.accent),
+        Icon(icon, size: 18, color: colors.accent),
         const SizedBox(width: 10),
         Expanded(
           child: Text(
             label,
-            style: GoogleFonts.dmSans(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: palette.text2,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w600,
             ),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,

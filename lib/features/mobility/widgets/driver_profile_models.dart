@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/identity/public_user_identity.dart';
-
 import '../../../core/services/momo_service.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../models/trip.dart';
 
 /// Local display model for the driver profile screen.
@@ -98,17 +97,18 @@ class VehicleData {
   /// Returns the PNG asset path for the vehicle type icon.
   String get iconPath => tripVehicleIcon(type);
 
-  Color get statusColor {
+  Color statusColor(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final normalized = status.toLowerCase();
     if (isVerified) {
-      return AppColors.accent;
+      return colors.success;
     }
     if (normalized.contains('offline')) {
-      return AppColors.text3;
+      return colors.neutral;
     }
-    if (normalized.contains('pending')) return AppColors.yellow;
-    if (normalized.contains('maintenance')) return AppColors.orange;
-    return AppColors.text;
+    if (normalized.contains('pending')) return colors.warning;
+    if (normalized.contains('maintenance')) return colors.warning;
+    return colors.info;
   }
 
   static bool _hasVisibleValue(String value) {
@@ -184,9 +184,11 @@ String displayValue(String? value) {
 String tripVehicleIcon(String vehicleType) {
   final normalized = vehicleType.trim().toLowerCase();
   if (normalized.contains('moto')) return 'assets/icons/vehicle_moto.png';
-  if (normalized.contains('cab') || normalized.contains('car')) return 'assets/icons/vehicle_cab.png';
+  if (normalized.contains('cab') || normalized.contains('car'))
+    return 'assets/icons/vehicle_cab.png';
   if (normalized.contains('truck')) return 'assets/icons/vehicle_truck.png';
-  if (normalized.contains('pickup') || normalized.contains('others')) return 'assets/icons/vehicle_others.png';
+  if (normalized.contains('pickup') || normalized.contains('others'))
+    return 'assets/icons/vehicle_others.png';
   if (normalized.contains('trike') || normalized.contains('van')) {
     return 'assets/icons/vehicle_trike.png';
   }

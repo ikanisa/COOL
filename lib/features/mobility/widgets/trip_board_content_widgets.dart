@@ -3,10 +3,9 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/status_badge.dart';
@@ -334,7 +333,8 @@ class TripBoardTripTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final canContact = hasContactPhone(trip);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -369,7 +369,9 @@ class TripBoardTripTile extends StatelessWidget {
                 label: const Text('View details'),
                 style: OutlinedButton.styleFrom(
                   minimumSize: const Size(0, 48),
-                  foregroundColor: palette.text,
+                  foregroundColor: colors.primaryText,
+                  backgroundColor: colors.cardSurfaceStrong,
+                  side: BorderSide(color: colors.border),
                 ),
               ),
             ),
@@ -379,7 +381,7 @@ class TripBoardTripTile extends StatelessWidget {
                 label: buttonLabel,
                 iconOnly: false,
                 fullWidth: true,
-                onTap: onWhatsAppTap,
+                onTap: canContact ? onWhatsAppTap : null,
               ),
             ),
           ],
@@ -409,11 +411,15 @@ class MyTripTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     return Opacity(
       opacity: _isExpired || _isCancelled || _isPaused ? 0.58 : 1,
       child: CoolCard(
         padding: const EdgeInsets.all(16),
+        backgroundColor: colors.routeSurface,
+        borderColor: colors.borderStrong,
+        useGradient: false,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -424,7 +430,7 @@ class MyTripTile extends StatelessWidget {
                   vehicleIconForType(trip.vehicleType),
                   width: 22,
                   height: 22,
-                  color: palette.accent,
+                  color: colors.accent,
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -433,10 +439,9 @@ class MyTripTile extends StatelessWidget {
                     children: [
                       Text(
                         '${trip.fromLocation} → ${trip.toLocation}',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: palette.text,
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          color: colors.primaryText,
+                          fontWeight: FontWeight.w800,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -444,10 +449,9 @@ class MyTripTile extends StatelessWidget {
                         DateFormat(
                           'EEE d MMM • HH:mm',
                         ).format(trip.departureTime),
-                        style: GoogleFonts.dmSans(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: palette.text2,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colors.secondaryText,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
@@ -463,7 +467,10 @@ class MyTripTile extends StatelessWidget {
                   IconButton(
                     onPressed: onShowActions,
                     tooltip: 'Trip actions',
-                    icon: Icon(Icons.more_horiz_rounded, color: palette.text2),
+                    icon: Icon(
+                      Icons.more_horiz_rounded,
+                      color: colors.secondaryText,
+                    ),
                   ),
               ],
             ),
@@ -511,40 +518,39 @@ class _MyTripStatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     if (isExpired) {
-      final palette = context.coolPalette;
       return StatusBadge(
         label: 'Expired',
-        bgColor: palette.surface3,
-        textColor: palette.text3,
+        bgColor: colors.cardSurfaceStrong,
+        textColor: colors.tertiaryText,
       );
     }
     if (isCancelled) {
       return StatusBadge(
         label: 'Cancelled',
-        bgColor: palette.surface3,
-        textColor: palette.text3,
+        bgColor: colors.danger.withValues(alpha: 0.14),
+        textColor: colors.danger,
       );
     }
     if (isPaused) {
       return StatusBadge(
         label: 'Paused',
-        bgColor: palette.orange.withValues(alpha: 0.15),
-        textColor: palette.orange,
+        bgColor: colors.warning.withValues(alpha: 0.15),
+        textColor: colors.warning,
       );
     }
     if (isMatched) {
       return StatusBadge(
         label: 'Matched',
-        bgColor: palette.blueGlow,
-        textColor: palette.blue,
+        bgColor: colors.info.withValues(alpha: 0.14),
+        textColor: colors.info,
       );
     }
     return StatusBadge(
       label: 'Active',
-      bgColor: palette.accentGlow,
-      textColor: palette.accent,
+      bgColor: colors.accent.withValues(alpha: 0.12),
+      textColor: colors.accent,
     );
   }
 }
@@ -556,19 +562,20 @@ class _InfoPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: palette.surface3,
+        color: colors.chipBackground,
         borderRadius: BorderRadius.circular(30),
+        border: Border.all(color: colors.border),
       ),
       child: Text(
         label,
-        style: GoogleFonts.dmSans(
-          fontSize: 11,
-          fontWeight: FontWeight.w600,
-          color: palette.text2,
+        style: theme.textTheme.labelSmall?.copyWith(
+          color: colors.secondaryText,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );
@@ -596,21 +603,24 @@ class TripBoardEmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     return CoolCard(
       padding: const EdgeInsets.all(20),
+      backgroundColor: colors.routeSurface,
+      borderColor: colors.borderStrong,
+      useGradient: false,
       child: Center(
         child: Column(
           children: [
-            Icon(icon, size: 34, color: palette.text2),
+            Icon(icon, size: 34, color: colors.secondaryText),
             const SizedBox(height: 12),
             Text(
               title,
               textAlign: TextAlign.center,
-              style: GoogleFonts.dmSans(
-                fontSize: 15,
-                fontWeight: FontWeight.w700,
-                color: palette.text,
+              style: theme.textTheme.titleSmall?.copyWith(
+                color: colors.primaryText,
+                fontWeight: FontWeight.w800,
               ),
             ),
             if (subtitle != null) ...[
@@ -618,11 +628,10 @@ class TripBoardEmptyState extends StatelessWidget {
               Text(
                 subtitle!,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: palette.text2,
-                  height: 1.45,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colors.secondaryText,
+                  fontWeight: FontWeight.w600,
+                  height: 1.4,
                 ),
               ),
             ],
@@ -653,9 +662,13 @@ class TripBoardLoadingState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
     return CoolCard(
       padding: const EdgeInsets.all(20),
+      backgroundColor: colors.routeSurface,
+      borderColor: colors.borderStrong,
+      useGradient: false,
       child: Column(
         children: [
           const CupertinoActivityIndicator(radius: 12),
@@ -663,20 +676,18 @@ class TripBoardLoadingState extends StatelessWidget {
           Text(
             title,
             textAlign: TextAlign.center,
-            style: GoogleFonts.dmSans(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: palette.text,
+            style: theme.textTheme.titleSmall?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
             ),
           ),
           const SizedBox(height: 6),
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: palette.text2,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w600,
               height: 1.4,
             ),
           ),

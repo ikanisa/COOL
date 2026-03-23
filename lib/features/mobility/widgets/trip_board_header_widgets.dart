@@ -2,18 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/l10n/l10n.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/tab_pill.dart';
 import '../../../shared/widgets/vehicle_chip.dart';
 import '../providers/trip_board_provider.dart';
 import 'trip_display_strings.dart';
-import '../../../core/l10n/l10n.dart';
 
-/// Vehicle filter model.
 class VehicleFilter {
   const VehicleFilter({required this.label, required this.value});
 
@@ -21,8 +19,7 @@ class VehicleFilter {
   final String value;
 }
 
-/// Default vehicle filters used on the trip board.
-const tripBoardVehicleFilters = [
+const List<VehicleFilter> tripBoardVehicleFilters = <VehicleFilter>[
   VehicleFilter(label: 'All', value: 'All'),
   VehicleFilter(label: 'Moto', value: 'Moto'),
   VehicleFilter(label: 'Cab', value: 'Cab'),
@@ -30,7 +27,6 @@ const tripBoardVehicleFilters = [
   VehicleFilter(label: 'Trike', value: 'Trike'),
 ];
 
-/// View mode for the trip board tabs.
 enum TripBoardViewMode { explore, myTrips }
 
 class TripBoardTopCard extends ConsumerWidget {
@@ -49,13 +45,15 @@ class TripBoardTopCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final activeTab = ref.watch(tripBoardActiveTabProvider);
     final selectedVehicle = ref.watch(tripBoardSelectedVehicleProvider);
     final isExplore = activeView == TripBoardViewMode.explore;
 
     return CoolCard(
-      gradient: AppColors.blueGradient,
+      backgroundColor: colors.routeSurface,
+      useGradient: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -66,19 +64,19 @@ class TripBoardTopCard extends ConsumerWidget {
           const SizedBox(height: 16),
           Text(
             isExplore ? 'Explore trips' : 'Manage your trips',
-            style: GoogleFonts.dmSans(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: palette.text,
+            style: theme.textTheme.titleMedium?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
             ),
           ),
           const SizedBox(height: 6),
           Text(
-            isExplore ? 'Find rides nearby.' : 'Manage your posted trips.',
-            style: GoogleFonts.dmSans(
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              color: palette.text2,
+            isExplore
+                ? 'Find rides near you.'
+                : 'Update or repost posted trips.',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w700,
               height: 1.4,
             ),
           ),
@@ -91,11 +89,9 @@ class TripBoardTopCard extends ConsumerWidget {
             const SizedBox(height: 14),
             Text(
               '${tripBoardTabLabel(activeTab)} · ${tripBoardVehicleSummary(selectedVehicle)}',
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: palette.text2,
-                height: 1.4,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colors.secondaryText,
+                fontWeight: FontWeight.w700,
               ),
             ),
             const SizedBox(height: 12),
@@ -113,7 +109,6 @@ class TripBoardTopCard extends ConsumerWidget {
   }
 }
 
-/// Reusable header card with title, subtitle, primary button, and optional child.
 class TripBoardHeaderCard extends StatelessWidget {
   const TripBoardHeaderCard({
     required this.title,
@@ -132,26 +127,28 @@ class TripBoardHeaderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+
     return CoolCard(
+      backgroundColor: colors.routeSurface,
+      useGradient: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             title,
-            style: GoogleFonts.dmSans(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: palette.text,
+            style: theme.textTheme.titleMedium?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
             ),
           ),
           const SizedBox(height: 6),
           Text(
             subtitle,
-            style: GoogleFonts.dmSans(
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              color: palette.text2,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w700,
               height: 1.4,
             ),
           ),
@@ -167,7 +164,6 @@ class TripBoardHeaderCard extends StatelessWidget {
   }
 }
 
-/// Explore tab header card with tab switcher and filter bar.
 class TripBoardExploreHeaderCard extends ConsumerWidget {
   const TripBoardExploreHeaderCard({required this.onPostTrip, super.key});
 
@@ -191,30 +187,30 @@ class TripBoardExploreControlsCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final activeTab = ref.watch(tripBoardActiveTabProvider);
     final selectedVehicle = ref.watch(tripBoardSelectedVehicleProvider);
-    final palette = context.coolPalette;
 
     return CoolCard(
+      backgroundColor: colors.routeSurface,
+      useGradient: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'Results',
-            style: GoogleFonts.dmSans(
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-              color: palette.text,
+            style: theme.textTheme.titleSmall?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
             ),
           ),
           const SizedBox(height: 6),
           Text(
             '${tripBoardTabLabel(activeTab)} · ${tripBoardVehicleSummary(selectedVehicle)}',
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: palette.text2,
-              height: 1.4,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(height: 14),
@@ -231,7 +227,6 @@ class TripBoardExploreControlsCard extends ConsumerWidget {
   }
 }
 
-/// My-trips tab header card.
 class TripBoardMyTripsHeaderCard extends StatelessWidget {
   const TripBoardMyTripsHeaderCard({required this.onPostTrip, super.key});
 
@@ -248,7 +243,6 @@ class TripBoardMyTripsHeaderCard extends StatelessWidget {
   }
 }
 
-/// Explore / My trips mode switcher.
 class TripBoardModeSwitcher extends StatelessWidget {
   const TripBoardModeSwitcher({
     required this.activeView,
@@ -259,62 +253,41 @@ class TripBoardModeSwitcher extends StatelessWidget {
   final TripBoardViewMode activeView;
   final ValueChanged<TripBoardViewMode> onChanged;
 
-  static const _items = [
-    (TripBoardViewMode.explore, 'Explore'),
-    (TripBoardViewMode.myTrips, 'My trips'),
-  ];
+  static const List<(TripBoardViewMode, String)> _items =
+      <(TripBoardViewMode, String)>[
+        (TripBoardViewMode.explore, 'Explore'),
+        (TripBoardViewMode.myTrips, 'My trips'),
+      ];
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: palette.surface2,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: palette.border),
+        color: colors.cardSurfaceStrong,
+        borderRadius: BorderRadius.circular(CoolRadii.lg),
+        border: Border.all(color: colors.border),
       ),
       child: Row(
         children: [
-          for (final item in _items)
+          for (final item in _items) ...[
             Expanded(
-              child: Semantics(
-                button: true,
-                selected: activeView == item.$1,
-                label: '${item.$2} tab',
-                child: GestureDetector(
-                  onTap: () => onChanged(item.$1),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 180),
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    decoration: BoxDecoration(
-                      color: activeView == item.$1
-                          ? palette.accent
-                          : Colors.transparent,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      item.$2,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: activeView == item.$1
-                            ? Theme.of(context).colorScheme.onPrimary
-                            : palette.text2,
-                      ),
-                    ),
-                  ),
-                ),
+              child: TabPill(
+                label: item.$2,
+                isActive: activeView == item.$1,
+                onTap: () => onChanged(item.$1),
               ),
             ),
+            if (item != _items.last) const SizedBox(width: 8),
+          ],
         ],
       ),
     );
   }
 }
 
-/// Passenger / Return trips tab switcher.
 class TripBoardTabSwitcher extends StatelessWidget {
   const TripBoardTabSwitcher({
     required this.activeTab,
@@ -325,62 +298,40 @@ class TripBoardTabSwitcher extends StatelessWidget {
   final TripBoardTab activeTab;
   final ValueChanged<TripBoardTab> onChanged;
 
-  static const _tabs = [
+  static const List<(TripBoardTab, String)> _tabs = <(TripBoardTab, String)>[
     (TripBoardTab.passengerTrips, 'Passenger'),
     (TripBoardTab.driverReturnTrips, 'Driver returns'),
   ];
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: palette.surface2,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: palette.border),
+        color: colors.cardSurfaceStrong,
+        borderRadius: BorderRadius.circular(CoolRadii.lg),
+        border: Border.all(color: colors.border),
       ),
       child: Row(
         children: [
-          for (final tab in _tabs)
+          for (final tab in _tabs) ...[
             Expanded(
-              child: Semantics(
-                button: true,
-                selected: activeTab == tab.$1,
-                label: '${tab.$2} tab',
-                child: GestureDetector(
-                  onTap: () => onChanged(tab.$1),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    decoration: BoxDecoration(
-                      color: activeTab == tab.$1
-                          ? palette.accent
-                          : Colors.transparent,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      tab.$2,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: activeTab == tab.$1
-                            ? Theme.of(context).colorScheme.onPrimary
-                            : palette.text2,
-                      ),
-                    ),
-                  ),
-                ),
+              child: TabPill(
+                label: tab.$2,
+                isActive: activeTab == tab.$1,
+                onTap: () => onChanged(tab.$1),
               ),
             ),
+            if (tab != _tabs.last) const SizedBox(width: 8),
+          ],
         ],
       ),
     );
   }
 }
 
-/// Tab section wired to the provider.
 class TripBoardTabSection extends ConsumerWidget {
   const TripBoardTabSection({super.key});
 
@@ -396,7 +347,6 @@ class TripBoardTabSection extends ConsumerWidget {
   }
 }
 
-/// Vehicle-type filter bar.
 class TripBoardFilterBar extends ConsumerWidget {
   const TripBoardFilterBar({super.key});
 
@@ -456,7 +406,7 @@ class TripBoardTripTypeSheet extends StatelessWidget {
       title: context.l10n.tripType,
       subtitle: context.l10n.filterByTripType,
       value: activeTab,
-      options:   <({TripBoardTab value, String label, String subtitle})>[
+      options: <({TripBoardTab value, String label, String subtitle})>[
         (
           value: TripBoardTab.passengerTrips,
           label: context.l10n.passengerTrips,
@@ -487,10 +437,12 @@ class _TripBoardSelectionSheet<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: palette.surface,
+        color: colors.overlaySurface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: SafeArea(
@@ -506,7 +458,7 @@ class _TripBoardSelectionSheet<T> extends StatelessWidget {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: palette.border2,
+                    color: colors.borderStrong,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -514,19 +466,17 @@ class _TripBoardSelectionSheet<T> extends StatelessWidget {
               const SizedBox(height: 20),
               Text(
                 title,
-                style: GoogleFonts.dmSans(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: palette.text,
+                style: theme.textTheme.titleLarge?.copyWith(
+                  color: colors.primaryText,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
               const SizedBox(height: 6),
               Text(
                 subtitle,
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: palette.text2,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colors.secondaryText,
+                  fontWeight: FontWeight.w700,
                   height: 1.45,
                 ),
               ),
@@ -539,28 +489,27 @@ class _TripBoardSelectionSheet<T> extends StatelessWidget {
                         ? Icons.radio_button_checked_rounded
                         : Icons.radio_button_off_rounded,
                     color: options[index].value == value
-                        ? palette.accent
-                        : palette.text3,
+                        ? colors.accent
+                        : colors.tertiaryText,
                   ),
                   title: Text(
                     options[index].label,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: palette.text,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: colors.primaryText,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                   subtitle: Text(
                     options[index].subtitle,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: palette.text2,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: colors.secondaryText,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   onTap: () => Navigator.of(context).pop(options[index].value),
                 ),
-                if (index != options.length - 1) Divider(color: palette.border),
+                if (index != options.length - 1)
+                  Divider(color: colors.border, height: 1),
               ],
             ],
           ),
