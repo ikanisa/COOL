@@ -155,6 +155,12 @@ Finder _dropdownFieldWithLabel(String label) {
   );
 }
 
+Future<void> _tapPrimaryButton(WidgetTester tester, String label) async {
+  final button = find.widgetWithText(ElevatedButton, label);
+  await tester.ensureVisible(button);
+  await tester.tap(button);
+}
+
 void main() {
   final countries = <CoolCountry>[CoolCountryCatalog.resolve(country: 'RW')];
 
@@ -228,7 +234,7 @@ void main() {
       expect(find.text('Mobile Money rollout'), findsOneWidget);
       await tester.tap(find.text('Kill switch'));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Save rollout'));
+      await _tapPrimaryButton(tester, 'Save rollout');
       await tester.pumpAndSettle();
 
       expect(repository.batchUpserts, hasLength(1));
@@ -239,9 +245,7 @@ void main() {
         'true',
       );
       expect(
-        repository.batchUpserts.single.every(
-          (row) => row['country'] == 'RW',
-        ),
+        repository.batchUpserts.single.every((row) => row['country'] == 'RW'),
         isTrue,
       );
       expect(featureFlagsService.refreshCalls, 1);
@@ -308,7 +312,7 @@ void main() {
 
     expect(_dropdownFieldWithLabel('Country scope'), findsNothing);
     await tester.enterText(_textFieldWithLabel('MoMo code'), '0788000000');
-    await tester.tap(find.text('Save code'));
+    await _tapPrimaryButton(tester, 'Save code');
     await tester.pumpAndSettle();
 
     expect(repository.singleUpserts, hasLength(1));
@@ -389,7 +393,7 @@ void main() {
       await tester.tap(find.text('Active').last);
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('Save route'));
+      await _tapPrimaryButton(tester, 'Save route');
       await tester.pumpAndSettle();
 
       expect(repository.paymentRouteUpserts, hasLength(1));
@@ -440,7 +444,7 @@ void main() {
     expect(_textFieldWithLabel('Market'), findsOneWidget);
     await tester.enterText(_textFieldWithLabel('Key'), 'kill_mobility');
     await tester.enterText(_textFieldWithLabel('Value'), 'true');
-    await tester.tap(find.text('Save'));
+    await _tapPrimaryButton(tester, 'Save');
     await tester.pumpAndSettle();
 
     expect(
@@ -479,7 +483,7 @@ void main() {
       AppConfigKeys.mobilitySubscriptionMomoCode,
     );
     await tester.enterText(_textFieldWithLabel('Value'), '0788000000');
-    await tester.tap(find.text('Save'));
+    await _tapPrimaryButton(tester, 'Save');
     await tester.pumpAndSettle();
 
     expect(

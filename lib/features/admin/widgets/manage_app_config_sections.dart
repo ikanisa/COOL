@@ -4,6 +4,38 @@ String _configScopeLabel(String? countryCode) {
   return AppMarket.country.name;
 }
 
+({Color tone, Color foreground}) _adminStatusPillColors(Color foreground) {
+  return (tone: foreground.withValues(alpha: 0.16), foreground: foreground);
+}
+
+EdgeInsets _appConfigCardPadding() => CoolSpace.sectionPadding.copyWith(
+  left: CoolSpace.x4,
+  right: CoolSpace.x4,
+  top: CoolSpace.x4,
+  bottom: CoolSpace.x4,
+);
+
+EdgeInsets _appConfigStatusPillPadding() => CoolSpace.sectionPadding.copyWith(
+  left: CoolSpace.x3,
+  right: CoolSpace.x3,
+  top: CoolSpace.x1,
+  bottom: CoolSpace.x1,
+);
+
+EdgeInsets _appConfigSubtitlePadding() => CoolSpace.sectionPadding.copyWith(
+  left: 0,
+  right: 0,
+  top: CoolSpace.x1,
+  bottom: 0,
+);
+
+EdgeInsets _appConfigEditIconPadding() => CoolSpace.sectionPadding.copyWith(
+  left: CoolSpace.x2,
+  right: CoolSpace.x2,
+  top: CoolSpace.x2,
+  bottom: CoolSpace.x2,
+);
+
 class AppConfigSectionHeader extends StatelessWidget {
   const AppConfigSectionHeader({
     required this.title,
@@ -16,22 +48,25 @@ class AppConfigSectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           title,
-          style: GoogleFonts.dmSans(
-            fontSize: 16,
-            fontWeight: FontWeight.w700,
-            color: palette.text,
+          style: theme.textTheme.titleMedium?.copyWith(
+            color: colors.primaryText,
+            fontWeight: FontWeight.w800,
           ),
         ),
         const SizedBox(height: 4),
         Text(
           message,
-          style: GoogleFonts.dmSans(fontSize: 12, color: palette.text3),
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: colors.secondaryText,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ],
     );
@@ -45,17 +80,21 @@ class EmptyConfigCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: _appConfigCardPadding(),
       decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: palette.border),
+        color: colors.cardSurfaceStrong,
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm)),
+        border: Border.all(color: colors.border),
       ),
       child: Text(
         message,
-        style: GoogleFonts.dmSans(fontSize: 13, color: palette.text3),
+        style: theme.textTheme.bodyMedium?.copyWith(
+          color: colors.secondaryText,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
@@ -69,39 +108,47 @@ class ConfigTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final value = config['value']?.toString() ?? '';
     final preview = value.length > 60 ? '${value.substring(0, 60)}…' : value;
     final scopeLabel = _configScopeLabel(config['country']?.toString());
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: palette.border),
+        color: colors.cardSurfaceStrong,
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm)),
+        border: Border.all(color: colors.border),
       ),
       child: ListTile(
         title: Text(
           config['key']?.toString() ?? '',
-          style: GoogleFonts.dmSans(
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-            color: palette.text,
+          style: theme.textTheme.titleMedium?.copyWith(
+            color: colors.primaryText,
+            fontWeight: FontWeight.w700,
             fontFeatures: const [FontFeature.tabularFigures()],
           ),
         ),
         subtitle: Text(
           '$preview ${config['description'] ?? ''} ($scopeLabel)',
-          style: GoogleFonts.dmSans(fontSize: 11, color: palette.text3),
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: colors.tertiaryText,
+            fontWeight: FontWeight.w600,
+          ),
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
         ),
         trailing: Semantics(
           button: true,
           label: 'Edit ${config['key'] ?? 'config'}',
-          child: GestureDetector(
-            onTap: onEdit,
-            child: Icon(Icons.edit_rounded, size: 18, color: palette.text3),
+          child: IconButton(
+            onPressed: onEdit,
+            tooltip: 'Edit ${config['key'] ?? 'config'}',
+            icon: Icon(
+              Icons.edit_rounded,
+              size: 18,
+              color: colors.secondaryText,
+            ),
           ),
         ),
       ),
@@ -117,15 +164,23 @@ class RolloutCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final stageLabel = rollout.rollout.stage.remoteConfigValue.toUpperCase();
+    final stageColors = _adminStatusPillColors(
+      rollout.rollout.killSwitch ? colors.danger : colors.success,
+    );
+    final accessColors = _adminStatusPillColors(
+      rollout.rollout.adminOnly ? colors.warning : colors.info,
+    );
+    final marketColors = _adminStatusPillColors(colors.accent);
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: _appConfigCardPadding(),
       decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: palette.border),
+        color: colors.cardSurfaceStrong,
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm)),
+        border: Border.all(color: colors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,18 +193,17 @@ class RolloutCard extends StatelessWidget {
                   children: [
                     Text(
                       rollout.label,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: palette.text,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        color: colors.primaryText,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       rollout.description,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
-                        color: palette.text3,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: colors.secondaryText,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],
@@ -158,7 +212,7 @@ class RolloutCard extends StatelessWidget {
               IconButton(
                 onPressed: onEdit,
                 tooltip: context.l10n.editRolloutSettings,
-                icon: Icon(Icons.tune_rounded, color: palette.text),
+                icon: Icon(Icons.tune_rounded, color: colors.primaryText),
               ),
             ],
           ),
@@ -169,28 +223,20 @@ class RolloutCard extends StatelessWidget {
             children: [
               StatusPill(
                 label: rollout.rollout.killSwitch ? 'Killed' : stageLabel,
-                tone: rollout.rollout.killSwitch
-                    ? const Color(0xFFFFD1D1)
-                    : const Color(0xFFD9F5D6),
-                foreground: rollout.rollout.killSwitch
-                    ? const Color(0xFF7A1616)
-                    : const Color(0xFF0F5132),
+                tone: stageColors.tone,
+                foreground: stageColors.foreground,
               ),
               StatusPill(
                 label: rollout.rollout.adminOnly
                     ? 'Admin only'
                     : 'User-accessible',
-                tone: rollout.rollout.adminOnly
-                    ? const Color(0xFFFFF2C9)
-                    : const Color(0xFFDCE8FF),
-                foreground: rollout.rollout.adminOnly
-                    ? const Color(0xFF725400)
-                    : const Color(0xFF173A7A),
+                tone: accessColors.tone,
+                foreground: accessColors.foreground,
               ),
               StatusPill(
                 label: context.l10n.rwandaOnly,
-                tone: const Color(0xFFE8E3FF),
-                foreground: const Color(0xFF3D2F7A),
+                tone: marketColors.tone,
+                foreground: marketColors.foreground,
               ),
             ],
           ),
@@ -214,17 +260,17 @@ class StatusPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      padding: _appConfigStatusPillPadding(),
       decoration: BoxDecoration(
         color: tone,
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.pill)),
       ),
       child: Text(
         label,
-        style: GoogleFonts.dmSans(
-          fontSize: 11,
-          fontWeight: FontWeight.w700,
+        style: theme.textTheme.labelMedium?.copyWith(
+          fontWeight: FontWeight.w800,
           color: foreground,
         ),
       ),
@@ -246,34 +292,42 @@ class MobilitySubscriptionConfigTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final code = config['value']?.toString() ?? '';
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: palette.border),
+        color: colors.cardSurfaceStrong,
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm)),
+        border: Border.all(color: colors.border),
       ),
       child: ListTile(
         title: Text(
           _configScopeLabel(config['country']?.toString()),
-          style: GoogleFonts.dmSans(
-            fontSize: 13,
+          style: theme.textTheme.titleMedium?.copyWith(
+            color: colors.primaryText,
             fontWeight: FontWeight.w700,
-            color: palette.text,
           ),
         ),
         subtitle: Text(
           'MoMo code: $code',
-          style: GoogleFonts.dmSans(fontSize: 12, color: palette.text3),
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: colors.secondaryText,
+            fontWeight: FontWeight.w600,
+          ),
         ),
         trailing: Semantics(
           button: true,
           label: context.l10n.editMomoSubscriptionConfig,
-          child: GestureDetector(
-            onTap: onEdit,
-            child: Icon(Icons.edit_rounded, size: 18, color: palette.text3),
+          child: IconButton(
+            onPressed: onEdit,
+            tooltip: context.l10n.editMomoSubscriptionConfig,
+            icon: Icon(
+              Icons.edit_rounded,
+              size: 18,
+              color: colors.secondaryText,
+            ),
           ),
         ),
       ),
@@ -295,69 +349,82 @@ class PartnerPaymentRouteConfigTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final partnerName = config['partner_name']?.toString() ?? 'Partner';
     final provider = config['provider']?.toString() ?? 'provider';
     final recipientCode = config['recipient_code']?.toString() ?? 'missing';
     final reconciliationLabel =
         config['reconciliation_label']?.toString() ?? 'missing_label';
     final status = (config['status']?.toString() ?? 'draft').toLowerCase();
-    final (tone, foreground) = switch (status) {
-      'active' => (const Color(0xFFD9F5D6), const Color(0xFF0F5132)),
-      'inactive' => (const Color(0xFFFFF2C9), const Color(0xFF725400)),
-      _ => (const Color(0xFFE8E3FF), const Color(0xFF3D2F7A)),
+    final statusColors = switch (status) {
+      'active' => _adminStatusPillColors(colors.success),
+      'inactive' => _adminStatusPillColors(colors.warning),
+      _ => _adminStatusPillColors(colors.info),
     };
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: palette.border),
+        color: colors.cardSurfaceStrong,
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm)),
+        border: Border.all(color: colors.border),
       ),
       child: ListTile(
         title: Text(
           '$partnerName · Rwanda',
-          style: GoogleFonts.dmSans(
-            fontSize: 13,
+          style: theme.textTheme.titleMedium?.copyWith(
+            color: colors.primaryText,
             fontWeight: FontWeight.w700,
-            color: palette.text,
           ),
         ),
         subtitle: Padding(
-          padding: const EdgeInsets.only(top: 4),
+          padding: _appConfigSubtitlePadding(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 '${provider.toUpperCase()} · code $recipientCode',
-                style: GoogleFonts.dmSans(fontSize: 12, color: palette.text2),
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: colors.secondaryText,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const SizedBox(height: 4),
               Text(
                 'Reconciliation: $reconciliationLabel',
-                style: GoogleFonts.dmSans(fontSize: 11, color: palette.text3),
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colors.tertiaryText,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ],
           ),
         ),
-        trailing: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             StatusPill(
               label: status.toUpperCase(),
-              tone: tone,
-              foreground: foreground,
+              tone: statusColors.tone,
+              foreground: statusColors.foreground,
             ),
-            const SizedBox(height: 6),
+            const SizedBox(width: 6),
             Semantics(
               button: true,
               label: context.l10n.editPaymentRouteFor,
-              child: GestureDetector(
-                onTap: onEdit,
-                child: Icon(
-                  Icons.edit_rounded,
-                  size: 18,
-                  color: palette.text3,
+              child: Material(
+                type: MaterialType.transparency,
+                child: InkResponse(
+                  onTap: onEdit,
+                  radius: 18,
+                  child: Padding(
+                    padding: _appConfigEditIconPadding(),
+                    child: Icon(
+                      Icons.edit_rounded,
+                      size: 18,
+                      color: colors.secondaryText,
+                    ),
+                  ),
                 ),
               ),
             ),

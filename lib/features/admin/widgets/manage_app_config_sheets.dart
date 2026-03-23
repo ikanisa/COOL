@@ -1,5 +1,157 @@
 part of '../screens/manage_app_config_screen.dart';
 
+BoxDecoration _adminSheetDecoration(BuildContext context) {
+  final colors = context.coolSemanticColors;
+  return BoxDecoration(
+    color: colors.cardSurfaceStrong,
+    borderRadius: const BorderRadius.vertical(
+      top: Radius.circular(CoolRadii.lg),
+    ),
+  );
+}
+
+Widget _adminSheetHandle(BuildContext context) {
+  final colors = context.coolSemanticColors;
+  return Container(
+    width: 40,
+    height: 4,
+    decoration: BoxDecoration(
+      color: colors.borderStrong,
+      borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.pill)),
+    ),
+  );
+}
+
+OutlineInputBorder _adminSheetInputBorder(
+  CoolSemanticColors colors, {
+  Color? borderColor,
+}) {
+  return OutlineInputBorder(
+    borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.xs)),
+    borderSide: BorderSide(color: borderColor ?? colors.border, width: 1.1),
+  );
+}
+
+EdgeInsets _adminSheetInsets(BuildContext context) {
+  final space = context.coolSpace;
+  return CoolSpace.pagePadding.copyWith(
+    top: space.x3,
+    bottom: MediaQuery.of(context).viewInsets.bottom + space.x6,
+  );
+}
+
+EdgeInsets _adminFieldInsets(BuildContext context) {
+  return CoolSpace.sectionPadding.copyWith(
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: context.coolSpace.x3,
+  );
+}
+
+InputDecoration _adminSheetInputDecoration(
+  BuildContext context, {
+  required String label,
+  bool enabled = true,
+}) {
+  final colors = context.coolSemanticColors;
+  final theme = Theme.of(context);
+  return InputDecoration(
+    labelText: label,
+    labelStyle: theme.textTheme.labelMedium?.copyWith(
+      color: colors.secondaryText,
+      fontWeight: FontWeight.w700,
+    ),
+    filled: true,
+    fillColor: enabled ? colors.inputSurface : colors.buttonSecondaryBackground,
+    border: _adminSheetInputBorder(colors),
+    enabledBorder: _adminSheetInputBorder(colors),
+    focusedBorder: _adminSheetInputBorder(colors, borderColor: colors.accent),
+    disabledBorder: _adminSheetInputBorder(
+      colors,
+      borderColor: colors.border.withValues(alpha: 0.65),
+    ),
+  );
+}
+
+TextStyle? _adminSheetFieldStyle(BuildContext context) {
+  final colors = context.coolSemanticColors;
+  return Theme.of(context).textTheme.bodyMedium?.copyWith(
+    color: colors.primaryText,
+    fontWeight: FontWeight.w700,
+  );
+}
+
+TextStyle? _adminSheetTitleStyle(BuildContext context) {
+  final colors = context.coolSemanticColors;
+  return Theme.of(context).textTheme.titleLarge?.copyWith(
+    color: colors.primaryText,
+    fontWeight: FontWeight.w800,
+  );
+}
+
+TextStyle? _adminSheetMessageStyle(BuildContext context) {
+  final colors = context.coolSemanticColors;
+  return Theme.of(context).textTheme.bodySmall?.copyWith(
+    color: colors.secondaryText,
+    fontWeight: FontWeight.w600,
+    height: 1.45,
+  );
+}
+
+ButtonStyle _adminSheetOutlineStyle(
+  BuildContext context, {
+  required Color foregroundColor,
+  required Color borderColor,
+}) {
+  return OutlinedButton.styleFrom(
+    foregroundColor: foregroundColor,
+    side: BorderSide(color: borderColor),
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(CoolRadii.xs)),
+    ),
+  );
+}
+
+Widget _adminSheetPrimaryButton(
+  BuildContext context, {
+  required String label,
+  required bool isLoading,
+  required VoidCallback? onPressed,
+}) {
+  final colors = context.coolSemanticColors;
+  final theme = Theme.of(context);
+  return SizedBox(
+    width: double.infinity,
+    height: 48,
+    child: ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: colors.accent,
+        foregroundColor: theme.colorScheme.onPrimary,
+        disabledBackgroundColor: colors.buttonSecondaryBackground,
+        disabledForegroundColor: colors.tertiaryText,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(CoolRadii.xs)),
+        ),
+      ),
+      child: isLoading
+          ? const SizedBox(
+              width: 20,
+              height: 20,
+              child: CupertinoActivityIndicator(radius: 10),
+            )
+          : Text(
+              label,
+              style: theme.textTheme.labelLarge?.copyWith(
+                fontWeight: FontWeight.w800,
+                color: theme.colorScheme.onPrimary,
+              ),
+            ),
+    ),
+  );
+}
+
 class EditPartnerPaymentRouteSheet extends StatefulWidget {
   const EditPartnerPaymentRouteSheet({
     this.route,
@@ -147,119 +299,83 @@ class _EditPartnerPaymentRouteSheetState
   }
 
   @override
-  Widget build(BuildContext context) => DecoratedBox(
-    decoration: BoxDecoration(
-      color: AppColors.surface,
-      borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-    ),
-    child: SafeArea(
-      top: false,
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(
-          22,
-          12,
-          22,
-          MediaQuery.of(context).viewInsets.bottom + 22,
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: AppColors.border2,
-                  borderRadius: BorderRadius.circular(2),
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    return DecoratedBox(
+      decoration: _adminSheetDecoration(context),
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: _adminSheetInsets(context),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _adminSheetHandle(context),
+                const SizedBox(height: 16),
+                Text(
+                  widget.route == null
+                      ? 'Add Partner Payment Route'
+                      : 'Edit Partner Payment Route',
+                  style: _adminSheetTitleStyle(context),
+                  textAlign: TextAlign.center,
                 ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                widget.route == null
-                    ? 'Add Partner Payment Route'
-                    : 'Edit Partner Payment Route',
-                style: GoogleFonts.dmSans(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.text,
+                const SizedBox(height: 8),
+                Text(
+                  'Manage Rwanda partner checkout routing.',
+                  style: _adminSheetMessageStyle(context),
+                  textAlign: TextAlign.center,
                 ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Manage the live MoMo',
-                style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              _partnerField(),
-              _marketField(),
-              _field('Provider id', _providerCtl),
-              _field('Merchant code', _recipientCodeCtl),
-              _field('Reconciliation label', _reconciliationCtl),
-              _statusField(),
-              const SizedBox(height: 12),
-              SizedBox(
-                width: double.infinity,
-                height: 48,
-                child: ElevatedButton(
+                const SizedBox(height: 16),
+                _partnerField(),
+                _marketField(),
+                _field('Provider id', _providerCtl),
+                _field('Merchant code', _recipientCodeCtl),
+                _field('Reconciliation label', _reconciliationCtl),
+                _statusField(),
+                const SizedBox(height: 12),
+                _adminSheetPrimaryButton(
+                  context,
+                  label: 'Save route',
+                  isLoading: _saving,
                   onPressed: _saving || _deleting ? null : _save,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.accent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                  ),
-                  child: _saving
-                      ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CupertinoActivityIndicator(radius: 10),
-                        )
-                      : Text(
-                          'Save route',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
-                        ),
                 ),
-              ),
-              if (widget.route != null) ...[
-                const SizedBox(height: 10),
-                SizedBox(
-                  width: double.infinity,
-                  height: 44,
-                  child: OutlinedButton(
-                    onPressed: _saving || _deleting ? null : _delete,
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.orange,
-                      side: const BorderSide(color: AppColors.orange),
-                    ),
-                    child: _deleting
-                        ? const SizedBox(
-                            width: 18,
-                            height: 18,
-                            child: CupertinoActivityIndicator(radius: 9),
-                          )
-                        : Text(
-                            'Delete route',
-                            style: GoogleFonts.dmSans(
-                              fontWeight: FontWeight.w600,
+                if (widget.route != null) ...[
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 44,
+                    child: OutlinedButton(
+                      onPressed: _saving || _deleting ? null : _delete,
+                      style: _adminSheetOutlineStyle(
+                        context,
+                        foregroundColor: colors.danger,
+                        borderColor: colors.danger,
+                      ),
+                      child: _deleting
+                          ? const SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: CupertinoActivityIndicator(radius: 9),
+                            )
+                          : Text(
+                              'Delete route',
+                              style: Theme.of(context).textTheme.labelLarge
+                                  ?.copyWith(fontWeight: FontWeight.w700),
                             ),
-                          ),
+                    ),
                   ),
-                ),
+                ],
               ],
-            ],
+            ),
           ),
         ),
       ),
-    ),
-  );
+    );
+  }
 
   Widget _field(String label, TextEditingController ctl) => Padding(
-    padding: const EdgeInsets.only(bottom: 10),
+    padding: _adminFieldInsets(context),
     child: Semantics(
       textField: true,
       label: label,
@@ -267,39 +383,22 @@ class _EditPartnerPaymentRouteSheetState
       child: TextField(
         controller: ctl,
         maxLines: 1,
-        style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
-          filled: true,
-          fillColor: AppColors.surface2,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
-          ),
-        ),
+        style: _adminSheetFieldStyle(context),
+        decoration: _adminSheetInputDecoration(context, label: label),
       ),
     ),
   );
 
   Widget _partnerField() => Padding(
-    padding: const EdgeInsets.only(bottom: 10),
+    padding: _adminFieldInsets(context),
     child: Semantics(
       label: context.l10n.partnerSelector,
       hint: 'Choose partner',
       child: DropdownButtonFormField<String>(
         initialValue: _selectedPartnerId,
-        dropdownColor: AppColors.surface2,
-        decoration: InputDecoration(
-          labelText: 'Partner',
-          labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
-          filled: true,
-          fillColor: AppColors.surface2,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
-          ),
-        ),
+        style: _adminSheetFieldStyle(context),
+        dropdownColor: context.coolSemanticColors.cardSurfaceStrong,
+        decoration: _adminSheetInputDecoration(context, label: 'Partner'),
         items: widget.partners
             .map(
               (partner) => DropdownMenuItem<String>(
@@ -310,53 +409,35 @@ class _EditPartnerPaymentRouteSheetState
             .toList(growable: false),
         onChanged: _saving || _deleting
             ? null
-            : (value) {
-              final palette = context.coolPalette;
-                setState(() {
-                  _selectedPartnerId = value;
-                });
-              },
+            : (value) => setState(() => _selectedPartnerId = value),
       ),
     ),
   );
 
   Widget _marketField() => Padding(
-    padding: const EdgeInsets.only(bottom: 10),
+    padding: _adminFieldInsets(context),
     child: TextFormField(
       initialValue: 'Rwanda',
       enabled: false,
-      style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
-      decoration: InputDecoration(
-        labelText: 'Market',
-        labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
-        filled: true,
-        fillColor: AppColors.surface2.withValues(alpha: 0.5),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
-        ),
+      style: _adminSheetFieldStyle(context),
+      decoration: _adminSheetInputDecoration(
+        context,
+        label: 'Market',
+        enabled: false,
       ),
     ),
   );
 
   Widget _statusField() => Padding(
-    padding: const EdgeInsets.only(bottom: 10),
+    padding: _adminFieldInsets(context),
     child: Semantics(
       label: context.l10n.statusSelector,
       hint: 'Choose route status',
       child: DropdownButtonFormField<String>(
         initialValue: _status,
-        dropdownColor: AppColors.surface2,
-        decoration: InputDecoration(
-          labelText: 'Status',
-          labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
-          filled: true,
-          fillColor: AppColors.surface2,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
-          ),
-        ),
+        style: _adminSheetFieldStyle(context),
+        dropdownColor: context.coolSemanticColors.cardSurfaceStrong,
+        decoration: _adminSheetInputDecoration(context, label: 'Status'),
         items: const [
           DropdownMenuItem<String>(value: 'draft', child: Text('Draft')),
           DropdownMenuItem<String>(value: 'active', child: Text('Active')),
@@ -441,78 +522,39 @@ class _EditMobilitySubscriptionCodeSheetState
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-    decoration: BoxDecoration(
-      color: AppColors.surface,
-      borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-    ),
+    decoration: _adminSheetDecoration(context),
     child: SafeArea(
       top: false,
       child: Padding(
-        padding: EdgeInsets.fromLTRB(
-          22,
-          12,
-          22,
-          MediaQuery.of(context).viewInsets.bottom + 22,
-        ),
+        padding: _adminSheetInsets(context),
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: AppColors.border2,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
+              _adminSheetHandle(context),
               const SizedBox(height: 16),
               Text(
                 widget.config == null
                     ? 'Add Mobility Subscription Code'
                     : 'Edit Mobility Subscription Code',
-                style: GoogleFonts.dmSans(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.text,
-                ),
+                style: _adminSheetTitleStyle(context),
+                textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
               Text(
-                'This code receives Rwanda',
-                style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
+                'This code receives Rwanda mobility subscription payments.',
+                style: _adminSheetMessageStyle(context),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16),
               _field('MoMo code', _codeCtl),
               _marketField(),
               const SizedBox(height: 12),
-              SizedBox(
-                width: double.infinity,
-                height: 48,
-                child: ElevatedButton(
-                  onPressed: _saving ? null : _save,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.accent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                  ),
-                  child: _saving
-                      ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CupertinoActivityIndicator(radius: 10),
-                        )
-                      : Text(
-                          'Save code',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
-                        ),
-                ),
+              _adminSheetPrimaryButton(
+                context,
+                label: 'Save code',
+                isLoading: _saving,
+                onPressed: _saving ? null : _save,
               ),
             ],
           ),
@@ -522,7 +564,7 @@ class _EditMobilitySubscriptionCodeSheetState
   );
 
   Widget _field(String label, TextEditingController ctl) => Padding(
-    padding: const EdgeInsets.only(bottom: 10),
+    padding: _adminFieldInsets(context),
     child: Semantics(
       textField: true,
       label: label,
@@ -530,36 +572,22 @@ class _EditMobilitySubscriptionCodeSheetState
       child: TextField(
         controller: ctl,
         maxLines: 1,
-        style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
-          filled: true,
-          fillColor: AppColors.surface2,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
-          ),
-        ),
+        style: _adminSheetFieldStyle(context),
+        decoration: _adminSheetInputDecoration(context, label: label),
       ),
     ),
   );
 
   Widget _marketField() => Padding(
-    padding: const EdgeInsets.only(bottom: 10),
+    padding: _adminFieldInsets(context),
     child: TextFormField(
       initialValue: AppMarket.country.name,
       enabled: false,
-      style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
-      decoration: InputDecoration(
-        labelText: 'Market',
-        labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
-        filled: true,
-        fillColor: AppColors.surface2.withValues(alpha: 0.5),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
-        ),
+      style: _adminSheetFieldStyle(context),
+      decoration: _adminSheetInputDecoration(
+        context,
+        label: 'Market',
+        enabled: false,
       ),
     ),
   );
@@ -649,39 +677,21 @@ class _EditConfigSheetState extends State<EditConfigSheet> {
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-    decoration: BoxDecoration(
-      color: AppColors.surface,
-      borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-    ),
+    decoration: _adminSheetDecoration(context),
     child: SafeArea(
       top: false,
       child: Padding(
-        padding: EdgeInsets.fromLTRB(
-          22,
-          12,
-          22,
-          MediaQuery.of(context).viewInsets.bottom + 22,
-        ),
+        padding: _adminSheetInsets(context),
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: AppColors.border2,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
+              _adminSheetHandle(context),
               const SizedBox(height: 16),
               Text(
                 widget.config != null ? 'Edit Config' : 'New Config Entry',
-                style: GoogleFonts.dmSans(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.text,
-                ),
+                style: _adminSheetTitleStyle(context),
+                textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16),
               _field('Key', _keyCtl, enabled: widget.config == null),
@@ -689,32 +699,11 @@ class _EditConfigSheetState extends State<EditConfigSheet> {
               _field('Description', _descCtl),
               _marketField(),
               const SizedBox(height: 12),
-              SizedBox(
-                width: double.infinity,
-                height: 48,
-                child: ElevatedButton(
-                  onPressed: _saving ? null : _save,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.accent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                  ),
-                  child: _saving
-                      ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CupertinoActivityIndicator(radius: 10),
-                        )
-                      : Text(
-                          'Save',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
-                        ),
-                ),
+              _adminSheetPrimaryButton(
+                context,
+                label: 'Save',
+                isLoading: _saving,
+                onPressed: _saving ? null : _save,
               ),
             ],
           ),
@@ -729,7 +718,7 @@ class _EditConfigSheetState extends State<EditConfigSheet> {
     bool enabled = true,
     int maxLines = 1,
   }) => Padding(
-    padding: const EdgeInsets.only(bottom: 10),
+    padding: _adminFieldInsets(context),
     child: Semantics(
       textField: true,
       label: label,
@@ -739,38 +728,26 @@ class _EditConfigSheetState extends State<EditConfigSheet> {
         controller: ctl,
         enabled: enabled,
         maxLines: maxLines,
-        style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
-          filled: true,
-          fillColor: enabled
-              ? AppColors.surface2
-              : AppColors.surface2.withValues(alpha: 0.5),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
-          ),
+        style: _adminSheetFieldStyle(context),
+        decoration: _adminSheetInputDecoration(
+          context,
+          label: label,
+          enabled: enabled,
         ),
       ),
     ),
   );
 
   Widget _marketField() => Padding(
-    padding: const EdgeInsets.only(bottom: 10),
+    padding: _adminFieldInsets(context),
     child: TextFormField(
       initialValue: AppMarket.country.name,
       enabled: false,
-      style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
-      decoration: InputDecoration(
-        labelText: 'Market',
-        labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
-        filled: true,
-        fillColor: AppColors.surface2.withValues(alpha: 0.5),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
-        ),
+      style: _adminSheetFieldStyle(context),
+      decoration: _adminSheetInputDecoration(
+        context,
+        label: 'Market',
+        enabled: false,
       ),
     ),
   );
@@ -837,66 +814,38 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return DecoratedBox(
-      decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
+      decoration: _adminSheetDecoration(context),
       child: SafeArea(
         top: false,
         child: Padding(
-          padding: EdgeInsets.fromLTRB(
-            22,
-            12,
-            22,
-            MediaQuery.of(context).viewInsets.bottom + 22,
-          ),
+          padding: _adminSheetInsets(context),
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(
-                  child: Container(
-                    width: 40,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: palette.border2,
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                  ),
-                ),
+                Center(child: _adminSheetHandle(context)),
                 const SizedBox(height: 16),
                 Text(
                   '${widget.rollout.label} rollout',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: palette.text,
-                  ),
+                  style: _adminSheetTitleStyle(context),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   widget.rollout.description,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    color: palette.text3,
-                  ),
+                  style: _adminSheetMessageStyle(context),
                 ),
                 const SizedBox(height: 16),
                 DropdownButtonFormField<FeatureRolloutStage>(
                   initialValue: _stage,
-                  dropdownColor: palette.surface2,
-                  decoration: InputDecoration(
-                    labelText: 'Rollout stage',
-                    labelStyle: GoogleFonts.dmSans(color: palette.text3),
-                    filled: true,
-                    fillColor: palette.surface2,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
-                    ),
+                  style: _adminSheetFieldStyle(context),
+                  dropdownColor: colors.cardSurfaceStrong,
+                  decoration: _adminSheetInputDecoration(
+                    context,
+                    label: 'Rollout stage',
                   ),
                   items: FeatureRolloutStage.values
                       .map(
@@ -920,21 +869,22 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
                   onChanged: _saving
                       ? null
                       : (value) => setState(() => _killSwitch = value),
-                  activeThumbColor: palette.accent,
-                  activeTrackColor: palette.accent.withValues(alpha: 0.35),
+                  activeThumbColor: theme.colorScheme.onPrimary,
+                  activeTrackColor: colors.accent,
+                  inactiveThumbColor: colors.secondaryText,
+                  inactiveTrackColor: colors.borderStrong,
                   title: Text(
                     'Kill switch',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: palette.text,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: colors.primaryText,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                   subtitle: Text(
-                    'Immediately blocks the feature',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 12,
-                      color: palette.text3,
+                    'Immediately blocks the feature for Rwanda users.',
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: colors.secondaryText,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
@@ -943,68 +893,47 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
                   onChanged: _saving
                       ? null
                       : (value) => setState(() => _adminOnly = value),
-                  activeThumbColor: palette.accent,
-                  activeTrackColor: palette.accent.withValues(alpha: 0.35),
+                  activeThumbColor: theme.colorScheme.onPrimary,
+                  activeTrackColor: colors.accent,
+                  inactiveThumbColor: colors.secondaryText,
+                  inactiveTrackColor: colors.borderStrong,
                   title: Text(
                     'Admin only',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: palette.text,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: colors.primaryText,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                   subtitle: Text(
-                    'Requires admin access even',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 12,
-                      color: palette.text3,
+                    'Requires admin access even after the feature is enabled.',
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: colors.secondaryText,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
                 const SizedBox(height: 12),
                 Text(
                   'Market: Rwanda only',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: palette.text,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: colors.primaryText,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'This app is restricted',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    color: palette.text3,
+                  'This app is restricted to the Rwanda market in the current release.',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colors.secondaryText,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: 18),
-                SizedBox(
-                  width: double.infinity,
-                  height: 48,
-                  child: ElevatedButton(
-                    onPressed: _saving ? null : _save,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: palette.accent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                    ),
-                    child: _saving
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CupertinoActivityIndicator(radius: 10),
-                          )
-                        : Text(
-                            'Save rollout',
-                            style: GoogleFonts.dmSans(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.black,
-                            ),
-                          ),
-                  ),
+                _adminSheetPrimaryButton(
+                  context,
+                  label: 'Save rollout',
+                  isLoading: _saving,
+                  onPressed: _saving ? null : _save,
                 ),
               ],
             ),
