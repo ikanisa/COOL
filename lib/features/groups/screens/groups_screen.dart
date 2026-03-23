@@ -3,12 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/cool_layout.dart';
-import '../../../core/theme/cool_palette.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_glass_card.dart';
@@ -79,15 +78,16 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
 
   Future<void> _toggleVisibilityFilter(_GroupVisibilityFilter filter) async {
     setState(() {
-      _visibilityFilter =
-          _visibilityFilter == filter ? _GroupVisibilityFilter.all : filter;
+      _visibilityFilter = _visibilityFilter == filter
+          ? _GroupVisibilityFilter.all
+          : filter;
     });
     await _loadActiveView();
   }
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final l10n = context.l10n;
     final groups = ref.watch(groupsListProvider);
     final isLoading = ref.watch(groupsListLoadingProvider);
@@ -96,16 +96,11 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
     final hasBankPartner = ref.watch(hasActiveBankPartnerProvider);
 
     return Scaffold(
-      backgroundColor: palette.bg,
+      backgroundColor: colors.appBackground,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          onPressed: () => context.pop(),
-          tooltip: 'Back',
-          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
-        ),
       ),
       body: CoolScreenBackground(
         child: isLoading && groups.isEmpty
@@ -124,7 +119,10 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                   physics: const AlwaysScrollableScrollPhysics(),
                   slivers: [
                     SliverPadding(
-                      padding: CoolLayout.rootPagePadding.copyWith(bottom: 0, top: 0),
+                      padding: CoolLayout.rootPagePadding.copyWith(
+                        bottom: 0,
+                        top: 0,
+                      ),
                       sliver: SliverToBoxAdapter(
                         child: Text(
                           l10n.navGroups,
@@ -135,7 +133,9 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                       ),
                     ),
                     SliverPadding(
-                      padding: const EdgeInsets.symmetric(horizontal: CoolLayout.horizontalPagePadding),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: CoolLayout.horizontalPagePadding,
+                      ),
                       sliver: SliverToBoxAdapter(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -198,8 +198,6 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
       ),
     );
   }
-
-
 }
 
 extension on _GroupTypeFilter {
@@ -210,7 +208,6 @@ extension on _GroupTypeFilter {
       _GroupTypeFilter.community => 'community',
     };
   }
-
 }
 
 extension on _GroupVisibilityFilter {
@@ -221,10 +218,7 @@ extension on _GroupVisibilityFilter {
       _GroupVisibilityFilter.publicOnly => 'public',
     };
   }
-
 }
-
-
 
 class _GroupsHeroCard extends StatelessWidget {
   const _GroupsHeroCard({
@@ -254,72 +248,73 @@ class _GroupsHeroCard extends StatelessWidget {
     final isDiscover = activeView == _GroupsView.discover;
 
     return CoolGlassCard(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: TabPill(
-                    label: context.l10n.myGroups,
-                    isActive: !isDiscover,
-                    onTap: () => onViewChanged(_GroupsView.mine),
-                  ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: TabPill(
+                  label: context.l10n.myGroups,
+                  isActive: !isDiscover,
+                  onTap: () => onViewChanged(_GroupsView.mine),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: TabPill(
-                    label: context.l10n.discover,
-                    isActive: isDiscover,
-                    onTap: () => onViewChanged(_GroupsView.discover),
-                  ),
+              ),
+              const SizedBox(width: CoolSpace.x3),
+              Expanded(
+                child: TabPill(
+                  label: context.l10n.discover,
+                  isActive: isDiscover,
+                  onTap: () => onViewChanged(_GroupsView.discover),
+                ),
+              ),
+            ],
+          ),
+          if (!isDiscover) ...[
+            const SizedBox(height: CoolSpace.x6),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                _FilterIconButton(
+                  tooltip: context.l10n.savings,
+                  icon: Icons.savings_outlined,
+                  isActive: typeFilter == _GroupTypeFilter.saving,
+                  onTap: () => onToggleType(_GroupTypeFilter.saving),
+                  visible: hasBankPartner,
+                ),
+                const SizedBox(width: CoolSpace.x3),
+                _FilterIconButton(
+                  tooltip: context.l10n.peopleOutline,
+                  icon: Icons.people_outline_rounded,
+                  isActive: typeFilter == _GroupTypeFilter.community,
+                  onTap: () => onToggleType(_GroupTypeFilter.community),
+                ),
+                const SizedBox(width: CoolSpace.x3),
+                _FilterIconButton(
+                  tooltip: context.l10n.lockOutline,
+                  icon: Icons.lock_outline_rounded,
+                  isActive:
+                      visibilityFilter == _GroupVisibilityFilter.privateOnly,
+                  onTap: () =>
+                      onToggleVisibility(_GroupVisibilityFilter.privateOnly),
+                ),
+                const SizedBox(width: CoolSpace.x3),
+                _FilterIconButton(
+                  tooltip: 'Public',
+                  icon: Icons.public_rounded,
+                  isActive:
+                      visibilityFilter == _GroupVisibilityFilter.publicOnly,
+                  onTap: () =>
+                      onToggleVisibility(_GroupVisibilityFilter.publicOnly),
                 ),
               ],
             ),
-            if (!isDiscover) ...[
-              const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  _FilterIconButton(
-                    tooltip: context.l10n.savings,
-                    icon: Icons.savings_outlined,
-                    isActive: typeFilter == _GroupTypeFilter.saving,
-                    onTap: () => onToggleType(_GroupTypeFilter.saving),
-                    visible: hasBankPartner,
-                  ),
-                  const SizedBox(width: 14),
-                  _FilterIconButton(
-                    tooltip: context.l10n.peopleOutline,
-                    icon: Icons.people_outline_rounded,
-                    isActive: typeFilter == _GroupTypeFilter.community,
-                    onTap: () => onToggleType(_GroupTypeFilter.community),
-                  ),
-                  const SizedBox(width: 14),
-                  _FilterIconButton(
-                    tooltip: context.l10n.lockOutline,
-                    icon: Icons.lock_outline_rounded,
-                    isActive: visibilityFilter == _GroupVisibilityFilter.privateOnly,
-                    onTap: () => onToggleVisibility(_GroupVisibilityFilter.privateOnly),
-                  ),
-                  const SizedBox(width: 14),
-                  _FilterIconButton(
-                    tooltip: 'Public',
-                    icon: Icons.public_rounded,
-                    isActive: visibilityFilter == _GroupVisibilityFilter.publicOnly,
-                    onTap: () => onToggleVisibility(_GroupVisibilityFilter.publicOnly),
-                  ),
-                ],
-              ),
-            ],
-            if (!isDiscover && onCreate != null) ...[
-              const SizedBox(height: 24),
-              CoolButton(label: createLabel, onTap: onCreate!),
-            ],
           ],
-        ),
+          if (!isDiscover && onCreate != null) ...[
+            const SizedBox(height: CoolSpace.x6),
+            CoolButton(label: createLabel, onTap: onCreate!),
+          ],
+        ],
       ),
     );
   }
@@ -343,7 +338,8 @@ class _FilterIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!visible) return const SizedBox.shrink();
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
     return Semantics(
       button: true,
       label: tooltip ?? 'Filter',
@@ -353,21 +349,23 @@ class _FilterIconButton extends StatelessWidget {
         child: GestureDetector(
           onTap: onTap,
           child: AnimatedContainer(
-            duration: const Duration(milliseconds: 160),
-            width: 48,
-            height: 48,
+            duration: CoolMotion.quick,
+            width: CoolTapTargets.minimum,
+            height: CoolTapTargets.minimum,
             decoration: BoxDecoration(
-              color: isActive ? palette.accentGlow : palette.surface2,
-              borderRadius: BorderRadius.circular(14),
+              color: isActive
+                  ? colors.chipSelectedBackground
+                  : colors.cardSurface,
+              borderRadius: BorderRadius.all(Radius.circular(radii.sm)),
               border: Border.all(
-                color: isActive ? palette.accent : palette.border,
+                color: isActive ? colors.accent : colors.border,
                 width: 1.5,
               ),
             ),
             child: Icon(
               icon,
               size: 22,
-              color: isActive ? palette.accent : palette.text3,
+              color: isActive ? colors.accent : colors.tertiaryText,
             ),
           ),
         ),
@@ -375,8 +373,6 @@ class _FilterIconButton extends StatelessWidget {
     );
   }
 }
-
-
 
 class _EmptyState extends StatelessWidget {
   const _EmptyState({required this.isDiscover});
@@ -403,14 +399,14 @@ class _GroupListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
     final l10n = context.l10n;
     final progress = group.targetAmount > 0
         ? (group.amount / group.targetAmount).clamp(0.0, 1.0)
         : 0.0;
     final percent = (progress * 100).round();
-    final accentColor =
-        group.type == 'saving' ? palette.accent : palette.orange;
+    final accentColor = group.type == 'saving' ? colors.accent : colors.warning;
 
     return CoolCard(
       onTap: () {
@@ -420,78 +416,80 @@ class _GroupListItem extends StatelessWidget {
         }
       },
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(CoolSpace.x6),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── Line 1: Amount ────────────────────────────────────
             Text(
               '${_formatAmount(group.amount)} RWF',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: accentColor,
+              style: text.mono(
+                Theme.of(context).textTheme.headlineSmall,
                 fontWeight: FontWeight.w800,
+                color: accentColor,
               ),
             ),
-            const SizedBox(height: 10),
-
-            // ── Line 2: Group name ───────────────────────────────
+            const SizedBox(height: CoolSpace.x3 - 2),
             Text(
               group.name,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
-            const SizedBox(height: 10),
-
-            // ── Line 3: Metadata chips ───────────────────────────
+            const SizedBox(height: CoolSpace.x3 - 2),
             Wrap(
-              spacing: 6,
-              runSpacing: 6,
+              spacing: CoolSpace.x2 - 2,
+              runSpacing: CoolSpace.x2 - 2,
               children: [
                 if (group.momoNumber != null &&
                     group.momoNumber!.trim().isNotEmpty)
                   _MetaChip(label: _shortenPhone(group.momoNumber!)),
                 if (group.type == 'saving')
-                    const StatusBadge.saving()
+                  const StatusBadge.saving()
                 else
-                    const StatusBadge.community(),
+                  const StatusBadge.community(),
                 if (group.visibility == 'public')
-                    const StatusBadge.public()
+                  const StatusBadge.public()
                 else
-                    const StatusBadge.private(),
+                  const StatusBadge.private(),
               ],
             ),
-            const SizedBox(height: 6),
+            const SizedBox(height: CoolSpace.x2 - 2),
             Text(
               l10n.memberCount(group.memberCount),
-              style: Theme.of(context).textTheme.bodySmall,
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: colors.secondaryText),
             ),
-            const SizedBox(height: 20),
-
-            // ── Progress bar ─────────────────────────────────────
+            const SizedBox(height: CoolSpace.x5),
             ClipRRect(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(CoolRadii.xs),
+              ),
               child: LinearProgressIndicator(
                 value: progress,
                 minHeight: 8,
-                backgroundColor: palette.surface3,
+                backgroundColor: colors.cardSurfaceStrong,
                 color: accentColor,
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: CoolSpace.x3),
             Row(
               children: [
                 Text(
                   '$percent% of target',
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
                     fontWeight: FontWeight.w700,
-                    color: palette.text3,
+                    color: colors.tertiaryText,
                   ),
                 ),
                 const Spacer(),
-                Icon(Icons.arrow_forward_rounded, color: palette.text3, size: 20),
+                Icon(
+                  Icons.arrow_forward_rounded,
+                  color: colors.tertiaryText,
+                  size: 20,
+                ),
               ],
             ),
           ],
@@ -529,19 +527,22 @@ class _MetaChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(
+        horizontal: CoolSpace.x2,
+        vertical: CoolSpace.x1,
+      ),
       decoration: BoxDecoration(
-        color: palette.surface3,
-        borderRadius: BorderRadius.circular(6),
+        color: colors.cardSurfaceStrong,
+        borderRadius: BorderRadius.all(Radius.circular(radii.xs / 2)),
       ),
       child: Text(
         label,
-        style: GoogleFonts.dmSans(
-          fontSize: 11,
-          fontWeight: FontWeight.w600,
-          color: palette.text2,
+        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+          fontWeight: FontWeight.w700,
+          color: colors.secondaryText,
         ),
       ),
     );

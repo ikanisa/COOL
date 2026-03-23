@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/theme/cool_palette.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../shared/widgets/cool_button.dart';
 import '../../../../shared/widgets/cool_toast.dart';
 import '../../models/group_contribution.dart';
@@ -16,70 +15,69 @@ import 'group_detail_helpers.dart';
 
 class GroupContributionRow extends StatelessWidget {
   const GroupContributionRow({required this.contribution, super.key});
+
   final GroupContribution contribution;
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
     final dateLabel = contribution.createdAt != null
         ? DateFormat('d MMM y').format(contribution.createdAt!)
         : '';
     final contributorLabel =
         contribution.contributorName?.trim().isNotEmpty == true
         ? contribution.contributorName!.trim()
-        : '#${contribution.userId.substring(0, 8.clamp(0, contribution.userId.length))}';
+        : '#${contribution.userId.substring(0, contribution.userId.length < 8 ? contribution.userId.length : 8)}';
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      padding: const EdgeInsets.symmetric(vertical: CoolSpace.x4),
       decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: palette.border)),
+        border: Border(bottom: BorderSide(color: colors.border)),
       ),
       child: Row(
         children: [
-          // Green arrow icon
           Container(
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: palette.accent.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(14),
+              color: colors.financialSurface,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(CoolRadii.sm),
+              ),
             ),
             alignment: Alignment.center,
-            child: Icon(
-              Icons.download_rounded,
-              size: 20,
-              color: palette.text2,
-            ),
+            child: Icon(Icons.download_rounded, size: 20, color: colors.accent),
           ),
-          const SizedBox(width: 14),
-
-          // Name + date
+          const SizedBox(width: CoolSpace.x3),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   '$contributorLabel contributed',
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  style: theme.textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.w700,
+                    color: colors.primaryText,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: CoolSpace.x1),
                 Text(
                   dateLabel,
-                  style: Theme.of(context).textTheme.bodySmall,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colors.secondaryText,
+                  ),
                 ),
               ],
             ),
           ),
-
-          // Amount
           Text(
             '+${groupFormatAmount(contribution.amount)} RWF',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            style: text.mono(
+              theme.textTheme.titleMedium,
               fontWeight: FontWeight.w800,
-              color: palette.accent,
-              fontFamily: GoogleFonts.dmMono().fontFamily,
+              color: colors.accent,
             ),
           ),
         ],
@@ -115,7 +113,7 @@ class GroupContributeSheet extends ConsumerStatefulWidget {
 
 class _GroupContributeSheetState extends ConsumerState<GroupContributeSheet> {
   late final TextEditingController _amountController;
-  int? _selectedMultiplier; // 0=half, 1=full, 2=double
+  int? _selectedMultiplier;
 
   @override
   void initState() {
@@ -168,195 +166,174 @@ class _GroupContributeSheetState extends ConsumerState<GroupContributeSheet> {
       );
       widget.onSuccess?.call(widget.groupId);
       Navigator.of(context).pop();
-      return;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
     final isLoading = ref.watch(groupContributionLoadingProvider);
     final error = ref.watch(groupContributionErrorProvider);
     final half = widget.monthlyAmount ~/ 2;
     final full = widget.monthlyAmount;
-    final double = widget.monthlyAmount * 2;
+    final doubleAmount = widget.monthlyAmount * 2;
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(22, 12, 22, 22),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Handle bar
-              Center(
-                child: Container(
-                  width: 40,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: palette.border2,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: colors.borderStrong,
+                  borderRadius: BorderRadius.all(Radius.circular(radii.xs)),
                 ),
               ),
-              const SizedBox(height: 20),
-
-              // Group name + monthly
-              Text(
-                widget.groupName,
-                style: GoogleFonts.dmSans(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: palette.text,
+            ),
+            SizedBox(height: space.x5),
+            Text(
+              widget.groupName,
+              style: theme.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.w800,
+                color: colors.primaryText,
+              ),
+            ),
+            SizedBox(height: space.x1),
+            Text(
+              '${groupFormatFrequency(widget.frequency)} contribution • '
+              'RWF ${groupFormatAmount(full)}',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: colors.secondaryText,
+                height: 1.4,
+              ),
+            ),
+            SizedBox(height: space.x5),
+            Text(
+              'Amount',
+              style: theme.textTheme.labelLarge?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: colors.secondaryText,
+              ),
+            ),
+            SizedBox(height: space.x2),
+            Semantics(
+              textField: true,
+              label: 'Contribution amount in Rwandan francs',
+              hint: 'Enter amount',
+              child: TextField(
+                controller: _amountController,
+                keyboardType: TextInputType.number,
+                style: text.mono(
+                  theme.textTheme.headlineSmall,
+                  fontWeight: FontWeight.w800,
+                  color: colors.accent,
                 ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                '${groupFormatFrequency(widget.frequency)}:'
-                'RWF ${groupFormatAmount(full)}',
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: palette.text2,
+                cursorColor: colors.accent,
+                decoration: InputDecoration(
+                  prefixText: 'RWF ',
+                  prefixStyle: theme.textTheme.labelLarge?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: colors.tertiaryText,
+                  ),
+                  filled: true,
+                  fillColor: colors.inputSurface,
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: space.x4,
+                    vertical: space.x4,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(radii.sm)),
+                    borderSide: BorderSide(color: colors.border),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(radii.sm)),
+                    borderSide: BorderSide(color: colors.border),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(radii.sm)),
+                    borderSide: BorderSide(color: colors.accent, width: 1.5),
+                  ),
                 ),
+                onChanged: (_) => setState(() => _selectedMultiplier = null),
               ),
-              const SizedBox(height: 20),
-
-              // Amount input
-              Text(
-                'Amount',
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: palette.text2,
+            ),
+            SizedBox(height: space.x3),
+            Wrap(
+              spacing: space.x2,
+              runSpacing: space.x2,
+              children: [
+                _AmountChip(
+                  label: 'Half (${_formatK(half)})',
+                  isSelected: _selectedMultiplier == 0,
+                  onTap: () => _selectAmount(0),
                 ),
-              ),
-              const SizedBox(height: 8),
-              Semantics(
-                textField: true,
-                label: 'Contribution amount in Rwandan',
-                hint: 'Enter amount',
-                child: TextField(
-                  controller: _amountController,
-                  keyboardType: TextInputType.number,
-                  style: GoogleFonts.dmMono(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w700,
-                    color: palette.accent,
-                  ),
-                  cursorColor: palette.accent,
-                  decoration: InputDecoration(
-                    prefix: Text(
-                      'RWF',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w400,
-                        color: palette.text3,
-                      ),
-                    ),
-                    filled: true,
-                    fillColor: palette.surface2,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: palette.border),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: palette.border),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
-                        color: palette.accent,
-                        width: 1.5,
-                      ),
-                    ),
-                  ),
-                  onChanged: (_) => setState(() => _selectedMultiplier = null),
+                _AmountChip(
+                  label: 'Full (${_formatK(full)})',
+                  isSelected: _selectedMultiplier == 1,
+                  onTap: () => _selectAmount(1),
                 ),
-              ),
-              const SizedBox(height: 12),
-
-              // Quick-select chips
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  _AmountChip(
-                    label: 'Half (${_formatK(half)})',
-                    isSelected: _selectedMultiplier == 0,
-                    onTap: () => _selectAmount(0),
-                  ),
-                  _AmountChip(
-                    label: 'Full (${_formatK(full)})',
-                    isSelected: _selectedMultiplier == 1,
-                    onTap: () => _selectAmount(1),
-                  ),
-                  _AmountChip(
-                    label: 'Double (${_formatK(double)})',
-                    isSelected: _selectedMultiplier == 2,
-                    onTap: () => _selectAmount(2),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-
-              // Pay button
-              CoolButton(
-                label: 'Pay via MOMO',
-                icon: Icons.phone_android_rounded,
-                isLoading: isLoading,
-                onTap: _payViaMomo,
-              ),
-              if (error != null) ...[
-                const SizedBox(height: 12),
-                Text(
-                  error,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: palette.red,
-                  ),
+                _AmountChip(
+                  label: 'Double (${_formatK(doubleAmount)})',
+                  isSelected: _selectedMultiplier == 2,
+                  onTap: () => _selectAmount(2),
                 ),
               ],
-              const SizedBox(height: 12),
-
-              // USSD banner
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: palette.yellow.withValues(alpha: 0.08),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: palette.yellow.withValues(alpha: 0.3),
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.phone_rounded, size: 16, color: palette.text2),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        'You\'ll be redirected to',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: palette.yellow,
-                          height: 1.4,
-                        ),
-                      ),
-                    ),
-                  ],
+            ),
+            SizedBox(height: space.x5),
+            CoolButton(
+              label: 'Pay via MOMO',
+              icon: Icons.phone_android_rounded,
+              isLoading: isLoading,
+              onTap: _payViaMomo,
+            ),
+            if (error != null) ...[
+              SizedBox(height: space.x3),
+              Text(
+                error,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: colors.danger,
                 ),
               ),
             ],
-          ),
+            SizedBox(height: space.x3),
+            Container(
+              padding: EdgeInsets.all(space.x3),
+              decoration: BoxDecoration(
+                color: colors.warning.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.all(Radius.circular(radii.sm)),
+                border: Border.all(
+                  color: colors.warning.withValues(alpha: 0.28),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.phone_rounded, size: 16, color: colors.warning),
+                  SizedBox(width: space.x2),
+                  Expanded(
+                    child: Text(
+                      'You will confirm the contribution on your MoMo prompt.',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colors.secondaryText,
+                        height: 1.4,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -369,8 +346,6 @@ class _GroupContributeSheetState extends ConsumerState<GroupContributeSheet> {
     return value.toString();
   }
 }
-
-// ── Quick-select amount chip ────────────────────────────────────────────
 
 class _AmountChip extends StatelessWidget {
   const _AmountChip({
@@ -385,27 +360,45 @@ class _AmountChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    return Expanded(
-      child: GestureDetector(
-        onTap: onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          decoration: BoxDecoration(
-            color: isSelected ? palette.accentGlow : palette.surface2,
-            borderRadius: BorderRadius.circular(30),
-            border: Border.all(
-              color: isSelected ? palette.accent : palette.border,
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
+
+    return Semantics(
+      button: true,
+      selected: isSelected,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.all(Radius.circular(radii.pill)),
+          onTap: onTap,
+          child: AnimatedContainer(
+            duration: CoolMotion.quick,
+            curve: CoolMotion.enterCurve,
+            constraints: const BoxConstraints(
+              minWidth: 112,
+              minHeight: CoolTapTargets.minimum,
             ),
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            label,
-            style: GoogleFonts.dmSans(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: isSelected ? palette.accent : palette.text2,
+            padding: const EdgeInsets.symmetric(
+              horizontal: CoolSpace.x4,
+              vertical: CoolSpace.x3,
+            ),
+            decoration: BoxDecoration(
+              color: isSelected
+                  ? colors.chipSelectedBackground
+                  : colors.chipBackground,
+              borderRadius: BorderRadius.all(Radius.circular(radii.pill)),
+              border: Border.all(
+                color: isSelected ? colors.accent : colors.border,
+              ),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              label,
+              style: theme.textTheme.labelMedium?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: isSelected ? colors.accent : colors.secondaryText,
+              ),
             ),
           ),
         ),

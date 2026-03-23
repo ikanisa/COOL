@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -131,6 +132,42 @@ void main() {
         expect(find.text('More actions'), findsOneWidget);
         expect(find.text('Share / QR'), findsOneWidget);
         expect(find.text('Invite from Contacts'), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'opens contribution and settings sheets without layout errors',
+      (tester) async {
+        await pumpScopedApp(
+          tester,
+          child: const GroupDetailScreen(groupId: 'group-1'),
+          session: fakeSession(),
+          user: fakeUser(),
+          overrides: <Override>[
+            groupRepositoryProvider.overrideWithValue(repository),
+          ],
+        );
+
+        await settleTestApp(tester);
+
+        await tester.tap(find.text('+ Contribute'));
+        await settleTestApp(tester);
+
+        expect(find.text('Amount'), findsOneWidget);
+        expect(find.text('Pay via MOMO'), findsOneWidget);
+        expect(
+          find.text('You will confirm the contribution on your MoMo prompt.'),
+          findsOneWidget,
+        );
+
+        await tester.tapAt(const Offset(12, 12));
+        await settleTestApp(tester);
+
+        await tester.tap(find.byIcon(Icons.settings_outlined));
+        await settleTestApp(tester);
+
+        expect(find.text('Group settings'), findsOneWidget);
+        expect(find.text('Save changes'), findsOneWidget);
       },
     );
   });

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/theme/cool_palette.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../shared/widgets/cool_button.dart';
 import '../../../../core/l10n/l10n.dart';
 
@@ -44,23 +43,25 @@ class GroupHeroInfoChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
+    final space = context.coolSpace;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: space.x3, vertical: space.x2),
       decoration: BoxDecoration(
-        color: palette.surface2.withValues(alpha: 0.6),
-        borderRadius: BorderRadius.circular(12),
+        color: colors.cardSurfaceStrong.withValues(alpha: 0.76),
+        borderRadius: BorderRadius.all(Radius.circular(radii.sm)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 16, color: palette.text2),
-          const SizedBox(width: 8),
+          Icon(icon, size: 16, color: colors.secondaryText),
+          SizedBox(width: space.x2),
           Text(
             label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
               fontWeight: FontWeight.w700,
-              color: palette.text2,
+              color: colors.secondaryText,
             ),
           ),
         ],
@@ -85,65 +86,53 @@ class GroupMoreActionsSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(22, 12, 22, 22),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Container(
-                  width: 40,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: palette.border2,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                'More actions',
-                style: GoogleFonts.dmSans(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: palette.text,
-                ),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                'Keep sharing and invite',
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: palette.text2,
-                  height: 1.45,
-                ),
-              ),
-              const SizedBox(height: 20),
-              CoolButton(
-                label: 'Share / QR',
-                variant: CoolButtonVariant.secondary,
-                onTap: onShare,
-              ),
-              const SizedBox(height: 12),
-              CoolButton(
-                label: context.l10n.inviteFromContacts,
-                variant: CoolButtonVariant.secondary,
-                onTap: onInvite,
-              ),
-            ],
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Center(
+          child: Container(
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: colors.borderStrong,
+              borderRadius: BorderRadius.all(Radius.circular(radii.xs)),
+            ),
           ),
         ),
-      ),
+        SizedBox(height: space.x5),
+        Text(
+          'More actions',
+          style: theme.textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.w800,
+            color: colors.primaryText,
+          ),
+        ),
+        SizedBox(height: space.x1 + space.x0),
+        Text(
+          'Share this group or invite members directly.',
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: colors.secondaryText,
+            height: 1.45,
+          ),
+        ),
+        SizedBox(height: space.x5),
+        CoolButton(
+          label: 'Share / QR',
+          variant: CoolButtonVariant.secondary,
+          onTap: onShare,
+        ),
+        SizedBox(height: space.x3),
+        CoolButton(
+          label: context.l10n.inviteFromContacts,
+          variant: CoolButtonVariant.secondary,
+          onTap: onInvite,
+        ),
+      ],
     );
   }
 }

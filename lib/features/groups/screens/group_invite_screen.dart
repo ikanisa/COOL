@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/auth/auth_user_contact.dart';
+import '../../../core/l10n/l10n.dart';
 import '../../../core/providers/engagement_providers.dart';
 import '../../../core/providers/referral_providers.dart';
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_error_view.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/status_badge.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../models/group_detail.dart';
 import '../providers/groups_provider.dart';
-import '../../../core/l10n/l10n.dart';
-import '../../../shared/widgets/cool_screen_background.dart';
+import '../widgets/group_detail/group_detail_helpers.dart';
 
 class GroupInviteScreen extends ConsumerStatefulWidget {
   const GroupInviteScreen({
@@ -90,9 +89,7 @@ class _GroupInviteScreenState extends ConsumerState<GroupInviteScreen> {
         .read(groupsProvider.notifier)
         .joinGroupByInviteCode(widget.inviteCode);
 
-    if (!mounted) {
-      return;
-    }
+    if (!mounted) return;
 
     if (result == null) {
       final error =
@@ -135,9 +132,7 @@ class _GroupInviteScreenState extends ConsumerState<GroupInviteScreen> {
       }
     }
 
-    if (!mounted) {
-      return;
-    }
+    if (!mounted) return;
 
     final message = result.didJoin
         ? 'You joined ${result.detail.group.name}.'
@@ -148,125 +143,96 @@ class _GroupInviteScreenState extends ConsumerState<GroupInviteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
     final detail = ref.watch(groupInvitePreviewProvider);
     final isPreviewLoading = ref.watch(groupInvitePreviewLoadingProvider);
     final previewError = ref.watch(groupInvitePreviewErrorProvider);
     final isJoining = ref.watch(groupJoinLoadingProvider);
 
     return CoolScreenBackground(
-
-
       showGlow: true,
-
-
       child: Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        leading: IconButton(
-          tooltip: context.l10n.back,
-          onPressed: () => context.pop(),
-          icon: const Icon(Icons.arrow_back_rounded),
-        ),
-        title: Text(
-          'Group Invite',
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: palette.text,
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          leading: IconButton(
+            tooltip: context.l10n.back,
+            onPressed: () => context.pop(),
+            icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
+          ),
+          title: Text(
+            'Group invite',
+            style: theme.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: colors.primaryText,
+            ),
           ),
         ),
-      ),
-      body: isPreviewLoading && detail == null
-          ? const Padding(
-              padding: EdgeInsets.fromLTRB(18, 16, 18, 96),
-              child: CoolSkeletonList(itemCount: 3),
-            )
-          : previewError != null && detail == null
-          ? _InviteErrorState(
-              error: previewError,
-              onRetry: () => ref
-                  .read(groupsProvider.notifier)
-                  .loadInvitePreview(widget.inviteCode),
-            )
-          : detail == null
-          ? _InviteErrorState(
-              error: 'Invite code not found.',
-              onRetry: () => ref
-                  .read(groupsProvider.notifier)
-                  .loadInvitePreview(widget.inviteCode),
-            )
-          : CustomScrollView(
-              slivers: [
-                SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(18, 12, 18, 80),
-                  sliver: SliverToBoxAdapter(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Invite code ${widget.inviteCode.toUpperCase()}',
-                          style: GoogleFonts.dmMono(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                            color: palette.accent,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        _InviteHeroCard(detail: detail),
-                        const SizedBox(height: 20),
-                        if (!detail.isMember)
-                          Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.all(14),
-                            decoration: BoxDecoration(
-                              color: palette.accentGlow,
-                              borderRadius: BorderRadius.circular(16),
-                              border: Border.all(color: palette.accent),
-                            ),
-                            child: Text(
-                              'You\'ll join this group',
-                              style: GoogleFonts.dmSans(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                color: palette.text,
-                                height: 1.45,
-                              ),
-                            ),
-                          )
-                        else
-                          Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.all(14),
-                            decoration: BoxDecoration(
-                              color: palette.surface2,
-                              borderRadius: BorderRadius.circular(16),
-                              border: Border.all(color: palette.border),
-                            ),
-                            child: Text(
-                              'You\'re already a member.',
-                              style: GoogleFonts.dmSans(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                color: palette.text2,
-                              ),
+        body: isPreviewLoading && detail == null
+            ? const Padding(
+                padding: EdgeInsets.fromLTRB(
+                  CoolSpace.x4,
+                  CoolSpace.x4,
+                  CoolSpace.x4,
+                  96,
+                ),
+                child: CoolSkeletonList(itemCount: 3),
+              )
+            : previewError != null && detail == null
+            ? _InviteErrorState(
+                error: previewError,
+                onRetry: () => ref
+                    .read(groupsProvider.notifier)
+                    .loadInvitePreview(widget.inviteCode),
+              )
+            : detail == null
+            ? _InviteErrorState(
+                error: 'Invite code not found.',
+                onRetry: () => ref
+                    .read(groupsProvider.notifier)
+                    .loadInvitePreview(widget.inviteCode),
+              )
+            : CustomScrollView(
+                slivers: [
+                  SliverPadding(
+                    padding: const EdgeInsets.fromLTRB(
+                      CoolSpace.x4,
+                      CoolSpace.x3,
+                      CoolSpace.x4,
+                      80,
+                    ),
+                    sliver: SliverToBoxAdapter(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Invite code ${widget.inviteCode.toUpperCase()}',
+                            style: text.mono(
+                              theme.textTheme.labelLarge,
+                              fontWeight: FontWeight.w700,
+                              color: colors.accent,
                             ),
                           ),
-                        const SizedBox(height: 20),
-                        CoolButton(
-                          label: detail.isMember ? 'Open Group' : 'Join Group',
-                          isLoading: isJoining,
-                          onTap: () => _handlePrimaryAction(detail),
-                        ),
-                      ],
+                          const SizedBox(height: CoolSpace.x4),
+                          _InviteHeroCard(detail: detail),
+                          const SizedBox(height: CoolSpace.x5),
+                          _InviteStatusBanner(isMember: detail.isMember),
+                          const SizedBox(height: CoolSpace.x5),
+                          CoolButton(
+                            label: detail.isMember
+                                ? 'Open Group'
+                                : 'Join Group',
+                            isLoading: isJoining,
+                            onTap: () => _handlePrimaryAction(detail),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-    ),
-
-
+                ],
+              ),
+      ),
     );
   }
 }
@@ -278,90 +244,92 @@ class _InviteHeroCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
     final group = detail.group;
     final amountLabel = _formatAmount(group.amount);
     final targetLabel = _formatAmount(group.targetAmount);
     final cadence = group.frequency?.trim().isNotEmpty == true
-        ? group.frequency!.trim()
+        ? groupFormatFrequency(group.frequency!)
         : 'Monthly';
-
     final memberCount = detail.members.isNotEmpty
         ? detail.members.length
         : group.memberCount;
+    final isSaving = group.type == 'saving';
+    final accent = isSaving ? colors.accent : colors.warning;
+    final surface = isSaving ? colors.financialSurface : colors.teamSurface;
 
     return CoolCard(
-      gradient: AppColors.cardGradient,
-      child: Padding(
-        padding: const EdgeInsets.all(22),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                if (group.type == 'saving')
-                    const StatusBadge.saving()
-                else
-                    const StatusBadge.community(),
-                const SizedBox(width: 8),
-                if (group.visibility == 'public')
-                    const StatusBadge.public()
-                else
-                    const StatusBadge.private(),
-              ],
+      backgroundColor: surface,
+      borderColor: colors.border,
+      padding: const EdgeInsets.all(CoolSpace.x6),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              if (isSaving)
+                const StatusBadge.saving()
+              else
+                const StatusBadge.community(),
+              const SizedBox(width: CoolSpace.x2),
+              if (group.visibility == 'public')
+                const StatusBadge.public()
+              else
+                const StatusBadge.private(),
+            ],
+          ),
+          const SizedBox(height: CoolSpace.x4),
+          Text(
+            group.name,
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.w800,
+              color: colors.primaryText,
             ),
-            const SizedBox(height: 14),
-            Text(
-              group.name,
-              style: GoogleFonts.dmSans(
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
-                color: palette.text,
+          ),
+          const SizedBox(height: CoolSpace.x3),
+          Wrap(
+            spacing: CoolSpace.x3,
+            runSpacing: CoolSpace.x2,
+            children: [
+              GroupHeroInfoChip(
+                icon: Icons.groups_2_outlined,
+                label: memberCount == 1 ? '1 member' : '$memberCount members',
               ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              '$memberCount members · $cadence contributions',
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: palette.text2,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'RWF $amountLabel raised',
-              style: GoogleFonts.dmMono(
-                fontSize: 28,
-                fontWeight: FontWeight.w700,
-                color: group.type == 'saving'
-                    ? palette.accent
-                    : palette.orange,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'Target: RWF $targetLabel',
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w400,
-                color: palette.text2,
-              ),
-            ),
-            if (group.description?.trim().isNotEmpty ?? false) ...[
-              const SizedBox(height: 14),
-              Text(
-                group.description!.trim(),
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: palette.text2,
-                  height: 1.45,
-                ),
+              GroupHeroInfoChip(
+                icon: Icons.event_repeat_rounded,
+                label: '$cadence contributions',
               ),
             ],
+          ),
+          const SizedBox(height: CoolSpace.x5),
+          Text(
+            'RWF $amountLabel raised',
+            style: text.mono(
+              theme.textTheme.displaySmall,
+              fontWeight: FontWeight.w900,
+              color: accent,
+            ),
+          ),
+          const SizedBox(height: CoolSpace.x2),
+          Text(
+            'Target: RWF $targetLabel',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.secondaryText,
+            ),
+          ),
+          if (group.description?.trim().isNotEmpty ?? false) ...[
+            const SizedBox(height: CoolSpace.x4),
+            Text(
+              group.description!.trim(),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colors.secondaryText,
+                height: 1.45,
+              ),
+            ),
           ],
-        ),
+        ],
       ),
     );
   }
@@ -379,6 +347,39 @@ class _InviteHeroCard extends StatelessWidget {
   }
 }
 
+class _InviteStatusBanner extends StatelessWidget {
+  const _InviteStatusBanner({required this.isMember});
+
+  final bool isMember;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(CoolSpace.x4),
+      decoration: BoxDecoration(
+        color: isMember ? colors.cardSurface : colors.chipSelectedBackground,
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm)),
+        border: Border.all(
+          color: isMember
+              ? colors.border
+              : colors.accent.withValues(alpha: 0.3),
+        ),
+      ),
+      child: Text(
+        isMember ? 'You are already a member.' : 'You will join this group.',
+        style: theme.textTheme.bodyMedium?.copyWith(
+          fontWeight: FontWeight.w600,
+          color: isMember ? colors.secondaryText : colors.primaryText,
+          height: 1.4,
+        ),
+      ),
+    );
+  }
+}
+
 class _InviteErrorState extends StatelessWidget {
   const _InviteErrorState({required this.error, required this.onRetry});
 
@@ -388,7 +389,7 @@ class _InviteErrorState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+      padding: const EdgeInsets.symmetric(horizontal: CoolSpace.x6),
       child: CoolErrorView(
         message: error,
         onRetry: onRetry,

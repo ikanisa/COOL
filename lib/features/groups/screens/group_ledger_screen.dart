@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../core/l10n/l10n.dart';
-
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_async_view.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
@@ -19,15 +17,12 @@ import '../models/group_contribution.dart';
 import '../models/group_member.dart';
 import '../providers/group_ledger_provider.dart';
 import '../providers/groups_provider.dart';
-import '../../../shared/widgets/cool_bottom_sheet.dart';
 
-/// Period presets for the group ledger filter.
 enum _LedgerPeriod { week, month, year, all }
 
-/// Full-page screen showing all contributions for a group,
-/// with filters by contributor and period, plus export.
 class GroupLedgerScreen extends ConsumerStatefulWidget {
   const GroupLedgerScreen({required this.groupId, super.key});
+
   final String groupId;
 
   @override
@@ -35,11 +30,9 @@ class GroupLedgerScreen extends ConsumerStatefulWidget {
 }
 
 class _GroupLedgerScreenState extends ConsumerState<GroupLedgerScreen> {
-
   _LedgerPeriod _selectedPeriod = _LedgerPeriod.all;
   String? _selectedContributorId;
 
-  // ── Derived dates ──────────────────────────────────────────
   DateTime? get _startDate {
     final now = DateTime.now();
     switch (_selectedPeriod) {
@@ -55,22 +48,21 @@ class _GroupLedgerScreenState extends ConsumerState<GroupLedgerScreen> {
   }
 
   GroupLedgerQuery get _query => GroupLedgerQuery(
-        groupId: widget.groupId,
-        contributorId: _selectedContributorId,
-        startDate: _startDate,
-      );
+    groupId: widget.groupId,
+    contributorId: _selectedContributorId,
+    startDate: _startDate,
+  );
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final detailAsync = ref.watch(groupDetailProvider(widget.groupId));
     final ledgerAsync = ref.watch(groupLedgerProvider(_query));
-    final groupName =
-        detailAsync.valueOrNull?.group.name ?? context.l10n.group;
+    final groupName = detailAsync.valueOrNull?.group.name ?? context.l10n.group;
     final members = detailAsync.valueOrNull?.members ?? const <GroupMember>[];
 
     return Scaffold(
-      backgroundColor: palette.bg,
+      backgroundColor: colors.appBackground,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -79,61 +71,56 @@ class _GroupLedgerScreenState extends ConsumerState<GroupLedgerScreen> {
           children: [
             Text(
               groupName,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.copyWith(fontWeight: FontWeight.w700),
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: colors.primaryText,
+              ),
             ),
             Text(
-               context.l10n.ledgerTitle,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
-                  ?.copyWith(color: palette.text3),
+              context.l10n.ledgerTitle,
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: colors.secondaryText),
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: palette.accent,
+        backgroundColor: colors.buttonPrimaryBackground,
         onPressed: () => _showExportSheet(context, ledgerAsync, groupName),
-        icon: const Icon(Icons.download_rounded, color: Colors.white),
+        icon: Icon(Icons.download_rounded, color: colors.accentForeground),
         label: Text(
-           context.l10n.exportAction,
-          style: GoogleFonts.dmSans(
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
+          context.l10n.exportAction,
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+            color: colors.accentForeground,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),
       body: CoolScreenBackground(
-        primaryColor: palette.accent,
-        secondaryColor: palette.blue,
+        primaryColor: colors.accent,
+        secondaryColor: colors.info,
         child: Column(
           children: [
-            // ── Filters ──
             _FiltersBar(
               selectedPeriod: _selectedPeriod,
               selectedContributorId: _selectedContributorId,
               members: members,
-              onPeriodChanged: (p) => setState(() => _selectedPeriod = p),
+              onPeriodChanged: (period) =>
+                  setState(() => _selectedPeriod = period),
               onContributorChanged: (id) =>
                   setState(() => _selectedContributorId = id),
             ),
-
-            // ── Summary card ──
             ledgerAsync.whenOrNull(
                   data: (entries) => _SummaryCard(entries: entries),
                 ) ??
                 const SizedBox.shrink(),
-
-            // ── Transactions list ──
             Expanded(
               child: CoolAsyncView<List<GroupContribution>>(
                 value: ledgerAsync,
                 onRetry: () => ref.invalidate(groupLedgerProvider(_query)),
                 loadingWidget: const Padding(
-                  padding: EdgeInsets.all(18),
+                  padding: EdgeInsets.all(CoolSpace.x4),
                   child: CoolSkeletonList(itemCount: 6),
                 ),
                 emptyCheck: (entries) => entries.isEmpty,
@@ -141,9 +128,15 @@ class _GroupLedgerScreenState extends ConsumerState<GroupLedgerScreen> {
                   message: context.l10n.noContributionsForFilter,
                 ),
                 builder: (entries) => ListView.separated(
-                  padding: const EdgeInsets.fromLTRB(18, 4, 18, 96),
+                  padding: const EdgeInsets.fromLTRB(
+                    CoolSpace.x4,
+                    CoolSpace.x1,
+                    CoolSpace.x4,
+                    96,
+                  ),
                   itemCount: entries.length,
-                  separatorBuilder: (_, _) => const SizedBox(height: 8),
+                  separatorBuilder: (_, _) =>
+                      const SizedBox(height: CoolSpace.x2),
                   itemBuilder: (context, index) =>
                       _ContributionTile(entry: entries[index]),
                 ),
@@ -155,20 +148,17 @@ class _GroupLedgerScreenState extends ConsumerState<GroupLedgerScreen> {
     );
   }
 
-  // ── Export ──────────────────────────────────────────────────
   Future<void> _showExportSheet(
     BuildContext context,
     AsyncValue<List<GroupContribution>> ledgerAsync,
     String groupName,
   ) async {
-    final palette = context.coolPalette;
     final entries = ledgerAsync.valueOrNull;
     if (entries == null || entries.isEmpty) {
       CoolToast.info(context, context.l10n.noDataToExport);
       return;
     }
 
-    // Cache l10n values before async gap.
     final l10n = context.l10n;
     final periodLabel = switch (_selectedPeriod) {
       _LedgerPeriod.week => l10n.last7Days,
@@ -178,19 +168,18 @@ class _GroupLedgerScreenState extends ConsumerState<GroupLedgerScreen> {
     };
     final contributorLabel = _selectedContributorId == null
         ? l10n.allContributors
-        : entries.firstWhere(
-            (e) => e.userId == _selectedContributorId,
-            orElse: () => entries.first,
-          ).contributorName ?? l10n.filteredContributor;
+        : entries
+                  .firstWhere(
+                    (entry) => entry.userId == _selectedContributorId,
+                    orElse: () => entries.first,
+                  )
+                  .contributorName ??
+              l10n.filteredContributor;
     final sortLabelCached = l10n.newestFirst;
 
     final format = await showCoolBottomSheet<StatementExportFormat>(
       context: context,
-      backgroundColor: palette.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (_) => _ExportFormatSheet(),
+      builder: (_) => const _ExportFormatSheet(),
     );
 
     if (format == null || !mounted) return;
@@ -201,7 +190,7 @@ class _GroupLedgerScreenState extends ConsumerState<GroupLedgerScreen> {
         format: format,
         entries: entries,
         metadata: StatementExportMetadata(
-          statementTitle: '$groupName — Group Ledger',
+          statementTitle: '$groupName - Group Ledger',
           fileStem: 'cool_group_ledger',
           userName: groupName,
           officialPhone: '',
@@ -216,24 +205,25 @@ class _GroupLedgerScreenState extends ConsumerState<GroupLedgerScreen> {
 
       await SharePlus.instance.share(
         ShareParams(
-          files: [XFile.fromData(result.bytes, mimeType: result.mimeType, name: result.fileName)],
+          files: [
+            XFile.fromData(
+              result.bytes,
+              mimeType: result.mimeType,
+              name: result.fileName,
+            ),
+          ],
         ),
       );
 
-      if (mounted) {
-        CoolToast.success(context, l10n.ledgerExported(result.fileName));
-      }
-    } catch (e) {
-      if (mounted) {
-        CoolToast.error(context, l10n.exportFailed);
-      }
+      if (!mounted) return;
+      CoolToast.success(context, l10n.ledgerExported(result.fileName));
+    } catch (_) {
+      if (!mounted) return;
+      CoolToast.error(context, l10n.exportFailed);
     }
   }
 }
 
-// ═════════════════════════════════════════════════════════════
-// FILTERS BAR
-// ═════════════════════════════════════════════════════════════
 class _FiltersBar extends StatelessWidget {
   const _FiltersBar({
     required this.selectedPeriod,
@@ -251,69 +241,77 @@ class _FiltersBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.fromLTRB(18, 8, 18, 4),
+      padding: const EdgeInsets.fromLTRB(
+        CoolSpace.x4,
+        CoolSpace.x2,
+        CoolSpace.x4,
+        CoolSpace.x1,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Period chips
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: _LedgerPeriod.values.map((p) {
-                final isSelected = p == selectedPeriod;
-                final label = switch (p) {
+              children: _LedgerPeriod.values.map((period) {
+                final isSelected = period == selectedPeriod;
+                final label = switch (period) {
                   _LedgerPeriod.week => context.l10n.week,
                   _LedgerPeriod.month => context.l10n.month,
                   _LedgerPeriod.year => context.l10n.year,
                   _LedgerPeriod.all => context.l10n.allTime,
                 };
                 return Padding(
-                  padding: const EdgeInsets.only(right: 8),
+                  padding: const EdgeInsets.only(right: CoolSpace.x2),
                   child: ChoiceChip(
                     label: Text(label),
                     selected: isSelected,
-                    selectedColor: palette.accent,
-                    backgroundColor: palette.surface2,
-                    labelStyle: TextStyle(
-                      color: isSelected ? Colors.white : palette.text2,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13,
+                    showCheckmark: false,
+                    selectedColor: colors.accent,
+                    backgroundColor: colors.cardSurface,
+                    labelStyle: theme.textTheme.labelMedium?.copyWith(
+                      color: isSelected
+                          ? colors.accentForeground
+                          : colors.secondaryText,
+                      fontWeight: FontWeight.w700,
                     ),
                     side: BorderSide.none,
-                    onSelected: (_) => onPeriodChanged(p),
+                    onSelected: (_) => onPeriodChanged(period),
                   ),
                 );
               }).toList(),
             ),
           ),
-          const SizedBox(height: 8),
-          // Contributor dropdown
+          const SizedBox(height: CoolSpace.x2),
           if (members.isNotEmpty)
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+              padding: const EdgeInsets.symmetric(horizontal: CoolSpace.x3),
               decoration: BoxDecoration(
-                color: palette.surface2,
-                borderRadius: BorderRadius.circular(12),
+                color: colors.cardSurface,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(CoolRadii.xs),
+                ),
               ),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String?>(
                   value: selectedContributorId,
                   isExpanded: true,
-                  icon: Icon(Icons.keyboard_arrow_down_rounded,
-                      color: palette.text3),
-                  dropdownColor: palette.surface,
-                  style: GoogleFonts.dmSans(
-                    color: palette.text,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
+                  icon: Icon(
+                    Icons.keyboard_arrow_down_rounded,
+                    color: colors.tertiaryText,
+                  ),
+                  dropdownColor: colors.elevatedBackground,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: colors.primaryText,
+                    fontWeight: FontWeight.w600,
                   ),
                   hint: Text(
                     context.l10n.allContributors,
-                    style: GoogleFonts.dmSans(
-                      color: palette.text3,
-                      fontSize: 14,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: colors.tertiaryText,
                     ),
                   ),
                   items: [
@@ -321,82 +319,77 @@ class _FiltersBar extends StatelessWidget {
                       value: null,
                       child: Text(context.l10n.allContributors),
                     ),
-                    ...members.map((m) => DropdownMenuItem<String?>(
-                          value: m.userId,
-                          child: Text(
-                            m.displayName ?? m.userId.substring(0, 8),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        )),
+                    ...members.map(
+                      (member) => DropdownMenuItem<String?>(
+                        value: member.userId,
+                        child: Text(
+                          member.displayName ?? _shortUserId(member.userId),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
                   ],
                   onChanged: onContributorChanged,
                 ),
               ),
             ),
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
         ],
       ),
     );
   }
 }
 
-// ═════════════════════════════════════════════════════════════
-// SUMMARY CARD
-// ═════════════════════════════════════════════════════════════
 class _SummaryCard extends StatelessWidget {
   const _SummaryCard({required this.entries});
+
   final List<GroupContribution> entries;
 
   static final _amountFmt = NumberFormat.decimalPattern('en_US');
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    final total = entries.fold<int>(0, (sum, e) => sum + e.amount);
-    final contributors =
-        entries.map((e) => e.userId).toSet().length;
+    final colors = context.coolSemanticColors;
+    final total = entries.fold<int>(0, (sum, entry) => sum + entry.amount);
+    final contributors = entries.map((entry) => entry.userId).toSet().length;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(18, 0, 18, 8),
+      padding: const EdgeInsets.fromLTRB(
+        CoolSpace.x4,
+        0,
+        CoolSpace.x4,
+        CoolSpace.x2,
+      ),
       child: CoolCard(
-        gradient: AppColors.cardGradient,
-        child: Padding(
-          padding: const EdgeInsets.all(18),
-          child: Row(
-            children: [
-              Expanded(
-                child: _MetricColumn(
-                  label: context.l10n.total,
-                  value: 'RWF ${_amountFmt.format(total)}',
-                  color: palette.accent,
-                ),
+        backgroundColor: colors.financialSurface,
+        borderColor: colors.border,
+        padding: const EdgeInsets.all(CoolSpace.x4),
+        child: Row(
+          children: [
+            Expanded(
+              child: _MetricColumn(
+                label: context.l10n.total,
+                value: 'RWF ${_amountFmt.format(total)}',
+                color: colors.accent,
               ),
-              Container(
-                width: 1,
-                height: 36,
-                color: palette.surface3,
+            ),
+            Container(width: 1, height: 36, color: colors.cardSurfaceStrong),
+            Expanded(
+              child: _MetricColumn(
+                label: context.l10n.contributorsLabel,
+                value: contributors.toString(),
+                color: colors.info,
               ),
-              Expanded(
-                child: _MetricColumn(
-                  label: context.l10n.contributorsLabel,
-                  value: contributors.toString(),
-                  color: palette.blue,
-                ),
+            ),
+            Container(width: 1, height: 36, color: colors.cardSurfaceStrong),
+            Expanded(
+              child: _MetricColumn(
+                label: context.l10n.entries,
+                value: entries.length.toString(),
+                color: colors.teamSurface,
               ),
-              Container(
-                width: 1,
-                height: 36,
-                color: palette.surface3,
-              ),
-              Expanded(
-                child: _MetricColumn(
-                  label: context.l10n.entries,
-                  value: entries.length.toString(),
-                  color: palette.purple,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -416,36 +409,35 @@ class _MetricColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
     return Column(
       children: [
         Text(
           value,
           textAlign: TextAlign.center,
-          style: GoogleFonts.dmMono(
-            fontSize: 16,
-            fontWeight: FontWeight.w700,
+          style: text.mono(
+            theme.textTheme.titleMedium,
+            fontWeight: FontWeight.w800,
             color: color,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: CoolSpace.x1),
         Text(
           label,
-          style: Theme.of(context)
-              .textTheme
-              .bodySmall
-              ?.copyWith(color: palette.text3),
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: colors.secondaryText,
+          ),
         ),
       ],
     );
   }
 }
 
-// ═════════════════════════════════════════════════════════════
-// CONTRIBUTION TILE
-// ═════════════════════════════════════════════════════════════
 class _ContributionTile extends StatelessWidget {
   const _ContributionTile({required this.entry});
+
   final GroupContribution entry;
 
   static final _dateFmt = DateFormat('dd MMM yyyy, HH:mm');
@@ -453,94 +445,94 @@ class _ContributionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
     final statusColor = switch (entry.status) {
-      'confirmed' || 'completed' => palette.accent,
-      'pending' => Colors.amber,
-      'failed' => Colors.redAccent,
-      _ => palette.text3,
+      'confirmed' || 'completed' => colors.accent,
+      'pending' => colors.warning,
+      'failed' => colors.danger,
+      _ => colors.tertiaryText,
     };
 
     return CoolCard(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        child: Row(
-          children: [
-            // Avatar
-            CircleAvatar(
-              radius: 20,
-              backgroundColor: palette.surface3,
-              child: Text(
-                (entry.contributorName ?? '?')[0].toUpperCase(),
-                style: GoogleFonts.dmSans(
-                  color: palette.text,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 16,
-                ),
+      padding: const EdgeInsets.symmetric(
+        horizontal: CoolSpace.x4,
+        vertical: CoolSpace.x4 - 2,
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 20,
+            backgroundColor: colors.cardSurfaceStrong,
+            child: Text(
+              (entry.contributorName ?? '?')[0].toUpperCase(),
+              style: theme.textTheme.titleSmall?.copyWith(
+                color: colors.primaryText,
+                fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(width: 14),
-            // Details
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    entry.contributorName ?? 'Unknown',
-                    style: GoogleFonts.dmSans(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                      color: palette.text,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 3),
-                  Text(
-                    entry.createdAt != null
-                        ? _dateFmt.format(entry.createdAt!)
-                        : '-',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(color: palette.text3, fontSize: 12),
-                  ),
-                ],
-              ),
-            ),
-            // Amount + status
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+          ),
+          const SizedBox(width: CoolSpace.x3),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'RWF ${_amountFmt.format(entry.amount)}',
-                  style: GoogleFonts.dmMono(
+                  entry.contributorName ?? 'Unknown',
+                  style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w700,
-                    fontSize: 14,
-                    color: palette.text,
+                    color: colors.primaryText,
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 3),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: statusColor.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Text(
-                    _titleize(entry.status),
-                    style: TextStyle(
-                      color: statusColor,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 11,
-                    ),
+                const SizedBox(height: CoolSpace.x1 / 2),
+                Text(
+                  entry.createdAt != null
+                      ? _dateFmt.format(entry.createdAt!)
+                      : '-',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colors.tertiaryText,
                   ),
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                'RWF ${_amountFmt.format(entry.amount)}',
+                style: text.mono(
+                  theme.textTheme.bodyLarge,
+                  fontWeight: FontWeight.w800,
+                  color: colors.primaryText,
+                ),
+              ),
+              const SizedBox(height: CoolSpace.x1 / 2),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: CoolSpace.x2,
+                  vertical: CoolSpace.x1 / 2,
+                ),
+                decoration: BoxDecoration(
+                  color: statusColor.withValues(alpha: 0.15),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(CoolRadii.xs / 2),
+                  ),
+                ),
+                child: Text(
+                  _titleize(entry.status),
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: statusColor,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -549,71 +541,73 @@ class _ContributionTile extends StatelessWidget {
     if (raw.trim().isEmpty) return '-';
     return raw
         .split('_')
-        .where((p) => p.isNotEmpty)
-        .map((p) => '${p[0].toUpperCase()}${p.substring(1)}')
+        .where((part) => part.isNotEmpty)
+        .map((part) => '${part[0].toUpperCase()}${part.substring(1)}')
         .join(' ');
   }
 }
 
-// ═════════════════════════════════════════════════════════════
-// EXPORT FORMAT SHEET
-// ═════════════════════════════════════════════════════════════
 class _ExportFormatSheet extends StatelessWidget {
+  const _ExportFormatSheet();
+
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              context.l10n.exportLedger,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge
-                  ?.copyWith(fontWeight: FontWeight.w700),
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Center(
+          child: Container(
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: colors.borderStrong,
+              borderRadius: BorderRadius.all(Radius.circular(radii.xs)),
             ),
-            const SizedBox(height: 4),
-            Text(
-              context.l10n.chooseExportFormat,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
-                  ?.copyWith(color: palette.text3),
-            ),
-            const SizedBox(height: 20),
-            _ExportOption(
-              icon: Icons.picture_as_pdf_rounded,
-              label: 'PDF',
-              subtitle: context.l10n.printReadyStatement,
-              color: Colors.redAccent,
-              onTap: () =>
-                  Navigator.pop(context, StatementExportFormat.pdf),
-            ),
-            const SizedBox(height: 10),
-            _ExportOption(
-              icon: Icons.table_chart_rounded,
-              label: 'Excel',
-              subtitle: context.l10n.spreadsheetHeaders,
-              color: Colors.green,
-              onTap: () =>
-                  Navigator.pop(context, StatementExportFormat.excel),
-            ),
-            const SizedBox(height: 10),
-            _ExportOption(
-              icon: Icons.text_snippet_rounded,
-              label: 'CSV',
-              subtitle: context.l10n.plainTextData,
-              color: palette.blue,
-              onTap: () =>
-                  Navigator.pop(context, StatementExportFormat.csv),
-            ),
-          ],
+          ),
         ),
-      ),
+        const SizedBox(height: CoolSpace.x5),
+        Text(
+          context.l10n.exportLedger,
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.w700,
+            color: colors.primaryText,
+          ),
+        ),
+        const SizedBox(height: CoolSpace.x1),
+        Text(
+          context.l10n.chooseExportFormat,
+          style: Theme.of(
+            context,
+          ).textTheme.bodySmall?.copyWith(color: colors.secondaryText),
+        ),
+        const SizedBox(height: CoolSpace.x5),
+        _ExportOption(
+          icon: Icons.picture_as_pdf_rounded,
+          label: 'PDF',
+          subtitle: context.l10n.printReadyStatement,
+          color: colors.danger,
+          onTap: () => Navigator.pop(context, StatementExportFormat.pdf),
+        ),
+        const SizedBox(height: CoolSpace.x2),
+        _ExportOption(
+          icon: Icons.table_chart_rounded,
+          label: 'Excel',
+          subtitle: context.l10n.spreadsheetHeaders,
+          color: colors.accent,
+          onTap: () => Navigator.pop(context, StatementExportFormat.excel),
+        ),
+        const SizedBox(height: CoolSpace.x2),
+        _ExportOption(
+          icon: Icons.text_snippet_rounded,
+          label: 'CSV',
+          subtitle: context.l10n.plainTextData,
+          color: colors.info,
+          onTap: () => Navigator.pop(context, StatementExportFormat.csv),
+        ),
+      ],
     );
   }
 }
@@ -635,15 +629,20 @@ class _ExportOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
     return Material(
-      color: palette.surface2,
-      borderRadius: BorderRadius.circular(14),
+      color: colors.cardSurface,
+      borderRadius: BorderRadius.all(Radius.circular(radii.sm)),
       child: InkWell(
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.all(Radius.circular(radii.sm)),
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          padding: const EdgeInsets.symmetric(
+            horizontal: CoolSpace.x4,
+            vertical: CoolSpace.x4 - 2,
+          ),
           child: Row(
             children: [
               Container(
@@ -651,38 +650,43 @@ class _ExportOption extends StatelessWidget {
                 height: 40,
                 decoration: BoxDecoration(
                   color: color.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(CoolRadii.xs),
+                  ),
                 ),
                 child: Icon(icon, color: color, size: 22),
               ),
-              const SizedBox(width: 14),
+              const SizedBox(width: CoolSpace.x3),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       label,
-                      style: GoogleFonts.dmSans(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15,
-                        color: palette.text,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: colors.primaryText,
                       ),
                     ),
                     Text(
                       subtitle,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall
-                          ?.copyWith(color: palette.text3),
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colors.secondaryText,
+                      ),
                     ),
                   ],
                 ),
               ),
-              Icon(Icons.chevron_right_rounded, color: palette.text3),
+              Icon(Icons.chevron_right_rounded, color: colors.tertiaryText),
             ],
           ),
         ),
       ),
     );
   }
+}
+
+String _shortUserId(String userId, [int length = 8]) {
+  final end = userId.length < length ? userId.length : length;
+  return userId.substring(0, end);
 }

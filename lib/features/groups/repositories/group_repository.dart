@@ -177,7 +177,8 @@ class GroupRepository {
     final recipientValue = group.momoNumber?.trim() ?? '';
     if (recipientValue.isNotEmpty) {
       final country = AppMarket.country;
-      final routeType = _parseRecipientType(group.momoRouteType) ??
+      final routeType =
+          _parseRecipientType(group.momoRouteType) ??
           _inferRecipientType(country, recipientValue);
       receivingMomoRouteType = switch (routeType) {
         MomoRecipientType.phoneNumber => 'phone_number',
@@ -206,7 +207,9 @@ class GroupRepository {
         'p_visibility': group.visibility,
         'p_type': group.type,
         'p_description': group.description,
-        'p_country': group.country.isEmpty ? AppMarket.countryCode : group.country,
+        'p_country': group.country.isEmpty
+            ? AppMarket.countryCode
+            : group.country,
         'p_target_amount': group.targetAmount,
         'p_monthly_contribution': group.monthlyContribution,
         'p_cycle_days': cycleDays,
@@ -398,7 +401,6 @@ class GroupRepository {
     ).map((row) => Group.fromJson(row)).toList(growable: false);
   }
 
-
   String _normalizeInviteCode(String inviteCode) {
     return inviteCode.trim().toUpperCase();
   }
@@ -505,10 +507,7 @@ class GroupRepository {
   }
 
   /// Update editable group fields (name, description, target_amount, etc.).
-  Future<void> updateGroup(
-    String groupId,
-    Map<String, dynamic> updates,
-  ) async {
+  Future<void> updateGroup(String groupId, Map<String, dynamic> updates) async {
     if (updates.isEmpty) return;
     await _client.from('groups').update(updates).eq('id', groupId);
   }
@@ -537,7 +536,7 @@ class GroupRepository {
         .eq('user_id', userId);
   }
 
-  /// Idempotent: moves a pending contribution to completed and updates
+  /// Idempotent: moves a pending contribution to confirmed and updates
   /// the group balance via the DB function.
   Future<void> confirmContribution(String contributionId) async {
     final response = await _client.rpc(
@@ -604,7 +603,6 @@ MomoRecipientType _inferRecipientType(CoolCountry country, String value) {
 
   return MomoRecipientType.code;
 }
-
 
 Map<String, dynamic> _asMap(dynamic value) {
   if (value == null) {

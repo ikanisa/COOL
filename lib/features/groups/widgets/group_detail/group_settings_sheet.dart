@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/theme/cool_palette.dart';
+import '../../../../core/theme/cool_foundations.dart';
+import '../../../../shared/widgets/cool_bottom_sheet.dart';
 import '../../../../shared/widgets/cool_button.dart';
 import '../../../../shared/widgets/cool_toast.dart';
 import '../../../auth/providers/auth_provider.dart';
 import '../../models/group_detail.dart';
 import '../../models/group_member.dart';
 import '../../providers/groups_provider.dart';
-import '../../../../shared/widgets/cool_bottom_sheet.dart';
 
 // ═════════════════════════════════════════════════════════════════════════
 // Group Settings Sheet (admin / creator only)
@@ -26,9 +25,9 @@ class GroupSettingsSheet extends ConsumerStatefulWidget {
 }
 
 class _GroupSettingsSheetState extends ConsumerState<GroupSettingsSheet> {
-  late TextEditingController _nameController;
-  late TextEditingController _descController;
-  late TextEditingController _targetController;
+  late final TextEditingController _nameController;
+  late final TextEditingController _descController;
+  late final TextEditingController _targetController;
   late String _frequency;
   late String _visibility;
   bool _isSaving = false;
@@ -70,21 +69,39 @@ class _GroupSettingsSheetState extends ConsumerState<GroupSettingsSheet> {
         'visibility': _visibility,
       };
 
-      await ref
-          .read(groupsProvider.notifier)
-          .updateGroup(groupId, updates);
+      await ref.read(groupsProvider.notifier).updateGroup(groupId, updates);
 
       widget.onDismiss?.call();
-      if (mounted) {
-        Navigator.of(context).pop();
-        CoolToast.success(context, 'Group updated');
-      }
-    } catch (e) {
-      if (mounted) {
-        CoolToast.error(context, 'Failed to save: $e');
-      }
+      if (!mounted) return;
+      Navigator.of(context).pop();
+      CoolToast.success(context, 'Group updated');
+    } catch (error) {
+      if (!mounted) return;
+      CoolToast.error(context, 'Failed to save: $error');
     } finally {
-      if (mounted) setState(() => _isSaving = false);
+      if (mounted) {
+        setState(() => _isSaving = false);
+      }
+    }
+  }
+
+  Future<void> _removeAdmin(GroupMember member) async {
+    final groupId = widget.detail.group.id;
+    if (groupId == null) return;
+
+    try {
+      await ref
+          .read(groupsProvider.notifier)
+          .removeGroupAdmin(groupId: groupId, userId: member.userId);
+      if (!mounted) return;
+      ref.invalidate(groupDetailProvider(groupId));
+      CoolToast.success(
+        context,
+        '${member.displayName ?? 'User'} removed as admin',
+      );
+    } catch (error) {
+      if (!mounted) return;
+      CoolToast.error(context, 'Failed to remove admin: $error');
     }
   }
 
@@ -93,240 +110,189 @@ class _GroupSettingsSheetState extends ConsumerState<GroupSettingsSheet> {
     List<GroupMember> members,
     List<GroupMember> admins,
   ) {
+    final groupId = widget.detail.group.id;
+    if (groupId == null) return;
+
     showCoolBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (_) => _AdminSelectionSheet(
-        groupId: widget.detail.group.id!,
+        groupId: groupId,
         members: members,
         currentAdmins: admins,
       ),
     ).then((_) {
-      // Refresh the group detail when sheet closes
-      if (widget.detail.group.id != null) {
-        ref.invalidate(groupDetailProvider(widget.detail.group.id!));
-      }
+      ref.invalidate(groupDetailProvider(groupId));
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
     final currentUserId = ref.read(currentUserProvider)?.id;
     final members = widget.detail.members;
-    final admins = members.where((m) => m.isAdmin).toList();
+    final admins = members.where((member) => member.isAdmin).toList();
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-          ),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).size.height * 0.85,
-            ),
-            child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(22, 12, 22, 22),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Handle
-                Center(
-                  child: Container(
-                    width: 40,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: palette.border2,
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                  ),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.82,
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const _SheetHandle(),
+              SizedBox(height: space.x5),
+              Text(
+                'Group settings',
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.w800,
+                  color: colors.primaryText,
                 ),
-                const SizedBox(height: 20),
-
-                // Title
-                Text(
-                  'Group Settings',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                    color: palette.text,
-                  ),
+              ),
+              SizedBox(height: space.x2),
+              Text(
+                'Update contribution rules, visibility, and admin access.',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colors.secondaryText,
+                  height: 1.45,
                 ),
-                const SizedBox(height: 24),
-
-                // ── Name ──
-                const _SettingsLabel('Group name'),
-                const SizedBox(height: 6),
-                _SettingsInput(controller: _nameController),
-                const SizedBox(height: 20),
-
-                // ── Description ──
-                const _SettingsLabel('Description'),
-                const SizedBox(height: 6),
-                _SettingsInput(
-                  controller: _descController,
-                  maxLines: 3,
-                  hint: 'Optional description',
-                ),
-                const SizedBox(height: 20),
-
-                // ── Target amount ──
-                const _SettingsLabel('Target amount (RWF)'),
-                const SizedBox(height: 6),
-                _SettingsInput(
-                  controller: _targetController,
-                  keyboardType: TextInputType.number,
-                ),
-                const SizedBox(height: 20),
-
-                // ── Frequency ──
-                const _SettingsLabel('Contribution frequency'),
-                const SizedBox(height: 6),
-                _FrequencySelector(
-                  value: _frequency,
-                  onChanged: (v) => setState(() => _frequency = v),
-                ),
-                const SizedBox(height: 20),
-
-                // ── Visibility ──
-                const _SettingsLabel('Visibility'),
-                const SizedBox(height: 6),
-                Row(
-                  children: [
-                    _SettingsToggle(
+              ),
+              SizedBox(height: space.x6),
+              const _SettingsLabel('Group name'),
+              SizedBox(height: space.x2),
+              _SettingsInput(controller: _nameController),
+              SizedBox(height: space.x5),
+              const _SettingsLabel('Description'),
+              SizedBox(height: space.x2),
+              _SettingsInput(
+                controller: _descController,
+                maxLines: 3,
+                hint: 'Optional description',
+              ),
+              SizedBox(height: space.x5),
+              const _SettingsLabel('Target amount (RWF)'),
+              SizedBox(height: space.x2),
+              _SettingsInput(
+                controller: _targetController,
+                keyboardType: TextInputType.number,
+              ),
+              SizedBox(height: space.x5),
+              const _SettingsLabel('Contribution frequency'),
+              SizedBox(height: space.x2),
+              _FrequencySelector(
+                value: _frequency,
+                onChanged: (value) => setState(() => _frequency = value),
+              ),
+              SizedBox(height: space.x5),
+              const _SettingsLabel('Visibility'),
+              SizedBox(height: space.x2),
+              Row(
+                children: [
+                  Expanded(
+                    child: _SettingsToggle(
                       label: 'Private',
                       isSelected: _visibility == 'private',
                       onTap: () => setState(() => _visibility = 'private'),
                     ),
-                    const SizedBox(width: 8),
-                    _SettingsToggle(
+                  ),
+                  SizedBox(width: space.x2),
+                  Expanded(
+                    child: _SettingsToggle(
                       label: 'Public',
                       isSelected: _visibility == 'public',
                       onTap: () => setState(() => _visibility = 'public'),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 28),
-
-                // ── Admins ──
-                _SettingsLabel(
-                  'Admins (${admins.length})',
-                ),
-                const SizedBox(height: 8),
-                ...admins.map(
-                  (a) => Padding(
-                    padding: const EdgeInsets.only(bottom: 4),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.admin_panel_settings_outlined,
-                          size: 18,
-                          color: palette.accent,
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            a.displayName ?? '#${a.userId.substring(0, 6)}',
-                            style: GoogleFonts.dmSans(
-                              fontSize: 14,
-                              color: palette.text,
-                            ),
-                          ),
-                        ),
-                        if (a.userId != currentUserId)
-                          IconButton(
-                            tooltip: 'Remove admin',
-                            icon: Icon(
-                              Icons.remove_circle_outline,
-                              size: 18,
-                              color: palette.red,
-                            ),
-                            onPressed: () async {
-                              final groupId = widget.detail.group.id;
-                              if (groupId == null) return;
-                              try {
-                                await ref.read(groupsProvider.notifier).removeGroupAdmin(
-                                  groupId: groupId,
-                                  userId: a.userId,
-                                );
-                                if (mounted) {
-                                  ref.invalidate(groupDetailProvider(groupId));
-                                  CoolToast.success(context, '${a.displayName ?? 'User'} removed as admin');
-                                }
-                              } catch (e) {
-                                if (mounted) {
-                                  CoolToast.error(context, 'Failed to remove admin: $e');
-                                }
-                              }
-                            },
-                          ),
-                      ],
-                    ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                TextButton.icon(
-                  onPressed: () => _showAddAdminSheet(context, members, admins),
-                    icon: Icon(
-                      Icons.person_add_alt_1_rounded,
-                      size: 18,
-                      color: palette.accent,
-                    ),
-                    label: Text(
-                      'Add admin',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: palette.accent,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 32),
-  
-                  // ── Save ──
-                  SizedBox(
-                    width: double.infinity,
-                    child: CoolButton(
-                      label: 'Save changes',
-                      isLoading: _isSaving,
-                      onTap: _saveChanges,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
                 ],
               ),
-            ),
+              SizedBox(height: space.x6),
+              _SettingsLabel('Admins (${admins.length})'),
+              SizedBox(height: space.x3),
+              ...admins.map(
+                (admin) => Padding(
+                  padding: EdgeInsets.only(bottom: space.x2),
+                  child: _AdminRow(
+                    member: admin,
+                    isCurrentUser: admin.userId == currentUserId,
+                    onRemove: admin.userId == currentUserId
+                        ? null
+                        : () => _removeAdmin(admin),
+                  ),
+                ),
+              ),
+              SizedBox(height: space.x2),
+              TextButton.icon(
+                onPressed: () => _showAddAdminSheet(context, members, admins),
+                icon: Icon(
+                  Icons.person_add_alt_1_rounded,
+                  size: 18,
+                  color: colors.accent,
+                ),
+                label: Text(
+                  'Add admin',
+                  style: theme.textTheme.labelLarge?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: colors.accent,
+                  ),
+                ),
+              ),
+              SizedBox(height: space.x7),
+              CoolButton(
+                label: 'Save changes',
+                isLoading: _isSaving,
+                onTap: _saveChanges,
+              ),
+            ],
           ),
         ),
       ),
     );
-    }
   }
+}
 
-// ── Tiny helper widgets for settings ──
+class _SheetHandle extends StatelessWidget {
+  const _SheetHandle();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
+    return Center(
+      child: Container(
+        width: 40,
+        height: 4,
+        decoration: BoxDecoration(
+          color: colors.borderStrong,
+          borderRadius: BorderRadius.all(Radius.circular(radii.xs)),
+        ),
+      ),
+    );
+  }
+}
 
 class _SettingsLabel extends StatelessWidget {
   const _SettingsLabel(this.text);
+
   final String text;
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     return Text(
       text,
-      style: GoogleFonts.dmSans(
-        fontSize: 12,
+      style: Theme.of(context).textTheme.labelLarge?.copyWith(
         fontWeight: FontWeight.w700,
-        color: palette.text2,
-        letterSpacing: 0.4,
+        color: colors.secondaryText,
+        letterSpacing: 0.2,
       ),
     );
   }
@@ -347,30 +313,40 @@ class _SettingsInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
     return TextField(
       controller: controller,
       maxLines: maxLines,
       keyboardType: keyboardType,
-      style: GoogleFonts.dmSans(fontSize: 14, color: palette.text),
+      style: theme.textTheme.bodyMedium?.copyWith(
+        color: colors.primaryText,
+        fontWeight: FontWeight.w600,
+      ),
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: GoogleFonts.dmSans(fontSize: 13, color: palette.text3),
+        hintStyle: theme.textTheme.bodySmall?.copyWith(
+          color: colors.tertiaryText,
+        ),
         filled: true,
-        fillColor: palette.surface2,
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        fillColor: colors.inputSurface,
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: space.x4,
+          vertical: space.x3,
+        ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: palette.border),
+          borderRadius: BorderRadius.all(Radius.circular(radii.sm)),
+          borderSide: BorderSide(color: colors.border),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: palette.border),
+          borderRadius: BorderRadius.all(Radius.circular(radii.sm)),
+          borderSide: BorderSide(color: colors.border),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: palette.accent, width: 1.5),
+          borderRadius: BorderRadius.all(Radius.circular(radii.sm)),
+          borderSide: BorderSide(color: colors.accent, width: 1.5),
         ),
       ),
     );
@@ -378,10 +354,7 @@ class _SettingsInput extends StatelessWidget {
 }
 
 class _FrequencySelector extends StatelessWidget {
-  const _FrequencySelector({
-    required this.value,
-    required this.onChanged,
-  });
+  const _FrequencySelector({required this.value, required this.onChanged});
 
   final String value;
   final ValueChanged<String> onChanged;
@@ -389,16 +362,16 @@ class _FrequencySelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const options = ['daily', 'weekly', 'monthly'];
-    return Row(
+    return Wrap(
+      spacing: CoolSpace.x2,
+      runSpacing: CoolSpace.x2,
       children: [
-        for (final opt in options) ...[
+        for (final option in options)
           _SettingsToggle(
-            label: opt[0].toUpperCase() + opt.substring(1),
-            isSelected: value == opt,
-            onTap: () => onChanged(opt),
+            label: option[0].toUpperCase() + option.substring(1),
+            isSelected: value == option,
+            onTap: () => onChanged(option),
           ),
-          if (opt != options.last) const SizedBox(width: 8),
-        ],
       ],
     );
   }
@@ -417,27 +390,124 @@ class _SettingsToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        decoration: BoxDecoration(
-          color: isSelected ? palette.accentGlow : palette.surface2,
-          borderRadius: BorderRadius.circular(30),
-          border: Border.all(
-            color: isSelected ? palette.accent : palette.border,
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
+    return Semantics(
+      button: true,
+      selected: isSelected,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.all(Radius.circular(radii.pill)),
+          onTap: onTap,
+          child: AnimatedContainer(
+            duration: CoolMotion.quick,
+            curve: CoolMotion.enterCurve,
+            constraints: const BoxConstraints(
+              minHeight: CoolTapTargets.minimum,
+            ),
+            padding: const EdgeInsets.symmetric(
+              horizontal: CoolSpace.x4,
+              vertical: CoolSpace.x3,
+            ),
+            decoration: BoxDecoration(
+              color: isSelected
+                  ? colors.chipSelectedBackground
+                  : colors.chipBackground,
+              borderRadius: BorderRadius.all(Radius.circular(radii.pill)),
+              border: Border.all(
+                color: isSelected ? colors.accent : colors.border,
+              ),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              label,
+              style: theme.textTheme.labelMedium?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: isSelected ? colors.accent : colors.secondaryText,
+              ),
+            ),
           ),
         ),
-        alignment: Alignment.center,
-        child: Text(
-          label,
-          style: GoogleFonts.dmSans(
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
-            color: isSelected ? palette.accent : palette.text2,
+      ),
+    );
+  }
+}
+
+class _AdminRow extends StatelessWidget {
+  const _AdminRow({
+    required this.member,
+    required this.isCurrentUser,
+    this.onRemove,
+  });
+
+  final GroupMember member;
+  final bool isCurrentUser;
+  final VoidCallback? onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
+    final resolvedName = member.displayName ?? _shortUserId(member.userId, 6);
+
+    return Container(
+      padding: const EdgeInsets.all(CoolSpace.x3),
+      decoration: BoxDecoration(
+        color: colors.cardSurface,
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm)),
+        border: Border.all(color: colors.border),
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 18,
+            backgroundColor: colors.chipBackground,
+            child: Icon(Icons.person, size: 18, color: colors.secondaryText),
           ),
-        ),
+          const SizedBox(width: CoolSpace.x3),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  resolvedName,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: colors.primaryText,
+                  ),
+                ),
+                Text(
+                  _shortUserId(member.userId),
+                  style: text.mono(
+                    theme.textTheme.labelSmall,
+                    color: colors.tertiaryText,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (isCurrentUser)
+            Text(
+              'You',
+              style: theme.textTheme.labelMedium?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: colors.secondaryText,
+              ),
+            )
+          else
+            IconButton(
+              tooltip: 'Remove admin',
+              icon: Icon(
+                Icons.remove_circle_outline,
+                size: 20,
+                color: colors.danger,
+              ),
+              onPressed: onRemove,
+            ),
+        ],
       ),
     );
   }
@@ -459,7 +529,8 @@ class _AdminSelectionSheet extends ConsumerStatefulWidget {
   final List<GroupMember> currentAdmins;
 
   @override
-  ConsumerState<_AdminSelectionSheet> createState() => _AdminSelectionSheetState();
+  ConsumerState<_AdminSelectionSheet> createState() =>
+      _AdminSelectionSheetState();
 }
 
 class _AdminSelectionSheetState extends ConsumerState<_AdminSelectionSheet> {
@@ -470,18 +541,18 @@ class _AdminSelectionSheetState extends ConsumerState<_AdminSelectionSheet> {
     setState(() => _isSaving = true);
 
     try {
-      await ref.read(groupsProvider.notifier).addGroupAdmin(
-            groupId: widget.groupId,
-            userId: member.userId,
-          );
-      if (mounted) {
-        Navigator.of(context).pop();
-        CoolToast.success(context, '${member.displayName ?? 'User'} is now an admin');
-      }
-    } catch (e) {
-      if (mounted) {
-        CoolToast.error(context, 'Failed to add admin: $e');
-      }
+      await ref
+          .read(groupsProvider.notifier)
+          .addGroupAdmin(groupId: widget.groupId, userId: member.userId);
+      if (!mounted) return;
+      Navigator.of(context).pop();
+      CoolToast.success(
+        context,
+        '${member.displayName ?? 'User'} is now an admin',
+      );
+    } catch (error) {
+      if (!mounted) return;
+      CoolToast.error(context, 'Failed to add admin: $error');
     } finally {
       if (mounted) {
         setState(() => _isSaving = false);
@@ -491,125 +562,118 @@ class _AdminSelectionSheetState extends ConsumerState<_AdminSelectionSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    // Filter out existing admins
-    final adminIds = widget.currentAdmins.map((a) => a.userId).toSet();
-    final eligibleMembers = widget.members.where((m) => !adminIds.contains(m.userId)).toList();
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
+    final adminIds = widget.currentAdmins.map((admin) => admin.userId).toSet();
+    final eligibleMembers = widget.members
+        .where((member) => !adminIds.contains(member.userId))
+        .toList();
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
-      child: SafeArea(
-        top: false,
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.6,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: 12),
-              Center(
-                child: Container(
-                  width: 40,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: palette.border2,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 22),
-                child: Text(
-                  'Add Admin',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                    color: palette.text,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 6),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 22),
-                child: Text(
-                  'Select a member to grant admin access.',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 13,
-                    color: palette.text2,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              if (eligibleMembers.isEmpty)
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      'All members are already admins.',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 14,
-                        color: palette.text3,
-                      ),
-                    ),
-                  ),
-                )
-              else
-                Expanded(
-                  child: ListView.separated(
-                    padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
-                    itemCount: eligibleMembers.length,
-                    separatorBuilder: (_, _) => const SizedBox(height: 12),
-                    itemBuilder: (context, index) {
-                      final member = eligibleMembers[index];
-                      return Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 18,
-                            backgroundColor: palette.surface2,
-                            child: Icon(Icons.person, size: 18, color: palette.text2),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  member.displayName ?? 'Unknown',
-                                  style: GoogleFonts.dmSans(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                    color: palette.text,
-                                  ),
-                                ),
-                                Text(
-                                  '#${member.userId.substring(0, 8)}',
-                                  style: GoogleFonts.dmMono(
-                                    fontSize: 12,
-                                    color: palette.text3,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          CoolButton(
-                            label: 'Add',
-                            variant: CoolButtonVariant.secondary,
-                            fullWidth: false,
-                            isLoading: _isSaving,
-                            onTap: () => _makeAdmin(member),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                ),
-            ],
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.6,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const _SheetHandle(),
+          SizedBox(height: space.x5),
+          Text(
+            'Add admin',
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.w800,
+              color: colors.primaryText,
+            ),
           ),
-        ),
+          SizedBox(height: space.x2),
+          Text(
+            'Select a member to grant admin access.',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.secondaryText,
+            ),
+          ),
+          SizedBox(height: space.x4),
+          if (eligibleMembers.isEmpty)
+            Expanded(
+              child: Center(
+                child: Text(
+                  'All members are already admins.',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: colors.tertiaryText,
+                  ),
+                ),
+              ),
+            )
+          else
+            Expanded(
+              child: ListView.separated(
+                padding: EdgeInsets.symmetric(vertical: space.x1),
+                itemCount: eligibleMembers.length,
+                separatorBuilder: (_, _) => SizedBox(height: space.x3),
+                itemBuilder: (context, index) {
+                  final member = eligibleMembers[index];
+                  return Container(
+                    padding: const EdgeInsets.all(CoolSpace.x3),
+                    decoration: BoxDecoration(
+                      color: colors.cardSurface,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(CoolRadii.sm),
+                      ),
+                      border: Border.all(color: colors.border),
+                    ),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 18,
+                          backgroundColor: colors.chipBackground,
+                          child: Icon(
+                            Icons.person,
+                            size: 18,
+                            color: colors.secondaryText,
+                          ),
+                        ),
+                        const SizedBox(width: CoolSpace.x3),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                member.displayName ?? 'Unknown',
+                                style: theme.textTheme.titleSmall?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  color: colors.primaryText,
+                                ),
+                              ),
+                              Text(
+                                _shortUserId(member.userId),
+                                style: text.mono(
+                                  theme.textTheme.labelSmall,
+                                  color: colors.tertiaryText,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        CoolButton(
+                          label: 'Add',
+                          variant: CoolButtonVariant.secondary,
+                          fullWidth: false,
+                          isLoading: _isSaving,
+                          onTap: () => _makeAdmin(member),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+        ],
       ),
     );
   }
+}
+
+String _shortUserId(String userId, [int length = 8]) {
+  final end = userId.length < length ? userId.length : length;
+  return '#${userId.substring(0, end)}';
 }
