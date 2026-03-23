@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
+import '../../../core/theme/cool_layout.dart';
+import '../../../shared/widgets/cool_async_view.dart';
+import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_empty_view.dart';
+import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../models/special_product.dart';
 import '../providers/special_products_provider.dart';
@@ -11,84 +15,164 @@ import '../../../core/l10n/l10n.dart';
 import '../../../shared/widgets/cool_bottom_sheet.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 
+EdgeInsets _specialProductsHeaderPadding() =>
+    CoolSpace.pagePadding.copyWith(top: 0, bottom: 0);
+
+EdgeInsets _specialProductsLoadingPadding() =>
+    CoolSpace.scaffoldPadding.copyWith(bottom: CoolSpace.x4);
+
+EdgeInsets _specialProductsListPadding() =>
+    CoolSpace.scaffoldPadding.copyWith(bottom: CoolLayout.rootBottomClearance);
+
+EdgeInsets _specialProductStatusPadding() => CoolSpace.sectionPadding.copyWith(
+  left: CoolSpace.x2,
+  right: CoolSpace.x2,
+  top: CoolSpace.x1,
+  bottom: CoolSpace.x1,
+);
+
+EdgeInsets _specialProductSheetListPadding() =>
+    CoolSpace.pagePadding.copyWith(top: 0, bottom: CoolSpace.x7);
+
+EdgeInsets _specialProductFieldPadding() => CoolSpace.sectionPadding.copyWith(
+  left: 0,
+  right: 0,
+  top: 0,
+  bottom: CoolSpace.x3,
+);
+
+EdgeInsets _specialProductInputContentPadding() =>
+    CoolSpace.sectionPadding.copyWith(
+      left: CoolSpace.x3,
+      right: CoolSpace.x3,
+      top: CoolSpace.x3,
+      bottom: CoolSpace.x3,
+    );
+
+EdgeInsets _specialProductDropdownPadding() => CoolSpace.sectionPadding
+    .copyWith(left: CoolSpace.x3, right: CoolSpace.x3, top: 0, bottom: 0);
+
+OutlineInputBorder _specialProductInputBorder(
+  CoolSemanticColors colors, {
+  Color? borderColor,
+  double width = 1,
+}) {
+  return OutlineInputBorder(
+    borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.xs)),
+    borderSide: BorderSide(color: borderColor ?? colors.border, width: width),
+  );
+}
+
+Widget _specialProductSheetHandle(BuildContext context) {
+  final colors = context.coolSemanticColors;
+  return Container(
+    width: 40,
+    height: 4,
+    decoration: BoxDecoration(
+      color: colors.borderStrong,
+      borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.pill)),
+    ),
+  );
+}
+
 /// Admin CRUD screen for managing special product cards.
 class ManageSpecialProductsScreen extends ConsumerWidget {
   const ManageSpecialProductsScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    final space = context.coolSpace;
     final productsAsync = ref.watch(adminSpecialProductsProvider);
 
     return CoolScreenBackground(
-
-
       showGlow: false,
-
-
       child: Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: AppBar(
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          tooltip: context.l10n.back,
-          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            onPressed: () => Navigator.of(context).pop(),
+            tooltip: context.l10n.back,
+            icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: palette.accent,
-        onPressed: () => _showEditSheet(context, ref, null),
-        child: const Icon(Icons.add_rounded, color: Colors.black),
-      ),
-      body: productsAsync.when(
-        data: (products) => products.isEmpty
-            ? Center(
+        floatingActionButton: Semantics(
+          button: true,
+          label: 'Create special product',
+          hint: 'Open special product form',
+          child: FloatingActionButton(
+            backgroundColor: colors.accent,
+            foregroundColor: colors.accentForeground,
+            onPressed: () => _showEditSheet(context, ref, null),
+            child: const Icon(Icons.add_rounded),
+          ),
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: _specialProductsHeaderPadding(),
+              child: Semantics(
+                header: true,
                 child: Text(
-                  'No special products yet',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
-                    color: palette.text3,
+                  'Special Products',
+                  style: theme.textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.w800,
+                    height: 1.1,
+                    color: colors.primaryText,
                   ),
                 ),
-              )
-            : ListView.separated(
-                padding: const EdgeInsets.fromLTRB(18, 0, 18, 96),
-                itemCount: products.length + 1,
-                separatorBuilder: (_, _) => const SizedBox(height: 12),
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return Text(
-                      'Special Products',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 34,
-                        fontWeight: FontWeight.w800,
-                        color: palette.text,
-                        height: 1.1,
-                      ),
-                    );
-                  }
-                  final product = products[index - 1];
-                  return _ProductAdminCard(
-                    product: product,
-                    onEdit: () => _showEditSheet(context, ref, product),
-                    onToggle: () => _toggleActive(context, ref, product),
+              ),
+            ),
+            SizedBox(height: space.x2),
+            Padding(
+              padding: _specialProductsHeaderPadding(),
+              child: Text(
+                'Manage premium offers and payment routing targets',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colors.secondaryText,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+            SizedBox(height: space.x4),
+            Expanded(
+              child: CoolAsyncView<List<SpecialProduct>>(
+                value: productsAsync,
+                loadingWidget: Padding(
+                  padding: _specialProductsLoadingPadding(),
+                  child: CoolSkeletonList(itemCount: 4),
+                ),
+                emptyCheck: (products) => products.isEmpty,
+                emptyWidget: const CoolEmptyView(
+                  message: 'No special products yet',
+                  icon: Icons.inventory_2_outlined,
+                ),
+                builder: (products) {
+                  return ListView.separated(
+                    padding: _specialProductsListPadding(),
+                    itemCount: products.length,
+                    separatorBuilder: (_, _) =>
+                        const SizedBox(height: CoolSpace.x3),
+                    itemBuilder: (context, index) {
+                      final product = products[index];
+                      return _ProductAdminCard(
+                        product: product,
+                        onEdit: () => _showEditSheet(context, ref, product),
+                        onToggle: () => _toggleActive(context, ref, product),
+                      );
+                    },
                   );
                 },
               ),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(
-          child: Text(
-            'Error: $e',
-            style: GoogleFonts.dmSans(color: palette.text3),
-          ),
+            ),
+          ],
         ),
       ),
-    ),
-
-
     );
   }
 
@@ -121,7 +205,9 @@ class ManageSpecialProductsScreen extends ConsumerWidget {
       if (context.mounted) {
         CoolToast.success(
           context,
-          product.isActive ? '${product.title} disabled' : '${product.title} enabled',
+          product.isActive
+              ? '${product.title} disabled'
+              : '${product.title} enabled',
         );
       }
     } catch (e) {
@@ -147,9 +233,15 @@ class _ProductAdminCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    final space = context.coolSpace;
+    final statusColor = product.isActive ? colors.success : colors.danger;
     return CoolCard(
       onTap: onEdit,
+      backgroundColor: colors.financialSurface,
+      useGradient: false,
+      semanticsLabel: 'Edit ${product.title}',
       child: Row(
         children: [
           Container(
@@ -157,13 +249,14 @@ class _ProductAdminCard extends StatelessWidget {
             height: 44,
             decoration: BoxDecoration(
               color: product.accentColor.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(CoolRadii.xs),
+              ),
             ),
             alignment: Alignment.center,
-            child:
-                Icon(product.icon, color: product.accentColor, size: 22),
+            child: Icon(product.icon, color: product.accentColor, size: 22),
           ),
-          const SizedBox(width: 14),
+          SizedBox(width: space.x3),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,42 +266,36 @@ class _ProductAdminCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         product.title,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: palette.text,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w800,
+                          color: colors.primaryText,
                         ),
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 3,
-                      ),
+                      padding: _specialProductStatusPadding(),
                       decoration: BoxDecoration(
-                        color: product.isActive
-                            ? Colors.green.withValues(alpha: 0.1)
-                            : Colors.red.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(999),
+                        color: statusColor.withValues(alpha: 0.1),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(CoolRadii.pill),
+                        ),
                       ),
                       child: Text(
                         product.isActive ? 'Active' : 'Disabled',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w700,
-                          color:
-                              product.isActive ? Colors.green : Colors.red,
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          fontWeight: FontWeight.w800,
+                          color: statusColor,
                         ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: CoolSpace.x1),
                 Text(
                   '${product.formattedAmount} · ${product.targetAudience} · ${product.momoRecipient}',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    color: palette.text3,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colors.tertiaryText,
+                    fontWeight: FontWeight.w600,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -216,13 +303,13 @@ class _ProductAdminCard extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: CoolSpace.x2),
           IconButton(
             icon: Icon(
               product.isActive
                   ? Icons.toggle_on_rounded
                   : Icons.toggle_off_rounded,
-              color: product.isActive ? Colors.green : palette.text3,
+              color: product.isActive ? colors.success : colors.tertiaryText,
               size: 32,
             ),
             onPressed: onToggle,
@@ -237,7 +324,11 @@ class _ProductAdminCard extends StatelessWidget {
 // ─── Edit / Create Bottom Sheet ─────────────────────────────────────────────
 
 class _SpecialProductEditSheet extends StatefulWidget {
-  const _SpecialProductEditSheet({this.product, required this.repo, required this.onSaved});
+  const _SpecialProductEditSheet({
+    this.product,
+    required this.repo,
+    required this.onSaved,
+  });
 
   final SpecialProduct? product;
   final SpecialProductsRepository repo;
@@ -248,8 +339,7 @@ class _SpecialProductEditSheet extends StatefulWidget {
       _SpecialProductEditSheetState();
 }
 
-class _SpecialProductEditSheetState
-    extends State<_SpecialProductEditSheet> {
+class _SpecialProductEditSheetState extends State<_SpecialProductEditSheet> {
   late final TextEditingController _slugCtrl;
   late final TextEditingController _titleCtrl;
   late final TextEditingController _subtitleCtrl;
@@ -276,16 +366,19 @@ class _SpecialProductEditSheetState
     _titleCtrl = TextEditingController(text: p?.title ?? '');
     _subtitleCtrl = TextEditingController(text: p?.subtitle ?? '');
     _descriptionCtrl = TextEditingController(text: p?.description ?? '');
-    _amountCtrl =
-        TextEditingController(text: p != null ? p.amount.toString() : '');
+    _amountCtrl = TextEditingController(
+      text: p != null ? p.amount.toString() : '',
+    );
     _colorCtrl = TextEditingController(text: p?.colorHex ?? '#C9A84C');
     _interestCtrl = TextEditingController(text: p?.interestRate ?? '');
     _loanCtrl = TextEditingController(text: p?.loanMultiplier ?? '');
     _recipientCtrl = TextEditingController(text: p?.momoRecipient ?? '');
-    _audienceCtrl =
-        TextEditingController(text: p?.targetAudience ?? 'Everyone');
-    _sortCtrl =
-        TextEditingController(text: p != null ? p.sortOrder.toString() : '0');
+    _audienceCtrl = TextEditingController(
+      text: p?.targetAudience ?? 'Everyone',
+    );
+    _sortCtrl = TextEditingController(
+      text: p != null ? p.sortOrder.toString() : '0',
+    );
     _recipientType = p?.momoRecipientType ?? 'code';
     _iconName = p?.iconName ?? 'directions_car';
     _isActive = p?.isActive ?? true;
@@ -311,7 +404,10 @@ class _SpecialProductEditSheetState
     if (_titleCtrl.text.trim().isEmpty ||
         _amountCtrl.text.trim().isEmpty ||
         _recipientCtrl.text.trim().isEmpty) {
-      CoolToast.error(context, 'Title, amount, and MoMo recipient are required.');
+      CoolToast.error(
+        context,
+        'Title, amount, and MoMo recipient are required.',
+      );
       return;
     }
 
@@ -327,10 +423,12 @@ class _SpecialProductEditSheetState
         amount: int.tryParse(_amountCtrl.text.trim()) ?? 0,
         colorHex: _colorCtrl.text.trim(),
         iconName: _iconName,
-        interestRate:
-            _interestCtrl.text.trim().isEmpty ? null : _interestCtrl.text.trim(),
-        loanMultiplier:
-            _loanCtrl.text.trim().isEmpty ? null : _loanCtrl.text.trim(),
+        interestRate: _interestCtrl.text.trim().isEmpty
+            ? null
+            : _interestCtrl.text.trim(),
+        loanMultiplier: _loanCtrl.text.trim().isEmpty
+            ? null
+            : _loanCtrl.text.trim(),
         momoRecipient: _recipientCtrl.text.trim(),
         momoRecipientType: _recipientType,
         targetAudience: _audienceCtrl.text.trim(),
@@ -360,39 +458,35 @@ class _SpecialProductEditSheetState
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    final space = context.coolSpace;
     return Container(
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.9,
       ),
       decoration: BoxDecoration(
-        color: palette.bg,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        color: colors.overlaySurface,
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(CoolRadii.lg),
+        ),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SizedBox(height: 12),
-          Container(
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(
-              color: palette.border,
-              borderRadius: BorderRadius.circular(999),
-            ),
-          ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x3),
+          _specialProductSheetHandle(context),
+          const SizedBox(height: CoolSpace.x4),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
+            padding: _specialProductsHeaderPadding(),
             child: Row(
               children: [
                 Expanded(
                   child: Text(
                     _isNew ? 'Create Product' : 'Edit Product',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 20,
+                    style: theme.textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.w800,
-                      color: palette.text,
+                      color: colors.primaryText,
                     ),
                   ),
                 ),
@@ -402,15 +496,15 @@ class _SpecialProductEditSheetState
                     children: [
                       Text(
                         'Active',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 12,
-                          color: palette.text3,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colors.tertiaryText,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: CoolSpace.x1),
                       Switch.adaptive(
                         value: _isActive,
-                        activeTrackColor: Colors.green,
+                        activeTrackColor: colors.success,
                         onChanged: (v) => setState(() => _isActive = v),
                       ),
                     ],
@@ -418,10 +512,10 @@ class _SpecialProductEditSheetState
               ],
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: space.x3),
           Flexible(
             child: ListView(
-              padding: const EdgeInsets.fromLTRB(18, 0, 18, 32),
+              padding: _specialProductSheetListPadding(),
               shrinkWrap: true,
               children: [
                 _Field(label: 'Slug', controller: _slugCtrl),
@@ -441,14 +535,14 @@ class _SpecialProductEditSheetState
                 _Field(label: 'Interest Rate', controller: _interestCtrl),
                 _Field(label: 'Loan Multiplier', controller: _loanCtrl),
                 _Field(label: 'MoMo Recipient', controller: _recipientCtrl),
-                const SizedBox(height: 8),
+                const SizedBox(height: CoolSpace.x2),
                 _DropdownField(
                   label: 'Recipient Type',
                   value: _recipientType,
                   items: const ['code', 'phone_number'],
                   onChanged: (v) => setState(() => _recipientType = v),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: CoolSpace.x2),
                 _DropdownField(
                   label: 'Icon',
                   value: _iconName,
@@ -466,45 +560,18 @@ class _SpecialProductEditSheetState
                   ],
                   onChanged: (v) => setState(() => _iconName = v),
                 ),
-                const SizedBox(height: 8),
-                _Field(
-                  label: 'Target Audience',
-                  controller: _audienceCtrl,
-                ),
+                const SizedBox(height: CoolSpace.x2),
+                _Field(label: 'Target Audience', controller: _audienceCtrl),
                 _Field(
                   label: 'Sort Order',
                   controller: _sortCtrl,
                   keyboardType: TextInputType.number,
                 ),
-                const SizedBox(height: 16),
-                SizedBox(
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: _saving ? null : _save,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: palette.accent,
-                      foregroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                    ),
-                    child: _saving
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.black,
-                            ),
-                          )
-                        : Text(
-                            _isNew ? 'Create' : 'Save',
-                            style: GoogleFonts.dmSans(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                  ),
+                const SizedBox(height: CoolSpace.x4),
+                CoolButton(
+                  label: _isNew ? 'Create Product' : 'Save Product',
+                  onTap: _save,
+                  isLoading: _saving,
                 ),
               ],
             ),
@@ -530,42 +597,34 @@ class _Field extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: _specialProductFieldPadding(),
       child: TextField(
         controller: controller,
         keyboardType: keyboardType,
         maxLines: maxLines,
-        style: GoogleFonts.dmSans(
-          fontSize: 14,
-          color: palette.text,
-          fontWeight: FontWeight.w500,
+        style: theme.textTheme.bodyMedium?.copyWith(
+          color: colors.primaryText,
+          fontWeight: FontWeight.w600,
         ),
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: GoogleFonts.dmSans(
-            fontSize: 13,
-            color: palette.text3,
+          labelStyle: theme.textTheme.bodySmall?.copyWith(
+            color: colors.tertiaryText,
+            fontWeight: FontWeight.w600,
           ),
           filled: true,
-          fillColor: palette.surface,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: palette.border),
+          fillColor: colors.inputSurface,
+          border: _specialProductInputBorder(colors),
+          enabledBorder: _specialProductInputBorder(colors),
+          focusedBorder: _specialProductInputBorder(
+            colors,
+            borderColor: colors.accent,
+            width: 1.5,
           ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: palette.border),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: palette.accent, width: 1.5),
-          ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 14,
-            vertical: 12,
-          ),
+          contentPadding: _specialProductInputContentPadding(),
         ),
       ),
     );
@@ -587,31 +646,34 @@ class _DropdownField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: GoogleFonts.dmSans(fontSize: 12, color: palette.text3),
+          style: theme.textTheme.labelMedium?.copyWith(
+            color: colors.tertiaryText,
+            fontWeight: FontWeight.w700,
+          ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: CoolSpace.x1),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14),
+          padding: _specialProductDropdownPadding(),
           decoration: BoxDecoration(
-            color: palette.surface,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: palette.border),
+            color: colors.inputSurface,
+            borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.xs)),
+            border: Border.all(color: colors.border),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               value: value,
               isExpanded: true,
-              dropdownColor: palette.surface,
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
-                color: palette.text,
-                fontWeight: FontWeight.w500,
+              dropdownColor: colors.overlaySurface,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colors.primaryText,
+                fontWeight: FontWeight.w600,
               ),
               items: items
                   .map((e) => DropdownMenuItem(value: e, child: Text(e)))
