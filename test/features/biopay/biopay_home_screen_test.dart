@@ -4,19 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../helpers/test_bootstrap.dart';
+
 void main() {
   testWidgets('shows model asset warning when BioPay model is unavailable', (
     tester,
   ) async {
+    final container = createTestContainer(
+      overrides: [
+        biopayModelAssetIssueProvider.overrideWith(
+          (ref) async => 'BioPay face model is not bundled in this build yet.',
+        ),
+        biopayProfileProvider.overrideWith((ref) async => null),
+      ],
+    );
+
     await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          biopayModelAssetIssueProvider.overrideWith(
-            (ref) async =>
-                'BioPay face model is not bundled in this build yet.',
-          ),
-          biopayProfileProvider.overrideWith((ref) async => null),
-        ],
+      UncontrolledProviderScope(
+        container: container,
         child: const MaterialApp(home: BiopayHomeScreen()),
       ),
     );
