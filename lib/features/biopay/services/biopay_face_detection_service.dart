@@ -66,6 +66,9 @@ class BiopayFaceDetectionService {
           faceAreaRatio: areaRatio,
           stableCount: _stableCount,
           rotationDegrees: rotationDegrees,
+          headYaw: face.headEulerAngleY,
+          leftEyeOpenProbability: face.leftEyeOpenProbability,
+          rightEyeOpenProbability: face.rightEyeOpenProbability,
         );
       }
       return BiopayFaceFrameAnalysis(
@@ -76,6 +79,9 @@ class BiopayFaceDetectionService {
         faceAreaRatio: areaRatio,
         stableCount: _stableCount,
         rotationDegrees: rotationDegrees,
+        headYaw: face.headEulerAngleY,
+        leftEyeOpenProbability: face.leftEyeOpenProbability,
+        rightEyeOpenProbability: face.rightEyeOpenProbability,
       );
     }
 
@@ -88,6 +94,9 @@ class BiopayFaceDetectionService {
       faceAreaRatio: areaRatio,
       stableCount: _stableCount,
       rotationDegrees: rotationDegrees,
+      headYaw: face.headEulerAngleY,
+      leftEyeOpenProbability: face.leftEyeOpenProbability,
+      rightEyeOpenProbability: face.rightEyeOpenProbability,
     );
   }
 

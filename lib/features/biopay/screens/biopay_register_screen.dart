@@ -304,7 +304,7 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
                       setState(() => _consentAccepted = value ?? false);
                     },
                     title: Text(
-                      'I consent to store a BioPay face embedding and payout route for payment matching.',
+                      'I consent to BioPay face embedding and payout route storage.',
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: colors.primaryText,
                         fontWeight: FontWeight.w600,
@@ -312,7 +312,7 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
                       ),
                     ),
                     subtitle: Text(
-                      'BioPay processes live camera frames in memory to create a biometric face template, stores that template with consent and payout-route metadata in Supabase, and lets you revoke the enrollment later from this screen.',
+                      'Stores face template and payout route. Revoke anytime here.',
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colors.secondaryText,
                         fontWeight: FontWeight.w500,
@@ -324,7 +324,7 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
                 ),
                 SizedBox(height: space.x2),
                 Text(
-                  'Read the Privacy Policy before continuing. The BioPay flow is designed not to save live camera frames to your photo gallery.',
+                  'See Privacy Policy. No camera frames are saved.',
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: colors.secondaryText,
                     fontWeight: FontWeight.w500,

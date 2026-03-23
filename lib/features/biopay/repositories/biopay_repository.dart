@@ -44,11 +44,12 @@ class BiopayRepository {
   Future<BiopayProfile> enroll({
     required BiopayEnrollmentDraft draft,
     required List<double> embedding,
+    Map<String, Object?>? liveness,
   }) async {
     try {
       final response = await _client.functions.invoke(
         'biopay-enroll',
-        body: draft.toPayload(embedding),
+        body: draft.toPayload(embedding, liveness: liveness),
       );
       final payload = jh.asMap(response.data);
       if (payload['success'] != true) {
@@ -71,11 +72,17 @@ class BiopayRepository {
     }
   }
 
-  Future<BiopayMatchResult> matchEmbedding(List<double> embedding) async {
+  Future<BiopayMatchResult> matchEmbedding(
+    List<double> embedding, {
+    Map<String, Object?>? liveness,
+  }) async {
     try {
       final response = await _client.functions.invoke(
         'biopay-match',
-        body: <String, Object?>{'embedding': embedding},
+        body: <String, Object?>{
+          'embedding': embedding,
+          if (liveness != null) 'liveness': liveness,
+        },
       );
       final payload = jh.asMap(response.data);
       if (payload['success'] != true) {

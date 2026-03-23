@@ -25,6 +25,7 @@ import '../services/biopay_auth_gate_service.dart';
 import '../services/biopay_embedding_service.dart';
 import '../services/biopay_face_alignment_service.dart';
 import '../services/biopay_face_detection_service.dart';
+import '../services/biopay_liveness_service.dart';
 import '../widgets/biopay_scanner_shell.dart';
 
 enum BiopayScanMode { enroll, pay }
@@ -44,6 +45,7 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
   final _faceAlignmentService = BiopayFaceAlignmentService();
   final _embeddingService = BiopayEmbeddingService();
   final List<Float32List> _enrollmentEmbeddings = <Float32List>[];
+  late final BiopayLivenessService _livenessService;
 
   CameraController? _controller;
   AppAccessSnapshot? _cameraSnapshot;
@@ -63,6 +65,11 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
   @override
   void initState() {
     super.initState();
+    _livenessService = BiopayLivenessService(
+      mode: widget.mode == BiopayScanMode.enroll
+          ? BiopayLivenessMode.enrollment
+          : BiopayLivenessMode.payment,
+    );
     unawaited(_loadCameraState());
   }
 
@@ -189,6 +196,7 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
           : 'BioPay is analyzing live frames in memory only. Keep one face centered for a fast match.';
       _tone = BiopayScannerTone.searching;
     });
+    _livenessService.reset();
 
     final controller = _controller;
     if (controller == null || controller.value.isStreamingImages) {
@@ -231,12 +239,7 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
         return;
       }
 
-      _applyAnalysisFeedback(analysis, stableFramesRequired);
-      if (!analysis.isStable) {
-        return;
-      }
-
-      if (!_isEmbeddingReady) {
+      if (!_isEmbeddingReady && analysis.faceCount == 1) {
         _setScannerState(
           tone: BiopayScannerTone.error,
           statusLabel: 'Embedding model unavailable',
@@ -244,6 +247,21 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
               _pipelineError ??
               'BioPay face detection is live, but the TFLite model is not ready yet.',
         );
+        return;
+      }
+
+      final livenessAssessment = _livenessService.evaluate(analysis);
+      if (livenessAssessment != null) {
+        _setScannerState(
+          tone: _scannerToneForLiveness(livenessAssessment.level),
+          statusLabel: livenessAssessment.statusLabel,
+          helperText: livenessAssessment.helperText,
+        );
+        return;
+      }
+
+      _applyAnalysisFeedback(analysis, stableFramesRequired);
+      if (!analysis.isStable) {
         return;
       }
 
@@ -424,7 +442,11 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
 
       final profile = await ref
           .read(biopayRepositoryProvider)
-          .enroll(draft: draft, embedding: averaged.toList(growable: false));
+          .enroll(
+            draft: draft,
+            embedding: averaged.toList(growable: false),
+            liveness: _livenessService.submissionMetadata,
+          );
       ref.invalidate(biopayProfileProvider);
       if (!mounted) {
         return;
@@ -470,7 +492,10 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
 
       final result = await ref
           .read(biopayRepositoryProvider)
-          .matchEmbedding(embeddingList);
+          .matchEmbedding(
+            embeddingList,
+            liveness: _livenessService.submissionMetadata,
+          );
 
       if (!mounted) {
         return;
@@ -527,6 +552,14 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
       _statusLabel = statusLabel;
       _helperText = helperText;
     });
+  }
+
+  BiopayScannerTone _scannerToneForLiveness(BiopayLivenessFeedbackLevel level) {
+    return switch (level) {
+      BiopayLivenessFeedbackLevel.searching => BiopayScannerTone.searching,
+      BiopayLivenessFeedbackLevel.ready => BiopayScannerTone.ready,
+      BiopayLivenessFeedbackLevel.blocked => BiopayScannerTone.blocked,
+    };
   }
 
   @override

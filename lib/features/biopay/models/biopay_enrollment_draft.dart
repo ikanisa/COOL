@@ -15,11 +15,15 @@ class BiopayEnrollmentDraft {
   final String countryCode;
   final String consentVersion;
 
-  Map<String, Object?> toPayload(List<double> embedding) {
+  Map<String, Object?> toPayload(
+    List<double> embedding, {
+    Map<String, Object?>? liveness,
+  }) {
     return <String, Object?>{
       'display_name': displayName,
       'consent_version': consentVersion,
       'embedding': embedding,
+      if (liveness != null) 'liveness': liveness,
     };
   }
 }

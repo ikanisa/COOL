@@ -19,6 +19,9 @@ class BiopayFaceFrameAnalysis {
     required this.faceAreaRatio,
     required this.stableCount,
     required this.rotationDegrees,
+    this.headYaw,
+    this.leftEyeOpenProbability,
+    this.rightEyeOpenProbability,
     this.face,
   });
 
@@ -29,6 +32,10 @@ class BiopayFaceFrameAnalysis {
   final double faceAreaRatio;
   final int stableCount;
   final int rotationDegrees;
+  final double? headYaw;
+  final double? leftEyeOpenProbability;
+  final double? rightEyeOpenProbability;
 
   bool get isStable => guidance == BiopayFaceGuidance.stable && face != null;
+  double get absHeadYaw => (headYaw ?? 0).abs();
 }
