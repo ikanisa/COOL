@@ -1,10 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../home/models/nexus_recommendation.dart';
+
+const BorderRadius _aiContentSheetRadius = BorderRadius.vertical(
+  top: Radius.circular(CoolRadii.lg),
+);
+const BorderRadius _aiContentFieldRadius = BorderRadius.all(
+  Radius.circular(CoolRadii.xs),
+);
+const BorderRadius _aiContentHeroRadius = BorderRadius.all(
+  Radius.circular(CoolRadii.md),
+);
+const BorderRadius _aiContentPillRadius = BorderRadius.all(
+  Radius.circular(CoolRadii.pill),
+);
+
+EdgeInsets _aiContentHeaderPadding() =>
+    CoolSpace.pagePadding.copyWith(top: 0, bottom: 0);
+
+EdgeInsets _aiContentListPadding() =>
+    CoolSpace.pagePadding.copyWith(top: 0, bottom: CoolSpace.x7);
+
+EdgeInsets _aiContentFieldPadding() => CoolSpace.sectionPadding.copyWith(
+  left: CoolSpace.x4,
+  right: CoolSpace.x4,
+  top: CoolSpace.x3,
+  bottom: CoolSpace.x3,
+);
+
+EdgeInsets _aiContentDropdownPadding() => CoolSpace.sectionPadding.copyWith(
+  left: CoolSpace.x4,
+  right: CoolSpace.x4,
+  top: CoolSpace.x1,
+  bottom: CoolSpace.x1,
+);
 
 /// Bottom sheet for creating / editing an AI content item.
 class EditAiContentSheet extends StatefulWidget {
@@ -42,8 +74,9 @@ class _EditAiContentSheetState extends State<EditAiContentSheet> {
     _iconCtrl = TextEditingController(text: i?.iconEmoji ?? '✨');
     _ctaActionCtrl = TextEditingController(text: i?.ctaAction ?? '');
     _ctaLabelCtrl = TextEditingController(text: i?.ctaLabel ?? '');
-    _sortOrderCtrl =
-        TextEditingController(text: (i?.sortOrder ?? 0).toString());
+    _sortOrderCtrl = TextEditingController(
+      text: (i?.sortOrder ?? 0).toString(),
+    );
     _contentType = i?.contentType ?? AiContentType.recommendation;
     _status = i?.status ?? AiContentStatus.draft;
     _country = i?.country;
@@ -64,12 +97,17 @@ class _EditAiContentSheetState extends State<EditAiContentSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final isCreate = widget.initial == null;
 
     return Container(
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.88,
+      ),
+      decoration: BoxDecoration(
+        color: colors.overlaySurface,
+        borderRadius: _aiContentSheetRadius,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -79,24 +117,36 @@ class _EditAiContentSheetState extends State<EditAiContentSheet> {
             width: 44,
             height: 4,
             decoration: BoxDecoration(
-              color: palette.text3.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(99),
+              color: colors.borderStrong,
+              borderRadius: _aiContentPillRadius,
             ),
           ),
           const SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 22),
+            padding: _aiContentHeaderPadding(),
             child: Row(
               children: [
-                Icon(Icons.auto_awesome_rounded,
-                    color: palette.accent, size: 22),
-                const SizedBox(width: 10),
-                Text(
-                  isCreate ? 'New AI Content' : 'Edit AI Content',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                    color: palette.text,
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: colors.accent.withValues(alpha: 0.12),
+                    borderRadius: _aiContentHeroRadius,
+                  ),
+                  child: Icon(
+                    Icons.auto_awesome_rounded,
+                    color: colors.accent,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    isCreate ? 'New AI Content' : 'Edit AI Content',
+                    style: theme.textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.w800,
+                      color: colors.primaryText,
+                    ),
                   ),
                 ),
               ],
@@ -105,7 +155,7 @@ class _EditAiContentSheetState extends State<EditAiContentSheet> {
           const SizedBox(height: 20),
           Flexible(
             child: ListView(
-              padding: const EdgeInsets.fromLTRB(22, 0, 22, 32),
+              padding: _aiContentListPadding(),
               children: [
                 _buildTextField(_titleCtrl, 'Title *'),
                 const SizedBox(height: 14),
@@ -124,18 +174,18 @@ class _EditAiContentSheetState extends State<EditAiContentSheet> {
                     const SizedBox(width: 12),
                     Expanded(
                       child: _buildTextField(
-                          _sortOrderCtrl, 'Sort Order',
-                          keyboardType: TextInputType.number),
+                        _sortOrderCtrl,
+                        'Sort Order',
+                        keyboardType: TextInputType.number,
+                      ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 14),
-                _buildTextField(_ctaActionCtrl, 'CTA Route (e.g. /momo)'),
+                _buildTextField(_ctaActionCtrl, 'CTA Route'),
                 const SizedBox(height: 14),
-                _buildTextField(_ctaLabelCtrl, 'CTA Label (e.g. Open)'),
+                _buildTextField(_ctaLabelCtrl, 'CTA Label'),
                 const SizedBox(height: 18),
-
-                // ── Type dropdown ──────────────────────────
                 _buildDropdown<AiContentType>(
                   label: 'Content Type',
                   value: _contentType,
@@ -144,8 +194,6 @@ class _EditAiContentSheetState extends State<EditAiContentSheet> {
                   onChanged: (v) => setState(() => _contentType = v!),
                 ),
                 const SizedBox(height: 14),
-
-                // ── Status dropdown ────────────────────────
                 _buildDropdown<AiContentStatus>(
                   label: 'Status',
                   value: _status,
@@ -154,8 +202,6 @@ class _EditAiContentSheetState extends State<EditAiContentSheet> {
                   onChanged: (v) => setState(() => _status = v!),
                 ),
                 const SizedBox(height: 14),
-
-                // ── Country dropdown ───────────────────────
                 _buildDropdown<String?>(
                   label: 'Country',
                   value: _country,
@@ -164,37 +210,10 @@ class _EditAiContentSheetState extends State<EditAiContentSheet> {
                   onChanged: (v) => setState(() => _country = v),
                 ),
                 const SizedBox(height: 24),
-
-                // ── Save button ────────────────────────────
-                SizedBox(
-                  width: double.infinity,
-                  height: 52,
-                  child: ElevatedButton(
-                    onPressed: _saving ? null : _onSave,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: palette.accent,
-                      foregroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                    child: _saving
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.black,
-                            ),
-                          )
-                        : Text(
-                            isCreate ? 'Create' : 'Save Changes',
-                            style: GoogleFonts.dmSans(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                  ),
+                CoolButton(
+                  label: isCreate ? 'Create Content' : 'Save Content',
+                  onTap: _onSave,
+                  isLoading: _saving,
                 ),
               ],
             ),
@@ -210,36 +229,32 @@ class _EditAiContentSheetState extends State<EditAiContentSheet> {
     int maxLines = 1,
     TextInputType keyboardType = TextInputType.text,
   }) {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return TextField(
       controller: controller,
       maxLines: maxLines,
       keyboardType: keyboardType,
-      style: GoogleFonts.dmSans(
-        fontSize: 14,
-        color: AppColors.text,
+      style: theme.textTheme.bodyMedium?.copyWith(
+        color: colors.primaryText,
+        fontWeight: FontWeight.w600,
       ),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: GoogleFonts.dmSans(
-          fontSize: 13,
-          color: AppColors.text3,
+        labelStyle: theme.textTheme.bodySmall?.copyWith(
+          color: colors.tertiaryText,
+          fontWeight: FontWeight.w600,
         ),
         filled: true,
-        fillColor: AppColors.surface,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: AppColors.border),
+        fillColor: colors.inputSurface,
+        border: _aiContentInputBorder(colors),
+        enabledBorder: _aiContentInputBorder(colors),
+        focusedBorder: _aiContentInputBorder(
+          colors,
+          borderColor: colors.accent,
+          width: 2,
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: AppColors.border),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: AppColors.accent, width: 2),
-        ),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        contentPadding: _aiContentFieldPadding(),
       ),
     );
   }
@@ -251,40 +266,34 @@ class _EditAiContentSheetState extends State<EditAiContentSheet> {
     required String Function(T) itemLabel,
     required ValueChanged<T?> onChanged,
   }) {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return InputDecorator(
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: GoogleFonts.dmSans(
-          fontSize: 13,
-          color: AppColors.text3,
+        labelStyle: theme.textTheme.bodySmall?.copyWith(
+          color: colors.tertiaryText,
+          fontWeight: FontWeight.w600,
         ),
         filled: true,
-        fillColor: AppColors.surface,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: AppColors.border),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: AppColors.border),
-        ),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        fillColor: colors.inputSurface,
+        border: _aiContentInputBorder(colors),
+        enabledBorder: _aiContentInputBorder(colors),
+        contentPadding: _aiContentDropdownPadding(),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<T>(
           value: value,
           isExpanded: true,
-          dropdownColor: AppColors.bg,
-          style: GoogleFonts.dmSans(
-            fontSize: 14,
-            color: AppColors.text,
+          dropdownColor: colors.overlaySurface,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: colors.primaryText,
+            fontWeight: FontWeight.w600,
           ),
           items: items
-              .map((e) => DropdownMenuItem(
-                    value: e,
-                    child: Text(itemLabel(e)),
-                  ))
+              .map(
+                (e) => DropdownMenuItem<T>(value: e, child: Text(itemLabel(e))),
+              )
               .toList(),
           onChanged: onChanged,
         ),
@@ -319,4 +328,15 @@ class _EditAiContentSheetState extends State<EditAiContentSheet> {
     await widget.onSave(item);
     if (mounted) setState(() => _saving = false);
   }
+}
+
+OutlineInputBorder _aiContentInputBorder(
+  CoolSemanticColors colors, {
+  Color? borderColor,
+  double width = 1,
+}) {
+  return OutlineInputBorder(
+    borderRadius: _aiContentFieldRadius,
+    borderSide: BorderSide(color: borderColor ?? colors.border, width: width),
+  );
 }

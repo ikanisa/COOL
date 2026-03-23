@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 /// Admin-managed special product (e.g. Burimunci daily savings).
 class SpecialProduct {
+  static const String _defaultColorHex = '#C9A84C';
+
   const SpecialProduct({
     required this.id,
     required this.slug,
@@ -11,7 +13,7 @@ class SpecialProduct {
     required this.amount,
     this.currency = 'RWF',
     this.iconName = 'star',
-    this.colorHex = '#C9A84C',
+    this.colorHex = _defaultColorHex,
     this.interestRate,
     this.loanMultiplier,
     required this.momoRecipient,
@@ -48,7 +50,7 @@ class SpecialProduct {
       amount: (json['amount'] as num?)?.toInt() ?? 0,
       currency: json['currency']?.toString() ?? 'RWF',
       iconName: json['icon_name']?.toString() ?? 'star',
-      colorHex: json['color_hex']?.toString() ?? '#C9A84C',
+      colorHex: json['color_hex']?.toString() ?? _defaultColorHex,
       interestRate: json['interest_rate']?.toString(),
       loanMultiplier: json['loan_multiplier']?.toString(),
       momoRecipient: json['momo_recipient']?.toString() ?? '',
@@ -79,11 +81,19 @@ class SpecialProduct {
   };
 
   Color get accentColor {
+    final parsed = _parseColor(colorHex);
+    if (parsed != null) {
+      return parsed;
+    }
+    return _parseColor(_defaultColorHex) ?? Colors.amber;
+  }
+
+  Color? _parseColor(String value) {
     try {
-      final hex = colorHex.replaceFirst('#', '');
+      final hex = value.replaceFirst('#', '');
       return Color(int.parse('FF$hex', radix: 16));
     } catch (_) {
-      return const Color(0xFFC9A84C);
+      return null;
     }
   }
 

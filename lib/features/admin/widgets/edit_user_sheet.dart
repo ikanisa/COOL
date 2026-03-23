@@ -1,10 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_providers.dart';
+
+const BorderRadius _editUserSheetRadius = BorderRadius.vertical(
+  top: Radius.circular(CoolRadii.lg),
+);
+
+const BorderRadius _editUserHandleRadius = BorderRadius.all(
+  Radius.circular(CoolRadii.pill),
+);
+
+const BorderRadius _editUserFieldRadius = BorderRadius.all(
+  Radius.circular(CoolRadii.xs),
+);
+
+EdgeInsets _editUserSheetInsets(BuildContext context) {
+  final space = context.coolSpace;
+  return CoolSpace.pagePadding.copyWith(
+    top: space.x3,
+    bottom: MediaQuery.of(context).viewInsets.bottom + space.x6,
+  );
+}
+
+EdgeInsets _editUserFieldPadding() => CoolSpace.sectionPadding.copyWith(
+  left: CoolSpace.x3,
+  right: CoolSpace.x3,
+  top: CoolSpace.x3,
+  bottom: CoolSpace.x3,
+);
+
+OutlineInputBorder _editUserInputBorder(
+  CoolSemanticColors colors, {
+  Color? color,
+  double width = 1,
+}) {
+  return OutlineInputBorder(
+    borderRadius: _editUserFieldRadius,
+    borderSide: BorderSide(color: color ?? colors.border, width: width),
+  );
+}
 
 /// Bottom sheet for editing a user's admin fields.
 class EditUserSheet extends ConsumerStatefulWidget {
@@ -48,7 +86,10 @@ class _EditUserSheetState extends ConsumerState<EditUserSheet> {
     setState(() => _isSaving = true);
 
     final userId = widget.user['id']?.toString();
-    if (userId == null || userId.isEmpty) return;
+    if (userId == null || userId.isEmpty) {
+      if (mounted) setState(() => _isSaving = false);
+      return;
+    }
 
     try {
       final fields = <String, dynamic>{
@@ -76,106 +117,92 @@ class _EditUserSheetState extends ConsumerState<EditUserSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final userId = widget.user['id']?.toString() ?? '';
     final phone = widget.user['phone']?.toString() ?? '';
 
-    return SizedBox(
+    return Container(
+      decoration: BoxDecoration(
+        color: colors.overlaySurface,
+        borderRadius: _editUserSheetRadius,
+      ),
       child: SafeArea(
         top: false,
         child: Padding(
-          padding: EdgeInsets.fromLTRB(
-            22,
-            12,
-            22,
-            MediaQuery.of(context).viewInsets.bottom + 22,
-          ),
+          padding: _editUserSheetInsets(context),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Handle
               Center(
                 child: Container(
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: palette.border,
-                    borderRadius: BorderRadius.circular(2),
+                    color: colors.borderStrong,
+                    borderRadius: _editUserHandleRadius,
                   ),
                 ),
               ),
               const SizedBox(height: 20),
-
               Text(
                 'Edit User',
-                style: GoogleFonts.dmSans(
-                  fontSize: 20,
+                style: theme.textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.w800,
-                  color: palette.text,
+                  color: colors.primaryText,
                 ),
               ),
               const SizedBox(height: 4),
               Text(
                 '$phone · ${userId.substring(0, 8.clamp(0, userId.length))}',
-                style: GoogleFonts.dmSans(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  color: palette.text3,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colors.tertiaryText,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               const SizedBox(height: 20),
-
-              // Full name
               const _FieldLabel('Full name'),
               const SizedBox(height: 6),
               _EditInput(controller: _nameController),
               const SizedBox(height: 16),
-
-              // Admin toggle
               Row(
                 children: [
                   Expanded(
                     child: Text(
                       'Platform Admin',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.orange,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: colors.warning,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
                   Switch.adaptive(
                     value: _isAdmin,
                     onChanged: (v) => setState(() => _isAdmin = v),
-                    activeTrackColor: Colors.orange,
+                    activeTrackColor: colors.warning,
                   ),
                 ],
               ),
               const SizedBox(height: 8),
-
-              // Driver toggle
               Row(
                 children: [
                   Expanded(
                     child: Text(
                       'Driver',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: palette.text,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: colors.primaryText,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
                   Switch.adaptive(
                     value: _isDriver,
                     onChanged: (v) => setState(() => _isDriver = v),
-                    activeTrackColor: palette.accent,
+                    activeTrackColor: colors.accent,
                   ),
                 ],
               ),
-
-              // Vehicle type (only when driver)
               if (_isDriver) ...[
                 const SizedBox(height: 8),
                 const _FieldLabel('Vehicle type'),
@@ -186,37 +213,10 @@ class _EditUserSheetState extends ConsumerState<EditUserSheet> {
                 ),
               ],
               const SizedBox(height: 24),
-
-              // Save
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton(
-                  onPressed: _isSaving ? null : _save,
-                  style: FilledButton.styleFrom(
-                    backgroundColor: palette.accent,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                  ),
-                  child: _isSaving
-                      ? const SizedBox(
-                          width: 18,
-                          height: 18,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
-                          ),
-                        )
-                      : Text(
-                          'Save',
-                          style: GoogleFonts.dmSans(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 15,
-                          ),
-                        ),
-                ),
+              CoolButton(
+                label: 'Save User',
+                onTap: _save,
+                isLoading: _isSaving,
               ),
             ],
           ),
@@ -232,13 +232,13 @@ class _FieldLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Text(
       text,
-      style: GoogleFonts.dmSans(
-        fontSize: 12,
+      style: theme.textTheme.labelMedium?.copyWith(
         fontWeight: FontWeight.w700,
-        color: palette.text3,
+        color: colors.tertiaryText,
         letterSpacing: 0.4,
       ),
     );
@@ -252,30 +252,28 @@ class _EditInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return TextField(
       controller: controller,
-      style: GoogleFonts.dmSans(fontSize: 14, color: palette.text),
+      style: theme.textTheme.bodyMedium?.copyWith(
+        color: colors.primaryText,
+        fontWeight: FontWeight.w600,
+      ),
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: GoogleFonts.dmSans(fontSize: 13, color: palette.text3),
+        hintStyle: theme.textTheme.bodySmall?.copyWith(
+          color: colors.tertiaryText,
+        ),
         filled: true,
-        fillColor: palette.bg,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 14,
-          vertical: 12,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: palette.border),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: palette.border),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: palette.accent, width: 1.5),
+        fillColor: colors.inputSurface,
+        contentPadding: _editUserFieldPadding(),
+        border: _editUserInputBorder(colors),
+        enabledBorder: _editUserInputBorder(colors),
+        focusedBorder: _editUserInputBorder(
+          colors,
+          color: colors.accent,
+          width: 1.5,
         ),
       ),
     );
