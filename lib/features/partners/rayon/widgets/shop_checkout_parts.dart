@@ -84,8 +84,8 @@ class _CheckoutCommandCard extends StatelessWidget {
                   children: [
                     Text(
                       'Official Checkout Desk',
-                      style: GoogleFonts.barlow(
-                        fontSize: 28,
+                      style: context.coolText.rayon(
+                        const TextStyle(fontSize: 28),
                         fontWeight: FontWeight.w900,
                         color: Colors.white,
                       ),
@@ -93,8 +93,8 @@ class _CheckoutCommandCard extends StatelessWidget {
                     const SizedBox(height: 6),
                     Text(
                       'Verified club fulfilment, disciplined totals, and payment confirmation before release.',
-                      style: GoogleFonts.barlow(
-                        fontSize: 15,
+                      style: context.coolText.rayon(
+                        const TextStyle(fontSize: 15),
                         fontWeight: FontWeight.w600,
                         color: Colors.white.withValues(alpha: 0.8),
                         height: 1.4,
@@ -183,8 +183,8 @@ class _CheckoutSignalChip extends StatelessWidget {
           const SizedBox(width: 6),
           Text(
             label,
-            style: GoogleFonts.barlow(
-              fontSize: 16,
+            style: context.coolText.rayon(
+              const TextStyle(fontSize: 16),
               fontWeight: FontWeight.w800,
               color: highlighted ? RsColors.rsGoldLight : Colors.white,
             ),
@@ -376,8 +376,8 @@ class _CheckoutLineItemRow extends StatelessWidget {
             children: [
               Text(
                 product.name,
-                style: GoogleFonts.barlow(
-                  fontSize: 16,
+                style: context.coolText.rayon(
+                  const TextStyle(fontSize: 16),
                   fontWeight: FontWeight.w800,
                   color: colors.primaryText,
                 ),
@@ -441,8 +441,8 @@ class _ShopCheckoutActionCard extends StatelessWidget {
         children: [
           Text(
             'Fulfilment and payment',
-            style: GoogleFonts.barlow(
-              fontSize: 22,
+            style: context.coolText.rayon(
+              const TextStyle(fontSize: 22),
               fontWeight: FontWeight.w800,
               color: colors.primaryText,
             ),
@@ -450,8 +450,8 @@ class _ShopCheckoutActionCard extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             'Leave the address empty for club pickup. Add a destination only when delivery should be coordinated.',
-            style: GoogleFonts.barlow(
-              fontSize: 15,
+            style: context.coolText.rayon(
+              const TextStyle(fontSize: 15),
               fontWeight: FontWeight.w600,
               color: colors.secondaryText,
               height: 1.4,
@@ -511,8 +511,8 @@ class _ShopCheckoutActionCard extends StatelessWidget {
                     children: [
                       Text(
                         paymentTitle,
-                        style: GoogleFonts.barlow(
-                          fontSize: 14,
+                        style: context.coolText.rayon(
+                          const TextStyle(fontSize: 14),
                           fontWeight: FontWeight.w800,
                           color: RsColors.rsWhite,
                         ),
@@ -520,8 +520,8 @@ class _ShopCheckoutActionCard extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         paymentBody,
-                        style: GoogleFonts.barlow(
-                          fontSize: 16,
+                        style: context.coolText.rayon(
+                          const TextStyle(fontSize: 16),
                           fontWeight: FontWeight.w600,
                           color: colors.secondaryText,
                           height: 1.45,
@@ -673,8 +673,8 @@ class _OrderSummary extends StatelessWidget {
         children: [
           Text(
             'Order syncing',
-            style: GoogleFonts.barlow(
-              fontSize: 14,
+            style: context.coolText.rayon(
+              const TextStyle(fontSize: 14),
               fontWeight: FontWeight.w700,
               color: RsColors.rsWhite,
             ),
@@ -682,8 +682,8 @@ class _OrderSummary extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             'Order created',
-            style: GoogleFonts.barlow(
-              fontSize: 15,
+            style: context.coolText.rayon(
+              const TextStyle(fontSize: 15),
               fontWeight: FontWeight.w700,
               color: colors.secondaryText,
               height: 1.4,
@@ -701,8 +701,8 @@ class _OrderSummary extends StatelessWidget {
             Expanded(
               child: Text(
                 'Order ${orderValue.status.label.toUpperCase()}',
-                style: GoogleFonts.barlow(
-                  fontSize: 14,
+                style: context.coolText.rayon(
+                  const TextStyle(fontSize: 14),
                   fontWeight: FontWeight.w700,
                   color: RsColors.rsWhite,
                 ),
@@ -734,8 +734,8 @@ class _OrderSummary extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             'Fulfillment starts after payment',
-            style: GoogleFonts.barlow(
-              fontSize: 15,
+            style: context.coolText.rayon(
+              const TextStyle(fontSize: 15),
               fontWeight: FontWeight.w600,
               color: RsColors.rsGoldLight,
               height: 1.35,
@@ -760,8 +760,8 @@ class _OrderSummaryLoading extends StatelessWidget {
       children: [
         Text(
           'Checking backend order state...',
-          style: GoogleFonts.barlow(
-            fontSize: 14,
+          style: context.coolText.rayon(
+            const TextStyle(fontSize: 14),
             fontWeight: FontWeight.w700,
             color: RsColors.rsWhite,
           ),
@@ -769,8 +769,8 @@ class _OrderSummaryLoading extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           'Order created',
-          style: GoogleFonts.barlow(
-            fontSize: 15,
+          style: context.coolText.rayon(
+            const TextStyle(fontSize: 15),
             fontWeight: FontWeight.w700,
             color: colors.secondaryText,
             height: 1.4,
@@ -798,8 +798,8 @@ class _OrderSummaryError extends StatelessWidget {
       children: [
         Text(
           'Order status unavailable',
-          style: GoogleFonts.barlow(
-            fontSize: 14,
+          style: context.coolText.rayon(
+            const TextStyle(fontSize: 14),
             fontWeight: FontWeight.w700,
             color: RsColors.rsWhite,
           ),
@@ -807,8 +807,8 @@ class _OrderSummaryError extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           'Order created',
-          style: GoogleFonts.barlow(
-            fontSize: 15,
+          style: context.coolText.rayon(
+            const TextStyle(fontSize: 15),
             fontWeight: FontWeight.w700,
             color: colors.secondaryText,
             height: 1.4,
@@ -842,8 +842,8 @@ class _OrderStatusChip extends StatelessWidget {
       ),
       child: Text(
         status.label.toUpperCase(),
-        style: GoogleFonts.barlow(
-          fontSize: 14,
+        style: context.coolText.rayon(
+          const TextStyle(fontSize: 14),
           fontWeight: FontWeight.w800,
           color: color,
           letterSpacing: 0.6,
@@ -887,8 +887,8 @@ class _EmptyCheckout extends StatelessWidget {
             Text(
               'Add products from the',
               textAlign: TextAlign.center,
-              style: GoogleFonts.barlow(
-                fontSize: 15,
+              style: context.coolText.rayon(
+                const TextStyle(fontSize: 15),
                 fontWeight: FontWeight.w600,
                 color: colors.secondaryText,
               ),
@@ -896,8 +896,8 @@ class _EmptyCheckout extends StatelessWidget {
             const SizedBox(height: CoolSpace.x2),
             Text(
               'Your cart is empty',
-              style: GoogleFonts.barlowCondensed(
-                fontSize: 30,
+              style: context.coolText.rayonCondensed(
+                const TextStyle(fontSize: 30),
                 fontWeight: FontWeight.w900,
                 color: Colors.white,
               ),

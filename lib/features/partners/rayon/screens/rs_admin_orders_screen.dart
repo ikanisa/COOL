@@ -387,8 +387,8 @@ class _OrderDetailCommandCard extends StatelessWidget {
         children: [
           Text(
             'Official Fulfilment Order',
-            style: GoogleFonts.barlow(
-              fontSize: 13,
+            style: context.coolText.rayon(
+              const TextStyle(fontSize: 13),
               fontWeight: FontWeight.w800,
               letterSpacing: 0.5,
               color: colors.secondaryText,
@@ -399,8 +399,8 @@ class _OrderDetailCommandCard extends StatelessWidget {
             context.l10n.rsAdminOrderNumber(
               order.id.substring(0, 8).toUpperCase(),
             ),
-            style: GoogleFonts.barlowCondensed(
-              fontSize: 28,
+            style: context.coolText.rayonCondensed(
+              const TextStyle(fontSize: 28),
               fontWeight: FontWeight.w900,
               color: colors.primaryText,
               height: 0.96,
@@ -513,8 +513,8 @@ class _OrderTile extends StatelessWidget {
                     children: [
                       Text(
                         '#${order.id.substring(0, 8).toUpperCase()}',
-                        style: GoogleFonts.barlowCondensed(
-                          fontSize: 28,
+                        style: context.coolText.rayonCondensed(
+                          const TextStyle(fontSize: 28),
                           fontWeight: FontWeight.w900,
                           color: colors.primaryText,
                           height: 0.95,

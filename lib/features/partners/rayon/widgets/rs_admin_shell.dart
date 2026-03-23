@@ -97,8 +97,8 @@ class RsAdminShell extends StatelessWidget {
                         const SizedBox(height: CoolSpace.x3),
                         Text(
                           title,
-                          style: GoogleFonts.barlowCondensed(
-                            fontSize: 44,
+                          style: context.coolText.rayonCondensed(
+                            const TextStyle(fontSize: 44),
                             fontWeight: FontWeight.w900,
                             color: RsColors.rsWhite,
                             height: 0.94,
@@ -197,8 +197,8 @@ class _MetricChip extends StatelessWidget {
           const SizedBox(height: CoolSpace.x1),
           Text(
             label.toUpperCase(),
-            style: GoogleFonts.barlow(
-              fontSize: 13,
+            style: context.coolText.rayon(
+              const TextStyle(fontSize: 13),
               fontWeight: FontWeight.w700,
               color: Colors.white.withValues(alpha: 0.78),
             ),

@@ -236,7 +236,7 @@ class _AdminCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     return Semantics(
       button: true,
       label: '${section.title}. ${section.subtitle}',
@@ -248,7 +248,7 @@ class _AdminCard extends StatelessWidget {
           context.push(section.route);
         },
         semanticsLabel: '${section.title}. ${section.subtitle}',
-        borderColor: palette.border2,
+        borderColor: colors.borderStrong,
         child: Row(
           children: [
             Container(
@@ -269,19 +269,19 @@ class _AdminCard extends StatelessWidget {
                 children: [
                   Text(
                     section.title,
-                    style: GoogleFonts.barlow(
-                      fontSize: 16,
+                    style: context.coolText.rayon(
+                      const TextStyle(fontSize: 16),
                       fontWeight: FontWeight.w700,
-                      color: palette.text,
+                      color: colors.primaryText,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     section.subtitle,
-                    style: GoogleFonts.barlow(
-                      fontSize: 13,
+                    style: context.coolText.rayon(
+                      const TextStyle(fontSize: 13),
                       fontWeight: FontWeight.w500,
-                      color: palette.text2,
+                      color: colors.secondaryText,
                       height: 1.35,
                     ),
                   ),
@@ -289,7 +289,11 @@ class _AdminCard extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 12),
-            Icon(Icons.arrow_forward_rounded, size: 18, color: palette.text2),
+            Icon(
+              Icons.arrow_forward_rounded,
+              size: 18,
+              color: colors.secondaryText,
+            ),
           ],
         ),
       ),
@@ -309,32 +313,35 @@ class _RevenueCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: palette.surface,
+          color: colors.elevatedBackground,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: palette.border),
+          border: Border.all(color: colors.border),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(icon, size: 16, color: palette.accent),
+            Icon(icon, size: 16, color: colors.accent),
             const SizedBox(height: 6),
             Text(
               value,
               style: GoogleFonts.dmSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
-                color: palette.text,
+                color: colors.primaryText,
               ),
             ),
             const SizedBox(height: 2),
             Text(
               label,
-              style: GoogleFonts.dmSans(fontSize: 10, color: palette.text3),
+              style: GoogleFonts.dmSans(
+                fontSize: 10,
+                color: colors.tertiaryText,
+              ),
             ),
           ],
         ),
@@ -395,14 +402,14 @@ class _TierChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     return Expanded(
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
-          color: palette.surface,
+          color: colors.elevatedBackground,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: palette.border),
+          border: Border.all(color: colors.border),
         ),
         child: Column(
           children: [
@@ -413,12 +420,15 @@ class _TierChip extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
-                color: palette.text,
+                color: colors.primaryText,
               ),
             ),
             Text(
               label,
-              style: GoogleFonts.dmSans(fontSize: 10, color: palette.text3),
+              style: GoogleFonts.dmSans(
+                fontSize: 10,
+                color: colors.tertiaryText,
+              ),
             ),
           ],
         ),

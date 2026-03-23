@@ -24,15 +24,14 @@ class MembershipTiersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final palette = context.coolPalette;
     return Consumer(
       builder: (context, ref, _) {
-        final palette = context.coolPalette;
+        final colors = context.coolSemanticColors;
         final membershipAsync = ref.watch(rayonUserMembershipProvider);
         final packagesAsync = ref.watch(rayonMembershipPackagesProvider);
 
         return Scaffold(
-          backgroundColor: palette.bg,
+          backgroundColor: colors.appBackground,
           body: CoolScreenBackground(
             primaryColor: RsColors.rsBlue,
             secondaryColor: RsColors.rsGold,
@@ -96,7 +95,7 @@ class MembershipTiersScreen extends StatelessWidget {
                       child: Center(
                         child: Text(
                           'Could not load membership info',
-                          style: GoogleFonts.dmSans(color: palette.text3),
+                          style: GoogleFonts.dmSans(color: colors.tertiaryText),
                         ),
                       ),
                     ),
@@ -162,7 +161,6 @@ class _IntroCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final palette = context.coolPalette;
     final nextTier = currentTier.index < FanTier.values.length - 1
         ? FanTier.values[currentTier.index + 1]
         : null;
@@ -180,8 +178,8 @@ class _IntroCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   'You are a ${currentTier.label}',
-                  style: GoogleFonts.barlow(
-                    fontSize: 18,
+                  style: context.coolText.rayon(
+                    const TextStyle(fontSize: 18),
                     fontWeight: FontWeight.w800,
                     color: RsColors.rsWhite,
                   ),
@@ -209,10 +207,10 @@ class _IntroCard extends StatelessWidget {
             const SizedBox(height: 10),
             Text(
               'Top tier reached!',
-              style: GoogleFonts.barlow(
-                fontSize: 13,
+              style: context.coolText.rayon(
+                const TextStyle(fontSize: 13),
                 fontWeight: FontWeight.w600,
-                color: palette.text2,
+                color: colors.secondaryText,
                 height: 1.45,
               ),
             ),
@@ -237,7 +235,6 @@ class _ProgressToNext extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final palette = context.coolPalette;
     final floor = currentTier.minPoints;
     final ceiling = nextTier.minPoints;
     final span = ceiling - floor;
@@ -253,10 +250,10 @@ class _ProgressToNext extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           '$remaining Tokens to ${nextTier.label}',
-          style: GoogleFonts.barlow(
-            fontSize: 12,
+          style: context.coolText.rayon(
+            const TextStyle(fontSize: 12),
             fontWeight: FontWeight.w600,
-            color: palette.text2,
+            color: colors.secondaryText,
           ),
         ),
       ],
@@ -282,7 +279,6 @@ class _TierCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final palette = context.coolPalette;
     final tier = package.tier;
 
     return CoolCard(
@@ -290,12 +286,12 @@ class _TierCard extends StatelessWidget {
           ? LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [tier.color.withValues(alpha: 0.18), palette.surface2],
+              colors: [tier.color.withValues(alpha: 0.18), colors.cardSurface],
             )
           : colors.surfaceGradient,
       borderColor: isCurrent
           ? tier.color.withValues(alpha: 0.5)
-          : palette.border,
+          : colors.border,
       child: Padding(
         padding: const EdgeInsets.all(18),
         child: Column(
@@ -318,7 +314,7 @@ class _TierCard extends StatelessWidget {
                   child: Icon(
                     _tierIcon(tier),
                     size: 22,
-                    color: isUnlocked ? tier.color : palette.text3,
+                    color: isUnlocked ? tier.color : colors.tertiaryText,
                   ),
                 ),
                 const SizedBox(width: 14),
@@ -328,19 +324,21 @@ class _TierCard extends StatelessWidget {
                     children: [
                       Text(
                         package.title,
-                        style: GoogleFonts.barlow(
-                          fontSize: 20,
+                        style: context.coolText.rayon(
+                          const TextStyle(fontSize: 20),
                           fontWeight: FontWeight.w800,
-                          color: isUnlocked ? RsColors.rsWhite : palette.text3,
+                          color: isUnlocked
+                              ? RsColors.rsWhite
+                              : colors.tertiaryText,
                         ),
                       ),
                       const SizedBox(height: 2),
                       Text(
                         package.subtitle,
-                        style: GoogleFonts.barlow(
-                          fontSize: 12,
+                        style: context.coolText.rayon(
+                          const TextStyle(fontSize: 12),
                           fontWeight: FontWeight.w500,
-                          color: palette.text2,
+                          color: colors.secondaryText,
                         ),
                       ),
                     ],
@@ -355,13 +353,13 @@ class _TierCard extends StatelessWidget {
                 else if (isUnlocked)
                   _StatusChip(
                     label: context.l10n.unlocked,
-                    color: palette.accent,
+                    color: colors.accent,
                     filled: false,
                   )
                 else
                   _StatusChip(
                     label: '${tier.minPoints} Tokens',
-                    color: palette.text3,
+                    color: colors.tertiaryText,
                     filled: false,
                   ),
               ],
@@ -372,12 +370,12 @@ class _TierCard extends StatelessWidget {
             if (package.description.trim().isNotEmpty) ...[
               Text(
                 package.description,
-                style: GoogleFonts.barlow(
-                  fontSize: 12,
+                style: context.coolText.rayon(
+                  const TextStyle(fontSize: 12),
                   fontWeight: FontWeight.w500,
                   color: isUnlocked
-                      ? palette.text2
-                      : palette.text3.withValues(alpha: 0.75),
+                      ? colors.secondaryText
+                      : colors.tertiaryText.withValues(alpha: 0.75),
                   height: 1.4,
                 ),
               ),
@@ -394,7 +392,7 @@ class _TierCard extends StatelessWidget {
                     Icon(
                       _benefitIcon(benefit.title),
                       size: 16,
-                      color: isUnlocked ? tier.color : palette.text3,
+                      color: isUnlocked ? tier.color : colors.tertiaryText,
                     ),
                     const SizedBox(width: 10),
                     Expanded(
@@ -403,23 +401,23 @@ class _TierCard extends StatelessWidget {
                         children: [
                           Text(
                             benefit.title,
-                            style: GoogleFonts.barlow(
-                              fontSize: 14,
+                            style: context.coolText.rayon(
+                              const TextStyle(fontSize: 14),
                               fontWeight: FontWeight.w700,
                               color: isUnlocked
                                   ? RsColors.rsWhite
-                                  : palette.text3,
+                                  : colors.tertiaryText,
                             ),
                           ),
                           const SizedBox(height: 2),
                           Text(
                             benefit.description,
-                            style: GoogleFonts.barlow(
-                              fontSize: 12,
+                            style: context.coolText.rayon(
+                              const TextStyle(fontSize: 12),
                               fontWeight: FontWeight.w500,
                               color: isUnlocked
-                                  ? palette.text2
-                                  : palette.text3.withValues(alpha: 0.6),
+                                  ? colors.secondaryText
+                                  : colors.tertiaryText.withValues(alpha: 0.6),
                               height: 1.35,
                             ),
                           ),
@@ -463,8 +461,8 @@ class _StatusChip extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         child: Text(
           label,
-          style: GoogleFonts.barlow(
-            fontSize: 11,
+          style: context.coolText.rayon(
+            const TextStyle(fontSize: 11),
             fontWeight: FontWeight.w700,
             color: color,
           ),

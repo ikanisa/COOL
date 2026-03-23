@@ -145,8 +145,8 @@ class RsAdminAnalyticsScreen extends ConsumerWidget {
                       children: [
                         Text(
                           'Executive Scoreboard',
-                          style: GoogleFonts.barlow(
-                            fontSize: 13,
+                          style: context.coolText.rayon(
+                            const TextStyle(fontSize: 13),
                             fontWeight: FontWeight.w800,
                             letterSpacing: 0.5,
                             color: Colors.white.withValues(alpha: 0.76),
@@ -155,8 +155,8 @@ class RsAdminAnalyticsScreen extends ConsumerWidget {
                         const SizedBox(height: 8),
                         Text(
                           _money(totalRevenue),
-                          style: GoogleFonts.barlowCondensed(
-                            fontSize: 44,
+                          style: context.coolText.rayonCondensed(
+                            const TextStyle(fontSize: 44),
                             fontWeight: FontWeight.w900,
                             color: Colors.white,
                             height: 0.92,
@@ -316,8 +316,8 @@ class _AnalyticsMetricCard extends StatelessWidget {
                 const SizedBox(height: 6),
                 Text(
                   metric.value,
-                  style: GoogleFonts.barlowCondensed(
-                    fontSize: 30,
+                  style: context.coolText.rayonCondensed(
+                    const TextStyle(fontSize: 30),
                     fontWeight: FontWeight.w900,
                     color: colors.primaryText,
                     height: 0.95,
@@ -362,8 +362,8 @@ class _TierCountCard extends StatelessWidget {
         children: [
           Text(
             '$count',
-            style: GoogleFonts.barlowCondensed(
-              fontSize: 28,
+            style: context.coolText.rayonCondensed(
+              const TextStyle(fontSize: 28),
               fontWeight: FontWeight.w900,
               color: colors.primaryText,
               height: 0.95,

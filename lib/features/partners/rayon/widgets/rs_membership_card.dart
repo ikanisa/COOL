@@ -32,7 +32,7 @@ class RsMembershipCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     return ClipRRect(
       borderRadius: BorderRadius.circular(18),
       child: DecoratedBox(
@@ -77,7 +77,7 @@ class RsMembershipCard extends StatelessWidget {
                       Icon(
                         Icons.favorite_rounded,
                         size: 20,
-                        color: palette.accent,
+                        color: colors.accent,
                       ),
                     ],
                   ),
@@ -91,8 +91,8 @@ class RsMembershipCard extends StatelessWidget {
                   const SizedBox(height: 6),
                   Text(
                     fanId,
-                    style: GoogleFonts.dmMono(
-                      fontSize: 13,
+                    style: context.coolText.mono(
+                      const TextStyle(fontSize: 13),
                       fontWeight: FontWeight.w600,
                       color: RsColors.rsWhite.withValues(alpha: 0.6),
                     ),
@@ -100,8 +100,8 @@ class RsMembershipCard extends StatelessWidget {
                   const SizedBox(height: 6),
                   Text(
                     'Since $year • $chapter',
-                    style: GoogleFonts.barlow(
-                      fontSize: 12,
+                    style: context.coolText.rayon(
+                      const TextStyle(fontSize: 12),
                       fontWeight: FontWeight.w500,
                       color: RsColors.rsWhite.withValues(alpha: 0.5),
                     ),
@@ -142,8 +142,8 @@ class _PerkChip extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         child: Text(
           label,
-          style: GoogleFonts.barlow(
-            fontSize: 11,
+          style: context.coolText.rayon(
+            const TextStyle(fontSize: 11),
             fontWeight: FontWeight.w600,
             color: RsColors.rsWhite.withValues(alpha: 0.85),
             height: 1,

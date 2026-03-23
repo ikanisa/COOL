@@ -54,7 +54,7 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
       ),
       builder: (context) => StatefulBuilder(
         builder: (context, setModalState) {
-          final palette = context.coolPalette;
+          final colors = context.coolSemanticColors;
           return SafeArea(
             top: false,
             child: Padding(
@@ -73,7 +73,7 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
                         width: 42,
                         height: 4,
                         decoration: BoxDecoration(
-                          color: palette.border,
+                          color: colors.border,
                           borderRadius: BorderRadius.circular(999),
                         ),
                       ),
@@ -81,10 +81,10 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
                     const SizedBox(height: 18),
                     Text(
                       'Official ${package.tier.label} Package',
-                      style: GoogleFonts.barlowCondensed(
-                        fontSize: 30,
+                      style: context.coolText.rayonCondensed(
+                        const TextStyle(fontSize: 30),
                         fontWeight: FontWeight.w900,
-                        color: palette.text,
+                        color: colors.primaryText,
                         height: 0.94,
                       ),
                     ),
@@ -94,7 +94,7 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
                       style: GoogleFonts.dmSans(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
-                        color: palette.text2,
+                        color: colors.secondaryText,
                         height: 1.45,
                       ),
                     ),
@@ -345,12 +345,11 @@ class _PackageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final palette = context.coolPalette;
     final tier = package.tier;
     return CoolCard(
       borderColor: package.isActive
           ? tier.color.withValues(alpha: 0.32)
-          : palette.border2,
+          : colors.borderStrong,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -362,19 +361,19 @@ class _PackageCard extends StatelessWidget {
                   children: [
                     Text(
                       package.title,
-                      style: GoogleFonts.barlow(
-                        fontSize: 18,
+                      style: context.coolText.rayon(
+                        const TextStyle(fontSize: 18),
                         fontWeight: FontWeight.w800,
-                        color: palette.text,
+                        color: colors.primaryText,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       package.subtitle,
-                      style: GoogleFonts.barlow(
-                        fontSize: 14,
+                      style: context.coolText.rayon(
+                        const TextStyle(fontSize: 14),
                         fontWeight: FontWeight.w700,
-                        color: palette.text2,
+                        color: colors.secondaryText,
                         height: 1.4,
                       ),
                     ),
@@ -404,7 +403,7 @@ class _PackageCard extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
-                color: palette.text2,
+                color: colors.secondaryText,
                 height: 1.45,
               ),
             ),
@@ -419,7 +418,7 @@ class _PackageCard extends StatelessWidget {
                   Icon(
                     _benefitIcon(benefit.title),
                     size: 16,
-                    color: package.isActive ? tier.color : palette.text3,
+                    color: package.isActive ? tier.color : colors.tertiaryText,
                   ),
                   const SizedBox(width: 10),
                   Expanded(
@@ -431,7 +430,7 @@ class _PackageCard extends StatelessWidget {
                           style: GoogleFonts.dmSans(
                             fontSize: 14,
                             fontWeight: FontWeight.w800,
-                            color: palette.text,
+                            color: colors.primaryText,
                           ),
                         ),
                         if (benefit.description.trim().isNotEmpty) ...[
@@ -441,7 +440,7 @@ class _PackageCard extends StatelessWidget {
                             style: GoogleFonts.dmSans(
                               fontSize: 13,
                               fontWeight: FontWeight.w700,
-                              color: palette.text2,
+                              color: colors.secondaryText,
                               height: 1.35,
                             ),
                           ),
@@ -502,8 +501,7 @@ class _PackageStatusPill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final palette = context.coolPalette;
-    final color = package.isActive ? package.tier.color : palette.text3;
+    final color = package.isActive ? package.tier.color : colors.tertiaryText;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
@@ -532,20 +530,19 @@ class _InfoPill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
-        color: palette.surface2,
+        color: colors.cardSurface,
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: palette.border),
+        border: Border.all(color: colors.border),
       ),
       child: Text(
         '$label: $value',
         style: GoogleFonts.dmSans(
           fontSize: 11,
           fontWeight: FontWeight.w600,
-          color: palette.text,
+          color: colors.primaryText,
         ),
       ),
     );

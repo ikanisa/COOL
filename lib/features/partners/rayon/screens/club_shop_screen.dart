@@ -248,8 +248,8 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
                                             const SizedBox(width: 6),
                                             Text(
                                               category.label,
-                                              style: GoogleFonts.barlow(
-                                                fontSize: 15,
+                                              style: context.coolText.rayon(
+                                                const TextStyle(fontSize: 15),
                                                 fontWeight: FontWeight.w800,
                                                 color: selected
                                                     ? Colors.white
@@ -631,8 +631,8 @@ class _ShopCommandCard extends StatelessWidget {
           const SizedBox(height: CoolSpace.x3),
           Text(
             'Official Club Store',
-            style: GoogleFonts.barlowCondensed(
-              fontSize: 32,
+            style: context.coolText.rayonCondensed(
+              const TextStyle(fontSize: 32),
               fontWeight: FontWeight.w900,
               color: Colors.white,
             ),
@@ -640,8 +640,8 @@ class _ShopCommandCard extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             'Premium merchandise, disciplined pricing, and direct club fulfilment.',
-            style: GoogleFonts.barlow(
-              fontSize: 15,
+            style: context.coolText.rayon(
+              const TextStyle(fontSize: 15),
               fontWeight: FontWeight.w600,
               color: Colors.white.withValues(alpha: 0.8),
               height: 1.4,

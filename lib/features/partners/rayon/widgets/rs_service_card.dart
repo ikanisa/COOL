@@ -91,8 +91,8 @@ class _TallContent extends StatelessWidget {
         const SizedBox(height: 14),
         Text(
           card.name,
-          style: GoogleFonts.barlowCondensed(
-            fontSize: 24,
+          style: context.coolText.rayonCondensed(
+            const TextStyle(fontSize: 24),
             fontWeight: FontWeight.w900,
             color: RsColors.rsWhite,
             height: 0.95,
@@ -101,8 +101,8 @@ class _TallContent extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           card.description,
-          style: GoogleFonts.barlow(
-            fontSize: 13,
+          style: context.coolText.rayon(
+            const TextStyle(fontSize: 13),
             fontWeight: FontWeight.w500,
             color: colors.secondaryText,
             height: 1.3,
@@ -141,8 +141,8 @@ class _WideContent extends StatelessWidget {
             children: [
               Text(
                 card.name,
-                style: GoogleFonts.barlowCondensed(
-                  fontSize: 24,
+                style: context.coolText.rayonCondensed(
+                  const TextStyle(fontSize: 24),
                   fontWeight: FontWeight.w900,
                   color: RsColors.rsWhite,
                   height: 0.95,
@@ -151,8 +151,8 @@ class _WideContent extends StatelessWidget {
               const SizedBox(height: 6),
               Text(
                 card.description,
-                style: GoogleFonts.barlow(
-                  fontSize: 13,
+                style: context.coolText.rayon(
+                  const TextStyle(fontSize: 13),
                   fontWeight: FontWeight.w500,
                   color: colors.secondaryText,
                   height: 1.3,

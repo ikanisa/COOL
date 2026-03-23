@@ -243,8 +243,8 @@ class _RsAdminInitiativesScreenState
             children: [
               Text(
                 isEdit ? 'Official Initiative Editor' : 'New Club Initiative',
-                style: GoogleFonts.barlowCondensed(
-                  fontSize: 30,
+                style: context.coolText.rayonCondensed(
+                  const TextStyle(fontSize: 30),
                   fontWeight: FontWeight.w900,
                   color: colors.primaryText,
                   height: 0.95,
@@ -361,8 +361,8 @@ class _InitiativeTile extends StatelessWidget {
                     children: [
                       Text(
                         initiative.title,
-                        style: GoogleFonts.barlowCondensed(
-                          fontSize: 28,
+                        style: context.coolText.rayonCondensed(
+                          const TextStyle(fontSize: 28),
                           fontWeight: FontWeight.w900,
                           color: colors.primaryText,
                           height: 0.95,
@@ -643,8 +643,8 @@ class _ContributorsSheet extends ConsumerWidget {
           const SizedBox(height: 12),
           Text(
             initiative.title,
-            style: GoogleFonts.barlowCondensed(
-              fontSize: 28,
+            style: context.coolText.rayonCondensed(
+              const TextStyle(fontSize: 28),
               fontWeight: FontWeight.w900,
               color: colors.primaryText,
               height: 0.95,

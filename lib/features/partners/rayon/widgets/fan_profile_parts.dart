@@ -193,8 +193,8 @@ class _ChapterChip extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         child: Text(
           label,
-          style: GoogleFonts.barlow(
-            fontSize: 14,
+          style: context.coolText.rayon(
+            const TextStyle(fontSize: 14),
             fontWeight: FontWeight.w600,
             color: RsColors.rsWhite.withValues(alpha: 0.82),
           ),
@@ -241,8 +241,8 @@ class _PerksAccessCard extends StatelessWidget {
             hasMembership
                 ? 'Supporter pricing and match access unlocked.'
                 : 'Create membership to unlock perks.',
-            style: GoogleFonts.barlow(
-              fontSize: 16,
+            style: context.coolText.rayon(
+              const TextStyle(fontSize: 16),
               fontWeight: FontWeight.w700,
               color: colors.secondaryText,
               height: 1.45,
@@ -298,8 +298,8 @@ class _PerkRow extends StatelessWidget {
               children: [
                 Text(
                   benefit.title,
-                  style: GoogleFonts.barlow(
-                    fontSize: 15,
+                  style: context.coolText.rayon(
+                    const TextStyle(fontSize: 15),
                     fontWeight: FontWeight.w700,
                     color: RsColors.rsWhite,
                   ),
@@ -307,8 +307,8 @@ class _PerkRow extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   benefit.subtitle,
-                  style: GoogleFonts.barlow(
-                    fontSize: 15,
+                  style: context.coolText.rayon(
+                    const TextStyle(fontSize: 15),
                     fontWeight: FontWeight.w700,
                     color: colors.secondaryText,
                     height: 1.35,
@@ -333,8 +333,8 @@ class _PerkRow extends StatelessWidget {
             ),
             child: Text(
               active ? 'Active' : 'Upgrade',
-              style: GoogleFonts.barlow(
-                fontSize: 14,
+              style: context.coolText.rayon(
+                const TextStyle(fontSize: 14),
                 fontWeight: FontWeight.w700,
                 color: active ? colors.accent : colors.tertiaryText,
               ),
@@ -363,8 +363,8 @@ class _EmptyStrip extends StatelessWidget {
           child: Text(
             message,
             textAlign: TextAlign.center,
-            style: GoogleFonts.barlow(
-              fontSize: 16,
+            style: context.coolText.rayon(
+              const TextStyle(fontSize: 16),
               fontWeight: FontWeight.w700,
               color: colors.secondaryText,
             ),
@@ -429,8 +429,8 @@ class _OrderStatusCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   'Order ${order.status.label.toUpperCase()}',
-                  style: GoogleFonts.barlow(
-                    fontSize: 14,
+                  style: context.coolText.rayon(
+                    const TextStyle(fontSize: 14),
                     fontWeight: FontWeight.w700,
                     color: RsColors.rsWhite,
                   ),
@@ -448,8 +448,8 @@ class _OrderStatusCard extends StatelessWidget {
                 ),
                 child: Text(
                   order.status.label,
-                  style: GoogleFonts.barlow(
-                    fontSize: 14,
+                  style: context.coolText.rayon(
+                    const TextStyle(fontSize: 14),
                     fontWeight: FontWeight.w700,
                     color: color,
                   ),
@@ -469,8 +469,8 @@ class _OrderStatusCard extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             order.deliveryAddress,
-            style: GoogleFonts.barlow(
-              fontSize: 15,
+            style: context.coolText.rayon(
+              const TextStyle(fontSize: 15),
               fontWeight: FontWeight.w700,
               color: colors.secondaryText,
               height: 1.35,
@@ -479,8 +479,8 @@ class _OrderStatusCard extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             _orderStatusCopy(order.status),
-            style: GoogleFonts.barlow(
-              fontSize: 15,
+            style: context.coolText.rayon(
+              const TextStyle(fontSize: 15),
               fontWeight: FontWeight.w600,
               color: color,
               height: 1.35,
@@ -723,8 +723,8 @@ void _showFanQr(BuildContext context, String fanId, FanTier tier) {
             const SizedBox(height: 16),
             Text(
               'Show at stadium gates',
-              style: GoogleFonts.barlow(
-                fontSize: 14,
+              style: context.coolText.rayon(
+                const TextStyle(fontSize: 14),
                 fontWeight: FontWeight.w700,
                 color: colors.secondaryText,
               ),

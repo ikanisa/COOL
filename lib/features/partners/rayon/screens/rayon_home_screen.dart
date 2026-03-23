@@ -84,45 +84,10 @@ class RayonHomeScreen extends StatelessWidget {
                           useProductionRedesign: useProductionRedesign,
                         );
 
-                        return Column(
-                          children: [
-                            if (useProductionRedesign) ...[
-                              _ClubCommandCard(
-                                data: data,
-                                membership: activeMembership ?? data.membership,
-                              ),
-                              const SizedBox(height: CoolSpace.x6),
-                            ],
-                            const _RsSectionTitle(title: 'Club Services'),
-                            const SizedBox(height: CoolSpace.x3),
-                            for (
-                              var index = 0;
-                              index < serviceItems.length;
-                              index++
-                            ) ...[
-                              _HomeLinkCard(
-                                icon: serviceItems[index].icon,
-                                title: serviceItems[index].title,
-                                meta: serviceItems[index].meta,
-                                detail: serviceItems[index].detail,
-                                accentColor: serviceItems[index].accentColor,
-                                onTap: () =>
-                                    context.push(serviceItems[index].route),
-                              ),
-                              if (index != serviceItems.length - 1)
-                                const SizedBox(height: CoolSpace.x3),
-                            ],
-                            if (useProductionRedesign) ...[
-                              const SizedBox(height: CoolSpace.x6),
-                              _ClubStandingsCard(
-                                clubs: data.clubs,
-                                joinedClubIds: data.joinedClubIds,
-                                onViewAll: () => context.push(
-                                  '/partners/rayon-sports/clubs',
-                                ),
-                              ),
-                            ],
-                          ],
+                        return _ClubServicesDeck(
+                          data: data,
+                          membership: activeMembership ?? data.membership,
+                          serviceItems: serviceItems,
                         );
                       },
                       loading: () => const CoolSkeletonList(itemCount: 3),
@@ -321,7 +286,7 @@ class _HomeOverviewCard extends StatelessWidget {
         : _nextTierLabel(tier);
 
     return CoolGlassCard(
-      borderColor: colors.borderStrong,
+      borderColor: Colors.transparent,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -346,8 +311,8 @@ class _HomeOverviewCard extends StatelessWidget {
                     const SizedBox(height: CoolSpace.x2),
                     Text(
                       fanName,
-                      style: GoogleFonts.barlow(
-                        fontSize: 28,
+                      style: context.coolText.rayon(
+                        const TextStyle(fontSize: 28),
                         fontWeight: FontWeight.w800,
                         color: RsColors.rsWhite,
                       ),
@@ -366,8 +331,8 @@ class _HomeOverviewCard extends StatelessWidget {
                       membership == null
                           ? 'Create or restore your verified supporter identity to unlock priority access.'
                           : '${tier.label} tier · ${membership!.chapter}',
-                      style: GoogleFonts.barlow(
-                        fontSize: 15,
+                      style: context.coolText.rayon(
+                        const TextStyle(fontSize: 15),
                         fontWeight: FontWeight.w600,
                         color: RsColors.rsWhite.withValues(alpha: 0.78),
                         height: 1.4,
@@ -389,9 +354,6 @@ class _HomeOverviewCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: tier.color.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(999),
-                      border: Border.all(
-                        color: tier.color.withValues(alpha: 0.3),
-                      ),
                     ),
                     child: Text(
                       tier.label.toUpperCase(),
@@ -444,7 +406,6 @@ class _HomeOverviewCard extends StatelessWidget {
               decoration: BoxDecoration(
                 color: colors.glassSurface.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: colors.border),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -536,6 +497,177 @@ class _HomeOverviewCard extends StatelessWidget {
                     icon: Icons.confirmation_number_outlined,
                   ),
                 ),
+              ],
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ClubServicesDeck extends StatelessWidget {
+  const _ClubServicesDeck({
+    required this.data,
+    required this.membership,
+    required this.serviceItems,
+  });
+
+  final RayonSportsData data;
+  final RsFanMembership? membership;
+  final List<_HomeServiceItem> serviceItems;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    final onSaleMatches = data.matches.where((match) => match.isOnSale).length;
+    final ranked = [...data.clubs]
+      ..sort((a, b) {
+        final memberCompare = b.memberCount.compareTo(a.memberCount);
+        if (memberCompare != 0) {
+          return memberCompare;
+        }
+        final ratingCompare = b.rating.compareTo(a.rating);
+        if (ratingCompare != 0) {
+          return ratingCompare;
+        }
+        return a.name.compareTo(b.name);
+      });
+
+    return CoolCard(
+      useGradient: false,
+      backgroundColor: colors.cardSurface,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'RAYON SPORTS COMMAND',
+                      style: GoogleFonts.dmMono(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 1.1,
+                        color: colors.tertiaryText,
+                      ),
+                    ),
+                    const SizedBox(height: CoolSpace.x2),
+                    Text(
+                      membership == null
+                          ? 'Official club access, matchday, and commerce in one trusted surface.'
+                          : '${membership!.tier.label} tier access is live across ticketing, chapters, and store privileges.',
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        color: RsColors.rsWhite,
+                        fontWeight: FontWeight.w800,
+                        height: 1.22,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 12),
+              _SurfaceBadge(
+                label: membership?.tier.label.toUpperCase() ?? 'OFFICIAL',
+                foreground: membership?.tier == FanTier.silver
+                    ? colors.primaryText
+                    : RsColors.rsGoldLight,
+                background: membership == null
+                    ? RsColors.rsGold.withValues(alpha: 0.12)
+                    : membership!.tier.color.withValues(alpha: 0.14),
+                borderColor: Colors.transparent,
+              ),
+            ],
+          ),
+          const SizedBox(height: CoolSpace.x5),
+          Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            children: [
+              _SignalTile(
+                label: 'Verified fans',
+                value: _formatCount(data.registryMembers.length),
+              ),
+              _SignalTile(
+                label: 'Active chapters',
+                value: '${data.clubs.length}',
+              ),
+              _SignalTile(label: 'Matches on sale', value: '$onSaleMatches'),
+              _SignalTile(
+                label: 'Store listings',
+                value: '${data.products.length}',
+              ),
+            ],
+          ),
+          const SizedBox(height: CoolSpace.x6),
+          const _RsSectionTitle(title: 'Club Services'),
+          const SizedBox(height: CoolSpace.x3),
+          for (var index = 0; index < serviceItems.length; index++) ...[
+            _HomeLinkCard(
+              icon: serviceItems[index].icon,
+              title: serviceItems[index].title,
+              meta: serviceItems[index].meta,
+              detail: serviceItems[index].detail,
+              accentColor: serviceItems[index].accentColor,
+              onTap: () => context.push(serviceItems[index].route),
+            ),
+            if (index != serviceItems.length - 1)
+              const SizedBox(height: CoolSpace.x3),
+          ],
+          const SizedBox(height: CoolSpace.x6),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'Chapter Standings',
+                  style: context.coolText.rayon(
+                    const TextStyle(fontSize: 20),
+                    fontWeight: FontWeight.w800,
+                    color: RsColors.rsWhite,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () => context.push('/partners/rayon-sports/clubs'),
+                child: const Text('View all'),
+              ),
+            ],
+          ),
+          const SizedBox(height: CoolSpace.x1),
+          Text(
+            'Member growth and chapter credibility ranked for fast scanning.',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w700,
+              height: 1.35,
+            ),
+          ),
+          const SizedBox(height: CoolSpace.x3),
+          if (ranked.isEmpty)
+            Text(
+              'Chapter rankings will appear as clubs start reporting members and events.',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: colors.secondaryText,
+                fontWeight: FontWeight.w700,
+                height: 1.35,
+              ),
+            )
+          else
+            Column(
+              children: [
+                for (var index = 0; index < ranked.take(3).length; index++) ...[
+                  _StandingRow(
+                    rank: index + 1,
+                    club: ranked[index],
+                    joined: data.joinedClubIds.contains(ranked[index].id),
+                  ),
+                  if (index != ranked.take(3).length - 1)
+                    const SizedBox(height: CoolSpace.x2),
+                ],
               ],
             ),
         ],
@@ -701,8 +833,8 @@ class _ClubStandingsCard extends StatelessWidget {
                   children: [
                     Text(
                       'Chapter Standings',
-                      style: GoogleFonts.barlow(
-                        fontSize: 20,
+                      style: context.coolText.rayon(
+                        const TextStyle(fontSize: 20),
                         fontWeight: FontWeight.w800,
                         color: RsColors.rsWhite,
                       ),
@@ -710,8 +842,8 @@ class _ClubStandingsCard extends StatelessWidget {
                     const SizedBox(height: CoolSpace.x1),
                     Text(
                       'Member growth, event energy, and chapter credibility ranked for quick scanning.',
-                      style: GoogleFonts.barlow(
-                        fontSize: 13,
+                      style: context.coolText.rayon(
+                        const TextStyle(fontSize: 13),
                         fontWeight: FontWeight.w500,
                         color: colors.secondaryText,
                         height: 1.4,
@@ -727,8 +859,8 @@ class _ClubStandingsCard extends StatelessWidget {
           if (ranked.isEmpty)
             Text(
               'Chapter rankings will appear as clubs start reporting members and events.',
-              style: GoogleFonts.barlow(
-                fontSize: 13,
+              style: context.coolText.rayon(
+                const TextStyle(fontSize: 13),
                 fontWeight: FontWeight.w500,
                 color: colors.secondaryText,
               ),
@@ -777,7 +909,6 @@ class _MatchdayBriefCard extends StatelessWidget {
         end: Alignment.bottomRight,
         colors: [Color(0xFF071630), Color(0xFF0D2351), Color(0xFF13356A)],
       ),
-      borderColor: RsColors.rsBlueBorder,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -789,8 +920,8 @@ class _MatchdayBriefCard extends StatelessWidget {
                   children: [
                     Text(
                       'Ticket Office',
-                      style: GoogleFonts.barlow(
-                        fontSize: 20,
+                      style: context.coolText.rayon(
+                        const TextStyle(fontSize: 20),
                         fontWeight: FontWeight.w800,
                         color: Colors.white,
                       ),
@@ -798,8 +929,8 @@ class _MatchdayBriefCard extends StatelessWidget {
                     const SizedBox(height: CoolSpace.x1),
                     Text(
                       'Official allocation, digital entry, and disciplined priority access for supporters.',
-                      style: GoogleFonts.barlow(
-                        fontSize: 13,
+                      style: context.coolText.rayon(
+                        const TextStyle(fontSize: 13),
                         fontWeight: FontWeight.w500,
                         color: Colors.white.withValues(alpha: 0.74),
                         height: 1.4,
@@ -893,70 +1024,62 @@ class _HomeLinkCard extends StatelessWidget {
     return Semantics(
       button: true,
       label: '$title. $meta',
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(CoolRadii.lg),
-          child: CoolCard(
-            borderColor: colors.borderStrong,
-            child: Row(
-              children: [
-                Container(
-                  width: 52,
-                  height: 52,
-                  decoration: BoxDecoration(
-                    color: accentColor.withValues(alpha: 0.14),
-                    borderRadius: BorderRadius.circular(CoolRadii.md),
-                    border: Border.all(
-                      color: accentColor.withValues(alpha: 0.28),
+      child: CoolCard(
+        onTap: onTap,
+        useGradient: false,
+        backgroundColor: colors.cardSurfaceStrong,
+        child: Row(
+          children: [
+            Container(
+              width: 52,
+              height: 52,
+              decoration: BoxDecoration(
+                color: accentColor.withValues(alpha: 0.14),
+                borderRadius: BorderRadius.circular(CoolRadii.md),
+              ),
+              alignment: Alignment.center,
+              child: Icon(icon, size: 24, color: accentColor),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      color: RsColors.rsWhite,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
-                  alignment: Alignment.center,
-                  child: Icon(icon, size: 24, color: accentColor),
-                ),
-                const SizedBox(width: 14),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: theme.textTheme.titleLarge?.copyWith(
-                          color: RsColors.rsWhite,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                      const SizedBox(height: CoolSpace.x1),
-                      Text(
-                        meta,
-                        style: GoogleFonts.dmMono(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                          color: accentColor,
-                        ),
-                      ),
-                      const SizedBox(height: CoolSpace.x1),
-                      Text(
-                        detail,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: colors.secondaryText,
-                          fontWeight: FontWeight.w700,
-                          height: 1.35,
-                        ),
-                      ),
-                    ],
+                  const SizedBox(height: CoolSpace.x1),
+                  Text(
+                    meta,
+                    style: GoogleFonts.dmMono(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: accentColor,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 12),
-                Icon(
-                  Icons.arrow_forward_rounded,
-                  size: 18,
-                  color: colors.secondaryText,
-                ),
-              ],
+                  const SizedBox(height: CoolSpace.x1),
+                  Text(
+                    detail,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: colors.secondaryText,
+                      fontWeight: FontWeight.w700,
+                      height: 1.35,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
+            const SizedBox(width: 12),
+            Icon(
+              Icons.arrow_forward_rounded,
+              size: 18,
+              color: colors.secondaryText,
+            ),
+          ],
         ),
       ),
     );
@@ -983,7 +1106,6 @@ class _MembershipMetricChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: accentColor.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: accentColor.withValues(alpha: 0.24)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1083,7 +1205,6 @@ class _SignalTile extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1129,9 +1250,8 @@ class _StandingRow extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(CoolSpace.x3),
       decoration: BoxDecoration(
-        color: colors.cardSurface,
+        color: colors.cardSurfaceStrong,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: colors.border),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1144,11 +1264,6 @@ class _StandingRow extends StatelessWidget {
                   ? RsColors.rsGold.withValues(alpha: 0.16)
                   : RsColors.rsBlue.withValues(alpha: 0.14),
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(
-                color: rank == 1
-                    ? RsColors.rsGold.withValues(alpha: 0.3)
-                    : RsColors.rsBlueBorder,
-              ),
             ),
             alignment: Alignment.center,
             child: Text(
@@ -1170,8 +1285,8 @@ class _StandingRow extends StatelessWidget {
                     Expanded(
                       child: Text(
                         club.name,
-                        style: GoogleFonts.barlow(
-                          fontSize: 16,
+                        style: context.coolText.rayon(
+                          const TextStyle(fontSize: 16),
                           fontWeight: FontWeight.w700,
                           color: RsColors.rsWhite,
                         ),
@@ -1189,8 +1304,8 @@ class _StandingRow extends StatelessWidget {
                 const SizedBox(height: CoolSpace.x1),
                 Text(
                   club.region,
-                  style: GoogleFonts.barlow(
-                    fontSize: 13,
+                  style: context.coolText.rayon(
+                    const TextStyle(fontSize: 13),
                     fontWeight: FontWeight.w500,
                     color: colors.secondaryText,
                   ),
@@ -1243,7 +1358,6 @@ class _SurfaceBadge extends StatelessWidget {
       decoration: BoxDecoration(
         color: background,
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: borderColor),
       ),
       child: Text(
         label,
@@ -1272,7 +1386,6 @@ class _InfoPill extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.cardSurfaceStrong,
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: colors.border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -1281,8 +1394,8 @@ class _InfoPill extends StatelessWidget {
           const SizedBox(width: 6),
           Text(
             label,
-            style: GoogleFonts.barlow(
-              fontSize: 12,
+            style: context.coolText.rayon(
+              const TextStyle(fontSize: 12),
               fontWeight: FontWeight.w700,
               color: RsColors.rsWhite,
             ),
@@ -1317,7 +1430,8 @@ class _EmptyMatchCard extends StatelessWidget {
     final colors = context.coolSemanticColors;
     return CoolCard(
       onTap: onTap,
-      borderColor: colors.borderStrong,
+      useGradient: false,
+      backgroundColor: colors.cardSurface,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1328,8 +1442,8 @@ class _EmptyMatchCard extends StatelessWidget {
           const SizedBox(height: CoolSpace.x2),
           Text(
             'Official ticket allocations will appear here as soon as the next match opens for supporters.',
-            style: GoogleFonts.barlow(
-              fontSize: 13,
+            style: context.coolText.rayon(
+              const TextStyle(fontSize: 13),
               fontWeight: FontWeight.w500,
               color: colors.secondaryText,
               height: 1.45,

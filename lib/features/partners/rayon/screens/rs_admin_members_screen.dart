@@ -469,8 +469,8 @@ class _MemberTile extends StatelessWidget {
                       Expanded(
                         child: Text(
                           member.displayName,
-                          style: GoogleFonts.barlowCondensed(
-                            fontSize: 28,
+                          style: context.coolText.rayonCondensed(
+                            const TextStyle(fontSize: 28),
                             fontWeight: FontWeight.w900,
                             color: colors.primaryText,
                             height: 0.95,

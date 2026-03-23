@@ -46,7 +46,7 @@ class BankPartnerScreen extends ConsumerWidget {
             data: (partner) => Text(
               partner?.name ?? context.l10n.partnerLabel,
               style: theme.textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w800,
                 color: colors.primaryText,
               ),
             ),
@@ -54,7 +54,7 @@ class BankPartnerScreen extends ConsumerWidget {
             error: (_, _) => Text(
               context.l10n.partnerLabel,
               style: theme.textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w800,
                 color: colors.primaryText,
               ),
             ),
@@ -96,7 +96,7 @@ class _BankBody extends ConsumerWidget {
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(
         CoolSpace.x6,
-        CoolSpace.x2,
+        CoolSpace.x3,
         CoolSpace.x6,
         CoolSpace.x7,
       ),

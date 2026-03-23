@@ -124,7 +124,7 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
       ),
       builder: (context) => StatefulBuilder(
         builder: (context, setModalState) {
-          final palette = context.coolPalette;
+          final colors = context.coolSemanticColors;
           return SafeArea(
             top: false,
             child: Padding(
@@ -143,7 +143,7 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
                       width: 42,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: palette.border,
+                        color: colors.border,
                         borderRadius: BorderRadius.circular(999),
                       ),
                     ),
@@ -154,7 +154,7 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
                     style: GoogleFonts.dmSans(
                       fontSize: 17,
                       fontWeight: FontWeight.w800,
-                      color: palette.text,
+                      color: colors.primaryText,
                     ),
                   ),
                   const SizedBox(height: 14),
@@ -330,15 +330,14 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
-    final palette = context.coolPalette;
     final partnerIdAsync = ref.watch(rayonPartnerIdProvider);
     return partnerIdAsync.when(
       loading: () => Scaffold(
-        backgroundColor: palette.bg,
+        backgroundColor: colors.appBackground,
         body: const Center(child: CircularProgressIndicator()),
       ),
       error: (_, _) => Scaffold(
-        backgroundColor: palette.bg,
+        backgroundColor: colors.appBackground,
         body: Center(child: Text(context.l10n.financeWorkspaceCouldNot)),
       ),
       data: (partnerId) {

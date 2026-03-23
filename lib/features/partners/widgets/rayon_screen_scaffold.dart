@@ -45,8 +45,8 @@ class RayonScreenScaffold extends StatelessWidget {
             : null,
         title: Text(
           title,
-          style: GoogleFonts.barlowCondensed(
-            fontSize: 30,
+          style: context.coolText.rayonCondensed(
+            const TextStyle(fontSize: 30),
             fontWeight: FontWeight.w900,
             color: chromeColor,
             letterSpacing: 0.3,

@@ -162,7 +162,7 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
   }
 
   void _showProductForm(BuildContext context, {RsProduct? product}) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final isEdit = product != null;
     final nameCtrl = TextEditingController(text: product?.name);
     final descCtrl = TextEditingController(text: product?.description);
@@ -180,7 +180,7 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
     showCoolBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: palette.surface,
+      backgroundColor: colors.elevatedBackground,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -201,7 +201,7 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
                 style: GoogleFonts.dmSans(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
-                  color: palette.text,
+                  color: colors.primaryText,
                 ),
               ),
               const SizedBox(height: 16),
@@ -529,7 +529,7 @@ class _Field extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Semantics(
@@ -540,12 +540,15 @@ class _Field extends StatelessWidget {
           controller: controller,
           keyboardType: keyboardType,
           maxLines: maxLines,
-          style: GoogleFonts.dmSans(color: palette.text, fontSize: 14),
+          style: GoogleFonts.dmSans(color: colors.primaryText, fontSize: 14),
           decoration: InputDecoration(
             labelText: label,
-            labelStyle: GoogleFonts.dmSans(color: palette.text3, fontSize: 13),
+            labelStyle: GoogleFonts.dmSans(
+              color: colors.tertiaryText,
+              fontSize: 13,
+            ),
             filled: true,
-            fillColor: palette.surface2,
+            fillColor: colors.cardSurface,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide.none,

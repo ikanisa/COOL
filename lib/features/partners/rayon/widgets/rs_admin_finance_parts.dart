@@ -21,9 +21,9 @@ class _RouteCardList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     return CoolCard(
-      borderColor: palette.border2,
+      borderColor: colors.borderStrong,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -35,19 +35,19 @@ class _RouteCardList extends StatelessWidget {
                   children: [
                     Text(
                       'Payment routing',
-                      style: GoogleFonts.barlow(
-                        fontSize: 16,
+                      style: context.coolText.rayon(
+                        const TextStyle(fontSize: 16),
                         fontWeight: FontWeight.w700,
-                        color: palette.text,
+                        color: colors.primaryText,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       'Partner-admin managed recipient codes',
-                      style: GoogleFonts.barlow(
-                        fontSize: 15,
+                      style: context.coolText.rayon(
+                        const TextStyle(fontSize: 15),
                         fontWeight: FontWeight.w700,
-                        color: palette.text2,
+                        color: colors.secondaryText,
                         height: 1.4,
                       ),
                     ),
@@ -109,20 +109,20 @@ class _RouteRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final statusColor = switch (route.status) {
-      PartnerPaymentRouteStatus.active => palette.accent,
-      PartnerPaymentRouteStatus.inactive => palette.orange,
-      PartnerPaymentRouteStatus.draft => palette.text3,
+      PartnerPaymentRouteStatus.active => colors.accent,
+      PartnerPaymentRouteStatus.inactive => colors.warning,
+      PartnerPaymentRouteStatus.draft => colors.tertiaryText,
     };
 
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: palette.surface,
+        color: colors.elevatedBackground,
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
-          color: isActiveRoute ? RsColors.rsBlueBorder : palette.border,
+          color: isActiveRoute ? RsColors.rsBlueBorder : colors.border,
         ),
       ),
       child: Column(
@@ -136,7 +136,7 @@ class _RouteRow extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
-                    color: palette.text,
+                    color: colors.primaryText,
                   ),
                 ),
               ),
@@ -149,7 +149,7 @@ class _RouteRow extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: palette.text2,
+              color: colors.secondaryText,
             ),
           ),
           const SizedBox(height: 4),
@@ -158,7 +158,7 @@ class _RouteRow extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 15,
               fontWeight: FontWeight.w700,
-              color: palette.text3,
+              color: colors.tertiaryText,
             ),
           ),
           if (route.ussdPattern.isNotEmpty) ...[
@@ -168,7 +168,7 @@ class _RouteRow extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 fontSize: 15,
                 fontWeight: FontWeight.w700,
-                color: palette.text3,
+                color: colors.tertiaryText,
               ),
             ),
           ],
@@ -209,27 +209,27 @@ class _PartnerLedgerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     return CoolCard(
-      borderColor: palette.border2,
+      borderColor: colors.borderStrong,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'Posted partner ledger',
-            style: GoogleFonts.barlow(
-              fontSize: 16,
+            style: context.coolText.rayon(
+              const TextStyle(fontSize: 16),
               fontWeight: FontWeight.w700,
-              color: palette.text,
+              color: colors.primaryText,
             ),
           ),
           const SizedBox(height: 6),
           Text(
             'Latest posted partner receipts',
-            style: GoogleFonts.barlow(
-              fontSize: 15,
+            style: context.coolText.rayon(
+              const TextStyle(fontSize: 15),
               fontWeight: FontWeight.w700,
-              color: palette.text2,
+              color: colors.secondaryText,
               height: 1.4,
             ),
           ),
@@ -318,16 +318,16 @@ class _LedgerRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final money = NumberFormat.decimalPattern('en_US');
     final dateFormat = DateFormat('dd MMM yyyy, HH:mm');
 
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: palette.surface,
+        color: colors.elevatedBackground,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: palette.border),
+        border: Border.all(color: colors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -340,16 +340,15 @@ class _LedgerRow extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
-                    color: palette.text,
+                    color: colors.primaryText,
                   ),
                 ),
               ),
               Text(
                 '${money.format(entry.amount)} ${entry.currency}',
-                style: GoogleFonts.dmSans(
-                  fontSize: 14,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   fontWeight: FontWeight.w700,
-                  color: palette.text,
+                  color: colors.tertiaryText,
                 ),
               ),
             ],
@@ -360,7 +359,7 @@ class _LedgerRow extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 15,
               fontWeight: FontWeight.w700,
-              color: palette.text2,
+              color: colors.secondaryText,
             ),
           ),
           const SizedBox(height: 10),
@@ -393,20 +392,20 @@ class _LedgerPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
-        color: palette.surface2,
+        color: colors.cardSurface,
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: palette.border),
+        border: Border.all(color: colors.border),
       ),
       child: Text(
         '$label: $value',
         style: GoogleFonts.dmSans(
           fontSize: 14,
           fontWeight: FontWeight.w600,
-          color: palette.text,
+          color: colors.primaryText,
         ),
       ),
     );
