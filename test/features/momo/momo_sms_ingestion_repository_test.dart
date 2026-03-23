@@ -106,5 +106,33 @@ void main() {
         isNull,
       );
     });
+
+    test('flags strong MoMo drift signals from msisdn senders', () {
+      final metadata = MomoSmsIngestionRepository.senderDriftTelemetry(
+        sender: '+250788767816',
+        body:
+            'You have received 50000 RWF from Yvette NYIRAMAHIRWE '
+            '(*********235) at 2025-11-19 23:12:44 . Balance:633978 RWF. '
+            'FT Id: 24224946460',
+      );
+
+      expect(metadata, isNotNull);
+      expect(metadata!['sender_kind'], 'msisdn');
+      expect(metadata['has_tx_reference'], isTrue);
+      expect(metadata['contains_balance'], isTrue);
+      expect(metadata['contains_outcome_signal'], isTrue);
+      expect(metadata['signal_count'], greaterThanOrEqualTo(3));
+    });
+
+    test('ignores generic bank-like alerts from unapproved senders', () {
+      final metadata = MomoSmsIngestionRepository.senderDriftTelemetry(
+        sender: 'BANK',
+        body:
+            'Your account was debited 5,000 RWF at 2026-03-22 10:00. '
+            'Available balance 95,000 RWF.',
+      );
+
+      expect(metadata, isNull);
+    });
   });
 }

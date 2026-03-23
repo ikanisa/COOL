@@ -81,9 +81,112 @@ class MomoSmsIngestionRepository {
     if (normalizedSender.isEmpty) {
       return false;
     }
-    // Strict exact match against normalized tokens to avoid false positives 
+    // Strict exact match against normalized tokens to avoid false positives
     // and maintain compliance with declared Play Store SMS sender policies.
     return _normalizedApprovedSenderTokens.contains(normalizedSender);
+  }
+
+  static bool looksLikePotentialMomoTransactionalBody(String? body) {
+    final normalizedBody = _normalizeWhitespace(body ?? '').toLowerCase();
+    if (normalizedBody.isEmpty) {
+      return false;
+    }
+
+    final hasCurrencySignal =
+        normalizedBody.contains('rwf') ||
+        normalizedBody.contains('frw') ||
+        RegExp(r'\b\d[\d,.\s]*\s*(rwf|frw)\b').hasMatch(normalizedBody);
+    if (!hasCurrencySignal) {
+      return false;
+    }
+
+    final hasTxReference = _hasTxReferenceSignal(normalizedBody);
+    final hasBalanceSignal = _hasBalanceSignal(normalizedBody);
+    final hasFeeSignal = _hasFeeSignal(normalizedBody);
+    final hasOutcomeSignal = _hasOutcomeSignal(normalizedBody);
+    final hasBrandSignal = _hasBrandSignal(normalizedBody);
+
+    return (hasTxReference &&
+            (hasBalanceSignal || hasFeeSignal || hasOutcomeSignal)) ||
+        (hasBrandSignal && hasBalanceSignal && hasOutcomeSignal);
+  }
+
+  static Map<String, dynamic>? senderDriftTelemetry({
+    required String? sender,
+    required String? body,
+  }) {
+    final trimmedSender = sender?.trim() ?? '';
+    final normalizedBody = _normalizeWhitespace(body ?? '');
+    if (trimmedSender.isEmpty ||
+        normalizedBody.isEmpty ||
+        isApprovedSender(trimmedSender) ||
+        !looksLikePotentialMomoTransactionalBody(normalizedBody)) {
+      return null;
+    }
+
+    final lowercaseBody = normalizedBody.toLowerCase();
+    final senderKind = RegExp(r'^\+?\d+$').hasMatch(trimmedSender)
+        ? 'msisdn'
+        : 'alias';
+    final hasTxReference = _hasTxReferenceSignal(lowercaseBody);
+    final hasBalanceSignal = _hasBalanceSignal(lowercaseBody);
+    final hasFeeSignal = _hasFeeSignal(lowercaseBody);
+    final hasOutcomeSignal = _hasOutcomeSignal(lowercaseBody);
+    final hasBrandSignal = _hasBrandSignal(lowercaseBody);
+    return <String, dynamic>{
+      'sender_display': trimmedSender,
+      'sender_token': _normalizeSender(trimmedSender),
+      'sender_kind': senderKind,
+      'message_length': normalizedBody.length,
+      'has_tx_reference': hasTxReference,
+      'contains_txid': lowercaseBody.contains('txid'),
+      'contains_balance': hasBalanceSignal,
+      'contains_fee_signal': hasFeeSignal,
+      'contains_outcome_signal': hasOutcomeSignal,
+      'contains_brand_signal': hasBrandSignal,
+      'signal_count': [
+        hasTxReference,
+        hasBalanceSignal,
+        hasFeeSignal,
+        hasOutcomeSignal,
+        hasBrandSignal,
+      ].where((value) => value).length,
+      'contains_rwf':
+          lowercaseBody.contains('rwf') || lowercaseBody.contains('frw'),
+    };
+  }
+
+  static bool _hasTxReferenceSignal(String normalizedBody) {
+    return normalizedBody.contains('txid') ||
+        normalizedBody.contains('financial transaction') ||
+        normalizedBody.contains('ft id');
+  }
+
+  static bool _hasBalanceSignal(String normalizedBody) {
+    return normalizedBody.contains('new balance') ||
+        normalizedBody.contains('balance:') ||
+        normalizedBody.contains('balance ');
+  }
+
+  static bool _hasFeeSignal(String normalizedBody) {
+    return normalizedBody.contains('fee was') ||
+        normalizedBody.contains('fee:');
+  }
+
+  static bool _hasOutcomeSignal(String normalizedBody) {
+    return normalizedBody.contains('payment of') ||
+        normalizedBody.contains('you have received') ||
+        normalizedBody.contains('withdrawn') ||
+        normalizedBody.contains('transferred') ||
+        normalizedBody.contains('bank deposit') ||
+        normalizedBody.contains('cash power') ||
+        normalizedBody.contains('bundle');
+  }
+
+  static bool _hasBrandSignal(String normalizedBody) {
+    return normalizedBody.contains('momo') ||
+        normalizedBody.contains('mobile money') ||
+        normalizedBody.contains('m-money');
   }
 
   static MomoSmsCapture? captureFromDeviceMessage({
