@@ -1,15 +1,44 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/config/app_market.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_providers.dart';
 
 const _categories = ['football', 'bank', 'organization'];
+EdgeInsets _partnerEditorActionPadding() => CoolSpace.sectionPadding.copyWith(
+  left: 0,
+  right: CoolSpace.x3,
+  top: 0,
+  bottom: 0,
+);
+
+EdgeInsets _partnerEditorListPadding() =>
+    CoolSpace.pagePadding.copyWith(top: CoolSpace.x2, bottom: CoolSpace.x9);
+
+EdgeInsets _partnerEditorFieldPadding() => CoolSpace.sectionPadding.copyWith(
+  left: 0,
+  right: 0,
+  top: 0,
+  bottom: CoolSpace.x3,
+);
+
+EdgeInsets _partnerEditorInputPadding() => CoolSpace.sectionPadding.copyWith(
+  left: CoolSpace.x3,
+  right: CoolSpace.x3,
+  top: CoolSpace.x3,
+  bottom: CoolSpace.x3,
+);
+
+EdgeInsets _partnerEditorZeroPadding() =>
+    CoolSpace.sectionPadding.copyWith(left: 0, right: 0, top: 0, bottom: 0);
+
+const BorderRadius _partnerEditorInputRadius = BorderRadius.all(
+  Radius.circular(CoolRadii.md),
+);
 
 /// Full-page editor for creating / editing a single Partner.
 class PartnerEditorPage extends StatefulWidget {
@@ -76,9 +105,7 @@ class _PartnerEditorPageState extends State<PartnerEditorPage> {
       text: p?['website_url']?.toString() ?? '',
     );
 
-    _logoUrlCtl = TextEditingController(
-      text: p?['logo_url']?.toString() ?? '',
-    );
+    _logoUrlCtl = TextEditingController(text: p?['logo_url']?.toString() ?? '');
     _bannerUrlCtl = TextEditingController(
       text: p?['banner_url']?.toString() ?? '',
     );
@@ -174,39 +201,38 @@ class _PartnerEditorPageState extends State<PartnerEditorPage> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: palette.bg,
+      backgroundColor: colors.appBackground,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           tooltip: 'Close',
           icon: const Icon(Icons.close_rounded),
-          color: palette.text,
+          color: colors.primaryText,
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
           _isNew ? 'New Partner' : 'Edit Partner',
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: palette.text,
+          style: theme.textTheme.titleLarge?.copyWith(
+            color: colors.primaryText,
+            fontWeight: FontWeight.w800,
           ),
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 12),
+            padding: _partnerEditorActionPadding(),
             child: TextButton(
               onPressed: _saving ? null : _save,
               child: _saving
                   ? const CupertinoActivityIndicator(radius: 10)
                   : Text(
                       'Save',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: palette.accent,
+                      style: theme.textTheme.labelLarge?.copyWith(
+                        fontWeight: FontWeight.w800,
+                        color: colors.accent,
                       ),
                     ),
             ),
@@ -216,7 +242,7 @@ class _PartnerEditorPageState extends State<PartnerEditorPage> {
       body: Form(
         key: _formKey,
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(18, 8, 18, 48),
+          padding: _partnerEditorListPadding(),
           children: [
             // ════════════════════════════════════════════
             // SECTION: Identity
@@ -225,12 +251,11 @@ class _PartnerEditorPageState extends State<PartnerEditorPage> {
             _textField('Name *', _nameCtl, required_: true),
             Row(
               children: [
-                Expanded(child: _textField('Slug *', _slugCtl, required_: true)),
-                const SizedBox(width: 12),
-                SizedBox(
-                  width: 80,
-                  child: _textField('Emoji', _emojiCtl),
+                Expanded(
+                  child: _textField('Slug *', _slugCtl, required_: true),
                 ),
+                const SizedBox(width: 12),
+                SizedBox(width: 80, child: _textField('Emoji', _emojiCtl)),
               ],
             ),
             _categoryDropdown(),
@@ -242,7 +267,7 @@ class _PartnerEditorPageState extends State<PartnerEditorPage> {
               hint: 'Short description of the partner',
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: CoolSpace.x5),
 
             // ════════════════════════════════════════════
             // SECTION: Contact & Payments
@@ -266,7 +291,7 @@ class _PartnerEditorPageState extends State<PartnerEditorPage> {
               keyboard: TextInputType.url,
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: CoolSpace.x5),
 
             // ════════════════════════════════════════════
             // SECTION: Branding
@@ -304,7 +329,7 @@ class _PartnerEditorPageState extends State<PartnerEditorPage> {
               ],
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: CoolSpace.x5),
 
             // ════════════════════════════════════════════
             // SECTION: Settings
@@ -321,33 +346,15 @@ class _PartnerEditorPageState extends State<PartnerEditorPage> {
               setState(() => _isActive = v);
             }),
 
-            const SizedBox(height: 32),
+            const SizedBox(height: CoolSpace.x7),
 
             // ════════════════════════════════════════════
             // SAVE BUTTON
             // ════════════════════════════════════════════
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: _saving ? null : _save,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: palette.accent,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                ),
-                child: _saving
-                    ? const CupertinoActivityIndicator(radius: 10)
-                    : Text(
-                        _isNew ? 'Create Partner' : 'Save Changes',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
-                        ),
-                      ),
-              ),
+            CoolButton(
+              label: _isNew ? 'Create Partner' : 'Save Changes',
+              isLoading: _saving,
+              onTap: _saving ? null : _save,
             ),
           ],
         ),
@@ -358,14 +365,15 @@ class _PartnerEditorPageState extends State<PartnerEditorPage> {
   // ── Builders ──
 
   Widget _sectionHeader(String title) {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: _partnerEditorFieldPadding(),
       child: Text(
         title,
-        style: GoogleFonts.dmSans(
-          fontSize: 16,
-          fontWeight: FontWeight.w700,
-          color: AppColors.text,
+        style: theme.textTheme.titleMedium?.copyWith(
+          color: colors.primaryText,
+          fontWeight: FontWeight.w800,
         ),
       ),
     );
@@ -379,8 +387,10 @@ class _PartnerEditorPageState extends State<PartnerEditorPage> {
     TextInputType? keyboard,
     bool required_ = false,
   }) {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: _partnerEditorFieldPadding(),
       child: Semantics(
         textField: true,
         label: label,
@@ -388,28 +398,34 @@ class _PartnerEditorPageState extends State<PartnerEditorPage> {
           controller: ctl,
           maxLines: maxLines,
           keyboardType: keyboard,
-          style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: colors.primaryText,
+            fontWeight: FontWeight.w700,
+          ),
           validator: required_
               ? (v) => (v == null || v.trim().isEmpty) ? 'Required' : null
               : null,
           decoration: InputDecoration(
             labelText: label,
             hintText: hint,
-            labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
-            hintStyle: GoogleFonts.dmSans(
-              color: AppColors.text3.withValues(alpha: 0.5),
-              fontSize: 13,
+            labelStyle: theme.textTheme.labelMedium?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w700,
+            ),
+            hintStyle: theme.textTheme.bodySmall?.copyWith(
+              color: colors.tertiaryText,
+              fontWeight: FontWeight.w600,
             ),
             filled: true,
-            fillColor: AppColors.surface2,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide.none,
+            fillColor: colors.inputSurface,
+            border: _inputBorder(colors),
+            enabledBorder: _inputBorder(colors),
+            focusedBorder: _inputBorder(colors, borderColor: colors.accent),
+            disabledBorder: _inputBorder(
+              colors,
+              borderColor: colors.border.withValues(alpha: 0.65),
             ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 14,
-              vertical: 14,
-            ),
+            contentPadding: _partnerEditorInputPadding(),
           ),
         ),
       ),
@@ -417,88 +433,115 @@ class _PartnerEditorPageState extends State<PartnerEditorPage> {
   }
 
   Widget _categoryDropdown() {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: _partnerEditorFieldPadding(),
       child: DropdownButtonFormField<String>(
         initialValue: _categories.contains(_category) ? _category : null,
         onChanged: (v) {
           if (v != null) setState(() => _category = v);
         },
-        style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
-        dropdownColor: AppColors.surface,
+        style: theme.textTheme.bodyMedium?.copyWith(
+          color: colors.primaryText,
+          fontWeight: FontWeight.w700,
+        ),
+        dropdownColor: colors.cardSurfaceStrong,
         decoration: InputDecoration(
           labelText: 'Category *',
-          labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
+          labelStyle: theme.textTheme.labelMedium?.copyWith(
+            color: colors.secondaryText,
+            fontWeight: FontWeight.w700,
+          ),
           filled: true,
-          fillColor: AppColors.surface2,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
-          ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 14,
-            vertical: 14,
-          ),
+          fillColor: colors.inputSurface,
+          border: _inputBorder(colors),
+          enabledBorder: _inputBorder(colors),
+          focusedBorder: _inputBorder(colors, borderColor: colors.accent),
+          contentPadding: _partnerEditorInputPadding(),
         ),
         items: _categories
-            .map((c) => DropdownMenuItem(
-                  value: c,
-                  child: Text(
-                    c[0].toUpperCase() + c.substring(1),
-                    style: GoogleFonts.dmSans(
-                      fontSize: 14,
-                      color: AppColors.text,
-                    ),
+            .map(
+              (c) => DropdownMenuItem(
+                value: c,
+                child: Text(
+                  c[0].toUpperCase() + c.substring(1),
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: colors.primaryText,
+                    fontWeight: FontWeight.w700,
                   ),
-                ))
+                ),
+              ),
+            )
             .toList(),
       ),
     );
   }
 
   Widget _marketField() {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: _partnerEditorFieldPadding(),
       child: TextFormField(
         initialValue: AppMarket.country.name,
         enabled: false,
-        style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
+        style: theme.textTheme.bodyMedium?.copyWith(
+          color: colors.primaryText,
+          fontWeight: FontWeight.w700,
+        ),
         decoration: InputDecoration(
           labelText: 'Market (auto)',
-          labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
+          labelStyle: theme.textTheme.labelMedium?.copyWith(
+            color: colors.secondaryText,
+            fontWeight: FontWeight.w700,
+          ),
           filled: true,
-          fillColor: AppColors.surface2.withValues(alpha: 0.5),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
+          fillColor: colors.buttonSecondaryBackground,
+          border: _inputBorder(colors),
+          enabledBorder: _inputBorder(colors),
+          disabledBorder: _inputBorder(
+            colors,
+            borderColor: colors.border.withValues(alpha: 0.65),
           ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 14,
-            vertical: 14,
-          ),
+          contentPadding: _partnerEditorInputPadding(),
         ),
       ),
     );
   }
 
   Widget _switchTile(String label, bool value, ValueChanged<bool> onChanged) {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Semantics(
       label: label,
       toggled: value,
       child: SwitchListTile(
         title: Text(
           label,
-          style: GoogleFonts.dmSans(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: AppColors.text,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: colors.primaryText,
+            fontWeight: FontWeight.w700,
           ),
         ),
         value: value,
-        activeTrackColor: AppColors.accent,
-        contentPadding: EdgeInsets.zero,
+        activeColor: Theme.of(context).colorScheme.onPrimary,
+        activeTrackColor: colors.accent,
+        inactiveThumbColor: colors.secondaryText,
+        inactiveTrackColor: colors.borderStrong,
+        contentPadding: _partnerEditorZeroPadding(),
         onChanged: onChanged,
       ),
+    );
+  }
+
+  OutlineInputBorder _inputBorder(
+    CoolSemanticColors colors, {
+    Color? borderColor,
+  }) {
+    return OutlineInputBorder(
+      borderRadius: _partnerEditorInputRadius,
+      borderSide: BorderSide(color: borderColor ?? colors.border, width: 1.2),
     );
   }
 }
