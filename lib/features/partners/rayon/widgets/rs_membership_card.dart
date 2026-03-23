@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/cool_palette.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../core/theme/rs_text_styles.dart';
 import '../models/rs_models.dart';
@@ -58,7 +57,7 @@ class RsMembershipCard extends StatelessWidget {
                   '⚽',
                   style: TextStyle(
                     fontSize: 108,
-                    color: AppColors.rsWhite.withValues(alpha: 0.07),
+                    color: RsColors.rsWhite.withValues(alpha: 0.07),
                   ),
                 ),
               ),
@@ -96,7 +95,7 @@ class RsMembershipCard extends StatelessWidget {
                     style: GoogleFonts.dmMono(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.rsWhite.withValues(alpha: 0.6),
+                      color: RsColors.rsWhite.withValues(alpha: 0.6),
                     ),
                   ),
                   const SizedBox(height: 6),
@@ -105,7 +104,7 @@ class RsMembershipCard extends StatelessWidget {
                     style: GoogleFonts.barlow(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: AppColors.rsWhite.withValues(alpha: 0.5),
+                      color: RsColors.rsWhite.withValues(alpha: 0.5),
                     ),
                   ),
                   if (perks.isNotEmpty) ...[
@@ -137,7 +136,7 @@ class _PerkChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.rsWhite.withValues(alpha: 0.1),
+        color: RsColors.rsWhite.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(999),
       ),
       child: Padding(
@@ -147,7 +146,7 @@ class _PerkChip extends StatelessWidget {
           style: GoogleFonts.barlow(
             fontSize: 11,
             fontWeight: FontWeight.w600,
-            color: AppColors.rsWhite.withValues(alpha: 0.85),
+            color: RsColors.rsWhite.withValues(alpha: 0.85),
             height: 1,
           ),
         ),
@@ -160,7 +159,7 @@ class _DiagonalStripePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = AppColors.rsWhite.withValues(alpha: 0.02)
+      ..color = RsColors.rsWhite.withValues(alpha: 0.02)
       ..strokeWidth = 1.2;
 
     const spacing = 18.0;

@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/status/models/cool_mission.dart';
 import '../../../core/status/providers/cool_missions_provider.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/icon_mapper.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_error_view.dart';
@@ -23,7 +23,7 @@ class MissionsScreen extends ConsumerWidget {
     final userId = ref.watch(authProvider).user?.id ?? '';
 
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: context.coolSemanticColors.appBackground,
       body: CoolScreenBackground(
         child: SafeArea(
           child: CustomScrollView(
@@ -38,7 +38,7 @@ class MissionsScreen extends ConsumerWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                    color: context.coolSemanticColors.primaryText,
                   ),
                 ),
                 centerTitle: false,
@@ -169,16 +169,16 @@ class _UpcomingMissionTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.coolSemanticColors.elevatedBackground,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: context.coolSemanticColors.border),
       ),
       child: Row(
         children: [
           Icon(
             IconMapper.from(mission.emoji),
             size: 22,
-            color: AppColors.text2,
+            color: context.coolSemanticColors.secondaryText,
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -190,7 +190,7 @@ class _UpcomingMissionTile extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.text,
+                    color: context.coolSemanticColors.primaryText,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -198,7 +198,7 @@ class _UpcomingMissionTile extends StatelessWidget {
                   'Starts ${_formatDate(mission.startsAt)}',
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
-                    color: AppColors.text3,
+                    color: context.coolSemanticColors.tertiaryText,
                   ),
                 ),
               ],
@@ -211,7 +211,7 @@ class _UpcomingMissionTile extends StatelessWidget {
                 const Icon(
                   Icons.emoji_events_rounded,
                   size: 14,
-                  color: AppColors.yellow,
+                  color: context.coolSemanticColors.warning,
                 ),
                 const SizedBox(width: 4),
                 Text(
@@ -219,7 +219,7 @@ class _UpcomingMissionTile extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.yellow,
+                    color: context.coolSemanticColors.warning,
                   ),
                 ),
               ],
@@ -253,7 +253,7 @@ class _SectionLabel extends StatelessWidget {
         fontSize: 13,
         fontWeight: FontWeight.w600,
         letterSpacing: 0.5,
-        color: AppColors.text3,
+        color: context.coolSemanticColors.tertiaryText,
       ),
     );
   }

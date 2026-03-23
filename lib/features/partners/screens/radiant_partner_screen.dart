@@ -4,8 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/services/whatsapp_contact_service.dart';
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/icon_mapper.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_button.dart';
@@ -30,6 +29,7 @@ class RadiantPartnerScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.coolSemanticColors;
     final palette = context.coolPalette;
     final partnerAsync = ref.watch(partnerBySlugProvider(_slug));
 
@@ -46,10 +46,7 @@ class RadiantPartnerScreen extends ConsumerWidget {
             icon: Icons.arrow_back_ios_new_rounded,
             color: palette.text,
           ),
-          actions: buildPartnerAppBarActions(
-            context,
-            homeColor: palette.text,
-          ),
+          actions: buildPartnerAppBarActions(context, homeColor: palette.text),
           title: partnerAsync.when(
             data: (p) => Text(
               p?.name ?? 'Insurance Partner',
@@ -115,6 +112,7 @@ class _RadiantBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.coolSemanticColors;
     final palette = context.coolPalette;
     final servicesAsync = ref.watch(
       currentCountryPartnerServicesProvider(partner.id),
@@ -126,7 +124,7 @@ class _RadiantBody extends ConsumerWidget {
         children: [
           // ── Hero ─────────────────────────────────────────────
           CoolCard(
-            gradient: AppColors.blueGradient,
+            gradient: colors.surfaceGradient,
             child: Stack(
               children: [
                 Positioned(
@@ -226,7 +224,10 @@ class _RadiantBody extends ConsumerWidget {
           ),
 
           const SizedBox(height: 16),
-          CoolButton(label: context.l10n.requestAQuote, onTap: () => _openChat(context)),
+          CoolButton(
+            label: context.l10n.requestAQuote,
+            onTap: () => _openChat(context),
+          ),
         ],
       ),
     );
@@ -241,6 +242,7 @@ class _InsuranceServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final palette = context.coolPalette;
     return CoolCard(
       onTap: onTap,
@@ -331,6 +333,7 @@ class _InfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final palette = context.coolPalette;
     return Row(
       children: [

@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/router/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../shared/widgets/cool_button.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_screen_background.dart';
@@ -80,6 +80,7 @@ class _BankOnboardingScreenState extends ConsumerState<BankOnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final user = ref.watch(currentUserProvider);
     final config = bankConfigForSlug(widget.slug);
 
@@ -137,7 +138,7 @@ class _BankOnboardingScreenState extends ConsumerState<BankOnboardingScreen> {
               height: 4,
               margin: const EdgeInsets.symmetric(horizontal: 2),
               decoration: BoxDecoration(
-                color: isActive ? AppColors.accent : AppColors.border,
+                color: isActive ? colors.accent : colors.border,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -173,7 +174,7 @@ class _BankOnboardingScreenState extends ConsumerState<BankOnboardingScreen> {
         const SizedBox(height: 8),
         Text(
           'These details will be',
-          style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text2),
+          style: GoogleFonts.dmSans(fontSize: 14, color: colors.secondaryText),
         ),
         const SizedBox(height: 24),
         CoolCard(
@@ -200,7 +201,7 @@ class _BankOnboardingScreenState extends ConsumerState<BankOnboardingScreen> {
           'If these details are',
           style: GoogleFonts.dmSans(
             fontSize: 12,
-            color: AppColors.orange,
+            color: colors.warning,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -219,7 +220,7 @@ class _BankOnboardingScreenState extends ConsumerState<BankOnboardingScreen> {
         const SizedBox(height: 8),
         Text(
           'Enter the amount you',
-          style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text2),
+          style: GoogleFonts.dmSans(fontSize: 14, color: colors.secondaryText),
         ),
         const SizedBox(height: 24),
         TextField(
@@ -247,7 +248,7 @@ class _BankOnboardingScreenState extends ConsumerState<BankOnboardingScreen> {
         const SizedBox(height: 8),
         Text(
           'Take clear selfie',
-          style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text2),
+          style: GoogleFonts.dmSans(fontSize: 14, color: colors.secondaryText),
         ),
         const SizedBox(height: 32),
         Center(
@@ -264,12 +265,10 @@ class _BankOnboardingScreenState extends ConsumerState<BankOnboardingScreen> {
               width: 200,
               height: 260,
               decoration: BoxDecoration(
-                color: AppColors.surface2,
+                color: colors.cardSurface,
                 borderRadius: BorderRadius.circular(100),
                 border: Border.all(
-                  color: _selfiePath != null
-                      ? AppColors.accent
-                      : AppColors.border,
+                  color: _selfiePath != null ? colors.accent : colors.border,
                   width: 2,
                 ),
                 image: _selfiePath != null
@@ -286,12 +285,12 @@ class _BankOnboardingScreenState extends ConsumerState<BankOnboardingScreen> {
                         Icon(
                           Icons.camera_alt_rounded,
                           size: 40,
-                          color: AppColors.text3,
+                          color: colors.tertiaryText,
                         ),
                         const SizedBox(height: 12),
                         Text(
                           'Tap to take selfie',
-                          style: TextStyle(color: AppColors.text3),
+                          style: TextStyle(color: colors.tertiaryText),
                         ),
                       ],
                     )
@@ -306,14 +305,17 @@ class _BankOnboardingScreenState extends ConsumerState<BankOnboardingScreen> {
   Widget _buildInfoRow(IconData icon, String label, String value) {
     return Row(
       children: [
-        Icon(icon, color: AppColors.accent, size: 20),
+        Icon(icon, color: colors.accent, size: 20),
         const SizedBox(width: 12),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               label,
-              style: GoogleFonts.dmSans(fontSize: 12, color: AppColors.text3),
+              style: GoogleFonts.dmSans(
+                fontSize: 12,
+                color: colors.tertiaryText,
+              ),
             ),
             Text(
               value,

@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/providers/production_redesign_provider.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/cool_foundations.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../shared/widgets/cool_button.dart';
@@ -86,7 +85,7 @@ class _ClubShopScreenState extends ConsumerState<ClubShopScreen> {
                 children: [
                   const Icon(
                     Icons.shopping_bag_outlined,
-                    color: AppColors.rsWhite,
+                    color: RsColors.rsWhite,
                     size: 22,
                   ),
                   if (cartItemCount > 0)

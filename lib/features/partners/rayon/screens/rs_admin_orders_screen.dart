@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/l10n/l10n.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/cool_foundations.dart';
+import '../../../../core/theme/rs_colors.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
 import '../../../../shared/widgets/cool_bottom_sheet.dart';
 import '../../../../shared/widgets/cool_card.dart';
@@ -313,7 +313,7 @@ Color _orderStatusColor(BuildContext context, String status) {
   return switch (status) {
     'paid' => colors.success,
     'confirmed' => colors.info,
-    'packed' || 'shipped' => AppColors.rsBlueLight,
+    'packed' || 'shipped' => RsColors.rsBlueLight,
     'fulfilled' || 'delivered' => colors.accent,
     'cancelled' => colors.danger,
     _ => colors.warning,
@@ -342,11 +342,11 @@ class _OrderFilterChip extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColors.rsBlue.withValues(alpha: 0.18)
+              ? RsColors.rsBlue.withValues(alpha: 0.18)
               : colors.chipBackground,
           borderRadius: BorderRadius.circular(999),
           border: Border.all(
-            color: isSelected ? AppColors.rsBlue : colors.border,
+            color: isSelected ? RsColors.rsBlue : colors.border,
           ),
         ),
         child: Text(
@@ -354,7 +354,7 @@ class _OrderFilterChip extends StatelessWidget {
           style: GoogleFonts.dmSans(
             fontSize: 13,
             fontWeight: FontWeight.w800,
-            color: isSelected ? AppColors.rsBlueLight : colors.secondaryText,
+            color: isSelected ? RsColors.rsBlueLight : colors.secondaryText,
           ),
         ),
       ),
@@ -661,7 +661,7 @@ class _OrderActionPill extends StatelessWidget {
           style: GoogleFonts.dmSans(
             fontSize: 12,
             fontWeight: FontWeight.w800,
-            color: AppColors.rsBlueLight,
+            color: RsColors.rsBlueLight,
           ),
         ),
       ),

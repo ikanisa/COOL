@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../models/rs_models.dart';
 
@@ -18,7 +18,7 @@ abstract final class RsTheme {
     FanTier.platinum => const Color(0xFFC8DCFF),
     FanTier.gold => RsColors.rsGoldLight,
     FanTier.silver => const Color(0xFFC8C8E0),
-    FanTier.blue => AppColors.blue,
+    FanTier.blue => RsColors.rsBlueLight,
   };
 
   /// Returns a semi-transparent background tinted to [tier].
@@ -37,10 +37,10 @@ abstract final class RsTheme {
 
   /// Returns the accent colour for an initiative category.
   static Color categoryColor(InitiativeCategory cat) => switch (cat) {
-    InitiativeCategory.community => AppColors.accent,
-    InitiativeCategory.infrastructure => AppColors.blue,
-    InitiativeCategory.youth => AppColors.purple,
-    InitiativeCategory.matchday => AppColors.orange,
+    InitiativeCategory.community => CoolSemanticColors.light.accent,
+    InitiativeCategory.infrastructure => CoolSemanticColors.light.info,
+    InitiativeCategory.youth => CoolSemanticColors.light.teamSurface,
+    InitiativeCategory.matchday => CoolSemanticColors.light.warning,
     InitiativeCategory.charity => RsColors.rsGold,
   };
 

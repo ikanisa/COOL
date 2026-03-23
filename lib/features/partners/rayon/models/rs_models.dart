@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/identity/public_user_identity.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../rayon_ticket_qr.dart';
 
@@ -52,7 +51,7 @@ extension FanTierX on FanTier {
   };
 
   Color get color => switch (this) {
-    FanTier.blue => AppColors.blue,
+    FanTier.blue => RsColors.rsBlueLight,
     FanTier.silver => const Color(0xFFC0C0C0),
     FanTier.gold => const Color(0xFFFFD700),
     FanTier.platinum => const Color(0xFFE5E4E2),
@@ -66,7 +65,7 @@ extension FanTierX on FanTier {
   };
 
   Color get glowColor => switch (this) {
-    FanTier.blue => AppColors.blue.withValues(alpha: 0.4),
+    FanTier.blue => RsColors.rsBlueLight.withValues(alpha: 0.4),
     FanTier.silver => const Color(0xFFC0C0C0).withValues(alpha: 0.4),
     FanTier.gold => const Color(0xFFFFD700).withValues(alpha: 0.4),
     FanTier.platinum => const Color(0xFFE5E4E2).withValues(alpha: 0.4),
@@ -127,12 +126,24 @@ extension TicketStatusX on TicketStatus {
   };
 
   bool get isTerminal => switch (this) {
-    TicketStatus.used || TicketStatus.cancelled || TicketStatus.voided || TicketStatus.refunded => true,
+    TicketStatus.used ||
+    TicketStatus.cancelled ||
+    TicketStatus.voided ||
+    TicketStatus.refunded => true,
     _ => false,
   };
 }
 
-enum OrderStatus { pending, paid, confirmed, packed, shipped, fulfilled, delivered, cancelled }
+enum OrderStatus {
+  pending,
+  paid,
+  confirmed,
+  packed,
+  shipped,
+  fulfilled,
+  delivered,
+  cancelled,
+}
 
 extension OrderStatusX on OrderStatus {
   static OrderStatus fromValue(String? value) {
@@ -162,7 +173,11 @@ extension OrderStatusX on OrderStatus {
   };
 
   bool get isActive => switch (this) {
-    OrderStatus.pending || OrderStatus.paid || OrderStatus.confirmed || OrderStatus.packed || OrderStatus.shipped => true,
+    OrderStatus.pending ||
+    OrderStatus.paid ||
+    OrderStatus.confirmed ||
+    OrderStatus.packed ||
+    OrderStatus.shipped => true,
     _ => false,
   };
 }

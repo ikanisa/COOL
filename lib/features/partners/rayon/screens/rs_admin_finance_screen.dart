@@ -1,10 +1,10 @@
+import '../../../../core/theme/rs_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/cool_palette.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
@@ -118,7 +118,7 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
     await showCoolBottomSheet<void>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: AppColors.surface,
+      backgroundColor: colors.elevatedBackground,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -287,9 +287,7 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
       context: context,
       builder: (dialogContext) => AlertDialog(
         title: Text(context.l10n.deletePaymentRoute),
-        content: Text(
-          'Remove the ${route.countryCode} payment?',
-        ),
+        content: Text('Remove the ${route.countryCode} payment?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(false),
@@ -331,6 +329,7 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final palette = context.coolPalette;
     final partnerIdAsync = ref.watch(rayonPartnerIdProvider);
     return partnerIdAsync.when(
@@ -340,9 +339,7 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
       ),
       error: (_, _) => Scaffold(
         backgroundColor: palette.bg,
-        body: Center(
-          child: Text(context.l10n.financeWorkspaceCouldNot),
-        ),
+        body: Center(child: Text(context.l10n.financeWorkspaceCouldNot)),
       ),
       data: (partnerId) {
         final routesAsync = ref.watch(rsAdminPaymentRoutesProvider);
@@ -372,8 +369,7 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
 
         return RsAdminShell(
           title: 'Finance',
-          subtitle:
-              'Manage Rayon payment routing',
+          subtitle: 'Manage Rayon payment routing',
           metrics: [
             RsAdminMetric(label: 'routes', value: '$routeCount'),
             RsAdminMetric(label: 'active', value: '$activeRouteCount'),

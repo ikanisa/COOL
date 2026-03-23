@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/cool_foundations.dart';
-import '../../../../core/theme/cool_palette.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
@@ -50,7 +48,7 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
     await showCoolBottomSheet<void>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: AppColors.surface,
+      backgroundColor: colors.elevatedBackground,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -267,6 +265,7 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final packagesAsync = ref.watch(rsAdminMembershipPackagesProvider);
     final membersAsync = ref.watch(rsAdminMembersProvider);
     final activeCount =
@@ -345,6 +344,7 @@ class _PackageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final palette = context.coolPalette;
     final tier = package.tier;
     return CoolCard(
@@ -501,6 +501,7 @@ class _PackageStatusPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final palette = context.coolPalette;
     final color = package.isActive ? package.tier.color : palette.text3;
     return Container(
@@ -530,6 +531,7 @@ class _InfoPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),

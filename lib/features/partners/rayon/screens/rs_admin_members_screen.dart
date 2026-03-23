@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/cool_foundations.dart';
+import '../../../../core/theme/rs_colors.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
@@ -129,7 +129,7 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(CoolRadii.lg),
-                  borderSide: const BorderSide(color: AppColors.rsBlue),
+                  borderSide: const BorderSide(color: RsColors.rsBlue),
                 ),
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 16,
@@ -144,7 +144,7 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
         data: (members) => members.isEmpty
             ? null
             : FloatingActionButton.small(
-                backgroundColor: AppColors.rsBlue,
+                backgroundColor: RsColors.rsBlue,
                 onPressed: () => _exportCsv(members),
                 child: const Icon(
                   Icons.download_rounded,
@@ -233,7 +233,7 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
               style: GoogleFonts.dmSans(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
-                color: AppColors.text,
+                color: colors.primaryText,
               ),
             ),
             const SizedBox(height: 16),
@@ -247,14 +247,14 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
                   leading: Icon(
                     _tierIcon(tier),
                     size: 20,
-                    color: AppColors.rsGold,
+                    color: RsColors.rsGold,
                   ),
                   title: Text(
                     tier.name.toUpperCase(),
                     style: GoogleFonts.dmSans(
                       color: member.tier == tier
-                          ? AppColors.accent
-                          : AppColors.text,
+                          ? colors.accent
+                          : colors.primaryText,
                       fontWeight: member.tier == tier
                           ? FontWeight.w700
                           : FontWeight.w400,
@@ -263,7 +263,7 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
                   trailing: member.tier == tier
                       ? const Icon(
                           Icons.check_circle,
-                          color: AppColors.accent,
+                          color: colors.accent,
                           size: 20,
                         )
                       : null,
@@ -307,7 +307,7 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
               style: GoogleFonts.dmSans(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
-                color: AppColors.text,
+                color: colors.primaryText,
               ),
             ),
             const SizedBox(height: 16),
@@ -318,15 +318,18 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
               child: TextField(
                 controller: controller,
                 keyboardType: TextInputType.number,
-                style: GoogleFonts.dmSans(color: AppColors.text, fontSize: 16),
+                style: GoogleFonts.dmSans(
+                  color: colors.primaryText,
+                  fontSize: 16,
+                ),
                 decoration: InputDecoration(
                   labelText: 'Tokens',
                   labelStyle: GoogleFonts.dmSans(
-                    color: AppColors.text3,
+                    color: colors.tertiaryText,
                     fontSize: 13,
                   ),
                   filled: true,
-                  fillColor: AppColors.surface2,
+                  fillColor: colors.cardSurface,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide.none,
@@ -337,7 +340,7 @@ class _RsAdminMembersScreenState extends ConsumerState<RsAdminMembersScreen> {
             const SizedBox(height: 16),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.rsBlue,
+                backgroundColor: RsColors.rsBlue,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
@@ -458,7 +461,7 @@ class _MemberTile extends StatelessWidget {
                 ),
               ),
               alignment: Alignment.center,
-              child: Icon(_tierIcon, size: 26, color: AppColors.rsGold),
+              child: Icon(_tierIcon, size: 26, color: RsColors.rsGold),
             ),
             const SizedBox(width: 14),
             Expanded(
@@ -564,11 +567,11 @@ class _FilterTab extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
             color: isSelected
-                ? AppColors.rsBlue.withValues(alpha: 0.16)
+                ? RsColors.rsBlue.withValues(alpha: 0.16)
                 : colors.chipBackground,
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
-              color: isSelected ? AppColors.rsBlue : colors.border,
+              color: isSelected ? RsColors.rsBlue : colors.border,
             ),
           ),
           child: Text(
@@ -576,7 +579,7 @@ class _FilterTab extends StatelessWidget {
             style: GoogleFonts.dmSans(
               fontSize: 13,
               fontWeight: FontWeight.w800,
-              color: isSelected ? AppColors.rsBlueLight : colors.secondaryText,
+              color: isSelected ? RsColors.rsBlueLight : colors.secondaryText,
             ),
           ),
         ),
@@ -643,7 +646,7 @@ class _MemberActionPill extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, size: 16, color: AppColors.rsBlueLight),
+              Icon(icon, size: 16, color: RsColors.rsBlueLight),
               const SizedBox(width: 6),
               Text(
                 label,

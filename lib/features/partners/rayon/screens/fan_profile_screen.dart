@@ -79,93 +79,90 @@ class _FanProfileScreenState extends ConsumerState<FanProfileScreen> {
       scrollable: false,
       child: CustomScrollView(
         slivers: [
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(18, 12, 18, 96),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate([
-                  membershipAsync.when(
-                    data: (membership) => _ProfileHero(
-                      membership: membership,
-                      user: user,
-                      isRecoveringMembership: _isRecoveringMembership,
-                      onRecoverMembership: () => _ensureMembership(context),
-                    ),
-                    loading: () => const CoolSkeleton.card(),
-                    error: (error, stackTrace) => _ProfileHero(
-                      membership: null,
-                      user: user,
-                      isRecoveringMembership: _isRecoveringMembership,
-                      onRecoverMembership: () => _ensureMembership(context),
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(18, 12, 18, 96),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate([
+                membershipAsync.when(
+                  data: (membership) => _ProfileHero(
+                    membership: membership,
+                    user: user,
+                    isRecoveringMembership: _isRecoveringMembership,
+                    onRecoverMembership: () => _ensureMembership(context),
+                  ),
+                  loading: () => const CoolSkeleton.card(),
+                  error: (error, stackTrace) => _ProfileHero(
+                    membership: null,
+                    user: user,
+                    isRecoveringMembership: _isRecoveringMembership,
+                    onRecoverMembership: () => _ensureMembership(context),
+                  ),
+                ),
+                const SizedBox(height: 32),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8, bottom: 12),
+                  child: Text(
+                    'ACHIEVEMENTS'.toUpperCase(),
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 1.2,
+                      color: RsColors.rsWhite.withValues(alpha: 0.5),
                     ),
                   ),
-                  const SizedBox(height: 32),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8, bottom: 12),
-                    child: Text(
-                      'ACHIEVEMENTS'.toUpperCase(),
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 1.2,
-                        color: RsColors.rsWhite.withValues(alpha: 0.5),
-                      ),
-                    ),
-                  ),
-                  achievementsAsync.when(
-                    data: (achievements) => SizedBox(
-                      height: 120,
-                      child: achievements.isEmpty
-                          ? const _EmptyStrip(
-                              message: 'No achievements unlocked yet.',
-                            )
-                          : ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: achievements.length,
-                              padding: const EdgeInsets.symmetric(horizontal: 4),
-                              separatorBuilder: (context, index) =>
-                                  const SizedBox(width: 16),
-                              itemBuilder: (context, index) =>
-                                  RsAchievementBadge(
-                                    achievement: achievements[index],
-                                  ),
+                ),
+                achievementsAsync.when(
+                  data: (achievements) => SizedBox(
+                    height: 120,
+                    child: achievements.isEmpty
+                        ? const _EmptyStrip(
+                            message: 'No achievements unlocked yet.',
+                          )
+                        : ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: achievements.length,
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(width: 16),
+                            itemBuilder: (context, index) => RsAchievementBadge(
+                              achievement: achievements[index],
                             ),
-                    ),
-                    loading: () => const SizedBox(
-                      height: 120,
-                      child: _AchievementSkeletonRow(),
-                    ),
-                    error: (error, stackTrace) => const SizedBox(
-                      height: 120,
-                      child: _EmptyStrip(message: 'Achievements unavailable.'),
+                          ),
+                  ),
+                  loading: () => const SizedBox(
+                    height: 120,
+                    child: _AchievementSkeletonRow(),
+                  ),
+                  error: (error, stackTrace) => const SizedBox(
+                    height: 120,
+                    child: _EmptyStrip(message: 'Achievements unavailable.'),
+                  ),
+                ),
+                const SizedBox(height: 32),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8, bottom: 12),
+                  child: Text(
+                    'RECENT ORDERS'.toUpperCase(),
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 1.2,
+                      color: RsColors.rsWhite.withValues(alpha: 0.5),
                     ),
                   ),
-                  const SizedBox(height: 32),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8, bottom: 12),
-                    child: Text(
-                      'RECENT ORDERS'.toUpperCase(),
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 1.2,
-                        color: RsColors.rsWhite.withValues(alpha: 0.5),
-                      ),
-                    ),
-                  ),
-                  _RecentOrdersSection(
-                    ordersAsync: ordersAsync,
-                  ),
-                  const SizedBox(height: 32),
-                  membershipAsync.when(
-                    data: (membership) =>
-                        _PerksAccessCard(membership: membership, user: user),
-                    loading: () => const CoolSkeleton.card(),
-                    error: (error, stackTrace) =>
-                        _PerksAccessCard(membership: null, user: user),
-                  ),
-                ]),
-              ),
+                ),
+                _RecentOrdersSection(ordersAsync: ordersAsync),
+                const SizedBox(height: 32),
+                membershipAsync.when(
+                  data: (membership) =>
+                      _PerksAccessCard(membership: membership, user: user),
+                  loading: () => const CoolSkeleton.card(),
+                  error: (error, stackTrace) =>
+                      _PerksAccessCard(membership: null, user: user),
+                ),
+              ]),
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
   }
 }

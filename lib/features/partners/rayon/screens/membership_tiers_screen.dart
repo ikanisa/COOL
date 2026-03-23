@@ -3,8 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/router/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/cool_palette.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../core/theme/rs_text_styles.dart';
 import '../../../../shared/widgets/cool_card.dart';
@@ -25,6 +24,7 @@ class MembershipTiersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final palette = context.coolPalette;
     return Consumer(
       builder: (context, ref, _) {
@@ -127,6 +127,7 @@ class _TierList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final sortedPackages = packages.toList(growable: false)
       ..sort((left, right) => left.sortOrder.compareTo(right.sortOrder));
 
@@ -161,13 +162,14 @@ class _IntroCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final palette = context.coolPalette;
     final nextTier = currentTier.index < FanTier.values.length - 1
         ? FanTier.values[currentTier.index + 1]
         : null;
 
     return CoolCard(
-      gradient: AppColors.cardGradient,
+      gradient: colors.surfaceGradient,
       borderColor: RsColors.rsBlueBorder,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -182,7 +184,7 @@ class _IntroCard extends StatelessWidget {
                   style: GoogleFonts.barlow(
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
-                    color: AppColors.rsWhite,
+                    color: RsColors.rsWhite,
                   ),
                 ),
               ),
@@ -235,6 +237,7 @@ class _ProgressToNext extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final palette = context.coolPalette;
     final floor = currentTier.minPoints;
     final ceiling = nextTier.minPoints;
@@ -279,6 +282,7 @@ class _TierCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final palette = context.coolPalette;
     final tier = package.tier;
 
@@ -289,7 +293,7 @@ class _TierCard extends StatelessWidget {
               end: Alignment.bottomRight,
               colors: [tier.color.withValues(alpha: 0.18), palette.surface2],
             )
-          : AppColors.cardGradient,
+          : colors.surfaceGradient,
       borderColor: isCurrent
           ? tier.color.withValues(alpha: 0.5)
           : palette.border,
@@ -328,9 +332,7 @@ class _TierCard extends StatelessWidget {
                         style: GoogleFonts.barlow(
                           fontSize: 20,
                           fontWeight: FontWeight.w800,
-                          color: isUnlocked
-                              ? AppColors.rsWhite
-                              : palette.text3,
+                          color: isUnlocked ? RsColors.rsWhite : palette.text3,
                         ),
                       ),
                       const SizedBox(height: 2),
@@ -346,7 +348,11 @@ class _TierCard extends StatelessWidget {
                   ),
                 ),
                 if (isCurrent)
-                  _StatusChip(label: context.l10n.current, color: tier.color, filled: true)
+                  _StatusChip(
+                    label: context.l10n.current,
+                    color: tier.color,
+                    filled: true,
+                  )
                 else if (isUnlocked)
                   _StatusChip(
                     label: context.l10n.unlocked,
@@ -402,7 +408,7 @@ class _TierCard extends StatelessWidget {
                               fontSize: 14,
                               fontWeight: FontWeight.w700,
                               color: isUnlocked
-                                  ? AppColors.rsWhite
+                                  ? RsColors.rsWhite
                                   : palette.text3,
                             ),
                           ),
@@ -447,6 +453,7 @@ class _StatusChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return DecoratedBox(
       decoration: BoxDecoration(
         color: filled ? color.withValues(alpha: 0.2) : Colors.transparent,

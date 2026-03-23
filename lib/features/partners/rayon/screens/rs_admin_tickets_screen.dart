@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/cool_foundations.dart';
+import '../../../../core/theme/rs_colors.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
@@ -182,19 +182,19 @@ class _RsAdminTicketsScreenState extends ConsumerState<RsAdminTicketsScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: AppColors.surface,
+        backgroundColor: colors.elevatedBackground,
         title: Text(
           'Gate Check',
           style: GoogleFonts.dmSans(
             fontWeight: FontWeight.w700,
-            color: AppColors.text,
+            color: colors.primaryText,
           ),
         ),
         content: Text(
           'Mark this ticket as USED at the gate?\n\n'
           '${ticket.matchTitle}\n'
           '${ticket.seatType} · ${ticket.amountPaid} RWF',
-          style: GoogleFonts.dmSans(color: AppColors.text2),
+          style: GoogleFonts.dmSans(color: colors.secondaryText),
         ),
         actions: [
           TextButton(
@@ -220,19 +220,19 @@ class _RsAdminTicketsScreenState extends ConsumerState<RsAdminTicketsScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: AppColors.surface,
+        backgroundColor: colors.elevatedBackground,
         title: Text(
           'Refund Ticket',
           style: GoogleFonts.dmSans(
             fontWeight: FontWeight.w700,
-            color: AppColors.text,
+            color: colors.primaryText,
           ),
         ),
         content: Text(
           'Refund this ticket? This cannot be undone.\n\n'
           '${ticket.matchTitle}\n'
           '${ticket.seatType} · ${ticket.amountPaid} RWF',
-          style: GoogleFonts.dmSans(color: AppColors.text2),
+          style: GoogleFonts.dmSans(color: colors.secondaryText),
         ),
         actions: [
           TextButton(
@@ -240,7 +240,7 @@ class _RsAdminTicketsScreenState extends ConsumerState<RsAdminTicketsScreen> {
             child: Text(context.l10n.cancel),
           ),
           FilledButton(
-            style: FilledButton.styleFrom(backgroundColor: AppColors.red),
+            style: FilledButton.styleFrom(backgroundColor: colors.danger),
             onPressed: () => Navigator.pop(ctx, true),
             child: Text(context.l10n.refund),
           ),
@@ -338,7 +338,7 @@ class _FilterChip extends StatelessWidget {
                   ),
             borderRadius: BorderRadius.circular(CoolRadii.pill),
             border: Border.all(
-              color: isSelected ? AppColors.rsBlue : colors.borderStrong,
+              color: isSelected ? RsColors.rsBlue : colors.borderStrong,
             ),
           ),
           child: Text(
@@ -463,7 +463,7 @@ class _TicketTile extends StatelessWidget {
                     _ActionChip(
                       icon: Icons.undo_rounded,
                       label: 'Refund',
-                      color: AppColors.red,
+                      color: colors.danger,
                       onTap: onRefund!,
                     ),
                 ],
@@ -532,12 +532,12 @@ class _StatusBadge extends StatelessWidget {
   final String status;
 
   Color get _color => switch (status) {
-    'valid' => AppColors.accent,
-    'used' => AppColors.blue,
-    'cancelled' => AppColors.red,
-    'voided' => AppColors.text3,
-    'refunded' => AppColors.purple,
-    _ => AppColors.yellow,
+    'valid' => colors.accent,
+    'used' => colors.info,
+    'cancelled' => colors.danger,
+    'voided' => colors.tertiaryText,
+    'refunded' => colors.teamSurface,
+    _ => colors.warning,
   };
 
   @override

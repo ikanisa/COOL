@@ -3,9 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/cool_foundations.dart';
-import '../../../../core/theme/cool_palette.dart';
+import '../../../../core/theme/rs_colors.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
@@ -39,7 +38,7 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
         label: 'Add product',
         hint: 'New product',
         child: FloatingActionButton(
-          backgroundColor: AppColors.rsBlue,
+          backgroundColor: RsColors.rsBlue,
           onPressed: () => _showProductForm(context),
           child: const Icon(Icons.add, color: Colors.white),
         ),
@@ -132,14 +131,14 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: AppColors.surface,
+        backgroundColor: colors.elevatedBackground,
         title: Text(
           'Delete product?',
-          style: GoogleFonts.dmSans(color: AppColors.text),
+          style: GoogleFonts.dmSans(color: colors.primaryText),
         ),
         content: Text(
           prod.name,
-          style: GoogleFonts.dmSans(color: AppColors.text2),
+          style: GoogleFonts.dmSans(color: colors.secondaryText),
         ),
         actions: [
           TextButton(
@@ -150,7 +149,7 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
             onPressed: () => Navigator.pop(ctx, true),
             child: Text(
               context.l10n.delete,
-              style: const TextStyle(color: AppColors.red),
+              style: TextStyle(color: colors.danger),
             ),
           ),
         ],
@@ -232,7 +231,7 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
               const SizedBox(height: 16),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.rsBlue,
+                  backgroundColor: RsColors.rsBlue,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
@@ -328,7 +327,7 @@ class _ProductTile extends StatelessWidget {
                                 vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color: AppColors.red.withValues(alpha: 0.15),
+                                color: colors.danger.withValues(alpha: 0.15),
                                 borderRadius: BorderRadius.circular(
                                   CoolRadii.sm,
                                 ),
@@ -338,7 +337,7 @@ class _ProductTile extends StatelessWidget {
                                 style: GoogleFonts.dmSans(
                                   fontSize: 10,
                                   fontWeight: FontWeight.w800,
-                                  color: AppColors.red,
+                                  color: colors.danger,
                                 ),
                               ),
                             ),
@@ -359,10 +358,10 @@ class _ProductTile extends StatelessWidget {
                     const SizedBox(height: 2),
                     Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.warning_amber_rounded,
                           size: 13,
-                          color: AppColors.red,
+                          color: colors.danger,
                         ),
                         const SizedBox(width: 3),
                         Text(
@@ -370,7 +369,7 @@ class _ProductTile extends StatelessWidget {
                           style: GoogleFonts.dmSans(
                             fontSize: 11,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.red,
+                            color: colors.danger,
                           ),
                         ),
                       ],
@@ -406,7 +405,7 @@ class _ProductTile extends StatelessWidget {
                         icon: Icons.delete_outline,
                         label: 'Delete',
                         onTap: onDelete,
-                        color: AppColors.red,
+                        color: colors.danger,
                       ),
                     ],
                   ),
@@ -578,12 +577,12 @@ class _StockBtn extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
           color: enabled
-              ? AppColors.rsBlue.withValues(alpha: 0.12)
+              ? RsColors.rsBlue.withValues(alpha: 0.12)
               : colors.chipBackground,
           borderRadius: BorderRadius.circular(CoolRadii.sm),
           border: Border.all(
             color: enabled
-                ? AppColors.rsBlue.withValues(alpha: 0.18)
+                ? RsColors.rsBlue.withValues(alpha: 0.18)
                 : colors.border,
           ),
         ),
@@ -593,13 +592,13 @@ class _StockBtn extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 11,
                   fontWeight: FontWeight.w700,
-                  color: enabled ? AppColors.rsBlue : colors.secondaryText,
+                  color: enabled ? RsColors.rsBlue : colors.secondaryText,
                 ),
               )
             : Icon(
                 icon,
                 size: 14,
-                color: enabled ? AppColors.rsBlue : colors.secondaryText,
+                color: enabled ? RsColors.rsBlue : colors.secondaryText,
               ),
       ),
     );

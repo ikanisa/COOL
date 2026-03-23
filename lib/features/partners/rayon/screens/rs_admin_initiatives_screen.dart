@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/cool_foundations.dart';
+import '../../../../core/theme/rs_colors.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
@@ -44,7 +44,7 @@ class _RsAdminInitiativesScreenState
         label: 'Add initiative',
         hint: 'New initiative',
         child: FloatingActionButton(
-          backgroundColor: AppColors.rsBlue,
+          backgroundColor: RsColors.rsBlue,
           onPressed: () => _showForm(context),
           child: const Icon(Icons.add, color: Colors.white),
         ),
@@ -155,17 +155,17 @@ class _RsAdminInitiativesScreenState
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: AppColors.surface,
+        backgroundColor: colors.elevatedBackground,
         title: Text(
           'Delete Initiative?',
           style: GoogleFonts.dmSans(
             fontWeight: FontWeight.w700,
-            color: AppColors.text,
+            color: colors.primaryText,
           ),
         ),
         content: Text(
           'Delete "${init.title}"? This cannot be undone.',
-          style: GoogleFonts.dmSans(color: AppColors.text2),
+          style: GoogleFonts.dmSans(color: colors.secondaryText),
         ),
         actions: [
           TextButton(
@@ -173,7 +173,7 @@ class _RsAdminInitiativesScreenState
             child: Text(context.l10n.cancel),
           ),
           FilledButton(
-            style: FilledButton.styleFrom(backgroundColor: AppColors.red),
+            style: FilledButton.styleFrom(backgroundColor: colors.danger),
             onPressed: () => Navigator.pop(ctx, true),
             child: Text(context.l10n.delete),
           ),
@@ -272,7 +272,7 @@ class _RsAdminInitiativesScreenState
               const SizedBox(height: 16),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.rsBlue,
+                  backgroundColor: RsColors.rsBlue,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
@@ -596,7 +596,7 @@ class _Field extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(color: AppColors.rsBlue),
+              borderSide: const BorderSide(color: RsColors.rsBlue),
             ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 14,
@@ -770,11 +770,11 @@ class _InitiativeFilterChip extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColors.rsBlue.withValues(alpha: 0.18)
+              ? RsColors.rsBlue.withValues(alpha: 0.18)
               : colors.chipBackground,
           borderRadius: BorderRadius.circular(999),
           border: Border.all(
-            color: isSelected ? AppColors.rsBlue : colors.border,
+            color: isSelected ? RsColors.rsBlue : colors.border,
           ),
         ),
         child: Text(
@@ -782,7 +782,7 @@ class _InitiativeFilterChip extends StatelessWidget {
           style: GoogleFonts.dmSans(
             fontSize: 13,
             fontWeight: FontWeight.w800,
-            color: isSelected ? AppColors.rsBlueLight : colors.secondaryText,
+            color: isSelected ? RsColors.rsBlueLight : colors.secondaryText,
           ),
         ),
       ),

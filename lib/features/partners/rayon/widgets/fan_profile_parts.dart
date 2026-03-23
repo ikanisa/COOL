@@ -15,6 +15,7 @@ class _ProfileHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final fanName = membership?.displayName ?? user?.displayUserId ?? '';
     final tier = membership?.tier ?? FanTier.blue;
     final chapter = membership?.chapter ?? 'Official membership pending';
@@ -45,13 +46,13 @@ class _ProfileHero extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  border: Border.all(color: AppColors.rsWhite, width: 2.5),
+                  border: Border.all(color: RsColors.rsWhite, width: 2.5),
                 ),
                 alignment: Alignment.center,
                 child: Text(
                   initials,
                   style: RsTextStyles.clubName(
-                    color: AppColors.rsWhite,
+                    color: RsColors.rsWhite,
                   ).copyWith(fontSize: 24),
                 ),
               ),
@@ -62,13 +63,13 @@ class _ProfileHero extends StatelessWidget {
                   children: [
                     Text(
                       fanName,
-                      style: RsTextStyles.clubName(color: AppColors.rsWhite),
+                      style: RsTextStyles.clubName(color: RsColors.rsWhite),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       fanId,
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: AppColors.rsWhite.withValues(alpha: 0.6),
+                        color: RsColors.rsWhite.withValues(alpha: 0.6),
                         letterSpacing: 0.5,
                       ),
                     ),
@@ -104,7 +105,7 @@ class _ProfileHero extends StatelessWidget {
                         style: Theme.of(context).textTheme.labelSmall?.copyWith(
                           fontWeight: FontWeight.w800,
                           letterSpacing: 1.0,
-                          color: AppColors.rsWhite,
+                          color: RsColors.rsWhite,
                         ),
                       ),
                       const Spacer(),
@@ -131,7 +132,7 @@ class _ProfileHero extends StatelessWidget {
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         fontSize: 14,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.rsWhite.withValues(alpha: 0.5),
+                        color: RsColors.rsWhite.withValues(alpha: 0.5),
                       ),
                     ),
                   ),
@@ -152,7 +153,7 @@ class _ProfileHero extends StatelessWidget {
                   Text(
                     'Become an official member to unlock exclusive club perks.',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.rsWhite.withValues(alpha: 0.8),
+                      color: RsColors.rsWhite.withValues(alpha: 0.8),
                       height: 1.5,
                     ),
                   ),
@@ -181,10 +182,11 @@ class _ChapterChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final palette = context.coolPalette;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.rsWhite.withValues(alpha: 0.08),
+        color: RsColors.rsWhite.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(999),
         border: Border.all(color: palette.border),
       ),
@@ -195,7 +197,7 @@ class _ChapterChip extends StatelessWidget {
           style: GoogleFonts.barlow(
             fontSize: 14,
             fontWeight: FontWeight.w600,
-            color: AppColors.rsWhite.withValues(alpha: 0.82),
+            color: RsColors.rsWhite.withValues(alpha: 0.82),
           ),
         ),
       ),
@@ -211,6 +213,7 @@ class _PerksAccessCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final palette = context.coolPalette;
     final tier = membership?.tier ?? FanTier.blue;
     final currentTierIndex = FanTier.values.indexOf(tier);
@@ -219,8 +222,8 @@ class _PerksAccessCard extends StatelessWidget {
     final hasMembership = membership != null;
 
     return CoolCard(
-      gradient: AppColors.cardGradient,
-      borderColor: AppColors.rsBlueBorder,
+      gradient: colors.surfaceGradient,
+      borderColor: RsColors.rsBlueBorder,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -278,6 +281,7 @@ class _PerkRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final palette = context.coolPalette;
     return Container(
       padding: const EdgeInsets.all(14),
@@ -300,7 +304,7 @@ class _PerkRow extends StatelessWidget {
                   style: GoogleFonts.barlow(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.rsWhite,
+                    color: RsColors.rsWhite,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -350,10 +354,11 @@ class _EmptyStrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final palette = context.coolPalette;
     return CoolCard(
-      gradient: AppColors.cardGradient,
-      borderColor: AppColors.rsBlueBorder,
+      gradient: colors.surfaceGradient,
+      borderColor: RsColors.rsBlueBorder,
       child: Center(
         child: Padding(
           padding: const EdgeInsets.all(18),
@@ -379,6 +384,7 @@ class _RecentOrdersSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return ordersAsync.when(
       data: (orders) {
         if (orders.isEmpty) {
@@ -411,12 +417,13 @@ class _OrderStatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final palette = context.coolPalette;
     final color = _orderStatusColor(context, order.status);
 
     return CoolCard(
-      gradient: AppColors.cardGradient,
-      borderColor: AppColors.rsBlueBorder,
+      gradient: colors.surfaceGradient,
+      borderColor: RsColors.rsBlueBorder,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -428,7 +435,7 @@ class _OrderStatusCard extends StatelessWidget {
                   style: GoogleFonts.barlow(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.rsWhite,
+                    color: RsColors.rsWhite,
                   ),
                 ),
               ),
@@ -493,6 +500,7 @@ class _AchievementSkeletonRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return ListView.separated(
       scrollDirection: Axis.horizontal,
       itemCount: 4,
@@ -648,7 +656,7 @@ Color _orderStatusColor(BuildContext context, OrderStatus status) {
     OrderStatus.pending => RsColors.rsGoldLight,
     OrderStatus.paid || OrderStatus.confirmed => palette.accent,
     OrderStatus.packed || OrderStatus.shipped => RsColors.rsBluePale,
-    OrderStatus.fulfilled || OrderStatus.delivered => AppColors.rsWhite,
+    OrderStatus.fulfilled || OrderStatus.delivered => RsColors.rsWhite,
     OrderStatus.cancelled => palette.text3,
   };
 }
@@ -695,7 +703,7 @@ void _showFanQr(BuildContext context, String fanId, FanTier tier) {
             const SizedBox(height: 20),
             DecoratedBox(
               decoration: BoxDecoration(
-                color: AppColors.rsWhite,
+                color: RsColors.rsWhite,
                 borderRadius: BorderRadius.circular(18),
               ),
               child: Padding(
@@ -729,4 +737,4 @@ void _showFanQr(BuildContext context, String fanId, FanTier tier) {
       ),
     ),
   );
-}
+

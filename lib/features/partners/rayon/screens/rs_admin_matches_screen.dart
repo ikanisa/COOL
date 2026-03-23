@@ -4,9 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/cool_foundations.dart';
-import '../../../../core/theme/cool_palette.dart';
+import '../../../../core/theme/rs_colors.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_empty_view.dart';
@@ -41,7 +40,7 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
         label: 'Add match',
         hint: 'New match',
         child: FloatingActionButton(
-          backgroundColor: AppColors.rsBlue,
+          backgroundColor: RsColors.rsBlue,
           onPressed: () => _showMatchForm(context),
           child: const Icon(Icons.add, color: Colors.white),
         ),
@@ -106,14 +105,14 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: AppColors.surface,
+        backgroundColor: colors.elevatedBackground,
         title: Text(
           'Delete match?',
-          style: GoogleFonts.dmSans(color: AppColors.text),
+          style: GoogleFonts.dmSans(color: colors.primaryText),
         ),
         content: Text(
           '${match.homeTeam} vs ${match.awayTeam}',
-          style: GoogleFonts.dmSans(color: AppColors.text2),
+          style: GoogleFonts.dmSans(color: colors.secondaryText),
         ),
         actions: [
           TextButton(
@@ -124,7 +123,7 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
             onPressed: () => Navigator.pop(ctx, true),
             child: Text(
               context.l10n.delete,
-              style: const TextStyle(color: AppColors.red),
+              style: TextStyle(color: colors.danger),
             ),
           ),
         ],
@@ -216,7 +215,7 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
               const SizedBox(height: 16),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.rsBlue,
+                  backgroundColor: RsColors.rsBlue,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
@@ -317,7 +316,7 @@ class _MatchTile extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: match.isOnSale
                             ? colors.accent.withValues(alpha: 0.15)
-                            : AppColors.red.withValues(alpha: 0.15),
+                            : colors.danger.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(CoolRadii.sm),
                       ),
                       child: Text(
@@ -325,7 +324,7 @@ class _MatchTile extends StatelessWidget {
                         style: GoogleFonts.dmSans(
                           fontSize: 11,
                           fontWeight: FontWeight.w800,
-                          color: match.isOnSale ? colors.accent : AppColors.red,
+                          color: match.isOnSale ? colors.accent : colors.danger,
                         ),
                       ),
                     ),
@@ -365,7 +364,7 @@ class _MatchTile extends StatelessWidget {
                   icon: Icons.delete_outline,
                   label: 'Delete',
                   onTap: onDelete,
-                  color: AppColors.red,
+                  color: colors.danger,
                 ),
               ],
             ),

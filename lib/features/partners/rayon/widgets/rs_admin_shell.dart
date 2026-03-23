@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/router/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/cool_foundations.dart';
+import '../../../../core/theme/rs_colors.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_screen_background.dart';
 import '../../widgets/partner_navigation.dart';
@@ -42,8 +42,8 @@ class RsAdminShell extends StatelessWidget {
     final theme = Theme.of(context);
 
     return CoolScreenBackground(
-      primaryColor: AppColors.rsBlue,
-      secondaryColor: AppColors.rsGold,
+      primaryColor: RsColors.rsBlue,
+      secondaryColor: RsColors.rsGold,
       showGlow: false,
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -55,11 +55,11 @@ class RsAdminShell extends StatelessWidget {
           leading: buildPartnerBackButton(
             context,
             fallbackLocation: fallbackLocation,
-            color: AppColors.rsWhite,
+            color: RsColors.rsWhite,
           ),
           actions: buildPartnerAppBarActions(
             context,
-            homeColor: AppColors.rsWhite,
+            homeColor: RsColors.rsWhite,
           ),
         ),
         floatingActionButton: floatingActionButton,
@@ -101,7 +101,7 @@ class RsAdminShell extends StatelessWidget {
                           style: GoogleFonts.barlowCondensed(
                             fontSize: 44,
                             fontWeight: FontWeight.w900,
-                            color: AppColors.rsWhite,
+                            color: RsColors.rsWhite,
                             height: 0.94,
                             letterSpacing: 0.1,
                           ),
@@ -117,7 +117,7 @@ class RsAdminShell extends StatelessWidget {
                               Color(0xFF11376A),
                             ],
                           ),
-                          borderColor: AppColors.rsBlueBorder,
+                          borderColor: RsColors.rsBlueBorder,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -192,7 +192,7 @@ class _MetricChip extends StatelessWidget {
             style: GoogleFonts.dmMono(
               fontSize: 20,
               fontWeight: FontWeight.w800,
-              color: AppColors.rsGoldLight,
+              color: RsColors.rsGoldLight,
             ),
           ),
           const SizedBox(height: CoolSpace.x1),

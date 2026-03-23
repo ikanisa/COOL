@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/l10n/l10n.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/cool_foundations.dart';
+import '../../../../core/theme/rs_colors.dart';
 import '../../../../shared/widgets/cool_async_view.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../models/rs_models.dart';
@@ -136,11 +136,11 @@ class RsAdminAnalyticsScreen extends ConsumerWidget {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        AppColors.rsBlue.withValues(alpha: 0.94),
+                        RsColors.rsBlue.withValues(alpha: 0.94),
                         const Color(0xFF041A39),
                       ],
                     ),
-                    borderColor: AppColors.rsBlueBorder,
+                    borderColor: RsColors.rsBlueBorder,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -294,14 +294,12 @@ class _AnalyticsMetricCard extends StatelessWidget {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: AppColors.rsBlue.withValues(alpha: 0.14),
+              color: RsColors.rsBlue.withValues(alpha: 0.14),
               borderRadius: BorderRadius.circular(CoolRadii.lg),
-              border: Border.all(
-                color: AppColors.rsBlue.withValues(alpha: 0.2),
-              ),
+              border: Border.all(color: RsColors.rsBlue.withValues(alpha: 0.2)),
             ),
             alignment: Alignment.center,
-            child: Icon(metric.icon, size: 22, color: AppColors.rsBlueLight),
+            child: Icon(metric.icon, size: 22, color: RsColors.rsBlueLight),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -345,9 +343,9 @@ class _TierCountCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final color = switch (label) {
-      'Blue' => AppColors.rsBlueLight,
+      'Blue' => RsColors.rsBlueLight,
       'Silver' => const Color(0xFFBFC6CF),
-      'Gold' => AppColors.rsGold,
+      'Gold' => RsColors.rsGold,
       'Platinum' => const Color(0xFFE7E3DD),
       _ => colors.secondaryText,
     };

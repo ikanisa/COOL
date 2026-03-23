@@ -610,7 +610,7 @@ class _CheckoutStatusState extends StatelessWidget {
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.displaySmall?.copyWith(
               fontWeight: FontWeight.w900,
-              color: AppColors.rsWhite,
+              color: RsColors.rsWhite,
               letterSpacing: -1.0,
             ),
           ),
@@ -676,7 +676,7 @@ class _OrderSummary extends StatelessWidget {
             style: GoogleFonts.barlow(
               fontSize: 14,
               fontWeight: FontWeight.w700,
-              color: AppColors.rsWhite,
+              color: RsColors.rsWhite,
             ),
           ),
           const SizedBox(height: 6),
@@ -704,7 +704,7 @@ class _OrderSummary extends StatelessWidget {
                 style: GoogleFonts.barlow(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.rsWhite,
+                  color: RsColors.rsWhite,
                 ),
               ),
             ),
@@ -716,7 +716,7 @@ class _OrderSummary extends StatelessWidget {
         _SummaryRow(
           label: context.l10n.amount,
           value: _ShopCheckoutScreenState._fmtRwf(orderValue.total),
-          valueColor: AppColors.rsWhite,
+          valueColor: RsColors.rsWhite,
         ),
         _SummaryRow(
           label: context.l10n.momoRef,
@@ -763,7 +763,7 @@ class _OrderSummaryLoading extends StatelessWidget {
           style: GoogleFonts.barlow(
             fontSize: 14,
             fontWeight: FontWeight.w700,
-            color: AppColors.rsWhite,
+            color: RsColors.rsWhite,
           ),
         ),
         const SizedBox(height: 6),
@@ -801,7 +801,7 @@ class _OrderSummaryError extends StatelessWidget {
           style: GoogleFonts.barlow(
             fontSize: 14,
             fontWeight: FontWeight.w700,
-            color: AppColors.rsWhite,
+            color: RsColors.rsWhite,
           ),
         ),
         const SizedBox(height: 6),
@@ -946,7 +946,7 @@ Color _statusColor(BuildContext context, OrderStatus status) {
     OrderStatus.confirmed => palette.accent,
     OrderStatus.packed => RsColors.rsBluePale,
     OrderStatus.shipped => RsColors.rsBluePale,
-    OrderStatus.fulfilled || OrderStatus.delivered => AppColors.rsWhite,
+    OrderStatus.fulfilled || OrderStatus.delivered => RsColors.rsWhite,
     OrderStatus.cancelled => palette.text3,
   };
 }
@@ -1006,4 +1006,4 @@ String _statusBody(
     OrderStatus.cancelled =>
       'Order cancelled. Refresh or contact support if you paid.',
   };
-}
+

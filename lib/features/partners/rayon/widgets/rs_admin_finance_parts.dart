@@ -122,7 +122,7 @@ class _RouteRow extends StatelessWidget {
         color: palette.surface,
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
-          color: isActiveRoute ? AppColors.rsBlueBorder : palette.border,
+          color: isActiveRoute ? RsColors.rsBlueBorder : palette.border,
         ),
       ),
       child: Column(

@@ -1,6 +1,5 @@
 import 'models/rs_models.dart';
 
-
 class RsMembershipPackageBenefit {
   const RsMembershipPackageBenefit({
     required this.title,

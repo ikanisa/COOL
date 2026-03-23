@@ -42,7 +42,7 @@ jobs:
       - name: Deprecated theme API budget
         run: |
           COUNT=$(grep -rl 'AppColors\|CoolPalette' lib/ 2>/dev/null | wc -l | tr -d ' ')
-          BUDGET=30
+          BUDGET=8
           echo "📊 Deprecated theme API files: $COUNT (budget: $BUDGET)"
           if [ "$COUNT" -gt "$BUDGET" ]; then
             echo "::error::Deprecated theme API usage ($COUNT files) exceeds budget ($BUDGET). Migrate before merging."

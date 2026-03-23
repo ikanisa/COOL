@@ -96,7 +96,9 @@ class RsHeroBanner extends StatelessWidget {
                           children: [
                             Text(
                               nickname.toUpperCase(),
-                              style: RsTextStyles.badge(color: RsColors.rsGoldLight),
+                              style: RsTextStyles.badge(
+                                color: RsColors.rsGoldLight,
+                              ),
                             ),
                             const SizedBox(height: 4),
                             Text(
@@ -111,9 +113,7 @@ class RsHeroBanner extends StatelessWidget {
                               style: GoogleFonts.barlow(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
-                                color: RsColors.rsWhite.withValues(
-                                  alpha: 0.72,
-                                ),
+                                color: RsColors.rsWhite.withValues(alpha: 0.72),
                               ),
                             ),
                             const SizedBox(height: 8),
@@ -160,9 +160,7 @@ class RsHeroBanner extends StatelessWidget {
                               Container(
                                 width: 1,
                                 height: 34,
-                                color: RsColors.rsWhite.withValues(
-                                  alpha: 0.08,
-                                ),
+                                color: RsColors.rsWhite.withValues(alpha: 0.08),
                               ),
                           ],
                         ],

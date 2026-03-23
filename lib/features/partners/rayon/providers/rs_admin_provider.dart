@@ -99,13 +99,13 @@ final rsAdminInitiativeContributionsProvider = FutureProvider.autoDispose
 /// Fan engagement analytics summary.
 final rsAdminFanAnalyticsProvider =
     FutureProvider.autoDispose<Map<String, dynamic>>((ref) async {
-  final repo = ref.watch(rayonSportsRepositoryProvider);
-  return repo.fetchRsFanAnalytics();
-});
+      final repo = ref.watch(rayonSportsRepositoryProvider);
+      return repo.fetchRsFanAnalytics();
+    });
 
 /// Notification history.
 final rsAdminNotificationsProvider = FutureProvider.autoDispose
     .family<List<Map<String, dynamic>>, String?>((ref, matchId) async {
-  final repo = ref.watch(rayonSportsRepositoryProvider);
-  return repo.fetchRsNotifications(matchId: matchId);
-});
+      final repo = ref.watch(rayonSportsRepositoryProvider);
+      return repo.fetchRsNotifications(matchId: matchId);
+    });

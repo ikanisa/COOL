@@ -53,11 +53,31 @@ class RsInitiative extends Equatable {
       category: InitiativeCategoryX.fromValue(
         (json['category'] ?? json['initiative_category'])?.toString(),
       ),
-      targetAmount: int.tryParse((json['target_amount'] ?? json['targetAmount'] ?? '0').toString().replaceAll(',', '')) ?? 0,
-      raisedAmount: int.tryParse((json['raised_amount'] ?? json['raisedAmount'] ?? '0').toString().replaceAll(',', '')) ?? 0,
-      supporterCount: int.tryParse((json['supporter_count'] ?? json['supporterCount'] ?? '0').toString().replaceAll(',', '')) ?? 0,
+      targetAmount:
+          int.tryParse(
+            (json['target_amount'] ?? json['targetAmount'] ?? '0')
+                .toString()
+                .replaceAll(',', ''),
+          ) ??
+          0,
+      raisedAmount:
+          int.tryParse(
+            (json['raised_amount'] ?? json['raisedAmount'] ?? '0')
+                .toString()
+                .replaceAll(',', ''),
+          ) ??
+          0,
+      supporterCount:
+          int.tryParse(
+            (json['supporter_count'] ?? json['supporterCount'] ?? '0')
+                .toString()
+                .replaceAll(',', ''),
+          ) ??
+          0,
       isActive: (json['is_active'] ?? json['isActive'] ?? true) as bool,
-      endsAt: json['ends_at'] != null ? DateTime.tryParse(json['ends_at'].toString()) : null,
+      endsAt: json['ends_at'] != null
+          ? DateTime.tryParse(json['ends_at'].toString())
+          : null,
     );
   }
 
@@ -141,15 +161,23 @@ class RsInitiativeContribution extends Equatable {
   factory RsInitiativeContribution.fromJson(RsJsonMap json) {
     return RsInitiativeContribution(
       id: json['id']?.toString() ?? '',
-      initiativeId: (json['initiative_id'] ?? json['initiativeId'])?.toString() ?? '',
+      initiativeId:
+          (json['initiative_id'] ?? json['initiativeId'])?.toString() ?? '',
       userId: (json['user_id'] ?? json['userId'])?.toString() ?? '',
-      amount: int.tryParse((json['amount'] ?? '0').toString().replaceAll(',', '')) ?? 0,
-      momoReference: (json['momo_reference'] ?? json['momoReference'] ?? '').toString(),
+      amount:
+          int.tryParse(
+            (json['amount'] ?? '0').toString().replaceAll(',', ''),
+          ) ??
+          0,
+      momoReference: (json['momo_reference'] ?? json['momoReference'] ?? '')
+          .toString(),
       status: (json['status'] ?? 'pending').toString(),
-      createdAt: json['created_at'] != null 
+      createdAt: json['created_at'] != null
           ? (DateTime.tryParse(json['created_at'].toString()) ?? DateTime.now())
           : DateTime.now(),
-      supporterName: (json['supporter_name'] ?? json['supporterName'] ?? json['name'])?.toString(),
+      supporterName:
+          (json['supporter_name'] ?? json['supporterName'] ?? json['name'])
+              ?.toString(),
     );
   }
 

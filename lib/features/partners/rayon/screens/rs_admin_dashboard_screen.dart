@@ -8,8 +8,8 @@ import 'package:intl/intl.dart';
 import '../models/rs_models.dart';
 
 import '../../../../core/router/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/cool_palette.dart';
+import '../../../../core/theme/cool_foundations.dart';
+import '../../../../core/theme/rs_colors.dart';
 import '../providers/rs_admin_provider.dart';
 import '../widgets/rs_admin_shell.dart';
 import '../../../../shared/widgets/cool_card.dart';
@@ -85,8 +85,7 @@ class RsAdminDashboardScreen extends ConsumerWidget {
 
     return RsAdminShell(
       title: context.l10n.rayonSportsAdmin,
-      subtitle:
-          'Manage matches, shop, members & community',
+      subtitle: 'Manage matches, shop, members & community',
       fallbackLocation: AppRoutes.admin,
       expandBody: false,
       metrics: [
@@ -115,61 +114,71 @@ class RsAdminDashboardScreen extends ConsumerWidget {
         children: [
           // ── Revenue Summary Row ──
           analyticsAsync.whenOrNull(
-            data: (analytics) {
-              final moneyFmt = NumberFormat.compact();
-              final ticketRev = (analytics['ticket_revenue'] as num?) ?? 0;
-              final shopRev = (analytics['shop_revenue'] as num?) ?? 0;
-              final totalRev = ticketRev + shopRev;
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: Row(
-                  children: [
-                    _RevenueCard(
-                      label: 'Ticket Revenue',
-                      value: '${moneyFmt.format(ticketRev)} RWF',
-                      icon: Icons.confirmation_number_outlined,
+                data: (analytics) {
+                  final moneyFmt = NumberFormat.compact();
+                  final ticketRev = (analytics['ticket_revenue'] as num?) ?? 0;
+                  final shopRev = (analytics['shop_revenue'] as num?) ?? 0;
+                  final totalRev = ticketRev + shopRev;
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: Row(
+                      children: [
+                        _RevenueCard(
+                          label: 'Ticket Revenue',
+                          value: '${moneyFmt.format(ticketRev)} RWF',
+                          icon: Icons.confirmation_number_outlined,
+                        ),
+                        const SizedBox(width: 8),
+                        _RevenueCard(
+                          label: 'Shop Revenue',
+                          value: '${moneyFmt.format(shopRev)} RWF',
+                          icon: Icons.shopping_bag_outlined,
+                        ),
+                        const SizedBox(width: 8),
+                        _RevenueCard(
+                          label: 'Total',
+                          value: '${moneyFmt.format(totalRev)} RWF',
+                          icon: Icons.account_balance_wallet_outlined,
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 8),
-                    _RevenueCard(
-                      label: 'Shop Revenue',
-                      value: '${moneyFmt.format(shopRev)} RWF',
-                      icon: Icons.shopping_bag_outlined,
-                    ),
-                    const SizedBox(width: 8),
-                    _RevenueCard(
-                      label: 'Total',
-                      value: '${moneyFmt.format(totalRev)} RWF',
-                      icon: Icons.account_balance_wallet_outlined,
-                    ),
-                  ],
-                ),
-              );
-            },
-          ) ?? const SizedBox.shrink(),
+                  );
+                },
+              ) ??
+              const SizedBox.shrink(),
 
           // ── Tier Breakdown Row ──
           membersAsync.whenOrNull(
-            data: (members) {
-              final tierCounts = <FanTier, int>{};
-              for (final m in members) {
-                tierCounts[m.tier] = (tierCounts[m.tier] ?? 0) + 1;
-              }
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: Row(
-                  children: [
-                    _TierChip('💙', 'Blue', tierCounts[FanTier.blue] ?? 0),
-                    const SizedBox(width: 6),
-                    _TierChip('🥈', 'Silver', tierCounts[FanTier.silver] ?? 0),
-                    const SizedBox(width: 6),
-                    _TierChip('🥇', 'Gold', tierCounts[FanTier.gold] ?? 0),
-                    const SizedBox(width: 6),
-                    _TierChip('💎', 'Plat', tierCounts[FanTier.platinum] ?? 0),
-                  ],
-                ),
-              );
-            },
-          ) ?? const SizedBox.shrink(),
+                data: (members) {
+                  final tierCounts = <FanTier, int>{};
+                  for (final m in members) {
+                    tierCounts[m.tier] = (tierCounts[m.tier] ?? 0) + 1;
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: Row(
+                      children: [
+                        _TierChip('💙', 'Blue', tierCounts[FanTier.blue] ?? 0),
+                        const SizedBox(width: 6),
+                        _TierChip(
+                          '🥈',
+                          'Silver',
+                          tierCounts[FanTier.silver] ?? 0,
+                        ),
+                        const SizedBox(width: 6),
+                        _TierChip('🥇', 'Gold', tierCounts[FanTier.gold] ?? 0),
+                        const SizedBox(width: 6),
+                        _TierChip(
+                          '💎',
+                          'Plat',
+                          tierCounts[FanTier.platinum] ?? 0,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ) ??
+              const SizedBox.shrink(),
 
           // ── Quick Actions ──
           Padding(
@@ -202,13 +211,12 @@ class RsAdminDashboardScreen extends ConsumerWidget {
           ),
 
           // ── Navigation Cards ──
-          ..._sections
-              .map(
-                (section) => Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: _AdminCard(section: section),
-                ),
-              ),
+          ..._sections.map(
+            (section) => Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: _AdminCard(section: section),
+            ),
+          ),
         ],
       ),
     );
@@ -248,12 +256,12 @@ class _AdminCard extends StatelessWidget {
               width: 46,
               height: 46,
               decoration: BoxDecoration(
-                color: AppColors.rsBlueGlow,
+                color: RsColors.rsBlueGlow,
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: AppColors.rsBlueBorder),
+                border: Border.all(color: RsColors.rsBlueBorder),
               ),
               alignment: Alignment.center,
-              child: Icon(section.icon, size: 22, color: AppColors.rsBlueLight),
+              child: Icon(section.icon, size: 22, color: RsColors.rsBlueLight),
             ),
             const SizedBox(width: 14),
             Expanded(
@@ -327,10 +335,7 @@ class _RevenueCard extends StatelessWidget {
             const SizedBox(height: 2),
             Text(
               label,
-              style: GoogleFonts.dmSans(
-                fontSize: 10,
-                color: palette.text3,
-              ),
+              style: GoogleFonts.dmSans(fontSize: 10, color: palette.text3),
             ),
           ],
         ),
@@ -359,21 +364,21 @@ class _QuickAction extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: AppColors.rsBlue.withValues(alpha: 0.15),
+          color: RsColors.rsBlue.withValues(alpha: 0.15),
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: AppColors.rsBlue.withValues(alpha: 0.3)),
+          border: Border.all(color: RsColors.rsBlue.withValues(alpha: 0.3)),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 14, color: AppColors.rsBlue),
+            Icon(icon, size: 14, color: RsColors.rsBlue),
             const SizedBox(width: 6),
             Text(
               label,
               style: GoogleFonts.dmSans(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: AppColors.rsBlue,
+                color: RsColors.rsBlue,
               ),
             ),
           ],
@@ -414,10 +419,7 @@ class _TierChip extends StatelessWidget {
             ),
             Text(
               label,
-              style: GoogleFonts.dmSans(
-                fontSize: 10,
-                color: palette.text3,
-              ),
+              style: GoogleFonts.dmSans(fontSize: 10, color: palette.text3),
             ),
           ],
         ),
