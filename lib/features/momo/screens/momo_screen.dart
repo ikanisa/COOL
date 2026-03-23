@@ -13,7 +13,6 @@ import '../../../core/providers/engagement_providers.dart';
 
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
-
 import '../../../shared/widgets/balance_card.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_bottom_sheet.dart';

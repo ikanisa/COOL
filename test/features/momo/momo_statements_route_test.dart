@@ -111,28 +111,6 @@ class FakeStatementDownloadService extends MomoStatementDownloadService {
 /// Test-only open-box that always throws — tests never actually open Hive.
 Future<Box<T>> noOpOpenBox<T>(String name) =>
     throw UnimplementedError('Hive disabled in tests');
-
-Future<void> tapStatementsTool(WidgetTester tester) async {
-  final moneyTools = find.text('Money tools');
-  await tester.scrollUntilVisible(
-    moneyTools,
-    250,
-    scrollable: find.byType(Scrollable).first,
-  );
-  await tester.pump();
-
-  final statements = find.byKey(
-    const ValueKey<String>('momo-action-statements'),
-  );
-  await tester.scrollUntilVisible(
-    statements,
-    250,
-    scrollable: find.byType(Scrollable).first,
-  );
-  await tester.tap(statements);
-  await settleTestApp(tester);
-}
-
 void main() {
   testWidgets('direct Mobile Money entry can return home', (tester) async {
     final repository = FakeMomoStatementRepository(const MomoStatementBundle());
@@ -449,6 +427,7 @@ void main() {
     await tester.pump();
     await settleTestApp(tester);
 
+    expect(find.textContaining('Jean Bosco'), findsWidgets);
     expect(find.text('Wallet ledger'), findsOneWidget);
     expect(find.text('1/1 shown'), findsOneWidget);
   });
