@@ -1,0 +1,82 @@
+domain,screen_name,route,short_description
+Auth And Entry,SplashScreen,/,"Startup gate that handles initial brand presentation, session restore, and first navigation routing."
+Auth And Entry,OnboardingScreen,/onboarding,Introductory marketing/onboarding screen that explains the app value and pushes users into authentication.
+Auth And Entry,OtpScreen,/otp,"Phone number capture screen with a focused, low-friction OTP request flow."
+Auth And Entry,OtpVerifyScreen,/otp-verify,"Verification screen for entering and confirming the OTP code with a simple, trust-first auth UI."
+Auth And Entry,RegisterScreen,/register,New-user profile setup screen that collects the minimum identity details required to activate the account.
+Auth And Entry,AppAccessOnboardingScreen,/app-access,Access-approval entry screen that explains availability or rollout access and guides the user to the next allowed step.
+Core Status,CoolTokensScreen,/tokens,"Gamification/status screen that shows token balances, progress, and reward-oriented engagement data."
+Core Status,MissionsScreen,/missions,"Missions hub where users browse active tasks, progress states, and reward opportunities."
+Core Status,ReferralHubScreen,/referral,Referral center that helps users share invite links/QR codes and understand referral rewards.
+Admin,AdminWorkspacesScreen,/admin,Admin landing screen that routes staff into the correct workspace or control area.
+Admin,AdminDashboardScreen,/admin/platform,"High-level platform command screen summarizing system health, activity, and major admin actions."
+Admin,AuditLogScreen,/admin/audit-log,Operational trace screen for reviewing administrative actions and accountability records.
+Admin,OperationalDashboardScreen,/admin/operations,"Monitoring screen for live platform operations, triage, and operational readiness signals."
+Admin,SystemAnalyticsScreen,/admin/analytics,"Analytics dashboard for platform-wide trends, KPIs, and decision-support metrics."
+Admin,ManageUsersScreen,/admin/users,"User management screen for browsing, filtering, and acting on user accounts."
+Admin,ManagePartnersScreen,/admin/partners,Partner catalog management screen for reviewing and editing partner entities in the platform.
+Admin,PartnerAdminWorkspaceScreen,/admin/partners/:partnerId,"Scoped partner workspace for managing a single partner’s settings, content, and operational surfaces."
+Admin,BankAdminWorkspaceScreen,/admin/banks/:partnerId,"Bank-specific operations screen for allocation, ledger review, and savings/group administration."
+Admin,ManageServicesScreen,/admin/services,"Service configuration screen for editing service cards, availability, and action behavior."
+Admin,ManageQuickActionsScreen,/admin/quick-actions,Admin tool for curating shortcut actions and surfaced utility flows in the app shell.
+Admin,ManageVehicleTypesScreen,/admin/vehicle-types,Mobility configuration screen for maintaining vehicle categories and related operational metadata.
+Admin,ManageAppConfigScreen,/admin/app-config,"Central application configuration screen for rollout flags, runtime settings, and scoped config values."
+Admin,ManageMissionsScreen,/admin/missions,"Mission authoring and control screen for engagement missions, rules, and activation state."
+Admin,ManageActivitiesScreen,/admin/activities,Activity management screen for configuring platform activities and engagement surfaces.
+Admin,ManageSeasonsScreen,/admin/seasons,Seasonal content and timing management screen for campaign/season lifecycle control.
+Admin,ManageSpecialProductsScreen,/admin/special-products,"Admin commerce/editorial screen for curated product drops, bundles, or promoted inventory."
+Admin,ManageAdminRolesScreen,/admin/roles,"Role assignment screen for granting, reviewing, and revoking privileged admin access."
+Admin,ManageAiContentScreen,/admin/ai-content,"Moderation/editorial screen for generated content drafts, approval flows, and publishing control."
+Credit,CreditScoreScreen,/credit,"Credit overview screen that presents the user’s score, contributing factors, and confidence-building signals."
+Credit,CreditReadinessScreen,/credit/readiness,Guidance screen that breaks credit eligibility into actionable readiness checks and next steps.
+Groups,GroupsScreen,/groups,Main group discovery and management screen showing the user’s savings/community groups.
+Groups,CreateGroupScreen,/groups/create,"Group creation flow for setting up a new group with a guided, form-led setup experience."
+Groups,GroupDetailScreen,/groups/:id,"Group overview screen for members, balances, contributions, invites, and group-level actions."
+Groups,GroupLedgerScreen,/groups/:id/ledger,Financial detail screen for reviewing posted group transactions and export-ready ledger history.
+Groups,GroupInviteScreen,/invite/:code,Invite redemption screen that previews a group and lets a user join through a shared code.
+Home,HomeScreen,/home,Primary app home screen that introduces the main product surfaces and top user actions.
+Home,SeasonsActivitiesScreen,/seasons,"Seasonal activity screen for current season content, progress, and campaign-linked participation."
+Mobility,MobilityHomeScreen,/mobility,"Mobility landing screen for transport-focused discovery, posting, and trip-related actions."
+Mobility,DriverProfileScreen,/mobility/driver,"Driver account hub for profile, availability, and operator-facing transport identity details."
+Mobility,DriverSubscriptionScreen,/mobility/driver/subscription,"Driver monetization screen for viewing plan status, credits, and upgrade/subscription access."
+Mobility,DriverVehicleScreen,/mobility/driver/vehicle,"Driver vehicle management screen for readiness, vehicle metadata, and posting eligibility."
+Mobility,ScheduleTripScreen,/mobility/schedule,"Trip creation flow for scheduling transport with route, timing, and rider-facing details."
+Mobility,TripBoardScreen,/mobility/trips,"Trip listing board for browsing available trips, demand, route details, and booking/contact actions."
+MoMo,MomoScreen,/momo,"Wallet and MoMo control center for balance views, transaction actions, and payment tooling."
+MoMo,MomoStatementsScreen,/momo/statements,"Statement/history screen for scanning transaction records, exports, and reconciliation-friendly history."
+MoMo,MomoNfcScreen,Internal only,In-flow NFC payment/scan screen used for tap-based or card-adjacent wallet interactions.
+Partners Core,PartnersScreen,/partners,Partner directory screen where users browse the available institutions and partner product surfaces.
+Partners Core,BankPartnerScreen,/partners/:id,"Partner detail screen for a bank-like institution with trust cues, offerings, and onboarding entry points."
+Partners Core,PrismaPartnerScreen,/partners/:id,Partner showcase screen for the Prisma surface with partner-specific value proposition and actions.
+Partners Core,RadiantPartnerScreen,/partners/:id,Partner showcase screen for the Radiant surface with brand-specific product and CTA presentation.
+Partners Core,BankOnboardingScreen,/partners/:id/onboarding/:type,Guided onboarding screen for partner-origin flows such as bank account or product activation.
+Rayon Consumer,RayonHomeScreen,/partners/rayon-sports,"Rayon Sports landing screen combining club identity, key fan actions, and premium fan engagement modules."
+Rayon Consumer,FanClubsScreen,/partners/rayon-sports/clubs,Fan-club discovery screen for exploring available supporter communities and joining them.
+Rayon Consumer,FanClubDetailScreen,/partners/rayon-sports/clubs/:clubId,"Detailed fan-club screen with membership context, stats, and club-specific actions."
+Rayon Consumer,MembershipTiersScreen,/partners/rayon-sports/membership,"Membership comparison screen that explains fan tiers, value, and upgrade/join options."
+Rayon Consumer,FanProfileScreen,/partners/rayon-sports/profile,"Fan identity screen showing membership status, benefits, orders, and club-linked profile data."
+Rayon Consumer,MemberRegistryScreen,/partners/rayon-sports/registry,"Membership lookup/registry screen for searching members, fan IDs, and membership records."
+Rayon Consumer,ClubShopScreen,/partners/rayon-sports/shop,"Club commerce screen for browsing products, offers, and official merchandise."
+Rayon Consumer,ShopCheckoutScreen,/partners/rayon-sports/shop/checkout,"Focused checkout flow for confirming cart contents, payment route, and order completion."
+Rayon Consumer,SupportScreen,/partners/rayon-sports/support,"Initiative listing screen for supporter contributions, causes, and club support opportunities."
+Rayon Consumer,SupportDetailScreen,/partners/rayon-sports/support/:initiativeId,Donation/support detail screen that explains one initiative and drives contribution actions.
+Rayon Consumer,TicketsScreen,/partners/rayon-sports/tickets,"Ticket discovery and purchase screen for matches, seat choices, and payment initiation."
+Rayon Consumer,TicketConfirmationScreen,/partners/rayon-sports/tickets/:ticketId/confirm,"Post-purchase confirmation screen for payment success, ticket unlock state, and next steps."
+Rayon Consumer,MyTicketsScreen,/partners/rayon-sports/tickets/my-tickets,Personal ticket wallet screen for viewing owned tickets and event entry status.
+Rayon Admin,RsAdminDashboardScreen,/admin/rayon,"Rayon admin command screen summarizing club operations, KPIs, and action entry points."
+Rayon Admin,RsAdminAnalyticsScreen,/admin/rayon/analytics,"Club analytics screen for reviewing fan, ticket, commerce, and engagement performance."
+Rayon Admin,RsAdminFinanceScreen,/admin/rayon/finance,"Finance operations screen for payouts, payment routes, order money flow, and statements."
+Rayon Admin,RsAdminInitiativesScreen,/admin/rayon/initiatives,"Club initiative management screen for support campaigns, causes, and fundraising setup."
+Rayon Admin,RsAdminMatchesScreen,/admin/rayon/matches,"Match operations screen for managing fixtures, match metadata, and ticket-related setup."
+Rayon Admin,RsAdminMembersScreen,/admin/rayon/members,"Membership administration screen for fan records, tiers, and member operations."
+Rayon Admin,RsAdminOrdersScreen,/admin/rayon/orders,"Order management screen for tracking commerce orders, statuses, and fulfilment actions."
+Rayon Admin,RsAdminPackagesScreen,/admin/rayon/packages,"Package/catalog management screen for memberships, bundles, or club commercial offers."
+Rayon Admin,RsAdminShopScreen,/admin/rayon/shop,"Club shop admin screen for product inventory, pricing, and merchandising management."
+Rayon Admin,RsAdminTicketsScreen,/admin/rayon/tickets,"Ticketing admin screen for inventory, seat access, routing, and matchday ticket controls."
+Profile,ProfileScreen,/profile,"User account hub for personal details, settings, wallet shortcuts, and identity-related actions."
+Profile,ProfileIdentityScreen,/profile/identity,"Profile detail screen focused on identity data, KYC progress, and verification access points."
+Profile,ProfileTravelRoleScreen,/profile/travel-role,Preference screen for selecting or editing the user’s transport role and mobility behavior.
+Profile,ProfileWalletScreen,/profile/wallet,Wallet settings/detail screen for payment route preferences and money-related profile controls.
+Profile,KycIdScanScreen,Internal only,Camera-based identity capture flow for scanning an ID card with privacy guidance overlays.
+Profile,KycSelfieScreen,/kyc/selfie,Selfie verification screen that captures the user’s face for identity and face-match workflows.
+Shared Routed Utility,QrScannerScreen,/scanner,"General-purpose scanner screen for QR-based flows such as payments, tickets, and access control."

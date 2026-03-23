@@ -18,16 +18,19 @@ feature branch → main → tag v*.*.* → CI release → Firebase App Distribut
 
 ### Step-by-step
 
-1. **Merge to `main`**: All PRs must pass CI (analyze, test, size gate)
+1. **Merge to `main`**: All PRs must pass CI (analyze, test, M-Money SMS contracts, size gate)
    - Route changes must also update `docs/ROUTE_INVENTORY.md`
    - New routes must satisfy `docs/SCREEN_BUDGETS.md`
    - If store or deep-link identifiers changed, update `deeplinks/release_metadata.json` and regenerate the hosted association files
 2. **Tag a release**: `git tag v1.2.3 && git push origin v1.2.3`
 3. **CI builds automatically**: `release.yml` triggers on `v*` tags
+   - `momo-sms-rollout-verify.yml` can also run nightly and on demand to verify the Supabase M-Money SMS rollout when `SUPABASE_DB_URL` is configured
+   - `momo-sms-device-integration.yml` runs nightly and on demand to verify the real Android SMS inbox sync path on an emulator
 4. **CI pipeline**:
    - Reads Flutter version from `.fvmrc`
    - Runs `bash scripts/release_readiness.sh`
    - This includes Flutter analysis/tests, deep-link asset validation, Deno checks, and flavor verification
+   - When optional `SUPABASE_DB_URL` is configured in CI, it also runs `scripts/verify_momo_sms_supabase_rollout.sh` with `TRIGGER_MIGRATION_CHECK=1` against the target Supabase environment
    - Decodes signing keystore from secrets
    - Builds signed release APK
    - Uploads to Firebase App Distribution (staff group)
@@ -122,6 +125,7 @@ Staff (internal) → Beta (1-2 weeks soak) → Production
 | `COOL_ANDROID_PLAY_APP_SIGNING_SHA256_CERT_FINGERPRINT` | Final Google Play app-signing SHA-256 fingerprint |
 | `COOL_IOS_TEAM_ID` | Apple Developer Team ID for the production bundle |
 | `COOL_IOS_APP_STORE_ID` | Production App Store listing ID |
+| `SUPABASE_DB_URL` | Optional remote database connection used to enable M-Money SMS Supabase rollout verification during release readiness |
 
 ## Native Release Inputs
 

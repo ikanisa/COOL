@@ -4,9 +4,9 @@ Generated from [`lib/core/router/app_router.dart`](../lib/core/router/app_router
 
 Current router shape:
 
-- `76` `GoRoute` declarations
+- `77` `GoRoute` declarations
 - `4` shell branches
-- `74` screen files under `lib/features/**/screens/*.dart`
+- `75` screen files under `lib/features/**/screens/*.dart`
 
 Change policy:
 
@@ -50,6 +50,7 @@ Change policy:
 
 | Path | Target | Shell |
 |---|---|---|
+| `/app-access` | [`AppAccessOnboardingScreen`](../lib/features/auth/screens/app_access_onboarding_screen.dart) | No |
 | `/credit` | [`CreditScoreScreen`](../lib/features/credit/screens/credit_score_screen.dart) | No |
 | `/credit/readiness` | [`CreditReadinessScreen`](../lib/features/credit/screens/credit_readiness_screen.dart) | No |
 | `/kyc/selfie` | [`KycSelfieScreen`](../lib/features/profile/screens/kyc_selfie_screen.dart) | No |

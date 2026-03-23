@@ -1,6 +1,6 @@
 # Operational Observability
 
-Updated: 2026-03-13
+Updated: 2026-03-22
 
 This document is the current operational truth for the COOL payment-adjacent
 flows. It replaces older audit conclusions that predated the restored Android
@@ -16,6 +16,10 @@ SMS ingest path and the admin operations dashboard.
   `lib/features/momo/repositories/momo_sms_ingestion_repository.dart`.
 - Raw messages land in `public.momo_sms_raw`.
 - The client immediately queues `parse-momo-sms` for server-side parsing.
+- Sensitive retention is now bounded by
+  `public.redact_momo_sms_artifacts_due(...)`, which redacts raw SMS bodies
+  after successful parse + matched reconciliation and clears stored AI payloads
+  after the retention window.
 
 ### MoMo parsing and reconciliation
 
@@ -52,6 +56,7 @@ It reads from:
 
 - `public.get_operational_release_dashboard()`
 - `public.get_operational_triage_issues()`
+- `public.get_momo_sms_operational_summary()`
 - `public.get_recent_operational_health_events(...)`
 
 The release-truth cards intentionally track only server-trusted surfaces:
@@ -64,6 +69,66 @@ The release-truth cards intentionally track only server-trusted surfaces:
 Mobile-reported SMS ingest and partner checkout signals remain visible in the
 recent-signal feed, but they do not drive release status because they originate
 from authenticated app telemetry rather than server-observed state.
+
+The same admin screen now also includes a dedicated M-Money SMS summary block
+for:
+
+- device-reported sync success/failure and duplicate pressure
+- device-reported sender drift from unapproved SMS sender IDs that still look transactional
+- device-reported retry-queue pressure for locally queued failed ingests
+- server-observed parse backlog and parse failures
+- server-observed unsupported sender inventory and acknowledgement backlog
+- server-observed migration safety for legacy `group_contributions.status = 'completed'` rows
+- reconciliation open-review pressure and closed-review throughput
+- retention/redaction backlog
+
+This block is operationally useful, but only the server-observed metrics should
+be treated as release-gating truth.
+
+There is now also a scheduled trusted server-side verifier for M-Money SMS
+migration safety. It runs through Supabase cron, inserts `system`-origin
+`sms_ingest` health events, and surfaces in the top release dashboard as trusted
+`SMS Ingest` health instead of relying only on device telemetry or manual
+database checks.
+
+For repeatable environment verification from the repo, use
+`scripts/verify_momo_sms_supabase_rollout.sh`. It checks the expected M-Money
+SMS migrations, cron jobs, legacy contribution-row invariants, summary metrics,
+release-dashboard status, and latest trusted migration-safety event against the
+target database referenced by `DATABASE_URL` or `SUPABASE_DB_URL`.
+
+The same verifier is now wired into `scripts/release_readiness.sh` as an opt-in
+remote gate and can run automatically in GitHub Actions when `SUPABASE_DB_URL`
+is configured.
+
+For repo-local regression coverage, `scripts/check_momo_sms_contracts.sh`
+validates the verifier scripts and workflows, then runs the focused Flutter and
+Deno M-Money SMS contract tests. The main CI workflow exposes this as the
+`M-Money SMS Contracts` job.
+
+For mobile-runtime coverage, the repo now also ships
+`scripts/run_momo_sms_device_integration.sh` and the nightly/on-demand GitHub
+workflow `momo-sms-device-integration.yml`. That lane seeds approved sender SMS
+rows into an Android emulator inbox, grants SMS permissions, runs the real
+`Telephony.getInboxSms()` sync path, and stores logcat plus seeded inbox
+snapshots as artifacts.
+
+The same admin surface now also includes a generic M-Money SMS manual-review
+queue for items that do not belong to the bank allocation workflow. Admins can
+close single reviews or bulk-close the visible queue as "not app-linked"
+without deleting the underlying wallet history stored in
+`momo_sms_raw` / `momo_sms_parsed` / `momo_ledger_entries`.
+
+The MoMo SMS operations workspace now also exposes an admin-only sender
+inventory for unsupported or legacy raw SMS senders. That turns hidden sender
+drift in `momo_sms_raw` into a visible backlog with parse and reconciliation
+outcomes, even when no recent mobile telemetry exists in
+`operational_health_events`.
+
+Operators can now explicitly acknowledge a sender as reviewed legacy history.
+That acknowledgement does not approve the sender for future intake and does not
+mutate raw SMS records. It only records that the unsupported sender backlog was
+reviewed.
 
 ## Triage Queue
 

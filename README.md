@@ -87,8 +87,12 @@ Current recipient sources in this repo:
 
 ## Core UX Principles
 
-- Dark-first UI with a shared `AppColors` design system
-- DM Sans for UI text, DM Mono for numbers and financial values
+- Dual-theme UI with semantic tokens in
+  [`lib/core/theme/cool_foundations.dart`](/Volumes/PRO-G40/COOL/lib/core/theme/cool_foundations.dart)
+- `Manrope` is the default interface font; `DM Mono` and Rayon brand fonts are
+  controlled exceptions, not the base system
+- One authoritative redesign guide:
+  [`DESIGN_SYSTEM.md`](/Volumes/PRO-G40/COOL/DESIGN_SYSTEM.md)
 - Riverpod `StateNotifierProvider` pattern per feature
 - Repository layer owns all Supabase access
 - Widgets never call Supabase directly
@@ -101,21 +105,22 @@ Current recipient sources in this repo:
 This rule is mandatory for every user-facing screen, widget, sheet, dialog,
 state view, and partner/admin surface.
 
-- No visible UI copy may exceed 4 words.
+- The repository guard enforces a 16-word maximum for visible UI copy.
+- High-frequency actions, labels, and status surfaces should still target 4 words or fewer.
 - Applies to titles, headings, labels, hints, helper text, descriptions,
   button text, toasts, banners, empty states, and error messages.
-- Do not add fallback exceptions for subtitles, helper copy, or long states.
+- Longer copy is reserved for onboarding, trust, and explanatory surfaces where short labels are not enough.
 - The repository enforces this with `dart tool/ui_copy_guard.dart` and
   `test/docs/ui_copy_guard_test.dart`.
 
 ## Critical Layout Guardrail
 
-This rule is mandatory for every non-home screen.
+This rule is the default for every non-home screen.
 
-- Every non-home page must have one primary card.
-- Do not stack two top-level cards.
-- Merge tabs, filters, stats, and actions.
-- Use sections inside one card.
+- Prefer one primary card.
+- Supporting cards are acceptable for operational state, blockers, or trust messaging.
+- Merge tabs, filters, stats, and actions when the screen stays readable.
+- Use sections inside one card when the content is tightly related.
 - Sheets and QR pages must expose a clear back or close path.
 
 ## Tech Stack
@@ -193,8 +198,13 @@ COOL.html
 - Root app widget: [lib/app.dart](/Volumes/PRO-G40/COOL/lib/app.dart)
 - Lifecycle binding: [lib/core/providers/app_lifecycle_providers.dart](/Volumes/PRO-G40/COOL/lib/core/providers/app_lifecycle_providers.dart)
 - Router: [lib/core/router/app_router.dart](/Volumes/PRO-G40/COOL/lib/core/router/app_router.dart)
-- Theme colors: [lib/core/theme/app_colors.dart](/Volumes/PRO-G40/COOL/lib/core/theme/app_colors.dart)
+- Redesign guide: [DESIGN_SYSTEM.md](/Volumes/PRO-G40/COOL/DESIGN_SYSTEM.md)
+- Semantic tokens: [lib/core/theme/cool_foundations.dart](/Volumes/PRO-G40/COOL/lib/core/theme/cool_foundations.dart)
+- Typography scale: [lib/core/theme/app_theme_text.dart](/Volumes/PRO-G40/COOL/lib/core/theme/app_theme_text.dart)
+- Component theming: [lib/core/theme/app_theme_components.dart](/Volumes/PRO-G40/COOL/lib/core/theme/app_theme_components.dart)
 - Theme config: [lib/core/theme/app_theme.dart](/Volumes/PRO-G40/COOL/lib/core/theme/app_theme.dart)
+- Legacy compatibility palette: [lib/core/theme/app_colors.dart](/Volumes/PRO-G40/COOL/lib/core/theme/app_colors.dart)
+- Redesign rollout gate: [lib/core/providers/production_redesign_provider.dart](/Volumes/PRO-G40/COOL/lib/core/providers/production_redesign_provider.dart)
 - Route inventory: [docs/ROUTE_INVENTORY.md](/Volumes/PRO-G40/COOL/docs/ROUTE_INVENTORY.md)
 - Screen budgets: [docs/SCREEN_BUDGETS.md](/Volumes/PRO-G40/COOL/docs/SCREEN_BUDGETS.md)
 
@@ -314,35 +324,38 @@ Use that document instead of duplicating route lists in feature PRs.
 
 ## Design System
 
-The app uses a central theme and shared widgets.
+The app now has one active redesign source of truth:
 
-Colors:
+- [DESIGN_SYSTEM.md](/Volumes/PRO-G40/COOL/DESIGN_SYSTEM.md)
 
-- `AppColors.bg`
-- `AppColors.surface`
-- `AppColors.surface2`
-- `AppColors.surface3`
-- `AppColors.accent`
-- `AppColors.blue`
-- `AppColors.orange`
-- `AppColors.purple`
+That file governs:
 
-Shared widgets live under [lib/shared/widgets](/Volumes/PRO-G40/COOL/lib/shared/widgets) and include:
+- visual direction
+- light and dark theme behavior
+- typography hierarchy
+- component families
+- role and product adaptation
+- migration sequencing for the production redesign
 
-- `CoolButton`
-- `CoolCard`
-- `StatusBadge`
-- `SectionTitle`
-- `TabPill`
-- `VehicleChip`
-- `GroupCard`
-- `DriverCard`
-- `TripCard`
-- `MemberRow`
-- `BalanceCard`
-- `QrShareSheet`
-- `WaButton`
-- `CoolTextField`
+Theme implementation is grounded in:
+
+- [cool_foundations.dart](/Volumes/PRO-G40/COOL/lib/core/theme/cool_foundations.dart)
+- [app_theme_text.dart](/Volumes/PRO-G40/COOL/lib/core/theme/app_theme_text.dart)
+- [app_theme_components.dart](/Volumes/PRO-G40/COOL/lib/core/theme/app_theme_components.dart)
+The complete design system lives in
+[DESIGN_SYSTEM.md](/Volumes/PRO-G40/COOL/DESIGN_SYSTEM.md). That document is
+the sole authority for color tokens, typography, spacing, surface language,
+components, screen composition rules, simplification standards, motion,
+accessibility, trust design, module-specific UX, partner sub-brand rules,
+and migration planning.
+
+Quick reference:
+
+- Colors: `AppColors.bg`, `surface`, `surface2`, `surface3`, `accent`, `blue`, `orange`, `purple`
+- Font: Manrope (UI), DM Mono (financial values)
+- Shared widgets: [lib/shared/widgets](/Volumes/PRO-G40/COOL/lib/shared/widgets)
+  — `CoolButton`, `CoolCard`, `StatusBadge`, `SectionTitle`, `TabPill`,
+  `CoolTextField`, `BalanceCard`, `QrShareSheet`, and others
 
 ## Environment Setup
 
@@ -560,6 +573,7 @@ Files live under [test](/Volumes/PRO-G40/COOL/test).
 
 Governance references:
 
+- Design system: [DESIGN_SYSTEM.md](/Volumes/PRO-G40/COOL/DESIGN_SYSTEM.md)
 - Release gates: [docs/qa_release_readiness.md](/Volumes/PRO-G40/COOL/docs/qa_release_readiness.md)
 - Release process: [docs/RELEASE_PROCESS.md](/Volumes/PRO-G40/COOL/docs/RELEASE_PROCESS.md)
 - Route inventory: [docs/ROUTE_INVENTORY.md](/Volumes/PRO-G40/COOL/docs/ROUTE_INVENTORY.md)
