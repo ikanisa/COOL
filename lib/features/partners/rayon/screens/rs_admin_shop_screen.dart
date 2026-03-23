@@ -128,6 +128,7 @@ class _RsAdminShopScreenState extends ConsumerState<RsAdminShopScreen> {
   }
 
   Future<void> _deleteProduct(RsProduct prod) async {
+    final colors = context.coolSemanticColors;
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(

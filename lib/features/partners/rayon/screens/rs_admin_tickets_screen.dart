@@ -179,6 +179,7 @@ class _RsAdminTicketsScreenState extends ConsumerState<RsAdminTicketsScreen> {
   }
 
   Future<void> _gateCheck(RsTicket ticket) async {
+    final colors = context.coolSemanticColors;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -217,6 +218,7 @@ class _RsAdminTicketsScreenState extends ConsumerState<RsAdminTicketsScreen> {
   }
 
   Future<void> _refundTicket(RsTicket ticket) async {
+    final colors = context.coolSemanticColors;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -531,33 +533,37 @@ class _StatusBadge extends StatelessWidget {
   const _StatusBadge({required this.status});
   final String status;
 
-  Color get _color => switch (status) {
-    'valid' => colors.accent,
-    'used' => colors.info,
-    'cancelled' => colors.danger,
-    'voided' => colors.tertiaryText,
-    'refunded' => colors.teamSurface,
-    _ => colors.warning,
-  };
+  Color _color(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    return switch (status) {
+      'valid' => colors.accent,
+      'used' => colors.info,
+      'cancelled' => colors.danger,
+      'voided' => colors.tertiaryText,
+      'refunded' => colors.teamSurface,
+      _ => colors.warning,
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
+    final c = _color(context);
     return Semantics(
       label: 'Status ${status.toLowerCase()}',
       child: ExcludeSemantics(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
           decoration: BoxDecoration(
-            color: _color.withValues(alpha: 0.15),
+            color: c.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(CoolRadii.pill),
-            border: Border.all(color: _color.withValues(alpha: 0.24)),
+            border: Border.all(color: c.withValues(alpha: 0.24)),
           ),
           child: Text(
             status.toUpperCase(),
             style: GoogleFonts.dmSans(
               fontSize: 11,
               fontWeight: FontWeight.w800,
-              color: _color,
+              color: c,
             ),
           ),
         ),

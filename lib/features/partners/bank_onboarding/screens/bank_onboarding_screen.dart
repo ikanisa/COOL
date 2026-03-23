@@ -132,6 +132,7 @@ class _BankOnboardingScreenState extends ConsumerState<BankOnboardingScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
       child: Row(
         children: List.generate(totalSteps, (index) {
+          final colors = context.coolSemanticColors;
           final isActive = index <= _currentStep;
           return Expanded(
             child: Container(
@@ -164,6 +165,7 @@ class _BankOnboardingScreenState extends ConsumerState<BankOnboardingScreen> {
   }
 
   Widget _buildKycReview(UserProfile user) {
+    final colors = context.coolSemanticColors;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -210,6 +212,7 @@ class _BankOnboardingScreenState extends ConsumerState<BankOnboardingScreen> {
   }
 
   Widget _buildLoanDetails() {
+    final colors = context.coolSemanticColors;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -238,6 +241,7 @@ class _BankOnboardingScreenState extends ConsumerState<BankOnboardingScreen> {
   }
 
   Widget _buildSelfieStep() {
+    final colors = context.coolSemanticColors;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -303,6 +307,7 @@ class _BankOnboardingScreenState extends ConsumerState<BankOnboardingScreen> {
   }
 
   Widget _buildInfoRow(IconData icon, String label, String value) {
+    final colors = context.coolSemanticColors;
     return Row(
       children: [
         Icon(icon, color: colors.accent, size: 20),

@@ -152,6 +152,7 @@ class _RsAdminInitiativesScreenState
   }
 
   Future<void> _deleteInitiative(RsInitiative init) async {
+    final colors = context.coolSemanticColors;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -680,6 +681,7 @@ class _ContributorsSheet extends ConsumerWidget {
               ),
               data: (contributions) {
                 if (contributions.isEmpty) {
+                  final colors = context.coolSemanticColors;
                   return Center(
                     child: Text(
                       'No contributions yet',
@@ -692,6 +694,7 @@ class _ContributorsSheet extends ConsumerWidget {
                   itemCount: contributions.length,
                   separatorBuilder: (_, _) => const Divider(height: 1),
                   itemBuilder: (context, index) {
+                    final colors = context.coolSemanticColors;
                     final c = contributions[index];
                     final dateStr = DateFormat(
                       'd MMM, HH:mm',

@@ -29,6 +29,7 @@ class _RsAdminPackagesScreenState extends ConsumerState<RsAdminPackagesScreen> {
   String? _activePackageAction;
 
   Future<void> _editPackage(RsMembershipPackage package) async {
+    final colors = context.coolSemanticColors;
     if (_isSavingPackage) {
       return;
     }

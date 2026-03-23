@@ -102,6 +102,7 @@ class _RsAdminMatchesScreenState extends ConsumerState<RsAdminMatchesScreen> {
   }
 
   Future<void> _deleteMatch(RsMatch match) async {
+    final colors = context.coolSemanticColors;
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(

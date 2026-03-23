@@ -97,6 +97,7 @@ class _RsAdminFinanceScreenState extends ConsumerState<RsAdminFinanceScreen> {
   }
 
   Future<void> _openRouteEditor({PartnerPaymentRoute? route}) async {
+    final colors = context.coolSemanticColors;
     if (_isSavingRoute) {
       return;
     }
