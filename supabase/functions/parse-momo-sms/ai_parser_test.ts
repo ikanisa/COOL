@@ -92,9 +92,10 @@ Deno.test("callOpenAi builds a Responses API request and extracts nested JSON te
     apiKey: "test-openai-key",
     model: "gpt-test",
     fetchFn: async (input, init) => {
+      const requestInit = init as globalThis.RequestInit | undefined;
       capturedUrl = typeof input === "string" ? input : input.toString();
-      capturedHeaders = init?.headers;
-      capturedBody = JSON.parse(String(init?.body));
+      capturedHeaders = requestInit?.headers;
+      capturedBody = JSON.parse(String(requestInit?.body));
       return jsonResponse({
         output: [
           {
@@ -137,8 +138,9 @@ Deno.test("callGemini builds a generateContent request and extracts candidate JS
     apiKey: "test-gemini-key",
     model: "gemini-test",
     fetchFn: async (input, init) => {
+      const requestInit = init as globalThis.RequestInit | undefined;
       capturedUrl = typeof input === "string" ? input : input.toString();
-      capturedBody = JSON.parse(String(init?.body));
+      capturedBody = JSON.parse(String(requestInit?.body));
       return jsonResponse({
         candidates: [
           {

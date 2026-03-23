@@ -121,7 +121,7 @@ Deno.serve(async (req: Request) => {
           end_date: commitment.predicted_date,
           category: commitment.category
         });
-        if (eventId) eventIds.add(eventId);
+        if (eventId) eventIds.push(eventId);
       }
     }
 

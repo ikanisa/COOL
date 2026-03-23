@@ -220,19 +220,18 @@ export async function callOpenAi(
   const apiKey = options.apiKey ?? requireEnv("OPENAI_API_KEY");
   const model = options.model ?? getModel("openai");
   const fetchFn = options.fetchFn ?? fetch;
-  
-  // Use gpt-4o-mini's structured output capability.
+
   const requestPayload = {
     model,
-    messages: [
+    input: [
       {
         role: "user",
         content: prompt,
       },
     ],
-    response_format: {
-      type: "json_schema",
-      json_schema: {
+    text: {
+      format: {
+        type: "json_schema",
         name: "momo_sms_parse",
         schema: parsedSmsJsonSchema,
         strict: true,
@@ -240,14 +239,15 @@ export async function callOpenAi(
     },
   };
 
-  const response = await fetchFn("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
+  const response = await fetchFn("https://api.openai.com/v1/responses", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify(requestPayload),
     },
-    body: JSON.stringify(requestPayload),
-  });
+  );
 
   const responseBody = await response.json();
   if (!response.ok) {
@@ -269,13 +269,26 @@ export async function callOpenAi(
 export function extractOpenAiText(
   responseBody: Record<string, unknown>,
 ): string {
-  const choices = responseBody["choices"];
-  if (Array.isArray(choices) && choices.length > 0) {
-    const message = choices[0]?.message;
-    if (message?.content) {
-      return message.content;
+  const output = responseBody["output"];
+  if (!Array.isArray(output)) {
+    throw new Error("OpenAI response did not contain structured output text");
+  }
+
+  for (const item of output) {
+    if (!item || typeof item !== "object") continue;
+    const content = (item as Record<string, unknown>)["content"];
+    if (!Array.isArray(content)) continue;
+
+    for (const part of content) {
+      if (!part || typeof part !== "object") continue;
+      const record = part as Record<string, unknown>;
+      const text = record["text"];
+      if (typeof text === "string" && text.trim().length > 0) {
+        return normalizeJsonText(text);
+      }
     }
   }
+
   throw new Error("OpenAI response did not contain structured output text");
 }
 
@@ -286,8 +299,7 @@ export async function callGemini(
   const apiKey = options.apiKey ?? requireEnv("GEMINI_API_KEY");
   const model = options.model ?? getModel("gemini");
   const fetchFn = options.fetchFn ?? fetch;
-  
-  // Apply the same strict response schema used in KYC for 100% optimum reliability.
+
   const requestPayload = {
     contents: [
       {
@@ -297,8 +309,7 @@ export async function callGemini(
     ],
     generationConfig: {
       responseMimeType: "application/json",
-      responseSchema: parsedSmsJsonSchema,
-      temperature: 0.1, // Near-zero for optimum determinism
+      temperature: 0.1,
     },
   };
 

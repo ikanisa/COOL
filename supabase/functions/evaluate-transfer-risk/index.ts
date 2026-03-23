@@ -4,15 +4,253 @@ import {
   jsonResponse,
   methodNotAllowed,
 } from "../_shared/http.ts";
-import { createAdminClient, createUserClient } from "../_shared/supabase.ts";
 import { logAiAudit } from "../_shared/google_workspace.ts";
+import { createAdminClient, createUserClient } from "../_shared/supabase.ts";
 
 const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
-const GEMINI_MODEL = "gemini-2.0-flash"; 
+const GEMINI_MODEL = "gemini-2.0-flash";
 const GEMINI_URL =
   `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
 
-// ... existing schema and prompt logic ...
+const riskSchema = {
+  type: "object",
+  properties: {
+    risk_score: { type: "number", minimum: 0, maximum: 1 },
+    is_anomaly: { type: "boolean" },
+    reason: { type: "string" },
+    warning_title: { type: "string" },
+    warning_body: { type: "string" },
+    trust_score: { type: "number", minimum: 0, maximum: 1 },
+    action_suggestion: {
+      type: "string",
+      enum: ["allow", "warn", "review", "block"],
+    },
+  },
+  required: [
+    "risk_score",
+    "is_anomaly",
+    "reason",
+    "warning_title",
+    "warning_body",
+    "trust_score",
+    "action_suggestion",
+  ],
+};
+
+type RiskRequest = {
+  recipientNumber?: string;
+  amount?: number | string;
+  currency?: string;
+};
+
+type LedgerRiskRow = {
+  amount?: number | null;
+  counterparty_name?: string | null;
+  description?: string | null;
+  statement_label?: string | null;
+  metadata?: Record<string, unknown> | null;
+};
+
+type RiskResult = {
+  risk_score: number;
+  is_anomaly: boolean;
+  reason: string;
+  warning_title: string;
+  warning_body: string;
+  trust_score: number;
+  action_suggestion: "allow" | "warn" | "review" | "block";
+};
+
+function normalizeRecipientKey(value: string): string {
+  return value.trim().replace(/\s+/g, " ").toLowerCase();
+}
+
+function normalizeDigits(value: string): string {
+  return value.replace(/\D/g, "");
+}
+
+function matchesRecipient(candidate: string, recipient: string): boolean {
+  const candidateDigits = normalizeDigits(candidate);
+  const recipientDigits = normalizeDigits(recipient);
+  if (candidateDigits && recipientDigits) {
+    return candidateDigits === recipientDigits ||
+      candidateDigits.endsWith(recipientDigits) ||
+      recipientDigits.endsWith(candidateDigits);
+  }
+
+  return normalizeRecipientKey(candidate) === normalizeRecipientKey(recipient);
+}
+
+function asFiniteNumber(value: unknown): number | null {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return value;
+  }
+  if (typeof value === "string" && value.trim().length > 0) {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+  return null;
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(Math.max(value, min), max);
+}
+
+function collectRecentRecipients(rows: LedgerRiskRow[]): string[] {
+  const recipients = new Set<string>();
+
+  for (const row of rows) {
+    const metadata = row.metadata ?? {};
+    const candidates = [
+      row.counterparty_name,
+      row.description,
+      row.statement_label,
+      typeof metadata["recipient_number"] === "string"
+        ? metadata["recipient_number"]
+        : null,
+      typeof metadata["payee_number_or_code"] === "string"
+        ? metadata["payee_number_or_code"]
+        : null,
+      typeof metadata["payer_number_full"] === "string"
+        ? metadata["payer_number_full"]
+        : null,
+    ];
+
+    for (const candidate of candidates) {
+      if (typeof candidate !== "string") continue;
+      const normalized = candidate.trim();
+      if (normalized.length > 0) {
+        recipients.add(normalized);
+      }
+    }
+  }
+
+  return [...recipients].slice(0, 10);
+}
+
+function averageAmount(rows: LedgerRiskRow[], fallback: number): number {
+  const amounts = rows
+    .map((row) => asFiniteNumber(row.amount))
+    .filter((value): value is number => value !== null && value > 0);
+
+  if (amounts.length === 0) {
+    return fallback;
+  }
+
+  const total = amounts.reduce(
+    (sum: number, value: number) => sum + value,
+    0,
+  );
+  return total / amounts.length;
+}
+
+function extractGeminiText(responseBody: Record<string, unknown>): string {
+  const candidates = responseBody["candidates"];
+  if (!Array.isArray(candidates) || candidates.length === 0) {
+    throw new Error("Gemini response did not contain candidates");
+  }
+
+  for (const candidate of candidates) {
+    if (!candidate || typeof candidate !== "object") continue;
+    const content = (candidate as Record<string, unknown>)["content"];
+    if (!content || typeof content !== "object") continue;
+    const parts = (content as Record<string, unknown>)["parts"];
+    if (!Array.isArray(parts)) continue;
+
+    for (const part of parts) {
+      if (!part || typeof part !== "object") continue;
+      const text = (part as Record<string, unknown>)["text"];
+      if (typeof text === "string" && text.trim().length > 0) {
+        return text;
+      }
+    }
+  }
+
+  throw new Error("Gemini response did not contain JSON text output");
+}
+
+function buildRiskPrompt(
+  transfer: { recipientNumber: string; amount: number; currency: string },
+  context: {
+    isKnown: boolean;
+    isCoMember: boolean;
+    avgAmount: number;
+    recentRecipients: string[];
+  },
+): string {
+  return [
+    "You are COOL Guardian AI, a transfer-risk assistant for mobile money payments.",
+    "Assess whether the pending transfer looks normal for this user.",
+    "",
+    "### TRANSFER",
+    `Recipient: ${transfer.recipientNumber}`,
+    `Amount: ${transfer.amount} ${transfer.currency}`,
+    "",
+    "### USER CONTEXT",
+    `Known recipient: ${context.isKnown}`,
+    `Co-member recipient: ${context.isCoMember}`,
+    `Average outgoing amount: ${context.avgAmount.toFixed(2)} ${transfer.currency}`,
+    `Recent recipients: ${
+      context.recentRecipients.length > 0
+        ? context.recentRecipients.join(", ")
+        : "none"
+    }`,
+    "",
+    "### OUTPUT RULES",
+    "Return JSON only.",
+    "risk_score is 0 to 1, where 1 is very risky.",
+    "trust_score is 0 to 1, where 1 is very trusted.",
+    "action_suggestion must be allow, warn, review, or block.",
+    "Use warn or review when the payment is unusually large or recipient trust is low.",
+  ].join("\n");
+}
+
+function normalizeRiskResult(
+  payload: Record<string, unknown>,
+  context: { isKnown: boolean; amount: number; avgAmount: number },
+): RiskResult {
+  const fallbackRisk = context.isKnown ? 0.2 : 0.45;
+  const fallbackTrust = context.isKnown ? 0.8 : 0.45;
+  const aiRiskScore = asFiniteNumber(payload["risk_score"]);
+  const aiTrustScore = asFiniteNumber(payload["trust_score"]);
+  const riskScore = clamp(aiRiskScore ?? fallbackRisk, 0, 1);
+  const trustScore = clamp(aiTrustScore ?? fallbackTrust, 0, 1);
+  const amountRatio = context.avgAmount > 0 ? context.amount / context.avgAmount : 1;
+  const suggestedAction = typeof payload["action_suggestion"] === "string"
+    ? payload["action_suggestion"].toLowerCase()
+    : "";
+
+  const actionSuggestion = (
+    suggestedAction === "allow" ||
+    suggestedAction === "warn" ||
+    suggestedAction === "review" ||
+    suggestedAction === "block"
+      ? suggestedAction
+      : riskScore >= 0.8 || amountRatio >= 5
+      ? "review"
+      : riskScore >= 0.55
+      ? "warn"
+      : "allow"
+  ) as RiskResult["action_suggestion"];
+
+  return {
+    risk_score: riskScore,
+    is_anomaly: typeof payload["is_anomaly"] === "boolean"
+      ? payload["is_anomaly"]
+      : riskScore >= 0.55 || amountRatio >= 3,
+    reason: typeof payload["reason"] === "string" && payload["reason"].trim().length > 0
+      ? payload["reason"]
+      : context.isKnown
+      ? "Transfer aligns with recent recipient behavior."
+      : "Recipient has limited history for this user.",
+    warning_title:
+      typeof payload["warning_title"] === "string" ? payload["warning_title"] : "",
+    warning_body:
+      typeof payload["warning_body"] === "string" ? payload["warning_body"] : "",
+    trust_score: trustScore,
+    action_suggestion: actionSuggestion,
+  };
+}
 
 Deno.serve(async (req: Request) => {
   const startTime = Date.now();
@@ -31,19 +269,45 @@ Deno.serve(async (req: Request) => {
 
   if (authError || !user) return errorResponse("Unauthorized.", 401);
 
-  const { recipientNumber, amount, currency } = await req.json();
+  const body = await req.json() as RiskRequest;
+  const recipientNumber = body.recipientNumber?.trim() ?? "";
+  const amount = asFiniteNumber(body.amount);
+  const currency = body.currency?.trim() || "RWF";
 
-  if (!recipientNumber || !amount) {
+  if (!recipientNumber || amount === null || amount <= 0) {
     return errorResponse("Recipient and amount are required.", 400);
   }
 
-  // ... existing context fetching logic ...
+  const ninetyDaysAgo = new Date();
+  ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
 
-  // 3. Call Gemini 2.0 Flash for Risk Logic
+  const { data: recentTransfers } = await adminClient
+    .from("momo_ledger_entries")
+    .select("amount, counterparty_name, description, statement_label, metadata")
+    .eq("user_id", user.id)
+    .eq("ledger_status", "posted")
+    .eq("entry_type", "debit")
+    .gte("tx_datetime", ninetyDaysAgo.toISOString())
+    .order("tx_datetime", { ascending: false })
+    .limit(50);
+
+  const rows = (recentTransfers ?? []) as LedgerRiskRow[];
+  const recentRecipients = collectRecentRecipients(rows);
+  const isKnown = recentRecipients.some((candidate) =>
+    matchesRecipient(candidate, recipientNumber)
+  );
+  const avgAmount = averageAmount(rows, amount);
+  const isCoMember = false;
+
   try {
     const prompt = buildRiskPrompt(
       { recipientNumber, amount, currency },
-      { isKnown, isCoMember, avgAmount, recentRecipients: recentRecipients.slice(0, 10) }
+      {
+        isKnown,
+        isCoMember,
+        avgAmount,
+        recentRecipients,
+      },
     );
 
     const geminiResponse = await fetch(GEMINI_URL, {
@@ -63,10 +327,12 @@ Deno.serve(async (req: Request) => {
       throw new Error(`Gemini API error: ${await geminiResponse.text()}`);
     }
 
-    const result = await geminiResponse.json();
-    const riskResult = JSON.parse(result.candidates[0].content.parts[0].text);
+    const result = await geminiResponse.json() as Record<string, unknown>;
+    const riskResult = normalizeRiskResult(
+      JSON.parse(extractGeminiText(result)) as Record<string, unknown>,
+      { isKnown, amount, avgAmount },
+    );
 
-    // 4. Audit Decision to Google Workspace (Critical Governance)
     await logAiAudit({
       function_name: "evaluate-transfer-risk",
       user_id: user.id,
@@ -77,19 +343,17 @@ Deno.serve(async (req: Request) => {
         amount,
         recipient: recipientNumber,
         is_anomaly: riskResult.is_anomaly,
-        reason: riskResult.reason
+        reason: riskResult.reason,
       },
-      latency_ms: Date.now() - startTime
+      latency_ms: Date.now() - startTime,
     });
 
     return jsonResponse({
       success: true,
       data: riskResult,
     });
-
   } catch (err) {
     console.error("Guardian AI Error:", err);
-    // Fail-safe: Low risk if AI is down but mark as unverified
     return jsonResponse({
       success: true,
       data: {
@@ -99,8 +363,8 @@ Deno.serve(async (req: Request) => {
         warning_title: "",
         warning_body: "",
         trust_score: 0.5,
-        action_suggestion: "allow"
-      }
+        action_suggestion: "allow",
+      } satisfies RiskResult,
     });
   }
 });

@@ -6,6 +6,7 @@ import {
   jsonResponse,
   methodNotAllowed,
 } from "../_shared/http.ts";
+import { normalizeBiopayLivenessMetadata } from "../_shared/biopay_liveness.ts";
 import {
   recordEdgeFunctionFailure,
   recordOperationalHealthEvent,
@@ -16,6 +17,7 @@ type EnrollRequest = {
   display_name?: string;
   consent_version?: string;
   embedding?: unknown;
+  liveness?: unknown;
   model_version?: string;
   quality_score?: number;
 };
@@ -62,6 +64,7 @@ Deno.serve(async (request: Request) => {
 
     const body = await request.json() as EnrollRequest;
     const embedding = normalizeEmbedding(body.embedding);
+    const liveness = normalizeBiopayLivenessMetadata(body.liveness);
     const { data, error } = await userClient.rpc("biopay_upsert_enrollment", {
       p_display_name: body.display_name ?? null,
       p_consent_version: body.consent_version ?? "biopay-v1",
@@ -92,6 +95,7 @@ Deno.serve(async (request: Request) => {
       metadata: {
         route_type: row.route_type ?? null,
         country_code: row.country_code ?? null,
+        liveness,
       },
     });
 

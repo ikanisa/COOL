@@ -6,6 +6,7 @@ import {
   jsonResponse,
   methodNotAllowed,
 } from "../_shared/http.ts";
+import { normalizeBiopayLivenessMetadata } from "../_shared/biopay_liveness.ts";
 import {
   countRecentBiopayMatchRateEvents,
   extractClientIp,
@@ -36,6 +37,7 @@ type UserClientLike = {
 
 type MatchRequest = {
   embedding?: unknown;
+  liveness?: unknown;
 };
 
 type BiopayMatchRow = Record<string, unknown> & {
@@ -273,6 +275,7 @@ export function createBiopayMatchHandler(
       const now = deps.now();
       const body = await request.json() as MatchRequest;
       const embedding = normalizeEmbedding(body.embedding);
+      const liveness = normalizeBiopayLivenessMetadata(body.liveness);
       const protectionConfig = await deps.getProtectionConfig(adminClient);
       const clientIp = extractClientIp(request);
       const userActorKey = await hashBiopayMatchActorKey(
@@ -286,6 +289,7 @@ export function createBiopayMatchHandler(
         user_actor_key: userActorKey,
         client_info: sanitizeHeaderValue(request.headers.get("x-client-info")),
         user_agent: sanitizeHeaderValue(request.headers.get("user-agent")),
+        liveness,
       };
       const rateWindowStartIso = isoBefore(
         now,
