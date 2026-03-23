@@ -54,4 +54,11 @@ else
   echo "==> skipping remote Supabase smoke (set RUN_REMOTE_SMOKE=1 to enable)"
 fi
 
+if [[ "${RUN_MOMO_SMS_ROLLOUT_VERIFY:-0}" == "1" ]]; then
+  echo "==> M-Money SMS Supabase rollout verification"
+  bash "$ROOT_DIR/scripts/verify_momo_sms_supabase_rollout.sh"
+else
+  echo "==> skipping M-Money SMS rollout verification (set RUN_MOMO_SMS_ROLLOUT_VERIFY=1 and DATABASE_URL or SUPABASE_DB_URL to enable)"
+fi
+
 echo "==> manual release permission review still required"

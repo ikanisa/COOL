@@ -208,7 +208,45 @@ jobs:
           done < <(find supabase/functions -type f -name '*.ts' | sort)
           deno check "${deno_files[@]}"
 
-  # ── 6. APK size gate (slow ~5min, depends on analyze) ──────────────
+  # ── 6. M-Money SMS contract lane (fast ~2min) ──────────────────────
+  momo-sms-contracts:
+    name: M-Money SMS Contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read pinned Flutter version
+        id: flutter-version
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+
+          with open(".fvmrc", "r", encoding="utf-8") as handle:
+              config = json.load(handle)
+
+          print(f"version={config['flutter']}")
+          PY
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ steps.flutter-version.outputs.version }}
+          cache: true
+
+      - name: Set up Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version-file: .dvmrc
+          cache: true
+
+      - run: flutter pub get
+
+      - name: Run M-Money SMS contract checks
+        run: bash scripts/check_momo_sms_contracts.sh
+
+  # ── 7. APK size gate (slow ~5min, depends on analyze) ──────────────
   apk-size:
     name: APK size check
     runs-on: ubuntu-latest

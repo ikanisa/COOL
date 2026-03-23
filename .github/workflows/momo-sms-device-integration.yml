@@ -1,0 +1,66 @@
+name: M-Money SMS Device Integration
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '5 3 * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: momo-sms-device-integration
+  cancel-in-progress: false
+
+jobs:
+  android-emulator:
+    name: Android Emulator
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read pinned Flutter version
+        id: flutter-version
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+
+          with open(".fvmrc", "r", encoding="utf-8") as handle:
+              config = json.load(handle)
+
+          print(f"version={config['flutter']}")
+          PY
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ steps.flutter-version.outputs.version }}
+          cache: true
+
+      - name: Run M-Money SMS emulator integration
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          arch: x86_64
+          profile: pixel_6
+          emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect -camera-back none
+          disable-animations: true
+          script: |
+            bash scripts/run_momo_sms_device_integration.sh
+
+      - name: Upload device integration artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: momo-sms-device-integration-artifacts
+          path: build/momo_sms_device_integration
+          retention-days: 14

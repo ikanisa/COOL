@@ -57,6 +57,9 @@ jobs:
       - name: Run release readiness checks
         env:
           SKIP_ANDROID_FLAVOR_BUILDS: '1'
+          RUN_MOMO_SMS_ROLLOUT_VERIFY: ${{ secrets.SUPABASE_DB_URL != '' && '1' || '0' }}
+          TRIGGER_MIGRATION_CHECK: ${{ secrets.SUPABASE_DB_URL != '' && '1' || '0' }}
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
           COOL_ANDROID_PLAY_APP_SIGNING_SHA256_CERT_FINGERPRINT: ${{ secrets.COOL_ANDROID_PLAY_APP_SIGNING_SHA256_CERT_FINGERPRINT }}
           COOL_IOS_TEAM_ID: ${{ secrets.COOL_IOS_TEAM_ID }}
           COOL_IOS_APP_STORE_ID: ${{ secrets.COOL_IOS_APP_STORE_ID }}
