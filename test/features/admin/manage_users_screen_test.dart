@@ -118,7 +118,7 @@ void main() {
       'Alice Updated',
     );
 
-    await tester.tap(find.text('Save').last);
+    await tester.tap(find.text('Save User').last);
     await tester.pumpAndSettle();
 
     expect(repository.updatedUsers, hasLength(1));
