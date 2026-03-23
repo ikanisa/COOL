@@ -132,9 +132,12 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.enterText(_textFieldWithLabel('Title *'), 'Market Prompt');
-    await tester.enterText(_textFieldWithLabel('CTA Label'), 'Open MoMo');
+    await tester.enterText(
+      _textFieldWithLabel('CTA Label (e.g. Open)'),
+      'Open MoMo',
+    );
 
-    await tester.tap(find.text('Create Content').last);
+    await tester.tap(find.text('Create').last);
     await tester.pumpAndSettle();
 
     expect(repository.upsertedItems, hasLength(1));
