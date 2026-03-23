@@ -1,20 +1,22 @@
 import 'dart:io' show Platform;
 import 'dart:math' as math;
-import 'dart:typed_data';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 
+import '../models/biopay_model_contract.dart';
+
 class BiopayEmbeddingService {
-  static const modelAssetPath =
-      'assets/models/biopay/mobilefacenet_int8.tflite';
-  static const embeddingSize = 128;
+  static const modelAssetPath = BiopayModelContract.modelAssetPath;
+  static const modelContractAssetPath = BiopayModelContract.contractAssetPath;
+  static const embeddingSize = BiopayModelContract.expectedEmbeddingSize;
   static const inputWidth = 160;
   static const inputHeight = 160;
 
   Interpreter? _interpreter;
   Delegate? _delegate;
   String? _initializationError;
+  BiopayModelContract? _modelContract;
 
   bool get isReady => _interpreter != null;
   String? get initializationError => _initializationError;
@@ -22,11 +24,23 @@ class BiopayEmbeddingService {
   Future<bool> isModelAssetAvailable() => _assetExists(modelAssetPath);
 
   Future<String?> getModelAssetIssue() async {
-    final available = await isModelAssetAvailable();
-    if (available) {
-      return null;
+    final modelBytes = await _loadModelBytes();
+    if (modelBytes == null) {
+      return 'BioPay face model is not bundled in this build yet. Add mobilefacenet_int8.tflite to assets/models/biopay/.';
     }
-    return 'BioPay face model is not bundled in this build yet. Add mobilefacenet_int8.tflite to assets/models/biopay/.';
+
+    BiopayModelContract contract;
+    try {
+      contract = await _loadModelContract();
+    } on StateError catch (error) {
+      return error.message;
+    }
+    final contractIssue = contract.validateModelBytes(modelBytes);
+    if (contractIssue != null) {
+      return contractIssue;
+    }
+
+    return null;
   }
 
   Future<bool> ensureInitialized() async {
@@ -37,14 +51,31 @@ class BiopayEmbeddingService {
       return false;
     }
 
-    if (!await _assetExists(modelAssetPath)) {
+    final modelBytes = await _loadModelBytes();
+    if (modelBytes == null) {
       _initializationError =
           'BioPay model asset is missing at $modelAssetPath. Drop mobilefacenet_int8.tflite into assets/models/biopay/.';
       return false;
     }
 
     try {
-      await _initialiseWithPlatformAcceleration();
+      final contract = await _loadModelContract();
+      final contractIssue = contract.validateModelBytes(modelBytes);
+      if (contractIssue != null) {
+        _initializationError = contractIssue;
+        return false;
+      }
+
+      await _initialiseWithPlatformAcceleration(modelBytes);
+      final interpreterIssue = _validateInterpreterContract(
+        contract,
+        _interpreter!,
+      );
+      if (interpreterIssue != null) {
+        _initializationError = interpreterIssue;
+        dispose();
+        return false;
+      }
       return _interpreter != null;
     } catch (error) {
       _initializationError = error.toString();
@@ -101,12 +132,12 @@ class BiopayEmbeddingService {
     _delegate = null;
   }
 
-  Future<void> _initialiseWithPlatformAcceleration() async {
+  Future<void> _initialiseWithPlatformAcceleration(Uint8List modelBytes) async {
     final attempts = <Future<void> Function()>[
-      if (Platform.isAndroid) _tryAndroidGpu,
-      if (Platform.isAndroid) _tryAndroidNnApi,
-      if (Platform.isIOS) _tryIosCoreMl,
-      _tryCpuOnly,
+      if (Platform.isAndroid) () => _tryAndroidGpu(modelBytes),
+      if (Platform.isAndroid) () => _tryAndroidNnApi(modelBytes),
+      if (Platform.isIOS) () => _tryIosCoreMl(modelBytes),
+      () => _tryCpuOnly(modelBytes),
     ];
 
     Object? lastError;
@@ -131,47 +162,84 @@ class BiopayEmbeddingService {
     );
   }
 
-  Future<void> _tryAndroidGpu() async {
+  Future<void> _tryAndroidGpu(Uint8List modelBytes) async {
     final delegate = GpuDelegateV2();
     final options = InterpreterOptions()
       ..threads = 2
       ..addDelegate(delegate);
-    final interpreter = await Interpreter.fromAsset(
-      modelAssetPath,
-      options: options,
-    );
+    final interpreter = Interpreter.fromBuffer(modelBytes, options: options);
     _delegate = delegate;
     _interpreter = interpreter;
   }
 
-  Future<void> _tryAndroidNnApi() async {
+  Future<void> _tryAndroidNnApi(Uint8List modelBytes) async {
     final options = InterpreterOptions()
       ..threads = 2
       ..useNnApiForAndroid = true;
-    _interpreter = await Interpreter.fromAsset(
-      modelAssetPath,
-      options: options,
-    );
+    _interpreter = Interpreter.fromBuffer(modelBytes, options: options);
   }
 
-  Future<void> _tryIosCoreMl() async {
+  Future<void> _tryIosCoreMl(Uint8List modelBytes) async {
     final delegate = CoreMlDelegate();
     final options = InterpreterOptions()
       ..threads = 2
       ..addDelegate(delegate);
-    final interpreter = await Interpreter.fromAsset(
-      modelAssetPath,
-      options: options,
-    );
+    final interpreter = Interpreter.fromBuffer(modelBytes, options: options);
     _delegate = delegate;
     _interpreter = interpreter;
   }
 
-  Future<void> _tryCpuOnly() async {
+  Future<void> _tryCpuOnly(Uint8List modelBytes) async {
     final options = InterpreterOptions()..threads = 2;
-    _interpreter = await Interpreter.fromAsset(
-      modelAssetPath,
-      options: options,
+    _interpreter = Interpreter.fromBuffer(modelBytes, options: options);
+  }
+
+  Future<Uint8List?> _loadModelBytes() async {
+    try {
+      final byteData = await rootBundle.load(modelAssetPath);
+      return byteData.buffer.asUint8List();
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<BiopayModelContract> _loadModelContract() async {
+    final cached = _modelContract;
+    if (cached != null) {
+      return cached;
+    }
+
+    try {
+      final source = await rootBundle.loadString(modelContractAssetPath);
+      final contract = BiopayModelContract.fromJsonString(source);
+      _modelContract = contract;
+      return contract;
+    } on FlutterError {
+      throw StateError(
+        'BioPay model contract is missing at $modelContractAssetPath. Run `dart tool/biopay_model_contract.dart --generate` after placing the production model asset.',
+      );
+    } on FormatException catch (error) {
+      throw StateError(
+        'BioPay model contract is invalid at $modelContractAssetPath: ${error.message}',
+      );
+    } on Object catch (error) {
+      throw StateError(
+        'BioPay model contract could not be loaded from $modelContractAssetPath: $error',
+      );
+    }
+  }
+
+  String? _validateInterpreterContract(
+    BiopayModelContract contract,
+    Interpreter interpreter,
+  ) {
+    final inputTensor = interpreter.getInputTensor(0);
+    final outputTensor = interpreter.getOutputTensor(0);
+    return contract.validateTensorMetadata(
+      runtimeInputShape: inputTensor.shape,
+      runtimeInputType: inputTensor.type.name,
+      runtimeOutputShape: outputTensor.shape,
+      runtimeOutputType: outputTensor.type.name,
     );
   }
 

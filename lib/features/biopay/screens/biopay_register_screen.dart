@@ -14,6 +14,7 @@ import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_scaffold.dart';
 import '../../../shared/widgets/cool_text_field.dart';
 import '../../../shared/widgets/cool_toast.dart';
+import '../../auth/models/user_profile.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../models/biopay_enrollment_draft.dart';
 import '../providers/biopay_providers.dart';
@@ -371,7 +372,7 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
     );
   }
 
-  (MomoRecipientType, String)? _resolveRoute(user) {
+  (MomoRecipientType, String)? _resolveRoute(UserProfile? user) {
     if (user == null) {
       return null;
     }

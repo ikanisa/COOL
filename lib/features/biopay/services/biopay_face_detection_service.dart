@@ -121,7 +121,7 @@ class BiopayFaceDetectionService {
 
   InputImage _buildInputImage(CameraImage frame, int rotationDegrees) {
     final inputImageFormat = InputImageFormatValue.fromRawValue(
-      frame.format.raw,
+      frame.format.raw as int,
     );
     if (inputImageFormat == null) {
       throw StateError('Unsupported BioPay camera image format.');

@@ -17,6 +17,13 @@ echo "==> flutter test (integration smoke)"
 echo "==> deep-link release asset validation"
 dart tool/deep_link_release_assets.dart --generate --check
 
+echo "==> BioPay model contract validation"
+if [ -f assets/models/biopay/mobilefacenet_int8.tflite ] || [ -f assets/models/biopay/mobilefacenet_int8.contract.json ]; then
+  dart tool/biopay_model_contract.dart --check
+else
+  echo "BioPay model asset not bundled; skipping contract validation"
+fi
+
 echo "==> governance docs sync"
 dart tool/governance_docs.dart --check
 
