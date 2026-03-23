@@ -12,6 +12,25 @@ import '../../partners/models/partner.dart';
 import '../../partners/providers/partner_provider.dart';
 import '../widgets/admin_workspace_gate.dart';
 
+const BorderRadius _partnerWorkspaceCardRadius = BorderRadius.all(
+  Radius.circular(CoolRadii.lg),
+);
+const BorderRadius _partnerWorkspacePanelRadius = BorderRadius.all(
+  Radius.circular(CoolRadii.md),
+);
+const BorderRadius _partnerWorkspaceChipRadius = BorderRadius.all(
+  Radius.circular(CoolRadii.pill),
+);
+const EdgeInsets _partnerWorkspacePanelPadding = CoolSpace.denseSectionPadding;
+
+EdgeInsets _partnerWorkspaceSignalPadding() =>
+    CoolSpace.sectionPadding.copyWith(
+      left: CoolSpace.x4,
+      right: CoolSpace.x4,
+      top: CoolSpace.x3,
+      bottom: CoolSpace.x3,
+    );
+
 class PartnerAdminWorkspaceScreen extends ConsumerWidget {
   const PartnerAdminWorkspaceScreen({required this.partnerId, super.key});
 
@@ -96,13 +115,15 @@ class _PartnerWorkspacePlaceholder extends StatelessWidget {
                           colors,
                           resolvedPartner?.category,
                         ),
-                        borderRadius: BorderRadius.circular(CoolRadii.lg),
+                        borderRadius: _partnerWorkspaceCardRadius,
                         border: Border.all(color: colors.borderStrong),
                       ),
                       alignment: Alignment.center,
                       child: Text(
                         resolvedPartner?.emoji ?? '🤝',
-                        style: const TextStyle(fontSize: 28),
+                        style: theme.textTheme.headlineMedium?.copyWith(
+                          height: 1,
+                        ),
                       ),
                     ),
                     const SizedBox(width: CoolSpace.x4),
@@ -152,14 +173,14 @@ class _PartnerWorkspacePlaceholder extends StatelessWidget {
                 const SizedBox(height: CoolSpace.x6),
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(CoolSpace.x5),
+                  padding: _partnerWorkspacePanelPadding,
                   decoration: BoxDecoration(
                     color: colors.operationalSurface,
-                    borderRadius: BorderRadius.circular(CoolRadii.md),
+                    borderRadius: _partnerWorkspacePanelRadius,
                     border: Border.all(color: colors.border),
                   ),
                   child: Text(
-                    'This workspace will inherit the shared admin shell, role-aware navigation, analytics panels, and action modules instead of introducing a one-off partner interface.',
+                    'This workspace uses the shared admin shell, role-aware navigation, analytics, and actions.',
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: colors.primaryText,
                     ),
@@ -218,7 +239,7 @@ class _RayonForwardingView extends StatelessWidget {
                   height: 64,
                   decoration: BoxDecoration(
                     gradient: colors.accentGradient,
-                    borderRadius: BorderRadius.circular(CoolRadii.lg),
+                    borderRadius: _partnerWorkspaceCardRadius,
                     border: Border.all(
                       color: colors.highlightColor.withValues(alpha: 0.16),
                     ),
@@ -239,7 +260,7 @@ class _RayonForwardingView extends StatelessWidget {
                 ),
                 const SizedBox(height: CoolSpace.x3),
                 Text(
-                  'Open the dedicated Rayon workspace to manage fixtures, payment routing, supporters, and commercial operations with the new shared admin language.',
+                  'Open the Rayon workspace for fixtures, payment routing, supporters, and commercial operations.',
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: colors.secondaryText,
                   ),
@@ -279,13 +300,10 @@ class _WorkspaceSignal extends StatelessWidget {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: CoolSpace.x4,
-        vertical: CoolSpace.x3,
-      ),
+      padding: _partnerWorkspaceSignalPadding(),
       decoration: BoxDecoration(
         color: colors.chipBackground,
-        borderRadius: BorderRadius.circular(CoolRadii.pill),
+        borderRadius: _partnerWorkspaceChipRadius,
         border: Border.all(color: colors.border),
       ),
       child: RichText(

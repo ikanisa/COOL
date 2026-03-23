@@ -10,6 +10,10 @@ import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../providers/admin_workspace_access_provider.dart';
 
+const BorderRadius _adminWorkspaceGateHeroRadius = BorderRadius.all(
+  Radius.circular(CoolRadii.lg),
+);
+
 class AdminLoadingScaffold extends StatelessWidget {
   const AdminLoadingScaffold({required this.title, super.key});
 
@@ -32,7 +36,7 @@ class AdminLoadingScaffold extends StatelessWidget {
               height: 72,
               decoration: BoxDecoration(
                 color: colors.analyticsSurface,
-                borderRadius: BorderRadius.circular(CoolRadii.lg),
+                borderRadius: _adminWorkspaceGateHeroRadius,
                 border: Border.all(color: colors.borderStrong),
               ),
               alignment: Alignment.center,
@@ -97,7 +101,7 @@ class AdminAccessDeniedScaffold extends StatelessWidget {
               height: 72,
               decoration: BoxDecoration(
                 color: colors.danger.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(CoolRadii.lg),
+                borderRadius: _adminWorkspaceGateHeroRadius,
                 border: Border.all(
                   color: colors.danger.withValues(alpha: 0.24),
                 ),

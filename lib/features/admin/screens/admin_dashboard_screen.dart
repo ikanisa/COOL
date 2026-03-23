@@ -7,7 +7,6 @@ import '../../../core/l10n/l10n.dart';
 
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/cool_layout.dart';
-import '../../../core/theme/cool_palette.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
@@ -15,6 +14,41 @@ import '../models/admin_workspace_access.dart';
 import '../providers/admin_providers.dart';
 import '../providers/admin_workspace_access_provider.dart';
 import '../../../shared/widgets/cool_bottom_sheet.dart';
+
+EdgeInsets _adminDashboardListPadding() =>
+    CoolSpace.pagePadding.copyWith(top: 0, bottom: CoolLayout.gutter);
+
+EdgeInsets _adminRoleBadgePadding() => CoolSpace.denseSectionPadding.copyWith(
+  left: CoolSpace.x3,
+  right: CoolSpace.x3,
+  top: CoolSpace.x2,
+  bottom: CoolSpace.x2,
+);
+
+EdgeInsets _supportSheetHorizontalPadding() =>
+    CoolSpace.pagePadding.copyWith(top: 0, bottom: 0);
+
+EdgeInsets _supportSheetListPadding() =>
+    CoolSpace.pagePadding.copyWith(top: 0, bottom: CoolSpace.x7);
+
+EdgeInsets _supportSheetTilePadding() => CoolSpace.sectionPadding.copyWith(
+  left: CoolSpace.x4,
+  right: CoolSpace.x4,
+  top: CoolSpace.x2,
+  bottom: CoolSpace.x2,
+);
+
+Widget _supportSheetHandle(BuildContext context) {
+  final colors = context.coolSemanticColors;
+  return Container(
+    width: 44,
+    height: 4,
+    decoration: BoxDecoration(
+      color: colors.tertiaryText.withValues(alpha: 0.28),
+      borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.pill)),
+    ),
+  );
+}
 
 /// Admin Dashboard — role-filtered card grid for admin management screens.
 ///
@@ -132,9 +166,9 @@ class AdminDashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
+    final space = context.coolSpace;
     final access = ref.watch(adminWorkspaceAccessProvider);
 
     // Filter sections based on user's role
@@ -177,12 +211,7 @@ class AdminDashboardScreen extends ConsumerWidget {
         ),
         body: SafeArea(
           child: ListView(
-            padding: const EdgeInsets.fromLTRB(
-              CoolLayout.horizontalPagePadding,
-              0,
-              CoolLayout.horizontalPagePadding,
-              CoolLayout.gutter,
-            ),
+            padding: _adminDashboardListPadding(),
             children: [
               Semantics(
                 header: true,
@@ -194,7 +223,7 @@ class AdminDashboardScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: CoolSpace.x2),
               Text(
                 'Platform controls, partner workspaces, and operational oversight in one command surface.',
                 style: theme.textTheme.bodySmall?.copyWith(
@@ -202,7 +231,7 @@ class AdminDashboardScreen extends ConsumerWidget {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: space.x6),
               CoolCard(
                 backgroundColor: colors.operationalSurface,
                 child: Column(
@@ -215,7 +244,7 @@ class AdminDashboardScreen extends ConsumerWidget {
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: CoolSpace.x2),
                     Text(
                       access.hasPlatformAccess
                           ? 'Full platform visibility with audit, content, and workspace management.'
@@ -226,12 +255,12 @@ class AdminDashboardScreen extends ConsumerWidget {
                         height: 1.35,
                       ),
                     ),
-                    const SizedBox(height: 14),
+                    const SizedBox(height: CoolSpace.x3),
                     _RoleBadgeRow(access: access),
                   ],
                 ),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: space.x6),
               GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -249,7 +278,7 @@ class AdminDashboardScreen extends ConsumerWidget {
               ),
               // ── Support Mode card (platform admin only) ──────────
               if (access.hasPlatformAccess) ...[
-                const SizedBox(height: 20),
+                SizedBox(height: space.x5),
                 _SupportModeCard(),
               ],
             ],
@@ -270,19 +299,23 @@ class _RoleBadgeRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final badges = <_RoleBadge>[
       if (access.hasPlatformAccess)
-        _RoleBadge(context.l10n.platformAdmin, Colors.green),
+        _RoleBadge(context.l10n.platformAdmin, colors.success),
       if (access.hasBankAdminAccess)
-        _RoleBadge(context.l10n.bankAdmin, palette.blue),
+        _RoleBadge(context.l10n.bankAdmin, colors.info),
       if (access.hasPartnerAdminAccess)
-        _RoleBadge(context.l10n.rayonSports, Colors.purple),
+        _RoleBadge(context.l10n.rayonSports, colors.accent),
     ];
 
     if (badges.isEmpty) return const SizedBox.shrink();
 
-    return Wrap(spacing: 10, runSpacing: 8, children: badges);
+    return Wrap(
+      spacing: CoolSpace.x3,
+      runSpacing: CoolSpace.x2,
+      children: badges,
+    );
   }
 }
 
@@ -295,10 +328,10 @@ class _RoleBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      padding: _adminRoleBadgePadding(),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(CoolRadii.sm),
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm)),
         border: Border.all(color: color.withValues(alpha: 0.2), width: 1),
       ),
       child: Text(
@@ -341,11 +374,10 @@ class _AdminCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
     return CoolCard(
-      padding: const EdgeInsets.all(18),
+      padding: CoolSpace.sectionPadding,
       backgroundColor: colors.cardSurfaceStrong,
       onTap: () {
         HapticFeedback.selectionClick();
@@ -360,12 +392,14 @@ class _AdminCard extends StatelessWidget {
             height: 48,
             decoration: BoxDecoration(
               color: colors.operationalSurface,
-              borderRadius: BorderRadius.circular(CoolRadii.md),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(CoolRadii.md),
+              ),
               border: Border.all(color: colors.border),
             ),
             child: Icon(section.icon, size: 22, color: colors.primaryText),
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: CoolSpace.x3),
           Text(
             section.title,
             style: theme.textTheme.titleSmall?.copyWith(
@@ -375,7 +409,7 @@ class _AdminCard extends StatelessWidget {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: CoolSpace.x2),
           Expanded(
             child: Text(
               section.subtitle,
@@ -401,75 +435,78 @@ class _AdminCard extends StatelessWidget {
 class _SupportModeCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
-    return GestureDetector(
-      onTap: () {
-        HapticFeedback.selectionClick();
-        _showSupportSheet(context, ref);
-      },
-      child: SizedBox(
-        width: double.infinity,
-        child: CoolCard(
-          padding: const EdgeInsets.all(20),
-          useGradient: true,
-          gradient: LinearGradient(
-            colors: [colors.analyticsSurface, colors.teamSurface],
-          ),
-          borderRadius: 28,
-          borderColor: palette.blue.withValues(alpha: 0.3),
-          child: Row(
-            children: [
-              Container(
-                width: 52,
-                height: 52,
-                decoration: BoxDecoration(
-                  color: palette.blue.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(CoolRadii.md),
-                  border: Border.all(
-                    color: palette.blue.withValues(alpha: 0.18),
+    final space = context.coolSpace;
+    return SizedBox(
+      width: double.infinity,
+      child: CoolCard(
+        onTap: () {
+          HapticFeedback.selectionClick();
+          _showSupportSheet(context, ref);
+        },
+        semanticsLabel:
+            '${context.l10n.adminSupportMode}. ${context.l10n.adminSupportModeDesc}',
+        padding: CoolSpace.denseSectionPadding,
+        useGradient: true,
+        gradient: LinearGradient(
+          colors: [colors.analyticsSurface, colors.teamSurface],
+        ),
+        borderRadius: CoolRadii.lg,
+        borderColor: colors.info.withValues(alpha: 0.32),
+        child: Row(
+          children: [
+            Container(
+              width: 52,
+              height: 52,
+              decoration: BoxDecoration(
+                color: colors.info.withValues(alpha: 0.16),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(CoolRadii.md),
+                ),
+                border: Border.all(color: colors.info.withValues(alpha: 0.22)),
+              ),
+              child: Icon(
+                Icons.support_agent_rounded,
+                size: 24,
+                color: colors.info,
+              ),
+            ),
+            SizedBox(width: space.x4),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    context.l10n.adminSupportMode,
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      color: colors.primaryText,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
-                ),
-                child: Icon(
-                  Icons.support_agent_rounded,
-                  size: 24,
-                  color: palette.blue,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      context.l10n.adminSupportMode,
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        color: colors.primaryText,
-                        fontWeight: FontWeight.w800,
-                      ),
+                  const SizedBox(height: CoolSpace.x1),
+                  Text(
+                    context.l10n.adminSupportModeDesc,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: colors.secondaryText,
+                      fontWeight: FontWeight.w700,
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      context.l10n.adminSupportModeDesc,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: colors.secondaryText,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Icon(Icons.chevron_right_rounded, color: palette.text3, size: 24),
-            ],
-          ),
+            ),
+            Icon(
+              Icons.chevron_right_rounded,
+              color: colors.tertiaryText,
+              size: 24,
+            ),
+          ],
         ),
       ),
     );
   }
 
   void _showSupportSheet(BuildContext context, WidgetRef ref) {
-    final palette = context.coolPalette;
     final partnersAsync = ref.read(adminPartnersProvider);
 
     showCoolBottomSheet(
@@ -477,135 +514,156 @@ class _SupportModeCard extends ConsumerWidget {
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (sheetCtx) {
-        final palette = sheetCtx.coolPalette;
-        return Container(
-          constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(sheetCtx).size.height * 0.7,
+        final colors = sheetCtx.coolSemanticColors;
+        final theme = Theme.of(sheetCtx);
+        return DecoratedBox(
+          decoration: BoxDecoration(
+            color: colors.overlaySurface,
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(CoolRadii.xl),
+            ),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(height: 16),
-              Container(
-                width: 44,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: palette.text3.withValues(alpha: 0.3),
-                  borderRadius: BorderRadius.circular(99),
-                ),
-              ),
-              const SizedBox(height: 24),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 22),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.support_agent_rounded,
-                      color: palette.blue,
-                      size: 22,
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      context.l10n.adminSupportMode,
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 8),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 22),
-                child: Text(
-                  context.l10n.adminSupportModeHint,
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-              ),
-              const SizedBox(height: 24),
-              Flexible(
-                child: partnersAsync.when(
-                  loading: () => const Padding(
-                    padding: EdgeInsets.all(32),
-                    child: CircularProgressIndicator(),
-                  ),
-                  error: (e, _) => Padding(
-                    padding: const EdgeInsets.all(22),
-                    child: Text(
-                      context.l10n.adminFailedToLoadPartners(e.toString()),
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ),
-                  data: (partners) {
-                    if (partners.isEmpty) {
-                      return Padding(
-                        padding: const EdgeInsets.all(22),
-                        child: Text(
-                          context.l10n.adminNoPartnersFound,
-                          style: Theme.of(context).textTheme.bodySmall,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(sheetCtx).size.height * 0.7,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: CoolSpace.x4),
+                _supportSheetHandle(sheetCtx),
+                const SizedBox(height: CoolSpace.x6),
+                Padding(
+                  padding: _supportSheetHorizontalPadding(),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.support_agent_rounded,
+                        color: colors.info,
+                        size: 22,
+                      ),
+                      const SizedBox(width: CoolSpace.x3),
+                      Text(
+                        context.l10n.adminSupportMode,
+                        style: theme.textTheme.headlineSmall?.copyWith(
+                          color: colors.primaryText,
+                          fontWeight: FontWeight.w800,
                         ),
-                      );
-                    }
-                    return ListView.separated(
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.fromLTRB(22, 0, 22, 32),
-                      itemCount: partners.length,
-                      separatorBuilder: (_, _) => const SizedBox(height: 12),
-                      itemBuilder: (ctx, index) {
-                        final p = partners[index];
-                        final name =
-                            p['name']?.toString() ?? context.l10n.unknown;
-                        final id = p['id']?.toString() ?? '';
-                        final type = p['partner_type']?.toString() ?? 'partner';
-                        final isBank = type.toLowerCase().contains('bank');
-
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: CoolSpace.x2),
+                Padding(
+                  padding: _supportSheetHorizontalPadding(),
+                  child: Text(
+                    context.l10n.adminSupportModeHint,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: colors.secondaryText,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: CoolSpace.x6),
+                Flexible(
+                  child: partnersAsync.when(
+                    loading: () => Padding(
+                      padding: CoolSpace.sectionPadding.copyWith(
+                        top: CoolSpace.x7,
+                        bottom: CoolSpace.x7,
+                      ),
+                      child: CircularProgressIndicator(color: colors.accent),
+                    ),
+                    error: (e, _) => Padding(
+                      padding: CoolSpace.sectionPadding,
+                      child: Text(
+                        context.l10n.adminFailedToLoadPartners(e.toString()),
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colors.secondaryText,
+                        ),
+                      ),
+                    ),
+                    data: (partners) {
+                      if (partners.isEmpty) {
                         return Padding(
-                          padding: const EdgeInsets.only(bottom: 12),
-                          child: ListTile(
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 18,
-                              vertical: 8,
+                          padding: CoolSpace.sectionPadding,
+                          child: Text(
+                            context.l10n.adminNoPartnersFound,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: colors.secondaryText,
                             ),
-                            tileColor: palette.surface,
+                          ),
+                        );
+                      }
+                      return ListView.separated(
+                        shrinkWrap: true,
+                        padding: _supportSheetListPadding(),
+                        itemCount: partners.length,
+                        separatorBuilder: (_, _) =>
+                            const SizedBox(height: CoolSpace.x3),
+                        itemBuilder: (ctx, index) {
+                          final p = partners[index];
+                          final name =
+                              p['name']?.toString() ?? context.l10n.unknown;
+                          final id = p['id']?.toString() ?? '';
+                          final type =
+                              p['partner_type']?.toString() ?? 'partner';
+                          final isBank = type.toLowerCase().contains('bank');
+                          final iconTone = isBank
+                              ? colors.info
+                              : colors.primaryText;
+                          final iconSurface = isBank
+                              ? colors.info.withValues(alpha: 0.14)
+                              : colors.teamSurface;
+
+                          return ListTile(
+                            contentPadding: _supportSheetTilePadding(),
+                            tileColor: colors.operationalSurface,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(CoolRadii.sm),
+                              ),
                               side: BorderSide(
-                                color: palette.border,
-                                width: 1.5,
+                                color: colors.border,
+                                width: 1.3,
                               ),
                             ),
                             leading: Container(
                               width: 44,
                               height: 44,
                               decoration: BoxDecoration(
-                                color: (isBank ? palette.blue : Colors.purple)
-                                    .withValues(alpha: 0.15),
-                                borderRadius: BorderRadius.circular(12),
+                                color: iconSurface,
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(CoolRadii.xs),
+                                ),
                               ),
                               child: Icon(
                                 isBank
                                     ? Icons.account_balance_rounded
                                     : Icons.sports_soccer_rounded,
                                 size: 20,
-                                color: isBank ? palette.blue : Colors.purple,
+                                color: iconTone,
                               ),
                             ),
                             title: Text(
                               name,
-                              style: Theme.of(context).textTheme.bodyLarge
-                                  ?.copyWith(fontWeight: FontWeight.w800),
+                              style: theme.textTheme.bodyLarge?.copyWith(
+                                color: colors.primaryText,
+                                fontWeight: FontWeight.w800,
+                              ),
                             ),
                             subtitle: Text(
                               type.toUpperCase(),
-                              style: Theme.of(context).textTheme.labelSmall
-                                  ?.copyWith(
-                                    color: palette.text3,
-                                    fontWeight: FontWeight.w700,
-                                    letterSpacing: 0.5,
-                                  ),
+                              style: theme.textTheme.labelSmall?.copyWith(
+                                color: colors.tertiaryText,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 0.5,
+                              ),
                             ),
                             trailing: Icon(
                               Icons.chevron_right_rounded,
                               size: 24,
-                              color: palette.text3,
+                              color: colors.tertiaryText,
                             ),
                             onTap: () {
                               HapticFeedback.selectionClick();
@@ -615,14 +673,14 @@ class _SupportModeCard extends ConsumerWidget {
                                   : AppRoutes.adminPartnerWorkspaceLocation(id);
                               context.push(route);
                             },
-                          ),
-                        );
-                      },
-                    );
-                  },
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
