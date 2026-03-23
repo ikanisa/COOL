@@ -40,6 +40,7 @@ class MomoActionGrid extends StatelessWidget {
           onTap: onOpenStatements,
         ),
         MomoActionCard(
+          actionKey: const ValueKey<String>('momo-action-scan-qr'),
           icon: Icons.center_focus_strong_rounded,
           title: context.l10n.scanQr,
           subtitle: 'Scan a payment request',
@@ -47,12 +48,14 @@ class MomoActionGrid extends StatelessWidget {
           isPrimary: true,
         ),
         MomoActionCard(
+          actionKey: const ValueKey<String>('momo-action-receive-qr'),
           icon: Icons.qr_code_2_rounded,
           title: context.l10n.momoQr,
           subtitle: 'Share your receive code',
           onTap: onOpenQrCode,
         ),
         MomoActionCard(
+          actionKey: const ValueKey<String>('momo-action-nfc-pay'),
           icon: Icons.nfc_rounded,
           title: context.l10n.nfcPay,
           subtitle: 'Tap and receive',

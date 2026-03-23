@@ -4,7 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:cool_app/core/providers/app_access_provider.dart';
 import 'package:cool_app/core/services/app_access_service.dart';
+import 'package:cool_app/features/momo/screens/momo_nfc_screen.dart';
 import 'package:cool_app/features/momo/screens/momo_screen.dart';
+import 'package:cool_app/features/momo/widgets/momo_qr_widgets.dart';
 
 import '../helpers/fake_app_access_service.dart';
 import 'test_harness.dart';
@@ -44,20 +46,35 @@ void main() {
         ],
       );
 
-      expect(find.text('MOMO QR'), findsOneWidget);
-      expect(find.text('Statements'), findsOneWidget);
-      expect(find.text('NFC pay'), findsOneWidget);
+      expect(
+        find.byKey(const ValueKey<String>('momo-action-receive-qr')),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(const ValueKey<String>('momo-action-statements')),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(const ValueKey<String>('momo-action-nfc-pay')),
+        findsOneWidget,
+      );
 
-      await tester.tap(find.text('MOMO QR'));
+      await tester.tap(
+        find.byKey(const ValueKey<String>('momo-action-receive-qr')),
+      );
       await tester.pumpAndSettle();
 
-      expect(find.text('MOMO QR'), findsWidgets);
+      expect(find.byType(MomoReceiveQrScreen), findsOneWidget);
       expect(find.text('Share link'), findsOneWidget);
 
       await tester.tap(find.byIcon(Icons.arrow_back_rounded).last);
       await tester.pumpAndSettle();
 
-      expect(find.text('Statements'), findsOneWidget);
+      expect(find.byType(MomoReceiveQrScreen), findsNothing);
+      expect(
+        find.byKey(const ValueKey<String>('momo-action-statements')),
+        findsOneWidget,
+      );
       expect(find.text('Get paid by QR'), findsNothing);
     });
 
@@ -98,18 +115,24 @@ void main() {
         ],
       );
 
-      await tester.tap(find.text('NFC pay'));
+      await tester.tap(
+        find.byKey(const ValueKey<String>('momo-action-nfc-pay')),
+      );
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 500));
 
-      expect(find.text('NFC pay'), findsWidgets);
+      expect(find.byType(MomoNfcScreen), findsOneWidget);
       expect(find.text('Read tag'), findsWidgets);
 
       await tester.tap(find.byIcon(Icons.arrow_back_rounded).last);
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 500));
 
-      expect(find.text('Statements'), findsOneWidget);
+      expect(find.byType(MomoNfcScreen), findsNothing);
+      expect(
+        find.byKey(const ValueKey<String>('momo-action-statements')),
+        findsOneWidget,
+      );
     });
   });
 }
