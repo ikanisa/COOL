@@ -1,7 +1,20 @@
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
-const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
-const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+import {
+  errorResponse,
+  handleCors,
+  jsonResponse,
+  methodNotAllowed,
+} from "../_shared/http.ts";
+import { recordEdgeFunctionFailure } from "../_shared/observability.ts";
+import { createAdminClient } from "../_shared/supabase.ts";
+import {
+  type AuthenticatedCaller,
+  HttpError,
+  requireAdminCaller,
+  requireCronSecret,
+} from "../_shared/auth.ts";
+
 const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
 
 const CONTENT_TEMPLATES = [
@@ -71,14 +84,15 @@ interface GeneratedContent {
 }
 
 async function generateWithGemini(
-  prompt: string
+  prompt: string,
 ): Promise<GeneratedContent | null> {
   if (!GEMINI_API_KEY) {
     console.error("GEMINI_API_KEY not set");
     return null;
   }
 
-  const systemPrompt = `You are a fintech app content generator for COOL, a mobile-first super-app in Rwanda/Malta. 
+  const systemPrompt =
+    `You are a fintech app content generator for COOL, a mobile-first super-app in Rwanda/Malta. 
 Generate ONE content card with these fields as JSON:
 - title: 6-10 words, catchy and actionable
 - subtitle: 8-15 words, supporting detail
@@ -110,7 +124,7 @@ Rules:
             responseMimeType: "application/json",
           },
         }),
-      }
+      },
     );
 
     if (!res.ok) {
@@ -119,8 +133,7 @@ Rules:
     }
 
     const data = await res.json();
-    const text =
-      data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ?? "";
+    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ?? "";
     if (!text) return null;
 
     return JSON.parse(text) as GeneratedContent;
@@ -130,103 +143,167 @@ Rules:
   }
 }
 
-Deno.serve(async (req) => {
-  try {
-    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+type AdminClientLike = ReturnType<typeof createAdminClient>;
 
-    // Check if generation is enabled
-    const { data: config } = await supabase
-      .from("ai_content_generation_config")
-      .select("is_enabled")
-      .limit(1)
-      .single();
+export type GenerateAiContentHandlerDependencies = {
+  createAdminClient: () => AdminClientLike;
+  requireAdminCaller: (request: Request) => Promise<AuthenticatedCaller>;
+  requireCronSecret: (request: Request) => void;
+  generateContent: (prompt: string) => Promise<GeneratedContent | null>;
+  random: () => number;
+  now: () => Date;
+};
 
-    // If called via cron (not manual), respect the is_enabled flag
-    const url = new URL(req.url);
-    const isManual = url.searchParams.get("manual") === "true";
+const defaultDependencies: GenerateAiContentHandlerDependencies = {
+  createAdminClient,
+  requireAdminCaller,
+  requireCronSecret: (request) =>
+    requireCronSecret(request, [
+      "GENERATE_AI_CONTENT_CRON_SECRET",
+      "CRON_JOB_SECRET",
+    ]),
+  generateContent: generateWithGemini,
+  random: () => Math.random(),
+  now: () => new Date(),
+};
 
-    if (!isManual && !config?.is_enabled) {
-      return new Response(
-        JSON.stringify({
+function pickRandomTemplate(random: () => number) {
+  return CONTENT_TEMPLATES[Math.floor(random() * CONTENT_TEMPLATES.length)];
+}
+
+export function createGenerateAiContentHandler(
+  dependencies: Partial<GenerateAiContentHandlerDependencies> = {},
+) {
+  const deps: GenerateAiContentHandlerDependencies = {
+    ...defaultDependencies,
+    ...dependencies,
+  };
+
+  return async (request: Request) => {
+    const corsResponse = handleCors(request);
+    if (corsResponse) {
+      return corsResponse;
+    }
+
+    if (request.method !== "POST") {
+      return methodNotAllowed("POST");
+    }
+
+    const adminClient = deps.createAdminClient();
+    let actorUserId: string | null = null;
+
+    try {
+      const url = new URL(request.url);
+      const isManual = url.searchParams.get("manual") === "true";
+
+      if (isManual) {
+        actorUserId = (await deps.requireAdminCaller(request)).userId;
+      } else {
+        deps.requireCronSecret(request);
+      }
+
+      const { data: config, error: configError } = await adminClient
+        .from("ai_content_generation_config")
+        .select("is_enabled")
+        .limit(1)
+        .maybeSingle();
+
+      if (configError) {
+        throw configError;
+      }
+
+      if (!isManual && !config?.is_enabled) {
+        return jsonResponse({
           success: false,
           reason: "Auto-generation is disabled by admin",
-        }),
-        { headers: { "Content-Type": "application/json" } }
-      );
-    }
+        });
+      }
 
-    // Pick a random content template
-    const template =
-      CONTENT_TEMPLATES[Math.floor(Math.random() * CONTENT_TEMPLATES.length)];
+      const template = pickRandomTemplate(deps.random);
+      const generated = await deps.generateContent(template.prompt);
 
-    // Generate content via Gemini
-    const generated = await generateWithGemini(template.prompt);
+      if (!generated) {
+        return jsonResponse({
+          success: false,
+          reason: "Generation failed",
+        });
+      }
 
-    if (!generated) {
-      return new Response(
-        JSON.stringify({ success: false, reason: "Generation failed" }),
-        { headers: { "Content-Type": "application/json" } }
-      );
-    }
+      const { data: existing, error: duplicateCheckError } = await adminClient
+        .from("ai_content")
+        .select("id")
+        .eq("title", generated.title)
+        .limit(1);
 
-    // Check for duplicate titles
-    const { data: existing } = await supabase
-      .from("ai_content")
-      .select("id")
-      .eq("title", generated.title)
-      .limit(1);
+      if (duplicateCheckError) {
+        throw duplicateCheckError;
+      }
 
-    if (existing && existing.length > 0) {
-      // Append timestamp to make unique
-      generated.title += ` (${new Date().toLocaleDateString()})`;
-    }
+      if (existing && existing.length > 0) {
+        generated.title += ` (${deps.now().toISOString().slice(0, 10)})`;
+      }
 
-    // Insert as pending_review — admin must approve
-    const { error: insertError } = await supabase.from("ai_content").insert({
-      title: generated.title,
-      subtitle: generated.subtitle,
-      body: generated.body,
-      rationale: generated.rationale,
-      content_type: "recommendation",
-      status: "pending_review",
-      icon_emoji: template.icon,
-      cta_action: template.cta_action,
-      cta_label: template.cta_label,
-      sort_order: Math.floor(Math.random() * 100),
-      is_active: false,
-    });
+      const { error: insertError } = await adminClient.from("ai_content")
+        .insert({
+          title: generated.title,
+          subtitle: generated.subtitle,
+          body: generated.body,
+          rationale: generated.rationale,
+          content_type: "recommendation",
+          status: "pending_review",
+          icon_emoji: template.icon,
+          cta_action: template.cta_action,
+          cta_label: template.cta_label,
+          sort_order: Math.floor(deps.random() * 100),
+          is_active: false,
+        });
 
-    if (insertError) {
-      console.error("Insert error:", insertError);
-      return new Response(
-        JSON.stringify({ success: false, error: insertError.message }),
-        { headers: { "Content-Type": "application/json" } }
-      );
-    }
+      if (insertError) {
+        throw insertError;
+      }
 
-    // Update last_generated_at
-    await supabase
-      .from("ai_content_generation_config")
-      .update({
-        last_generated_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      })
-      .not("id", "is", null); // update the singleton row
+      const nowIso = deps.now().toISOString();
+      const { error: updateConfigError } = await adminClient
+        .from("ai_content_generation_config")
+        .update({
+          last_generated_at: nowIso,
+          updated_at: nowIso,
+          updated_by: actorUserId,
+        })
+        .not("id", "is", null);
 
-    return new Response(
-      JSON.stringify({
+      if (updateConfigError) {
+        throw updateConfigError;
+      }
+
+      return jsonResponse({
         success: true,
         title: generated.title,
         area: template.area,
         status: "pending_review",
-      }),
-      { headers: { "Content-Type": "application/json" } }
-    );
-  } catch (e) {
-    console.error("Edge function error:", e);
-    return new Response(
-      JSON.stringify({ success: false, error: String(e) }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
-  }
-});
+      });
+    } catch (error) {
+      if (error instanceof HttpError) {
+        return errorResponse(error.message, error.status);
+      }
+
+      console.error("generate-ai-content failed", error);
+      await recordEdgeFunctionFailure(adminClient, {
+        functionName: "generate-ai-content",
+        error,
+        userId: actorUserId,
+        issueCode: "generate_ai_content_failed",
+      });
+      return errorResponse(
+        error instanceof Error
+          ? error.message
+          : "Failed to generate AI content.",
+        500,
+      );
+    }
+  };
+}
+
+if (import.meta.main) {
+  Deno.serve(createGenerateAiContentHandler());
+}

@@ -5,6 +5,7 @@ import '../../../core/config/app_market.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/cool_layout.dart';
 import '../../../shared/widgets/cool_async_view.dart';
+import '../../../shared/widgets/cool_admin_inline_field.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
@@ -13,7 +14,7 @@ import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_providers.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../shared/widgets/cool_bottom_sheet.dart';
-import '../../../shared/widgets/cool_screen_background.dart';
+import '../../../shared/widgets/core_detail_scaffold.dart';
 
 EdgeInsets _quickActionsBodyPadding() => CoolSpace.pagePadding;
 
@@ -107,7 +108,7 @@ class _ManageQuickActionsScreenState
         .map((a) => a['id']?.toString() ?? '')
         .where((id) => id.isNotEmpty)
         .toList(growable: false);
-    ref.read(adminRepositoryProvider).reorderQuickActions(orderedIds);
+    ref.read(adminContentRepositoryProvider).reorderQuickActions(orderedIds);
   }
 
   @override
@@ -116,112 +117,96 @@ class _ManageQuickActionsScreenState
     final theme = Theme.of(context);
     final actionsAsync = ref.watch(adminQuickActionsProvider);
 
-    return CoolScreenBackground(
-      showGlow: false,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            tooltip: context.l10n.back,
-            icon: const Icon(Icons.arrow_back_rounded),
-            color: colors.primaryText,
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          title: Text(
-            'Quick Actions',
-            style: theme.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.w800,
-              color: colors.primaryText,
-            ),
-          ),
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(1),
-            child: Divider(height: 1, color: colors.divider),
-          ),
+    return CoreDetailScaffold(
+      backTooltip: context.l10n.back,
+      title: Text(
+        'Quick Actions',
+        style: theme.textTheme.titleLarge?.copyWith(
+          fontWeight: FontWeight.w800,
+          color: colors.primaryText,
         ),
-        floatingActionButton: Semantics(
+      ),
+      actions: [
+        Semantics(
           button: true,
           label: context.l10n.addQuickAction,
           hint: 'New action',
-          child: FloatingActionButton(
-            backgroundColor: colors.accent,
+          child: IconButton(
             onPressed: () => _showEditSheet(context, ref, null),
-            child: Icon(Icons.add_rounded, color: colors.accentForeground),
+            icon: Icon(Icons.add_rounded, color: colors.accent),
           ),
         ),
-        body: Padding(
-          padding: _quickActionsBodyPadding(),
-          child: CoolAsyncView<List<Map<String, dynamic>>>(
-            value: actionsAsync,
-            onRetry: () => ref.invalidate(adminQuickActionsProvider),
-            loadingWidget: const CoolSkeletonList(itemCount: 4),
-            emptyCheck: (a) => a.isEmpty,
-            emptyWidget: const CoolEmptyView(
-              message: 'No quick actions yet',
-              icon: Icons.bolt_rounded,
-            ),
-            builder: (actions) {
-              _localActions ??= List<Map<String, dynamic>>.from(actions);
-              final displayActions = _localActions!;
-              if (displayActions.isEmpty) {
-                return const SizedBox.shrink();
-              }
-              return ReorderableListView.builder(
-                itemCount: displayActions.length,
-                onReorder: _onReorder,
-                padding: _quickActionsListPadding(),
-                itemBuilder: (context, index) {
-                  final a = displayActions[index];
-                  return Padding(
-                    key: ValueKey(a['id']),
-                    padding: _quickActionsCardPadding(),
-                    child: CoolCard(
-                      padding: _quickActionsZeroPadding(),
-                      backgroundColor: colors.operationalSurface,
-                      useGradient: false,
-                      child: Semantics(
-                        container: true,
-                        label:
-                            'Quick action ${a['title'] ?? ''}. Route ${a['route'] ?? ''}. '
-                            'Market ${AppMarket.country.name}.',
-                        child: ListTile(
-                          contentPadding: _quickActionTilePadding(),
-                          leading: Text(
-                            a['emoji']?.toString() ?? '⚡',
-                            style: theme.textTheme.titleMedium,
+      ],
+      child: Padding(
+        padding: _quickActionsBodyPadding(),
+        child: CoolAsyncView<List<Map<String, dynamic>>>(
+          value: actionsAsync,
+          onRetry: () => ref.invalidate(adminQuickActionsProvider),
+          loadingWidget: const CoolSkeletonList(itemCount: 4),
+          emptyCheck: (a) => a.isEmpty,
+          emptyWidget: const CoolEmptyView(
+            message: 'No quick actions yet',
+            icon: Icons.bolt_rounded,
+          ),
+          builder: (actions) {
+            _localActions ??= List<Map<String, dynamic>>.from(actions);
+            final displayActions = _localActions!;
+            if (displayActions.isEmpty) {
+              return const SizedBox.shrink();
+            }
+            return ReorderableListView.builder(
+              itemCount: displayActions.length,
+              onReorder: _onReorder,
+              padding: _quickActionsListPadding(),
+              itemBuilder: (context, index) {
+                final a = displayActions[index];
+                return Padding(
+                  key: ValueKey(a['id']),
+                  padding: _quickActionsCardPadding(),
+                  child: CoolCard(
+                    padding: _quickActionsZeroPadding(),
+                    backgroundColor: colors.operationalSurface,
+                    useGradient: false,
+                    child: Semantics(
+                      container: true,
+                      label:
+                          'Quick action ${a['title'] ?? ''}. Route ${a['route'] ?? ''}. '
+                          'Market ${AppMarket.country.name}.',
+                      child: ListTile(
+                        contentPadding: _quickActionTilePadding(),
+                        leading: Text(
+                          a['emoji']?.toString() ?? '⚡',
+                          style: theme.textTheme.titleMedium,
+                        ),
+                        title: Text(
+                          a['title']?.toString() ?? '',
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: colors.primaryText,
                           ),
-                          title: Text(
-                            a['title']?.toString() ?? '',
-                            style: theme.textTheme.titleSmall?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: colors.primaryText,
-                            ),
+                        ),
+                        subtitle: Text(
+                          '${a['route']} · ${AppMarket.country.name}',
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: colors.tertiaryText,
                           ),
-                          subtitle: Text(
-                            '${a['route']} · ${AppMarket.country.name}',
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: colors.tertiaryText,
-                            ),
-                          ),
-                          trailing: IconButton(
-                            tooltip: 'Edit quick action ${a['title'] ?? ''}',
-                            onPressed: () => _showEditSheet(context, ref, a),
-                            icon: Icon(
-                              Icons.edit_rounded,
-                              size: 18,
-                              color: colors.secondaryText,
-                            ),
+                        ),
+                        trailing: IconButton(
+                          tooltip: 'Edit quick action ${a['title'] ?? ''}',
+                          onPressed: () => _showEditSheet(context, ref, a),
+                          icon: Icon(
+                            Icons.edit_rounded,
+                            size: 18,
+                            color: colors.secondaryText,
                           ),
                         ),
                       ),
                     ),
-                  );
-                },
-              );
-            },
-          ),
+                  ),
+                );
+              },
+            );
+          },
         ),
       ),
     );
@@ -291,7 +276,9 @@ class _EditQuickActionSheetState extends State<_EditQuickActionSheet> {
     };
     if (widget.action != null) data['id'] = widget.action!['id'];
     try {
-      await widget.ref.read(adminRepositoryProvider).upsertQuickAction(data);
+      await widget.ref
+          .read(adminContentRepositoryProvider)
+          .upsertQuickAction(data);
       widget.ref.invalidate(adminQuickActionsProvider);
       if (mounted) {
         Navigator.of(context).pop();
@@ -362,44 +349,10 @@ class _EditQuickActionSheetState extends State<_EditQuickActionSheet> {
 
   Widget _field(String label, TextEditingController ctl) => Padding(
     padding: _quickActionFieldPadding(),
-    child: Builder(
-      builder: (context) {
-        final colors = context.coolSemanticColors;
-        final theme = Theme.of(context);
-        return Semantics(
-          textField: true,
-          label: label,
-          hint: 'Enter $label',
-          child: TextField(
-            controller: ctl,
-            style: theme.textTheme.titleSmall?.copyWith(
-              color: colors.primaryText,
-              fontWeight: FontWeight.w700,
-            ),
-            decoration: InputDecoration(
-              labelText: label,
-              labelStyle: theme.textTheme.bodySmall?.copyWith(
-                color: colors.tertiaryText,
-              ),
-              filled: true,
-              fillColor: colors.inputSurface,
-              border: _quickActionInputBorder(colors),
-              enabledBorder: _quickActionInputBorder(colors),
-              focusedBorder: _quickActionInputBorder(
-                colors,
-                borderColor: colors.accent,
-                width: 1.4,
-              ),
-              contentPadding: CoolSpace.sectionPadding.copyWith(
-                left: CoolSpace.x3,
-                right: CoolSpace.x3,
-                top: CoolSpace.x3,
-                bottom: CoolSpace.x3,
-              ),
-            ),
-          ),
-        );
-      },
+    child: CoolAdminInlineField(
+      label: label,
+      hint: 'Enter $label',
+      controller: ctl,
     ),
   );
 

@@ -6,7 +6,7 @@ platform :android do
     upload_to_play_store(
       track: "production",
       aab: "../build/app/outputs/bundle/productionRelease/app-production-release.aab",
-      json_key: "/Volumes/PRO-G40/COOL/output/play_store/play-store-sa-key.json",
+      json_key: "../output/play_store/play-store-sa-key.json",
       package_name: "app.cool.mobile",
       release_status: "completed",
       skip_upload_metadata: true,
@@ -22,7 +22,7 @@ platform :android do
   lane :upload_metadata do
     upload_to_play_store(
       track: "internal",
-      json_key: "/Volumes/PRO-G40/COOL/output/play_store/play-store-sa-key.json",
+      json_key: "../output/play_store/play-store-sa-key.json",
       package_name: "app.cool.mobile",
       skip_upload_aab: true,
       skip_upload_apk: true,
@@ -39,7 +39,7 @@ platform :android do
     upload_to_play_store(
       track: "internal",
       aab: "../build/app/outputs/bundle/productionRelease/app-production-release.aab",
-      json_key: "/Volumes/PRO-G40/COOL/output/play_store/play-store-sa-key.json",
+      json_key: "../output/play_store/play-store-sa-key.json",
       package_name: "app.cool.mobile",
       release_status: "draft",
       skip_upload_metadata: false,

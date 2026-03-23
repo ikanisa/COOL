@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/config/app_market.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/cool_layout.dart';
+import '../../../shared/widgets/cool_admin_inline_field.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
@@ -13,7 +14,7 @@ import '../../../shared/widgets/cool_card.dart';
 import '../providers/admin_providers.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../shared/widgets/cool_bottom_sheet.dart';
-import '../../../shared/widgets/cool_screen_background.dart';
+import '../../../shared/widgets/core_detail_scaffold.dart';
 
 EdgeInsets _vehicleTypesHeaderPadding() =>
     CoolSpace.pagePadding.copyWith(top: 0, bottom: 0);
@@ -77,31 +78,20 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
     final space = context.coolSpace;
     final typesAsync = ref.watch(adminVehicleTypesProvider);
 
-    return CoolScreenBackground(
-      showGlow: false,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            tooltip: context.l10n.back,
-            icon: const Icon(Icons.arrow_back_rounded),
-            color: colors.primaryText,
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ),
-        floatingActionButton: Semantics(
+    return CoreDetailScaffold(
+      backTooltip: context.l10n.back,
+      actions: [
+        Semantics(
           button: true,
           label: context.l10n.addVehicleType,
           hint: 'New vehicle type',
-          child: FloatingActionButton(
-            backgroundColor: colors.accent,
+          child: IconButton(
             onPressed: () => _showEditSheet(context, ref, null),
-            child: Icon(Icons.add_rounded, color: colors.accentForeground),
+            icon: Icon(Icons.add_rounded, color: colors.accent),
           ),
         ),
-        body: Column(
+      ],
+      child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
@@ -200,7 +190,6 @@ class ManageVehicleTypesScreen extends ConsumerWidget {
               ),
             ),
           ],
-        ),
       ),
     );
   }
@@ -258,7 +247,9 @@ class _EditVehicleTypeSheetState extends State<_EditVehicleTypeSheet> {
     };
     if (widget.type != null) data['id'] = widget.type!['id'];
     try {
-      await widget.ref.read(adminRepositoryProvider).upsertVehicleType(data);
+      await widget.ref
+          .read(adminContentRepositoryProvider)
+          .upsertVehicleType(data);
       widget.ref.invalidate(adminVehicleTypesProvider);
       if (mounted) {
         Navigator.of(context).pop();
@@ -328,44 +319,10 @@ class _EditVehicleTypeSheetState extends State<_EditVehicleTypeSheet> {
 
   Widget _field(String label, TextEditingController ctl) => Padding(
     padding: _vehicleTypeFieldPadding(),
-    child: Builder(
-      builder: (context) {
-        final colors = context.coolSemanticColors;
-        final theme = Theme.of(context);
-        return Semantics(
-          textField: true,
-          label: label,
-          hint: 'Enter $label',
-          child: TextField(
-            controller: ctl,
-            style: theme.textTheme.titleSmall?.copyWith(
-              color: colors.primaryText,
-              fontWeight: FontWeight.w700,
-            ),
-            decoration: InputDecoration(
-              labelText: label,
-              labelStyle: theme.textTheme.bodySmall?.copyWith(
-                color: colors.tertiaryText,
-              ),
-              filled: true,
-              fillColor: colors.inputSurface,
-              border: _vehicleTypeInputBorder(colors),
-              enabledBorder: _vehicleTypeInputBorder(colors),
-              focusedBorder: _vehicleTypeInputBorder(
-                colors,
-                borderColor: colors.accent,
-                width: 1.4,
-              ),
-              contentPadding: CoolSpace.sectionPadding.copyWith(
-                left: CoolSpace.x3,
-                right: CoolSpace.x3,
-                top: CoolSpace.x3,
-                bottom: CoolSpace.x3,
-              ),
-            ),
-          ),
-        );
-      },
+    child: CoolAdminInlineField(
+      label: label,
+      hint: 'Enter $label',
+      controller: ctl,
     ),
   );
 

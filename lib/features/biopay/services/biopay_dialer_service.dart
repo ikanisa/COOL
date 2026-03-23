@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
 import '../models/biopay_match_result.dart';
+import '../models/biopay_payment_intent.dart';
 import '../models/biopay_profile.dart';
 
 class BiopayDialerService {
@@ -60,6 +61,16 @@ class BiopayDialerService {
       return false;
     }
     return dialProfile(profile);
+  }
+
+  /// Dial a server-issued payment intent using the precomputed USSD code.
+  ///
+  /// Returns false if the intent is expired or the dialer cannot be launched.
+  Future<bool> dialIntent(BiopayPaymentIntent intent) async {
+    if (intent.isExpired) {
+      return false;
+    }
+    return dialUri(intent.dialUri);
   }
 
   Future<bool> dialUri(Uri uri) async {

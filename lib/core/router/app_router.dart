@@ -27,76 +27,24 @@ import '../../features/mobility/screens/driver_profile_screen.dart';
 import '../../features/mobility/screens/mobility_home_screen.dart';
 import '../../features/mobility/screens/schedule_trip_screen.dart';
 import '../../features/mobility/screens/trip_board_screen.dart';
-import '../../features/biopay/models/biopay_enrollment_draft.dart';
-import '../../features/biopay/models/biopay_match_result.dart';
-import '../../features/biopay/screens/biopay_confirm_screen.dart';
-import '../../features/biopay/screens/biopay_home_screen.dart';
-import '../../features/biopay/screens/biopay_register_screen.dart';
-import '../../features/biopay/screens/biopay_scan_screen.dart';
 import '../../features/momo/screens/momo_screen.dart';
 import '../../features/momo/screens/momo_statements_screen.dart';
-import '../../features/partners/bank_onboarding/screens/bank_onboarding_screen.dart';
-import '../../features/admin/screens/manage_special_products_screen.dart';
-import '../../features/admin/screens/manage_activities_screen.dart';
-import '../../features/admin/screens/manage_missions_screen.dart';
-import '../../features/admin/screens/manage_seasons_screen.dart';
-import '../../features/partners/screens/bank_partner_screen.dart';
-import '../../features/partners/screens/partners_screen.dart';
 import '../../features/profile/screens/kyc_selfie_screen.dart';
 import '../../features/profile/screens/profile_detail_screens.dart';
-
-import '../../features/partners/screens/prisma_partner_screen.dart';
-import '../../features/partners/screens/radiant_partner_screen.dart';
-import '../../features/partners/rayon/screens/club_shop_screen.dart';
-import '../../features/partners/rayon/screens/fan_club_detail_screen.dart';
-import '../../features/partners/rayon/screens/fan_clubs_screen.dart';
-import '../../features/partners/rayon/screens/fan_profile_screen.dart';
-import '../../features/partners/rayon/screens/membership_tiers_screen.dart';
-import '../../features/partners/rayon/screens/member_registry_screen.dart';
-import '../../features/partners/rayon/screens/my_tickets_screen.dart';
-import '../../features/partners/rayon/screens/rayon_home_screen.dart';
-import '../../features/partners/rayon/screens/shop_checkout_screen.dart';
-import '../../features/partners/rayon/screens/ticket_confirmation_screen.dart';
-import '../../features/partners/rayon/screens/support_detail_screen.dart';
-import '../../features/partners/rayon/screens/support_screen.dart';
-import '../../features/partners/rayon/screens/tickets_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
 import '../../shared/widgets/qr_scanner_screen.dart';
-import '../../features/admin/screens/admin_dashboard_screen.dart';
-import '../../features/admin/screens/admin_workspaces_screen.dart';
-import '../../features/admin/screens/bank_admin_workspace_screen.dart';
-import '../../features/partners/rayon/screens/rs_admin_dashboard_screen.dart';
-import '../../features/partners/rayon/screens/rs_admin_matches_screen.dart';
-import '../../features/partners/rayon/screens/rs_admin_tickets_screen.dart';
-import '../../features/partners/rayon/screens/rs_admin_shop_screen.dart';
-import '../../features/partners/rayon/screens/rs_admin_orders_screen.dart';
-import '../../features/partners/rayon/screens/rs_admin_members_screen.dart';
-import '../../features/partners/rayon/screens/rs_admin_packages_screen.dart';
-import '../../features/partners/rayon/screens/rs_admin_finance_screen.dart';
-import '../../features/partners/rayon/screens/rs_admin_analytics_screen.dart';
-import '../../features/partners/rayon/screens/rs_admin_initiatives_screen.dart';
-import '../../features/admin/screens/partner_admin_workspace_screen.dart';
-import '../../features/admin/models/admin_workspace_access.dart';
-import '../../features/admin/providers/admin_workspace_access_provider.dart';
-import '../../features/admin/screens/manage_users_screen.dart';
-import '../../features/admin/screens/manage_partners_screen.dart';
-import '../../features/admin/screens/manage_services_screen.dart';
-import '../../features/admin/screens/manage_quick_actions_screen.dart';
-import '../../features/admin/screens/manage_vehicle_types_screen.dart';
-import '../../features/admin/screens/manage_app_config_screen.dart';
-import '../../features/admin/screens/operational_dashboard_screen.dart';
-import '../../features/admin/screens/manage_admin_roles_screen.dart';
-import '../../features/admin/screens/system_analytics_screen.dart';
-import '../../features/admin/screens/audit_log_screen.dart';
-import '../../features/admin/screens/manage_ai_content_screen.dart';
-import '../../features/admin/widgets/admin_workspace_gate.dart';
+import '../../shared/widgets/kill_switch_gate.dart';
+import '../../shared/widgets/secure_screen_wrapper.dart';
 import '../status/screens/cool_tokens_screen.dart';
 import '../status/screens/referral_hub_screen.dart';
 import '../status/screens/missions_screen.dart';
-import '../../shared/widgets/kill_switch_gate.dart';
-import '../../shared/widgets/secure_screen_wrapper.dart';
+import '../../features/admin/models/admin_workspace_access.dart';
+import '../../features/admin/providers/admin_workspace_access_provider.dart';
 import '../providers/engagement_providers.dart';
+import 'admin_routes.dart';
+import 'biopay_routes.dart';
 import 'navigation_keys.dart';
+import 'partner_routes.dart';
 import 'shell_route.dart';
 
 export 'app_redirects.dart';
@@ -163,7 +111,7 @@ final _appRouterRefreshListenableProvider = Provider<ChangeNotifier>((ref) {
 });
 
 /// Reusable "Cool" page transition: 300ms Fade + Subtle Scale.
-CustomTransitionPage<T> _coolPageTransition<T>({
+CustomTransitionPage<T> coolPageTransition<T>({
   required BuildContext context,
   required GoRouterState state,
   required Widget child,
@@ -295,7 +243,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           final ticketScanningEnabled =
               authSnapshot.isAdmin ||
               _hasPartnerScannerAccess(authSnapshot.session?.user);
-          return _coolPageTransition(
+          return coolPageTransition(
             context: context,
             state: state,
             child: QrScannerScreen(
@@ -307,7 +255,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.kycSelfie,
-        pageBuilder: (context, state) => _coolPageTransition(
+        pageBuilder: (context, state) => coolPageTransition(
           context: context,
           state: state,
           child: const KycSelfieScreen(),
@@ -447,7 +395,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         ],
       ),
 
-      // ── Standalone routes (outside shell) ─────────────────────
+      // ── MoMo routes ───────────────────────────────────────────
       GoRoute(
         path: AppRoutes.momo,
         builder: (context, state) {
@@ -472,209 +420,27 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           );
         },
       ),
-      GoRoute(
-        path: AppRoutes.biopayHome,
-        pageBuilder: (context, state) {
-          final authSnapshot = readAuthSnapshot();
-          final featureFlags = ref.read(featureFlagsStateProvider);
-          return _coolPageTransition(
-            context: context,
-            state: state,
-            child: KillSwitchGate(
-              enabled: featureFlags.isBiopayEnabled(
-                isAdmin: authSnapshot.isAdmin,
-              ),
-              featureName: 'BioPay',
-              child: const SecureScreenWrapper(child: BiopayHomeScreen()),
-            ),
-          );
+
+      // ── BioPay routes (extracted) ─────────────────────────────
+      ...biopayRoutes(
+        readAuthSnapshot: () {
+          final snap = readAuthSnapshot();
+          return (isAdmin: snap.isAdmin);
         },
+        readFeatureFlags: () => ref.read(featureFlagsStateProvider),
+        coolPageTransition: coolPageTransition,
       ),
-      GoRoute(
-        path: AppRoutes.biopayRegister,
-        pageBuilder: (context, state) {
-          final authSnapshot = readAuthSnapshot();
-          final featureFlags = ref.read(featureFlagsStateProvider);
-          return _coolPageTransition(
-            context: context,
-            state: state,
-            child: KillSwitchGate(
-              enabled: featureFlags.isBiopayEnabled(
-                isAdmin: authSnapshot.isAdmin,
-              ),
-              featureName: 'BioPay',
-              child: const SecureScreenWrapper(child: BiopayRegisterScreen()),
-            ),
-          );
+
+      // ── Partner + Rayon routes (extracted) ─────────────────────
+      partnerRoutes(
+        readAuthSnapshot: () {
+          final snap = readAuthSnapshot();
+          return (isAdmin: snap.isAdmin, hasSession: snap.session != null);
         },
+        readFeatureFlags: () => ref.read(featureFlagsStateProvider),
       ),
-      GoRoute(
-        path: AppRoutes.biopayScan,
-        pageBuilder: (context, state) {
-          final authSnapshot = readAuthSnapshot();
-          final featureFlags = ref.read(featureFlagsStateProvider);
-          final modeParam = state.uri.queryParameters['mode']?.trim();
-          final mode = modeParam == 'enroll'
-              ? BiopayScanMode.enroll
-              : BiopayScanMode.pay;
-          final draft = state.extra is BiopayEnrollmentDraft
-              ? state.extra! as BiopayEnrollmentDraft
-              : null;
-          return _coolPageTransition(
-            context: context,
-            state: state,
-            child: KillSwitchGate(
-              enabled: featureFlags.isBiopayEnabled(
-                isAdmin: authSnapshot.isAdmin,
-              ),
-              featureName: 'BioPay',
-              child: SecureScreenWrapper(
-                child: BiopayScanScreen(mode: mode, enrollmentDraft: draft),
-              ),
-            ),
-          );
-        },
-      ),
-      GoRoute(
-        path: AppRoutes.biopayConfirm,
-        pageBuilder: (context, state) {
-          final authSnapshot = readAuthSnapshot();
-          final featureFlags = ref.read(featureFlagsStateProvider);
-          final result = state.extra is BiopayMatchResult
-              ? state.extra! as BiopayMatchResult
-              : null;
-          return _coolPageTransition(
-            context: context,
-            state: state,
-            child: KillSwitchGate(
-              enabled: featureFlags.isBiopayEnabled(
-                isAdmin: authSnapshot.isAdmin,
-              ),
-              featureName: 'BioPay',
-              child: SecureScreenWrapper(
-                child: BiopayConfirmScreen(result: result),
-              ),
-            ),
-          );
-        },
-      ),
-      GoRoute(
-        path: AppRoutes.partners,
-        builder: (context, state) => const PartnersScreen(),
-        routes: [
-          GoRoute(
-            path: 'rayon-sports',
-            builder: (context, state) => const RayonHomeScreen(),
-            routes: [
-              GoRoute(
-                path: 'profile',
-                builder: (context, state) => const FanProfileScreen(),
-              ),
-              GoRoute(
-                path: 'membership',
-                builder: (context, state) => const MembershipTiersScreen(),
-              ),
-              GoRoute(
-                path: 'registry',
-                builder: (context, state) => const MemberRegistryScreen(),
-              ),
-              GoRoute(
-                path: 'clubs',
-                builder: (context, state) => const FanClubsScreen(),
-                routes: [
-                  GoRoute(
-                    path: ':clubId',
-                    builder: (context, state) => FanClubDetailScreen(
-                      clubId: state.pathParameters['clubId'] ?? '',
-                      referralParameters: state.uri.queryParameters,
-                    ),
-                  ),
-                ],
-              ),
-              GoRoute(
-                path: 'shop',
-                builder: (context, state) => const ClubShopScreen(),
-                routes: [
-                  GoRoute(
-                    path: 'checkout',
-                    builder: (context, state) => ShopCheckoutScreen(
-                      referralParameters: state.uri.queryParameters,
-                    ),
-                  ),
-                ],
-              ),
-              GoRoute(
-                path: 'support',
-                builder: (context, state) => const SupportScreen(),
-                routes: [
-                  GoRoute(
-                    path: ':initiativeId',
-                    builder: (context, state) => SupportDetailScreen(
-                      initiativeId: state.pathParameters['initiativeId'] ?? '',
-                    ),
-                  ),
-                ],
-              ),
-              GoRoute(
-                path: 'tickets',
-                builder: (context, state) {
-                  final authSnapshot = readAuthSnapshot();
-                  final featureFlags = ref.read(featureFlagsStateProvider);
-                  return KillSwitchGate(
-                    enabled: featureFlags.isTicketPurchaseEnabled(
-                      isAdmin: authSnapshot.isAdmin,
-                    ),
-                    featureName: 'Ticket Purchase',
-                    child: TicketsScreen(
-                      referralParameters: state.uri.queryParameters,
-                    ),
-                  );
-                },
-                routes: [
-                  GoRoute(
-                    path: 'my-tickets',
-                    builder: (context, state) => const MyTicketsScreen(),
-                  ),
-                  GoRoute(
-                    path: ':ticketId/confirm',
-                    builder: (context, state) => TicketConfirmationScreen(
-                      ticketId: state.pathParameters['ticketId'] ?? '',
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          GoRoute(
-            path: ':id',
-            redirect: (context, state) =>
-                resolvePartnerDetailRedirect(state.pathParameters['id']!),
-            builder: (context, state) {
-              final id = state.pathParameters['id']!;
-              return switch (id) {
-                'urwego' => BankPartnerScreen(bankId: id),
-                'equity' => BankPartnerScreen(bankId: id),
-                'radiant' => const RadiantPartnerScreen(),
-                'prisma' => const PrismaPartnerScreen(),
-                _ => BankPartnerScreen(bankId: id),
-              };
-            },
-            routes: [
-              GoRoute(
-                path: 'onboarding/:type',
-                builder: (context, state) {
-                  final slug = state.pathParameters['id'] ?? '';
-                  final typeStr = state.pathParameters['type'] ?? 'loan';
-                  final type = typeStr == 'account'
-                      ? BankOnboardingType.account
-                      : BankOnboardingType.loan;
-                  return BankOnboardingScreen(slug: slug, type: type);
-                },
-              ),
-            ],
-          ),
-        ],
-      ),
+
+      // ── Credit routes ─────────────────────────────────────────
       GoRoute(
         path: AppRoutes.credit,
         builder: (context, state) {
@@ -707,9 +473,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
         ],
       ),
+
+      // ── Status / engagement routes ────────────────────────────
       GoRoute(
         path: AppRoutes.missions,
-        pageBuilder: (context, state) => _coolPageTransition(
+        pageBuilder: (context, state) => coolPageTransition(
           context: context,
           state: state,
           child: const MissionsScreen(),
@@ -717,7 +485,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.tokens,
-        pageBuilder: (context, state) => _coolPageTransition(
+        pageBuilder: (context, state) => coolPageTransition(
           context: context,
           state: state,
           child: const CoolTokensScreen(),
@@ -725,7 +493,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.referral,
-        pageBuilder: (context, state) => _coolPageTransition(
+        pageBuilder: (context, state) => coolPageTransition(
           context: context,
           state: state,
           child: const ReferralHubScreen(),
@@ -733,165 +501,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.seasons,
-        pageBuilder: (context, state) => _coolPageTransition(
+        pageBuilder: (context, state) => coolPageTransition(
           context: context,
           state: state,
           child: const SeasonsActivitiesScreen(),
         ),
       ),
 
-      // ── Admin routes (nested under /admin) ─────────────────────
-      GoRoute(
-        path: AppRoutes.admin,
-        builder: (context, state) => const AdminWorkspacesScreen(),
-        routes: [
-          GoRoute(
-            path: 'platform',
-            builder: (context, state) =>
-                const PlatformAdminGate(child: AdminDashboardScreen()),
-          ),
-          GoRoute(
-            path: 'users',
-            builder: (context, state) =>
-                const PlatformAdminGate(child: ManageUsersScreen()),
-          ),
-          GoRoute(
-            path: 'partners',
-            builder: (context, state) =>
-                const PlatformAdminGate(child: ManagePartnersScreen()),
-          ),
-          GoRoute(
-            path: 'partners/:partnerId',
-            builder: (context, state) => PartnerAdminWorkspaceScreen(
-              partnerId: state.pathParameters['partnerId'] ?? '',
-            ),
-          ),
-          GoRoute(
-            path: 'services',
-            builder: (context, state) =>
-                const PlatformAdminGate(child: ManageServicesScreen()),
-          ),
-          GoRoute(
-            path: 'quick-actions',
-            builder: (context, state) =>
-                const PlatformAdminGate(child: ManageQuickActionsScreen()),
-          ),
-          GoRoute(
-            path: 'vehicle-types',
-            builder: (context, state) =>
-                const PlatformAdminGate(child: ManageVehicleTypesScreen()),
-          ),
-          GoRoute(
-            path: 'app-config',
-            builder: (context, state) =>
-                const PlatformAdminGate(child: ManageAppConfigScreen()),
-          ),
-          GoRoute(
-            path: 'special-products',
-            builder: (context, state) =>
-                const PlatformAdminGate(child: ManageSpecialProductsScreen()),
-          ),
-          GoRoute(
-            path: 'missions',
-            builder: (context, state) =>
-                const PlatformAdminGate(child: ManageMissionsScreen()),
-          ),
-          GoRoute(
-            path: 'seasons',
-            builder: (context, state) =>
-                const PlatformAdminGate(child: ManageSeasonsScreen()),
-          ),
-          GoRoute(
-            path: 'activities',
-            builder: (context, state) =>
-                const PlatformAdminGate(child: ManageActivitiesScreen()),
-          ),
-          GoRoute(
-            path: 'operations',
-            builder: (context, state) =>
-                const PlatformAdminGate(child: OperationalDashboardScreen()),
-          ),
-          GoRoute(
-            path: 'roles',
-            builder: (context, state) =>
-                const PlatformAdminGate(child: ManageAdminRolesScreen()),
-          ),
-          GoRoute(
-            path: 'analytics',
-            builder: (context, state) =>
-                const PlatformAdminGate(child: SystemAnalyticsScreen()),
-          ),
-          GoRoute(
-            path: 'audit-log',
-            builder: (context, state) =>
-                const PlatformAdminGate(child: AuditLogScreen()),
-          ),
-          GoRoute(
-            path: 'ai-content',
-            builder: (context, state) =>
-                const PlatformAdminGate(child: ManageAiContentScreen()),
-          ),
-          GoRoute(
-            path: 'banks/:partnerId',
-            builder: (context, state) => BankAdminWorkspaceScreen(
-              partnerId: state.pathParameters['partnerId'] ?? '',
-            ),
-          ),
-          // ── RS Admin routes (nested under /admin/rayon) ──────────
-          GoRoute(
-            path: 'rayon',
-            builder: (context, state) =>
-                const RayonAdminGate(child: RsAdminDashboardScreen()),
-            routes: [
-              GoRoute(
-                path: 'matches',
-                builder: (context, state) =>
-                    const RayonAdminGate(child: RsAdminMatchesScreen()),
-              ),
-              GoRoute(
-                path: 'tickets',
-                builder: (context, state) =>
-                    const RayonAdminGate(child: RsAdminTicketsScreen()),
-              ),
-              GoRoute(
-                path: 'shop',
-                builder: (context, state) =>
-                    const RayonAdminGate(child: RsAdminShopScreen()),
-              ),
-              GoRoute(
-                path: 'orders',
-                builder: (context, state) =>
-                    const RayonAdminGate(child: RsAdminOrdersScreen()),
-              ),
-              GoRoute(
-                path: 'members',
-                builder: (context, state) =>
-                    const RayonAdminGate(child: RsAdminMembersScreen()),
-              ),
-              GoRoute(
-                path: 'packages',
-                builder: (context, state) =>
-                    const RayonAdminGate(child: RsAdminPackagesScreen()),
-              ),
-              GoRoute(
-                path: 'finance',
-                builder: (context, state) =>
-                    const RayonAdminGate(child: RsAdminFinanceScreen()),
-              ),
-              GoRoute(
-                path: 'initiatives',
-                builder: (context, state) =>
-                    const RayonAdminGate(child: RsAdminInitiativesScreen()),
-              ),
-              GoRoute(
-                path: 'analytics',
-                builder: (context, state) =>
-                    const RayonAdminGate(child: RsAdminAnalyticsScreen()),
-              ),
-            ],
-          ),
-        ],
-      ),
+      // ── Admin routes (extracted) ──────────────────────────────
+      adminRoutes(),
     ],
   );
   ref.onDispose(router.dispose);

@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/providers/supabase_client_provider.dart';
 import '../../../core/theme/cool_foundations.dart';
+import '../../../core/l10n/l10n.dart';
 import '../../../shared/widgets/cool_async_view.dart';
-import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_button.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_empty_view.dart';
+import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
-import '../../../shared/widgets/tab_pill.dart';
 import '../../../shared/widgets/cool_toast.dart';
+import '../../../shared/widgets/tab_pill.dart';
+import '../providers/admin_ai_content_providers.dart';
+import '../widgets/ai_content_edit_sheet.dart';
 import '../../home/models/nexus_recommendation.dart';
 import '../../home/providers/nexus_provider.dart';
-import '../../../core/l10n/l10n.dart';
-import '../widgets/ai_content_edit_sheet.dart';
-import '../../../shared/widgets/cool_bottom_sheet.dart';
-import '../../../shared/widgets/cool_screen_background.dart';
 
 part '../widgets/manage_ai_content_parts.dart';
 
@@ -45,18 +45,6 @@ final _aiContentListProvider =
       return repo.fetchAll(statusFilter: filter);
     });
 
-final _aiGenConfigProvider = FutureProvider.autoDispose<Map<String, dynamic>?>((
-  ref,
-) async {
-  final client = ref.read(supabaseClientProvider);
-  final rows = await client
-      .from('ai_content_generation_config')
-      .select()
-      .limit(1);
-  if (rows.isEmpty) return null;
-  return rows.first;
-});
-
 // ── Screen ───────────────────────────────────────────────────
 
 /// Admin CRUD screen for AI-generated content with approval workflow.
@@ -69,7 +57,7 @@ class ManageAiContentScreen extends ConsumerWidget {
     final theme = Theme.of(context);
     final contentAsync = ref.watch(_aiContentListProvider);
     final activeFilter = ref.watch(_aiContentFilterProvider);
-    final genConfigAsync = ref.watch(_aiGenConfigProvider);
+    final genConfigAsync = ref.watch(adminAiContentGenerationConfigProvider);
 
     return CoolScreenBackground(
       showGlow: false,
@@ -129,12 +117,9 @@ class ManageAiContentScreen extends ConsumerWidget {
               data: (config) => config == null
                   ? const SizedBox.shrink()
                   : _GenerationControlsCard(
-                      isEnabled: config['is_enabled'] as bool? ?? false,
-                      lastGeneratedAt: config['last_generated_at'] != null
-                          ? DateTime.tryParse(
-                              config['last_generated_at'].toString(),
-                            )
-                          : null,
+                      isEnabled: config.isEnabled,
+                      intervalHours: config.intervalHours,
+                      lastGeneratedAt: config.lastGeneratedAt,
                       onToggle: (enabled) =>
                           _toggleGeneration(context, ref, enabled),
                       onGenerateNow: () => _triggerGeneration(context, ref),
@@ -194,7 +179,8 @@ class ManageAiContentScreen extends ConsumerWidget {
                   child: ListView.separated(
                     padding: _manageAiContentListPadding(),
                     itemCount: items.length,
-                    separatorBuilder: (_, _) => const SizedBox(height: CoolSpace.x3),
+                    separatorBuilder: (_, _) =>
+                        const SizedBox(height: CoolSpace.x3),
                     itemBuilder: (context, index) {
                       final item = items[index];
                       return _AiContentCard(
@@ -367,14 +353,9 @@ class ManageAiContentScreen extends ConsumerWidget {
     try {
       HapticFeedback.mediumImpact();
       await ref
-          .read(supabaseClientProvider)
-          .from('ai_content_generation_config')
-          .update({
-            'is_enabled': enabled,
-            'updated_at': DateTime.now().toUtc().toIso8601String(),
-          })
-          .not('id', 'is', null);
-      ref.invalidate(_aiGenConfigProvider);
+          .read(adminAiContentRepositoryProvider)
+          .setGenerationEnabled(enabled);
+      ref.invalidate(adminAiContentGenerationConfigProvider);
       if (context.mounted) {
         CoolToast.info(
           context,
@@ -392,23 +373,21 @@ class ManageAiContentScreen extends ConsumerWidget {
     try {
       HapticFeedback.mediumImpact();
       CoolToast.info(context, 'Generating content…');
-      final response = await ref
-          .read(supabaseClientProvider)
-          .functions
-          .invoke('generate-ai-content', queryParameters: {'manual': 'true'});
+      final result = await ref
+          .read(adminAiContentRepositoryProvider)
+          .triggerManualGeneration();
       ref.invalidate(_aiContentListProvider);
-      ref.invalidate(_aiGenConfigProvider);
+      ref.invalidate(adminAiContentGenerationConfigProvider);
       if (context.mounted) {
-        final data = response.data;
-        if (data != null && data['success'] == true) {
+        if (result.success) {
           CoolToast.info(
             context,
-            'Generated: ${data['title'] ?? 'new content'} ✓',
+            'Generated: ${result.title ?? 'new content'} ✓',
           );
         } else {
           CoolToast.error(
             context,
-            'Generation issue: ${data?['reason'] ?? 'unknown'}',
+            'Generation issue: ${result.reason ?? 'unknown'}',
           );
         }
       }

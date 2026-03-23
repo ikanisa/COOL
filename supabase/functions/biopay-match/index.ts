@@ -1,11 +1,11 @@
-import "jsr:@supabase/functions-js/edge-runtime.d.ts";
-
 import {
   errorResponse,
   handleCors,
   jsonResponse,
   methodNotAllowed,
 } from "../_shared/http.ts";
+import { HttpError } from "../_shared/auth.ts";
+import { requireAppCheckToken } from "../_shared/app_check.ts";
 import { normalizeBiopayLivenessMetadata } from "../_shared/biopay_liveness.ts";
 import {
   countRecentBiopayMatchRateEvents,
@@ -67,6 +67,7 @@ type MatchEventInsert = {
 export type BiopayMatchHandlerDependencies = {
   createAdminClient: () => AdminClientLike;
   createUserClient: (authorization: string) => UserClientLike;
+  requireAppCheckToken: (request: Request) => Promise<string>;
   now: () => Date;
   getProtectionConfig: (
     adminClient: AdminClientLike,
@@ -202,6 +203,7 @@ async function insertMatchEvent(
 const defaultDependencies: BiopayMatchHandlerDependencies = {
   createAdminClient,
   createUserClient,
+  requireAppCheckToken,
   now: () => new Date(),
   getProtectionConfig: (adminClient) =>
     getBiopayMatchProtectionConfig(
@@ -272,6 +274,8 @@ export function createBiopayMatchHandler(
       }
 
       requesterUserId = authData.user.id;
+      await deps.requireAppCheckToken(request);
+
       const now = deps.now();
       const body = await request.json() as MatchRequest;
       const embedding = normalizeEmbedding(body.embedding);
@@ -290,6 +294,7 @@ export function createBiopayMatchHandler(
         client_info: sanitizeHeaderValue(request.headers.get("x-client-info")),
         user_agent: sanitizeHeaderValue(request.headers.get("user-agent")),
         liveness,
+        app_check_enforced: true,
       };
       const rateWindowStartIso = isoBefore(
         now,
@@ -576,6 +581,9 @@ export function createBiopayMatchHandler(
     } catch (error) {
       if (error instanceof SyntaxError) {
         return errorResponse("Invalid JSON body", 400);
+      }
+      if (error instanceof HttpError) {
+        return errorResponse(error.message, error.status);
       }
       if (error instanceof BiopayValidationError) {
         return errorResponse(error.message, 400);

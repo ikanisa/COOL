@@ -51,6 +51,12 @@ const Set<String> _scanExtensions = <String>{
   '.jsx',
 };
 
+/// Patterns that indicate corrupted migration files from bad patch merges.
+const List<String> _patchMarkerPatterns = <String>[
+  '*** Add File',
+  '*** Delete File',
+];
+
 final class HygieneViolation {
   const HygieneViolation({
     required this.path,
@@ -76,41 +82,63 @@ void main(List<String> arguments) {
     maxLines: maxLines,
   );
 
-  if (violations.isEmpty) {
+  final List<PatchMarkerViolation> patchMarkerViolations =
+      scanMigrationsForPatchMarkers(repoRoot);
+
+  final bool hasViolations =
+      violations.isNotEmpty || patchMarkerViolations.isNotEmpty;
+
+  if (!hasViolations) {
     stdout.writeln(
       'Repo hygiene gate passed. '
-      'No source files exceed $maxLines lines.',
+      'No source files exceed $maxLines lines and no patch markers found.',
     );
     return;
   }
 
-  stdout.writeln(
-    'Repo hygiene gate: ${violations.length} file(s) exceed $maxLines lines.\n',
-  );
+  if (violations.isNotEmpty) {
+    stdout.writeln(
+      'Repo hygiene gate: ${violations.length} file(s) exceed $maxLines lines.\n',
+    );
 
-  // Group by directory for readability.
-  final Map<String, List<HygieneViolation>> grouped =
-      <String, List<HygieneViolation>>{};
-  for (final HygieneViolation v in violations) {
-    final String dir = v.path.contains('/')
-        ? v.path.substring(0, v.path.lastIndexOf('/'))
-        : '.';
-    (grouped[dir] ??= <HygieneViolation>[]).add(v);
-  }
-
-  for (final MapEntry<String, List<HygieneViolation>> entry
-      in grouped.entries) {
-    stdout.writeln('  ${entry.key}/');
-    for (final HygieneViolation v in entry.value) {
-      final String basename = v.path.split('/').last;
-      stdout.writeln('    $basename: ${v.lines} lines');
+    // Group by directory for readability.
+    final Map<String, List<HygieneViolation>> grouped =
+        <String, List<HygieneViolation>>{};
+    for (final HygieneViolation v in violations) {
+      final String dir = v.path.contains('/')
+          ? v.path.substring(0, v.path.lastIndexOf('/'))
+          : '.';
+      (grouped[dir] ??= <HygieneViolation>[]).add(v);
     }
+
+    for (final MapEntry<String, List<HygieneViolation>> entry
+        in grouped.entries) {
+      stdout.writeln('  ${entry.key}/');
+      for (final HygieneViolation v in entry.value) {
+        final String basename = v.path.split('/').last;
+        stdout.writeln('    $basename: ${v.lines} lines');
+      }
+    }
+
+    stdout.writeln(
+      '\nTo fix: refactor/split large files, or add to _exemptFiles in '
+      'tool/repo_hygiene_gate.dart if the file is generated.',
+    );
   }
 
-  stdout.writeln(
-    '\nTo fix: refactor/split large files, or add to _exemptFiles in '
-    'tool/repo_hygiene_gate.dart if the file is generated.',
-  );
+  if (patchMarkerViolations.isNotEmpty) {
+    stdout.writeln(
+      '\nPatch marker violations: '
+      '${patchMarkerViolations.length} corrupted migration(s) found.\n',
+    );
+    for (final PatchMarkerViolation v in patchMarkerViolations) {
+      stdout.writeln('  ${v.path}:${v.line} — ${v.marker}');
+    }
+    stdout.writeln(
+      '\nTo fix: remove raw patch markers from migration files. '
+      'These indicate a bad merge or patch application.',
+    );
+  }
 
   if (checkMode) {
     exitCode = 1;
@@ -165,6 +193,73 @@ List<HygieneViolation> scanForViolations(
 
   return violations;
 }
+
+// ── Patch-marker scanner ──────────────────────────────────────
+
+final class PatchMarkerViolation {
+  const PatchMarkerViolation({
+    required this.path,
+    required this.line,
+    required this.marker,
+  });
+
+  final String path;
+  final int line;
+  final String marker;
+
+  @override
+  String toString() => '$path:$line — $marker';
+}
+
+List<PatchMarkerViolation> scanMigrationsForPatchMarkers(
+  Directory repoRoot,
+) {
+  final Directory migrationsDir = Directory(
+    '${repoRoot.path}${Platform.pathSeparator}supabase'
+    '${Platform.pathSeparator}migrations',
+  );
+
+  if (!migrationsDir.existsSync()) {
+    return const <PatchMarkerViolation>[];
+  }
+
+  final List<PatchMarkerViolation> violations = <PatchMarkerViolation>[];
+  final String rootPath = repoRoot.path.endsWith(Platform.pathSeparator)
+      ? repoRoot.path
+      : '${repoRoot.path}${Platform.pathSeparator}';
+
+  for (final FileSystemEntity entity
+      in migrationsDir.listSync(recursive: true)) {
+    if (entity is! File) continue;
+    if (!entity.path.endsWith('.sql')) continue;
+
+    final String relativePath = entity.path.replaceFirst(rootPath, '');
+
+    try {
+      final List<String> lines = entity.readAsLinesSync();
+      for (int i = 0; i < lines.length; i++) {
+        final String line = lines[i];
+        for (final String pattern in _patchMarkerPatterns) {
+          if (line.contains(pattern)) {
+            violations.add(
+              PatchMarkerViolation(
+                path: relativePath,
+                line: i + 1,
+                marker: line.trim(),
+              ),
+            );
+          }
+        }
+      }
+    } catch (_) {
+      // Skip unreadable files.
+    }
+  }
+
+  return violations;
+}
+
+// ── Helpers ───────────────────────────────────────────────────
 
 int _countLines(File file) {
   try {

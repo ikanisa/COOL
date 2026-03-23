@@ -257,7 +257,9 @@ class _UserTile extends ConsumerWidget {
     if (confirmed != true || !context.mounted) return;
 
     try {
-      await ref.read(adminRepositoryProvider).toggleUserAdmin(userId, !isAdmin);
+      await ref
+          .read(adminUsersRepositoryProvider)
+          .toggleUserAdmin(userId, !isAdmin);
       ref.invalidate(adminUsersProvider);
       if (context.mounted) {
         CoolToast.success(
@@ -533,7 +535,7 @@ class _BatchCleanupButtonState extends ConsumerState<_BatchCleanupButton> {
     setState(() => _isLoading = true);
     try {
       final result = await ref
-          .read(adminRepositoryProvider)
+          .read(adminUsersRepositoryProvider)
           .purgeMockBatch(widget.batch);
 
       ref.invalidate(adminUsersProvider);

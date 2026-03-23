@@ -273,10 +273,7 @@ void main() {
     await tester.tap(find.text('View details'));
     await tester.pumpAndSettle();
 
-    expect(
-      find.textContaining('Linked group profile'),
-      findsOneWidget,
-    );
+    expect(find.textContaining('Linked group profile'), findsOneWidget);
     expect(find.text('Jean Bosco'), findsAtLeastNWidgets(1));
     expect(find.text('Open ledger'), findsOneWidget);
 
@@ -367,6 +364,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Reject allocation'), findsOneWidget);
+    expect(find.text('This removes the pending allocation.'), findsOneWidget);
     await tester.tap(find.widgetWithText(FilledButton, 'Reject'));
     await tester.pumpAndSettle();
 

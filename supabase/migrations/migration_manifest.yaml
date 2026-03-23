@@ -1,0 +1,187 @@
+# Migration Classification Manifest
+#
+# Categories:
+#   schema    — DDL: tables, columns, indexes, constraints, RPC definitions
+#   seed      — DML: insert/upsert of reference data, catalog entries, config
+#   mock      — DML: demo/test users, fake data for QA environments
+#   repair    — Fixes broken state (data backfill, constraint repairs)
+#   fix       — Fix previous broken migration or function definition
+#   security  — RLS policies, permission grants, abuse hardening
+#   cleanup   — Drop unused tables/indexes/functions, remove dead code
+#   observability — Health events, audit logs, analytics RPCs, cron jobs
+#
+# Format: filename: [category, ...]
+
+migrations:
+
+  # ── Day 1: Foundation ─────────────────────────────────────────
+  20260310120000_initial_schema.sql: [schema]
+  20260310130000_pending_transactions.sql: [schema]
+  20260310133000_mobile_integration_alignment.sql: [schema]
+  20260310143000_schedule_trip_expiry.sql: [schema]
+  20260310153000_ai_momo_sms_pipeline.sql: [schema]
+  20260310160000_momo_reconciliation_indexes.sql: [schema]
+  20260310170000_supported_countries_catalog.sql: [schema, seed]
+  20260310183000_dynamic_momo_ussd_routes.sql: [schema]
+  20260310190000_trip_board_contact_and_delete.sql: [schema]
+  20260310200000_rayon_sports_extension.sql: [schema]
+  20260310213000_rayon_sports_reconciliation.sql: [schema]
+  20260310220000_rayon_sports_schema_lock.sql: [schema]
+  20260310224500_mobility_trip_location_alignment.sql: [schema]
+  20260310230000_mobility_price_note.sql: [schema]
+  20260310231000_cool_status_foundation.sql: [schema]
+  20260310232000_cool_missions.sql: [schema]
+  20260310233000_cool_seasons.sql: [schema]
+  20260310234000_engagement_foundation.sql: [schema]
+  20260310235000_referral_activation_reconciliation.sql: [schema]
+
+  # ── Day 2: Partners, groups, admin ────────────────────────────
+  20260311070000_dynamic_partners.sql: [schema]
+  20260311080000_dynamic_content.sql: [schema]
+  20260311110000_admin_write_policies.sql: [security]
+  20260311113000_admin_and_groups_contract_alignment.sql: [schema]
+  20260311113100_group_rpc_create_group_atomic.sql: [schema]
+  20260311113200_group_rpc_invite_preview.sql: [schema]
+  20260311113300_group_rpc_join_group_via_invite.sql: [schema]
+  20260311163000_groups_rls_repair.sql: [security, repair]
+  20260311163500_invite_preview_anon_access.sql: [security]
+  20260311170000_user_fcm_tokens.sql: [schema]
+  20260311183000_group_invite_code_runtime_compat.sql: [repair]
+  20260311190000_trip_status_alignment.sql: [schema]
+  20260311193000_mobility_trip_client_request_id.sql: [schema]
+  20260311195000_google_wallet_passes.sql: [schema]
+  20260311200000_scheduled_trips_geo_rpc.sql: [schema]
+  20260311203000_partner_mock_seed_batch.sql: [mock]
+  20260311214500_demo_users_and_comprehensive_mock_seed.sql: [mock]
+  20260311223000_admin_mock_batch_cleanup.sql: [cleanup]
+  20260311230000_supported_countries_validation_metadata.sql: [schema]
+  20260311230100_urwego_partner_content_refresh.sql: [seed]
+  20260311232000_prisma_partner_content_refresh.sql: [seed]
+  20260311233000_momo_validation_triggers.sql: [schema]
+  20260311234500_momo_validation_reference_views.sql: [schema]
+  20260311235000_momo_validation_issue_rpc.sql: [schema]
+  20260311235100_equity_partner_content_refresh.sql: [seed]
+  20260311235500_credit_scoring_foundation.sql: [schema]
+  20260311235600_momo_validation_repair_rpc.sql: [schema, repair]
+  20260311235800_mobility_country_scoping.sql: [schema]
+
+  # ── Day 3: Bank partners, credit, statements ──────────────────
+  20260312000500_bank_partner_logo_urls.sql: [seed]
+  20260312001500_rayon_member_registry_rpc.sql: [schema]
+  20260312004000_statement_rpcs_and_credit_score_cron.sql: [schema, observability]
+  20260312005500_credit_score_user_refresh_rpc.sql: [schema]
+  20260312013000_partner_credit_applications.sql: [schema]
+  20260312160000_uat_backend_compat_hotfix.sql: [repair]
+  20260312170000_remove_momo_webhook_artifacts.sql: [cleanup]
+  20260312173000_public_user_ids.sql: [schema]
+  20260312191000_user_profile_wallet_routes.sql: [schema]
+  20260312201500_rayon_kwesa_catalog_contract.sql: [schema]
+  20260312204500_rayon_kwesa_catalog_cleanup.sql: [cleanup]
+  20260312211000_preserve_user_momo_route_preferences.sql: [schema]
+  20260312223000_repair_momo_sms_pipeline.sql: [repair]
+  20260313101500_operational_observability.sql: [schema, observability]
+  20260313114500_partner_payment_routes.sql: [schema]
+  20260313120500_rwanda_only_cleanup.sql: [cleanup]
+  20260313143000_rwanda_only_catalog_cleanup.sql: [cleanup]
+  20260313153000_remove_country_scope_from_local_catalog.sql: [cleanup]
+  20260313170000_operational_health_ingest_hardening.sql: [security]
+  20260313180000_rwanda_only_runtime_content_cleanup.sql: [cleanup]
+  20260313183000_otp_abuse_hardening.sql: [security]
+  20260313190000_otp_rate_event_phone_limits.sql: [security]
+  20260313203000_lock_users_to_rwanda_english.sql: [schema]
+  20260313223000_rwanda_only_runtime_scope_contract.sql: [schema]
+  20260313233000_supported_countries_readonly.sql: [security]
+  20260313234500_payee_ledgers_and_payee_route_allocations.sql: [schema]
+
+  # ── Day 4: MoMo SMS ingest, KYC, bank admin ──────────────────
+  20260314103000_momo_sms_ingest_contract.sql: [schema]
+  20260314123000_operational_triage_direct_sms.sql: [observability]
+  20260315110000_kyc_identity_profile_fields.sql: [schema]
+  20260315113000_bank_admin_group_savings_access.sql: [security]
+  20260315120000_lock_operational_health_rls.sql: [security]
+  20260315124500_bank_admin_manual_allocation_actions.sql: [schema]
+  20260315141500_rayon_admin_finance_and_packages.sql: [schema]
+  20260315153000_group_custodian_partner_link.sql: [schema]
+  20260315170000_user_theme_preference.sql: [schema]
+  20260315180000_notify_mission_progress.sql: [schema]
+
+  # ── Day 5+: Admin, gamification, analytics ────────────────────
+  20260316010000_admin_gamification_rls.sql: [security]
+  20260316020000_admin_role_assignments.sql: [schema]
+  20260316030000_admin_audit_log_analytics.sql: [observability]
+  20260316040000_scoped_rls_audit_triggers.sql: [security, observability]
+  20260316080000_admin_audit_log.sql: [schema, observability]
+  20260316084200_assign_dedicated_admins.sql: [seed]
+  20260316085000_partners_momo_code.sql: [schema]
+  20260316090000_platform_analytics_rpc.sql: [schema, observability]
+  20260316092400_bank_allocation_ai_support.sql: [schema]
+  20260316100000_seed_admin_role_assignments.sql: [seed]
+  20260316110000_bank_loans_baskets.sql: [schema]
+  20260316120000_rs_notifications_batch_analytics.sql: [schema, observability]
+  20260316120001_update_liffan_to_trike.sql: [repair]
+  20260316130000_enforce_data_integrity.sql: [schema, security]
+  20260316130001_nexus_opportunities.sql: [schema]
+  20260316131500_mock_tracking_enhancements.sql: [mock]
+  20260316132000_bank_features_mock_seed.sql: [mock]
+  20260316132501_fix_audit_trigger.sql: [fix]
+  20260316133000_app_config_seed.sql: [seed]
+  20260316140000_gamification_rpcs.sql: [schema]
+  20260316180000_rayon_sports_audit_fixes.sql: [fix]
+
+  # ── Day 6+: MoMo hardening, AI content, groups ────────────────
+  20260317080000_momo_delete_rls_and_rate_limit.sql: [security]
+  20260317090000_momo_tx_id_dedup.sql: [schema]
+  20260317100000_secure_operational_health_policy.sql: [security]
+  20260317130000_audit_fixes_special_products.sql: [fix]
+  20260317143000_cool_activities.sql: [schema]
+  20260317160000_ai_content_generation_config.sql: [schema]
+  20260317160100_seed_ai_content.sql: [seed]
+  20260317163000_bank_partner_services_standardize.sql: [schema]
+  20260317174000_group_enhancements.sql: [schema]
+
+  # ── Day 7: Quest seed, cleanup ────────────────────────────────
+  20260318072000_seed_quests_special_products_drop_legacy.sql: [seed, cleanup]
+  20260318073916_tighten_admin_audit_log_insert_rls.sql: [security]
+  20260318073950_drop_unused_indexes.sql: [cleanup]
+
+  # ── Day 12+: MoMo SMS ops, BioPay, security ──────────────────
+  20260322120000_momo_sms_sync_audit_and_status_alignment.sql: [schema, observability]
+  20260322143000_momo_sms_retention_redaction.sql: [security]
+  20260322170000_momo_sms_operational_summary.sql: [observability]
+  20260322171000_fix_momo_sms_operational_summary_order.sql: [fix]
+  20260322172000_extend_momo_sms_operational_summary_with_mobile_signals.sql: [observability]
+  20260322173000_momo_sms_manual_review_admin_queue.sql: [schema]
+  20260322174000_reconcile_momo_sms_closed_review_health.sql: [observability]
+  20260322175000_momo_sms_sender_inventory.sql: [schema]
+  20260322176000_fix_momo_sms_sender_inventory_ambiguity.sql: [fix]
+  20260322177000_fix_momo_sms_sender_inventory_grouping_aliases.sql: [fix]
+  20260322178000_momo_sms_sender_inventory_acknowledgements.sql: [schema]
+  20260322179000_fix_momo_sms_sender_acknowledgement_conflict.sql: [fix]
+  20260322180000_extend_momo_sms_operational_summary_with_sender_inventory.sql: [observability]
+  20260322181000_momo_sms_sender_inventory_batch_acknowledgements.sql: [schema]
+  20260322182000_extend_momo_sms_operational_summary_with_migration_safety.sql: [observability]
+  20260322183000_fix_momo_sms_operational_summary_migration_safety_timestamp.sql: [fix]
+  20260322184000_schedule_momo_sms_migration_safety_check.sql: [observability]
+  20260322190000_biopay_supabase_foundation.sql: [schema]
+
+  # ── Day 13: BioPay hardening, rate limits, AI content, payment intents
+  20260323091500_biopay_enrollment_route_trust_hardening.sql: [security]
+  20260323103000_biopay_match_rpc_hardening.sql: [security]
+  20260323143000_biopay_match_abuse_hardening.sql: [security]
+  20260323190000_edge_function_rate_events.sql: [schema, security]
+  20260323190100_create_ai_content.sql: [schema]
+  20260323190200_rate_limit_purge_cron.sql: [observability]
+  20260323190300_biopay_payment_intents.sql: [schema]
+
+
+# ── Summary ─────────────────────────────────────────────────────
+# Total: 141 migrations
+#
+# schema:        85  (core DDL — tables, columns, RPCs, indexes)
+# security:      22  (RLS, abuse hardening, permission grants)
+# observability: 16  (health events, audit logs, analytics, cron)
+# seed:          10  (reference data, partner content, admin roles)
+# cleanup:        9  (drop dead tables/indexes/code, catalog trim)
+# fix:            9  (repair broken previous migrations)
+# repair:         5  (data backfill, state normalization)
+# mock:           4  (demo users, test data)

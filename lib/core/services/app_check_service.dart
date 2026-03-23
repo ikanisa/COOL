@@ -47,4 +47,30 @@ class AppCheckService {
       return null;
     }
   }
+
+  /// Returns a one-time token for replay-protected custom backend requests.
+  static Future<String?> getLimitedUseToken() async {
+    if (!_initialized) return null;
+
+    try {
+      return await FirebaseAppCheck.instance.getLimitedUseToken();
+    } catch (e) {
+      debugPrint('[AppCheck] Limited-use token fetch failed: $e');
+      return null;
+    }
+  }
+
+  /// Returns a limited-use token or throws when device attestation is missing.
+  static Future<String> requireLimitedUseToken({
+    String featureName = 'This action',
+  }) async {
+    final token = await getLimitedUseToken();
+    if (token == null || token.isEmpty) {
+      throw StateError(
+        '$featureName requires device attestation. Check Firebase App Check configuration and try again.',
+      );
+    }
+
+    return token;
+  }
 }

@@ -207,7 +207,7 @@ extension _BankAdminWorkspaceScreenStateParts
       context: context,
       builder: (dialogContext) => AlertDialog(
         title: Text(context.l10n.rejectAllocation),
-        content: const Text('This will remove the'),
+        content: Text(context.l10n.thisWillRemoveThe),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(false),

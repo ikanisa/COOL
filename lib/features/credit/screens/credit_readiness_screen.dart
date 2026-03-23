@@ -6,7 +6,7 @@ import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/cool_layout.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
-import '../../../shared/widgets/secure_screen_mixin.dart';
+
 import '../../../shared/widgets/section_title.dart';
 import '../../auth/models/user_profile.dart';
 import '../../auth/providers/auth_provider.dart';
@@ -27,8 +27,7 @@ class CreditReadinessScreen extends ConsumerWidget {
     final user = ref.watch(currentUserProvider);
     final dashboardAsync = ref.watch(creditDashboardProvider);
 
-    return SecureScreen(
-      child: Scaffold(
+    return Scaffold(
         backgroundColor: colors.appBackground,
         appBar: AppBar(
           leading: IconButton(
@@ -56,7 +55,6 @@ class CreditReadinessScreen extends ConsumerWidget {
                       ReadinessErrorState(error: error.toString()),
                 ),
         ),
-      ),
     );
   }
 }

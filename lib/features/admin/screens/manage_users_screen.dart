@@ -9,6 +9,7 @@ import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/cool_layout.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
+import '../../../shared/widgets/cool_search_field.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../providers/admin_providers.dart';
@@ -18,24 +19,6 @@ import '../../../shared/widgets/cool_bottom_sheet.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 
 part '../widgets/manage_users_parts.dart';
-
-const BorderRadius _manageUsersFieldRadius = BorderRadius.all(
-  Radius.circular(CoolRadii.xs),
-);
-
-EdgeInsets _manageUsersSearchContentPadding() =>
-    CoolSpace.sectionPadding.copyWith(
-      left: CoolSpace.x3,
-      right: CoolSpace.x3,
-      top: CoolSpace.x3,
-      bottom: CoolSpace.x3,
-    );
-
-OutlineInputBorder _manageUsersFieldBorder(Color color, {double width = 1}) =>
-    OutlineInputBorder(
-      borderRadius: _manageUsersFieldRadius,
-      borderSide: BorderSide(color: color, width: width),
-    );
 
 /// Admin screen for inspecting user profiles, toggling admin status, editing
 /// user fields, and cleaning demo data.
@@ -140,31 +123,10 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
                         ),
                       ),
                       const SizedBox(height: CoolSpace.x4),
-                      TextField(
+                      CoolSearchField(
+                        hint: 'Search by name, phone, or ID…',
+                        debounce: Duration.zero,
                         onChanged: (v) => setState(() => _search = v),
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: colors.primaryText,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: 'Search by name, phone, or ID…',
-                          hintStyle: theme.textTheme.bodySmall?.copyWith(
-                            color: colors.tertiaryText,
-                          ),
-                          prefixIcon: Icon(
-                            Icons.search_rounded,
-                            size: 20,
-                            color: colors.tertiaryText,
-                          ),
-                          filled: true,
-                          fillColor: colors.inputSurface,
-                          contentPadding: _manageUsersSearchContentPadding(),
-                          border: _manageUsersFieldBorder(colors.border),
-                          enabledBorder: _manageUsersFieldBorder(colors.border),
-                          focusedBorder: _manageUsersFieldBorder(
-                            colors.accent,
-                            width: 1.5,
-                          ),
-                        ),
                       ),
                       const SizedBox(height: CoolSpace.x4),
                       _SummaryCard(

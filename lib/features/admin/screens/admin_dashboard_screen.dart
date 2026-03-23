@@ -8,47 +8,19 @@ import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../core/theme/cool_layout.dart';
 import '../../../core/router/app_routes.dart';
+import '../../../shared/widgets/admin_detail_scaffold.dart';
 import '../../../shared/widgets/cool_card.dart';
-import '../../../shared/widgets/cool_screen_background.dart';
 import '../models/admin_workspace_access.dart';
 import '../providers/admin_providers.dart';
 import '../providers/admin_workspace_access_provider.dart';
 import '../../../shared/widgets/cool_bottom_sheet.dart';
 
+part 'admin_dashboard_parts.dart';
+
 EdgeInsets _adminDashboardListPadding() =>
     CoolSpace.pagePadding.copyWith(top: 0, bottom: CoolLayout.gutter);
 
-EdgeInsets _adminRoleBadgePadding() => CoolSpace.denseSectionPadding.copyWith(
-  left: CoolSpace.x3,
-  right: CoolSpace.x3,
-  top: CoolSpace.x2,
-  bottom: CoolSpace.x2,
-);
 
-EdgeInsets _supportSheetHorizontalPadding() =>
-    CoolSpace.pagePadding.copyWith(top: 0, bottom: 0);
-
-EdgeInsets _supportSheetListPadding() =>
-    CoolSpace.pagePadding.copyWith(top: 0, bottom: CoolSpace.x7);
-
-EdgeInsets _supportSheetTilePadding() => CoolSpace.sectionPadding.copyWith(
-  left: CoolSpace.x4,
-  right: CoolSpace.x4,
-  top: CoolSpace.x2,
-  bottom: CoolSpace.x2,
-);
-
-Widget _supportSheetHandle(BuildContext context) {
-  final colors = context.coolSemanticColors;
-  return Container(
-    width: 44,
-    height: 4,
-    decoration: BoxDecoration(
-      color: colors.tertiaryText.withValues(alpha: 0.28),
-      borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.pill)),
-    ),
-  );
-}
 
 /// Admin Dashboard — role-filtered card grid for admin management screens.
 ///
@@ -193,120 +165,89 @@ class AdminDashboardScreen extends ConsumerWidget {
         })
         .toList(growable: false);
 
-    return CoolScreenBackground(
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: Semantics(
-            button: true,
-            label: context.l10n.backToProfile,
-            child: IconButton(
-              tooltip: context.l10n.back,
-              icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
-              onPressed: () => context.pop(),
+    return AdminDetailScaffold(
+      backTooltip: context.l10n.back,
+      onBack: () => context.pop(),
+      child: SafeArea(
+        child: ListView(
+          padding: _adminDashboardListPadding(),
+          children: [
+            Semantics(
+              header: true,
+              label: context.l10n.adminPanelTitle,
+              child: Text(
+                context.l10n.adminPanelTitle,
+                style: theme.textTheme.displayLarge?.copyWith(
+                  color: colors.primaryText,
+                ),
+              ),
             ),
-          ),
-        ),
-        body: SafeArea(
-          child: ListView(
-            padding: _adminDashboardListPadding(),
-            children: [
-              Semantics(
-                header: true,
-                label: context.l10n.adminPanelTitle,
-                child: Text(
-                  context.l10n.adminPanelTitle,
-                  style: theme.textTheme.displayLarge?.copyWith(
-                    color: colors.primaryText,
+            const SizedBox(height: CoolSpace.x2),
+            Text(
+              'Platform controls, partner workspaces, and operational oversight in one command surface.',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: colors.secondaryText,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            SizedBox(height: space.x6),
+            CoolCard(
+              backgroundColor: colors.operationalSurface,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Admin command',
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      color: colors.primaryText,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
-                ),
-              ),
-              const SizedBox(height: CoolSpace.x2),
-              Text(
-                'Platform controls, partner workspaces, and operational oversight in one command surface.',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: colors.secondaryText,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              SizedBox(height: space.x6),
-              CoolCard(
-                backgroundColor: colors.operationalSurface,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Admin command',
-                      style: theme.textTheme.titleLarge?.copyWith(
-                        color: colors.primaryText,
-                        fontWeight: FontWeight.w800,
-                      ),
+                  const SizedBox(height: CoolSpace.x2),
+                  Text(
+                    access.hasPlatformAccess
+                        ? 'Full platform visibility with audit, content, and workspace management.'
+                        : 'Role-scoped access with only the surfaces assigned to your institution or partner.',
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: colors.secondaryText,
+                      fontWeight: FontWeight.w700,
+                      height: 1.35,
                     ),
-                    const SizedBox(height: CoolSpace.x2),
-                    Text(
-                      access.hasPlatformAccess
-                          ? 'Full platform visibility with audit, content, and workspace management.'
-                          : 'Role-scoped access with only the surfaces assigned to your institution or partner.',
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: colors.secondaryText,
-                        fontWeight: FontWeight.w700,
-                        height: 1.35,
-                      ),
-                    ),
-                    const SizedBox(height: CoolSpace.x3),
-                    _RoleBadgeRow(access: access),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: CoolSpace.x3),
+                  _RoleBadgeRow(access: access),
+                ],
               ),
-              SizedBox(height: space.x6),
-              GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 14,
-                  crossAxisSpacing: 14,
-                  childAspectRatio: 1.02,
-                ),
-                itemCount: sections.length,
-                itemBuilder: (context, index) {
-                  final section = sections[index];
-                  return _AdminCard(section: section);
-                },
+            ),
+            SizedBox(height: space.x6),
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 14,
+                crossAxisSpacing: 14,
+                childAspectRatio: 1.02,
               ),
-              // ── Support Mode card (platform admin only) ──────────
-              if (access.hasPlatformAccess) ...[
-                SizedBox(height: space.x5),
-                _SupportModeCard(),
-              ],
+              itemCount: sections.length,
+              itemBuilder: (context, index) {
+                final section = sections[index];
+                return _AdminCard(section: section);
+              },
+            ),
+            if (access.hasPlatformAccess) ...[
+              SizedBox(height: space.x5),
+              _SupportModeCard(),
             ],
-          ),
+          ],
         ),
       ),
     );
   }
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Role badge row — shows which roles the user has
-// ═══════════════════════════════════════════════════════════════
 
-class _RoleBadgeRow extends StatelessWidget {
-  const _RoleBadgeRow({required this.access});
-  final AdminWorkspaceAccess access;
 
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final badges = <_RoleBadge>[
-      if (access.hasPlatformAccess)
-        _RoleBadge(context.l10n.platformAdmin, colors.success),
-      if (access.hasBankAdminAccess)
-        _RoleBadge(context.l10n.bankAdmin, colors.info),
-      if (access.hasPartnerAdminAccess)
-        _RoleBadge(context.l10n.rayonSports, colors.accent),
     ];
 
     if (badges.isEmpty) return const SizedBox.shrink();

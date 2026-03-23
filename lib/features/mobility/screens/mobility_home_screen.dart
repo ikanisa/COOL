@@ -16,7 +16,7 @@ import '../../../core/theme/cool_layout.dart';
 import '../../../shared/widgets/cool_google_map.dart';
 import '../../../shared/widgets/cool_toast.dart';
 
-import '../../../shared/widgets/cool_screen_background.dart';
+import '../../../shared/widgets/core_tab_root_scaffold.dart';
 import '../models/driver_info.dart';
 import '../providers/discovery_provider.dart';
 import '../widgets/mobility_listing_sheet.dart';
@@ -198,92 +198,84 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
     );
     final isDriver = (currentUser?.isDriver ?? false) || driverProfile != null;
 
-    return Scaffold(
-      backgroundColor: colors.appBackground,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: CoolScreenBackground(
-        child: RefreshIndicator(
-          color: colors.accent,
-          backgroundColor: colors.cardSurfaceStrong,
-          onRefresh: _refreshNearby,
-          child: CustomScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            slivers: [
-              SliverPadding(
-                padding: CoolLayout.rootPagePadding.copyWith(bottom: 0, top: 0),
-                sliver: SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        l10n.navMobility,
-                        style: theme.textTheme.displayLarge?.copyWith(
-                          color: colors.primaryText,
-                        ),
+    return CoreTabRootScaffold(
+      child: RefreshIndicator(
+        color: colors.accent,
+        backgroundColor: colors.cardSurfaceStrong,
+        onRefresh: _refreshNearby,
+        child: CustomScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          slivers: [
+            SliverPadding(
+              padding: CoolLayout.rootPagePadding.copyWith(bottom: 0, top: 0),
+              sliver: SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.navMobility,
+                      style: theme.textTheme.displayLarge?.copyWith(
+                        color: colors.primaryText,
                       ),
-                      const SizedBox(height: CoolSpace.x2),
-                      Text(
-                        'Routes. Drivers. Dispatch.',
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: colors.secondaryText,
-                          fontWeight: FontWeight.w700,
-                        ),
+                    ),
+                    const SizedBox(height: CoolSpace.x2),
+                    Text(
+                      'Routes. Drivers. Dispatch.',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colors.secondaryText,
+                        fontWeight: FontWeight.w700,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
+            ),
+            SliverPadding(
+              padding: EdgeInsets.fromLTRB(
+                CoolLayout.horizontalPagePadding,
+                isDriver ? 0 : 8,
+                CoolLayout.horizontalPagePadding,
+                0,
+              ),
+              sliver: SliverToBoxAdapter(
+                child: MobilityTopActionsCard(
+                  isDriver: isDriver,
+                  onScheduleTrip: () =>
+                      context.push(AppRoutes.mobilitySchedule),
+                ),
+              ),
+            ),
+            MobilityContentSliver(
+              onDriverPreviewTap: (driver) {
+                unawaited(_showDriverPreview(driver));
+              },
+              onDriverWhatsAppTap: (driver) {
+                unawaited(_openDriverWhatsApp(driver));
+              },
+              onTripPreviewTap: (trip) {
+                unawaited(_showTripPreview(trip));
+              },
+            ),
+            if (locationState.hasLocation)
               SliverPadding(
-                padding: EdgeInsets.fromLTRB(
+                padding: const EdgeInsets.fromLTRB(
                   CoolLayout.horizontalPagePadding,
-                  isDriver ? 0 : 8,
+                  CoolSpace.x3,
                   CoolLayout.horizontalPagePadding,
                   0,
                 ),
                 sliver: SliverToBoxAdapter(
-                  child: MobilityTopActionsCard(
-                    isDriver: isDriver,
-                    onScheduleTrip: () =>
-                        context.push(AppRoutes.mobilitySchedule),
+                  child: _MobilityMapSection(
+                    onMapCreated: _onMapCreated,
+                    onRecenter: _recenterMap,
+                    driverMarkers: _buildDriverMarkers(nearbyDrivers),
                   ),
                 ),
               ),
-              MobilityContentSliver(
-                onDriverPreviewTap: (driver) {
-                  unawaited(_showDriverPreview(driver));
-                },
-                onDriverWhatsAppTap: (driver) {
-                  unawaited(_openDriverWhatsApp(driver));
-                },
-                onTripPreviewTap: (trip) {
-                  unawaited(_showTripPreview(trip));
-                },
-              ),
-              if (locationState.hasLocation)
-                SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(
-                    CoolLayout.horizontalPagePadding,
-                    CoolSpace.x3,
-                    CoolLayout.horizontalPagePadding,
-                    0,
-                  ),
-                  sliver: SliverToBoxAdapter(
-                    child: _MobilityMapSection(
-                      onMapCreated: _onMapCreated,
-                      onRecenter: _recenterMap,
-                      driverMarkers: _buildDriverMarkers(nearbyDrivers),
-                    ),
-                  ),
-                ),
-              const SliverToBoxAdapter(
-                child: SizedBox(height: CoolLayout.rootBottomClearance),
-              ),
-            ],
-          ),
+            const SliverToBoxAdapter(
+              child: SizedBox(height: CoolLayout.rootBottomClearance),
+            ),
+          ],
         ),
       ),
     );

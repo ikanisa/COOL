@@ -715,7 +715,7 @@
   "credit": "Credit",
   "mobility": "Mobility",
   "rejectAllocation": "Reject allocation",
-  "thisWillRemoveThe": "This will remove the",
+  "thisWillRemoveThe": "This removes the pending allocation.",
   "reject": "Reject",
   "clear": "Clear",
   "str07xxxxxxxx": "07XXXXXXXX",

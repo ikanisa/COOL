@@ -4339,7 +4339,7 @@ abstract class AppLocalizations {
   /// No description provided for @thisWillRemoveThe.
   ///
   /// In en, this message translates to:
-  /// **'This will remove the'**
+  /// **'This removes the pending allocation.'**
   String get thisWillRemoveThe;
 
   /// No description provided for @reject.

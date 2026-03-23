@@ -247,7 +247,7 @@ class ManageServicesScreen extends ConsumerWidget {
     if (confirmed != true || !context.mounted) return;
     try {
       await ref
-          .read(adminRepositoryProvider)
+          .read(adminContentRepositoryProvider)
           .deletePartnerService(service['id']?.toString() ?? '');
       ref.invalidate(adminPartnerServicesProvider(null));
       if (context.mounted) CoolToast.success(context, '$title deleted');
@@ -263,7 +263,7 @@ class ManageServicesScreen extends ConsumerWidget {
   ) async {
     final isActive = service['is_active'] == true;
     try {
-      await ref.read(adminRepositoryProvider).upsertPartnerService({
+      await ref.read(adminContentRepositoryProvider).upsertPartnerService({
         'id': service['id'],
         'is_active': !isActive,
       });

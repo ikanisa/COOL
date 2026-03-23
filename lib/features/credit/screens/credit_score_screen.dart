@@ -10,7 +10,7 @@ import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_glass_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
-import '../../../shared/widgets/secure_screen_mixin.dart';
+
 import '../models/credit_insights.dart';
 import '../providers/credit_insights_provider.dart';
 
@@ -26,8 +26,7 @@ class CreditScoreScreen extends ConsumerWidget {
     final theme = Theme.of(context);
     final insightsAsync = ref.watch(creditInsightsProvider);
 
-    return SecureScreen(
-      child: Scaffold(
+    return Scaffold(
         backgroundColor: colors.appBackground,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -71,7 +70,6 @@ class CreditScoreScreen extends ConsumerWidget {
             ),
           ),
         ),
-      ),
     );
   }
 }

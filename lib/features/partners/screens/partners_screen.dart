@@ -18,7 +18,7 @@ import '../../../features/partners/widgets/partner_navigation.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_bottom_sheet.dart';
 import '../../../shared/widgets/cool_card.dart';
-import '../../../shared/widgets/cool_screen_background.dart';
+import '../../../shared/widgets/core_detail_scaffold.dart';
 import '../../../shared/widgets/cool_state_view.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/rs_membership_card.dart';
@@ -49,80 +49,67 @@ class _PartnersScreenState extends ConsumerState<PartnersScreen> {
     final theme = Theme.of(context);
     final tabs = _tabLabels(context);
 
-    return Scaffold(
-      backgroundColor: colors.appBackground,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: buildPartnerBackButton(
-          context,
-          fallbackLocation: AppRoutes.home,
-          color: colors.primaryText,
-        ),
-        actions: buildPartnerAppBarActions(
-          context,
-          homeColor: colors.primaryText,
-        ),
-      ),
-      body: CoolScreenBackground(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(24, 0, 24, 96),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Semantics(
-                header: true,
-                child: Text(
-                  context.l10n.partnersTitle,
-                  semanticsLabel: context.l10n.partnersTitle,
-                  style: theme.textTheme.displayLarge?.copyWith(
-                    color: colors.primaryText,
-                    height: 1.0,
-                  ),
+    return CoreDetailScaffold(
+      onBack: () => popOrGo(context, AppRoutes.home),
+      showHomeButton: true,
+      onHome: () => context.go(AppRoutes.home),
+      homeTooltip: context.l10n.partnersHomeTooltip,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(24, 0, 24, 96),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Semantics(
+              header: true,
+              child: Text(
+                context.l10n.partnersTitle,
+                semanticsLabel: context.l10n.partnersTitle,
+                style: theme.textTheme.displayLarge?.copyWith(
+                  color: colors.primaryText,
+                  height: 1.0,
                 ),
               ),
-              const SizedBox(height: CoolSpace.x2),
-              Text(
-                'Official clubs, finance partners, and service operators in one trusted network.',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: colors.secondaryText,
-                  fontWeight: FontWeight.w700,
-                ),
+            ),
+            const SizedBox(height: CoolSpace.x2),
+            Text(
+              'Official clubs, finance partners, and service operators in one trusted network.',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: colors.secondaryText,
+                fontWeight: FontWeight.w700,
               ),
-              const SizedBox(height: CoolSpace.x6),
-              Container(
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: colors.cardSurfaceStrong,
-                  borderRadius: BorderRadius.circular(CoolRadii.md),
-                  border: Border.all(color: colors.border),
-                ),
-                child: Row(
-                  children: List.generate(tabs.length, (index) {
-                    final isActive = _activeTab == index;
-                    return Expanded(
-                      child: TabPill(
-                        key: ValueKey('partners_tab_$index'),
-                        label: tabs[index],
-                        isActive: isActive,
-                        onTap: () => setState(() => _activeTab = index),
-                      ),
-                    );
-                  }),
-                ),
+            ),
+            const SizedBox(height: CoolSpace.x6),
+            Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: colors.cardSurfaceStrong,
+                borderRadius: BorderRadius.circular(CoolRadii.md),
+                border: Border.all(color: colors.border),
               ),
-              const SizedBox(height: CoolSpace.x5),
-              IndexedStack(
-                index: _activeTab,
-                children: [
-                  _FootballTab(onOpenRayonSports: _openRayonSports),
-                  const _BanksTab(),
-                  const _OrgsTab(),
-                ],
+              child: Row(
+                children: List.generate(tabs.length, (index) {
+                  final isActive = _activeTab == index;
+                  return Expanded(
+                    child: TabPill(
+                      key: ValueKey('partners_tab_$index'),
+                      label: tabs[index],
+                      isActive: isActive,
+                      onTap: () => setState(() => _activeTab = index),
+                    ),
+                  );
+                }),
               ),
-            ],
-          ),
+            ),
+            const SizedBox(height: CoolSpace.x5),
+            IndexedStack(
+              index: _activeTab,
+              children: [
+                _FootballTab(onOpenRayonSports: _openRayonSports),
+                const _BanksTab(),
+                const _OrgsTab(),
+              ],
+            ),
+          ],
         ),
       ),
     );

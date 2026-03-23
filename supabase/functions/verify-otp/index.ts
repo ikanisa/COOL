@@ -22,14 +22,27 @@ import {
 } from "../_shared/security.ts";
 import { createAdminClient, createAnonClient } from "../_shared/supabase.ts";
 
+type AdminClient = ReturnType<typeof createAdminClient>;
+
 type VerifyOtpRequest = {
   phone?: string;
   code?: string;
 };
 
+export type VerifyOtpHandlerDependencies = {
+  createAdminClient: () => AdminClient;
+  recordEdgeFunctionFailure: typeof recordEdgeFunctionFailure;
+};
+
 const verifyRateLimitWindowMs = 10 * 60 * 1000;
 const maxVerifyAttemptsPerIpPerWindow = 20;
 const maxVerifyAttemptsPerPhonePerWindow = 9;
+const verifyOtpFailureMessage = "Failed to verify OTP";
+
+const defaultVerifyOtpHandlerDependencies: VerifyOtpHandlerDependencies = {
+  createAdminClient,
+  recordEdgeFunctionFailure,
+};
 
 function comparablePhone(value: string | null | undefined): string | null {
   if (!value?.trim()) {
@@ -94,7 +107,7 @@ function isReviewOtpMatch(normalizedPhone: string, code: string): boolean {
 }
 
 async function findAuthUserByPhone(
-  adminClient: ReturnType<typeof createAdminClient>,
+  adminClient: AdminClient,
   phone: string,
   email: string,
 ) {
@@ -122,7 +135,7 @@ async function findAuthUserByPhone(
 }
 
 async function ensureAuthUser(
-  adminClient: ReturnType<typeof createAdminClient>,
+  adminClient: AdminClient,
   phone: string,
   email: string,
 ) {
@@ -192,7 +205,7 @@ async function signInWithDerivedPassword(email: string, password: string) {
 }
 
 async function findExistingAppUser(
-  adminClient: ReturnType<typeof createAdminClient>,
+  adminClient: AdminClient,
   phone: string,
 ) {
   try {
@@ -219,258 +232,285 @@ async function findExistingAppUser(
   return null;
 }
 
-Deno.serve(async (request: Request) => {
-  const corsResponse = handleCors(request);
-  if (corsResponse) {
-    return corsResponse;
-  }
-
-  if (request.method != "POST") {
-    return methodNotAllowed("POST");
-  }
-
-  let normalizedPhoneForTelemetry: string | null = null;
-
-  try {
-    const body = await request.json() as VerifyOtpRequest;
-    const normalizedPhone = normalizePhone(body.phone ?? "");
-    normalizedPhoneForTelemetry = normalizedPhone;
-    const code = (body.code ?? "").trim();
-
-    if (!/^\d{6}$/.test(code)) {
-      return errorResponse("Code must be 6 digits", 400);
+export function createVerifyOtpHandler(
+  deps: VerifyOtpHandlerDependencies = defaultVerifyOtpHandlerDependencies,
+) {
+  return async (request: Request): Promise<Response> => {
+    const corsResponse = handleCors(request);
+    if (corsResponse) {
+      return corsResponse;
     }
 
-    const adminClient = createAdminClient();
-    const clientIp = extractClientIp(request);
-    const windowStart = new Date(Date.now() - verifyRateLimitWindowMs)
-      .toISOString();
-    const ipActorKey = clientIp == null
-      ? null
-      : await hashOtpRateActorKey(`verify_ip:${clientIp}`);
-    const phoneActorKey = await hashOtpRateActorKey(
-      `verify_phone:${normalizedPhone}`,
-    );
-    if (ipActorKey != null) {
-      const recentIpEvents = await countRecentOtpRateEvents(adminClient, {
-        action: "verify_ip",
-        actorKey: ipActorKey,
+    if (request.method != "POST") {
+      return methodNotAllowed("POST");
+    }
+
+    let normalizedPhoneForTelemetry: string | null = null;
+    let adminClient: AdminClient | null = null;
+
+    try {
+      const body = await request.json() as VerifyOtpRequest;
+      const normalizedPhone = normalizePhone(body.phone ?? "");
+      normalizedPhoneForTelemetry = normalizedPhone;
+      const code = (body.code ?? "").trim();
+
+      if (!/^\d{6}$/.test(code)) {
+        return errorResponse("Code must be 6 digits", 400);
+      }
+
+      adminClient = deps.createAdminClient();
+      const clientIp = extractClientIp(request);
+      const windowStart = new Date(Date.now() - verifyRateLimitWindowMs)
+        .toISOString();
+      const ipActorKey = clientIp == null
+        ? null
+        : await hashOtpRateActorKey(`verify_ip:${clientIp}`);
+      const phoneActorKey = await hashOtpRateActorKey(
+        `verify_phone:${normalizedPhone}`,
+      );
+      if (ipActorKey != null) {
+        const recentIpEvents = await countRecentOtpRateEvents(adminClient, {
+          action: "verify_ip",
+          actorKey: ipActorKey,
+          windowStartIso: windowStart,
+        });
+        if (recentIpEvents >= maxVerifyAttemptsPerIpPerWindow) {
+          await recordVerifyRateEvents(adminClient, {
+            ipActorKey,
+            phoneActorKey,
+            outcome: "blocked_ip_limit",
+            phone: normalizedPhone,
+            metadata: { limit: maxVerifyAttemptsPerIpPerWindow },
+          });
+          return errorResponse(
+            "Too many verification attempts from this network. Request a new code later.",
+            429,
+            { retryAfterSeconds: 600 },
+          );
+        }
+      }
+      const recentPhoneEvents = await countRecentOtpRateEvents(adminClient, {
+        action: "verify_phone",
+        actorKey: phoneActorKey,
         windowStartIso: windowStart,
       });
-      if (recentIpEvents >= maxVerifyAttemptsPerIpPerWindow) {
+      if (recentPhoneEvents >= maxVerifyAttemptsPerPhonePerWindow) {
         await recordVerifyRateEvents(adminClient, {
           ipActorKey,
           phoneActorKey,
-          outcome: "blocked_ip_limit",
+          outcome: "blocked_phone_limit",
           phone: normalizedPhone,
-          metadata: { limit: maxVerifyAttemptsPerIpPerWindow },
+          metadata: { limit: maxVerifyAttemptsPerPhonePerWindow },
         });
         return errorResponse(
-          "Too many verification attempts from this network. Request a new code later.",
+          "Too many verification attempts for this phone number. Request a new code later.",
           429,
           { retryAfterSeconds: 600 },
         );
       }
-    }
-    const recentPhoneEvents = await countRecentOtpRateEvents(adminClient, {
-      action: "verify_phone",
-      actorKey: phoneActorKey,
-      windowStartIso: windowStart,
-    });
-    if (recentPhoneEvents >= maxVerifyAttemptsPerPhonePerWindow) {
+      const usingReviewOtp = isReviewOtpMatch(normalizedPhone, code);
+
+      let otpRecord:
+        | {
+          id: string;
+          attempts?: number | null;
+          expires_at: string;
+          code: string;
+        }
+        | null = null;
+
+      if (!usingReviewOtp) {
+        const otpResult = await adminClient
+          .from("otp_codes")
+          .select("*")
+          .eq("phone", normalizedPhone)
+          .order("created_at", { ascending: false })
+          .limit(1);
+
+        if (otpResult.error) {
+          throw otpResult.error;
+        }
+
+        otpRecord = otpResult.data?.[0] ?? null;
+        if (!otpRecord) {
+          await recordVerifyRateEvents(adminClient, {
+            ipActorKey,
+            phoneActorKey,
+            outcome: "missing_otp",
+            phone: normalizedPhone,
+          });
+          return errorResponse("No OTP found for this phone number", 404);
+        }
+
+        if ((otpRecord.attempts ?? 0) >= 3) {
+          await recordVerifyRateEvents(adminClient, {
+            ipActorKey,
+            phoneActorKey,
+            outcome: "blocked_phone_attempts",
+            phone: normalizedPhone,
+          });
+          return errorResponse("Too many attempts. Request a new code.", 429);
+        }
+
+        if (new Date(otpRecord.expires_at).getTime() < Date.now()) {
+          await recordVerifyRateEvents(adminClient, {
+            ipActorKey,
+            phoneActorKey,
+            outcome: "expired",
+            phone: normalizedPhone,
+          });
+          return errorResponse("OTP code has expired", 400);
+        }
+
+        const incomingHash = await hashOtpCode(normalizedPhone, code);
+        if (incomingHash != otpRecord.code) {
+          const nextAttempts = (otpRecord.attempts ?? 0) + 1;
+          const updateAttemptsResult = await adminClient
+            .from("otp_codes")
+            .update({ attempts: nextAttempts })
+            .eq("id", otpRecord.id);
+
+          if (updateAttemptsResult.error) {
+            throw updateAttemptsResult.error;
+          }
+
+          await recordVerifyRateEvents(adminClient, {
+            ipActorKey,
+            phoneActorKey,
+            outcome: "invalid_code",
+            phone: normalizedPhone,
+            metadata: { attemptsRemaining: Math.max(0, 3 - nextAttempts) },
+          });
+
+          return errorResponse("Invalid OTP code", 400, {
+            attemptsRemaining: Math.max(0, 3 - nextAttempts),
+          });
+        }
+      }
+
+      const existingAppUserId = await findExistingAppUser(
+        adminClient,
+        normalizedPhone,
+      );
+
+      const authEmail = await derivePhoneEmail(normalizedPhone);
+
+      // Existing users can often sign in directly once the custom OTP has been
+      // validated. This avoids brittle admin lookups when older auth rows were
+      // stored with a slightly different phone representation.
+      const derivedPassword = await derivePhonePassword(normalizedPhone);
+      let signInResult = await signInWithDerivedPassword(
+        authEmail,
+        derivedPassword,
+      );
+
+      let authUserId = signInResult.data.user?.id ?? signInResult.data.session
+        ?.user.id;
+
+      if (signInResult.error || !signInResult.data.session) {
+        if (!isRecoverableSignInError(signInResult.error)) {
+          throw signInResult.error ?? new Error("Could not create session");
+        }
+
+        // Supabase Auth does not directly mint a session for an externally-
+        // verified WhatsApp OTP flow, so we provision a deterministic internal
+        // email identity and sign in with its derived password.
+        const authUser = await ensureAuthUser(
+          adminClient,
+          normalizedPhone,
+          authEmail,
+        );
+        authUserId = authUser.userId;
+        signInResult = await signInWithDerivedPassword(
+          authEmail,
+          authUser.password,
+        );
+
+        if (signInResult.error || !signInResult.data.session) {
+          throw signInResult.error ?? new Error("Could not create session");
+        }
+      }
+
+      if (otpRecord != null) {
+        const deleteOtpResult = await adminClient
+          .from("otp_codes")
+          .delete()
+          .eq("id", otpRecord.id);
+
+        if (deleteOtpResult.error) {
+          throw deleteOtpResult.error;
+        }
+      }
+
       await recordVerifyRateEvents(adminClient, {
         ipActorKey,
         phoneActorKey,
-        outcome: "blocked_phone_limit",
+        outcome: usingReviewOtp ? "review_success" : "success",
         phone: normalizedPhone,
-        metadata: { limit: maxVerifyAttemptsPerPhonePerWindow },
       });
-      return errorResponse(
-        "Too many verification attempts for this phone number. Request a new code later.",
-        429,
-        { retryAfterSeconds: 600 },
-      );
-    }
-    const usingReviewOtp = isReviewOtpMatch(normalizedPhone, code);
 
-    let otpRecord:
-      | {
-        id: string;
-        attempts?: number | null;
-        expires_at: string;
-        code: string;
+      const session = signInResult.data.session;
+      return jsonResponse({
+        success: true,
+        session,
+        access_token: session.access_token,
+        refresh_token: session.refresh_token,
+        isNewUser: existingAppUserId == null,
+        userId: authUserId,
+      });
+    } catch (error) {
+      if (error instanceof SyntaxError) {
+        return errorResponse("Invalid JSON body", 400);
       }
-      | null = null;
-
-    if (!usingReviewOtp) {
-      const otpResult = await adminClient
-        .from("otp_codes")
-        .select("*")
-        .eq("phone", normalizedPhone)
-        .order("created_at", { ascending: false })
-        .limit(1);
-
-      if (otpResult.error) {
-        throw otpResult.error;
+      if (error instanceof PhoneValidationError) {
+        return errorResponse(error.message, 400);
       }
-
-      otpRecord = otpResult.data?.[0] ?? null;
-      if (!otpRecord) {
-        await recordVerifyRateEvents(adminClient, {
-          ipActorKey,
-          phoneActorKey,
-          outcome: "missing_otp",
-          phone: normalizedPhone,
-        });
-        return errorResponse("No OTP found for this phone number", 404);
-      }
-
-      if ((otpRecord.attempts ?? 0) >= 3) {
-        await recordVerifyRateEvents(adminClient, {
-          ipActorKey,
-          phoneActorKey,
-          outcome: "blocked_phone_attempts",
-          phone: normalizedPhone,
-        });
-        return errorResponse("Too many attempts. Request a new code.", 429);
-      }
-
-      if (new Date(otpRecord.expires_at).getTime() < Date.now()) {
-        await recordVerifyRateEvents(adminClient, {
-          ipActorKey,
-          phoneActorKey,
-          outcome: "expired",
-          phone: normalizedPhone,
-        });
-        return errorResponse("OTP code has expired", 400);
-      }
-
-      const incomingHash = await hashOtpCode(normalizedPhone, code);
-      if (incomingHash != otpRecord.code) {
-        const nextAttempts = (otpRecord.attempts ?? 0) + 1;
-        const updateAttemptsResult = await adminClient
-          .from("otp_codes")
-          .update({ attempts: nextAttempts })
-          .eq("id", otpRecord.id);
-
-        if (updateAttemptsResult.error) {
-          throw updateAttemptsResult.error;
-        }
-
-        await recordVerifyRateEvents(adminClient, {
-          ipActorKey,
-          phoneActorKey,
-          outcome: "invalid_code",
-          phone: normalizedPhone,
-          metadata: { attemptsRemaining: Math.max(0, 3 - nextAttempts) },
-        });
-
-        return errorResponse("Invalid OTP code", 400, {
-          attemptsRemaining: Math.max(0, 3 - nextAttempts),
-        });
-      }
-    }
-
-    const existingAppUserId = await findExistingAppUser(
-      adminClient,
-      normalizedPhone,
-    );
-
-    const authEmail = await derivePhoneEmail(normalizedPhone);
-
-    // Existing users can often sign in directly once the custom OTP has been
-    // validated. This avoids brittle admin lookups when older auth rows were
-    // stored with a slightly different phone representation.
-    const derivedPassword = await derivePhonePassword(normalizedPhone);
-    let signInResult = await signInWithDerivedPassword(
-      authEmail,
-      derivedPassword,
-    );
-
-    let authUserId = signInResult.data.user?.id ?? signInResult.data.session
-      ?.user.id;
-
-    if (signInResult.error || !signInResult.data.session) {
-      if (!isRecoverableSignInError(signInResult.error)) {
-        throw signInResult.error ?? new Error("Could not create session");
-      }
-
-      // Supabase Auth does not directly mint a session for an externally-
-      // verified WhatsApp OTP flow, so we provision a deterministic internal
-      // email identity and sign in with its derived password.
-      const authUser = await ensureAuthUser(
+      console.error("verify-otp failed", error);
+      await reportVerifyOtpFailure(
+        deps,
         adminClient,
-        normalizedPhone,
-        authEmail,
+        normalizedPhoneForTelemetry,
+        error,
       );
-      authUserId = authUser.userId;
-      signInResult = await signInWithDerivedPassword(
-        authEmail,
-        authUser.password,
-      );
-
-      if (signInResult.error || !signInResult.data.session) {
-        throw signInResult.error ?? new Error("Could not create session");
-      }
+      return errorResponse(verifyOtpFailureMessage, 500);
     }
+  };
+}
 
-    if (otpRecord != null) {
-      const deleteOtpResult = await adminClient
-        .from("otp_codes")
-        .delete()
-        .eq("id", otpRecord.id);
+if (import.meta.main) {
+  Deno.serve(createVerifyOtpHandler());
+}
 
-      if (deleteOtpResult.error) {
-        throw deleteOtpResult.error;
-      }
-    }
-
-    await recordVerifyRateEvents(adminClient, {
-      ipActorKey,
-      phoneActorKey,
-      outcome: usingReviewOtp ? "review_success" : "success",
-      phone: normalizedPhone,
-    });
-
-    const session = signInResult.data.session;
-    return jsonResponse({
-      success: true,
-      session,
-      access_token: session.access_token,
-      refresh_token: session.refresh_token,
-      isNewUser: existingAppUserId == null,
-      userId: authUserId,
-    });
-  } catch (error) {
-    if (error instanceof SyntaxError) {
-      return errorResponse("Invalid JSON body", 400);
-    }
-    if (error instanceof PhoneValidationError) {
-      return errorResponse(error.message, 400);
-    }
-    console.error("verify-otp failed", error);
-    await recordEdgeFunctionFailure(createAdminClient(), {
-      functionName: "verify-otp",
-      error,
-      subjectType: "otp_phone",
-      subjectId: normalizedPhoneForTelemetry,
-      metadata: {
-        phone_suffix: normalizedPhoneForTelemetry == null
-          ? null
-          : normalizedPhoneForTelemetry.substring(
-            normalizedPhoneForTelemetry.length - 4,
-          ),
+async function reportVerifyOtpFailure(
+  deps: VerifyOtpHandlerDependencies,
+  adminClient: AdminClient | null,
+  normalizedPhoneForTelemetry: string | null,
+  error: unknown,
+) {
+  try {
+    await deps.recordEdgeFunctionFailure(
+      adminClient ?? deps.createAdminClient(),
+      {
+        functionName: "verify-otp",
+        error,
+        subjectType: "otp_phone",
+        subjectId: normalizedPhoneForTelemetry,
+        metadata: {
+          phone_suffix: normalizedPhoneForTelemetry == null
+            ? null
+            : normalizedPhoneForTelemetry.substring(
+              normalizedPhoneForTelemetry.length - 4,
+            ),
+        },
       },
-    });
-    return errorResponse(
-      error instanceof Error ? error.message : "Failed to verify OTP",
-      500,
     );
+  } catch (reportError) {
+    console.error("verify-otp telemetry failed", reportError);
   }
-});
+}
 
 async function recordVerifyRateEvents(
-  adminClient: ReturnType<typeof createAdminClient>,
+  adminClient: AdminClient,
   options: {
     ipActorKey: string | null;
     phoneActorKey: string;

@@ -6,6 +6,7 @@ import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
+import '../../../shared/widgets/admin_section_header.dart';
 import '../providers/admin_providers.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
@@ -84,7 +85,7 @@ class SystemAnalyticsScreen extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: CoolSpace.x6),
-                const _SectionHeader('Core Counts'),
+                const AdminSectionHeader(title: 'Core Counts'),
                 const SizedBox(height: CoolSpace.x3),
                 _MetricGrid(
                   surfaceColor: colors.analyticsSurface,
@@ -140,7 +141,7 @@ class SystemAnalyticsScreen extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 28),
-                const _SectionHeader('Growth'),
+                const AdminSectionHeader(title: 'Growth'),
                 const SizedBox(height: CoolSpace.x3),
                 _MetricGrid(
                   surfaceColor: colors.contactSurface,
@@ -172,21 +173,21 @@ class SystemAnalyticsScreen extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 28),
-                const _SectionHeader('Admin Role Distribution'),
+                const AdminSectionHeader(title: 'Admin Role Distribution'),
                 const SizedBox(height: CoolSpace.x3),
                 _DistributionCard(
                   data: _asStringIntMap(data['role_distribution']),
                   emptyLabel: 'No roles assigned yet',
                 ),
                 const SizedBox(height: 28),
-                const _SectionHeader('Event Distribution (30d)'),
+                const AdminSectionHeader(title: 'Event Distribution (30d)'),
                 const SizedBox(height: CoolSpace.x3),
                 _DistributionCard(
                   data: _asStringIntMap(data['event_distribution']),
                   emptyLabel: 'No events recorded',
                 ),
                 const SizedBox(height: 28),
-                const _SectionHeader('Audit'),
+                const AdminSectionHeader(title: 'Audit'),
                 const SizedBox(height: CoolSpace.x3),
                 _MetricGrid(
                   surfaceColor: colors.operationalSurface,
@@ -228,23 +229,7 @@ class SystemAnalyticsScreen extends ConsumerWidget {
 // Sub-widgets
 // ═══════════════════════════════════════════════════════════════
 
-class _SectionHeader extends StatelessWidget {
-  const _SectionHeader(this.label);
-  final String label;
 
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
-    return Text(
-      label,
-      style: theme.textTheme.titleMedium?.copyWith(
-        fontWeight: FontWeight.w800,
-        color: colors.primaryText,
-      ),
-    );
-  }
-}
 
 class _Metric {
   const _Metric(this.label, this.value, this.icon, this.color);

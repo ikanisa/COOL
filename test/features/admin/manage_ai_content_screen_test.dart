@@ -1,4 +1,5 @@
-import 'package:cool_app/core/providers/supabase_client_provider.dart';
+import 'package:cool_app/features/admin/providers/admin_ai_content_providers.dart';
+import 'package:cool_app/features/admin/repositories/admin_ai_content_repository.dart';
 import 'package:cool_app/features/admin/screens/manage_ai_content_screen.dart';
 import 'package:cool_app/features/home/models/nexus_recommendation.dart';
 import 'package:cool_app/features/home/providers/nexus_provider.dart';
@@ -10,6 +11,23 @@ import 'package:mocktail/mocktail.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MockSupabaseClient extends Mock implements SupabaseClient {}
+
+class FakeAdminAiContentRepository extends AdminAiContentRepository {
+  FakeAdminAiContentRepository() : super(client: MockSupabaseClient());
+
+  @override
+  Future<AdminAiContentGenerationConfig?> fetchGenerationConfig() async {
+    return null;
+  }
+
+  @override
+  Future<void> setGenerationEnabled(bool enabled) async {}
+
+  @override
+  Future<AdminAiContentGenerationResult> triggerManualGeneration() async {
+    return const AdminAiContentGenerationResult(success: true);
+  }
+}
 
 class FakeNexusRepository extends NexusRepository {
   FakeNexusRepository({
@@ -89,12 +107,15 @@ void main() {
         ),
       ],
     );
+    final adminAiContentRepository = FakeAdminAiContentRepository();
 
     await tester.pumpWidget(
       ProviderScope(
         overrides: <Override>[
           nexusRepositoryProvider.overrideWithValue(repository),
-          supabaseClientProvider.overrideWithValue(MockSupabaseClient()),
+          adminAiContentRepositoryProvider.overrideWithValue(
+            adminAiContentRepository,
+          ),
         ],
         child: const MaterialApp(home: ManageAiContentScreen()),
       ),
@@ -115,12 +136,15 @@ void main() {
   testWidgets('creates AI content from the editor sheet', (tester) async {
     _configureTallViewport(tester);
     final repository = FakeNexusRepository();
+    final adminAiContentRepository = FakeAdminAiContentRepository();
 
     await tester.pumpWidget(
       ProviderScope(
         overrides: <Override>[
           nexusRepositoryProvider.overrideWithValue(repository),
-          supabaseClientProvider.overrideWithValue(MockSupabaseClient()),
+          adminAiContentRepositoryProvider.overrideWithValue(
+            adminAiContentRepository,
+          ),
         ],
         child: const MaterialApp(home: ManageAiContentScreen()),
       ),

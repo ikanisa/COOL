@@ -1,14 +1,29 @@
 import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
+import 'admin_repository_helpers.dart';
+import 'admin_user_row_normalizer.dart';
 
-/// Central repository for admin CRUD operations across all dynamic content tables.
-class AdminRepository {
+/// Core admin repository for country reference data, operational dashboards,
+/// platform analytics, and audit log.
+///
+/// Content management (partners, services, payment routes, quick actions,
+/// vehicle types, app config) has been extracted to [AdminContentRepository].
+///
+/// MoMo operational views (sender inventory, manual review, health events,
+/// validation issues) have been extracted to [AdminMomoOpsRepository].
+///
+/// User management (inventory, profile updates, mock cleanup) has been
+/// extracted to [AdminUsersRepository].
+class AdminRepository with AdminRepositoryHelpers {
   AdminRepository({required SupabaseClient client}) : _client = client;
 
   final SupabaseClient _client;
+
+  @override
+  SupabaseClient get client => _client;
+
   static const String _countryReferenceSelect =
       'iso_code, country_name, flag_emoji, dial_code, currency_code, '
       'currency_name, momo_provider_id, country_aliases, '
@@ -23,223 +38,6 @@ class AdminRepository {
       'validation_notes, default_lat, default_lng, sort_order, is_active, '
       'updated_at';
 
-  // ── Users ─────────────────────────────────────────────────────────────
-
-  Future<List<Map<String, dynamic>>> fetchUsers() async {
-    final data = await _client
-        .from('users')
-        .select(
-          'id, public_user_id, full_name, phone, country, language_code, '
-          'momo_provider, is_driver, vehicle_type, is_admin, '
-          'created_at, is_mock, mock_batch',
-        )
-        .order('is_mock', ascending: false)
-        .order('created_at', ascending: false);
-    return _asListOfMaps(
-      data,
-    ).map(normalizeUserRowForAppMarket).toList(growable: false);
-  }
-
-  Future<Map<String, dynamic>> purgeMockBatch(String batch) async {
-    final data = await _client.rpc(
-      'purge_mock_batch',
-      params: <String, dynamic>{'p_mock_batch': batch},
-    );
-    if (data is Map<String, dynamic>) {
-      return data;
-    }
-    if (data is Map) {
-      return Map<String, dynamic>.from(data);
-    }
-    throw StateError('Expected purge_mock_batch to return a JSON object.');
-  }
-
-  // ── Partners ──────────────────────────────────────────────────────────
-
-  Future<List<Map<String, dynamic>>> fetchPartners({String? country}) async {
-    var query = _client.from('partners').select();
-    final normalizedCountry = _normalizeCountryOrNull(country);
-    if (normalizedCountry != null) {
-      query = query.or('country.is.null,country.eq.$normalizedCountry');
-    }
-    final data = await query
-        .order('country', ascending: true)
-        .order('sort_order', ascending: true);
-    return _asListOfMaps(
-      data,
-    ).map((row) => _coerceBlankCountryToRwanda(row)).toList(growable: false);
-  }
-
-  Future<void> upsertPartner(Map<String, dynamic> partner) async {
-    await _client
-        .from('partners')
-        .upsert(_withNormalizedCountry(partner, required: true));
-  }
-
-  Future<void> togglePartnerActive(String id, bool isActive) async {
-    await _client.from('partners').update({'is_active': isActive}).eq('id', id);
-  }
-
-  Future<void> deletePartner(String id) async {
-    await _client.from('partners').delete().eq('id', id);
-  }
-
-  // ── Partner Services ──────────────────────────────────────────────────
-
-  Future<List<Map<String, dynamic>>> fetchPartnerServices({
-    String? partnerId,
-    String? country,
-  }) async {
-    var query = _client
-        .from('partner_services')
-        .select('*, partners!inner(name, slug)');
-    if (partnerId != null) {
-      query = query.eq('partner_id', partnerId);
-    }
-    final data = await query
-        .order('sort_order', ascending: true)
-        .order('title', ascending: true);
-    return _asListOfMaps(
-      data,
-    ).map((row) => _coerceBlankCountryToRwanda(row)).toList(growable: false);
-  }
-
-  Future<void> upsertPartnerService(Map<String, dynamic> service) async {
-    final normalizedService = _lockCountryScopeToRwanda(service);
-    final partnerId = _trimmed(normalizedService['partner_id']);
-    if (partnerId == null) {
-      throw StateError('Partner selection is required for partner services.');
-    }
-    normalizedService['partner_id'] = partnerId;
-    await _client.from('partner_services').upsert(normalizedService);
-  }
-
-  Future<void> deletePartnerService(String id) async {
-    await _client.from('partner_services').delete().eq('id', id);
-  }
-
-  // ── Partner Payment Routes ───────────────────────────────────────────
-
-  Future<List<Map<String, dynamic>>> fetchPartnerPaymentRoutes({
-    String? partnerId,
-    String? country,
-  }) async {
-    var query = _client
-        .from('partner_payment_routes')
-        .select('*, partners!inner(name, slug, country)');
-    if (partnerId != null && partnerId.trim().isNotEmpty) {
-      query = query.eq('partner_id', partnerId.trim());
-    }
-    final normalizedCountry = _normalizeCountryOrNull(country);
-    if (normalizedCountry != null) {
-      query = query.or('country.is.null,country.eq.$normalizedCountry');
-    }
-    final data = await query
-        .order('country', ascending: true)
-        .order('updated_at', ascending: false);
-    return _asListOfMaps(data)
-        .map((row) {
-          final normalized = _coerceBlankCountryToRwanda(row);
-          final partner = row['partners'];
-          if (partner is Map) {
-            normalized['partner_name'] = partner['name']?.toString().trim();
-            normalized['partner_slug'] = partner['slug']?.toString().trim();
-            normalized['partner_country'] =
-                _normalizeCountryOrNull(partner['country']?.toString()) ??
-                AppMarket.countryCode;
-          }
-          normalized['country'] =
-              _normalizeCountryOrNull(row['country']?.toString()) ??
-              AppMarket.countryCode;
-          normalized['provider'] = _trimmed(row['provider'])?.toLowerCase();
-          normalized['recipient_code'] = _trimmed(row['recipient_code']);
-          normalized['reconciliation_label'] = _trimmed(
-            row['reconciliation_label'],
-          );
-          normalized['status'] = _trimmed(row['status'])?.toLowerCase();
-          return normalized;
-        })
-        .toList(growable: false);
-  }
-
-  Future<void> upsertPartnerPaymentRoute(Map<String, dynamic> route) async {
-    final normalized = Map<String, dynamic>.from(
-      _withNormalizedCountry(route, required: true),
-    );
-    final partnerId = _trimmed(normalized['partner_id']);
-    if (partnerId == null) {
-      throw StateError('Partner selection is required for payment routes.');
-    }
-    normalized['partner_id'] = partnerId;
-    normalized['provider'] = _trimmed(normalized['provider'])?.toLowerCase();
-    normalized['recipient_code'] = _trimmed(normalized['recipient_code']);
-    normalized['reconciliation_label'] = _trimmed(
-      normalized['reconciliation_label'],
-    );
-    normalized['status'] =
-        _trimmed(normalized['status'])?.toLowerCase() ?? 'draft';
-    await _client.from('partner_payment_routes').upsert(normalized);
-  }
-
-  Future<void> deletePartnerPaymentRoute(String id) async {
-    await _client.from('partner_payment_routes').delete().eq('id', id);
-  }
-
-  // ── Quick Actions ─────────────────────────────────────────────────────
-
-  Future<List<Map<String, dynamic>>> fetchQuickActions({
-    String? country,
-  }) async {
-    final data = await _client
-        .from('quick_actions')
-        .select()
-        .order('sort_order', ascending: true);
-    return _asListOfMaps(
-      data,
-    ).map((row) => _coerceBlankCountryToRwanda(row)).toList(growable: false);
-  }
-
-  Future<void> upsertQuickAction(Map<String, dynamic> action) async {
-    await _client
-        .from('quick_actions')
-        .upsert(_lockCountryScopeToRwanda(action));
-  }
-
-  Future<void> deleteQuickAction(String id) async {
-    await _client.from('quick_actions').delete().eq('id', id);
-  }
-
-  Future<void> reorderQuickActions(List<String> orderedIds) async {
-    for (var i = 0; i < orderedIds.length; i++) {
-      await _client
-          .from('quick_actions')
-          .update(<String, dynamic>{'sort_order': i})
-          .eq('id', orderedIds[i]);
-    }
-  }
-
-  // ── Vehicle Types ─────────────────────────────────────────────────────
-
-  Future<List<Map<String, dynamic>>> fetchVehicleTypes({
-    String? country,
-  }) async {
-    final data = await _client
-        .from('vehicle_types')
-        .select()
-        .order('sort_order', ascending: true);
-    return _asListOfMaps(
-      data,
-    ).map((row) => _coerceBlankCountryToRwanda(row)).toList(growable: false);
-  }
-
-  Future<void> upsertVehicleType(Map<String, dynamic> type) async {
-    await _client.from('vehicle_types').upsert(_lockCountryScopeToRwanda(type));
-  }
-
-  Future<void> deleteVehicleType(String id) async {
-    await _client.from('vehicle_types').delete().eq('id', id);
-  }
-
   // ── Supported Countries ───────────────────────────────────────────────
 
   Future<List<Map<String, dynamic>>> fetchCountries() async {
@@ -251,7 +49,7 @@ class AdminRepository {
           .order('country_name', ascending: true);
       return _normalizeCountryReferenceRows(data);
     } on PostgrestException catch (error) {
-      if (!_isMissingSchemaObjectError(error)) {
+      if (!isMissingSchemaObjectError(error)) {
         rethrow;
       }
     }
@@ -264,7 +62,7 @@ class AdminRepository {
           .order('country_name', ascending: true);
       return _normalizeCountryReferenceRows(data);
     } on PostgrestException catch (error) {
-      if (!_isMissingSchemaObjectError(error)) {
+      if (!isMissingSchemaObjectError(error)) {
         rethrow;
       }
     } catch (_) {
@@ -274,515 +72,58 @@ class AdminRepository {
     return _catalogCountryReferenceRows();
   }
 
-  Future<List<Map<String, dynamic>>> fetchMomoValidationIssues() async {
-    try {
-      final data = await _client.rpc('get_momo_validation_issues');
-      return _normalizeIssueRows(data);
-    } on PostgrestException catch (error) {
-      if (!_isMissingSchemaObjectError(error)) {
-        rethrow;
-      }
-    }
-
-    try {
-      return await _deriveMomoValidationIssuesLocally();
-    } on PostgrestException catch (error) {
-      if (!_isMissingSchemaObjectError(error)) {
-        rethrow;
-      }
-    } catch (_) {
-      // Fall through to a synthetic compatibility issue row.
-    }
-
-    return <Map<String, dynamic>>[
-      _issueRow(
-        recordType: 'system',
-        recordId: 'legacy-schema',
-        issueCode: 'validation_backend_unavailable',
-        issueMessage:
-            'This backend is missing the tables or columns required to audit MoMo validation issues. Apply the latest compatibility migration to enable server-side validation diagnostics.',
-      ),
-    ];
-  }
-
-  Future<Map<String, dynamic>> repairMomoValidationIssue({
-    required String recordType,
-    required String recordId,
-    required String issueCode,
-  }) async {
-    dynamic data;
-    try {
-      data = await _client.rpc(
-        'repair_momo_validation_issue',
-        params: <String, dynamic>{
-          'p_record_type': recordType,
-          'p_record_id': recordId,
-          'p_issue_code': issueCode,
-        },
-      );
-    } on PostgrestException catch (error) {
-      if (!_isMissingSchemaObjectError(error)) {
-        rethrow;
-      }
-      return <String, dynamic>{
-        'status': 'unavailable',
-        'record_type': recordType,
-        'record_id': recordId,
-        'issue_code': issueCode,
-        'message':
-            'Repair tools are unavailable on this backend until the compatibility migration is applied.',
-      };
-    }
-
-    if (data is Map<String, dynamic>) {
-      return data;
-    }
-    if (data is Map) {
-      return Map<String, dynamic>.from(data);
-    }
-    throw StateError('Expected repair_momo_validation_issue to return JSON.');
-  }
-
-  // ── App Config ────────────────────────────────────────────────────────
-
-  Future<List<Map<String, dynamic>>> fetchAppConfig({String? country}) async {
-    final data = await _client.from('app_config').select().order('key');
-    return _asListOfMaps(
-      data,
-    ).map((row) => _coerceBlankCountryToRwanda(row)).toList(growable: false);
-  }
-
-  Future<void> upsertAppConfig(Map<String, dynamic> config) async {
-    await _client.from('app_config').upsert(_lockCountryScopeToRwanda(config));
-  }
-
-  Future<void> upsertAppConfigs(List<Map<String, dynamic>> configs) async {
-    if (configs.isEmpty) {
-      return;
-    }
-    await _client
-        .from('app_config')
-        .upsert(configs.map(_lockCountryScopeToRwanda).toList(growable: false));
-  }
-
-  Future<void> deleteAppConfig(String key) async {
-    await _client.from('app_config').delete().eq('key', key);
-  }
+  // ── Operational Dashboard ─────────────────────────────────────────────
 
   Future<List<Map<String, dynamic>>> fetchOperationalReleaseDashboard() async {
     final data = await _client.rpc('get_operational_release_dashboard');
-    return _asListOfMaps(data);
+    return asListOfMaps(data);
   }
 
   Future<List<Map<String, dynamic>>> fetchOperationalTriageIssues() async {
     final data = await _client.rpc('get_operational_triage_issues');
-    return _asListOfMaps(data);
+    return asListOfMaps(data);
   }
 
-  Future<List<Map<String, dynamic>>> fetchMomoSmsOperationalSummary() async {
-    final data = await _client.rpc('get_momo_sms_operational_summary');
-    return _asListOfMaps(data);
+  // ── Platform Analytics ────────────────────────────────────────────────
+
+  Future<Map<String, dynamic>> fetchPlatformAnalytics() async {
+    final data = await _client.rpc('get_platform_analytics_summary');
+    if (data is Map<String, dynamic>) return data;
+    if (data is Map) return Map<String, dynamic>.from(data);
+    throw StateError('Expected get_platform_analytics_summary to return JSON.');
   }
 
-  Future<List<Map<String, dynamic>>> fetchMomoSmsSenderInventory({
-    int limit = 20,
-    bool includeApproved = false,
-  }) async {
-    final data = await _client.rpc(
-      'get_momo_sms_sender_inventory',
-      params: <String, dynamic>{
-        'p_limit': limit,
-        'p_include_approved': includeApproved,
-      },
-    );
-    return _asListOfMaps(data);
-  }
+  // ── Audit Log ────────────────────────────────────────────────────────
 
-  Future<void> acknowledgeMomoSmsSenderInventory({
-    required String senderToken,
-    String? note,
-  }) async {
-    await _client.rpc(
-      'admin_acknowledge_momo_sms_sender_inventory',
-      params: <String, dynamic>{
-        'p_sender_token': senderToken,
-        'p_note': _trimmed(note),
-      },
-    );
-  }
-
-  Future<int> acknowledgeMomoSmsSenderInventoryBatch({
-    required List<String> senderTokens,
-    String? note,
-  }) async {
-    if (senderTokens.isEmpty) {
-      return 0;
-    }
-
-    final data = await _client.rpc(
-      'admin_acknowledge_momo_sms_sender_inventory_batch',
-      params: <String, dynamic>{
-        'p_sender_tokens': senderTokens,
-        'p_note': _trimmed(note),
-      },
-    );
-    final rows = _asListOfMaps(data);
-    if (rows.isEmpty) {
-      return 0;
-    }
-    return _asInt(rows.first['acknowledged_count']);
-  }
-
-  Future<List<Map<String, dynamic>>> fetchMomoSmsManualReviewQueue({
+  Future<List<Map<String, dynamic>>> fetchAuditLog({
     int limit = 50,
     int offset = 0,
+    String? action,
+    String? actorId,
   }) async {
     final data = await _client.rpc(
-      'get_momo_sms_manual_review_queue',
-      params: <String, dynamic>{'p_limit': limit, 'p_offset': offset},
-    );
-    return _asListOfMaps(data);
-  }
-
-  Future<void> rejectMomoSmsManualReview({
-    required String reviewId,
-    String? note,
-  }) async {
-    await _client.rpc(
-      'admin_reject_momo_sms_manual_review',
+      'get_admin_audit_log',
       params: <String, dynamic>{
-        'p_review_id': reviewId,
-        'p_note': _trimmed(note),
+        'p_limit': limit,
+        'p_offset': offset,
+        'p_action': ?action,
+        'p_actor_id': ?actorId,
       },
     );
+    return asListOfMaps(data);
   }
 
-  Future<int> rejectMomoSmsManualReviewBatch({
-    required List<String> reviewIds,
-    String? note,
-  }) async {
-    if (reviewIds.isEmpty) {
-      return 0;
-    }
-
-    final data = await _client.rpc(
-      'admin_reject_momo_sms_manual_review_batch',
-      params: <String, dynamic>{
-        'p_review_ids': reviewIds,
-        'p_note': _trimmed(note),
-      },
-    );
-    final rows = _asListOfMaps(data);
-    if (rows.isEmpty) {
-      return 0;
-    }
-    return _asInt(rows.first['rejected_count']);
-  }
-
-  Future<List<Map<String, dynamic>>> fetchRecentOperationalHealthEvents({
-    int limit = 40,
-  }) async {
-    final data = await _client.rpc(
-      'get_recent_operational_health_events',
-      params: <String, dynamic>{'p_limit': limit},
-    );
-    return _asListOfMaps(data);
-  }
-
-  Future<List<Map<String, dynamic>>>
-  _deriveMomoValidationIssuesLocally() async {
-    final countryRows = await fetchCountries();
-    final activeCountries = countryRows
-        .where((row) => row['is_active'] == true)
-        .map(CoolCountry.fromJson)
-        .toList(growable: false);
-
-    final users = _asListOfMaps(
-      await _client.from('users').select('id, country, momo_number, momo_code'),
-    );
-    final groups = _asListOfMaps(
-      await _client
-          .from('groups')
-          .select(
-            'id, type, country, momo_number, receiving_momo_code, '
-            'receiving_momo_route_type',
-          ),
-    );
-
-    final issues = <Map<String, dynamic>>[];
-
-    for (final user in users) {
-      final rawCountry = _trimmed(user['country']);
-      final country = _resolveCountry(rawCountry, source: activeCountries);
-      final momoNumber = _trimmed(user['momo_number']);
-      final momoCode = _trimmed(user['momo_code']);
-
-      if (country == null) {
-        issues.add(
-          _issueRow(
-            recordType: 'user',
-            recordId: user['id']?.toString() ?? '',
-            country: rawCountry,
-            issueCode: 'unsupported_country',
-            issueMessage:
-                'User country ${rawCountry ?? '(blank)'} is not the supported Rwanda market.',
-            momoNumber: momoNumber,
-            momoCode: momoCode,
-          ),
-        );
-        continue;
-      }
-
-      if (momoNumber != null && !country.isValidPhoneNumber(momoNumber)) {
-        issues.add(
-          _issueRow(
-            recordType: 'user',
-            recordId: user['id']?.toString() ?? '',
-            country: rawCountry,
-            countryName: country.name,
-            issueCode: 'invalid_momo_number',
-            issueMessage: 'User MoMo number is invalid for ${country.name}.',
-            momoNumber: momoNumber,
-            momoCode: momoCode,
-            expectedPhoneExample: country.mobileExampleE164,
-            expectedCodeExample: country.momoCodeExample,
-            phoneUssdExample: country.momoNumberUssdExample,
-            codeUssdExample: country.momoCodeUssdExample,
-          ),
-        );
-      }
-
-      if (momoCode != null && !country.isValidMerchantCode(momoCode)) {
-        issues.add(
-          _issueRow(
-            recordType: 'user',
-            recordId: user['id']?.toString() ?? '',
-            country: rawCountry,
-            countryName: country.name,
-            issueCode: 'invalid_momo_code',
-            issueMessage:
-                'User merchant code is invalid or unsupported for ${country.name}.',
-            momoNumber: momoNumber,
-            momoCode: momoCode,
-            expectedPhoneExample: country.mobileExampleE164,
-            expectedCodeExample: country.momoCodeExample,
-            phoneUssdExample: country.momoNumberUssdExample,
-            codeUssdExample: country.momoCodeUssdExample,
-          ),
-        );
-      }
-    }
-
-    for (final group in groups) {
-      final rawCountry = _trimmed(group['country']);
-      final country = _resolveCountry(rawCountry, source: activeCountries);
-      final groupType = _trimmed(group['type'])?.toLowerCase();
-      final routeType = _normalizedRouteType(
-        group['receiving_momo_route_type'],
-      );
-      final momoNumber = _trimmed(group['momo_number']);
-      final momoCode = _trimmed(group['receiving_momo_code']);
-      final effectiveRecipient = momoCode ?? momoNumber;
-      final effectiveRouteType =
-          routeType ??
-          (effectiveRecipient == null || country == null
-              ? null
-              : _inferRecipientType(country, effectiveRecipient));
-
-      if (country == null) {
-        issues.add(
-          _issueRow(
-            recordType: 'group',
-            recordId: group['id']?.toString() ?? '',
-            country: rawCountry,
-            routeType: routeType,
-            issueCode: 'unsupported_country',
-            issueMessage:
-                'Group country ${rawCountry ?? '(blank)'} is not the supported Rwanda market.',
-            momoNumber: momoNumber,
-            momoCode: momoCode,
-          ),
-        );
-        continue;
-      }
-
-      if (groupType == 'community' && effectiveRecipient == null) {
-        issues.add(
-          _issueRow(
-            recordType: 'group',
-            recordId: group['id']?.toString() ?? '',
-            country: rawCountry,
-            countryName: country.name,
-            routeType: routeType,
-            issueCode: 'missing_community_recipient',
-            issueMessage:
-                'Community group is missing both MoMo number and merchant-code recipient.',
-            momoNumber: momoNumber,
-            momoCode: momoCode,
-            expectedPhoneExample: country.mobileExampleE164,
-            expectedCodeExample: country.momoCodeExample,
-            phoneUssdExample: country.momoNumberUssdExample,
-            codeUssdExample: country.momoCodeUssdExample,
-          ),
-        );
-      }
-
-      if (routeType != null &&
-          routeType != 'phone_number' &&
-          routeType != 'code') {
-        issues.add(
-          _issueRow(
-            recordType: 'group',
-            recordId: group['id']?.toString() ?? '',
-            country: rawCountry,
-            countryName: country.name,
-            routeType: routeType,
-            issueCode: 'unsupported_route_type',
-            issueMessage:
-                'Group route type $routeType must be phone_number or code.',
-            momoNumber: momoNumber,
-            momoCode: momoCode,
-            expectedPhoneExample: country.mobileExampleE164,
-            expectedCodeExample: country.momoCodeExample,
-            phoneUssdExample: country.momoNumberUssdExample,
-            codeUssdExample: country.momoCodeUssdExample,
-          ),
-        );
-      }
-
-      if (effectiveRecipient == null || effectiveRouteType == null) {
-        continue;
-      }
-
-      if (effectiveRouteType == 'phone_number' &&
-          !country.isValidPhoneNumber(effectiveRecipient)) {
-        issues.add(
-          _issueRow(
-            recordType: 'group',
-            recordId: group['id']?.toString() ?? '',
-            country: rawCountry,
-            countryName: country.name,
-            routeType: effectiveRouteType,
-            issueCode: 'invalid_phone_recipient',
-            issueMessage:
-                'Group phone-number recipient is invalid for ${country.name}.',
-            momoNumber: momoNumber,
-            momoCode: momoCode,
-            expectedPhoneExample: country.mobileExampleE164,
-            expectedCodeExample: country.momoCodeExample,
-            phoneUssdExample: country.momoNumberUssdExample,
-            codeUssdExample: country.momoCodeUssdExample,
-          ),
-        );
-      }
-
-      if (effectiveRouteType == 'code' &&
-          !country.isValidMerchantCode(effectiveRecipient)) {
-        issues.add(
-          _issueRow(
-            recordType: 'group',
-            recordId: group['id']?.toString() ?? '',
-            country: rawCountry,
-            countryName: country.name,
-            routeType: effectiveRouteType,
-            issueCode: 'invalid_momo_code',
-            issueMessage:
-                'Group merchant-code recipient is invalid or unsupported for ${country.name}.',
-            momoNumber: momoNumber,
-            momoCode: momoCode,
-            expectedPhoneExample: country.mobileExampleE164,
-            expectedCodeExample: country.momoCodeExample,
-            phoneUssdExample: country.momoNumberUssdExample,
-            codeUssdExample: country.momoCodeUssdExample,
-          ),
-        );
-      }
-    }
-
-    issues.sort((a, b) {
-      final issueComparison = (a['issue_code']?.toString() ?? '').compareTo(
-        b['issue_code']?.toString() ?? '',
-      );
-      if (issueComparison != 0) {
-        return issueComparison;
-      }
-
-      final countryComparison = (a['country']?.toString() ?? '').compareTo(
-        b['country']?.toString() ?? '',
-      );
-      if (countryComparison != 0) {
-        return countryComparison;
-      }
-
-      final typeComparison = (a['record_type']?.toString() ?? '').compareTo(
-        b['record_type']?.toString() ?? '',
-      );
-      if (typeComparison != 0) {
-        return typeComparison;
-      }
-
-      return (a['record_id']?.toString() ?? '').compareTo(
-        b['record_id']?.toString() ?? '',
-      );
-    });
-
-    return issues;
-  }
-
-  String? _normalizeCountryOrNull(String? country) {
-    if (country == null || country.trim().isEmpty) {
-      return null;
-    }
-    return CoolCountryCatalog.normalizeCountryCode(country);
-  }
-
-  Map<String, dynamic> _withNormalizedCountry(
-    Map<String, dynamic> data, {
-    bool required = false,
-  }) {
-    final normalizedCountry = _normalizeCountryOrNull(
-      data['country']?.toString(),
-    );
-    final normalized = Map<String, dynamic>.from(data);
-    if (required && normalizedCountry == null) {
-      throw StateError('Country is required for this admin record.');
-    }
-    normalized['country'] = normalizedCountry;
-    return normalized;
-  }
-
-  Map<String, dynamic> _coerceBlankCountryToRwanda(Map<String, dynamic> row) {
-    final normalized = Map<String, dynamic>.from(row);
-    if (_normalizeCountryOrNull(row['country']?.toString()) == null) {
-      normalized['country'] = AppMarket.countryCode;
-    }
-    return normalized;
-  }
-
-  Map<String, dynamic> _lockCountryScopeToRwanda(Map<String, dynamic> data) {
-    final normalized = Map<String, dynamic>.from(data);
-    normalized['country'] = AppMarket.countryCode;
-    return normalized;
-  }
+  // ── Private helpers ───────────────────────────────────────────────────
 
   /// Admin consumers should never receive off-market or non-English user
   /// scope, even if legacy rows still exist in storage.
   @visibleForTesting
   Map<String, dynamic> normalizeUserRowForAppMarket(Map<String, dynamic> row) {
-    final normalized = Map<String, dynamic>.from(row);
-    normalized['country'] = AppMarket.countryCode;
-    normalized['language_code'] = AppMarket.languageCode;
-    normalized['momo_provider'] = _trimmed(row['momo_provider'])?.toLowerCase();
-    normalized['full_name'] = _trimmed(row['full_name']);
-    normalized['phone'] = _trimmed(row['phone']);
-    normalized['public_user_id'] = _trimmed(row['public_user_id']);
-    normalized['vehicle_type'] = _trimmed(row['vehicle_type']);
-    normalized['mock_batch'] = _trimmed(row['mock_batch']);
-    return normalized;
+    return normalizeAdminUserRowForAppMarket(row);
   }
 
   List<Map<String, dynamic>> _normalizeCountryReferenceRows(dynamic data) {
-    final rows = _asListOfMaps(data)
+    final rows = asListOfMaps(data)
         .map((row) {
           final normalized = Map<String, dynamic>.from(row);
           normalized['supports_momo_code'] =
@@ -794,17 +135,6 @@ class AdminRepository {
         .toList(growable: false);
     rows.sort(_compareCountryRows);
     return rows;
-  }
-
-  List<Map<String, dynamic>> _normalizeIssueRows(dynamic data) {
-    return _asListOfMaps(data)
-        .map(
-          (row) => <String, dynamic>{
-            ...row,
-            'repair_supported': row['repair_supported'] ?? true,
-          },
-        )
-        .toList(growable: false);
   }
 
   List<Map<String, dynamic>> _catalogCountryReferenceRows() {
@@ -854,113 +184,6 @@ class AdminRepository {
     return rows;
   }
 
-  CoolCountry? _resolveCountry(
-    String? rawCountry, {
-    required Iterable<CoolCountry> source,
-  }) {
-    if (rawCountry == null || rawCountry.trim().isEmpty) {
-      return null;
-    }
-
-    return CoolCountryCatalog.byIsoCode(rawCountry, source: source) ??
-        CoolCountryCatalog.byDialCode(rawCountry, source: source) ??
-        CoolCountryCatalog.fromPhoneNumber(rawCountry, source: source);
-  }
-
-  Map<String, dynamic> _issueRow({
-    required String recordType,
-    required String recordId,
-    required String issueCode,
-    required String issueMessage,
-    String? country,
-    String? countryName,
-    String? routeType,
-    String? momoNumber,
-    String? momoCode,
-    String? expectedPhoneExample,
-    String? expectedCodeExample,
-    String? phoneUssdExample,
-    String? codeUssdExample,
-  }) {
-    return <String, dynamic>{
-      'record_type': recordType,
-      'record_id': recordId,
-      'country': country,
-      'country_name': countryName,
-      'route_type': routeType,
-      'issue_code': issueCode,
-      'issue_message': issueMessage,
-      'momo_number': momoNumber,
-      'momo_code': momoCode,
-      'expected_phone_example': expectedPhoneExample,
-      'expected_code_example': expectedCodeExample,
-      'phone_ussd_example': phoneUssdExample,
-      'code_ussd_example': codeUssdExample,
-      'repair_supported': false,
-    };
-  }
-
-  String? _normalizedRouteType(dynamic value) {
-    final normalized = _trimmed(value)?.toLowerCase();
-    switch (normalized) {
-      case 'phone':
-      case 'phone_number':
-      case 'number':
-        return 'phone_number';
-      case 'code':
-      case 'merchant_code':
-        return 'code';
-      default:
-        return normalized;
-    }
-  }
-
-  String _inferRecipientType(CoolCountry country, String value) {
-    final trimmed = value.trim();
-    if (trimmed.isEmpty) {
-      return 'phone_number';
-    }
-
-    final isPhoneNumber = country.isValidPhoneNumber(trimmed);
-    final isMerchantCode =
-        country.supportsMomoCode && country.isValidMerchantCode(trimmed);
-
-    if (isPhoneNumber && !isMerchantCode) {
-      return 'phone_number';
-    }
-    if (isMerchantCode && !isPhoneNumber) {
-      return 'code';
-    }
-    if (isPhoneNumber) {
-      return 'phone_number';
-    }
-    if (isMerchantCode) {
-      return 'code';
-    }
-
-    final digits = trimmed.replaceAll(RegExp(r'[^0-9]'), '');
-    final dialDigits = country.dialCode.replaceFirst('+', '');
-
-    if (trimmed.startsWith('+') ||
-        trimmed.startsWith('0') ||
-        digits.startsWith(dialDigits) ||
-        digits.length >= 9) {
-      return 'phone_number';
-    }
-
-    return 'code';
-  }
-
-  bool _isMissingSchemaObjectError(PostgrestException error) {
-    final normalizedMessage = error.message.toLowerCase();
-    return error.code == 'PGRST202' ||
-        error.code == 'PGRST205' ||
-        normalizedMessage.contains('does not exist') ||
-        normalizedMessage.contains('could not find') ||
-        normalizedMessage.contains('missing table') ||
-        normalizedMessage.contains('missing function');
-  }
-
   int _compareCountryRows(Map<String, dynamic> a, Map<String, dynamic> b) {
     final sortOrderComparison = _sortOrder(a).compareTo(_sortOrder(b));
     if (sortOrderComparison != 0) {
@@ -981,80 +204,5 @@ class AdminRepository {
       return value.toInt();
     }
     return 1 << 20;
-  }
-
-  // ── Platform Analytics ────────────────────────────────────────────────
-
-  Future<Map<String, dynamic>> fetchPlatformAnalytics() async {
-    final data = await _client.rpc('get_platform_analytics_summary');
-    if (data is Map<String, dynamic>) return data;
-    if (data is Map) return Map<String, dynamic>.from(data);
-    throw StateError('Expected get_platform_analytics_summary to return JSON.');
-  }
-
-  // ── Audit Log ────────────────────────────────────────────────────────
-
-  Future<List<Map<String, dynamic>>> fetchAuditLog({
-    int limit = 50,
-    int offset = 0,
-    String? action,
-    String? actorId,
-  }) async {
-    final data = await _client.rpc(
-      'get_admin_audit_log',
-      params: <String, dynamic>{
-        'p_limit': limit,
-        'p_offset': offset,
-        'p_action': ?action,
-        'p_actor_id': ?actorId,
-      },
-    );
-    return _asListOfMaps(data);
-  }
-
-  // ── Toggle user admin ────────────────────────────────────────────────
-
-  Future<void> toggleUserAdmin(String userId, bool isAdmin) async {
-    await _client
-        .from('users')
-        .update(<String, dynamic>{'is_admin': isAdmin})
-        .eq('id', userId);
-  }
-
-  /// Update arbitrary user profile fields (admin only).
-  Future<void> updateUserFields(
-    String userId,
-    Map<String, dynamic> fields,
-  ) async {
-    await _client.from('users').update(fields).eq('id', userId);
-  }
-
-  List<Map<String, dynamic>> _asListOfMaps(dynamic value) {
-    if (value is! List) {
-      return const <Map<String, dynamic>>[];
-    }
-
-    return value
-        .whereType<Map<dynamic, dynamic>>()
-        .map((row) => Map<String, dynamic>.from(row))
-        .toList(growable: false);
-  }
-
-  String? _trimmed(dynamic value) {
-    final text = value?.toString().trim();
-    if (text == null || text.isEmpty || text == 'null') {
-      return null;
-    }
-    return text;
-  }
-
-  int _asInt(dynamic value) {
-    if (value is int) {
-      return value;
-    }
-    if (value is num) {
-      return value.toInt();
-    }
-    return int.tryParse(value?.toString() ?? '') ?? 0;
   }
 }

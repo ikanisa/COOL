@@ -183,7 +183,7 @@ class _PartnerEditorPageState extends State<PartnerEditorPage> {
     if (!_isNew) data['id'] = widget.partner!['id'];
 
     try {
-      await widget.ref.read(adminRepositoryProvider).upsertPartner(data);
+      await widget.ref.read(adminContentRepositoryProvider).upsertPartner(data);
       widget.ref.invalidate(adminPartnersProvider);
       if (mounted) {
         CoolToast.success(

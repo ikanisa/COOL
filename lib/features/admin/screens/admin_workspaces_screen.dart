@@ -5,10 +5,11 @@ import 'package:go_router/go_router.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/dense_admin_workspace_scaffold.dart';
+import '../../../shared/widgets/admin_section_header.dart';
 import '../providers/admin_workspace_access_provider.dart';
 import '../widgets/admin_workspace_gate.dart';
 import '../../../core/l10n/l10n.dart';
-import '../../../shared/widgets/cool_screen_background.dart';
 
 EdgeInsets _adminWorkspacesListPadding() =>
     CoolSpace.pagePadding.copyWith(top: 0, bottom: CoolSpace.x7);
@@ -43,134 +44,121 @@ class AdminWorkspacesScreen extends ConsumerWidget {
       );
     }
 
-    return CoolScreenBackground(
-      showGlow: false,
-      child: Scaffold(
-        backgroundColor: colors.appBackground,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            tooltip: context.l10n.back,
-            onPressed: () => context.go(AppRoutes.profile),
-            icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
+    return DenseAdminWorkspaceScaffold(
+      onBack: () => context.go(AppRoutes.profile),
+      backTooltip: context.l10n.back,
+      child: ListView(
+        padding: _adminWorkspacesListPadding(),
+        children: [
+          Text(
+            'Admin Workspaces',
+            style: theme.textTheme.headlineMedium?.copyWith(
+              fontWeight: FontWeight.w800,
+              color: colors.primaryText,
+              height: 1.1,
+            ),
           ),
-        ),
-        body: ListView(
-          padding: _adminWorkspacesListPadding(),
-          children: [
-            Text(
-              'Admin Workspaces',
-              style: theme.textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.w800,
-                color: colors.primaryText,
-                height: 1.1,
-              ),
-            ),
+          const SizedBox(height: CoolSpace.x6),
+          _IntroCard(
+            hasPlatformAccess: access.hasPlatformAccess,
+            hasPartnerAccess: access.hasPartnerAdminAccess,
+            hasBankAccess: access.hasBankAdminAccess,
+          ),
+          if (access.hasPlatformAccess) ...[
             const SizedBox(height: CoolSpace.x6),
-            _IntroCard(
-              hasPlatformAccess: access.hasPlatformAccess,
-              hasPartnerAccess: access.hasPartnerAdminAccess,
-              hasBankAccess: access.hasBankAdminAccess,
+            AdminSectionHeader(
+              title: context.l10n.platform,
+              message: 'Global app operations content',
             ),
-            if (access.hasPlatformAccess) ...[
-              const SizedBox(height: CoolSpace.x6),
-              _SectionHeader(
-                title: context.l10n.platform,
-                subtitle: 'Global app operations content',
-              ),
-              const SizedBox(height: CoolSpace.x3),
-              _WorkspaceCard(
-                title: 'Platform Admin',
-                subtitle: 'Users partners services app',
-                icon: Icons.admin_panel_settings_outlined,
-                onTap: () => context.push(AppRoutes.adminPlatform),
-              ),
-            ],
-            if (access.hasPartnerAdminAccess) ...[
-              const SizedBox(height: CoolSpace.x6),
-              const _SectionHeader(
-                title: 'Partner Workspaces',
-                subtitle: 'Partner-scoped admin surfaces for',
-              ),
-              const SizedBox(height: CoolSpace.x3),
-              partnerWorkspacesAsync.when(
-                data: (partners) => partners.isEmpty
-                    ? const _EmptyWorkspaceCard(
-                        message: 'No explicit partner workspace',
-                      )
-                    : Column(
-                        children: partners
-                            .map(
-                              (partner) => Padding(
-                                padding: _adminWorkspaceCardSpacing(),
-                                child: _WorkspaceCard(
-                                  title: partner.name,
-                                  subtitle: partner.slug == 'rayon-sports'
-                                      ? 'Open the current Rayon Sports admin workspace.'
-                                      : 'Open the partner workspace foundation.',
-                                  icon: Icons.storefront_rounded,
-                                  onTap: () => context.push(
-                                    partner.slug == 'rayon-sports'
-                                        ? AppRoutes.adminRayon
-                                        : AppRoutes.adminPartnerWorkspaceLocation(
-                                            partner.id,
-                                          ),
-                                  ),
-                                ),
-                              ),
-                            )
-                            .toList(growable: false),
-                      ),
-                loading: () => const _InlineLoadingCard(
-                  message: 'Loading partner workspaces...',
-                ),
-                error: (error, _) => const _EmptyWorkspaceCard(
-                  message: 'Load partner workspaces failed',
-                ),
-              ),
-            ],
-            if (access.hasBankAdminAccess) ...[
-              const SizedBox(height: CoolSpace.x6),
-              const _SectionHeader(
-                title: 'Bank Custodian Workspaces',
-                subtitle: 'Group savings oversight ledgers',
-              ),
-              const SizedBox(height: CoolSpace.x3),
-              bankWorkspacesAsync.when(
-                data: (banks) => banks.isEmpty
-                    ? const _EmptyWorkspaceCard(
-                        message: 'No explicit bank workspace',
-                      )
-                    : Column(
-                        children: banks
-                            .map(
-                              (bank) => Padding(
-                                padding: _adminWorkspaceCardSpacing(),
-                                child: _WorkspaceCard(
-                                  title: bank.name,
-                                  subtitle: 'Open the bank custodian',
-                                  icon: Icons.account_balance_rounded,
-                                  onTap: () => context.push(
-                                    AppRoutes.adminBankWorkspaceLocation(
-                                      bank.id,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            )
-                            .toList(growable: false),
-                      ),
-                loading: () => const _InlineLoadingCard(
-                  message: 'Loading bank workspaces...',
-                ),
-                error: (error, _) => const _EmptyWorkspaceCard(
-                  message: 'Load bank workspaces failed',
-                ),
-              ),
-            ],
+            const SizedBox(height: CoolSpace.x3),
+            _WorkspaceCard(
+              title: 'Platform Admin',
+              subtitle: 'Users partners services app',
+              icon: Icons.admin_panel_settings_outlined,
+              onTap: () => context.push(AppRoutes.adminPlatform),
+            ),
           ],
-        ),
+          if (access.hasPartnerAdminAccess) ...[
+            const SizedBox(height: CoolSpace.x6),
+            const AdminSectionHeader(
+              title: 'Partner Workspaces',
+              message: 'Partner-scoped admin surfaces for',
+            ),
+            const SizedBox(height: CoolSpace.x3),
+            partnerWorkspacesAsync.when(
+              data: (partners) => partners.isEmpty
+                  ? const _EmptyWorkspaceCard(
+                      message: 'No explicit partner workspace',
+                    )
+                  : Column(
+                      children: partners
+                          .map(
+                            (partner) => Padding(
+                              padding: _adminWorkspaceCardSpacing(),
+                              child: _WorkspaceCard(
+                                title: partner.name,
+                                subtitle: partner.slug == 'rayon-sports'
+                                    ? 'Open the current Rayon Sports admin workspace.'
+                                    : 'Open the partner workspace foundation.',
+                                icon: Icons.storefront_rounded,
+                                onTap: () => context.push(
+                                  partner.slug == 'rayon-sports'
+                                      ? AppRoutes.adminRayon
+                                      : AppRoutes.adminPartnerWorkspaceLocation(
+                                          partner.id,
+                                        ),
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(growable: false),
+                    ),
+              loading: () => const _InlineLoadingCard(
+                message: 'Loading partner workspaces...',
+              ),
+              error: (error, _) => const _EmptyWorkspaceCard(
+                message: 'Load partner workspaces failed',
+              ),
+            ),
+          ],
+          if (access.hasBankAdminAccess) ...[
+            const SizedBox(height: CoolSpace.x6),
+            const AdminSectionHeader(
+              title: 'Bank Custodian Workspaces',
+              message: 'Group savings oversight ledgers',
+            ),
+            const SizedBox(height: CoolSpace.x3),
+            bankWorkspacesAsync.when(
+              data: (banks) => banks.isEmpty
+                  ? const _EmptyWorkspaceCard(
+                      message: 'No explicit bank workspace',
+                    )
+                  : Column(
+                      children: banks
+                          .map(
+                            (bank) => Padding(
+                              padding: _adminWorkspaceCardSpacing(),
+                              child: _WorkspaceCard(
+                                title: bank.name,
+                                subtitle: 'Open the bank custodian',
+                                icon: Icons.account_balance_rounded,
+                                onTap: () => context.push(
+                                  AppRoutes.adminBankWorkspaceLocation(bank.id),
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(growable: false),
+                    ),
+              loading: () => const _InlineLoadingCard(
+                message: 'Loading bank workspaces...',
+              ),
+              error: (error, _) => const _EmptyWorkspaceCard(
+                message: 'Load bank workspaces failed',
+              ),
+            ),
+          ],
+        ],
       ),
     );
   }
@@ -222,39 +210,7 @@ class _IntroCard extends StatelessWidget {
   }
 }
 
-class _SectionHeader extends StatelessWidget {
-  const _SectionHeader({required this.title, required this.subtitle});
 
-  final String title;
-  final String subtitle;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: theme.textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.w700,
-            color: colors.primaryText,
-          ),
-        ),
-        const SizedBox(height: CoolSpace.x1),
-        Text(
-          subtitle,
-          style: theme.textTheme.bodySmall?.copyWith(
-            fontWeight: FontWeight.w500,
-            color: colors.secondaryText,
-            height: 1.4,
-          ),
-        ),
-      ],
-    );
-  }
-}
 
 class _WorkspaceCard extends StatelessWidget {
   const _WorkspaceCard({

@@ -3,14 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/admin_detail_scaffold.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
+import '../../../shared/widgets/admin_section_header.dart';
 import '../providers/admin_providers.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../core/l10n/l10n.dart';
-import '../../../shared/widgets/cool_screen_background.dart';
 
 part 'operational_dashboard_parts.dart';
 
@@ -54,151 +55,138 @@ class OperationalDashboardScreen extends ConsumerWidget {
       ref.invalidate(adminRecentOperationalHealthEventsProvider);
     }
 
-    return CoolScreenBackground(
-      showGlow: false,
-
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            tooltip: context.l10n.back,
-            icon: const Icon(Icons.arrow_back_rounded),
-            color: colors.primaryText,
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          actions: [
-            IconButton(
-              tooltip: context.l10n.refresh,
-              onPressed: refresh,
-              icon: const Icon(Icons.refresh_rounded),
-              color: colors.primaryText,
+    return AdminDetailScaffold(
+      backTooltip: context.l10n.back,
+      onBack: () => Navigator.of(context).pop(),
+      actions: [
+        IconButton(
+          tooltip: context.l10n.refresh,
+          onPressed: refresh,
+          icon: const Icon(Icons.refresh_rounded),
+          color: colors.primaryText,
+        ),
+      ],
+      child: RefreshIndicator(
+        color: colors.accent,
+        onRefresh: refresh,
+        child: ListView(
+          padding: CoolSpace.scaffoldPadding,
+          children: [
+            Text(
+              'Operations',
+              style: theme.textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.w800,
+                height: 1.1,
+                color: colors.primaryText,
+              ),
+            ),
+            const SizedBox(height: CoolSpace.x6),
+            AdminSectionHeader(
+              title: context.l10n.releaseDashboard,
+              message: 'Live health by monitored',
+            ),
+            const SizedBox(height: CoolSpace.x3),
+            CoolAsyncView<List<Map<String, dynamic>>>(
+              value: dashboardAsync,
+              onRetry: refresh,
+              loadingWidget: const CoolSkeletonList(itemCount: 3),
+              emptyCheck: (rows) => rows.isEmpty,
+              emptyWidget: const CoolEmptyView(
+                message: 'No operational dashboard yet',
+                icon: Icons.monitor_heart_outlined,
+              ),
+              builder: (rows) => Column(
+                children: _spacedChildren(
+                  rows,
+                  (row) => _DashboardCard(row: row),
+                ),
+              ),
+            ),
+            const SizedBox(height: CoolSpace.x6),
+            const AdminSectionHeader(
+              title: 'Triage Queue',
+              message: 'Focused on failed payment',
+            ),
+            const SizedBox(height: CoolSpace.x3),
+            CoolAsyncView<List<Map<String, dynamic>>>(
+              value: triageAsync,
+              onRetry: refresh,
+              loadingWidget: const CoolSkeletonList(itemCount: 3),
+              emptyCheck: (rows) => rows.isEmpty,
+              emptyWidget: const CoolEmptyView(
+                message: 'No release-blocking operational issues',
+                icon: Icons.fact_check_outlined,
+              ),
+              builder: (rows) => Column(
+                children: _spacedChildren(
+                  rows,
+                  (row) => _IssueCard(row: row),
+                  spacing: CoolSpace.x2,
+                ),
+              ),
+            ),
+            const SizedBox(height: CoolSpace.x6),
+            const AdminSectionHeader(
+              title: 'M-Money SMS',
+              message:
+                  'Device sync audits, parser backlog, sender backlog, migration safety, reconciliation pressure, and retention backlog.',
+            ),
+            const SizedBox(height: CoolSpace.x3),
+            CoolAsyncView<List<Map<String, dynamic>>>(
+              value: momoSmsSummaryAsync,
+              onRetry: refresh,
+              loadingWidget: const CoolSkeletonList(itemCount: 4),
+              emptyCheck: (rows) => rows.isEmpty,
+              emptyWidget: const CoolEmptyView(
+                message: 'No M-Money SMS operational summary',
+                icon: Icons.sms_outlined,
+              ),
+              builder: (rows) => Column(
+                children: _spacedChildren(
+                  rows,
+                  (row) => _OperationalMetricCard(row: row),
+                  spacing: CoolSpace.x2,
+                ),
+              ),
+            ),
+            const SizedBox(height: CoolSpace.x6),
+            const AdminSectionHeader(
+              title: 'Sender Inventory Audit',
+              message: 'Unsupported or alias sender drift detected.',
+            ),
+            const SizedBox(height: CoolSpace.x3),
+            const _SenderInventorySection(),
+            const SizedBox(height: CoolSpace.x6),
+            const AdminSectionHeader(
+              title: 'Generic Manual Review',
+              message: 'SMS that could not be app-linked.',
+            ),
+            const SizedBox(height: CoolSpace.x3),
+            const _ManualReviewSection(),
+            const SizedBox(height: CoolSpace.x6),
+            const AdminSectionHeader(
+              title: 'Recent Activity',
+              message: 'Operational health stream',
+            ),
+            const SizedBox(height: CoolSpace.x3),
+            CoolAsyncView<List<Map<String, dynamic>>>(
+              value: eventsAsync,
+              onRetry: refresh,
+              loadingWidget: const CoolSkeletonList(itemCount: 5),
+              emptyCheck: (rows) => rows.isEmpty,
+              emptyWidget: const CoolEmptyView(
+                message: 'No recent operational events',
+                icon: Icons.history_rounded,
+              ),
+              builder: (rows) => Column(
+                children: _spacedChildren(
+                  rows,
+                  (row) => _EventTile(row: row),
+                  spacing: CoolSpace.x2,
+                ),
+              ),
             ),
           ],
-        ),
-        body: RefreshIndicator(
-          color: colors.accent,
-          onRefresh: refresh,
-          child: ListView(
-            padding: CoolSpace.scaffoldPadding,
-            children: [
-              Text(
-                'Operations',
-                style: theme.textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.w800,
-                  height: 1.1,
-                  color: colors.primaryText,
-                ),
-              ),
-              const SizedBox(height: CoolSpace.x6),
-              _SectionHeader(
-                title: context.l10n.releaseDashboard,
-                message: 'Live health by monitored',
-              ),
-              const SizedBox(height: CoolSpace.x3),
-              CoolAsyncView<List<Map<String, dynamic>>>(
-                value: dashboardAsync,
-                onRetry: refresh,
-                loadingWidget: const CoolSkeletonList(itemCount: 3),
-                emptyCheck: (rows) => rows.isEmpty,
-                emptyWidget: const CoolEmptyView(
-                  message: 'No operational dashboard yet',
-                  icon: Icons.monitor_heart_outlined,
-                ),
-                builder: (rows) => Column(
-                  children: _spacedChildren(
-                    rows,
-                    (row) => _DashboardCard(row: row),
-                  ),
-                ),
-              ),
-              const SizedBox(height: CoolSpace.x6),
-              const _SectionHeader(
-                title: 'Triage Queue',
-                message: 'Focused on failed payment',
-              ),
-              const SizedBox(height: CoolSpace.x3),
-              CoolAsyncView<List<Map<String, dynamic>>>(
-                value: triageAsync,
-                onRetry: refresh,
-                loadingWidget: const CoolSkeletonList(itemCount: 3),
-                emptyCheck: (rows) => rows.isEmpty,
-                emptyWidget: const CoolEmptyView(
-                  message: 'No release-blocking operational issues',
-                  icon: Icons.fact_check_outlined,
-                ),
-                builder: (rows) => Column(
-                  children: _spacedChildren(
-                    rows,
-                    (row) => _IssueCard(row: row),
-                    spacing: CoolSpace.x2,
-                  ),
-                ),
-              ),
-              const SizedBox(height: CoolSpace.x6),
-              const _SectionHeader(
-                title: 'M-Money SMS',
-                message:
-                    'Device sync audits, parser backlog, sender backlog, migration safety, reconciliation pressure, and retention backlog.',
-              ),
-              const SizedBox(height: CoolSpace.x3),
-              CoolAsyncView<List<Map<String, dynamic>>>(
-                value: momoSmsSummaryAsync,
-                onRetry: refresh,
-                loadingWidget: const CoolSkeletonList(itemCount: 4),
-                emptyCheck: (rows) => rows.isEmpty,
-                emptyWidget: const CoolEmptyView(
-                  message: 'No M-Money SMS operational summary',
-                  icon: Icons.sms_outlined,
-                ),
-                builder: (rows) => Column(
-                  children: _spacedChildren(
-                    rows,
-                    (row) => _OperationalMetricCard(row: row),
-                    spacing: CoolSpace.x2,
-                  ),
-                ),
-              ),
-              const SizedBox(height: CoolSpace.x6),
-              const _SectionHeader(
-                title: 'Sender Inventory Audit',
-                message: 'Unsupported or alias sender drift detected.',
-              ),
-              const SizedBox(height: CoolSpace.x3),
-              const _SenderInventorySection(),
-              const SizedBox(height: CoolSpace.x6),
-              const _SectionHeader(
-                title: 'Generic Manual Review',
-                message: 'SMS that could not be app-linked.',
-              ),
-              const SizedBox(height: CoolSpace.x3),
-              const _ManualReviewSection(),
-              const SizedBox(height: CoolSpace.x6),
-              const _SectionHeader(
-                title: 'Recent Activity',
-                message: 'Operational health stream',
-              ),
-              const SizedBox(height: CoolSpace.x3),
-              CoolAsyncView<List<Map<String, dynamic>>>(
-                value: eventsAsync,
-                onRetry: refresh,
-                loadingWidget: const CoolSkeletonList(itemCount: 5),
-                emptyCheck: (rows) => rows.isEmpty,
-                emptyWidget: const CoolEmptyView(
-                  message: 'No recent operational events',
-                  icon: Icons.history_rounded,
-                ),
-                builder: (rows) => Column(
-                  children: _spacedChildren(
-                    rows,
-                    (row) => _EventTile(row: row),
-                    spacing: CoolSpace.x2,
-                  ),
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );
@@ -281,7 +269,7 @@ class _ManualReviewSectionState extends ConsumerState<_ManualReviewSection> {
     setState(() => _activeReviewId = reviewId);
     try {
       await ref
-          .read(adminRepositoryProvider)
+          .read(adminMomoOpsRepositoryProvider)
           .rejectMomoSmsManualReview(reviewId: reviewId);
       await _refreshQueue();
       if (mounted) {
@@ -355,7 +343,7 @@ class _ManualReviewSectionState extends ConsumerState<_ManualReviewSection> {
     setState(() => _isBulkClosing = true);
     try {
       final closedCount = await ref
-          .read(adminRepositoryProvider)
+          .read(adminMomoOpsRepositoryProvider)
           .rejectMomoSmsManualReviewBatch(reviewIds: reviewIds);
       await _refreshQueue();
       if (mounted) {
@@ -499,39 +487,7 @@ class _ManualReviewSectionState extends ConsumerState<_ManualReviewSection> {
   }
 }
 
-class _SectionHeader extends StatelessWidget {
-  const _SectionHeader({required this.title, required this.message});
 
-  final String title;
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final theme = Theme.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: theme.textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.w700,
-            color: colors.primaryText,
-          ),
-        ),
-        const SizedBox(height: CoolSpace.x1),
-        Text(
-          message,
-          style: theme.textTheme.bodySmall?.copyWith(
-            fontWeight: FontWeight.w500,
-            color: colors.secondaryText,
-            height: 1.4,
-          ),
-        ),
-      ],
-    );
-  }
-}
 
 class _SenderInventorySection extends ConsumerStatefulWidget {
   const _SenderInventorySection();
@@ -610,7 +566,7 @@ class _SenderInventorySectionState
     setState(() => _activeSenderToken = senderToken);
     try {
       await ref
-          .read(adminRepositoryProvider)
+          .read(adminMomoOpsRepositoryProvider)
           .acknowledgeMomoSmsSenderInventory(senderToken: senderToken);
       await _refreshInventory();
       if (mounted) {
@@ -687,7 +643,7 @@ class _SenderInventorySectionState
     setState(() => _isBulkAcknowledging = true);
     try {
       final acknowledgedCount = await ref
-          .read(adminRepositoryProvider)
+          .read(adminMomoOpsRepositoryProvider)
           .acknowledgeMomoSmsSenderInventoryBatch(senderTokens: senderTokens);
       await _refreshInventory();
       if (mounted) {

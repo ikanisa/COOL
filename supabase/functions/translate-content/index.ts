@@ -6,7 +6,9 @@ import {
   jsonResponse,
   methodNotAllowed,
 } from "../_shared/http.ts";
+import { HttpError, requireAuthenticatedCaller } from "../_shared/auth.ts";
 import { recordEdgeFunctionFailure } from "../_shared/observability.ts";
+import { enforceRateLimit } from "../_shared/rate_limit.ts";
 import { createAdminClient } from "../_shared/supabase.ts";
 
 type TranslateRequest = {
@@ -35,12 +37,25 @@ Deno.serve(async (request: Request) => {
     return errorResponse("Google Translate API key not configured.", 500);
   }
 
+  let userIdForTelemetry: string | null = null;
+
   try {
+    const caller = await requireAuthenticatedCaller(request);
+    userIdForTelemetry = caller.userId;
+
+    await enforceRateLimit(createAdminClient(), caller.userId, "translate-content", {
+      maxRequests: 20,
+      windowSeconds: 60,
+    });
+
     const { text, targetLanguage, sourceLanguage, format } =
       (await request.json()) as TranslateRequest;
 
     if (!text || !targetLanguage) {
       return errorResponse("text and targetLanguage are required.", 400);
+    }
+    if (text.length > 5000) {
+      return errorResponse("text must be 5000 characters or fewer.", 400);
     }
 
     const url = new URL(GOOGLE_TRANSLATE_URL);
@@ -73,10 +88,14 @@ Deno.serve(async (request: Request) => {
       detectedSourceLanguage: translation.detectedSourceLanguage,
     });
   } catch (error) {
+    if (error instanceof HttpError) {
+      return errorResponse(error.message, error.status);
+    }
     console.error("translate-content failed", error);
     await recordEdgeFunctionFailure(createAdminClient(), {
       functionName: "translate-content",
       error,
+      userId: userIdForTelemetry,
     });
     return errorResponse(
       error instanceof Error ? error.message : "Translation failed",

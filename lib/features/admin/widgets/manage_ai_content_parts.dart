@@ -40,15 +40,17 @@ Color _aiContentStatusTone(BuildContext context, AiContentStatus status) {
 class _GenerationControlsCard extends StatefulWidget {
   const _GenerationControlsCard({
     required this.isEnabled,
+    required this.intervalHours,
     required this.lastGeneratedAt,
     required this.onToggle,
     required this.onGenerateNow,
   });
 
   final bool isEnabled;
+  final int? intervalHours;
   final DateTime? lastGeneratedAt;
   final ValueChanged<bool> onToggle;
-  final VoidCallback onGenerateNow;
+  final Future<void> Function() onGenerateNow;
 
   @override
   State<_GenerationControlsCard> createState() =>
@@ -105,7 +107,7 @@ class _GenerationControlsCardState extends State<_GenerationControlsCard> {
                       const SizedBox(height: 2),
                       Text(
                         widget.isEnabled
-                            ? '1 item every 12h'
+                            ? '1 item every ${widget.intervalHours ?? 12}h'
                             : 'Generation paused',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: colors.tertiaryText,
@@ -137,10 +139,12 @@ class _GenerationControlsCardState extends State<_GenerationControlsCard> {
                   ? null
                   : () async {
                       setState(() => _isGenerating = true);
-                      widget.onGenerateNow();
-                      await Future<void>.delayed(const Duration(seconds: 2));
-                      if (mounted) {
-                        setState(() => _isGenerating = false);
+                      try {
+                        await widget.onGenerateNow();
+                      } finally {
+                        if (mounted) {
+                          setState(() => _isGenerating = false);
+                        }
                       }
                     },
               isLoading: _isGenerating,

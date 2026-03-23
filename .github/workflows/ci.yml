@@ -39,6 +39,28 @@ jobs:
           fi
           echo "✅ No blocked secret/binary files tracked"
 
+      - name: Patch marker scan
+        run: |
+          MATCHES=$(git grep -n -E '^\*\*\* (Begin Patch|Add File:|Update File:|Delete File:|Move to:|End Patch)$' -- \
+            '.github/workflows/**' \
+            'android/**' \
+            'ios/**' \
+            'lib/**' \
+            'scripts/**' \
+            'supabase/**' \
+            'test/**' \
+            'integration_test/**' \
+            'tool/**' || true)
+          if [ -n "$MATCHES" ]; then
+            echo "::error::Committed source contains raw patch markers:"
+            echo "$MATCHES"
+            exit 1
+          fi
+          echo "✅ No raw patch markers found in committed source"
+
+      - name: Supabase migration validation
+        run: bash scripts/validate_supabase_migrations.sh
+
       - name: Deprecated theme API budget
         run: |
           COUNT=$(grep -rl 'AppColors\|CoolPalette' lib/ 2>/dev/null | wc -l | tr -d ' ')

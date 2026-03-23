@@ -48,17 +48,51 @@ class _BiopayConfirmScreenState extends ConsumerState<BiopayConfirmScreen> {
         return;
       }
 
-      final launched = await ref
-          .read(biopayDialerServiceProvider)
-          .dialProfile(result.profile!);
+      // Create a server-issued payment intent (binds match to transaction).
+      final intent = await ref
+          .read(biopayRepositoryProvider)
+          .createPaymentIntent(
+            profilePublicId: result.profile!.publicId,
+            matchScore: result.score,
+          );
       if (!mounted) {
         return;
       }
+
+      if (intent.isExpired) {
+        CoolToast.error(context, 'Payment intent expired. Please try again.');
+        return;
+      }
+
+      // Dial using the server-precomputed USSD code.
+      final launched = await ref
+          .read(biopayDialerServiceProvider)
+          .dialIntent(intent);
+      if (!mounted) {
+        return;
+      }
+
       if (!launched) {
         CoolToast.error(context, 'Could not open the MoMo dialer');
         return;
       }
+
+      // Mark the intent as dialed (one-time use enforcement).
+      await ref.read(biopayRepositoryProvider).markIntentDialed(intent.intentId);
+
+      if (!mounted) {
+        return;
+      }
       CoolToast.success(context, 'MoMo dialer opened');
+    } catch (error) {
+      if (mounted) {
+        CoolToast.error(
+          context,
+          error is StateError
+              ? error.message
+              : 'Payment failed. Please try again.',
+        );
+      }
     } finally {
       if (mounted) {
         setState(() => _isDialing = false);

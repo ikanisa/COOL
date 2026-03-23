@@ -6,7 +6,7 @@ import 'package:cool_app/core/providers/supported_countries_provider.dart';
 import 'package:cool_app/core/services/feature_flags_service.dart';
 import 'package:cool_app/core/services/firebase_bootstrap_service.dart';
 import 'package:cool_app/features/admin/providers/admin_providers.dart';
-import 'package:cool_app/features/admin/repositories/admin_repository.dart';
+import 'package:cool_app/features/admin/repositories/admin_content_repository.dart';
 import 'package:cool_app/features/admin/screens/manage_app_config_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,8 +38,8 @@ class FakeFeatureFlagsService extends FeatureFlagsService {
   }
 }
 
-class FakeAdminRepository extends AdminRepository {
-  FakeAdminRepository(
+class FakeAdminContentRepository extends AdminContentRepository {
+  FakeAdminContentRepository(
     List<Map<String, dynamic>> configs, {
     List<Map<String, dynamic>> partners = const <Map<String, dynamic>>[],
     List<Map<String, dynamic>> paymentRoutes = const <Map<String, dynamic>>[],
@@ -167,7 +167,7 @@ void main() {
   testWidgets(
     'renders rollout cards, hides managed keys from generic list, and saves rollout changes',
     (tester) async {
-      final repository = FakeAdminRepository(<Map<String, dynamic>>[
+      final repository = FakeAdminContentRepository(<Map<String, dynamic>>[
         <String, dynamic>{
           'key': 'feature_momo_stage',
           'value': 'pilot',
@@ -211,7 +211,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: <Override>[
-            adminRepositoryProvider.overrideWithValue(repository),
+            adminContentRepositoryProvider.overrideWithValue(repository),
             supportedCountriesProvider.overrideWith((ref) => countries),
             featureFlagsServiceProvider.overrideWithValue(featureFlagsService),
           ],
@@ -285,13 +285,15 @@ void main() {
   testWidgets('mobility subscription section saves admin-managed MoMo code', (
     tester,
   ) async {
-    final repository = FakeAdminRepository(const <Map<String, dynamic>>[]);
+    final repository = FakeAdminContentRepository(
+      const <Map<String, dynamic>>[],
+    );
     final featureFlagsService = FakeFeatureFlagsService();
 
     await tester.pumpWidget(
       ProviderScope(
         overrides: <Override>[
-          adminRepositoryProvider.overrideWithValue(repository),
+          adminContentRepositoryProvider.overrideWithValue(repository),
           supportedCountriesProvider.overrideWith((ref) => countries),
           featureFlagsServiceProvider.overrideWithValue(featureFlagsService),
         ],
@@ -338,7 +340,7 @@ void main() {
   testWidgets(
     'partner payment routes section saves admin-managed checkout path',
     (tester) async {
-      final repository = FakeAdminRepository(
+      final repository = FakeAdminContentRepository(
         const <Map<String, dynamic>>[],
         partners: const <Map<String, dynamic>>[
           <String, dynamic>{
@@ -354,7 +356,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: <Override>[
-            adminRepositoryProvider.overrideWithValue(repository),
+            adminContentRepositoryProvider.overrideWithValue(repository),
             supportedCountriesProvider.overrideWith((ref) => countries),
             featureFlagsServiceProvider.overrideWithValue(featureFlagsService),
           ],
@@ -422,13 +424,15 @@ void main() {
   );
 
   testWidgets('generic editor blocks managed feature keys', (tester) async {
-    final repository = FakeAdminRepository(const <Map<String, dynamic>>[]);
+    final repository = FakeAdminContentRepository(
+      const <Map<String, dynamic>>[],
+    );
     final featureFlagsService = FakeFeatureFlagsService();
 
     await tester.pumpWidget(
       ProviderScope(
         overrides: <Override>[
-          adminRepositoryProvider.overrideWithValue(repository),
+          adminContentRepositoryProvider.overrideWithValue(repository),
           supportedCountriesProvider.overrideWith((ref) => countries),
           featureFlagsServiceProvider.overrideWithValue(featureFlagsService),
         ],
@@ -459,13 +463,15 @@ void main() {
   testWidgets('generic editor blocks mobility subscription code key', (
     tester,
   ) async {
-    final repository = FakeAdminRepository(const <Map<String, dynamic>>[]);
+    final repository = FakeAdminContentRepository(
+      const <Map<String, dynamic>>[],
+    );
     final featureFlagsService = FakeFeatureFlagsService();
 
     await tester.pumpWidget(
       ProviderScope(
         overrides: <Override>[
-          adminRepositoryProvider.overrideWithValue(repository),
+          adminContentRepositoryProvider.overrideWithValue(repository),
           supportedCountriesProvider.overrideWith((ref) => countries),
           featureFlagsServiceProvider.overrideWithValue(featureFlagsService),
         ],

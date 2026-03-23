@@ -12,7 +12,6 @@ import '../../../../core/theme/rs_colors.dart';
 import '../../../../shared/widgets/cool_button.dart';
 import '../../../../shared/widgets/cool_toast.dart';
 import '../../../../shared/widgets/cool_card.dart';
-import '../../../../shared/widgets/secure_screen_mixin.dart';
 import '../../../../shared/widgets/cool_text_field.dart';
 import '../models/rs_models.dart';
 
@@ -37,7 +36,7 @@ class ShopCheckoutScreen extends ConsumerStatefulWidget {
 }
 
 class _ShopCheckoutScreenState extends ConsumerState<ShopCheckoutScreen>
-    with CoolStatusAwarder, SecureScreenMixin<ShopCheckoutScreen> {
+    with CoolStatusAwarder {
   final _addressController = TextEditingController();
   String? _openedOrderId;
   int? _openedOrderTotal;

@@ -35,7 +35,10 @@ class ScreenSecurityService {
       await _channel.invokeMethod<void>('enableSecureMode');
       _isSecure = true;
     } catch (e) {
-      debugPrint('[ScreenSecurity] Failed to enable secure mode: $e');
+      _debugLogFailure(
+        prefix: '[ScreenSecurity] Failed to enable secure mode',
+        error: e,
+      );
     }
   }
 
@@ -53,7 +56,10 @@ class ScreenSecurityService {
       await _channel.invokeMethod<void>('disableSecureMode');
       _isSecure = false;
     } catch (e) {
-      debugPrint('[ScreenSecurity] Failed to disable secure mode: $e');
+      _debugLogFailure(
+        prefix: '[ScreenSecurity] Failed to disable secure mode',
+        error: e,
+      );
     }
   }
 
@@ -66,10 +72,19 @@ class ScreenSecurityService {
       }
       return true;
     } catch (e) {
-      debugPrint(
-        '[ScreenSecurity] no_screenshot ${enable ? 'enable' : 'disable'} failed: $e',
+      _debugLogFailure(
+        prefix:
+            '[ScreenSecurity] no_screenshot ${enable ? 'enable' : 'disable'} failed',
+        error: e,
       );
       return false;
     }
+  }
+
+  void _debugLogFailure({required String prefix, required Object error}) {
+    if (error is MissingPluginException) {
+      return;
+    }
+    debugPrint('$prefix: $error');
   }
 }

@@ -3,6 +3,10 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 final _fromPattern = RegExp(r"\.from\(\s*'([^']+)'\s*\)");
+final _fromConstPattern = RegExp(r"\.from\(\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*\)");
+final _constDeclPattern = RegExp(
+  r"(?:static\s+)?(?:final|const)\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*'([^']+)'\s*;",
+);
 final _rpcPattern = RegExp(r"\.rpc\(\s*'([^']+)'\s*");
 final _createTablePattern = RegExp(
   r'create\s+table(?:\s+if\s+not\s+exists)?\s+public\.([a-zA-Z0-9_]+)',
@@ -62,10 +66,35 @@ void main() {
 
       for (final file in repositoryFiles) {
         final source = file.readAsStringSync();
-        final missingTables = _extractMatches(
-          source,
-          _fromPattern,
-        ).difference(knownTables);
+
+        // Collect tables referenced via literal .from('table')
+        final literalTables = _extractMatches(source, _fromPattern);
+
+        // Collect tables referenced via constant-based .from(_table)
+        // by resolving only the constant names that appear in .from() calls.
+        final constDecls = <String, String>{
+          for (final m in _constDeclPattern.allMatches(source))
+            if (m.group(1) != null && m.group(2) != null)
+              m.group(1)!: m.group(2)!,
+        };
+        final constVarNames = _fromConstPattern
+            .allMatches(source)
+            .map((m) => m.group(1))
+            .whereType<String>()
+            .toSet();
+
+        // Resolve only constants that are actually used in .from() calls.
+        final resolvedConstTables = <String>{
+          for (final name in constVarNames)
+            if (constDecls.containsKey(name)) constDecls[name]!,
+        };
+
+        final allReferencedTables = <String>{
+          ...literalTables,
+          ...resolvedConstTables,
+        };
+
+        final missingTables = allReferencedTables.difference(knownTables);
         final missingFunctions = _extractMatches(
           source,
           _rpcPattern,

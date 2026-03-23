@@ -101,7 +101,9 @@ class _EditUserSheetState extends ConsumerState<EditUserSheet> {
             : _vehicleController.text.trim(),
       };
 
-      await ref.read(adminRepositoryProvider).updateUserFields(userId, fields);
+      await ref
+          .read(adminUsersRepositoryProvider)
+          .updateUserFields(userId, fields);
 
       widget.onSaved();
       if (mounted) {

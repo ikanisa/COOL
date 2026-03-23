@@ -1,9 +1,10 @@
 import 'package:cool_app/features/admin/providers/admin_providers.dart';
-import 'package:cool_app/features/admin/repositories/admin_repository.dart';
+import 'package:cool_app/features/admin/repositories/admin_content_repository.dart';
 import 'package:cool_app/features/admin/screens/manage_partners_screen.dart';
 import 'package:cool_app/features/admin/screens/manage_quick_actions_screen.dart';
 import 'package:cool_app/features/admin/screens/manage_services_screen.dart';
 import 'package:cool_app/features/admin/screens/manage_vehicle_types_screen.dart';
+import 'package:cool_app/shared/widgets/cool_admin_inline_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,7 +13,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MockSupabaseClient extends Mock implements SupabaseClient {}
 
-class FakeCatalogAdminRepository extends AdminRepository {
+class FakeCatalogAdminRepository extends AdminContentRepository {
   FakeCatalogAdminRepository({
     List<Map<String, dynamic>> partners = const <Map<String, dynamic>>[],
     List<Map<String, dynamic>> services = const <Map<String, dynamic>>[],
@@ -85,6 +86,14 @@ class FakeCatalogAdminRepository extends AdminRepository {
 }
 
 Finder _textFieldWithLabel(String label) {
+  final inlineField = find.byWidgetPredicate(
+    (widget) => widget is CoolAdminInlineField && widget.label == label,
+    description: 'CoolAdminInlineField(label: $label)',
+  );
+  if (inlineField.evaluate().isNotEmpty) {
+    return find.descendant(of: inlineField, matching: find.byType(TextField));
+  }
+
   return find.byWidgetPredicate(
     (widget) => widget is TextField && widget.decoration?.labelText == label,
     description: 'TextField(labelText: $label)',
@@ -117,6 +126,18 @@ void _configureTallViewport(WidgetTester tester) {
   });
 }
 
+Future<void> _tapAddAction(WidgetTester tester) async {
+  final fab = find.byType(FloatingActionButton);
+  if (fab.evaluate().isNotEmpty) {
+    await tester.tap(fab);
+    return;
+  }
+
+  final addButton = find.byIcon(Icons.add_rounded);
+  expect(addButton, findsWidgets);
+  await tester.tap(addButton.first);
+}
+
 void main() {
   testWidgets('partners screen locks the market to Rwanda', (tester) async {
     _configureTallViewport(tester);
@@ -137,7 +158,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: <Override>[
-          adminRepositoryProvider.overrideWithValue(repository),
+          adminContentRepositoryProvider.overrideWithValue(repository),
         ],
         child: const MaterialApp(home: ManagePartnersScreen()),
       ),
@@ -146,7 +167,7 @@ void main() {
 
     expect(find.text('urwego · bank'), findsOneWidget);
 
-    await tester.tap(find.byType(FloatingActionButton));
+    await _tapAddAction(tester);
     await tester.pumpAndSettle();
 
     expect(_dropdownFieldWithLabel('Market'), findsNothing);
@@ -157,7 +178,10 @@ void main() {
     await tester.enterText(_textFieldWithLabel('Emoji'), '🎟️');
     await tester.enterText(_textFieldWithLabel('Subtitle'), 'Local ticketing');
     // Category is a dropdown, not a text field
-    await tester.enterText(_textFieldWithLabel('WhatsApp Number'), '+250788123456');
+    await tester.enterText(
+      _textFieldWithLabel('WhatsApp Number'),
+      '+250788123456',
+    );
     await tester.ensureVisible(find.text('Save'));
     await tester.tap(find.text('Save'));
     await tester.pumpAndSettle();
@@ -185,7 +209,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: <Override>[
-          adminRepositoryProvider.overrideWithValue(repository),
+          adminContentRepositoryProvider.overrideWithValue(repository),
         ],
         child: const MaterialApp(home: ManageQuickActionsScreen()),
       ),
@@ -194,7 +218,7 @@ void main() {
 
     expect(find.text('/tickets · Rwanda'), findsOneWidget);
 
-    await tester.tap(find.byType(FloatingActionButton));
+    await _tapAddAction(tester);
     await tester.pumpAndSettle();
 
     expect(_dropdownFieldWithLabel('Market scope'), findsNothing);
@@ -209,10 +233,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(repository.quickActionUpserts, hasLength(1));
-    expect(
-      repository.quickActionUpserts.single,
-      containsPair('country', 'RW'),
-    );
+    expect(repository.quickActionUpserts.single, containsPair('country', 'RW'));
   });
 
   testWidgets('services screen locks the market to Rwanda', (tester) async {
@@ -243,7 +264,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: <Override>[
-          adminRepositoryProvider.overrideWithValue(repository),
+          adminContentRepositoryProvider.overrideWithValue(repository),
         ],
         child: const MaterialApp(home: ManageServicesScreen()),
       ),
@@ -252,7 +273,7 @@ void main() {
 
     expect(find.text('Services under Urwego'), findsOneWidget);
 
-    await tester.tap(find.byType(FloatingActionButton));
+    await _tapAddAction(tester);
     await tester.pumpAndSettle();
 
     expect(_inputDecoratorWithLabel('Market'), findsOneWidget);
@@ -290,7 +311,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: <Override>[
-          adminRepositoryProvider.overrideWithValue(repository),
+          adminContentRepositoryProvider.overrideWithValue(repository),
         ],
         child: const MaterialApp(home: ManageVehicleTypesScreen()),
       ),
@@ -299,7 +320,7 @@ void main() {
 
     expect(find.text('value: moto · Rwanda'), findsOneWidget);
 
-    await tester.tap(find.byType(FloatingActionButton));
+    await _tapAddAction(tester);
     await tester.pumpAndSettle();
 
     expect(_dropdownFieldWithLabel('Market scope'), findsNothing);
@@ -313,9 +334,6 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(repository.vehicleTypeUpserts, hasLength(1));
-    expect(
-      repository.vehicleTypeUpserts.single,
-      containsPair('country', 'RW'),
-    );
+    expect(repository.vehicleTypeUpserts.single, containsPair('country', 'RW'));
   });
 }

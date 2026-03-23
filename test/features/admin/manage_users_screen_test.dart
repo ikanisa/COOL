@@ -1,5 +1,5 @@
 import 'package:cool_app/features/admin/providers/admin_providers.dart';
-import 'package:cool_app/features/admin/repositories/admin_repository.dart';
+import 'package:cool_app/features/admin/repositories/admin_users_repository.dart';
 import 'package:cool_app/features/admin/screens/manage_users_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +9,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MockSupabaseClient extends Mock implements SupabaseClient {}
 
-class FakeUsersAdminRepository extends AdminRepository {
+class FakeUsersAdminRepository extends AdminUsersRepository {
   FakeUsersAdminRepository({required List<Map<String, dynamic>> users})
     : _users = users.map(Map<String, dynamic>.from).toList(),
       super(client: MockSupabaseClient());
@@ -64,7 +64,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: <Override>[
-            adminRepositoryProvider.overrideWithValue(repository),
+            adminUsersRepositoryProvider.overrideWithValue(repository),
           ],
           child: const MaterialApp(home: ManageUsersScreen()),
         ),
@@ -99,7 +99,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: <Override>[
-          adminRepositoryProvider.overrideWithValue(repository),
+          adminUsersRepositoryProvider.overrideWithValue(repository),
         ],
         child: const MaterialApp(home: ManageUsersScreen()),
       ),

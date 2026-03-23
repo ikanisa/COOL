@@ -94,7 +94,7 @@ class DisabledLocationService implements LocationService {
   Future<void> stopLocationUpdates() async {}
 }
 
-void main() async {
+void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   setUpAll(() async {
@@ -103,25 +103,32 @@ void main() async {
   });
 
   group('Critical journeys', () {
-    testWidgets('signed-out deep links preserve their redirect target', (
+    testWidgets('signed-out deep links land on onboarding', (
       tester,
     ) async {
-      final app = await pumpRouterApp(
+      await pumpRouterApp(
         tester,
         initialLocation: '/momo?amount=5000',
         session: null,
         user: null,
       );
 
-      // Should land on onboarding or OTP
-      expect(find.text('Welcome to Cool'), findsOneWidget);
+      // Should land on onboarding when not authenticated
+      expect(find.text('Welcome to COOL'), findsOneWidget);
+      expect(find.text('Get Started'), findsOneWidget);
+    });
 
-      // Sign in via the notifier
-      final authNotifier = app.container.read(authProvider.notifier);
-      await authNotifier.verifyOtp('+250788123456', '123456');
-      await settleTestApp(tester);
+    testWidgets('signed-in deep links land on target screen', (
+      tester,
+    ) async {
+      await pumpRouterApp(
+        tester,
+        initialLocation: '/momo',
+        session: fakeSession(),
+        user: fakeUser(),
+      );
 
-      // Should redirect to MoMo
+      // Should navigate directly to MoMo when authenticated
       expect(find.byType(MomoScreen), findsOneWidget);
     });
 

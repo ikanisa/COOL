@@ -248,7 +248,7 @@ class _EditPartnerPaymentRouteSheetState
     setState(() => _saving = true);
     try {
       await widget.ref
-          .read(adminRepositoryProvider)
+          .read(adminContentRepositoryProvider)
           .upsertPartnerPaymentRoute(<String, dynamic>{
             'id': widget.route?['id'],
             'partner_id': partnerId,
@@ -281,7 +281,7 @@ class _EditPartnerPaymentRouteSheetState
     setState(() => _deleting = true);
     try {
       await widget.ref
-          .read(adminRepositoryProvider)
+          .read(adminContentRepositoryProvider)
           .deletePartnerPaymentRoute(routeId);
       widget.ref.invalidate(adminPartnerPaymentRoutesProvider);
       if (mounted) {
@@ -504,7 +504,7 @@ class _EditMobilitySubscriptionCodeSheetState
     };
 
     try {
-      await widget.ref.read(adminRepositoryProvider).upsertAppConfig(data);
+      await widget.ref.read(adminContentRepositoryProvider).upsertAppConfig(data);
       widget.ref.invalidate(adminAppConfigProvider);
       if (mounted) {
         Navigator.of(context).pop();
@@ -659,7 +659,7 @@ class _EditConfigSheetState extends State<EditConfigSheet> {
       'country': AppMarket.countryCode,
     };
     try {
-      await widget.ref.read(adminRepositoryProvider).upsertAppConfig(data);
+      await widget.ref.read(adminContentRepositoryProvider).upsertAppConfig(data);
       widget.ref.invalidate(adminAppConfigProvider);
       if (mounted) {
         Navigator.of(context).pop();
@@ -794,7 +794,7 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
     );
     try {
       await widget.ref
-          .read(adminRepositoryProvider)
+          .read(adminContentRepositoryProvider)
           .upsertAppConfigs(updated.toAppConfigEntries());
       widget.ref.invalidate(adminAppConfigProvider);
       await widget.ref.read(featureFlagsStateProvider.notifier).refresh();

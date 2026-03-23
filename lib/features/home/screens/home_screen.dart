@@ -10,7 +10,7 @@ import '../../../core/theme/cool_layout.dart';
 
 import '../../../shared/widgets/cool_error_boundary.dart';
 import '../../../shared/widgets/cool_card.dart';
-import '../../../shared/widgets/cool_screen_background.dart';
+import '../../../shared/widgets/core_tab_root_scaffold.dart';
 import '../../../shared/widgets/quest_card.dart';
 import '../../../shared/widgets/season_banner.dart';
 import '../../partners/providers/partner_provider.dart';
@@ -62,115 +62,111 @@ class HomeScreen extends ConsumerWidget {
             initiativesAsync: ref.watch(rayonInitiativesProvider),
           );
 
-    return CoolScreenBackground(
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: CoolErrorBoundary(
-          onRetry: () {
-            ref.invalidate(homeDashboardProvider);
-            ref.invalidate(currentCountryQuickActionsProvider);
-            ref.invalidate(activeSeasonProvider);
-          },
-          child: SafeArea(
-            bottom: false,
-            child: RefreshIndicator(
-              color: colors.accent,
-              backgroundColor: colors.cardSurfaceStrong,
-              onRefresh: refresh,
-              child: ListView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: CoolLayout.rootPagePadding,
-                children: AnimateList(
-                  interval: 40.ms,
-                  effects: [
-                    FadeEffect(duration: 400.ms, curve: Curves.easeOut),
-                    SlideEffect(
-                      begin: const Offset(0, 0.05),
-                      end: Offset.zero,
-                      duration: 400.ms,
-                      curve: Curves.easeOutCubic,
+    return CoreTabRootScaffold(
+      child: CoolErrorBoundary(
+        onRetry: () {
+          ref.invalidate(homeDashboardProvider);
+          ref.invalidate(currentCountryQuickActionsProvider);
+          ref.invalidate(activeSeasonProvider);
+        },
+        child: SafeArea(
+          bottom: false,
+          child: RefreshIndicator(
+            color: colors.accent,
+            backgroundColor: colors.cardSurfaceStrong,
+            onRefresh: refresh,
+            child: ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: CoolLayout.rootPagePadding,
+              children: AnimateList(
+                interval: 40.ms,
+                effects: [
+                  FadeEffect(duration: 400.ms, curve: Curves.easeOut),
+                  SlideEffect(
+                    begin: const Offset(0, 0.05),
+                    end: Offset.zero,
+                    duration: 400.ms,
+                    curve: Curves.easeOutCubic,
+                  ),
+                ],
+                children: [
+                  const HomeHeader(),
+                  const SizedBox(height: CoolSpace.x8),
+                  _HomeCommandDeck(dashboardAsync: dashboardAsync),
+                  const SizedBox(height: CoolSpace.x8),
+                  priorityModule,
+                  const SizedBox(height: CoolSpace.x8),
+                  const ReferralBanner(),
+                  const SizedBox(height: CoolSpace.x6),
+                  const NexusRecommendationsSection(),
+                  if (hasActiveBankPartner) ...[
+                    const SizedBox(height: CoolSpace.x6),
+                    RayonSportCard(
+                      membershipAsync: ref.watch(rayonMembershipProvider),
+                      clubsAsync: ref.watch(rayonFanClubsProvider),
+                      matchesAsync: ref.watch(rayonMatchesProvider),
+                      initiativesAsync: ref.watch(rayonInitiativesProvider),
                     ),
                   ],
-                  children: [
-                    const HomeHeader(),
-                    const SizedBox(height: CoolSpace.x8),
-                    _HomeCommandDeck(dashboardAsync: dashboardAsync),
-                    const SizedBox(height: CoolSpace.x8),
-                    priorityModule,
-                    const SizedBox(height: CoolSpace.x8),
-                    const ReferralBanner(),
-                    const SizedBox(height: CoolSpace.x6),
-                    const NexusRecommendationsSection(),
-                    if (hasActiveBankPartner) ...[
-                      const SizedBox(height: CoolSpace.x6),
-                      RayonSportCard(
-                        membershipAsync: ref.watch(rayonMembershipProvider),
-                        clubsAsync: ref.watch(rayonFanClubsProvider),
-                        matchesAsync: ref.watch(rayonMatchesProvider),
-                        initiativesAsync: ref.watch(rayonInitiativesProvider),
-                      ),
-                    ],
-                    const SizedBox(height: CoolSpace.x3),
-                    ...ref
-                        .watch(activeSpecialProductsProvider)
-                        .maybeWhen(
-                          data: (products) => products.map(
-                            (p) => Padding(
-                              padding: const EdgeInsets.only(
-                                bottom: CoolSpace.x3,
-                              ),
-                              child: SpecialProductCard(product: p),
+                  const SizedBox(height: CoolSpace.x3),
+                  ...ref
+                      .watch(activeSpecialProductsProvider)
+                      .maybeWhen(
+                        data: (products) => products.map(
+                          (p) => Padding(
+                            padding: const EdgeInsets.only(
+                              bottom: CoolSpace.x3,
                             ),
+                            child: SpecialProductCard(product: p),
                           ),
-                          orElse: () => [const SizedBox.shrink()],
                         ),
+                        orElse: () => [const SizedBox.shrink()],
+                      ),
 
-                    // ── Lower Priority ──────────────────────
-                    ref
-                        .watch(activeSeasonProvider)
-                        .when(
-                          data: (season) {
-                            if (season == null || !season.isLive) {
-                              return const SizedBox.shrink();
-                            }
-                            return Padding(
-                              padding: const EdgeInsets.only(top: CoolSpace.x7),
-                              child: SeasonBanner(
-                                season: season,
-                                onTap: () => context.push(AppRoutes.seasons),
-                              ),
-                            );
-                          },
-                          loading: () => const SizedBox.shrink(),
-                          error: (_, _) => const SizedBox.shrink(),
-                        ),
-                    if (quests.isNotEmpty) ...[
-                      const SizedBox(height: CoolSpace.x7),
-                      Text(
-                        context.l10n.homeMissionsTitle,
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(
-                              color: colors.primaryText,
-                              fontWeight: FontWeight.w800,
+                  // ── Lower Priority ──────────────────────
+                  ref
+                      .watch(activeSeasonProvider)
+                      .when(
+                        data: (season) {
+                          if (season == null || !season.isLive) {
+                            return const SizedBox.shrink();
+                          }
+                          return Padding(
+                            padding: const EdgeInsets.only(top: CoolSpace.x7),
+                            child: SeasonBanner(
+                              season: season,
+                              onTap: () => context.push(AppRoutes.seasons),
                             ),
+                          );
+                        },
+                        loading: () => const SizedBox.shrink(),
+                        error: (_, _) => const SizedBox.shrink(),
                       ),
-                      const SizedBox(height: CoolSpace.x4),
-                      SizedBox(
-                        height: 170,
-                        child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: quests.take(3).length,
-                          separatorBuilder: (context, index) =>
-                              const SizedBox(width: CoolSpace.x3),
-                          itemBuilder: (context, index) {
-                            return QuestCard(quest: quests[index]);
-                          },
-                        ),
+                  if (quests.isNotEmpty) ...[
+                    const SizedBox(height: CoolSpace.x7),
+                    Text(
+                      context.l10n.homeMissionsTitle,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: colors.primaryText,
+                        fontWeight: FontWeight.w800,
                       ),
-                    ],
-                    const SizedBox(height: CoolSpace.x8),
+                    ),
+                    const SizedBox(height: CoolSpace.x4),
+                    SizedBox(
+                      height: 170,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: quests.take(3).length,
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(width: CoolSpace.x3),
+                        itemBuilder: (context, index) {
+                          return QuestCard(quest: quests[index]);
+                        },
+                      ),
+                    ),
                   ],
-                ),
+                  const SizedBox(height: CoolSpace.x8),
+                ],
               ),
             ),
           ),

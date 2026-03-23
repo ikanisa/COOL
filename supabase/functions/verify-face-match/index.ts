@@ -4,6 +4,7 @@ import {
   jsonResponse,
   methodNotAllowed,
 } from "../_shared/http.ts";
+import { recordEdgeFunctionFailure } from "../_shared/observability.ts";
 import { createAdminClient, createUserClient } from "../_shared/supabase.ts";
 
 const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
@@ -22,10 +23,11 @@ const matchSchema = {
     estimated_age_id: { type: "number" },
     estimated_age_selfie: { type: "number" },
     gender_consistent: { type: "boolean" },
-    presentation_attack_detected: { 
+    presentation_attack_detected: {
       type: "boolean",
-      description: "True if the selfie looks like a photo of a screen or a printout."
-    }
+      description:
+        "True if the selfie looks like a photo of a screen or a printout.",
+    },
   },
   required: [
     "is_match",
@@ -35,7 +37,7 @@ const matchSchema = {
     "estimated_age_id",
     "estimated_age_selfie",
     "gender_consistent",
-    "presentation_attack_detected"
+    "presentation_attack_detected",
   ],
 };
 
@@ -58,89 +60,154 @@ function buildFaceMatchPrompt() {
   ].join("\n");
 }
 
-Deno.serve(async (req: Request) => {
-  const cors = handleCors(req);
-  if (cors) return cors;
+type FaceMatchResult = {
+  confidence: number;
+  is_match: boolean;
+  presentation_attack_detected: boolean;
+};
 
-  if (req.method !== "POST") return methodNotAllowed();
-  if (!GEMINI_API_KEY) return errorResponse("AI Service not configured.", 503);
+type FaceMatchRequest = {
+  idImageBase64?: string;
+  selfieBase64?: string;
+  idMimeType?: string;
+  selfieMimeType?: string;
+};
 
-  const authHeader = req.headers.get("Authorization");
-  if (!authHeader) return errorResponse("Missing authorization.", 401);
+export function mergeFaceMatchIdentityData(
+  existingIdentity: Record<string, unknown>,
+  matchResult: FaceMatchResult,
+  nowIso: string,
+): Record<string, unknown> {
+  return {
+    ...existingIdentity,
+    face_match_confidence: matchResult.confidence,
+    face_match_status: matchResult.is_match ? "matched" : "mismatch",
+    liveness_detected: !matchResult.presentation_attack_detected,
+    biometric_verified_at: nowIso,
+  };
+}
 
-  const adminClient = createAdminClient();
-  const userClient = createUserClient(authHeader);
-  const { data: { user }, error: authError } = await userClient.auth.getUser();
+export function createVerifyFaceMatchHandler() {
+  return async (req: Request) => {
+    const cors = handleCors(req);
+    if (cors) return cors;
 
-  if (authError || !user) return errorResponse("Unauthorized.", 401);
-
-  const { idImageBase64, selfieBase64, idMimeType, selfieMimeType } = await req.json();
-
-  if (!idImageBase64 || !selfieBase64) {
-    return errorResponse("Both ID and Selfie images are required.", 400);
-  }
-
-  // Multimodal Request to Gemini
-  try {
-    const geminiResponse = await fetch(GEMINI_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [
-          {
-            parts: [
-              { text: buildFaceMatchPrompt() },
-              {
-                inlineData: {
-                  mimeType: idMimeType || "image/jpeg",
-                  data: idImageBase64,
-                },
-              },
-              {
-                inlineData: {
-                  mimeType: selfieMimeType || "image/jpeg",
-                  data: selfieBase64,
-                },
-              },
-            ],
-          },
-        ],
-        generationConfig: {
-          responseMimeType: "application/json",
-          responseSchema: matchSchema,
-          temperature: 0.1,
-        },
-      }),
-    });
-
-    if (!geminiResponse.ok) {
-      throw new Error(`Gemini API error: ${await geminiResponse.text()}`);
+    if (req.method !== "POST") return methodNotAllowed();
+    if (!GEMINI_API_KEY) {
+      return errorResponse("AI Service not configured.", 503);
     }
 
-    const result = await geminiResponse.json();
-    const matchResult = JSON.parse(result.candidates[0].content.parts[0].text);
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader) return errorResponse("Missing authorization.", 401);
 
-    // Update User KYC Metadata in Admin
-    await adminClient
-      .from("users")
-      .update({
-        identity_data: {
-          ...(user as any).identity_data,
-          face_match_confidence: matchResult.confidence,
-          face_match_status: matchResult.is_match ? "matched" : "mismatch",
-          liveness_detected: !matchResult.presentation_attack_detected,
-          biometric_verified_at: new Date().toISOString(),
-        }
-      })
-      .eq("id", user.id);
+    const adminClient = createAdminClient();
+    const userClient = createUserClient(authHeader);
+    const { data: { user }, error: authError } = await userClient.auth
+      .getUser();
 
-    return jsonResponse({
-      success: true,
-      data: matchResult,
-    });
+    if (authError || !user) return errorResponse("Unauthorized.", 401);
 
-  } catch (err) {
-    console.error("Face-Match AI Error:", err);
-    return errorResponse("Identity verification failed. Please ensure both photos are clear.", 500);
-  }
-});
+    const {
+      idImageBase64,
+      selfieBase64,
+      idMimeType,
+      selfieMimeType,
+    } = await req.json() as FaceMatchRequest;
+
+    if (!idImageBase64 || !selfieBase64) {
+      return errorResponse("Both ID and Selfie images are required.", 400);
+    }
+
+    try {
+      const geminiResponse = await fetch(GEMINI_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                { text: buildFaceMatchPrompt() },
+                {
+                  inlineData: {
+                    mimeType: idMimeType || "image/jpeg",
+                    data: idImageBase64,
+                  },
+                },
+                {
+                  inlineData: {
+                    mimeType: selfieMimeType || "image/jpeg",
+                    data: selfieBase64,
+                  },
+                },
+              ],
+            },
+          ],
+          generationConfig: {
+            responseMimeType: "application/json",
+            responseSchema: matchSchema,
+            temperature: 0.1,
+          },
+        }),
+      });
+
+      if (!geminiResponse.ok) {
+        throw new Error(`Gemini API error: ${await geminiResponse.text()}`);
+      }
+
+      const result = await geminiResponse.json();
+      const matchResult = JSON.parse(
+        result.candidates[0].content.parts[0].text,
+      ) as FaceMatchResult;
+
+      const existingProfileResult = await adminClient
+        .from("users")
+        .select("identity_data")
+        .eq("id", user.id)
+        .single();
+      if (existingProfileResult.error) {
+        throw existingProfileResult.error;
+      }
+
+      const existingIdentity = existingProfileResult.data.identity_data &&
+          typeof existingProfileResult.data.identity_data === "object"
+        ? existingProfileResult.data.identity_data as Record<string, unknown>
+        : {};
+      const nowIso = new Date().toISOString();
+
+      const updateResult = await adminClient
+        .from("users")
+        .update({
+          identity_data: mergeFaceMatchIdentityData(
+            existingIdentity,
+            matchResult,
+            nowIso,
+          ),
+        })
+        .eq("id", user.id);
+      if (updateResult.error) {
+        throw updateResult.error;
+      }
+
+      return jsonResponse({
+        success: true,
+        data: matchResult,
+      });
+    } catch (err) {
+      console.error("Face-Match AI Error:", err);
+      await recordEdgeFunctionFailure(adminClient, {
+        functionName: "verify-face-match",
+        error: err,
+        userId: user.id,
+        issueCode: "verify_face_match_failed",
+      });
+      return errorResponse(
+        "Identity verification failed. Please ensure both photos are clear.",
+        500,
+      );
+    }
+  };
+}
+
+if (import.meta.main) {
+  Deno.serve(createVerifyFaceMatchHandler());
+}

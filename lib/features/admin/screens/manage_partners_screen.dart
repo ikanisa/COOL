@@ -280,7 +280,7 @@ class _ManagePartnersScreenState extends ConsumerState<ManagePartnersScreen> {
     if (confirmed != true || !context.mounted) return;
 
     try {
-      await ref.read(adminRepositoryProvider).upsertPartner({
+      await ref.read(adminContentRepositoryProvider).upsertPartner({
         'id': partner['id'],
         'is_active': !isActive,
       });

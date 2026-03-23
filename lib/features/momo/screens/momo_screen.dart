@@ -18,8 +18,7 @@ import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_bottom_sheet.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
-import '../../../shared/widgets/secure_screen_mixin.dart';
-import '../../../shared/widgets/cool_screen_background.dart';
+import '../../../shared/widgets/core_detail_scaffold.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../profile/widgets/profile_app_access_sheet.dart';
 import '../models/momo_statement.dart';
@@ -45,8 +44,7 @@ class MomoScreen extends ConsumerStatefulWidget {
   ConsumerState<MomoScreen> createState() => _MomoScreenState();
 }
 
-class _MomoScreenState extends ConsumerState<MomoScreen>
-    with SecureScreenMixin<MomoScreen> {
+class _MomoScreenState extends ConsumerState<MomoScreen> {
   bool _launchingIncomingPayment = false;
   bool _handledIncomingPayment = false;
 
@@ -259,178 +257,145 @@ class _MomoScreenState extends ConsumerState<MomoScreen>
     final walletOutflows = _walletOutflows(statementBundle);
     final savingsTotal = _savingsTotal(statementBundle);
 
-    return CoolScreenBackground(
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          leading: Semantics(
-            button: true,
-            label: MaterialLocalizations.of(context).backButtonTooltip,
-            hint: 'Go back',
-            child: IconButton(
-              onPressed: _closeOrReturnHome,
-              tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-              icon: const Icon(Icons.arrow_back_rounded),
-            ),
+    return CoreDetailScaffold(
+      onBack: _closeOrReturnHome,
+      showHomeButton: true,
+      onHome: () => context.go(AppRoutes.home),
+      homeTooltip: l10n.navHome,
+      child: Stack(
+        children: [
+          CustomScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            slivers: [
+              SliverPadding(
+                padding: EdgeInsets.fromLTRB(space.x5, space.x5, space.x5, 96),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate([
+                    Text(
+                      l10n.momoScreenTitle,
+                      style: theme.textTheme.displaySmall?.copyWith(
+                        fontWeight: FontWeight.w800,
+                        color: colors.primaryText,
+                      ),
+                    ),
+                    const SizedBox(height: CoolSpace.x6),
+                    _buildBalanceSection(
+                      context: context,
+                      colors: colors,
+                      theme: theme,
+                      walletBalance: walletBalance,
+                      walletInflows: walletInflows,
+                      walletOutflows: walletOutflows,
+                      savingsTotal: savingsTotal,
+                      country: country,
+                      momoNumber: momoNumber,
+                      momoCode: momoCode,
+                      onSendMoney: () => _showSendMoneySheet(
+                        context,
+                        country: country,
+                        momoNumber: momoNumber,
+                        momoCode: momoCode,
+                      ),
+                      onOpenStatements: () =>
+                          context.push(AppRoutes.momoStatements),
+                      onOpenQrCode: () {
+                        if (!_ensureReceiveRouteConfigured()) return;
+                        unawaited(
+                          Navigator.of(context).push<void>(
+                            MaterialPageRoute<void>(
+                              builder: (_) => MomoReceiveQrScreen(
+                                country: country,
+                                momoNumber: momoNumber,
+                                momoCode: momoCode,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: CoolSpace.x6),
+                    MomoSmsSyncStatusCard(
+                      onManageAccess: () => ProfileAppAccessSheet.show(context),
+                      onOpenStatements: () =>
+                          context.push(AppRoutes.momoStatements),
+                      onSyncComplete: (_) {
+                        ref.invalidate(
+                          momoStatementBundleProvider(
+                            const MomoStatementQuery(),
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(height: space.x5),
+                    if (biopayEnabled) ...[
+                      _buildBiopayCard(
+                        context: context,
+                        colors: colors,
+                        space: space,
+                        theme: theme,
+                        onOpen: () => context.push(AppRoutes.biopayHome),
+                      ),
+                      SizedBox(height: space.x5),
+                    ],
+                    _buildTrustAndActionsCard(
+                      context: context,
+                      colors: colors,
+                      space: space,
+                      theme: theme,
+                      onOpenStatements: () =>
+                          context.push(AppRoutes.momoStatements),
+                      onScanQr: _scanQrCode,
+                      onOpenQrCode: () {
+                        if (!_ensureReceiveRouteConfigured()) return;
+                        unawaited(
+                          Navigator.of(context).push<void>(
+                            MaterialPageRoute<void>(
+                              builder: (_) => MomoReceiveQrScreen(
+                                country: country,
+                                momoNumber: momoNumber,
+                                momoCode: momoCode,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      onOpenNfcTools: () {
+                        if (!_ensureReceiveRouteConfigured()) return;
+                        unawaited(
+                          Navigator.of(context).push<void>(
+                            MaterialPageRoute<void>(
+                              builder: (_) => const MomoNfcScreen(),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(height: space.x5),
+                    _buildSendMoneyCard(
+                      context: context,
+                      colors: colors,
+                      space: space,
+                      theme: theme,
+                      onSend: () => _showSendMoneySheet(
+                        context,
+                        country: country,
+                        momoNumber: momoNumber,
+                        momoCode: momoCode,
+                      ),
+                    ),
+                  ]),
+                ),
+              ),
+            ],
           ),
-          actions: [
-            Semantics(
-              button: true,
-              label: l10n.navHome,
-              hint: 'Opens the home screen',
-              child: IconButton(
-                onPressed: () => context.go(AppRoutes.home),
-                tooltip: l10n.navHome,
-                icon: const Icon(Icons.home_rounded),
-              ),
+          if (_launchingIncomingPayment)
+            _buildLaunchingOverlay(
+              context: context,
+              colors: colors,
+              space: space,
+              theme: theme,
             ),
-          ],
-        ),
-        body: Stack(
-          children: [
-            CoolScreenBackground(
-              child: CustomScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                slivers: [
-                  SliverPadding(
-                    padding: EdgeInsets.fromLTRB(
-                      space.x5,
-                      space.x5,
-                      space.x5,
-                      96,
-                    ),
-                    sliver: SliverList(
-                      delegate: SliverChildListDelegate([
-                        Text(
-                          l10n.momoScreenTitle,
-                          style: theme.textTheme.displaySmall?.copyWith(
-                            fontWeight: FontWeight.w800,
-                            color: colors.primaryText,
-                          ),
-                        ),
-                        const SizedBox(height: CoolSpace.x6),
-                        _buildBalanceSection(
-                          context: context,
-                          colors: colors,
-                          theme: theme,
-                          walletBalance: walletBalance,
-                          walletInflows: walletInflows,
-                          walletOutflows: walletOutflows,
-                          savingsTotal: savingsTotal,
-                          country: country,
-                          momoNumber: momoNumber,
-                          momoCode: momoCode,
-                          onSendMoney: () => _showSendMoneySheet(
-                            context,
-                            country: country,
-                            momoNumber: momoNumber,
-                            momoCode: momoCode,
-                          ),
-                          onOpenStatements: () =>
-                              context.push(AppRoutes.momoStatements),
-                          onOpenQrCode: () {
-                            if (!_ensureReceiveRouteConfigured()) return;
-                            unawaited(
-                              Navigator.of(context).push<void>(
-                                MaterialPageRoute<void>(
-                                  builder: (_) => MomoReceiveQrScreen(
-                                    country: country,
-                                    momoNumber: momoNumber,
-                                    momoCode: momoCode,
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                        const SizedBox(height: CoolSpace.x6),
-                        MomoSmsSyncStatusCard(
-                          onManageAccess: () =>
-                              ProfileAppAccessSheet.show(context),
-                          onOpenStatements: () =>
-                              context.push(AppRoutes.momoStatements),
-                          onSyncComplete: (_) {
-                            ref.invalidate(
-                              momoStatementBundleProvider(
-                                const MomoStatementQuery(),
-                              ),
-                            );
-                          },
-                        ),
-                        SizedBox(height: space.x5),
-                        if (biopayEnabled) ...[
-                          _buildBiopayCard(
-                            context: context,
-                            colors: colors,
-                            space: space,
-                            theme: theme,
-                            onOpen: () =>
-                                context.push(AppRoutes.biopayHome),
-                          ),
-                          SizedBox(height: space.x5),
-                        ],
-                        _buildTrustAndActionsCard(
-                          context: context,
-                          colors: colors,
-                          space: space,
-                          theme: theme,
-                          onOpenStatements: () =>
-                              context.push(AppRoutes.momoStatements),
-                          onScanQr: _scanQrCode,
-                          onOpenQrCode: () {
-                            if (!_ensureReceiveRouteConfigured()) return;
-                            unawaited(
-                              Navigator.of(context).push<void>(
-                                MaterialPageRoute<void>(
-                                  builder: (_) => MomoReceiveQrScreen(
-                                    country: country,
-                                    momoNumber: momoNumber,
-                                    momoCode: momoCode,
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                          onOpenNfcTools: () {
-                            if (!_ensureReceiveRouteConfigured()) return;
-                            unawaited(
-                              Navigator.of(context).push<void>(
-                                MaterialPageRoute<void>(
-                                  builder: (_) => const MomoNfcScreen(),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                        SizedBox(height: space.x5),
-                        _buildSendMoneyCard(
-                          context: context,
-                          colors: colors,
-                          space: space,
-                          theme: theme,
-                          onSend: () => _showSendMoneySheet(
-                            context,
-                            country: country,
-                            momoNumber: momoNumber,
-                            momoCode: momoCode,
-                          ),
-                        ),
-                      ]),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            if (_launchingIncomingPayment)
-              _buildLaunchingOverlay(
-                context: context,
-                colors: colors,
-                space: space,
-                theme: theme,
-              ),
-          ],
-        ),
+        ],
       ),
     );
   }

@@ -2,6 +2,7 @@ import {
   type BiopayMatchHandlerDependencies,
   createBiopayMatchHandler,
 } from "./index.ts";
+import { HttpError } from "../_shared/auth.ts";
 import type {
   BiopayMatchProtectionConfig,
   BiopayMatchRateOutcome,
@@ -60,6 +61,7 @@ function buildDeps(overrides: {
         }),
       },
     }),
+    requireAppCheckToken: async () => "fresh-token",
     now: () => new Date(fixedNow),
     getProtectionConfig: async () => buildConfig(),
     countRecentRateEvents: async (_adminClient, options) => {
@@ -213,6 +215,34 @@ Deno.test("biopay-match blocks users with an active miss lockout", async () => {
   if (state.rateEvents[0]?.outcome != "blocked_lockout") {
     throw new Error(
       `Expected blocked_lockout, received ${state.rateEvents[0]?.outcome}`,
+    );
+  }
+});
+
+Deno.test("biopay-match rejects requests without valid App Check attestation", async () => {
+  const { deps, getState } = buildDeps();
+  const handler = createBiopayMatchHandler({
+    ...deps,
+    requireAppCheckToken: async () => {
+      throw new HttpError(401, "Device attestation required.");
+    },
+  });
+
+  const response = await handler(buildRequest());
+  const payload = await response.json();
+  const state = getState();
+
+  if (response.status != 401) {
+    throw new Error(`Expected 401 response, received ${response.status}`);
+  }
+
+  if (payload.message != "Device attestation required.") {
+    throw new Error(`Unexpected payload: ${JSON.stringify(payload)}`);
+  }
+
+  if (state.matchCalls != 0) {
+    throw new Error(
+      "Requests without attestation must not reach the match RPC",
     );
   }
 });

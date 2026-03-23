@@ -2223,7 +2223,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rejectAllocation => 'Reject allocation';
 
   @override
-  String get thisWillRemoveThe => 'This will remove the';
+  String get thisWillRemoveThe => 'This removes the pending allocation.';
 
   @override
   String get reject => 'Reject';
