@@ -27,6 +27,29 @@ void main() {
         expect(payload.containsKey('country_code'), isFalse);
       },
     );
+
+    test('adds liveness metadata when the scanner has passed a challenge', () {
+      const draft = BiopayEnrollmentDraft(
+        displayName: 'Uwimana Marie',
+        routeType: MomoRecipientType.phoneNumber,
+        recipientValue: '0781234567',
+        countryCode: 'RW',
+        consentVersion: 'biopay-v1',
+      );
+
+      final payload = draft.toPayload(
+        const <double>[0.1, 0.2, 0.3],
+        liveness: const <String, Object?>{
+          'version': 'challenge_pad_v1',
+          'result': 'passed',
+        },
+      );
+
+      expect(payload['liveness'], const <String, Object?>{
+        'version': 'challenge_pad_v1',
+        'result': 'passed',
+      });
+    });
   });
 
   group('BiopayProfile', () {

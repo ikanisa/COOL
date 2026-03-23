@@ -22,22 +22,22 @@ void main() {
   test('legacy semantic gradients expose light and dark variants', () {
     AppColors.applyBrightness(Brightness.light);
     expect(AppColors.cardGradient.colors, const <Color>[
-      Color(0xFFFFFFFF),
-      Color(0xFFF0F3FA),
+      Color(0xFFF7F8F6),
+      Color(0xFFE7EBE7),
     ]);
     expect(AppColors.blueGradient.colors, const <Color>[
-      Color(0xFFF2F7FF),
-      Color(0xFFE2ECFF),
+      Color(0xFFF5F7FA),
+      Color(0xFFE8EEF3),
     ]);
 
     AppColors.applyBrightness(Brightness.dark);
     expect(AppColors.cardGradient.colors, const <Color>[
-      Color(0xFF151520),
-      Color(0xFF1A1A28),
+      Color(0xFF353836),
+      Color(0xFF2E312F),
     ]);
     expect(AppColors.blueGradient.colors, const <Color>[
-      Color(0xFF0D1B2A),
-      Color(0xFF1A2D4A),
+      Color(0xFF141B1C),
+      Color(0xFF1A2527),
     ]);
   });
 }

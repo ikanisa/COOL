@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:cool_app/core/providers/production_redesign_provider.dart';
 import 'package:cool_app/features/auth/models/user_profile.dart';
 import 'package:cool_app/features/auth/providers/auth_provider.dart';
@@ -16,8 +20,10 @@ import 'package:cool_app/features/partners/rayon/screens/tickets_screen.dart';
 import 'package:cool_app/features/partners/repositories/rayon_sports_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/src/google_fonts_base.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockRayonSportsRepository extends Mock implements RayonSportsRepository {}
@@ -118,6 +124,16 @@ void main() {
   setUpAll(() {
     registerFallbackValue(FanTier.blue);
     GoogleFonts.config.allowRuntimeFetching = false;
+    assetManifest = const _RayonGoldenAssetManifest();
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMessageHandler('flutter/assets', _handleMockAssetLoad);
+  });
+
+  tearDownAll(() {
+    clearCache();
+    assetManifest = null;
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMessageHandler('flutter/assets', null);
   });
 
   setUp(() {
@@ -415,4 +431,38 @@ void main() {
 
     await expectGolden(tester, 'rayon_ticket_confirmation_command_surface');
   });
+}
+
+Future<ByteData?> _handleMockAssetLoad(ByteData? message) async {
+  if (message == null) return null;
+  final key = utf8.decode(message.buffer.asUint8List());
+  if (!key.startsWith('google_fonts/')) {
+    return null;
+  }
+
+  final bytes = await File(key).readAsBytes();
+  return ByteData.sublistView(Uint8List.fromList(bytes));
+}
+
+class _RayonGoldenAssetManifest implements AssetManifest {
+  const _RayonGoldenAssetManifest();
+
+  @override
+  List<String> listAssets() => const <String>[
+        'google_fonts/Barlow-Regular.ttf',
+        'google_fonts/Barlow-Medium.ttf',
+        'google_fonts/Barlow-SemiBold.ttf',
+        'google_fonts/Barlow-Bold.ttf',
+        'google_fonts/Barlow-ExtraBold.ttf',
+        'google_fonts/BarlowCondensed-Regular.ttf',
+        'google_fonts/BarlowCondensed-Bold.ttf',
+        'google_fonts/BarlowCondensed-ExtraBold.ttf',
+        'google_fonts/BarlowCondensed-Black.ttf',
+        'google_fonts/DMMono-Regular.ttf',
+        'google_fonts/DMMono-Medium.ttf',
+        'google_fonts/DMMono-Bold.ttf',
+      ];
+
+  @override
+  List<AssetMetadata>? getAssetVariants(String key) => null;
 }

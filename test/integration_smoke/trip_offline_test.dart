@@ -153,9 +153,9 @@ void main() {
       expect(find.text('Mobility'), findsOneWidget);
       expect(find.text('Nearby'), findsOneWidget);
       expect(find.text('Trips'), findsOneWidget);
-      expect(find.text('Schedule'), findsOneWidget);
+      expect(find.text('Schedule Trip'), findsOneWidget);
       expect(find.text('Location needed'), findsOneWidget);
-      expect(find.text('Text-first trip setup'), findsOneWidget);
+      expect(find.text('Trip setup'), findsOneWidget);
       expect(find.text('All'), findsNothing);
 
       await tester.tap(find.text('Trips'));
