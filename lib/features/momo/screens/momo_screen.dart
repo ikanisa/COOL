@@ -29,7 +29,7 @@ import '../screens/momo_nfc_screen.dart';
 import '../services/nfc_service.dart';
 
 import '../widgets/momo_cards_widgets.dart';
-import '../widgets/momo_qr_nfc_widgets.dart';
+import '../widgets/momo_qr_widgets.dart';
 import '../widgets/momo_send_sheet.dart';
 import '../widgets/momo_sms_sync_status_card.dart';
 

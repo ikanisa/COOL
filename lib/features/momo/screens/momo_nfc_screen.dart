@@ -7,7 +7,7 @@ import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../providers/momo_service_provider.dart';
-import '../widgets/momo_qr_nfc_widgets.dart';
+import '../widgets/momo_nfc_widgets.dart';
 import '../../../core/l10n/l10n.dart';
 
 class MomoNfcScreen extends ConsumerWidget {

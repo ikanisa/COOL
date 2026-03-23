@@ -8,7 +8,7 @@ import 'package:supabase_flutter/supabase_flutter.dart'
 import 'package:cool_app/core/config/country_catalog.dart';
 import 'package:cool_app/features/momo/providers/momo_risk_provider.dart';
 import 'package:cool_app/features/momo/widgets/momo_cards_widgets.dart';
-import 'package:cool_app/features/momo/widgets/momo_qr_nfc_widgets.dart';
+import 'package:cool_app/features/momo/widgets/momo_qr_widgets.dart';
 import 'package:cool_app/features/momo/widgets/momo_risk_warning_sheet.dart';
 import 'package:cool_app/features/momo/widgets/momo_send_sheet.dart';
 import 'package:cool_app/features/momo/widgets/momo_sms_rationale_sheet.dart';
