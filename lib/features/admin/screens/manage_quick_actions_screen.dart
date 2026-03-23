@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/config/app_market.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
+import '../../../core/theme/cool_layout.dart';
 import '../../../shared/widgets/cool_async_view.dart';
+import '../../../shared/widgets/cool_button.dart';
+import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
@@ -14,6 +15,70 @@ import '../providers/admin_providers.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../shared/widgets/cool_bottom_sheet.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
+
+EdgeInsets _quickActionsBodyPadding() => CoolSpace.pagePadding;
+
+EdgeInsets _quickActionsListPadding() => CoolSpace.sectionPadding.copyWith(
+  left: 0,
+  right: 0,
+  top: 0,
+  bottom: CoolLayout.rootBottomClearance,
+);
+
+EdgeInsets _quickActionsCardPadding() => CoolSpace.sectionPadding.copyWith(
+  left: 0,
+  right: 0,
+  top: 0,
+  bottom: CoolSpace.x3,
+);
+
+EdgeInsets _quickActionTilePadding() => CoolSpace.sectionPadding.copyWith(
+  left: CoolSpace.x4,
+  right: CoolSpace.x4,
+  top: CoolSpace.x2,
+  bottom: CoolSpace.x2,
+);
+
+EdgeInsets _quickActionFieldPadding() => CoolSpace.sectionPadding.copyWith(
+  left: 0,
+  right: 0,
+  top: 0,
+  bottom: CoolSpace.x3,
+);
+
+EdgeInsets _quickActionsZeroPadding() =>
+    CoolSpace.sectionPadding.copyWith(left: 0, right: 0, top: 0, bottom: 0);
+
+EdgeInsets _quickActionSheetInsets(BuildContext context) {
+  final space = context.coolSpace;
+  return CoolSpace.pagePadding.copyWith(
+    top: space.x3,
+    bottom: MediaQuery.of(context).viewInsets.bottom + space.x6,
+  );
+}
+
+OutlineInputBorder _quickActionInputBorder(
+  CoolSemanticColors colors, {
+  Color? borderColor,
+  double width = 1,
+}) {
+  return OutlineInputBorder(
+    borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.xs)),
+    borderSide: BorderSide(color: borderColor ?? colors.border, width: width),
+  );
+}
+
+Widget _quickActionSheetHandle(BuildContext context) {
+  final colors = context.coolSemanticColors;
+  return Container(
+    width: 40,
+    height: 4,
+    decoration: BoxDecoration(
+      color: colors.border,
+      borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.pill)),
+    ),
+  );
+}
 
 /// Admin screen for managing home-screen quick action cards.
 class ManageQuickActionsScreen extends ConsumerStatefulWidget {
@@ -48,121 +113,118 @@ class _ManageQuickActionsScreenState
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final actionsAsync = ref.watch(adminQuickActionsProvider);
 
     return CoolScreenBackground(
-
-
       showGlow: false,
-
-
       child: Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        backgroundColor: palette.surface,
-        elevation: 0,
-        title: Text(
-          'Quick Actions',
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: palette.text,
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            tooltip: context.l10n.back,
+            icon: const Icon(Icons.arrow_back_rounded),
+            color: colors.primaryText,
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          title: Text(
+            'Quick Actions',
+            style: theme.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.w800,
+              color: colors.primaryText,
+            ),
+          ),
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(1),
+            child: Divider(height: 1, color: colors.divider),
           ),
         ),
-        iconTheme: IconThemeData(color: palette.text),
-      ),
-      floatingActionButton: Semantics(
-        button: true,
-        label: context.l10n.addQuickAction,
-        hint: 'New action',
-        child: FloatingActionButton(
-          backgroundColor: palette.accent,
-          onPressed: () => _showEditSheet(context, ref, null),
-          child: const Icon(Icons.add_rounded, color: Colors.black),
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: CoolAsyncView<List<Map<String, dynamic>>>(
-          value: actionsAsync,
-          onRetry: () => ref.invalidate(adminQuickActionsProvider),
-          loadingWidget: const CoolSkeletonList(itemCount: 4),
-          emptyCheck: (a) => a.isEmpty,
-          emptyWidget: const CoolEmptyView(
-            message: 'No quick actions yet',
-            icon: Icons.bolt_rounded,
+        floatingActionButton: Semantics(
+          button: true,
+          label: context.l10n.addQuickAction,
+          hint: 'New action',
+          child: FloatingActionButton(
+            backgroundColor: colors.accent,
+            onPressed: () => _showEditSheet(context, ref, null),
+            child: Icon(Icons.add_rounded, color: colors.accentForeground),
           ),
-          builder: (actions) {
-            _localActions ??= List<Map<String, dynamic>>.from(actions);
-            final displayActions = _localActions!;
-            if (displayActions.isEmpty) {
-              return const SizedBox.shrink();
-            }
-            return ReorderableListView.builder(
-              itemCount: displayActions.length,
-              onReorder: _onReorder,
-              itemBuilder: (context, index) {
-                final a = displayActions[index];
-                return Padding(
-                  key: ValueKey(a['id']),
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: palette.surface,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: palette.border),
-                    ),
-                    child: Semantics(
-                      container: true,
-                      label:
-                          'Quick action ${a['title'] ?? ''}. Route ${a['route'] ?? ''}. '
-                          'Market ${AppMarket.country.name}.',
-                      child: ListTile(
-                        leading: Text(
-                          a['emoji']?.toString() ?? '⚡',
-                          style: const TextStyle(fontSize: 22),
-                        ),
-                        title: Text(
-                          a['title']?.toString() ?? '',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: palette.text,
+        ),
+        body: Padding(
+          padding: _quickActionsBodyPadding(),
+          child: CoolAsyncView<List<Map<String, dynamic>>>(
+            value: actionsAsync,
+            onRetry: () => ref.invalidate(adminQuickActionsProvider),
+            loadingWidget: const CoolSkeletonList(itemCount: 4),
+            emptyCheck: (a) => a.isEmpty,
+            emptyWidget: const CoolEmptyView(
+              message: 'No quick actions yet',
+              icon: Icons.bolt_rounded,
+            ),
+            builder: (actions) {
+              _localActions ??= List<Map<String, dynamic>>.from(actions);
+              final displayActions = _localActions!;
+              if (displayActions.isEmpty) {
+                return const SizedBox.shrink();
+              }
+              return ReorderableListView.builder(
+                itemCount: displayActions.length,
+                onReorder: _onReorder,
+                padding: _quickActionsListPadding(),
+                itemBuilder: (context, index) {
+                  final a = displayActions[index];
+                  return Padding(
+                    key: ValueKey(a['id']),
+                    padding: _quickActionsCardPadding(),
+                    child: CoolCard(
+                      padding: _quickActionsZeroPadding(),
+                      backgroundColor: colors.operationalSurface,
+                      useGradient: false,
+                      child: Semantics(
+                        container: true,
+                        label:
+                            'Quick action ${a['title'] ?? ''}. Route ${a['route'] ?? ''}. '
+                            'Market ${AppMarket.country.name}.',
+                        child: ListTile(
+                          contentPadding: _quickActionTilePadding(),
+                          leading: Text(
+                            a['emoji']?.toString() ?? '⚡',
+                            style: theme.textTheme.titleMedium,
                           ),
-                        ),
-                        subtitle: Text(
-                          '${a['route']} · ${AppMarket.country.name}',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 12,
-                            color: palette.text3,
+                          title: Text(
+                            a['title']?.toString() ?? '',
+                            style: theme.textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: colors.primaryText,
+                            ),
                           ),
-                        ),
-                        trailing: Semantics(
-                          button: true,
-                          label: 'Edit quick action ${a['title'] ?? ''}',
-                          hint: 'Edit action',
-                          child: GestureDetector(
-                            onTap: () => _showEditSheet(context, ref, a),
-                            child: Icon(
+                          subtitle: Text(
+                            '${a['route']} · ${AppMarket.country.name}',
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: colors.tertiaryText,
+                            ),
+                          ),
+                          trailing: IconButton(
+                            tooltip: 'Edit quick action ${a['title'] ?? ''}',
+                            onPressed: () => _showEditSheet(context, ref, a),
+                            icon: Icon(
                               Icons.edit_rounded,
                               size: 18,
-                              color: palette.text3,
+                              color: colors.secondaryText,
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                );
-              },
-            );
-          },
+                  );
+                },
+              );
+            },
+          ),
         ),
       ),
-    ),
-
-
     );
   }
 
@@ -248,76 +310,47 @@ class _EditQuickActionSheetState extends State<_EditQuickActionSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+        color: colors.overlaySurface,
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(CoolRadii.lg),
+        ),
       ),
       child: SafeArea(
         top: false,
         child: Padding(
-          padding: EdgeInsets.fromLTRB(
-            22,
-            12,
-            22,
-            MediaQuery.of(context).viewInsets.bottom + 22,
-          ),
+          padding: _quickActionSheetInsets(context),
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  width: 40,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: palette.border2,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-                const SizedBox(height: 16),
+                _quickActionSheetHandle(context),
+                const SizedBox(height: CoolSpace.x4),
                 Text(
                   widget.action != null
                       ? 'Edit Quick Action'
                       : 'New Quick Action',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 18,
+                  style: theme.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: palette.text,
+                    color: colors.primaryText,
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: CoolSpace.x4),
                 _field('Title', _titleCtl),
                 _field('Subtitle', _subtitleCtl),
                 _field('Emoji', _emojiCtl),
                 _field('Route', _routeCtl),
                 _marketField(),
-                const SizedBox(height: 12),
+                const SizedBox(height: CoolSpace.x3),
                 SizedBox(
                   width: double.infinity,
-                  height: 48,
-                  child: ElevatedButton(
-                    onPressed: _saving ? null : _save,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: palette.accent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                    ),
-                    child: _saving
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CupertinoActivityIndicator(radius: 10),
-                          )
-                        : Text(
-                            'Save',
-                            style: GoogleFonts.dmSans(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
-                            ),
-                          ),
+                  child: CoolButton(
+                    label: 'Save',
+                    onTap: _save,
+                    isLoading: _saving,
                   ),
                 ),
               ],
@@ -329,44 +362,79 @@ class _EditQuickActionSheetState extends State<_EditQuickActionSheet> {
   }
 
   Widget _field(String label, TextEditingController ctl) => Padding(
-    padding: const EdgeInsets.only(bottom: 10),
-    child: Semantics(
-      textField: true,
-      label: label,
-      hint: 'Enter $label',
-      child: TextField(
-        controller: ctl,
-        style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
-          filled: true,
-          fillColor: AppColors.surface2,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
+    padding: _quickActionFieldPadding(),
+    child: Builder(
+      builder: (context) {
+        final colors = context.coolSemanticColors;
+        final theme = Theme.of(context);
+        return Semantics(
+          textField: true,
+          label: label,
+          hint: 'Enter $label',
+          child: TextField(
+            controller: ctl,
+            style: theme.textTheme.titleSmall?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w700,
+            ),
+            decoration: InputDecoration(
+              labelText: label,
+              labelStyle: theme.textTheme.bodySmall?.copyWith(
+                color: colors.tertiaryText,
+              ),
+              filled: true,
+              fillColor: colors.inputSurface,
+              border: _quickActionInputBorder(colors),
+              enabledBorder: _quickActionInputBorder(colors),
+              focusedBorder: _quickActionInputBorder(
+                colors,
+                borderColor: colors.accent,
+                width: 1.4,
+              ),
+              contentPadding: CoolSpace.sectionPadding.copyWith(
+                left: CoolSpace.x3,
+                right: CoolSpace.x3,
+                top: CoolSpace.x3,
+                bottom: CoolSpace.x3,
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     ),
   );
 
   Widget _marketField() => Padding(
-    padding: const EdgeInsets.only(bottom: 10),
-    child: TextFormField(
-      initialValue: AppMarket.country.name,
-      enabled: false,
-      style: GoogleFonts.dmSans(fontSize: 14, color: AppColors.text),
-      decoration: InputDecoration(
-        labelText: 'Market',
-        labelStyle: GoogleFonts.dmSans(color: AppColors.text3),
-        filled: true,
-        fillColor: AppColors.surface2.withValues(alpha: 0.5),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
-        ),
-      ),
+    padding: _quickActionFieldPadding(),
+    child: Builder(
+      builder: (context) {
+        final colors = context.coolSemanticColors;
+        final theme = Theme.of(context);
+        return TextFormField(
+          initialValue: AppMarket.country.name,
+          enabled: false,
+          style: theme.textTheme.titleSmall?.copyWith(
+            color: colors.primaryText,
+            fontWeight: FontWeight.w700,
+          ),
+          decoration: InputDecoration(
+            labelText: 'Market',
+            labelStyle: theme.textTheme.bodySmall?.copyWith(
+              color: colors.tertiaryText,
+            ),
+            filled: true,
+            fillColor: colors.inputSurface.withValues(alpha: 0.55),
+            border: _quickActionInputBorder(colors),
+            disabledBorder: _quickActionInputBorder(colors),
+            contentPadding: CoolSpace.sectionPadding.copyWith(
+              left: CoolSpace.x3,
+              right: CoolSpace.x3,
+              top: CoolSpace.x3,
+              bottom: CoolSpace.x3,
+            ),
+          ),
+        );
+      },
     ),
   );
 }
