@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../core/config/country_catalog.dart';
 import '../../../core/models/momo_qr_payload.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/phone_validator.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
@@ -33,16 +33,26 @@ class MomoQrSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+        color: colors.elevatedBackground,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(CoolRadii.xl),
+          topRight: Radius.circular(CoolRadii.xl),
+        ),
       ),
       child: SafeArea(
         top: false,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(18, 12, 18, 24),
+          padding: const EdgeInsets.fromLTRB(
+            CoolSpace.x4 + CoolSpace.x1 / 2,
+            CoolSpace.x3,
+            CoolSpace.x4 + CoolSpace.x1 / 2,
+            CoolSpace.x6,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -53,10 +63,9 @@ class MomoQrSheet extends StatelessWidget {
                   Expanded(
                     child: Text(
                       'MOMO QR',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 18,
+                      style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w700,
-                        color: palette.text,
+                        color: colors.primaryText,
                       ),
                     ),
                   ),
@@ -67,7 +76,7 @@ class MomoQrSheet extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: space.x3),
               MomoQrCodeCard(
                 country: country,
                 momoNumber: momoNumber,
@@ -95,23 +104,24 @@ class MomoReceiveQrScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: palette.bg,
+      backgroundColor: colors.appBackground,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).maybePop(),
           tooltip: context.l10n.back,
-          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
+          icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
         ),
         title: Text(
           'MOMO QR',
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
+          style: theme.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w700,
-            color: palette.text,
+            color: colors.primaryText,
           ),
         ),
       ),
@@ -119,7 +129,12 @@ class MomoReceiveQrScreen extends StatelessWidget {
         child: SafeArea(
           top: false,
           child: ListView(
-            padding: const EdgeInsets.fromLTRB(18, 8, 18, 24),
+            padding: const EdgeInsets.fromLTRB(
+              CoolSpace.x4 + CoolSpace.x1 / 2,
+              CoolSpace.x2,
+              CoolSpace.x4 + CoolSpace.x1 / 2,
+              CoolSpace.x6,
+            ),
             children: [
               MomoQrCodeCard(
                 country: country,
@@ -266,19 +281,19 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
     }
 
     return SharePlus.instance.share(
-      ShareParams(
-        text: shareText,
-        subject: 'MoMo Payment',
-      ),
+      ShareParams(text: shareText, subject: 'MoMo Payment'),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
+    final brightness = theme.brightness;
     return CoolCard(
       child: Padding(
-        padding: const EdgeInsets.all(22),
+        padding: const EdgeInsets.all(CoolSpace.x5 + CoolSpace.x1 / 2),
         child: Column(
           children: [
             // ─── Route type chips ───
@@ -288,31 +303,27 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
                   Expanded(
                     child: MomoRouteTypeChip(
                       label: 'MoMo Number',
-                      isActive:
-                          _recipientType == MomoRecipientType.phoneNumber,
+                      isActive: _recipientType == MomoRecipientType.phoneNumber,
                       onTap: () {
                         setState(
-                          () =>
-                              _recipientType = MomoRecipientType.phoneNumber,
+                          () => _recipientType = MomoRecipientType.phoneNumber,
                         );
                       },
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  SizedBox(width: space.x2 + space.x1 / 2),
                   Expanded(
                     child: MomoRouteTypeChip(
                       label: 'MoMo Code',
                       isActive: _recipientType == MomoRecipientType.code,
                       onTap: () {
-                        setState(
-                          () => _recipientType = MomoRecipientType.code,
-                        );
+                        setState(() => _recipientType = MomoRecipientType.code);
                       },
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 18),
+              SizedBox(height: space.x4 + space.x1 / 2),
             ],
 
             // ─── Editable MoMo number / code ───
@@ -337,20 +348,18 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
                 onChanged: (_) => setState(() => _qrGenerated = false),
               ),
 
-            const SizedBox(height: 14),
+            SizedBox(height: space.x3),
 
             // ─── Optional amount ───
             if (_showAmount)
               CoolTextField(
-                label:
-                    'Amount (${widget.country.currencyCode}) — optional',
+                label: 'Amount (${widget.country.currencyCode}) — optional',
                 hint: '5,000',
                 controller: _amountController,
                 keyboardType: TextInputType.number,
                 prefixIcon: Icons.payments_rounded,
                 textInputAction: TextInputAction.done,
-                onChanged: (_) =>
-                    setState(() => _qrGenerated = false),
+                onChanged: (_) => setState(() => _qrGenerated = false),
               )
             else
               Align(
@@ -360,39 +369,36 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
                   icon: const Icon(Icons.add_rounded, size: 18),
                   label: Text(
                     'Add amount (optional)',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
+                    style: theme.textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
               ),
 
-            const SizedBox(height: 18),
+            SizedBox(height: space.x4 + space.x1 / 2),
 
             // ─── QR code ───
             if (_qrGenerated && _canGenerate) ...[
               Container(
-                padding: const EdgeInsets.all(18),
+                padding: const EdgeInsets.all(CoolSpace.x4 + CoolSpace.x1 / 2),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(24),
-                  border: Border.all(
-                    color: palette.border.withValues(alpha: 0.7),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(CoolRadii.md),
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.08),
-                      blurRadius: 22,
-                      offset: const Offset(0, 8),
-                    ),
-                  ],
+                  border: Border.all(
+                    color: colors.border.withValues(alpha: 0.7),
+                  ),
+                  boxShadow: CoolShadows.clay(brightness, strength: 0.32),
                 ),
                 child: QrImageView(
                   data: _qrData,
                   version: QrVersions.auto,
                   size: 220,
-                  padding: const EdgeInsets.all(18),
+                  padding: const EdgeInsets.all(
+                    CoolSpace.x4 + CoolSpace.x1 / 2,
+                  ),
                   errorCorrectionLevel: QrErrorCorrectLevel.H,
                   backgroundColor: Colors.white,
                   eyeStyle: const QrEyeStyle(
@@ -405,53 +411,52 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
                   ),
                 ),
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: space.x3),
               Text(
                 _displayRecipient,
-                style: GoogleFonts.dmMono(
-                  fontSize: 18,
+                style: theme.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.w700,
-                  color: palette.accent,
+                  color: colors.accent,
                 ),
               ),
               Text(
                 'MOMO QR · ${widget.country.name}',
-                style: GoogleFonts.dmSans(
-                  fontSize: 12,
+                style: theme.textTheme.labelSmall?.copyWith(
                   fontWeight: FontWeight.w500,
-                  color: palette.text2,
+                  color: colors.secondaryText,
                 ),
               ),
-              const SizedBox(height: 18),
+              SizedBox(height: space.x4 + space.x1 / 2),
             ] else ...[
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 48),
+                padding: const EdgeInsets.symmetric(vertical: CoolSpace.x9),
                 decoration: BoxDecoration(
-                  color: palette.surface2,
-                  borderRadius: BorderRadius.circular(24),
-                  border: Border.all(color: palette.border),
+                  color: colors.surface,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(CoolRadii.lg),
+                  ),
+                  border: Border.all(color: colors.border),
                 ),
                 child: Column(
                   children: [
                     Icon(
                       Icons.qr_code_2_rounded,
                       size: 56,
-                      color: palette.text3,
+                      color: colors.tertiaryText,
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: space.x3),
                     Text(
                       'Enter your MoMo details to get QR',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 14,
+                      style: theme.textTheme.bodySmall?.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: palette.text2,
+                        color: colors.secondaryText,
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 18),
+              SizedBox(height: space.x4 + space.x1 / 2),
             ],
 
             // ─── Generate QR + Share link buttons ───
@@ -465,7 +470,7 @@ class _MomoQrCodeCardState extends State<MomoQrCodeCard> {
                     onTap: _generateQr,
                   ),
                 ),
-                const SizedBox(width: 10),
+                SizedBox(width: space.x2 + space.x1 / 2),
                 Expanded(
                   child: CoolButton(
                     label: 'Share link',

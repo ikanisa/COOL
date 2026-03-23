@@ -4,19 +4,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/models/momo_qr_payload.dart';
+import '../../../core/providers/engagement_providers.dart';
 
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 
-import '../../../core/providers/app_access_provider.dart';
-import '../../../core/providers/app_lifecycle_providers.dart';
-import '../../../core/services/app_access_service.dart';
 import '../../../shared/widgets/balance_card.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_bottom_sheet.dart';
@@ -25,16 +22,17 @@ import '../../../shared/widgets/cool_toast.dart';
 import '../../../shared/widgets/secure_screen_mixin.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../auth/providers/auth_provider.dart';
+import '../../profile/widgets/profile_app_access_sheet.dart';
 import '../models/momo_statement.dart';
 import '../providers/momo_statement_providers.dart';
 import '../providers/momo_service_provider.dart';
 import '../screens/momo_nfc_screen.dart';
-import '../services/momo_sms_autoread_service.dart';
 import '../services/nfc_service.dart';
 
 import '../widgets/momo_cards_widgets.dart';
 import '../widgets/momo_qr_nfc_widgets.dart';
 import '../widgets/momo_send_sheet.dart';
+import '../widgets/momo_sms_sync_status_card.dart';
 
 /// Mobile Money hub — USSD gateway, QR code, and NFC transfers.
 class MomoScreen extends ConsumerStatefulWidget {
@@ -225,9 +223,17 @@ class _MomoScreenState extends ConsumerState<MomoScreen>
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
     final authState = ref.watch(authProvider);
     final user = authState.user;
+    final biopayEnabled = ref.watch(
+      featureFlagsStateProvider.select(
+        (flags) => flags.isBiopayEnabled(isAdmin: user?.isAdmin ?? false),
+      ),
+    );
     final country = AppMarket.country;
     final momoNumber = user?.momoNumber.isNotEmpty == true
         ? user!.momoNumber
@@ -278,15 +284,19 @@ class _MomoScreenState extends ConsumerState<MomoScreen>
                 physics: const AlwaysScrollableScrollPhysics(),
                 slivers: [
                   SliverPadding(
-                    padding: const EdgeInsets.fromLTRB(18, 18, 18, 96),
+                    padding: EdgeInsets.fromLTRB(
+                      space.x5,
+                      space.x5,
+                      space.x5,
+                      96,
+                    ),
                     sliver: SliverList(
                       delegate: SliverChildListDelegate([
                         Text(
                           l10n.momoScreenTitle,
-                          style: GoogleFonts.dmSans(
-                            fontSize: 34,
+                          style: theme.textTheme.displaySmall?.copyWith(
                             fontWeight: FontWeight.w800,
-                            color: palette.text,
+                            color: colors.primaryText,
                           ),
                         ),
                         const SizedBox(height: 24),
@@ -301,19 +311,19 @@ class _MomoScreenState extends ConsumerState<MomoScreen>
                               label: 'Inflow',
                               value:
                                   '${_formatCompactAmount(walletInflows)} RWF',
-                              accentColor: const Color(0xFFAEE7C3),
+                              accentColor: colors.success,
                             ),
                             BalanceCardMetric(
                               label: 'Outflow',
                               value:
                                   '${_formatCompactAmount(walletOutflows)} RWF',
-                              accentColor: const Color(0xFFFFD598),
+                              accentColor: colors.warning,
                             ),
                             BalanceCardMetric(
                               label: 'Savings',
                               value:
                                   '${_formatCompactAmount(savingsTotal)} RWF',
-                              accentColor: const Color(0xFFA8C8FF),
+                              accentColor: colors.info,
                             ),
                           ],
                           actions: [
@@ -359,32 +369,101 @@ class _MomoScreenState extends ConsumerState<MomoScreen>
                           ],
                         ),
                         const SizedBox(height: 24),
-                        _SmsSyncCta(
-                          onSyncComplete: () {
-                            if (mounted) {
-                              CoolToast.success(context, 'M-Money SMS synced!');
-                            }
+                        MomoSmsSyncStatusCard(
+                          onManageAccess: () =>
+                              ProfileAppAccessSheet.show(context),
+                          onOpenStatements: () =>
+                              context.push(AppRoutes.momoStatements),
+                          onSyncComplete: (_) {
+                            ref.invalidate(
+                              momoStatementBundleProvider(
+                                const MomoStatementQuery(),
+                              ),
+                            );
                           },
                         ),
+                        SizedBox(height: space.x5),
+                        if (biopayEnabled) ...[
+                          CoolCard(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: 48,
+                                      height: 48,
+                                      decoration: BoxDecoration(
+                                        color: colors.info.withValues(
+                                          alpha: 0.14,
+                                        ),
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(CoolRadii.lg),
+                                        ),
+                                      ),
+                                      child: Icon(
+                                        Icons.face_retouching_natural_rounded,
+                                        color: colors.info,
+                                      ),
+                                    ),
+                                    SizedBox(width: space.x3),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'BioPay',
+                                            style: theme.textTheme.titleLarge
+                                                ?.copyWith(
+                                                  fontWeight: FontWeight.w900,
+                                                  color: colors.primaryText,
+                                                ),
+                                          ),
+                                          SizedBox(height: space.x1),
+                                          Text(
+                                            'Face-to-USSD handoff with your signed-in profile and wallet route. No phone OTP.',
+                                            style: theme.textTheme.bodySmall
+                                                ?.copyWith(
+                                                  color: colors.secondaryText,
+                                                  fontWeight: FontWeight.w500,
+                                                  height: 1.4,
+                                                ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: space.x4),
+                                CoolButton(
+                                  label: 'Open BioPay',
+                                  icon: Icons.arrow_outward_rounded,
+                                  onTap: () =>
+                                      context.push(AppRoutes.biopayHome),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: space.x5),
+                        ],
                         CoolCard(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 'Trust and controls',
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 18,
+                                style: theme.textTheme.titleMedium?.copyWith(
                                   fontWeight: FontWeight.w800,
-                                  color: palette.text,
+                                  color: colors.primaryText,
                                 ),
                               ),
-                              const SizedBox(height: 8),
+                              SizedBox(height: space.x2),
                               Text(
                                 'Keep payment actions, receive channels, and record review separate and easy to scan.',
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 13,
+                                style: theme.textTheme.bodySmall?.copyWith(
                                   fontWeight: FontWeight.w500,
-                                  color: palette.text2,
+                                  color: colors.secondaryText,
                                   height: 1.4,
                                 ),
                               ),
@@ -444,26 +523,24 @@ class _MomoScreenState extends ConsumerState<MomoScreen>
                             ],
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: space.x5),
                         CoolCard(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 l10n.sendMoneyTitle,
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 18,
+                                style: theme.textTheme.titleMedium?.copyWith(
                                   fontWeight: FontWeight.w800,
-                                  color: palette.text,
+                                  color: colors.primaryText,
                                 ),
                               ),
-                              const SizedBox(height: 8),
+                              SizedBox(height: space.x2),
                               Text(
                                 l10n.sendMoneyHint,
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 13,
+                                style: theme.textTheme.bodySmall?.copyWith(
                                   fontWeight: FontWeight.w500,
-                                  color: palette.text2,
+                                  color: colors.secondaryText,
                                   height: 1.4,
                                 ),
                               ),
@@ -504,9 +581,11 @@ class _MomoScreenState extends ConsumerState<MomoScreen>
                         vertical: 12,
                       ),
                       decoration: BoxDecoration(
-                        color: palette.surface,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: palette.border),
+                        color: colors.elevatedBackground,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(CoolRadii.md),
+                        ),
+                        border: Border.all(color: colors.border),
                       ),
                       child: Row(
                         children: [
@@ -515,14 +594,13 @@ class _MomoScreenState extends ConsumerState<MomoScreen>
                             height: 18,
                             child: CupertinoActivityIndicator(radius: 9),
                           ),
-                          const SizedBox(width: 12),
+                          SizedBox(width: space.x3),
                           Expanded(
                             child: Text(
                               l10n.momoNfcLaunchingOverlay,
-                              style: GoogleFonts.dmSans(
-                                fontSize: 13,
+                              style: theme.textTheme.bodySmall?.copyWith(
                                 fontWeight: FontWeight.w600,
-                                color: palette.text,
+                                color: colors.primaryText,
                               ),
                             ),
                           ),
@@ -571,25 +649,26 @@ class _WalletTrustChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: space.x3, vertical: space.x2),
       decoration: BoxDecoration(
-        color: palette.surface3,
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: palette.border),
+        color: colors.cardSurfaceStrong,
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.pill)),
+        border: Border.all(color: colors.border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 14, color: palette.text2),
-          const SizedBox(width: 6),
+          Icon(icon, size: 14, color: colors.secondaryText),
+          SizedBox(width: space.x1),
           Text(
             label,
-            style: GoogleFonts.dmSans(
-              fontSize: 11,
+            style: theme.textTheme.labelSmall?.copyWith(
               fontWeight: FontWeight.w700,
-              color: palette.text2,
+              color: colors.secondaryText,
             ),
           ),
         ],
@@ -644,140 +723,4 @@ String _formatCompactAmount(int amount) {
     return '${(amount / 1000).toStringAsFixed(amount % 1000 == 0 ? 0 : 1)}K';
   }
   return '$amount';
-}
-
-/// Shows a CTA card when SMS sync is not enabled, guiding users to enable it.
-class _SmsSyncCta extends ConsumerStatefulWidget {
-  const _SmsSyncCta({this.onSyncComplete});
-
-  final VoidCallback? onSyncComplete;
-
-  @override
-  ConsumerState<_SmsSyncCta> createState() => _SmsSyncCtaState();
-}
-
-class _SmsSyncCtaState extends ConsumerState<_SmsSyncCta> {
-  bool _syncing = false;
-  bool _smsEnabled = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _checkSmsStatus();
-  }
-
-  Future<void> _checkSmsStatus() async {
-    final enabled = await ref
-        .read(appAccessServiceProvider)
-        .isEnabled(AppAccessPermission.sms);
-    if (mounted) {
-      setState(() => _smsEnabled = enabled);
-    }
-  }
-
-  Future<void> _enableAndSync() async {
-    if (_syncing) return;
-    setState(() => _syncing = true);
-
-    try {
-      // 1. Enable SMS in app settings
-      await ref
-          .read(appAccessServiceProvider)
-          .enableAndRequest(AppAccessPermission.sms);
-
-      // 2. Refresh the autoread service (triggers permission + listener + sync)
-      final service = ref.read(momoSmsAutoreadServiceProvider);
-      await service.refresh(forcePermissionRequest: true);
-
-      // 3. Trigger manual inbox sync
-      try {
-        await service.syncInbox(trigger: MomoInboxSyncTrigger.manual);
-      } catch (_) {
-        // syncInbox may throw if already ran via initial sync — that's OK
-      }
-
-      if (mounted) {
-        setState(() => _smsEnabled = true);
-        widget.onSyncComplete?.call();
-      }
-    } catch (error) {
-      if (mounted) {
-        CoolToast.error(context, 'SMS sync failed. Try again in Settings.');
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _syncing = false);
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (_smsEnabled) return const SizedBox.shrink();
-
-    final palette = context.coolPalette;
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: CoolCard(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(Icons.sms_rounded, color: palette.accent, size: 22),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    'Sync M-Money SMS',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: palette.text,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Import past year M-Money confirmations to auto-track payments, '
-              'contributions, and transactions.',
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
-                color: palette.text3,
-                height: 1.4,
-              ),
-            ),
-            const SizedBox(height: 14),
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton.icon(
-                onPressed: _syncing ? null : _enableAndSync,
-                icon: _syncing
-                    ? const SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: Colors.white,
-                        ),
-                      )
-                    : const Icon(Icons.sync_rounded, size: 18),
-                label: Text(_syncing ? 'Syncing…' : 'Enable & Sync'),
-                style: FilledButton.styleFrom(
-                  backgroundColor: palette.accent,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }

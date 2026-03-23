@@ -169,6 +169,18 @@ class MomoPaymentSyncRepository {
           partnerId: metadata['partner_id']?.toString(),
           driverId: driverId,
         );
+      case 'rejected':
+        return MomoPaymentSyncResult(
+          status: MomoPaymentSyncStatus.unmatched,
+          matchType: _matchTypeFromServer(
+            targetTable: targetTable,
+            matchType: reconciliationRow['match_type']?.toString(),
+          ),
+          reference: reference,
+          groupId: metadata['group_id']?.toString(),
+          partnerId: metadata['partner_id']?.toString(),
+          driverId: driverId,
+        );
       default:
         return MomoPaymentSyncResult(
           status: MomoPaymentSyncStatus.processing,

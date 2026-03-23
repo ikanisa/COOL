@@ -3,12 +3,11 @@ import 'dart:io' show Platform;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/config/country_catalog.dart';
 import '../../../core/services/app_access_service.dart';
 import '../../../core/services/momo_service.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/phone_validator.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
@@ -42,16 +41,26 @@ class MomoNfcSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+        color: colors.elevatedBackground,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(CoolRadii.xl),
+          topRight: Radius.circular(CoolRadii.xl),
+        ),
       ),
       child: SafeArea(
         top: false,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(18, 12, 18, 24),
+          padding: const EdgeInsets.fromLTRB(
+            CoolSpace.x4 + CoolSpace.x1 / 2,
+            CoolSpace.x3,
+            CoolSpace.x4 + CoolSpace.x1 / 2,
+            CoolSpace.x6,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -62,10 +71,9 @@ class MomoNfcSheet extends StatelessWidget {
                   Expanded(
                     child: Text(
                       'NFC pay',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 18,
+                      style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w700,
-                        color: palette.text,
+                        color: colors.primaryText,
                       ),
                     ),
                   ),
@@ -76,7 +84,7 @@ class MomoNfcSheet extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: space.x3),
               MomoNfcCard(
                 country: country,
                 momoNumber: momoNumber,
@@ -149,9 +157,7 @@ class _MomoNfcCardState extends State<MomoNfcCard>
       duration: const Duration(milliseconds: 1800),
     )..repeat();
     _nfcMomoNumberController = TextEditingController(text: widget.momoNumber);
-    _nfcMomoCodeController = TextEditingController(
-      text: widget.momoCode ?? '',
-    );
+    _nfcMomoCodeController = TextEditingController(text: widget.momoCode ?? '');
     _nfcRecipientType = widget.momoNumber.trim().isNotEmpty
         ? MomoRecipientType.phoneNumber
         : MomoRecipientType.code;
@@ -295,14 +301,23 @@ class _MomoNfcCardState extends State<MomoNfcCard>
       context: context,
       backgroundColor: Colors.transparent,
       builder: (context) {
-        final palette = context.coolPalette;
+        final colors = context.coolSemanticColors;
+        final space = context.coolSpace;
+        final theme = Theme.of(context);
         return Container(
           decoration: BoxDecoration(
-            color: palette.surface,
-            borderRadius:
-                const BorderRadius.vertical(top: Radius.circular(28)),
+            color: colors.elevatedBackground,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(CoolRadii.xl),
+              topRight: Radius.circular(CoolRadii.xl),
+            ),
           ),
-          padding: const EdgeInsets.fromLTRB(22, 16, 22, 32),
+          padding: const EdgeInsets.fromLTRB(
+            CoolSpace.x5 + CoolSpace.x1 / 2,
+            CoolSpace.x4,
+            CoolSpace.x5 + CoolSpace.x1 / 2,
+            CoolSpace.x7,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -310,29 +325,26 @@ class _MomoNfcCardState extends State<MomoNfcCard>
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: palette.border2,
-                  borderRadius: BorderRadius.circular(2),
+                  color: colors.borderStrong,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(CoolRadii.xs),
+                  ),
                 ),
               ),
-              const SizedBox(height: 20),
-              Icon(
-                Icons.check_circle_rounded,
-                size: 36,
-                color: palette.accent,
-              ),
-              const SizedBox(height: 12),
+              SizedBox(height: space.x5),
+              Icon(Icons.check_circle_rounded, size: 36, color: colors.accent),
+              SizedBox(height: space.x3),
               Text(
                 result.hasPaymentData ? 'Payment tag' : 'Tag read',
-                style: GoogleFonts.dmSans(
-                  fontSize: 18,
+                style: theme.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.w700,
-                  color: palette.text,
+                  color: colors.primaryText,
                 ),
               ),
               const SizedBox(height: 12),
               if (result.hasPaymentData) ...[
                 _nfcInfoRow(recipientLabel, result.recipientValue!),
-                const SizedBox(height: 8),
+                SizedBox(height: space.x2),
                 _nfcInfoRow(
                   'Amount',
                   '${result.amount} ${widget.country.currencyCode}',
@@ -342,12 +354,11 @@ class _MomoNfcCardState extends State<MomoNfcCard>
               else
                 Text(
                   'No data found',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
-                    color: palette.text2,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colors.secondaryText,
                   ),
                 ),
-              const SizedBox(height: 18),
+              SizedBox(height: space.x4 + space.x1 / 2),
               if (result.hasPaymentData)
                 CoolButton(
                   label: 'Pay by USSD',
@@ -364,33 +375,33 @@ class _MomoNfcCardState extends State<MomoNfcCard>
   }
 
   Widget _nfcInfoRow(String label, String value) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(CoolSpace.x3),
       decoration: BoxDecoration(
-        color: palette.surface2,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: palette.border),
+        color: colors.surface,
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm)),
+        border: Border.all(color: colors.border),
       ),
       child: Row(
         children: [
           Text(
             label,
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
+            style: theme.textTheme.bodySmall?.copyWith(
               fontWeight: FontWeight.w600,
-              color: palette.text2,
+              color: colors.secondaryText,
             ),
           ),
           const Spacer(),
           Flexible(
             child: Text(
               value,
-              style: GoogleFonts.dmMono(
-                fontSize: 14,
+              style: theme.textTheme.bodySmall?.copyWith(
                 fontWeight: FontWeight.w700,
-                color: palette.accent,
+                color: colors.accent,
               ),
               overflow: TextOverflow.ellipsis,
             ),
@@ -420,19 +431,24 @@ class _MomoNfcCardState extends State<MomoNfcCard>
         var isWriting = false;
         return StatefulBuilder(
           builder: (context, setSheetState) {
-            final palette = context.coolPalette;
+            final colors = context.coolSemanticColors;
+            final space = context.coolSpace;
+            final theme = Theme.of(context);
             return Container(
               decoration: BoxDecoration(
-                color: palette.surface,
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(28),
+                color: colors.elevatedBackground,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(CoolRadii.xl),
+                  topRight: Radius.circular(CoolRadii.xl),
                 ),
               ),
               padding: EdgeInsets.fromLTRB(
-                22,
-                16,
-                22,
-                22 + MediaQuery.of(context).viewInsets.bottom,
+                space.x5 + space.x1 / 2,
+                space.x4,
+                space.x5 + space.x1 / 2,
+                space.x5 +
+                    space.x1 / 2 +
+                    MediaQuery.of(context).viewInsets.bottom,
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -443,28 +459,31 @@ class _MomoNfcCardState extends State<MomoNfcCard>
                       width: 40,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: palette.border2,
-                        borderRadius: BorderRadius.circular(2),
+                        color: colors.borderStrong,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(CoolRadii.xs),
+                        ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: space.x5),
                   Text(
                     _supportsPhoneTap ? 'Tap receive' : 'Write tag',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 18,
+                    style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w700,
-                      color: palette.text,
+                      color: colors.primaryText,
                     ),
                   ),
-                  const SizedBox(height: 14),
+                  SizedBox(height: space.x3),
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(CoolSpace.x3),
                     decoration: BoxDecoration(
-                      color: palette.surface2,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: palette.border),
+                      color: colors.surface,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(CoolRadii.sm),
+                      ),
+                      border: Border.all(color: colors.border),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -473,13 +492,12 @@ class _MomoNfcCardState extends State<MomoNfcCard>
                           recipientType == MomoRecipientType.code
                               ? 'Receiving to MoMo Code'
                               : 'Receiving to MoMo Number',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 12,
+                          style: theme.textTheme.labelSmall?.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: palette.text2,
+                            color: colors.secondaryText,
                           ),
                         ),
-                        const SizedBox(height: 6),
+                        SizedBox(height: space.x1 + space.x1 / 2),
                         Text(
                           recipientType == MomoRecipientType.code
                               ? recipientValue
@@ -487,16 +505,15 @@ class _MomoNfcCardState extends State<MomoNfcCard>
                                   recipientValue,
                                   widget.country,
                                 ),
-                          style: GoogleFonts.dmMono(
-                            fontSize: 14,
+                          style: theme.textTheme.bodySmall?.copyWith(
                             fontWeight: FontWeight.w700,
-                            color: palette.accent,
+                            color: colors.accent,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 14),
+                  SizedBox(height: space.x3),
                   CoolTextField(
                     label: 'Amount (${widget.country.currencyCode})',
                     hint: '5000',
@@ -505,23 +522,16 @@ class _MomoNfcCardState extends State<MomoNfcCard>
                     prefixIcon: Icons.payments_rounded,
                     textInputAction: TextInputAction.done,
                   ),
-                  const SizedBox(height: 18),
+                  SizedBox(height: space.x4 + space.x1 / 2),
                   CoolButton(
                     label: isWriting
-                        ? (_supportsPhoneTap
-                            ? 'Starting tap'
-                            : 'Writing tag')
-                        : (_supportsPhoneTap
-                            ? 'Start tap'
-                            : 'Write tag'),
+                        ? (_supportsPhoneTap ? 'Starting tap' : 'Writing tag')
+                        : (_supportsPhoneTap ? 'Start tap' : 'Write tag'),
                     isLoading: isWriting,
                     onTap: () {
                       final amount = amountCtrl.text.trim();
                       if (recipientValue.isEmpty || amount.isEmpty) {
-                        CoolToast.error(
-                          context,
-                          'Add amount and MoMo',
-                        );
+                        CoolToast.error(context, 'Add amount and MoMo');
                         return;
                       }
                       setSheetState(() => isWriting = true);
@@ -533,7 +543,9 @@ class _MomoNfcCardState extends State<MomoNfcCard>
                       );
                       final future = _supportsPhoneTap
                           ? _nfcHceService.startPaymentRequest(
-                              uri: payload.toUssdUri() ?? payload.toDeepLinkUri(),
+                              uri:
+                                  payload.toUssdUri() ??
+                                  payload.toDeepLinkUri(),
                             )
                           : NfcService.writeTag(
                               recipientValue: recipientValue,
@@ -553,18 +565,13 @@ class _MomoNfcCardState extends State<MomoNfcCard>
                             }
                             CoolToast.success(
                               this.context,
-                              _supportsPhoneTap
-                                  ? 'Tap ready'
-                                  : 'Tag ready',
+                              _supportsPhoneTap ? 'Tap ready' : 'Tag ready',
                             );
                           })
                           .catchError((Object _) {
                             setSheetState(() => isWriting = false);
                             if (mounted) {
-                              CoolToast.error(
-                                this.context,
-                                'Write failed',
-                              );
+                              CoolToast.error(this.context, 'Write failed');
                             }
                           });
                     },
@@ -580,7 +587,9 @@ class _MomoNfcCardState extends State<MomoNfcCard>
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
     final showWrite = !kIsWeb && Platform.isAndroid;
     final nfcAccess = _nfcAccess;
     final accessReady = nfcAccess?.isReady == true;
@@ -590,7 +599,7 @@ class _MomoNfcCardState extends State<MomoNfcCard>
 
     return CoolCard(
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(CoolSpace.x5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -598,55 +607,53 @@ class _MomoNfcCardState extends State<MomoNfcCard>
             Row(
               children: [
                 Container(
-                  width: 44,
-                  height: 44,
+                  width: CoolTapTargets.minimum,
+                  height: CoolTapTargets.minimum,
                   decoration: BoxDecoration(
-                    color: (isListening ? palette.accent : palette.blue)
+                    color: (isListening ? colors.accent : colors.info)
                         .withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(CoolRadii.sm),
+                    ),
                   ),
                   alignment: Alignment.center,
                   child: Icon(
-                    isListening
-                        ? Icons.contactless_rounded
-                        : Icons.nfc_rounded,
+                    isListening ? Icons.contactless_rounded : Icons.nfc_rounded,
                     size: 24,
-                    color: isListening ? palette.accent : palette.blue,
+                    color: isListening ? colors.accent : colors.info,
                   ),
                 ),
-                const SizedBox(width: 14),
+                SizedBox(width: space.x3 + space.x1 / 2),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'NFC Pay',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 16,
+                        style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w700,
-                          color: palette.text,
+                          color: colors.primaryText,
                         ),
                       ),
-                      const SizedBox(height: 2),
+                      SizedBox(height: space.x1 / 2),
                       Text(
                         nfcAccess == null
                             ? 'Checking...'
                             : accessReady
-                                ? (isListening ? 'Active' : 'Ready')
-                                : switch (nfcAccess.kind) {
-                                    AppAccessStateKind.disabledInApp =>
-                                      'NFC off in app',
-                                    AppAccessStateKind.serviceDisabled =>
-                                      'NFC off',
-                                    AppAccessStateKind.notAvailable =>
-                                      'NFC unsupported',
-                                    _ => 'Ready',
-                                  },
-                        style: GoogleFonts.dmSans(
-                          fontSize: 12,
+                            ? (isListening ? 'Active' : 'Ready')
+                            : switch (nfcAccess.kind) {
+                                AppAccessStateKind.disabledInApp =>
+                                  'NFC off in app',
+                                AppAccessStateKind.serviceDisabled => 'NFC off',
+                                AppAccessStateKind.notAvailable =>
+                                  'NFC unsupported',
+                                _ => 'Ready',
+                              },
+                        style: theme.textTheme.labelSmall?.copyWith(
                           fontWeight: FontWeight.w600,
-                          color:
-                              isListening ? palette.accent : palette.text2,
+                          color: isListening
+                              ? colors.accent
+                              : colors.secondaryText,
                         ),
                       ),
                     ],
@@ -658,18 +665,16 @@ class _MomoNfcCardState extends State<MomoNfcCard>
                     height: 10,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: palette.accent,
-                      boxShadow: [
-                        BoxShadow(
-                          color: palette.accent.withValues(alpha: 0.4),
-                          blurRadius: 8,
-                        ),
-                      ],
+                      color: colors.accent,
+                      border: Border.all(
+                        color: colors.accent.withValues(alpha: 0.32),
+                        width: 2,
+                      ),
                     ),
                   ),
               ],
             ),
-            const SizedBox(height: 18),
+            SizedBox(height: space.x4 + space.x1 / 2),
 
             // ─── Enable NFC if needed ───
             if (nfcAccess != null && !accessReady) ...[
@@ -692,29 +697,27 @@ class _MomoNfcCardState extends State<MomoNfcCard>
                     Expanded(
                       child: MomoRouteTypeChip(
                         label: 'MoMo Number',
-                        isActive: _nfcRecipientType ==
-                            MomoRecipientType.phoneNumber,
+                        isActive:
+                            _nfcRecipientType == MomoRecipientType.phoneNumber,
                         onTap: () => setState(
-                          () => _nfcRecipientType =
-                              MomoRecipientType.phoneNumber,
+                          () =>
+                              _nfcRecipientType = MomoRecipientType.phoneNumber,
                         ),
                       ),
                     ),
-                    const SizedBox(width: 10),
+                    SizedBox(width: space.x2 + space.x1 / 2),
                     Expanded(
                       child: MomoRouteTypeChip(
                         label: 'MoMo Code',
-                        isActive:
-                            _nfcRecipientType == MomoRecipientType.code,
+                        isActive: _nfcRecipientType == MomoRecipientType.code,
                         onTap: () => setState(
-                          () =>
-                              _nfcRecipientType = MomoRecipientType.code,
+                          () => _nfcRecipientType = MomoRecipientType.code,
                         ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 14),
+                SizedBox(height: space.x3),
               ],
 
               // ─── MoMo input ───
@@ -755,7 +758,7 @@ class _MomoNfcCardState extends State<MomoNfcCard>
               if (_supportsPhoneTap &&
                   _isReceiveModeActive &&
                   activePayload != null) ...[
-                const SizedBox(height: 14),
+                SizedBox(height: space.x3),
                 _nfcInfoRow(
                   activePayload.recipientType == MomoRecipientType.code
                       ? 'MoMo Code'
@@ -768,7 +771,7 @@ class _MomoNfcCardState extends State<MomoNfcCard>
                   '${activePayload.amount} ${widget.country.currencyCode}',
                 ),
               ],
-              const SizedBox(height: 18),
+              SizedBox(height: space.x4 + space.x1 / 2),
 
               // ─── Action buttons ───
               Row(
@@ -783,24 +786,19 @@ class _MomoNfcCardState extends State<MomoNfcCard>
                     ),
                   ),
                   if (showWrite) ...[
-                    const SizedBox(width: 10),
+                    SizedBox(width: space.x2 + space.x1 / 2),
                     Expanded(
                       child: CoolButton(
                         label: _isReceiveModeActive
                             ? 'Update'
-                            : (_supportsPhoneTap
-                                ? 'Tap receive'
-                                : 'Write tag'),
+                            : (_supportsPhoneTap ? 'Tap receive' : 'Write tag'),
                         icon: _supportsPhoneTap
                             ? Icons.contactless_rounded
                             : Icons.nfc_rounded,
                         variant: CoolButtonVariant.secondary,
                         onTap: hasReceiveRoute
                             ? _showWriteSheet
-                            : () => CoolToast.info(
-                                  context,
-                                  'Add MoMo first',
-                                ),
+                            : () => CoolToast.info(context, 'Add MoMo first'),
                       ),
                     ),
                   ],
@@ -809,10 +807,9 @@ class _MomoNfcCardState extends State<MomoNfcCard>
 
               // ─── Stop receive ───
               if (_supportsPhoneTap && _isReceiveModeActive) ...[
-                const SizedBox(height: 10),
+                SizedBox(height: space.x2 + space.x1 / 2),
                 CoolButton(
-                  label:
-                      _isActivating ? 'Stopping...' : 'Stop receive',
+                  label: _isActivating ? 'Stopping...' : 'Stop receive',
                   variant: CoolButtonVariant.secondary,
                   isLoading: _isActivating,
                   icon: Icons.stop_circle_rounded,

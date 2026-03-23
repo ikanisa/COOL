@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:intl/intl.dart';
 
 import '../../../core/config/country_catalog.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/services/momo_service.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/phone_validator.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
@@ -88,16 +88,21 @@ class _MomoSendMoneySheetState extends ConsumerState<MomoSendMoneySheet> {
 
     try {
       // ── Guardian AI: Real-time Risk Prevention ──
-      final risk = await ref.read(momoRiskProvider.notifier).evaluateRisk(
-        recipientNumber: recipient,
-        amount: amount,
-        currency: widget.country.currencyCode,
-      );
+      final risk = await ref
+          .read(momoRiskProvider.notifier)
+          .evaluateRisk(
+            recipientNumber: recipient,
+            amount: amount,
+            currency: widget.country.currencyCode,
+          );
 
       if (risk != null) {
         if (risk.shouldBlock) {
           if (mounted) {
-            CoolToast.error(context, 'Transaction blocked for your safety: ${risk.reason}');
+            CoolToast.error(
+              context,
+              'Transaction blocked for your safety: ${risk.reason}',
+            );
             setState(() => _isSubmitting = false);
           }
           return;
@@ -130,7 +135,10 @@ class _MomoSendMoneySheetState extends ConsumerState<MomoSendMoneySheet> {
       if (!mounted) {
         return;
       }
-      CoolToast.error(context, '${l10n.momoSendLaunchFailed} ${widget.country.name}');
+      CoolToast.error(
+        context,
+        '${l10n.momoSendLaunchFailed} ${widget.country.name}',
+      );
     } finally {
       if (mounted) {
         setState(() => _isSubmitting = false);
@@ -150,7 +158,9 @@ class _MomoSendMoneySheetState extends ConsumerState<MomoSendMoneySheet> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
     final displayNumber = PhoneValidator.formatMomoDisplay(
       widget.momoNumber,
       widget.country,
@@ -162,17 +172,20 @@ class _MomoSendMoneySheetState extends ConsumerState<MomoSendMoneySheet> {
     );
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+        color: colors.elevatedBackground,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(CoolRadii.xl),
+          topRight: Radius.circular(CoolRadii.xl),
+        ),
       ),
       child: SafeArea(
         top: false,
         child: Padding(
           padding: EdgeInsets.fromLTRB(
-            22,
-            12,
-            22,
-            22 + MediaQuery.of(context).viewInsets.bottom,
+            space.x5 + space.x1 / 2,
+            space.x3,
+            space.x5 + space.x1 / 2,
+            space.x5 + space.x1 / 2 + MediaQuery.of(context).viewInsets.bottom,
           ),
           child: SingleChildScrollView(
             child: Column(
@@ -184,56 +197,57 @@ class _MomoSendMoneySheetState extends ConsumerState<MomoSendMoneySheet> {
                     width: 40,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: palette.border2,
-                      borderRadius: BorderRadius.circular(2),
+                      color: colors.borderStrong,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(CoolRadii.xs),
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: space.x5),
                 Text(
                   l10n.sendMoneyTitle,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 18,
+                  style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w700,
-                    color: palette.text,
+                    color: colors.primaryText,
                   ),
                 ),
-                const SizedBox(height: 18),
+                SizedBox(height: space.x5),
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: EdgeInsets.all(space.x3),
                   decoration: BoxDecoration(
-                    color: palette.surface2,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: palette.border),
+                    color: colors.surface,
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(CoolRadii.sm),
+                    ),
+                    border: Border.all(color: colors.border),
                   ),
                   child: Row(
                     children: [
                       Icon(
                         Icons.public_rounded,
                         size: 16,
-                        color: palette.text2,
+                        color: colors.secondaryText,
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: space.x2),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               '${widget.country.displayName} · ${widget.country.currencyCode} · ${widget.country.dialCode}',
-                              style: GoogleFonts.dmSans(
-                                fontSize: 12,
+                              style: theme.textTheme.labelMedium?.copyWith(
                                 fontWeight: FontWeight.w600,
-                                color: palette.text,
+                                color: colors.primaryText,
                               ),
                             ),
                             if (hasDisplayNumber) ...[
                               const SizedBox(height: 2),
                               Text(
                                 l10n.momoFromNumber(displayNumber),
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 12,
+                                style: theme.textTheme.labelSmall?.copyWith(
                                   fontWeight: FontWeight.w500,
-                                  color: palette.text2,
+                                  color: colors.secondaryText,
                                   height: 1.4,
                                 ),
                               ),
@@ -350,24 +364,24 @@ class _MomoSendReviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final localeTag = Localizations.localeOf(context).toLanguageTag();
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Semantics(
       container: true,
       label:
           '${l10n.momoReviewTitle}. ${l10n.momoReviewRecipientLabel}: ${recipient.isEmpty ? l10n.momoReviewMissingRecipient : recipient}.'
           '${l10n.momoReviewAmountLabel}: ${amount == null ? l10n.momoReviewMissingAmount : _formatAmount(amount!, country.currencyCode, localeTag)}.',
       child: CoolCard(
-        backgroundColor: palette.surface2,
-        padding: const EdgeInsets.all(16),
+        backgroundColor: colors.surface,
+        padding: const EdgeInsets.all(CoolSpace.x4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               l10n.momoReviewTitle,
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
+              style: theme.textTheme.bodySmall?.copyWith(
                 fontWeight: FontWeight.w700,
-                color: palette.text,
+                color: colors.primaryText,
               ),
             ),
             const SizedBox(height: 12),
@@ -403,15 +417,14 @@ class _MomoSendReviewCard extends StatelessWidget {
               ),
             ],
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 14),
-              child: Divider(height: 1, color: palette.border),
+              padding: const EdgeInsets.symmetric(vertical: CoolSpace.x3),
+              child: Divider(height: 1, color: colors.border),
             ),
             Text(
               l10n.momoWhatHappensNextTitle,
-              style: GoogleFonts.dmSans(
-                fontSize: 13,
+              style: theme.textTheme.bodySmall?.copyWith(
                 fontWeight: FontWeight.w700,
-                color: palette.text,
+                color: colors.primaryText,
               ),
             ),
             const SizedBox(height: 10),
@@ -448,17 +461,17 @@ class _MomoReviewRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           child: Text(
             label,
-            style: GoogleFonts.dmSans(
-              fontSize: 12,
+            style: theme.textTheme.labelSmall?.copyWith(
               fontWeight: FontWeight.w600,
-              color: palette.text2,
+              color: colors.secondaryText,
             ),
           ),
         ),
@@ -467,10 +480,9 @@ class _MomoReviewRow extends StatelessWidget {
           child: Text(
             value,
             textAlign: TextAlign.right,
-            style: GoogleFonts.dmMono(
-              fontSize: 12,
+            style: theme.textTheme.labelSmall?.copyWith(
               fontWeight: emphasizeValue ? FontWeight.w700 : FontWeight.w500,
-              color: emphasizeValue ? palette.text : palette.text2,
+              color: emphasizeValue ? colors.primaryText : colors.secondaryText,
             ),
           ),
         ),
@@ -487,7 +499,8 @@ class _MomoStepRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -495,17 +508,18 @@ class _MomoStepRow extends StatelessWidget {
           width: 22,
           height: 22,
           decoration: BoxDecoration(
-            color: palette.accentGlow,
-            borderRadius: BorderRadius.circular(999),
-            border: Border.all(color: palette.border),
+            color: colors.accentGlow,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(CoolRadii.pill),
+            ),
+            border: Border.all(color: colors.border),
           ),
           alignment: Alignment.center,
           child: Text(
             step,
-            style: GoogleFonts.dmSans(
-              fontSize: 11,
+            style: theme.textTheme.labelSmall?.copyWith(
               fontWeight: FontWeight.w700,
-              color: palette.accent,
+              color: colors.accent,
             ),
           ),
         ),
@@ -513,10 +527,9 @@ class _MomoStepRow extends StatelessWidget {
         Expanded(
           child: Text(
             text,
-            style: GoogleFonts.dmSans(
-              fontSize: 12,
+            style: theme.textTheme.labelSmall?.copyWith(
               fontWeight: FontWeight.w500,
-              color: palette.text2,
+              color: colors.secondaryText,
               height: 1.35,
             ),
           ),
@@ -546,7 +559,8 @@ class MomoRouteTypeChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final disableAnimations =
         MediaQuery.maybeOf(context)?.disableAnimations ?? false;
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Semantics(
       button: true,
       selected: isActive,
@@ -557,21 +571,18 @@ class MomoRouteTypeChip extends StatelessWidget {
           duration: disableAnimations
               ? Duration.zero
               : const Duration(milliseconds: 180),
-          padding: const EdgeInsets.symmetric(vertical: 12),
+          padding: const EdgeInsets.symmetric(vertical: CoolSpace.x3),
           decoration: BoxDecoration(
-            color: isActive ? palette.accentGlow : palette.surface2,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: isActive ? palette.accent : palette.border,
-            ),
+            color: isActive ? colors.accentGlow : colors.surface,
+            borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm)),
+            border: Border.all(color: isActive ? colors.accent : colors.border),
           ),
           alignment: Alignment.center,
           child: Text(
             label,
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
+            style: theme.textTheme.bodySmall?.copyWith(
               fontWeight: FontWeight.w700,
-              color: isActive ? palette.accent : palette.text2,
+              color: isActive ? colors.accent : colors.secondaryText,
             ),
           ),
         ),

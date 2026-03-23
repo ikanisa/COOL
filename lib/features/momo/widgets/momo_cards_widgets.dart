@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../core/l10n/l10n.dart';
 
 // ═════════════════════════════════════════════════════════════════════════════
@@ -24,15 +23,17 @@ class MomoActionGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final space = context.coolSpace;
     return GridView.count(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       crossAxisCount: 2,
-      mainAxisSpacing: 12,
-      crossAxisSpacing: 12,
+      mainAxisSpacing: space.x3,
+      crossAxisSpacing: space.x3,
       childAspectRatio: 1.02,
       children: [
         MomoActionCard(
+          actionKey: const ValueKey<String>('momo-action-statements'),
           icon: Icons.receipt_long_rounded,
           title: context.l10n.statements,
           subtitle: 'Ledger and statements',
@@ -68,6 +69,7 @@ class MomoActionCard extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.onTap,
+    this.actionKey,
     this.isPrimary = false,
     super.key,
   });
@@ -76,81 +78,75 @@ class MomoActionCard extends StatelessWidget {
   final String title;
   final String subtitle;
   final VoidCallback onTap;
+  final Key? actionKey;
   final bool isPrimary;
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
+    final brightness = theme.brightness;
     return Semantics(
       button: true,
       label: title,
       child: InkWell(
+        key: actionKey,
         onTap: onTap,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.md)),
         child: Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(CoolSpace.x4),
           decoration: BoxDecoration(
-            gradient: isPrimary
-                ? LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [palette.accent, palette.accent2],
-                  )
-                : null,
-            color: isPrimary ? null : palette.surface2,
-            borderRadius: BorderRadius.circular(24),
+            gradient: isPrimary ? colors.accentGradient : null,
+            color: isPrimary ? null : colors.cardSurface,
+            borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.md)),
             border: Border.all(
-              color: isPrimary ? palette.accent : palette.border2,
+              color: isPrimary ? colors.accent : colors.borderStrong,
               width: 1.1,
             ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: isPrimary ? 0.18 : 0.08),
-                blurRadius: 20,
-                spreadRadius: -12,
-                offset: const Offset(0, 14),
-              ),
-            ],
+            boxShadow: isPrimary
+                ? CoolShadows.floating(brightness, strength: 0.52)
+                : CoolShadows.clay(brightness, strength: 0.42),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: 44,
-                height: 44,
+                width: CoolTapTargets.minimum,
+                height: CoolTapTargets.minimum,
                 decoration: BoxDecoration(
                   color: isPrimary
-                      ? Colors.white.withValues(alpha: 0.12)
-                      : palette.surface3,
-                  borderRadius: BorderRadius.circular(14),
+                      ? colors.glassSurface
+                      : colors.cardSurfaceStrong,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(CoolRadii.sm),
+                  ),
                 ),
                 alignment: Alignment.center,
                 child: Icon(
                   icon,
                   size: 22,
-                  color: isPrimary ? Colors.white : palette.text,
+                  color: isPrimary ? Colors.white : colors.primaryText,
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: space.x3),
               Text(
                 title,
-                style: GoogleFonts.dmSans(
-                  fontSize: 14,
+                style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w700,
-                  color: isPrimary ? Colors.white : palette.text,
+                  color: isPrimary ? Colors.white : colors.primaryText,
                 ),
               ),
-              const SizedBox(height: 6),
+              SizedBox(height: space.x1 + space.x1 / 2),
               Text(
                 subtitle,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.dmSans(
-                  fontSize: 12,
+                style: theme.textTheme.bodySmall?.copyWith(
                   fontWeight: FontWeight.w500,
                   color: isPrimary
                       ? Colors.white.withValues(alpha: 0.78)
-                      : palette.text2,
+                      : colors.secondaryText,
                   height: 1.35,
                 ),
               ),
@@ -159,17 +155,16 @@ class MomoActionCard extends StatelessWidget {
                 children: [
                   Text(
                     isPrimary ? 'Launch' : 'Open',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 12,
+                    style: theme.textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w700,
-                      color: isPrimary ? Colors.white : palette.text,
+                      color: isPrimary ? Colors.white : colors.primaryText,
                     ),
                   ),
-                  const SizedBox(width: 6),
+                  SizedBox(width: space.x1 + space.x1 / 2),
                   Icon(
                     Icons.arrow_forward_rounded,
                     size: 16,
-                    color: isPrimary ? Colors.white : palette.text,
+                    color: isPrimary ? Colors.white : colors.primaryText,
                   ),
                 ],
               ),
@@ -197,7 +192,9 @@ class MomoToolRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
     return Semantics(
       button: true,
       label: '$title. $subtitle',
@@ -205,52 +202,52 @@ class MomoToolRow extends StatelessWidget {
       child: ExcludeSemantics(
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm)),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 14),
+            padding: const EdgeInsets.symmetric(vertical: CoolSpace.x3),
             child: Row(
               children: [
                 Container(
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: palette.surface2,
-                    borderRadius: BorderRadius.circular(12),
+                    color: colors.cardSurfaceStrong,
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(CoolRadii.xs),
+                    ),
                   ),
                   alignment: Alignment.center,
-                  child: Icon(icon, size: 20, color: palette.text),
+                  child: Icon(icon, size: 20, color: colors.primaryText),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: space.x3),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         title,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 14,
+                        style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w700,
-                          color: palette.text,
+                          color: colors.primaryText,
                         ),
                       ),
-                      const SizedBox(height: 2),
+                      SizedBox(height: space.x1 / 2),
                       Text(
                         subtitle,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 12,
+                        style: theme.textTheme.bodySmall?.copyWith(
                           fontWeight: FontWeight.w400,
-                          color: palette.text2,
+                          color: colors.secondaryText,
                         ),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: space.x3),
                 Icon(
                   Icons.arrow_forward_ios_rounded,
                   size: 14,
-                  color: palette.text3,
+                  color: colors.tertiaryText,
                 ),
               ],
             ),

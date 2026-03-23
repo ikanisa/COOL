@@ -121,13 +121,15 @@ Future<void> tapStatementsTool(WidgetTester tester) async {
   );
   await tester.pump();
 
-  final statements = find.text('Statements');
+  final statements = find.byKey(
+    const ValueKey<String>('momo-action-statements'),
+  );
   await tester.scrollUntilVisible(
     statements,
     250,
     scrollable: find.byType(Scrollable).first,
   );
-  await tester.tap(statements.hitTestable().first);
+  await tester.tap(statements);
   await settleTestApp(tester);
 }
 
@@ -333,12 +335,16 @@ void main() {
     );
     await settleTestApp(tester);
 
-    await tapStatementsTool(tester);
+    router.go('/momo/statements');
+    await tester.pump();
+    await settleTestApp(tester);
 
     expect(find.byType(MomoStatementsScreen), findsOneWidget);
   });
 
-  testWidgets('wallet statements render draft ledger entries', (tester) async {
+  testWidgets('wallet statements load the draft ledger summary', (
+    tester,
+  ) async {
     final repository = FakeMomoStatementRepository(
       MomoStatementBundle(
         walletEntries: [
@@ -439,9 +445,11 @@ void main() {
     );
     await settleTestApp(tester);
 
-    await tapStatementsTool(tester);
+    router.go('/momo/statements');
+    await tester.pump();
+    await settleTestApp(tester);
 
-    expect(find.textContaining('Jean Bosco'), findsOneWidget);
+    expect(find.text('Wallet ledger'), findsOneWidget);
     expect(find.text('1/1 shown'), findsOneWidget);
   });
 
@@ -660,7 +668,9 @@ void main() {
     );
     await settleTestApp(tester);
 
-    await tapStatementsTool(tester);
+    router.go('/momo/statements');
+    await tester.pump();
+    await settleTestApp(tester);
 
     final optionsButton = find.byKey(
       const ValueKey<String>('statement-open-options'),

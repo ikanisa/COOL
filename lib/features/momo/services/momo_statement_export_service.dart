@@ -60,6 +60,14 @@ class MomoStatementExportService {
   static final DateFormat _fileStampFormat = DateFormat('yyyyMMdd_HHmm');
   static final DateFormat _dateTimeFormat = DateFormat('dd MMM yyyy, HH:mm');
   static final NumberFormat _moneyFormat = NumberFormat.decimalPattern('en_US');
+  static const double _pdfFontSizeCaption = 8;
+  static const double _pdfFontSizeLabel = 9;
+  static const double _pdfFontSizeValue = 10;
+  static const double _pdfFontSizeBody = 11;
+  static const double _pdfFontSizeMetric = 13;
+  static const double _pdfFontSizeSection = 16;
+  static const double _pdfFontSizeLogoMark = 24;
+  static const double _pdfFontSizeBrand = 28;
 
   Future<StatementExportFile> buildWalletExport({
     required StatementExportFormat format,
@@ -186,16 +194,12 @@ class MomoStatementExportService {
                   ],
                 )
                 .toList(growable: false),
-            headerStyle: pw.TextStyle(
-              color: PdfColors.white,
-              fontWeight: pw.FontWeight.bold,
-              fontSize: 9,
-            ),
+            headerStyle: _pdfTableHeaderTextStyle(),
             headerDecoration: pw.BoxDecoration(
               color: PdfColor.fromHex('#0A0A0F'),
               borderRadius: const pw.BorderRadius.all(pw.Radius.circular(4)),
             ),
-            cellStyle: const pw.TextStyle(fontSize: 8),
+            cellStyle: _pdfTableCellTextStyle(),
             cellPadding: const pw.EdgeInsets.symmetric(
               horizontal: 6,
               vertical: 7,
@@ -291,16 +295,12 @@ class MomoStatementExportService {
                   ],
                 )
                 .toList(growable: false),
-            headerStyle: pw.TextStyle(
-              color: PdfColors.white,
-              fontWeight: pw.FontWeight.bold,
-              fontSize: 9,
-            ),
+            headerStyle: _pdfTableHeaderTextStyle(),
             headerDecoration: pw.BoxDecoration(
               color: PdfColor.fromHex('#0A0A0F'),
               borderRadius: const pw.BorderRadius.all(pw.Radius.circular(4)),
             ),
-            cellStyle: const pw.TextStyle(fontSize: 8),
+            cellStyle: _pdfTableCellTextStyle(),
             cellPadding: const pw.EdgeInsets.symmetric(
               horizontal: 6,
               vertical: 7,
@@ -405,16 +405,12 @@ class MomoStatementExportService {
                   ],
                 )
                 .toList(growable: false),
-            headerStyle: pw.TextStyle(
-              color: PdfColors.white,
-              fontWeight: pw.FontWeight.bold,
-              fontSize: 9,
-            ),
+            headerStyle: _pdfTableHeaderTextStyle(),
             headerDecoration: pw.BoxDecoration(
               color: PdfColor.fromHex('#0A0A0F'),
               borderRadius: const pw.BorderRadius.all(pw.Radius.circular(4)),
             ),
-            cellStyle: const pw.TextStyle(fontSize: 8),
+            cellStyle: _pdfTableCellTextStyle(),
             cellPadding: const pw.EdgeInsets.symmetric(
               horizontal: 6,
               vertical: 7,
@@ -918,11 +914,7 @@ class MomoStatementExportService {
                   crossAxisAlignment: pw.CrossAxisAlignment.center,
                   children: [
                     if (logo != null)
-                      pw.Container(
-                        width: 48,
-                        height: 48,
-                        child: pw.Image(logo),
-                      )
+                      pw.Container(width: 48, height: 48, child: pw.Image(logo))
                     else
                       pw.Container(
                         width: 48,
@@ -936,10 +928,10 @@ class MomoStatementExportService {
                         ),
                         child: pw.Text(
                           'C',
-                          style: pw.TextStyle(
+                          style: _pdfTextStyle(
+                            size: _pdfFontSizeLogoMark,
                             color: PdfColor.fromHex('#0A0A0F'),
                             fontWeight: pw.FontWeight.bold,
-                            fontSize: 24,
                           ),
                         ),
                       ),
@@ -949,17 +941,17 @@ class MomoStatementExportService {
                       children: [
                         pw.Text(
                           _brandName,
-                          style: pw.TextStyle(
+                          style: _pdfTextStyle(
+                            size: _pdfFontSizeBrand,
                             color: PdfColors.black,
-                            fontSize: 28,
                             fontWeight: pw.FontWeight.bold,
                           ),
                         ),
                         pw.Text(
                           'OFFICIAL STATEMENT',
-                          style: pw.TextStyle(
+                          style: _pdfTextStyle(
+                            size: _pdfFontSizeValue,
                             color: PdfColors.grey600,
-                            fontSize: 10,
                             fontWeight: pw.FontWeight.bold,
                             letterSpacing: 1.5,
                           ),
@@ -971,18 +963,18 @@ class MomoStatementExportService {
                 pw.SizedBox(height: 28),
                 pw.Text(
                   metadata.statementTitle.toUpperCase(),
-                  style: pw.TextStyle(
+                  style: _pdfTextStyle(
+                    size: _pdfFontSizeSection,
                     color: PdfColors.black,
-                    fontSize: 16,
                     fontWeight: pw.FontWeight.bold,
                   ),
                 ),
                 pw.SizedBox(height: 4),
                 pw.Text(
                   metadata.periodLabel,
-                  style: const pw.TextStyle(
+                  style: _pdfTextStyle(
+                    size: _pdfFontSizeBody,
                     color: PdfColors.grey700,
-                    fontSize: 11,
                   ),
                 ),
               ],
@@ -996,7 +988,10 @@ class MomoStatementExportService {
                 _pdfMetaRow('ACCOUNT HOLDER', metadata.userName),
                 if (metadata.officialPhone.isNotEmpty)
                   _pdfMetaRow('REGISTERED PHONE', metadata.officialPhone),
-                _pdfMetaRow('DATE GENERATED', _dateTimeFormat.format(metadata.generatedAt)),
+                _pdfMetaRow(
+                  'DATE GENERATED',
+                  _dateTimeFormat.format(metadata.generatedAt),
+                ),
                 _pdfMetaRow('FILTER APPLIED', metadata.filterLabel),
                 _pdfMetaRow('SORT ORDER', metadata.sortLabel),
                 if (metadata.searchQuery.isNotEmpty)
@@ -1014,7 +1009,10 @@ class MomoStatementExportService {
       alignment: pw.Alignment.centerRight,
       child: pw.Text(
         'Page ${context.pageNumber} of ${context.pagesCount}',
-        style: const pw.TextStyle(fontSize: 8, color: PdfColors.grey700),
+        style: _pdfTextStyle(
+          size: _pdfFontSizeCaption,
+          color: PdfColors.grey700,
+        ),
       ),
     );
   }
@@ -1036,13 +1034,16 @@ class MomoStatementExportService {
         children: [
           pw.Text(
             label,
-            style: const pw.TextStyle(fontSize: 9, color: PdfColors.grey700),
+            style: _pdfTextStyle(
+              size: _pdfFontSizeLabel,
+              color: PdfColors.grey700,
+            ),
           ),
           pw.SizedBox(height: 6),
           pw.Text(
             value,
-            style: pw.TextStyle(
-              fontSize: 13,
+            style: _pdfTextStyle(
+              size: _pdfFontSizeMetric,
               fontWeight: pw.FontWeight.bold,
               color: accent,
             ),
@@ -1060,16 +1061,19 @@ class MomoStatementExportService {
         children: [
           pw.Text(
             label,
-            style: const pw.TextStyle(color: PdfColors.grey600, fontSize: 9),
+            style: _pdfTextStyle(
+              size: _pdfFontSizeLabel,
+              color: PdfColors.grey600,
+            ),
           ),
           pw.SizedBox(width: 16),
           pw.Expanded(
             child: pw.Text(
               value,
               textAlign: pw.TextAlign.right,
-              style: pw.TextStyle(
+              style: _pdfTextStyle(
+                size: _pdfFontSizeValue,
                 color: PdfColors.black,
-                fontSize: 10,
                 fontWeight: pw.FontWeight.bold,
               ),
             ),
@@ -1103,6 +1107,32 @@ class MomoStatementExportService {
     }
 
     return pw.ThemeData.withFont(base: fonts.base, bold: fonts.bold);
+  }
+
+  pw.TextStyle _pdfTextStyle({
+    required double size,
+    PdfColor? color,
+    pw.FontWeight? fontWeight,
+    double? letterSpacing,
+  }) {
+    return pw.TextStyle(
+      fontSize: size,
+      color: color,
+      fontWeight: fontWeight,
+      letterSpacing: letterSpacing,
+    );
+  }
+
+  pw.TextStyle _pdfTableHeaderTextStyle() {
+    return _pdfTextStyle(
+      size: _pdfFontSizeLabel,
+      color: PdfColors.white,
+      fontWeight: pw.FontWeight.bold,
+    );
+  }
+
+  pw.TextStyle _pdfTableCellTextStyle() {
+    return _pdfTextStyle(size: _pdfFontSizeCaption);
   }
 
   Future<Uint8List?> _loadLogoBytes() async {
@@ -1207,7 +1237,10 @@ class MomoStatementExportService {
             data: entries
                 .map(
                   (e) => <String>[
-                    if (e.createdAt != null) _dateTimeFormat.format(e.createdAt!) else '-',
+                    if (e.createdAt != null)
+                      _dateTimeFormat.format(e.createdAt!)
+                    else
+                      '-',
                     e.contributorName ?? e.userId,
                     _formatAmount(e.amount),
                     'RWF',
@@ -1215,16 +1248,12 @@ class MomoStatementExportService {
                   ],
                 )
                 .toList(growable: false),
-            headerStyle: pw.TextStyle(
-              color: PdfColors.white,
-              fontWeight: pw.FontWeight.bold,
-              fontSize: 9,
-            ),
+            headerStyle: _pdfTableHeaderTextStyle(),
             headerDecoration: pw.BoxDecoration(
               color: PdfColor.fromHex('#0A0A0F'),
               borderRadius: const pw.BorderRadius.all(pw.Radius.circular(4)),
             ),
-            cellStyle: const pw.TextStyle(fontSize: 8),
+            cellStyle: _pdfTableCellTextStyle(),
             cellPadding: const pw.EdgeInsets.symmetric(
               horizontal: 6,
               vertical: 7,
@@ -1261,7 +1290,13 @@ class MomoStatementExportService {
       columnEnd: 'E',
     );
 
-    const headers = <String>['Date', 'Contributor', 'Amount', 'Currency', 'Status'];
+    const headers = <String>[
+      'Date',
+      'Contributor',
+      'Amount',
+      'Currency',
+      'Status',
+    ];
     const startRow = 9;
     for (var i = 0; i < headers.length; i++) {
       sheet.getRangeByIndex(startRow, i + 1).setText(headers[i]);
@@ -1274,9 +1309,11 @@ class MomoStatementExportService {
     for (var i = 0; i < entries.length; i++) {
       final row = startRow + i + 1;
       final e = entries[i];
-      sheet.getRangeByIndex(row, 1).setText(
-        e.createdAt != null ? _dateTimeFormat.format(e.createdAt!) : '-',
-      );
+      sheet
+          .getRangeByIndex(row, 1)
+          .setText(
+            e.createdAt != null ? _dateTimeFormat.format(e.createdAt!) : '-',
+          );
       sheet.getRangeByIndex(row, 2).setText(e.contributorName ?? e.userId);
       sheet.getRangeByIndex(row, 3).setNumber(e.amount.toDouble());
       sheet.getRangeByIndex(row, 3).numberFormat = '#,##0';

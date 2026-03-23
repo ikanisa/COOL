@@ -26,54 +26,60 @@ class StatementOverviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
+    final space = context.coolSpace;
     final moneyFormat = decimalMoneyFormatForLocale(context);
     return CoolCard(
+      backgroundColor: colors.financialSurface,
+      borderRadius: CoolRadii.lg,
+      useGradient: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Statement command',
-            style: GoogleFonts.dmSans(
-              fontSize: 11,
+            'Statement command center',
+            style: theme.textTheme.labelSmall?.copyWith(
               fontWeight: FontWeight.w700,
               letterSpacing: 1,
-              color: palette.text3,
+              color: colors.secondaryText,
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: CoolSpace.x2 + CoolSpace.x1),
           Text(
             '${netBalance >= 0 ? '' : '-'}${moneyFormat.format(netBalance.abs())} ${context.l10n.rwf}',
-            style: GoogleFonts.dmMono(
-              fontSize: 28,
+            style: text.mono(
+              theme.textTheme.headlineMedium,
               fontWeight: FontWeight.w700,
-              color: palette.text,
+              color: colors.primaryText,
+              height: 1.05,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Wrap(
-            spacing: 10,
-            runSpacing: 10,
+            spacing: space.x2,
+            runSpacing: space.x2,
             children: [
               _SummaryMetric(
                 label: 'Inflow',
                 value: '${moneyFormat.format(inflow)} ${context.l10n.rwf}',
-                accentColor: palette.accent,
+                accentColor: colors.success,
               ),
               _SummaryMetric(
                 label: 'Outflow',
                 value: '${moneyFormat.format(outflow)} ${context.l10n.rwf}',
-                accentColor: palette.orange,
+                accentColor: colors.warning,
               ),
               _SummaryMetric(
                 label: 'Savings',
                 value:
                     '${moneyFormat.format(savingsTotal)} ${context.l10n.rwf}',
-                accentColor: palette.blue,
+                accentColor: colors.info,
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           Row(
             children: [
               Expanded(
@@ -90,21 +96,25 @@ class StatementOverviewCard extends StatelessWidget {
                       )
                       .toList(growable: false),
                   child: Container(
-                    height: 52,
-                    padding: const EdgeInsets.symmetric(horizontal: 14),
+                    height: CoolTapTargets.comfortable,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: CoolSpace.x4,
+                    ),
                     decoration: BoxDecoration(
-                      color: palette.surface2,
-                      borderRadius: BorderRadius.circular(14),
-                      border: Border.all(color: palette.border),
+                      color: colors.inputSurface,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(CoolRadii.sm),
+                      ),
+                      border: Border.all(color: colors.border),
                     ),
                     child: Row(
                       children: [
                         Icon(
                           Icons.calendar_month_rounded,
                           size: 18,
-                          color: palette.text,
+                          color: colors.primaryText,
                         ),
-                        const SizedBox(width: 10),
+                        const SizedBox(width: CoolSpace.x2 + CoolSpace.x1),
                         Expanded(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -112,72 +122,74 @@ class StatementOverviewCard extends StatelessWidget {
                             children: [
                               Text(
                                 'Period',
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 11,
+                                style: theme.textTheme.labelSmall?.copyWith(
                                   fontWeight: FontWeight.w600,
-                                  color: palette.text3,
+                                  color: colors.secondaryText,
                                 ),
                               ),
                               const SizedBox(height: 1),
                               Text(
                                 _statementPeriodLabel(selectedPeriod),
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 14,
+                                style: theme.textTheme.labelLarge?.copyWith(
                                   fontWeight: FontWeight.w700,
-                                  color: palette.text,
+                                  color: colors.primaryText,
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        Icon(Icons.expand_more_rounded, color: palette.text2),
+                        Icon(
+                          Icons.expand_more_rounded,
+                          color: colors.secondaryText,
+                        ),
                       ],
                     ),
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: CoolSpace.x3),
               SizedBox(
-                width: 112,
-                height: 52,
+                width: 128,
+                height: CoolTapTargets.comfortable,
                 child: OutlinedButton.icon(
                   key: const ValueKey<String>('statement-open-options'),
                   onPressed: onOpenOptions,
                   icon: const Icon(Icons.tune_rounded, size: 18),
                   label: Text(context.l10n.more),
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: palette.text,
-                    side: BorderSide(color: palette.border),
+                    foregroundColor: colors.primaryText,
+                    side: BorderSide(color: colors.border),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(CoolRadii.sm),
+                      ),
                     ),
-                    backgroundColor: palette.surface2,
-                    textStyle: GoogleFonts.dmSans(
-                      fontSize: 13,
+                    backgroundColor: colors.inputSurface,
+                    textStyle: theme.textTheme.labelLarge?.copyWith(
                       fontWeight: FontWeight.w700,
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: CoolSpace.x4,
+                    ),
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Text(
             periodSummary,
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
+            style: theme.textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w700,
-              color: palette.text,
+              color: colors.primaryText,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: CoolSpace.x1),
           Text(
             optionsSummary,
-            style: GoogleFonts.dmSans(
-              fontSize: 12,
+            style: theme.textTheme.bodySmall?.copyWith(
               fontWeight: FontWeight.w500,
-              color: palette.text3,
+              color: colors.secondaryText,
               height: 1.4,
             ),
           ),
@@ -223,16 +235,22 @@ class _StatementOptionsSheetState extends State<StatementOptionsSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
     return Padding(
-      padding: EdgeInsets.fromLTRB(12, 0, 12, bottomInset + 12),
+      padding: EdgeInsets.fromLTRB(
+        CoolSpace.x3,
+        0,
+        CoolSpace.x3,
+        bottomInset + CoolSpace.x3,
+      ),
       child: Material(
-        color: palette.surface,
-        borderRadius: BorderRadius.circular(24),
+        color: colors.overlaySurface,
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.lg)),
         clipBehavior: Clip.antiAlias,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+          padding: CoolSpace.denseSectionPadding,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -242,10 +260,9 @@ class _StatementOptionsSheetState extends State<StatementOptionsSheet> {
                   Expanded(
                     child: Text(
                       'View options',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 18,
+                      style: theme.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.w700,
-                        color: palette.text,
+                        color: colors.primaryText,
                       ),
                     ),
                   ),
@@ -257,17 +274,16 @@ class _StatementOptionsSheetState extends State<StatementOptionsSheet> {
                 ],
               ),
               Text(
-                'Adjust the visible list',
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
+                'Adjust the visible list, filters, and export output.',
+                style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w500,
-                  color: palette.text2,
+                  color: colors.secondaryText,
                   height: 1.4,
                 ),
               ),
-              const SizedBox(height: 18),
+              const SizedBox(height: CoolSpace.x5 - CoolSpace.x1),
               const _OptionsSectionTitle('Filters'),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               DropdownButtonFormField<String?>(
                 key: const ValueKey<String>('statement-party-filter'),
                 isExpanded: true,
@@ -292,7 +308,7 @@ class _StatementOptionsSheetState extends State<StatementOptionsSheet> {
                   setState(() => _selectedParty = value);
                 },
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               DropdownButtonFormField<StatementSortOption>(
                 key: const ValueKey<String>('statement-sort-filter'),
                 isExpanded: true,
@@ -313,7 +329,7 @@ class _StatementOptionsSheetState extends State<StatementOptionsSheet> {
                   setState(() => _selectedSort = value);
                 },
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: CoolSpace.x4),
               Row(
                 children: [
                   Expanded(
@@ -326,7 +342,7 @@ class _StatementOptionsSheetState extends State<StatementOptionsSheet> {
                       },
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: CoolSpace.x3),
                   Expanded(
                     child: CoolButton(
                       label: context.l10n.applyFilters,
@@ -338,19 +354,18 @@ class _StatementOptionsSheetState extends State<StatementOptionsSheet> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: CoolSpace.x5),
               const _OptionsSectionTitle('Export current results'),
-              const SizedBox(height: 6),
+              const SizedBox(height: CoolSpace.x1 + CoolSpace.x1),
               Text(
-                'PDF and Excel use',
-                style: GoogleFonts.dmSans(
-                  fontSize: 12,
+                'PDF and Excel use the current filters and sort order.',
+                style: theme.textTheme.bodySmall?.copyWith(
                   fontWeight: FontWeight.w500,
-                  color: palette.text3,
+                  color: colors.secondaryText,
                   height: 1.4,
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               Row(
                 children: [
                   Expanded(
@@ -365,7 +380,7 @@ class _StatementOptionsSheetState extends State<StatementOptionsSheet> {
                           : _noop,
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: CoolSpace.x3),
                   Expanded(
                     child: CoolButton(
                       label: context.l10n.excel,
@@ -389,28 +404,31 @@ class _StatementOptionsSheetState extends State<StatementOptionsSheet> {
 }
 
 InputDecoration _optionsDropdownDecoration(BuildContext context, String label) {
-  final palette = context.coolPalette;
+  final colors = context.coolSemanticColors;
+  final theme = Theme.of(context);
   return InputDecoration(
     labelText: label,
     filled: true,
-    fillColor: palette.surface2,
-    labelStyle: GoogleFonts.dmSans(
-      fontSize: 12,
+    fillColor: colors.inputSurface,
+    labelStyle: theme.textTheme.labelMedium?.copyWith(
       fontWeight: FontWeight.w600,
-      color: palette.text3,
+      color: colors.secondaryText,
     ),
-    contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+    contentPadding: const EdgeInsets.symmetric(
+      horizontal: CoolSpace.x4,
+      vertical: CoolSpace.x3,
+    ),
     border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(14),
-      borderSide: BorderSide(color: palette.border),
+      borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm)),
+      borderSide: BorderSide(color: colors.border),
     ),
     enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(14),
-      borderSide: BorderSide(color: palette.border),
+      borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm)),
+      borderSide: BorderSide(color: colors.border),
     ),
     focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(14),
-      borderSide: BorderSide(color: palette.accent),
+      borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm)),
+      borderSide: BorderSide(color: colors.accent),
     ),
   );
 }
@@ -422,13 +440,13 @@ class _OptionsSectionTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Text(
       label,
-      style: GoogleFonts.dmSans(
-        fontSize: 14,
+      style: theme.textTheme.labelLarge?.copyWith(
         fontWeight: FontWeight.w700,
-        color: palette.text,
+        color: colors.primaryText,
       ),
     );
   }
@@ -447,12 +465,17 @@ class _SummaryMetric extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.coolText;
+    final theme = Theme.of(context);
     return Container(
       constraints: const BoxConstraints(minWidth: 110),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      padding: const EdgeInsets.symmetric(
+        horizontal: CoolSpace.x3,
+        vertical: CoolSpace.x2 + CoolSpace.x1,
+      ),
       decoration: BoxDecoration(
         color: accentColor.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm)),
         border: Border.all(color: accentColor.withValues(alpha: 0.18)),
       ),
       child: Column(
@@ -460,18 +483,17 @@ class _SummaryMetric extends StatelessWidget {
         children: [
           Text(
             label.toUpperCase(),
-            style: GoogleFonts.dmSans(
-              fontSize: 10,
+            style: theme.textTheme.labelSmall?.copyWith(
               fontWeight: FontWeight.w700,
               letterSpacing: 0.8,
               color: accentColor,
             ),
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: CoolSpace.x1 + CoolSpace.x1),
           Text(
             value,
-            style: GoogleFonts.dmMono(
-              fontSize: 12,
+            style: text.mono(
+              theme.textTheme.bodyMedium,
               fontWeight: FontWeight.w700,
               color: accentColor,
             ),
@@ -522,7 +544,9 @@ class WalletStatementTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
     if (entries.isEmpty) {
       return CoolEmptyView(
         subtitle: isFilteredView
@@ -548,7 +572,12 @@ class WalletStatementTab extends StatelessWidget {
 
         final entry = entries[index - 1];
         return CoolCard(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          backgroundColor: colors.cardSurfaceStrong,
+          useGradient: false,
+          padding: const EdgeInsets.symmetric(
+            horizontal: CoolSpace.x4,
+            vertical: CoolSpace.x3,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -563,23 +592,21 @@ class WalletStatementTab extends StatelessWidget {
                           entry.payerName ??
                               entry.counterpartyName ??
                               entry.label,
-                          style: GoogleFonts.dmSans(
-                            fontSize: 15,
+                          style: theme.textTheme.titleSmall?.copyWith(
                             fontWeight: FontWeight.w700,
-                            color: palette.text,
+                            color: colors.primaryText,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: CoolSpace.x1),
                         Text(
                           entry.momoTxId != null
                               ? 'Tx ID: ${entry.momoTxId}'
                               : 'Tx ID pending',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 11,
+                          style: theme.textTheme.labelSmall?.copyWith(
                             fontWeight: FontWeight.w700,
-                            color: palette.text3,
+                            color: colors.secondaryText,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -590,26 +617,28 @@ class WalletStatementTab extends StatelessWidget {
                   const SizedBox(width: 8),
                   Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 8,
+                      horizontal: CoolSpace.x3,
+                      vertical: CoolSpace.x2,
                     ),
                     decoration: BoxDecoration(
-                      color: (entry.isCredit ? palette.accent : palette.orange)
-                          .withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(14),
+                      color: (entry.isCredit ? colors.success : colors.warning)
+                          .withValues(alpha: 0.12),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(CoolRadii.sm),
+                      ),
                     ),
                     child: Text(
                       '${entry.isCredit ? '+' : '-'}${moneyFormat.format(entry.amount)} ${entry.currency}',
-                      style: GoogleFonts.dmMono(
-                        fontSize: 13,
+                      style: text.mono(
+                        theme.textTheme.bodyMedium,
                         fontWeight: FontWeight.w700,
-                        color: entry.isCredit ? palette.accent : palette.orange,
+                        color: entry.isCredit ? colors.success : colors.warning,
                       ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: CoolSpace.x2),
               Row(
                 children: [
                   Expanded(
@@ -619,43 +648,41 @@ class WalletStatementTab extends StatelessWidget {
                                 ? '•••• ${entry.payerPhone!.substring(entry.payerPhone!.length - 4)}'
                                 : entry.payerPhone!)
                           : entry.counterpartyName ?? 'MoMo Transfer',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 13,
+                      style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: palette.text2,
+                        color: colors.secondaryText,
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: CoolSpace.x2),
                   Text(
                     dateFormat.format(entry.occurredAt),
-                    style: GoogleFonts.dmSans(
-                      fontSize: 11,
+                    style: theme.textTheme.labelSmall?.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: palette.text3,
+                      color: colors.tertiaryText,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: CoolSpace.x2 + CoolSpace.x1),
               Wrap(
-                spacing: 6,
-                runSpacing: 6,
+                spacing: CoolSpace.x1 + CoolSpace.x1,
+                runSpacing: CoolSpace.x1 + CoolSpace.x1,
                 children: [
                   _StatusChip(
                     label: entry.isCredit
                         ? context.l10n.incomingLabel
                         : context.l10n.outgoingLabel,
-                    color: entry.isCredit ? palette.accent : palette.orange,
+                    color: entry.isCredit ? colors.success : colors.warning,
                   ),
                   if (entry.ledgerStatus != 'draft' &&
                       entry.ledgerStatus != 'pending')
                     _StatusChip(
                       label: _humanizeToken(entry.ledgerStatus),
-                      color: palette.purple,
+                      color: colors.info,
                     ),
                   if ((entry.reference?.trim().isNotEmpty ?? false))
-                    _StatusChip(label: 'Ref ready', color: palette.blue),
+                    _StatusChip(label: 'Ref ready', color: colors.accent),
                 ],
               ),
             ],
@@ -684,7 +711,9 @@ class SavingsStatementTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
     if (entries.isEmpty) {
       return CoolEmptyView(
         subtitle: isFilteredView
@@ -710,6 +739,8 @@ class SavingsStatementTab extends StatelessWidget {
 
         final entry = entries[index - 1];
         return CoolCard(
+          backgroundColor: colors.cardSurfaceStrong,
+          useGradient: false,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -720,73 +751,75 @@ class SavingsStatementTab extends StatelessWidget {
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: palette.blueGlow,
-                      borderRadius: BorderRadius.circular(12),
+                      color: colors.contactSurface,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(CoolRadii.xs),
+                      ),
                     ),
                     alignment: Alignment.center,
-                    child: Icon(Icons.groups_2_rounded, color: palette.blue),
+                    child: Icon(Icons.groups_2_rounded, color: colors.info),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: CoolSpace.x3),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           entry.groupName,
-                          style: GoogleFonts.dmSans(
-                            fontSize: 15,
+                          style: theme.textTheme.titleSmall?.copyWith(
                             fontWeight: FontWeight.w700,
-                            color: palette.text,
+                            color: colors.primaryText,
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: CoolSpace.x1),
                         Text(
                           dateFormat.format(entry.createdAt),
-                          style: GoogleFonts.dmSans(
-                            fontSize: 12,
+                          style: theme.textTheme.bodySmall?.copyWith(
                             fontWeight: FontWeight.w500,
-                            color: palette.text3,
+                            color: colors.tertiaryText,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: CoolSpace.x3),
                   Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 8,
+                      horizontal: CoolSpace.x3,
+                      vertical: CoolSpace.x2,
                     ),
                     decoration: BoxDecoration(
-                      color: palette.blueGlow,
-                      borderRadius: BorderRadius.circular(14),
+                      color: colors.financialSurface,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(CoolRadii.sm),
+                      ),
                     ),
                     child: Text(
                       '${moneyFormat.format(entry.amount)} ${context.l10n.rwf}',
                       textAlign: TextAlign.right,
-                      style: GoogleFonts.dmMono(
-                        fontSize: 13,
+                      style: text.mono(
+                        theme.textTheme.bodyMedium,
                         fontWeight: FontWeight.w700,
-                        color: palette.blue,
+                        color: colors.info,
                       ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               Wrap(
-                spacing: 8,
-                runSpacing: 8,
+                spacing: CoolSpace.x2,
+                runSpacing: CoolSpace.x2,
                 children: [
                   _StatusChip(
                     label: entry.isConfirmed
                         ? context.l10n.confirmed
                         : context.l10n.pending,
-                    color: entry.isConfirmed ? palette.accent : palette.yellow,
+                    color: entry.isConfirmed ? colors.success : colors.warning,
                   ),
                   _StatusChip(
                     label: context.l10n.savingsLabel,
-                    color: palette.blue,
+                    color: colors.info,
                   ),
                 ],
               ),
@@ -811,7 +844,8 @@ class _SectionLead extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
       child: Column(
@@ -819,19 +853,17 @@ class _SectionLead extends StatelessWidget {
         children: [
           Text(
             title,
-            style: GoogleFonts.dmSans(
-              fontSize: 16,
+            style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w700,
-              color: palette.text,
+              color: colors.primaryText,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: CoolSpace.x1),
           Text(
             subtitle,
-            style: GoogleFonts.dmSans(
-              fontSize: 12,
+            style: theme.textTheme.bodySmall?.copyWith(
               fontWeight: FontWeight.w500,
-              color: palette.text3,
+              color: colors.secondaryText,
             ),
           ),
         ],
@@ -848,17 +880,20 @@ class _StatusChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      padding: const EdgeInsets.symmetric(
+        horizontal: CoolSpace.x3,
+        vertical: CoolSpace.x1 + CoolSpace.x1 / 2,
+      ),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.14),
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.pill)),
         border: Border.all(color: color.withValues(alpha: 0.32)),
       ),
       child: Text(
         label,
-        style: GoogleFonts.dmSans(
-          fontSize: 11,
+        style: theme.textTheme.labelSmall?.copyWith(
           fontWeight: FontWeight.w700,
           color: color,
         ),
@@ -875,15 +910,15 @@ class _DetailLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.only(top: 8),
+      padding: const EdgeInsets.only(top: CoolSpace.x2),
       child: RichText(
         text: TextSpan(
-          style: GoogleFonts.dmSans(
-            fontSize: 12,
+          style: theme.textTheme.bodySmall?.copyWith(
             fontWeight: FontWeight.w500,
-            color: palette.text3,
+            color: colors.tertiaryText,
             height: 1.45,
           ),
           children: [
@@ -891,7 +926,7 @@ class _DetailLine extends StatelessWidget {
               text: '$label: ',
               style: TextStyle(
                 fontWeight: FontWeight.w700,
-                color: palette.text2,
+                color: colors.secondaryText,
               ),
             ),
             TextSpan(text: value),

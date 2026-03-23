@@ -234,7 +234,9 @@ class MomoWalletEntry {
 
   factory MomoWalletEntry.fromJson(Map<String, dynamic> json) {
     // Check if we have the joined momo_sms_parsed data
-    final parsedSms = json['momo_sms_parsed'] as Map<String, dynamic>? ?? const <String, dynamic>{};
+    final parsedSms =
+        json['momo_sms_parsed'] as Map<String, dynamic>? ??
+        const <String, dynamic>{};
 
     return MomoWalletEntry(
       id: json['id']?.toString() ?? '',
@@ -251,13 +253,17 @@ class MomoWalletEntry {
       label:
           json['statement_label']?.toString() ??
           json['description']?.toString() ??
-          _titleize(json['tx_category']?.toString() ?? json['entry_type']?.toString()),
+          _titleize(
+            json['tx_category']?.toString() ?? json['entry_type']?.toString(),
+          ),
       counterpartyName: _nonEmpty(json['counterparty_name']),
       reference: _nonEmpty(json['external_reference']),
       description: _nonEmpty(json['description']),
       momoTxId: _nonEmpty(parsedSms['momo_tx_id']),
       payerName: _nonEmpty(parsedSms['payer_name']),
-      payerPhone: _nonEmpty(parsedSms['payer_number_full']) ?? _nonEmpty(parsedSms['payer_number_last3']),
+      payerPhone:
+          _nonEmpty(parsedSms['payer_number_full']) ??
+          _nonEmpty(parsedSms['payer_number_last3']),
     );
   }
 }
@@ -281,7 +287,7 @@ class SavingsStatementEntry {
   final DateTime createdAt;
   final String? reference;
 
-  bool get isConfirmed => status == 'confirmed';
+  bool get isConfirmed => status == 'confirmed' || status == 'completed';
 
   factory SavingsStatementEntry.fromJson(Map<String, dynamic> json) {
     return SavingsStatementEntry(

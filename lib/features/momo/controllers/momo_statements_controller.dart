@@ -302,8 +302,10 @@ extension _MomoStatementsController on _MomoStatementsScreenState {
           context,
           'Synced ${result.uploadedMessages} transaction${result.uploadedMessages == 1 ? '' : 's'}',
         );
+        ref.invalidate(momoSmsSyncStatusProvider);
         _refresh();
       } else {
+        ref.invalidate(momoSmsSyncStatusProvider);
         CoolToast.info(context, 'No new M-Money SMS found');
       }
     } catch (error) {
@@ -311,6 +313,7 @@ extension _MomoStatementsController on _MomoStatementsScreenState {
       final message = error is MomoSmsSyncException
           ? error.message
           : 'SMS sync failed';
+      ref.invalidate(momoSmsSyncStatusProvider);
       CoolToast.error(context, message);
     } finally {
       _applyState(() => _isSyncing = false);

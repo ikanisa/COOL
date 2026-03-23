@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../shared/widgets/cool_bottom_sheet.dart';
@@ -32,12 +31,17 @@ class MomoSmsRationaleSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
+      padding: EdgeInsets.fromLTRB(space.x5, space.x4, space.x5, space.x8),
       decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+        color: colors.elevatedBackground,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(CoolRadii.xl),
+          topRight: Radius.circular(CoolRadii.xl),
+        ),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -48,8 +52,10 @@ class MomoSmsRationaleSheet extends StatelessWidget {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: palette.border2,
-                borderRadius: BorderRadius.circular(999),
+                color: colors.borderStrong,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(CoolRadii.pill),
+                ),
               ),
             ),
           ),
@@ -57,21 +63,22 @@ class MomoSmsRationaleSheet extends StatelessWidget {
           Row(
             children: [
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(CoolSpace.x3),
                 decoration: BoxDecoration(
-                  color: palette.accentGlow,
-                  borderRadius: BorderRadius.circular(16),
+                  color: colors.accentGlow,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(CoolRadii.md),
+                  ),
                 ),
-                child: Icon(Icons.sms_rounded, color: palette.accent, size: 28),
+                child: Icon(Icons.sms_rounded, color: colors.accent, size: 28),
               ),
               const SizedBox(width: 16),
               Expanded(
                 child: Text(
                   'Sync your M-Money statements',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 20,
+                  style: theme.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w800,
-                    color: palette.text,
+                    color: colors.primaryText,
                     height: 1.2,
                   ),
                 ),
@@ -81,10 +88,9 @@ class MomoSmsRationaleSheet extends StatelessWidget {
           const SizedBox(height: 20),
           Text(
             'If you opt in',
-            style: GoogleFonts.dmSans(
-              fontSize: 15,
+            style: theme.textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w500,
-              color: palette.text2,
+              color: colors.secondaryText,
               height: 1.5,
             ),
           ),
@@ -93,9 +99,8 @@ class MomoSmsRationaleSheet extends StatelessWidget {
             icon: Icons.history_rounded,
             title: context.l10n.deepHistoricalSync,
             message:
-                'First-time setup imports M-Money confirmations '
-                'from the past year. Only messages from approved '
-                'Mobile Money senders are read — all other SMS '
+                'First-time setup imports the past year of approved '
+                'M-Money confirmations once on this device. Other SMS '
                 'is ignored.',
           ),
           const SizedBox(height: 16),
@@ -103,19 +108,18 @@ class MomoSmsRationaleSheet extends StatelessWidget {
             icon: Icons.security_rounded,
             title: context.l10n.privacyFocused,
             message:
-                'Cool only reads messages from approved M-Money '
-                'sender IDs (e.g. M-Money, MoMo). Your personal '
-                'conversations and other SMS are never accessed.',
+                'Cool only reads approved M-Money sender IDs such as '
+                'M-Money and MoMo. Personal conversations and unrelated '
+                'SMS are never uploaded.',
           ),
           const SizedBox(height: 16),
           _RationalePoint(
             icon: Icons.sync_rounded,
             title: context.l10n.alwaysInSync,
             message:
-                'New M-Money confirmations are detected in '
-                'real time and automatically matched to your '
-                'group contributions, subscriptions, and partner '
-                'transactions.',
+                'Approved payment confirmations are stored for ledger '
+                'history and matched to contributions, subscriptions, and '
+                'partner transactions.',
           ),
           const SizedBox(height: 32),
           Row(
@@ -161,11 +165,13 @@ class _RationalePoint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, size: 20, color: palette.accent),
+        Icon(icon, size: 20, color: colors.accent),
         const SizedBox(width: 12),
         Expanded(
           child: Column(
@@ -173,19 +179,17 @@ class _RationalePoint extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: GoogleFonts.dmSans(
-                  fontSize: 14,
+                style: theme.textTheme.bodySmall?.copyWith(
                   fontWeight: FontWeight.w700,
-                  color: palette.text,
+                  color: colors.primaryText,
                 ),
               ),
               const SizedBox(height: 4),
               Text(
                 message,
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
+                style: theme.textTheme.bodySmall?.copyWith(
                   fontWeight: FontWeight.w400,
-                  color: palette.text2,
+                  color: colors.secondaryText,
                   height: 1.4,
                 ),
               ),

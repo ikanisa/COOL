@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/config/app_market.dart';
 import '../../../core/providers/app_access_provider.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../providers/momo_service_provider.dart';
@@ -16,7 +15,8 @@ class MomoNfcScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final user = ref.watch(authProvider).user;
     final country = AppMarket.country;
     final momoNumber = user?.momoNumber.isNotEmpty == true
@@ -27,21 +27,20 @@ class MomoNfcScreen extends ConsumerWidget {
     final momoCode = user?.momoCode;
 
     return Scaffold(
-      backgroundColor: palette.bg,
+      backgroundColor: colors.appBackground,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).maybePop(),
           tooltip: context.l10n.back,
-          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
+          icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
         ),
         title: Text(
           'NFC pay',
-          style: GoogleFonts.dmSans(
-            fontSize: 18,
+          style: theme.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w700,
-            color: palette.text,
+            color: colors.primaryText,
           ),
         ),
       ),
@@ -49,7 +48,12 @@ class MomoNfcScreen extends ConsumerWidget {
         child: SafeArea(
           top: false,
           child: ListView(
-            padding: const EdgeInsets.fromLTRB(18, 8, 18, 24),
+            padding: const EdgeInsets.fromLTRB(
+              CoolSpace.x4 + CoolSpace.x1 / 2,
+              CoolSpace.x2,
+              CoolSpace.x4 + CoolSpace.x1 / 2,
+              CoolSpace.x6,
+            ),
             children: [
               MomoNfcCard(
                 country: country,

@@ -6,9 +6,12 @@ import 'package:supabase_flutter/supabase_flutter.dart'
     show FlutterAuthClientOptions, SupabaseClient;
 
 import 'package:cool_app/core/config/country_catalog.dart';
+import 'package:cool_app/features/momo/providers/momo_risk_provider.dart';
 import 'package:cool_app/features/momo/widgets/momo_cards_widgets.dart';
 import 'package:cool_app/features/momo/widgets/momo_qr_nfc_widgets.dart';
+import 'package:cool_app/features/momo/widgets/momo_risk_warning_sheet.dart';
 import 'package:cool_app/features/momo/widgets/momo_send_sheet.dart';
+import 'package:cool_app/features/momo/widgets/momo_sms_rationale_sheet.dart';
 import 'package:cool_app/l10n/app_localizations.dart';
 
 // ── test helpers ──────────────────────────────────────────────────────────
@@ -161,6 +164,48 @@ void main() {
       expect(find.text('0789000111'), findsWidgets);
       expect(find.text('RWF 5,000'), findsOneWidget);
       expect(find.text('Phone Number'), findsWidgets);
+    });
+  });
+
+  group('MoMo modal sheets', () {
+    testWidgets('MomoSmsRationaleSheet renders consent rationale', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _wrap(MomoSmsRationaleSheet(onAccept: () {}, onDecline: () {})),
+      );
+
+      expect(find.text('Sync your M-Money statements'), findsOneWidget);
+      expect(find.text('Allow access'), findsOneWidget);
+      expect(find.text('Maybe later'), findsOneWidget);
+    });
+
+    testWidgets('MomoRiskWarningSheet renders provided Guardian AI copy', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _wrap(
+          MomoRiskWarningSheet(
+            risk: const MomoRiskResult(
+              riskScore: 0.72,
+              isAnomaly: true,
+              reason: 'High-risk transfer pattern detected.',
+              warningTitle: 'Guardian AI Check',
+              warningBody: 'Review this transfer before continuing.',
+              trustScore: 0.34,
+              actionSuggestion: 'warn',
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('Guardian AI Check'), findsOneWidget);
+      expect(
+        find.text('Review this transfer before continuing.'),
+        findsOneWidget,
+      );
+      expect(find.text('Proceed Anyway'), findsOneWidget);
+      expect(find.text('Cancel & Review'), findsOneWidget);
     });
   });
 

@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:intl/intl.dart';
 
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/intl_locale.dart';
 import '../../../shared/widgets/cool_async_view.dart';
 import '../../../shared/widgets/cool_button.dart';
@@ -20,11 +20,14 @@ import '../../../shared/widgets/cool_skeleton.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../../core/providers/app_lifecycle_providers.dart';
+import '../../profile/widgets/profile_app_access_sheet.dart';
 import '../models/momo_statement.dart';
 import '../models/momo_statement_filters.dart';
+import '../providers/momo_sms_sync_providers.dart';
 import '../providers/momo_statement_providers.dart';
 import '../services/momo_sms_autoread_service.dart';
 import '../services/momo_statement_export_service.dart';
+import '../widgets/momo_sms_sync_status_card.dart';
 
 part '../controllers/momo_statements_controller.dart';
 part '../widgets/momo_statements_sections.dart';
@@ -92,29 +95,37 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
+    final showHeroTitle = MediaQuery.sizeOf(context).height >= 820;
     final moneyFormat = decimalMoneyFormatForLocale(context);
     final dateFormat = safeDateFormat('dd MMM yyyy');
     final dateTimeFormat = safeDateFormat('dd MMM yyyy, HH:mm');
     final bundleAsync = ref.watch(momoStatementBundleProvider(_query));
 
     return Scaffold(
-      backgroundColor: palette.bg,
+      backgroundColor: colors.appBackground,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          onPressed: _closeOrReturnHome,
-          tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
+          onPressed: () => Navigator.of(context).maybePop(),
+          tooltip: context.l10n.back,
+          icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
+        ),
+        title: Text(
+          context.l10n.statements,
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.w700,
+            color: colors.primaryText,
+          ),
         ),
         actions: [
           IconButton(
             tooltip: context.l10n.home,
             onPressed: () => context.go(AppRoutes.home),
-            icon: Icon(Icons.home_rounded, color: palette.text),
+            icon: Icon(Icons.home_rounded, color: colors.primaryText),
           ),
           IconButton(
             tooltip: context.l10n.syncSms,
@@ -125,15 +136,15 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
                     height: 20,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      color: palette.text3,
+                      color: colors.tertiaryText,
                     ),
                   )
-                : Icon(Icons.sms_rounded, color: palette.text),
+                : Icon(Icons.sms_rounded, color: colors.primaryText),
           ),
           IconButton(
-            tooltip: l10n.momoRefreshStatements,
+            tooltip: context.l10n.momoRefreshStatements,
             onPressed: _refresh,
-            icon: Icon(Icons.refresh_rounded, color: palette.text),
+            icon: Icon(Icons.refresh_rounded, color: colors.primaryText),
           ),
         ],
       ),
@@ -142,50 +153,69 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(18, 0, 18, 24),
+              padding: EdgeInsets.fromLTRB(
+                space.x3,
+                0,
+                space.x3,
+                showHeroTitle ? space.x4 : space.x2,
+              ),
               child: Text(
-                l10n.momoStatementsTitle,
-                style: GoogleFonts.dmSans(
-                  fontSize: 34,
-                  fontWeight: FontWeight.w800,
-                  color: palette.text,
-                  height: 1.1,
-                ),
+                context.l10n.momoStatementsTitle,
+                style:
+                    (showHeroTitle
+                            ? theme.textTheme.displaySmall
+                            : theme.textTheme.titleLarge)
+                        ?.copyWith(
+                          fontWeight: FontWeight.w800,
+                          color: colors.primaryText,
+                          height: showHeroTitle ? 1.1 : 1.2,
+                        ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(18, 0, 18, 12),
+              padding: EdgeInsets.fromLTRB(
+                space.x3,
+                0,
+                space.x3,
+                showHeroTitle ? space.x2 : space.x1,
+              ),
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: palette.bg,
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: palette.border),
+                  color: colors.elevatedBackground,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(CoolRadii.md),
+                  ),
+                  border: Border.all(color: colors.border),
                 ),
                 child: TabBar(
                   controller: _tabController,
                   dividerColor: Colors.transparent,
                   indicator: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: palette.surface2,
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(CoolRadii.sm),
+                    ),
+                    color: colors.cardSurfaceStrong,
                   ),
-                  labelColor: palette.text,
-                  unselectedLabelColor: palette.text3,
-                  labelStyle: GoogleFonts.dmSans(
-                    fontSize: 13,
+                  labelColor: colors.primaryText,
+                  unselectedLabelColor: colors.tertiaryText,
+                  labelStyle: theme.textTheme.labelLarge?.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
-                  unselectedLabelStyle: GoogleFonts.dmSans(
-                    fontSize: 13,
+                  unselectedLabelStyle: theme.textTheme.labelLarge?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
-                  tabs: const [
+                  tabs: [
                     Tab(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.account_balance_wallet_rounded,
                         size: 20,
                       ),
+                      text: context.l10n.walletLabel,
                     ),
-                    Tab(icon: Icon(Icons.savings_rounded, size: 20)),
+                    Tab(
+                      icon: const Icon(Icons.savings_rounded, size: 20),
+                      text: context.l10n.savingsLabel,
+                    ),
                   ],
                 ),
               ),
@@ -195,60 +225,91 @@ class _MomoStatementsScreenState extends ConsumerState<MomoStatementsScreen>
                 value: bundleAsync,
                 onRetry: _refresh,
                 loadingWidget: const SingleChildScrollView(
-                  padding: EdgeInsets.fromLTRB(16, 12, 16, 16),
+                  padding: EdgeInsets.fromLTRB(
+                    CoolSpace.x4,
+                    CoolSpace.x3,
+                    CoolSpace.x4,
+                    CoolSpace.x4,
+                  ),
                   child: CoolSkeletonList(itemCount: 4),
                 ),
                 builder: (bundle) {
                   final viewModel = _buildViewModel(bundle);
-                  return Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
-                    child: Column(
-                      children: [
-                        StatementOverviewCard(
-                          selectedPeriod: _periodPreset,
-                          periodSummary: _periodLabel(dateFormat),
-                          optionsSummary: _optionsSummary(
-                            viewModel.effectivePartyFilter,
-                          ),
-                          netBalance: _walletNetBalance(bundle.walletEntries),
-                          inflow: _walletInflow(bundle.walletEntries),
-                          outflow: _walletOutflow(bundle.walletEntries),
-                          savingsTotal: _confirmedSavingsTotal(
-                            bundle.savingsEntries,
-                          ),
-                          onSelectPeriod: _selectPeriod,
-                          onOpenOptions: () => _showOptionsSheet(
-                            viewModel: viewModel,
-                            walletEntries: viewModel.filteredWalletEntries,
-                            savingsEntries: viewModel.filteredSavingsEntries,
-                          ),
+                  return LayoutBuilder(
+                    builder: (context, constraints) {
+                      final showSyncStatus = constraints.maxHeight >= 620;
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(
+                          CoolSpace.x3,
+                          CoolSpace.x2,
+                          CoolSpace.x3,
+                          CoolSpace.x3,
                         ),
-                        const SizedBox(height: 16),
-                        Expanded(
-                          child: TabBarView(
-                            controller: _tabController,
-                            children: [
-                              WalletStatementTab(
-                                entries: viewModel.filteredWalletEntries,
-                                totalCount: bundle.walletTotalCount,
-                                dateFormat: dateTimeFormat,
-                                moneyFormat: moneyFormat,
-                                isFilteredView:
-                                    viewModel.effectivePartyFilter != null,
+                        child: Column(
+                          children: [
+                            StatementOverviewCard(
+                              selectedPeriod: _periodPreset,
+                              periodSummary: _periodLabel(dateFormat),
+                              optionsSummary: _optionsSummary(
+                                viewModel.effectivePartyFilter,
                               ),
-                              SavingsStatementTab(
-                                entries: viewModel.filteredSavingsEntries,
-                                totalCount: bundle.savingsTotalCount,
-                                dateFormat: dateFormat,
-                                moneyFormat: moneyFormat,
-                                isFilteredView:
-                                    viewModel.effectivePartyFilter != null,
+                              netBalance: _walletNetBalance(
+                                bundle.walletEntries,
                               ),
+                              inflow: _walletInflow(bundle.walletEntries),
+                              outflow: _walletOutflow(bundle.walletEntries),
+                              savingsTotal: _confirmedSavingsTotal(
+                                bundle.savingsEntries,
+                              ),
+                              onSelectPeriod: _selectPeriod,
+                              onOpenOptions: () => _showOptionsSheet(
+                                viewModel: viewModel,
+                                walletEntries: viewModel.filteredWalletEntries,
+                                savingsEntries:
+                                    viewModel.filteredSavingsEntries,
+                              ),
+                            ),
+                            SizedBox(
+                              height: showSyncStatus
+                                  ? CoolSpace.x3
+                                  : CoolSpace.x2,
+                            ),
+                            if (showSyncStatus) ...[
+                              MomoSmsSyncStatusCard(
+                                compact: true,
+                                onManageAccess: () =>
+                                    ProfileAppAccessSheet.show(context),
+                                onSyncComplete: (_) => _refresh(),
+                              ),
+                              const SizedBox(height: CoolSpace.x4),
                             ],
-                          ),
+                            Expanded(
+                              child: TabBarView(
+                                controller: _tabController,
+                                children: [
+                                  WalletStatementTab(
+                                    entries: viewModel.filteredWalletEntries,
+                                    totalCount: bundle.walletTotalCount,
+                                    dateFormat: dateTimeFormat,
+                                    moneyFormat: moneyFormat,
+                                    isFilteredView:
+                                        viewModel.effectivePartyFilter != null,
+                                  ),
+                                  SavingsStatementTab(
+                                    entries: viewModel.filteredSavingsEntries,
+                                    totalCount: bundle.savingsTotalCount,
+                                    dateFormat: dateFormat,
+                                    moneyFormat: moneyFormat,
+                                    isFilteredView:
+                                        viewModel.effectivePartyFilter != null,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      );
+                    },
                   );
                 },
               ),

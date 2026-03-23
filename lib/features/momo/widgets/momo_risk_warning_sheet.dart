@@ -1,18 +1,14 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../providers/momo_risk_provider.dart';
 import '../../../shared/widgets/cool_bottom_sheet.dart';
 
 class MomoRiskWarningSheet extends StatelessWidget {
-  const MomoRiskWarningSheet({
-    required this.risk,
-    super.key,
-  });
+  const MomoRiskWarningSheet({required this.risk, super.key});
 
   final MomoRiskResult risk;
 
@@ -27,16 +23,26 @@ class MomoRiskWarningSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
 
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
       child: Container(
-        padding: const EdgeInsets.fromLTRB(24, 12, 24, 40),
+        padding: const EdgeInsets.fromLTRB(
+          CoolSpace.x6,
+          CoolSpace.x3,
+          CoolSpace.x6,
+          CoolSpace.x8,
+        ),
         decoration: BoxDecoration(
-          color: palette.bg.withValues(alpha: 0.9),
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
-          border: Border.all(color: palette.border.withValues(alpha: 0.2)),
+          color: colors.appBackground.withValues(alpha: 0.9),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(CoolRadii.xl),
+            topRight: Radius.circular(CoolRadii.xl),
+          ),
+          border: Border.all(color: colors.border.withValues(alpha: 0.2)),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -45,78 +51,79 @@ class MomoRiskWarningSheet extends StatelessWidget {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: palette.border2,
-                borderRadius: BorderRadius.circular(2),
+                color: colors.borderStrong,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(CoolRadii.xs),
+                ),
               ),
             ),
-            const SizedBox(height: 32),
-            
+            SizedBox(height: space.x7),
+
             // Icon
             Container(
               width: 64,
               height: 64,
               decoration: BoxDecoration(
-                color: palette.orange.withValues(alpha: 0.15),
+                color: colors.warning.withValues(alpha: 0.15),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 Icons.gpp_maybe_rounded,
-                color: palette.orange,
+                color: colors.warning,
                 size: 32,
               ),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: space.x6),
 
             Text(
-              risk.warningTitle.isEmpty ? 'Guardian AI Check' : risk.warningTitle,
+              risk.warningTitle.isEmpty
+                  ? 'Guardian AI Check'
+                  : risk.warningTitle,
               textAlign: TextAlign.center,
-              style: GoogleFonts.dmSans(
-                fontSize: 22,
+              style: theme.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.w800,
-                color: palette.text,
+                color: colors.primaryText,
               ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: space.x3),
             Text(
               risk.warningBody.isEmpty ? risk.reason : risk.warningBody,
               textAlign: TextAlign.center,
-              style: GoogleFonts.dmSans(
-                fontSize: 15,
+              style: theme.textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w500,
-                color: palette.text2,
+                color: colors.secondaryText,
                 height: 1.5,
               ),
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: space.x7),
 
             CoolCard(
-              backgroundColor: palette.surface2,
-              padding: const EdgeInsets.all(16),
+              backgroundColor: colors.surface,
+              padding: const EdgeInsets.all(CoolSpace.x4),
               child: Row(
                 children: [
-                  Icon(Icons.shield_rounded, color: palette.accent, size: 20),
+                  Icon(Icons.shield_rounded, color: colors.accent, size: 20),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       'This check helps prevent mistaken transfers and fraud.',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
+                      style: theme.textTheme.labelMedium?.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: palette.text2,
+                        color: colors.secondaryText,
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: space.x7),
 
             CoolButton(
               label: 'Proceed Anyway',
               variant: CoolButtonVariant.secondary,
               onTap: () => Navigator.of(context).pop(true),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: space.x3),
             CoolButton(
               label: 'Cancel & Review',
               onTap: () => Navigator.of(context).pop(false),
