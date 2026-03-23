@@ -1,49 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_foundations.dart';
 import '../../core/theme/rs_colors.dart';
 import '../../features/partners/rayon/models/rs_models.dart';
 import 'cool_card.dart';
 
-
-/// Fan-club card with join/joined toggle and stats strip.
+/// Fan-club card with join state and chapter stats.
 class RsFanClubCard extends StatelessWidget {
   const RsFanClubCard({
     required this.club,
     required this.isJoined,
     required this.onJoinTap,
+    this.onTap,
     super.key,
   });
 
   final RsFanClub club;
   final bool isJoined;
   final VoidCallback onJoinTap;
-
-  // ── Region → banner gradient ─────────────────────────────────────
+  final VoidCallback? onTap;
 
   static LinearGradient _bannerGradient(String region) {
     final lower = region.toLowerCase();
     if (lower.contains('kigali')) {
-      return const LinearGradient(
-        colors: [Color(0xFF0A1A50), Color(0xFF0D2878)],
-      );
+      return RsColors.rsMembershipGradient;
     }
     if (lower.contains('south') || lower.contains('huye')) {
-      return const LinearGradient(
-        colors: [Color(0xFF0E1A4A), Color(0xFF152260)],
-      );
+      return RsColors.rsSupportGradient;
     }
     if (lower.contains('north') || lower.contains('musanze')) {
       return const LinearGradient(
-        colors: [Color(0xFF071240), Color(0xFF0B1D5A)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: <Color>[RsColors.rsBlue, RsColors.rsBlueMid],
       );
     }
-    return const LinearGradient(colors: [Color(0xFF091540), Color(0xFF0D1E6A)]);
+    return RsColors.rsCardGradient;
   }
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
+
     return Semantics(
       label:
           '${club.name}. ${club.region}.'
@@ -51,33 +53,33 @@ class RsFanClubCard extends StatelessWidget {
           '${club.memberCount} members.',
       excludeSemantics: true,
       child: CoolCard(
-        gradient: AppColors.cardGradient,
+        onTap: onTap,
+        gradient: RsColors.rsCardGradient,
         borderColor: isJoined
             ? RsColors.rsGold.withValues(alpha: 0.5)
             : RsColors.rsBlueBorder,
+        borderRadius: radii.lg,
+        padding: EdgeInsets.zero,
+        semanticsLabel: 'Open ${club.name} fan club',
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // ── Banner ──────────────────────────────────────────────
             Container(
-              height: 6,
+              height: space.x1 + 2,
               decoration: BoxDecoration(
                 gradient: _bannerGradient(club.region),
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(16),
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(radii.lg),
                 ),
               ),
             ),
-
-            // ── Body ───────────────────────────────────────────────
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 14, 16, 0),
+              padding: EdgeInsets.fromLTRB(space.x4, space.x4, space.x4, 0),
               child: Row(
                 children: [
-                  // Icon circle
                   Container(
-                    width: 40,
-                    height: 40,
+                    width: CoolTapTargets.minimum,
+                    height: CoolTapTargets.minimum,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: RsColors.rsBlueGlow,
@@ -89,32 +91,31 @@ class RsFanClubCard extends StatelessWidget {
                     alignment: Alignment.center,
                     child: const Icon(
                       Icons.music_note_rounded,
-                      size: 18,
-                      color: AppColors.accent,
+                      size: 20,
+                      color: RsColors.rsGoldLight,
                     ),
                   ),
-                  const SizedBox(width: 12),
-
-                  // Name + region
+                  SizedBox(width: space.x3),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           club.name,
-                          style: GoogleFonts.barlowCondensed(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w900,
-                            color: AppColors.rsWhite,
-                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
+                          style: text.rayonCondensed(
+                            theme.textTheme.titleLarge,
+                            fontWeight: FontWeight.w900,
+                            color: RsColors.rsWhite,
+                            height: 0.95,
+                          ),
                         ),
-                        const SizedBox(height: 2),
+                        SizedBox(height: space.x1 / 2),
                         Text(
                           club.region,
-                          style: GoogleFonts.barlow(
-                            fontSize: 12,
+                          style: text.rayon(
+                            theme.textTheme.labelSmall,
                             fontWeight: FontWeight.w600,
                             color: RsColors.rsBluePale,
                           ),
@@ -122,45 +123,42 @@ class RsFanClubCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(width: 8),
-
-                  // Join / Joined button
+                  SizedBox(width: space.x2),
                   _JoinButton(isJoined: isJoined, onTap: onJoinTap),
                 ],
               ),
             ),
-
-            // ── Description ────────────────────────────────────────
             if (club.description.isNotEmpty)
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                padding: EdgeInsets.fromLTRB(space.x4, space.x2, space.x4, 0),
                 child: Text(
                   club.description,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.barlow(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.text2,
-                    height: 1.35,
+                  style: text.rayon(
+                    theme.textTheme.bodySmall,
+                    fontWeight: FontWeight.w600,
+                    color: colors.secondaryText,
+                    height: 1.3,
                   ),
                 ),
               ),
-
-            const SizedBox(height: 12),
-
-            // ── Stats strip ────────────────────────────────────────
+            SizedBox(height: space.x3),
             Container(
               decoration: BoxDecoration(
-                border: Border(top: BorderSide(color: AppColors.border)),
+                color: colors.overlaySurface.withValues(alpha: 0.12),
+                border: Border(top: BorderSide(color: colors.borderStrong)),
               ),
-              padding: const EdgeInsets.symmetric(vertical: 10),
+              padding: EdgeInsets.symmetric(
+                horizontal: space.x3,
+                vertical: space.x2 + 2,
+              ),
               child: Row(
                 children: [
                   _Stat(label: 'Members', value: '${club.memberCount}'),
-                  _divider(),
+                  _Divider(color: colors.borderStrong),
                   _Stat(label: 'Events', value: '${club.eventCount}'),
-                  _divider(),
+                  _Divider(color: colors.borderStrong),
                   _Stat(label: 'Rating', value: '${club.rating}'),
                 ],
               ),
@@ -170,12 +168,7 @@ class RsFanClubCard extends StatelessWidget {
       ),
     );
   }
-
-  static Widget _divider() =>
-      Container(width: 1, height: 24, color: AppColors.border);
 }
-
-// ── Join / Joined button ─────────────────────────────────────────────
 
 class _JoinButton extends StatelessWidget {
   const _JoinButton({required this.isJoined, required this.onTap});
@@ -185,22 +178,38 @@ class _JoinButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: isJoined ? null : onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-        decoration: BoxDecoration(
-          color: isJoined ? RsColors.rsBlueGlow : RsColors.rsBlue,
-          borderRadius: BorderRadius.circular(30),
-          border: isJoined ? Border.all(color: RsColors.rsBlueBorder) : null,
-        ),
-        child: Text(
-          isJoined ? '✓ Joined' : 'Join',
-          style: GoogleFonts.barlowCondensed(
-            fontSize: 14,
-            fontWeight: FontWeight.w800,
-            color: isJoined ? AppColors.blue : Colors.white,
+    final text = context.coolText;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
+    final background = isJoined ? RsColors.rsBlueGlow : RsColors.rsBlue;
+    final foreground = isJoined ? RsColors.rsBluePale : RsColors.rsWhite;
+
+    return Material(
+      type: MaterialType.transparency,
+      child: InkWell(
+        onTap: isJoined ? null : onTap,
+        borderRadius: BorderRadius.circular(radii.pill),
+        child: AnimatedContainer(
+          duration: CoolMotion.quick,
+          constraints: const BoxConstraints(minHeight: CoolTapTargets.minimum),
+          padding: EdgeInsets.symmetric(horizontal: space.x3),
+          decoration: BoxDecoration(
+            color: background,
+            borderRadius: BorderRadius.circular(radii.pill),
+            border: Border.all(
+              color: isJoined ? RsColors.rsBlueBorder : RsColors.rsBlueMid,
+            ),
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            isJoined ? 'JOINED' : 'JOIN CLUB',
+            style: text.rayonCondensed(
+              theme.textTheme.labelLarge,
+              fontWeight: FontWeight.w800,
+              color: foreground,
+              letterSpacing: 0.3,
+            ),
           ),
         ),
       ),
@@ -208,7 +217,21 @@ class _JoinButton extends StatelessWidget {
   }
 }
 
-// ── Stats strip column ───────────────────────────────────────────────
+class _Divider extends StatelessWidget {
+  const _Divider({required this.color});
+
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 1,
+      height: 24,
+      color: color,
+      margin: const EdgeInsets.symmetric(horizontal: CoolSpace.x2),
+    );
+  }
+}
 
 class _Stat extends StatelessWidget {
   const _Stat({required this.label, required this.value});
@@ -218,24 +241,28 @@ class _Stat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
+
     return Expanded(
       child: Column(
         children: [
           Text(
             value,
-            style: GoogleFonts.dmMono(
-              fontSize: 13,
+            style: text.mono(
+              theme.textTheme.labelSmall,
               fontWeight: FontWeight.w700,
               color: RsColors.rsGoldLight,
             ),
           ),
-          const SizedBox(height: 2),
+          const SizedBox(height: CoolSpace.x1 / 2),
           Text(
             label,
-            style: GoogleFonts.barlow(
-              fontSize: 10,
+            style: text.rayon(
+              theme.textTheme.labelSmall,
               fontWeight: FontWeight.w600,
-              color: AppColors.text3,
+              color: colors.tertiaryText,
             ),
           ),
         ],

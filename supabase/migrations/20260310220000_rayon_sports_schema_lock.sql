@@ -19,70 +19,58 @@ as $$
       false
     );
 $$;
-
 -- ── Add missing columns to align with richer schema ──────────────────────────
 
 alter table public.rs_fan_clubs
   add column if not exists event_count integer not null default 0,
   add column if not exists rating numeric(3, 2) not null default 0,
   add column if not exists banner_emoji text not null default '🥁';
-
 do $$ begin
   alter table public.rs_fan_clubs
     add constraint rs_fan_clubs_check_event_count check (event_count >= 0);
 exception when duplicate_object then null;
 end $$;
-
 do $$ begin
   alter table public.rs_fan_clubs
     add constraint rs_fan_clubs_check_rating check (rating >= 0 and rating <= 5);
 exception when duplicate_object then null;
 end $$;
-
 do $$ begin
   alter table public.rs_fan_clubs
     add constraint rs_fan_clubs_unique_partner_name unique (partner_id, name);
 exception when duplicate_object then null;
 end $$;
-
 alter table public.rs_shop_products
   add column if not exists bg_color text,
   add column if not exists is_new boolean not null default false;
-
 do $$ begin
   alter table public.rs_shop_products
     add constraint rs_shop_products_unique_partner_name unique (partner_id, name);
 exception when duplicate_object then null;
 end $$;
-
 alter table public.rs_achievements
   add column if not exists emoji text not null default '🏆',
   add column if not exists name text not null default '',
   add column if not exists description text not null default '',
   add column if not exists is_earned boolean not null default true;
-
 do $$ begin
   alter table public.rs_achievements
     add constraint rs_achievements_unique_user_badge unique (user_id, partner_id, badge_type);
 exception when duplicate_object then null;
 end $$;
-
 alter table public.rs_matches
   add column if not exists sale_starts_at timestamptz not null default now(),
   add column if not exists capacity integer not null default 0;
-
 do $$ begin
   alter table public.rs_matches
     add constraint rs_matches_check_capacity check (capacity >= 0);
 exception when duplicate_object then null;
 end $$;
-
 do $$ begin
   alter table public.rs_initiatives
     add constraint rs_initiatives_unique_partner_title unique (partner_id, title);
 exception when duplicate_object then null;
 end $$;
-
 -- ── Upgrade RLS: public reads for catalog tables ─────────────────────────────
 
 -- Products: anon + authenticated can browse
@@ -91,60 +79,49 @@ create policy "products_public_read"
   on public.rs_shop_products for select
   to anon, authenticated
   using (true);
-
 -- Matches: anon + authenticated can browse
 drop policy if exists "matches_public_read" on public.rs_matches;
 create policy "matches_public_read"
   on public.rs_matches for select
   to anon, authenticated
   using (true);
-
 -- Initiatives: anon + authenticated can browse
 drop policy if exists "initiatives_public_read" on public.rs_initiatives;
 create policy "initiatives_public_read"
   on public.rs_initiatives for select
   to anon, authenticated
   using (true);
-
 -- Fan clubs: anon + authenticated can browse
 drop policy if exists "fan_clubs_public_read" on public.rs_fan_clubs;
 create policy "fan_clubs_public_read"
   on public.rs_fan_clubs for select
   to anon, authenticated
   using (true);
-
 -- Partner admin can read all memberships (for admin panel)
 drop policy if exists "partner_admin_reads_all_memberships" on public.rs_fan_memberships;
 create policy "partner_admin_reads_all_memberships"
   on public.rs_fan_memberships for select
   to authenticated
   using ((select public.rs_is_partner_admin(partner_id)));
-
 -- Fan club member delete (leave club)
 drop policy if exists "fan_leaves_own_fan_club" on public.rs_fan_club_members;
 create policy "fan_leaves_own_fan_club"
   on public.rs_fan_club_members for delete
   to authenticated
   using ((select auth.uid()) = user_id);
-
 -- ── Additional indexes ─────────────────────────────────────────────────────
 
 create index if not exists idx_rs_tickets_user_status
   on public.rs_tickets (user_id, status);
-
 create index if not exists idx_rs_tickets_match
   on public.rs_tickets (match_id);
-
 create index if not exists idx_rs_shop_orders_user_status
   on public.rs_shop_orders (user_id, status);
-
 create index if not exists idx_rs_fan_memberships_user_partner
   on public.rs_fan_memberships (user_id, partner_id);
-
 create unique index if not exists idx_rs_tickets_qr_code
   on public.rs_tickets (qr_code)
   where qr_code is not null;
-
 -- ── Seed data: Fan clubs + Initiatives ──────────────────────────────────────
 
 do $$
@@ -174,8 +151,8 @@ begin
     (rs_partner_id, 'Musanze Rayon Fans', 'Northern',
      'A northern supporters chapter known for coordinated away-day travel and drum-led support.',
      210, 16, 4.70, '🥁'),
-    (rs_partner_id, 'Western Blue Wave', 'Western',
-     'A western Rwanda supporters network organizing buses, fundraising, and community watch parties.',
+    (rs_partner_id, 'Gikundiro Diaspora', 'International',
+     'A global supporters network organizing digital campaigns, fundraising, and remote watch parties.',
      160, 12, 4.85, '🌍'),
     (rs_partner_id, 'Huye Blue Army', 'Southern',
      'A southern chapter driving student support, local screenings, and academy outreach.',

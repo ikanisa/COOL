@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
-import '../../core/theme/cool_palette.dart';
 
 class CoolScreenBackground extends StatelessWidget {
   const CoolScreenBackground({
@@ -22,7 +21,6 @@ class CoolScreenBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
 
     if (!showGlow) {
@@ -91,7 +89,7 @@ class CoolScreenBackground extends StatelessWidget {
               end: Alignment.bottomCenter,
               colors: <Color>[
                 Colors.transparent,
-                palette.bg.withValues(alpha: isDark ? 0.18 : 0.04),
+                colors.appBackground.withValues(alpha: isDark ? 0.18 : 0.04),
               ],
             ),
           ),

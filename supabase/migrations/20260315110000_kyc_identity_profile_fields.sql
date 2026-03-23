@@ -6,10 +6,8 @@ alter table public.users
   add column if not exists kyc_extracted_at timestamptz,
   add column if not exists kyc_extraction_provider text,
   add column if not exists identity_data jsonb not null default '{}'::jsonb;
-
 alter table public.users
   drop constraint if exists users_kyc_document_type_check;
-
 alter table public.users
   add constraint users_kyc_document_type_check
     check (
@@ -22,9 +20,7 @@ alter table public.users
         'other'
       )
     );
-
 create index if not exists idx_users_kyc_document_type
   on public.users (kyc_document_type);
-
 create index if not exists idx_users_kyc_extracted_at
   on public.users (kyc_extracted_at desc);

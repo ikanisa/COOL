@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
-import '../../core/theme/cool_palette.dart';
 
 /// A restrained premium glass surface.
 class CoolGlassCard extends StatelessWidget {
@@ -28,7 +27,6 @@ class CoolGlassCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
     final brightness = Theme.of(context).brightness;
     final isDark = brightness == Brightness.dark;
@@ -72,7 +70,7 @@ class CoolGlassCard extends StatelessWidget {
                 : InkWell(
                     onTap: onTap,
                     borderRadius: BorderRadius.circular(borderRadius),
-                    splashColor: palette.accent.withValues(alpha: 0.06),
+                    splashColor: colors.accent.withValues(alpha: 0.06),
                     highlightColor: Colors.transparent,
                     child: content,
                   ),

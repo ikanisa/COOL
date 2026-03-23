@@ -7,7 +7,6 @@
 
 delete from public.supported_countries
 where iso_code <> 'RW';
-
 update public.supported_countries
 set
   iso_code = 'RW',
@@ -19,9 +18,7 @@ set
   sort_order = 0,
   updated_at = now()
 where iso_code = 'RW';
-
 alter table public.users disable trigger trg_enforce_user_momo_fields;
-
 update public.users
 set
   country = 'RW',
@@ -46,25 +43,18 @@ set
 where
   country is distinct from 'RW'
   or language_code is distinct from 'en';
-
 alter table public.users enable trigger trg_enforce_user_momo_fields;
-
 alter table public.groups disable trigger trg_enforce_group_momo_fields;
-
 update public.groups
 set country = 'RW'
 where country is distinct from 'RW';
-
 alter table public.groups enable trigger trg_enforce_group_momo_fields;
-
 update public.partners
 set country = 'RW'
 where country is distinct from 'RW';
-
 update public.partner_services
 set country = 'RW'
 where country is distinct from 'RW';
-
 with ranked_routes as (
   select
     id,
@@ -86,127 +76,91 @@ delete from public.partner_payment_routes route
 using ranked_routes ranked
 where route.id = ranked.id
   and ranked.rn > 1;
-
 update public.partner_payment_routes
 set country = 'RW'
 where country is distinct from 'RW';
-
 update public.driver_profiles
 set country = 'RW'
 where country is distinct from 'RW';
-
 update public.mobility_trips
 set country = 'RW'
 where country is distinct from 'RW';
-
 alter table public.users
   alter column country set default 'RW';
-
 alter table public.users
   alter column language_code set default 'en';
-
 alter table public.groups
   alter column country set default 'RW';
-
 alter table public.partners
   alter column country set default 'RW';
-
 alter table public.partner_services
   alter column country set default 'RW';
-
 alter table public.partner_payment_routes
   alter column country set default 'RW';
-
 alter table public.driver_profiles
   alter column country set default 'RW';
-
 alter table public.mobility_trips
   alter column country set default 'RW';
-
 alter table public.supported_countries
   drop constraint if exists supported_countries_rwanda_only_check;
-
 alter table public.supported_countries
   add constraint supported_countries_rwanda_only_check
   check (iso_code = 'RW');
-
 alter table public.users
   drop constraint if exists users_country_rwanda_only_check;
-
 alter table public.users
   add constraint users_country_rwanda_only_check
   check (country = 'RW');
-
 alter table public.users
   drop constraint if exists users_language_code_english_only_check;
-
 alter table public.users
   add constraint users_language_code_english_only_check
   check (language_code = 'en');
-
 alter table public.groups
   drop constraint if exists groups_country_rwanda_only_check;
-
 alter table public.groups
   add constraint groups_country_rwanda_only_check
   check (country = 'RW');
-
 alter table public.partners
   drop constraint if exists partners_country_rwanda_only_check;
-
 alter table public.partners
   add constraint partners_country_rwanda_only_check
   check (country = 'RW');
-
 alter table public.partner_services
   drop constraint if exists partner_services_country_rwanda_only_check;
-
 alter table public.partner_services
   add constraint partner_services_country_rwanda_only_check
   check (country = 'RW');
-
 alter table public.partner_payment_routes
   drop constraint if exists partner_payment_routes_country_rwanda_only_check;
-
 alter table public.partner_payment_routes
   add constraint partner_payment_routes_country_rwanda_only_check
   check (country = 'RW');
-
 alter table public.driver_profiles
   drop constraint if exists driver_profiles_country_rwanda_only_check;
-
 alter table public.driver_profiles
   add constraint driver_profiles_country_rwanda_only_check
   check (country = 'RW');
-
 alter table public.mobility_trips
   drop constraint if exists mobility_trips_country_rwanda_only_check;
-
 alter table public.mobility_trips
   add constraint mobility_trips_country_rwanda_only_check
   check (country = 'RW');
-
 alter table public.quick_actions
   drop constraint if exists quick_actions_country_local_scope_check;
-
 alter table public.quick_actions
   add constraint quick_actions_country_local_scope_check
   check (country is null or country = 'RW');
-
 alter table public.vehicle_types
   drop constraint if exists vehicle_types_country_local_scope_check;
-
 alter table public.vehicle_types
   add constraint vehicle_types_country_local_scope_check
   check (country is null or country = 'RW');
-
 alter table public.app_config
   drop constraint if exists app_config_country_local_scope_check;
-
 alter table public.app_config
   add constraint app_config_country_local_scope_check
   check (country is null or country = 'RW');
-
 create or replace function public.sync_mobility_country_from_user()
 returns trigger
 language plpgsql
@@ -217,7 +171,6 @@ begin
   return new;
 end;
 $$;
-
 create or replace function public.enforce_partner_payment_route_fields()
 returns trigger
 language plpgsql
@@ -272,7 +225,6 @@ begin
   return new;
 end;
 $$;
-
 create or replace function public.get_partner_payment_route(
   p_partner_id uuid,
   p_country text default null
@@ -330,7 +282,6 @@ begin
   );
 end;
 $$;
-
 create or replace function public.create_group_atomic(
   p_name text,
   p_visibility text,
@@ -460,4 +411,4 @@ exception
       'message', sqlerrm
     );
 end;
-$$;
+$$;;

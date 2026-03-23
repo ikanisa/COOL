@@ -336,5 +336,11 @@ class AppAccessService {
     return Platform.isAndroid;
   }
 
-  bool _defaultEnabled(AppAccessPermission _) => true;
+  bool _defaultEnabled(AppAccessPermission permission) {
+    // SMS access is restricted personal data and must remain explicit opt-in.
+    if (permission == AppAccessPermission.sms) {
+      return false;
+    }
+    return true;
+  }
 }

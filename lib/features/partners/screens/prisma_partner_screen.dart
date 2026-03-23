@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/l10n/l10n.dart';
 
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../models/partner.dart';
@@ -24,7 +22,8 @@ class PrismaPartnerScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final partnerAsync = ref.watch(partnerBySlugProvider(_slug));
 
     return CoolScreenBackground(
@@ -38,19 +37,18 @@ class PrismaPartnerScreen extends ConsumerWidget {
             context,
             fallbackLocation: AppRoutes.partners,
             icon: Icons.arrow_back_ios_new_rounded,
-            color: palette.text,
+            color: colors.primaryText,
           ),
           actions: buildPartnerAppBarActions(
             context,
-            homeColor: palette.text,
+            homeColor: colors.primaryText,
           ),
           title: partnerAsync.when(
             data: (partner) => Text(
               partner?.name ?? context.l10n.prismaLabel,
-              style: GoogleFonts.dmSans(
-                fontSize: 18,
+              style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w700,
-                color: palette.text,
+                color: colors.primaryText,
               ),
             ),
             loading: () => const SizedBox.shrink(),
@@ -83,6 +81,7 @@ class _PrismaBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.coolSemanticColors;
     final servicesAsync = ref.watch(
       currentCountryPartnerServicesProvider(partner.id),
     );
@@ -134,7 +133,14 @@ class _PrismaBody extends ConsumerWidget {
                             ),
                         fallbackCategory: 'capability',
                         gradientWhen: (cat) => cat.endsWith('_agent')
-                            ? AppColors.blueGradient
+                            ? LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: <Color>[
+                                  colors.analyticsSurface,
+                                  colors.cardSurfaceStrong,
+                                ],
+                              )
                             : null,
                       ),
                       const SizedBox(height: 12),

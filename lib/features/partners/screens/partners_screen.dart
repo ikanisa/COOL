@@ -6,16 +6,14 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/services/whatsapp_contact_service.dart';
-import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/rs_colors.dart';
 import '../../../core/utils/icon_mapper.dart';
 import '../../../features/auth/providers/auth_provider.dart';
 import '../../../features/partners/models/partner.dart';
 import '../../../features/partners/providers/partner_provider.dart';
 import '../../../features/partners/providers/rayon_sports_provider.dart';
 import '../../../features/partners/rayon/models/rs_models.dart';
-import '../../../features/partners/rayon/widgets/rs_membership_card.dart';
 import '../../../features/partners/widgets/partner_brand_mark.dart';
 import '../../../features/partners/widgets/partner_navigation.dart';
 import '../../../shared/widgets/cool_button.dart';
@@ -24,7 +22,9 @@ import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_state_view.dart';
 import '../../../shared/widgets/cool_toast.dart';
+import '../../../shared/widgets/rs_membership_card.dart';
 import '../../../shared/widgets/section_title.dart';
+import '../../../shared/widgets/tab_pill.dart';
 import '../../../shared/widgets/whatsapp_hint_chip.dart';
 
 part '../controllers/partners_screen_controller.dart';
@@ -46,7 +46,6 @@ class _PartnersScreenState extends ConsumerState<PartnersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
     final tabs = _tabLabels(context);
@@ -103,40 +102,12 @@ class _PartnersScreenState extends ConsumerState<PartnersScreen> {
                 child: Row(
                   children: List.generate(tabs.length, (index) {
                     final isActive = _activeTab == index;
-                    final disableAnimations =
-                        MediaQuery.maybeOf(context)?.disableAnimations ?? false;
-                    final onPrimary = Theme.of(context).colorScheme.onPrimary;
                     return Expanded(
-                      child: Semantics(
-                        selected: isActive,
-                        label: '${tabs[index]} tab',
-                        child: GestureDetector(
-                          onTap: () => setState(() => _activeTab = index),
-                          child: AnimatedContainer(
-                            duration: disableAnimations
-                                ? Duration.zero
-                                : const Duration(milliseconds: 200),
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            decoration: BoxDecoration(
-                              color: isActive
-                                  ? colors.accent
-                                  : Colors.transparent,
-                              borderRadius: BorderRadius.circular(CoolRadii.sm),
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              tabs[index],
-                              style: theme.textTheme.labelLarge?.copyWith(
-                                fontWeight: isActive
-                                    ? FontWeight.w800
-                                    : FontWeight.w700,
-                                color: isActive
-                                    ? onPrimary
-                                    : colors.secondaryText,
-                              ),
-                            ),
-                          ),
-                        ),
+                      child: TabPill(
+                        key: ValueKey('partners_tab_$index'),
+                        label: tabs[index],
+                        isActive: isActive,
+                        onTap: () => setState(() => _activeTab = index),
                       ),
                     );
                   }),

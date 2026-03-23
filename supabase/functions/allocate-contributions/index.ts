@@ -1,10 +1,15 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
-import { createClient } from "jsr:@supabase/supabase-js@2";
+import {
+  errorResponse,
+  handleCors,
+  jsonResponse,
+  methodNotAllowed,
+} from "../_shared/http.ts";
+import {
+  createAdminClient,
+  createUserClient,
+} from "../_shared/supabase.ts";
 
-const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ?? "";
-const SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
-
-// Gemini API (preferred) or OpenAI for fuzzy name matching
 const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? "";
 
 interface ReconRow {
@@ -32,19 +37,57 @@ interface GroupMember {
   contribution_amount: number;
 }
 
-Deno.serve(async (req: Request) => {
-  try {
-    const { partner_id } = await req.json().catch(() => ({ partner_id: null }));
+type AuthenticatedCaller = {
+  userId: string;
+  isAppAdmin: boolean;
+  isGlobalBankAdmin: boolean;
+  appMetadata: Record<string, unknown>;
+};
 
-    const supabase = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, {
-      auth: { persistSession: false },
-    });
+class HttpError extends Error {
+  constructor(public readonly status: number, message: string) {
+    super(message);
+  }
+}
+
+Deno.serve(async (req: Request) => {
+  const corsResponse = handleCors(req);
+  if (corsResponse) {
+    return corsResponse;
+  }
+
+  if (req.method !== "POST") {
+    return methodNotAllowed("POST");
+  }
+
+  try {
+    const authorization =
+      req.headers.get("authorization")?.trim() ??
+      req.headers.get("Authorization")?.trim();
+    if (!authorization) {
+      return errorResponse("Authentication required", 401);
+    }
+
+    const caller = await requireCaller(authorization);
+    const { partner_id } = await req.json().catch(() => ({ partner_id: null }));
+    const partnerId = normalizePartnerId(partner_id);
+    if (!partnerId) {
+      return errorResponse("partner_id is required", 400);
+    }
+    if (!hasBankAdminAccess(caller, partnerId)) {
+      return errorResponse(
+        "Not authorized to allocate contributions for this partner.",
+        403,
+      );
+    }
+
+    const supabase = createAdminClient();
 
     // 1. Fetch unresolved reconciliations
     const { data: recons, error: reconErr } = await supabase
       .from("momo_reconciliations")
       .select("id, match_status, parsed_sms_id, metadata")
-      .in_("match_status", ["pending_review", "manual_review"])
+      .in("match_status", ["pending_review", "manual_review"])
       .order("created_at", { ascending: false })
       .limit(50);
 
@@ -61,7 +104,7 @@ Deno.serve(async (req: Request) => {
     const { data: parsedList } = await supabase
       .from("momo_sms_parsed")
       .select("id, amount, payer_phone, payer_name, momo_tx_id, payee_phone")
-      .in_("id", parsedIds);
+      .in("id", parsedIds);
 
     const parsedMap = new Map<string, ParsedSms>();
     for (const p of parsedList ?? []) {
@@ -69,12 +112,14 @@ Deno.serve(async (req: Request) => {
     }
 
     // 3. Fetch all group members with user phones for matching
-    const { data: members } = await supabase.rpc("get_bank_all_group_members_for_matching", {
-      p_partner_id: partner_id,
-    }).catch(() => ({ data: [] }));
+    const membersResult = await supabase.rpc("get_bank_all_group_members_for_matching", {
+      p_partner_id: partnerId,
+    });
 
     // Fallback: direct query if RPC doesn't exist
-    let memberList: GroupMember[] = members ?? [];
+    let memberList: GroupMember[] = membersResult.error
+      ? []
+      : (membersResult.data ?? []);
     if (memberList.length === 0) {
       const { data: fallbackMembers } = await supabase
         .from("group_members")
@@ -117,7 +162,7 @@ Deno.serve(async (req: Request) => {
         // High confidence: auto-allocate
         try {
           await supabase.rpc("bank_allocate_manual_review_allocation", {
-            p_partner_id: partner_id,
+            p_partner_id: partnerId,
             p_review_id: recon.id,
             p_group_id: best.group_id,
             p_member_user_id: best.user_id,
@@ -156,9 +201,80 @@ Deno.serve(async (req: Request) => {
       total_unresolved: recons.length,
     });
   } catch (err) {
+    if (err instanceof HttpError) {
+      return errorResponse(err.message, err.status);
+    }
     return jsonResponse({ error: (err as Error).message }, 500);
   }
 });
+
+async function requireCaller(
+  authorization: string,
+): Promise<AuthenticatedCaller> {
+  const userClient = createUserClient(authorization);
+  const {
+    data: { user },
+    error,
+  } = await userClient.auth.getUser();
+
+  if (error || !user) {
+    throw new HttpError(401, "Authentication required");
+  }
+
+  const appMetadata = (user.app_metadata ?? {}) as Record<string, unknown>;
+  return {
+    userId: user.id,
+    isAppAdmin: metadataBool(appMetadata["is_admin"]),
+    isGlobalBankAdmin: metadataBool(appMetadata["is_bank_admin"]),
+    appMetadata,
+  };
+}
+
+function normalizePartnerId(value: unknown): string | null {
+  if (typeof value !== "string") {
+    return null;
+  }
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
+}
+
+function hasBankAdminAccess(
+  caller: AuthenticatedCaller,
+  partnerId: string,
+): boolean {
+  if (caller.isAppAdmin || caller.isGlobalBankAdmin) {
+    return true;
+  }
+
+  const ids = caller.appMetadata["bank_admin_ids"];
+  if (Array.isArray(ids)) {
+    return ids.some((value) => value?.toString().trim() === partnerId);
+  }
+  if (ids && typeof ids === "object") {
+    const entries = ids as Record<string, unknown>;
+    return Object.entries(entries).some(
+      ([key, value]) => key.trim() === partnerId && metadataBool(value),
+    );
+  }
+  if (typeof ids === "string") {
+    return ids.split(",").some((value) => value.trim() === partnerId);
+  }
+  return false;
+}
+
+function metadataBool(value: unknown): boolean {
+  if (typeof value === "boolean") {
+    return value;
+  }
+  if (typeof value === "number") {
+    return value !== 0;
+  }
+  if (typeof value === "string") {
+    const normalized = value.trim().toLowerCase();
+    return normalized === "true" || normalized === "1";
+  }
+  return false;
+}
 
 // ── Scoring engine ──────────────────────────────────────────────
 
@@ -291,7 +407,7 @@ function similarityScore(a: string, b: string): number {
 // ── Helpers ──────────────────────────────────────────────────────
 
 async function writeSuggestion(
-  supabase: ReturnType<typeof createClient>,
+  supabase: ReturnType<typeof createAdminClient>,
   reconId: string,
   candidate: ScoredCandidate,
 ) {
@@ -309,11 +425,4 @@ async function writeSuggestion(
       updated_at: new Date().toISOString(),
     })
     .eq("id", reconId);
-}
-
-function jsonResponse(body: Record<string, unknown>, status = 200) {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: { "Content-Type": "application/json" },
-  });
 }

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme/cool_foundations.dart';
-import '../../core/theme/cool_palette.dart';
 
 /// A styled text field matching the COOL design system.
 class CoolTextField extends StatelessWidget {
@@ -37,8 +35,9 @@ class CoolTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
     final theme = Theme.of(context);
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
     final semanticsLabel = label ?? hint;
 
@@ -51,20 +50,13 @@ class CoolTextField extends StatelessWidget {
             label: '${label!} field label',
             child: Text(
               label!,
-              style:
-                  theme.textTheme.labelLarge?.copyWith(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w800,
-                    color: colors.secondaryText,
-                  ) ??
-                  GoogleFonts.manrope(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w800,
-                    color: colors.secondaryText,
-                  ),
+              style: theme.textTheme.labelLarge?.copyWith(
+                fontWeight: FontWeight.w800,
+                color: colors.secondaryText,
+              ),
             ),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: space.x2),
         ],
         Semantics(
           textField: true,
@@ -72,7 +64,7 @@ class CoolTextField extends StatelessWidget {
           hint: obscureText ? 'Secure entry field' : 'Double tap to enter text',
           child: DecoratedBox(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(CoolRadii.md),
+              borderRadius: BorderRadius.circular(radii.md),
               boxShadow: CoolShadows.clay(theme.brightness, strength: 0.45),
             ),
             child: TextFormField(
@@ -84,30 +76,26 @@ class CoolTextField extends StatelessWidget {
               onChanged: onChanged,
               autofocus: autofocus,
               textInputAction: textInputAction,
-              style:
-                  theme.textTheme.titleSmall?.copyWith(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800,
-                    color: colors.primaryText,
-                  ) ??
-                  GoogleFonts.manrope(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800,
-                    color: colors.primaryText,
-                  ),
+              style: theme.textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.w800,
+                color: colors.primaryText,
+              ),
               cursorColor: colors.accent,
               decoration: InputDecoration(
                 hintText: hint,
                 hintStyle: theme.inputDecorationTheme.hintStyle,
                 filled: true,
                 fillColor: colors.inputSurface,
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 22,
-                  vertical: 20,
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: space.x5,
+                  vertical: space.x5,
                 ),
                 prefixIcon: prefixIcon != null
                     ? Padding(
-                        padding: const EdgeInsets.only(left: 18, right: 10),
+                        padding: EdgeInsets.only(
+                          left: space.x4,
+                          right: space.x2,
+                        ),
                         child: Icon(
                           prefixIcon,
                           size: 20,
@@ -116,10 +104,15 @@ class CoolTextField extends StatelessWidget {
                       )
                     : prefixEmoji != null
                     ? Padding(
-                        padding: const EdgeInsets.only(left: 18, right: 10),
+                        padding: EdgeInsets.only(
+                          left: space.x4,
+                          right: space.x2,
+                        ),
                         child: Text(
                           prefixEmoji!,
-                          style: const TextStyle(fontSize: 20),
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            color: colors.primaryText,
+                          ),
                         ),
                       )
                     : null,
@@ -128,24 +121,24 @@ class CoolTextField extends StatelessWidget {
                     ? const BoxConstraints(minWidth: 0, minHeight: 0)
                     : null,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(CoolRadii.md),
+                  borderRadius: BorderRadius.circular(radii.md),
                   borderSide: BorderSide(color: colors.border),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(CoolRadii.md),
+                  borderRadius: BorderRadius.circular(radii.md),
                   borderSide: BorderSide(color: colors.border),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(CoolRadii.md),
+                  borderRadius: BorderRadius.circular(radii.md),
                   borderSide: BorderSide(color: colors.accent, width: 1.6),
                 ),
                 errorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(CoolRadii.md),
-                  borderSide: BorderSide(color: palette.red),
+                  borderRadius: BorderRadius.circular(radii.md),
+                  borderSide: BorderSide(color: colors.danger),
                 ),
                 focusedErrorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(CoolRadii.md),
-                  borderSide: BorderSide(color: palette.red, width: 1.6),
+                  borderRadius: BorderRadius.circular(radii.md),
+                  borderSide: BorderSide(color: colors.danger, width: 1.6),
                 ),
                 errorStyle: theme.inputDecorationTheme.errorStyle,
               ),

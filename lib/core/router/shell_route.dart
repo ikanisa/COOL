@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../features/mobility/providers/mobility_location_provider.dart';
 import '../../features/momo/providers/momo_sms_rationale_provider.dart';
 import '../../features/momo/widgets/momo_sms_rationale_sheet.dart';
+import '../../shared/widgets/cool_card.dart';
 import '../l10n/l10n.dart';
-import '../theme/cool_palette.dart';
+import '../theme/cool_foundations.dart';
 
 /// The main scaffold that wraps all bottom-nav routes.
 class AppShell extends ConsumerStatefulWidget {
@@ -105,8 +105,11 @@ class _AppShellState extends ConsumerState<AppShell> {
       }
     });
 
-    final palette = context.coolPalette;
-    final brightness = Theme.of(context).brightness;
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
+    final brightness = theme.brightness;
     final index = _currentIndex();
     final textScale = MediaQuery.textScalerOf(context).scale(1);
     final navigationHeight = (84 + ((textScale - 1) * 26))
@@ -116,6 +119,8 @@ class _AppShellState extends ConsumerState<AppShell> {
     final navLabelFontSize = (12 + ((textScale - 1) * 1.5))
         .clamp(12, 14)
         .toDouble();
+    const navRadius = BorderRadius.all(Radius.circular(CoolRadii.xl));
+    const fabRadius = BorderRadius.all(Radius.circular(CoolRadii.lg));
 
     _syncMobilityBranchVisibility(widget.navigationShell.currentIndex == 2);
 
@@ -133,17 +138,17 @@ class _AppShellState extends ConsumerState<AppShell> {
                   onPressed: _onFabPressed,
                   tooltip: context.l10n.momoScreenTitle,
                   elevation: 0,
-                  backgroundColor: palette.accent,
+                  backgroundColor: colors.accent,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
+                    borderRadius: fabRadius,
                     side: BorderSide(
-                      color: palette.surface.withValues(alpha: 0.75),
+                      color: colors.elevatedBackground.withValues(alpha: 0.75),
                       width: 3,
                     ),
                   ),
                   child: Icon(
                     Icons.account_balance_wallet_rounded,
-                    color: Theme.of(context).colorScheme.onPrimary,
+                    color: colors.accentForeground,
                     size: 26,
                   ),
                 ),
@@ -153,28 +158,25 @@ class _AppShellState extends ConsumerState<AppShell> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: widget.showNavigationChrome
           ? Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 22),
+              padding: EdgeInsets.fromLTRB(space.x5, 0, space.x5, space.x5),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(28),
+                borderRadius: navRadius,
                 child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                  filter: ImageFilter.blur(
+                    sigmaX: CoolBlur.heavy,
+                    sigmaY: CoolBlur.heavy,
+                  ),
                   child: DecoratedBox(
                     decoration: BoxDecoration(
-                      color: palette.surface.withValues(alpha: 0.76),
-                      borderRadius: BorderRadius.circular(28),
+                      color: colors.overlaySurface.withValues(alpha: 0.82),
+                      borderRadius: navRadius,
                       border: Border.all(
-                        color: palette.border.withValues(alpha: 0.8),
+                        color: colors.border.withValues(alpha: 0.8),
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(
-                            alpha: brightness == Brightness.light ? 0.08 : 0.26,
-                          ),
-                          blurRadius: 28,
-                          spreadRadius: -12,
-                          offset: const Offset(0, 20),
-                        ),
-                      ],
+                      boxShadow: CoolShadows.glass(
+                        brightness,
+                        strength: brightness == Brightness.light ? 0.85 : 1.05,
+                      ),
                     ),
                     child: SizedBox(
                       height: navigationHeight,
@@ -184,18 +186,14 @@ class _AppShellState extends ConsumerState<AppShell> {
                         backgroundColor: Colors.transparent,
                         elevation: 0,
                         type: BottomNavigationBarType.fixed,
-                        selectedItemColor: palette.accent,
-                        unselectedItemColor: palette.text3,
+                        selectedItemColor: colors.accent,
+                        unselectedItemColor: colors.tertiaryText,
                         selectedFontSize: navLabelFontSize,
                         unselectedFontSize: navLabelFontSize,
-                        selectedLabelStyle: GoogleFonts.manrope(
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: -0.2,
-                        ),
-                        unselectedLabelStyle: GoogleFonts.manrope(
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: -0.2,
-                        ),
+                        selectedLabelStyle: theme.textTheme.labelMedium
+                            ?.copyWith(fontWeight: FontWeight.w800),
+                        unselectedLabelStyle: theme.textTheme.labelMedium
+                            ?.copyWith(fontWeight: FontWeight.w700),
                         items: [
                           BottomNavigationBarItem(
                             icon: Semantics(

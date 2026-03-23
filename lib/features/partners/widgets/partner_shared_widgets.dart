@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/icon_mapper.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
@@ -49,7 +48,8 @@ class PartnerSectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final meta = categoryMeta[category] ?? categoryMeta[fallbackCategory]!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,10 +70,9 @@ class PartnerSectionHeader extends StatelessWidget {
             Expanded(
               child: Text(
                 meta.title,
-                style: GoogleFonts.dmSans(
-                  fontSize: 18,
+                style: theme.textTheme.titleLarge?.copyWith(
+                  color: colors.primaryText,
                   fontWeight: FontWeight.w800,
-                  color: palette.text,
                 ),
               ),
             ),
@@ -82,10 +81,9 @@ class PartnerSectionHeader extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           meta.description,
-          style: GoogleFonts.dmSans(
-            fontSize: 13,
-            fontWeight: FontWeight.w500,
-            color: palette.text2,
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: colors.secondaryText,
+            fontWeight: FontWeight.w600,
             height: 1.45,
           ),
         ),
@@ -130,7 +128,8 @@ class PartnerServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final normalizedCategory = normalizeCategory(service.category);
     final meta =
         categoryMeta[normalizedCategory] ?? categoryMeta[fallbackCategory]!;
@@ -154,7 +153,7 @@ class PartnerServiceCard extends StatelessWidget {
                 child: Icon(
                   IconMapper.from(service.emoji),
                   size: 22,
-                  color: palette.text2,
+                  color: colors.secondaryText,
                 ),
               ),
               const SizedBox(width: 12),
@@ -164,10 +163,9 @@ class PartnerServiceCard extends StatelessWidget {
                   children: [
                     Text(
                       service.title,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 16,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        color: colors.primaryText,
                         fontWeight: FontWeight.w800,
-                        color: palette.text,
                       ),
                     ),
                     if (service.subtitle != null &&
@@ -175,10 +173,9 @@ class PartnerServiceCard extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         service.subtitle!,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: palette.text2,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colors.secondaryText,
+                          fontWeight: FontWeight.w600,
                           height: 1.45,
                         ),
                       ),
@@ -194,9 +191,9 @@ class PartnerServiceCard extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: palette.surface2,
+                color: colors.inputSurface,
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: palette.border),
+                border: Border.all(color: colors.border),
               ),
               child: Column(
                 children: [
@@ -249,7 +246,8 @@ class PartnerDetailRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -264,7 +262,7 @@ class PartnerDetailRow extends StatelessWidget {
           child: Icon(
             IconMapper.from(detail.icon),
             size: 13,
-            color: palette.text2,
+            color: colors.secondaryText,
           ),
         ),
         const SizedBox(width: 10),
@@ -274,19 +272,17 @@ class PartnerDetailRow extends StatelessWidget {
             children: [
               Text(
                 detail.label,
-                style: GoogleFonts.dmSans(
-                  fontSize: 12,
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: colors.tertiaryText,
                   fontWeight: FontWeight.w700,
-                  color: palette.text3,
                 ),
               ),
               const SizedBox(height: 2),
               Text(
                 detail.value,
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: palette.text,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colors.primaryText,
+                  fontWeight: FontWeight.w700,
                   height: 1.35,
                 ),
               ),
@@ -319,44 +315,34 @@ class PartnerQuickActionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    return Semantics(
-      button: true,
-      label: '$title action',
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(18),
-          child: CoolCard(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(icon, color: palette.accent, size: 22),
-                const SizedBox(height: 10),
-                Text(
-                  title,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w800,
-                    color: palette.text,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  subtitle,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: palette.text2,
-                    height: 1.35,
-                  ),
-                ),
-              ],
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    return CoolCard(
+      onTap: onTap,
+      semanticsLabel: '$title action',
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, color: colors.accent, size: 22),
+          const SizedBox(height: 10),
+          Text(
+            title,
+            style: theme.textTheme.labelLarge?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
             ),
           ),
-        ),
+          const SizedBox(height: 4),
+          Text(
+            subtitle,
+            style: theme.textTheme.labelMedium?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w600,
+              height: 1.35,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -375,25 +361,25 @@ class PartnerHeroPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.70),
+        color: colors.cardSurfaceStrong.withValues(alpha: 0.92),
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: palette.border),
+        border: Border.all(color: colors.border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 16, color: palette.accent),
+          Icon(icon, size: 16, color: colors.accent),
           const SizedBox(width: 8),
           Text(
             label,
-            style: GoogleFonts.dmSans(
-              fontSize: 12,
+            style: theme.textTheme.labelMedium?.copyWith(
+              color: colors.primaryText,
               fontWeight: FontWeight.w700,
-              color: palette.text,
             ),
           ),
         ],
@@ -421,11 +407,12 @@ class PartnerSupportLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, size: 18, color: palette.accent),
+        Icon(icon, size: 18, color: colors.accent),
         const SizedBox(width: 10),
         Expanded(
           child: Column(
@@ -433,19 +420,17 @@ class PartnerSupportLine extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: GoogleFonts.dmSans(
-                  fontSize: 12,
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: colors.tertiaryText,
                   fontWeight: FontWeight.w700,
-                  color: palette.text3,
                 ),
               ),
               const SizedBox(height: 2),
               Text(
                 value,
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: palette.text,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colors.primaryText,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             ],
@@ -516,8 +501,7 @@ class PartnerEmptyServicesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return CoolCard(
       child: CoolEmptyView(
-        message:
-            'Services for $partnerName will appear here once configured.',
+        message: 'Services for $partnerName will appear here once configured.',
         compact: true,
         icon: Icons.assignment_outlined,
       ),

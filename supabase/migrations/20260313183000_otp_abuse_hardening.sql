@@ -12,18 +12,13 @@ create table if not exists public.otp_rate_events (
   metadata jsonb not null default '{}'::jsonb,
   created_at timestamptz not null default now()
 );
-
 create index if not exists idx_otp_rate_events_action_actor_time
   on public.otp_rate_events (action, actor_key, created_at desc);
-
 create index if not exists idx_otp_rate_events_phone_time
   on public.otp_rate_events (phone, created_at desc);
-
 alter table public.otp_rate_events enable row level security;
-
 comment on table public.otp_rate_events is
   'Service-role-only OTP abuse telemetry for IP-scoped send and verify limits.';
-
 create or replace function public.find_auth_user_by_phone_or_email(
   p_phone text,
   p_email text
@@ -52,7 +47,6 @@ as $$
   au.created_at asc
   limit 1;
 $$;
-
 revoke all on function public.find_auth_user_by_phone_or_email(text, text)
   from public;
 grant execute on function public.find_auth_user_by_phone_or_email(text, text)

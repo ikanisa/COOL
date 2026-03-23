@@ -1,22 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../core/theme/cool_palette.dart';
-import 'cool_button.dart';
 import '../../core/l10n/l10n.dart';
+import '../../core/theme/cool_foundations.dart';
+import 'cool_button.dart';
 
 /// A gate widget that blocks access to a feature when its kill-switch is active.
-///
-/// When [enabled] is `true`, renders [child] normally.
-/// When [enabled] is `false`, shows a "temporarily unavailable" overlay.
-///
-/// Usage:
-/// ```dart
-/// KillSwitchGate(
-///   enabled: ref.read(featureFlagsStateProvider).momoEnabled,
-///   featureName: 'Mobile Money',
-///   child: MomoScreenBody(),
-/// )
-/// ```
 class KillSwitchGate extends StatelessWidget {
   const KillSwitchGate({
     required this.enabled,
@@ -27,20 +15,10 @@ class KillSwitchGate extends StatelessWidget {
     super.key,
   });
 
-  /// Whether the feature is enabled. If `false`, the gate blocks access.
   final bool enabled;
-
-  /// The child widget to render when the feature is enabled.
   final Widget child;
-
-  /// Optional feature name shown in the unavailable message.
   final String? featureName;
-
-  /// Optional custom message. Defaults to a generic unavailable message.
   final String? message;
-
-  /// Called when the user presses the back button on the gate.
-  /// If null, uses `Navigator.of(context).pop()`.
   final VoidCallback? onBackPressed;
 
   @override
@@ -49,19 +27,19 @@ class KillSwitchGate extends StatelessWidget {
       return child;
     }
 
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final displayMessage =
         message ??
         '${featureName ?? 'This feature'} is temporarily unavailable. '
             'Please try again later.';
 
     return Scaffold(
-      backgroundColor: palette.bg,
+      backgroundColor: colors.appBackground,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_rounded, color: palette.text),
+          icon: Icon(Icons.arrow_back_rounded, color: colors.primaryText),
           tooltip: MaterialLocalizations.of(context).backButtonTooltip,
           onPressed: onBackPressed ?? () => Navigator.of(context).pop(),
         ),
@@ -71,7 +49,7 @@ class KillSwitchGate extends StatelessWidget {
         label: displayMessage,
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32),
+            padding: const EdgeInsets.symmetric(horizontal: CoolSpace.x7),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -79,34 +57,36 @@ class KillSwitchGate extends StatelessWidget {
                   width: 80,
                   height: 80,
                   decoration: BoxDecoration(
-                    color: palette.surface,
-                    borderRadius: BorderRadius.circular(20),
+                    color: colors.operationalSurface,
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(CoolRadii.md),
+                    ),
                   ),
                   child: Icon(
                     Icons.engineering_rounded,
                     size: 40,
-                    color: palette.text3,
+                    color: colors.tertiaryText,
                   ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: CoolSpace.x6),
                 Text(
                   'Temporarily Unavailable',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: palette.text,
+                    color: colors.primaryText,
                     fontWeight: FontWeight.w600,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: CoolSpace.x3),
                 Text(
                   displayMessage,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: palette.text3,
+                    color: colors.tertiaryText,
                     height: 1.5,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: CoolSpace.x7),
                 CoolButton(
                   label: context.l10n.goBack,
                   onTap: onBackPressed ?? () => Navigator.of(context).pop(),

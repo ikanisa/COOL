@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_foundations.dart';
+import '../../core/theme/rs_colors.dart';
 import 'cool_card.dart';
 
 class RsServiceCard extends StatelessWidget {
@@ -22,51 +22,71 @@ class RsServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
+
     return Semantics(
       button: true,
       label: '$name. $desc. $count.',
       excludeSemantics: true,
       child: CoolCard(
         onTap: onTap,
-        gradient: AppColors.rsBlueGradient,
-        borderColor: AppColors.rsBlueBorder,
+        gradient: RsColors.rsHeroGradient,
+        borderColor: RsColors.rsBlueBorder,
         child: Padding(
-          padding: const EdgeInsets.all(18),
+          padding: EdgeInsets.all(space.x4),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(icon, style: const TextStyle(fontSize: 24)),
-              const SizedBox(height: 12),
+              Text(
+                icon,
+                style: text.rayonCondensed(
+                  theme.textTheme.titleLarge,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              SizedBox(height: space.x3),
               Text(
                 name,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.barlowCondensed(
-                  fontSize: 22,
+                style: text.rayonCondensed(
+                  theme.textTheme.titleLarge,
                   fontWeight: FontWeight.w900,
-                  color: AppColors.rsWhite,
+                  color: RsColors.rsWhite,
                   height: 0.95,
                 ),
               ),
-              const SizedBox(height: 6),
+              SizedBox(height: space.x1 + 2),
               Text(
                 desc,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.barlow(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.rsWhite.withValues(alpha: 0.82),
+                style: text.rayon(
+                  theme.textTheme.bodySmall,
+                  fontWeight: FontWeight.w600,
+                  color: RsColors.rsWhite.withValues(alpha: 0.82),
                   height: 1.3,
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: space.x3),
               Text(
                 count,
-                style: GoogleFonts.dmMono(
-                  fontSize: 13,
+                style: text.mono(
+                  theme.textTheme.labelSmall,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.rsGoldLight,
+                  color: RsColors.rsGoldLight,
+                ),
+              ),
+              SizedBox(height: space.x2),
+              Text(
+                'Open service',
+                style: text.rayon(
+                  theme.textTheme.labelSmall,
+                  fontWeight: FontWeight.w700,
+                  color: colors.secondaryText,
                 ),
               ),
             ],

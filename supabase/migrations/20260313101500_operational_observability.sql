@@ -20,42 +20,34 @@ create table if not exists public.operational_health_events (
   occurred_at timestamptz not null default now(),
   created_at timestamptz not null default now()
 );
-
 create index if not exists idx_operational_health_events_service_time
   on public.operational_health_events (service, occurred_at desc);
-
 create index if not exists idx_operational_health_events_status_time
   on public.operational_health_events (status, occurred_at desc);
-
 create index if not exists idx_operational_health_events_function_time
   on public.operational_health_events (function_name, occurred_at desc);
-
 create index if not exists idx_operational_health_events_subject
   on public.operational_health_events (subject_type, subject_id, occurred_at desc);
-
 alter table public.operational_health_events enable row level security;
-
 drop policy if exists operational_health_events_insert_authenticated
   on public.operational_health_events;
 create policy operational_health_events_insert_authenticated
   on public.operational_health_events for insert
   to authenticated
   with check (user_id is null or auth.uid() = user_id);
-
 drop policy if exists operational_health_events_select_admin
   on public.operational_health_events;
 create policy operational_health_events_select_admin
   on public.operational_health_events for select
   to authenticated
   using (public.is_admin());
-
 comment on table public.operational_health_events is
   'Append-only operational health feed for SMS ingest, MoMo parsing, wallet sync, partner checkout, and Edge Function failures.';
-
 create or replace view public.operational_config_issues as
 with required_configs(config_key, scope_mode, stale_after_days, description) as (
   values
-    ('support_whatsapp', 'shared', 45, 'Primary support escalation contact.'),
+    ('support_whatsapp', 'global', 45, 'Global support escalation contact.'),
+    ('supported_languages', 'global', 90, 'Languages exposed by the app shell.'),
     ('mobility_subscription_momo_code', 'any', 30, 'MoMo code used for mobility subscription checkout.')
 ),
 matching_configs as (
@@ -75,7 +67,7 @@ matching_configs as (
     where ac.key = rc.config_key
       and (
         rc.scope_mode = 'any'
-        or (rc.scope_mode = 'shared' and ac.country is null)
+        or (rc.scope_mode = 'global' and ac.country is null)
       )
     order by coalesce(ac.updated_at, ac.created_at) desc nulls last
     limit 1
@@ -126,10 +118,8 @@ select
 from matching_configs
 where config_value is null
    or last_updated_at <= now() - make_interval(days => stale_after_days);
-
 comment on view public.operational_config_issues is
   'Admin-only release hygiene issues for required app_config entries that are missing or stale.';
-
 create or replace view public.operational_triage_issues as
 with stale_pending_transactions as (
   select
@@ -239,10 +229,8 @@ union all
 select * from edge_function_failures
 union all
 select * from config_issues;
-
 comment on view public.operational_triage_issues is
   'Admin-only triage queue for failed payment sync, failed function invocation, and stale configuration.';
-
 create or replace view public.operational_release_dashboard as
 with targets(service_key, label) as (
   values
@@ -334,10 +322,8 @@ left join recent_events re
   on re.service = t.service_key
 left join issue_counts ic
   on ic.service = t.service_key;
-
 comment on view public.operational_release_dashboard is
   'Admin-only release dashboard summarising operational health by monitored payment and function surface.';
-
 create or replace function public.get_operational_release_dashboard()
 returns table (
   service_key text,
@@ -382,10 +368,8 @@ begin
     ord.label asc;
 end;
 $$;
-
 revoke all on function public.get_operational_release_dashboard() from public;
 grant execute on function public.get_operational_release_dashboard() to authenticated;
-
 create or replace function public.get_operational_triage_issues()
 returns table (
   issue_id text,
@@ -436,10 +420,8 @@ begin
     oti.last_seen_at desc;
 end;
 $$;
-
 revoke all on function public.get_operational_triage_issues() from public;
 grant execute on function public.get_operational_triage_issues() to authenticated;
-
 create or replace function public.get_recent_operational_health_events(
   p_limit integer default 40
 )
@@ -490,7 +472,6 @@ begin
   limit v_limit;
 end;
 $$;
-
 revoke all on function public.get_recent_operational_health_events(integer)
   from public;
 grant execute on function public.get_recent_operational_health_events(integer)

@@ -16,7 +16,6 @@ WHERE id IN (
   ) sub
   WHERE rn > 1
 );
-
 DELETE FROM momo_sms_parsed
 WHERE id IN (
   SELECT id FROM (
@@ -30,7 +29,6 @@ WHERE id IN (
   ) sub
   WHERE rn > 1
 );
-
 -- Step 2: Prevent duplicate ledger entries for the same user + transaction ref.
 -- Partial index: only enforce when external_reference IS NOT NULL
 -- (fallback refs like 'SMS-{id}' are unique by construction).
@@ -38,7 +36,6 @@ CREATE UNIQUE INDEX IF NOT EXISTS idx_momo_ledger_user_extref
   ON momo_ledger_entries (user_id, external_reference)
   WHERE external_reference IS NOT NULL
     AND external_reference NOT LIKE 'SMS-%';
-
 -- Step 3: Prevent duplicate parsed entries for the same user + MoMo TX ID.
 CREATE UNIQUE INDEX IF NOT EXISTS idx_momo_parsed_user_txid
   ON momo_sms_parsed (user_id, momo_tx_id)

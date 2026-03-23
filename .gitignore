@@ -83,3 +83,19 @@ output/play_store/play-store-sa-key.json
 analysis_output*.txt
 update_profile.dart
 package-lock.json
+
+# ── Production hygiene (NEVER commit) ─────────────────────────
+# Backup / stale suffixes
+*.bak
+*.old
+*.orig
+
+# Kotlin build error logs
+android/.kotlin/errors/
+
+# Design tool exports & operator output
+stitch_exports/
+stitch.json
+
+# Local release output
+output/

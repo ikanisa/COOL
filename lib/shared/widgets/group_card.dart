@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/cool_palette.dart';
+import '../../core/theme/cool_foundations.dart';
+import 'cool_card.dart';
 import 'status_badge.dart';
 
 /// A horizontally-scrollable group card showing type, amount, progress,
 /// and a member avatar stack.
 ///
-/// Designed for use inside a horizontal [ListView] — has a fixed min
-/// width of 200 and expands as needed.
+/// Designed for use inside a horizontal [ListView] with a minimum width.
 class GroupCard extends StatelessWidget {
   const GroupCard({
     required this.name,
@@ -22,13 +21,8 @@ class GroupCard extends StatelessWidget {
   });
 
   final String name;
-
-  /// Either `'saving'` or `'community'`.
   final String type;
-
-  /// Either `'public'` or `'private'`.
   final String visibility;
-
   final int amount;
   final int memberCount;
   final int targetAmount;
@@ -36,98 +30,94 @@ class GroupCard extends StatelessWidget {
 
   bool get _isSaving => type == 'saving';
 
-  Color _accentColor(CoolPalette palette) => _isSaving ? palette.accent : palette.orange;
-
   double get _progress =>
       targetAmount > 0 ? (amount / targetAmount).clamp(0.0, 1.0) : 0.0;
 
+  Color _accentColor(CoolSemanticColors colors) =>
+      _isSaving ? colors.accent : colors.warning;
+
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    final accent = _accentColor(palette);
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
+    final accent = _accentColor(colors);
+
     return Semantics(
       button: true,
       label:
-          '$name. ${_isSaving ?'Saving' : 'Community'} group. '
+          '$name. ${_isSaving ? 'Saving' : 'Community'} group. '
           '${GroupCard._formatAmount(amount)} RWF. $memberCount members.',
       excludeSemantics: true,
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          constraints: const BoxConstraints(minWidth: 200),
-          padding: const EdgeInsets.all(18),
-          decoration: BoxDecoration(
-            color: palette.surface2,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: palette.border),
-          ),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minWidth: 200),
+        child: CoolCard(
+          onTap: onTap,
+          padding: const EdgeInsets.all(CoolSpace.x5 - 2),
+          backgroundColor: _isSaving
+              ? colors.financialSurface
+              : colors.teamSurface,
+          borderRadius: CoolRadii.md,
+          borderColor: colors.border,
+          semanticsLabel: name,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              // ── Badges ────────────────────────────────────────────────
               Row(
                 children: [
-                  if (_isSaving) const StatusBadge.saving() else const StatusBadge.community(),
+                  if (_isSaving)
+                    const StatusBadge.saving()
+                  else
+                    const StatusBadge.community(),
                   const SizedBox(width: 6),
-                  if (visibility == 'public') const StatusBadge.public() else const StatusBadge.private(),
+                  if (visibility == 'public')
+                    const StatusBadge.public()
+                  else
+                    const StatusBadge.private(),
                 ],
               ),
               const SizedBox(height: 12),
-
-              // ── Name ──────────────────────────────────────────────────
               Text(
                 name,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.dmSans(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  color: palette.text,
+                style: theme.textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: colors.primaryText,
                 ),
               ),
               const SizedBox(height: 8),
-
-              // ── Amount ────────────────────────────────────────────────
               Text(
                 '${_formatAmount(amount)} RWF',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.dmMono(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
+                style: text.mono(
+                  theme.textTheme.headlineSmall,
+                  fontWeight: FontWeight.w800,
                   color: accent,
                 ),
               ),
               const SizedBox(height: 12),
-
-              // ── Progress bar ──────────────────────────────────────────
               ClipRRect(
-                borderRadius: BorderRadius.circular(2),
+                borderRadius: const BorderRadius.all(Radius.circular(2)),
                 child: LinearProgressIndicator(
                   value: _progress,
                   minHeight: 4,
-                  backgroundColor: palette.surface3,
+                  backgroundColor: colors.cardSurfaceStrong,
                   color: accent,
                 ),
               ),
               const SizedBox(height: 4),
               Text(
                 'Target: ${_formatAmount(targetAmount)} RWF',
-                style: GoogleFonts.dmSans(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w400,
-                  color: palette.text3,
+                style: theme.textTheme.labelSmall?.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: colors.tertiaryText,
                 ),
               ),
               const SizedBox(height: 12),
-
-              // ── Member stack ──────────────────────────────────────────
-              _MemberAvatarStack(
-                memberCount: memberCount,
-                accentColor: accent,
-                palette: palette,
-              ),
+              _MemberAvatarStack(memberCount: memberCount, accentColor: accent),
             ],
           ),
         ),
@@ -136,7 +126,6 @@ class GroupCard extends StatelessWidget {
   }
 
   static String _formatAmount(int value) {
-    // Simple thousands grouping (e.g. 1,200,000).
     final s = value.toString();
     final buf = StringBuffer();
     for (var i = 0; i < s.length; i++) {
@@ -147,18 +136,14 @@ class GroupCard extends StatelessWidget {
   }
 }
 
-// ── Member avatar stack ─────────────────────────────────────────────────
-
 class _MemberAvatarStack extends StatelessWidget {
   const _MemberAvatarStack({
     required this.memberCount,
     required this.accentColor,
-    required this.palette,
   });
 
   final int memberCount;
   final Color accentColor;
-  final CoolPalette palette;
 
   static const _size = 28.0;
   static const _overlap = 10.0;
@@ -167,6 +152,9 @@ class _MemberAvatarStack extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    final text = context.coolText;
     final visibleCount = memberCount.clamp(0, _maxVisible);
     final overflow = memberCount - _maxVisible;
 
@@ -174,7 +162,6 @@ class _MemberAvatarStack extends StatelessWidget {
       height: _size,
       child: Row(
         children: [
-          // Stacked avatars
           SizedBox(
             width: visibleCount > 0
                 ? _size + (_overlap * (visibleCount - 1).clamp(0, _maxVisible))
@@ -189,14 +176,14 @@ class _MemberAvatarStack extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: accentColor.withValues(alpha: 0.15),
                       shape: BoxShape.circle,
-                      border: Border.all(color: palette.surface2, width: 2),
+                      border: Border.all(color: colors.cardSurface, width: 2),
                     ),
                     alignment: Alignment.center,
                     child: Text(
                       _initials[i],
-                      style: GoogleFonts.dmSans(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
+                      style: text.mono(
+                        theme.textTheme.labelSmall,
+                        fontWeight: FontWeight.w700,
                         color: accentColor,
                       ),
                     ),
@@ -209,10 +196,9 @@ class _MemberAvatarStack extends StatelessWidget {
             const SizedBox(width: 6),
             Text(
               '+$overflow',
-              style: GoogleFonts.dmSans(
-                fontSize: 11,
-                fontWeight: FontWeight.w500,
-                color: palette.text3,
+              style: theme.textTheme.labelSmall?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: colors.tertiaryText,
               ),
             ),
           ],

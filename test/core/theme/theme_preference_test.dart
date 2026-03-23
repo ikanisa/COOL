@@ -20,7 +20,11 @@ void main() {
       expect(appThemePreferenceFromStorage(null), AppThemePreference.dark);
     });
 
-    test('parses light and dark values', () {
+    test('parses system, light, and dark values', () {
+      expect(
+        appThemePreferenceFromStorage('system'),
+        AppThemePreference.system,
+      );
       expect(appThemePreferenceFromStorage('light'), AppThemePreference.light);
       expect(appThemePreferenceFromStorage('dark'), AppThemePreference.dark);
     });
@@ -60,6 +64,16 @@ void main() {
       expect(result.preference, AppThemePreference.dark);
       expect(result.updatedAt, isA<DateTime>());
     });
+
+    test('restores persisted system preference', () async {
+      final store = HiveThemePreferenceStore(openBox: Hive.openBox<String>);
+
+      await store.write(AppThemePreference.system);
+
+      final result = await store.read();
+      expect(result.preference, AppThemePreference.system);
+      expect(result.updatedAt, isA<DateTime>());
+    });
   });
 
   group('ThemePreferenceNotifier', () {
@@ -72,10 +86,7 @@ void main() {
         ],
       );
 
-      expect(
-        container.read(themePreferenceProvider),
-        AppThemePreference.dark,
-      );
+      expect(container.read(themePreferenceProvider), AppThemePreference.dark);
 
       await pumpEventQueue();
 
@@ -87,9 +98,10 @@ void main() {
       final container = createTestContainer(
         overrides: [
           themePreferenceStoreProvider.overrideWithValue(store),
-          initialThemePreferenceProvider.overrideWithValue(
-            (preference: AppThemePreference.light, updatedAt: null),
-          ),
+          initialThemePreferenceProvider.overrideWithValue((
+            preference: AppThemePreference.light,
+            updatedAt: null,
+          )),
         ],
       );
 
@@ -117,7 +129,10 @@ class _FakeThemePreferenceStore implements ThemePreferenceStore {
   }
 
   @override
-  Future<void> write(AppThemePreference preference, {DateTime? updatedAt}) async {
+  Future<void> write(
+    AppThemePreference preference, {
+    DateTime? updatedAt,
+  }) async {
     writes.add(preference);
     value = preference;
   }

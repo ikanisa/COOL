@@ -19,6 +19,70 @@ permissions:
 # each job declares its own setup for clarity and cache independence.
 
 jobs:
+  # ── 0. Repo hygiene (fast ~10s) ────────────────────────────────────
+  repo-hygiene:
+    name: Repo hygiene
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Secret & binary file scan
+        run: |
+          BLOCKED_PATTERNS='\.jks$|\.keystore$|\.bak$|\.old$|\.orig$|sa-key.*\.json$'
+          ALLOW_LIST='\.gitignore$|\.env\.example$'
+          MATCHES=$(git ls-files | grep -E "$BLOCKED_PATTERNS" | grep -vE "$ALLOW_LIST" || true)
+          if [ -n "$MATCHES" ]; then
+            echo "::error::Tracked files match blocked patterns:"
+            echo "$MATCHES"
+            exit 1
+          fi
+          echo "✅ No blocked secret/binary files tracked"
+
+      - name: Deprecated theme API budget
+        run: |
+          COUNT=$(grep -rl 'AppColors\|CoolPalette' lib/ 2>/dev/null | wc -l | tr -d ' ')
+          BUDGET=30
+          echo "📊 Deprecated theme API files: $COUNT (budget: $BUDGET)"
+          if [ "$COUNT" -gt "$BUDGET" ]; then
+            echo "::error::Deprecated theme API usage ($COUNT files) exceeds budget ($BUDGET). Migrate before merging."
+            exit 1
+          fi
+          echo "✅ Theme API budget OK"
+
+      - name: Large file size check
+        run: |
+          WARN=800
+          FAIL=1200
+          # Waiver list: files explicitly allowed to exceed limits
+          WAIVER_LIST=""
+          EXIT_CODE=0
+
+          while IFS= read -r file; do
+            lines=$(wc -l < "$file" | tr -d ' ')
+            if echo "$WAIVER_LIST" | grep -qF "$file"; then
+              continue
+            fi
+            if [ "$lines" -gt "$FAIL" ]; then
+              echo "::error::$file ($lines lines) exceeds hard limit ($FAIL)"
+              EXIT_CODE=1
+            elif [ "$lines" -gt "$WARN" ]; then
+              echo "::warning::$file ($lines lines) exceeds soft limit ($WARN)"
+            fi
+          done < <(find lib/ -name '*.dart' -type f 2>/dev/null)
+
+          while IFS= read -r file; do
+            lines=$(wc -l < "$file" | tr -d ' ')
+            if [ "$lines" -gt "$FAIL" ]; then
+              echo "::error::$file ($lines lines) exceeds hard limit ($FAIL)"
+              EXIT_CODE=1
+            elif [ "$lines" -gt "$WARN" ]; then
+              echo "::warning::$file ($lines lines) exceeds soft limit ($WARN)"
+            fi
+          done < <(find supabase/functions -name '*.ts' -type f 2>/dev/null)
+
+          exit $EXIT_CODE
+
   # ── 1. Static analysis (fast ~30s) ─────────────────────────────────
   analyze:
     name: Analyze

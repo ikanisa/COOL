@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('fan club detail shows the redesigned operations brief', (
+  testWidgets('fan club detail keeps one branded overview card', (
     tester,
   ) async {
     const club = RsFanClub(
@@ -51,7 +51,9 @@ void main() {
     await tester.pump();
     await tester.pump();
 
-    expect(find.text('Chapter Operations Brief'), findsOneWidget);
     expect(find.text('Kigali Blue'), findsOneWidget);
+    expect(find.text('Joined chapter'), findsOneWidget);
+    expect(find.text('1 achievement'), findsOneWidget);
+    expect(find.text('Chapter Operations Brief'), findsNothing);
   });
 }

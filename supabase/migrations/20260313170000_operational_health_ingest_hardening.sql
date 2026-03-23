@@ -5,16 +5,12 @@
 alter table public.operational_health_events
   add column if not exists ingest_origin text not null default 'system'
     check (ingest_origin in ('system', 'mobile_app'));
-
 comment on column public.operational_health_events.ingest_origin is
   'Source class for the event. system = service-role/server instrumentation, mobile_app = authenticated mobile telemetry relayed via Edge Function.';
-
 drop policy if exists operational_health_events_insert_authenticated
   on public.operational_health_events;
-
 create index if not exists idx_operational_health_events_origin_time
   on public.operational_health_events (ingest_origin, occurred_at desc);
-
 create or replace view public.operational_release_dashboard as
 with targets(service_key, label) as (
   values
@@ -107,6 +103,5 @@ left join recent_events re
   on re.service = t.service_key
 left join issue_counts ic
   on ic.service = t.service_key;
-
 comment on view public.operational_release_dashboard is
   'Admin-only release dashboard summarising server-trusted operational health by monitored payment and function surface.';

@@ -52,6 +52,22 @@ void main() {
       expect(tapped, isFalse);
     });
 
+    testWidgets('does not call onTap when disabled', (tester) async {
+      var tapped = false;
+      await tester.pumpWidget(
+        _wrap(
+          CoolButton(
+            label: 'Pay',
+            onTap: () => tapped = true,
+            isDisabled: true,
+          ),
+        ),
+      );
+      await tester.tap(find.byType(CoolButton));
+      await tester.pump();
+      expect(tapped, isFalse);
+    });
+
     testWidgets('renders icon when provided', (tester) async {
       await tester.pumpWidget(
         _wrap(

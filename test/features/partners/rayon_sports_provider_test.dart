@@ -282,6 +282,45 @@ void main() {
     });
 
     test(
+      'blocks support checkout when payment routing is unavailable',
+      () async {
+        when(() => repository.getActivePaymentRoute()).thenThrow(
+          StateError('Rayon Sports payment routing is not active for RW.'),
+        );
+
+        final notifier = RayonSportsNotifier(
+          repository: repository,
+          userId: 'user-1',
+          autoLoad: false,
+        );
+
+        await notifier.load();
+
+        await expectLater(
+          () =>
+              notifier.supportInitiative(initiativeId: 'init-1', amount: 4500),
+          throwsA(
+            isA<StateError>().having(
+              (error) => error.message,
+              'message',
+              'Rayon Sports payment routing is not active for RW.',
+            ),
+          ),
+        );
+
+        verify(() => repository.getActivePaymentRoute()).called(1);
+        verifyNever(
+          () => repository.supportInitiative(
+            userId: 'user-1',
+            initiativeId: 'init-1',
+            amount: 4500,
+          ),
+        );
+        verify(() => repository.loadData(userId: 'user-1')).called(1);
+      },
+    );
+
+    test(
       'checks out shop orders, applies member discount, and clears cart',
       () async {
         when(

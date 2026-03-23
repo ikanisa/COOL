@@ -175,6 +175,7 @@ function buildDirectCandidateScore(
     score += 30;
   } else if (
     normalizedStatus === "confirmed" ||
+    normalizedStatus === "completed" ||
     normalizedStatus === "active" ||
     normalizedStatus === "paid" ||
     normalizedStatus === "valid"
@@ -389,7 +390,7 @@ async function resolveExistingGroupContributionByPayeeRoute(
     .eq("group_id", group.id)
     .eq("user_id", rawSms.user_id)
     .eq("amount", amount)
-    .in("status", ["pending", "confirmed"])
+    .in("status", ["pending", "confirmed", "completed"])
     .order("created_at", { ascending: false })
     .limit(1)
     .maybeSingle();
@@ -425,7 +426,8 @@ async function ensureGroupContributionByPayeeRoute(
 
   if (existing) {
     // Atomically confirm the contribution and update group balance.
-    // confirm_contribution() sets status → 'completed' and adds to groups.amount.
+    // confirm_contribution() normalizes the contribution into the canonical
+    // confirmed state and updates groups.amount.
     await adminClient.rpc("confirm_contribution", {
       p_contribution_id: existing.id,
     });
@@ -433,7 +435,7 @@ async function ensureGroupContributionByPayeeRoute(
     return {
       id: existing.id,
       group_id: existing.group_id,
-      status: "completed",
+      status: "confirmed",
     };
   }
 
@@ -466,7 +468,7 @@ async function ensureGroupContributionByPayeeRoute(
   return {
     id: insertedId,
     group_id: asString(insertResult.data.group_id),
-    status: "completed",
+    status: "confirmed",
   };
 }
 
@@ -488,7 +490,7 @@ async function findGroupContributionCandidate(
     .select("id, group_id, status, momo_reference, created_at")
     .eq("user_id", rawSms.user_id)
     .eq("amount", parsed.amount)
-    .in("status", ["pending", "confirmed"])
+    .in("status", ["pending", "confirmed", "completed"])
     .order("created_at", { ascending: false })
     .limit(20);
 

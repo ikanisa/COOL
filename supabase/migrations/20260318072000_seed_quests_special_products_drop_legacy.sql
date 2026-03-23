@@ -15,7 +15,6 @@ INSERT INTO quest_definitions (slug, title, description, event_type, target_coun
 ('create_group', 'Group Leader', 'Create your first savings group', 'group_created', 1, 60, true),
 ('streak_7_days', 'Week Warrior', 'Maintain a 7-day activity streak', 'streak_reached', 7, 120, true)
 ON CONFLICT (slug) DO NOTHING;
-
 -- 2. Special products for product shelf
 INSERT INTO special_products (slug, title, subtitle, description, amount, icon_name, color_hex, momo_recipient, momo_recipient_type, target_audience, sort_order) VALUES
 ('emergency_fund', 'Emergency Fund', 'Save for the unexpected', 'Build a safety net for emergencies. Quick-access savings you can count on when life surprises you.', 5000, 'shield', '#E53E3E', '*182*8*1#', 'code', 'Everyone', 1),
@@ -23,7 +22,6 @@ INSERT INTO special_products (slug, title, subtitle, description, amount, icon_n
 ('business_boost', 'Business Boost', 'Grow your hustle', 'Save toward a business investment or expansion. Every franc counts toward your dream.', 25000, 'trending_up', '#38A169', '*182*8*1#', 'code', 'Entrepreneurs', 3),
 ('health_cover', 'Health Cover', 'Protect your health', 'Medical savings for MUTUELLE or private health cover. Be prepared, not worried.', 3000, 'health_and_safety', '#805AD5', '*182*8*1#', 'code', 'Everyone', 4)
 ON CONFLICT (slug) DO NOTHING;
-
 -- 3. Drop legacy fan_memberships table (replaced by rs_fan_memberships)
 -- Wrapped in DO block because table may already be dropped
 DO $$ BEGIN

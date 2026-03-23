@@ -18,12 +18,9 @@ CREATE TABLE IF NOT EXISTS public.cool_achievements (
     created_at  timestamptz DEFAULT now() NOT NULL,
     UNIQUE(user_id, achievement_id)
 );
-
 ALTER TABLE public.cool_achievements ENABLE ROW LEVEL SECURITY;
-
 CREATE POLICY cool_achievements_select ON public.cool_achievements
     FOR SELECT USING (auth.uid() = user_id);
-
 -- 2) cool_rewards: available items in the marketplace
 CREATE TABLE IF NOT EXISTS public.cool_rewards (
     id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -37,12 +34,9 @@ CREATE TABLE IF NOT EXISTS public.cool_rewards (
     expiry_date timestamptz,
     created_at  timestamptz DEFAULT now() NOT NULL
 );
-
 ALTER TABLE public.cool_rewards ENABLE ROW LEVEL SECURITY;
-
 CREATE POLICY cool_rewards_select ON public.cool_rewards
     FOR SELECT USING (auth.role() = 'authenticated');
-
 -- 3) cool_reward_redemptions: track who bought what
 CREATE TABLE IF NOT EXISTS public.cool_reward_redemptions (
     id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -51,12 +45,9 @@ CREATE TABLE IF NOT EXISTS public.cool_reward_redemptions (
     cost_at_redemption int NOT NULL,
     redeemed_at timestamptz DEFAULT now() NOT NULL
 );
-
 ALTER TABLE public.cool_reward_redemptions ENABLE ROW LEVEL SECURITY;
-
 CREATE POLICY cool_reward_redemptions_select ON public.cool_reward_redemptions
     FOR SELECT USING (auth.uid() = user_id);
-
 -- ─── RPC: award_cool_achievement ───────────────────────────────
 
 CREATE OR REPLACE FUNCTION public.award_cool_achievement(
@@ -97,7 +88,6 @@ BEGIN
     END IF;
 END;
 $$;
-
 -- ─── RPC: redeem_cool_reward ────────────────────────────────────
 
 CREATE OR REPLACE FUNCTION public.redeem_cool_reward(
@@ -153,7 +143,6 @@ BEGIN
     RETURN v_status;
 END;
 $$;
-
 -- ─── Seed Initial Rewards ───────────────────────────────────────
 
 INSERT INTO public.cool_rewards (type, title, description, token_cost, emoji)

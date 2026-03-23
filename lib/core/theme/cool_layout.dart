@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 
+import 'cool_foundations.dart';
+
 /// Centralized layout constants for the premium COOL mobile system.
 abstract final class CoolLayout {
   // ── Margins & Padding ───────────────────────────────────────────────
 
   /// Standard horizontal page padding.
-  static const double horizontalPagePadding = 24.0;
+  static const double horizontalPagePadding = CoolSpace.x6;
 
   /// Standard vertical page padding.
-  static const double verticalPagePadding = 24.0;
+  static const double verticalPagePadding = CoolSpace.x6;
 
   /// Standard gutter between cards or large sections.
   static const double gutter = 28.0;
 
   /// Standard small spacing between elements within a card.
-  static const double smallSpacing = 16.0;
+  static const double smallSpacing = CoolSpace.x4;
 
   // ── Bottom Navigation Clearances ─────────────────────────────────────
 
@@ -43,8 +45,8 @@ abstract final class CoolLayout {
   );
 
   /// Standard border radius for large cards.
-  static const double cardRadius = 32.0;
+  static const double cardRadius = CoolRadii.xl;
 
   /// Standard border radius for small interactive elements.
-  static const double elementRadius = 20.0;
+  static const double elementRadius = CoolRadii.md;
 }

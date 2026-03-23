@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-import '../../core/theme/app_colors.dart';
-import '../../core/theme/cool_palette.dart';
+import '../../core/theme/cool_foundations.dart';
 import 'cool_button.dart';
 
 /// Standardized empty-state view for screens and lists with no data.
@@ -35,9 +34,10 @@ class CoolEmptyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final brightness = Theme.of(context).brightness;
     final iconSize = compact ? 32.0 : 44.0;
-    final spacing = compact ? 12.0 : 24.0;
+    final spacing = compact ? CoolSpace.x3 : CoolSpace.x6;
 
     return Semantics(
       container: true,
@@ -47,8 +47,8 @@ class CoolEmptyView extends StatelessWidget {
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: 32,
-              vertical: compact ? 16 : 64,
+              horizontal: CoolSpace.x8,
+              vertical: compact ? CoolSpace.x4 : CoolSpace.x10,
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -59,26 +59,26 @@ class CoolEmptyView extends StatelessWidget {
                     height: iconSize + 32,
                     decoration: isPremium
                         ? BoxDecoration(
-                            gradient: AppColors.cardGradient,
+                            gradient: colors.surfaceGradient,
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: AppColors.rsBlue.withAlpha(50), 
+                              color: colors.info.withAlpha(50),
                               width: 1.5,
                             ),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: AppColors.rsBlueGlow,
-                                blurRadius: 24,
-                                offset: Offset(0, 8),
-                              ),
-                            ],
+                            boxShadow: CoolShadows.floating(brightness,
+                                strength: 0.6),
                           )
                         : BoxDecoration(
-                            color: palette.surface2,
+                            color: colors.cardSurface,
                             shape: BoxShape.circle,
-                            border: Border.all(color: palette.border, width: 1.5),
+                            border: Border.all(
+                                color: colors.border, width: 1.5),
                           ),
-                    child: Icon(icon, size: iconSize, color: isPremium ? AppColors.rsWhite : palette.text3),
+                    child: Icon(icon,
+                        size: iconSize,
+                        color: isPremium
+                            ? colors.primaryText
+                            : colors.tertiaryText),
                   ),
                 )
                 .animate()
@@ -103,7 +103,7 @@ class CoolEmptyView extends StatelessWidget {
                   _effectiveMessage,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: palette.text3,
+                        color: colors.tertiaryText,
                         fontWeight: FontWeight.w500,
                         height: 1.6,
                       ),

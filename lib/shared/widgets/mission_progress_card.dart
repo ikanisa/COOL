@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/cool_palette.dart';
-import '../../../core/status/models/cool_mission.dart';
-import '../../../core/utils/icon_mapper.dart';
+import '../../core/status/models/cool_mission.dart';
+import '../../core/theme/cool_foundations.dart';
+import '../../core/utils/icon_mapper.dart';
+import 'cool_card.dart';
 
 /// A compact card showing mission progress, countdown, and reward.
 ///
@@ -16,7 +16,10 @@ class MissionProgressCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final textTheme = Theme.of(context).textTheme;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
     final progress = mission.progressPercent;
     final isCompleted = mission.isCompleted;
 
@@ -24,139 +27,127 @@ class MissionProgressCard extends StatelessWidget {
       button: onTap != null,
       label: mission.title,
       hint: onTap != null ? 'Opens mission details' : null,
-      child: GestureDetector(
+      child: CoolCard(
         onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: isCompleted
-                ? palette.accent.withValues(alpha: 0.08)
-                : palette.surface,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: isCompleted
-                  ? palette.accent.withValues(alpha: 0.3)
-                  : palette.border,
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // ─── Header: emoji + title + countdown ─────────
-              Row(
-                children: [
-                  Icon(
-                    IconMapper.from(mission.emoji),
-                    size: 24,
-                    color: palette.text2,
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+        padding: const EdgeInsets.all(CoolSpace.x4),
+        backgroundColor: isCompleted
+            ? colors.chipSelectedBackground
+            : colors.operationalSurface,
+        borderColor: isCompleted
+            ? colors.accent.withValues(alpha: 0.34)
+            : colors.border,
+        borderRadius: radii.sm,
+        semanticsLabel: mission.title,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  IconMapper.from(mission.emoji),
+                  size: 24,
+                  color: colors.secondaryText,
+                ),
+                SizedBox(width: space.x3 - 2),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        mission.title,
+                        style: textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w800,
+                          color: colors.primaryText,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      if (mission.description != null) ...[
+                        SizedBox(height: space.x1 / 2),
                         Text(
-                          mission.title,
-                          style: GoogleFonts.dmSans(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: palette.text,
+                          mission.description!,
+                          style: textTheme.bodySmall?.copyWith(
+                            color: colors.tertiaryText,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        if (mission.description != null) ...[
-                          const SizedBox(height: 2),
-                          Text(
-                            mission.description!,
-                            style: GoogleFonts.dmSans(
-                              fontSize: 12,
-                              color: palette.text3,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
                       ],
-                    ),
+                    ],
                   ),
-                  const SizedBox(width: 8),
-                  _TimePill(label: mission.timeRemainingLabel, palette: palette),
-                ],
-              ),
-
-              const SizedBox(height: 14),
-
-              // ─── Progress bar ────────────────────────────────
-              Semantics(
-                label:
-                    'Mission progress ${(progress * 100).toStringAsFixed(0)} percent',
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(6),
-                  child: LinearProgressIndicator(
-                    value: progress,
-                    minHeight: 8,
-                    backgroundColor: palette.surface3,
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      isCompleted ? palette.accent : palette.blue,
-                    ),
+                ),
+                SizedBox(width: space.x2),
+                _TimePill(label: mission.timeRemainingLabel),
+              ],
+            ),
+            SizedBox(height: space.x3 + 2),
+            Semantics(
+              label:
+                  'Mission progress ${(progress * 100).toStringAsFixed(0)} percent',
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(CoolRadii.xs / 2),
+                ),
+                child: LinearProgressIndicator(
+                  value: progress,
+                  minHeight: 8,
+                  backgroundColor: colors.cardSurfaceStrong,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    isCompleted ? colors.accent : colors.info,
                   ),
                 ),
               ),
-
-              const SizedBox(height: 8),
-
-              // ─── Footer: progress label + reward ─────────────
-              Row(
-                children: [
-                  Text(
-                    isCompleted
-                        ? 'Completed'
-                        : '${(progress * 100).toStringAsFixed(0)}% complete',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: isCompleted ? palette.accent : palette.text2,
-                    ),
+            ),
+            SizedBox(height: space.x2),
+            Row(
+              children: [
+                Text(
+                  isCompleted
+                      ? 'Completed'
+                      : '${(progress * 100).toStringAsFixed(0)}% complete',
+                  style: textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: isCompleted ? colors.accent : colors.secondaryText,
                   ),
-                  const Spacer(),
-                  if (mission.rewardPoints > 0)
-                    Semantics(
-                      label: '${mission.rewardPoints} reward points',
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: palette.yellow.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.emoji_events_rounded,
-                              size: 12,
-                              color: palette.yellow,
-                            ),
-                            const SizedBox(width: 4),
-                            Text(
-                              '${mission.rewardPoints} Tokens',
-                              style: GoogleFonts.dmSans(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w600,
-                                color: palette.yellow,
-                              ),
-                            ),
-                          ],
+                ),
+                const Spacer(),
+                if (mission.rewardPoints > 0)
+                  Semantics(
+                    label: '${mission.rewardPoints} reward points',
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: CoolSpace.x2,
+                        vertical: CoolSpace.x1,
+                      ),
+                      decoration: BoxDecoration(
+                        color: colors.warning.withValues(alpha: 0.15),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(CoolRadii.pill),
                         ),
                       ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.emoji_events_rounded,
+                            size: 12,
+                            color: colors.warning,
+                          ),
+                          SizedBox(width: space.x1),
+                          Text(
+                            '${mission.rewardPoints} Tokens',
+                            style: textTheme.labelSmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: colors.warning,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                ],
-              ),
-            ],
-          ),
+                  ),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -164,26 +155,28 @@ class MissionProgressCard extends StatelessWidget {
 }
 
 class _TimePill extends StatelessWidget {
-  const _TimePill({required this.label, required this.palette});
+  const _TimePill({required this.label});
+
   final String label;
-  final CoolPalette palette;
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final textTheme = Theme.of(context).textTheme;
+
     return Semantics(
       label: 'Time remaining: $label',
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
-          color: palette.surface3,
-          borderRadius: BorderRadius.circular(20),
+          color: colors.cardSurfaceStrong,
+          borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.pill)),
         ),
         child: Text(
           label,
-          style: GoogleFonts.dmSans(
-            fontSize: 11,
+          style: textTheme.labelSmall?.copyWith(
             fontWeight: FontWeight.w500,
-            color: palette.text3,
+            color: colors.tertiaryText,
           ),
         ),
       ),

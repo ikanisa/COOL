@@ -3,7 +3,6 @@
 -- ==========================================================================
 
 alter table public.users disable trigger trg_enforce_user_momo_fields;
-
 update public.users
 set
   country = 'RW',
@@ -28,9 +27,7 @@ set
 where
   country is distinct from 'RW'
   or language_code is distinct from 'en';
-
 alter table public.users enable trigger trg_enforce_user_momo_fields;
-
 update auth.users
 set raw_user_meta_data =
   coalesce(raw_user_meta_data, '{}'::jsonb) ||
@@ -45,7 +42,6 @@ where
   or coalesce(raw_user_meta_data->>'language_code', '') is distinct from 'en'
   or coalesce(raw_user_meta_data->>'market', '') is distinct from 'RW'
   or coalesce(raw_user_meta_data->>'ui_language', '') is distinct from 'en';
-
 create or replace function public.enforce_user_momo_fields()
 returns trigger
 language plpgsql

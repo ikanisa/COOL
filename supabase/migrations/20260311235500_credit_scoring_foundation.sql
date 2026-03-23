@@ -8,69 +8,52 @@ alter table public.users
   add column if not exists kyc_status text not null default 'unverified',
   add column if not exists kyc_verified_at timestamptz,
   add column if not exists credit_consent_granted_at timestamptz;
-
 -- Temporarily disable the MoMo validation trigger so the backfill UPDATEs
 -- don't fire it on rows with pre-existing invalid MoMo data.
 alter table public.users disable trigger trg_enforce_user_momo_fields;
-
 update public.users
 set official_name = full_name
 where coalesce(trim(official_name), '') = ''
   and coalesce(trim(full_name), '') <> '';
-
 update public.users
 set official_phone = phone
 where coalesce(trim(official_phone), '') = ''
   and coalesce(trim(phone), '') <> '';
-
 alter table public.users enable trigger trg_enforce_user_momo_fields;
-
 alter table public.users
   drop constraint if exists users_kyc_status_check;
-
 alter table public.users
   add constraint users_kyc_status_check
     check (kyc_status in ('unverified', 'pending_review', 'verified', 'rejected'));
-
 create index if not exists idx_users_kyc_status
   on public.users (kyc_status);
-
 alter table public.momo_sms_parsed
   add column if not exists tx_category text not null default 'uncategorized',
   add column if not exists cashflow_bucket text not null default 'unknown',
   add column if not exists counterparty_name text,
   add column if not exists ai_summary text,
   add column if not exists recurring_pattern_hint text;
-
 alter table public.momo_sms_parsed
   drop constraint if exists momo_sms_parsed_cashflow_bucket_check;
-
 alter table public.momo_sms_parsed
   add constraint momo_sms_parsed_cashflow_bucket_check
     check (cashflow_bucket in ('income', 'expense', 'savings', 'transfer', 'loan', 'fees', 'unknown'));
-
 create index if not exists idx_momo_sms_parsed_category
   on public.momo_sms_parsed (tx_category, cashflow_bucket);
-
 alter table public.momo_ledger_entries
   add column if not exists tx_category text not null default 'uncategorized',
   add column if not exists cashflow_bucket text not null default 'unknown',
   add column if not exists counterparty_name text,
   add column if not exists statement_label text;
-
 alter table public.momo_ledger_entries
   drop constraint if exists momo_ledger_entries_cashflow_bucket_check;
-
 alter table public.momo_ledger_entries
   add constraint momo_ledger_entries_cashflow_bucket_check
     check (cashflow_bucket in ('income', 'expense', 'savings', 'transfer', 'loan', 'fees', 'unknown'));
-
 create index if not exists idx_momo_ledger_entries_statement
   on public.momo_ledger_entries (user_id, ledger_status, tx_datetime desc);
-
 create index if not exists idx_momo_ledger_entries_category
   on public.momo_ledger_entries (tx_category, cashflow_bucket);
-
 create or replace function public.derive_momo_tx_category(
   p_tx_type text,
   p_tx_direction text,
@@ -103,7 +86,6 @@ as $$
     else 'uncategorized'
   end;
 $$;
-
 create or replace function public.derive_momo_cashflow_bucket(
   p_tx_category text,
   p_tx_direction text
@@ -124,7 +106,6 @@ as $$
     else 'unknown'
   end;
 $$;
-
 with parsed_backfill as (
   select
     id,
@@ -162,7 +143,6 @@ set
   recurring_pattern_hint = backfill.derived_pattern
 from parsed_backfill as backfill
 where backfill.id = parsed.id;
-
 update public.momo_ledger_entries as ledger
 set
   tx_category = coalesce(parsed.tx_category, public.derive_momo_tx_category(parsed.tx_type, parsed.tx_direction, ledger.target_table)),
@@ -171,7 +151,6 @@ set
   statement_label = coalesce(parsed.ai_summary, parsed.narrative, initcap(replace(coalesce(parsed.tx_type, ledger.entry_type), '_', ' ')))
 from public.momo_sms_parsed as parsed
 where parsed.id = ledger.parsed_sms_id;
-
 create table if not exists public.credit_score_runs (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references public.users(id) on delete cascade,
@@ -207,26 +186,20 @@ create table if not exists public.credit_score_runs (
       profile_strength between 0 and 100
     )
 );
-
 create index if not exists idx_credit_score_runs_user_generated
   on public.credit_score_runs (user_id, generated_at desc);
-
 create index if not exists idx_credit_score_runs_band
   on public.credit_score_runs (score_band, generated_at desc);
-
 drop trigger if exists trg_credit_score_runs_set_updated_at on public.credit_score_runs;
 create trigger trg_credit_score_runs_set_updated_at
   before update on public.credit_score_runs
   for each row
   execute function public.set_updated_at();
-
 alter table public.credit_score_runs enable row level security;
-
 drop policy if exists "credit_score_runs_select_own" on public.credit_score_runs;
 create policy "credit_score_runs_select_own"
   on public.credit_score_runs for select
   using (auth.uid() = user_id);
-
 create or replace function public.credit_score_band(p_score integer)
 returns text
 language sql
@@ -239,7 +212,6 @@ as $$
     else 'limited_history'
   end;
 $$;
-
 create or replace function public.credit_score_summary(
   p_score integer,
   p_reason_codes text[] default '{}'::text[]
@@ -273,7 +245,6 @@ begin
   end;
 end;
 $$;
-
 create or replace function public.recompute_credit_score(
   p_user_id uuid,
   p_generated_at timestamptz default now()
@@ -534,7 +505,6 @@ begin
   return v_run_id;
 end;
 $$;
-
 create or replace function public.recompute_credit_scores_for_all_users(
   p_generated_at timestamptz default now()
 )
@@ -561,7 +531,6 @@ begin
   return v_count;
 end;
 $$;
-
 insert into public.credit_score_runs (
   user_id,
   score_version,
@@ -646,5 +615,4 @@ where not exists (
     and existing.score_version = 'legacy_credit_scores_v0'
     and existing.generated_at = legacy.recorded_at
 );
-
 select public.recompute_credit_scores_for_all_users(now());

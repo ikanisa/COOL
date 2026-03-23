@@ -36,7 +36,7 @@ begin
   end if;
 
   loop
-    v_invite_code := upper(substr(replace(gen_random_uuid()::text, '-', ''), 1, 8));
+    v_invite_code := upper(substr(encode(gen_random_bytes(6), 'hex'), 1, 8));
     exit when not exists (
       select 1
       from public.groups
@@ -147,4 +147,4 @@ grant execute on function public.create_group_atomic(
   text,
   text,
   text
-) to authenticated;
+) to authenticated;;

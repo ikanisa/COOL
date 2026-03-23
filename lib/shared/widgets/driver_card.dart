@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../core/identity/public_user_identity.dart';
 import '../../core/theme/cool_foundations.dart';
-import '../../core/theme/cool_palette.dart';
 
 import 'wa_button.dart';
 
@@ -69,9 +68,12 @@ class DriverCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
+    final onlineColor = colors.demandLow;
+    final offlineColor = colors.warning;
     final name = PublicUserIdentity.resolve(
       publicUserId: displayName,
       userId: driverId,
@@ -82,18 +84,19 @@ class DriverCard extends StatelessWidget {
     final area = baseLocation?.trim();
 
     final content = Semantics(
+      button: onTap != null,
       label:
           '$name. $vehicleType. $_distanceLabel. $availabilityLabel. $trustLabel.',
       excludeSemantics: true,
       child: Container(
-        padding: const EdgeInsets.all(18),
+        padding: EdgeInsets.all(space.x5),
         decoration: BoxDecoration(
           color: colors.proximitySurface,
           gradient: colors.surfaceGradient,
-          borderRadius: BorderRadius.circular(CoolRadii.lg),
+          borderRadius: BorderRadius.circular(radii.lg),
           border: Border.all(
             color: isOnline
-                ? palette.accent.withValues(alpha: 0.32)
+                ? onlineColor.withValues(alpha: 0.32)
                 : colors.borderStrong,
           ),
           boxShadow: CoolShadows.clay(theme.brightness, strength: 0.55),
@@ -107,9 +110,9 @@ class DriverCard extends StatelessWidget {
                 _Avatar(
                   initials: _initials,
                   isOnline: isOnline,
-                  palette: palette,
+                  colors: colors,
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: space.x3),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,31 +125,29 @@ class DriverCard extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: theme.textTheme.bodyMedium?.copyWith(
-                                fontSize: 17,
                                 fontWeight: FontWeight.w800,
                                 color: colors.primaryText,
                               ),
                             ),
                           ),
-                          const SizedBox(width: 8),
+                          SizedBox(width: space.x2),
                           _StatusBadge(
                             label: availabilityLabel,
                             foregroundColor: isOnline
-                                ? palette.accent
-                                : palette.text2,
+                                ? onlineColor
+                                : colors.secondaryText,
                             backgroundColor: isOnline
-                                ? palette.accentGlow
-                                : palette.surface3,
+                                ? onlineColor.withValues(alpha: 0.14)
+                                : colors.cardSurfaceStrong,
                           ),
                         ],
                       ),
-                      const SizedBox(height: 6),
+                      SizedBox(height: space.x1 + 2),
                       Text(
                         vehicleType,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: theme.textTheme.bodySmall?.copyWith(
-                          fontSize: 15,
                           fontWeight: FontWeight.w700,
                           color: colors.secondaryText,
                         ),
@@ -156,40 +157,40 @@ class DriverCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 14),
+            SizedBox(height: space.x3 + 2),
             Wrap(
-              spacing: 8,
-              runSpacing: 8,
+              spacing: space.x2,
+              runSpacing: space.x2,
               children: [
                 _MetricChip(icon: Icons.near_me_rounded, label: _distanceLabel),
                 if (rating != null)
                   _MetricChip(
                     icon: Icons.star_rounded,
                     label: '${rating!.toStringAsFixed(1)} rating',
-                    accentColor: palette.yellow,
+                    accentColor: colors.warning,
                   ),
                 if (tripCount != null && tripCount! > 0)
                   _MetricChip(
                     icon: Icons.route_rounded,
                     label: '$tripCount trips',
-                    accentColor: palette.blue,
+                    accentColor: colors.info,
                   ),
                 _MetricChip(
                   icon: Icons.verified_user_outlined,
                   label: trustLabel,
-                  accentColor: palette.accent,
+                  accentColor: colors.accent,
                 ),
               ],
             ),
             if ((routeSummary?.isNotEmpty ?? false) ||
                 (area?.isNotEmpty ?? false)) ...[
-              const SizedBox(height: 14),
+              SizedBox(height: space.x3 + 2),
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(12),
+                padding: EdgeInsets.all(space.x3),
                 decoration: BoxDecoration(
                   color: colors.cardSurfaceStrong,
-                  borderRadius: BorderRadius.circular(CoolRadii.md),
+                  borderRadius: BorderRadius.circular(radii.md),
                   border: Border.all(color: colors.border),
                 ),
                 child: Column(
@@ -203,7 +204,7 @@ class DriverCard extends StatelessWidget {
                       ),
                     if ((routeSummary?.isNotEmpty ?? false) &&
                         (area?.isNotEmpty ?? false))
-                      const SizedBox(height: 10),
+                      SizedBox(height: space.x2),
                     if (area?.isNotEmpty ?? false)
                       _DetailLine(
                         icon: Icons.place_outlined,
@@ -222,7 +223,7 @@ class DriverCard extends StatelessWidget {
                 ),
               ),
             ],
-            const SizedBox(height: 14),
+            SizedBox(height: space.x3 + 2),
             Row(
               children: [
                 Expanded(
@@ -231,11 +232,11 @@ class DriverCard extends StatelessWidget {
                     icon: const Icon(Icons.visibility_outlined, size: 18),
                     label: const Text('Preview'),
                     style: OutlinedButton.styleFrom(
-                      minimumSize: const Size(0, 48),
+                      minimumSize: const Size(0, CoolTapTargets.comfortable),
                     ),
                   ),
                 ),
-                const SizedBox(width: 10),
+                SizedBox(width: space.x2),
                 Expanded(
                   child: WaButton(
                     label: 'Contact Driver',
@@ -263,40 +264,44 @@ class _Avatar extends StatelessWidget {
   const _Avatar({
     required this.initials,
     required this.isOnline,
-    required this.palette,
+    required this.colors,
   });
 
   final String initials;
   final bool isOnline;
-  final CoolPalette palette;
+  final CoolSemanticColors colors;
 
   @override
   Widget build(BuildContext context) {
+    final radii = context.coolRadii;
     final theme = Theme.of(context);
+    final statusColor = isOnline ? colors.demandLow : colors.warning;
     return SizedBox(
-      width: 50,
-      height: 50,
+      width: CoolTapTargets.minimum + 2,
+      height: CoolTapTargets.minimum + 2,
       child: Stack(
         children: [
           Container(
-            width: 50,
-            height: 50,
+            width: CoolTapTargets.minimum + 2,
+            height: CoolTapTargets.minimum + 2,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [palette.accentGlow, palette.blueGlow],
+                colors: [
+                  colors.accent.withValues(alpha: 0.18),
+                  colors.info.withValues(alpha: 0.24),
+                ],
               ),
               shape: BoxShape.circle,
-              border: Border.all(color: palette.border2),
+              border: Border.all(color: colors.borderStrong),
             ),
             alignment: Alignment.center,
             child: Text(
               initials,
               style: theme.textTheme.labelMedium?.copyWith(
-                fontSize: 15,
                 fontWeight: FontWeight.w800,
-                color: palette.text,
+                color: colors.primaryText,
               ),
             ),
           ),
@@ -307,9 +312,9 @@ class _Avatar extends StatelessWidget {
               width: 14,
               height: 14,
               decoration: BoxDecoration(
-                color: isOnline ? palette.accent : palette.orange,
+                color: statusColor,
                 shape: BoxShape.circle,
-                border: Border.all(color: palette.surface2, width: 2),
+                border: Border.all(color: colors.proximitySurface, width: 2),
               ),
             ),
           ),
@@ -332,18 +337,19 @@ class _StatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
     final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+      padding: EdgeInsets.symmetric(horizontal: space.x3, vertical: space.x2),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(radii.pill),
         border: Border.all(color: foregroundColor.withValues(alpha: 0.2)),
       ),
       child: Text(
         label,
         style: theme.textTheme.labelSmall?.copyWith(
-          fontSize: 14,
           fontWeight: FontWeight.w700,
           color: foregroundColor,
         ),
@@ -365,25 +371,26 @@ class _MetricChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+    final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
-    final color = accentColor ?? palette.text2;
+    final color = accentColor ?? colors.secondaryText;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+      padding: EdgeInsets.symmetric(horizontal: space.x3, vertical: space.x2),
       decoration: BoxDecoration(
-        color: palette.surface3,
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: palette.border),
+        color: colors.cardSurfaceStrong,
+        borderRadius: BorderRadius.circular(radii.pill),
+        border: Border.all(color: colors.border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon, size: 14, color: color),
-          const SizedBox(width: 6),
+          SizedBox(width: space.x1 + 2),
           Text(
             label,
             style: theme.textTheme.labelSmall?.copyWith(
-              fontSize: 14,
               fontWeight: FontWeight.w700,
               color: color,
             ),
@@ -407,20 +414,20 @@ class _DetailLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final space = context.coolSpace;
+    final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, size: 16, color: palette.text3),
-        const SizedBox(width: 8),
+        Icon(icon, size: 16, color: colors.tertiaryText),
+        SizedBox(width: space.x2),
         Expanded(
           child: RichText(
             text: TextSpan(
               style: theme.textTheme.bodySmall?.copyWith(
-                fontSize: 15,
                 fontWeight: FontWeight.w700,
-                color: palette.text2,
+                color: colors.secondaryText,
                 height: 1.35,
               ),
               children: [
@@ -428,7 +435,7 @@ class _DetailLine extends StatelessWidget {
                   text: '$label: ',
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
-                    color: palette.text,
+                    color: colors.primaryText,
                   ),
                 ),
                 TextSpan(text: value),

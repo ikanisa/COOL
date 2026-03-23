@@ -6,19 +6,15 @@ alter table public.cool_events
   add column if not exists dedupe_key text,
   add column if not exists campaign_id text,
   add column if not exists season_id uuid;
-
 create unique index if not exists idx_cool_events_user_dedupe
   on public.cool_events (user_id, dedupe_key)
   where dedupe_key is not null;
-
 create index if not exists idx_cool_events_campaign
   on public.cool_events (campaign_id)
   where campaign_id is not null;
-
 create index if not exists idx_cool_events_season
   on public.cool_events (season_id)
   where season_id is not null;
-
 create table if not exists public.season_definitions (
   id uuid primary key default gen_random_uuid(),
   slug text not null unique,
@@ -31,7 +27,6 @@ create table if not exists public.season_definitions (
   updated_at timestamptz not null default now(),
   check (ends_at > starts_at)
 );
-
 create table if not exists public.season_memberships (
   id uuid primary key default gen_random_uuid(),
   season_id uuid not null references public.season_definitions(id) on delete cascade,
@@ -42,7 +37,6 @@ create table if not exists public.season_memberships (
   updated_at timestamptz not null default now(),
   unique (season_id, user_id)
 );
-
 create table if not exists public.quest_definitions (
   id uuid primary key default gen_random_uuid(),
   slug text not null unique,
@@ -61,7 +55,6 @@ create table if not exists public.quest_definitions (
   check (reward_points >= 0),
   check (end_at is null or start_at is null or end_at > start_at)
 );
-
 create table if not exists public.quest_progress (
   id uuid primary key default gen_random_uuid(),
   quest_id uuid not null references public.quest_definitions(id) on delete cascade,
@@ -75,7 +68,6 @@ create table if not exists public.quest_progress (
   unique (reward_dedupe_key),
   check (progress_count >= 0)
 );
-
 create table if not exists public.referral_invites (
   id uuid primary key default gen_random_uuid(),
   inviter_id uuid not null references auth.users(id) on delete cascade,
@@ -92,7 +84,6 @@ create table if not exists public.referral_invites (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
-
 create table if not exists public.referral_conversions (
   id uuid primary key default gen_random_uuid(),
   referral_invite_id uuid not null references public.referral_invites(id) on delete cascade,
@@ -109,7 +100,6 @@ create table if not exists public.referral_conversions (
   updated_at timestamptz not null default now(),
   unique (referral_invite_id, invitee_id)
 );
-
 create table if not exists public.share_artifacts (
   id uuid primary key default gen_random_uuid(),
   owner_user_id uuid not null references auth.users(id) on delete cascade,
@@ -120,28 +110,20 @@ create table if not exists public.share_artifacts (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
-
 create index if not exists idx_season_memberships_user
   on public.season_memberships (user_id, season_points desc);
-
 create index if not exists idx_quest_progress_user
   on public.quest_progress (user_id, updated_at desc);
-
 create index if not exists idx_referral_invites_inviter
   on public.referral_invites (inviter_id, created_at desc);
-
 create index if not exists idx_referral_invites_invite_code
   on public.referral_invites (invite_code);
-
 create index if not exists idx_referral_conversions_inviter
   on public.referral_conversions (inviter_id, created_at desc);
-
 create index if not exists idx_referral_conversions_invitee
   on public.referral_conversions (invitee_id, created_at desc);
-
 create index if not exists idx_share_artifacts_owner
   on public.share_artifacts (owner_user_id, created_at desc);
-
 create or replace function public.cool_status_tier_for_points(p_points int)
 returns text
 language sql
@@ -154,7 +136,6 @@ as $$
     else 'blue'
   end;
 $$;
-
 create or replace function public.sync_cool_status_fields()
 returns trigger
 language plpgsql
@@ -175,55 +156,46 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_cool_status_sync_fields on public.cool_status;
 create trigger trg_cool_status_sync_fields
   before insert or update on public.cool_status
   for each row
   execute function public.sync_cool_status_fields();
-
 drop trigger if exists trg_season_definitions_set_updated_at on public.season_definitions;
 create trigger trg_season_definitions_set_updated_at
   before update on public.season_definitions
   for each row
   execute function public.set_updated_at();
-
 drop trigger if exists trg_season_memberships_set_updated_at on public.season_memberships;
 create trigger trg_season_memberships_set_updated_at
   before update on public.season_memberships
   for each row
   execute function public.set_updated_at();
-
 drop trigger if exists trg_quest_definitions_set_updated_at on public.quest_definitions;
 create trigger trg_quest_definitions_set_updated_at
   before update on public.quest_definitions
   for each row
   execute function public.set_updated_at();
-
 drop trigger if exists trg_quest_progress_set_updated_at on public.quest_progress;
 create trigger trg_quest_progress_set_updated_at
   before update on public.quest_progress
   for each row
   execute function public.set_updated_at();
-
 drop trigger if exists trg_referral_invites_set_updated_at on public.referral_invites;
 create trigger trg_referral_invites_set_updated_at
   before update on public.referral_invites
   for each row
   execute function public.set_updated_at();
-
 drop trigger if exists trg_referral_conversions_set_updated_at on public.referral_conversions;
 create trigger trg_referral_conversions_set_updated_at
   before update on public.referral_conversions
   for each row
   execute function public.set_updated_at();
-
 drop trigger if exists trg_share_artifacts_set_updated_at on public.share_artifacts;
 create trigger trg_share_artifacts_set_updated_at
   before update on public.share_artifacts
   for each row
   execute function public.set_updated_at();
-
 update public.cool_status
 set
   total_points = greatest(coalesce(total_points, 0), 0),
@@ -231,7 +203,6 @@ set
   tier = public.cool_status_tier_for_points(total_points),
   updated_at = now()
 where true;
-
 create or replace function public.apply_cool_event_internal(
   p_user_id uuid,
   p_event_type text,
@@ -343,7 +314,6 @@ begin
   return v_status;
 end;
 $$;
-
 revoke all on function public.apply_cool_event_internal(
   uuid,
   text,
@@ -355,7 +325,6 @@ revoke all on function public.apply_cool_event_internal(
   text,
   uuid
 ) from public, anon, authenticated;
-
 create or replace function public.apply_cool_event(
   p_user_id uuid,
   p_event_type text,
@@ -394,7 +363,6 @@ begin
   );
 end;
 $$;
-
 create or replace function public.create_referral_invite(
   p_invite_code text,
   p_share_channel text default null,
@@ -433,7 +401,6 @@ begin
   return v_invite;
 end;
 $$;
-
 create or replace function public.mark_referral_invite_opened(
   p_referral_invite_id uuid
 )
@@ -469,7 +436,6 @@ begin
   return v_invite;
 end;
 $$;
-
 create or replace function public.activate_referral_invite(
   p_referral_invite_id uuid,
   p_qualifying_event_type text,
@@ -588,7 +554,6 @@ begin
   return v_conversion;
 end;
 $$;
-
 alter table public.season_definitions enable row level security;
 alter table public.season_memberships enable row level security;
 alter table public.quest_definitions enable row level security;
@@ -596,38 +561,31 @@ alter table public.quest_progress enable row level security;
 alter table public.referral_invites enable row level security;
 alter table public.referral_conversions enable row level security;
 alter table public.share_artifacts enable row level security;
-
 drop policy if exists season_definitions_select_authenticated on public.season_definitions;
 create policy season_definitions_select_authenticated
   on public.season_definitions for select
   using (auth.role() = 'authenticated');
-
 drop policy if exists season_memberships_select_own on public.season_memberships;
 create policy season_memberships_select_own
   on public.season_memberships for select
   using (auth.uid() = user_id);
-
 drop policy if exists quest_definitions_select_authenticated on public.quest_definitions;
 create policy quest_definitions_select_authenticated
   on public.quest_definitions for select
   using (auth.role() = 'authenticated');
-
 drop policy if exists quest_progress_select_own on public.quest_progress;
 create policy quest_progress_select_own
   on public.quest_progress for select
   using (auth.uid() = user_id);
-
 drop policy if exists quest_progress_insert_own on public.quest_progress;
 create policy quest_progress_insert_own
   on public.quest_progress for insert
   with check (auth.uid() = user_id);
-
 drop policy if exists quest_progress_update_own on public.quest_progress;
 create policy quest_progress_update_own
   on public.quest_progress for update
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
-
 drop policy if exists referral_invites_select_visible on public.referral_invites;
 create policy referral_invites_select_visible
   on public.referral_invites for select
@@ -636,33 +594,27 @@ create policy referral_invites_select_visible
     or auth.uid() = opened_by_user_id
     or auth.uid() = activated_by_user_id
   );
-
 drop policy if exists referral_invites_insert_own on public.referral_invites;
 create policy referral_invites_insert_own
   on public.referral_invites for insert
   with check (auth.uid() = inviter_id);
-
 drop policy if exists referral_invites_update_own on public.referral_invites;
 create policy referral_invites_update_own
   on public.referral_invites for update
   using (auth.uid() = inviter_id)
   with check (auth.uid() = inviter_id);
-
 drop policy if exists referral_conversions_select_visible on public.referral_conversions;
 create policy referral_conversions_select_visible
   on public.referral_conversions for select
   using (auth.uid() = inviter_id or auth.uid() = invitee_id);
-
 drop policy if exists share_artifacts_select_own on public.share_artifacts;
 create policy share_artifacts_select_own
   on public.share_artifacts for select
   using (auth.uid() = owner_user_id);
-
 drop policy if exists share_artifacts_insert_own on public.share_artifacts;
 create policy share_artifacts_insert_own
   on public.share_artifacts for insert
   with check (auth.uid() = owner_user_id);
-
 drop policy if exists share_artifacts_update_own on public.share_artifacts;
 create policy share_artifacts_update_own
   on public.share_artifacts for update

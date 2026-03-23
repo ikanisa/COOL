@@ -1,5 +1,4 @@
 begin;
-
 -- ============================================================================
 -- Comprehensive demo users and app mock seed
 -- ----------------------------------------------------------------------------
@@ -63,13 +62,11 @@ begin
     );
   end loop;
 end $$;
-
 drop policy if exists users_select_admin on public.users;
 create policy users_select_admin
   on public.users for select
   to authenticated
   using (public.is_admin_user());
-
 create temp table demo_runtime (
   mock_batch text primary key,
   active_cool_season_id uuid not null,
@@ -79,12 +76,11 @@ create temp table demo_runtime (
   season_definition_id uuid not null,
   rayon_partner_id uuid,
   club_kigali_id uuid,
-  club_western_id uuid,
+  club_diaspora_id uuid,
   club_huye_id uuid,
   initiative_fan_kit_id uuid,
   initiative_academy_id uuid
 ) on commit drop;
-
 insert into demo_runtime (
   mock_batch,
   active_cool_season_id,
@@ -94,7 +90,7 @@ insert into demo_runtime (
   season_definition_id,
   rayon_partner_id,
   club_kigali_id,
-  club_western_id,
+  club_diaspora_id,
   club_huye_id,
   initiative_fan_kit_id,
   initiative_academy_id
@@ -150,7 +146,7 @@ select
   (
     select id
     from public.rs_fan_clubs
-    where name = 'Western Blue Wave'
+    where name = 'Gikundiro Diaspora'
     limit 1
   ),
   (
@@ -171,7 +167,6 @@ select
     where title = 'Academy Equipment Drive'
     limit 1
   );
-
 do $$
 begin
   if exists (
@@ -179,7 +174,7 @@ begin
     from demo_runtime
     where rayon_partner_id is null
        or club_kigali_id is null
-       or club_western_id is null
+       or club_diaspora_id is null
        or club_huye_id is null
        or initiative_fan_kit_id is null
        or initiative_academy_id is null
@@ -188,7 +183,6 @@ begin
       'Rayon Sports base seed is missing. Expected rayon-sports partner, clubs, and initiatives before applying the demo user seed.';
   end if;
 end $$;
-
 insert into public.cool_seasons (
   id,
   title,
@@ -218,7 +212,6 @@ where not exists (
   from public.cool_seasons existing
   where existing.id = demo_runtime.active_cool_season_id
 );
-
 insert into public.cool_missions (
   id,
   season_id,
@@ -260,7 +253,6 @@ where not exists (
   from public.cool_missions existing
   where existing.id = demo_runtime.savings_mission_id
 );
-
 insert into public.cool_missions (
   id,
   season_id,
@@ -302,7 +294,6 @@ where not exists (
   from public.cool_missions existing
   where existing.id = demo_runtime.matchday_mission_id
 );
-
 insert into public.cool_missions (
   id,
   season_id,
@@ -356,7 +347,6 @@ set
   is_active = excluded.is_active,
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch;
-
 insert into public.season_definitions (
   id,
   slug,
@@ -389,7 +379,6 @@ set
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch,
   updated_at = now();
-
 create temp table demo_user_seed (
   phone_e164 text primary key,
   phone_digits text not null,
@@ -410,7 +399,6 @@ create temp table demo_user_seed (
   membership_number text not null,
   joined_at timestamptz not null
 ) on commit drop;
-
 insert into demo_user_seed (
   phone_e164,
   phone_digits,
@@ -507,17 +495,14 @@ values
     'RS-1968-EU-193M',
     timestamptz '2026-02-25 16:00:00+00'
   );
-
 update demo_user_seed seed
 set user_id = auth_user.id
 from auth.users auth_user
 where auth_user.phone = seed.phone_digits
    or coalesce(auth_user.raw_user_meta_data ->> 'phone', '') = seed.phone_e164;
-
 update demo_user_seed
 set user_id = default_user_id
 where user_id is null;
-
 insert into auth.users (
   id,
   aud,
@@ -567,7 +552,6 @@ where not exists (
   from auth.users existing
   where existing.id = seed.user_id
 );
-
 update auth.users auth_user
 set
   aud = 'authenticated',
@@ -596,7 +580,6 @@ set
 from demo_user_seed seed
 cross join demo_runtime runtime
 where auth_user.id = seed.user_id;
-
 insert into auth.identities (
   id,
   user_id,
@@ -625,7 +608,6 @@ set
   user_id = excluded.user_id,
   identity_data = excluded.identity_data,
   updated_at = excluded.updated_at;
-
 insert into public.users (
   id,
   phone,
@@ -676,7 +658,6 @@ set
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch,
   updated_at = excluded.updated_at;
-
 create temp table demo_group_seed (
   id uuid primary key,
   creator_phone text not null,
@@ -696,7 +677,6 @@ create temp table demo_group_seed (
   institution_id text,
   created_at timestamptz not null
 ) on commit drop;
-
 insert into demo_group_seed (
   id,
   creator_phone,
@@ -739,12 +719,12 @@ values
   (
     '63d5a62d-21d4-4662-b8cb-ae85e8f69402'::uuid,
     '+250788767816',
-    'Western Builders Pool',
+    'Diaspora Builders Pool',
     'community',
     'private',
     500000,
     30000,
-    'Private support pool for travel, matchday plans, and family projects across western Rwanda.',
+    'Private support pool for travel, matchday plans, and family projects across Kigali and Malta.',
     'Urwego Finance',
     '+250788767816',
     '+250788767816',
@@ -752,10 +732,9 @@ values
     'monthly',
     'RW',
     'DBPL2026',
-    'URWEGO-WEST-02',
+    'URWEGO-DIAS-02',
     timestamptz '2026-02-24 11:15:00+00'
   );
-
 insert into public.groups (
   id,
   creator_id,
@@ -824,7 +803,6 @@ set
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch,
   updated_at = excluded.updated_at;
-
 create temp table demo_group_member_seed (
   group_id uuid not null,
   phone_e164 text not null,
@@ -834,14 +812,12 @@ create temp table demo_group_member_seed (
   contribution_amount integer not null,
   joined_at timestamptz not null
 ) on commit drop;
-
 insert into demo_group_member_seed values
   ('779d0cbe-3d60-4f09-bc2f-f7f0ea1f8701'::uuid, '+25075588248', 'Jean Claude Niyonsaba', true, false, 20000, timestamptz '2026-02-20 09:00:00+00'),
   ('779d0cbe-3d60-4f09-bc2f-f7f0ea1f8701'::uuid, '+250788767816', 'Aline Mukamana', false, false, 30000, timestamptz '2026-02-21 10:00:00+00'),
   ('779d0cbe-3d60-4f09-bc2f-f7f0ea1f8701'::uuid, '+25088817592', 'Diane Uwase', false, false, 15000, timestamptz '2026-02-22 08:30:00+00'),
   ('63d5a62d-21d4-4662-b8cb-ae85e8f69402'::uuid, '+250788767816', 'Aline Mukamana', true, false, 60000, timestamptz '2026-02-24 11:15:00+00'),
   ('63d5a62d-21d4-4662-b8cb-ae85e8f69402'::uuid, '+35677186193', 'Matteo Borg', false, false, 45000, timestamptz '2026-02-25 16:30:00+00');
-
 insert into public.group_members (
   group_id,
   user_id,
@@ -875,7 +851,6 @@ set
   joined_at = excluded.joined_at,
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch;
-
 create temp table demo_group_contribution_seed (
   id uuid primary key,
   group_id uuid not null,
@@ -885,7 +860,6 @@ create temp table demo_group_contribution_seed (
   created_at timestamptz not null,
   momo_reference text not null
 ) on commit drop;
-
 insert into demo_group_contribution_seed values
   ('b49c1411-b152-40a5-b6ca-0e87970f9301'::uuid, '779d0cbe-3d60-4f09-bc2f-f7f0ea1f8701'::uuid, '+25075588248', 20000, 'confirmed', timestamptz '2026-03-02 07:55:00+00', 'GC-KMC-20260302-01'),
   ('dc62629f-7482-4d26-a0ca-397e6047ad02'::uuid, '779d0cbe-3d60-4f09-bc2f-f7f0ea1f8701'::uuid, '+250788767816', 15000, 'confirmed', timestamptz '2026-03-05 09:05:00+00', 'GC-KMC-20260305-01'),
@@ -894,7 +868,6 @@ insert into demo_group_contribution_seed values
   ('4da51f5f-bdf0-40fe-af53-27fe80f6a305'::uuid, '63d5a62d-21d4-4662-b8cb-ae85e8f69402'::uuid, '+250788767816', 30000, 'confirmed', timestamptz '2026-03-03 10:40:00+00', 'GC-DBP-20260303-01'),
   ('7fd95c32-5d78-4958-bf65-f5587f441f06'::uuid, '63d5a62d-21d4-4662-b8cb-ae85e8f69402'::uuid, '+35677186193', 45000, 'confirmed', timestamptz '2026-03-07 18:15:00+00', 'GC-DBP-20260307-01'),
   ('07b9e6ae-d542-49ed-a8a6-f5444e8a2c07'::uuid, '63d5a62d-21d4-4662-b8cb-ae85e8f69402'::uuid, '+250788767816', 30000, 'confirmed', timestamptz '2026-03-10 08:45:00+00', 'GC-DBP-20260310-01');
-
 insert into public.group_contributions (
   id,
   group_id,
@@ -929,7 +902,6 @@ set
   momo_reference = excluded.momo_reference,
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch;
-
 update public.groups group_row
 set
   amount = coalesce(summary.confirmed_total, 0),
@@ -945,7 +917,6 @@ from (
   group by group_id
 ) summary
 where group_row.id = summary.group_id;
-
 create temp table demo_driver_profile_seed (
   phone_e164 text primary key,
   vehicle_type text not null,
@@ -961,11 +932,9 @@ create temp table demo_driver_profile_seed (
   vehicle_emoji text not null,
   created_at timestamptz not null
 ) on commit drop;
-
 insert into demo_driver_profile_seed values
   ('+250788767816', 'cab', 'RAB 214K', 'Kimironko', 'verified', false, 4.8, 19, 6, -1.9462, 30.1260, '🚗', timestamptz '2026-02-26 07:20:00+00'),
   ('+25075588248', 'moto', 'RAD 118M', 'Nyabugogo', 'verified', true, 4.9, 47, 9, -1.9457, 30.0560, '🛺', timestamptz '2026-02-24 06:40:00+00');
-
 insert into public.driver_profiles (
   user_id,
   vehicle_type,
@@ -1023,7 +992,6 @@ set
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch,
   updated_at = excluded.updated_at;
-
 create temp table demo_subscription_seed (
   id uuid primary key,
   phone_e164 text not null,
@@ -1037,11 +1005,9 @@ create temp table demo_subscription_seed (
   amount_rwf integer not null,
   momo_reference text not null
 ) on commit drop;
-
 insert into demo_subscription_seed values
   ('16f5909e-a5a0-4eaf-bfcf-676a113e8401'::uuid, '+250788767816', 'cab_other', 25000, 'active', timestamptz '2026-03-01 07:00:00+00', timestamptz '2026-03-31 23:59:59+00', 'cab_other', 'Cab Monthly Unlimited', 25000, 'DRV-SUB-ALINE-202603'),
   ('8b8b40c7-5287-4d45-94bb-e23ecf1ea402'::uuid, '+25075588248', 'moto_taxi', 15000, 'active', timestamptz '2026-03-01 07:00:00+00', timestamptz '2026-03-31 23:59:59+00', 'moto_taxi', 'Moto Taxi Monthly Unlimited', 15000, 'DRV-SUB-JC-202603');
-
 insert into public.driver_subscriptions (
   id,
   driver_id,
@@ -1093,7 +1059,6 @@ set
   updated_at = excluded.updated_at,
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch;
-
 create temp table demo_trip_seed (
   id uuid primary key,
   phone_e164 text not null,
@@ -1120,7 +1085,6 @@ create temp table demo_trip_seed (
   is_driver_return_trip boolean not null,
   created_at timestamptz not null
 ) on commit drop;
-
 insert into demo_trip_seed values
   (
     '7f6a47d7-b60d-4d48-84e2-c75e2f3bc501'::uuid,
@@ -1226,7 +1190,6 @@ insert into demo_trip_seed values
     false,
     timestamptz '2026-03-11 06:40:00+00'
   );
-
 insert into public.mobility_trips (
   id,
   user_id,
@@ -1321,7 +1284,6 @@ set
   updated_at = excluded.updated_at,
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch;
-
 create temp table demo_credit_score_seed (
   id uuid primary key,
   phone_e164 text not null,
@@ -1332,7 +1294,6 @@ create temp table demo_credit_score_seed (
   community_activity integer not null,
   recorded_at timestamptz not null
 ) on commit drop;
-
 insert into demo_credit_score_seed values
   ('44110119-5c17-45eb-82cf-a953d993cc01'::uuid, '+250788767816', 612, 58, 60, 65, 56, timestamptz '2025-10-31 12:00:00+00'),
   ('1d1f66cf-8744-4c4a-8717-2ca05c3f4202'::uuid, '+250788767816', 648, 62, 64, 68, 61, timestamptz '2025-11-30 12:00:00+00'),
@@ -1343,7 +1304,6 @@ insert into demo_credit_score_seed values
   ('cc1a395f-1dd6-4e88-9252-43ec8549cd07'::uuid, '+25075588248', 655, 60, 66, 71, 62, timestamptz '2026-03-10 12:00:00+00'),
   ('0fd7384d-c0af-4b3c-a6fb-8f0a8d662808'::uuid, '+25088817592', 601, 57, 59, 63, 58, timestamptz '2026-03-10 12:00:00+00'),
   ('07dc6f0d-4f65-4fb1-bcf6-1fe4fbcb3309'::uuid, '+35677186193', 688, 66, 62, 74, 69, timestamptz '2026-03-10 12:00:00+00');
-
 insert into public.credit_scores (
   id,
   user_id,
@@ -1381,7 +1341,6 @@ set
   recorded_at = excluded.recorded_at,
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch;
-
 create temp table demo_momo_seed (
   raw_id uuid primary key,
   parsed_id uuid not null,
@@ -1419,7 +1378,6 @@ create temp table demo_momo_seed (
   confidence numeric not null,
   notes text
 ) on commit drop;
-
 insert into demo_momo_seed values
   (
     '8e733d26-2678-42bf-95b5-2b611e1db701'::uuid,
@@ -1606,7 +1564,6 @@ insert into demo_momo_seed values
     0.99,
     'Matched on shop order reference.'
   );
-
 insert into public.momo_sms_raw (
   id,
   user_id,
@@ -1662,7 +1619,6 @@ set
   updated_at = excluded.updated_at,
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch;
-
 insert into public.momo_sms_parsed (
   id,
   raw_sms_id,
@@ -1759,7 +1715,6 @@ set
   updated_at = excluded.updated_at,
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch;
-
 insert into public.momo_ledger_entries (
   id,
   parsed_sms_id,
@@ -1819,7 +1774,6 @@ set
   updated_at = excluded.updated_at,
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch;
-
 insert into public.momo_reconciliations (
   id,
   parsed_sms_id,
@@ -1870,7 +1824,6 @@ set
   updated_at = excluded.updated_at,
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch;
-
 create temp table demo_status_seed (
   phone_e164 text primary key,
   total_points integer not null,
@@ -1881,13 +1834,11 @@ create temp table demo_status_seed (
   season_points integer not null,
   rank_hint integer not null
 ) on commit drop;
-
 insert into demo_status_seed values
   ('+250788767816', 1185, 'silver', 6, 9, 1, 175, 2),
   ('+25075588248', 640, 'blue', 4, 6, 1, 92, 3),
   ('+25088817592', 420, 'blue', 2, 4, 1, 58, 4),
   ('+35677186193', 1380, 'silver', 5, 7, 1, 210, 1);
-
 insert into public.cool_status (
   user_id,
   total_points,
@@ -1930,7 +1881,6 @@ set
   updated_at = excluded.updated_at,
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch;
-
 insert into public.season_memberships (
   season_id,
   user_id,
@@ -1960,7 +1910,6 @@ set
   updated_at = excluded.updated_at,
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch;
-
 create temp table demo_event_seed (
   id uuid primary key,
   phone_e164 text not null,
@@ -1973,7 +1922,6 @@ create temp table demo_event_seed (
   dedupe_key text,
   campaign_id text
 ) on commit drop;
-
 insert into demo_event_seed values
   ('7c05076f-ebf4-4e6a-9b0c-1fbf8a316001'::uuid, '+250788767816', 'groupContribution', '7d57d2a9-c482-4d88-a32f-a3e80e5cf304', 20, jsonb_build_object('group_name', 'Kigali Market Circle'), null, timestamptz '2026-03-09 06:55:00+00', 'event:aline:group:1', 'rise-season'),
   ('d0db14f7-2fd0-4cb4-a45f-f5f8ee88c602'::uuid, '+250788767816', 'tripPosted', '7f6a47d7-b60d-4d48-84e2-c75e2f3bc501', 12, jsonb_build_object('route', 'Remera -> Kigali Heights'), null, timestamptz '2026-03-11 05:55:00+00', 'event:aline:trip:1', 'rise-season'),
@@ -1981,8 +1929,7 @@ insert into demo_event_seed values
   ('9c2d769d-5b54-4ffa-823f-7adb31d8e604'::uuid, '+250788767816', 'shopPurchase', '7b74fa3c-4fd2-42dd-82eb-8822f86ec601', 30, jsonb_build_object('order_status', 'confirmed'), null, timestamptz '2026-03-10 15:30:00+00', 'event:aline:shop:1', 'rise-season'),
   ('03e0f64c-f2f1-4d22-95cb-9c1d94dbd705'::uuid, '+250788767816', 'clubJoined', '940f35e3-bd99-4c17-9de9-093298a453c8', 10, jsonb_build_object('club', 'Gikundiro Kigali Ultra'), null, timestamptz '2026-03-04 08:30:00+00', 'event:aline:club:1', 'rise-season'),
   ('771b5eb9-b34a-4d45-907f-33816bd97b06'::uuid, '+25075588248', 'tripCompleted', '6df503b1-2cfd-4300-9426-8a3fa53b3303', 18, jsonb_build_object('vehicle_type', 'moto'), null, timestamptz '2026-03-11 18:35:00+00', 'event:jc:trip:1', 'rise-season'),
-  ('2d4fb6a3-6a5a-4a17-a6dd-d1e6c7497907'::uuid, '+35677186193', 'clubJoined', '959121a9-4862-408b-becf-52d656e539a6', 10, jsonb_build_object('club', 'Western Blue Wave'), '+250788767816', timestamptz '2026-03-05 10:00:00+00', 'event:matteo:club:1', 'rise-season');
-
+  ('2d4fb6a3-6a5a-4a17-a6dd-d1e6c7497907'::uuid, '+35677186193', 'clubJoined', '959121a9-4862-408b-becf-52d656e539a6', 10, jsonb_build_object('club', 'Gikundiro Diaspora'), '+250788767816', timestamptz '2026-03-05 10:00:00+00', 'event:matteo:club:1', 'rise-season');
 insert into public.cool_events (
   id,
   user_id,
@@ -2030,7 +1977,6 @@ set
   season_id = excluded.season_id,
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch;
-
 insert into public.cool_mission_progress (
   mission_id,
   user_id,
@@ -2064,7 +2010,6 @@ set
   updated_at = excluded.updated_at,
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch;
-
 insert into public.cool_mission_progress (
   mission_id,
   user_id,
@@ -2098,7 +2043,6 @@ set
   updated_at = excluded.updated_at,
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch;
-
 insert into public.rs_fan_memberships (
   user_id,
   partner_id,
@@ -2136,7 +2080,6 @@ set
   updated_at = excluded.updated_at,
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch;
-
 insert into public.rs_fan_club_members (
   club_id,
   user_id,
@@ -2166,7 +2109,7 @@ from (
   from demo_runtime runtime
   union all
   select
-    runtime.club_western_id,
+    runtime.club_diaspora_id,
     (select user_id from demo_user_seed where phone_e164 = '+35677186193'),
     timestamptz '2026-03-05 10:00:00+00'
   from demo_runtime runtime
@@ -2177,7 +2120,6 @@ set
   joined_at = excluded.joined_at,
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch;
-
 insert into public.rs_achievements (
   id,
   user_id,
@@ -2228,11 +2170,11 @@ from (
     (
       '32a53226-1978-49f5-9325-f4d29f120603'::uuid,
       (select user_id from demo_user_seed where phone_e164 = '+35677186193'),
-      'western_voice',
+      'diaspora_voice',
       timestamptz '2026-03-05 10:05:00+00',
       '🌍',
-      'Western Voice',
-      'Joined and contributed through the western Rwanda supporters chapter.'
+      'Diaspora Voice',
+      'Joined and contributed through the diaspora supporters chapter.'
     )
 ) as seeded(id, user_id, badge_type, earned_at, emoji, name, description)
 cross join demo_runtime runtime
@@ -2245,7 +2187,6 @@ set
   is_earned = excluded.is_earned,
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch;
-
 insert into public.rs_matches (
   id,
   partner_id,
@@ -2348,7 +2289,6 @@ set
   updated_at = excluded.updated_at,
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch;
-
 insert into public.rs_shop_products (
   id,
   partner_id,
@@ -2402,7 +2342,6 @@ set
   is_new = excluded.is_new,
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch;
-
 insert into public.rs_shop_orders (
   id,
   user_id,
@@ -2453,7 +2392,6 @@ set
   updated_at = excluded.updated_at,
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch;
-
 insert into public.rs_initiative_contributions (
   id,
   initiative_id,
@@ -2488,7 +2426,6 @@ set
   updated_at = excluded.updated_at,
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch;
-
 insert into public.rs_tickets (
   id,
   match_id,
@@ -2530,5 +2467,4 @@ set
   updated_at = excluded.updated_at,
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch;
-
 commit;

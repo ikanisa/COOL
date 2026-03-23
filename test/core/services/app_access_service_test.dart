@@ -66,7 +66,7 @@ void main() {
   });
 
   test(
-    'sms access defaults on inside COOL (all permissions default true)',
+    'sms access defaults off inside COOL until the user opts in',
     () async {
       final service = AppAccessService(
         openBox: Hive.openBox<bool>,
@@ -75,7 +75,7 @@ void main() {
         nfcHceService: _FakeNfcHceService(supported: true),
       );
 
-      expect(await service.isEnabled(AppAccessPermission.sms), isTrue);
+      expect(await service.isEnabled(AppAccessPermission.sms), isFalse);
     },
   );
 }

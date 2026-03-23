@@ -10,7 +10,7 @@ class CoolScreenScaffold extends StatelessWidget {
     this.title,
     this.actions,
     this.showBackButton = true,
-    this.padding = const EdgeInsets.fromLTRB(24, 0, 24, 96),
+    this.padding = CoolSpace.scaffoldPadding,
     super.key,
   });
 

@@ -7,7 +7,6 @@
 -- ============================================================================
 
 create extension if not exists pgcrypto;
-
 create table if not exists public.partner_payment_routes (
   id uuid primary key default gen_random_uuid(),
   partner_id uuid not null references public.partners(id) on delete cascade,
@@ -21,22 +20,16 @@ create table if not exists public.partner_payment_routes (
   updated_at timestamptz not null default now(),
   unique (partner_id, country)
 );
-
 comment on table public.partner_payment_routes is
   'Admin-managed mobile money routing per partner and country.';
-
 comment on column public.partner_payment_routes.provider is
   'Human and app-facing provider identifier such as mtn_rwanda.';
-
 comment on column public.partner_payment_routes.recipient_code is
   'Merchant/payment code used for USSD mobile money checkout.';
-
 comment on column public.partner_payment_routes.reconciliation_label is
   'Stable label used to explain how receipts are reconciled.';
-
 create index if not exists idx_partner_payment_routes_partner_status
   on public.partner_payment_routes (partner_id, status, country);
-
 create or replace function public.normalize_partner_payment_provider(p_value text)
 returns text
 language sql
@@ -44,7 +37,6 @@ immutable
 as $$
   select lower(btrim(coalesce(p_value, '')))
 $$;
-
 create or replace function public.enforce_partner_payment_route_fields()
 returns trigger
 language plpgsql
@@ -101,37 +93,31 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_partner_payment_routes_validate
   on public.partner_payment_routes;
 create trigger trg_partner_payment_routes_validate
   before insert or update on public.partner_payment_routes
   for each row
   execute function public.enforce_partner_payment_route_fields();
-
 drop trigger if exists trg_partner_payment_routes_set_updated_at
   on public.partner_payment_routes;
 create trigger trg_partner_payment_routes_set_updated_at
   before update on public.partner_payment_routes
   for each row
   execute function public.set_updated_at();
-
 alter table public.partner_payment_routes enable row level security;
-
 drop policy if exists partner_payment_routes_select_admin
   on public.partner_payment_routes;
 create policy partner_payment_routes_select_admin
   on public.partner_payment_routes for select
   to authenticated
   using (public.is_admin_user());
-
 drop policy if exists partner_payment_routes_insert_admin
   on public.partner_payment_routes;
 create policy partner_payment_routes_insert_admin
   on public.partner_payment_routes for insert
   to authenticated
   with check (public.is_admin_user());
-
 drop policy if exists partner_payment_routes_update_admin
   on public.partner_payment_routes;
 create policy partner_payment_routes_update_admin
@@ -139,14 +125,12 @@ create policy partner_payment_routes_update_admin
   to authenticated
   using (public.is_admin_user())
   with check (public.is_admin_user());
-
 drop policy if exists partner_payment_routes_delete_admin
   on public.partner_payment_routes;
 create policy partner_payment_routes_delete_admin
   on public.partner_payment_routes for delete
   to authenticated
   using (public.is_admin_user());
-
 create or replace function public.get_partner_payment_route(
   p_partner_id uuid,
   p_country text default null
@@ -220,11 +204,9 @@ begin
   );
 end;
 $$;
-
 revoke all on function public.get_partner_payment_route(uuid, text) from public;
 grant execute on function public.get_partner_payment_route(uuid, text)
   to authenticated, service_role;
-
 insert into public.partner_payment_routes (
   partner_id,
   country,

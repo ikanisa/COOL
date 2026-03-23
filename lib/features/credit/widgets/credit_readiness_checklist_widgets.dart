@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
+import '../../../core/theme/cool_layout.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
@@ -12,9 +13,6 @@ import '../../../shared/widgets/cool_skeleton.dart';
 import '../../auth/models/user_profile.dart';
 import '../models/credit_dashboard.dart';
 import '../models/credit_readiness.dart';
-import '../../../core/l10n/l10n.dart';
-
-// ── Helpers ──────────────────────────────────────────────────────────────
 
 String kycStatusLabel(String status) {
   return switch (status) {
@@ -24,8 +22,6 @@ String kycStatusLabel(String status) {
     _ => 'Unverified',
   };
 }
-
-// ── Widgets ──────────────────────────────────────────────────────────────
 
 /// Hero "next move" card at the top of the readiness screen.
 class ReadinessNextMoveCard extends StatelessWidget {
@@ -42,7 +38,8 @@ class ReadinessNextMoveCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final needsProfileWork =
         report.accountOpening.state == CreditReadinessState.actionNeeded ||
         report.loanApplication.state == CreditReadinessState.actionNeeded;
@@ -64,41 +61,37 @@ class ReadinessNextMoveCard extends StatelessWidget {
         : 'Let evidence mature';
 
     return CoolCard(
-      borderColor: palette.purple.withValues(alpha: 0.25),
+      backgroundColor: colors.financialSurface,
+      borderColor: colors.info.withValues(alpha: 0.25),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'Next step',
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: palette.text2,
+            style: theme.textTheme.labelMedium?.copyWith(
+              color: colors.secondaryText,
             ),
           ),
-          const SizedBox(height: 6),
+          SizedBox(height: CoolSpace.x1 + 2),
           Text(
             headline,
-            style: GoogleFonts.dmSans(
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              color: palette.text,
+            style: theme.textTheme.headlineSmall?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: CoolSpace.x2),
           Text(
             detail,
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: palette.text2,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.secondaryText,
               height: 1.45,
             ),
           ),
-          const SizedBox(height: 14),
+          SizedBox(height: CoolSpace.x3 + 2),
           Wrap(
-            spacing: 10,
-            runSpacing: 10,
+            spacing: CoolSpace.x2 + 2,
+            runSpacing: CoolSpace.x2 + 2,
             children: [
               HistoryStatChip(
                 label: context.l10n.kyc,
@@ -114,7 +107,7 @@ class ReadinessNextMoveCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 14),
+          SizedBox(height: CoolSpace.x3 + 2),
           Row(
             children: [
               Expanded(
@@ -144,7 +137,9 @@ class ReadinessChecklistCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    final insets = context.coolInsets;
     final visibleChecks = report.checks
         .where((check) => !check.isComplete)
         .take(3)
@@ -160,47 +155,41 @@ class ReadinessChecklistCard extends StatelessWidget {
         children: [
           Text(
             'Readiness checks',
-            style: GoogleFonts.dmSans(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: palette.text,
+            style: theme.textTheme.titleSmall?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
             ),
           ),
-          const SizedBox(height: 6),
+          SizedBox(height: CoolSpace.x1 + 2),
           Text(
             '${report.completedChecks}/${report.totalChecks} checks complete',
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: palette.text2,
+            style: theme.textTheme.labelMedium?.copyWith(
+              color: colors.secondaryText,
             ),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: CoolSpace.x2 + 2),
           Text(
             report.blockingIssues == 0
                 ? 'No blocking issues open.'
                 : '${report.blockingIssues} blockers need attention.',
-            style: GoogleFonts.dmSans(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: palette.text2,
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: colors.secondaryText,
               height: 1.45,
             ),
           ),
-          const SizedBox(height: 14),
+          SizedBox(height: CoolSpace.x3 + 2),
           ...checksToShow.map(
             (check) => Padding(
-              padding: const EdgeInsets.only(bottom: 10),
+              padding: insets.only(bottom: CoolSpace.x2 + 2),
               child: _ChecklistRow(check: check),
             ),
           ),
           if (hiddenCount > 0)
             Text(
               '+$hiddenCount more checks',
-              style: GoogleFonts.dmSans(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: palette.text3,
+              style: theme.textTheme.labelSmall?.copyWith(
+                color: colors.tertiaryText,
+                fontWeight: FontWeight.w700,
               ),
             ),
         ],
@@ -216,10 +205,12 @@ class _ChecklistRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    final insets = context.coolInsets;
     final color = check.isComplete
-        ? palette.accent
-        : (check.isBlocking ? palette.orange : palette.text3);
+        ? colors.accent
+        : (check.isBlocking ? colors.warning : colors.tertiaryText);
     final icon = check.isComplete
         ? Icons.check_circle_rounded
         : (check.isBlocking
@@ -228,24 +219,24 @@ class _ChecklistRow extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(12),
+      padding: insets.all(CoolSpace.x3),
       decoration: BoxDecoration(
-        color: palette.surface2,
-        borderRadius: BorderRadius.circular(14),
+        color: colors.cardSurface,
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm - 2)),
         border: Border.all(
           color: check.isComplete
-              ? palette.accent.withValues(alpha: 0.18)
-              : palette.border2,
+              ? colors.accent.withValues(alpha: 0.18)
+              : colors.borderStrong,
         ),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 2),
+            padding: insets.only(top: CoolSpace.x1 / 2),
             child: Icon(icon, size: 18, color: color),
           ),
-          const SizedBox(width: 10),
+          SizedBox(width: CoolSpace.x2 + 2),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -255,41 +246,39 @@ class _ChecklistRow extends StatelessWidget {
                     Expanded(
                       child: Text(
                         check.label,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w700,
-                          color: palette.text,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colors.primaryText,
+                          fontWeight: FontWeight.w800,
                         ),
                       ),
                     ),
                     if (check.isBlocking)
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
+                        padding: insets.symmetric(
+                          horizontal: CoolSpace.x2,
+                          vertical: CoolSpace.x1,
                         ),
                         decoration: BoxDecoration(
-                          color: palette.orange.withValues(alpha: 0.12),
-                          borderRadius: BorderRadius.circular(999),
+                          color: colors.warning.withValues(alpha: 0.12),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(CoolRadii.pill),
+                          ),
                         ),
                         child: Text(
                           'Required',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w700,
-                            color: palette.orange,
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: colors.warning,
+                            fontWeight: FontWeight.w800,
                           ),
                         ),
                       ),
                   ],
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: CoolSpace.x1),
                 Text(
                   check.detail,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: palette.text2,
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    color: colors.secondaryText,
                     height: 1.45,
                   ),
                 ),
@@ -311,32 +300,34 @@ class HistoryStatChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final insets = context.coolInsets;
+    final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      padding: insets.symmetric(
+        horizontal: CoolSpace.x3 - 2,
+        vertical: CoolSpace.x2,
+      ),
       decoration: BoxDecoration(
-        color: palette.surface2,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: palette.border2),
+        color: colors.cardSurface,
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.xs)),
+        border: Border.all(color: colors.borderStrong),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             label,
-            style: GoogleFonts.dmSans(
-              fontSize: 10,
-              fontWeight: FontWeight.w600,
-              color: palette.text3,
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: colors.tertiaryText,
             ),
           ),
-          const SizedBox(height: 2),
+          SizedBox(height: CoolSpace.x1 / 2),
           Text(
             value,
-            style: GoogleFonts.dmSans(
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-              color: palette.text,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
             ),
           ),
         ],
@@ -345,22 +336,25 @@ class HistoryStatChip extends StatelessWidget {
   }
 }
 
-// ── State widgets ────────────────────────────────────────────────────────
-
 /// Loading state for readiness.
 class ReadinessLoadingState extends StatelessWidget {
   const ReadinessLoadingState({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
-      padding: EdgeInsets.fromLTRB(18, 8, 18, 96),
-      child: Column(
+    return SingleChildScrollView(
+      padding: context.coolInsets.fromLTRB(
+        CoolSpace.x6,
+        CoolSpace.x2,
+        CoolSpace.x6,
+        CoolLayout.rootBottomClearance,
+      ),
+      child: const Column(
         children: [
           CoolSkeleton.card(),
-          SizedBox(height: 18),
+          SizedBox(height: CoolSpace.x5 - 2),
           CoolSkeleton.card(),
-          SizedBox(height: 18),
+          SizedBox(height: CoolSpace.x5 - 2),
           CoolSkeleton.card(),
         ],
       ),
@@ -377,7 +371,7 @@ class ReadinessErrorState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+      padding: context.coolInsets.symmetric(horizontal: CoolSpace.x6),
       child: CoolCard(child: CoolErrorView(message: error, compact: true)),
     );
   }
@@ -389,12 +383,11 @@ class ReadinessEmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24),
-      child: CoolCard(
+    return Padding(
+      padding: context.coolInsets.symmetric(horizontal: CoolSpace.x6),
+      child: const CoolCard(
         child: CoolEmptyView(
-          message:
-              'Sign in',
+          message: 'Sign in',
           compact: true,
           icon: Icons.credit_score_outlined,
         ),

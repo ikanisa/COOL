@@ -26,22 +26,18 @@ CREATE TABLE IF NOT EXISTS public.special_products (
   created_at timestamp with time zone DEFAULT now() NOT NULL,
   updated_at timestamp with time zone DEFAULT now() NOT NULL
 );
-
 -- RLS
 ALTER TABLE public.special_products ENABLE ROW LEVEL SECURITY;
-
 -- Policy: Anyone can read active products, auth users can read all products (or just everyone can read all)
 CREATE POLICY "Public read access for special_products"
   ON public.special_products FOR SELECT
   USING (true);
-
 -- Policy: Only admins can insert/update/delete
 CREATE POLICY "Admin full access to special_products"
   ON public.special_products FOR ALL
   TO authenticated
   USING (public.is_admin())
   WITH CHECK (public.is_admin());
-
 -- ------------------------------------------------------------------------------
 -- 2. Table or View: supported_country_momo_reference
 -- ------------------------------------------------------------------------------

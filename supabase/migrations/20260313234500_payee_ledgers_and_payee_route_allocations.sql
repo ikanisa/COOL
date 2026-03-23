@@ -5,7 +5,6 @@
 alter table public.momo_ledger_entries
   add column if not exists payee_group_id uuid references public.groups(id) on delete set null,
   add column if not exists payee_partner_id uuid references public.partners(id) on delete set null;
-
 create index if not exists idx_momo_ledger_entries_payee_group
   on public.momo_ledger_entries (
     payee_group_id,
@@ -13,7 +12,6 @@ create index if not exists idx_momo_ledger_entries_payee_group
     coalesce(tx_datetime, created_at) desc
   )
   where payee_group_id is not null;
-
 create index if not exists idx_momo_ledger_entries_payee_partner
   on public.momo_ledger_entries (
     payee_partner_id,
@@ -21,21 +19,18 @@ create index if not exists idx_momo_ledger_entries_payee_partner
     coalesce(tx_datetime, created_at) desc
   )
   where payee_partner_id is not null;
-
 update public.momo_ledger_entries as ledger
 set payee_group_id = contribution.group_id
 from public.group_contributions as contribution
 where ledger.target_table = 'group_contributions'
   and ledger.target_record_id = contribution.id
   and ledger.payee_group_id is null;
-
 update public.momo_ledger_entries as ledger
 set payee_partner_id = route.partner_id
 from public.partner_payment_routes as route
 where ledger.target_table = 'partner_payment_routes'
   and ledger.target_record_id = route.id
   and ledger.payee_partner_id is null;
-
 update public.momo_ledger_entries as ledger
 set payee_partner_id = matched.partner_id
 from public.rs_tickets as ticket
@@ -44,7 +39,6 @@ join public.rs_matches as matched
 where ledger.target_table = 'rs_tickets'
   and ledger.target_record_id = ticket.id
   and ledger.payee_partner_id is null;
-
 update public.momo_ledger_entries as ledger
 set payee_partner_id = initiative.partner_id
 from public.rs_initiative_contributions as contribution
@@ -53,12 +47,10 @@ join public.rs_initiatives as initiative
 where ledger.target_table = 'rs_initiative_contributions'
   and ledger.target_record_id = contribution.id
   and ledger.payee_partner_id is null;
-
 update public.momo_ledger_entries as ledger
 set payee_partner_id = nullif(ledger.metadata ->> 'partner_id', '')::uuid
 where ledger.payee_partner_id is null
   and nullif(ledger.metadata ->> 'partner_id', '') is not null;
-
 create or replace function public.can_read_group_payment_ledger(
   p_group_id uuid
 )
@@ -84,11 +76,9 @@ as $$
         and gm.is_admin = true
     );
 $$;
-
 revoke all on function public.can_read_group_payment_ledger(uuid) from public;
 grant execute on function public.can_read_group_payment_ledger(uuid)
   to authenticated, service_role;
-
 create or replace function public.can_read_partner_payment_ledger(
   p_partner_id uuid
 )
@@ -102,11 +92,9 @@ as $$
     public.is_admin_user()
     or public.rs_is_partner_admin(p_partner_id);
 $$;
-
 revoke all on function public.can_read_partner_payment_ledger(uuid) from public;
 grant execute on function public.can_read_partner_payment_ledger(uuid)
   to authenticated, service_role;
-
 create or replace function public.get_group_payment_ledger_entries(
   p_group_id uuid,
   p_start_at timestamptz default null,
@@ -198,7 +186,6 @@ begin
   offset greatest(coalesce(p_offset, 0), 0);
 end;
 $$;
-
 revoke all on function public.get_group_payment_ledger_entries(
   uuid,
   timestamptz,
@@ -207,7 +194,6 @@ revoke all on function public.get_group_payment_ledger_entries(
   integer,
   integer
 ) from public;
-
 grant execute on function public.get_group_payment_ledger_entries(
   uuid,
   timestamptz,
@@ -216,7 +202,6 @@ grant execute on function public.get_group_payment_ledger_entries(
   integer,
   integer
 ) to authenticated, service_role;
-
 create or replace function public.get_partner_payment_ledger_entries(
   p_partner_id uuid,
   p_start_at timestamptz default null,
@@ -308,7 +293,6 @@ begin
   offset greatest(coalesce(p_offset, 0), 0);
 end;
 $$;
-
 revoke all on function public.get_partner_payment_ledger_entries(
   uuid,
   timestamptz,
@@ -317,7 +301,6 @@ revoke all on function public.get_partner_payment_ledger_entries(
   integer,
   integer
 ) from public;
-
 grant execute on function public.get_partner_payment_ledger_entries(
   uuid,
   timestamptz,

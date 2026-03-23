@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_foundations.dart';
 import '../../core/theme/rs_colors.dart';
 import '../../features/partners/rayon/models/rs_models.dart';
 
@@ -78,6 +77,9 @@ class RsAchievementBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
     final meta = _BadgeMeta.from(achievement.badgeType);
 
     final borderColor = meta.isMilestone
@@ -117,10 +119,10 @@ class RsAchievementBadge extends StatelessWidget {
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.barlow(
-                  fontSize: 10,
+                style: text.rayon(
+                  theme.textTheme.labelSmall,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.text2,
+                  color: colors.secondaryText,
                   height: 1.25,
                 ),
               ),

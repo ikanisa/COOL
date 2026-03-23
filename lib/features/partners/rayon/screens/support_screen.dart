@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/router/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/cool_foundations.dart';
 import '../../../../shared/widgets/cool_button.dart';
 import '../../../../shared/widgets/cool_card.dart';
@@ -24,6 +22,8 @@ class SupportScreen extends StatelessWidget {
     return Consumer(
       builder: (context, ref, _) {
         final theme = Theme.of(context);
+        final text = context.coolText;
+        final colors = context.coolSemanticColors;
         final initiativesAsync = ref.watch(rayonInitiativesProvider);
         final summaryAsync = ref.watch(rayonInitiativesSummaryProvider);
 
@@ -42,8 +42,10 @@ class SupportScreen extends StatelessWidget {
                     const SizedBox(height: CoolSpace.x7),
                     Text(
                       'Active Causes',
-                      style: theme.textTheme.headlineSmall?.copyWith(
-                        color: Colors.white,
+                      style: text.rayonCondensed(
+                        theme.textTheme.headlineSmall,
+                        fontWeight: FontWeight.w900,
+                        color: colors.primaryText,
                       ),
                     ),
                     const SizedBox(height: CoolSpace.x4),
@@ -127,28 +129,41 @@ class _SupportIntroCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
+    final text = context.coolText;
     return CoolCard(
       borderColor: colors.borderStrong,
-      gradient: AppColors.cardGradient,
+      gradient: const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Color(0xFF06152D), Color(0xFF0B2351), Color(0xFF143B72)],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'Official support network',
-            style: theme.textTheme.labelLarge?.copyWith(
+            style: text.rayon(
+              theme.textTheme.labelLarge,
+              fontWeight: FontWeight.w700,
               color: Colors.white.withValues(alpha: 0.74),
               letterSpacing: 0.3,
             ),
           ),
           const SizedBox(height: CoolSpace.x3),
           Text(
-            'Club causes, verified giving, and visible impact for every contribution.',
-            style: theme.textTheme.headlineSmall?.copyWith(color: Colors.white),
+            'Club causes, verified giving, and visible impact.',
+            style: text.rayonCondensed(
+              theme.textTheme.headlineSmall,
+              fontWeight: FontWeight.w900,
+              color: Colors.white,
+            ),
           ),
           const SizedBox(height: CoolSpace.x3),
           Text(
-            'Each initiative is structured for fast scanning, credible fundraising, and direct supporter action.',
-            style: theme.textTheme.bodyMedium?.copyWith(
+            'Each initiative is structured for fast scanning and direct supporter action.',
+            style: text.rayon(
+              theme.textTheme.bodyMedium,
+              fontWeight: FontWeight.w600,
               color: Colors.white.withValues(alpha: 0.78),
             ),
           ),
@@ -205,6 +220,7 @@ class _SummaryMetric extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
+    final text = context.coolText;
     return Container(
       padding: const EdgeInsets.all(CoolSpace.x4),
       decoration: BoxDecoration(
@@ -219,9 +235,8 @@ class _SummaryMetric extends StatelessWidget {
             value,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: theme.textTheme.titleLarge?.copyWith(
-              color: Colors.white,
-              fontFamily: GoogleFonts.dmMono().fontFamily,
+            style: text.mono(
+              theme.textTheme.titleLarge,
               fontWeight: FontWeight.w800,
             ),
           ),
@@ -246,6 +261,7 @@ class _EmptyInitiativesState extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
+    final text = context.coolText;
     return CoolCard(
       backgroundColor: colors.cardSurfaceStrong.withValues(alpha: 0.86),
       borderColor: colors.borderStrong,
@@ -271,15 +287,19 @@ class _EmptyInitiativesState extends StatelessWidget {
             const SizedBox(height: CoolSpace.x5),
             Text(
               'No active causes right now',
-              style: theme.textTheme.headlineSmall?.copyWith(
-                color: Colors.white,
+              style: text.rayonCondensed(
+                theme.textTheme.headlineSmall,
+                fontWeight: FontWeight.w900,
+                color: colors.primaryText,
               ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: CoolSpace.x2),
             Text(
               'Check back soon for new fundraising programs and club-backed initiatives.',
-              style: theme.textTheme.bodyMedium?.copyWith(
+              style: text.rayon(
+                theme.textTheme.bodyMedium,
+                fontWeight: FontWeight.w600,
                 color: colors.secondaryText,
               ),
               textAlign: TextAlign.center,
@@ -310,6 +330,7 @@ class _StateCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
+    final text = context.coolText;
     return CoolCard(
       borderColor: colors.borderStrong,
       backgroundColor: colors.cardSurfaceStrong.withValues(alpha: 0.86),
@@ -333,15 +354,19 @@ class _StateCard extends StatelessWidget {
             const SizedBox(height: CoolSpace.x5),
             Text(
               title,
-              style: theme.textTheme.headlineSmall?.copyWith(
-                color: Colors.white,
+              style: text.rayonCondensed(
+                theme.textTheme.headlineSmall,
+                fontWeight: FontWeight.w900,
+                color: colors.primaryText,
               ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: CoolSpace.x2),
             Text(
               subtitle,
-              style: theme.textTheme.bodyMedium?.copyWith(
+              style: text.rayon(
+                theme.textTheme.bodyMedium,
+                fontWeight: FontWeight.w600,
                 color: colors.secondaryText,
               ),
               textAlign: TextAlign.center,

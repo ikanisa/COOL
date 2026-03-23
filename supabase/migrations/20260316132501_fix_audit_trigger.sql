@@ -52,7 +52,6 @@ begin
   return NEW;
 end;
 $$;
-
 create or replace function public.log_admin_mutation()
 RETURNS TRIGGER
 LANGUAGE plpgsql

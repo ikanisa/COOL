@@ -4,9 +4,34 @@ import 'package:flutter/material.dart';
 
 /// Legacy dark-first design-system color palette for the Cool app.
 ///
-/// Theme-aware semantic tokens now live in [CoolPalette]. The semantic getters
-/// in this class mirror the active app brightness so older screens still adapt
-/// while they migrate onto direct palette reads.
+/// **DEPRECATED** — migrate to [CoolSemanticColors] via `context.coolSemanticColors`.
+///
+/// Migration mapping:
+/// ```
+/// AppColors.bg         → sem.appBackground
+/// AppColors.surface    → sem.elevatedBackground
+/// AppColors.surface2   → sem.cardSurface
+/// AppColors.surface3   → sem.cardSurfaceStrong
+/// AppColors.border     → sem.border
+/// AppColors.border2    → sem.borderStrong
+/// AppColors.text       → sem.primaryText
+/// AppColors.text2      → sem.secondaryText
+/// AppColors.text3      → sem.tertiaryText
+/// AppColors.accent     → sem.accent
+/// AppColors.accent2    → sem.accentStrong
+/// AppColors.accentGlow → sem.accentStrong (with opacity)
+/// AppColors.blue       → sem.info
+/// AppColors.orange     → sem.warning
+/// AppColors.red        → sem.danger
+/// AppColors.yellow     → sem.warning (alt)
+/// AppColors.purple     → sem.analyticsSurface or sem.teamSurface
+/// AppColors.cardGradient    → sem.surfaceGradient
+/// AppColors.accentGradient  → sem.accentGradient
+/// ```
+@Deprecated(
+  'Use CoolSemanticColors via context.coolSemanticColors instead. '
+  'See migration mapping in doc comment above.',
+)
 abstract final class AppColors {
   static bool _useLightPalette = false;
 

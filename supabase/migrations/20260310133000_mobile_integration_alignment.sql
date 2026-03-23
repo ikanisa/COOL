@@ -11,7 +11,6 @@ alter table public.users
   add column if not exists momo_provider text not null default '',
   add column if not exists is_driver boolean not null default false,
   add column if not exists vehicle_type text;
-
 -- -- Groups ----------------------------------------------------------------
 
 alter table public.groups
@@ -21,22 +20,18 @@ alter table public.groups
   add column if not exists monthly_contribution int,
   add column if not exists bank_partner text,
   add column if not exists momo_number text;
-
 update public.groups
 set
   amount = coalesce(amount, contribution_amount, 0),
   monthly_contribution = coalesce(monthly_contribution, contribution_amount)
 where true;
-
 -- -- Group contributions ---------------------------------------------------
 
 alter table public.group_contributions
   add column if not exists momo_reference text;
-
 create unique index if not exists idx_group_contributions_momo_reference
   on public.group_contributions (momo_reference)
   where momo_reference is not null;
-
 -- -- Pending transactions --------------------------------------------------
 
 create table if not exists public.pending_transactions (
@@ -55,14 +50,12 @@ create table if not exists public.pending_transactions (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
-
 create index if not exists idx_pending_transactions_user
   on public.pending_transactions (user_id);
 create index if not exists idx_pending_transactions_group
   on public.pending_transactions (group_id);
 create index if not exists idx_pending_transactions_status
   on public.pending_transactions (status);
-
 -- -- Mobility trips --------------------------------------------------------
 
 alter table public.mobility_trips
@@ -73,12 +66,10 @@ alter table public.mobility_trips
   add column if not exists distance_km double precision,
   add column if not exists trip_type text not null default 'passenger'
     check (trip_type in ('passenger', 'driver_return'));
-
 create index if not exists idx_trips_driver on public.mobility_trips (driver_id);
 create index if not exists idx_trips_driver_return
   on public.mobility_trips (is_driver_return_trip)
   where is_driver_return_trip = true;
-
 update public.mobility_trips
 set
   driver_id = coalesce(driver_id, user_id),
@@ -95,12 +86,10 @@ set
   ),
   expires_at = coalesce(expires_at, departure_at + interval '1 hour')
 where true;
-
 -- -- Driver profiles -------------------------------------------------------
 
 alter table public.driver_profiles
   add column if not exists vehicle_emoji text;
-
 -- -- Driver subscriptions --------------------------------------------------
 
 alter table public.driver_subscriptions
@@ -109,7 +98,6 @@ alter table public.driver_subscriptions
   add column if not exists amount_rwf int,
   add column if not exists momo_reference text,
   add column if not exists updated_at timestamptz not null default now();
-
 update public.driver_subscriptions
 set
   plan_id = coalesce(plan_id, plan),
@@ -122,11 +110,9 @@ set
   ),
   amount_rwf = coalesce(amount_rwf, amount)
 where true;
-
 create unique index if not exists idx_driver_subscriptions_momo_reference
   on public.driver_subscriptions (momo_reference)
   where momo_reference is not null;
-
 -- -- Shared helpers --------------------------------------------------------
 
 create or replace function public.set_updated_at()
@@ -138,31 +124,26 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_users_set_updated_at on public.users;
 create trigger trg_users_set_updated_at
   before update on public.users
   for each row
   execute function public.set_updated_at();
-
 drop trigger if exists trg_groups_set_updated_at on public.groups;
 create trigger trg_groups_set_updated_at
   before update on public.groups
   for each row
   execute function public.set_updated_at();
-
 drop trigger if exists trg_pending_transactions_set_updated_at on public.pending_transactions;
 create trigger trg_pending_transactions_set_updated_at
   before update on public.pending_transactions
   for each row
   execute function public.set_updated_at();
-
 drop trigger if exists trg_driver_subscriptions_set_updated_at on public.driver_subscriptions;
 create trigger trg_driver_subscriptions_set_updated_at
   before update on public.driver_subscriptions
   for each row
   execute function public.set_updated_at();
-
 create or replace function public.sync_group_member_count()
 returns trigger
 language plpgsql
@@ -187,13 +168,11 @@ begin
   return coalesce(new, old);
 end;
 $$;
-
 drop trigger if exists trg_sync_group_member_count on public.group_members;
 create trigger trg_sync_group_member_count
   after insert or update or delete on public.group_members
   for each row
   execute function public.sync_group_member_count();
-
 create or replace function public.sync_group_financials()
 returns trigger
 language plpgsql
@@ -231,13 +210,11 @@ begin
   return coalesce(new, old);
 end;
 $$;
-
 drop trigger if exists trg_sync_group_financials on public.group_contributions;
 create trigger trg_sync_group_financials
   after insert or update or delete on public.group_contributions
   for each row
   execute function public.sync_group_financials();
-
 create or replace function public.sync_mobility_trip_compat()
 returns trigger
 language plpgsql
@@ -272,17 +249,14 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_sync_mobility_trip_compat on public.mobility_trips;
 create trigger trg_sync_mobility_trip_compat
   before insert or update on public.mobility_trips
   for each row
   execute function public.sync_mobility_trip_compat();
-
 -- -- Replace nearby drivers RPC with a response shape that matches the app --
 
 drop function if exists public.get_nearby_drivers(double precision, double precision, text, double precision);
-
 create or replace function public.get_nearby_drivers(
   p_lat double precision,
   p_lng double precision,
@@ -363,24 +337,19 @@ as $$
     and (p_vehicle_type is null or dp.vehicle_type = p_vehicle_type)
   order by distance_km;
 $$;
-
 revoke all on function public.get_nearby_drivers(double precision, double precision, text, double precision) from public;
 grant execute on function public.get_nearby_drivers(double precision, double precision, text, double precision) to anon, authenticated;
-
 -- -- RLS -------------------------------------------------------------------
 
 alter table public.pending_transactions enable row level security;
-
 drop policy if exists "pending_transactions_select_own" on public.pending_transactions;
 create policy "pending_transactions_select_own"
   on public.pending_transactions for select
   using (auth.uid() = user_id);
-
 drop policy if exists "pending_transactions_insert_authenticated" on public.pending_transactions;
 create policy "pending_transactions_insert_authenticated"
   on public.pending_transactions for insert
   with check (auth.uid() is not null);
-
 drop policy if exists "pending_transactions_update_own" on public.pending_transactions;
 create policy "pending_transactions_update_own"
   on public.pending_transactions for update

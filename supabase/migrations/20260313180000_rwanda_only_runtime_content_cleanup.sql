@@ -1,14 +1,11 @@
 begin;
-
 -- Enforce the live Rwanda-only runtime contract on environments that still
 -- carry earlier multi-market or multi-language seed data.
 
 delete from public.app_config
 where key = 'supported_languages';
-
 delete from public.supported_countries
 where iso_code <> 'RW';
-
 update public.supported_countries
 set
   country_name = 'Rwanda',
@@ -20,7 +17,6 @@ set
   sort_order = 0,
   is_active = true
 where iso_code = 'RW';
-
 create or replace view public.operational_config_issues as
 with required_configs(config_key, scope_mode, stale_after_days, description) as (
   values
@@ -95,7 +91,6 @@ select
 from matching_configs
 where config_value is null
    or last_updated_at <= now() - make_interval(days => stale_after_days);
-
 -- If 'Western Blue Wave' already exists for the partner, just delete the
 -- diaspora-named duplicates. Otherwise rename one and delete the rest.
 do $$
@@ -159,7 +154,6 @@ begin
     and name = 'Western Blue Wave';
 end;
 $$;
-
 update public.rs_achievements
 set
   badge_type = 'western_voice',
@@ -167,24 +161,18 @@ set
   description = 'Joined and contributed through the western Rwanda supporters chapter.'
 where badge_type = 'diaspora_voice'
    or name = 'Diaspora Voice';
-
 alter table public.groups disable trigger trg_enforce_group_momo_fields;
-
 update public.groups
 set
   name = 'Western Builders Pool',
   description = 'Private support pool for travel, matchday plans, and family projects across western Rwanda.',
   updated_at = now()
 where name = 'Diaspora Builders Pool';
-
 alter table public.groups enable trigger trg_enforce_group_momo_fields;
-
 update public.cool_events
 set metadata = jsonb_set(metadata, '{club}', to_jsonb('Western Blue Wave'::text), true)
 where metadata ->> 'club' = 'Gikundiro Diaspora';
-
 update public.cool_events
 set metadata = jsonb_set(metadata, '{group_name}', to_jsonb('Western Builders Pool'::text), true)
 where metadata ->> 'group_name' = 'Diaspora Builders Pool';
-
 commit;

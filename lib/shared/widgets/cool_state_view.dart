@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/cool_palette.dart';
+import '../../core/theme/cool_foundations.dart';
 import 'cool_button.dart';
 
 enum CoolStateTone { loading, empty, offline, error, success }
@@ -133,35 +132,36 @@ class CoolStateView extends StatelessWidget {
   final bool compact;
   final bool center;
 
-  Color _accentColor(CoolPalette palette) => switch (tone) {
-    CoolStateTone.loading => palette.accent,
-    CoolStateTone.empty => palette.text3,
-    CoolStateTone.offline => palette.orange,
-    CoolStateTone.error => palette.red,
-    CoolStateTone.success => palette.accent,
+  Color _accentColor(CoolSemanticColors colors) => switch (tone) {
+    CoolStateTone.loading => colors.accent,
+    CoolStateTone.empty => colors.tertiaryText,
+    CoolStateTone.offline => colors.warning,
+    CoolStateTone.error => colors.danger,
+    CoolStateTone.success => colors.accent,
   };
 
-  Color _backgroundColor(CoolPalette palette) => switch (tone) {
-    CoolStateTone.loading => palette.accentGlow,
-    CoolStateTone.empty => palette.surface2,
-    CoolStateTone.offline => palette.orange.withValues(alpha: 0.08),
-    CoolStateTone.error => palette.red.withValues(alpha: 0.08),
-    CoolStateTone.success => palette.accentGlow,
+  Color _backgroundColor(CoolSemanticColors colors) => switch (tone) {
+    CoolStateTone.loading => colors.accent.withValues(alpha: 0.08),
+    CoolStateTone.empty => colors.cardSurface,
+    CoolStateTone.offline => colors.warning.withValues(alpha: 0.08),
+    CoolStateTone.error => colors.danger.withValues(alpha: 0.08),
+    CoolStateTone.success => colors.accent.withValues(alpha: 0.08),
   };
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    final accentColor = _accentColor(palette);
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    final accentColor = _accentColor(colors);
     final content = Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(
-        horizontal: compact ? 18 : 20,
-        vertical: compact ? 18 : 24,
+        horizontal: compact ? CoolSpace.x4 : CoolSpace.x5,
+        vertical: compact ? CoolSpace.x4 : CoolSpace.x6,
       ),
       decoration: BoxDecoration(
-        color: _backgroundColor(palette),
-        borderRadius: BorderRadius.circular(20),
+        color: _backgroundColor(colors),
+        borderRadius: BorderRadius.circular(CoolRadii.md),
         border: Border.all(
           color: accentColor.withValues(
             alpha: tone == CoolStateTone.empty ? 0.2 : 0.28,
@@ -176,22 +176,28 @@ class CoolStateView extends StatelessWidget {
           Text(
             title,
             textAlign: TextAlign.center,
-            style: GoogleFonts.dmSans(
-              fontSize: compact ? 15 : 16,
-              fontWeight: FontWeight.w700,
-              color: palette.text,
-            ),
+            style:
+                (compact
+                        ? theme.textTheme.titleSmall
+                        : theme.textTheme.titleMedium)
+                    ?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: colors.primaryText,
+                    ),
           ),
           const SizedBox(height: 8),
           Text(
             message,
             textAlign: TextAlign.center,
-            style: GoogleFonts.dmSans(
-              fontSize: compact ? 12 : 13,
-              fontWeight: FontWeight.w500,
-              color: palette.text2,
-              height: 1.45,
-            ),
+            style:
+                (compact
+                        ? theme.textTheme.bodySmall
+                        : theme.textTheme.bodyMedium)
+                    ?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: colors.secondaryText,
+                      height: 1.45,
+                    ),
           ),
           if (actionLabel != null && onAction != null) ...[
             SizedBox(height: compact ? 14 : 16),

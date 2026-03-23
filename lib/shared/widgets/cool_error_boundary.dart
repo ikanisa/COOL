@@ -1,8 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/cool_palette.dart';
+import '../../core/theme/cool_foundations.dart';
 
 /// Widget-level error boundary that catches synchronous build errors
 /// in its subtree and displays a recovery UI instead of the red error screen.
@@ -46,6 +45,14 @@ class _CoolErrorBoundaryState extends State<CoolErrorBoundary> {
   bool _hasError = false;
   late ErrorWidgetBuilder _previousErrorWidgetBuilder;
   bool _restoreScheduled = false;
+
+  @override
+  void dispose() {
+    if (identical(ErrorWidget.builder, _handleErrorWidget)) {
+      ErrorWidget.builder = _previousErrorWidgetBuilder;
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,10 +118,14 @@ class _BrandedErrorFallback extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 48),
+        padding: const EdgeInsets.symmetric(
+          horizontal: CoolSpace.x8,
+          vertical: CoolSpace.x10,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -122,31 +133,29 @@ class _BrandedErrorFallback extends StatelessWidget {
               width: 72,
               height: 72,
               decoration: BoxDecoration(
-                color: palette.red.withValues(alpha: 0.1),
+                color: colors.danger.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 Icons.warning_amber_rounded,
                 size: 40,
-                color: palette.red,
+                color: colors.danger,
               ),
             ),
             const SizedBox(height: 20),
             Text(
               'Something went wrong',
-              style: GoogleFonts.dmSans(
-                fontSize: 18,
+              style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: palette.text,
+                color: colors.primaryText,
               ),
             ),
             const SizedBox(height: 8),
             Text(
               'An unexpected error occurred',
               textAlign: TextAlign.center,
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
-                color: palette.text2,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colors.secondaryText,
                 height: 1.5,
               ),
             ),
@@ -157,12 +166,11 @@ class _BrandedErrorFallback extends StatelessWidget {
                 icon: const Icon(Icons.refresh_rounded, size: 18),
                 label: Text(
                   'Retry',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
+                  style: theme.textTheme.labelLarge?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                style: TextButton.styleFrom(foregroundColor: palette.accent),
+                style: TextButton.styleFrom(foregroundColor: colors.accent),
               ),
             ],
           ],

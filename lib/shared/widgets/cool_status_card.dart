@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/status/models/cool_status.dart';
-import '../../core/theme/cool_palette.dart';
+import '../../core/theme/cool_foundations.dart';
 import '../../features/partners/rayon/models/rs_models.dart';
+import 'cool_card.dart';
 
 /// Compact status card showing unified COOL tier, points, streak,
 /// and progress to the next tier.
@@ -16,7 +16,11 @@ class CoolStatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
     final tier = status.tier;
 
     return Semantics(
@@ -24,79 +28,63 @@ class CoolStatusCard extends StatelessWidget {
           '${tier.label} member. ${status.totalPoints} points.'
           '${status.currentStreak} day streak.',
       excludeSemantics: true,
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              tier.color.withValues(alpha: 0.18),
-              tier.color.withValues(alpha: 0.06),
-            ],
-          ),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: tier.color.withValues(alpha: 0.28)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.06),
-              blurRadius: 16,
-              offset: const Offset(0, 6),
-            ),
-            BoxShadow(
-              color: Colors.white.withValues(alpha: 0.6),
-              blurRadius: 1,
-              offset: const Offset(0, -1),
-            ),
+      child: CoolCard(
+        padding: CoolSpace.denseSectionPadding,
+        borderRadius: radii.md,
+        borderColor: tier.color.withValues(alpha: 0.28),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            tier.color.withValues(alpha: 0.18),
+            tier.color.withValues(alpha: 0.06),
           ],
         ),
-        padding: const EdgeInsets.all(18),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ─── Header: tier badge + label ─────────────────────
             Row(
               children: [
                 _TierDot(tier: tier),
-                const SizedBox(width: 10),
+                SizedBox(width: space.x3 - 2),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'Cool Tokens',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 11,
+                        style: theme.textTheme.labelSmall?.copyWith(
                           fontWeight: FontWeight.w600,
-                          color: palette.text3,
-                          letterSpacing: 0.8,
+                          color: colors.tertiaryText,
+                          letterSpacing: 1.0,
                         ),
                       ),
-                      const SizedBox(height: 2),
+                      SizedBox(height: space.x1 / 2),
                       Text(
                         '${tier.label} Member',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w700,
-                          color: palette.text,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w800,
+                          color: colors.primaryText,
                         ),
                       ),
                     ],
                   ),
                 ),
-                // Points pill
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
+                    horizontal: CoolSpace.x3,
+                    vertical: CoolSpace.x1 + 2,
                   ),
                   decoration: BoxDecoration(
                     color: tier.color.withValues(alpha: 0.16),
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(CoolRadii.pill),
+                    ),
                   ),
                   child: Text(
                     '${status.totalPoints} Tokens',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 13,
+                    style: text.mono(
+                      theme.textTheme.labelMedium,
                       fontWeight: FontWeight.w700,
                       color: tier.color,
                     ),
@@ -104,42 +92,38 @@ class CoolStatusCard extends StatelessWidget {
                 ),
               ],
             ),
-
-            const SizedBox(height: 16),
-
-            // ─── Progress bar ──────────────────────────────────
+            SizedBox(height: space.x4),
             if (tier != FanTier.platinum) ...[
               Row(
                 children: [
                   Expanded(
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(CoolRadii.xs / 2),
+                      ),
                       child: LinearProgressIndicator(
                         value: status.progressToNextTier,
                         minHeight: 6,
-                        backgroundColor: palette.surface3,
+                        backgroundColor: colors.cardSurfaceStrong,
                         valueColor: AlwaysStoppedAnimation<Color>(tier.color),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  SizedBox(width: space.x3 - 2),
                   Text(
                     '${status.pointsToNextTier} to ${_nextTierLabel(tier)}',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 11,
+                    style: theme.textTheme.labelSmall?.copyWith(
                       fontWeight: FontWeight.w500,
-                      color: palette.text3,
+                      color: colors.tertiaryText,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: space.x3 + 2),
             ],
-
-            // ─── Streak row ────────────────────────────────────
             Wrap(
-              spacing: 8,
-              runSpacing: 8,
+              spacing: space.x2,
+              runSpacing: space.x2,
               children: [
                 _StatPill(
                   icon: Icons.local_fire_department_rounded,
@@ -170,14 +154,14 @@ class CoolStatusCard extends StatelessWidget {
   };
 }
 
-// ─── Internal widgets ─────────────────────────────────────────────
-
 class _TierDot extends StatelessWidget {
   const _TierDot({required this.tier});
+
   final FanTier tier;
 
   @override
   Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
     return Container(
       width: 38,
       height: 38,
@@ -186,9 +170,7 @@ class _TierDot extends StatelessWidget {
         gradient: RadialGradient(
           colors: [tier.color, tier.color.withValues(alpha: 0.3)],
         ),
-        boxShadow: [
-          BoxShadow(color: tier.glowColor, blurRadius: 10, spreadRadius: 1),
-        ],
+        boxShadow: CoolShadows.floating(brightness, strength: 0.24),
       ),
       child: Center(
         child: Icon(_tierIcon(tier), size: 18, color: Colors.white),
@@ -206,29 +188,33 @@ class _TierDot extends StatelessWidget {
 
 class _StatPill extends StatelessWidget {
   const _StatPill({required this.icon, required this.label});
+
   final IconData icon;
   final String label;
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: palette.surface3,
-        borderRadius: BorderRadius.circular(30),
+        color: colors.cardSurfaceStrong,
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.pill)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 13, color: palette.text2),
+          Icon(icon, size: 13, color: colors.secondaryText),
           const SizedBox(width: 4),
           Text(
             label,
-            style: GoogleFonts.dmSans(
-              fontSize: 11,
+            style: text.mono(
+              theme.textTheme.labelSmall,
               fontWeight: FontWeight.w600,
-              color: palette.text2,
+              color: colors.secondaryText,
             ),
           ),
         ],

@@ -121,5 +121,7 @@ void main() {
     expect(find.text('Ticket Office'), findsOneWidget);
     expect(find.text('Open Profile'), findsOneWidget);
     expect(find.text('Buy Tickets'), findsWidgets);
+    expect(find.text('Fan Clubs & Chapters'), findsNothing);
+    expect(find.text('Tickets'), findsNothing);
   });
 }

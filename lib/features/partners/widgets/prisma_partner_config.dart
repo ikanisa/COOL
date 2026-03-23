@@ -3,12 +3,10 @@ import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/services/whatsapp_contact_service.dart';
-import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../models/partner.dart';
 import '../models/partner_service.dart';
 import 'partner_shared_widgets.dart';
-
 
 // ═════════════════════════════════════════════════════════════════════════════
 // CONSTANTS
@@ -17,29 +15,30 @@ import 'partner_shared_widgets.dart';
 const ikanisaSiteUrl = 'https://ikanisa.com/';
 const ikanisaRwandaWhatsApp = '+250795588248';
 const ikanisaEmail = 'info@ikanisa.com';
+const _prismaRwandaAccent = Color(0xFF2F7252);
+const _prismaCapabilityAccent = Color(0xFFA86F26);
+const _prismaSupportAccent = Color(0xFF2E8A57);
 
 const prismaCategoryOrder = <String>['rwanda_agent', 'capability', 'support'];
 
 final prismaCategoryMeta = <String, CategoryMeta>{
   'rwanda_agent': const CategoryMeta(
     title: 'Rwanda Agents',
-    description:
-        'Rwanda-only specialists for legal',
+    description: 'Rwanda-only specialists for legal',
     icon: Icons.flag_rounded,
-    accent: AppColors.accent,
+    accent: _prismaRwandaAccent,
   ),
   'capability': const CategoryMeta(
     title: 'Rwanda Platform Coverage',
-    description:
-        'Rwanda-local service coverage across',
+    description: 'Rwanda-local service coverage across',
     icon: Icons.dashboard_customize_outlined,
-    accent: AppColors.orange,
+    accent: _prismaCapabilityAccent,
   ),
   'support': const CategoryMeta(
     title: 'Onboarding & Contact',
     description: 'Direct channels for starting',
     icon: Icons.support_agent_rounded,
-    accent: AppColors.whatsapp,
+    accent: _prismaSupportAccent,
   ),
 };
 
@@ -47,32 +46,27 @@ const prismaValues = <({IconData icon, String title, String description})>[
   (
     icon: Icons.gpp_good_outlined,
     title: 'Zero Hallucination',
-    description:
-        'Corpus-backed and citation-gated outputs',
+    description: 'Corpus-backed and citation-gated outputs',
   ),
   (
     icon: Icons.lock_outline_rounded,
     title: 'Jurisdiction Locked',
-    description:
-        'Jurisdiction-locked to Rwandan law',
+    description: 'Jurisdiction-locked to Rwandan law',
   ),
   (
     icon: Icons.library_books_outlined,
     title: '28,000+ Indexed Documents',
-    description:
-        'Laws guidance professional standards',
+    description: 'Laws guidance professional standards',
   ),
   (
     icon: Icons.fact_check_outlined,
     title: 'Quality-Gated Outputs',
-    description:
-        'Outputs are reviewed for',
+    description: 'Outputs are reviewed for',
   ),
   (
     icon: Icons.account_balance_outlined,
     title: 'Rwanda Professional Standards',
-    description:
-        'Aligned with ICPAR RRA',
+    description: 'Aligned with ICPAR RRA',
   ),
 ];
 
@@ -165,10 +159,7 @@ Future<void> launchPrismaAction(
       }
     } catch (_) {
       if (context.mounted) {
-        CoolToast.error(
-          context,
-          'Website unavailable',
-        );
+        CoolToast.error(context, 'Website unavailable');
       }
     }
     return;

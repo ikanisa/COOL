@@ -72,7 +72,6 @@ begin
   offset greatest(coalesce(p_offset, 0), 0);
 end;
 $$;
-
 revoke all on function public.get_rayon_member_registry(
   uuid,
   text,
@@ -81,7 +80,6 @@ revoke all on function public.get_rayon_member_registry(
   integer,
   integer
 ) from public;
-
 grant execute on function public.get_rayon_member_registry(
   uuid,
   text,

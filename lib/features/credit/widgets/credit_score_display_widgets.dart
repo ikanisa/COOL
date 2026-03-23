@@ -1,10 +1,8 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../models/credit_dashboard.dart';
 
@@ -69,13 +67,17 @@ class ScoreHeroCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
     final score = dashboard?.score ?? 0;
     final hasReport = dashboard?.score != null;
+    final accentColor = _scoreBandColor(colors);
 
     return CoolCard(
-      gradient: AppColors.purpleGradient,
-      borderColor: palette.purple.withValues(alpha: 0.24),
+      backgroundColor: colors.financialSurface,
+      borderColor: colors.info.withValues(alpha: 0.2),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -90,14 +92,16 @@ class ScoreHeroCard extends StatelessWidget {
                     progress: hasReport
                         ? creditScoreProgress(score) * animation.value
                         : 0,
+                    trackColor: colors.borderStrong,
+                    valueColor: accentColor,
                   ),
                   child: Center(
                     child: Text(
                       hasReport ? '${(score * animation.value).round()}' : '--',
-                      style: GoogleFonts.dmMono(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w700,
-                        color: palette.text,
+                      style: text.mono(
+                        theme.textTheme.headlineMedium,
+                        fontWeight: FontWeight.w800,
+                        color: colors.primaryText,
                       ),
                     ),
                   ),
@@ -105,48 +109,43 @@ class ScoreHeroCard extends StatelessWidget {
               );
             },
           ),
-          const SizedBox(width: 18),
+          SizedBox(width: space.x5 - 2),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Credit score',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: palette.text3,
-                    letterSpacing: 0.4,
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: colors.tertiaryText,
+                    letterSpacing: 0.6,
                   ),
                 ),
-                const SizedBox(height: 6),
+                SizedBox(height: space.x1 + 2),
                 Text(
                   _grade,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: palette.purple,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w800,
+                    color: accentColor,
                   ),
                 ),
-                const SizedBox(height: 6),
+                SizedBox(height: space.x1 + 2),
                 Text(
                   _description,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,
-                    color: palette.text2,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: colors.secondaryText,
                     height: 1.45,
                   ),
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: space.x2 + 2),
                 Text(
                   dashboard == null
                       ? 'Sign in to view your report.'
                       : analysisFootnote(dashboard!),
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: palette.text3,
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: colors.tertiaryText,
                   ),
                 ),
               ],
@@ -156,13 +155,32 @@ class ScoreHeroCard extends StatelessWidget {
       ),
     );
   }
+
+  Color _scoreBandColor(CoolSemanticColors colors) {
+    switch (dashboard?.scoreBand) {
+      case 'excellent':
+        return colors.success;
+      case 'good':
+        return colors.info;
+      case 'building':
+        return colors.warning;
+      default:
+        return colors.neutral;
+    }
+  }
 }
 
 /// Animated ring painter for the credit score hero.
 class ScoreRingPainter extends CustomPainter {
-  ScoreRingPainter({required this.progress});
+  ScoreRingPainter({
+    required this.progress,
+    required this.trackColor,
+    required this.valueColor,
+  });
 
   final double progress;
+  final Color trackColor;
+  final Color valueColor;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -171,7 +189,7 @@ class ScoreRingPainter extends CustomPainter {
     const strokeWidth = 10.0;
 
     final bgPaint = Paint()
-      ..color = AppColors.surface3
+      ..color = trackColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
@@ -185,7 +203,7 @@ class ScoreRingPainter extends CustomPainter {
     );
 
     final scorePaint = Paint()
-      ..color = AppColors.purple
+      ..color = valueColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
@@ -201,7 +219,9 @@ class ScoreRingPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant ScoreRingPainter oldDelegate) {
-    return oldDelegate.progress != progress;
+    return oldDelegate.progress != progress ||
+        oldDelegate.trackColor != trackColor ||
+        oldDelegate.valueColor != valueColor;
   }
 }
 
@@ -213,18 +233,18 @@ class ScoreFactors extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final insets = context.coolInsets;
+    final theme = Theme.of(context);
+    final space = context.coolSpace;
     if (factors.isEmpty) {
-      final palette = context.coolPalette;
       return CoolCard(
         child: Padding(
-          padding: const EdgeInsets.all(18),
+          padding: insets.all(space.x5 - 2),
           child: Text(
             'Factors appear after your',
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: palette.text2,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.secondaryText,
               height: 1.5,
             ),
           ),
@@ -234,45 +254,45 @@ class ScoreFactors extends StatelessWidget {
 
     return Column(
       children: factors.map((factor) {
-        final color = _factorColor(factor.score);
+        final color = _factorColor(factor.score, colors);
         return Padding(
-          padding: const EdgeInsets.only(bottom: 10),
+          padding: insets.only(bottom: space.x2 + 2),
           child: CoolCard(
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: insets.all(space.x4),
               child: Column(
                 children: [
                   Row(
                     children: [
-                      Icon(factor.icon, size: 18, color: palette.text2),
-                      const SizedBox(width: 10),
+                      Icon(factor.icon, size: 18, color: colors.secondaryText),
+                      SizedBox(width: space.x2 + 2),
                       Expanded(
                         child: Text(
                           factor.label,
-                          style: GoogleFonts.dmSans(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                            color: palette.text,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: colors.primaryText,
                           ),
                         ),
                       ),
                       Text(
                         '${factor.score}/100',
-                        style: GoogleFonts.dmMono(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
+                        style: context.coolText.mono(
+                          theme.textTheme.labelMedium,
+                          fontWeight: FontWeight.w800,
                           color: color,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: space.x2 + 2),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(3),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(CoolRadii.xs / 4),
+                    ),
                     child: LinearProgressIndicator(
                       value: factor.score / 100,
                       minHeight: 6,
-                      backgroundColor: palette.surface3,
+                      backgroundColor: colors.borderStrong,
                       color: color,
                     ),
                   ),
@@ -285,11 +305,11 @@ class ScoreFactors extends StatelessWidget {
     );
   }
 
-  Color _factorColor(int score) {
-    if (score >= 75) return AppColors.accent;
-    if (score >= 60) return AppColors.blue;
-    if (score >= 45) return AppColors.yellow;
-    return AppColors.orange;
+  Color _factorColor(int score, CoolSemanticColors colors) {
+    if (score >= 75) return colors.success;
+    if (score >= 60) return colors.info;
+    if (score >= 45) return colors.warning;
+    return colors.danger;
   }
 }
 
@@ -301,18 +321,18 @@ class ScoreHistoryChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final insets = context.coolInsets;
+    final theme = Theme.of(context);
+    final space = context.coolSpace;
     if (history.isEmpty) {
-      final palette = context.coolPalette;
       return CoolCard(
         child: Padding(
-          padding: const EdgeInsets.all(18),
+          padding: insets.all(space.x5 - 2),
           child: Text(
             'History appears after multiple',
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: palette.text2,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.secondaryText,
             ),
           ),
         ),
@@ -325,27 +345,33 @@ class ScoreHistoryChart extends StatelessWidget {
         .toList(growable: false);
 
     return CoolCard(
+      backgroundColor: colors.analyticsSurface,
+      borderColor: colors.borderStrong,
       child: Padding(
-        padding: const EdgeInsets.all(18),
+        padding: insets.all(space.x5 - 2),
         child: Column(
           children: [
             SizedBox(
               height: 140,
               child: CustomPaint(
                 size: const Size(double.infinity, 140),
-                painter: _LineChartPainter(values: values),
+                painter: _LineChartPainter(
+                  values: values,
+                  gridColor: colors.borderStrong,
+                  accentColor: colors.accent,
+                  surfaceColor: colors.cardSurfaceStrong,
+                ),
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: space.x2),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: labels.map((label) {
                 return Text(
                   label,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w400,
-                    color: palette.text3,
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: colors.tertiaryText,
                   ),
                 );
               }).toList(),
@@ -358,9 +384,17 @@ class ScoreHistoryChart extends StatelessWidget {
 }
 
 class _LineChartPainter extends CustomPainter {
-  _LineChartPainter({required this.values});
+  _LineChartPainter({
+    required this.values,
+    required this.gridColor,
+    required this.accentColor,
+    required this.surfaceColor,
+  });
 
   final List<double> values;
+  final Color gridColor;
+  final Color accentColor;
+  final Color surfaceColor;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -377,7 +411,7 @@ class _LineChartPainter extends CustomPainter {
     final range = math.max(1, maxVal - minVal);
 
     final gridPaint = Paint()
-      ..color = AppColors.surface3
+      ..color = gridColor
       ..strokeWidth = 1;
 
     for (var i = 0; i < 4; i++) {
@@ -411,15 +445,15 @@ class _LineChartPainter extends CustomPainter {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          AppColors.accent.withValues(alpha: 0.15),
-          AppColors.accent.withValues(alpha: 0),
+          accentColor.withValues(alpha: 0.15),
+          accentColor.withValues(alpha: 0),
         ],
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
 
     canvas.drawPath(fillPath, fillPaint);
 
     final linePaint = Paint()
-      ..color = AppColors.accent
+      ..color = accentColor
       ..strokeWidth = 2.5
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
@@ -431,8 +465,8 @@ class _LineChartPainter extends CustomPainter {
     }
     canvas.drawPath(linePath, linePaint);
 
-    final dotPaint = Paint()..color = AppColors.accent;
-    final dotBgPaint = Paint()..color = AppColors.surface2;
+    final dotPaint = Paint()..color = accentColor;
+    final dotBgPaint = Paint()..color = surfaceColor;
 
     for (final point in points) {
       canvas.drawCircle(point, 5, dotBgPaint);
@@ -442,7 +476,10 @@ class _LineChartPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _LineChartPainter oldDelegate) {
-    return oldDelegate.values != values;
+    return oldDelegate.values != values ||
+        oldDelegate.gridColor != gridColor ||
+        oldDelegate.accentColor != accentColor ||
+        oldDelegate.surfaceColor != surfaceColor;
   }
 }
 

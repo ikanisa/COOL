@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/router/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/cool_palette.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../shared/widgets/cool_button.dart';
+import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/rs_digital_ticket.dart';
 import '../models/rs_models.dart';
 import '../../providers/rayon_sports_provider.dart';
@@ -21,7 +20,9 @@ class MyTicketsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
     final ticketsAsync = ref.watch(rayonUserTicketsProvider);
     final paymentRoute = ref.watch(rayonPaymentRouteProvider).valueOrNull;
 
@@ -38,33 +39,54 @@ class MyTicketsScreen extends ConsumerWidget {
                 SliverPadding(
                   padding: const EdgeInsets.fromLTRB(18, 18, 18, 96),
                   sliver: SliverToBoxAdapter(
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 40),
-                        Text(
-                          'No tickets yet',
-                          style: GoogleFonts.barlowCondensed(
-                            fontSize: 34,
-                            fontWeight: FontWeight.w900,
-                            color: AppColors.rsWhite,
+                    child: CoolCard(
+                      backgroundColor: colors.cardSurfaceStrong,
+                      borderColor: colors.borderStrong,
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 16),
+                          Container(
+                            width: 68,
+                            height: 68,
+                            decoration: BoxDecoration(
+                              color: colors.teamSurface,
+                              borderRadius: BorderRadius.circular(CoolRadii.lg),
+                              border: Border.all(color: colors.borderStrong),
+                            ),
+                            alignment: Alignment.center,
+                            child: Icon(
+                              Icons.confirmation_number_outlined,
+                              size: 34,
+                              color: colors.primaryText,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          'Your confirmed match entries',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.barlow(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: palette.text2,
+                          const SizedBox(height: 18),
+                          Text(
+                            'No tickets yet',
+                            style: text.rayonCondensed(
+                              theme.textTheme.headlineMedium,
+                              fontWeight: FontWeight.w900,
+                              color: colors.primaryText,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 18),
-                        CoolButton(
-                          label: context.l10n.browseMatches,
-                          onTap: () => context.go(AppRoutes.rayonTickets),
-                        ),
-                      ],
+                          const SizedBox(height: 10),
+                          Text(
+                            'Your confirmed match entries appear here after checkout completes.',
+                            textAlign: TextAlign.center,
+                            style: text.rayon(
+                              theme.textTheme.bodyMedium,
+                              fontWeight: FontWeight.w600,
+                              color: colors.secondaryText,
+                              height: 1.4,
+                            ),
+                          ),
+                          const SizedBox(height: 18),
+                          CoolButton(
+                            label: context.l10n.browseMatches,
+                            onTap: () => context.go(AppRoutes.rayonTickets),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -100,13 +122,13 @@ class MyTicketsScreen extends ConsumerWidget {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                         paymentRoute == null
+                        paymentRoute == null
                             ? 'Awaiting payment. QR unlocks after confirmation.'
                             : 'Awaiting ${paymentRoute.payToLabel} confirmation.',
-                        style: GoogleFonts.barlow(
-                          fontSize: 13,
+                        style: text.rayon(
+                          theme.textTheme.bodySmall,
                           fontWeight: FontWeight.w600,
-                          color: palette.text2,
+                          color: colors.secondaryText,
                           height: 1.35,
                         ),
                       ),
@@ -141,7 +163,7 @@ class MyTicketsScreen extends ConsumerWidget {
                     delegate: SliverChildListDelegate([
                       _SectionLabel(
                         text: context.l10n.readyForEntry,
-                        color: palette.accent,
+                        color: colors.accent,
                       ),
                       const SizedBox(height: 10),
                     ]),
@@ -169,7 +191,7 @@ class MyTicketsScreen extends ConsumerWidget {
                     delegate: SliverChildListDelegate([
                       _SectionLabel(
                         text: context.l10n.pastTickets,
-                        color: palette.text3,
+                        color: colors.tertiaryText,
                       ),
                       const SizedBox(height: 10),
                     ]),
@@ -214,10 +236,12 @@ class _SectionLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textStyle = context.coolText;
+    final theme = Theme.of(context);
     return Text(
       text,
-      style: GoogleFonts.barlow(
-        fontSize: 11,
+      style: textStyle.rayon(
+        theme.textTheme.labelSmall,
         fontWeight: FontWeight.w800,
         color: color,
         letterSpacing: 1,
@@ -235,34 +259,32 @@ class _PastTicketRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
     final dateLabel = DateFormat(
       'd MMM',
     ).format(ticket.matchDate).toUpperCase();
     final isUsed = ticket.status == RsTicketStatus.used;
 
-    return Container(
+    return CoolCard(
+      backgroundColor: colors.cardSurface,
+      borderColor: colors.borderStrong,
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: palette.surface2,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: palette.border),
-      ),
       child: Row(
         children: [
-          // Mini QR thumbnail
           Container(
             width: 36,
             height: 36,
             decoration: BoxDecoration(
-              color: palette.surface3,
+              color: colors.overlaySurface,
               borderRadius: BorderRadius.circular(8),
             ),
             alignment: Alignment.center,
             child: Icon(
               Icons.qr_code_rounded,
               size: 18,
-              color: isUsed ? palette.text3 : RsColors.rsBlue,
+              color: isUsed ? colors.tertiaryText : RsColors.rsBlue,
             ),
           ),
           const SizedBox(width: 12),
@@ -274,19 +296,19 @@ class _PastTicketRow extends StatelessWidget {
                   ticket.matchTitle,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.barlow(
-                    fontSize: 13,
+                  style: text.rayon(
+                    theme.textTheme.bodyMedium,
                     fontWeight: FontWeight.w700,
-                    color: palette.text2,
+                    color: colors.primaryText,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   '$dateLabel · ${ticket.seatType}',
-                  style: GoogleFonts.dmMono(
-                    fontSize: 10,
+                  style: text.mono(
+                    theme.textTheme.labelSmall,
                     fontWeight: FontWeight.w600,
-                    color: palette.text3,
+                    color: colors.tertiaryText,
                   ),
                 ),
               ],
@@ -295,15 +317,15 @@ class _PastTicketRow extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: palette.surface3,
+              color: colors.overlaySurface,
               borderRadius: BorderRadius.circular(6),
             ),
             child: Text(
               isUsed ? 'USED' : 'CANCELLED',
-              style: GoogleFonts.barlow(
-                fontSize: 10,
+              style: text.rayon(
+                theme.textTheme.labelSmall,
                 fontWeight: FontWeight.w700,
-                color: palette.text3,
+                color: colors.tertiaryText,
               ),
             ),
           ),

@@ -11,7 +11,6 @@ create policy partner_payment_routes_select_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 drop policy if exists partner_payment_routes_insert_admin
   on public.partner_payment_routes;
 create policy partner_payment_routes_insert_admin
@@ -21,7 +20,6 @@ create policy partner_payment_routes_insert_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 drop policy if exists partner_payment_routes_update_admin
   on public.partner_payment_routes;
 create policy partner_payment_routes_update_admin
@@ -35,7 +33,6 @@ create policy partner_payment_routes_update_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 drop policy if exists partner_payment_routes_delete_admin
   on public.partner_payment_routes;
 create policy partner_payment_routes_delete_admin
@@ -45,7 +42,6 @@ create policy partner_payment_routes_delete_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 create table if not exists public.rs_membership_packages (
   id uuid primary key default gen_random_uuid(),
   partner_id uuid not null references public.partners(id) on delete cascade,
@@ -61,19 +57,15 @@ create table if not exists public.rs_membership_packages (
   updated_at timestamptz not null default now(),
   unique (partner_id, tier)
 );
-
 create index if not exists idx_rs_membership_packages_partner
   on public.rs_membership_packages (partner_id, sort_order, tier);
-
 drop trigger if exists trg_rs_membership_packages_set_updated_at
   on public.rs_membership_packages;
 create trigger trg_rs_membership_packages_set_updated_at
   before update on public.rs_membership_packages
   for each row
   execute function public.set_updated_at();
-
 alter table public.rs_membership_packages enable row level security;
-
 drop policy if exists rs_membership_packages_select_authenticated
   on public.rs_membership_packages;
 create policy rs_membership_packages_select_authenticated
@@ -84,7 +76,6 @@ create policy rs_membership_packages_select_authenticated
     or public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 drop policy if exists rs_membership_packages_insert_admin
   on public.rs_membership_packages;
 create policy rs_membership_packages_insert_admin
@@ -94,7 +85,6 @@ create policy rs_membership_packages_insert_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 drop policy if exists rs_membership_packages_update_admin
   on public.rs_membership_packages;
 create policy rs_membership_packages_update_admin
@@ -108,7 +98,6 @@ create policy rs_membership_packages_update_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 drop policy if exists rs_membership_packages_delete_admin
   on public.rs_membership_packages;
 create policy rs_membership_packages_delete_admin
@@ -118,7 +107,6 @@ create policy rs_membership_packages_delete_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 insert into public.rs_membership_packages (
   partner_id,
   tier,

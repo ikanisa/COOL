@@ -136,6 +136,12 @@ function isPartnerAdmin(
 // ── Scan logic ───────────────────────────────────────────────────────────────
 
 type ScanRequest = {
+  action?: string;
+  qrData?: string;
+  scannerId?: string;
+};
+
+type ScanExecutionRequest = {
   qrData: string;
   scannerId?: string;
 };
@@ -149,9 +155,17 @@ type ScanResult = {
   pointsAwarded?: number;
 };
 
+function missingTicketScannerSecrets(): string[] {
+  const missing: string[] = [];
+  if (!QR_HMAC_SECRET) {
+    missing.push("TICKET_QR_HMAC_SECRET");
+  }
+  return missing;
+}
+
 async function scanTicket(
   adminClient: ReturnType<typeof createAdminClient>,
-  req: ScanRequest,
+  req: ScanExecutionRequest,
   caller: AuthenticatedCaller,
 ): Promise<ScanResult> {
   // 1. Parse QR data
@@ -304,12 +318,38 @@ Deno.serve(async (req) => {
     callerUserIdForTelemetry = caller.userId;
     const body = (await req.json()) as ScanRequest;
 
+    if (body.action === "health") {
+      const missingSecrets = missingTicketScannerSecrets();
+      if (missingSecrets.length > 0) {
+        return jsonResponse(
+          {
+            success: false,
+            ready: false,
+            message:
+              "Ticket scanner is temporarily unavailable. Missing signing configuration.",
+            missingSecrets,
+          },
+          503,
+        );
+      }
+
+      return jsonResponse({
+        success: true,
+        ready: true,
+        message: "Ticket scanner is operational.",
+      });
+    }
+
     if (!body.qrData || typeof body.qrData !== "string") {
       return errorResponse("Missing or invalid 'qrData' field.", 400);
     }
+    const qrData = body.qrData;
 
     const adminClient = createAdminClient();
-    const result = await scanTicket(adminClient, body, caller);
+    const result = await scanTicket(adminClient, {
+      qrData,
+      scannerId: body.scannerId,
+    }, caller);
 
     const httpStatus = result.status === "ok"
       ? 200

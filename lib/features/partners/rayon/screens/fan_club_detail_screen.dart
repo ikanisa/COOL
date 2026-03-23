@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/config/deep_link_config.dart';
-import '../../../../core/providers/production_redesign_provider.dart';
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/providers/referral_providers.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/cool_palette.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_toast.dart';
@@ -58,16 +55,7 @@ class FanClubDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final palette = context.coolPalette;
     final clubDetail = ref.watch(rayonClubDetailProvider(clubId));
-    final useProductionRedesign = ref.watch(
-      productionRedesignEnabledProvider(
-        const ProductionRedesignScope(
-          route: ProductionRedesignRoutes.rayonFanClubDetail,
-          partner: 'rayon',
-        ),
-      ),
-    );
 
     return RayonScreenScaffold(
       title: context.l10n.fanClub,
@@ -96,14 +84,6 @@ class FanClubDetailScreen extends ConsumerWidget {
                 padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
-                    if (useProductionRedesign) ...[
-                      _FanClubCommandCard(
-                        club: club,
-                        joined: joined,
-                        earnedAchievements: earnedAchievements,
-                      ),
-                      const SizedBox(height: 18),
-                    ],
                     _ClubOverviewCard(
                       clubName: club.name,
                       region: club.region,
@@ -112,6 +92,7 @@ class FanClubDetailScreen extends ConsumerWidget {
                       memberCount: club.memberCount,
                       eventCount: club.eventCount,
                       rating: club.rating,
+                      earnedAchievements: earnedAchievements,
                       joined: joined,
                       onJoinTap: joined
                           ? () {
@@ -148,24 +129,6 @@ class FanClubDetailScreen extends ConsumerWidget {
                 padding: const EdgeInsets.fromLTRB(18, 8, 18, 96),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
-                    if (club.memberCount > 5) ...[
-                      Semantics(
-                        button: true,
-                        label: 'View all ${club.memberCount} members',
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: Text(
-                            'View all ${club.memberCount} members',
-                            style: GoogleFonts.barlow(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                              color: palette.accent,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 22),
-                    ],
                     if (detail.achievements.isNotEmpty) ...[
                       _SectionTitle(label: context.l10n.moreDetails),
                       const SizedBox(height: 10),
@@ -182,7 +145,7 @@ class FanClubDetailScreen extends ConsumerWidget {
                     ShareCard(
                       title: context.l10n.inviteSupporters,
                       icon: Icons.campaign_rounded,
-                      message: 'Bring more fans into',
+                      message: 'Bring more fans into ${club.name}.',
                       shareUrl: DeepLinkConfig.clubUri(club.id).toString(),
                       shareText: 'Join ${club.name} on Cool.',
                       sheetTitle: 'Share Fan Club',
@@ -267,114 +230,6 @@ class FanClubDetailScreen extends ConsumerWidget {
   }
 }
 
-class _FanClubCommandCard extends StatelessWidget {
-  const _FanClubCommandCard({
-    required this.club,
-    required this.joined,
-    required this.earnedAchievements,
-  });
-
-  final RsFanClub club;
-  final bool joined;
-  final int earnedAchievements;
-
-  @override
-  Widget build(BuildContext context) {
-    return CoolCard(
-      gradient: FanClubDetailScreen._regionGradient(club.region),
-      borderColor: AppColors.rsBlueBorder,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Chapter Operations Brief',
-                      style: GoogleFonts.barlow(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      'Supporter identity, local chapter growth, and matchday readiness are tracked from a single verified club profile.',
-                      style: GoogleFonts.barlow(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white.withValues(alpha: 0.76),
-                        height: 1.4,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 12),
-              _FanClubDetailPill(
-                icon: joined ? Icons.verified_rounded : Icons.group_add_rounded,
-                label: joined ? 'Joined chapter' : 'Membership open',
-                highlighted: true,
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(
-                child: _FanClubDetailMetric(
-                  label: 'Members',
-                  value: '${club.memberCount}',
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: _FanClubDetailMetric(
-                  label: 'Events',
-                  value: '${club.eventCount}',
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: _FanClubDetailMetric(
-                  label: 'Achievements',
-                  value: '$earnedAchievements',
-                  highlight: true,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 14),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _FanClubDetailPill(
-                icon: Icons.place_outlined,
-                label: club.region,
-              ),
-              _FanClubDetailPill(
-                icon: Icons.workspace_premium_outlined,
-                label: club.rating <= 0
-                    ? 'New chapter'
-                    : 'Rating ${club.rating.toStringAsFixed(1)}',
-              ),
-              const _FanClubDetailPill(
-                icon: Icons.share_outlined,
-                label: 'Invite-supported growth enabled',
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _ClubOverviewCard extends StatelessWidget {
   const _ClubOverviewCard({
     required this.clubName,
@@ -384,6 +239,7 @@ class _ClubOverviewCard extends StatelessWidget {
     required this.memberCount,
     required this.eventCount,
     required this.rating,
+    required this.earnedAchievements,
     required this.joined,
     required this.onJoinTap,
   });
@@ -395,11 +251,13 @@ class _ClubOverviewCard extends StatelessWidget {
   final int memberCount;
   final int eventCount;
   final double rating;
+  final int earnedAchievements;
   final bool joined;
   final VoidCallback onJoinTap;
 
   @override
   Widget build(BuildContext context) {
+    final text = context.coolText;
     return CoolCard(
       gradient: FanClubDetailScreen._regionGradient(region),
       borderColor: RsColors.rsBlueBorder,
@@ -413,10 +271,10 @@ class _ClubOverviewCard extends StatelessWidget {
                 width: 64,
                 height: 64,
                 decoration: BoxDecoration(
-                  color: AppColors.rsWhite.withValues(alpha: 0.1),
+                  color: RsColors.rsWhite.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(18),
                   border: Border.all(
-                    color: AppColors.rsWhite.withValues(alpha: 0.14),
+                    color: RsColors.rsWhite.withValues(alpha: 0.14),
                   ),
                 ),
                 alignment: Alignment.center,
@@ -429,19 +287,19 @@ class _ClubOverviewCard extends StatelessWidget {
                   children: [
                     Text(
                       region.toUpperCase(),
-                      style: GoogleFonts.dmMono(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.rsGoldLight,
+                      style: text.mono(
+                        Theme.of(context).textTheme.labelSmall,
+                        color: RsColors.rsGoldLight,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                     const SizedBox(height: 6),
                     Text(
                       clubName,
-                      style: GoogleFonts.barlowCondensed(
-                        fontSize: 30,
+                      style: text.rayonCondensed(
+                        Theme.of(context).textTheme.headlineMedium,
+                        color: RsColors.rsWhite,
                         fontWeight: FontWeight.w900,
-                        color: AppColors.rsWhite,
                         height: 0.95,
                       ),
                     ),
@@ -452,13 +310,32 @@ class _ClubOverviewCard extends StatelessWidget {
               ),
             ],
           ),
+          const SizedBox(height: 14),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              _FanClubDetailPill(
+                icon: joined ? Icons.verified_rounded : Icons.group_add_rounded,
+                label: joined ? 'Joined chapter' : 'Membership open',
+                highlighted: true,
+              ),
+              _FanClubDetailPill(icon: Icons.place_outlined, label: region),
+              if (earnedAchievements > 0)
+                _FanClubDetailPill(
+                  icon: Icons.workspace_premium_outlined,
+                  label:
+                      '$earnedAchievements ${earnedAchievements == 1 ? 'achievement' : 'achievements'}',
+                ),
+            ],
+          ),
           const SizedBox(height: 16),
           Text(
             description,
-            style: GoogleFonts.barlow(
-              fontSize: 14,
+            style: text.rayon(
+              Theme.of(context).textTheme.bodyMedium,
+              color: RsColors.rsWhite.withValues(alpha: 0.82),
               fontWeight: FontWeight.w500,
-              color: AppColors.rsWhite.withValues(alpha: 0.82),
               height: 1.45,
             ),
           ),
@@ -481,58 +358,6 @@ class _ClubOverviewCard extends StatelessWidget {
   }
 }
 
-class _FanClubDetailMetric extends StatelessWidget {
-  const _FanClubDetailMetric({
-    required this.label,
-    required this.value,
-    this.highlight = false,
-  });
-
-  final String label;
-  final String value;
-  final bool highlight;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-      decoration: BoxDecoration(
-        color: highlight
-            ? AppColors.rsGold.withValues(alpha: 0.14)
-            : Colors.white.withValues(alpha: 0.06),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: highlight
-              ? AppColors.rsGold.withValues(alpha: 0.34)
-              : Colors.white.withValues(alpha: 0.08),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            value,
-            style: GoogleFonts.barlowCondensed(
-              fontSize: 24,
-              fontWeight: FontWeight.w900,
-              color: highlight ? AppColors.rsGoldLight : Colors.white,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: GoogleFonts.barlow(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              color: Colors.white.withValues(alpha: 0.72),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 // ── Section title ────────────────────────────────────────────────────
 
 class _SectionTitle extends StatelessWidget {
@@ -543,26 +368,31 @@ class _SectionTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final text = context.coolText;
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Text(
-          label.toUpperCase(),
-          style: GoogleFonts.barlowCondensed(
-            fontSize: 18,
-            fontWeight: FontWeight.w800,
-            color: AppColors.rsWhite,
-            letterSpacing: 0.5,
+        Expanded(
+          child: Text(
+            label.toUpperCase(),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: text.rayonCondensed(
+              Theme.of(context).textTheme.titleLarge,
+              color: RsColors.rsWhite,
+              fontWeight: FontWeight.w800,
+              letterSpacing: 0.5,
+            ),
           ),
         ),
         if (trailing != null) ...[
           const SizedBox(width: 8),
           Text(
             trailing!,
-            style: GoogleFonts.dmMono(
-              fontSize: 13,
-              fontWeight: FontWeight.w700,
-              color: palette.text3,
+            style: text.mono(
+              Theme.of(context).textTheme.bodySmall,
+              color: RsColors.rsGoldLight,
+              fontWeight: FontWeight.w800,
             ),
           ),
         ],
@@ -581,26 +411,34 @@ class _JoinLeaveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final text = context.coolText;
     return Semantics(
       button: true,
-      label: joined ? 'Already joined club' : 'Join club',
-      child: GestureDetector(
-        onTap: joined ? null : onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      enabled: !joined,
+      label: joined ? 'Joined club' : 'Join club',
+      child: Material(
+        color: Colors.transparent,
+        child: Ink(
           decoration: BoxDecoration(
-            color: joined ? RsColors.rsBlueGlow : RsColors.rsBlue,
+            color: joined ? RsColors.rsBlueGlow : RsColors.rsGold,
             borderRadius: BorderRadius.circular(30),
-            border: joined ? Border.all(color: RsColors.rsBlueBorder) : null,
+            border: Border.all(
+              color: joined ? RsColors.rsBlueBorder : RsColors.rsGoldLight,
+            ),
           ),
-          child: Text(
-            joined ? '✓ Joined' : 'Join',
-            style: GoogleFonts.barlowCondensed(
-              fontSize: 14,
-              fontWeight: FontWeight.w800,
-              color: joined ? palette.blue : AppColors.rsWhite,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(30),
+            onTap: joined ? null : onTap,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              child: Text(
+                joined ? 'Joined' : 'Join',
+                style: text.rayonCondensed(
+                  Theme.of(context).textTheme.labelLarge,
+                  color: joined ? RsColors.rsBluePale : RsColors.rsBlue,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
             ),
           ),
         ),
@@ -622,16 +460,17 @@ class _FanClubDetailPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.coolText;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
       decoration: BoxDecoration(
         color: highlighted
-            ? AppColors.rsGold.withValues(alpha: 0.16)
+            ? RsColors.rsGold.withValues(alpha: 0.16)
             : Colors.white.withValues(alpha: 0.06),
         borderRadius: BorderRadius.circular(999),
         border: Border.all(
           color: highlighted
-              ? AppColors.rsGold.withValues(alpha: 0.34)
+              ? RsColors.rsGold.withValues(alpha: 0.34)
               : Colors.white.withValues(alpha: 0.08),
         ),
       ),
@@ -641,17 +480,17 @@ class _FanClubDetailPill extends StatelessWidget {
           Icon(
             icon,
             size: 15,
-            color: highlighted ? AppColors.rsGoldLight : AppColors.rsBluePale,
+            color: highlighted ? RsColors.rsGoldLight : RsColors.rsBluePale,
           ),
           const SizedBox(width: 6),
           Text(
             label,
-            style: GoogleFonts.barlow(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
+            style: text.rayon(
+              Theme.of(context).textTheme.bodySmall,
               color: highlighted
-                  ? AppColors.rsGoldLight
+                  ? RsColors.rsGoldLight
                   : Colors.white.withValues(alpha: 0.82),
+              fontWeight: FontWeight.w600,
             ),
           ),
         ],
@@ -670,10 +509,10 @@ class _StatTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final text = context.coolText;
     return Expanded(
       child: CoolCard(
-        gradient: AppColors.cardGradient,
+        gradient: RsColors.rsCardGradient,
         borderColor: RsColors.rsBlueBorder,
         child: Padding(
           padding: const EdgeInsets.all(14),
@@ -681,19 +520,19 @@ class _StatTile extends StatelessWidget {
             children: [
               Text(
                 value,
-                style: GoogleFonts.dmMono(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
+                style: text.mono(
+                  Theme.of(context).textTheme.titleSmall,
                   color: RsColors.rsGoldLight,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
               const SizedBox(height: 4),
               Text(
                 label,
-                style: GoogleFonts.barlow(
-                  fontSize: 10,
+                style: text.rayon(
+                  Theme.of(context).textTheme.labelSmall,
+                  color: RsColors.rsBluePale,
                   fontWeight: FontWeight.w600,
-                  color: palette.text3,
                 ),
               ),
             ],
@@ -713,20 +552,21 @@ class _MemberTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Row(
         children: [
           CircleAvatar(
             radius: 18,
-            backgroundColor: palette.surface3,
+            backgroundColor: colors.cardSurfaceStrong,
             child: Text(
               '${index + 1}',
-              style: GoogleFonts.dmMono(
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-                color: palette.text2,
+              style: text.mono(
+                Theme.of(context).textTheme.labelSmall,
+                color: colors.secondaryText,
+                fontWeight: FontWeight.w800,
               ),
             ),
           ),
@@ -737,18 +577,18 @@ class _MemberTile extends StatelessWidget {
               children: [
                 Text(
                   'Member ${index + 1}',
-                  style: GoogleFonts.barlow(
-                    fontSize: 14,
+                  style: text.rayon(
+                    Theme.of(context).textTheme.bodyMedium,
+                    color: colors.primaryText,
                     fontWeight: FontWeight.w600,
-                    color: palette.text,
                   ),
                 ),
                 Text(
                   'Joined recently',
-                  style: GoogleFonts.barlow(
-                    fontSize: 11,
+                  style: text.rayon(
+                    Theme.of(context).textTheme.labelSmall,
+                    color: colors.tertiaryText,
                     fontWeight: FontWeight.w500,
-                    color: palette.text3,
                   ),
                 ),
               ],

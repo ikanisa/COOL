@@ -842,9 +842,12 @@ Before finalizing any Google integration work:
 | Skill | Scope | When to use |
 | --- | --- | --- |
 | **google-stack-skill** (this) | All Google APIs, SDKs, Firebase, Gemini, Wallet, Maps | Any Google service integration work |
-| **cool-superapp-design** | UI/UX design, screen architecture, flows, fullstack data model | Design decisions, screen specs, flow patterns |
+| **design-foundations** | Color tokens, typography, spacing, surfaces, theme architecture | Visual design tokens and theme switching |
+| **screen-composition** | Screen budgets, copy limits, simplification, anti-patterns | Screen structure and UI noise cleanup |
+| **component-navigation** | Shared widgets, routing, motion, state matrix | Widget API or routing changes |
+| **trust-accessibility** | Payment displays, permissions, a11y, localization | Trust UX, accessibility, localization |
+| **module-partner-ux** | Per-module UX, partner branding, migration rollout | Module-specific design decisions |
 | **flutter-skill** | Engineering quality: testing, CI, performance budgets, security | Code quality, release readiness |
-| **frontend-ui-simplification** | UI audit and cleanup | Decluttering, screen decomposition |
 
 ### Reference Document
 

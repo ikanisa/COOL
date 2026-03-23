@@ -19,6 +19,9 @@ bash scripts/run_device_integration.sh
 # Pick a device and production flavor explicitly
 DEVICE=emulator-5554 FLAVOR=production bash scripts/run_device_integration.sh
 
+# Run the Android inbox-sync device test with seeded SMS rows
+DEVICE=emulator-5554 FLAVOR=staging bash scripts/run_momo_sms_device_integration.sh
+
 # Run all host-side smoke tests
 flutter test test/integration_smoke
 ```
@@ -28,6 +31,7 @@ flutter test test/integration_smoke
 | File | Journey |
 |---|---|
 | `critical_journeys_test.dart` | Signed-out deep links, OTP validation, MoMo send validation, mobility degraded mode, and Rayon tickets |
+| `momo_sms_inbox_sync_test.dart` | Real Android SMS inbox sync with seeded M-Money rows, sync-state persistence, and manual overlap replay |
 
 These tests intentionally reuse the fake-backed harness from
 `test/integration_smoke/` so they stay deterministic while still executing on a

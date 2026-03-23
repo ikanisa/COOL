@@ -4,6 +4,7 @@ import 'package:cool_app/features/partners/providers/partner_provider.dart';
 import 'package:cool_app/features/partners/repositories/partner_repository.dart';
 import 'package:cool_app/features/partners/screens/partners_screen.dart';
 import 'package:cool_app/l10n/app_localizations.dart';
+import 'package:cool_app/shared/widgets/tab_pill.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -108,6 +109,21 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('shop'), findsOneWidget);
+    });
+
+    testWidgets('uses accessible tab pills to switch partner categories', (
+      tester,
+    ) async {
+      final router = _buildRouter();
+
+      await pumpPartnersScreen(tester, router: router);
+
+      expect(find.byType(TabPill), findsNWidgets(3));
+
+      await tester.tap(find.byKey(const ValueKey('partners_tab_1')));
+      await tester.pumpAndSettle();
+
+      expect(find.text('No finance partners yet'), findsOneWidget);
     });
   });
 }

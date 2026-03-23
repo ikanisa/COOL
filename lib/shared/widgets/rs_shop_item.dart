@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_foundations.dart';
+import '../../core/theme/rs_colors.dart';
 import '../../features/partners/rayon/models/rs_models.dart';
 
 class RsShopItem extends StatelessWidget {
@@ -27,9 +27,14 @@ class RsShopItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
     final showDiscount = hasMemberDiscount && discountPct > 0;
     final discountedPrice = showDiscount
-        ? (product.price * (1 - discountPct / 100)).round()
+        ? product.discountedPrice(discountPct)
         : product.price;
     final heroBadge = product.badgeLabel?.trim().isNotEmpty == true
         ? product.badgeLabel!.trim().toUpperCase()
@@ -43,30 +48,33 @@ class RsShopItem extends StatelessWidget {
       excludeSemantics: true,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: AppColors.surface2,
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: AppColors.border2),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.16),
-              blurRadius: 20,
-              offset: const Offset(0, 14),
-            ),
-          ],
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              colors.commerceSurface,
+              colors.cardSurfaceStrong.withValues(alpha: 0.96),
+            ],
+          ),
+          borderRadius: BorderRadius.circular(radii.md),
+          border: Border.all(
+            color: RsColors.rsBlueBorder.withValues(alpha: 0.72),
+          ),
+          boxShadow: CoolShadows.floating(theme.brightness, strength: 0.3),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(14),
+          padding: EdgeInsets.all(space.x3),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: 88,
+                height: 80,
                 decoration: BoxDecoration(
-                  color: _imageBackgroundFor(product),
-                  borderRadius: BorderRadius.circular(14),
+                  color: _imageBackgroundFor(product, colors),
+                  borderRadius: BorderRadius.circular(radii.sm),
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(radii.sm),
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
@@ -85,89 +93,89 @@ class RsShopItem extends StatelessWidget {
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [
-                              Colors.black.withValues(alpha: 0.04),
-                              Colors.black.withValues(alpha: 0.18),
+                              colors.shadowColor.withValues(alpha: 0.04),
+                              colors.shadowColor.withValues(alpha: 0.18),
                             ],
                           ),
                         ),
                       ),
                       if (showDiscount)
                         Positioned(
-                          left: 10,
-                          top: 10,
+                          left: space.x2,
+                          top: space.x2,
                           child: _Badge(
                             label:
                                 '-${discountPct.toStringAsFixed(discountPct.truncateToDouble() == discountPct ? 0 : 1)}%',
-                            background: AppColors.rsBlue,
-                            foreground: AppColors.rsWhite,
+                            background: RsColors.rsBlue,
+                            foreground: RsColors.rsWhite,
                           ),
                         ),
                       if (heroBadge != null)
                         Positioned(
-                          right: 10,
-                          top: 10,
+                          right: space.x2,
+                          top: space.x2,
                           child: _Badge(
                             label: heroBadge,
-                            background: AppColors.rsGold,
-                            foreground: AppColors.bg,
+                            background: RsColors.rsGold,
+                            foreground: colors.primaryText,
                           ),
                         ),
                     ],
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: space.x2),
               if (product.collection?.trim().isNotEmpty == true) ...[
                 Text(
                   product.collection!.trim().toUpperCase(),
-                  style: GoogleFonts.barlow(
-                    fontSize: 10,
+                  style: text.rayon(
+                    theme.textTheme.labelSmall,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 1,
-                    color: AppColors.text3,
+                    color: colors.tertiaryText,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: space.x1),
               ],
               Text(
                 product.name,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.barlow(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.rsWhite,
-                  height: 1.15,
+                style: text.rayonCondensed(
+                  theme.textTheme.titleSmall,
+                  fontWeight: FontWeight.w800,
+                  color: RsColors.rsWhite,
+                  height: 1.05,
                 ),
               ),
-              const SizedBox(height: 6),
+              SizedBox(height: space.x1),
               Text(
                 product.description.isEmpty
                     ? product.category.label
                     : product.description,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.barlow(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.text2,
-                  height: 1.3,
+                style: text.rayon(
+                  theme.textTheme.labelSmall,
+                  fontWeight: FontWeight.w700,
+                  color: colors.secondaryText,
+                  height: 1.2,
                 ),
               ),
-              const SizedBox(height: 6),
+              SizedBox(height: space.x2),
               Wrap(
-                spacing: 6,
-                runSpacing: 6,
+                spacing: space.x1 + 2,
+                runSpacing: space.x1 + 2,
                 children: [
                   _MetaPill(label: product.category.label),
                   if (product.availableSizes.isNotEmpty)
                     _MetaPill(label: '${product.availableSizes.length} sizes'),
                 ],
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: space.x2),
               Wrap(
-                spacing: 6,
-                runSpacing: 6,
+                spacing: space.x1 + 2,
+                runSpacing: space.x1 + 2,
                 children: [
                   const _TrustFlag(
                     icon: Icons.verified_outlined,
@@ -181,71 +189,73 @@ class RsShopItem extends StatelessWidget {
                   ),
                 ],
               ),
-              const Spacer(),
+              SizedBox(height: space.x2),
               if (showDiscount) ...[
                 Text(
                   _formatRwf(product.price),
-                  style: GoogleFonts.dmMono(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.text3,
-                    decoration: TextDecoration.lineThrough,
-                  ),
+                  style: text
+                      .mono(
+                        theme.textTheme.labelSmall,
+                        fontWeight: FontWeight.w700,
+                        color: colors.tertiaryText,
+                      )
+                      .copyWith(decoration: TextDecoration.lineThrough),
                 ),
-                const SizedBox(height: 2),
+                SizedBox(height: space.x1 / 2),
               ],
               Text(
                 _formatRwf(discountedPrice),
-                style: GoogleFonts.dmMono(
-                  fontSize: 14,
+                style: text.mono(
+                  theme.textTheme.labelLarge,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.rsGoldLight,
+                  color: RsColors.rsGoldLight,
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: space.x2),
               Row(
                 children: [
                   if (quantity > 0) ...[
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 6,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: space.x2,
+                        vertical: space.x1 + 2,
                       ),
                       decoration: BoxDecoration(
-                        color: AppColors.rsBlueGlow,
-                        borderRadius: BorderRadius.circular(10),
+                        color: RsColors.rsBlueGlow,
+                        borderRadius: BorderRadius.circular(radii.sm),
+                        border: Border.all(color: RsColors.rsBlueBorder),
                       ),
                       child: Text(
                         'x$quantity',
-                        style: GoogleFonts.dmMono(
-                          fontSize: 11,
+                        style: text.mono(
+                          theme.textTheme.labelSmall,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.rsWhite,
+                          color: RsColors.rsWhite,
                         ),
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: space.x2),
                   ],
                   Expanded(
                     child: SizedBox(
-                      height: 36,
+                      height: CoolTapTargets.minimum,
                       child: DecoratedBox(
                         decoration: BoxDecoration(
-                          color: AppColors.rsBlue,
-                          borderRadius: BorderRadius.circular(12),
+                          gradient: RsColors.rsGoldGradient,
+                          borderRadius: BorderRadius.circular(radii.sm),
                         ),
                         child: Material(
-                          color: Colors.transparent,
+                          type: MaterialType.transparency,
                           child: InkWell(
                             onTap: onAddToCart,
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(radii.sm),
                             child: Center(
                               child: Text(
                                 quantity > 0 ? 'ADD MORE' : 'ADD TO BAG',
-                                style: GoogleFonts.barlowCondensed(
-                                  fontSize: 17,
+                                style: text.rayonCondensed(
+                                  theme.textTheme.labelLarge,
                                   fontWeight: FontWeight.w700,
-                                  color: AppColors.rsWhite,
+                                  color: colors.primaryText,
                                   letterSpacing: 0.3,
                                 ),
                               ),
@@ -256,7 +266,7 @@ class RsShopItem extends StatelessWidget {
                     ),
                   ),
                   if (quantity > 0 && onRemoveFromCart != null) ...[
-                    const SizedBox(width: 8),
+                    SizedBox(width: space.x2),
                     _IconPill(
                       icon: Icons.remove_rounded,
                       onTap: onRemoveFromCart!,
@@ -279,8 +289,16 @@ class _EmojiHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.coolText;
+    final theme = Theme.of(context);
     return Center(
-      child: Text(product.imageEmoji, style: const TextStyle(fontSize: 42)),
+      child: Text(
+        product.imageEmoji,
+        style: text.rayonCondensed(
+          theme.textTheme.displaySmall,
+          fontWeight: FontWeight.w800,
+        ),
+      ),
     );
   }
 }
@@ -298,18 +316,25 @@ class _Badge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.coolText;
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: space.x2, vertical: space.x1),
       decoration: BoxDecoration(
         color: background,
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(radii.pill),
       ),
       child: Text(
         label,
-        style: GoogleFonts.barlowCondensed(
-          fontSize: 13,
+        style: text.rayonCondensed(
+          theme.textTheme.labelLarge,
           fontWeight: FontWeight.w700,
-          color: foreground,
+          color: foreground == colors.primaryText
+              ? colors.primaryText
+              : foreground,
         ),
       ),
     );
@@ -324,18 +349,21 @@ class _IconPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(radii.sm),
       child: Ink(
-        width: 48,
-        height: 48,
+        width: CoolTapTargets.minimum,
+        height: CoolTapTargets.minimum,
         decoration: BoxDecoration(
-          color: AppColors.surface3,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.rsBlueBorder),
+          color: colors.overlaySurface,
+          borderRadius: BorderRadius.circular(radii.sm),
+          border: Border.all(color: RsColors.rsBlueBorder),
         ),
-        child: Icon(icon, size: 18, color: AppColors.rsWhite),
+        child: Icon(icon, size: 18, color: RsColors.rsWhite),
       ),
     );
   }
@@ -348,19 +376,24 @@ class _MetaPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: space.x2, vertical: space.x1),
       decoration: BoxDecoration(
-        color: AppColors.surface3,
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: AppColors.border),
+        color: colors.overlaySurface,
+        borderRadius: BorderRadius.circular(radii.pill),
+        border: Border.all(color: colors.borderStrong),
       ),
       child: Text(
         label,
-        style: GoogleFonts.barlow(
-          fontSize: 9,
+        style: text.rayon(
+          theme.textTheme.labelSmall,
           fontWeight: FontWeight.w700,
-          color: AppColors.text2,
+          color: colors.secondaryText,
         ),
       ),
     );
@@ -375,24 +408,32 @@ class _TrustFlag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+      padding: EdgeInsets.symmetric(
+        horizontal: space.x2,
+        vertical: space.x1 + 1,
+      ),
       decoration: BoxDecoration(
-        color: AppColors.surface3,
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: AppColors.border),
+        color: colors.overlaySurface,
+        borderRadius: BorderRadius.circular(radii.pill),
+        border: Border.all(color: colors.borderStrong),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 12, color: AppColors.text2),
-          const SizedBox(width: 5),
+          Icon(icon, size: 14, color: colors.secondaryText),
+          SizedBox(width: space.x1 + 1),
           Text(
             label,
-            style: GoogleFonts.barlow(
-              fontSize: 9,
+            style: text.rayon(
+              theme.textTheme.labelSmall,
               fontWeight: FontWeight.w700,
-              color: AppColors.rsWhite,
+              color: colors.primaryText,
             ),
           ),
         ],
@@ -401,9 +442,9 @@ class _TrustFlag extends StatelessWidget {
   }
 }
 
-Color _imageBackgroundFor(RsProduct product) {
+Color _imageBackgroundFor(RsProduct product, CoolSemanticColors colors) {
   return Color.alphaBlend(
-    Colors.white.withValues(alpha: 0.04),
+    colors.highlightColor.withValues(alpha: 0.06),
     product.bgColor,
   );
 }

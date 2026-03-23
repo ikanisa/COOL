@@ -1,13 +1,8 @@
 UPDATE public.vehicle_types SET value = 'Trike', label = '🚐 Trike' WHERE value = 'Liffan';
-
 UPDATE public.users SET vehicle_type = 'trike' WHERE vehicle_type = 'liffan';
-
 UPDATE public.driver_profiles SET vehicle_type = 'trike' WHERE vehicle_type = 'liffan';
-
 UPDATE public.mobility_trips SET vehicle_type = 'trike' WHERE vehicle_type = 'liffan';
 UPDATE public.mobility_trips SET vehicle_preference = 'trike' WHERE vehicle_preference = 'liffan';
-
-
 create or replace function public.sync_mobility_trip_compat()
 returns trigger
 language plpgsql
@@ -71,7 +66,6 @@ begin
   return new;
 end;
 $$;
-
 create or replace function public.get_nearby_drivers(
   p_lat double precision,
   p_lng double precision,

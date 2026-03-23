@@ -46,13 +46,10 @@ select
   sc.is_active,
   sc.updated_at
 from public.supported_countries sc;
-
 comment on view public.supported_country_momo_reference is
   'Read-only country reference for MoMo number validation, merchant-code support, and country-specific USSD examples.';
-
 grant select on table public.supported_country_momo_reference
   to anon, authenticated;
-
 create or replace view public.momo_validation_issues as
 with country_reference as (
   select *
@@ -297,9 +294,7 @@ where gc.country_name is not null
     gc.normalized_country,
     gc.effective_recipient
   );
-
 comment on view public.momo_validation_issues is
   'Admin/service audit view for users and groups whose MoMo country or recipient data does not satisfy the current validation rules.';
-
 revoke all on table public.momo_validation_issues
   from anon, authenticated;

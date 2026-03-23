@@ -18,38 +18,29 @@ create table if not exists public.pending_transactions (
   created_at      timestamptz default now(),
   updated_at      timestamptz default now()
 );
-
 create index if not exists idx_pending_tx_user
   on public.pending_transactions (user_id);
 create index if not exists idx_pending_tx_status
   on public.pending_transactions (status);
-
 alter table public.pending_transactions enable row level security;
-
 create policy "pending_tx_select_own"
   on public.pending_transactions for select
   using (auth.uid() = user_id);
-
 create policy "pending_tx_insert_own"
   on public.pending_transactions for insert
   with check (auth.uid() = user_id);
-
 create policy "pending_tx_update_own"
   on public.pending_transactions for update
   using (auth.uid() = user_id);
-
 -- ── Add momo_reference to payment-linked tables ──────────────────────────
 
 alter table public.driver_subscriptions
   add column if not exists momo_reference text;
-
 alter table public.group_contributions
   add column if not exists momo_reference text;
-
 -- ── Add momo_provider to users table ─────────────────────────────────────
 
 alter table public.users
   add column if not exists momo_provider text;
-
 alter table public.users
   add column if not exists is_driver boolean not null default false;

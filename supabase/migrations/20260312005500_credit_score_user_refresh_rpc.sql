@@ -19,6 +19,5 @@ begin
   return public.recompute_credit_score(v_user_id, now());
 end;
 $$;
-
 revoke all on function public.refresh_my_credit_score() from public;
 grant execute on function public.refresh_my_credit_score() to authenticated;

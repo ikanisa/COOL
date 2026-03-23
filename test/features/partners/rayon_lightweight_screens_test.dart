@@ -264,6 +264,22 @@ void main() {
   );
 
   testWidgets(
+    'support detail disables checkout when no payment route is available',
+    (tester) async {
+      await pumpScreen(
+        tester,
+        const SupportDetailScreen(initiativeId: 'initiative-1'),
+        overrides: [
+          rayonPaymentRouteProvider.overrideWith((ref) async => null),
+        ],
+      );
+
+      expect(find.text('Payment route unavailable'), findsOneWidget);
+      verifyNever(() => repository.getActivePaymentRoute());
+    },
+  );
+
+  testWidgets(
     'shop checkout screen builds from lightweight shop providers on entry',
     (tester) async {
       final cartController = RayonCartController()..addToCart('product-1');

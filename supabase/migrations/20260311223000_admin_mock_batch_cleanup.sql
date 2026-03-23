@@ -1,5 +1,4 @@
 begin;
-
 -- ============================================================================
 -- Admin mock-batch cleanup
 -- ----------------------------------------------------------------------------
@@ -200,7 +199,5 @@ begin
   );
 end;
 $$;
-
 grant execute on function public.purge_mock_batch(text) to authenticated;
-
 commit;

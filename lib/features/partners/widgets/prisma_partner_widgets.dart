@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../core/utils/icon_mapper.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
@@ -20,10 +19,9 @@ class PrismaHeroCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    final description =
-        partner.description ??
-        'AI professional services';
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    final description = partner.description ?? 'AI professional services';
 
     final pills = partner.metadata['hero_pills'] as List<dynamic>?;
 
@@ -40,10 +38,9 @@ class PrismaHeroCard extends StatelessWidget {
                   children: [
                     Text(
                       partner.name,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 24,
+                      style: theme.textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.w800,
-                        color: palette.text,
+                        color: colors.primaryText,
                         letterSpacing: -0.5,
                       ),
                     ),
@@ -51,10 +48,9 @@ class PrismaHeroCard extends StatelessWidget {
                       const SizedBox(height: 2),
                       Text(
                         partner.subtitle!,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 13,
+                        style: theme.textTheme.bodySmall?.copyWith(
                           fontWeight: FontWeight.w600,
-                          color: palette.text2,
+                          color: colors.secondaryText,
                         ),
                       ),
                     ],
@@ -66,9 +62,9 @@ class PrismaHeroCard extends StatelessWidget {
                 width: 52,
                 height: 52,
                 decoration: BoxDecoration(
-                  color: palette.surface3,
+                  color: colors.inputSurface,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: palette.border),
+                  border: Border.all(color: colors.border),
                 ),
                 alignment: Alignment.center,
                 child: Text(
@@ -81,10 +77,9 @@ class PrismaHeroCard extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             description,
-            style: GoogleFonts.dmSans(
-              fontSize: 14,
+            style: theme.textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w500,
-              color: palette.text2,
+              color: colors.secondaryText,
               height: 1.5,
             ),
           ),
@@ -161,7 +156,8 @@ class PrismaStatsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final stats = partner.metadata['stats'] as List<dynamic>?;
     if (stats == null || stats.isEmpty) {
       return const SizedBox.shrink();
@@ -173,10 +169,9 @@ class PrismaStatsCard extends StatelessWidget {
         children: [
           Text(
             partner.metadata['stats_title']?.toString() ?? 'At a glance',
-            style: GoogleFonts.dmSans(
-              fontSize: 16,
+            style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w800,
-              color: palette.text,
+              color: colors.primaryText,
             ),
           ),
           const SizedBox(height: 12),
@@ -209,7 +204,8 @@ class PrismaValuesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final values = partner.metadata['values'] as List<dynamic>?;
     if (values == null || values.isEmpty) {
       return const SizedBox.shrink();
@@ -221,10 +217,9 @@ class PrismaValuesCard extends StatelessWidget {
         children: [
           Text(
             partner.metadata['values_title']?.toString() ?? 'How it works',
-            style: GoogleFonts.dmSans(
-              fontSize: 16,
+            style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w800,
-              color: palette.text,
+              color: colors.primaryText,
             ),
           ),
           const SizedBox(height: 14),
@@ -254,7 +249,8 @@ class PrismaSupportCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final supportLines = partner.metadata['support_lines'] as List<dynamic>?;
     if (supportLines == null || supportLines.isEmpty) {
       return const SizedBox.shrink();
@@ -266,17 +262,18 @@ class PrismaSupportCard extends StatelessWidget {
         children: [
           Text(
             partner.metadata['support_title']?.toString() ?? 'Get in touch',
-            style: GoogleFonts.dmSans(
-              fontSize: 18,
+            style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.w800,
-              color: palette.text,
+              color: colors.primaryText,
             ),
           ),
           const SizedBox(height: 14),
           for (var i = 0; i < supportLines.length; i++) ...[
             if (supportLines[i] is Map)
               PartnerSupportLine(
-                icon: IconMapper.from(supportLines[i]['icon']?.toString() ?? '📍'),
+                icon: IconMapper.from(
+                  supportLines[i]['icon']?.toString() ?? '📍',
+                ),
                 label: supportLines[i]['label']?.toString() ?? '',
                 value: supportLines[i]['value']?.toString() ?? '',
               ),
@@ -287,11 +284,15 @@ class PrismaSupportCard extends StatelessWidget {
             SizedBox(
               width: 200,
               child: CoolButton(
-                label: partner.metadata['support_cta']['label']?.toString() ?? 'Contact',
+                label:
+                    partner.metadata['support_cta']['label']?.toString() ??
+                    'Contact',
                 onTap: () => launchPrismaAction(
                   context,
                   partner,
-                  action: partner.metadata['support_cta']['action']?.toString() ?? '',
+                  action:
+                      partner.metadata['support_cta']['action']?.toString() ??
+                      '',
                 ),
               ),
             ),
@@ -320,7 +321,8 @@ class PrismaValueRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -328,12 +330,12 @@ class PrismaValueRow extends StatelessWidget {
           width: 36,
           height: 36,
           decoration: BoxDecoration(
-            color: palette.surface3,
+            color: colors.operationalSurface,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: palette.border),
+            border: Border.all(color: colors.border),
           ),
           alignment: Alignment.center,
-          child: Icon(icon, size: 18, color: palette.accent),
+          child: Icon(icon, size: 18, color: colors.accent),
         ),
         const SizedBox(width: 12),
         Expanded(
@@ -342,19 +344,17 @@ class PrismaValueRow extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: GoogleFonts.dmSans(
-                  fontSize: 14,
+                style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w800,
-                  color: palette.text,
+                  color: colors.primaryText,
                 ),
               ),
               const SizedBox(height: 3),
               Text(
                 description,
-                style: GoogleFonts.dmSans(
-                  fontSize: 12,
+                style: theme.textTheme.bodySmall?.copyWith(
                   fontWeight: FontWeight.w500,
-                  color: palette.text2,
+                  color: colors.secondaryText,
                   height: 1.45,
                 ),
               ),
@@ -374,33 +374,32 @@ class PrismaStatTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Expanded(
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
         decoration: BoxDecoration(
-          color: palette.surface2,
+          color: colors.analyticsSurface,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: palette.border),
+          border: Border.all(color: colors.border),
         ),
         child: Column(
           children: [
             Text(
               value,
-              style: GoogleFonts.dmSans(
-                fontSize: 18,
+              style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w800,
-                color: palette.accent,
+                color: colors.accent,
               ),
             ),
             const SizedBox(height: 4),
             Text(
               label,
               textAlign: TextAlign.center,
-              style: GoogleFonts.dmSans(
-                fontSize: 11,
+              style: theme.textTheme.labelMedium?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: palette.text2,
+                color: colors.secondaryText,
                 height: 1.2,
               ),
             ),

@@ -8,7 +8,6 @@
 
 drop policy if exists operational_health_events_insert_authenticated
   on public.operational_health_events;
-
 -- Ensure only the service role (via Edge Functions) can insert.
 -- The select policy for admins remains intact.
 

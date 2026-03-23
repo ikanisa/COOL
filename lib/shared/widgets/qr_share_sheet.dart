@@ -1,23 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../core/l10n/l10n.dart';
 import '../../core/providers/engagement_providers.dart';
-import '../../core/theme/cool_palette.dart';
+import '../../core/theme/cool_foundations.dart';
 import 'cool_toast.dart';
 import 'wa_button.dart';
-import '../../core/l10n/l10n.dart';
 
 /// A modal bottom sheet for sharing a group invite via QR code, copy link,
 /// or WhatsApp.
-///
-/// Use the static [show] helper to present this sheet:
-/// ```dart
-/// QrShareSheet.show(context, groupName: 'My Group', inviteUrl: 'https://…');
-/// ```
 class QrShareSheet extends ConsumerWidget {
   const QrShareSheet({
     required this.groupName,
@@ -36,7 +30,6 @@ class QrShareSheet extends ConsumerWidget {
   final String? shareText;
   final String? analyticsTargetType;
 
-  /// Show the sheet as a modal bottom sheet.
   static Future<void> show(
     BuildContext context, {
     required String groupName,
@@ -84,12 +77,13 @@ class QrShareSheet extends ConsumerWidget {
             targetType: _targetType,
             targetUrl: inviteUrl,
           );
-    } else {
-      if (context.mounted) {
-        CoolToast.error(context, 'WhatsApp is not available');
-      }
+    } else if (context.mounted) {
+      CoolToast.error(context, 'WhatsApp is not available');
     }
-    if (context.mounted) Navigator.of(context).pop();
+
+    if (context.mounted) {
+      Navigator.of(context).pop();
+    }
   }
 
   String get _targetType {
@@ -111,85 +105,87 @@ class QrShareSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final textTheme = Theme.of(context).textTheme;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+        color: colors.elevatedBackground,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(radii.lg)),
       ),
       child: SafeArea(
         top: false,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(22, 12, 22, 22),
+          padding: EdgeInsets.fromLTRB(
+            space.x5 + 2,
+            space.x3,
+            space.x5 + 2,
+            space.x5 + 2,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // ── Handle bar ──────────────────────────────────────────
               Container(
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: palette.border2,
-                  borderRadius: BorderRadius.circular(2),
+                  color: colors.borderStrong,
+                  borderRadius: const BorderRadius.all(Radius.circular(2)),
                 ),
               ),
-              const SizedBox(height: 20),
-
-              // ── Title ───────────────────────────────────────────────
+              SizedBox(height: space.x5),
               Text(
                 sheetTitle ?? 'Invite to $groupName',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.dmSans(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: palette.text,
+                style: textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: colors.primaryText,
                 ),
               ),
-              const SizedBox(height: 6),
+              SizedBox(height: space.x1 + 2),
               Text(
                 sheetSubtitle,
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: palette.text3,
+                style: textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: colors.tertiaryText,
                 ),
               ),
-              const SizedBox(height: 24),
-
-              // ── QR Code ─────────────────────────────────────────────
+              SizedBox(height: space.x6),
               Container(
-                padding: const EdgeInsets.all(18),
+                padding: const EdgeInsets.all(CoolSpace.x5 - 2),
                 decoration: BoxDecoration(
-                  color: palette.surface3,
-                  borderRadius: BorderRadius.circular(20),
+                  color: colors.cardSurfaceStrong,
+                  borderRadius: BorderRadius.all(Radius.circular(radii.md)),
+                  border: Border.all(color: colors.border),
                 ),
                 child: QrImageView(
                   data: inviteUrl,
                   version: QrVersions.auto,
                   size: 180,
-                  eyeStyle: const QrEyeStyle(
+                  eyeStyle: QrEyeStyle(
                     eyeShape: QrEyeShape.circle,
-                    color: Colors.white,
+                    color: colors.primaryText,
                   ),
-                  dataModuleStyle: const QrDataModuleStyle(
+                  dataModuleStyle: QrDataModuleStyle(
                     dataModuleShape: QrDataModuleShape.circle,
-                    color: Colors.white,
+                    color: colors.primaryText,
                   ),
                   backgroundColor: Colors.transparent,
                 ),
               ),
-              const SizedBox(height: 24),
-
-              // ── Invite URL row ──────────────────────────────────────
+              SizedBox(height: space.x6),
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 14,
-                  vertical: 12,
+                padding: EdgeInsets.symmetric(
+                  horizontal: space.x3 + 2,
+                  vertical: space.x3,
                 ),
                 decoration: BoxDecoration(
-                  color: palette.surface2,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: palette.border),
+                  color: colors.cardSurface,
+                  borderRadius: BorderRadius.all(Radius.circular(radii.xs)),
+                  border: Border.all(color: colors.border),
                 ),
                 child: Row(
                   children: [
@@ -198,20 +194,22 @@ class QrShareSheet extends ConsumerWidget {
                         inviteUrl,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.dmMono(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: palette.text2,
+                        style: text.mono(
+                          textTheme.bodySmall,
+                          fontWeight: FontWeight.w500,
+                          color: colors.secondaryText,
                         ),
                       ),
                     ),
-                    const SizedBox(width: 10),
+                    SizedBox(width: space.x3 - 2),
                     Semantics(
                       button: true,
                       label: context.l10n.copyInviteLink,
                       child: GestureDetector(
                         onTap: () async {
-                          Clipboard.setData(ClipboardData(text: inviteUrl));
+                          await Clipboard.setData(
+                            ClipboardData(text: inviteUrl),
+                          );
                           if (_targetType == 'group_invite') {
                             await ref
                                 .read(engagementTrackerProvider)
@@ -234,13 +232,15 @@ class QrShareSheet extends ConsumerWidget {
                           CoolToast.success(context, 'Link copied!');
                         },
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 6,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: space.x3 - 2,
+                            vertical: space.x1 + 2,
                           ),
                           decoration: BoxDecoration(
-                            color: palette.surface3,
-                            borderRadius: BorderRadius.circular(8),
+                            color: colors.cardSurfaceStrong,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(radii.xs / 1.5),
+                            ),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -248,15 +248,14 @@ class QrShareSheet extends ConsumerWidget {
                               Icon(
                                 Icons.copy_rounded,
                                 size: 14,
-                                color: palette.accent,
+                                color: colors.accent,
                               ),
-                              const SizedBox(width: 4),
+                              SizedBox(width: space.x1),
                               Text(
                                 'Copy',
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w600,
-                                  color: palette.accent,
+                                style: textTheme.labelSmall?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  color: colors.accent,
                                 ),
                               ),
                             ],
@@ -267,12 +266,8 @@ class QrShareSheet extends ConsumerWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 18),
-
-              // ── WhatsApp share button ───────────────────────────────
-              WaButton(
-                onTap: () => _shareViaWhatsApp(context, ref),
-              ),
+              SizedBox(height: space.x4 + 2),
+              WaButton(onTap: () => _shareViaWhatsApp(context, ref)),
             ],
           ),
         ),

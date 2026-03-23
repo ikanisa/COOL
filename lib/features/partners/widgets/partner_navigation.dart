@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/cool_foundations.dart';
 
 void popOrGo(BuildContext context, String fallbackLocation) {
   if (context.canPop()) {
@@ -26,7 +26,7 @@ Widget buildPartnerBackButton(
     child: IconButton(
       onPressed: () => popOrGo(context, fallbackLocation),
       icon: Icon(icon),
-      color: color,
+      color: color ?? context.coolSemanticColors.primaryText,
       tooltip: MaterialLocalizations.of(context).backButtonTooltip,
     ),
   );
@@ -39,7 +39,7 @@ Widget buildPartnerHomeButton(BuildContext context, {Color? color}) {
     child: IconButton(
       onPressed: () => context.go(AppRoutes.home),
       icon: const Icon(Icons.home_rounded),
-      color: color ?? AppColors.rsWhite,
+      color: color ?? context.coolSemanticColors.primaryText,
       tooltip: context.l10n.partnersHomeTooltip,
     ),
   );

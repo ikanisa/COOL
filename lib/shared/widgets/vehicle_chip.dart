@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/cool_palette.dart';
+import '../../core/theme/cool_foundations.dart';
 
 class VehicleChip extends StatelessWidget {
   const VehicleChip({
@@ -17,7 +16,9 @@ class VehicleChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+
     return Semantics(
       button: true,
       selected: isSelected,
@@ -25,21 +26,27 @@ class VehicleChip extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
+          duration: CoolMotion.quick,
+          padding: const EdgeInsets.symmetric(
+            horizontal: CoolSpace.x4,
+            vertical: CoolSpace.x2 + 1,
+          ),
           decoration: BoxDecoration(
-            color: isSelected ? palette.accentGlow : palette.surface2,
-            borderRadius: BorderRadius.circular(30),
+            color: isSelected
+                ? colors.chipSelectedBackground
+                : colors.cardSurface,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(CoolRadii.pill),
+            ),
             border: Border.all(
-              color: isSelected ? palette.accent : palette.border,
+              color: isSelected ? colors.accent : colors.border,
             ),
           ),
           child: Text(
             label,
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
+            style: theme.textTheme.labelMedium?.copyWith(
               fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
-              color: isSelected ? palette.accent : palette.text2,
+              color: isSelected ? colors.accent : colors.secondaryText,
             ),
           ),
         ),

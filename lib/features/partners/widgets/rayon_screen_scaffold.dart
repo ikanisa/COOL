@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/rs_colors.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import 'partner_navigation.dart';
 
@@ -32,8 +31,8 @@ class RayonScreenScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
+    final chromeColor = colors.accentForeground;
     return Scaffold(
       backgroundColor: colors.appBackground,
       appBar: AppBar(
@@ -42,7 +41,7 @@ class RayonScreenScaffold extends StatelessWidget {
             ? buildPartnerBackButton(
                 context,
                 fallbackLocation: fallbackLocation,
-                color: AppColors.rsWhite,
+                color: chromeColor,
               )
             : null,
         title: Text(
@@ -50,7 +49,7 @@ class RayonScreenScaffold extends StatelessWidget {
           style: GoogleFonts.barlowCondensed(
             fontSize: 30,
             fontWeight: FontWeight.w900,
-            color: AppColors.rsWhite,
+            color: chromeColor,
             letterSpacing: 0.3,
           ),
         ),
@@ -58,12 +57,12 @@ class RayonScreenScaffold extends StatelessWidget {
           context,
           actions: actions,
           showHomeButton: showHomeButton,
-          homeColor: AppColors.rsWhite,
+          homeColor: chromeColor,
         ),
       ),
       body: CoolScreenBackground(
-        primaryColor: AppColors.rsBlue,
-        secondaryColor: AppColors.rsGold,
+        primaryColor: RsColors.rsBlue,
+        secondaryColor: RsColors.rsGold,
         child: SafeArea(
           top: false,
           child: scrollable

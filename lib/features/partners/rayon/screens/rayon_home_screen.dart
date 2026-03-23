@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/providers/production_redesign_provider.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/cool_foundations.dart';
-import '../../../../core/theme/cool_palette.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../core/theme/rs_text_styles.dart';
 import '../../../../core/theme/cool_layout.dart';
@@ -31,14 +29,13 @@ class RayonHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, _) {
-        final palette = context.coolPalette;
+        final colors = context.coolSemanticColors;
         final rayon = ref.watch(rayonSportsDataProvider);
         final membership = ref.watch(rayonMembershipProvider);
         final nextMatch = ref.watch(rayonNextMatchProvider);
         final user = ref.watch(currentUserProvider);
         final isRecoveringMembership = ref.watch(rayonActionLoadingProvider);
         final activeMembership = membership.asData?.value;
-        final highlightedMatch = nextMatch.asData?.value;
         final useProductionRedesign = ref.watch(
           productionRedesignEnabledProvider(
             const ProductionRedesignScope(
@@ -79,87 +76,55 @@ class RayonHomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 24),
                     rayon.when(
-                      data: (data) => Column(
-                        children: [
-                          if (useProductionRedesign) ...[
-                            _ClubCommandCard(
-                              data: data,
-                              membership: activeMembership ?? data.membership,
-                              nextMatch: highlightedMatch,
-                            ),
-                            const SizedBox(height: 24),
+                      data: (data) {
+                        final serviceItems = _buildHomeServiceItems(
+                          context: context,
+                          colors: colors,
+                          data: data,
+                          useProductionRedesign: useProductionRedesign,
+                        );
+
+                        return Column(
+                          children: [
+                            if (useProductionRedesign) ...[
+                              _ClubCommandCard(
+                                data: data,
+                                membership: activeMembership ?? data.membership,
+                              ),
+                              const SizedBox(height: 24),
+                            ],
+                            const _RsSectionTitle(title: 'Club Services'),
+                            const SizedBox(height: 14),
+                            for (
+                              var index = 0;
+                              index < serviceItems.length;
+                              index++
+                            ) ...[
+                              _HomeLinkCard(
+                                icon: serviceItems[index].icon,
+                                title: serviceItems[index].title,
+                                meta: serviceItems[index].meta,
+                                detail: serviceItems[index].detail,
+                                accentColor: serviceItems[index].accentColor,
+                                onTap: () =>
+                                    context.push(serviceItems[index].route),
+                              ),
+                              if (index != serviceItems.length - 1)
+                                const SizedBox(height: 12),
+                            ],
+                            if (useProductionRedesign) ...[
+                              const SizedBox(height: 24),
+                              _ClubStandingsCard(
+                                clubs: data.clubs,
+                                joinedClubIds: data.joinedClubIds,
+                                onViewAll: () => context.push(
+                                  '/partners/rayon-sports/clubs',
+                                ),
+                              ),
+                            ],
                           ],
-                          const _RsSectionTitle(title: 'Club Services'),
-                          const SizedBox(height: 14),
-                          _HomeLinkCard(
-                            icon: Icons.people_rounded,
-                            title: context.l10n.memberRegistry,
-                            meta:
-                                '${_formatCount(data.registryMembers.length)} verified supporters',
-                            detail:
-                                'Official registry, identity checks, and tier validation.',
-                            accentColor: RsColors.rsBlue,
-                            onTap: () =>
-                                context.push('/partners/rayon-sports/registry'),
-                          ),
-                          const SizedBox(height: 12),
-                          _HomeLinkCard(
-                            icon: Icons.groups_rounded,
-                            title: 'Fan Clubs & Chapters',
-                            meta:
-                                '${data.clubs.length} active chapters · ${data.joinedClubIds.length} joined',
-                            detail:
-                                'Regional membership, local events, and chapter ranking.',
-                            accentColor: palette.orange,
-                            onTap: () =>
-                                context.push('/partners/rayon-sports/clubs'),
-                          ),
-                          const SizedBox(height: 12),
-                          _HomeLinkCard(
-                            icon: Icons.shopping_bag_rounded,
-                            title: 'Club Shop',
-                            meta: '${data.products.length} premium listings',
-                            detail:
-                                'Official merchandise, member pricing, and direct fulfilment.',
-                            accentColor: palette.accent,
-                            onTap: () =>
-                                context.push('/partners/rayon-sports/shop'),
-                          ),
-                          const SizedBox(height: 12),
-                          _HomeLinkCard(
-                            icon: Icons.handshake_rounded,
-                            title: 'Support Club',
-                            meta:
-                                '${data.initiatives.length} active initiatives',
-                            detail:
-                                'Transparent causes, disciplined fundraising, and impact reporting.',
-                            accentColor: RsColors.rsGold,
-                            onTap: () =>
-                                context.push('/partners/rayon-sports/support'),
-                          ),
-                          const SizedBox(height: 12),
-                          _HomeLinkCard(
-                            icon: Icons.confirmation_number_rounded,
-                            title: 'Tickets',
-                            meta:
-                                '${data.matches.where((m) => m.isOnSale).length} matches live',
-                            detail:
-                                'Priority access, digital entry, and official matchday routing.',
-                            accentColor: palette.red,
-                            onTap: () =>
-                                context.push('/partners/rayon-sports/tickets'),
-                          ),
-                          if (useProductionRedesign) ...[
-                            const SizedBox(height: 24),
-                            _ClubStandingsCard(
-                              clubs: data.clubs,
-                              joinedClubIds: data.joinedClubIds,
-                              onViewAll: () =>
-                                  context.push('/partners/rayon-sports/clubs'),
-                            ),
-                          ],
-                        ],
-                      ),
+                        );
+                      },
                       loading: () => const CoolSkeletonList(itemCount: 3),
                       error: (_, stackTrace) => const Column(
                         children: [
@@ -201,7 +166,7 @@ class RayonHomeScreen extends StatelessWidget {
                         }
                         return Column(
                           children: [
-                            if (useProductionRedesign) ...[
+                            if (useProductionRedesign)
                               _MatchdayBriefCard(
                                 match: match,
                                 membership: activeMembership,
@@ -211,15 +176,14 @@ class RayonHomeScreen extends StatelessWidget {
                                 onSecondaryTap: () => context.push(
                                   '/partners/rayon-sports/membership',
                                 ),
+                              )
+                            else
+                              RsMatchCard(
+                                match: match,
+                                onBuyTap: () => context.push(
+                                  '/partners/rayon-sports/tickets',
+                                ),
                               ),
-                              const SizedBox(height: 12),
-                            ],
-                            RsMatchCard(
-                              match: match,
-                              onBuyTap: () => context.push(
-                                '/partners/rayon-sports/tickets',
-                              ),
-                            ),
                           ],
                         );
                       },
@@ -253,6 +217,82 @@ class _NotificationAction extends StatelessWidget {
   }
 }
 
+List<_HomeServiceItem> _buildHomeServiceItems({
+  required BuildContext context,
+  required CoolSemanticColors colors,
+  required RayonSportsData data,
+  required bool useProductionRedesign,
+}) {
+  final items = <_HomeServiceItem>[
+    _HomeServiceItem(
+      icon: Icons.people_rounded,
+      title: context.l10n.memberRegistry,
+      meta: '${_formatCount(data.registryMembers.length)} verified supporters',
+      detail: 'Official registry, identity checks, and tier validation.',
+      accentColor: RsColors.rsBlue,
+      route: '/partners/rayon-sports/registry',
+    ),
+    if (!useProductionRedesign)
+      _HomeServiceItem(
+        icon: Icons.groups_rounded,
+        title: 'Fan Clubs & Chapters',
+        meta:
+            '${data.clubs.length} active chapters · ${data.joinedClubIds.length} joined',
+        detail: 'Regional membership, local events, and chapter ranking.',
+        accentColor: colors.warning,
+        route: '/partners/rayon-sports/clubs',
+      ),
+    _HomeServiceItem(
+      icon: Icons.shopping_bag_rounded,
+      title: 'Club Shop',
+      meta: '${data.products.length} premium listings',
+      detail: 'Official merchandise, member pricing, and direct fulfilment.',
+      accentColor: colors.accent,
+      route: '/partners/rayon-sports/shop',
+    ),
+    _HomeServiceItem(
+      icon: Icons.handshake_rounded,
+      title: 'Support Club',
+      meta: '${data.initiatives.length} active initiatives',
+      detail:
+          'Transparent causes, disciplined fundraising, and impact reporting.',
+      accentColor: RsColors.rsGold,
+      route: '/partners/rayon-sports/support',
+    ),
+    if (!useProductionRedesign)
+      _HomeServiceItem(
+        icon: Icons.confirmation_number_rounded,
+        title: 'Tickets',
+        meta:
+            '${data.matches.where((match) => match.isOnSale).length} matches live',
+        detail:
+            'Priority access, digital entry, and official matchday routing.',
+        accentColor: colors.danger,
+        route: '/partners/rayon-sports/tickets',
+      ),
+  ];
+
+  return items;
+}
+
+class _HomeServiceItem {
+  const _HomeServiceItem({
+    required this.icon,
+    required this.title,
+    required this.meta,
+    required this.detail,
+    required this.accentColor,
+    required this.route,
+  });
+
+  final IconData icon;
+  final String title;
+  final String meta;
+  final String detail;
+  final Color accentColor;
+  final String route;
+}
+
 class _HomeOverviewCard extends StatelessWidget {
   const _HomeOverviewCard({
     required this.membership,
@@ -268,7 +308,7 @@ class _HomeOverviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
     final fanName =
         membership?.displayName ?? user?.displayUserId ?? 'Rayon Fan';
@@ -281,7 +321,7 @@ class _HomeOverviewCard extends StatelessWidget {
         : _nextTierLabel(tier);
 
     return CoolGlassCard(
-      borderColor: palette.border2,
+      borderColor: colors.borderStrong,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -300,7 +340,7 @@ class _HomeOverviewCard extends StatelessWidget {
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
                         letterSpacing: 1.0,
-                        color: palette.text3,
+                        color: colors.tertiaryText,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -318,7 +358,7 @@ class _HomeOverviewCard extends StatelessWidget {
                       style: GoogleFonts.dmMono(
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
-                        color: palette.text2,
+                        color: RsColors.rsWhite.withValues(alpha: 0.72),
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -329,7 +369,7 @@ class _HomeOverviewCard extends StatelessWidget {
                       style: GoogleFonts.barlow(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
-                        color: palette.text2,
+                        color: RsColors.rsWhite.withValues(alpha: 0.78),
                         height: 1.4,
                       ),
                     ),
@@ -339,17 +379,7 @@ class _HomeOverviewCard extends StatelessWidget {
               const SizedBox(width: 16),
               Column(
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(14),
-                    child: Image.asset(
-                      'assets/images/partners/rs_logo_small.png',
-                      width: 56,
-                      height: 56,
-                      fit: BoxFit.contain,
-                      filterQuality: FilterQuality.high,
-                      errorBuilder: (_, _, _) => const SizedBox.shrink(),
-                    ),
-                  ),
+                  const _RayonBrandMark(size: 56),
                   const SizedBox(height: 10),
                   Container(
                     padding: const EdgeInsets.symmetric(
@@ -369,8 +399,8 @@ class _HomeOverviewCard extends StatelessWidget {
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
                         color: tier == FanTier.silver
-                            ? palette.bg
-                            : AppColors.rsWhite,
+                            ? colors.primaryText
+                            : RsColors.rsWhite,
                       ),
                     ),
                   ),
@@ -388,12 +418,12 @@ class _HomeOverviewCard extends StatelessWidget {
                 value: membership == null
                     ? 'Pending'
                     : _formatCount(membership!.points),
-                accentColor: palette.blue,
+                accentColor: RsColors.rsBlueLight,
               ),
               _MembershipMetricChip(
                 label: 'Chapter',
                 value: membership?.chapter ?? 'Assign at activation',
-                accentColor: palette.orange,
+                accentColor: colors.warning,
               ),
               _MembershipMetricChip(
                 label: 'Privileges',
@@ -412,9 +442,9 @@ class _HomeOverviewCard extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.04),
+                color: colors.glassSurface.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: palette.border),
+                border: Border.all(color: colors.border),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -437,7 +467,7 @@ class _HomeOverviewCard extends StatelessWidget {
                         style: GoogleFonts.dmMono(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
-                          color: palette.text2,
+                          color: colors.secondaryText,
                         ),
                       ),
                     ],
@@ -448,7 +478,7 @@ class _HomeOverviewCard extends StatelessWidget {
                     child: LinearProgressIndicator(
                       value: progress,
                       minHeight: 8,
-                      backgroundColor: palette.surface3,
+                      backgroundColor: colors.cardSurfaceStrong,
                       valueColor: AlwaysStoppedAnimation<Color>(tier.color),
                     ),
                   ),
@@ -515,15 +545,10 @@ class _HomeOverviewCard extends StatelessWidget {
 }
 
 class _ClubCommandCard extends StatelessWidget {
-  const _ClubCommandCard({
-    required this.data,
-    required this.membership,
-    required this.nextMatch,
-  });
+  const _ClubCommandCard({required this.data, required this.membership});
 
   final RayonSportsData data;
   final RsFanMembership? membership;
-  final RsMatch? nextMatch;
 
   @override
   Widget build(BuildContext context) {
@@ -579,63 +604,6 @@ class _ClubCommandCard extends StatelessWidget {
               ),
             ],
           ),
-          if (nextMatch != null) ...[
-            const SizedBox(height: 18),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.07),
-                borderRadius: BorderRadius.circular(22),
-                border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'Next fixture',
-                          style: GoogleFonts.barlow(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white.withValues(alpha: 0.76),
-                          ),
-                        ),
-                      ),
-                      _SurfaceBadge(
-                        label: _matchSalesLabel(nextMatch!),
-                        foreground: Colors.white,
-                        background: Colors.white.withValues(alpha: 0.12),
-                        borderColor: Colors.white.withValues(alpha: 0.14),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    '${nextMatch!.homeTeam} vs ${nextMatch!.awayTeam}',
-                    style: GoogleFonts.barlowCondensed(
-                      fontSize: 34,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white,
-                      height: 0.95,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    '${_formatShortDate(nextMatch!.matchDate)} · ${nextMatch!.kickoffTime} · ${nextMatch!.venue}',
-                    style: GoogleFonts.barlow(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white.withValues(alpha: 0.78),
-                      height: 1.4,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
           const SizedBox(height: 18),
           Wrap(
             spacing: 10,
@@ -706,6 +674,7 @@ class _ClubStandingsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final ranked = [...clubs]
       ..sort((a, b) {
         final memberCompare = b.memberCount.compareTo(a.memberCount);
@@ -720,7 +689,7 @@ class _ClubStandingsCard extends StatelessWidget {
       });
 
     return CoolCard(
-      borderColor: context.coolPalette.border2,
+      borderColor: colors.borderStrong,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -744,7 +713,7 @@ class _ClubStandingsCard extends StatelessWidget {
                       style: GoogleFonts.barlow(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
-                        color: context.coolPalette.text2,
+                        color: colors.secondaryText,
                         height: 1.4,
                       ),
                     ),
@@ -761,7 +730,7 @@ class _ClubStandingsCard extends StatelessWidget {
               style: GoogleFonts.barlow(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: context.coolPalette.text2,
+                color: colors.secondaryText,
               ),
             )
           else
@@ -799,7 +768,7 @@ class _MatchdayBriefCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final tier = membership?.tier ?? FanTier.blue;
 
     return CoolCard(
@@ -842,7 +811,9 @@ class _MatchdayBriefCard extends StatelessWidget {
               const SizedBox(width: 12),
               _SurfaceBadge(
                 label: tier.label.toUpperCase(),
-                foreground: tier == FanTier.silver ? palette.bg : Colors.white,
+                foreground: tier == FanTier.silver
+                    ? colors.primaryText
+                    : Colors.white,
                 background: tier.color.withValues(alpha: 0.16),
                 borderColor: tier.color.withValues(alpha: 0.34),
               ),
@@ -917,66 +888,74 @@ class _HomeLinkCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
     return Semantics(
       button: true,
       label: '$title. $meta',
-      child: GestureDetector(
-        onTap: onTap,
-        child: CoolCard(
-          borderColor: palette.border2,
-          child: Row(
-            children: [
-              Container(
-                width: 52,
-                height: 52,
-                decoration: BoxDecoration(
-                  color: accentColor.withValues(alpha: 0.14),
-                  borderRadius: BorderRadius.circular(CoolRadii.md),
-                  border: Border.all(
-                    color: accentColor.withValues(alpha: 0.28),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(CoolRadii.lg),
+          child: CoolCard(
+            borderColor: colors.borderStrong,
+            child: Row(
+              children: [
+                Container(
+                  width: 52,
+                  height: 52,
+                  decoration: BoxDecoration(
+                    color: accentColor.withValues(alpha: 0.14),
+                    borderRadius: BorderRadius.circular(CoolRadii.md),
+                    border: Border.all(
+                      color: accentColor.withValues(alpha: 0.28),
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  child: Icon(icon, size: 24, color: accentColor),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: theme.textTheme.titleLarge?.copyWith(
+                          color: RsColors.rsWhite,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        meta,
+                        style: GoogleFonts.dmMono(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: accentColor,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        detail,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colors.secondaryText,
+                          fontWeight: FontWeight.w700,
+                          height: 1.35,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                alignment: Alignment.center,
-                child: Icon(icon, size: 24, color: accentColor),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: theme.textTheme.titleLarge?.copyWith(
-                        color: RsColors.rsWhite,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      meta,
-                      style: GoogleFonts.dmMono(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                        color: accentColor,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      detail,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: palette.text2,
-                        fontWeight: FontWeight.w700,
-                        height: 1.35,
-                      ),
-                    ),
-                  ],
+                const SizedBox(width: 12),
+                Icon(
+                  Icons.arrow_forward_rounded,
+                  size: 18,
+                  color: colors.secondaryText,
                 ),
-              ),
-              const SizedBox(width: 12),
-              Icon(Icons.arrow_forward_rounded, size: 18, color: palette.text2),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -1028,6 +1007,63 @@ class _MembershipMetricChip extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _RayonBrandMark extends StatelessWidget {
+  const _RayonBrandMark({required this.size});
+
+  static const _assetPath = 'assets/images/partners/rs_logo_small.png';
+
+  final double size;
+
+  Future<bool> _hasAsset(BuildContext context) async {
+    final manifest = await AssetManifest.loadFromAssetBundle(
+      DefaultAssetBundle.of(context),
+    );
+    return manifest.listAssets().contains(_assetPath);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+
+    return FutureBuilder<bool>(
+      future: _hasAsset(context),
+      builder: (context, snapshot) {
+        if (snapshot.data != true) {
+          return Container(
+            width: size,
+            height: size,
+            decoration: BoxDecoration(
+              color: colors.cardSurface,
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: colors.border),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              'RS',
+              style: GoogleFonts.dmMono(
+                fontSize: size * 0.24,
+                fontWeight: FontWeight.w700,
+                color: RsColors.rsGoldLight,
+              ),
+            ),
+          );
+        }
+
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(14),
+          child: Image.asset(
+            _assetPath,
+            width: size,
+            height: size,
+            fit: BoxFit.contain,
+            filterQuality: FilterQuality.high,
+          ),
+        );
+      },
     );
   }
 }
@@ -1088,14 +1124,14 @@ class _StandingRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
 
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: palette.surface2,
+        color: colors.cardSurface,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: palette.border),
+        border: Border.all(color: colors.border),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1144,9 +1180,9 @@ class _StandingRow extends StatelessWidget {
                     if (joined)
                       _SurfaceBadge(
                         label: 'MEMBER',
-                        foreground: palette.accent,
-                        background: palette.accent.withValues(alpha: 0.14),
-                        borderColor: palette.accent.withValues(alpha: 0.28),
+                        foreground: colors.accent,
+                        background: colors.accent.withValues(alpha: 0.14),
+                        borderColor: colors.accent.withValues(alpha: 0.28),
                       ),
                   ],
                 ),
@@ -1156,7 +1192,7 @@ class _StandingRow extends StatelessWidget {
                   style: GoogleFonts.barlow(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
-                    color: palette.text2,
+                    color: colors.secondaryText,
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -1229,19 +1265,19 @@ class _InfoPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
-        color: palette.surface3,
+        color: colors.cardSurfaceStrong,
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: palette.border),
+        border: Border.all(color: colors.border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 14, color: palette.text2),
+          Icon(icon, size: 14, color: colors.secondaryText),
           const SizedBox(width: 6),
           Text(
             label,
@@ -1278,9 +1314,10 @@ class _EmptyMatchCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return CoolCard(
       onTap: onTap,
-      borderColor: context.coolPalette.border2,
+      borderColor: colors.borderStrong,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1294,7 +1331,7 @@ class _EmptyMatchCard extends StatelessWidget {
             style: GoogleFonts.barlow(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: context.coolPalette.text2,
+              color: colors.secondaryText,
               height: 1.45,
             ),
           ),
@@ -1342,24 +1379,6 @@ String _nextTierLabel(FanTier tier) {
     FanTier.gold => FanTier.platinum.label,
     FanTier.platinum => FanTier.platinum.label,
   };
-}
-
-String _formatShortDate(DateTime date) {
-  const months = <String>[
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ];
-  return '${date.day} ${months[date.month - 1]}';
 }
 
 String _matchSalesLabel(RsMatch match) {

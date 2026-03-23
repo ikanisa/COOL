@@ -17,7 +17,6 @@ where partner_id in (
   from public.partners
   where category = 'bank'
 );
-
 -- ── Step 2: Insert exactly 3 standard services per bank partner ──────────
 
 insert into public.partner_services (
@@ -80,7 +79,6 @@ cross join (
     )
 ) as s(title, subtitle, emoji, category, details, cta_label, cta_action, sort_order)
 where p.category = 'bank';
-
 -- ── Step 3: Add a comment documenting the guardrail ──────────────────────
 
 comment on table public.partner_services is

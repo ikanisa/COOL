@@ -48,7 +48,11 @@ extension _PartnersScreenController on _PartnersScreenState {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (sheetContext) {
-        final palette = context.coolPalette;
+        final colors = context.coolSemanticColors;
+        final text = context.coolText;
+        final space = context.coolSpace;
+        final theme = Theme.of(context);
+        final perks = _membershipPerks(sheetContext, membership.tier);
         return Padding(
           padding: EdgeInsets.only(
             left: 16,
@@ -57,9 +61,9 @@ extension _PartnersScreenController on _PartnersScreenState {
           ),
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: palette.surface,
+              color: colors.cardSurfaceStrong,
               borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: palette.border2),
+              border: Border.all(color: colors.borderStrong),
             ),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(18, 16, 18, 18),
@@ -72,37 +76,40 @@ extension _PartnersScreenController on _PartnersScreenState {
                     height: 4,
                     margin: const EdgeInsets.only(bottom: 16),
                     decoration: BoxDecoration(
-                      color: palette.border2,
+                      color: colors.borderStrong,
                       borderRadius: BorderRadius.circular(999),
                     ),
                   ),
                   Text(
                     'Welcome to Rayon Sports',
-                    style: GoogleFonts.barlowCondensed(
-                      fontSize: 28,
+                    style: text.rayonCondensed(
+                      theme.textTheme.headlineMedium,
                       fontWeight: FontWeight.w900,
-                      color: AppColors.rsWhite,
+                      color: colors.primaryText,
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Membership active Tickets clubs',
-                    style: GoogleFonts.barlow(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: palette.text2,
+                    'Membership is active across tickets, clubs, and store access.',
+                    style: text.rayon(
+                      theme.textTheme.bodyMedium,
+                      fontWeight: FontWeight.w600,
+                      color: colors.secondaryText,
                       height: 1.45,
                     ),
                   ),
                   const SizedBox(height: 18),
-                  RsMembershipCard(
-                    fanName: membership.displayName,
-                    fanId: membership.membershipNumber,
-                    tier: membership.tier,
-                    chapter: membership.chapter,
-                    year: membership.joinedAt.year,
-                    perks: _membershipPerks(sheetContext, membership.tier),
-                  ),
+                  RsMembershipCard(membership: membership),
+                  if (perks.isNotEmpty) ...[
+                    SizedBox(height: space.x4),
+                    Wrap(
+                      spacing: space.x2,
+                      runSpacing: space.x2,
+                      children: perks
+                          .map((perk) => _MembershipPerkChip(label: perk))
+                          .toList(growable: false),
+                    ),
+                  ],
                   const SizedBox(height: 18),
                   CoolButton(
                     label: context.l10n.openRayonSports,
@@ -141,4 +148,33 @@ List<String> _membershipPerks(BuildContext context, FanTier tier) {
       'Exclusive events',
     ],
   };
+}
+
+class _MembershipPerkChip extends StatelessWidget {
+  const _MembershipPerkChip({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+      decoration: BoxDecoration(
+        color: colors.chipBackground,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: colors.border),
+      ),
+      child: Text(
+        label,
+        style: text.rayon(
+          theme.textTheme.labelMedium,
+          fontWeight: FontWeight.w700,
+          color: colors.primaryText,
+        ),
+      ),
+    );
+  }
 }

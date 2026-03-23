@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../models/partner.dart';
 
 class PartnerBrandMark extends StatelessWidget {
@@ -30,7 +30,7 @@ class PartnerBrandMark extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final image = _buildImage();
     final child = SizedBox(
       width: width,
@@ -42,9 +42,9 @@ class PartnerBrandMark extends StatelessWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.96),
+        color: colors.cardSurfaceStrong,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: palette.border),
+        border: Border.all(color: colors.borderStrong),
       ),
       child: child,
     );

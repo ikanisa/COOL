@@ -14,7 +14,6 @@ alter table public.partners
   add column if not exists is_active         boolean not null default true,
   add column if not exists sort_order        int not null default 0,
   add column if not exists updated_at        timestamptz not null default now();
-
 -- ── updated_at trigger ───────────────────────────────────────────────────
 
 create or replace function public.partners_set_updated_at()
@@ -26,13 +25,11 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_partners_set_updated_at on public.partners;
 create trigger trg_partners_set_updated_at
   before update on public.partners
   for each row
   execute function public.partners_set_updated_at();
-
 -- ── Backfill slug for existing Rayon Sports row ─────────────────────────
 
 update public.partners
@@ -44,7 +41,6 @@ set
   is_active  = true
 where lower(name) = 'rayon sports fc'
   and slug is null;
-
 -- ── Seed the remaining 4 partners ────────────────────────────────────────
 
 insert into public.partners (

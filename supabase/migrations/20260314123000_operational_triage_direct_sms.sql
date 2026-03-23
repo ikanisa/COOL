@@ -75,6 +75,5 @@ union all
 select * from edge_function_failures
 union all
 select * from config_issues;
-
 comment on view public.operational_triage_issues is
   'Admin-only triage queue for direct SMS reconciliation reviews, failed function invocation, and stale configuration.';

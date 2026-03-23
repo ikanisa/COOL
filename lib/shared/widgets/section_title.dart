@@ -18,6 +18,7 @@ class SectionTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final radii = context.coolRadii;
     final theme = Theme.of(context);
     final colors = context.coolSemanticColors;
     final effectiveAction = onAction ?? action;
@@ -29,7 +30,6 @@ class SectionTitle extends StatelessWidget {
           Text(
             title,
             style: theme.textTheme.headlineMedium?.copyWith(
-              fontSize: 30,
               fontWeight: FontWeight.w800,
               color: colors.primaryText,
             ),
@@ -39,11 +39,13 @@ class SectionTitle extends StatelessWidget {
               onPressed: effectiveAction,
               style: TextButton.styleFrom(
                 minimumSize: const Size(52, CoolTapTargets.minimum),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(radii.md),
+                ),
               ),
               child: Text(
                 actionLabel!,
                 style: theme.textTheme.labelLarge?.copyWith(
-                  fontSize: 16,
                   fontWeight: FontWeight.w800,
                   color: colors.accent,
                 ),

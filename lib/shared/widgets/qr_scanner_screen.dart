@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' show SupabaseClient;
 import 'package:url_launcher/url_launcher.dart';
@@ -9,7 +8,7 @@ import '../../core/models/momo_qr_payload.dart';
 import '../../core/providers/app_access_provider.dart';
 import '../../core/providers/supabase_client_provider.dart';
 import '../../core/services/app_access_service.dart';
-import '../../core/theme/cool_palette.dart';
+import '../../core/theme/cool_foundations.dart';
 import '../../features/momo/providers/momo_service_provider.dart';
 import 'cool_skeleton.dart';
 import 'cool_button.dart';
@@ -25,12 +24,15 @@ class QrScannerScreen extends ConsumerStatefulWidget {
     required this.mode,
     this.ticketScanningEnabled = true,
     this.client,
+    this.ticketScannerAvailabilityLoader,
     super.key,
   });
 
   final QrScanMode mode;
   final SupabaseClient? client;
   final bool ticketScanningEnabled;
+  final Future<TicketScannerAvailability> Function()?
+  ticketScannerAvailabilityLoader;
 
   @override
   ConsumerState<QrScannerScreen> createState() => _QrScannerScreenState();
@@ -51,6 +53,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
 
   bool _hasScanned = false;
   AppAccessSnapshot? _cameraAccess;
+  TicketScannerAvailability? _ticketScannerAvailability;
   bool _refreshOnResume = false;
 
   @override
@@ -58,6 +61,9 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _loadCameraAccess();
+    if (widget.mode == QrScanMode.ticket && widget.ticketScanningEnabled) {
+      _loadTicketScannerAvailability();
+    }
   }
 
   @override
@@ -84,6 +90,45 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
       return;
     }
     setState(() => _cameraAccess = snapshot);
+  }
+
+  Future<void> _loadTicketScannerAvailability() async {
+    final loader =
+        widget.ticketScannerAvailabilityLoader ??
+        _fetchTicketScannerAvailability;
+    final availability = await loader();
+    if (!mounted) {
+      return;
+    }
+    setState(() => _ticketScannerAvailability = availability);
+  }
+
+  Future<TicketScannerAvailability> _fetchTicketScannerAvailability() async {
+    try {
+      final SupabaseClient client =
+          widget.client ?? ref.read(supabaseClientProvider);
+      final response = await client.functions.invoke(
+        'rs-scan-ticket',
+        body: const <String, dynamic>{'action': 'health'},
+      );
+      final data = _asMap(response.data);
+      final ready = data['ready'] == true;
+      final message = data['message']?.toString();
+      if (ready && response.status < 400) {
+        return TicketScannerAvailability(isReady: true, message: message);
+      }
+      return TicketScannerAvailability(
+        isReady: false,
+        message:
+            message ??
+            'Ticket scanner is temporarily unavailable. Try again later.',
+      );
+    } catch (_) {
+      return const TicketScannerAvailability(
+        isReady: false,
+        message: 'Ticket scanner is temporarily unavailable. Try again later.',
+      );
+    }
   }
 
   Future<void> _enableCameraAccess() async {
@@ -280,36 +325,103 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final textTheme = Theme.of(context).textTheme;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+    final text = context.coolText;
     if (widget.mode == QrScanMode.ticket && !widget.ticketScanningEnabled) {
       return Scaffold(
-        backgroundColor: palette.bg,
+        backgroundColor: colors.appBackground,
         appBar: AppBar(
           title: Text(context.l10n.scanTicket),
-          backgroundColor: palette.bg,
+          backgroundColor: colors.appBackground,
         ),
         body: Center(
           child: Padding(
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(space.x6),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
                   Icons.lock_outline_rounded,
                   size: 42,
-                  color: palette.text2,
+                  color: colors.secondaryText,
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: space.x4),
                 Text(
                   'Ticket scanning is limited',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 15,
+                  style: textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: palette.text,
+                    color: colors.primaryText,
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: space.x5),
+                CoolButton(
+                  label: context.l10n.goBack,
+                  onTap: () => Navigator.of(context).pop(),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    if (widget.mode == QrScanMode.ticket &&
+        widget.ticketScanningEnabled &&
+        _ticketScannerAvailability == null) {
+      return const Scaffold(
+        backgroundColor: Colors.black,
+        body: Center(
+          child: CoolSkeleton(width: 52, height: 52, borderRadius: 26),
+        ),
+      );
+    }
+
+    final scannerAvailability = _ticketScannerAvailability;
+    if (widget.mode == QrScanMode.ticket &&
+        scannerAvailability != null &&
+        !scannerAvailability.isReady) {
+      return Scaffold(
+        backgroundColor: colors.appBackground,
+        appBar: AppBar(
+          title: Text(context.l10n.scanTicket),
+          backgroundColor: colors.appBackground,
+        ),
+        body: Center(
+          child: Padding(
+            padding: EdgeInsets.all(space.x6),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.warning_amber_rounded,
+                  size: 42,
+                  color: colors.warning,
+                ),
+                SizedBox(height: space.x4),
+                Text(
+                  'Ticket scanner unavailable',
+                  textAlign: TextAlign.center,
+                  style: textTheme.labelLarge?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: colors.primaryText,
+                  ),
+                ),
+                SizedBox(height: space.x2),
+                Text(
+                  scannerAvailability.message ??
+                      'Ticket scanning is temporarily unavailable.',
+                  textAlign: TextAlign.center,
+                  style: textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: colors.secondaryText,
+                    height: 1.45,
+                  ),
+                ),
+                SizedBox(height: space.x5),
                 CoolButton(
                   label: context.l10n.goBack,
                   onTap: () => Navigator.of(context).pop(),
@@ -335,8 +447,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
       final gate = switch (cameraAccess.kind) {
         AppAccessStateKind.disabledInApp => (
           title: context.l10n.cameraIsOffIn,
-          message:
-              'Enable camera access',
+          message: 'Enable camera access',
           actionLabel: 'Enable Camera',
           onTap: _enableCameraAccess,
         ),
@@ -348,61 +459,57 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
         ),
         AppAccessStateKind.notAvailable => (
           title: 'Camera not available',
-          message:
-              'This device does not',
+          message: 'This device does not',
           actionLabel: 'Go Back',
           onTap: () => Navigator.of(context).pop(),
         ),
         _ => (
           title: 'Allow camera access',
-          message:
-              'COOL needs camera access',
+          message: 'COOL needs camera access',
           actionLabel: 'Allow Camera',
           onTap: _enableCameraAccess,
         ),
       };
 
       return Scaffold(
-        backgroundColor: palette.bg,
+        backgroundColor: colors.appBackground,
         appBar: AppBar(
           title: Text(
             widget.mode == QrScanMode.ticket ? 'Scan Ticket' : 'Scan MoMo QR',
           ),
-          backgroundColor: palette.bg,
+          backgroundColor: colors.appBackground,
         ),
         body: Center(
           child: Padding(
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(space.x6),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
                   Icons.camera_alt_outlined,
                   size: 42,
-                  color: palette.text2,
+                  color: colors.secondaryText,
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: space.x4),
                 Text(
                   gate.title,
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 16,
+                  style: textTheme.labelLarge?.copyWith(
                     fontWeight: FontWeight.w700,
-                    color: palette.text,
+                    color: colors.primaryText,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: space.x2),
                 Text(
                   gate.message,
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
+                  style: textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w500,
-                    color: palette.text2,
+                    color: colors.secondaryText,
                     height: 1.45,
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: space.x5),
                 CoolButton(label: gate.actionLabel, onTap: gate.onTap),
               ],
             ),
@@ -435,9 +542,9 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                 right: 0,
                 child: SafeArea(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: space.x4,
+                      vertical: space.x2,
                     ),
                     child: Row(
                       children: [
@@ -467,8 +574,7 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                           widget.mode == QrScanMode.ticket
                               ? 'Scan Ticket'
                               : 'Scan MoMo QR',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 16,
+                          style: textTheme.labelLarge?.copyWith(
                             fontWeight: FontWeight.w700,
                             color: Colors.white,
                           ),
@@ -514,23 +620,27 @@ class _QrScannerScreenState extends ConsumerState<QrScannerScreen>
                 child: SafeArea(
                   top: false,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+                    padding: EdgeInsets.fromLTRB(
+                      space.x6,
+                      0,
+                      space.x6,
+                      space.x6,
+                    ),
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 18,
-                        vertical: 14,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: space.x4 + 2,
+                        vertical: space.x3 + 2,
                       ),
                       decoration: BoxDecoration(
                         color: Colors.black.withValues(alpha: 0.66),
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(radii.sm),
                       ),
                       child: Text(
                         widget.mode == QrScanMode.ticket
                             ? 'Keep the signed ticket centered inside the frame until verification completes.'
                             : 'Center the QR inside the frame. Tap the viewfinder to focus, or turn on the torch if glare washes out the code.',
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 13,
+                        style: textTheme.bodySmall?.copyWith(
                           fontWeight: FontWeight.w500,
                           color: Colors.white,
                           height: 1.4,
@@ -556,6 +666,13 @@ Map<String, dynamic> _asMap(dynamic value) {
     return value;
   }
   return const <String, dynamic>{};
+}
+
+class TicketScannerAvailability {
+  const TicketScannerAvailability({required this.isReady, this.message});
+
+  final bool isReady;
+  final String? message;
 }
 
 class _TicketScanResult {
@@ -586,9 +703,13 @@ class _ScannerOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final textTheme = Theme.of(context).textTheme;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
     final accentColor = mode == QrScanMode.ticket
         ? Colors.white
-        : Theme.of(context).extension<CoolPalette>()!.accent;
+        : colors.accent;
     return Stack(
       children: [
         ColorFiltered(
@@ -611,7 +732,7 @@ class _ScannerOverlay extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.red,
-                    borderRadius: BorderRadius.circular(28),
+                    borderRadius: BorderRadius.circular(radii.lg),
                   ),
                 ),
               ),
@@ -622,7 +743,7 @@ class _ScannerOverlay extends StatelessWidget {
           rect: scanWindow,
           child: DecoratedBox(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(28),
+              borderRadius: BorderRadius.circular(radii.lg),
               border: Border.all(
                 color: Colors.white.withValues(alpha: 0.24),
                 width: 1.4,
@@ -653,18 +774,20 @@ class _ScannerOverlay extends StatelessWidget {
           right: scanWindow.right,
           child: Center(
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              padding: EdgeInsets.symmetric(
+                horizontal: space.x3,
+                vertical: space.x1 + 2,
+              ),
               decoration: BoxDecoration(
                 color: Colors.black.withValues(alpha: 0.55),
-                borderRadius: BorderRadius.circular(999),
+                borderRadius: BorderRadius.circular(radii.pill),
                 border: Border.all(color: Colors.white.withValues(alpha: 0.14)),
               ),
               child: Text(
                 mode == QrScanMode.ticket
                     ? 'Signed ticket only'
                     : 'Dialer-ready QR',
-                style: GoogleFonts.dmSans(
-                  fontSize: 11,
+                style: textTheme.labelSmall?.copyWith(
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
                   letterSpacing: 0.2,
@@ -731,13 +854,22 @@ class _TicketResultSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final textTheme = Theme.of(context).textTheme;
+    final text = context.coolText;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
     return Container(
       decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+        color: colors.elevatedBackground,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(radii.lg)),
       ),
-      padding: const EdgeInsets.fromLTRB(22, 16, 22, 32),
+      padding: EdgeInsets.fromLTRB(
+        space.x5 + 2,
+        space.x4,
+        space.x5 + 2,
+        space.x8,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -745,43 +877,39 @@ class _TicketResultSheet extends StatelessWidget {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: palette.border2,
+              color: colors.borderStrong,
               borderRadius: BorderRadius.circular(2),
             ),
           ),
-          const SizedBox(height: 20),
-          Text(
-            result.isValid ? '✅' : '❌',
-            style: const TextStyle(fontSize: 48),
-          ),
-          const SizedBox(height: 12),
+          SizedBox(height: space.x5),
+          Text(result.isValid ? '✅' : '❌', style: textTheme.displaySmall),
+          SizedBox(height: space.x3),
           Text(
             result.isValid ? 'Valid Ticket' : 'Invalid Ticket',
-            style: GoogleFonts.dmSans(
-              fontSize: 20,
+            style: textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w700,
-              color: result.isValid ? palette.accent : palette.red,
+              color: result.isValid ? colors.accent : colors.danger,
             ),
           ),
           if (result.message != null) ...[
-            const SizedBox(height: 6),
+            SizedBox(height: space.x1 + 2),
             Text(
               result.message!,
               textAlign: TextAlign.center,
-              style: GoogleFonts.dmSans(fontSize: 13, color: palette.text2),
+              style: textTheme.bodySmall?.copyWith(color: colors.secondaryText),
             ),
           ],
           if (result.matchTitle != null ||
               result.seatType != null ||
               result.ticketId != null) ...[
-            const SizedBox(height: 16),
+            SizedBox(height: space.x4),
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(14),
+              padding: EdgeInsets.all(space.x3 + 2),
               decoration: BoxDecoration(
-                color: palette.surface2,
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: palette.border),
+                color: colors.inputSurface,
+                borderRadius: BorderRadius.circular(radii.sm),
+                border: Border.all(color: colors.border),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -789,42 +917,40 @@ class _TicketResultSheet extends StatelessWidget {
                   if (result.matchTitle != null)
                     Text(
                       result.matchTitle!,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 15,
+                      style: textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.w700,
-                        color: palette.text,
+                        color: colors.primaryText,
                       ),
                     ),
                   if (result.seatType != null) ...[
-                    const SizedBox(height: 4),
+                    SizedBox(height: space.x1),
                     Text(
                       result.seatType!.toUpperCase(),
-                      style: GoogleFonts.dmMono(
-                        fontSize: 11,
+                      style: text.mono(
+                        textTheme.labelSmall,
                         fontWeight: FontWeight.w700,
-                        color: palette.accent,
+                        color: colors.accent,
                       ),
                     ),
                   ],
                   if (result.ticketId != null) ...[
-                    const SizedBox(height: 4),
+                    SizedBox(height: space.x1),
                     Text(
                       'Ticket: ${result.ticketId}',
-                      style: GoogleFonts.dmMono(
-                        fontSize: 11,
+                      style: text.mono(
+                        textTheme.labelSmall,
                         fontWeight: FontWeight.w600,
-                        color: palette.text3,
+                        color: colors.tertiaryText,
                       ),
                     ),
                   ],
                   if ((result.pointsAwarded ?? 0) > 0) ...[
-                    const SizedBox(height: 4),
+                    SizedBox(height: space.x1),
                     Text(
                       '+${result.pointsAwarded} attendance points',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
+                      style: textTheme.labelSmall?.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: palette.accent,
+                        color: colors.accent,
                       ),
                     ),
                   ],
@@ -832,7 +958,7 @@ class _TicketResultSheet extends StatelessWidget {
               ),
             ),
           ],
-          const SizedBox(height: 20),
+          SizedBox(height: space.x5),
           CoolButton(
             label: 'Scan Another',
             variant: CoolButtonVariant.secondary,

@@ -12,7 +12,6 @@
 
 create extension if not exists "postgis" with schema "extensions";
 create extension if not exists "pgcrypto" with schema "extensions";
-
 -- ── OTP codes (used by Edge Functions) ───────────────────────────────────
 
 create table if not exists public.otp_codes (
@@ -24,9 +23,7 @@ create table if not exists public.otp_codes (
   verified    boolean default false,
   created_at  timestamptz default now()
 );
-
 create index if not exists idx_otp_codes_phone on public.otp_codes (phone);
-
 -- ── Users (app profiles) ─────────────────────────────────────────────────
 
 create table if not exists public.users (
@@ -40,9 +37,7 @@ create table if not exists public.users (
   created_at     timestamptz default now(),
   updated_at     timestamptz default now()
 );
-
 create index if not exists idx_users_phone on public.users (phone);
-
 -- ── Groups ───────────────────────────────────────────────────────────────
 
 create table if not exists public.groups (
@@ -58,10 +53,8 @@ create table if not exists public.groups (
   created_at            timestamptz default now(),
   updated_at            timestamptz default now()
 );
-
 create index if not exists idx_groups_country on public.groups (country);
 create index if not exists idx_groups_visibility on public.groups (visibility);
-
 -- ── Group members ────────────────────────────────────────────────────────
 
 create table if not exists public.group_members (
@@ -75,10 +68,8 @@ create table if not exists public.group_members (
   joined_at             timestamptz default now(),
   unique(group_id, user_id)
 );
-
 create index if not exists idx_group_members_group on public.group_members (group_id);
 create index if not exists idx_group_members_user on public.group_members (user_id);
-
 -- ── Group contributions ──────────────────────────────────────────────────
 
 create table if not exists public.group_contributions (
@@ -89,11 +80,9 @@ create table if not exists public.group_contributions (
   status      text not null default 'pending' check (status in ('pending', 'confirmed', 'failed')),
   created_at  timestamptz default now()
 );
-
 create index if not exists idx_contributions_group on public.group_contributions (group_id);
 create index if not exists idx_contributions_user on public.group_contributions (user_id);
 create index if not exists idx_contributions_status on public.group_contributions (status);
-
 -- ── Mobility trips ───────────────────────────────────────────────────────
 
 create table if not exists public.mobility_trips (
@@ -116,11 +105,9 @@ create table if not exists public.mobility_trips (
   created_at            timestamptz default now(),
   updated_at            timestamptz default now()
 );
-
 create index if not exists idx_trips_status on public.mobility_trips (status);
 create index if not exists idx_trips_departure on public.mobility_trips (departure_at);
 create index if not exists idx_trips_user on public.mobility_trips (user_id);
-
 -- ── Driver profiles ──────────────────────────────────────────────────────
 
 create table if not exists public.driver_profiles (
@@ -140,11 +127,9 @@ create table if not exists public.driver_profiles (
   created_at      timestamptz default now(),
   updated_at      timestamptz default now()
 );
-
 create index if not exists idx_driver_profiles_user on public.driver_profiles (user_id);
 create index if not exists idx_driver_profiles_online on public.driver_profiles (is_online) where is_online = true;
 create index if not exists idx_driver_profiles_location on public.driver_profiles using gist (location);
-
 -- ── Driver subscriptions ─────────────────────────────────────────────────
 
 create table if not exists public.driver_subscriptions (
@@ -158,10 +143,8 @@ create table if not exists public.driver_subscriptions (
   cancelled_at  timestamptz,
   created_at    timestamptz default now()
 );
-
 create index if not exists idx_subscriptions_driver on public.driver_subscriptions (driver_id);
 create index if not exists idx_subscriptions_status on public.driver_subscriptions (status);
-
 -- ── Partners ─────────────────────────────────────────────────────────────
 
 create table if not exists public.partners (
@@ -176,7 +159,6 @@ create table if not exists public.partners (
   game_count    int default 0,
   created_at    timestamptz default now()
 );
-
 -- ── Fan memberships ──────────────────────────────────────────────────────
 
 create table if not exists public.fan_memberships (
@@ -187,10 +169,8 @@ create table if not exists public.fan_memberships (
   joined_at   timestamptz default now(),
   unique(partner_id, user_id)
 );
-
 create index if not exists idx_fan_memberships_partner on public.fan_memberships (partner_id);
 create index if not exists idx_fan_memberships_user on public.fan_memberships (user_id);
-
 -- ── Credit scores ────────────────────────────────────────────────────────
 
 create table if not exists public.credit_scores (
@@ -203,9 +183,7 @@ create table if not exists public.credit_scores (
   community_activity    int not null default 0,
   recorded_at           timestamptz default now()
 );
-
 create index if not exists idx_credit_scores_user on public.credit_scores (user_id);
-
 -- ==========================================================================
 -- PostGIS function: get_nearby_drivers
 -- ==========================================================================
@@ -258,7 +236,6 @@ as $$
     and (p_vehicle_type is null or dp.vehicle_type = p_vehicle_type)
   order by distance_km;
 $$;
-
 -- ==========================================================================
 -- Trigger: auto-update location geography column from lat/lng
 -- ==========================================================================
@@ -274,14 +251,12 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_sync_driver_location on public.driver_profiles;
 create trigger trg_sync_driver_location
   before insert or update of latitude, longitude
   on public.driver_profiles
   for each row
   execute function public.sync_driver_location();
-
 -- ==========================================================================
 -- RLS policies
 -- ==========================================================================
@@ -299,7 +274,6 @@ alter table public.driver_subscriptions enable row level security;
 alter table public.partners           enable row level security;
 alter table public.fan_memberships    enable row level security;
 alter table public.credit_scores      enable row level security;
-
 -- ── OTP codes: service role only (Edge Functions use admin client) ────────
 -- No public policies — only the service_role key can access otp_codes.
 
@@ -308,16 +282,13 @@ alter table public.credit_scores      enable row level security;
 create policy "users_select_own"
   on public.users for select
   using (auth.uid() = id);
-
 create policy "users_insert_own"
   on public.users for insert
   with check (auth.uid() = id);
-
 create policy "users_update_own"
   on public.users for update
   using (auth.uid() = id)
   with check (auth.uid() = id);
-
 -- ── Groups ───────────────────────────────────────────────────────────────
 
 create policy "groups_select_public"
@@ -330,15 +301,12 @@ create policy "groups_select_public"
       where gm.group_id = id and gm.user_id = auth.uid()
     )
   );
-
 create policy "groups_insert"
   on public.groups for insert
   with check (auth.uid() = creator_id);
-
 create policy "groups_update_creator"
   on public.groups for update
   using (auth.uid() = creator_id);
-
 -- ── Group members ────────────────────────────────────────────────────────
 
 create policy "group_members_select"
@@ -350,15 +318,12 @@ create policy "group_members_select"
       where gm2.group_id = group_id and gm2.user_id = auth.uid()
     )
   );
-
 create policy "group_members_insert"
   on public.group_members for insert
   with check (user_id = auth.uid());
-
 create policy "group_members_delete_own"
   on public.group_members for delete
   using (user_id = auth.uid());
-
 -- ── Group contributions ──────────────────────────────────────────────────
 
 create policy "contributions_select"
@@ -369,69 +334,55 @@ create policy "contributions_select"
       where gm.group_id = group_id and gm.user_id = auth.uid()
     )
   );
-
 create policy "contributions_insert"
   on public.group_contributions for insert
   with check (auth.uid() = user_id);
-
 -- ── Mobility trips ───────────────────────────────────────────────────────
 
 create policy "trips_select_open"
   on public.mobility_trips for select
   using (status = 'open' or user_id = auth.uid());
-
 create policy "trips_insert_own"
   on public.mobility_trips for insert
   with check (auth.uid() = user_id);
-
 create policy "trips_update_own"
   on public.mobility_trips for update
   using (auth.uid() = user_id);
-
 -- ── Driver profiles ──────────────────────────────────────────────────────
 
 create policy "driver_profiles_select_online"
   on public.driver_profiles for select
   using (is_online = true or user_id = auth.uid());
-
 create policy "driver_profiles_insert_own"
   on public.driver_profiles for insert
   with check (auth.uid() = user_id);
-
 create policy "driver_profiles_update_own"
   on public.driver_profiles for update
   using (auth.uid() = user_id);
-
 -- ── Driver subscriptions ─────────────────────────────────────────────────
 
 create policy "subscriptions_select_own"
   on public.driver_subscriptions for select
   using (auth.uid() = driver_id);
-
 create policy "subscriptions_insert_own"
   on public.driver_subscriptions for insert
   with check (auth.uid() = driver_id);
-
 -- ── Partners ─────────────────────────────────────────────────────────────
 
 create policy "partners_select_all"
   on public.partners for select
   using (true);
-
 -- ── Fan memberships ──────────────────────────────────────────────────────
 
 create policy "fan_memberships_select"
   on public.fan_memberships for select
   using (user_id = auth.uid());
-
 create policy "fan_memberships_insert"
   on public.fan_memberships for insert
   with check (auth.uid() = user_id);
-
 create policy "fan_memberships_delete_own"
   on public.fan_memberships for delete
   using (auth.uid() = user_id);
-
 -- ── Credit scores ────────────────────────────────────────────────────────
 
 create policy "credit_scores_select_own"

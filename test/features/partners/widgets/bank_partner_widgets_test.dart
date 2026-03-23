@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:cool_app/features/partners/models/partner.dart';
+import 'package:cool_app/features/partners/models/partner_service.dart';
 import 'package:cool_app/features/partners/widgets/bank_partner_widgets.dart';
 
 // ── test helpers ──────────────────────────────────────────────────────────
@@ -17,7 +18,9 @@ const _testPartner = Partner(
 );
 
 Widget _wrap(Widget child) {
-  return MaterialApp(home: Scaffold(body: SingleChildScrollView(child: child)));
+  return MaterialApp(
+    home: Scaffold(body: SingleChildScrollView(child: child)),
+  );
 }
 
 // ── tests ─────────────────────────────────────────────────────────────────
@@ -25,16 +28,15 @@ Widget _wrap(Widget child) {
 void main() {
   group('BankHero', () {
     testWidgets('renders partner name and description', (tester) async {
-      await tester.pumpWidget(_wrap(
-        const BankHero(partner: _testPartner),
-      ));
+      await tester.pumpWidget(_wrap(const BankHero(partner: _testPartner)));
 
       expect(find.text('Urwego Finance'), findsOneWidget);
       expect(find.text('Full bank description'), findsOneWidget);
     });
 
-    testWidgets('uses defaultDescription when partner has no description',
-        (tester) async {
+    testWidgets('uses defaultDescription when partner has no description', (
+      tester,
+    ) async {
       const partnerNoDesc = Partner(
         id: 'p2',
         name: 'Test Bank',
@@ -42,11 +44,28 @@ void main() {
         category: PartnerCategory.bank,
         country: 'RW',
       );
-      await tester.pumpWidget(_wrap(
-        const BankHero(partner: partnerNoDesc),
-      ));
+      await tester.pumpWidget(_wrap(const BankHero(partner: partnerNoDesc)));
 
       expect(find.text('Trusted financial partner.'), findsOneWidget);
+    });
+  });
+
+  group('BankServiceGrid', () {
+    testWidgets('renders the standard bank actions when no services exist', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _wrap(
+          const BankServiceGrid(
+            partner: _testPartner,
+            services: <PartnerService>[],
+          ),
+        ),
+      );
+
+      expect(find.text('Open Account'), findsOneWidget);
+      expect(find.text('Get a Loan'), findsOneWidget);
+      expect(find.text('Group Saving'), findsOneWidget);
     });
   });
 }

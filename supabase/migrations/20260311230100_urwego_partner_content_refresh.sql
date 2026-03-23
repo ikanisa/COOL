@@ -9,21 +9,19 @@ with urwego_partner as (
 update public.partners
 set
   subtitle = 'Digital banking, savings, group, SME, and agricultural finance',
-  description = 'Urwego Finance CBC offers current and savings accounts, group lending, SME credit, agricultural finance, mobile and internet banking, and local payment services in Rwanda.',
+  description = 'Urwego Finance CBC offers current and savings accounts, group lending, SME credit, agricultural finance, mobile and internet banking, transfers, and remittance services in Rwanda.',
   whatsapp_number = '+250785083323',
   fan_count = 0,
   club_count = 0,
   game_count = 0,
   updated_at = now()
 where id in (select id from urwego_partner);
-
 delete from public.partner_services
 where partner_id in (
   select id
   from public.partners
   where slug = 'urwego'
 );
-
 with urwego_partner as (
   select id
   from public.partners
@@ -69,14 +67,14 @@ service_seed (
       1
     ),
     (
-      'Transfers & Payments',
-      'Local transfers and Rwanda payment services.',
+      'Money Transfers & Remittances',
+      'Local transfers, RIPPS, SWIFT, and international remittance services.',
       '🌍',
       'payments',
       $$[
         {"label":"Local","value":"internal transfer and RIPPS","icon":"🏦"},
-        {"label":"Payments","value":"cash-in, cash-out, bill payments, account-to-account transfers","icon":"💸"},
-        {"label":"Use case","value":"day-to-day local movement of money in Rwanda","icon":"📍"}
+        {"label":"International","value":"SWIFT inward and outward transfers","icon":"✈️"},
+        {"label":"Remittance partners","value":"Western Union, Ria, MoneyGram","icon":"💵"}
       ]$$::jsonb,
       'View official service page',
       'web:https://www.urwegofinance.com/productsandservices/',
@@ -88,7 +86,7 @@ service_seed (
       '🏦',
       'current_account',
       $$[
-        {"label":"Currency","value":"RWF","icon":"💱"},
+        {"label":"Currencies","value":"RWF, USD, EUR","icon":"💱"},
         {"label":"Opening balance","value":"No minimum","icon":"✨"},
         {"label":"Use it for","value":"deposits, withdrawals, transfers, cheque-book access","icon":"🧾"}
       ]$$::jsonb,

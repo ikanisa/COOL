@@ -16,7 +16,6 @@ create policy rs_matches_insert_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 drop policy if exists rs_matches_update_admin on public.rs_matches;
 create policy rs_matches_update_admin
   on public.rs_matches for update
@@ -29,7 +28,6 @@ create policy rs_matches_update_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 drop policy if exists rs_matches_delete_admin on public.rs_matches;
 create policy rs_matches_delete_admin
   on public.rs_matches for delete
@@ -38,7 +36,6 @@ create policy rs_matches_delete_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 -- rs_shop_products: admin insert/update/delete
 drop policy if exists rs_shop_products_insert_admin on public.rs_shop_products;
 create policy rs_shop_products_insert_admin
@@ -48,7 +45,6 @@ create policy rs_shop_products_insert_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 drop policy if exists rs_shop_products_update_admin on public.rs_shop_products;
 create policy rs_shop_products_update_admin
   on public.rs_shop_products for update
@@ -61,7 +57,6 @@ create policy rs_shop_products_update_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 drop policy if exists rs_shop_products_delete_admin on public.rs_shop_products;
 create policy rs_shop_products_delete_admin
   on public.rs_shop_products for delete
@@ -70,7 +65,6 @@ create policy rs_shop_products_delete_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 -- rs_fan_clubs: admin insert/update/delete
 drop policy if exists rs_fan_clubs_insert_admin on public.rs_fan_clubs;
 create policy rs_fan_clubs_insert_admin
@@ -80,7 +74,6 @@ create policy rs_fan_clubs_insert_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 drop policy if exists rs_fan_clubs_update_admin on public.rs_fan_clubs;
 create policy rs_fan_clubs_update_admin
   on public.rs_fan_clubs for update
@@ -93,7 +86,6 @@ create policy rs_fan_clubs_update_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 drop policy if exists rs_fan_clubs_delete_admin on public.rs_fan_clubs;
 create policy rs_fan_clubs_delete_admin
   on public.rs_fan_clubs for delete
@@ -102,7 +94,6 @@ create policy rs_fan_clubs_delete_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 -- rs_initiatives: admin insert/update/delete
 drop policy if exists rs_initiatives_insert_admin on public.rs_initiatives;
 create policy rs_initiatives_insert_admin
@@ -112,7 +103,6 @@ create policy rs_initiatives_insert_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 drop policy if exists rs_initiatives_update_admin on public.rs_initiatives;
 create policy rs_initiatives_update_admin
   on public.rs_initiatives for update
@@ -125,7 +115,6 @@ create policy rs_initiatives_update_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 drop policy if exists rs_initiatives_delete_admin on public.rs_initiatives;
 create policy rs_initiatives_delete_admin
   on public.rs_initiatives for delete
@@ -134,7 +123,6 @@ create policy rs_initiatives_delete_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 -- rs_achievements: admin insert/update/delete
 drop policy if exists rs_achievements_insert_admin on public.rs_achievements;
 create policy rs_achievements_insert_admin
@@ -144,7 +132,6 @@ create policy rs_achievements_insert_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 drop policy if exists rs_achievements_update_admin on public.rs_achievements;
 create policy rs_achievements_update_admin
   on public.rs_achievements for update
@@ -157,7 +144,6 @@ create policy rs_achievements_update_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 drop policy if exists rs_achievements_delete_admin on public.rs_achievements;
 create policy rs_achievements_delete_admin
   on public.rs_achievements for delete
@@ -166,7 +152,6 @@ create policy rs_achievements_delete_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 -- rs_fan_memberships: admin update (insert already has user policy)
 drop policy if exists rs_fan_memberships_update_admin on public.rs_fan_memberships;
 create policy rs_fan_memberships_update_admin
@@ -180,7 +165,6 @@ create policy rs_fan_memberships_update_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 drop policy if exists rs_fan_memberships_delete_admin on public.rs_fan_memberships;
 create policy rs_fan_memberships_delete_admin
   on public.rs_fan_memberships for delete
@@ -189,7 +173,6 @@ create policy rs_fan_memberships_delete_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 -- rs_tickets: admin update/delete
 drop policy if exists rs_tickets_update_admin on public.rs_tickets;
 create policy rs_tickets_update_admin
@@ -205,7 +188,6 @@ create policy rs_tickets_update_admin
         and public.rs_is_partner_admin(m.partner_id)
     )
   );
-
 drop policy if exists rs_tickets_delete_admin on public.rs_tickets;
 create policy rs_tickets_delete_admin
   on public.rs_tickets for delete
@@ -218,7 +200,6 @@ create policy rs_tickets_delete_admin
         and public.rs_is_partner_admin(m.partner_id)
     )
   );
-
 -- rs_shop_orders: admin update/delete (need partner_id column first — see C7)
 -- These policies will be created AFTER the partner_id column is added below.
 
@@ -226,16 +207,13 @@ create policy rs_tickets_delete_admin
 
 alter table public.rs_tickets
   drop constraint if exists rs_tickets_status_check;
-
 alter table public.rs_tickets
   add constraint rs_tickets_status_check
   check (status in ('pending', 'valid', 'used', 'cancelled', 'voided', 'refunded'));
-
 -- ── C4. Fix CHECK constraint for rs_shop_orders ─────────────────────────────
 
 alter table public.rs_shop_orders
   drop constraint if exists rs_shop_orders_status_check;
-
 alter table public.rs_shop_orders
   add constraint rs_shop_orders_status_check
   check (
@@ -244,15 +222,12 @@ alter table public.rs_shop_orders
       'shipped', 'fulfilled', 'delivered', 'cancelled'
     )
   );
-
 -- ── C7. Add partner_id to rs_shop_orders ────────────────────────────────────
 
 alter table public.rs_shop_orders
   add column if not exists partner_id uuid references public.partners(id);
-
 create index if not exists idx_rs_shop_orders_partner
   on public.rs_shop_orders (partner_id);
-
 -- Backfill existing orders: derive partner_id from the items' product
 update public.rs_shop_orders
 set partner_id = (
@@ -266,7 +241,6 @@ set partner_id = (
 where partner_id is null
   and items is not null
   and jsonb_array_length(items) > 0;
-
 -- Now add admin RLS for rs_shop_orders
 drop policy if exists rs_shop_orders_update_admin on public.rs_shop_orders;
 create policy rs_shop_orders_update_admin
@@ -277,7 +251,6 @@ create policy rs_shop_orders_update_admin
     or public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 drop policy if exists rs_shop_orders_delete_admin on public.rs_shop_orders;
 create policy rs_shop_orders_delete_admin
   on public.rs_shop_orders for delete
@@ -286,31 +259,26 @@ create policy rs_shop_orders_delete_admin
     public.is_admin_user()
     or public.rs_is_partner_admin(partner_id)
   );
-
 -- ── C9. Add supporter_name to rs_initiative_contributions ───────────────────
 
 alter table public.rs_initiative_contributions
   add column if not exists supporter_name text;
-
 -- ── C10. Add expires_at to rs_fan_memberships ───────────────────────────────
 
 alter table public.rs_fan_memberships
   add column if not exists expires_at timestamptz;
-
 -- ── C11. Add sort_order, image_url, available_sizes to rs_shop_products ─────
 
 alter table public.rs_shop_products
   add column if not exists sort_order integer not null default 0,
   add column if not exists image_url text,
   add column if not exists available_sizes text[];
-
 -- ── C12. Add discount_amount, delivery_fee, referral_invite_id to orders ────
 
 alter table public.rs_shop_orders
   add column if not exists discount_amount integer not null default 0,
   add column if not exists delivery_fee integer not null default 0,
   add column if not exists referral_invite_id uuid;
-
 -- ── C2. Fix get_rs_fan_analytics RPC ────────────────────────────────────────
 
 create or replace function public.get_rs_fan_analytics()
@@ -361,7 +329,6 @@ begin
   return v_result;
 end;
 $$;
-
 -- ── C5. Stock Decrement Trigger on Shop Orders ──────────────────────────────
 
 create or replace function public.rs_decrement_stock_on_order()
@@ -392,15 +359,12 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_rs_shop_orders_decrement_stock
   on public.rs_shop_orders;
-
 create trigger trg_rs_shop_orders_decrement_stock
   after insert on public.rs_shop_orders
   for each row
   execute function public.rs_decrement_stock_on_order();
-
 -- ── C6. Capacity Check Trigger on Ticket Insert ─────────────────────────────
 
 create or replace function public.rs_check_ticket_capacity()
@@ -437,10 +401,8 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_rs_tickets_check_capacity
   on public.rs_tickets;
-
 create trigger trg_rs_tickets_check_capacity
   before insert on public.rs_tickets
   for each row

@@ -69,11 +69,38 @@ bundle_has_secret() {
 
 required_secret_bundles_for() {
   case "$1" in
+    allocate-contributions)
+      echo "SUPABASE_URL|COOL_PROJECT_SUPABASE_URL SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY"
+      ;;
+    create-financial-memo)
+      echo "SUPABASE_URL|COOL_PROJECT_SUPABASE_URL SUPABASE_ANON_KEY|COOL_PROJECT_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY GEMINI_API_KEY"
+      ;;
+    evaluate-transfer-risk)
+      echo "SUPABASE_URL|COOL_PROJECT_SUPABASE_URL SUPABASE_ANON_KEY|COOL_PROJECT_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY GEMINI_API_KEY"
+      ;;
+    fetch-workspace-calendar)
+      echo "SUPABASE_URL|COOL_PROJECT_SUPABASE_URL SUPABASE_ANON_KEY|COOL_PROJECT_SUPABASE_ANON_KEY"
+      ;;
+    get-financial-insights)
+      echo "SUPABASE_URL|COOL_PROJECT_SUPABASE_URL SUPABASE_ANON_KEY|COOL_PROJECT_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY GEMINI_API_KEY"
+      ;;
+    kyc-ocr)
+      echo "SUPABASE_URL|COOL_PROJECT_SUPABASE_URL SUPABASE_ANON_KEY|COOL_PROJECT_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY GEMINI_API_KEY"
+      ;;
+    record-operational-health)
+      echo "SUPABASE_URL|COOL_PROJECT_SUPABASE_URL SUPABASE_ANON_KEY|COOL_PROJECT_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY"
+      ;;
     send-otp)
       echo "SUPABASE_URL|COOL_PROJECT_SUPABASE_URL SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY OTP_CODE_HASH_SECRET|SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY WHATSAPP_PHONE_NUMBER_ID WHATSAPP_ACCESS_TOKEN"
       ;;
+    sms-ingest)
+      echo "SUPABASE_URL|COOL_PROJECT_SUPABASE_URL SUPABASE_ANON_KEY|COOL_PROJECT_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY"
+      ;;
     verify-otp)
       echo "SUPABASE_URL|COOL_PROJECT_SUPABASE_URL SUPABASE_ANON_KEY|COOL_PROJECT_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY AUTH_PHONE_PASSWORD_SECRET|SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY"
+      ;;
+    verify-face-match)
+      echo "SUPABASE_URL|COOL_PROJECT_SUPABASE_URL SUPABASE_ANON_KEY|COOL_PROJECT_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY GEMINI_API_KEY"
       ;;
     delete-account)
       echo "SUPABASE_URL|COOL_PROJECT_SUPABASE_URL SUPABASE_ANON_KEY|COOL_PROJECT_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY|COOL_PROJECT_SUPABASE_SERVICE_ROLE_KEY"
@@ -102,8 +129,17 @@ required_secret_bundles_for() {
 
 smoke_body_for() {
   case "$1" in
+    allocate-contributions) echo '{"partner_id":"00000000-0000-0000-0000-000000000000"}' ;;
+    create-financial-memo) echo '{}' ;;
+    evaluate-transfer-risk) echo '{}' ;;
+    fetch-workspace-calendar) echo '{}' ;;
+    get-financial-insights) echo '{}' ;;
+    kyc-ocr) echo '{}' ;;
+    record-operational-health) echo '{"service":"sms_ingest","component":"android_sms_autoread","message":"smoke"}' ;;
     send-otp) echo '{}' ;;
+    sms-ingest) echo '{}' ;;
     verify-otp) echo '{}' ;;
+    verify-face-match) echo '{}' ;;
     delete-account) echo '{"confirm":true}' ;;
     maps-gateway) echo '{}' ;;
     parse-momo-sms) echo '{"rawSmsId":"00000000-0000-0000-0000-000000000000"}' ;;
@@ -117,8 +153,17 @@ smoke_body_for() {
 
 allowed_statuses_for() {
   case "$1" in
+    allocate-contributions) echo "401" ;;
+    create-financial-memo) echo "401" ;;
+    evaluate-transfer-risk) echo "401" ;;
+    fetch-workspace-calendar) echo "401" ;;
+    get-financial-insights) echo "401" ;;
+    kyc-ocr) echo "401" ;;
+    record-operational-health) echo "401" ;;
     send-otp) echo "400" ;;
+    sms-ingest) echo "401" ;;
     verify-otp) echo "400" ;;
+    verify-face-match) echo "401" ;;
     delete-account) echo "401" ;;
     maps-gateway) echo "401" ;;
     parse-momo-sms) echo "401" ;;

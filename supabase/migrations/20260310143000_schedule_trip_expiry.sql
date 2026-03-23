@@ -6,14 +6,11 @@
 -- ==========================================================================
 
 create extension if not exists pg_cron with schema pg_catalog;
-
 grant usage on schema cron to postgres;
 grant all privileges on all tables in schema cron to postgres;
-
 select cron.unschedule(jobid)
 from cron.job
 where jobname = 'expire-mobility-trips';
-
 select cron.schedule(
   'expire-mobility-trips',
   '*/5 * * * *',

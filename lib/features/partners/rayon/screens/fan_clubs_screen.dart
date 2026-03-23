@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/providers/production_redesign_provider.dart';
 import '../../../../core/router/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/cool_palette.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../shared/widgets/cool_button.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_toast.dart';
 import '../../../../shared/widgets/cool_text_field.dart';
 import '../../../../shared/widgets/rs_fan_club_card.dart';
+import '../../../../shared/widgets/vehicle_chip.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/rayon_screen_scaffold.dart';
 import '../../widgets/rayon_state_views.dart';
@@ -33,16 +31,11 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
     final clubDirectory = ref.watch(rayonClubDirectoryProvider);
-    final useProductionRedesign = ref.watch(
-      productionRedesignEnabledProvider(
-        const ProductionRedesignScope(
-          route: ProductionRedesignRoutes.rayonFanClubs,
-          partner: 'rayon',
-        ),
-      ),
-    );
 
     return RayonScreenScaffold(
       title: context.l10n.fanClubs,
@@ -51,13 +44,21 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
       actions: [
         TextButton.icon(
           onPressed: () => _showCreateSheet(context),
-          icon: const Icon(Icons.add, size: 18, color: AppColors.rsGoldLight),
+          icon: const Icon(Icons.add, size: 18, color: RsColors.rsGoldLight),
           label: Text(
             'Create',
-            style: GoogleFonts.barlow(
-              fontSize: 13,
+            style: text.rayon(
+              theme.textTheme.labelLarge,
               fontWeight: FontWeight.w700,
-              color: AppColors.rsGoldLight,
+              color: RsColors.rsGoldLight,
+            ),
+          ),
+          style: TextButton.styleFrom(
+            foregroundColor: RsColors.rsGoldLight,
+            padding: EdgeInsets.symmetric(horizontal: space.x2),
+            minimumSize: const Size(
+              CoolTapTargets.minimum,
+              CoolTapTargets.minimum,
             ),
           ),
         ),
@@ -89,65 +90,17 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
                 padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
-                    if (useProductionRedesign) ...[
-                      _FanClubCommandCard(
-                        selectedRegion: _selectedRegion,
-                        joinedCount: myClub.length,
-                        totalClubs: directory.clubs.length,
-                        visibleCount: filtered.length,
-                        totalMemberCount: totalMemberCount,
-                      ),
-                      const SizedBox(height: 18),
-                    ],
-                    SizedBox(
-                      height: 36,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: _regions.length,
-                        separatorBuilder: (_, _) => const SizedBox(width: 8),
-                        itemBuilder: (context, index) {
-                          final region = _regions[index];
-                          final selected = region == _selectedRegion;
-                          return Semantics(
-                            selected: selected,
-                            label: '$region region filter',
-                            child: GestureDetector(
-                              onTap: () =>
-                                  setState(() => _selectedRegion = region),
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 180),
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 14,
-                                ),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: selected
-                                      ? RsColors.rsBlue
-                                      : palette.surface2,
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(
-                                    color: selected
-                                        ? RsColors.rsBlueBorder
-                                        : palette.border,
-                                  ),
-                                ),
-                                child: Text(
-                                  region,
-                                  style: GoogleFonts.barlow(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w700,
-                                    color: selected
-                                        ? Colors.white
-                                        : palette.text2,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
+                    _FanClubCommandCard(
+                      selectedRegion: _selectedRegion,
+                      joinedCount: myClub.length,
+                      totalClubs: directory.clubs.length,
+                      visibleCount: filtered.length,
+                      totalMemberCount: totalMemberCount,
+                      regions: _regions,
+                      onRegionSelected: (region) =>
+                          setState(() => _selectedRegion = region),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: space.x5),
                   ]),
                 ),
               ),
@@ -158,10 +111,10 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
                     delegate: SliverChildListDelegate([
                       Text(
                         'Joined clubs',
-                        style: GoogleFonts.barlow(
-                          fontSize: 13,
+                        style: text.rayon(
+                          theme.textTheme.labelLarge,
                           fontWeight: FontWeight.w700,
-                          color: palette.blue,
+                          color: RsColors.rsBluePale,
                         ),
                       ),
                       const SizedBox(height: 10),
@@ -177,18 +130,12 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
                         padding: EdgeInsets.only(
                           bottom: index == myClub.length - 1 ? 0 : 12,
                         ),
-                        child: Semantics(
-                          button: true,
-                          label: 'Open ${club.name} fan club',
-                          child: GestureDetector(
-                            onTap: () => context.push(
-                              '/partners/rayon-sports/clubs/${club.id}',
-                            ),
-                            child: RsFanClubCard(
-                              club: club,
-                              isJoined: true,
-                              onJoinTap: () {},
-                            ),
+                        child: RsFanClubCard(
+                          club: club,
+                          isJoined: true,
+                          onJoinTap: () {},
+                          onTap: () => context.push(
+                            '/partners/rayon-sports/clubs/${club.id}',
                           ),
                         ),
                       );
@@ -203,10 +150,10 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
                   delegate: SliverChildListDelegate([
                     Text(
                       'All clubs',
-                      style: GoogleFonts.barlow(
-                        fontSize: 13,
+                      style: text.rayon(
+                        theme.textTheme.labelLarge,
                         fontWeight: FontWeight.w700,
-                        color: palette.text2,
+                        color: colors.secondaryText,
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -223,20 +170,14 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
                       padding: EdgeInsets.only(
                         bottom: index == filtered.length - 1 ? 0 : 12,
                       ),
-                      child: Semantics(
-                        button: true,
-                        label: 'Open ${club.name} fan club',
-                        child: GestureDetector(
-                          onTap: () => context.push(
-                            '/partners/rayon-sports/clubs/${club.id}',
-                          ),
-                          child: RsFanClubCard(
-                            club: club,
-                            isJoined: isJoined,
-                            onJoinTap: isJoined
-                                ? () {}
-                                : () => _joinClub(context, club.id),
-                          ),
+                      child: RsFanClubCard(
+                        club: club,
+                        isJoined: isJoined,
+                        onJoinTap: isJoined
+                            ? () {}
+                            : () => _joinClub(context, club.id),
+                        onTap: () => context.push(
+                          '/partners/rayon-sports/clubs/${club.id}',
                         ),
                       ),
                     );
@@ -275,11 +216,11 @@ class _FanClubsScreenState extends ConsumerState<FanClubsScreen> {
   }
 
   void _showCreateSheet(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     showCoolBottomSheet<void>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: palette.surface,
+      backgroundColor: colors.overlaySurface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -300,6 +241,8 @@ class _FanClubCommandCard extends StatelessWidget {
     required this.totalClubs,
     required this.visibleCount,
     required this.totalMemberCount,
+    required this.regions,
+    required this.onRegionSelected,
   });
 
   final String selectedRegion;
@@ -307,9 +250,15 @@ class _FanClubCommandCard extends StatelessWidget {
   final int totalClubs;
   final int visibleCount;
   final int totalMemberCount;
+  final List<String> regions;
+  final ValueChanged<String> onRegionSelected;
 
   @override
   Widget build(BuildContext context) {
+    final text = context.coolText;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
+
     return CoolCard(
       gradient: const LinearGradient(
         begin: Alignment.topLeft,
@@ -322,23 +271,37 @@ class _FanClubCommandCard extends StatelessWidget {
         children: [
           Text(
             'Official Chapter Network',
-            style: GoogleFonts.barlow(
-              fontSize: 24,
-              fontWeight: FontWeight.w800,
+            style: text.rayonCondensed(
+              theme.textTheme.headlineSmall,
+              fontWeight: FontWeight.w900,
               color: Colors.white,
             ),
           ),
-          const SizedBox(height: 6),
+          SizedBox(height: space.x1 + 2),
           Text(
-            'Regional supporter chapters are reviewed for membership mobilisation, matchday operations, and local community leadership.',
-            style: GoogleFonts.barlow(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
+            'Browse chapters by region.',
+            style: text.rayon(
+              theme.textTheme.bodySmall,
+              fontWeight: FontWeight.w600,
               color: Colors.white.withValues(alpha: 0.76),
               height: 1.4,
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: space.x4),
+          Wrap(
+            spacing: space.x2,
+            runSpacing: space.x2,
+            children: regions
+                .map(
+                  (region) => VehicleChip(
+                    label: region,
+                    isSelected: region == selectedRegion,
+                    onTap: () => onRegionSelected(region),
+                  ),
+                )
+                .toList(),
+          ),
+          SizedBox(height: space.x4),
           Row(
             children: [
               Expanded(
@@ -364,10 +327,10 @@ class _FanClubCommandCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 14),
+          SizedBox(height: space.x3 + 2),
           Wrap(
-            spacing: 8,
-            runSpacing: 8,
+            spacing: space.x2,
+            runSpacing: space.x2,
             children: [
               _FanClubSignalPill(
                 icon: Icons.public_rounded,
@@ -378,10 +341,6 @@ class _FanClubCommandCard extends StatelessWidget {
               _FanClubSignalPill(
                 icon: Icons.visibility_outlined,
                 label: '$visibleCount chapters visible',
-              ),
-              const _FanClubSignalPill(
-                icon: Icons.verified_outlined,
-                label: 'Requests reviewed by club operations',
               ),
             ],
           ),
@@ -404,16 +363,20 @@ class _FanClubMetricTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.coolText;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+      padding: EdgeInsets.symmetric(horizontal: space.x3, vertical: space.x3),
       decoration: BoxDecoration(
         color: highlight
-            ? AppColors.rsGold.withValues(alpha: 0.14)
+            ? RsColors.rsGold.withValues(alpha: 0.14)
             : Colors.white.withValues(alpha: 0.06),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(CoolRadii.lg),
         border: Border.all(
           color: highlight
-              ? AppColors.rsGold.withValues(alpha: 0.38)
+              ? RsColors.rsGold.withValues(alpha: 0.38)
               : Colors.white.withValues(alpha: 0.08),
         ),
       ),
@@ -422,17 +385,17 @@ class _FanClubMetricTile extends StatelessWidget {
         children: [
           Text(
             value,
-            style: GoogleFonts.barlowCondensed(
-              fontSize: 24,
+            style: text.rayonCondensed(
+              theme.textTheme.headlineSmall,
               fontWeight: FontWeight.w900,
-              color: highlight ? AppColors.rsGoldLight : Colors.white,
+              color: highlight ? RsColors.rsGoldLight : Colors.white,
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: space.x1 / 2),
           Text(
             label,
-            style: GoogleFonts.barlow(
-              fontSize: 11,
+            style: text.rayon(
+              theme.textTheme.labelSmall,
               fontWeight: FontWeight.w600,
               color: Colors.white.withValues(alpha: 0.72),
             ),
@@ -451,6 +414,9 @@ class _FanClubSignalPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.coolText;
+    final theme = Theme.of(context);
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
       decoration: BoxDecoration(
@@ -461,12 +427,12 @@ class _FanClubSignalPill extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 15, color: AppColors.rsBluePale),
+          Icon(icon, size: 15, color: RsColors.rsBluePale),
           const SizedBox(width: 6),
           Text(
             label,
-            style: GoogleFonts.barlow(
-              fontSize: 12,
+            style: text.rayon(
+              theme.textTheme.labelMedium,
               fontWeight: FontWeight.w600,
               color: Colors.white.withValues(alpha: 0.82),
             ),
@@ -504,7 +470,9 @@ class _CreateClubSheetState extends State<_CreateClubSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.fromLTRB(
         20,
@@ -520,17 +488,17 @@ class _CreateClubSheetState extends State<_CreateClubSheet> {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: palette.border2,
+              color: colors.borderStrong,
               borderRadius: BorderRadius.circular(2),
             ),
           ),
           const SizedBox(height: 18),
           Text(
             'Create Fan Club',
-            style: GoogleFonts.barlowCondensed(
-              fontSize: 28,
+            style: text.rayonCondensed(
+              theme.textTheme.headlineMedium,
               fontWeight: FontWeight.w900,
-              color: AppColors.rsWhite,
+              color: RsColors.rsWhite,
             ),
           ),
           const SizedBox(height: 20),
@@ -548,10 +516,9 @@ class _CreateClubSheetState extends State<_CreateClubSheet> {
             children: [
               Text(
                 'Region',
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: palette.text2,
+                style: theme.textTheme.labelMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: colors.secondaryText,
                 ),
               ),
               const SizedBox(height: 8),
@@ -559,36 +526,10 @@ class _CreateClubSheetState extends State<_CreateClubSheet> {
                 spacing: 8,
                 runSpacing: 8,
                 children: _regionOptions.map((r) {
-                  final selected = r == _region;
-                  return Semantics(
-                    selected: selected,
-                    label: '$r region',
-                    child: GestureDetector(
-                      onTap: () => setState(() => _region = r),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          color: selected ? RsColors.rsBlue : palette.surface2,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: selected
-                                ? RsColors.rsBlueBorder
-                                : palette.border,
-                          ),
-                        ),
-                        child: Text(
-                          r,
-                          style: GoogleFonts.barlow(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w700,
-                            color: selected ? Colors.white : palette.text2,
-                          ),
-                        ),
-                      ),
-                    ),
+                  return VehicleChip(
+                    label: r,
+                    isSelected: r == _region,
+                    onTap: () => setState(() => _region = r),
                   );
                 }).toList(),
               ),

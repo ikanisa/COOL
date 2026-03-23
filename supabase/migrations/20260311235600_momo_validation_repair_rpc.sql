@@ -103,7 +103,6 @@ begin
   );
 end;
 $$;
-
 revoke all on function public.repair_momo_validation_issue(text, uuid, text)
   from public;
 grant execute on function public.repair_momo_validation_issue(text, uuid, text)

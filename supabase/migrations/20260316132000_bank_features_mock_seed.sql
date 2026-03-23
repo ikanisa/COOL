@@ -6,7 +6,6 @@
 -- ============================================================================
 
 begin;
-
 -- ============================================================================
 -- 1. Setup Runtime Context (Resolving existing core seed records)
 -- ============================================================================
@@ -20,7 +19,6 @@ create temp table demo_context (
   user_diane uuid not null,
   user_matteo uuid not null
 ) on commit drop;
-
 insert into demo_context (
   mock_batch,
   bank_partner_id,
@@ -40,7 +38,6 @@ select
   (select id from public.users where phone = '+25075588248' limit 1),
   (select id from public.users where phone = '+25088817592' limit 1),
   (select id from public.users where phone = '+35677186193' limit 1);
-
 do $$
 begin
   if exists (
@@ -58,8 +55,6 @@ begin
       'Core demo users, groups, or partners missing. Expected 20260311214500_demo_users_and_comprehensive_mock_seed.sql to have run first.';
   end if;
 end $$;
-
-
 -- ============================================================================
 -- 2. Seed Bank Baskets (Savings Targets)
 -- ============================================================================
@@ -124,8 +119,6 @@ cross join (
 ) as baskets(
   group_id, name, target_amount, current_amount, deadline, status, created_at
 );
-
-
 -- ============================================================================
 -- 3. Seed Bank Loans (Coverage for diverse statuses)
 -- ============================================================================
@@ -255,7 +248,6 @@ cross join (
   group_id, member_user_id, amount, interest_rate, repaid_amount, status,
   disbursed_at, due_at, notes, created_at
 );
-
 -- ============================================================================
 -- 4. Mark existing Nexus Opportunities as active batch members
 -- ============================================================================
@@ -264,5 +256,4 @@ set
   is_mock = true,
   mock_batch = (select mock_batch from demo_context)
 where title IN ('Urwego Agri-Loan', 'Moto Subscription');
-
 commit;

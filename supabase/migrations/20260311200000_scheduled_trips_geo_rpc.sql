@@ -8,7 +8,6 @@
 
 alter table public.mobility_trips
   add column if not exists origin_geo extensions.geography(Point, 4326);
-
 -- Backfill from existing lat/lng
 update public.mobility_trips
 set origin_geo = extensions.st_setsrid(
@@ -21,10 +20,8 @@ set origin_geo = extensions.st_setsrid(
 where origin_geo is null
   and coalesce(latitude, from_lat) is not null
   and coalesce(longitude, from_lng) is not null;
-
 create index if not exists idx_trips_origin_geo
   on public.mobility_trips using gist (origin_geo);
-
 -- ── 2. Update compat trigger to sync origin_geo ─────────────────────────
 
 create or replace function public.sync_mobility_trip_compat()
@@ -91,7 +88,6 @@ begin
   return new;
 end;
 $$;
-
 -- ── 3. Create get_scheduled_trips RPC ───────────────────────────────────
 
 create or replace function public.get_scheduled_trips(
@@ -171,11 +167,9 @@ as $$
     )
   order by mt.travel_time asc, mt.created_at desc;
 $$;
-
 revoke all on function public.get_scheduled_trips(
   double precision, double precision, text, text, double precision
 ) from public;
-
 grant execute on function public.get_scheduled_trips(
   double precision, double precision, text, text, double precision
 ) to authenticated;

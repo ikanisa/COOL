@@ -243,7 +243,7 @@ async function issueRayonMembershipWalletPass(options: {
     throw new HttpError(400, "membershipId is required.");
   }
 
-  const config = requireWalletConfig();
+  const config = loadWalletConfig();
   const admin = createAdminClient();
 
   const membership = await loadRayonMembership(admin, membershipId);
@@ -260,16 +260,14 @@ async function issueRayonMembershipWalletPass(options: {
   await ensureGenericClass(config, classId);
   await ensureGenericObject(config, objectId, classId, membership);
 
-  const saveUrl = await generateSaveUrl(config, {
-    genericObjects: [{ id: objectId }],
-  });
+  const saveUrl = await createSaveUrl(config, objectId);
 
   const walletPassId = await persistWalletPass(admin, {
-    userId: caller.userId,
+    userId: options.caller.userId,
     partnerId: null, // Global RS context
     entityType: "rs_membership",
     entityId: membership.id,
-    passType: "generic_pass",
+    passType: "generic_membership",
     classId,
     objectId,
     saveUrl,
@@ -434,7 +432,7 @@ async function issueRayonTicketWalletPass(options: {
 
   const saveUrl = await createSaveUrl(config, objectId);
   const walletPassId = await persistWalletPass(admin, {
-    userId: caller.userId,
+    userId: options.caller.userId,
     partnerId: ticket.partnerId,
     entityType: "rs_ticket",
     entityId: ticket.id,
@@ -442,14 +440,19 @@ async function issueRayonTicketWalletPass(options: {
     classId,
     objectId,
     saveUrl,
-    payload: ticket,
-  });
+    payload: {
+      ticketId: ticket.id,
       matchId: ticket.matchId,
       matchTitle: ticket.matchTitle,
       seatType: ticket.seatType,
       competition: ticket.competition,
       venue: ticket.venue,
       kickoff: buildKickoffLabel(ticket.matchDate, ticket.kickoffTime),
+      holderName: ticket.holderName,
+      status: ticket.status,
+      amountPaid: ticket.amountPaid,
+      purchasedAt: ticket.purchasedAt,
+      momoReference: ticket.momoReference,
     } as Record<string, unknown>,
   });
 
@@ -662,6 +665,8 @@ async function persistWalletPass(
   options: {
     userId: string;
     partnerId: string | null;
+    entityType: "rs_ticket" | "rs_membership";
+    passType: "event_ticket" | "generic_membership";
     entityId: string;
     classId: string;
     objectId: string;
@@ -677,8 +682,8 @@ async function persistWalletPass(
           user_id: options.userId,
           partner_id: options.partnerId,
           provider: "google_wallet",
-          pass_type: "event_ticket",
-          entity_type: "rs_ticket",
+          pass_type: options.passType,
+          entity_type: options.entityType,
           entity_id: options.entityId,
           google_class_id: options.classId,
           google_object_id: options.objectId,

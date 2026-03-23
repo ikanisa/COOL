@@ -7,7 +7,6 @@ alter table public.mobility_trips
   add column if not exists repeat_days text[],
   add column if not exists role text,
   add column if not exists whatsapp_number text;
-
 update public.mobility_trips
 set
   from_lat = coalesce(from_lat, latitude),
@@ -23,7 +22,6 @@ set
   ),
   whatsapp_number = coalesce(nullif(whatsapp_number, ''), nullif(contact_phone, ''))
 where true;
-
 create or replace function public.sync_mobility_trip_compat()
 returns trigger
 language plpgsql

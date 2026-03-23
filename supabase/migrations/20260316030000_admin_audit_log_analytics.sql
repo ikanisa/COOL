@@ -15,21 +15,16 @@ create table if not exists public.admin_audit_log (
   notes text,
   created_at timestamptz not null default now()
 );
-
 -- Ensure notes column exists (may be missing from a prior partial push)
 alter table public.admin_audit_log add column if not exists notes text;
-
 comment on table public.admin_audit_log is
   'Tracks admin actions for accountability and debugging.';
-
 -- Indexes
 create index if not exists idx_audit_log_actor on public.admin_audit_log(actor_id);
 create index if not exists idx_audit_log_action on public.admin_audit_log(action);
 create index if not exists idx_audit_log_created on public.admin_audit_log(created_at desc);
-
 -- Enable RLS
 alter table public.admin_audit_log enable row level security;
-
 -- Only admins can read
 create policy "Admins can read audit log"
   on public.admin_audit_log for select
@@ -39,27 +34,21 @@ create policy "Admins can read audit log"
       where u.id = auth.uid() and u.is_admin = true
     )
   );
-
 -- System can insert (via SECURITY DEFINER functions)
 create policy "System can insert audit log"
   on public.admin_audit_log for insert
   with check (true);
-
 -- No deletes or updates allowed
 create policy "No deletes on audit log"
   on public.admin_audit_log for delete
   using (false);
-
 create policy "No updates on audit log"
   on public.admin_audit_log for update
   using (false);
-
-
 -- ── 2. RPC: get_admin_audit_log ───────────────────────────────
 
 -- Drop first: return type may have changed from a prior deployment
 drop function if exists public.get_admin_audit_log(int, int, text, uuid);
-
 create or replace function public.get_admin_audit_log(
   p_limit int default 50,
   p_offset int default 0,
@@ -97,8 +86,6 @@ as $$
   limit p_limit
   offset p_offset;
 $$;
-
-
 -- ── 3. RPC: get_platform_analytics_summary ────────────────────
 
 create or replace function public.get_platform_analytics_summary()
@@ -173,8 +160,6 @@ begin
   return result;
 end;
 $$;
-
-
 -- ── 4. Helper: record_admin_action ────────────────────────────
 
 create or replace function public.record_admin_action(

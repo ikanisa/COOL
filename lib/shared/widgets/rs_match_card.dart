@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../core/theme/app_colors.dart';
 import '../../core/theme/cool_foundations.dart';
+import '../../core/theme/rs_colors.dart';
 import '../../features/partners/rayon/models/rs_models.dart';
 
 enum SelectedSeatType { general, vip }
@@ -68,10 +68,16 @@ class _RsMatchCardState extends State<RsMatchCard> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
     final theme = Theme.of(context);
     final match = widget.match;
     final effectiveSeat = widget.selectedSeat ?? _internalSeat;
-    final cardRadius = BorderRadius.circular(widget.isCompact ? 24 : 28);
+    final cardRadius = BorderRadius.circular(
+      widget.isCompact ? radii.md : radii.lg,
+    );
     final buttonEnabled =
         match.isOnSale && !match.isSoldOut && widget.tierAccessible;
     final buttonLabel = match.isSoldOut
@@ -81,7 +87,7 @@ class _RsMatchCardState extends State<RsMatchCard> {
         : !match.isOnSale
         ? 'SALES CLOSED'
         : 'BUY TICKET';
-    final cardPadding = widget.isCompact ? 16.0 : 18.0;
+    final cardPadding = widget.isCompact ? space.x4 : space.x5;
     final showRemainingChip =
         match.capacity > 0 &&
         !match.isSoldOut &&
@@ -94,17 +100,17 @@ class _RsMatchCardState extends State<RsMatchCard> {
         ? 'ON SALE'
         : 'UPCOMING';
     final statusBackground = match.isSoldOut
-        ? AppColors.red.withValues(alpha: 0.18)
+        ? colors.danger.withValues(alpha: 0.18)
         : !widget.tierAccessible && match.isOnSale
-        ? AppColors.rsGold.withValues(alpha: 0.16)
+        ? RsColors.rsGold.withValues(alpha: 0.16)
         : match.isOnSale
-        ? AppColors.accent.withValues(alpha: 0.18)
-        : AppColors.rsBlue.withValues(alpha: 0.14);
+        ? colors.accent.withValues(alpha: 0.18)
+        : RsColors.rsBlue.withValues(alpha: 0.14);
     final statusForeground = match.isSoldOut
-        ? const Color(0xFFFFC0C5)
+        ? colors.danger
         : !widget.tierAccessible && match.isOnSale
-        ? AppColors.rsGoldLight
-        : AppColors.rsWhite;
+        ? RsColors.rsGoldLight
+        : RsColors.rsWhite;
 
     return Semantics(
       label:
@@ -123,9 +129,10 @@ class _RsMatchCardState extends State<RsMatchCard> {
           clipBehavior: Clip.antiAlias,
           child: Ink(
             decoration: BoxDecoration(
-              color: AppColors.surface,
+              color: colors.teamSurface,
+              gradient: RsColors.rsCardGradient,
               borderRadius: cardRadius,
-              border: Border.all(color: AppColors.rsBlueBorder),
+              border: Border.all(color: RsColors.rsBlueBorder),
             ),
             child: Padding(
               padding: EdgeInsets.all(cardPadding),
@@ -138,15 +145,15 @@ class _RsMatchCardState extends State<RsMatchCard> {
                       Expanded(
                         child: Text(
                           match.competition.toUpperCase(),
-                          style: theme.textTheme.labelSmall?.copyWith(
-                            fontSize: 14,
+                          style: text.rayon(
+                            theme.textTheme.labelSmall,
                             fontWeight: FontWeight.w800,
                             letterSpacing: 0.2,
-                            color: AppColors.rsGoldLight,
+                            color: RsColors.rsGoldLight,
                           ),
                         ),
                       ),
-                      const SizedBox(width: 10),
+                      SizedBox(width: space.x2),
                       _MatchStatusBadge(
                         label: statusLabel,
                         backgroundColor: statusBackground,
@@ -166,13 +173,13 @@ class _RsMatchCardState extends State<RsMatchCard> {
                           isCompact: widget.isCompact,
                         ),
                       ),
-                      SizedBox(width: widget.isCompact ? 8 : 12),
+                      SizedBox(width: widget.isCompact ? space.x2 : space.x3),
                       _VsBlock(
                         date: match.matchDate,
                         kickoffTime: match.kickoffTime,
                         isCompact: widget.isCompact,
                       ),
-                      SizedBox(width: widget.isCompact ? 8 : 12),
+                      SizedBox(width: widget.isCompact ? space.x2 : space.x3),
                       Expanded(
                         child: _TeamPanel(
                           name: match.awayTeam,
@@ -185,8 +192,8 @@ class _RsMatchCardState extends State<RsMatchCard> {
                   ),
                   SizedBox(height: widget.isCompact ? 12 : 14),
                   Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
+                    spacing: space.x2,
+                    runSpacing: space.x2,
                     children: [
                       _DetailChip(
                         icon: Icons.place_outlined,
@@ -294,6 +301,10 @@ class _TeamPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final radii = context.coolRadii;
+    final space = context.coolSpace;
     final theme = Theme.of(context);
     final abbreviation = _teamAbbreviation(name);
 
@@ -304,31 +315,30 @@ class _TeamPanel extends StatelessWidget {
           width: isCompact ? 40 : 46,
           height: isCompact ? 40 : 46,
           decoration: BoxDecoration(
-            color: AppColors.surface.withValues(alpha: 0.3),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.border),
+            color: colors.overlaySurface.withValues(alpha: 0.34),
+            borderRadius: BorderRadius.circular(radii.sm),
+            border: Border.all(color: colors.border),
           ),
           alignment: Alignment.center,
           child: Text(
             abbreviation,
-            style: theme.textTheme.labelLarge?.copyWith(
-              fontSize: isCompact ? 14 : 15,
+            style: text.rayonCondensed(
+              theme.textTheme.labelLarge,
               fontWeight: FontWeight.w800,
-              color: AppColors.rsWhite,
+              color: RsColors.rsWhite,
             ),
           ),
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: space.x2),
         Text(
           sideLabel,
           style: theme.textTheme.labelSmall?.copyWith(
-            fontSize: 11,
             fontWeight: FontWeight.w700,
             letterSpacing: 0.8,
-            color: AppColors.text3,
+            color: colors.tertiaryText,
           ),
         ),
-        const SizedBox(height: 4),
+        SizedBox(height: space.x1),
         Text(
           name,
           textAlign: alignment == CrossAxisAlignment.end
@@ -336,10 +346,12 @@ class _TeamPanel extends StatelessWidget {
               : TextAlign.left,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
-          style: theme.textTheme.headlineMedium?.copyWith(
-            fontSize: isCompact ? 24 : 28,
+          style: text.rayonCondensed(
+            isCompact
+                ? theme.textTheme.titleLarge
+                : theme.textTheme.headlineSmall,
             fontWeight: FontWeight.w800,
-            color: AppColors.rsWhite,
+            color: RsColors.rsWhite,
             height: 0.95,
           ),
         ),
@@ -361,17 +373,18 @@ class _MatchStatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      padding: EdgeInsets.symmetric(horizontal: space.x3, vertical: space.x2),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(radii.pill),
         border: Border.all(color: foregroundColor.withValues(alpha: 0.24)),
       ),
       child: Text(
         label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-          fontSize: 11,
           fontWeight: FontWeight.w800,
           letterSpacing: 0.6,
           color: foregroundColor,
@@ -394,38 +407,44 @@ class _VsBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final radii = context.coolRadii;
+    final space = context.coolSpace;
     final theme = Theme.of(context);
     final dateLabel = DateFormat('d MMM').format(date).toUpperCase();
 
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: isCompact ? 10 : 12,
-        vertical: isCompact ? 8 : 10,
+        horizontal: isCompact ? space.x2 : space.x3,
+        vertical: isCompact ? space.x2 : space.x2 + 2,
       ),
       decoration: BoxDecoration(
-        color: AppColors.surface.withValues(alpha: 0.32),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border),
+        color: colors.overlaySurface.withValues(alpha: 0.32),
+        borderRadius: BorderRadius.circular(radii.sm),
+        border: Border.all(color: colors.border),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             'VS',
-            style: theme.textTheme.labelLarge?.copyWith(
-              fontSize: isCompact ? 16 : 18,
+            style: text.rayonCondensed(
+              isCompact
+                  ? theme.textTheme.titleSmall
+                  : theme.textTheme.titleMedium,
               fontWeight: FontWeight.w800,
-              color: AppColors.text3,
+              color: colors.tertiaryText,
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: space.x1),
           Text(
             '$dateLabel $kickoffTime',
             textAlign: TextAlign.center,
-            style: theme.textTheme.labelSmall?.copyWith(
-              fontSize: isCompact ? 14 : 15,
+            style: text.mono(
+              theme.textTheme.labelSmall,
               fontWeight: FontWeight.w700,
-              color: AppColors.rsBluePale,
+              color: RsColors.rsBluePale,
               height: 1.25,
             ),
           ),
@@ -448,16 +467,20 @@ class _DetailChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
+    final space = context.coolSpace;
+    final text = context.coolText;
     final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: space.x3, vertical: space.x2),
       decoration: BoxDecoration(
         color: highlight
-            ? AppColors.rsGold.withValues(alpha: 0.16)
-            : AppColors.surface.withValues(alpha: 0.26),
-        borderRadius: BorderRadius.circular(12),
+            ? RsColors.rsGold.withValues(alpha: 0.16)
+            : colors.overlaySurface.withValues(alpha: 0.26),
+        borderRadius: BorderRadius.circular(radii.sm),
         border: Border.all(
-          color: highlight ? AppColors.rsGoldLight : AppColors.border,
+          color: highlight ? RsColors.rsGoldLight : colors.border,
         ),
       ),
       child: Row(
@@ -466,19 +489,19 @@ class _DetailChip extends StatelessWidget {
           Icon(
             icon,
             size: 14,
-            color: highlight ? AppColors.rsGoldLight : AppColors.rsBluePale,
+            color: highlight ? RsColors.rsGoldLight : RsColors.rsBluePale,
           ),
-          const SizedBox(width: 6),
+          SizedBox(width: space.x1 + 2),
           Flexible(
             child: Text(
               label,
               overflow: TextOverflow.ellipsis,
-              style: theme.textTheme.labelSmall?.copyWith(
-                fontSize: 14,
+              style: text.rayon(
+                theme.textTheme.labelSmall,
                 fontWeight: FontWeight.w700,
                 color: highlight
-                    ? AppColors.rsGoldLight
-                    : AppColors.rsWhite.withValues(alpha: 0.84),
+                    ? RsColors.rsGoldLight
+                    : RsColors.rsWhite.withValues(alpha: 0.84),
               ),
             ),
           ),
@@ -512,12 +535,16 @@ class _CutoutCircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     return Transform.translate(
       offset: const Offset(0, 0),
       child: Container(
         width: 16,
         height: 16,
-        decoration: BoxDecoration(color: AppColors.bg, shape: BoxShape.circle),
+        decoration: BoxDecoration(
+          color: colors.appBackground,
+          shape: BoxShape.circle,
+        ),
       ),
     );
   }
@@ -527,7 +554,7 @@ class _DashedLinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = AppColors.rsBlueBorder.withValues(alpha: 0.8)
+      ..color = RsColors.rsBlueBorder.withValues(alpha: 0.8)
       ..strokeWidth = 1.2
       ..style = PaintingStyle.stroke;
     const dashWidth = 6.0;
@@ -556,6 +583,9 @@ class _PriceBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final space = context.coolSpace;
     final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -563,19 +593,18 @@ class _PriceBlock extends StatelessWidget {
         Text(
           seatLabel.toUpperCase(),
           style: theme.textTheme.labelSmall?.copyWith(
-            fontSize: 14,
             fontWeight: FontWeight.w800,
             letterSpacing: 0.2,
-            color: AppColors.text2,
+            color: colors.secondaryText,
           ),
         ),
-        const SizedBox(height: 6),
+        SizedBox(height: space.x1 + 2),
         Text(
           _formatRwf(price),
-          style: theme.textTheme.titleMedium?.copyWith(
-            fontSize: 24,
+          style: text.mono(
+            theme.textTheme.titleLarge,
             fontWeight: FontWeight.w800,
-            color: AppColors.rsGoldLight,
+            color: RsColors.rsGoldLight,
           ),
         ),
       ],
@@ -596,23 +625,25 @@ class _SeatTypeChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
+    final space = context.coolSpace;
     final theme = Theme.of(context);
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(radii.sm),
       child: Ink(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: space.x3, vertical: space.x2),
         decoration: BoxDecoration(
-          color: selected ? AppColors.rsBlue : AppColors.surface2,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.rsBlueBorder),
+          color: selected ? RsColors.rsBlue : colors.cardSurfaceStrong,
+          borderRadius: BorderRadius.circular(radii.sm),
+          border: Border.all(color: RsColors.rsBlueBorder),
         ),
         child: Text(
           label,
           style: theme.textTheme.labelSmall?.copyWith(
-            fontSize: 14,
             fontWeight: FontWeight.w800,
-            color: selected ? AppColors.rsWhite : AppColors.text2,
+            color: selected ? RsColors.rsWhite : colors.secondaryText,
           ),
         ),
       ),
@@ -633,27 +664,28 @@ class _BuyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final radii = context.coolRadii;
     final theme = Theme.of(context);
     return SizedBox(
-      height: 52,
+      height: CoolTapTargets.comfortable,
       width: double.infinity,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: enabled ? AppColors.rsBlue : AppColors.surface3,
-          borderRadius: BorderRadius.circular(14),
+          color: enabled ? RsColors.rsBlue : colors.cardSurfaceStrong,
+          borderRadius: BorderRadius.circular(radii.sm),
         ),
         child: Material(
           color: Colors.transparent,
           child: InkWell(
             onTap: enabled ? onTap : null,
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(radii.sm),
             child: Center(
               child: Text(
                 label,
                 style: theme.textTheme.labelLarge?.copyWith(
-                  fontSize: 16,
                   fontWeight: FontWeight.w800,
-                  color: enabled ? AppColors.rsWhite : AppColors.text3,
+                  color: enabled ? RsColors.rsWhite : colors.tertiaryText,
                 ),
               ),
             ),

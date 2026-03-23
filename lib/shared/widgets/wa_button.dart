@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
-import '../../core/theme/app_colors.dart';
 
 /// A compact WhatsApp-branded icon button.
 ///
 /// Rendered as a small green-tinted circle with a chat icon.
 /// Text stays optional for places that still need a visible label.
 class WaButton extends StatelessWidget {
+  /// Fixed WhatsApp brand color (external brand, not theme-dependent).
+  static const _whatsApp = Color(0xFF2E8A57);
   const WaButton({
     required this.onTap,
     this.label = 'WhatsApp',
@@ -16,7 +17,7 @@ class WaButton extends StatelessWidget {
     super.key,
   });
 
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final String label;
   final bool iconOnly;
   final bool fullWidth;
@@ -25,75 +26,86 @@ class WaButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
+    final isEnabled = onTap != null;
+    final shape = iconOnly
+        ? const CircleBorder()
+        : RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(CoolRadii.sm),
+          );
+    final backgroundColor = iconOnly
+        ? (isEnabled
+              ? _whatsApp.withValues(alpha: 0.14)
+              : colors.cardSurfaceStrong)
+        : (isEnabled ? _whatsApp : colors.buttonSecondaryBackground);
+    final borderColor = isEnabled
+        ? (iconOnly ? _whatsApp : colors.highlightColor.withValues(alpha: 0.16))
+        : colors.border;
+    final foregroundColor = isEnabled
+        ? (iconOnly ? _whatsApp : Colors.white)
+        : colors.tertiaryText;
+
     return Semantics(
       button: true,
+      enabled: isEnabled,
       label: label,
       excludeSemantics: true,
       child: SizedBox(
         width: fullWidth ? double.infinity : null,
-        child: GestureDetector(
-          onTap: onTap,
-          child: Container(
+        child: Material(
+          color: Colors.transparent,
+          shape: shape,
+          clipBehavior: Clip.antiAlias,
+          child: Ink(
             width: iconOnly ? CoolTapTargets.minimum : null,
             height: CoolTapTargets.minimum,
-            padding: iconOnly
-                ? EdgeInsets.zero
-                : const EdgeInsets.symmetric(horizontal: 14),
-            decoration: BoxDecoration(
-              color: iconOnly
-                  ? AppColors.whatsapp.withValues(alpha: 0.14)
-                  : AppColors.whatsapp,
-              shape: iconOnly ? BoxShape.circle : BoxShape.rectangle,
-              borderRadius: iconOnly ? null : BorderRadius.circular(18),
-              border: Border.all(
-                color: iconOnly
-                    ? AppColors.whatsapp
-                    : colors.highlightColor.withValues(alpha: 0.16),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.whatsapp.withValues(
-                    alpha: iconOnly ? 0.12 : 0.26,
-                  ),
-                  blurRadius: iconOnly ? 12 : 22,
-                  spreadRadius: iconOnly ? -6 : -10,
-                  offset: const Offset(0, 10),
-                ),
-              ],
+            decoration: ShapeDecoration(
+              shape: shape.copyWith(side: BorderSide(color: borderColor)),
+              color: backgroundColor,
+              shadows: isEnabled
+                  ? CoolShadows.floating(
+                      theme.brightness,
+                      strength: iconOnly ? 0.26 : 0.4,
+                    )
+                  : const <BoxShadow>[],
             ),
-            child: Row(
-              mainAxisSize: fullWidth ? MainAxisSize.max : MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.chat_rounded,
-                  size: 18,
-                  color: iconOnly ? AppColors.whatsapp : Colors.white,
-                ),
-                if (!iconOnly) ...[
-                  const SizedBox(width: 8),
-                  Flexible(
-                    child: Text(
-                      label,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.labelSmall?.copyWith(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white,
+            child: InkWell(
+              onTap: onTap,
+              child: Padding(
+                padding: iconOnly
+                    ? EdgeInsets.zero
+                    : const EdgeInsets.symmetric(horizontal: 14),
+                child: Row(
+                  mainAxisSize: fullWidth ? MainAxisSize.max : MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.chat_rounded, size: 18, color: foregroundColor),
+                    if (!iconOnly) ...[
+                      SizedBox(width: CoolSpace.x2),
+                      Flexible(
+                        child: Text(
+                          label,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.labelLarge?.copyWith(
+                            fontWeight: FontWeight.w800,
+                            color: foregroundColor,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ],
-                if (!iconOnly) ...[
-                  const SizedBox(width: 8),
-                  Icon(
-                    Icons.arrow_forward_rounded,
-                    size: 16,
-                    color: colors.highlightColor.withValues(alpha: 0.9),
-                  ),
-                ],
-              ],
+                    ],
+                    if (!iconOnly) ...[
+                      SizedBox(width: CoolSpace.x2),
+                      Icon(
+                        Icons.arrow_forward_rounded,
+                        size: 16,
+                        color: isEnabled
+                            ? colors.highlightColor.withValues(alpha: 0.9)
+                            : colors.tertiaryText,
+                      ),
+                    ],
+                  ],
+                ),
+              ),
             ),
           ),
         ),

@@ -22,7 +22,6 @@ create table if not exists public.wallet_passes (
   unique (provider, google_object_id),
   unique (pass_type, entity_type, entity_id)
 );
-
 create table if not exists public.wallet_pass_events (
   id uuid primary key default gen_random_uuid(),
   wallet_pass_id uuid not null references public.wallet_passes(id) on delete cascade,
@@ -32,34 +31,26 @@ create table if not exists public.wallet_pass_events (
   details jsonb not null default '{}'::jsonb,
   created_at timestamptz not null default now()
 );
-
 create index if not exists idx_wallet_passes_user
   on public.wallet_passes (user_id, created_at desc);
-
 create index if not exists idx_wallet_passes_partner
   on public.wallet_passes (partner_id, created_at desc);
-
 create index if not exists idx_wallet_passes_entity
   on public.wallet_passes (entity_type, entity_id);
-
 create index if not exists idx_wallet_pass_events_pass
   on public.wallet_pass_events (wallet_pass_id, created_at desc);
-
 drop trigger if exists trg_wallet_passes_set_updated_at on public.wallet_passes;
 create trigger trg_wallet_passes_set_updated_at
   before update on public.wallet_passes
   for each row
   execute function public.set_updated_at();
-
 alter table public.wallet_passes enable row level security;
 alter table public.wallet_pass_events enable row level security;
-
 drop policy if exists "wallet_passes_select_own" on public.wallet_passes;
 create policy "wallet_passes_select_own"
   on public.wallet_passes for select
   to authenticated
   using (auth.uid() = user_id);
-
 drop policy if exists "wallet_pass_events_select_own" on public.wallet_pass_events;
 create policy "wallet_pass_events_select_own"
   on public.wallet_pass_events for select

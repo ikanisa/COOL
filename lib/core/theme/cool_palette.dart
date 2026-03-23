@@ -4,8 +4,24 @@ import 'app_colors.dart';
 
 /// Theme-aware semantic color roles for the Cool app shell.
 ///
-/// New and migrated widgets should read semantic colors from the active theme
-/// instead of using the legacy dark-first [AppColors] surface/text tokens.
+/// **DEPRECATED** — migrate to [CoolSemanticColors] via `context.coolSemanticColors`.
+///
+/// Migration mapping:
+/// ```
+/// coolPalette.bg       → sem.appBackground
+/// coolPalette.surface  → sem.elevatedBackground
+/// coolPalette.surface2 → sem.cardSurface
+/// coolPalette.surface3 → sem.cardSurfaceStrong
+/// coolPalette.border   → sem.border
+/// coolPalette.border2  → sem.borderStrong
+/// coolPalette.text     → sem.primaryText
+/// coolPalette.text2    → sem.secondaryText
+/// coolPalette.text3    → sem.tertiaryText
+/// coolPalette.accent   → sem.accent
+/// coolPalette.accent2  → sem.accentStrong
+/// ```
+@Deprecated('Use CoolSemanticColors via context.coolSemanticColors instead. '
+    'See migration mapping in doc comment above.')
 @immutable
 class CoolPalette extends ThemeExtension<CoolPalette> {
   const CoolPalette({

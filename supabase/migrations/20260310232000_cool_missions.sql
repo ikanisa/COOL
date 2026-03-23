@@ -20,13 +20,10 @@ CREATE TABLE IF NOT EXISTS public.cool_missions (
   is_active   bool DEFAULT true,
   created_at  timestamptz DEFAULT now() NOT NULL
 );
-
 ALTER TABLE public.cool_missions ENABLE ROW LEVEL SECURITY;
-
 -- Everyone can read active missions
 CREATE POLICY cool_missions_select ON public.cool_missions
   FOR SELECT USING (true);
-
 -- 2) cool_mission_progress: per-user progress toward a mission
 CREATE TABLE IF NOT EXISTS public.cool_mission_progress (
   id               uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -38,25 +35,19 @@ CREATE TABLE IF NOT EXISTS public.cool_mission_progress (
   created_at       timestamptz DEFAULT now() NOT NULL,
   UNIQUE(mission_id, user_id)
 );
-
 ALTER TABLE public.cool_mission_progress ENABLE ROW LEVEL SECURITY;
-
 -- Users can read their own progress
 CREATE POLICY cool_mission_progress_select ON public.cool_mission_progress
   FOR SELECT USING (auth.uid() = user_id);
-
 -- Users can insert their own progress
 CREATE POLICY cool_mission_progress_insert ON public.cool_mission_progress
   FOR INSERT WITH CHECK (auth.uid() = user_id);
-
 -- Users can update their own progress
 CREATE POLICY cool_mission_progress_update ON public.cool_mission_progress
   FOR UPDATE USING (auth.uid() = user_id);
-
 -- Indexes
 CREATE INDEX IF NOT EXISTS idx_cool_missions_active ON public.cool_missions(is_active, starts_at, ends_at);
 CREATE INDEX IF NOT EXISTS idx_cool_mission_progress_mission ON public.cool_mission_progress(mission_id);
 CREATE INDEX IF NOT EXISTS idx_cool_mission_progress_user ON public.cool_mission_progress(user_id);
-
 COMMENT ON TABLE public.cool_missions IS 'Time-bound cooperative missions (savings sprints, supporter seasons, etc.).';
 COMMENT ON TABLE public.cool_mission_progress IS 'Per-user contribution tracking toward mission goals.';

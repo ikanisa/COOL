@@ -27,7 +27,6 @@ as $$
     and sc.is_active = true
   limit 1
 $$;
-
 create or replace function public.normalize_momo_phone_for_country(
   p_country text,
   p_value text
@@ -116,7 +115,6 @@ begin
   raise exception 'Enter a valid % mobile money number.', v_country.country_name;
 end;
 $$;
-
 create or replace function public.is_valid_momo_phone_for_country(
   p_country text,
   p_value text
@@ -138,7 +136,6 @@ exception
     return false;
 end;
 $$;
-
 create or replace function public.normalize_momo_code_for_country(
   p_country text,
   p_value text
@@ -194,7 +191,6 @@ begin
   return v_digits;
 end;
 $$;
-
 create or replace function public.is_valid_momo_code_for_country(
   p_country text,
   p_value text
@@ -216,7 +212,6 @@ exception
     return false;
 end;
 $$;
-
 create or replace function public.infer_momo_route_type_for_country(
   p_country text,
   p_value text
@@ -265,7 +260,6 @@ begin
   return 'code';
 end;
 $$;
-
 create or replace function public.enforce_user_momo_fields()
 returns trigger
 language plpgsql
@@ -308,13 +302,11 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_enforce_user_momo_fields on public.users;
 create trigger trg_enforce_user_momo_fields
   before insert or update on public.users
   for each row
   execute function public.enforce_user_momo_fields();
-
 create or replace function public.enforce_group_momo_fields()
 returns trigger
 language plpgsql
@@ -395,18 +387,15 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_enforce_group_momo_fields on public.groups;
 create trigger trg_enforce_group_momo_fields
   before insert or update on public.groups
   for each row
   execute function public.enforce_group_momo_fields();
-
 -- Best-effort cleanup for existing rows. Values are only rewritten when they
 -- can be normalized safely under the new country rules.
 -- Temporarily disable the trigger so it doesn't reject invalid existing data.
 alter table public.users disable trigger trg_enforce_user_momo_fields;
-
 update public.users u
 set
   country = public.normalize_country_code(u.country),
@@ -436,11 +425,8 @@ set
     )
   end
 where true;
-
 alter table public.users enable trigger trg_enforce_user_momo_fields;
-
 alter table public.groups disable trigger trg_enforce_group_momo_fields;
-
 update public.groups g
 set
   country = public.normalize_country_code(g.country),
@@ -535,5 +521,4 @@ set
     else g.momo_number
   end
 where true;
-
 alter table public.groups enable trigger trg_enforce_group_momo_fields;

@@ -4,16 +4,12 @@
 
 alter table public.users
   add column if not exists momo_route_type text;
-
 alter table public.users
   drop constraint if exists users_momo_route_type_check;
-
 alter table public.users
   add constraint users_momo_route_type_check
     check (momo_route_type in ('phone_number', 'code'));
-
 drop trigger if exists trg_enforce_user_momo_fields on public.users;
-
 update public.users
 set
   country = public.normalize_country_code(country),
@@ -31,7 +27,6 @@ set
   else null
 end
 where momo_route_type is null;
-
 create or replace function public.enforce_user_momo_fields()
 returns trigger
 language plpgsql
@@ -86,7 +81,6 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_enforce_user_momo_fields on public.users;
 create trigger trg_enforce_user_momo_fields
   before insert or update on public.users

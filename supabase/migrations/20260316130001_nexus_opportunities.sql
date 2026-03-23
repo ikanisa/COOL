@@ -15,22 +15,18 @@ create table if not exists public.nexus_opportunities (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
-
 -- Enable RLS
 alter table public.nexus_opportunities enable row level security;
-
 -- Public read access
 create policy "Nexus opportunities are viewable by everyone"
   on public.nexus_opportunities for select
   to authenticated
   using (is_active = true);
-
 -- Admin write access
 create policy "Admins can manage nexus opportunities"
   on public.nexus_opportunities for all
   to authenticated
   using (public.is_admin_user());
-
 -- Seed initial opportunities (Migrated from hardcoded UI)
 insert into public.nexus_opportunities (
   title, subtitle, rationale, type, icon_emoji, cta_action, sort_order, is_mock, mock_batch

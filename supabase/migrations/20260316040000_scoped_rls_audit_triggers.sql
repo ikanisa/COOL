@@ -35,8 +35,6 @@ as $$
     where id = auth.uid() and is_admin = true
   );
 $$;
-
-
 -- ── 2. Helper: check if user is a bank admin for a partner ──────────
 
 create or replace function public.user_is_bank_admin_for(
@@ -59,8 +57,6 @@ as $$
     where id = auth.uid() and is_admin = true
   );
 $$;
-
-
 -- ── 3. Helper: check if user is a rayon sport admin ─────────────────
 
 create or replace function public.user_is_rayon_admin()
@@ -80,8 +76,6 @@ as $$
     where id = auth.uid() and is_admin = true
   );
 $$;
-
-
 -- ── 4. (Skipped) Groups RLS is handled by scoped bank RPCs ──────────
 -- Groups access is controlled via bank_custody_groups and bank_custody_ledger
 -- RPCs which already filter by partner_id. No additional RLS needed here.
@@ -118,7 +112,6 @@ begin
   return NEW;
 end;
 $$;
-
 -- Attach audit triggers to key admin tables
 do $$
 declare

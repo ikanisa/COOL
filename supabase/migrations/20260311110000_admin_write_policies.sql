@@ -19,7 +19,6 @@ begin
     alter table public.users add column is_admin boolean not null default false;
   end if;
 end $$;
-
 -- ── Helper: check admin status ───────────────────────────────────────────
 create or replace function public.is_admin()
   returns boolean
@@ -32,92 +31,77 @@ as $$
     false
   );
 $$;
-
 -- ── partner_services (dynamic_content migration already has SELECT) ──────
 
 drop policy if exists "partner_services_insert_admin" on public.partner_services;
 create policy "partner_services_insert_admin"
   on public.partner_services for insert
   with check (public.is_admin());
-
 drop policy if exists "partner_services_update_admin" on public.partner_services;
 create policy "partner_services_update_admin"
   on public.partner_services for update
   using (public.is_admin())
   with check (public.is_admin());
-
 drop policy if exists "partner_services_delete_admin" on public.partner_services;
 create policy "partner_services_delete_admin"
   on public.partner_services for delete
   using (public.is_admin());
-
 -- ── quick_actions ────────────────────────────────────────────────────────
 
 drop policy if exists "quick_actions_insert_admin" on public.quick_actions;
 create policy "quick_actions_insert_admin"
   on public.quick_actions for insert
   with check (public.is_admin());
-
 drop policy if exists "quick_actions_update_admin" on public.quick_actions;
 create policy "quick_actions_update_admin"
   on public.quick_actions for update
   using (public.is_admin())
   with check (public.is_admin());
-
 drop policy if exists "quick_actions_delete_admin" on public.quick_actions;
 create policy "quick_actions_delete_admin"
   on public.quick_actions for delete
   using (public.is_admin());
-
 -- ── vehicle_types ────────────────────────────────────────────────────────
 
 drop policy if exists "vehicle_types_insert_admin" on public.vehicle_types;
 create policy "vehicle_types_insert_admin"
   on public.vehicle_types for insert
   with check (public.is_admin());
-
 drop policy if exists "vehicle_types_update_admin" on public.vehicle_types;
 create policy "vehicle_types_update_admin"
   on public.vehicle_types for update
   using (public.is_admin())
   with check (public.is_admin());
-
 drop policy if exists "vehicle_types_delete_admin" on public.vehicle_types;
 create policy "vehicle_types_delete_admin"
   on public.vehicle_types for delete
   using (public.is_admin());
-
 -- ── app_config ───────────────────────────────────────────────────────────
 
 drop policy if exists "app_config_insert_admin" on public.app_config;
 create policy "app_config_insert_admin"
   on public.app_config for insert
   with check (public.is_admin());
-
 drop policy if exists "app_config_update_admin" on public.app_config;
 create policy "app_config_update_admin"
   on public.app_config for update
   using (public.is_admin())
   with check (public.is_admin());
-
 drop policy if exists "app_config_delete_admin" on public.app_config;
 create policy "app_config_delete_admin"
   on public.app_config for delete
   using (public.is_admin());
-
 -- ── supported_countries ──────────────────────────────────────────────────
 
 drop policy if exists "supported_countries_insert_admin" on public.supported_countries;
 create policy "supported_countries_insert_admin"
   on public.supported_countries for insert
   with check (public.is_admin());
-
 drop policy if exists "supported_countries_update_admin" on public.supported_countries;
 create policy "supported_countries_update_admin"
   on public.supported_countries for update
   using (public.is_admin())
   with check (public.is_admin());
-
 drop policy if exists "supported_countries_delete_admin" on public.supported_countries;
 create policy "supported_countries_delete_admin"
   on public.supported_countries for delete

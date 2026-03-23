@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
+import '../../../core/theme/cool_layout.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_error_view.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../models/credit_dashboard.dart';
-import '../../../core/l10n/l10n.dart';
-
-// ── Models ───────────────────────────────────────────────────────────────
 
 class ImprovementItem {
   const ImprovementItem(this.text, this.completed);
@@ -40,8 +37,6 @@ class ReasonInsight {
   final Color color;
 }
 
-// ── Widgets ──────────────────────────────────────────────────────────────
-
 /// Yellow info banner at the top of the credit screen.
 class CreditInfoBanner extends StatelessWidget {
   const CreditInfoBanner({
@@ -55,26 +50,31 @@ class CreditInfoBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final insets = context.coolInsets;
+    final theme = Theme.of(context);
+
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      padding: insets.symmetric(
+        horizontal: CoolSpace.x3,
+        vertical: CoolSpace.x2 + 2,
+      ),
       decoration: BoxDecoration(
-        color: palette.yellow.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: palette.yellow.withValues(alpha: 0.3)),
+        color: colors.warning.withValues(alpha: 0.1),
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.xs - 2)),
+        border: Border.all(color: colors.warning.withValues(alpha: 0.32)),
       ),
       child: Row(
         children: [
-          Icon(icon, size: 16, color: palette.yellow),
-          const SizedBox(width: 8),
+          Icon(icon, size: 16, color: colors.warning),
+          SizedBox(width: CoolSpace.x2),
           Expanded(
             child: Text(
               message,
-              style: GoogleFonts.dmSans(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: palette.yellow,
+              style: theme.textTheme.labelSmall?.copyWith(
+                color: colors.warning,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ),
@@ -92,8 +92,10 @@ class HowToImproveCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    final items = _buildItems(dashboard);
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    final insets = context.coolInsets;
+    final items = _buildItems(dashboard, colors);
 
     return CoolCard(
       child: Column(
@@ -101,16 +103,15 @@ class HowToImproveCard extends StatelessWidget {
         children: [
           Text(
             'Next steps',
-            style: GoogleFonts.dmSans(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: palette.text,
+            style: theme.textTheme.titleSmall?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: CoolSpace.x3),
           ...items.map((item) {
             return Padding(
-              padding: const EdgeInsets.only(bottom: 10),
+              padding: insets.only(bottom: CoolSpace.x2 + 2),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -119,18 +120,18 @@ class HowToImproveCard extends StatelessWidget {
                         ? Icons.check_circle_rounded
                         : Icons.radio_button_unchecked_rounded,
                     size: 18,
-                    color: item.completed ? palette.accent : palette.text3,
+                    color: item.completed
+                        ? colors.success
+                        : colors.tertiaryText,
                   ),
-                  const SizedBox(width: 10),
+                  SizedBox(width: CoolSpace.x2 + 2),
                   Expanded(
                     child: Text(
                       item.text,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
+                      style: theme.textTheme.bodySmall?.copyWith(
                         color: item.completed
-                            ? palette.text
-                            : palette.text2,
+                            ? colors.primaryText
+                            : colors.secondaryText,
                         height: 1.4,
                       ),
                     ),
@@ -144,7 +145,10 @@ class HowToImproveCard extends StatelessWidget {
     );
   }
 
-  List<ImprovementItem> _buildItems(CreditDashboard? data) {
+  List<ImprovementItem> _buildItems(
+    CreditDashboard? data,
+    CoolSemanticColors colors,
+  ) {
     if (data == null) {
       return const [ImprovementItem('Sign in to view your report', false)];
     }
@@ -166,7 +170,7 @@ class HowToImproveCard extends StatelessWidget {
       ];
     }
 
-    final recommendations = reasonInsights(data)
+    final recommendations = reasonInsights(data, colors)
         .map((item) => item.action)
         .where((value) => value.trim().isNotEmpty)
         .toSet()
@@ -200,7 +204,8 @@ class ApplicationReadinessEntryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final title = dashboard?.hasReport == true
         ? 'Ready for a formal handoff'
         : 'Build readiness first';
@@ -209,29 +214,27 @@ class ApplicationReadinessEntryCard extends StatelessWidget {
         : 'See what still needs to be completed.';
 
     return CoolCard(
-      borderColor: palette.blue.withValues(alpha: 0.24),
+      backgroundColor: colors.financialSurface,
+      borderColor: colors.info.withValues(alpha: 0.24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             title,
-            style: GoogleFonts.dmSans(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: palette.text,
+            style: theme.textTheme.titleSmall?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: CoolSpace.x2),
           Text(
             detail,
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: palette.text2,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.secondaryText,
               height: 1.45,
             ),
           ),
-          const SizedBox(height: 14),
+          SizedBox(height: CoolSpace.x3 + 2),
           CoolButton(
             label: context.l10n.openReadiness,
             icon: Icons.assignment_turned_in_outlined,
@@ -251,19 +254,18 @@ class ScoreExplanationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    final insets = context.coolInsets;
     final data = dashboard;
     if (data == null) {
-      final palette = context.coolPalette;
       return CoolCard(
         child: Padding(
-          padding: const EdgeInsets.all(18),
+          padding: insets.all(CoolSpace.x5 - 2),
           child: Text(
-            'Sign in',
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: palette.text2,
+            'Sign in to view score details.',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.secondaryText,
               height: 1.5,
             ),
           ),
@@ -274,13 +276,11 @@ class ScoreExplanationCard extends StatelessWidget {
     if (!data.hasReport) {
       return CoolCard(
         child: Padding(
-          padding: const EdgeInsets.all(18),
+          padding: insets.all(CoolSpace.x5 - 2),
           child: Text(
-            'Details appear after your',
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: palette.text2,
+            'Details appear after your credit report is ready.',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.secondaryText,
               height: 1.5,
             ),
           ),
@@ -288,17 +288,17 @@ class ScoreExplanationCard extends StatelessWidget {
       );
     }
 
-    final insights = reasonInsights(data);
+    final insights = reasonInsights(data, colors);
 
     return CoolCard(
       child: Padding(
-        padding: const EdgeInsets.all(18),
+        padding: insets.all(CoolSpace.x5 - 2),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Wrap(
-              spacing: 8,
-              runSpacing: 8,
+              spacing: CoolSpace.x2,
+              runSpacing: CoolSpace.x2,
               children: [
                 _ReportMetaChip(
                   label: context.l10n.window,
@@ -318,41 +318,41 @@ class ScoreExplanationCard extends StatelessWidget {
                   ),
               ],
             ),
-            const SizedBox(height: 14),
+            SizedBox(height: CoolSpace.x3 + 2),
             Wrap(
-              spacing: 10,
-              runSpacing: 10,
+              spacing: CoolSpace.x2,
+              runSpacing: CoolSpace.x2,
               children: [
                 _SnapshotStatTile(
                   label: context.l10n.walletIn,
                   value:
                       '${_formatCurrency(data.creditTotal)} RWF\n${data.creditEntryCount} credits',
-                  color: palette.accent,
+                  color: colors.success,
                 ),
                 _SnapshotStatTile(
                   label: context.l10n.walletOut,
                   value:
                       '${_formatCurrency(data.debitTotal)} RWF\n${data.debitEntryCount} debits',
-                  color: palette.orange,
+                  color: colors.warning,
                 ),
                 _SnapshotStatTile(
                   label: context.l10n.savings,
                   value:
                       '${_formatCurrency(data.groupTotal)} RWF\n${data.groupContributionCount} contributions',
-                  color: palette.blue,
+                  color: colors.info,
                 ),
                 _SnapshotStatTile(
                   label: context.l10n.averageSave,
                   value:
                       '${_formatCurrency(data.averageGroupContribution)} RWF\n${data.activeMonthCount} months',
-                  color: palette.purple,
+                  color: colors.accent,
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: CoolSpace.x4),
             ...insights.map(
               (item) => Padding(
-                padding: const EdgeInsets.only(bottom: 10),
+                padding: insets.only(bottom: CoolSpace.x2 + 2),
                 child: _ReasonInsightTile(item: item),
               ),
             ),
@@ -369,14 +369,19 @@ class CreditScoreLoadingState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
-      padding: EdgeInsets.fromLTRB(18, 8, 18, 96),
-      child: Column(
+    return SingleChildScrollView(
+      padding: context.coolInsets.fromLTRB(
+        CoolSpace.x6,
+        CoolSpace.x2,
+        CoolSpace.x6,
+        CoolLayout.rootBottomClearance,
+      ),
+      child: const Column(
         children: [
           CoolSkeleton.card(),
-          SizedBox(height: 18),
+          SizedBox(height: CoolSpace.x5 - 2),
           CoolSkeleton.card(),
-          SizedBox(height: 18),
+          SizedBox(height: CoolSpace.x5 - 2),
           CoolSkeleton.card(),
         ],
       ),
@@ -393,13 +398,11 @@ class CreditScoreErrorState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+      padding: context.coolInsets.symmetric(horizontal: CoolSpace.x6),
       child: CoolCard(child: CoolErrorView(message: error, compact: true)),
     );
   }
 }
-
-// ── Private helpers ──────────────────────────────────────────────────────
 
 class _ReportMetaChip extends StatelessWidget {
   const _ReportMetaChip({
@@ -414,38 +417,39 @@ class _ReportMetaChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final insets = context.coolInsets;
+    final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      padding: insets.symmetric(
+        horizontal: CoolSpace.x3,
+        vertical: CoolSpace.x2 + 2,
+      ),
       decoration: BoxDecoration(
-        color: palette.surface2,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: palette.border2),
+        color: colors.cardSurface,
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.xs)),
+        border: Border.all(color: colors.borderStrong),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 14, color: palette.text2),
-          const SizedBox(width: 8),
+          Icon(icon, size: 14, color: colors.secondaryText),
+          SizedBox(width: CoolSpace.x2),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 label,
-                style: GoogleFonts.dmSans(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w600,
-                  color: palette.text3,
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: colors.tertiaryText,
                 ),
               ),
-              const SizedBox(height: 2),
+              SizedBox(height: CoolSpace.x1 / 2),
               Text(
                 value,
-                style: GoogleFonts.dmSans(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: palette.text,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colors.primaryText,
                 ),
               ),
             ],
@@ -469,34 +473,36 @@ class _SnapshotStatTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final insets = context.coolInsets;
+    final theme = Theme.of(context);
     return SizedBox(
       width: 152,
       child: Container(
-        padding: const EdgeInsets.all(14),
+        padding: insets.all(CoolSpace.x3 + 2),
         decoration: BoxDecoration(
-          color: palette.surface2,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: palette.border2),
+          color: colors.financialSurface,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(CoolRadii.sm - 2),
+          ),
+          border: Border.all(color: colors.borderStrong),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               label,
-              style: GoogleFonts.dmSans(
-                fontSize: 11,
-                fontWeight: FontWeight.w600,
-                color: palette.text3,
+              style: theme.textTheme.labelSmall?.copyWith(
+                color: colors.tertiaryText,
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: CoolSpace.x2),
             Text(
               value,
-              style: GoogleFonts.dmMono(
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
+              style: context.coolText.mono(
+                theme.textTheme.labelMedium,
                 color: color,
+                fontWeight: FontWeight.w800,
                 height: 1.35,
               ),
             ),
@@ -514,14 +520,16 @@ class _ReasonInsightTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final insets = context.coolInsets;
+    final theme = Theme.of(context);
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(14),
+      padding: insets.all(CoolSpace.x3 + 2),
       decoration: BoxDecoration(
-        color: palette.surface2,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: palette.border2),
+        color: colors.cardSurface,
+        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm - 2)),
+        border: Border.all(color: colors.borderStrong),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -531,31 +539,30 @@ class _ReasonInsightTile extends StatelessWidget {
             height: 34,
             decoration: BoxDecoration(
               color: item.color.withValues(alpha: 0.14),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(CoolRadii.xs - 2),
+              ),
             ),
             alignment: Alignment.center,
             child: Icon(item.icon, size: 18, color: item.color),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: CoolSpace.x3),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   item.title,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    color: palette.text,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colors.primaryText,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
-                const SizedBox(height: 5),
+                SizedBox(height: CoolSpace.x1 + 1),
                 Text(
                   item.detail,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: palette.text2,
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    color: colors.secondaryText,
                     height: 1.45,
                   ),
                 ),
@@ -567,8 +574,6 @@ class _ReasonInsightTile extends StatelessWidget {
     );
   }
 }
-
-// ── Pure functions ───────────────────────────────────────────────────────
 
 String _formatCurrency(int amount) {
   return NumberFormat.decimalPattern('en_US').format(amount);
@@ -595,95 +600,102 @@ String _kycStatusLabel(String? rawStatus) {
   }
 }
 
-List<ReasonInsight> reasonInsights(CreditDashboard dashboard) {
+List<ReasonInsight> reasonInsights(
+  CreditDashboard dashboard,
+  CoolSemanticColors colors,
+) {
   if (!dashboard.hasReport) return const <ReasonInsight>[];
 
   final codes = dashboard.reasonCodes.isEmpty
       ? const <String>['healthy_verified_history']
       : dashboard.reasonCodes.toSet().toList(growable: false);
   return codes
-      .map((code) => _reasonInsightFor(code, dashboard))
+      .map((code) => _reasonInsightFor(code, dashboard, colors))
       .toList(growable: false);
 }
 
-ReasonInsight _reasonInsightFor(String code, CreditDashboard dashboard) {
+ReasonInsight _reasonInsightFor(
+  String code,
+  CreditDashboard dashboard,
+  CoolSemanticColors colors,
+) {
   switch (code) {
     case 'wallet_activity_low':
       return ReasonInsight(
         code: code,
-        title: 'Wallet History Is Still',
+        title: 'Wallet history is still light',
         detail:
             'Only ${dashboard.statementCount} posted wallet entries were counted in this scoring window. More verified M-Money activity makes the score more dependable.',
         action:
             'Keep using posted M-Money transactions consistently across the next two months.',
         icon: Icons.account_balance_wallet_outlined,
-        color: AppColors.orange,
+        color: colors.warning,
       );
     case 'income_history_thin':
       return ReasonInsight(
         code: code,
-        title: 'Incoming Cashflow Needs More',
+        title: 'Incoming cashflow needs more depth',
         detail:
             '${dashboard.creditEntryCount} incoming wallet entries were detected. Regular incoming transfers over multiple months improve cashflow stability.',
         action:
             'Encourage regular incoming transfers or income deposits into the wallet.',
         icon: Icons.south_west_rounded,
-        color: AppColors.yellow,
+        color: colors.info,
       );
     case 'savings_pattern_thin':
       return ReasonInsight(
         code: code,
-        title: 'Savings Pattern Is Not',
+        title: 'Savings pattern is not consistent yet',
         detail:
             'Confirmed savings total is ${_formatCurrency(dashboard.groupTotal)} RWF with an average contribution of ${_formatCurrency(dashboard.averageGroupContribution)} RWF.',
         action:
             'Build a steadier savings pattern with repeated confirmed contributions.',
         icon: Icons.savings_outlined,
-        color: AppColors.blue,
+        color: colors.accent,
       );
     case 'group_savings_missing':
       return ReasonInsight(
         code: code,
-        title: 'No Confirmed Group Found',
+        title: 'No confirmed group savings found',
         detail:
             'The model did not find confirmed group-savings contributions inside the scoring window, so that reliability factor stayed limited.',
         action:
             'Start confirmed group savings contributions to unlock this factor.',
         icon: Icons.groups_2_outlined,
-        color: AppColors.orange,
+        color: colors.warning,
       );
     case 'group_activity_low':
       return ReasonInsight(
         code: code,
-        title: 'Group Contribution Activity Is',
+        title: 'Group contribution activity is low',
         detail:
             '${dashboard.groupContributionCount} confirmed contributions were counted. More months with group contributions strengthen group reliability.',
         action:
             'Increase the number of months with confirmed group contributions.',
         icon: Icons.groups_outlined,
-        color: AppColors.yellow,
+        color: colors.info,
       );
     case 'profile_verification_needed':
       return ReasonInsight(
         code: code,
-        title: 'Profile Verification Is Holding',
+        title: 'Profile verification is holding the score back',
         detail:
             'Official identity signals are not fully complete yet. Current KYC status is ${_kycStatusLabel(dashboard.kycStatus).toLowerCase()}.',
         action: 'Complete official-name, phone, and KYC verification.',
         icon: Icons.badge_outlined,
-        color: AppColors.purple,
+        color: colors.danger,
       );
     case 'healthy_verified_history':
     default:
       return ReasonInsight(
         code: code,
-        title: 'Verified Behaviour Looks Healthy',
+        title: 'Verified behaviour looks healthy',
         detail:
             'Posted wallet activity, confirmed savings behaviour, and profile signals are all contributing positively in the current scoring window.',
         action:
             'Maintain current wallet, savings, and profile verification behaviour.',
         icon: Icons.verified_rounded,
-        color: AppColors.accent,
+        color: colors.success,
       );
   }
 }

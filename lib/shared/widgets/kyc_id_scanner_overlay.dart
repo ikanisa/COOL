@@ -3,11 +3,10 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/cool_palette.dart';
+import '../../core/theme/cool_foundations.dart';
 import '../../core/utils/privacy_redactor.dart';
-import '../../shared/widgets/cool_button.dart';
+import 'cool_button.dart';
 
 class KycIdScannerOverlay extends StatefulWidget {
   const KycIdScannerOverlay({
@@ -40,15 +39,14 @@ class _KycIdScannerOverlayState extends State<KycIdScannerOverlay> {
     _cameras = await availableCameras();
     if (_cameras == null || _cameras!.isEmpty) return;
 
-    // Use back camera for ID scanning
     final backCamera = _cameras!.firstWhere(
-      (c) => c.lensDirection == CameraLensDirection.back,
+      (camera) => camera.lensDirection == CameraLensDirection.back,
       orElse: () => _cameras!.first,
     );
 
     _controller = CameraController(
       backCamera,
-      ResolutionPreset.max, // Optimum for OCR accuracy
+      ResolutionPreset.max,
       enableAudio: false,
     );
 
@@ -59,8 +57,8 @@ class _KycIdScannerOverlayState extends State<KycIdScannerOverlay> {
           _isInitialized = true;
         });
       }
-    } catch (e) {
-      debugPrint('Camera initialization failed: $e');
+    } catch (error) {
+      debugPrint('Camera initialization failed: $error');
     }
   }
 
@@ -71,7 +69,9 @@ class _KycIdScannerOverlayState extends State<KycIdScannerOverlay> {
   }
 
   Future<void> _takePicture() async {
-    if (_controller == null || !_controller!.value.isInitialized || _isCapturing) {
+    if (_controller == null ||
+        !_controller!.value.isInitialized ||
+        _isCapturing) {
       return;
     }
 
@@ -85,17 +85,19 @@ class _KycIdScannerOverlayState extends State<KycIdScannerOverlay> {
         _capturedPath = image.path;
         _isCapturing = false;
       });
-    } catch (e) {
+    } catch (error) {
       setState(() {
         _isCapturing = false;
       });
-      debugPrint('Error taking picture: $e');
+      debugPrint('Error taking picture: $error');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -104,51 +106,50 @@ class _KycIdScannerOverlayState extends State<KycIdScannerOverlay> {
         elevation: 0,
         title: Text(
           widget.title,
-          style: GoogleFonts.dmSans(
+          style: textTheme.titleMedium?.copyWith(
             color: Colors.white,
             fontWeight: FontWeight.w700,
           ),
         ),
       ),
       body: _capturedPath != null
-          ? _buildPreview(palette)
+          ? _buildPreview(context, colors, textTheme)
           : _isInitialized
-              ? _buildCameraStack(palette)
-              : Center(child: CircularProgressIndicator(color: palette.accent)),
+          ? _buildCameraStack(context, colors, textTheme)
+          : Center(child: CircularProgressIndicator(color: colors.accent)),
     );
   }
 
-  Widget _buildCameraStack(CoolPalette palette) {
+  Widget _buildCameraStack(
+    BuildContext context,
+    CoolSemanticColors colors,
+    TextTheme textTheme,
+  ) {
     return Stack(
       children: [
-        Positioned.fill(
-          child: CameraPreview(_controller!),
-        ),
-
-        // Rectangular ID Overlay
+        Positioned.fill(child: CameraPreview(_controller!)),
         Positioned.fill(
           child: CustomPaint(
-            painter: _IdOverlayPainter(accentColor: palette.accent),
+            painter: _IdOverlayPainter(accentColor: colors.accent),
           ),
         ),
-
-        // Privacy Guard indicators
         Positioned.fill(
-          child: CustomPaint(
-            painter: _PrivacyRedactionPainter(),
-          ),
+          child: CustomPaint(painter: _PrivacyRedactionPainter()),
         ),
-
-        // Soft Liquid Glass Guidance
         Positioned(
           top: 60,
           left: 40,
           right: 40,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: const EdgeInsets.symmetric(
+              horizontal: CoolSpace.x4,
+              vertical: CoolSpace.x3,
+            ),
             decoration: BoxDecoration(
               color: Colors.black.withValues(alpha: 0.5),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(CoolRadii.sm),
+              ),
               border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
             ),
             child: Column(
@@ -156,13 +157,16 @@ class _KycIdScannerOverlayState extends State<KycIdScannerOverlay> {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.shield_rounded, color: Colors.white, size: 14),
+                    const Icon(
+                      Icons.shield_rounded,
+                      color: Colors.white,
+                      size: 14,
+                    ),
                     const SizedBox(width: 6),
                     Text(
                       'PRIVACY GUARD ACTIVE',
-                      style: GoogleFonts.dmSans(
-                        color: palette.accent,
-                        fontSize: 10,
+                      style: textTheme.labelMedium?.copyWith(
+                        color: colors.accent,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 0.5,
                       ),
@@ -173,9 +177,8 @@ class _KycIdScannerOverlayState extends State<KycIdScannerOverlay> {
                 Text(
                   widget.instruction,
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.dmSans(
+                  style: textTheme.bodyMedium?.copyWith(
                     color: Colors.white,
-                    fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -183,8 +186,6 @@ class _KycIdScannerOverlayState extends State<KycIdScannerOverlay> {
             ),
           ),
         ),
-
-        // Capture Button
         Positioned(
           bottom: 60,
           left: 0,
@@ -200,7 +201,10 @@ class _KycIdScannerOverlayState extends State<KycIdScannerOverlay> {
                     height: 84,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white.withValues(alpha: 0.3), width: 3),
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.3),
+                        width: 3,
+                      ),
                     ),
                   ),
                   Container(
@@ -210,9 +214,13 @@ class _KycIdScannerOverlayState extends State<KycIdScannerOverlay> {
                       shape: BoxShape.circle,
                       color: Colors.white,
                     ),
-                    child: _isCapturing 
-                      ? Center(child: CircularProgressIndicator(color: palette.blue))
-                      : const Icon(Icons.camera_alt, color: Colors.black),
+                    child: _isCapturing
+                        ? Center(
+                            child: CircularProgressIndicator(
+                              color: colors.info,
+                            ),
+                          )
+                        : const Icon(Icons.camera_alt, color: Colors.black),
                   ),
                 ],
               ),
@@ -223,15 +231,24 @@ class _KycIdScannerOverlayState extends State<KycIdScannerOverlay> {
     );
   }
 
-  Widget _buildPreview(CoolPalette palette) {
+  Widget _buildPreview(
+    BuildContext context,
+    CoolSemanticColors colors,
+    TextTheme textTheme,
+  ) {
     return Column(
       children: [
         Expanded(
           child: Container(
-            margin: const EdgeInsets.all(24),
+            margin: const EdgeInsets.all(CoolSpace.x6),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: palette.accent.withValues(alpha: 0.5), width: 2),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(CoolRadii.lg - 4),
+              ),
+              border: Border.all(
+                color: colors.accent.withValues(alpha: 0.5),
+                width: 2,
+              ),
               image: DecorationImage(
                 image: FileImage(File(_capturedPath!)),
                 fit: BoxFit.contain,
@@ -240,18 +257,22 @@ class _KycIdScannerOverlayState extends State<KycIdScannerOverlay> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(24, 0, 24, 60),
+          padding: const EdgeInsets.fromLTRB(
+            CoolSpace.x6,
+            0,
+            CoolSpace.x6,
+            CoolSpace.x10 - 4,
+          ),
           child: Column(
             children: [
               Text(
                 'Is the information readable?',
-                style: GoogleFonts.dmSans(
+                style: textTheme.titleMedium?.copyWith(
                   color: Colors.white,
-                  fontSize: 16,
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: CoolSpace.x6),
               CoolButton(
                 label: 'Confirm & Extract',
                 icon: Icons.auto_awesome,
@@ -259,7 +280,7 @@ class _KycIdScannerOverlayState extends State<KycIdScannerOverlay> {
                   Navigator.of(context).pop(XFile(_capturedPath!));
                 },
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               CoolButton(
                 label: 'Retake',
                 variant: CoolButtonVariant.secondary,
@@ -279,6 +300,7 @@ class _KycIdScannerOverlayState extends State<KycIdScannerOverlay> {
 
 class _IdOverlayPainter extends CustomPainter {
   _IdOverlayPainter({required this.accentColor});
+
   final Color accentColor;
 
   @override
@@ -287,11 +309,10 @@ class _IdOverlayPainter extends CustomPainter {
       ..color = Colors.black.withValues(alpha: 0.65)
       ..style = PaintingStyle.fill;
 
-    // Standard ID card aspect ratio is 1.58
     const aspectRatio = 1.58;
     final rectWidth = size.width * 0.85;
     final rectHeight = rectWidth / aspectRatio;
-    
+
     final rect = Rect.fromCenter(
       center: Offset(size.width / 2, size.height / 2),
       width: rectWidth,
@@ -307,15 +328,12 @@ class _IdOverlayPainter extends CustomPainter {
 
     canvas.drawPath(path, paint);
 
-    // Liquid glass glowing border
     final borderPaint = Paint()
       ..color = accentColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3;
-
     canvas.drawRRect(rRect, borderPaint);
 
-    // Corner guides
     final guidePaint = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.stroke
@@ -323,8 +341,7 @@ class _IdOverlayPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
 
     const guideSize = 30.0;
-    
-    // Top Left
+
     canvas.drawPath(
       Path()
         ..moveTo(rect.left, rect.top + guideSize)
@@ -332,8 +349,7 @@ class _IdOverlayPainter extends CustomPainter {
         ..lineTo(rect.left + guideSize, rect.top),
       guidePaint,
     );
-    
-    // Top Right
+
     canvas.drawPath(
       Path()
         ..moveTo(rect.right - guideSize, rect.top)
@@ -341,8 +357,7 @@ class _IdOverlayPainter extends CustomPainter {
         ..lineTo(rect.right, rect.top + guideSize),
       guidePaint,
     );
-    
-    // Bottom Left
+
     canvas.drawPath(
       Path()
         ..moveTo(rect.left, rect.bottom - guideSize)
@@ -350,8 +365,7 @@ class _IdOverlayPainter extends CustomPainter {
         ..lineTo(rect.left + guideSize, rect.bottom),
       guidePaint,
     );
-    
-    // Bottom Right
+
     canvas.drawPath(
       Path()
         ..moveTo(rect.right - guideSize, rect.bottom)
@@ -377,18 +391,28 @@ class _PrivacyRedactionPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1;
 
-    final regions = PrivacyRedactor.getSensitiveRegions(size.width, size.height);
-    
+    final regions = PrivacyRedactor.getSensitiveRegions(
+      size.width,
+      size.height,
+    );
+
     for (final region in regions) {
-      final rect = Rect.fromLTWH(region.left, region.top, region.width, region.height);
+      final rect = Rect.fromLTWH(
+        region.left,
+        region.top,
+        region.width,
+        region.height,
+      );
       canvas.drawRect(rect, paint);
       canvas.drawRect(rect, borderPaint);
-      
-      // Draw text label "BLURRED"
+
       final textPainter = TextPainter(
         text: const TextSpan(
           text: 'LOCAL BLUR',
-          style: TextStyle(color: Colors.white70, fontSize: 8, fontWeight: FontWeight.w900),
+          style: TextStyle(
+            color: Colors.white70,
+            fontWeight: FontWeight.w900,
+          ),
         ),
         textDirection: TextDirection.ltr,
       );

@@ -1,10 +1,10 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_foundations.dart';
+import '../../core/theme/rs_colors.dart';
 import '../../features/partners/rayon/models/rs_models.dart';
 import '../../features/partners/rayon/theme/rs_theme.dart';
 
@@ -22,6 +22,11 @@ class RsInitiativeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
     final category = RsTheme.parseCategory(
       initiative.category.value.toLowerCase(),
     );
@@ -32,120 +37,125 @@ class RsInitiativeCard extends StatelessWidget {
       0,
       initiative.supporterCount - visibleAvatars.length,
     );
+    final progress = initiative.progress.clamp(0.0, 1.0).toDouble();
 
     return Semantics(
       label:
           '${initiative.title}.'
-          '${(initiative.progress * 100).round()}% funded. '
+          '${(progress * 100).round()}% funded. '
           '${initiative.supporterCount} supporters.',
       excludeSemantics: true,
       child: Material(
-        color: Colors.transparent,
+        type: MaterialType.transparency,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(radii.md),
           child: Ink(
             decoration: BoxDecoration(
-              gradient: AppColors.cardGradient,
-              borderRadius: BorderRadius.circular(18),
-              border: Border.all(color: AppColors.border2),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.18),
-                  blurRadius: 24,
-                  offset: const Offset(0, 16),
-                ),
-              ],
+              gradient: RsColors.rsSupportGradient,
+              borderRadius: BorderRadius.circular(radii.md),
+              border: Border.all(color: colors.borderStrong),
+              boxShadow: CoolShadows.floating(theme.brightness, strength: 0.34),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(18),
+              padding: EdgeInsets.all(space.x4),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 6,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: space.x2 + 2,
+                      vertical: space.x1 + 2,
                     ),
                     decoration: BoxDecoration(
                       color: RsTheme.categoryBackground(category),
-                      borderRadius: BorderRadius.circular(999),
+                      borderRadius: BorderRadius.circular(radii.pill),
+                      border: Border.all(
+                        color: categoryColor.withValues(alpha: 0.3),
+                      ),
                     ),
                     child: Text(
                       initiative.category.value.toUpperCase(),
-                      style: GoogleFonts.barlow(
-                        fontSize: 10,
+                      style: text.rayon(
+                        theme.textTheme.labelSmall,
                         fontWeight: FontWeight.w700,
                         letterSpacing: 1.1,
                         color: categoryColor,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: space.x2),
                   Text(
                     initiative.title,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.barlowCondensed(
-                      fontSize: 26,
+                    style: text.rayonCondensed(
+                      theme.textTheme.headlineSmall,
                       fontWeight: FontWeight.w900,
-                      color: AppColors.rsWhite,
+                      color: RsColors.rsWhite,
                       height: 0.95,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: space.x2),
                   Text(
                     initiative.description,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.barlow(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
+                    style: text.rayon(
+                      theme.textTheme.bodySmall,
+                      fontWeight: FontWeight.w600,
                       height: 1.35,
-                      color: AppColors.text2,
+                      color: colors.secondaryText,
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: space.x4),
                   Row(
                     children: [
                       Expanded(
                         child: Text(
                           'Raised: ${_formatRwf(initiative.raisedAmount)} of ${_formatRwf(initiative.targetAmount)}',
-                          style: GoogleFonts.barlow(
-                            fontSize: 12,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: text.rayon(
+                            theme.textTheme.labelSmall,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.rsWhite,
+                            color: RsColors.rsWhite,
                           ),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: space.x3),
                       Text(
-                        '${(initiative.progress * 100).round()}%',
-                        style: GoogleFonts.dmMono(
-                          fontSize: 12,
+                        '${(progress * 100).round()}%',
+                        style: text.mono(
+                          theme.textTheme.labelSmall,
                           fontWeight: FontWeight.w700,
                           color: categoryColor,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: space.x2),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(999),
+                    borderRadius: BorderRadius.circular(radii.pill),
                     child: SizedBox(
-                      height: 6,
+                      height: space.x1 + 2,
                       child: Stack(
                         children: [
-                          Container(color: AppColors.surface3),
+                          DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: colors.overlaySurface,
+                            ),
+                            child: const SizedBox.expand(),
+                          ),
                           FractionallySizedBox(
-                            widthFactor: initiative.progress,
+                            widthFactor: progress,
                             child: DecoratedBox(
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
                                     categoryColor.withValues(alpha: 0.78),
                                     categoryColor,
-                                    AppColors.rsGoldLight,
+                                    RsColors.rsGoldLight,
                                   ],
                                 ),
                               ),
@@ -155,12 +165,12 @@ class RsInitiativeCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: space.x4),
                   Row(
                     children: [
                       SizedBox(
-                        width: 72,
-                        height: 28,
+                        width: 84,
+                        height: 32,
                         child: Stack(
                           clipBehavior: Clip.none,
                           children: [
@@ -184,25 +194,27 @@ class RsInitiativeCard extends StatelessWidget {
                                 left: visibleAvatars.length * 18,
                                 child: _SupporterAvatar(
                                   label: '+$overflowCount',
-                                  color: AppColors.surface3,
+                                  color: colors.overlaySurface,
                                   isOverflow: true,
                                 ),
                               ),
                           ],
                         ),
                       ),
-                      const SizedBox(width: 10),
+                      SizedBox(width: space.x2),
                       Expanded(
                         child: Text(
                           '${NumberFormat.decimalPattern('en').format(initiative.supporterCount)} supporters',
-                          style: GoogleFonts.barlow(
-                            fontSize: 12,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: text.rayon(
+                            theme.textTheme.labelSmall,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.text2,
+                            color: colors.secondaryText,
                           ),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: space.x3),
                       _SupportButton(onTap: onSupportTap),
                     ],
                   ),
@@ -223,34 +235,45 @@ class _SupportButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final radii = context.coolRadii;
     return SizedBox(
-      height: 38,
+      height: CoolTapTargets.minimum,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: AppColors.rsBlue,
-          borderRadius: BorderRadius.circular(12),
+          gradient: RsColors.rsGoldGradient,
+          borderRadius: BorderRadius.circular(radii.sm),
         ),
         child: Material(
-          color: Colors.transparent,
+          type: MaterialType.transparency,
           child: InkWell(
             onTap: onTap,
-            borderRadius: BorderRadius.circular(12),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14),
-              child: Center(
-                child: Text(
-                  'SUPPORT',
-                  style: GoogleFonts.barlowCondensed(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.rsWhite,
-                    letterSpacing: 0.4,
-                  ),
-                ),
-              ),
+            borderRadius: BorderRadius.circular(radii.sm),
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 14),
+              child: Center(child: _SupportButtonLabel()),
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _SupportButtonLabel extends StatelessWidget {
+  const _SupportButtonLabel();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
+    return Text(
+      'SUPPORT',
+      style: text.rayonCondensed(
+        theme.textTheme.labelLarge,
+        fontWeight: FontWeight.w700,
+        color: colors.primaryText,
+        letterSpacing: 0.4,
       ),
     );
   }
@@ -269,21 +292,25 @@ class _SupporterAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
     return Container(
-      width: 28,
-      height: 28,
+      width: 32,
+      height: 32,
       decoration: BoxDecoration(
         color: color,
         shape: BoxShape.circle,
-        border: Border.all(color: AppColors.surface2, width: 2),
+        border: Border.all(color: colors.overlaySurface, width: 2),
       ),
       alignment: Alignment.center,
       child: Text(
         label,
-        style: GoogleFonts.dmMono(
-          fontSize: isOverflow ? 9 : 10,
+        style: text.mono(
+          theme.textTheme.labelSmall,
           fontWeight: FontWeight.w700,
-          color: AppColors.rsWhite,
+          color: RsColors.rsWhite,
+          letterSpacing: isOverflow ? -0.2 : null,
         ),
       ),
     );
@@ -304,9 +331,9 @@ Color _avatarColorForIndex(int index, Color categoryColor) {
     return categoryColor;
   }
   if (index == 1) {
-    return AppColors.rsBlueMid;
+    return RsColors.rsBlueMid;
   }
-  return AppColors.rsGold;
+  return RsColors.rsGold;
 }
 
 String _formatRwf(int amount) {

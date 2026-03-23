@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/l10n/l10n.dart';
 
 import '../../../core/router/app_routes.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_skeleton.dart';
 import '../models/partner.dart';
@@ -22,7 +21,8 @@ class BankPartnerScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final partnerAsync = ref.watch(partnerBySlugProvider(bankId));
 
     return CoolScreenBackground(
@@ -36,28 +36,26 @@ class BankPartnerScreen extends ConsumerWidget {
             context,
             fallbackLocation: AppRoutes.partners,
             icon: Icons.arrow_back_ios_new_rounded,
-            color: palette.text,
+            color: colors.primaryText,
           ),
           actions: buildPartnerAppBarActions(
             context,
-            homeColor: palette.text,
+            homeColor: colors.primaryText,
           ),
           title: partnerAsync.when(
             data: (partner) => Text(
               partner?.name ?? context.l10n.partnerLabel,
-              style: GoogleFonts.dmSans(
-                fontSize: 18,
+              style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w700,
-                color: palette.text,
+                color: colors.primaryText,
               ),
             ),
             loading: () => const SizedBox.shrink(),
             error: (_, _) => Text(
               context.l10n.partnerLabel,
-              style: GoogleFonts.dmSans(
-                fontSize: 18,
+              style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w700,
-                color: palette.text,
+                color: colors.primaryText,
               ),
             ),
           ),
@@ -91,7 +89,8 @@ class _BankBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     final servicesAsync = ref.watch(partnerServicesProvider(partner.id));
 
     return SingleChildScrollView(
@@ -102,10 +101,8 @@ class _BankBody extends ConsumerWidget {
           BankHero(partner: partner),
           const SizedBox(height: 16),
           servicesAsync.when(
-            data: (services) => BankServiceGrid(
-              partner: partner,
-              services: services,
-            ),
+            data: (services) =>
+                BankServiceGrid(partner: partner, services: services),
             loading: () => const Padding(
               padding: EdgeInsets.symmetric(vertical: 24),
               child: Center(child: CircularProgressIndicator()),
@@ -113,7 +110,9 @@ class _BankBody extends ConsumerWidget {
             error: (error, _) => Center(
               child: Text(
                 context.l10n.couldNotLoadServices,
-                style: GoogleFonts.dmSans(color: palette.text3),
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colors.tertiaryText,
+                ),
               ),
             ),
           ),

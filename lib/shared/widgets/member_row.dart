@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/identity/public_user_identity.dart';
-import '../../core/theme/cool_palette.dart';
+import '../../core/theme/cool_foundations.dart';
 
 /// A single-row widget displaying a group member with their avatar,
 /// name / userId, admin badge (if applicable), and contribution amount.
-///
-/// Anonymous members show only the [userId] in DM Mono with a generic
-/// gradient avatar.
 class MemberRow extends StatelessWidget {
   const MemberRow({
     required this.userId,
@@ -36,92 +32,83 @@ class MemberRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
     final resolvedIdentity = PublicUserIdentity.resolve(
       publicUserId: displayName,
       userId: userId,
     );
-    final name = isAnonymous ? resolvedIdentity : resolvedIdentity;
     final roleLabel = isAdmin ? ' Admin.' : '';
 
     return RepaintBoundary(
       child: Semantics(
-      label:
-          '$name.$roleLabel'
-          '${MemberRow._formatAmount(contributionAmount)} RWF contributed.',
-      excludeSemantics: true,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        child: Row(
-          children: [
-            // ── Avatar ──────────────────────────────────────────────
-            _Avatar(initials: _initials, isAnonymous: isAnonymous, palette: palette),
-            const SizedBox(width: 12),
-
-            // ── Name + ID ───────────────────────────────────────────
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Primary line
-                  Row(
-                    children: [
-                      Flexible(
+        label:
+            '$resolvedIdentity.$roleLabel'
+            '${MemberRow._formatAmount(contributionAmount)} RWF contributed.',
+        excludeSemantics: true,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: CoolSpace.x2),
+          child: Row(
+            children: [
+              _Avatar(initials: _initials, isAnonymous: isAnonymous),
+              const SizedBox(width: CoolSpace.x3),
+              Expanded(
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: Text(
+                        resolvedIdentity,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: isAnonymous
+                            ? text.mono(
+                                theme.textTheme.bodySmall,
+                                fontWeight: FontWeight.w600,
+                                color: colors.secondaryText,
+                              )
+                            : theme.textTheme.titleSmall?.copyWith(
+                                fontWeight: FontWeight.w700,
+                                color: colors.primaryText,
+                              ),
+                      ),
+                    ),
+                    if (isAdmin) ...[
+                      const SizedBox(width: 6),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: CoolSpace.x2,
+                          vertical: CoolSpace.x1 / 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: colors.chipSelectedBackground,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(CoolRadii.pill),
+                          ),
+                        ),
                         child: Text(
-                          resolvedIdentity,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: isAnonymous
-                              ? GoogleFonts.dmMono(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                  color: palette.text2,
-                                )
-                              : GoogleFonts.dmSans(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: palette.text,
-                                ),
+                          'Admin',
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: colors.accent,
+                          ),
                         ),
                       ),
-                      if (isAdmin) ...[
-                        const SizedBox(width: 6),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: palette.accentGlow,
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: Text(
-                            'Admin',
-                            style: GoogleFonts.dmSans(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w600,
-                              color: palette.accent,
-                            ),
-                          ),
-                        ),
-                      ],
                     ],
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-
-            // ── Amount ──────────────────────────────────────────────
-            Text(
-              _formatAmount(contributionAmount),
-              style: GoogleFonts.dmMono(
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                color: palette.accent,
+              const SizedBox(width: CoolSpace.x3),
+              Text(
+                _formatAmount(contributionAmount),
+                style: text.mono(
+                  theme.textTheme.titleSmall,
+                  fontWeight: FontWeight.w700,
+                  color: colors.accent,
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
         ),
       ),
     );
@@ -138,32 +125,39 @@ class MemberRow extends StatelessWidget {
   }
 }
 
-// ── Avatar ──────────────────────────────────────────────────────────────
-
 class _Avatar extends StatelessWidget {
-  const _Avatar({required this.initials, required this.isAnonymous, required this.palette});
+  const _Avatar({required this.initials, required this.isAnonymous});
+
   final String initials;
   final bool isAnonymous;
-  final CoolPalette palette;
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
+    final anonymousColor = colors.teamSurface;
+
     return Container(
       width: 40,
       height: 40,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        gradient: isAnonymous ? LinearGradient(colors: [palette.purple, palette.purple.withValues(alpha: 0.6)]) : null,
-        color: isAnonymous ? null : palette.accentGlow,
-        border: Border.all(color: palette.border2),
+        gradient: isAnonymous
+            ? LinearGradient(
+                colors: [anonymousColor, anonymousColor.withValues(alpha: 0.6)],
+              )
+            : null,
+        color: isAnonymous ? null : colors.chipSelectedBackground,
+        border: Border.all(color: colors.borderStrong),
       ),
       alignment: Alignment.center,
       child: Text(
         initials,
-        style: GoogleFonts.dmSans(
-          fontSize: 13,
-          fontWeight: FontWeight.w700,
-          color: isAnonymous ? palette.purple : palette.accent,
+        style: text.mono(
+          theme.textTheme.labelMedium,
+          fontWeight: FontWeight.w800,
+          color: isAnonymous ? colors.info : colors.accent,
         ),
       ),
     );

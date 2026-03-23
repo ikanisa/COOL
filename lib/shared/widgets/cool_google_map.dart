@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../core/config/env_config.dart';
-import '../../core/theme/cool_palette.dart';
+import '../../core/theme/cool_foundations.dart';
 
 /// Google Maps dark-mode JSON style.
 ///
@@ -102,7 +102,7 @@ class _CoolGoogleMapState extends State<CoolGoogleMap> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final target = widget.initialTarget ?? _kDefaultTarget;
 
     return ClipRRect(
@@ -135,11 +135,11 @@ class _CoolGoogleMapState extends State<CoolGoogleMap> {
             Positioned.fill(
               child: Container(
                 decoration: BoxDecoration(
-                  color: palette.surface2,
-                  borderRadius: BorderRadius.circular(20),
+                  color: colors.cardSurface,
+                  borderRadius: BorderRadius.circular(CoolRadii.md),
                 ),
                 child: Center(
-                  child: CupertinoActivityIndicator(color: palette.accent),
+                  child: CupertinoActivityIndicator(color: colors.accent),
                 ),
               ),
             ),

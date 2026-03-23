@@ -84,5 +84,4 @@ exception
     );
 end;
 $$;
-
 grant execute on function public.join_group_via_invite(text) to authenticated;

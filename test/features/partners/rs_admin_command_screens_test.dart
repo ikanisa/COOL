@@ -29,7 +29,7 @@ void main() {
     description: 'Official home jersey',
   );
 
-  const order = RsShopOrder(
+  final order = RsShopOrder(
     id: 'abcd1234-0001',
     userId: 'user-1',
     partnerId: 'partner-rayon',
@@ -59,7 +59,7 @@ void main() {
     expiresAt: DateTime(2030, 1, 1),
   );
 
-  const initiative = RsInitiative(
+  final initiative = RsInitiative(
     id: 'initiative-1',
     partnerId: 'partner-rayon',
     title: 'Community Pitch Roof',
@@ -83,9 +83,7 @@ void main() {
         appMetadata: const <String, dynamic>{'is_admin': true},
       ),
       overrides: [
-        rsAdminOrdersProvider.overrideWith(
-          (ref) async => const <RsShopOrder>[order],
-        ),
+        rsAdminOrdersProvider.overrideWith((ref) async => <RsShopOrder>[order]),
       ],
     );
 
@@ -138,7 +136,7 @@ void main() {
       ),
       overrides: [
         rsAdminInitiativesProvider.overrideWith(
-          (ref) async => const <RsInitiative>[initiative],
+          (ref) async => <RsInitiative>[initiative],
         ),
       ],
     );
@@ -161,9 +159,7 @@ void main() {
         appMetadata: const <String, dynamic>{'is_admin': true},
       ),
       overrides: [
-        rsAdminOrdersProvider.overrideWith(
-          (ref) async => const <RsShopOrder>[order],
-        ),
+        rsAdminOrdersProvider.overrideWith((ref) async => <RsShopOrder>[order]),
         rsAdminMembersProvider.overrideWith(
           (ref) async => <FanMembership>[member],
         ),

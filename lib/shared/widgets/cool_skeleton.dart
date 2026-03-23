@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/theme/cool_palette.dart';
+import '../../core/theme/cool_foundations.dart';
 
 /// A shimmer-effect skeleton placeholder used during loading states.
 ///
@@ -61,7 +61,7 @@ class _CoolSkeletonState extends State<CoolSkeleton>
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     final reduceMotion = MediaQuery.disableAnimationsOf(context);
 
     if (reduceMotion) {
@@ -70,7 +70,7 @@ class _CoolSkeletonState extends State<CoolSkeleton>
           width: widget.width,
           height: widget.height,
           decoration: BoxDecoration(
-            color: palette.surface2,
+            color: colors.cardSurface,
             borderRadius: BorderRadius.circular(widget.borderRadius),
           ),
         ),
@@ -90,9 +90,9 @@ class _CoolSkeletonState extends State<CoolSkeleton>
                 begin: Alignment(-1.0 + 2.0 * _controller.value, 0),
                 end: Alignment(1.0 + 2.0 * _controller.value, 0),
                 colors: <Color>[
-                  palette.surface2,
-                  palette.surface3,
-                  palette.surface2,
+                  colors.cardSurface,
+                  colors.cardSurfaceStrong,
+                  colors.cardSurface,
                 ],
                 stops: const [0.0, 0.5, 1.0],
               ),

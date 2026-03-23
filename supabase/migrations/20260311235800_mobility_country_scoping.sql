@@ -9,18 +9,14 @@
 
 -- PostGIS is required for the spatial functions below.
 create extension if not exists postgis with schema extensions;
-
 alter table public.driver_profiles
   add column if not exists country text;
-
 alter table public.mobility_trips
   add column if not exists country text;
-
 -- Disable triggers while backfilling to avoid MoMo validation trigger on users
 -- and any future triggers on these tables.
 alter table public.driver_profiles disable trigger user;
 alter table public.mobility_trips disable trigger user;
-
 update public.driver_profiles dp
 set country = public.normalize_country_code(u.country)
 from public.users u
@@ -29,7 +25,6 @@ where u.id = dp.user_id
     dp.country is distinct from public.normalize_country_code(u.country)
     or dp.country is null
   );
-
 update public.mobility_trips mt
 set country = public.normalize_country_code(u.country)
 from public.users u
@@ -38,16 +33,12 @@ where u.id = mt.user_id
     mt.country is distinct from public.normalize_country_code(u.country)
     or mt.country is null
   );
-
 alter table public.driver_profiles enable trigger user;
 alter table public.mobility_trips enable trigger user;
-
 create index if not exists idx_driver_profiles_country
   on public.driver_profiles (country);
-
 create index if not exists idx_mobility_trips_country
   on public.mobility_trips (country);
-
 create or replace function public.sync_mobility_country_from_user()
 returns trigger
 language plpgsql
@@ -69,32 +60,26 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_driver_profiles_sync_country on public.driver_profiles;
 create trigger trg_driver_profiles_sync_country
   before insert or update of user_id on public.driver_profiles
   for each row
   execute function public.sync_mobility_country_from_user();
-
 drop trigger if exists trg_mobility_trips_sync_country on public.mobility_trips;
 create trigger trg_mobility_trips_sync_country
   before insert or update of user_id on public.mobility_trips
   for each row
   execute function public.sync_mobility_country_from_user();
-
 alter table public.driver_profiles
   alter column country set not null;
-
 alter table public.mobility_trips
   alter column country set not null;
-
 drop function if exists public.get_nearby_drivers(
   double precision,
   double precision,
   text,
   double precision
 );
-
 create or replace function public.get_nearby_drivers(
   p_lat double precision,
   p_lng double precision,
@@ -180,7 +165,6 @@ as $$
     and (p_vehicle_type is null or dp.vehicle_type = p_vehicle_type)
   order by distance_km;
 $$;
-
 revoke all on function public.get_nearby_drivers(
   double precision,
   double precision,
@@ -188,7 +172,6 @@ revoke all on function public.get_nearby_drivers(
   text,
   double precision
 ) from public;
-
 grant execute on function public.get_nearby_drivers(
   double precision,
   double precision,
@@ -196,7 +179,6 @@ grant execute on function public.get_nearby_drivers(
   text,
   double precision
 ) to anon, authenticated;
-
 drop function if exists public.get_scheduled_trips(
   double precision,
   double precision,
@@ -204,7 +186,6 @@ drop function if exists public.get_scheduled_trips(
   text,
   double precision
 );
-
 create or replace function public.get_scheduled_trips(
   p_lat double precision,
   p_lng double precision,
@@ -287,7 +268,6 @@ as $$
     )
   order by mt.travel_time asc, mt.created_at desc;
 $$;
-
 revoke all on function public.get_scheduled_trips(
   double precision,
   double precision,
@@ -296,7 +276,6 @@ revoke all on function public.get_scheduled_trips(
   text,
   double precision
 ) from public;
-
 grant execute on function public.get_scheduled_trips(
   double precision,
   double precision,

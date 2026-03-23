@@ -1,39 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/app_colors.dart';
-import '../../core/theme/cool_palette.dart';
+import '../../core/theme/cool_foundations.dart';
 
 class WhatsAppHintChip extends StatelessWidget {
   const WhatsAppHintChip({this.label = 'Chat on WhatsApp', super.key});
+
+  /// Fixed WhatsApp brand color (external brand, not theme-dependent).
+  static const _whatsApp = Color(0xFF2E8A57);
 
   final String label;
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return Semantics(
       label: label,
       excludeSemantics: true,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: AppColors.whatsapp.withValues(alpha: 0.10),
-          borderRadius: BorderRadius.circular(999),
-          border: Border.all(color: AppColors.whatsapp),
+          color: _whatsApp.withValues(alpha: 0.10),
+          borderRadius: BorderRadius.circular(CoolRadii.pill),
+          border: Border.all(color: _whatsApp),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.chat_bubble_rounded, size: 13, color: palette.text2),
+              Icon(Icons.chat_bubble_rounded, size: 13, color: _whatsApp),
               const SizedBox(width: 6),
               Text(
                 label,
-                style: GoogleFonts.dmSans(
-                  fontSize: 12,
+                style: theme.textTheme.labelSmall?.copyWith(
                   fontWeight: FontWeight.w700,
-                  color: AppColors.whatsapp,
+                  color: _whatsApp,
                 ),
               ),
             ],

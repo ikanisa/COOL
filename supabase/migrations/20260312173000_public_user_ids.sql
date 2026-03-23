@@ -467,3 +467,4 @@ begin
   offset greatest(coalesce(p_offset, 0), 0);
 end;
 $$;
+;

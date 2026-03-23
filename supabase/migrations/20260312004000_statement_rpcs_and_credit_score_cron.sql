@@ -8,10 +8,8 @@ create index if not exists idx_momo_ledger_entries_user_posted_statement_at
     ledger_status,
     coalesce(tx_datetime, created_at) desc
   );
-
 create index if not exists idx_group_contributions_user_status_created
   on public.group_contributions (user_id, status, created_at desc);
-
 create or replace function public.get_wallet_statement_entries(
   p_start_at timestamptz default null,
   p_end_before timestamptz default null,
@@ -104,7 +102,6 @@ as $$
   limit greatest(coalesce(p_limit, 1000), 1)
   offset greatest(coalesce(p_offset, 0), 0);
 $$;
-
 create or replace function public.get_group_savings_statement_entries(
   p_start_at timestamptz default null,
   p_end_before timestamptz default null,
@@ -156,35 +153,30 @@ as $$
   limit greatest(coalesce(p_limit, 1000), 1)
   offset greatest(coalesce(p_offset, 0), 0);
 $$;
-
 revoke all on function public.get_wallet_statement_entries(
   timestamptz,
   timestamptz,
   integer,
   integer
 ) from public;
-
 grant execute on function public.get_wallet_statement_entries(
   timestamptz,
   timestamptz,
   integer,
   integer
 ) to authenticated;
-
 revoke all on function public.get_group_savings_statement_entries(
   timestamptz,
   timestamptz,
   integer,
   integer
 ) from public;
-
 grant execute on function public.get_group_savings_statement_entries(
   timestamptz,
   timestamptz,
   integer,
   integer
 ) to authenticated;
-
 create or replace function public.refresh_credit_scores_due(
   p_generated_at timestamptz default now(),
   p_max_users integer default 500,
@@ -257,7 +249,6 @@ begin
   return v_count;
 end;
 $$;
-
 -- pg_cron setup — idempotent; may already exist on managed Supabase.
 do $$
 begin
@@ -268,11 +259,9 @@ exception when others then
   raise notice 'pg_cron setup skipped: %', sqlerrm;
 end;
 $$;
-
 select cron.unschedule(jobid)
 from cron.job
 where jobname = 'refresh-credit-scores-hourly';
-
 select cron.schedule(
   'refresh-credit-scores-hourly',
   '13 * * * *',

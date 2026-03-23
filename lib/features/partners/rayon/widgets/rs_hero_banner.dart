@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/cool_palette.dart';
+import '../../../../core/theme/cool_foundations.dart';
 import '../../../../core/theme/rs_colors.dart';
 import '../../../../core/theme/rs_text_styles.dart';
 import '../models/rs_models.dart';
@@ -28,7 +26,7 @@ class RsHeroBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: DecoratedBox(
@@ -52,7 +50,7 @@ class RsHeroBanner extends StatelessWidget {
                       shape: BoxShape.circle,
                       gradient: RadialGradient(
                         colors: [
-                          AppColors.rsBluePale.withValues(alpha: 0.22),
+                          RsColors.rsBluePale.withValues(alpha: 0.22),
                           Colors.transparent,
                         ],
                       ),
@@ -79,16 +77,16 @@ class RsHeroBanner extends StatelessWidget {
                         height: 60,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: AppColors.rsWhite.withValues(alpha: 0.1),
+                          color: RsColors.rsWhite.withValues(alpha: 0.1),
                           border: Border.all(
-                            color: AppColors.rsWhite.withValues(alpha: 0.14),
+                            color: RsColors.rsWhite.withValues(alpha: 0.14),
                           ),
                         ),
                         alignment: Alignment.center,
                         child: Icon(
                           Icons.favorite_rounded,
                           size: 26,
-                          color: palette.accent,
+                          color: colors.accent,
                         ),
                       ),
                       const SizedBox(width: 14),
@@ -98,15 +96,13 @@ class RsHeroBanner extends StatelessWidget {
                           children: [
                             Text(
                               nickname.toUpperCase(),
-                              style: RsTextStyles.badge(
-                                color: AppColors.rsGoldLight,
-                              ),
+                              style: RsTextStyles.badge(color: RsColors.rsGoldLight),
                             ),
                             const SizedBox(height: 4),
                             Text(
                               clubName,
                               style: RsTextStyles.display(
-                                color: AppColors.rsWhite,
+                                color: RsColors.rsWhite,
                               ).copyWith(fontSize: 34),
                             ),
                             const SizedBox(height: 6),
@@ -115,7 +111,7 @@ class RsHeroBanner extends StatelessWidget {
                               style: GoogleFonts.barlow(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
-                                color: AppColors.rsWhite.withValues(
+                                color: RsColors.rsWhite.withValues(
                                   alpha: 0.72,
                                 ),
                               ),
@@ -129,7 +125,7 @@ class RsHeroBanner extends StatelessWidget {
                                     style: GoogleFonts.dmMono(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w700,
-                                      color: AppColors.rsWhite.withValues(
+                                      color: RsColors.rsWhite.withValues(
                                         alpha: 0.68,
                                       ),
                                     ),
@@ -150,7 +146,7 @@ class RsHeroBanner extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.black.withValues(alpha: 0.14),
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: palette.border),
+                        border: Border.all(color: colors.borderStrong),
                       ),
                       child: Row(
                         children: [
@@ -164,7 +160,7 @@ class RsHeroBanner extends StatelessWidget {
                               Container(
                                 width: 1,
                                 height: 34,
-                                color: AppColors.rsWhite.withValues(
+                                color: RsColors.rsWhite.withValues(
                                   alpha: 0.08,
                                 ),
                               ),
@@ -197,7 +193,6 @@ class _StatItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14),
       child: Column(
@@ -205,7 +200,7 @@ class _StatItem extends StatelessWidget {
         children: [
           Text(
             stat.value,
-            style: RsTextStyles.statValue(color: AppColors.rsWhite),
+            style: RsTextStyles.statValue(color: RsColors.rsWhite),
           ),
           const SizedBox(height: 4),
           Text(
@@ -213,7 +208,7 @@ class _StatItem extends StatelessWidget {
             style: GoogleFonts.barlow(
               fontSize: 12,
               fontWeight: FontWeight.w500,
-              color: palette.text3,
+              color: RsColors.rsWhite.withValues(alpha: 0.7),
             ),
           ),
         ],
@@ -226,7 +221,7 @@ class _RepeatingLinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = AppColors.rsWhite.withValues(alpha: 0.035)
+      ..color = RsColors.rsWhite.withValues(alpha: 0.035)
       ..strokeWidth = 1;
 
     const spacing = 16.0;

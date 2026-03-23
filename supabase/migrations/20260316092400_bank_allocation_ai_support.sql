@@ -122,11 +122,9 @@ begin
     true;
 end;
 $$;
-
 revoke all on function public.bank_add_member_to_group(uuid, uuid, text, text) from public;
 grant execute on function public.bank_add_member_to_group(uuid, uuid, text, text)
   to authenticated, service_role;
-
 -- ── RPC: bank_accept_suggested_allocation ──────────────────────────────
 -- Accepts an AI-suggested allocation stored in momo_reconciliations metadata.
 -- Reads suggested_group_id + suggested_member_user_id from metadata,
@@ -182,7 +180,6 @@ begin
   );
 end;
 $$;
-
 revoke all on function public.bank_accept_suggested_allocation(uuid, uuid, text) from public;
 grant execute on function public.bank_accept_suggested_allocation(uuid, uuid, text)
   to authenticated, service_role;

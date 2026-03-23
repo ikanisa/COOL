@@ -91,139 +91,165 @@ class _FootballHeroCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
+    final text = context.coolText;
     final theme = Theme.of(context);
     final isRayon = partner.slug == 'rayon-sports';
     return Semantics(
       button: true,
       label: 'Open ${partner.name}',
-      child: GestureDetector(
+      child: CoolCard(
         onTap: onTap,
-        child: CoolCard(
-          gradient: isRayon ? AppColors.rsHeroGradient : AppColors.blueGradient,
-          borderColor: isRayon ? AppColors.rsBlueBorder : palette.border,
-          child: Stack(
-            children: [
-              Positioned(
-                right: -5,
-                top: 8,
-                child: Icon(
-                  IconMapper.from(partner.emoji),
-                  size: 60,
-                  color: Colors.white.withValues(alpha: 0.12),
-                ),
+        semanticsLabel: 'Open ${partner.name}',
+        gradient: isRayon
+            ? RsColors.rsHeroGradient
+            : LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: <Color>[
+                  colors.analyticsSurface,
+                  colors.cardSurfaceStrong,
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(22),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 7,
-                      ),
-                      decoration: BoxDecoration(
+        borderColor: isRayon ? RsColors.rsBlueBorder : colors.borderStrong,
+        child: Stack(
+          children: [
+            Positioned(
+              right: -5,
+              top: 8,
+              child: Icon(
+                IconMapper.from(partner.emoji),
+                size: 60,
+                color: Colors.white.withValues(alpha: 0.12),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(22),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 7,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isRayon
+                          ? RsColors.rsGold.withValues(alpha: 0.18)
+                          : colors.info.withValues(alpha: 0.16),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
                         color: isRayon
-                            ? AppColors.rsGold.withValues(alpha: 0.18)
-                            : palette.blue.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: isRayon
-                              ? AppColors.rsGold.withValues(alpha: 0.4)
-                              : palette.blue.withValues(alpha: 0.4),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            IconMapper.from(partner.emoji),
-                            size: 13,
-                            color: isRayon
-                                ? AppColors.rsGoldLight
-                                : palette.blue,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            isRayon
-                                ? 'Rayon hub'
-                                : context.l10n.officialPartner,
-                            style: GoogleFonts.dmSans(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w700,
-                              color: isRayon
-                                  ? AppColors.rsGoldLight
-                                  : palette.blue,
-                            ),
-                          ),
-                        ],
+                            ? RsColors.rsGold.withValues(alpha: 0.4)
+                            : colors.info.withValues(alpha: 0.3),
                       ),
                     ),
-                    const SizedBox(height: 12),
-                    Text(
-                      partner.name,
-                      style: theme.textTheme.headlineSmall?.copyWith(
-                        color: colors.primaryText,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      partner.subtitle ?? '',
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: colors.secondaryText,
-                        fontWeight: FontWeight.w700,
-                        height: 1.35,
-                      ),
-                    ),
-                    const SizedBox(height: 18),
-                    Row(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        _stat(
-                          _formatCompactCount(partner.fanCount),
-                          context.l10n.fansTitle,
-                          isRayon,
+                        Icon(
+                          IconMapper.from(partner.emoji),
+                          size: 13,
+                          color: isRayon ? RsColors.rsGoldLight : colors.info,
                         ),
-                        _divider(),
-                        _stat(
-                          partner.clubCount.toString(),
-                          context.l10n.fanClubs,
-                          isRayon,
+                        const SizedBox(width: 4),
+                        Text(
+                          isRayon ? 'Rayon hub' : context.l10n.officialPartner,
+                          style: text.rayon(
+                            theme.textTheme.labelMedium,
+                            fontWeight: FontWeight.w700,
+                            color: isRayon ? RsColors.rsGoldLight : colors.info,
+                          ),
                         ),
-                        _divider(),
-                        _stat(partner.gameCount.toString(), 'Games', isRayon),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    partner.name,
+                    style: theme.textTheme.headlineSmall?.copyWith(
+                      color: colors.primaryText,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    partner.subtitle ?? '',
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: colors.secondaryText,
+                      fontWeight: FontWeight.w700,
+                      height: 1.35,
+                    ),
+                  ),
+                  const SizedBox(height: 18),
+                  Row(
+                    children: [
+                      _stat(
+                        context: context,
+                        value: _formatCompactCount(partner.fanCount),
+                        label: context.l10n.fansTitle,
+                        valueColor: isRayon
+                            ? RsColors.rsGoldLight
+                            : colors.info,
+                        labelColor: colors.tertiaryText,
+                      ),
+                      _divider(colors.borderStrong),
+                      _stat(
+                        context: context,
+                        value: partner.clubCount.toString(),
+                        label: context.l10n.fanClubs,
+                        valueColor: isRayon
+                            ? RsColors.rsGoldLight
+                            : colors.info,
+                        labelColor: colors.tertiaryText,
+                      ),
+                      _divider(colors.borderStrong),
+                      _stat(
+                        context: context,
+                        value: partner.gameCount.toString(),
+                        label: 'Games',
+                        valueColor: isRayon
+                            ? RsColors.rsGoldLight
+                            : colors.info,
+                        labelColor: colors.tertiaryText,
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _stat(String value, String label, bool isRayon) {
+  Widget _stat({
+    required BuildContext context,
+    required String value,
+    required String label,
+    required Color valueColor,
+    required Color labelColor,
+  }) {
+    final text = context.coolText;
+    final theme = Theme.of(context);
     return Expanded(
       child: Column(
         children: [
           Text(
             value,
-            style: GoogleFonts.dmMono(
-              fontSize: 22,
+            style: text.mono(
+              theme.textTheme.titleLarge,
               fontWeight: FontWeight.w700,
-              color: isRayon ? AppColors.rsGoldLight : AppColors.blue,
+              color: valueColor,
             ),
           ),
           Text(
             label,
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
+            style: text.rayon(
+              theme.textTheme.labelMedium,
               fontWeight: FontWeight.w700,
-              color: AppColors.text3,
+              color: labelColor,
             ),
           ),
         ],
@@ -231,8 +257,8 @@ class _FootballHeroCard extends StatelessWidget {
     );
   }
 
-  Widget _divider() {
-    return Container(width: 1, height: 28, color: AppColors.border2);
+  Widget _divider(Color color) {
+    return Container(width: 1, height: 28, color: color);
   }
 
   static String _formatCompactCount(int count) {
@@ -437,118 +463,131 @@ class _BankPartnerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
+    final text = context.coolText;
     final theme = Theme.of(context);
     return Semantics(
       button: true,
       label: 'Open ${partner.name}',
-      child: GestureDetector(
+      child: CoolCard(
         onTap: () => context.push('/partners/${partner.slug}'),
-        child: CoolCard(
-          gradient: AppColors.accentGradient,
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 5,
-                        ),
-                        decoration: BoxDecoration(
-                          color: palette.accent.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: palette.accent.withValues(alpha: 0.3),
-                          ),
-                        ),
-                        child: Text(
-                          context.l10n.bankingPartner,
-                          style: GoogleFonts.dmSans(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w700,
-                            color: palette.accent,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    PartnerBrandMark(
-                      partner: partner,
-                      width: 122,
-                      height: 58,
+        semanticsLabel: 'Open ${partner.name}',
+        gradient: colors.accentGradient,
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 10,
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
+                      decoration: BoxDecoration(
+                        color: colors.accent.withValues(alpha: 0.16),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: colors.accent.withValues(alpha: 0.3),
+                        ),
+                      ),
+                      child: Text(
+                        context.l10n.bankingPartner,
+                        style: text.rayon(
+                          theme.textTheme.labelMedium,
+                          fontWeight: FontWeight.w700,
+                          color: colors.accent,
+                        ),
                       ),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  partner.name,
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    color: colors.primaryText,
-                    fontWeight: FontWeight.w800,
                   ),
-                ),
-                Text(
-                  partner.subtitle ?? '',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: colors.secondaryText,
-                    fontWeight: FontWeight.w700,
+                  const SizedBox(width: 12),
+                  PartnerBrandMark(
+                    partner: partner,
+                    width: 122,
+                    height: 58,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 10,
+                    ),
                   ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Text(
+                partner.name,
+                style: theme.textTheme.titleLarge?.copyWith(
+                  color: colors.primaryText,
+                  fontWeight: FontWeight.w800,
                 ),
-                const SizedBox(height: 14),
-                Row(
-                  children: [
-                    _bankStat(
-                      partner.fanCount > 0 ? partner.fanCount.toString() : '—',
-                      context.l10n.activeGroups,
-                      palette.accent,
-                    ),
-                    const SizedBox(width: 20),
-                    _bankStat(
-                      partner.clubCount > 0
-                          ? _formatRwf(partner.clubCount)
-                          : '—',
-                      context.l10n.rwfHeld,
-                      palette.accent,
-                    ),
-                  ],
+              ),
+              Text(
+                partner.subtitle ?? '',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colors.secondaryText,
+                  fontWeight: FontWeight.w700,
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 14),
+              Row(
+                children: [
+                  _bankStat(
+                    context: context,
+                    value: partner.fanCount > 0
+                        ? partner.fanCount.toString()
+                        : '—',
+                    label: context.l10n.activeGroups,
+                    valueColor: colors.accent,
+                    labelColor: colors.tertiaryText,
+                  ),
+                  const SizedBox(width: 20),
+                  _bankStat(
+                    context: context,
+                    value: partner.clubCount > 0
+                        ? _formatRwf(partner.clubCount)
+                        : '—',
+                    label: context.l10n.rwfHeld,
+                    valueColor: colors.accent,
+                    labelColor: colors.tertiaryText,
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget _bankStat(String value, String label, Color color) {
+  Widget _bankStat({
+    required BuildContext context,
+    required String value,
+    required String label,
+    required Color valueColor,
+    required Color labelColor,
+  }) {
+    final text = context.coolText;
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           value,
-          style: GoogleFonts.dmMono(
-            fontSize: 20,
+          style: text.mono(
+            theme.textTheme.titleLarge,
             fontWeight: FontWeight.w700,
-            color: color,
+            color: valueColor,
           ),
         ),
         Text(
           label,
-          style: GoogleFonts.dmSans(
-            fontSize: 13,
+          style: text.rayon(
+            theme.textTheme.labelMedium,
             fontWeight: FontWeight.w700,
-            color: AppColors.text3,
+            color: labelColor,
           ),
         ),
       ],
@@ -623,12 +662,21 @@ class _OrgPartnerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
+    final text = context.coolText;
     final theme = Theme.of(context);
     final isInsurance = partner.slug == 'radiant';
     return CoolCard(
-      gradient: isInsurance ? AppColors.blueGradient : AppColors.accentGradient,
+      gradient: isInsurance
+          ? LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[
+                colors.analyticsSurface,
+                colors.cardSurfaceStrong,
+              ],
+            )
+          : colors.accentGradient,
       onTap: onTap,
       child: Stack(
         children: [
@@ -653,13 +701,13 @@ class _OrgPartnerCard extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     color: isInsurance
-                        ? palette.blue.withValues(alpha: 0.15)
-                        : palette.accent.withValues(alpha: 0.15),
+                        ? colors.info.withValues(alpha: 0.16)
+                        : colors.accent.withValues(alpha: 0.16),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
                       color: isInsurance
-                          ? palette.blue.withValues(alpha: 0.3)
-                          : palette.accent.withValues(alpha: 0.3),
+                          ? colors.info.withValues(alpha: 0.3)
+                          : colors.accent.withValues(alpha: 0.3),
                     ),
                   ),
                   child: Row(
@@ -668,15 +716,15 @@ class _OrgPartnerCard extends StatelessWidget {
                       Icon(
                         IconMapper.from(partner.emoji),
                         size: 13,
-                        color: isInsurance ? palette.blue : palette.accent,
+                        color: isInsurance ? colors.info : colors.accent,
                       ),
                       const SizedBox(width: 4),
                       Text(
                         _categoryLabel(context, partner),
-                        style: GoogleFonts.dmSans(
-                          fontSize: 13,
+                        style: text.rayon(
+                          theme.textTheme.labelMedium,
                           fontWeight: FontWeight.w700,
-                          color: isInsurance ? palette.blue : palette.accent,
+                          color: isInsurance ? colors.info : colors.accent,
                         ),
                       ),
                     ],

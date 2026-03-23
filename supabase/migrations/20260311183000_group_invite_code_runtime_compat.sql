@@ -19,7 +19,6 @@ begin
   return v_code;
 end;
 $$;
-
 do $$
 declare
   v_group_id uuid;
@@ -36,7 +35,6 @@ begin
   end loop;
 end;
 $$;
-
 create or replace function public.create_group_atomic(
   p_name text,
   p_visibility text,
@@ -164,4 +162,4 @@ exception
       'message', sqlerrm
     );
 end;
-$$;
+$$;;

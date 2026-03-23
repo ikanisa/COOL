@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_foundations.dart';
 import '../../core/theme/rs_colors.dart';
 import 'cool_card.dart';
-
-// ── Model ───────────────────────────────────────────────────────────────
 
 class RsLeagueTeam {
   const RsLeagueTeam({
@@ -23,11 +20,9 @@ class RsLeagueTeam {
   final int played;
   final int won;
   final int points;
-  final List<String> form; // 'W', 'D', 'L'
+  final List<String> form;
   final bool isHighlighted;
 }
-
-// ── Widget ───────────────────────────────────────────────────────────────
 
 class RsLeagueTable extends StatelessWidget {
   const RsLeagueTable({
@@ -41,35 +36,39 @@ class RsLeagueTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final space = context.coolSpace;
+    final theme = Theme.of(context);
+
     return CoolCard(
-      gradient: AppColors.cardGradient,
+      gradient: RsColors.rsCardGradient,
       borderColor: RsColors.rsBlueBorder,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '🏆 League Standings',
-            style: GoogleFonts.barlowCondensed(
-              fontSize: 22,
+            'LEAGUE STANDINGS',
+            style: text.rayonCondensed(
+              theme.textTheme.titleLarge,
               fontWeight: FontWeight.w900,
               color: RsColors.rsWhite,
+              letterSpacing: 0.4,
             ),
           ),
           if (seasonTitle.isNotEmpty) ...[
-            const SizedBox(height: 4),
+            SizedBox(height: space.x1),
             Text(
               seasonTitle,
-              style: GoogleFonts.barlow(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: AppColors.text3,
+              style: text.rayon(
+                theme.textTheme.labelSmall,
+                fontWeight: FontWeight.w600,
+                color: colors.tertiaryText,
               ),
             ),
           ],
-          const SizedBox(height: 16),
-
-          // Header
-          const _TableRow(
+          SizedBox(height: space.x4),
+          _TableRow(
             position: '#',
             name: 'Team',
             played: 'P',
@@ -79,10 +78,8 @@ class RsLeagueTable extends StatelessWidget {
             isHeader: true,
             isHighlighted: false,
           ),
-          Divider(color: AppColors.border, height: 1),
-          const SizedBox(height: 6),
-
-          // Rows
+          Divider(color: colors.border, height: 1),
+          SizedBox(height: space.x2),
           for (var i = 0; i < teams.length; i++) ...[
             _TableRow(
               position: '${teams[i].position}',
@@ -93,15 +90,13 @@ class RsLeagueTable extends StatelessWidget {
               form: teams[i].form,
               isHighlighted: teams[i].isHighlighted,
             ),
-            if (i < teams.length - 1) const SizedBox(height: 6),
+            if (i < teams.length - 1) SizedBox(height: space.x2),
           ],
         ],
       ),
     );
   }
 }
-
-// ── Table Row ────────────────────────────────────────────────────────────
 
 class _TableRow extends StatelessWidget {
   const _TableRow({
@@ -126,40 +121,49 @@ class _TableRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
+
     final bg = isHighlighted
         ? RsColors.rsBlue.withValues(alpha: 0.18)
         : Colors.transparent;
     final border = isHighlighted ? RsColors.rsBlueBorder : Colors.transparent;
     final textColor = isHeader
-        ? AppColors.text3
+        ? colors.tertiaryText
         : isHighlighted
         ? RsColors.rsWhite
-        : AppColors.text2;
+        : colors.secondaryText;
     final textStyle = isHeader
-        ? GoogleFonts.barlow(
-            fontSize: 11,
+        ? text.rayon(
+            theme.textTheme.labelSmall,
             fontWeight: FontWeight.w700,
             color: textColor,
             letterSpacing: 0.5,
           )
-        : GoogleFonts.barlow(
-            fontSize: 13,
+        : text.rayon(
+            theme.textTheme.bodySmall,
             fontWeight: isHighlighted ? FontWeight.w700 : FontWeight.w600,
             color: textColor,
           );
     final pointsStyle = isHeader
         ? textStyle
-        : GoogleFonts.dmMono(
-            fontSize: 13,
+        : text.mono(
+            theme.textTheme.bodySmall,
             fontWeight: FontWeight.w700,
-            color: isHighlighted ? RsColors.rsGoldLight : AppColors.text,
+            color: isHighlighted ? RsColors.rsGoldLight : colors.primaryText,
           );
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      padding: EdgeInsets.symmetric(
+        horizontal: space.x2 + 2,
+        vertical: space.x2,
+      ),
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(radii.sm),
         border: Border.all(color: border),
       ),
       child: Row(
@@ -182,12 +186,12 @@ class _TableRow extends StatelessWidget {
               style: pointsStyle,
             ),
           ),
-          const SizedBox(width: 6),
+          SizedBox(width: space.x1 + 2),
           if (form != null)
             Row(
               mainAxisSize: MainAxisSize.min,
               children: form!
-                  .map((f) => _FormDot(result: f))
+                  .map((entry) => _FormDot(result: entry))
                   .toList(growable: false),
             )
           else
@@ -205,8 +209,6 @@ class _TableRow extends StatelessWidget {
   }
 }
 
-// ── Form Dot ─────────────────────────────────────────────────────────────
-
 class _FormDot extends StatelessWidget {
   const _FormDot({required this.result});
 
@@ -214,10 +216,11 @@ class _FormDot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final color = switch (result) {
-      'W' => AppColors.accent,
-      'D' => AppColors.orange,
-      _ => AppColors.red,
+      'W' => colors.success,
+      'D' => colors.warning,
+      _ => colors.danger,
     };
 
     return Container(

@@ -3,13 +3,11 @@
 
 delete from public.supported_countries
 where iso_code != 'RW';
-
 -- Disable triggers that validate MoMo fields against the user's country,
 -- because non-RW users may have phone numbers that don't match RW patterns.
 -- Users can login/OTP with any international phone number; MoMo fields are
 -- Rwanda-specific and get cleared for users whose numbers aren't valid for RW.
 alter table public.users disable trigger trg_enforce_user_momo_fields;
-
 update public.users
 set
   country = 'RW',
@@ -33,24 +31,18 @@ set
   end
 where country is not null
   and country != 'RW';
-
 alter table public.users enable trigger trg_enforce_user_momo_fields;
-
 -- Same pattern for groups
 alter table public.groups disable trigger trg_enforce_group_momo_fields;
-
 update public.groups
 set country = 'RW'
 where country is not null
   and country != 'RW';
-
 alter table public.groups enable trigger trg_enforce_group_momo_fields;
-
 update public.partners
 set country = 'RW'
 where country is not null
   and country != 'RW';
-
 with prisma_partner as (
   select id
   from public.partners
@@ -63,14 +55,12 @@ set
   whatsapp_number = '+250795588248',
   updated_at = now()
 where id in (select id from prisma_partner);
-
 delete from public.partner_services
 where partner_id in (
   select id
   from public.partners
   where slug = 'prisma'
 );
-
 with prisma_partner as (
   select id
   from public.partners
@@ -324,11 +314,9 @@ select
   service_seed.sort_order
 from prisma_partner
 cross join service_seed;
-
 update public.partners
 set description = 'Urwego Finance CBC offers current and savings accounts, group lending, SME credit, agricultural finance, mobile and internet banking, and local payment services in Rwanda.'
 where slug = 'urwego';
-
 update public.partner_services
 set
   title = 'Transfers & Payments',
@@ -340,7 +328,6 @@ set
   ]$$::jsonb
 where title = 'Money Transfers & Remittances'
   and partner_id in (select id from public.partners where slug = 'urwego');
-
 update public.partner_services
 set details = $$[
   {"label":"Currency","value":"RWF","icon":"💱"},
@@ -349,11 +336,9 @@ set details = $$[
 ]$$::jsonb
 where title = 'IKAZE Current Account'
   and partner_id in (select id from public.partners where slug = 'urwego');
-
 update public.partners
 set description = 'Equity Bank Rwanda offers personal, SME, corporate, and group banking, alongside digital channels, payments, savings, and borrowing services in Rwanda.'
 where slug = 'equity';
-
 update public.partner_services
 set details = $$[
   {"label":"Includes","value":"Agency, cardless withdrawal, cards, EazzyPay, EazzyFX","icon":"📤"},
@@ -362,7 +347,6 @@ set details = $$[
 ]$$::jsonb
 where title = 'Pay & Send Money'
   and partner_id in (select id from public.partners where slug = 'equity');
-
 update public.partner_services
 set details = $$[
   {"label":"Personal","value":"Individual account opening options","icon":"🧑"},
@@ -371,7 +355,6 @@ set details = $$[
 ]$$::jsonb
 where title = 'Open an Account'
   and partner_id in (select id from public.partners where slug = 'equity');
-
 update public.partner_services
 set
   title = 'Group & Youth Banking',
@@ -383,7 +366,6 @@ set
   ]$$::jsonb
 where title = 'Group, Youth & Diaspora Banking'
   and partner_id in (select id from public.partners where slug = 'equity');
-
 update public.partner_services
 set
   subtitle = 'Official borrowing surface for personal and SME customers.',

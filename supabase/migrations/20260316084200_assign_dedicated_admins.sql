@@ -17,7 +17,6 @@ VALUES (
   'Savings and Credit Cooperative Organization'
 )
 ON CONFLICT (slug) DO NOTHING;
-
 -- 2) Pre-create auth users for the 4 phone numbers (if they don't exist yet)
 --    They can later sign in via OTP which will reuse these records.
 INSERT INTO auth.users (
@@ -51,14 +50,12 @@ VALUES
    '{"full_name":"SACCO Admin"}'::jsonb,
    now(), now(), '', false)
 ON CONFLICT (phone) DO NOTHING;
-
 -- 3) Ensure public.users entries exist for these auth users
 INSERT INTO public.users (id, phone, full_name, is_admin, is_mock, created_at)
 SELECT au.id, au.phone, au.raw_user_meta_data->>'full_name', false, false, now()
 FROM auth.users au
 WHERE au.phone IN ('+250788308095', '+250788673782', '+250788824683', '+250785000316')
 ON CONFLICT (id) DO NOTHING;
-
 -- 4) Assign admin roles
 DO $$
 DECLARE

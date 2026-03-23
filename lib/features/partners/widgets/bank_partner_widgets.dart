@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../models/partner.dart';
@@ -21,7 +20,8 @@ class BankHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
     return CoolCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,10 +32,9 @@ class BankHero extends StatelessWidget {
               Expanded(
                 child: Text(
                   partner.name,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 24,
+                  style: theme.textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.w800,
-                    color: palette.text,
+                    color: colors.primaryText,
                     letterSpacing: -0.5,
                   ),
                 ),
@@ -55,10 +54,9 @@ class BankHero extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             partner.description ?? 'Trusted financial partner.',
-            style: GoogleFonts.dmSans(
-              fontSize: 14,
+            style: theme.textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w500,
-              color: palette.text2,
+              color: colors.secondaryText,
               height: 1.5,
             ),
           ),
@@ -136,11 +134,8 @@ class BankServiceGrid extends StatelessWidget {
             icon: fallback.icon,
             title: matched[fallback.action]?.title ?? fallback.title,
             subtitle: matched[fallback.action]?.subtitle ?? fallback.subtitle,
-            onTap: () => launchPartnerAction(
-              context,
-              partner,
-              action: fallback.action,
-            ),
+            onTap: () =>
+                launchPartnerAction(context, partner, action: fallback.action),
           ),
       ],
     );
@@ -181,7 +176,10 @@ Future<void> launchPartnerAction(
 
   // Handle USSD: "ussd:*525#"
   if (normalized.startsWith('ussd:')) {
-    CoolToast.info(context, 'Dialing ${normalized.replaceFirst('ussd:', '')}...');
+    CoolToast.info(
+      context,
+      'Dialing ${normalized.replaceFirst('ussd:', '')}...',
+    );
     // In a real app, use url_launcher for tel:*...
     return;
   }

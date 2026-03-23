@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/status/models/cool_season.dart';
-import '../../../core/theme/cool_palette.dart';
-import '../../../core/utils/icon_mapper.dart';
+import '../../core/status/models/cool_season.dart';
+import '../../core/theme/cool_foundations.dart';
+import '../../core/utils/icon_mapper.dart';
+import 'cool_card.dart';
 
 /// Home screen banner showing the active season: theme, countdown, and reward preview.
 class SeasonBanner extends StatelessWidget {
-  const SeasonBanner({required this.season, this.seasonPoints = 0, this.onTap, super.key});
+  const SeasonBanner({
+    required this.season,
+    this.seasonPoints = 0,
+    this.onTap,
+    super.key,
+  });
 
   final CoolSeason season;
   final int seasonPoints;
@@ -15,47 +20,45 @@ class SeasonBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+
     if (!season.isLive) return const SizedBox.shrink();
 
-    return GestureDetector(
-      onTap: onTap,
-      child: Semantics(
+    return Semantics(
       label: 'Active season ${season.title}. Tap to view all seasons.',
-      button: true,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              palette.accent.withValues(alpha: 0.12),
-              palette.blue.withValues(alpha: 0.08),
-            ],
-          ),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: palette.accent.withValues(alpha: 0.2)),
+      button: onTap != null,
+      child: CoolCard(
+        onTap: onTap,
+        padding: const EdgeInsets.all(CoolSpace.x4),
+        borderRadius: CoolRadii.sm,
+        borderColor: colors.accent.withValues(alpha: 0.2),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            colors.accent.withValues(alpha: 0.12),
+            colors.info.withValues(alpha: 0.08),
+          ],
         ),
+        semanticsLabel: season.title,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ─── Header ────────────────────────────────────
             Row(
               children: [
                 Icon(
                   IconMapper.from(season.emoji),
                   size: 22,
-                  color: palette.text2,
+                  color: colors.secondaryText,
                 ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
                     season.title,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                      color: palette.text,
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w800,
+                      color: colors.primaryText,
                     ),
                   ),
                 ),
@@ -63,48 +66,43 @@ class SeasonBanner extends StatelessWidget {
                   label: 'Season time remaining ${season.timeRemainingLabel}',
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
+                      horizontal: CoolSpace.x2,
+                      vertical: CoolSpace.x1,
                     ),
                     decoration: BoxDecoration(
-                      color: palette.accent.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(20),
+                      color: colors.accent.withValues(alpha: 0.15),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(CoolRadii.pill),
+                      ),
                     ),
                     child: Text(
                       season.timeRemainingLabel,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        color: palette.accent,
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: colors.accent,
                       ),
                     ),
                   ),
                 ),
               ],
             ),
-
             const SizedBox(height: 10),
-
-            // ─── Season progress bar ───────────────────────
             Semantics(
               label:
                   'Season progress ${(season.progressThroughSeason * 100).round()} percent',
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: const BorderRadius.all(Radius.circular(4)),
                 child: LinearProgressIndicator(
                   value: season.progressThroughSeason,
                   minHeight: 4,
-                  backgroundColor: palette.surface3,
+                  backgroundColor: colors.cardSurfaceStrong,
                   valueColor: AlwaysStoppedAnimation<Color>(
-                    palette.accent.withValues(alpha: 0.6),
+                    colors.accent.withValues(alpha: 0.6),
                   ),
                 ),
               ),
             ),
-
             const SizedBox(height: 10),
-
-            // ─── Footer: season points + reward preview ────
             Row(
               children: [
                 Flexible(
@@ -116,7 +114,7 @@ class SeasonBanner extends StatelessWidget {
                         Icon(
                           Icons.star_rounded,
                           size: 14,
-                          color: palette.text2,
+                          color: colors.secondaryText,
                         ),
                         const SizedBox(width: 4),
                         Flexible(
@@ -124,10 +122,9 @@ class SeasonBanner extends StatelessWidget {
                             '$seasonPoints Tokens',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.dmSans(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: palette.text2,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: colors.secondaryText,
                             ),
                           ),
                         ),
@@ -142,9 +139,8 @@ class SeasonBanner extends StatelessWidget {
                       label: season.rewardsDescription!,
                       child: Text(
                         season.rewardsDescription!,
-                        style: GoogleFonts.dmSans(
-                          fontSize: 11,
-                          color: palette.text3,
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: colors.tertiaryText,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -157,7 +153,6 @@ class SeasonBanner extends StatelessWidget {
             ),
           ],
         ),
-      ),
       ),
     );
   }

@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/config/deep_link_config.dart';
 import '../../../../core/l10n/l10n.dart';
-import '../../../../core/providers/production_redesign_provider.dart';
 import '../../../../core/router/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/cool_foundations.dart';
-import '../../../../core/theme/cool_palette.dart';
+import '../../../../core/theme/rs_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/widgets/cool_button.dart';
 import '../../../../shared/widgets/cool_card.dart';
@@ -28,17 +25,10 @@ class TicketConfirmationScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final theme = Theme.of(context);
     final l10n = context.l10n;
-    final useProductionRedesign = ref.watch(
-      productionRedesignEnabledProvider(
-        const ProductionRedesignScope(
-          route: ProductionRedesignRoutes.rayonTicketConfirmation,
-          partner: 'rayon',
-        ),
-      ),
-    );
     final ticketAsync = ref.watch(rayonUserTicketByIdProvider(ticketId));
     final disableAnimations =
         MediaQuery.maybeOf(context)?.disableAnimations ?? false;
@@ -62,7 +52,7 @@ class TicketConfirmationScreen extends ConsumerWidget {
             height: 80,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: palette.accent.withValues(alpha: 0.15),
+              color: statusMeta.color.withValues(alpha: 0.15),
               border: Border.all(
                 color: statusMeta.color.withValues(alpha: 0.4),
                 width: 2,
@@ -78,88 +68,84 @@ class TicketConfirmationScreen extends ConsumerWidget {
               SliverPadding(
                 padding: const EdgeInsets.fromLTRB(18, 18, 18, 96),
                 sliver: SliverToBoxAdapter(
-                  child: Center(
-                    child: Column(
-                      children: [
-                        if (useProductionRedesign) ...[
-                          _TicketConfirmationCommandCard(
-                            ticket: ticket,
-                            statusMeta: statusMeta,
-                          ),
-                          const SizedBox(height: 18),
-                        ] else
-                          const SizedBox(height: 30),
-                        if (disableAnimations)
-                          statusIcon
-                        else
-                          statusIcon
-                              .animate()
-                              .scaleXY(
-                                begin: 0,
-                                end: 1,
-                                duration: 500.ms,
-                                curve: Curves.elasticOut,
-                              )
-                              .fadeIn(duration: 300.ms),
-                        const SizedBox(height: 24),
-                        Text(
-                          statusMeta.title,
-                          style: GoogleFonts.barlowCondensed(
-                            fontSize: 34,
-                            fontWeight: FontWeight.w900,
-                            color: AppColors.rsWhite,
-                          ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      _TicketConfirmationCommandCard(
+                        ticket: ticket,
+                        statusMeta: statusMeta,
+                      ),
+                      const SizedBox(height: 18),
+                      Center(
+                        child: disableAnimations
+                            ? statusIcon
+                            : statusIcon
+                                  .animate()
+                                  .scaleXY(
+                                    begin: 0,
+                                    end: 1,
+                                    duration: 500.ms,
+                                    curve: Curves.elasticOut,
+                                  )
+                                  .fadeIn(duration: 300.ms),
+                      ),
+                      const SizedBox(height: 24),
+                      Text(
+                        statusMeta.title,
+                        textAlign: TextAlign.center,
+                        style: text.rayonCondensed(
+                          theme.textTheme.headlineLarge,
+                          fontWeight: FontWeight.w900,
+                          color: colors.primaryText,
                         ),
-                        const SizedBox(height: 8),
-                        Text(
-                          statusMeta.subtitle,
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.barlow(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w800,
-                            color: colors.secondaryText,
-                          ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        statusMeta.subtitle,
+                        textAlign: TextAlign.center,
+                        style: text.rayon(
+                          theme.textTheme.titleSmall,
+                          fontWeight: FontWeight.w800,
+                          color: colors.secondaryText,
                         ),
-                        const SizedBox(height: 24),
-                        RsDigitalTicket(ticket: ticket),
-                        const SizedBox(height: 20),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: CoolButton(
-                                label: l10n.ticketBackToTickets,
-                                variant: CoolButtonVariant.secondary,
-                                onTap: () => context.go(AppRoutes.rayonTickets),
-                                icon: Icons.confirmation_number_outlined,
-                              ),
+                      ),
+                      const SizedBox(height: 24),
+                      RsDigitalTicket(ticket: ticket),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: CoolButton(
+                              label: l10n.ticketBackToTickets,
+                              variant: CoolButtonVariant.secondary,
+                              onTap: () => context.go(AppRoutes.rayonTickets),
+                              icon: Icons.confirmation_number_outlined,
                             ),
-                          ],
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          statusMeta.note,
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.barlow(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                            color: colors.secondaryText,
-                            height: 1.3,
                           ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        statusMeta.note,
+                        textAlign: TextAlign.center,
+                        style: text.rayon(
+                          theme.textTheme.bodySmall,
+                          fontWeight: FontWeight.w600,
+                          color: colors.secondaryText,
+                          height: 1.3,
                         ),
-                        const SizedBox(height: 20),
-                        ShareCard(
-                          title: l10n.ticketShareMatchTitle,
-                          icon: Icons.sports_soccer_rounded,
-                          subtitle: ticket.matchTitle,
-                          shareUrl: DeepLinkConfig.matchUri(
-                            ticket.matchId,
-                          ).toString(),
-                          shareText: l10n.ticketShareMatchText(
-                            ticket.matchTitle,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(height: 20),
+                      ShareCard(
+                        title: l10n.ticketShareMatchTitle,
+                        icon: Icons.sports_soccer_rounded,
+                        subtitle: ticket.matchTitle,
+                        shareUrl: DeepLinkConfig.matchUri(
+                          ticket.matchId,
+                        ).toString(),
+                        shareText: l10n.ticketShareMatchText(ticket.matchTitle),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -187,6 +173,8 @@ class _TicketConfirmationCommandCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.coolText;
+    final space = context.coolSpace;
     final theme = Theme.of(context);
     return CoolCard(
       gradient: const LinearGradient(
@@ -194,18 +182,20 @@ class _TicketConfirmationCommandCard extends StatelessWidget {
         end: Alignment.bottomRight,
         colors: [Color(0xFF06152D), Color(0xFF0B2351), Color(0xFF143B72)],
       ),
-      borderColor: AppColors.rsBlueBorder,
+      borderColor: RsColors.rsBlueBorder,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'Verified ticket record',
-            style: theme.textTheme.labelLarge?.copyWith(
+            style: text.rayon(
+              theme.textTheme.labelLarge,
+              fontWeight: FontWeight.w700,
               color: Colors.white.withValues(alpha: 0.72),
               letterSpacing: 0.35,
             ),
           ),
-          const SizedBox(height: CoolSpace.x3),
+          SizedBox(height: space.x3),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -215,17 +205,17 @@ class _TicketConfirmationCommandCard extends StatelessWidget {
                   children: [
                     Text(
                       'Official Matchday Entry',
-                      style: GoogleFonts.barlow(
-                        fontSize: 28,
+                      style: text.rayonCondensed(
+                        theme.textTheme.headlineMedium,
                         fontWeight: FontWeight.w900,
                         color: Colors.white,
                       ),
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      'Ticket identity, payment reference, and digital entry status are now recorded for matchday operations.',
-                      style: GoogleFonts.barlow(
-                        fontSize: 15,
+                      'Ticket identity, payment reference, and entry status are recorded for matchday operations.',
+                      style: text.rayon(
+                        theme.textTheme.bodySmall,
                         fontWeight: FontWeight.w600,
                         color: Colors.white.withValues(alpha: 0.8),
                         height: 1.4,
@@ -285,39 +275,49 @@ class _TicketInfoPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final text = context.coolText;
+    final theme = Theme.of(context);
+    final effectiveColor = color ?? context.coolSemanticColors.accent;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
       decoration: BoxDecoration(
         color: highlighted
-            ? (color ?? AppColors.accent).withValues(alpha: 0.14)
+            ? effectiveColor.withValues(alpha: 0.14)
             : Colors.white.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(999),
         border: Border.all(
           color: highlighted
-              ? (color ?? AppColors.accent).withValues(alpha: 0.28)
+              ? effectiveColor.withValues(alpha: 0.28)
               : Colors.white.withValues(alpha: 0.1),
         ),
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            size: 15,
-            color: highlighted
-                ? (color ?? AppColors.accent)
-                : Colors.white.withValues(alpha: 0.76),
-          ),
-          const SizedBox(width: 6),
-          Text(
-            label,
-            style: GoogleFonts.barlow(
-              fontSize: 13,
-              fontWeight: FontWeight.w800,
-              color: highlighted ? (color ?? AppColors.accent) : Colors.white,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 230),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              size: 15,
+              color: highlighted
+                  ? effectiveColor
+                  : Colors.white.withValues(alpha: 0.76),
             ),
-          ),
-        ],
+            const SizedBox(width: 6),
+            Flexible(
+              child: Text(
+                label,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: text.rayon(
+                  theme.textTheme.labelSmall,
+                  fontWeight: FontWeight.w800,
+                  color: highlighted ? effectiveColor : Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -346,21 +346,21 @@ _TicketStatusMeta _statusMeta(RsTicketStatus status, AppLocalizations l10n) {
       subtitle: l10n.ticketStatusPendingSubtitle,
       note: l10n.ticketStatusPendingNote,
       icon: Icons.hourglass_top_rounded,
-      color: AppColors.rsGold,
+      color: RsColors.rsGold,
     ),
     RsTicketStatus.valid => _TicketStatusMeta(
       title: l10n.ticketStatusValidTitle,
       subtitle: l10n.ticketStatusValidSubtitle,
       note: l10n.ticketStatusValidNote,
       icon: Icons.check_rounded,
-      color: AppColors.accent,
+      color: CoolSemanticColors.dark.accent,
     ),
     RsTicketStatus.used => _TicketStatusMeta(
       title: l10n.ticketStatusUsedTitle,
       subtitle: l10n.ticketStatusUsedSubtitle,
       note: l10n.ticketStatusUsedNote,
       icon: Icons.check_circle_outline_rounded,
-      color: AppColors.text3,
+      color: CoolSemanticColors.dark.tertiaryText,
     ),
     RsTicketStatus.cancelled ||
     RsTicketStatus.voided ||
@@ -369,7 +369,7 @@ _TicketStatusMeta _statusMeta(RsTicketStatus status, AppLocalizations l10n) {
       subtitle: l10n.ticketStatusCancelledSubtitle,
       note: l10n.ticketStatusCancelledNote,
       icon: Icons.block_rounded,
-      color: AppColors.red,
+      color: CoolSemanticColors.dark.danger,
     ),
   };
 }

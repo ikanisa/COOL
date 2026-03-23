@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_foundations.dart';
 
 /// Animated progress bar with gradient fill and rounded caps.
 ///
@@ -57,6 +57,7 @@ class _RsProgressBarState extends State<RsProgressBar> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
     final lighterFill = Color.lerp(widget.fillColor, Colors.white, 0.25)!;
 
     return Semantics(
@@ -68,7 +69,7 @@ class _RsProgressBarState extends State<RsProgressBar> {
         child: Container(
           height: widget.height,
           decoration: BoxDecoration(
-            color: AppColors.surface2,
+            color: colors.overlaySurface,
             borderRadius: BorderRadius.circular(widget.height / 2),
           ),
           child: LayoutBuilder(

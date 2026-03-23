@@ -22,6 +22,20 @@ const _testPartner = Partner(
       {'icon': '🛡️', 'label': 'Audit, Insurance & Risk'},
       {'icon': '🇷🇼', 'label': 'Rwanda Jurisdiction'},
     ],
+    'quick_actions': [
+      {
+        'icon': '🔎',
+        'title': 'Ask PRISMA',
+        'subtitle': 'Start a guided query',
+        'cta_action': 'route:/partners/prisma',
+      },
+      {
+        'icon': '📚',
+        'title': 'Browse Rwanda Docs',
+        'subtitle': 'Review verified references',
+        'cta_action': 'route:/partners/prisma/docs',
+      },
+    ],
     'stats_title': 'IKANISA at a glance',
     'stats': [
       {'value': '9', 'label': 'AI Agents'},
@@ -57,7 +71,9 @@ const _testPartner = Partner(
 );
 
 Widget _wrap(Widget child) {
-  return MaterialApp(home: Scaffold(body: SingleChildScrollView(child: child)));
+  return MaterialApp(
+    home: Scaffold(body: SingleChildScrollView(child: child)),
+  );
 }
 
 // ── tests ─────────────────────────────────────────────────────────────────
@@ -65,18 +81,18 @@ Widget _wrap(Widget child) {
 void main() {
   group('PrismaHeroCard', () {
     testWidgets('renders partner name and IKANISA badge', (tester) async {
-      await tester.pumpWidget(_wrap(
-        const PrismaHeroCard(partner: _testPartner),
-      ));
+      await tester.pumpWidget(
+        _wrap(const PrismaHeroCard(partner: _testPartner)),
+      );
 
       expect(find.text('PRISMA by IKANISA'), findsOneWidget);
       expect(find.text('Official IKANISA content'), findsOneWidget);
     });
 
     testWidgets('renders hero pills', (tester) async {
-      await tester.pumpWidget(_wrap(
-        const PrismaHeroCard(partner: _testPartner),
-      ));
+      await tester.pumpWidget(
+        _wrap(const PrismaHeroCard(partner: _testPartner)),
+      );
 
       expect(find.text('Legal, Tax & Compliance'), findsOneWidget);
       expect(find.text('Audit, Insurance & Risk'), findsOneWidget);
@@ -86,7 +102,9 @@ void main() {
 
   group('PrismaStatsCard', () {
     testWidgets('renders stat tiles', (tester) async {
-      await tester.pumpWidget(_wrap(const PrismaStatsCard(partner: _testPartner)));
+      await tester.pumpWidget(
+        _wrap(const PrismaStatsCard(partner: _testPartner)),
+      );
 
       expect(find.text('IKANISA at a glance'), findsOneWidget);
       expect(find.text('9'), findsOneWidget);
@@ -97,9 +115,24 @@ void main() {
     });
   });
 
+  group('PrismaQuickActions', () {
+    testWidgets('renders configured quick action tiles', (tester) async {
+      await tester.pumpWidget(
+        _wrap(const PrismaQuickActions(partner: _testPartner)),
+      );
+
+      expect(find.text('Ask PRISMA'), findsOneWidget);
+      expect(find.text('Start a guided query'), findsOneWidget);
+      expect(find.text('Browse Rwanda Docs'), findsOneWidget);
+      expect(find.text('Review verified references'), findsOneWidget);
+    });
+  });
+
   group('PrismaValuesCard', () {
     testWidgets('renders all 5 values', (tester) async {
-      await tester.pumpWidget(_wrap(const PrismaValuesCard(partner: _testPartner)));
+      await tester.pumpWidget(
+        _wrap(const PrismaValuesCard(partner: _testPartner)),
+      );
 
       expect(find.text('How the platform works'), findsOneWidget);
       expect(find.text('Zero Hallucination'), findsOneWidget);
@@ -110,9 +143,9 @@ void main() {
 
   group('PrismaSupportCard', () {
     testWidgets('renders support heading and contact lines', (tester) async {
-      await tester.pumpWidget(_wrap(
-        const PrismaSupportCard(partner: _testPartner),
-      ));
+      await tester.pumpWidget(
+        _wrap(const PrismaSupportCard(partner: _testPartner)),
+      );
 
       expect(find.text('Get in touch'), findsOneWidget);
       expect(find.text('Rwanda WhatsApp'), findsOneWidget);
@@ -146,9 +179,17 @@ void main() {
           category: 'compliance_agent',
         ),
         PartnerService(
-          id: '2', partnerId: 'p2', title: 'S2', category: 'rwanda_agent'),
+          id: '2',
+          partnerId: 'p2',
+          title: 'S2',
+          category: 'rwanda_agent',
+        ),
         PartnerService(
-          id: '3', partnerId: 'p2', title: 'S3', category: 'legacy_agent'),
+          id: '3',
+          partnerId: 'p2',
+          title: 'S3',
+          category: 'legacy_agent',
+        ),
       ];
 
       final grouped = groupPrismaServices(services);

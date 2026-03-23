@@ -12,7 +12,6 @@
 -- ==========================================================================
 
 create extension if not exists pgcrypto with schema extensions;
-
 create table if not exists public.supported_countries (
   iso_code text primary key,
   dial_code text not null,
@@ -51,7 +50,6 @@ create table if not exists public.supported_countries (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
-
 alter table public.supported_countries
   add column if not exists momo_number_ussd_template text,
   add column if not exists momo_code_ussd_template text,
@@ -81,7 +79,6 @@ alter table public.supported_countries
   add column if not exists is_active boolean not null default true,
   add column if not exists created_at timestamptz not null default now(),
   add column if not exists updated_at timestamptz not null default now();
-
 insert into public.supported_countries (
   iso_code,
   dial_code,
@@ -185,7 +182,6 @@ set
   sort_order = excluded.sort_order,
   is_active = excluded.is_active,
   updated_at = now();
-
 create or replace view public.supported_country_momo_reference as
 select
   sc.iso_code,
@@ -224,10 +220,8 @@ select
   sc.is_active,
   sc.updated_at
 from public.supported_countries sc;
-
 grant select on public.supported_countries to anon, authenticated;
 grant select on public.supported_country_momo_reference to anon, authenticated;
-
 create or replace view public.momo_validation_issues as
 select
   null::text as record_type,
@@ -245,9 +239,7 @@ select
   null::text as code_ussd_example,
   false as repair_supported
 where false;
-
 drop function if exists public.get_momo_validation_issues();
-
 create or replace function public.get_momo_validation_issues()
 returns table (
   record_type text,
@@ -287,10 +279,8 @@ as $$
     mvi.repair_supported
   from public.momo_validation_issues mvi
 $$;
-
 revoke all on function public.get_momo_validation_issues() from public;
 grant execute on function public.get_momo_validation_issues() to authenticated;
-
 create or replace function public.repair_momo_validation_issue(
   p_record_type text,
   p_record_id uuid,
@@ -309,10 +299,8 @@ as $$
     'message', 'Repair automation is unavailable until the full validation migration set is applied.'
   )
 $$;
-
 revoke all on function public.repair_momo_validation_issue(text, uuid, text) from public;
 grant execute on function public.repair_momo_validation_issue(text, uuid, text) to authenticated;
-
 alter table public.driver_profiles
   add column if not exists country text not null default 'RW',
   add column if not exists trips_used_this_month integer not null default 0,
@@ -323,7 +311,6 @@ alter table public.driver_profiles
   add column if not exists trips_done integer not null default 0,
   add column if not exists latitude double precision,
   add column if not exists longitude double precision;
-
 do $$
 declare
   has_vehicle_description boolean;
@@ -382,10 +369,8 @@ begin
   );
 end;
 $$;
-
 create index if not exists idx_driver_profiles_country
   on public.driver_profiles (country);
-
 create table if not exists public.driver_subscriptions (
   id uuid primary key default gen_random_uuid(),
   driver_id uuid not null,
@@ -402,21 +387,16 @@ create table if not exists public.driver_subscriptions (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
-
 create index if not exists idx_driver_subscriptions_driver
   on public.driver_subscriptions (driver_id);
-
 create index if not exists idx_driver_subscriptions_status
   on public.driver_subscriptions (status);
-
 alter table public.mobility_trips
   add column if not exists country text not null default 'RW',
   add column if not exists contact_phone text,
   add column if not exists contact_name text;
-
 update public.mobility_trips
 set country = coalesce(nullif(country, ''), 'RW')
 where true;
-
 create index if not exists idx_mobility_trips_country
   on public.mobility_trips (country);

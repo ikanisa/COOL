@@ -7,7 +7,6 @@
 -- ============================================================================
 
 create extension if not exists pgcrypto;
-
 create or replace function public.rs_resolve_public_identity(
   p_user_id uuid,
   p_seeded text default null
@@ -47,10 +46,8 @@ begin
   return lpad((100000 + (v_hash % 900000))::text, 6, '0');
 end;
 $$;
-
 revoke all on function public.rs_resolve_public_identity(uuid, text) from public;
 grant execute on function public.rs_resolve_public_identity(uuid, text) to authenticated, service_role;
-
 alter table public.partners
   add column if not exists slug text,
   add column if not exists category text not null default 'football',
@@ -71,11 +68,9 @@ alter table public.partners
   add column if not exists sort_order int not null default 0,
   add column if not exists metadata jsonb not null default '{}'::jsonb,
   add column if not exists updated_at timestamptz not null default now();
-
 create unique index if not exists idx_partners_slug_unique
   on public.partners (slug)
   where slug is not null;
-
 insert into public.partners (
   slug,
   name,
@@ -144,7 +139,6 @@ set
   sort_order = excluded.sort_order,
   metadata = coalesce(public.partners.metadata, '{}'::jsonb) || excluded.metadata,
   updated_at = now();
-
 create table if not exists public.rs_fan_memberships (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
@@ -162,7 +156,6 @@ create table if not exists public.rs_fan_memberships (
   mock_batch text,
   unique (user_id, partner_id)
 );
-
 create table if not exists public.rs_fan_clubs (
   id uuid primary key default gen_random_uuid(),
   partner_id uuid not null references public.partners(id) on delete cascade,
@@ -178,7 +171,6 @@ create table if not exists public.rs_fan_clubs (
   is_mock boolean not null default false,
   mock_batch text
 );
-
 create table if not exists public.rs_fan_club_members (
   id uuid primary key default gen_random_uuid(),
   club_id uuid not null references public.rs_fan_clubs(id) on delete cascade,
@@ -189,7 +181,6 @@ create table if not exists public.rs_fan_club_members (
   mock_batch text,
   unique (club_id, user_id)
 );
-
 create table if not exists public.rs_achievements (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
@@ -204,7 +195,6 @@ create table if not exists public.rs_achievements (
   is_mock boolean not null default false,
   mock_batch text
 );
-
 create table if not exists public.rs_shop_products (
   id uuid primary key default gen_random_uuid(),
   partner_id uuid not null references public.partners(id) on delete cascade,
@@ -227,7 +217,6 @@ create table if not exists public.rs_shop_products (
   is_mock boolean not null default false,
   mock_batch text
 );
-
 create table if not exists public.rs_shop_orders (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
@@ -247,7 +236,6 @@ create table if not exists public.rs_shop_orders (
   is_mock boolean not null default false,
   mock_batch text
 );
-
 create table if not exists public.rs_initiatives (
   id uuid primary key default gen_random_uuid(),
   partner_id uuid not null references public.partners(id) on delete cascade,
@@ -264,7 +252,6 @@ create table if not exists public.rs_initiatives (
   is_mock boolean not null default false,
   mock_batch text
 );
-
 create table if not exists public.rs_initiative_contributions (
   id uuid primary key default gen_random_uuid(),
   initiative_id uuid not null references public.rs_initiatives(id) on delete cascade,
@@ -280,7 +267,6 @@ create table if not exists public.rs_initiative_contributions (
   is_mock boolean not null default false,
   mock_batch text
 );
-
 create table if not exists public.rs_matches (
   id uuid primary key default gen_random_uuid(),
   partner_id uuid not null references public.partners(id) on delete cascade,
@@ -301,7 +287,6 @@ create table if not exists public.rs_matches (
   is_mock boolean not null default false,
   mock_batch text
 );
-
 create table if not exists public.rs_tickets (
   id uuid primary key default gen_random_uuid(),
   match_id uuid not null references public.rs_matches(id) on delete cascade,
@@ -318,12 +303,10 @@ create table if not exists public.rs_tickets (
   is_mock boolean not null default false,
   mock_batch text
 );
-
 alter table public.rs_fan_memberships
   add column if not exists display_name text,
   add column if not exists is_mock boolean not null default false,
   add column if not exists mock_batch text;
-
 alter table public.rs_fan_clubs
   add column if not exists event_count int not null default 0,
   add column if not exists rating numeric(3, 2) not null default 0,
@@ -331,12 +314,10 @@ alter table public.rs_fan_clubs
   add column if not exists updated_at timestamptz not null default now(),
   add column if not exists is_mock boolean not null default false,
   add column if not exists mock_batch text;
-
 alter table public.rs_fan_club_members
   add column if not exists created_at timestamptz not null default now(),
   add column if not exists is_mock boolean not null default false,
   add column if not exists mock_batch text;
-
 alter table public.rs_achievements
   add column if not exists emoji text not null default '🏆',
   add column if not exists name text not null default 'Achievement',
@@ -344,7 +325,6 @@ alter table public.rs_achievements
   add column if not exists is_earned boolean not null default true,
   add column if not exists is_mock boolean not null default false,
   add column if not exists mock_batch text;
-
 alter table public.rs_shop_products
   add column if not exists description text not null default '',
   add column if not exists image_url text,
@@ -357,7 +337,6 @@ alter table public.rs_shop_products
   add column if not exists updated_at timestamptz not null default now(),
   add column if not exists is_mock boolean not null default false,
   add column if not exists mock_batch text;
-
 alter table public.rs_shop_orders
   add column if not exists discount_amount int not null default 0,
   add column if not exists discount int not null default 0,
@@ -367,13 +346,11 @@ alter table public.rs_shop_orders
   add column if not exists updated_at timestamptz not null default now(),
   add column if not exists is_mock boolean not null default false,
   add column if not exists mock_batch text;
-
 alter table public.rs_initiatives
   add column if not exists supporter_count int not null default 0,
   add column if not exists updated_at timestamptz not null default now(),
   add column if not exists is_mock boolean not null default false,
   add column if not exists mock_batch text;
-
 alter table public.rs_initiative_contributions
   add column if not exists referral_invite_id text,
   add column if not exists supporter_name text,
@@ -381,7 +358,6 @@ alter table public.rs_initiative_contributions
   add column if not exists updated_at timestamptz not null default now(),
   add column if not exists is_mock boolean not null default false,
   add column if not exists mock_batch text;
-
 alter table public.rs_matches
   add column if not exists sale_starts_at timestamptz,
   add column if not exists capacity int not null default 0,
@@ -389,26 +365,22 @@ alter table public.rs_matches
   add column if not exists updated_at timestamptz not null default now(),
   add column if not exists is_mock boolean not null default false,
   add column if not exists mock_batch text;
-
 alter table public.rs_tickets
   add column if not exists referral_invite_id text,
   add column if not exists confirmed_at timestamptz,
   add column if not exists updated_at timestamptz not null default now(),
   add column if not exists is_mock boolean not null default false,
   add column if not exists mock_batch text;
-
 update public.rs_fan_memberships
 set
   display_name = public.rs_resolve_public_identity(user_id, display_name),
   updated_at = coalesce(updated_at, now())
 where coalesce(display_name, '') = ''
    or display_name !~ '^[0-9]{6}$';
-
 update public.rs_initiative_contributions
 set supporter_name = public.rs_resolve_public_identity(user_id, supporter_name)
 where coalesce(supporter_name, '') = ''
    or supporter_name !~ '^[0-9]{6}$';
-
 update public.rs_shop_orders
 set discount_amount = coalesce(discount_amount, discount, 0),
     discount = coalesce(discount, discount_amount, 0),
@@ -416,20 +388,15 @@ set discount_amount = coalesce(discount_amount, discount, 0),
 where discount_amount is null
    or discount is null
    or delivery_fee is null;
-
 alter table public.rs_fan_memberships
   alter column display_name set default '000000';
-
 update public.rs_fan_memberships
 set display_name = '000000'
 where display_name is null;
-
 alter table public.rs_fan_memberships
   alter column display_name set not null;
-
 alter table public.rs_shop_orders
   drop constraint if exists rs_shop_orders_status_check;
-
 alter table public.rs_shop_orders
   add constraint rs_shop_orders_status_check
   check (
@@ -444,64 +411,45 @@ alter table public.rs_shop_orders
       'cancelled'
     )
   );
-
 alter table public.rs_initiative_contributions
   drop constraint if exists rs_initiative_contributions_status_check;
-
 alter table public.rs_initiative_contributions
   add constraint rs_initiative_contributions_status_check
   check (status in ('pending', 'confirmed', 'failed', 'cancelled'));
-
 alter table public.rs_tickets
   drop constraint if exists rs_tickets_status_check;
-
 alter table public.rs_tickets
   add constraint rs_tickets_status_check
   check (status in ('pending', 'valid', 'used', 'cancelled'));
-
 create unique index if not exists idx_rs_fan_clubs_partner_name
   on public.rs_fan_clubs (partner_id, name);
-
 create unique index if not exists idx_rs_shop_products_partner_name
   on public.rs_shop_products (partner_id, name);
-
 create unique index if not exists idx_rs_initiatives_partner_title
   on public.rs_initiatives (partner_id, title);
-
 create unique index if not exists idx_rs_matches_partner_fixture
   on public.rs_matches (partner_id, home_team, away_team, match_date);
-
 create index if not exists idx_rs_fan_memberships_partner
   on public.rs_fan_memberships (partner_id, points desc, tier);
-
 create index if not exists idx_rs_fan_memberships_user
   on public.rs_fan_memberships (user_id);
-
 create index if not exists idx_rs_fan_club_members_user
   on public.rs_fan_club_members (user_id);
-
 create index if not exists idx_rs_shop_products_partner_catalog
   on public.rs_shop_products (partner_id, is_active, sort_order, price, name);
-
 create index if not exists idx_rs_shop_orders_user_created
   on public.rs_shop_orders (user_id, created_at desc);
-
 create index if not exists idx_rs_shop_orders_momo_reference
   on public.rs_shop_orders (momo_reference)
   where momo_reference is not null;
-
 create index if not exists idx_rs_initiatives_partner_active
   on public.rs_initiatives (partner_id, is_active, ends_at);
-
 create index if not exists idx_rs_initiative_contributions_initiative
   on public.rs_initiative_contributions (initiative_id, created_at desc);
-
 create index if not exists idx_rs_matches_partner_date
   on public.rs_matches (partner_id, match_date);
-
 create index if not exists idx_rs_tickets_user_purchased
   on public.rs_tickets (user_id, purchased_at desc);
-
 create or replace function public.rs_sync_membership_fields()
 returns trigger
 language plpgsql
@@ -533,55 +481,46 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_rs_fan_memberships_sync_fields on public.rs_fan_memberships;
 create trigger trg_rs_fan_memberships_sync_fields
   before insert or update on public.rs_fan_memberships
   for each row
   execute function public.rs_sync_membership_fields();
-
 drop trigger if exists trg_rs_fan_clubs_set_updated_at on public.rs_fan_clubs;
 create trigger trg_rs_fan_clubs_set_updated_at
   before update on public.rs_fan_clubs
   for each row
   execute function public.set_updated_at();
-
 drop trigger if exists trg_rs_shop_products_set_updated_at on public.rs_shop_products;
 create trigger trg_rs_shop_products_set_updated_at
   before update on public.rs_shop_products
   for each row
   execute function public.set_updated_at();
-
 drop trigger if exists trg_rs_shop_orders_set_updated_at on public.rs_shop_orders;
 create trigger trg_rs_shop_orders_set_updated_at
   before update on public.rs_shop_orders
   for each row
   execute function public.set_updated_at();
-
 drop trigger if exists trg_rs_initiatives_set_updated_at on public.rs_initiatives;
 create trigger trg_rs_initiatives_set_updated_at
   before update on public.rs_initiatives
   for each row
   execute function public.set_updated_at();
-
 drop trigger if exists trg_rs_initiative_contributions_set_updated_at on public.rs_initiative_contributions;
 create trigger trg_rs_initiative_contributions_set_updated_at
   before update on public.rs_initiative_contributions
   for each row
   execute function public.set_updated_at();
-
 drop trigger if exists trg_rs_matches_set_updated_at on public.rs_matches;
 create trigger trg_rs_matches_set_updated_at
   before update on public.rs_matches
   for each row
   execute function public.set_updated_at();
-
 drop trigger if exists trg_rs_tickets_set_updated_at on public.rs_tickets;
 create trigger trg_rs_tickets_set_updated_at
   before update on public.rs_tickets
   for each row
   execute function public.set_updated_at();
-
 alter table public.rs_fan_memberships enable row level security;
 alter table public.rs_fan_clubs enable row level security;
 alter table public.rs_fan_club_members enable row level security;
@@ -592,111 +531,90 @@ alter table public.rs_initiatives enable row level security;
 alter table public.rs_initiative_contributions enable row level security;
 alter table public.rs_matches enable row level security;
 alter table public.rs_tickets enable row level security;
-
 drop policy if exists rs_fan_memberships_select_authenticated on public.rs_fan_memberships;
 create policy rs_fan_memberships_select_authenticated
   on public.rs_fan_memberships for select
   using (auth.role() = 'authenticated');
-
 drop policy if exists rs_fan_memberships_insert_own on public.rs_fan_memberships;
 create policy rs_fan_memberships_insert_own
   on public.rs_fan_memberships for insert
   with check (auth.uid() = user_id);
-
 drop policy if exists rs_fan_memberships_update_own on public.rs_fan_memberships;
 create policy rs_fan_memberships_update_own
   on public.rs_fan_memberships for update
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
-
 drop policy if exists rs_fan_clubs_select_authenticated on public.rs_fan_clubs;
 create policy rs_fan_clubs_select_authenticated
   on public.rs_fan_clubs for select
   using (auth.role() = 'authenticated');
-
 drop policy if exists rs_fan_club_members_select_authenticated on public.rs_fan_club_members;
 create policy rs_fan_club_members_select_authenticated
   on public.rs_fan_club_members for select
   using (auth.role() = 'authenticated');
-
 drop policy if exists rs_fan_club_members_insert_own on public.rs_fan_club_members;
 create policy rs_fan_club_members_insert_own
   on public.rs_fan_club_members for insert
   with check (auth.uid() = user_id);
-
 drop policy if exists rs_fan_club_members_delete_own on public.rs_fan_club_members;
 create policy rs_fan_club_members_delete_own
   on public.rs_fan_club_members for delete
   using (auth.uid() = user_id);
-
 drop policy if exists rs_achievements_select_own on public.rs_achievements;
 create policy rs_achievements_select_own
   on public.rs_achievements for select
   using (auth.uid() = user_id);
-
 drop policy if exists rs_shop_products_select_authenticated on public.rs_shop_products;
 create policy rs_shop_products_select_authenticated
   on public.rs_shop_products for select
   using (auth.role() = 'authenticated');
-
 drop policy if exists rs_shop_orders_select_own on public.rs_shop_orders;
 create policy rs_shop_orders_select_own
   on public.rs_shop_orders for select
   using (auth.uid() = user_id);
-
 drop policy if exists rs_shop_orders_insert_own on public.rs_shop_orders;
 create policy rs_shop_orders_insert_own
   on public.rs_shop_orders for insert
   with check (auth.uid() = user_id);
-
 drop policy if exists rs_shop_orders_update_own on public.rs_shop_orders;
 create policy rs_shop_orders_update_own
   on public.rs_shop_orders for update
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
-
 drop policy if exists rs_initiatives_select_authenticated on public.rs_initiatives;
 create policy rs_initiatives_select_authenticated
   on public.rs_initiatives for select
   using (auth.role() = 'authenticated');
-
 drop policy if exists rs_initiative_contributions_select_authenticated on public.rs_initiative_contributions;
 create policy rs_initiative_contributions_select_authenticated
   on public.rs_initiative_contributions for select
   using (auth.role() = 'authenticated');
-
 drop policy if exists rs_initiative_contributions_insert_own on public.rs_initiative_contributions;
 create policy rs_initiative_contributions_insert_own
   on public.rs_initiative_contributions for insert
   with check (auth.uid() = user_id);
-
 drop policy if exists rs_initiative_contributions_update_own on public.rs_initiative_contributions;
 create policy rs_initiative_contributions_update_own
   on public.rs_initiative_contributions for update
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
-
 drop policy if exists rs_matches_select_authenticated on public.rs_matches;
 create policy rs_matches_select_authenticated
   on public.rs_matches for select
   using (auth.role() = 'authenticated');
-
 drop policy if exists rs_tickets_select_own on public.rs_tickets;
 create policy rs_tickets_select_own
   on public.rs_tickets for select
   using (auth.uid() = user_id);
-
 drop policy if exists rs_tickets_insert_own on public.rs_tickets;
 create policy rs_tickets_insert_own
   on public.rs_tickets for insert
   with check (auth.uid() = user_id);
-
 drop policy if exists rs_tickets_update_own on public.rs_tickets;
 create policy rs_tickets_update_own
   on public.rs_tickets for update
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
-
 create or replace function public.get_rayon_member_registry(
   p_partner_id uuid,
   p_search_query text default null,
@@ -751,10 +669,8 @@ begin
   offset greatest(coalesce(p_offset, 0), 0);
 end;
 $$;
-
 revoke all on function public.get_rayon_member_registry(uuid, text, text, text, integer, integer) from public;
 grant execute on function public.get_rayon_member_registry(uuid, text, text, text, integer, integer) to authenticated;
-
 create or replace function public.rs_apply_membership_points(
   p_user_id uuid,
   p_partner_id uuid,
@@ -803,10 +719,8 @@ begin
   return v_membership;
 end;
 $$;
-
 revoke all on function public.rs_apply_membership_points(uuid, uuid, int, text) from public;
 grant execute on function public.rs_apply_membership_points(uuid, uuid, int, text) to authenticated, service_role;
-
 do $$
 declare
   v_partner_id uuid;
@@ -873,9 +787,9 @@ begin
     ),
     (
       v_partner_id,
-      'Western Blue Wave',
-      'Western',
-      'Western Rwanda supporters coordinating buses, ticket gifting, and merch orders.',
+      'Diaspora Blue Wave',
+      'Diaspora',
+      'International supporters coordinating digital campaigns, ticket gifting, and merch orders.',
       58,
       14,
       4.9,
@@ -1134,7 +1048,7 @@ begin
     case user_id_map.rn
       when 1 then 'Kigali Central'
       when 2 then 'Southern Province'
-      else 'Western'
+      else 'Diaspora'
     end,
     'RS-2026-MOCK' || lpad(user_id_map.rn::text, 3, '0'),
     now(),
@@ -1158,7 +1072,7 @@ begin
       case mock_users.rn
         when 1 then 'Kigali Blue Chapter'
         when 2 then 'Southern Blue Brigade'
-        else 'Western Blue Wave'
+        else 'Diaspora Blue Wave'
       end as club_name,
       now() - make_interval(days => ((mock_users.rn * 9)::int)) as joined_at
     from mock_users

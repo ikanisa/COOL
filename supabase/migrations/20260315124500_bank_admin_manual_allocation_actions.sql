@@ -47,11 +47,9 @@ as $$
     where public.group_belongs_to_bank_partner(cg.group_id, p_partner_id)
   );
 $$;
-
 revoke all on function public.bank_manual_review_matches_partner(uuid, uuid) from public;
 grant execute on function public.bank_manual_review_matches_partner(uuid, uuid)
   to authenticated, service_role;
-
 create or replace function public.bank_allocate_manual_review_allocation(
   p_partner_id uuid,
   p_review_id uuid,
@@ -252,7 +250,6 @@ begin
     v_reference;
 end;
 $$;
-
 revoke all on function public.bank_allocate_manual_review_allocation(
   uuid,
   uuid,
@@ -260,7 +257,6 @@ revoke all on function public.bank_allocate_manual_review_allocation(
   uuid,
   text
 ) from public;
-
 grant execute on function public.bank_allocate_manual_review_allocation(
   uuid,
   uuid,
@@ -268,7 +264,6 @@ grant execute on function public.bank_allocate_manual_review_allocation(
   uuid,
   text
 ) to authenticated, service_role;
-
 create or replace function public.bank_reject_manual_review_allocation(
   p_partner_id uuid,
   p_review_id uuid,
@@ -357,13 +352,11 @@ begin
   select v_review.id, 'rejected'::text;
 end;
 $$;
-
 revoke all on function public.bank_reject_manual_review_allocation(
   uuid,
   uuid,
   text
 ) from public;
-
 grant execute on function public.bank_reject_manual_review_allocation(
   uuid,
   uuid,

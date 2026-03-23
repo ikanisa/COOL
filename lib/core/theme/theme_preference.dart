@@ -4,6 +4,7 @@ enum AppThemePreference { system, light, dark }
 
 AppThemePreference appThemePreferenceFromStorage(String? value) {
   return switch (value?.trim().toLowerCase()) {
+    'system' => AppThemePreference.system,
     'light' => AppThemePreference.light,
     'dark' => AppThemePreference.dark,
     _ => AppThemePreference.dark,

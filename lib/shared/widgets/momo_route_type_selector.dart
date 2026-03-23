@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/config/country_catalog.dart';
-import '../../core/theme/cool_palette.dart';
+import '../../core/theme/cool_foundations.dart';
 
 /// Two-option selector for choosing the default MoMo receive route.
 class MomoRouteTypeSelector extends StatelessWidget {
@@ -21,7 +20,6 @@ class MomoRouteTypeSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     return Row(
       children: [
         Expanded(
@@ -29,7 +27,6 @@ class MomoRouteTypeSelector extends StatelessWidget {
             label: phoneLabel,
             isActive: value == MomoRecipientType.phoneNumber,
             onTap: () => onChanged(MomoRecipientType.phoneNumber),
-            palette: palette,
           ),
         ),
         const SizedBox(width: 10),
@@ -38,7 +35,6 @@ class MomoRouteTypeSelector extends StatelessWidget {
             label: codeLabel,
             isActive: value == MomoRecipientType.code,
             onTap: () => onChanged(MomoRecipientType.code),
-            palette: palette,
           ),
         ),
       ],
@@ -51,39 +47,40 @@ class _MomoRouteTypeOption extends StatelessWidget {
     required this.label,
     required this.isActive,
     required this.onTap,
-    required this.palette,
   });
 
   final String label;
   final bool isActive;
   final VoidCallback onTap;
-  final CoolPalette palette;
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    const radius = BorderRadius.all(Radius.circular(CoolRadii.xs));
+
     return Semantics(
       button: true,
       selected: isActive,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: radius,
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 180),
-          padding: const EdgeInsets.symmetric(vertical: 12),
+          duration: CoolMotion.quick,
+          padding: const EdgeInsets.symmetric(vertical: CoolSpace.x3),
           decoration: BoxDecoration(
-            color: isActive ? palette.accentGlow : palette.surface2,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: isActive ? palette.accent : palette.border,
-            ),
+            color: isActive
+                ? colors.chipSelectedBackground
+                : colors.cardSurface,
+            borderRadius: radius,
+            border: Border.all(color: isActive ? colors.accent : colors.border),
           ),
           alignment: Alignment.center,
           child: Text(
             label,
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
+            style: theme.textTheme.labelMedium?.copyWith(
               fontWeight: FontWeight.w700,
-              color: isActive ? palette.accent : palette.text2,
+              color: isActive ? colors.accent : colors.secondaryText,
             ),
           ),
         ),

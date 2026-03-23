@@ -58,6 +58,61 @@ class FakeAdminClient {
         error: new Error(failureMessage),
       });
     }
+
+    if (name === "confirm_contribution") {
+      const contributionId = typeof args?.p_contribution_id === "string"
+        ? args.p_contribution_id
+        : null;
+      const contributions = this.tables.group_contributions ?? [];
+      const contribution = contributionId
+        ? contributions.find((row) => row.id === contributionId)
+        : null;
+
+      if (!contribution) {
+        return Promise.resolve({
+          data: {
+            status: "error",
+            message: "Contribution not found",
+          },
+          error: null,
+        });
+      }
+
+      const normalizedStatus = String(contribution.status ?? "")
+        .trim()
+        .toLowerCase();
+      if (normalizedStatus !== "confirmed") {
+        contribution.status = "confirmed";
+        contribution.confirmed_at = contribution.confirmed_at ??
+          new Date().toISOString();
+
+        const groupId = typeof contribution.group_id === "string"
+          ? contribution.group_id
+          : null;
+        const amount = typeof contribution.amount === "number"
+          ? contribution.amount
+          : Number(contribution.amount ?? 0);
+        const group = groupId
+          ? (this.tables.groups ?? []).find((row) => row.id === groupId)
+          : null;
+        if (group) {
+          const currentAmount = typeof group.amount === "number"
+            ? group.amount
+            : Number(group.amount ?? 0);
+          group.amount = currentAmount + amount;
+        }
+      }
+
+      return Promise.resolve({
+        data: {
+          status: normalizedStatus === "confirmed"
+            ? "already_confirmed"
+            : "ok",
+        },
+        error: null,
+      });
+    }
+
     return Promise.resolve({ data: null, error: null });
   }
 }

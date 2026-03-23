@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/app_colors.dart';
-import '../../core/theme/rs_colors.dart';
 import '../../core/l10n/l10n.dart';
+import '../../core/theme/cool_foundations.dart';
+import '../../core/theme/rs_colors.dart';
 
 /// Grid of preset + optional custom amount chips.
 ///
@@ -18,16 +17,9 @@ class RsAmountSelector extends StatefulWidget {
     super.key,
   });
 
-  /// Preset amounts to display (e.g. [500, 1000, 2000, 5000]).
   final List<int> amounts;
-
-  /// Called when a preset or custom amount is confirmed.
   final ValueChanged<int> onAmountSelected;
-
-  /// Whether to show a "Custom ✏️" chip at the end.
   final bool allowCustom;
-
-  /// Currently selected amount (highlights the matching chip).
   final int? selectedAmount;
 
   @override
@@ -59,17 +51,18 @@ class _RsAmountSelectorState extends State<RsAmountSelector> {
 
   @override
   Widget build(BuildContext context) {
+    final space = context.coolSpace;
     final chips = <Widget>[
       ...widget.amounts.map(
         (amount) => _Chip(
-          label: '${amount.toString()} RWF',
+          label: '$amount RWF',
           isSelected: widget.selectedAmount == amount,
           onTap: () => _selectPreset(amount),
         ),
       ),
       if (widget.allowCustom)
         _Chip(
-          label: 'Custom ✏️',
+          label: 'Custom amount',
           isSelected: _showCustomField,
           isCustom: true,
           onTap: () => setState(() => _showCustomField = !_showCustomField),
@@ -81,70 +74,27 @@ class _RsAmountSelectorState extends State<RsAmountSelector> {
       children: [
         GridView.count(
           crossAxisCount: 3,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
+          mainAxisSpacing: space.x2 + 2,
+          crossAxisSpacing: space.x2 + 2,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           childAspectRatio: 2.4,
           children: chips,
         ),
         if (_showCustomField) ...[
-          const SizedBox(height: 12),
+          SizedBox(height: space.x3),
           Row(
             children: [
               Expanded(
-                child: TextField(
+                child: _CustomAmountField(
                   controller: _controller,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  style: GoogleFonts.dmMono(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.text,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: 'Enter amount…',
-                    hintStyle: GoogleFonts.barlow(
-                      fontSize: 14,
-                      color: AppColors.text3,
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 12,
-                    ),
-                    filled: true,
-                    fillColor: AppColors.surface2,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: AppColors.border),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: RsColors.rsBlueLight),
-                    ),
-                  ),
-                  onSubmitted: (_) => _submitCustom(),
+                  onSubmitted: _submitCustom,
                 ),
               ),
-              const SizedBox(width: 10),
-              Semantics(
-                button: true,
-                label: context.l10n.confirmCustomAmount,
-                child: GestureDetector(
-                  onTap: _submitCustom,
-                  child: Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: RsColors.rsBlue,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Icon(
-                      Icons.check_rounded,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                  ),
-                ),
+              SizedBox(width: space.x2 + 2),
+              _ConfirmCustomAmountButton(
+                semanticLabel: context.l10n.confirmCustomAmount,
+                onTap: _submitCustom,
               ),
             ],
           ),
@@ -154,7 +104,98 @@ class _RsAmountSelectorState extends State<RsAmountSelector> {
   }
 }
 
-// ── Amount chip ──────────────────────────────────────────────────────
+class _CustomAmountField extends StatelessWidget {
+  const _CustomAmountField({
+    required this.controller,
+    required this.onSubmitted,
+  });
+
+  final TextEditingController controller;
+  final VoidCallback onSubmitted;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
+
+    return TextField(
+      controller: controller,
+      keyboardType: TextInputType.number,
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly,
+      ],
+      style: text.mono(
+        theme.textTheme.labelLarge,
+        fontWeight: FontWeight.w600,
+        color: colors.primaryText,
+      ),
+      decoration: InputDecoration(
+        hintText: 'Enter amount',
+        hintStyle: text.rayon(
+          theme.textTheme.labelMedium,
+          color: colors.tertiaryText,
+        ),
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: space.x3 + 2,
+          vertical: space.x3,
+        ),
+        filled: true,
+        fillColor: colors.inputSurface,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(radii.sm),
+          borderSide: BorderSide(color: colors.border),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(radii.sm),
+          borderSide: const BorderSide(color: RsColors.rsBlueLight),
+        ),
+      ),
+      onSubmitted: (_) => onSubmitted(),
+    );
+  }
+}
+
+class _ConfirmCustomAmountButton extends StatelessWidget {
+  const _ConfirmCustomAmountButton({
+    required this.semanticLabel,
+    required this.onTap,
+  });
+
+  final String semanticLabel;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final radii = context.coolRadii;
+    return Semantics(
+      button: true,
+      label: semanticLabel,
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(radii.sm),
+          child: Ink(
+            width: CoolTapTargets.minimum,
+            height: CoolTapTargets.minimum,
+            decoration: BoxDecoration(
+              color: RsColors.rsBlue,
+              borderRadius: BorderRadius.circular(radii.sm),
+            ),
+            child: const Icon(
+              Icons.check_rounded,
+              color: RsColors.rsWhite,
+              size: 20,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 class _Chip extends StatelessWidget {
   const _Chip({
@@ -171,45 +212,55 @@ class _Chip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color bg;
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
+
+    final Color background;
     final Color border;
     final Color textColor;
 
     if (isCustom) {
-      bg = RsColors.rsGold.withValues(alpha: isSelected ? 0.22 : 0.10);
+      background = RsColors.rsGold.withValues(alpha: isSelected ? 0.22 : 0.10);
       border = RsColors.rsGold.withValues(alpha: isSelected ? 0.6 : 0.3);
       textColor = RsColors.rsGoldLight;
     } else if (isSelected) {
-      bg = RsColors.rsBlueGlow;
+      background = RsColors.rsBlueGlow;
       border = RsColors.rsBlueBorder;
-      textColor = AppColors.blue;
+      textColor = RsColors.rsBluePale;
     } else {
-      bg = AppColors.surface2;
-      border = AppColors.border;
-      textColor = AppColors.text;
+      background = colors.inputSurface;
+      border = colors.border;
+      textColor = colors.primaryText;
     }
 
     return Semantics(
       button: true,
       label: isCustom ? 'Enter custom amount' : 'Select $label',
       selected: isSelected,
-      child: GestureDetector(
-        onTap: onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 180),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: bg,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: border),
-          ),
-          child: Text(
-            label,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.dmMono(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: textColor,
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(radii.sm),
+          child: AnimatedContainer(
+            duration: CoolMotion.quick,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: background,
+              borderRadius: BorderRadius.circular(radii.sm),
+              border: Border.all(color: border),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: CoolSpace.x2),
+            child: Text(
+              label,
+              textAlign: TextAlign.center,
+              style: text.mono(
+                theme.textTheme.labelMedium,
+                fontWeight: FontWeight.w600,
+                color: textColor,
+              ),
             ),
           ),
         ),

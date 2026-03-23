@@ -27,6 +27,5 @@ begin
     record_id asc;
 end;
 $$;
-
 revoke all on function public.get_momo_validation_issues() from public;
 grant execute on function public.get_momo_validation_issues() to authenticated;

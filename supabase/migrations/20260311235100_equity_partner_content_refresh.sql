@@ -23,7 +23,7 @@ values (
   'RW',
   '🏦',
   'Accounts, digital banking, payments, savings, and borrowing',
-  'Equity Bank Rwanda offers personal, SME, corporate, and group banking, alongside digital channels, payments, savings, and borrowing services in Rwanda.',
+  'Equity Bank Rwanda offers personal, SME, corporate, group, and diaspora banking, alongside digital channels, payments, savings, and borrowing services in Rwanda.',
   null,
   0,
   0,
@@ -46,14 +46,12 @@ set
   is_active = excluded.is_active,
   sort_order = excluded.sort_order,
   updated_at = now();
-
 delete from public.partner_services
 where partner_id in (
   select id
   from public.partners
   where slug = 'equity'
 );
-
 with equity_partner as (
   select id
   from public.partners
@@ -105,7 +103,7 @@ service_seed (
       'payments',
       $$[
         {"label":"Includes","value":"Agency, cardless withdrawal, cards, EazzyPay, EazzyFX","icon":"📤"},
-        {"label":"Transfers","value":"Local transfer and self-service payment services","icon":"📍"},
+        {"label":"Transfers","value":"Local and international transfer services","icon":"🌍"},
         {"label":"Use case","value":"Move money and make payments conveniently","icon":"⚡"}
       ]$$::jsonb,
       'Open payments page',
@@ -120,20 +118,20 @@ service_seed (
       $$[
         {"label":"Personal","value":"Individual account opening options","icon":"🧑"},
         {"label":"Business","value":"SME and corporate banking entry points","icon":"🏢"},
-        {"label":"Also listed","value":"Chama and youth-group banking options","icon":"🤝"}
+        {"label":"Also listed","value":"Chama & youth groups plus diaspora banking","icon":"🌍"}
       ]$$::jsonb,
       'Open account options',
       'web:https://equitygroupholdings.com/rw/open-an-account/',
       3
     ),
     (
-      'Group & Youth Banking',
-      'Community and youth banking paths published under Equity Rwanda account opening.',
+      'Group, Youth & Diaspora Banking',
+      'Community and diaspora banking paths published under Equity Rwanda account opening.',
       '👥',
       'group_account',
       $$[
         {"label":"Community","value":"Chama and youth-group banking options","icon":"🤝"},
-        {"label":"Use case","value":"Shared group and youth savings workflows","icon":"📘"},
+        {"label":"Diaspora","value":"Dedicated diaspora banking pathway","icon":"✈️"},
         {"label":"Source","value":"Official Rwanda account-opening page","icon":"📄"}
       ]$$::jsonb,
       'View account categories',
@@ -156,12 +154,12 @@ service_seed (
     ),
     (
       'Borrow',
-      'Official borrowing surface for personal and SME customers.',
+      'Official borrowing surface for personal, SME, and diaspora customers.',
       '📈',
       'business_loan',
       $$[
         {"label":"Products listed","value":"Personal loans, asset finance, mortgage, biashara","icon":"💳"},
-        {"label":"Coverage","value":"Local borrowing options for Rwanda households and businesses","icon":"🏠"},
+        {"label":"Diaspora","value":"Diaspora mortgages are explicitly listed","icon":"🏠"},
         {"label":"Source","value":"Official Borrow page","icon":"📄"}
       ]$$::jsonb,
       'Open borrowing page',

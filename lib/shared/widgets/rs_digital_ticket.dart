@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/cool_foundations.dart';
 import '../../core/theme/rs_colors.dart';
 import '../../features/partners/rayon/models/rs_models.dart';
 
@@ -19,8 +18,13 @@ class RsDigitalTicket extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final borderColor = _statusBorderColor(ticket.status);
-    final statusColor = _statusDotColor(ticket.status);
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+    final theme = Theme.of(context);
+    final borderColor = _statusBorderColor(ticket.status, colors);
+    final statusColor = _statusDotColor(ticket.status, colors);
     final qrSize = isExpanded ? 126.0 : 74.0;
     final isGateReady = ticket.status == RsTicketStatus.valid;
     final statusNote = switch (ticket.status) {
@@ -28,7 +32,9 @@ class RsDigitalTicket extends StatelessWidget {
         'Payment is still pending confirmation. Your QR unlocks automatically after SMS reconciliation confirms the charge.',
       RsTicketStatus.valid => 'Present this QR at the gate for entry.',
       RsTicketStatus.used => 'This ticket has already been used.',
-      RsTicketStatus.cancelled || RsTicketStatus.voided || RsTicketStatus.refunded =>
+      RsTicketStatus.cancelled ||
+      RsTicketStatus.voided ||
+      RsTicketStatus.refunded =>
         'This ticket was cancelled and can no longer be used.',
     };
 
@@ -39,70 +45,66 @@ class RsDigitalTicket extends StatelessWidget {
       excludeSemantics: true,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(18),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.22),
-              blurRadius: 26,
-              offset: const Offset(0, 16),
-            ),
-          ],
+          borderRadius: BorderRadius.circular(radii.md),
+          boxShadow: CoolShadows.floating(theme.brightness, strength: 0.72),
         ),
         child: Container(
           decoration: BoxDecoration(
             gradient: RsColors.rsCardGradient,
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(radii.md),
             border: Border.all(color: borderColor),
           ),
-          padding: const EdgeInsets.all(18),
+          padding: EdgeInsets.all(space.x5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 ticket.competition.toUpperCase(),
-                style: GoogleFonts.barlow(
-                  fontSize: 10,
+                style: text.rayon(
+                  theme.textTheme.labelSmall,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 1.1,
-                  color: AppColors.rsGoldLight,
+                  color: RsColors.rsGoldLight,
                 ),
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: space.x2),
               Text(
                 ticket.matchTitle,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.barlow(
-                  fontSize: isExpanded ? 22 : 18,
+                style: text.rayonCondensed(
+                  isExpanded
+                      ? theme.textTheme.titleLarge
+                      : theme.textTheme.titleSmall,
                   fontWeight: FontWeight.w900,
                   height: 1,
-                  color: AppColors.rsWhite,
+                  color: RsColors.rsWhite,
                 ),
               ),
-              const SizedBox(height: 6),
+              SizedBox(height: space.x1 + 2),
               Text(
                 ticket.venue,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.barlow(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.text2,
+                style: text.rayon(
+                  theme.textTheme.bodySmall,
+                  fontWeight: FontWeight.w700,
+                  color: colors.secondaryText,
                 ),
               ),
-              const SizedBox(height: 4),
+              SizedBox(height: space.x1),
               Text(
                 '${DateFormat('EEE, d MMM').format(ticket.matchDate)} • ${ticket.kickoffTime}',
-                style: GoogleFonts.dmMono(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.rsBluePale,
+                style: text.mono(
+                  theme.textTheme.labelSmall,
+                  fontWeight: FontWeight.w700,
+                  color: RsColors.rsBluePale,
                 ),
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: space.x3 + 2),
               Wrap(
-                spacing: 8,
-                runSpacing: 8,
+                spacing: space.x2,
+                runSpacing: space.x2,
                 children: [
                   _TicketChip(label: 'Seat', value: ticket.seatType.value),
                   _TicketChip(label: 'Fan ID', value: _fanIdFor(ticket)),
@@ -118,8 +120,8 @@ class RsDigitalTicket extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: AppColors.rsWhite,
-                      borderRadius: BorderRadius.circular(16),
+                      color: RsColors.rsWhite,
+                      borderRadius: BorderRadius.circular(radii.sm),
                     ),
                     child: SizedBox(
                       width: qrSize,
@@ -131,29 +133,29 @@ class RsDigitalTicket extends StatelessWidget {
                               size: qrSize,
                               backgroundColor: Colors.transparent,
                               eyeStyle: const QrEyeStyle(
-                                color: AppColors.rsBlue,
+                                color: RsColors.rsBlue,
                               ),
                               dataModuleStyle: const QrDataModuleStyle(
-                                color: AppColors.rsBlue,
+                                color: RsColors.rsBlue,
                               ),
                             )
                           : _LockedQrPlaceholder(status: ticket.status),
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: space.x4),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           ticket.momoReference,
-                          style: GoogleFonts.dmMono(
-                            fontSize: 12,
+                          style: text.mono(
+                            theme.textTheme.labelSmall,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.rsGoldLight,
+                            color: RsColors.rsGoldLight,
                           ),
                         ),
-                        const SizedBox(height: 10),
+                        SizedBox(height: space.x2),
                         Row(
                           children: [
                             Container(
@@ -167,10 +169,10 @@ class RsDigitalTicket extends StatelessWidget {
                             const SizedBox(width: 8),
                             Text(
                               ticket.status.label.toUpperCase(),
-                              style: GoogleFonts.barlow(
-                                fontSize: 12,
+                              style: text.rayon(
+                                theme.textTheme.labelSmall,
                                 fontWeight: FontWeight.w700,
-                                color: AppColors.rsWhite,
+                                color: RsColors.rsWhite,
                                 letterSpacing: 0.7,
                               ),
                             ),
@@ -181,13 +183,13 @@ class RsDigitalTicket extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: space.x3),
               Text(
                 statusNote,
-                style: GoogleFonts.barlow(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.text2,
+                style: text.rayon(
+                  theme.textTheme.bodySmall,
+                  fontWeight: FontWeight.w700,
+                  color: colors.secondaryText,
                   height: 1.4,
                 ),
               ),
@@ -207,12 +209,16 @@ class _TicketChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: space.x3, vertical: space.x2),
       decoration: BoxDecoration(
-        color: Colors.black.withValues(alpha: 0.16),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
+        color: colors.overlaySurface.withValues(alpha: 0.24),
+        borderRadius: BorderRadius.circular(radii.sm),
+        border: Border.all(color: colors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -220,19 +226,19 @@ class _TicketChip extends StatelessWidget {
         children: [
           Text(
             label,
-            style: GoogleFonts.barlow(
-              fontSize: 10,
+            style: text.rayon(
+              Theme.of(context).textTheme.labelSmall,
               fontWeight: FontWeight.w700,
-              color: AppColors.text2,
+              color: colors.secondaryText,
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: space.x1),
           Text(
             value,
-            style: GoogleFonts.dmMono(
-              fontSize: 11,
+            style: text.mono(
+              Theme.of(context).textTheme.labelSmall,
               fontWeight: FontWeight.w700,
-              color: AppColors.rsWhite,
+              color: RsColors.rsWhite,
             ),
           ),
         ],
@@ -248,10 +254,16 @@ class _LockedQrPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final text = context.coolText;
+    final radii = context.coolRadii;
+    final space = context.coolSpace;
     final icon = switch (status) {
       RsTicketStatus.pending => Icons.hourglass_top_rounded,
       RsTicketStatus.used => Icons.check_circle_outline_rounded,
-      RsTicketStatus.cancelled || RsTicketStatus.voided || RsTicketStatus.refunded => Icons.block_rounded,
+      RsTicketStatus.cancelled ||
+      RsTicketStatus.voided ||
+      RsTicketStatus.refunded => Icons.block_rounded,
       RsTicketStatus.valid => Icons.qr_code_rounded,
     };
 
@@ -265,21 +277,21 @@ class _LockedQrPlaceholder extends StatelessWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surface2,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
+        color: colors.cardSurfaceStrong,
+        borderRadius: BorderRadius.circular(radii.sm),
+        border: Border.all(color: colors.border),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: AppColors.text3, size: 26),
-          const SizedBox(height: 8),
+          Icon(icon, color: colors.tertiaryText, size: 26),
+          SizedBox(height: space.x2),
           Text(
             label,
-            style: GoogleFonts.dmMono(
-              fontSize: 10,
+            style: text.mono(
+              Theme.of(context).textTheme.labelSmall,
               fontWeight: FontWeight.w700,
-              color: AppColors.text3,
+              color: colors.tertiaryText,
             ),
           ),
         ],
@@ -288,19 +300,25 @@ class _LockedQrPlaceholder extends StatelessWidget {
   }
 }
 
-Color _statusBorderColor(RsTicketStatus status) => switch (status) {
-  RsTicketStatus.valid => AppColors.accent.withValues(alpha: 0.55),
-  RsTicketStatus.used => AppColors.surface3,
-  RsTicketStatus.cancelled || RsTicketStatus.voided || RsTicketStatus.refunded => AppColors.red.withValues(alpha: 0.45),
-  RsTicketStatus.pending => AppColors.rsBlueBorder,
-};
+Color _statusBorderColor(RsTicketStatus status, CoolSemanticColors colors) =>
+    switch (status) {
+      RsTicketStatus.valid => colors.accent.withValues(alpha: 0.55),
+      RsTicketStatus.used => colors.cardSurfaceStrong,
+      RsTicketStatus.cancelled ||
+      RsTicketStatus.voided ||
+      RsTicketStatus.refunded => colors.danger.withValues(alpha: 0.45),
+      RsTicketStatus.pending => RsColors.rsBlueBorder,
+    };
 
-Color _statusDotColor(RsTicketStatus status) => switch (status) {
-  RsTicketStatus.valid => AppColors.accent,
-  RsTicketStatus.used => AppColors.text3,
-  RsTicketStatus.cancelled || RsTicketStatus.voided || RsTicketStatus.refunded => AppColors.red,
-  RsTicketStatus.pending => AppColors.rsGoldLight,
-};
+Color _statusDotColor(RsTicketStatus status, CoolSemanticColors colors) =>
+    switch (status) {
+      RsTicketStatus.valid => colors.accent,
+      RsTicketStatus.used => colors.tertiaryText,
+      RsTicketStatus.cancelled ||
+      RsTicketStatus.voided ||
+      RsTicketStatus.refunded => colors.danger,
+      RsTicketStatus.pending => RsColors.rsGoldLight,
+    };
 
 String _fanIdFor(RsTicket ticket) {
   final explicit = ticket.fanId.trim();

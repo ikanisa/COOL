@@ -37,19 +37,15 @@ create table if not exists public.partner_credit_applications (
       credit_score_band in ('limited_history', 'building', 'good', 'excellent')
     )
 );
-
 create index if not exists idx_partner_credit_applications_user_created
   on public.partner_credit_applications (user_id, created_at desc);
-
 create index if not exists idx_partner_credit_applications_partner_status
   on public.partner_credit_applications (partner_id, status, created_at desc);
-
 drop trigger if exists trg_partner_credit_applications_set_updated_at on public.partner_credit_applications;
 create trigger trg_partner_credit_applications_set_updated_at
   before update on public.partner_credit_applications
   for each row
   execute function public.set_updated_at();
-
 create table if not exists public.partner_application_handoffs (
   id uuid primary key default gen_random_uuid(),
   application_id uuid not null references public.partner_credit_applications(id) on delete cascade,
@@ -61,26 +57,20 @@ create table if not exists public.partner_application_handoffs (
   constraint partner_application_handoffs_channel_check
     check (handoff_channel in ('in_app_redirect', 'whatsapp', 'phone', 'email', 'branch', 'manual'))
 );
-
 create index if not exists idx_partner_application_handoffs_application
   on public.partner_application_handoffs (application_id, created_at desc);
-
 create index if not exists idx_partner_application_handoffs_user_created
   on public.partner_application_handoffs (user_id, created_at desc);
-
 alter table public.partner_credit_applications enable row level security;
 alter table public.partner_application_handoffs enable row level security;
-
 drop policy if exists "partner_credit_applications_select_own" on public.partner_credit_applications;
 create policy "partner_credit_applications_select_own"
   on public.partner_credit_applications for select
   using (auth.uid() = user_id);
-
 drop policy if exists "partner_application_handoffs_select_own" on public.partner_application_handoffs;
 create policy "partner_application_handoffs_select_own"
   on public.partner_application_handoffs for select
   using (auth.uid() = user_id);
-
 create or replace function public.create_partner_credit_application(
   p_partner_id uuid,
   p_application_type text,
@@ -228,7 +218,6 @@ begin
   return v_application;
 end;
 $$;
-
 revoke all on function public.create_partner_credit_application(
   uuid,
   text,
@@ -239,7 +228,6 @@ revoke all on function public.create_partner_credit_application(
   text,
   text
 ) from public;
-
 grant execute on function public.create_partner_credit_application(
   uuid,
   text,

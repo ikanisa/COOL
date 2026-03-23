@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../core/services/app_access_service.dart';
 import '../../core/services/contacts_service.dart';
-import '../../core/theme/cool_palette.dart';
+import '../../core/theme/cool_foundations.dart';
 import 'cool_skeleton.dart';
 import '../../core/l10n/l10n.dart';
 
@@ -264,22 +263,31 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final textTheme = Theme.of(context).textTheme;
+    final text = context.coolText;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
     final screenHeight = MediaQuery.sizeOf(context).height;
     final effectiveSubtitle = widget.message;
 
     return Container(
       constraints: BoxConstraints(maxHeight: screenHeight * 0.85),
       decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+        color: colors.elevatedBackground,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(radii.lg)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           // ── Handle + header ──
           Padding(
-            padding: const EdgeInsets.fromLTRB(22, 12, 22, 0),
+            padding: EdgeInsets.fromLTRB(
+              space.x5 + 2,
+              space.x2 + 4,
+              space.x5 + 2,
+              0,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -288,20 +296,20 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                     width: 40,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: palette.border2,
+                      color: colors.borderStrong,
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: space.x4),
                 Row(
                   children: [
                     Icon(
                       Icons.contacts_rounded,
                       size: 22,
-                      color: palette.text2,
+                      color: colors.secondaryText,
                     ),
-                    const SizedBox(width: 10),
+                    SizedBox(width: space.x2 + 2),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -311,20 +319,18 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                                 (widget.multiSelect
                                     ? 'Invite from Contacts'
                                     : 'Share via Contact'),
-                            style: GoogleFonts.dmSans(
-                              fontSize: 18,
+                            style: textTheme.titleSmall?.copyWith(
                               fontWeight: FontWeight.w700,
-                              color: palette.text,
+                              color: colors.primaryText,
                             ),
                           ),
                           if (effectiveSubtitle != null) ...[
-                            const SizedBox(height: 2),
+                            SizedBox(height: space.x1 / 2),
                             Text(
                               effectiveSubtitle,
-                              style: GoogleFonts.dmSans(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: palette.text3,
+                              style: textTheme.labelSmall?.copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: colors.tertiaryText,
                               ),
                             ),
                           ],
@@ -335,71 +341,72 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
                       _DoneButton(
                         count: _selected.length,
                         onTap: _confirmSelection,
-                        palette: palette,
                       ),
                   ],
                 ),
-                const SizedBox(height: 14),
+                SizedBox(height: space.x3 + 2),
 
                 // ── Search bar ──
                 if (!_permissionDenied && !_permanentlyDenied && _error == null)
                   Semantics(
                     textField: true,
                     label: context.l10n.searchContacts,
-                    hint:
-                        'Search name or phone',
+                    hint: 'Search name or phone',
                     child: TextField(
                       controller: _searchController,
                       onChanged: _onSearch,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 14,
-                        color: palette.text,
+                      style: textTheme.bodySmall?.copyWith(
+                        color: colors.primaryText,
                       ),
-                      cursorColor: palette.accent,
+                      cursorColor: colors.accent,
                       decoration: InputDecoration(
-                        hintText: 'Search by name or',
-                        hintStyle: GoogleFonts.dmSans(
-                          fontSize: 14,
-                          color: palette.text3,
+                        hintText: 'Search by name or phone',
+                        hintStyle: textTheme.bodySmall?.copyWith(
+                          color: colors.tertiaryText,
                         ),
                         prefixIcon: Icon(
                           Icons.search_rounded,
-                          color: palette.text3,
+                          color: colors.tertiaryText,
                           size: 20,
                         ),
                         filled: true,
-                        fillColor: palette.surface2,
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 10,
+                        fillColor: colors.inputSurface,
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: space.x3 + 2,
+                          vertical: space.x2 + 2,
                         ),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14),
+                          borderRadius: BorderRadius.circular(radii.sm),
                           borderSide: BorderSide.none,
                         ),
                       ),
                     ),
                   ),
-                const SizedBox(height: 8),
+                SizedBox(height: space.x2),
               ],
             ),
           ),
 
           // ── Body ──
-          Flexible(child: _buildBody(palette)),
+          Flexible(child: _buildBody()),
 
           // ── Bottom safe area ──
-          SizedBox(height: MediaQuery.paddingOf(context).bottom + 8),
+          SizedBox(height: MediaQuery.paddingOf(context).bottom + space.x2),
         ],
       ),
     );
   }
 
-  Widget _buildBody(CoolPalette palette) {
+  Widget _buildBody() {
+    final colors = context.coolSemanticColors;
+    final textTheme = Theme.of(context).textTheme;
+    final text = context.coolText;
+    final space = context.coolSpace;
+
     // Loading state
     if (_isLoading) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 60),
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: space.x10 - 4),
         child: CoolSkeletonList(itemCount: 3),
       );
     }
@@ -409,11 +416,9 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
       return _PermissionState(
         icon: Icons.lock_rounded,
         title: 'Contacts access denied',
-        message:
-            'You\'ve permanently denied contacts',
+        message: 'You\'ve permanently denied contacts',
         actionLabel: 'Open Settings',
         action: _openContactsSettings,
-        palette: palette,
       );
     }
 
@@ -421,11 +426,9 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
       return _PermissionState(
         icon: Icons.admin_panel_settings_outlined,
         title: 'Contacts are off in',
-        message:
-            'Contacts access is currently',
+        message: 'Contacts access is currently',
         actionLabel: 'Enable Contacts',
         action: _enableContactsAccess,
-        palette: palette,
       );
     }
 
@@ -434,11 +437,9 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
       return _PermissionState(
         icon: Icons.contacts_rounded,
         title: 'Contacts access needed',
-        message:
-            'Cool needs access to',
+        message: 'Cool needs access to',
         actionLabel: 'Allow Access',
         action: _requestContactsPermission,
-        palette: palette,
       );
     }
 
@@ -450,7 +451,6 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
         message: _error!,
         actionLabel: 'Retry',
         action: _loadContacts,
-        palette: palette,
       );
     }
 
@@ -458,14 +458,14 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
     if (_filtered.isEmpty) {
       final isSearching = _searchController.text.trim().isNotEmpty;
       return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 24),
+        padding: EdgeInsets.symmetric(vertical: space.x9, horizontal: space.x6),
         child: Center(
           child: Text(
             isSearching
                 ? 'No contacts match "${_searchController.text.trim()}"'
                 : 'No contacts with phone numbers found.',
             textAlign: TextAlign.center,
-            style: GoogleFonts.dmSans(fontSize: 14, color: palette.text3),
+            style: textTheme.bodySmall?.copyWith(color: colors.tertiaryText),
           ),
         ),
       );
@@ -473,7 +473,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
 
     // Contact list
     return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: space.x4),
       itemCount: _filtered.length,
       itemBuilder: (context, index) {
         final contact = _filtered[index];
@@ -484,7 +484,6 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
           isSelected: isSelected,
           showCheckbox: widget.multiSelect,
           onTap: () => _toggleContact(contact),
-          palette: palette,
         );
       },
     );
@@ -501,26 +500,30 @@ class _ContactTile extends StatelessWidget {
     required this.isSelected,
     required this.showCheckbox,
     required this.onTap,
-    required this.palette,
   });
 
   final SimpleContact contact;
   final bool isSelected;
   final bool showCheckbox;
   final VoidCallback onTap;
-  final CoolPalette palette;
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final textTheme = Theme.of(context).textTheme;
+    final text = context.coolText;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+        padding: EdgeInsets.symmetric(
+          vertical: space.x2 + 2,
+          horizontal: space.x1,
+        ),
         decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(color: palette.border, width: 0.5),
-          ),
+          border: Border(bottom: BorderSide(color: colors.border, width: 0.5)),
         ),
         child: Row(
           children: [
@@ -530,21 +533,20 @@ class _ContactTile extends StatelessWidget {
               height: 42,
               decoration: BoxDecoration(
                 color: isSelected
-                    ? palette.accent.withValues(alpha: 0.15)
-                    : palette.surface2,
+                    ? colors.accent.withValues(alpha: 0.15)
+                    : colors.inputSurface,
                 borderRadius: BorderRadius.circular(21),
               ),
               alignment: Alignment.center,
               child: Text(
                 contact.initials,
-                style: GoogleFonts.dmSans(
-                  fontSize: 15,
+                style: textTheme.labelMedium?.copyWith(
                   fontWeight: FontWeight.w700,
-                  color: isSelected ? palette.accent : palette.text2,
+                  color: isSelected ? colors.accent : colors.secondaryText,
                 ),
               ),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: space.x3),
 
             // Name + phone
             Expanded(
@@ -553,21 +555,20 @@ class _ContactTile extends StatelessWidget {
                 children: [
                   Text(
                     contact.displayName,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 14,
+                    style: textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: palette.text,
+                      color: colors.primaryText,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 1),
+                  SizedBox(height: space.x1 / 4),
                   Text(
                     contact.phones.first,
-                    style: GoogleFonts.dmMono(
-                      fontSize: 12,
+                    style: text.mono(
+                      textTheme.labelSmall,
                       fontWeight: FontWeight.w400,
-                      color: palette.text3,
+                      color: colors.tertiaryText,
                     ),
                   ),
                 ],
@@ -577,14 +578,14 @@ class _ContactTile extends StatelessWidget {
             // Checkbox or chevron
             if (showCheckbox)
               AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
+                duration: CoolMotion.quick,
                 width: 24,
                 height: 24,
                 decoration: BoxDecoration(
-                  color: isSelected ? palette.accent : Colors.transparent,
-                  borderRadius: BorderRadius.circular(6),
+                  color: isSelected ? colors.accent : Colors.transparent,
+                  borderRadius: BorderRadius.circular(radii.sm / 2.5),
                   border: Border.all(
-                    color: isSelected ? palette.accent : palette.border2,
+                    color: isSelected ? colors.accent : colors.borderStrong,
                     width: 2,
                   ),
                 ),
@@ -599,7 +600,7 @@ class _ContactTile extends StatelessWidget {
             else
               Icon(
                 Icons.chevron_right_rounded,
-                color: palette.text3,
+                color: colors.tertiaryText,
                 size: 20,
               ),
           ],
@@ -620,7 +621,6 @@ class _PermissionState extends StatelessWidget {
     required this.message,
     required this.actionLabel,
     required this.action,
-    required this.palette,
   });
 
   final IconData icon;
@@ -628,51 +628,57 @@ class _PermissionState extends StatelessWidget {
   final String message;
   final String actionLabel;
   final VoidCallback action;
-  final CoolPalette palette;
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final textTheme = Theme.of(context).textTheme;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 28),
+      padding: EdgeInsets.symmetric(
+        vertical: space.x8,
+        horizontal: space.x7 - 4,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 44, color: palette.text2),
-          const SizedBox(height: 14),
+          Icon(icon, size: 44, color: colors.secondaryText),
+          SizedBox(height: space.x3 + 2),
           Text(
             title,
-            style: GoogleFonts.dmSans(
-              fontSize: 16,
+            style: textTheme.labelLarge?.copyWith(
               fontWeight: FontWeight.w700,
-              color: palette.text,
+              color: colors.primaryText,
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: space.x2),
           Text(
             message,
             textAlign: TextAlign.center,
-            style: GoogleFonts.dmSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w400,
-              color: palette.text3,
+            style: textTheme.bodySmall?.copyWith(
+              fontWeight: FontWeight.w500,
+              color: colors.tertiaryText,
               height: 1.5,
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: space.x5),
           GestureDetector(
             onTap: action,
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              padding: EdgeInsets.symmetric(
+                horizontal: space.x6,
+                vertical: space.x3,
+              ),
               decoration: BoxDecoration(
-                color: palette.accent,
-                borderRadius: BorderRadius.circular(14),
+                color: colors.accent,
+                borderRadius: BorderRadius.circular(radii.sm),
               ),
               child: Text(
                 actionLabel,
-                style: GoogleFonts.dmSans(
-                  fontSize: 14,
+                style: textTheme.bodySmall?.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: Colors.white,
+                  color: colors.accentForeground,
                 ),
               ),
             ),
@@ -688,28 +694,30 @@ class _PermissionState extends StatelessWidget {
 // ═══════════════════════════════════════════════════════════════════════════
 
 class _DoneButton extends StatelessWidget {
-  const _DoneButton({required this.count, required this.onTap, required this.palette});
+  const _DoneButton({required this.count, required this.onTap});
 
   final int count;
   final VoidCallback onTap;
-  final CoolPalette palette;
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final textTheme = Theme.of(context).textTheme;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: space.x4, vertical: space.x2),
         decoration: BoxDecoration(
-          color: palette.accent,
-          borderRadius: BorderRadius.circular(20),
+          color: colors.accent,
+          borderRadius: BorderRadius.circular(radii.pill),
         ),
         child: Text(
           'Done ($count)',
-          style: GoogleFonts.dmSans(
-            fontSize: 13,
+          style: textTheme.labelMedium?.copyWith(
             fontWeight: FontWeight.w600,
-            color: Colors.white,
+            color: colors.accentForeground,
           ),
         ),
       ),

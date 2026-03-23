@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../core/l10n/l10n.dart';
 import '../../core/theme/cool_foundations.dart';
-import '../../core/theme/cool_palette.dart';
 
 /// Premium route listing with route blocks, timing, demand, and trust status.
 class TripCard extends StatelessWidget {
@@ -81,11 +80,12 @@ class TripCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
-    final effectiveStatusColor = statusColor ?? palette.accent;
-    final effectiveDemandColor = demandColor ?? palette.orange;
+    final effectiveStatusColor = statusColor ?? colors.accent;
+    final effectiveDemandColor = demandColor ?? colors.warning;
 
     return Semantics(
       button: true,
@@ -95,11 +95,11 @@ class TripCard extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(space.x5),
           decoration: BoxDecoration(
             color: colors.routeSurface,
             gradient: colors.surfaceGradient,
-            borderRadius: BorderRadius.circular(CoolRadii.lg),
+            borderRadius: BorderRadius.circular(radii.lg),
             border: Border.all(color: colors.borderStrong),
             boxShadow: CoolShadows.clay(theme.brightness, strength: 0.55),
           ),
@@ -112,7 +112,6 @@ class TripCard extends StatelessWidget {
                     child: Text(
                       _formattedDeparture,
                       style: theme.textTheme.labelSmall?.copyWith(
-                        fontSize: 14,
                         fontWeight: FontWeight.w700,
                         color: colors.primaryText,
                       ),
@@ -126,36 +125,36 @@ class TripCard extends StatelessWidget {
                     ),
                 ],
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: space.x3 + 2),
               _RouteBlock(
-                palette: palette,
+                colors: colors,
                 label: 'FROM',
                 location: fromLocation,
-                dotColor: palette.accent,
+                dotColor: colors.accent,
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: space.x2),
               Padding(
-                padding: const EdgeInsets.only(left: 9),
+                padding: EdgeInsets.only(left: space.x2 - 1),
                 child: Container(
                   width: 2,
                   height: 16,
                   decoration: BoxDecoration(
-                    color: palette.border2,
-                    borderRadius: BorderRadius.circular(999),
+                    color: colors.borderStrong,
+                    borderRadius: BorderRadius.circular(radii.pill),
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: space.x2),
               _RouteBlock(
-                palette: palette,
+                colors: colors,
                 label: 'TO',
                 location: toLocation,
-                dotColor: palette.orange,
+                dotColor: colors.warning,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: space.x4),
               Wrap(
-                spacing: 8,
-                runSpacing: 8,
+                spacing: space.x2,
+                runSpacing: space.x2,
                 children: [
                   _DetailChip(
                     icon: Icons.local_shipping_outlined,
@@ -185,28 +184,28 @@ class TripCard extends StatelessWidget {
                     _DetailChip(
                       icon: Icons.repeat_rounded,
                       label: context.l10n.returnKey,
-                      foregroundColor: palette.purple,
-                      backgroundColor: palette.purple.withValues(alpha: 0.12),
-                      borderColor: palette.purple.withValues(alpha: 0.22),
+                      foregroundColor: colors.info,
+                      backgroundColor: colors.info.withValues(alpha: 0.12),
+                      borderColor: colors.info.withValues(alpha: 0.22),
                     ),
                   if (isRecurring)
                     _DetailChip(
                       icon: Icons.update_rounded,
                       label: context.l10n.repeat,
-                      foregroundColor: palette.accent,
-                      backgroundColor: palette.accentGlow,
-                      borderColor: palette.accent.withValues(alpha: 0.18),
+                      foregroundColor: colors.accent,
+                      backgroundColor: colors.chipSelectedBackground,
+                      borderColor: colors.accent.withValues(alpha: 0.18),
                     ),
                 ],
               ),
               if (priceNote?.trim().isNotEmpty ?? false) ...[
-                const SizedBox(height: 14),
+                SizedBox(height: space.x3 + 2),
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(12),
+                  padding: EdgeInsets.all(space.x3),
                   decoration: BoxDecoration(
-                    color: palette.surface,
-                    borderRadius: BorderRadius.circular(CoolRadii.md),
+                    color: colors.cardSurfaceStrong,
+                    borderRadius: BorderRadius.circular(radii.md),
                     border: Border.all(color: colors.border),
                   ),
                   child: Row(
@@ -215,14 +214,13 @@ class TripCard extends StatelessWidget {
                       Icon(
                         Icons.payments_outlined,
                         size: 16,
-                        color: palette.text3,
+                        color: colors.tertiaryText,
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: space.x2),
                       Expanded(
                         child: Text(
                           priceNote!,
                           style: theme.textTheme.bodySmall?.copyWith(
-                            fontSize: 15,
                             fontWeight: FontWeight.w700,
                             color: colors.secondaryText,
                             height: 1.35,
@@ -243,27 +241,29 @@ class TripCard extends StatelessWidget {
 
 class _RouteBlock extends StatelessWidget {
   const _RouteBlock({
-    required this.palette,
+    required this.colors,
     required this.label,
     required this.location,
     required this.dotColor,
   });
 
-  final CoolPalette palette;
+  final CoolSemanticColors colors;
   final String label;
   final String location;
   final Color dotColor;
 
   @override
   Widget build(BuildContext context) {
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
     final theme = Theme.of(context);
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(14),
+      padding: EdgeInsets.all(space.x4),
       decoration: BoxDecoration(
-        color: palette.surface,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: palette.border),
+        color: colors.cardSurfaceStrong,
+        borderRadius: BorderRadius.circular(radii.md),
+        border: Border.all(color: colors.border),
       ),
       child: Row(
         children: [
@@ -273,16 +273,10 @@ class _RouteBlock extends StatelessWidget {
             decoration: BoxDecoration(
               color: dotColor,
               shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: dotColor.withValues(alpha: 0.28),
-                  blurRadius: 10,
-                  spreadRadius: 1,
-                ),
-              ],
+              border: Border.all(color: dotColor.withValues(alpha: 0.24)),
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: space.x3),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -290,21 +284,19 @@ class _RouteBlock extends StatelessWidget {
                 Text(
                   label,
                   style: theme.textTheme.labelSmall?.copyWith(
-                    fontSize: 14,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 0.2,
-                    color: palette.text3,
+                    color: colors.tertiaryText,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: space.x1),
                 Text(
                   location,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.bodyMedium?.copyWith(
-                    fontSize: 17,
                     fontWeight: FontWeight.w800,
-                    color: palette.text,
+                    color: colors.primaryText,
                   ),
                 ),
               ],
@@ -333,27 +325,28 @@ class _DetailChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
+    final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
-    final bg = backgroundColor ?? palette.surface3;
-    final fg = foregroundColor ?? palette.text2;
-    final border = borderColor ?? palette.border;
+    final bg = backgroundColor ?? colors.cardSurfaceStrong;
+    final fg = foregroundColor ?? colors.secondaryText;
+    final border = borderColor ?? colors.border;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+      padding: EdgeInsets.symmetric(horizontal: space.x3, vertical: space.x2),
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(radii.pill),
         border: Border.all(color: border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon, size: 14, color: fg),
-          const SizedBox(width: 6),
+          SizedBox(width: space.x1 + 2),
           Text(
             label,
             style: theme.textTheme.labelSmall?.copyWith(
-              fontSize: 14,
               fontWeight: FontWeight.w700,
               color: fg,
             ),
@@ -377,23 +370,24 @@ class _SignalChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
     final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: space.x3, vertical: space.x2),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(radii.pill),
         border: Border.all(color: color.withValues(alpha: 0.2)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon, size: 14, color: color),
-          const SizedBox(width: 6),
+          SizedBox(width: space.x1 + 2),
           Text(
             label,
             style: theme.textTheme.labelSmall?.copyWith(
-              fontSize: 14,
               fontWeight: FontWeight.w700,
               color: color,
             ),

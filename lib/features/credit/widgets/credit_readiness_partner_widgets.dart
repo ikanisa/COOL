@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/cool_palette.dart';
+import '../../../core/l10n/l10n.dart';
+import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/cool_bottom_sheet.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_empty_view.dart';
@@ -18,10 +18,6 @@ import '../models/credit_readiness.dart';
 import '../models/partner_credit_application.dart';
 import '../providers/credit_provider.dart';
 import 'credit_readiness_checklist_widgets.dart';
-import '../../../core/l10n/l10n.dart';
-import '../../../shared/widgets/cool_bottom_sheet.dart';
-
-// ── Partner Handoff Section ──────────────────────────────────────────────
 
 /// Shows eligible partner cards.
 class PartnerHandoffSection extends StatelessWidget {
@@ -36,6 +32,7 @@ class PartnerHandoffSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final insets = context.coolInsets;
     if (partners.isEmpty) {
       return const CoolEmptyView(
         message: 'No active finance found',
@@ -50,7 +47,7 @@ class PartnerHandoffSection extends StatelessWidget {
       children: [
         ...visiblePartners.map(
           (partner) => Padding(
-            padding: const EdgeInsets.only(bottom: 12),
+            padding: insets.only(bottom: CoolSpace.x3),
             child: _PartnerReadinessCard(partner: partner, report: report),
           ),
         ),
@@ -75,6 +72,7 @@ class ApplicationPipelineSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final insets = context.coolInsets;
     if (applications.isEmpty) {
       return const CoolCard(
         child: CoolEmptyView(
@@ -90,7 +88,7 @@ class ApplicationPipelineSection extends StatelessWidget {
           .take(4)
           .map(
             (application) => Padding(
-              padding: const EdgeInsets.only(bottom: 12),
+              padding: insets.only(bottom: CoolSpace.x3),
               child: _ApplicationHistoryCard(application: application),
             ),
           )
@@ -108,7 +106,7 @@ class PartnersLoadingState extends StatelessWidget {
     return const Column(
       children: [
         CoolSkeleton.card(),
-        SizedBox(height: 12),
+        SizedBox(height: CoolSpace.x3),
         CoolSkeleton.card(),
       ],
     );
@@ -127,8 +125,6 @@ class PartnerErrorCard extends StatelessWidget {
   }
 }
 
-// ── Private Widgets ──────────────────────────────────────────────────────
-
 class _ApplicationHistoryCard extends StatelessWidget {
   const _ApplicationHistoryCard({required this.application});
 
@@ -136,8 +132,10 @@ class _ApplicationHistoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
-    final statusColor = _applicationStatusColor(application.status);
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    final insets = context.coolInsets;
+    final statusColor = _applicationStatusColor(application.status, colors);
     final createdAt = application.createdAt?.toLocal();
     final handoffAt = application.lastHandoffAt?.toLocal();
     final dateFormatter = DateFormat('d MMM yyyy');
@@ -155,48 +153,46 @@ class _ApplicationHistoryCard extends StatelessWidget {
                   children: [
                     Text(
                       application.partnerName,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: palette.text,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        color: colors.primaryText,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: CoolSpace.x1),
                     Text(
                       application.applicationTypeLabel,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: palette.text2,
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: colors.secondaryText,
                       ),
                     ),
                   ],
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 5,
+                padding: insets.symmetric(
+                  horizontal: CoolSpace.x2 + 2,
+                  vertical: CoolSpace.x1 + 1,
                 ),
                 decoration: BoxDecoration(
                   color: statusColor.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(999),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(CoolRadii.pill),
+                  ),
                 ),
                 child: Text(
                   application.statusLabel,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
+                  style: theme.textTheme.labelSmall?.copyWith(
                     color: statusColor,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: CoolSpace.x3),
           Wrap(
-            spacing: 10,
-            runSpacing: 10,
+            spacing: CoolSpace.x2 + 2,
+            runSpacing: CoolSpace.x2 + 2,
             children: [
               HistoryStatChip(
                 label: context.l10n.readiness,
@@ -220,14 +216,16 @@ class _ApplicationHistoryCard extends StatelessWidget {
           if ((application.requestedProduct?.trim().isNotEmpty ?? false) ||
               (application.applicantNote?.trim().isNotEmpty ?? false) ||
               handoffAt != null) ...[
-            const SizedBox(height: 12),
+            SizedBox(height: CoolSpace.x3),
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(12),
+              padding: insets.all(CoolSpace.x3),
               decoration: BoxDecoration(
-                color: palette.surface2,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: palette.border2),
+                color: colors.cardSurface,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(CoolRadii.xs),
+                ),
+                border: Border.all(color: colors.borderStrong),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -235,34 +233,29 @@ class _ApplicationHistoryCard extends StatelessWidget {
                   if (application.requestedProduct?.trim().isNotEmpty ?? false)
                     Text(
                       'Requested: ${application.requestedProduct}',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: palette.text,
+                      style: theme.textTheme.labelMedium?.copyWith(
+                        color: colors.primaryText,
                       ),
                     ),
                   if ((application.requestedProduct?.trim().isNotEmpty ??
                           false) &&
                       application.applicantNote?.trim().isNotEmpty == true)
-                    const SizedBox(height: 6),
+                    SizedBox(height: CoolSpace.x1 + 2),
                   if (application.applicantNote?.trim().isNotEmpty ?? false)
                     Text(
                       application.applicantNote!,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: palette.text2,
+                      style: theme.textTheme.labelMedium?.copyWith(
+                        color: colors.secondaryText,
                         height: 1.45,
                       ),
                     ),
                   if (handoffAt != null) ...[
-                    const SizedBox(height: 8),
+                    SizedBox(height: CoolSpace.x2),
                     Text(
-                      'Latest handoff ${dateFormatter.format(handoffAt)} via',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        color: palette.blue,
+                      'Latest handoff ${dateFormatter.format(handoffAt)} via partner route',
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: colors.info,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ],
@@ -302,7 +295,9 @@ class _PartnerReadinessCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    final insets = context.coolInsets;
     final loanState = report.loanApplication.state;
     final accountState = report.accountOpening.state;
     final canDiscussLoans =
@@ -336,59 +331,59 @@ class _PartnerReadinessCard extends StatelessWidget {
                   children: [
                     Text(
                       partner.name,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: palette.text,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        color: colors.primaryText,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: CoolSpace.x1),
                     Text(
                       partner.subtitle ??
                           partner.description ??
                           'Finance partner',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: palette.text2,
+                      style: theme.textTheme.labelMedium?.copyWith(
+                        color: colors.secondaryText,
                         height: 1.45,
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: CoolSpace.x3),
               PartnerBrandMark(
                 partner: partner,
                 width: 104,
                 height: 52,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 10,
+                padding: insets.symmetric(
+                  horizontal: CoolSpace.x3,
+                  vertical: CoolSpace.x2 + 2,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: CoolSpace.x3),
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 10),
+            padding: insets.symmetric(
+              horizontal: CoolSpace.x3 - 1,
+              vertical: CoolSpace.x2 + 2,
+            ),
             decoration: BoxDecoration(
-              color: palette.surface2,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: palette.border2),
+              color: colors.contactSurface,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(CoolRadii.xs),
+              ),
+              border: Border.all(color: colors.borderStrong),
             ),
             child: Text(
               recommendation,
-              style: GoogleFonts.dmSans(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: palette.text,
+              style: theme.textTheme.labelMedium?.copyWith(
+                color: colors.primaryText,
                 height: 1.4,
               ),
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: CoolSpace.x3),
           CoolButton(
             label: buttonLabel,
             variant: canDiscussLoans || canStartAccount
@@ -402,7 +397,7 @@ class _PartnerReadinessCard extends StatelessWidget {
   }
 }
 
-/// Bottom‐sheet for creating partner credit applications.
+/// Bottom-sheet for creating partner credit applications.
 class PartnerApplicationComposerSheet extends ConsumerStatefulWidget {
   const PartnerApplicationComposerSheet({
     required this.partner,
@@ -453,19 +448,33 @@ class _PartnerApplicationComposerSheetState
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+    final insets = context.coolInsets;
     final viewInsets = MediaQuery.of(context).viewInsets.bottom;
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(16, 16, 16, viewInsets + 16),
+      padding: insets.fromLTRB(
+        CoolSpace.x4,
+        CoolSpace.x4,
+        CoolSpace.x4,
+        viewInsets + CoolSpace.x4,
+      ),
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: palette.surface,
-          borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: palette.border2),
+          color: colors.overlaySurface,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(CoolRadii.lg - 4),
+          ),
+          border: Border.all(color: colors.borderStrong),
         ),
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(18, 16, 18, 18),
+          padding: insets.fromLTRB(
+            CoolSpace.x5 - 2,
+            CoolSpace.x4,
+            CoolSpace.x5 - 2,
+            CoolSpace.x5 - 2,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -473,58 +482,62 @@ class _PartnerApplicationComposerSheetState
               Container(
                 width: 44,
                 height: 4,
-                margin: const EdgeInsets.only(bottom: 16),
+                margin: insets.only(bottom: CoolSpace.x4),
                 decoration: BoxDecoration(
-                  color: palette.border2,
-                  borderRadius: BorderRadius.circular(999),
+                  color: colors.borderStrong,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(CoolRadii.pill),
+                  ),
                 ),
               ),
               Text(
                 'Create partner application',
-                style: GoogleFonts.dmSans(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: palette.text,
+                style: theme.textTheme.titleLarge?.copyWith(
+                  color: colors.primaryText,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
-              const SizedBox(height: 4),
+              SizedBox(height: CoolSpace.x1),
               Text(
                 widget.partner.name,
-                style: GoogleFonts.dmSans(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: palette.blue,
+                style: theme.textTheme.labelMedium?.copyWith(
+                  color: colors.info,
                 ),
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: CoolSpace.x3 + 2),
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(12),
+                padding: insets.all(CoolSpace.x3),
                 decoration: BoxDecoration(
                   color: _stateColor(
                     _selectedJourney.state,
+                    colors,
                   ).withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(CoolRadii.sm - 2),
+                  ),
                   border: Border.all(
                     color: _stateColor(
                       _selectedJourney.state,
+                      colors,
                     ).withValues(alpha: 0.22),
                   ),
                 ),
                 child: Text(
                   '${_selectedJourney.title}: ${_selectedJourney.summary}',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: palette.text,
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    color: colors.primaryText,
                     height: 1.45,
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: CoolSpace.x4),
               DropdownButtonFormField<String>(
                 initialValue: _applicationType,
-                decoration: _sheetInputDecoration(label: context.l10n.applicationPath),
+                decoration: _sheetInputDecoration(
+                  context,
+                  label: context.l10n.applicationPath,
+                ),
                 items: [
                   DropdownMenuItem(
                     value: 'loan',
@@ -551,38 +564,38 @@ class _PartnerApplicationComposerSheetState
                         });
                       },
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: CoolSpace.x3),
               TextFormField(
                 controller: _productController,
                 enabled: !_isSavingDraft && !_isSubmitting,
                 decoration: _sheetInputDecoration(
+                  context,
                   label: context.l10n.requestedProduct,
                   hint: 'e.g. group loan',
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: CoolSpace.x3),
               TextFormField(
                 controller: _noteController,
                 enabled: !_isSavingDraft && !_isSubmitting,
                 maxLines: 3,
                 decoration: _sheetInputDecoration(
+                  context,
                   label: context.l10n.internalNote,
                   hint: 'Partner handoff notes',
                 ),
               ),
               if (!_canRouteNow) ...[
-                const SizedBox(height: 12),
+                SizedBox(height: CoolSpace.x3),
                 Text(
                   'Not ready for partner',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: palette.orange,
-                    height: 1.45,
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: colors.warning,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ],
-              const SizedBox(height: 18),
+              SizedBox(height: CoolSpace.x4),
               Row(
                 children: [
                   Expanded(
@@ -594,7 +607,7 @@ class _PartnerApplicationComposerSheetState
                     ),
                   ),
                   if (_canRouteNow) ...[
-                    const SizedBox(width: 12),
+                    SizedBox(width: CoolSpace.x3),
                     Expanded(
                       child: CoolButton(
                         label: 'Save & Open Partner',
@@ -645,12 +658,8 @@ class _PartnerApplicationComposerSheetState
           );
       ref.invalidate(myPartnerApplicationsProvider);
       if (!mounted) return;
-      if (mounted) {
-        final msg = submitNow
-            ? 'Application saved'
-            : 'Application draft saved.';
-        CoolToast.success(context, msg);
-      }
+      final msg = submitNow ? 'Application saved' : 'Application draft saved.';
+      CoolToast.success(context, msg);
       Navigator.of(context).pop(submitNow);
     } catch (error) {
       if (mounted) {
@@ -667,35 +676,37 @@ class _PartnerApplicationComposerSheetState
   }
 }
 
-// ── Helpers ──────────────────────────────────────────────────────────────
-
-InputDecoration _sheetInputDecoration({required String label, String? hint}) {
+InputDecoration _sheetInputDecoration(
+  BuildContext context, {
+  required String label,
+  String? hint,
+}) {
+  final colors = context.coolSemanticColors;
+  final theme = Theme.of(context);
   return InputDecoration(
     labelText: label,
     hintText: hint,
     filled: true,
-    fillColor: AppColors.surface2,
-    labelStyle: GoogleFonts.dmSans(
-      fontSize: 12,
-      fontWeight: FontWeight.w600,
-      color: AppColors.text2,
+    fillColor: colors.inputSurface,
+    labelStyle: theme.textTheme.labelSmall?.copyWith(
+      color: colors.secondaryText,
+      fontWeight: FontWeight.w700,
     ),
-    hintStyle: GoogleFonts.dmSans(
-      fontSize: 12,
-      fontWeight: FontWeight.w500,
-      color: AppColors.text3,
+    hintStyle: theme.textTheme.labelSmall?.copyWith(
+      color: colors.tertiaryText,
+      fontWeight: FontWeight.w600,
     ),
     enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(14),
-      borderSide: BorderSide(color: AppColors.border2),
+      borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm - 2)),
+      borderSide: BorderSide(color: colors.borderStrong),
     ),
     focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(14),
-      borderSide: const BorderSide(color: AppColors.blue),
+      borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm - 2)),
+      borderSide: BorderSide(color: colors.info),
     ),
     border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(14),
-      borderSide: BorderSide(color: AppColors.border2),
+      borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.sm - 2)),
+      borderSide: BorderSide(color: colors.borderStrong),
     ),
   );
 }
@@ -726,23 +737,23 @@ String _recommendedApplicationType(CreditReadinessReport report) {
   return 'account_opening';
 }
 
-Color _applicationStatusColor(String status) {
+Color _applicationStatusColor(String status, CoolSemanticColors colors) {
   return switch (status) {
-    'draft' => AppColors.text3,
-    'partner_routed' => AppColors.blue,
-    'in_review' => AppColors.yellow,
-    'partner_contacted' => AppColors.accent,
-    'closed' => AppColors.text2,
-    'cancelled' => AppColors.orange,
-    _ => AppColors.text3,
+    'draft' => colors.tertiaryText,
+    'partner_routed' => colors.info,
+    'in_review' => colors.warning,
+    'partner_contacted' => colors.accent,
+    'closed' => colors.secondaryText,
+    'cancelled' => colors.danger,
+    _ => colors.tertiaryText,
   };
 }
 
-Color _stateColor(CreditReadinessState state) {
+Color _stateColor(CreditReadinessState state, CoolSemanticColors colors) {
   return switch (state) {
-    CreditReadinessState.ready => AppColors.accent,
-    CreditReadinessState.nearlyReady => AppColors.blue,
-    CreditReadinessState.building => AppColors.yellow,
-    CreditReadinessState.actionNeeded => AppColors.orange,
+    CreditReadinessState.ready => colors.accent,
+    CreditReadinessState.nearlyReady => colors.info,
+    CreditReadinessState.building => colors.warning,
+    CreditReadinessState.actionNeeded => colors.danger,
   };
 }

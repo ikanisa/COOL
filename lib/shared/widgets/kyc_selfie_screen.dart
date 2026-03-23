@@ -3,10 +3,9 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../core/theme/cool_palette.dart';
-import '../../shared/widgets/cool_button.dart';
+import '../../core/theme/cool_foundations.dart';
+import 'cool_button.dart';
 
 class KycSelfieScreen extends StatefulWidget {
   const KycSelfieScreen({super.key});
@@ -32,9 +31,8 @@ class _KycSelfieScreenState extends State<KycSelfieScreen> {
     _cameras = await availableCameras();
     if (_cameras == null || _cameras!.isEmpty) return;
 
-    // Use front camera if available
     final frontCamera = _cameras!.firstWhere(
-      (c) => c.lensDirection == CameraLensDirection.front,
+      (camera) => camera.lensDirection == CameraLensDirection.front,
       orElse: () => _cameras!.first,
     );
 
@@ -51,8 +49,8 @@ class _KycSelfieScreenState extends State<KycSelfieScreen> {
           _isInitialized = true;
         });
       }
-    } catch (e) {
-      debugPrint('Camera initialization failed: $e');
+    } catch (error) {
+      debugPrint('Camera initialization failed: $error');
     }
   }
 
@@ -63,7 +61,9 @@ class _KycSelfieScreenState extends State<KycSelfieScreen> {
   }
 
   Future<void> _takePicture() async {
-    if (_controller == null || !_controller!.value.isInitialized || _isCapturing) {
+    if (_controller == null ||
+        !_controller!.value.isInitialized ||
+        _isCapturing) {
       return;
     }
 
@@ -77,17 +77,19 @@ class _KycSelfieScreenState extends State<KycSelfieScreen> {
         _capturedPath = image.path;
         _isCapturing = false;
       });
-    } catch (e) {
+    } catch (error) {
       setState(() {
         _isCapturing = false;
       });
-      debugPrint('Error taking picture: $e');
+      debugPrint('Error taking picture: $error');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
+    final colors = context.coolSemanticColors;
+    final textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -96,7 +98,7 @@ class _KycSelfieScreenState extends State<KycSelfieScreen> {
         elevation: 0,
         title: Text(
           'KYC Selfie',
-          style: GoogleFonts.dmSans(
+          style: textTheme.titleMedium?.copyWith(
             color: Colors.white,
             fontWeight: FontWeight.w700,
           ),
@@ -105,27 +107,20 @@ class _KycSelfieScreenState extends State<KycSelfieScreen> {
       body: _capturedPath != null
           ? _buildPreview()
           : _isInitialized
-              ? _buildCameraStack(palette)
-              : Center(child: CircularProgressIndicator(color: palette.accent)),
+          ? _buildCameraStack(colors, textTheme)
+          : Center(child: CircularProgressIndicator(color: colors.accent)),
     );
   }
 
-  Widget _buildCameraStack(CoolPalette palette) {
+  Widget _buildCameraStack(CoolSemanticColors colors, TextTheme textTheme) {
     return Stack(
       children: [
-        // Camera Preview
-        Positioned.fill(
-          child: CameraPreview(_controller!),
-        ),
-
-        // Oval Overlay
+        Positioned.fill(child: CameraPreview(_controller!)),
         Positioned.fill(
           child: CustomPaint(
-            painter: _OvalOverlayPainter(accentColor: palette.accent),
+            painter: _OvalOverlayPainter(accentColor: colors.accent),
           ),
         ),
-
-        // Instructions
         Positioned(
           bottom: 140,
           left: 0,
@@ -133,16 +128,20 @@ class _KycSelfieScreenState extends State<KycSelfieScreen> {
           child: Column(
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: CoolSpace.x5,
+                  vertical: CoolSpace.x2 + 2,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.black.withValues(alpha: 0.6),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(CoolRadii.pill),
+                  ),
                 ),
                 child: Text(
                   'Position your face inside',
-                  style: GoogleFonts.dmSans(
+                  style: textTheme.bodyMedium?.copyWith(
                     color: Colors.white,
-                    fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -150,8 +149,6 @@ class _KycSelfieScreenState extends State<KycSelfieScreen> {
             ],
           ),
         ),
-
-        // Capture Button
         Positioned(
           bottom: 40,
           left: 0,
@@ -174,6 +171,13 @@ class _KycSelfieScreenState extends State<KycSelfieScreen> {
                       shape: BoxShape.circle,
                       color: Colors.white,
                     ),
+                    child: _isCapturing
+                        ? Center(
+                            child: CircularProgressIndicator(
+                              color: colors.info,
+                            ),
+                          )
+                        : null,
                   ),
                 ),
               ),
@@ -189,9 +193,11 @@ class _KycSelfieScreenState extends State<KycSelfieScreen> {
       children: [
         Expanded(
           child: Container(
-            margin: const EdgeInsets.all(20),
+            margin: const EdgeInsets.all(CoolSpace.x5),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(CoolRadii.md - 2),
+              ),
               image: DecorationImage(
                 image: FileImage(File(_capturedPath!)),
                 fit: BoxFit.cover,
@@ -200,7 +206,12 @@ class _KycSelfieScreenState extends State<KycSelfieScreen> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 40),
+          padding: const EdgeInsets.fromLTRB(
+            CoolSpace.x5,
+            0,
+            CoolSpace.x5,
+            CoolSpace.x8,
+          ),
           child: Column(
             children: [
               CoolButton(
@@ -209,7 +220,7 @@ class _KycSelfieScreenState extends State<KycSelfieScreen> {
                   Navigator.of(context).pop(_capturedPath);
                 },
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               CoolButton(
                 label: 'Retake',
                 variant: CoolButtonVariant.secondary,
@@ -229,6 +240,7 @@ class _KycSelfieScreenState extends State<KycSelfieScreen> {
 
 class _OvalOverlayPainter extends CustomPainter {
   _OvalOverlayPainter({required this.accentColor});
+
   final Color accentColor;
 
   @override

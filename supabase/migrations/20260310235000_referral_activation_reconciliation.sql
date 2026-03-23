@@ -1,24 +1,18 @@
 alter table public.rs_tickets
   add column if not exists referral_invite_id uuid references public.referral_invites(id) on delete set null;
-
 alter table public.rs_shop_orders
   add column if not exists referral_invite_id uuid references public.referral_invites(id) on delete set null;
-
 alter table public.rs_initiative_contributions
   add column if not exists referral_invite_id uuid references public.referral_invites(id) on delete set null;
-
 create index if not exists idx_rs_tickets_referral_invite
   on public.rs_tickets (referral_invite_id)
   where referral_invite_id is not null;
-
 create index if not exists idx_rs_shop_orders_referral_invite
   on public.rs_shop_orders (referral_invite_id)
   where referral_invite_id is not null;
-
 create index if not exists idx_rs_initiative_contributions_referral_invite
   on public.rs_initiative_contributions (referral_invite_id)
   where referral_invite_id is not null;
-
 create or replace function public.activate_referral_invite_for_user(
   p_referral_invite_id uuid,
   p_invitee_id uuid,
@@ -141,7 +135,6 @@ begin
   return v_conversion;
 end;
 $$;
-
 revoke all on function public.activate_referral_invite_for_user(
   uuid,
   uuid,
@@ -150,7 +143,6 @@ revoke all on function public.activate_referral_invite_for_user(
   int,
   int
 ) from public, anon, authenticated;
-
 grant execute on function public.activate_referral_invite_for_user(
   uuid,
   uuid,

@@ -7,11 +7,9 @@
 alter table public.partners
   add column if not exists is_mock boolean not null default false,
   add column if not exists mock_batch text;
-
 alter table public.partner_services
   add column if not exists is_mock boolean not null default false,
   add column if not exists mock_batch text;
-
 comment on column public.partners.is_mock is
   'Internal-only marker for removable seeded/demo partner rows. Not intended for client display.';
 comment on column public.partners.mock_batch is
@@ -20,7 +18,6 @@ comment on column public.partner_services.is_mock is
   'Internal-only marker for removable seeded/demo partner service rows. Not intended for client display.';
 comment on column public.partner_services.mock_batch is
   'Internal batch key used to bulk remove mock partner service rows from admin or SQL.';
-
 with partner_seed (
   name,
   slug,
@@ -209,7 +206,6 @@ set
   is_mock = excluded.is_mock,
   mock_batch = excluded.mock_batch,
   updated_at = now();
-
 with service_seed (
   partner_slug,
   title,

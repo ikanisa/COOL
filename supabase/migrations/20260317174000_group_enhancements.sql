@@ -8,10 +8,8 @@
 -- 1) Add bank_partner_id to groups table
 ALTER TABLE public.groups
   ADD COLUMN IF NOT EXISTS bank_partner_id uuid REFERENCES public.partners(id);
-
 COMMENT ON COLUMN public.groups.bank_partner_id IS
   'For savings groups: the banking partner whose momo_code receives contributions. NULL for community groups.';
-
 -- 2) Idempotent contribution confirmation function
 CREATE OR REPLACE FUNCTION public.confirm_contribution(
   p_contribution_id uuid
@@ -64,10 +62,8 @@ BEGIN
   RETURN jsonb_build_object('status', 'success', 'amount', v_contribution.amount);
 END;
 $$;
-
 COMMENT ON FUNCTION public.confirm_contribution(uuid) IS
   'Idempotent: moves a pending contribution to completed and updates the group balance.';
-
 -- 3) Update create_group_atomic to accept bank_partner_id
 -- Drop and recreate to add the new parameter
 CREATE OR REPLACE FUNCTION public.create_group_atomic(
@@ -161,4 +157,4 @@ BEGIN
 
   RETURN jsonb_build_object('status', 'success', 'group_id', v_group_id);
 END;
-$$;
+$$;;

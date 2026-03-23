@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
-import '../../core/theme/cool_palette.dart';
 
 /// A small pill badge used to indicate status, category, or role.
 ///
@@ -110,10 +109,9 @@ class StatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
-    final defaults = _colorsForTone(palette);
+    final defaults = _colorsForTone(colors);
     final bg = bgColor ?? defaults.$1;
     final fg = textColor ?? defaults.$2;
 
@@ -135,14 +133,16 @@ class StatusBadge extends StatelessWidget {
             ],
             if (emoji != null) ...[
               ExcludeSemantics(
-                child: Text(emoji!, style: const TextStyle(fontSize: 14)),
+                child: Text(
+                  emoji!,
+                  style: theme.textTheme.bodySmall?.copyWith(height: 1),
+                ),
               ),
               const SizedBox(width: 4),
             ],
             Text(
               label,
-              style: theme.textTheme.labelSmall?.copyWith(
-                fontSize: 14,
+              style: theme.textTheme.labelMedium?.copyWith(
                 fontWeight: FontWeight.w700,
                 color: fg,
                 height: 1.3,
@@ -154,17 +154,30 @@ class StatusBadge extends StatelessWidget {
     );
   }
 
-  (Color, Color) _colorsForTone(CoolPalette palette) {
+  (Color, Color) _colorsForTone(CoolSemanticColors colors) {
     return switch (_tone) {
       _StatusBadgeTone.community => (
-        palette.orange.withValues(alpha: 0.15),
-        palette.orange,
+        colors.warning.withValues(alpha: 0.15),
+        colors.warning,
       ),
-      _StatusBadgeTone.public => (palette.blueGlow, palette.blue),
-      _StatusBadgeTone.private => (palette.surface3, palette.text2),
-      _StatusBadgeTone.online => (palette.accentGlow, palette.accent),
-      _StatusBadgeTone.offline => (palette.surface3, palette.text3),
-      _StatusBadgeTone.saving || null => (palette.accentGlow, palette.accent),
+      _StatusBadgeTone.public => (
+        colors.info.withValues(alpha: 0.08),
+        colors.info,
+      ),
+      _StatusBadgeTone.private => (
+        colors.cardSurfaceStrong,
+        colors.secondaryText,
+      ),
+      _StatusBadgeTone.online => (
+        colors.accent.withValues(alpha: 0.08),
+        colors.accent,
+      ),
+      _StatusBadgeTone.offline => (
+        colors.cardSurfaceStrong,
+        colors.tertiaryText,
+      ),
+      _StatusBadgeTone.saving ||
+      null => (colors.accent.withValues(alpha: 0.08), colors.accent),
     };
   }
 }

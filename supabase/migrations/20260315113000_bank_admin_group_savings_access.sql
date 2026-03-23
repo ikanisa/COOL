@@ -14,7 +14,6 @@ as $$
       false
     );
 $$;
-
 create or replace function public.group_belongs_to_bank_partner(
   p_group_id uuid,
   p_partner_id uuid
@@ -39,11 +38,9 @@ as $$
       )
   );
 $$;
-
 revoke all on function public.group_belongs_to_bank_partner(uuid, uuid) from public;
 grant execute on function public.group_belongs_to_bank_partner(uuid, uuid)
   to authenticated, service_role;
-
 create or replace function public.can_read_bank_custody(
   p_partner_id uuid
 )
@@ -57,11 +54,9 @@ as $$
     public.is_admin_user()
     or public.bank_is_partner_admin(p_partner_id);
 $$;
-
 revoke all on function public.can_read_bank_custody(uuid) from public;
 grant execute on function public.can_read_bank_custody(uuid)
   to authenticated, service_role;
-
 create or replace function public.can_read_group_payment_ledger(
   p_group_id uuid
 )
@@ -93,11 +88,9 @@ as $$
         and public.group_belongs_to_bank_partner(p_group_id, p.id)
     );
 $$;
-
 revoke all on function public.can_read_group_payment_ledger(uuid) from public;
 grant execute on function public.can_read_group_payment_ledger(uuid)
   to authenticated, service_role;
-
 create or replace function public.get_bank_custody_groups(
   p_partner_id uuid,
   p_search text default null,
@@ -238,11 +231,9 @@ begin
   offset greatest(coalesce(p_offset, 0), 0);
 end;
 $$;
-
 revoke all on function public.get_bank_custody_groups(uuid, text, integer, integer) from public;
 grant execute on function public.get_bank_custody_groups(uuid, text, integer, integer)
   to authenticated, service_role;
-
 create or replace function public.get_bank_custody_group_members(
   p_partner_id uuid,
   p_group_id uuid default null,
@@ -327,11 +318,9 @@ begin
   offset greatest(coalesce(p_offset, 0), 0);
 end;
 $$;
-
 revoke all on function public.get_bank_custody_group_members(uuid, uuid, text, integer, integer) from public;
 grant execute on function public.get_bank_custody_group_members(uuid, uuid, text, integer, integer)
   to authenticated, service_role;
-
 create or replace function public.get_bank_custody_contributions(
   p_partner_id uuid,
   p_group_id uuid default null,
@@ -419,11 +408,9 @@ begin
   offset greatest(coalesce(p_offset, 0), 0);
 end;
 $$;
-
 revoke all on function public.get_bank_custody_contributions(uuid, uuid, text, integer, integer) from public;
 grant execute on function public.get_bank_custody_contributions(uuid, uuid, text, integer, integer)
   to authenticated, service_role;
-
 create or replace function public.get_bank_manual_review_allocations(
   p_partner_id uuid,
   p_limit integer default 1000,
@@ -540,7 +527,6 @@ begin
   offset greatest(coalesce(p_offset, 0), 0);
 end;
 $$;
-
 revoke all on function public.get_bank_manual_review_allocations(uuid, integer, integer) from public;
 grant execute on function public.get_bank_manual_review_allocations(uuid, integer, integer)
   to authenticated, service_role;
