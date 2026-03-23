@@ -10,6 +10,7 @@ import '../../../core/providers/supabase_client_provider.dart';
 import '../../../core/services/crashlytics_service.dart';
 import '../../../core/services/momo_service.dart';
 import '../../../core/services/performance_service.dart';
+import '../../biopay/providers/biopay_providers.dart';
 import '../../momo/providers/momo_service_provider.dart';
 import '../models/face_match_result.dart';
 import '../models/user_profile.dart';
@@ -29,6 +30,7 @@ final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
     crashlytics: crashlytics,
     performance: performance,
     momoService: momoService,
+    clearSensitiveData: () => ref.read(biopayCacheServiceProvider).clear(),
   );
 });
 
@@ -115,10 +117,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
     required CrashlyticsService crashlytics,
     required PerformanceService performance,
     required MomoService momoService,
+    Future<void> Function()? clearSensitiveData,
   }) : _repository = repository,
        _crashlytics = crashlytics,
        _performance = performance,
        _momoService = momoService,
+       _clearSensitiveData = clearSensitiveData,
        super(
          AuthState(
            session: repository.currentSession,
@@ -136,10 +140,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
   final CrashlyticsService _crashlytics;
   final PerformanceService _performance;
   final MomoService _momoService;
+  final Future<void> Function()? _clearSensitiveData;
 
   Future<void> restoreCurrentUser() async {
     final session = _repository.currentSession;
     if (session == null) {
+      await _clearSensitiveData?.call();
       state = state.copyWith(
         user: null,
         session: null,
@@ -755,11 +761,13 @@ class AuthNotifier extends StateNotifier<AuthState> {
     );
   }
 
-
   Future<void> signOut() async {
     state = state.copyWith(isLoading: true, error: null);
 
-    final result = await AsyncValue.guard(_repository.signOut);
+    final result = await AsyncValue.guard(() async {
+      await _repository.signOut();
+      await _clearSensitiveData?.call();
+    });
 
     result.when(
       data: (_) {
@@ -777,7 +785,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
   Future<void> deleteAccount() async {
     state = state.copyWith(isLoading: true, error: null);
 
-    final result = await AsyncValue.guard(_repository.deleteAccount);
+    final result = await AsyncValue.guard(() async {
+      await _repository.deleteAccount();
+      await _clearSensitiveData?.call();
+    });
 
     result.when(
       data: (_) {

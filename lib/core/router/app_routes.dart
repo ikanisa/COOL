@@ -16,6 +16,10 @@ abstract final class AppRoutes {
   static const groupInvite = '/invite/:code';
   static const momo = '/momo';
   static const momoStatements = '/momo/statements';
+  static const biopayHome = '/momo/biopay';
+  static const biopayRegister = '/momo/biopay/register';
+  static const biopayScan = '/momo/biopay/scan';
+  static const biopayConfirm = '/momo/biopay/confirm';
   static const mobility = '/mobility';
   static const mobilitySchedule = '/mobility/schedule';
   static const mobilityTrips = '/mobility/trips';
@@ -136,6 +140,13 @@ abstract final class AppRoutes {
 
   static String adminBankWorkspaceLocation(String partnerId) {
     return '/admin/banks/${partnerId.trim()}';
+  }
+
+  static String biopayScanLocation({required String mode}) {
+    return _location(
+      biopayScan,
+      queryParameters: <String, String>{'mode': mode.trim()},
+    );
   }
 
   static String _location(

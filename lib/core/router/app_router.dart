@@ -27,6 +27,12 @@ import '../../features/mobility/screens/driver_profile_screen.dart';
 import '../../features/mobility/screens/mobility_home_screen.dart';
 import '../../features/mobility/screens/schedule_trip_screen.dart';
 import '../../features/mobility/screens/trip_board_screen.dart';
+import '../../features/biopay/models/biopay_enrollment_draft.dart';
+import '../../features/biopay/models/biopay_match_result.dart';
+import '../../features/biopay/screens/biopay_confirm_screen.dart';
+import '../../features/biopay/screens/biopay_home_screen.dart';
+import '../../features/biopay/screens/biopay_register_screen.dart';
+import '../../features/biopay/screens/biopay_scan_screen.dart';
 import '../../features/momo/screens/momo_screen.dart';
 import '../../features/momo/screens/momo_statements_screen.dart';
 import '../../features/partners/bank_onboarding/screens/bank_onboarding_screen.dart';
@@ -463,6 +469,92 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             enabled: featureFlags.isMomoEnabled(isAdmin: authSnapshot.isAdmin),
             featureName: 'Mobile Money',
             child: const SecureScreenWrapper(child: MomoStatementsScreen()),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.biopayHome,
+        pageBuilder: (context, state) {
+          final authSnapshot = readAuthSnapshot();
+          final featureFlags = ref.read(featureFlagsStateProvider);
+          return _coolPageTransition(
+            context: context,
+            state: state,
+            child: KillSwitchGate(
+              enabled: featureFlags.isBiopayEnabled(
+                isAdmin: authSnapshot.isAdmin,
+              ),
+              featureName: 'BioPay',
+              child: const SecureScreenWrapper(child: BiopayHomeScreen()),
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.biopayRegister,
+        pageBuilder: (context, state) {
+          final authSnapshot = readAuthSnapshot();
+          final featureFlags = ref.read(featureFlagsStateProvider);
+          return _coolPageTransition(
+            context: context,
+            state: state,
+            child: KillSwitchGate(
+              enabled: featureFlags.isBiopayEnabled(
+                isAdmin: authSnapshot.isAdmin,
+              ),
+              featureName: 'BioPay',
+              child: const SecureScreenWrapper(child: BiopayRegisterScreen()),
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.biopayScan,
+        pageBuilder: (context, state) {
+          final authSnapshot = readAuthSnapshot();
+          final featureFlags = ref.read(featureFlagsStateProvider);
+          final modeParam = state.uri.queryParameters['mode']?.trim();
+          final mode = modeParam == 'enroll'
+              ? BiopayScanMode.enroll
+              : BiopayScanMode.pay;
+          final draft = state.extra is BiopayEnrollmentDraft
+              ? state.extra! as BiopayEnrollmentDraft
+              : null;
+          return _coolPageTransition(
+            context: context,
+            state: state,
+            child: KillSwitchGate(
+              enabled: featureFlags.isBiopayEnabled(
+                isAdmin: authSnapshot.isAdmin,
+              ),
+              featureName: 'BioPay',
+              child: SecureScreenWrapper(
+                child: BiopayScanScreen(mode: mode, enrollmentDraft: draft),
+              ),
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.biopayConfirm,
+        pageBuilder: (context, state) {
+          final authSnapshot = readAuthSnapshot();
+          final featureFlags = ref.read(featureFlagsStateProvider);
+          final result = state.extra is BiopayMatchResult
+              ? state.extra! as BiopayMatchResult
+              : null;
+          return _coolPageTransition(
+            context: context,
+            state: state,
+            child: KillSwitchGate(
+              enabled: featureFlags.isBiopayEnabled(
+                isAdmin: authSnapshot.isAdmin,
+              ),
+              featureName: 'BioPay',
+              child: SecureScreenWrapper(
+                child: BiopayConfirmScreen(result: result),
+              ),
+            ),
           );
         },
       ),

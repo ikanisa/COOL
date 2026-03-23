@@ -56,7 +56,10 @@ void main() {
           ],
         );
 
-        expect(app.router.routeInformationProvider.value.uri.path, AppRoutes.momo);
+        expect(
+          app.router.routeInformationProvider.value.uri.path,
+          AppRoutes.momo,
+        );
         expect(find.text('Temporarily Unavailable'), findsOneWidget);
         expect(
           find.textContaining('Mobile Money is temporarily unavailable.'),
@@ -66,31 +69,33 @@ void main() {
       },
     );
 
-    testWidgets(
-      'managed app config still allows admins into Mobile Money',
-      (tester) async {
-        final featureFlagsService = await _buildFeatureFlagsService(
-          appConfigOverrides: const <String, Object?>{
-            'feature_momo_stage': 'internal',
-            'feature_momo_admin_only': 'true',
-          },
-        );
+    testWidgets('managed app config still allows admins into Mobile Money', (
+      tester,
+    ) async {
+      final featureFlagsService = await _buildFeatureFlagsService(
+        appConfigOverrides: const <String, Object?>{
+          'feature_momo_stage': 'internal',
+          'feature_momo_admin_only': 'true',
+        },
+      );
 
-        final app = await pumpRouterApp(
-          tester,
-          initialLocation: AppRoutes.momo,
-          session: fakeSession(),
-          user: fakeUser(isAdmin: true),
-          overrides: <Override>[
-            featureFlagsServiceProvider.overrideWithValue(featureFlagsService),
-          ],
-        );
+      final app = await pumpRouterApp(
+        tester,
+        initialLocation: AppRoutes.momo,
+        session: fakeSession(),
+        user: fakeUser(isAdmin: true),
+        overrides: <Override>[
+          featureFlagsServiceProvider.overrideWithValue(featureFlagsService),
+        ],
+      );
 
-        expect(app.router.routeInformationProvider.value.uri.path, AppRoutes.momo);
-        expect(find.text('Temporarily Unavailable'), findsNothing);
-        expect(find.text('Mobile Money'), findsOneWidget);
-      },
-    );
+      expect(
+        app.router.routeInformationProvider.value.uri.path,
+        AppRoutes.momo,
+      );
+      expect(find.text('Temporarily Unavailable'), findsNothing);
+      expect(find.text('Mobile Money'), findsOneWidget);
+    });
 
     testWidgets(
       'managed app config also blocks MoMo statements for standard users',
@@ -121,6 +126,65 @@ void main() {
           find.textContaining('Mobile Money is temporarily unavailable.'),
           findsOneWidget,
         );
+      },
+    );
+
+    testWidgets(
+      'managed app config blocks direct BioPay routes when BioPay is disabled',
+      (tester) async {
+        final featureFlagsService = await _buildFeatureFlagsService(
+          appConfigOverrides: const <String, Object?>{
+            'feature_biopay_enabled': false,
+          },
+        );
+
+        final app = await pumpRouterApp(
+          tester,
+          initialLocation: AppRoutes.biopayHome,
+          session: fakeSession(),
+          user: fakeUser(),
+          overrides: <Override>[
+            featureFlagsServiceProvider.overrideWithValue(featureFlagsService),
+          ],
+        );
+
+        expect(
+          app.router.routeInformationProvider.value.uri.path,
+          AppRoutes.biopayHome,
+        );
+        expect(find.text('Temporarily Unavailable'), findsOneWidget);
+        expect(
+          find.textContaining('BioPay is temporarily unavailable.'),
+          findsOneWidget,
+        );
+      },
+    );
+
+    testWidgets(
+      'managed app config allows BioPay routes when BioPay is enabled',
+      (tester) async {
+        final featureFlagsService = await _buildFeatureFlagsService(
+          appConfigOverrides: const <String, Object?>{
+            'feature_biopay_enabled': true,
+          },
+        );
+
+        final app = await pumpRouterApp(
+          tester,
+          initialLocation: AppRoutes.biopayHome,
+          session: fakeSession(),
+          user: fakeUser(),
+          overrides: <Override>[
+            featureFlagsServiceProvider.overrideWithValue(featureFlagsService),
+          ],
+        );
+
+        expect(
+          app.router.routeInformationProvider.value.uri.path,
+          AppRoutes.biopayHome,
+        );
+        expect(find.text('Temporarily Unavailable'), findsNothing);
+        expect(find.text('BioPay'), findsWidgets);
       },
     );
   });

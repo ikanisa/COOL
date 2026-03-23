@@ -97,6 +97,7 @@ class EngagementFeatureFlags {
     required this.shareTrackingEnabled,
     required this.groupCaptainEnabled,
     required this.rayonChapterEnabled,
+    required this.biopayEnabled,
     required this.momo,
     required this.credit,
     required this.ticketPurchase,
@@ -109,6 +110,7 @@ class EngagementFeatureFlags {
       shareTrackingEnabled: true,
       groupCaptainEnabled: false,
       rayonChapterEnabled: false,
+      biopayEnabled: false,
       momo: ManagedFeatureRollout(key: 'momo'),
       credit: ManagedFeatureRollout(key: 'credit'),
       ticketPurchase: ManagedFeatureRollout(key: 'ticket_purchase'),
@@ -134,6 +136,10 @@ class EngagementFeatureFlags {
       rayonChapterEnabled: _coerceBool(
         values['engagement_rayon_chapter_enabled'],
         fallback: defaults.rayonChapterEnabled,
+      ),
+      biopayEnabled: _coerceBool(
+        values['feature_biopay_enabled'],
+        fallback: defaults.biopayEnabled,
       ),
       momo: ManagedFeatureRollout.fromValues(
         key: 'momo',
@@ -166,6 +172,7 @@ class EngagementFeatureFlags {
   final bool shareTrackingEnabled;
   final bool groupCaptainEnabled;
   final bool rayonChapterEnabled;
+  final bool biopayEnabled;
   final ManagedFeatureRollout momo;
   final ManagedFeatureRollout credit;
   final ManagedFeatureRollout ticketPurchase;
@@ -177,12 +184,17 @@ class EngagementFeatureFlags {
   bool get killMobility => mobility.killSwitch;
 
   bool get momoEnabled => isMomoEnabled();
+  bool get biopayAvailable => isBiopayEnabled();
   bool get creditEnabled => isCreditEnabled();
   bool get ticketEnabled => isTicketPurchaseEnabled();
   bool get mobilityEnabled => isMobilityEnabled();
 
   bool isMomoEnabled({bool isAdmin = false}) {
     return momo.isEnabled(isAdmin: isAdmin);
+  }
+
+  bool isBiopayEnabled({bool isAdmin = false}) {
+    return biopayEnabled && isMomoEnabled(isAdmin: isAdmin);
   }
 
   bool isCreditEnabled({bool isAdmin = false}) {
@@ -203,6 +215,7 @@ class EngagementFeatureFlags {
       'engagement_share_tracking_enabled': shareTrackingEnabled,
       'engagement_group_captain_enabled': groupCaptainEnabled,
       'engagement_rayon_chapter_enabled': rayonChapterEnabled,
+      'feature_biopay_enabled': biopayEnabled,
       ...momo.toRemoteConfigDefaults(killSwitchKey: 'kill_momo_payments'),
       ...credit.toRemoteConfigDefaults(killSwitchKey: 'kill_credit_features'),
       ...ticketPurchase.toRemoteConfigDefaults(

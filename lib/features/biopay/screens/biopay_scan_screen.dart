@@ -1,0 +1,714 @@
+import 'dart:async';
+import 'dart:io' show Platform;
+import 'dart:typed_data';
+
+import 'package:camera/camera.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../core/providers/app_access_provider.dart';
+import '../../../core/providers/engagement_providers.dart';
+import '../../../core/router/app_routes.dart';
+import '../../../core/services/app_access_service.dart';
+import '../../../core/theme/cool_foundations.dart';
+import '../../../shared/widgets/cool_button.dart';
+import '../../../shared/widgets/cool_card.dart';
+import '../../../shared/widgets/cool_toast.dart';
+import '../../auth/providers/auth_provider.dart';
+import '../../profile/widgets/profile_app_access_sheet.dart';
+import '../models/biopay_enrollment_draft.dart';
+import '../models/biopay_face_frame_analysis.dart';
+import '../models/biopay_match_result.dart';
+import '../providers/biopay_providers.dart';
+import '../services/biopay_embedding_service.dart';
+import '../services/biopay_face_alignment_service.dart';
+import '../services/biopay_face_detection_service.dart';
+import '../widgets/biopay_scanner_shell.dart';
+
+enum BiopayScanMode { enroll, pay }
+
+class BiopayScanScreen extends ConsumerStatefulWidget {
+  const BiopayScanScreen({required this.mode, this.enrollmentDraft, super.key});
+
+  final BiopayScanMode mode;
+  final BiopayEnrollmentDraft? enrollmentDraft;
+
+  @override
+  ConsumerState<BiopayScanScreen> createState() => _BiopayScanScreenState();
+}
+
+class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
+  final _faceDetectionService = BiopayFaceDetectionService();
+  final _faceAlignmentService = BiopayFaceAlignmentService();
+  final _embeddingService = BiopayEmbeddingService();
+  final List<Float32List> _enrollmentEmbeddings = <Float32List>[];
+
+  CameraController? _controller;
+  AppAccessSnapshot? _cameraSnapshot;
+  bool _isInitializingCamera = true;
+  bool _isProcessingFrame = false;
+  bool _isSubmitting = false;
+  bool _isEmbeddingReady = false;
+  int _capturedEnrollmentFrames = 0;
+  String? _cameraError;
+  String? _pipelineError;
+  String _statusLabel = 'Preparing secure camera...';
+  String _helperText = 'Loading BioPay camera access and on-device services.';
+  BiopayScannerTone _tone = BiopayScannerTone.searching;
+  DateTime? _lastEnrollmentCaptureAt;
+  DateTime? _lastMatchAttemptAt;
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_loadCameraState());
+  }
+
+  @override
+  void dispose() {
+    _embeddingService.dispose();
+    unawaited(_faceDetectionService.close());
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  Future<void> _loadCameraState() async {
+    final service = ref.read(appAccessServiceProvider);
+    final snapshot = await service.getSnapshot(AppAccessPermission.camera);
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      _cameraSnapshot = snapshot;
+      _cameraError = null;
+    });
+
+    if (snapshot.isReady) {
+      await _initializeCamera();
+      return;
+    }
+
+    setState(() => _isInitializingCamera = false);
+  }
+
+  Future<void> _requestCameraAccess() async {
+    final service = ref.read(appAccessServiceProvider);
+    setState(() {
+      _isInitializingCamera = true;
+      _cameraError = null;
+    });
+
+    final snapshot = await service.enableAndRequest(AppAccessPermission.camera);
+    if (!mounted) {
+      return;
+    }
+
+    setState(() => _cameraSnapshot = snapshot);
+    if (snapshot.isReady) {
+      await _initializeCamera();
+      return;
+    }
+    setState(() => _isInitializingCamera = false);
+  }
+
+  Future<void> _initializeCamera() async {
+    try {
+      final cameras = await availableCameras();
+      if (cameras.isEmpty) {
+        throw CameraException(
+          'no_camera',
+          'No camera was found on this device.',
+        );
+      }
+
+      final preferredLens = widget.mode == BiopayScanMode.enroll
+          ? CameraLensDirection.front
+          : CameraLensDirection.back;
+      final camera = cameras.firstWhere(
+        (candidate) => candidate.lensDirection == preferredLens,
+        orElse: () => cameras.first,
+      );
+
+      final controller = CameraController(
+        camera,
+        ResolutionPreset.medium,
+        enableAudio: false,
+        imageFormatGroup: Platform.isIOS
+            ? ImageFormatGroup.bgra8888
+            : ImageFormatGroup.yuv420,
+      );
+
+      await controller.initialize();
+      try {
+        await controller.lockCaptureOrientation(DeviceOrientation.portraitUp);
+      } catch (_) {
+        // Best-effort only. The app shell is portrait-locked already.
+      }
+      final previous = _controller;
+      _controller = controller;
+      await previous?.dispose();
+
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        _isInitializingCamera = false;
+        _cameraError = null;
+      });
+      await _warmPipeline();
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _isInitializingCamera = false;
+        _cameraError = error.toString();
+        _tone = BiopayScannerTone.error;
+      });
+    }
+  }
+
+  Future<void> _warmPipeline() async {
+    final ready = await _embeddingService.ensureInitialized();
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      _isEmbeddingReady = ready;
+      _pipelineError = ready ? null : _embeddingService.initializationError;
+      _statusLabel = widget.mode == BiopayScanMode.enroll
+          ? 'Align your face inside the oval'
+          : 'Point the camera at the payee\'s face';
+      _helperText = widget.mode == BiopayScanMode.enroll
+          ? 'BioPay is analyzing live frames in memory only. Hold still when the oval turns green.'
+          : 'BioPay is analyzing live frames in memory only. Keep one face centered for a fast match.';
+      _tone = BiopayScannerTone.searching;
+    });
+
+    final controller = _controller;
+    if (controller == null || controller.value.isStreamingImages) {
+      return;
+    }
+    await controller.startImageStream(_handleCameraFrame);
+  }
+
+  void _handleCameraFrame(CameraImage frame) {
+    if (!mounted ||
+        _isProcessingFrame ||
+        _isSubmitting ||
+        _controller == null) {
+      return;
+    }
+    _isProcessingFrame = true;
+    unawaited(
+      _processFrame(frame).whenComplete(() {
+        _isProcessingFrame = false;
+      }),
+    );
+  }
+
+  Future<void> _processFrame(CameraImage frame) async {
+    final controller = _controller;
+    if (controller == null) {
+      return;
+    }
+
+    try {
+      final stableFramesRequired =
+          ref.read(biopayStableFramesProvider).valueOrNull ?? 3;
+      final analysis = await _faceDetectionService.analyzeFrame(
+        frame: frame,
+        camera: controller.description,
+        stableFramesRequired: stableFramesRequired,
+      );
+
+      if (!mounted) {
+        return;
+      }
+
+      _applyAnalysisFeedback(analysis, stableFramesRequired);
+      if (!analysis.isStable) {
+        return;
+      }
+
+      if (!_isEmbeddingReady) {
+        _setScannerState(
+          tone: BiopayScannerTone.error,
+          statusLabel: 'Embedding model unavailable',
+          helperText:
+              _pipelineError ??
+              'BioPay face detection is live, but the TFLite model is not ready yet.',
+        );
+        return;
+      }
+
+      final alignedTensor = await _faceAlignmentService
+          .extractAlignedFaceTensor(
+            frame: frame,
+            face: analysis.face!,
+            rotationDegrees: analysis.rotationDegrees,
+          );
+      final embedding = await _embeddingService.embed(alignedTensor);
+
+      if (widget.mode == BiopayScanMode.enroll) {
+        await _handleEnrollmentEmbedding(embedding);
+      } else {
+        await _handleMatchEmbedding(embedding);
+      }
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _pipelineError = error.toString();
+      });
+      _setScannerState(
+        tone: BiopayScannerTone.error,
+        statusLabel: 'BioPay pipeline error',
+        helperText: error.toString(),
+      );
+    }
+  }
+
+  void _applyAnalysisFeedback(
+    BiopayFaceFrameAnalysis analysis,
+    int stableFramesRequired,
+  ) {
+    final isEnroll = widget.mode == BiopayScanMode.enroll;
+    switch (analysis.guidance) {
+      case BiopayFaceGuidance.multipleFaces:
+        _setScannerState(
+          tone: BiopayScannerTone.blocked,
+          statusLabel: 'One person only',
+          helperText:
+              'BioPay needs a single face in frame before it can continue.',
+        );
+        break;
+      case BiopayFaceGuidance.tooDark:
+        _setScannerState(
+          tone: BiopayScannerTone.blocked,
+          statusLabel: 'Move to better light',
+          helperText:
+              'The camera image is too dark for a stable BioPay capture.',
+        );
+        break;
+      case BiopayFaceGuidance.tooBright:
+        _setScannerState(
+          tone: BiopayScannerTone.blocked,
+          statusLabel: 'Reduce glare',
+          helperText:
+              'Turn away from direct sunlight or strong overhead glare.',
+        );
+        break;
+      case BiopayFaceGuidance.tooFar:
+        _setScannerState(
+          tone: BiopayScannerTone.blocked,
+          statusLabel: 'Move closer',
+          helperText:
+              'The face is too small in frame for a reliable BioPay capture.',
+        );
+        break;
+      case BiopayFaceGuidance.headTurned:
+        _setScannerState(
+          tone: BiopayScannerTone.blocked,
+          statusLabel: 'Look straight at the camera',
+          helperText:
+              'BioPay needs a forward-facing scan before it can proceed.',
+        );
+        break;
+      case BiopayFaceGuidance.eyesClosed:
+        _setScannerState(
+          tone: BiopayScannerTone.blocked,
+          statusLabel: 'Please open your eyes',
+          helperText:
+              'BioPay needs a clearer face frame before it can continue.',
+        );
+        break;
+      case BiopayFaceGuidance.stable:
+        _setScannerState(
+          tone: BiopayScannerTone.ready,
+          statusLabel: isEnroll
+              ? 'Stable face locked'
+              : 'Face locked. Matching...',
+          helperText: isEnroll
+              ? 'BioPay is collecting enrollment frame ${(_capturedEnrollmentFrames + 1).clamp(1, 5)} of 5.'
+              : 'BioPay is generating an embedding and checking Supabase for a match.',
+        );
+        break;
+      case BiopayFaceGuidance.searching:
+        _setScannerState(
+          tone: BiopayScannerTone.searching,
+          statusLabel: analysis.faceCount == 1 && analysis.stableCount > 0
+              ? 'Hold still... ${analysis.stableCount}/$stableFramesRequired'
+              : (isEnroll
+                    ? 'Align your face inside the oval'
+                    : 'Point the camera at the payee\'s face'),
+          helperText: analysis.faceCount == 1 && analysis.stableCount > 0
+              ? 'BioPay has a face in frame and is waiting for a stable capture.'
+              : (isEnroll
+                    ? 'Keep one face centered. Frames stay in memory and never go to the gallery.'
+                    : 'Keep one face centered. BioPay will show the payee name before any dial action.'),
+        );
+        break;
+    }
+  }
+
+  Future<void> _handleEnrollmentEmbedding(Float32List embedding) async {
+    final draft = widget.enrollmentDraft;
+    if (draft == null) {
+      _setScannerState(
+        tone: BiopayScannerTone.error,
+        statusLabel: 'Enrollment data missing',
+        helperText:
+            'BioPay did not receive the enrollment route payload. Go back and start registration again.',
+      );
+      return;
+    }
+
+    final now = DateTime.now();
+    if (_lastEnrollmentCaptureAt != null &&
+        now.difference(_lastEnrollmentCaptureAt!) <
+            const Duration(milliseconds: 500)) {
+      return;
+    }
+
+    _lastEnrollmentCaptureAt = now;
+    _enrollmentEmbeddings.add(embedding);
+    _capturedEnrollmentFrames = _enrollmentEmbeddings.length;
+
+    if (_capturedEnrollmentFrames < 5) {
+      _setScannerState(
+        tone: BiopayScannerTone.ready,
+        statusLabel: 'Captured $_capturedEnrollmentFrames of 5',
+        helperText:
+            'Keep your face steady. BioPay averages five captures for a more stable enrollment vector.',
+      );
+      setState(() {});
+      return;
+    }
+
+    _isSubmitting = true;
+    _setScannerState(
+      tone: BiopayScannerTone.ready,
+      statusLabel: 'Finalizing enrollment',
+      helperText:
+          'BioPay is averaging the face embeddings and storing the profile in Supabase.',
+    );
+
+    try {
+      final averaged = _embeddingService.averageEmbeddings(
+        _enrollmentEmbeddings,
+      );
+      final profile = await ref
+          .read(biopayRepositoryProvider)
+          .enroll(draft: draft, embedding: averaged.toList(growable: false));
+      ref.invalidate(biopayProfileProvider);
+      if (!mounted) {
+        return;
+      }
+      CoolToast.success(context, 'BioPay enrolled for ${profile.displayName}');
+      context.go(AppRoutes.biopayHome);
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+      _setScannerState(
+        tone: BiopayScannerTone.error,
+        statusLabel: 'Enrollment failed',
+        helperText: error.toString(),
+      );
+      CoolToast.error(context, error.toString());
+    } finally {
+      _isSubmitting = false;
+    }
+  }
+
+  Future<void> _handleMatchEmbedding(Float32List embedding) async {
+    final now = DateTime.now();
+    if (_lastMatchAttemptAt != null &&
+        now.difference(_lastMatchAttemptAt!) <
+            const Duration(milliseconds: 900)) {
+      return;
+    }
+    _lastMatchAttemptAt = now;
+    _isSubmitting = true;
+
+    final embeddingList = embedding.toList(growable: false);
+    final cache = ref.read(biopayCacheServiceProvider);
+    final cacheTtlHours =
+        ref.read(biopayCacheTtlHoursProvider).valueOrNull ?? 24;
+    final matchThreshold =
+        ref.read(biopayMatchThresholdProvider).valueOrNull ?? 0.72;
+    final ownerUserId = ref.read(authProvider).session?.user.id ?? '';
+
+    try {
+      _setScannerState(
+        tone: BiopayScannerTone.ready,
+        statusLabel: 'Matching...',
+        helperText:
+            'BioPay is sending the face embedding to Supabase for a nearest-profile match.',
+      );
+
+      final result = await ref
+          .read(biopayRepositoryProvider)
+          .matchEmbedding(embeddingList);
+
+      if (!mounted) {
+        return;
+      }
+
+      if (!result.match ||
+          result.profile == null ||
+          result.score < matchThreshold) {
+        _setScannerState(
+          tone: BiopayScannerTone.error,
+          statusLabel: 'No confident match',
+          helperText:
+              'Keep the payee in frame and try again. BioPay did not clear the match threshold.',
+        );
+        return;
+      }
+
+      await cache.storeMatch(
+        ownerUserId,
+        embeddingList,
+        result,
+        ttl: Duration(hours: cacheTtlHours),
+      );
+      if (!mounted) {
+        return;
+      }
+      context.go(AppRoutes.biopayConfirm, extra: result);
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+      _setScannerState(
+        tone: BiopayScannerTone.error,
+        statusLabel: 'Match failed',
+        helperText: error.toString(),
+      );
+      CoolToast.error(context, error.toString());
+    } finally {
+      _isSubmitting = false;
+    }
+  }
+
+  void _setScannerState({
+    required BiopayScannerTone tone,
+    required String statusLabel,
+    required String helperText,
+  }) {
+    if (!mounted) {
+      return;
+    }
+    final needsUpdate =
+        _tone != tone ||
+        _statusLabel != statusLabel ||
+        _helperText != helperText;
+    if (!needsUpdate) {
+      return;
+    }
+    setState(() {
+      _tone = tone;
+      _statusLabel = statusLabel;
+      _helperText = helperText;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = context.coolSemanticColors;
+    final space = context.coolSpace;
+    final authState = ref.watch(authProvider);
+    final enabled = ref.watch(
+      featureFlagsStateProvider.select(
+        (flags) =>
+            flags.isBiopayEnabled(isAdmin: authState.user?.isAdmin ?? false),
+      ),
+    );
+    final isEnroll = widget.mode == BiopayScanMode.enroll;
+    final snapshot = _cameraSnapshot;
+    final isCameraReady =
+        snapshot?.isReady == true &&
+        _controller != null &&
+        _controller!.value.isInitialized &&
+        !_isInitializingCamera;
+
+    final tone = _cameraError != null
+        ? BiopayScannerTone.error
+        : isCameraReady
+        ? _tone
+        : (snapshot?.kind == AppAccessStateKind.blockedInSystem ||
+                  snapshot?.kind == AppAccessStateKind.disabledInApp
+              ? BiopayScannerTone.blocked
+              : BiopayScannerTone.searching);
+
+    final statusLabel = _cameraError != null
+        ? 'Camera unavailable'
+        : isCameraReady
+        ? _statusLabel
+        : (isEnroll
+              ? 'Camera access needed for enrollment'
+              : 'Camera access needed for scanning');
+
+    final helperText = _cameraError != null
+        ? 'BioPay could not start the secure camera shell yet. Check app access and device camera state.'
+        : isCameraReady
+        ? _helperText
+        : 'Enable camera access to continue. BioPay uses the existing Cool app access controls.';
+
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.white,
+        elevation: 0,
+        title: Text(
+          isEnroll ? 'Face Capture' : 'Scan to Pay',
+          style: theme.textTheme.titleMedium?.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+      ),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: BiopayScannerShell(
+              controller: _controller,
+              isCameraReady: isCameraReady,
+              statusLabel: statusLabel,
+              helperText: helperText,
+              tone: tone,
+              footer: CoolCard(
+                backgroundColor: Colors.black.withValues(alpha: 0.66),
+                borderColor: Colors.white.withValues(alpha: 0.12),
+                useGradient: false,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (widget.enrollmentDraft != null) ...[
+                      Text(
+                        'Enrollment route',
+                        style: theme.textTheme.labelLarge?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      SizedBox(height: space.x1),
+                      Text(
+                        '${widget.enrollmentDraft!.displayName} · ${widget.enrollmentDraft!.recipientValue}',
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: Colors.white.withValues(alpha: 0.88),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      SizedBox(height: space.x3),
+                    ],
+                    if (!enabled)
+                      Text(
+                        'BioPay is disabled by app configuration.',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colors.warning,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      )
+                    else if (!isCameraReady) ...[
+                      CoolButton(
+                        label: 'Enable Camera',
+                        onTap: _requestCameraAccess,
+                      ),
+                      SizedBox(height: space.x2),
+                      CoolButton(
+                        label: 'Manage App Access',
+                        variant: CoolButtonVariant.secondary,
+                        onTap: () => ProfileAppAccessSheet.show(context),
+                      ),
+                    ] else ...[
+                      Text(
+                        _isEmbeddingReady
+                            ? 'On-device face detection and the TFLite embedding service are active. BioPay will use Supabase for enrollment and matching.'
+                            : 'On-device face detection is active, but the embedding model is not available yet.',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: Colors.white.withValues(alpha: 0.84),
+                          fontWeight: FontWeight.w500,
+                          height: 1.45,
+                        ),
+                      ),
+                      if (_capturedEnrollmentFrames > 0) ...[
+                        SizedBox(height: space.x3),
+                        Text(
+                          'Enrollment frames captured: $_capturedEnrollmentFrames / 5',
+                          style: theme.textTheme.labelLarge?.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ],
+                    ],
+                    if (_cameraError != null || _pipelineError != null) ...[
+                      SizedBox(height: space.x3),
+                      Text(
+                        _cameraError ?? _pipelineError!,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colors.danger,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ),
+          ),
+          if (_isInitializingCamera)
+            Positioned(
+              top: 16,
+              left: 16,
+              right: 16,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.72),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(CoolRadii.md),
+                  ),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.12),
+                  ),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 18,
+                        height: 18,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                      SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          'Preparing secure camera...',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}

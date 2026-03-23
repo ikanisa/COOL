@@ -89,6 +89,7 @@ class FeatureFlagsService {
       'engagement_rayon_chapter_enabled': remoteConfig.getBool(
         'engagement_rayon_chapter_enabled',
       ),
+      'feature_biopay_enabled': remoteConfig.getBool('feature_biopay_enabled'),
       'kill_momo_payments': remoteConfig.getBool('kill_momo_payments'),
       'kill_credit_features': remoteConfig.getBool('kill_credit_features'),
       'kill_ticket_purchase': remoteConfig.getBool('kill_ticket_purchase'),
