@@ -87,35 +87,40 @@ void main() {
       ];
     }
 
-    testWidgets(
-      'shows all sections directly in flat layout',
-      (tester) async {
-        await pumpScopedApp(
-          tester,
-          child: const ProfileScreen(),
-          session: fakeSession(),
-          user: fakeUser().copyWith(
-            publicUserId: '123456',
-            officialName: 'Alex Fan',
-            officialPhone: '+250788123456',
-            kycStatus: 'verified',
-          ),
-          overrides: overrides(),
-        );
+    testWidgets('shows the profile command deck with primary actions', (
+      tester,
+    ) async {
+      await pumpScopedApp(
+        tester,
+        child: const ProfileScreen(),
+        session: fakeSession(),
+        user: fakeUser().copyWith(
+          publicUserId: '123456',
+          officialName: 'Alex Fan',
+          officialPhone: '+250788123456',
+          kycStatus: 'verified',
+        ),
+        overrides: overrides(),
+      );
 
-        await settleTestApp(tester);
+      await settleTestApp(tester);
 
-        expect(find.text('Profile'), findsOneWidget);
-        expect(find.text('ACCOUNT'), findsOneWidget);
-        expect(find.text('Personal Info'), findsOneWidget);
-        expect(find.widgetWithText(ProfileSettingsRow, 'Mobility'), findsOneWidget);
+      expect(find.text('Profile'), findsOneWidget);
+      expect(find.text('Profile Command'), findsOneWidget);
+      expect(find.text('Identity. Wallet. Access.'), findsOneWidget);
+      expect(find.text('Account'), findsOneWidget);
+      expect(find.text('Settings'), findsOneWidget);
+      expect(find.text('Personal Info'), findsOneWidget);
+      expect(
+        find.widgetWithText(ProfileSettingsRow, 'Mobility'),
+        findsOneWidget,
+      );
 
-        expect(find.text('Passenger'), findsAtLeastNWidgets(1));
-        expect(find.text('MoMo Statements'), findsOneWidget);
-        expect(find.text('App access'), findsOneWidget);
-        expect(find.text('Support'), findsAtLeastNWidgets(1));
-      },
-    );
+      expect(find.text('Passenger'), findsAtLeastNWidgets(1));
+      expect(find.text('MoMo Statements'), findsOneWidget);
+      expect(find.text('App access'), findsOneWidget);
+      expect(find.text('Support'), findsAtLeastNWidgets(1));
+    });
 
     testWidgets(
       'opens a dedicated travel role route with passenger and driver actions',
@@ -135,7 +140,10 @@ void main() {
 
         await settleTestApp(tester);
 
-        expect(find.widgetWithText(ProfileSettingsRow, 'Mobility'), findsOneWidget);
+        expect(
+          find.widgetWithText(ProfileSettingsRow, 'Mobility'),
+          findsOneWidget,
+        );
 
         await tester.tap(find.widgetWithText(ProfileSettingsRow, 'Mobility'));
         await tester.pumpAndSettle();
@@ -170,7 +178,9 @@ void main() {
         await tester.tap(find.byType(BackButton).first);
         await tester.pumpAndSettle();
 
-        await tester.tap(find.widgetWithText(ProfileSettingsRow, 'Personal Info'));
+        await tester.tap(
+          find.widgetWithText(ProfileSettingsRow, 'Personal Info'),
+        );
         await tester.pumpAndSettle();
 
         expect(find.text('Personal Info'), findsWidgets);
@@ -197,7 +207,10 @@ void main() {
 
       await settleTestApp(tester);
 
-      expect(find.widgetWithText(ProfileSettingsRow, 'Mobility'), findsOneWidget);
+      expect(
+        find.widgetWithText(ProfileSettingsRow, 'Mobility'),
+        findsOneWidget,
+      );
 
       await tester.tap(find.widgetWithText(ProfileSettingsRow, 'Mobility'));
       await tester.pumpAndSettle();
@@ -205,9 +218,7 @@ void main() {
       expect(find.text('Switch to driver'), findsNothing);
     });
 
-    testWidgets('shows tools directly without toggle', (
-      tester,
-    ) async {
+    testWidgets('shows tools directly without toggle', (tester) async {
       await pumpScopedApp(
         tester,
         child: const ProfileScreen(),
@@ -228,31 +239,26 @@ void main() {
       expect(find.text('Cool Tokens'), findsOneWidget);
     });
 
-    testWidgets(
-      'shows admin panel directly for admin users',
-      (tester) async {
-        await pumpScopedApp(
-          tester,
-          child: const ProfileScreen(),
-          session: fakeSession(),
-          user: fakeUser(isAdmin: true).copyWith(
-            publicUserId: '123456',
-            officialName: 'Alex Fan',
-            officialPhone: '+250788123456',
-            kycStatus: 'verified',
-          ),
-          overrides: overrides(),
-        );
+    testWidgets('shows admin panel directly for admin users', (tester) async {
+      await pumpScopedApp(
+        tester,
+        child: const ProfileScreen(),
+        session: fakeSession(),
+        user: fakeUser(isAdmin: true).copyWith(
+          publicUserId: '123456',
+          officialName: 'Alex Fan',
+          officialPhone: '+250788123456',
+          kycStatus: 'verified',
+        ),
+        overrides: overrides(),
+      );
 
-        await settleTestApp(tester);
+      await settleTestApp(tester);
 
-        expect(find.text('Admin panel'), findsOneWidget);
-      },
-    );
+      expect(find.text('Admin panel'), findsOneWidget);
+    });
 
-    testWidgets('shows admin panel for partner admin access', (
-      tester,
-    ) async {
+    testWidgets('shows admin panel for partner admin access', (tester) async {
       await pumpScopedApp(
         tester,
         child: const ProfileScreen(),

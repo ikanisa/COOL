@@ -327,9 +327,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             _ProfileCompletionBar(profile: profile),
           ],
           const SizedBox(height: 32),
-          ProfileSettingsSection(title: 'Account', rows: accountRows),
-          const SizedBox(height: 24),
-          ProfileSettingsSection(title: 'Settings', rows: settingsRows),
+          _ProfileCommandDeck(
+            accountRows: accountRows,
+            settingsRows: settingsRows,
+          ),
           const SizedBox(height: 24),
           ProfileDangerZone(
             onDeleteAccount: _confirmDeleteAccount,
@@ -365,7 +366,8 @@ class _ProfileCompletionBar extends StatelessWidget {
     final total = profile.setupItems.length;
 
     return CoolCard(
-      backgroundColor: colors.analyticsSurface,
+      useGradient: false,
+      backgroundColor: colors.cardSurface,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -376,7 +378,10 @@ class _ProfileCompletionBar extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: colors.cardSurfaceStrong.withValues(alpha: 0.92),
                   borderRadius: BorderRadius.circular(CoolRadii.sm),
-                  border: Border.all(color: colors.border),
+                  boxShadow: CoolShadows.floating(
+                    Theme.of(context).brightness,
+                    strength: 0.18,
+                  ),
                 ),
                 child: Icon(
                   Icons.checklist_rounded,
@@ -402,7 +407,6 @@ class _ProfileCompletionBar extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: colors.cardSurfaceStrong.withValues(alpha: 0.92),
                   borderRadius: BorderRadius.circular(99),
-                  border: Border.all(color: colors.border),
                 ),
                 child: Text(
                   '$done / $total',
@@ -457,6 +461,59 @@ class _ProfileCompletionBar extends StatelessWidget {
                 ],
               );
             }).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProfileCommandDeck extends StatelessWidget {
+  const _ProfileCommandDeck({
+    required this.accountRows,
+    required this.settingsRows,
+  });
+
+  final List<ProfileSettingsRow> accountRows;
+  final List<ProfileSettingsRow> settingsRows;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.coolSemanticColors;
+    final theme = Theme.of(context);
+
+    return CoolCard(
+      useGradient: false,
+      backgroundColor: colors.cardSurface,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Profile Command',
+            style: theme.textTheme.headlineSmall?.copyWith(
+              color: colors.primaryText,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Identity. Wallet. Access.',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 24),
+          ProfileSettingsSection(
+            title: 'Account',
+            rows: accountRows,
+            useCard: false,
+          ),
+          const SizedBox(height: 20),
+          ProfileSettingsSection(
+            title: 'Settings',
+            rows: settingsRows,
+            useCard: false,
           ),
         ],
       ),

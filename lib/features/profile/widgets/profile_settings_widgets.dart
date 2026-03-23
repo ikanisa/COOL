@@ -13,11 +13,13 @@ class ProfileSettingsSection extends StatelessWidget {
   const ProfileSettingsSection({
     required this.title,
     required this.rows,
+    this.useCard = true,
     super.key,
   });
 
   final String title;
   final List<ProfileSettingsRow> rows;
+  final bool useCard;
 
   @override
   Widget build(BuildContext context) {
@@ -33,28 +35,37 @@ class ProfileSettingsSection extends StatelessWidget {
           child: Semantics(
             header: true,
             child: Text(
-              title.toUpperCase(),
+              title,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                 fontWeight: FontWeight.w800,
-                letterSpacing: 1.2,
+                letterSpacing: 0.6,
                 color: colors.secondaryText,
               ),
             ),
           ),
         ),
-        CoolCard(
-          backgroundColor: colors.cardSurfaceStrong,
-          padding: EdgeInsets.zero,
-          child: Column(
+        if (useCard)
+          CoolCard(
+            backgroundColor: colors.cardSurfaceStrong,
+            padding: EdgeInsets.zero,
+            child: Column(
+              children: [
+                for (var i = 0; i < rows.length; i++) ...[
+                  rows[i],
+                  if (i < rows.length - 1) const SizedBox(height: 8),
+                ],
+              ],
+            ),
+          )
+        else
+          Column(
             children: [
               for (var i = 0; i < rows.length; i++) ...[
                 rows[i],
-                if (i < rows.length - 1)
-                  Divider(color: colors.border, height: 1, indent: 68),
+                if (i < rows.length - 1) const SizedBox(height: 8),
               ],
             ],
           ),
-        ),
       ],
     );
   }
@@ -94,8 +105,7 @@ class ProfileFactsCard extends StatelessWidget {
               children: [
                 for (var index = 0; index < items.length; index++) ...[
                   _ProfileFactTile(item: items[index]),
-                  if (index < items.length - 1)
-                    Divider(color: colors.border, height: 20),
+                  if (index < items.length - 1) const SizedBox(height: 16),
                 ],
               ],
             );
@@ -105,13 +115,7 @@ class ProfileFactsCard extends StatelessWidget {
             children: [
               for (var index = 0; index < items.length; index++) ...[
                 Expanded(child: _ProfileFactTile(item: items[index])),
-                if (index < items.length - 1)
-                  Container(
-                    width: 1,
-                    height: 44,
-                    margin: const EdgeInsets.symmetric(horizontal: 14),
-                    color: colors.border,
-                  ),
+                if (index < items.length - 1) const SizedBox(width: 20),
               ],
             ],
           );
@@ -207,7 +211,10 @@ class ProfileSettingsRow extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: colors.operationalSurface,
                   borderRadius: BorderRadius.circular(CoolRadii.md),
-                  border: Border.all(color: colors.border),
+                  boxShadow: CoolShadows.floating(
+                    Theme.of(context).brightness,
+                    strength: 0.18,
+                  ),
                 ),
                 alignment: Alignment.center,
                 child: Icon(
@@ -486,7 +493,7 @@ class ProfileAppearanceSheet extends StatelessWidget {
                   onTap: () => onSelected(AppThemePreference.values[index]),
                 ),
                 if (index < AppThemePreference.values.length - 1)
-                  Divider(color: colors.border, height: 1, indent: 72),
+                  const SizedBox(height: 8),
               ],
             ],
           ),
@@ -593,7 +600,6 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
         child: ExcludeSemantics(
           child: CoolCard(
             backgroundColor: colors.cardSurfaceStrong,
-            borderColor: colors.accent.withValues(alpha: 0.35),
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Row(
@@ -604,7 +610,10 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: colors.operationalSurface,
                       borderRadius: BorderRadius.circular(CoolRadii.md),
-                      border: Border.all(color: colors.border),
+                      boxShadow: CoolShadows.floating(
+                        Theme.of(context).brightness,
+                        strength: 0.18,
+                      ),
                     ),
                     alignment: Alignment.center,
                     child: Icon(

@@ -53,6 +53,7 @@ class ProfileHeader extends StatelessWidget {
         : null;
 
     return CoolGlassCard(
+      borderColor: Colors.transparent,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -62,7 +63,10 @@ class ProfileHeader extends StatelessWidget {
             decoration: BoxDecoration(
               color: colors.operationalSurface,
               borderRadius: BorderRadius.circular(CoolRadii.md),
-              border: Border.all(color: colors.border),
+              boxShadow: CoolShadows.floating(
+                Theme.of(context).brightness,
+                strength: 0.18,
+              ),
             ),
             alignment: Alignment.center,
             child: Text(
@@ -106,9 +110,6 @@ class ProfileHeader extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: kycColor.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(CoolRadii.sm),
-                        border: Border.all(
-                          color: kycColor.withValues(alpha: 0.22),
-                        ),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -220,7 +221,6 @@ class ProfileMomoQrCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: colors.contactSurface,
                   borderRadius: BorderRadius.circular(999),
-                  border: Border.all(color: colors.border),
                 ),
                 child: Text(
                   providerLabel,
