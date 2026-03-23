@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+export 'cool_palette.dart';
+export 'package:google_fonts/google_fonts.dart';
 
 /// Next-generation semantic tokens for the production redesign.
 ///
@@ -209,6 +213,23 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
     end: Alignment.bottomRight,
     colors: <Color>[accentGradientStart, accentGradientEnd],
   );
+
+  // Legacy alias getters to keep partial migrations compiling.
+  Color get bg => appBackground;
+  Color get surface => elevatedBackground;
+  Color get surface2 => cardSurface;
+  Color get surface3 => cardSurfaceStrong;
+  Color get border2 => borderStrong;
+  Color get text => primaryText;
+  Color get text2 => secondaryText;
+  Color get text3 => tertiaryText;
+  Color get accent2 => accentStrong;
+  Color get accentGlow => accentStrong.withValues(alpha: 0.16);
+  Color get blue => info;
+  Color get orange => warning;
+  Color get red => danger;
+  Color get yellow => warning;
+  Color get purple => teamSurface;
 
   @override
   CoolSemanticColors copyWith({
@@ -428,6 +449,148 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
   }
 }
 
+/// Typography helpers that keep migrations anchored to [TextTheme] while
+/// allowing approved mono and Rayon brand overrides.
+@immutable
+class CoolTextStyles {
+  const CoolTextStyles._({
+    required TextTheme textTheme,
+    required Color defaultColor,
+  }) : _textTheme = textTheme,
+       _defaultColor = defaultColor;
+
+  final TextTheme _textTheme;
+  final Color _defaultColor;
+
+  TextTheme get theme => _textTheme;
+
+  TextStyle mono(
+    TextStyle? base, {
+    Color? color,
+    FontWeight? fontWeight,
+    double? letterSpacing,
+    double? height,
+  }) {
+    final resolvedBase =
+        base ??
+        _textTheme.bodyLarge ??
+        const TextStyle(fontSize: 18, fontWeight: FontWeight.w700);
+    return GoogleFonts.dmMono(
+      textStyle: resolvedBase.copyWith(
+        color: color ?? resolvedBase.color ?? _defaultColor,
+        fontWeight: fontWeight ?? resolvedBase.fontWeight,
+        letterSpacing: letterSpacing ?? resolvedBase.letterSpacing,
+        height: height ?? resolvedBase.height,
+      ),
+    );
+  }
+
+  TextStyle rayon(
+    TextStyle? base, {
+    Color? color,
+    FontWeight? fontWeight,
+    double? letterSpacing,
+    double? height,
+  }) {
+    final resolvedBase =
+        base ??
+        _textTheme.bodyLarge ??
+        const TextStyle(fontSize: 18, fontWeight: FontWeight.w700);
+    return GoogleFonts.barlow(
+      textStyle: resolvedBase.copyWith(
+        color: color ?? resolvedBase.color ?? _defaultColor,
+        fontWeight: fontWeight ?? resolvedBase.fontWeight,
+        letterSpacing: letterSpacing ?? resolvedBase.letterSpacing,
+        height: height ?? resolvedBase.height,
+      ),
+    );
+  }
+
+  TextStyle rayonCondensed(
+    TextStyle? base, {
+    Color? color,
+    FontWeight? fontWeight,
+    double? letterSpacing,
+    double? height,
+  }) {
+    final resolvedBase =
+        base ??
+        _textTheme.titleLarge ??
+        const TextStyle(fontSize: 24, fontWeight: FontWeight.w800);
+    return GoogleFonts.barlowCondensed(
+      textStyle: resolvedBase.copyWith(
+        color: color ?? resolvedBase.color ?? _defaultColor,
+        fontWeight: fontWeight ?? resolvedBase.fontWeight,
+        letterSpacing: letterSpacing ?? resolvedBase.letterSpacing,
+        height: height ?? resolvedBase.height,
+      ),
+    );
+  }
+}
+
+@immutable
+class CoolSpaceTokens {
+  const CoolSpaceTokens._();
+
+  double get x0 => CoolSpace.x0;
+  double get x1 => CoolSpace.x1;
+  double get x2 => CoolSpace.x2;
+  double get x3 => CoolSpace.x3;
+  double get x4 => CoolSpace.x4;
+  double get x5 => CoolSpace.x5;
+  double get x6 => CoolSpace.x6;
+  double get x7 => CoolSpace.x7;
+  double get x8 => CoolSpace.x8;
+  double get x9 => CoolSpace.x9;
+  double get x10 => CoolSpace.x10;
+  double get x12 => CoolSpace.x12;
+  double get x16 => CoolSpace.x16;
+
+  EdgeInsets get pagePadding => CoolSpace.pagePadding;
+  EdgeInsets get sectionPadding => CoolSpace.sectionPadding;
+  EdgeInsets get denseSectionPadding => CoolSpace.denseSectionPadding;
+  EdgeInsets get scaffoldPadding => CoolSpace.scaffoldPadding;
+}
+
+@immutable
+class CoolRadiiTokens {
+  const CoolRadiiTokens._();
+
+  double get xs => CoolRadii.xs;
+  double get sm => CoolRadii.sm;
+  double get md => CoolRadii.md;
+  double get lg => CoolRadii.lg;
+  double get xl => CoolRadii.xl;
+  double get xxl => CoolRadii.xxl;
+  double get pill => CoolRadii.pill;
+}
+
+@immutable
+class CoolInsetsTokens {
+  const CoolInsetsTokens._();
+
+  EdgeInsets all(double value) => EdgeInsets.all(value);
+
+  EdgeInsets symmetric({double horizontal = 0, double vertical = 0}) =>
+      EdgeInsets.symmetric(horizontal: horizontal, vertical: vertical);
+
+  EdgeInsets only({
+    double left = 0,
+    double top = 0,
+    double right = 0,
+    double bottom = 0,
+  }) => EdgeInsets.only(left: left, top: top, right: right, bottom: bottom);
+
+  EdgeInsets fromLTRB(double left, double top, double right, double bottom) =>
+      EdgeInsets.fromLTRB(left, top, right, bottom);
+
+  EdgeInsets get zero => EdgeInsets.zero;
+  EdgeInsets get pagePadding => CoolSpace.pagePadding;
+  EdgeInsets get sectionPadding => CoolSpace.sectionPadding;
+  EdgeInsets get denseSectionPadding => CoolSpace.denseSectionPadding;
+  EdgeInsets get scaffoldPadding => CoolSpace.scaffoldPadding;
+}
+
 extension CoolSemanticColorsBuildContext on BuildContext {
   CoolSemanticColors get coolSemanticColors {
     final theme = Theme.of(this);
@@ -436,10 +599,22 @@ extension CoolSemanticColorsBuildContext on BuildContext {
             ? CoolSemanticColors.dark
             : CoolSemanticColors.light);
   }
+
+  CoolTextStyles get coolText => CoolTextStyles._(
+    textTheme: Theme.of(this).textTheme,
+    defaultColor: coolSemanticColors.primaryText,
+  );
+
+  CoolSpaceTokens get coolSpace => const CoolSpaceTokens._();
+
+  CoolRadiiTokens get coolRadii => const CoolRadiiTokens._();
+
+  CoolInsetsTokens get coolInsets => const CoolInsetsTokens._();
 }
 
 /// Shared spacing scale for the redesign rollout.
 abstract final class CoolSpace {
+  static const double x0 = 0.0;
   static const double x1 = 4.0;
   static const double x2 = 8.0;
   static const double x3 = 12.0;
@@ -450,6 +625,8 @@ abstract final class CoolSpace {
   static const double x8 = 40.0;
   static const double x9 = 48.0;
   static const double x10 = 64.0;
+  static const double x12 = x3;
+  static const double x16 = x4;
 
   static const EdgeInsets pagePadding = EdgeInsets.symmetric(
     horizontal: x6,
@@ -458,10 +635,12 @@ abstract final class CoolSpace {
 
   static const EdgeInsets sectionPadding = EdgeInsets.all(x6);
   static const EdgeInsets denseSectionPadding = EdgeInsets.all(x5);
+  static const EdgeInsets scaffoldPadding = EdgeInsets.fromLTRB(x6, 0, x6, 96);
 }
 
 /// Shared radii for redesign components.
 abstract final class CoolRadii {
+  static const double xs = 12.0;
   static const double sm = 16.0;
   static const double md = 22.0;
   static const double lg = 28.0;
@@ -475,6 +654,7 @@ abstract final class CoolBlur {
   static const double subtle = 12.0;
   static const double standard = 18.0;
   static const double overlay = 22.0;
+  static const double heavy = overlay;
 }
 
 /// Elevation guidance for the redesign.
@@ -497,6 +677,7 @@ abstract final class CoolMotion {
   static const Duration press = Duration(milliseconds: 110);
   static const Duration quick = Duration(milliseconds: 180);
   static const Duration standard = Duration(milliseconds: 240);
+  static const Duration medium = standard;
   static const Duration emphasized = Duration(milliseconds: 300);
 
   static const Curve enterCurve = Cubic(0.2, 0.0, 0.0, 1.0);

@@ -9,6 +9,10 @@ abstract final class AppConfigKeys {
       'production_redesign_cohort_percent';
   static const productionRedesignAdminOverride =
       'production_redesign_admin_override';
+  static const biopayEnabled = 'feature_biopay_enabled';
+  static const biopayMatchThreshold = 'biopay_match_threshold';
+  static const biopayCacheTtlHours = 'biopay_cache_ttl_hours';
+  static const biopayStableFrames = 'biopay_stable_frames';
 }
 
 /// Fetches key-value config from the `app_config` Supabase table.

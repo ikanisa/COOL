@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme/cool_foundations.dart';
-import '../../core/theme/cool_palette.dart';
 
 /// Variants available for [CoolButton].
 enum CoolButtonVariant { primary, secondary }
@@ -13,9 +11,10 @@ enum CoolButtonVariant { primary, secondary }
 class CoolButton extends StatefulWidget {
   const CoolButton({
     required this.label,
-    required this.onTap,
+    this.onTap,
     this.variant = CoolButtonVariant.primary,
     this.isLoading = false,
+    this.isDisabled = false,
     this.fullWidth = true,
     this.icon,
     this.semanticsLabel,
@@ -23,9 +22,10 @@ class CoolButton extends StatefulWidget {
   });
 
   final String label;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final CoolButtonVariant variant;
   final bool isLoading;
+  final bool isDisabled;
   final bool fullWidth;
   final IconData? icon;
   final String? semanticsLabel;
@@ -44,7 +44,7 @@ class _CoolButtonState extends State<CoolButton>
     super.initState();
     _scaleController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 100),
+      duration: CoolMotion.press,
     );
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.97).animate(
       CurvedAnimation(parent: _scaleController, curve: Curves.easeInOut),
@@ -59,21 +59,23 @@ class _CoolButtonState extends State<CoolButton>
 
   @override
   Widget build(BuildContext context) {
+    final space = context.coolSpace;
+    final radii = context.coolRadii;
     final theme = Theme.of(context);
-    final palette = context.coolPalette;
     final colors = context.coolSemanticColors;
     final brightness = theme.brightness;
-    final enabled = !widget.isLoading;
+    final enabled =
+        widget.onTap != null && !widget.isLoading && !widget.isDisabled;
     final isPrimary = widget.variant == CoolButtonVariant.primary;
 
     final backgroundDecoration = BoxDecoration(
       color: isPrimary
-          ? (enabled ? null : palette.surface3)
+          ? (enabled ? null : colors.cardSurfaceStrong)
           : (enabled
                 ? colors.buttonSecondaryBackground
                 : colors.chipBackground),
       gradient: isPrimary && enabled ? colors.accentGradient : null,
-      borderRadius: BorderRadius.circular(CoolRadii.md),
+      borderRadius: BorderRadius.circular(radii.md),
       border: Border.all(
         color: isPrimary
             ? (enabled
@@ -97,7 +99,9 @@ class _CoolButtonState extends State<CoolButton>
           label: widget.semanticsLabel ?? widget.label,
           button: true,
           enabled: enabled,
-          hint: widget.isLoading ? 'Loading' : null,
+          hint: widget.isLoading
+              ? 'Loading'
+              : (!enabled ? 'Unavailable' : null),
           excludeSemantics: true,
           child: Tooltip(
             message: widget.semanticsLabel ?? widget.label,
@@ -109,13 +113,19 @@ class _CoolButtonState extends State<CoolButton>
                 ),
                 child: Material(
                   color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(CoolRadii.md),
+                  borderRadius: BorderRadius.circular(radii.md),
                   child: Ink(
                     decoration: backgroundDecoration,
                     child: InkWell(
-                      onTapDown: (_) => _scaleController.forward(),
-                      onTapUp: (_) => _scaleController.reverse(),
-                      onTapCancel: () => _scaleController.reverse(),
+                      onTapDown: enabled
+                          ? (_) => _scaleController.forward()
+                          : null,
+                      onTapUp: enabled
+                          ? (_) => _scaleController.reverse()
+                          : null,
+                      onTapCancel: enabled
+                          ? () => _scaleController.reverse()
+                          : null,
                       onTap: enabled
                           ? () {
                               if (isPrimary) {
@@ -123,10 +133,10 @@ class _CoolButtonState extends State<CoolButton>
                               } else {
                                 HapticFeedback.lightImpact();
                               }
-                              widget.onTap();
+                              widget.onTap?.call();
                             }
                           : null,
-                      borderRadius: BorderRadius.circular(CoolRadii.md),
+                      borderRadius: BorderRadius.circular(radii.md),
                       splashColor: isPrimary
                           ? theme.colorScheme.onPrimary.withValues(alpha: 0.1)
                           : colors.primaryText.withValues(alpha: 0.08),
@@ -149,11 +159,11 @@ class _CoolButtonState extends State<CoolButton>
                                 ),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 22,
-                            vertical: 16,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: space.x5,
+                            vertical: space.x4,
                           ),
-                          child: _buildChild(context, palette, enabled),
+                          child: _buildChild(context, enabled),
                         ),
                       ),
                     ),
@@ -167,10 +177,14 @@ class _CoolButtonState extends State<CoolButton>
     );
   }
 
-  Widget _buildChild(BuildContext context, CoolPalette palette, bool enabled) {
+  Widget _buildChild(BuildContext context, bool enabled) {
+    final space = context.coolSpace;
+    final colors = context.coolSemanticColors;
     final textColor = widget.variant == CoolButtonVariant.primary
-        ? Theme.of(context).colorScheme.onPrimary
-        : (enabled ? context.coolSemanticColors.primaryText : palette.text3);
+        ? (enabled
+              ? Theme.of(context).colorScheme.onPrimary
+              : colors.tertiaryText)
+        : (enabled ? colors.primaryText : colors.tertiaryText);
 
     Widget child;
     if (widget.isLoading) {
@@ -186,19 +200,11 @@ class _CoolButtonState extends State<CoolButton>
         softWrap: true,
         textAlign: TextAlign.center,
         overflow: TextOverflow.ellipsis,
-        style:
-            Theme.of(context).textTheme.labelLarge?.copyWith(
-              fontSize: 16.0,
-              fontWeight: FontWeight.w800,
-              color: textColor,
-              letterSpacing: -0.2,
-            ) ??
-            GoogleFonts.manrope(
-              fontSize: 16.0,
-              fontWeight: FontWeight.w800,
-              color: textColor,
-              letterSpacing: -0.2,
-            ),
+        style: Theme.of(context).textTheme.labelLarge?.copyWith(
+          fontWeight: FontWeight.w800,
+          color: textColor,
+          letterSpacing: -0.2,
+        ),
       );
 
       if (widget.icon == null) {
@@ -208,8 +214,8 @@ class _CoolButtonState extends State<CoolButton>
           key: const ValueKey('cool_button_content'),
           alignment: WrapAlignment.center,
           crossAxisAlignment: WrapCrossAlignment.center,
-          spacing: 8,
-          runSpacing: 4,
+          spacing: space.x2,
+          runSpacing: space.x1,
           children: [
             Icon(widget.icon, size: 20, color: textColor),
             textWidget,
