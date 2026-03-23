@@ -79,11 +79,21 @@ class _CheckoutCommandCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: CoolSpace.x3),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final useStackedHeader = constraints.maxWidth < 320;
+              final statusChip = _CheckoutSignalChip(
+                icon: hasMemberDiscount
+                    ? Icons.workspace_premium_outlined
+                    : Icons.verified_outlined,
+                label: hasMemberDiscount
+                    ? 'Member pricing live'
+                    : 'Official store',
+                highlighted: true,
+              );
+
+              if (useStackedHeader) {
+                return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -104,20 +114,50 @@ class _CheckoutCommandCard extends StatelessWidget {
                         height: 1.4,
                       ),
                     ),
+                    const SizedBox(height: 12),
+                    statusChip,
                   ],
-                ),
-              ),
-              const SizedBox(width: 12),
-              _CheckoutSignalChip(
-                icon: hasMemberDiscount
-                    ? Icons.workspace_premium_outlined
-                    : Icons.verified_outlined,
-                label: hasMemberDiscount
-                    ? 'Member pricing live'
-                    : 'Official store',
-                highlighted: true,
-              ),
-            ],
+                );
+              }
+
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Official Checkout Desk',
+                          style: context.coolText.rayon(
+                            const TextStyle(fontSize: 28),
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          'Verified club fulfilment, disciplined totals, and payment confirmation before release.',
+                          style: context.coolText.rayon(
+                            const TextStyle(fontSize: 15),
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white.withValues(alpha: 0.8),
+                            height: 1.4,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Flexible(
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: statusChip,
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
           const SizedBox(height: 14),
           Wrap(
@@ -188,7 +228,7 @@ class _CheckoutSignalChip extends StatelessWidget {
           Flexible(
             child: Text(
               label,
-              maxLines: 1,
+              maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: context.coolText.rayon(
                 const TextStyle(fontSize: 16),

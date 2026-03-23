@@ -108,7 +108,6 @@ void main() {
     );
 
     await tester.pump();
-    await GoogleFonts.pendingFonts();
     await tester.pump(const Duration(milliseconds: 120));
     await _settleGoldenApp(tester, frames: 8);
   }
@@ -448,19 +447,24 @@ class _RayonGoldenAssetManifest implements AssetManifest {
 
   @override
   List<String> listAssets() => const <String>[
-        'google_fonts/Barlow-Regular.ttf',
-        'google_fonts/Barlow-Medium.ttf',
-        'google_fonts/Barlow-SemiBold.ttf',
-        'google_fonts/Barlow-Bold.ttf',
-        'google_fonts/Barlow-ExtraBold.ttf',
-        'google_fonts/BarlowCondensed-Regular.ttf',
-        'google_fonts/BarlowCondensed-Bold.ttf',
-        'google_fonts/BarlowCondensed-ExtraBold.ttf',
-        'google_fonts/BarlowCondensed-Black.ttf',
-        'google_fonts/DMMono-Regular.ttf',
-        'google_fonts/DMMono-Medium.ttf',
-        'google_fonts/DMMono-Bold.ttf',
-      ];
+    'google_fonts/Barlow-Black.ttf',
+    'google_fonts/Barlow-Regular.ttf',
+    'google_fonts/Barlow-Medium.ttf',
+    'google_fonts/Barlow-SemiBold.ttf',
+    'google_fonts/Barlow-Bold.ttf',
+    'google_fonts/Barlow-ExtraBold.ttf',
+    'google_fonts/BarlowCondensed-Regular.ttf',
+    'google_fonts/BarlowCondensed-Bold.ttf',
+    'google_fonts/BarlowCondensed-ExtraBold.ttf',
+    'google_fonts/BarlowCondensed-Black.ttf',
+    'google_fonts/DMMono-Regular.ttf',
+    'google_fonts/DMMono-Medium.ttf',
+    'google_fonts/DMMono-Bold.ttf',
+    'google_fonts/DMSans-Regular.ttf',
+    'google_fonts/DMSans-Medium.ttf',
+    'google_fonts/DMSans-Bold.ttf',
+    'google_fonts/DMSans-ExtraBold.ttf',
+  ];
 
   @override
   List<AssetMetadata>? getAssetVariants(String key) => null;

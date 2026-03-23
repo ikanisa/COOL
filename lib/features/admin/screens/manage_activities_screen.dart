@@ -124,7 +124,7 @@ class ManageActivitiesScreen extends ConsumerWidget {
                   return ListView.separated(
                     padding: _liveOpsListPadding(),
                     itemCount: activities.length + 1,
-                    separatorBuilder: (_, __) => const SizedBox(height: CoolSpace.x3),
+                    separatorBuilder: (_, _) => const SizedBox(height: CoolSpace.x3),
                     itemBuilder: (context, index) {
                       if (index == 0) {
                         return _ActivitySummaryCard(

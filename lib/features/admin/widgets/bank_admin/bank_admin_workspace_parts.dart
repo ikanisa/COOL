@@ -1,3 +1,4 @@
+// ignore_for_file: invalid_use_of_protected_member
 part of '../../screens/bank_admin_workspace_screen.dart';
 
 EdgeInsets _bankWorkspaceModalInsets(BuildContext context) {
@@ -27,6 +28,8 @@ const BorderRadius _bankWorkspaceSuggestionRadius = BorderRadius.all(
   Radius.circular(CoolRadii.xs),
 );
 
+/// Methods extracted from [_BankAdminWorkspaceScreenState] for readability.
+/// This file is a `part of` the parent library, so these are instance members.
 extension _BankAdminWorkspaceScreenStateParts
     on _BankAdminWorkspaceScreenState {
   void _syncSelectedGroup(List<BankAdminGroupSummary> groups) {

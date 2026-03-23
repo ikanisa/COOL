@@ -68,7 +68,7 @@ class RsShopItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: 80,
+                height: 64,
                 decoration: BoxDecoration(
                   color: _imageBackgroundFor(product, colors),
                   borderRadius: BorderRadius.circular(radii.sm),
@@ -124,7 +124,7 @@ class RsShopItem extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: space.x2),
+              SizedBox(height: space.x1 + 2),
               if (product.collection?.trim().isNotEmpty == true) ...[
                 Text(
                   product.collection!.trim().toUpperCase(),
@@ -135,11 +135,11 @@ class RsShopItem extends StatelessWidget {
                     color: colors.tertiaryText,
                   ),
                 ),
-                SizedBox(height: space.x1),
+                SizedBox(height: space.x1 / 2),
               ],
               Text(
                 product.name,
-                maxLines: 2,
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: text.rayonCondensed(
                   theme.textTheme.titleSmall,
@@ -162,7 +162,7 @@ class RsShopItem extends StatelessWidget {
                   height: 1.2,
                 ),
               ),
-              SizedBox(height: space.x2),
+              SizedBox(height: space.x1 + 2),
               Wrap(
                 spacing: space.x1 + 2,
                 runSpacing: space.x1 + 2,
@@ -172,7 +172,7 @@ class RsShopItem extends StatelessWidget {
                     _MetaPill(label: '${product.availableSizes.length} sizes'),
                 ],
               ),
-              SizedBox(height: space.x2),
+              SizedBox(height: space.x1 + 2),
               Wrap(
                 spacing: space.x1 + 2,
                 runSpacing: space.x1 + 2,
@@ -189,7 +189,7 @@ class RsShopItem extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: space.x2),
+              SizedBox(height: space.x1 + 2),
               if (showDiscount) ...[
                 Text(
                   _formatRwf(product.price),

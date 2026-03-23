@@ -52,20 +52,23 @@ class _RegistryCommandCard extends StatelessWidget {
             ),
           ),
           SizedBox(height: space.x4),
-          Wrap(
-            spacing: space.x2,
-            runSpacing: space.x2,
-            children: MemberRegistryFilter.values
-                .map(
-                  (filter) => VehicleChip(
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                for (final filter in MemberRegistryFilter.values) ...[
+                  VehicleChip(
                     label: filter.label,
                     isSelected: filter == activeFilter,
                     onTap: () => onFilterSelected(filter),
                   ),
-                )
-                .toList(),
+                  if (filter != MemberRegistryFilter.values.last)
+                    SizedBox(width: space.x2),
+                ],
+              ],
+            ),
           ),
-          SizedBox(height: space.x4),
+          SizedBox(height: space.x3),
           Row(
             children: [
               Expanded(
@@ -93,30 +96,33 @@ class _RegistryCommandCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: space.x3 + 2),
-          Wrap(
-            spacing: space.x2,
-            runSpacing: space.x2,
-            children: [
-              _RegistrySignalPill(
-                icon: Icons.verified_user_outlined,
-                label: topFan == null
-                    ? 'Registry verification live'
-                    : '${topFan!.displayName} leading',
-              ),
-              _RegistrySignalPill(
-                icon: Icons.search_rounded,
-                label: query.trim().isEmpty
-                    ? 'Search command ready'
-                    : 'Query: ${query.trim()}',
-              ),
-              _RegistrySignalPill(
-                icon: Icons.fact_check_outlined,
-                label: hasMore
-                    ? 'Additional records available'
-                    : 'Current segment loaded',
-              ),
-            ],
+          SizedBox(height: space.x3),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                _RegistrySignalPill(
+                  icon: Icons.verified_user_outlined,
+                  label: topFan == null
+                      ? 'Registry verification live'
+                      : '${topFan!.displayName} leading',
+                ),
+                SizedBox(width: space.x2),
+                _RegistrySignalPill(
+                  icon: Icons.search_rounded,
+                  label: query.trim().isEmpty
+                      ? 'Search command ready'
+                      : 'Query: ${query.trim()}',
+                ),
+                SizedBox(width: space.x2),
+                _RegistrySignalPill(
+                  icon: Icons.fact_check_outlined,
+                  label: hasMore
+                      ? 'Additional records available'
+                      : 'Current segment loaded',
+                ),
+              ],
+            ),
           ),
         ],
       ),

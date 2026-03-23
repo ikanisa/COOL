@@ -136,7 +136,7 @@ void main() {
       expect(result, isNull);
     });
 
-    test('/app-access redirects signed-in users to home', () {
+    test('/app-access passes through for signed-in users', () {
       final result = resolveAppRedirect(
         location: AppRoutes.appAccess,
         hasSession: true,
@@ -144,7 +144,7 @@ void main() {
         profileRestoreState: AuthProfileRestoreState.available,
         sessionPhone: '250781234567',
       );
-      expect(result, AppRoutes.home);
+      expect(result, isNull);
     });
 
     test('protected route redirects back to splash when restore failed', () {

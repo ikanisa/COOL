@@ -28,27 +28,27 @@ Why this exists:
 
 ## Current Snapshot
 
-- `79` screen files measured
-- `35` review-range screens
-- `6` debt screens
-- `2` hotspot screens
+- `82` screen files measured
+- `36` review-range screens
+- `7` debt screens
+- `1` hotspot screens
 
 ## Measured Screens
 
 | Screen | LOC | Status |
 |---|---|---|
-| [`operational_dashboard_screen.dart`](../lib/features/admin/screens/operational_dashboard_screen.dart) | `1731` | Hotspot |
-| [`rayon_home_screen.dart`](../lib/features/partners/rayon/screens/rayon_home_screen.dart) | `1543` | Hotspot |
-| [`rs_admin_initiatives_screen.dart`](../lib/features/partners/rayon/screens/rs_admin_initiatives_screen.dart) | `822` | Debt |
+| [`rayon_home_screen_parts.dart`](../lib/features/partners/rayon/screens/rayon_home_screen_parts.dart) | `1077` | Hotspot |
+| [`operational_dashboard_parts.dart`](../lib/features/admin/screens/operational_dashboard_parts.dart) | `914` | Debt |
+| [`rs_admin_initiatives_screen.dart`](../lib/features/partners/rayon/screens/rs_admin_initiatives_screen.dart) | `820` | Debt |
+| [`operational_dashboard_screen.dart`](../lib/features/admin/screens/operational_dashboard_screen.dart) | `818` | Debt |
 | [`club_shop_screen.dart`](../lib/features/partners/rayon/screens/club_shop_screen.dart) | `756` | Debt |
 | [`biopay_scan_screen.dart`](../lib/features/biopay/screens/biopay_scan_screen.dart) | `756` | Debt |
 | [`schedule_trip_screen_logic.dart`](../lib/features/mobility/screens/schedule_trip_screen_logic.dart) | `731` | Debt |
-| [`momo_screen.dart`](../lib/features/momo/screens/momo_screen.dart) | `726` | Debt |
 | [`manage_missions_screen.dart`](../lib/features/admin/screens/manage_missions_screen.dart) | `713` | Debt |
 | [`group_ledger_screen.dart`](../lib/features/groups/screens/group_ledger_screen.dart) | `693` | Review |
 | [`manage_special_products_screen.dart`](../lib/features/admin/screens/manage_special_products_screen.dart) | `691` | Review |
-| [`rs_admin_members_screen.dart`](../lib/features/partners/rayon/screens/rs_admin_members_screen.dart) | `690` | Review |
 | [`admin_dashboard_screen.dart`](../lib/features/admin/screens/admin_dashboard_screen.dart) | `690` | Review |
+| [`rs_admin_members_screen.dart`](../lib/features/partners/rayon/screens/rs_admin_members_screen.dart) | `690` | Review |
 | [`kyc_id_scan_screen.dart`](../lib/features/profile/screens/kyc_id_scan_screen.dart) | `686` | Review |
 | [`schedule_trip_screen.dart`](../lib/features/mobility/screens/schedule_trip_screen.dart) | `675` | Review |
 | [`rs_admin_orders_screen.dart`](../lib/features/partners/rayon/screens/rs_admin_orders_screen.dart) | `670` | Review |
@@ -57,32 +57,33 @@ Why this exists:
 | [`manage_partners_screen.dart`](../lib/features/admin/screens/manage_partners_screen.dart) | `620` | Review |
 | [`rs_admin_shop_screen.dart`](../lib/features/partners/rayon/screens/rs_admin_shop_screen.dart) | `610` | Review |
 | [`fan_club_detail_screen.dart`](../lib/features/partners/rayon/screens/fan_club_detail_screen.dart) | `601` | Review |
-| [`rs_admin_packages_screen.dart`](../lib/features/partners/rayon/screens/rs_admin_packages_screen.dart) | `591` | Review |
-| [`credit_score_screen.dart`](../lib/features/credit/screens/credit_score_screen.dart) | `578` | Review |
-| [`rs_admin_tickets_screen.dart`](../lib/features/partners/rayon/screens/rs_admin_tickets_screen.dart) | `573` | Review |
+| [`rs_admin_packages_screen.dart`](../lib/features/partners/rayon/screens/rs_admin_packages_screen.dart) | `589` | Review |
+| [`credit_score_screen.dart`](../lib/features/credit/screens/credit_score_screen.dart) | `576` | Review |
 | [`groups_screen.dart`](../lib/features/groups/screens/groups_screen.dart) | `573` | Review |
+| [`rs_admin_tickets_screen.dart`](../lib/features/partners/rayon/screens/rs_admin_tickets_screen.dart) | `573` | Review |
 | [`fan_clubs_screen.dart`](../lib/features/partners/rayon/screens/fan_clubs_screen.dart) | `561` | Review |
 | [`profile_screen.dart`](../lib/features/profile/screens/profile_screen.dart) | `523` | Review |
 | [`create_group_screen.dart`](../lib/features/groups/screens/create_group_screen.dart) | `505` | Review |
-| [`membership_tiers_screen.dart`](../lib/features/partners/rayon/screens/membership_tiers_screen.dart) | `501` | Review |
 | [`trip_board_screen.dart`](../lib/features/mobility/screens/trip_board_screen.dart) | `500` | Review |
+| [`membership_tiers_screen.dart`](../lib/features/partners/rayon/screens/membership_tiers_screen.dart) | `497` | Review |
 | [`rs_admin_matches_screen.dart`](../lib/features/partners/rayon/screens/rs_admin_matches_screen.dart) | `480` | Review |
 | [`driver_profile_screen.dart`](../lib/features/mobility/screens/driver_profile_screen.dart) | `464` | Review |
 | [`register_screen.dart`](../lib/features/auth/screens/register_screen.dart) | `463` | Review |
-| [`seasons_activities_screen.dart`](../lib/features/home/screens/seasons_activities_screen.dart) | `461` | Review |
+| [`seasons_activities_screen.dart`](../lib/features/home/screens/seasons_activities_screen.dart) | `457` | Review |
 | [`manage_quick_actions_screen.dart`](../lib/features/admin/screens/manage_quick_actions_screen.dart) | `440` | Review |
 | [`tickets_screen.dart`](../lib/features/partners/rayon/screens/tickets_screen.dart) | `439` | Review |
 | [`rs_admin_dashboard_screen.dart`](../lib/features/partners/rayon/screens/rs_admin_dashboard_screen.dart) | `439` | Review |
+| [`momo_screen.dart`](../lib/features/momo/screens/momo_screen.dart) | `437` | Review |
 | [`manage_ai_content_screen.dart`](../lib/features/admin/screens/manage_ai_content_screen.dart) | `426` | Review |
 | [`rs_admin_analytics_screen.dart`](../lib/features/partners/rayon/screens/rs_admin_analytics_screen.dart) | `425` | Review |
 | [`rs_admin_finance_screen.dart`](../lib/features/partners/rayon/screens/rs_admin_finance_screen.dart) | `420` | Review |
-| [`group_detail_screen.dart`](../lib/features/groups/screens/group_detail_screen.dart) | `406` | Review |
 | [`manage_vehicle_types_screen.dart`](../lib/features/admin/screens/manage_vehicle_types_screen.dart) | `406` | Review |
-| [`support_screen.dart`](../lib/features/partners/rayon/screens/support_screen.dart) | `401` | Review |
+| [`group_detail_screen.dart`](../lib/features/groups/screens/group_detail_screen.dart) | `406` | Review |
 | [`group_invite_screen.dart`](../lib/features/groups/screens/group_invite_screen.dart) | `401` | Review |
-| [`otp_verify_screen.dart`](../lib/features/auth/screens/otp_verify_screen.dart) | `395` | Target |
+| [`support_screen.dart`](../lib/features/partners/rayon/screens/support_screen.dart) | `401` | Review |
 | [`system_analytics_screen.dart`](../lib/features/admin/screens/system_analytics_screen.dart) | `395` | Target |
 | [`partner_admin_workspace_screen.dart`](../lib/features/admin/screens/partner_admin_workspace_screen.dart) | `394` | Target |
+| [`otp_verify_screen.dart`](../lib/features/auth/screens/otp_verify_screen.dart) | `393` | Target |
 | [`biopay_register_screen.dart`](../lib/features/biopay/screens/biopay_register_screen.dart) | `387` | Target |
 | [`mobility_home_screen.dart`](../lib/features/mobility/screens/mobility_home_screen.dart) | `384` | Target |
 | [`app_access_onboarding_screen.dart`](../lib/features/auth/screens/app_access_onboarding_screen.dart) | `382` | Target |
@@ -90,8 +91,9 @@ Why this exists:
 | [`ticket_confirmation_screen.dart`](../lib/features/partners/rayon/screens/ticket_confirmation_screen.dart) | `376` | Target |
 | [`audit_log_screen.dart`](../lib/features/admin/screens/audit_log_screen.dart) | `371` | Target |
 | [`radiant_partner_screen.dart`](../lib/features/partners/screens/radiant_partner_screen.dart) | `369` | Target |
-| [`bank_onboarding_screen.dart`](../lib/features/partners/bank_onboarding/screens/bank_onboarding_screen.dart) | `360` | Target |
-| [`momo_statements_screen.dart`](../lib/features/momo/screens/momo_statements_screen.dart) | `349` | Target |
+| [`bank_onboarding_screen.dart`](../lib/features/partners/bank_onboarding/screens/bank_onboarding_screen.dart) | `358` | Target |
+| [`momo_screen_parts.dart`](../lib/features/momo/screens/momo_screen_parts.dart) | `358` | Target |
+| [`momo_statements_screen.dart`](../lib/features/momo/screens/momo_statements_screen.dart) | `339` | Target |
 | [`my_tickets_screen.dart`](../lib/features/partners/rayon/screens/my_tickets_screen.dart) | `337` | Target |
 | [`manage_app_config_screen.dart`](../lib/features/admin/screens/manage_app_config_screen.dart) | `321` | Target |
 | [`otp_screen.dart`](../lib/features/auth/screens/otp_screen.dart) | `313` | Target |
@@ -100,6 +102,7 @@ Why this exists:
 | [`driver_detail_screens.dart`](../lib/features/mobility/screens/driver_detail_screens.dart) | `288` | Target |
 | [`manage_services_screen.dart`](../lib/features/admin/screens/manage_services_screen.dart) | `286` | Target |
 | [`home_screen.dart`](../lib/features/home/screens/home_screen.dart) | `275` | Target |
+| [`rayon_home_screen.dart`](../lib/features/partners/rayon/screens/rayon_home_screen.dart) | `262` | Target |
 | [`biopay_home_screen.dart`](../lib/features/biopay/screens/biopay_home_screen.dart) | `245` | Target |
 | [`biopay_confirm_screen.dart`](../lib/features/biopay/screens/biopay_confirm_screen.dart) | `232` | Target |
 | [`shop_checkout_screen.dart`](../lib/features/partners/rayon/screens/shop_checkout_screen.dart) | `232` | Target |

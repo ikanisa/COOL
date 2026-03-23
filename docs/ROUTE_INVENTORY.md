@@ -6,7 +6,7 @@ Current router shape:
 
 - `81` `GoRoute` declarations
 - `4` shell branches
-- `79` screen files under `lib/features/**/screens/*.dart`
+- `82` screen files under `lib/features/**/screens/*.dart`
 
 Change policy:
 
