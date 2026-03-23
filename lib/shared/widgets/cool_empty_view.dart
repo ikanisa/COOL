@@ -97,7 +97,7 @@ class CoolEmptyView extends StatelessWidget {
                           fontWeight: FontWeight.w900,
                         ),
                   ).animate().fadeIn(delay: 100.ms, duration: 400.ms).slideY(begin: 0.2, end: 0),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: CoolSpace.x2),
                 ],
                 Text(
                   _effectiveMessage,

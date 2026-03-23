@@ -37,7 +37,7 @@ class QuestCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(quest.icon, size: 24, color: colors.secondaryText),
-              const SizedBox(height: 8),
+              const SizedBox(height: CoolSpace.x2),
               Text(
                 quest.title,
                 style: theme.textTheme.titleSmall?.copyWith(
@@ -47,7 +47,7 @@ class QuestCard extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: CoolSpace.x1),
               Text(
                 quest.subtitle,
                 style: theme.textTheme.bodySmall?.copyWith(

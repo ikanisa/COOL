@@ -77,7 +77,7 @@ class GroupCard extends StatelessWidget {
                     const StatusBadge.private(),
                 ],
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               Text(
                 name,
                 maxLines: 1,
@@ -87,7 +87,7 @@ class GroupCard extends StatelessWidget {
                   color: colors.primaryText,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: CoolSpace.x2),
               Text(
                 '${_formatAmount(amount)} RWF',
                 maxLines: 1,
@@ -98,7 +98,7 @@ class GroupCard extends StatelessWidget {
                   color: accent,
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(2)),
                 child: LinearProgressIndicator(
@@ -108,7 +108,7 @@ class GroupCard extends StatelessWidget {
                   color: accent,
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: CoolSpace.x1),
               Text(
                 'Target: ${_formatAmount(targetAmount)} RWF',
                 style: theme.textTheme.labelSmall?.copyWith(
@@ -116,7 +116,7 @@ class GroupCard extends StatelessWidget {
                   color: colors.tertiaryText,
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               _MemberAvatarStack(memberCount: memberCount, accentColor: accent),
             ],
           ),

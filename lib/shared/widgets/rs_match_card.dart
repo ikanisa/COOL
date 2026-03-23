@@ -265,7 +265,7 @@ class _RsMatchCardState extends State<RsMatchCard> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 12),
+                              const SizedBox(height: CoolSpace.x3),
                               _BuyButton(
                                 enabled: buttonEnabled,
                                 onTap: widget.onBuyTap,
@@ -719,7 +719,7 @@ class _CompactFooter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _PriceBlock(price: seat.priceFor(match), seatLabel: seat.label),
-        const SizedBox(height: 12),
+        const SizedBox(height: CoolSpace.x3),
         Row(
           children: [
             Expanded(
@@ -739,7 +739,7 @@ class _CompactFooter extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: CoolSpace.x3),
         _BuyButton(enabled: enabled, onTap: onBuyTap, label: label),
       ],
     );

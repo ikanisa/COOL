@@ -142,7 +142,7 @@ class _BrandedErrorFallback extends StatelessWidget {
                 color: colors.danger,
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: CoolSpace.x5),
             Text(
               'Something went wrong',
               style: theme.textTheme.titleLarge?.copyWith(
@@ -150,7 +150,7 @@ class _BrandedErrorFallback extends StatelessWidget {
                 color: colors.primaryText,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: CoolSpace.x2),
             Text(
               'An unexpected error occurred',
               textAlign: TextAlign.center,
@@ -160,7 +160,7 @@ class _BrandedErrorFallback extends StatelessWidget {
               ),
             ),
             if (onRetry != null) ...[
-              const SizedBox(height: 24),
+              const SizedBox(height: CoolSpace.x6),
               TextButton.icon(
                 onPressed: onRetry,
                 icon: const Icon(Icons.refresh_rounded, size: 18),

@@ -114,7 +114,7 @@ class RsDigitalTicket extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: CoolSpace.x4),
               Row(
                 children: [
                   Container(

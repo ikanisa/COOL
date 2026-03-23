@@ -185,7 +185,7 @@ class CoolStateView extends StatelessWidget {
                       color: colors.primaryText,
                     ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
           Text(
             message,
             textAlign: TextAlign.center,

@@ -173,7 +173,7 @@ class _KycIdScannerOverlayState extends State<KycIdScannerOverlay> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: CoolSpace.x1),
                 Text(
                   widget.instruction,
                   textAlign: TextAlign.center,
