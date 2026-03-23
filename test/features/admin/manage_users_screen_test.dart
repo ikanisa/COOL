@@ -106,7 +106,8 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    await tester.tap(find.widgetWithText(TextButton, 'Edit'));
+    await tester.ensureVisible(find.text('Edit').first);
+    await tester.tap(find.text('Edit').first);
     await tester.pumpAndSettle();
 
     await tester.enterText(
@@ -117,7 +118,7 @@ void main() {
       'Alice Updated',
     );
 
-    await tester.tap(find.text('Save User').last);
+    await tester.tap(find.text('Save').last);
     await tester.pumpAndSettle();
 
     expect(repository.updatedUsers, hasLength(1));
