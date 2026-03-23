@@ -60,7 +60,7 @@ class BankBasketsTab extends ConsumerWidget {
             },
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: CoolSpace.x3),
         Expanded(
           child: basketsAsync.when(
             loading: () => const Center(child: CircularProgressIndicator()),
@@ -134,7 +134,7 @@ class BankBasketsTab extends ConsumerWidget {
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: CoolSpace.x3),
                         ClipRRect(
                           borderRadius: const BorderRadius.all(
                             Radius.circular(CoolSpace.x1 + 2),
@@ -146,7 +146,7 @@ class BankBasketsTab extends ConsumerWidget {
                             minHeight: 8,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: CoolSpace.x2),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

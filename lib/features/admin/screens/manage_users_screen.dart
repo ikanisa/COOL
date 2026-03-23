@@ -124,8 +124,8 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
               padding: CoolLayout.rootPagePadding,
               itemCount: filtered.length + 1,
               separatorBuilder: (_, index) => index == 0
-                  ? const SizedBox(height: 16)
-                  : const SizedBox(height: 12),
+                  ? const SizedBox(height: CoolSpace.x4)
+                  : const SizedBox(height: CoolSpace.x3),
               itemBuilder: (context, index) {
                 if (index == 0) {
                   return Column(
@@ -139,7 +139,7 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
                           height: 1.1,
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: CoolSpace.x4),
                       TextField(
                         onChanged: (v) => setState(() => _search = v),
                         style: theme.textTheme.bodyMedium?.copyWith(
@@ -166,7 +166,7 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: CoolSpace.x4),
                       _SummaryCard(
                         totalUsers: users.length,
                         mockUsers: mockCount,
@@ -177,7 +177,7 @@ class _ManageUsersScreenState extends ConsumerState<ManageUsersScreen> {
                         mockBatches: mockBatches,
                       ),
                       if (query.isNotEmpty) ...[
-                        const SizedBox(height: 8),
+                        const SizedBox(height: CoolSpace.x2),
                         Text(
                           '${filtered.length} result${filtered.length == 1 ? '' : 's'}',
                           style: theme.textTheme.bodySmall?.copyWith(

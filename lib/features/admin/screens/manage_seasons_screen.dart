@@ -93,7 +93,7 @@ class ManageSeasonsScreen extends ConsumerWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             Expanded(
               child: CoolAsyncView<List<CoolSeason>>(
                 value: seasonsAsync,
@@ -119,7 +119,7 @@ class ManageSeasonsScreen extends ConsumerWidget {
                   return ListView.separated(
                     padding: _liveOpsListPadding(),
                     itemCount: seasons.length + 1,
-                    separatorBuilder: (_, __) => const SizedBox(height: 12),
+                    separatorBuilder: (_, __) => const SizedBox(height: CoolSpace.x3),
                     itemBuilder: (context, index) {
                       if (index == 0) {
                         return _SeasonSummaryCard(
@@ -342,7 +342,7 @@ class _SeasonAdminCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 if ((season.rewardsDescription ?? '').isNotEmpty) ...[
-                  const SizedBox(height: 4),
+                  const SizedBox(height: CoolSpace.x1),
                   Text(
                     season.rewardsDescription!,
                     style: theme.textTheme.bodySmall?.copyWith(
@@ -535,7 +535,7 @@ class _SeasonEditSheetState extends State<_SeasonEditSheet> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Container(
             width: 40,
             height: 4,
@@ -546,7 +546,7 @@ class _SeasonEditSheetState extends State<_SeasonEditSheet> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           Padding(
             padding: _liveOpsSheetHeaderPadding(),
             child: Row(
@@ -563,7 +563,7 @@ class _SeasonEditSheetState extends State<_SeasonEditSheet> {
                           fontWeight: FontWeight.w800,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: CoolSpace.x1),
                       Text(
                         'Set the campaign window and reward pitch',
                         style: theme.textTheme.bodySmall?.copyWith(
@@ -595,7 +595,7 @@ class _SeasonEditSheetState extends State<_SeasonEditSheet> {
               ],
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Flexible(
             child: ListView(
               padding: _liveOpsSheetListPadding(),
@@ -628,13 +628,13 @@ class _SeasonEditSheetState extends State<_SeasonEditSheet> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: CoolSpace.x3),
                 LiveOpsTextField(
                   label: 'Rewards Description',
                   controller: _rewardsCtrl,
                   maxLines: 2,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: CoolSpace.x4),
                 CoolButton(
                   label: _isNew ? 'Create Season' : 'Save Season',
                   onTap: _save,

@@ -103,7 +103,7 @@ class _SummaryCard extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: CoolSpace.x2),
               Row(
                 children: [
                   Expanded(
@@ -121,7 +121,7 @@ class _SummaryCard extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: CoolSpace.x2),
               Row(
                 children: [
                   Expanded(

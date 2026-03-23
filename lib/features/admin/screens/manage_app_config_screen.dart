@@ -98,12 +98,12 @@ class ManageAppConfigScreen extends ConsumerWidget {
                     height: 1.1,
                   ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: CoolSpace.x6),
                 AppConfigSectionHeader(
                   title: context.l10n.rolloutGovernance,
                   message: 'Manage kill switches rollout',
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: CoolSpace.x3),
                 ...viewModel.rollouts.map(
                   (rollout) => Padding(
                     padding: _appConfigSectionSpacing(),
@@ -114,12 +114,12 @@ class ManageAppConfigScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: CoolSpace.x3),
                 const AppConfigSectionHeader(
                   title: 'Mobility Subscription Recipient',
                   message: 'Set the MoMo code',
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: CoolSpace.x3),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: OutlinedButton.icon(
@@ -140,7 +140,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
                     label: Text(context.l10n.addRecipient),
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: CoolSpace.x3),
                 if (viewModel.mobilitySubscriptionConfigs.isEmpty)
                   const EmptyConfigCard(
                     message: 'No mobility subscription MoMo',
@@ -161,12 +161,12 @@ class ManageAppConfigScreen extends ConsumerWidget {
                       ),
                     ),
                   ),
-                const SizedBox(height: 12),
+                const SizedBox(height: CoolSpace.x3),
                 const AppConfigSectionHeader(
                   title: 'Partner Payment Routes',
                   message: 'Manage Rwanda partner checkout',
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: CoolSpace.x3),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: OutlinedButton.icon(
@@ -195,7 +195,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: CoolSpace.x3),
                 if (partnerRoutesAsync.isLoading && partnerRoutes.isEmpty)
                   const EmptyConfigCard(
                     message: 'Loading partner payment routes…',
@@ -221,12 +221,12 @@ class ManageAppConfigScreen extends ConsumerWidget {
                       ),
                     ),
                   ),
-                const SizedBox(height: 12),
+                const SizedBox(height: CoolSpace.x3),
                 const AppConfigSectionHeader(
                   title: 'Additional Config',
                   message: 'Use the generic config',
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: CoolSpace.x3),
                 if (viewModel.genericConfigs.isEmpty)
                   const EmptyConfigCard(
                     message: 'No non-rollout config entries',

@@ -89,12 +89,12 @@ class OperationalDashboardScreen extends ConsumerWidget {
                   color: colors.primaryText,
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: CoolSpace.x6),
               _SectionHeader(
                 title: context.l10n.releaseDashboard,
                 message: 'Live health by monitored',
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               CoolAsyncView<List<Map<String, dynamic>>>(
                 value: dashboardAsync,
                 onRetry: refresh,
@@ -111,12 +111,12 @@ class OperationalDashboardScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: CoolSpace.x6),
               const _SectionHeader(
                 title: 'Triage Queue',
                 message: 'Focused on failed payment',
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               CoolAsyncView<List<Map<String, dynamic>>>(
                 value: triageAsync,
                 onRetry: refresh,
@@ -134,13 +134,13 @@ class OperationalDashboardScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: CoolSpace.x6),
               const _SectionHeader(
                 title: 'M-Money SMS',
                 message:
                     'Device sync audits, parser backlog, sender backlog, migration safety, reconciliation pressure, and retention backlog.',
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               CoolAsyncView<List<Map<String, dynamic>>>(
                 value: momoSmsSummaryAsync,
                 onRetry: refresh,
@@ -157,28 +157,28 @@ class OperationalDashboardScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: CoolSpace.x6),
               const _SectionHeader(
                 title: 'Sender Audit',
                 message:
                     'Unsupported or legacy sender identities still present in raw SMS history.',
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               const _SenderInventorySection(),
-              const SizedBox(height: 24),
+              const SizedBox(height: CoolSpace.x6),
               const _SectionHeader(
                 title: 'Manual Review Queue',
                 message:
                     'Admin triage for SMS reconciliations that missed bank allocations or app payment targets.',
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               const _ManualReviewQueueSection(),
-              const SizedBox(height: 24),
+              const SizedBox(height: CoolSpace.x6),
               const _SectionHeader(
                 title: 'Recent Signals',
                 message: 'Raw health events from',
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               CoolAsyncView<List<Map<String, dynamic>>>(
                 value: eventsAsync,
                 onRetry: refresh,
@@ -432,7 +432,7 @@ class _ManualReviewQueueSectionState
                 },
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: CoolSpace.x3),
             if (visibleRows.isNotEmpty)
               Align(
                 alignment: Alignment.centerLeft,
@@ -457,7 +457,7 @@ class _ManualReviewQueueSectionState
                   ),
                 ),
               ),
-            if (visibleRows.isNotEmpty) const SizedBox(height: 12),
+            if (visibleRows.isNotEmpty) const SizedBox(height: CoolSpace.x3),
             if (visibleRows.isEmpty)
               CoolEmptyView(
                 compact: true,
@@ -521,7 +521,7 @@ class _SectionHeader extends StatelessWidget {
             color: colors.primaryText,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: CoolSpace.x1),
         Text(
           message,
           style: theme.textTheme.bodySmall?.copyWith(
@@ -764,7 +764,7 @@ class _SenderInventorySectionState
                 },
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: CoolSpace.x3),
             if (acknowledgeableRows.isNotEmpty)
               Align(
                 alignment: Alignment.centerLeft,
@@ -792,7 +792,7 @@ class _SenderInventorySectionState
                   ),
                 ),
               ),
-            if (acknowledgeableRows.isNotEmpty) const SizedBox(height: 12),
+            if (acknowledgeableRows.isNotEmpty) const SizedBox(height: CoolSpace.x3),
             if (visibleRows.isEmpty)
               CoolEmptyView(
                 compact: true,
@@ -876,7 +876,7 @@ class _ManualReviewCard extends StatelessWidget {
               color: colors.primaryText,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
           Text(
             notes,
             style: theme.textTheme.bodySmall?.copyWith(
@@ -900,7 +900,7 @@ class _ManualReviewCard extends StatelessWidget {
             value: _formatTimestamp(row['sms_received_at']),
           ),
           if (smsPreview != null) ...[
-            const SizedBox(height: 8),
+            const SizedBox(height: CoolSpace.x2),
             Text(
               smsPreview,
               maxLines: 4,
@@ -912,7 +912,7 @@ class _ManualReviewCard extends StatelessWidget {
               ),
             ),
           ],
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Align(
             alignment: Alignment.centerLeft,
             child: OutlinedButton.icon(
@@ -986,7 +986,7 @@ class _SenderInventoryCard extends StatelessWidget {
                         color: colors.primaryText,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: CoolSpace.x1),
                     Text(
                       'Normalized as ${_text(row['sender_token']) ?? 'unknown'}',
                       style: theme.textTheme.labelSmall?.copyWith(
@@ -1009,7 +1009,7 @@ class _SenderInventoryCard extends StatelessWidget {
                       isAcknowledged ? 'acknowledged' : approvalStatus,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: CoolSpace.x2),
                   _Badge(
                     label: senderKind.toUpperCase(),
                     color: colors.neutral,
@@ -1018,7 +1018,7 @@ class _SenderInventoryCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -1051,7 +1051,7 @@ class _SenderInventoryCard extends StatelessWidget {
                 ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           _FactLine(label: 'Latest parse', value: latestParseStatus),
           _FactLine(label: 'Latest reconcile', value: latestMatchStatus),
           _FactLine(label: 'Source', value: ingestionSource),
@@ -1071,7 +1071,7 @@ class _SenderInventoryCard extends StatelessWidget {
           if (_text(row['resolved_at']) case final resolvedAt?)
             _FactLine(label: 'Resolved', value: _formatTimestamp(resolvedAt)),
           if (resolutionNote != null) ...[
-            const SizedBox(height: 8),
+            const SizedBox(height: CoolSpace.x2),
             Text(
               resolutionNote,
               style: theme.textTheme.bodySmall?.copyWith(
@@ -1082,7 +1082,7 @@ class _SenderInventoryCard extends StatelessWidget {
             ),
           ],
           if (!isAcknowledged) ...[
-            const SizedBox(height: 12),
+            const SizedBox(height: CoolSpace.x3),
             Align(
               alignment: Alignment.centerLeft,
               child: OutlinedButton.icon(
@@ -1148,7 +1148,7 @@ class _DashboardCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Column(
             children: [
               Row(
@@ -1162,7 +1162,7 @@ class _DashboardCard extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: CoolSpace.x2),
               Row(
                 children: [
                   Expanded(
@@ -1176,7 +1176,7 @@ class _DashboardCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Text(
             _text(row['summary']) ?? 'No summary available.',
             style: theme.textTheme.bodySmall?.copyWith(
@@ -1238,7 +1238,7 @@ class _OperationalMetricCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -1260,7 +1260,7 @@ class _OperationalMetricCard extends StatelessWidget {
                 ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Text(
             _text(row['summary']) ?? 'No summary available.',
             style: theme.textTheme.bodySmall?.copyWith(
@@ -1271,7 +1271,7 @@ class _OperationalMetricCard extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           _FactLine(label: 'Source', value: _metricSource(metricKey)),
-          const SizedBox(height: 4),
+          const SizedBox(height: CoolSpace.x1),
           Text(
             'Last signal: ${_formatTimestamp(row['last_signal_at'])}',
             style: theme.textTheme.labelSmall?.copyWith(
@@ -1323,7 +1323,7 @@ class _IssueCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
           Text(
             _text(row['detail']) ?? 'No detail available.',
             style: theme.textTheme.bodySmall?.copyWith(
@@ -1332,7 +1332,7 @@ class _IssueCard extends StatelessWidget {
               height: 1.45,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -1409,7 +1409,7 @@ class _EventTile extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
           Text(
             _text(row['message']) ?? 'No message',
             style: theme.textTheme.bodySmall?.copyWith(

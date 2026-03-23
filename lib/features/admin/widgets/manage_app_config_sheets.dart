@@ -312,7 +312,7 @@ class _EditPartnerPaymentRouteSheetState
               mainAxisSize: MainAxisSize.min,
               children: [
                 _adminSheetHandle(context),
-                const SizedBox(height: 16),
+                const SizedBox(height: CoolSpace.x4),
                 Text(
                   widget.route == null
                       ? 'Add Partner Payment Route'
@@ -320,20 +320,20 @@ class _EditPartnerPaymentRouteSheetState
                   style: _adminSheetTitleStyle(context),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: CoolSpace.x2),
                 Text(
                   'Manage Rwanda partner checkout routing.',
                   style: _adminSheetMessageStyle(context),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: CoolSpace.x4),
                 _partnerField(),
                 _marketField(),
                 _field('Provider id', _providerCtl),
                 _field('Merchant code', _recipientCodeCtl),
                 _field('Reconciliation label', _reconciliationCtl),
                 _statusField(),
-                const SizedBox(height: 12),
+                const SizedBox(height: CoolSpace.x3),
                 _adminSheetPrimaryButton(
                   context,
                   label: 'Save route',
@@ -532,7 +532,7 @@ class _EditMobilitySubscriptionCodeSheetState
             mainAxisSize: MainAxisSize.min,
             children: [
               _adminSheetHandle(context),
-              const SizedBox(height: 16),
+              const SizedBox(height: CoolSpace.x4),
               Text(
                 widget.config == null
                     ? 'Add Mobility Subscription Code'
@@ -540,16 +540,16 @@ class _EditMobilitySubscriptionCodeSheetState
                 style: _adminSheetTitleStyle(context),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: CoolSpace.x2),
               Text(
                 'This code receives Rwanda mobility subscription payments.',
                 style: _adminSheetMessageStyle(context),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: CoolSpace.x4),
               _field('MoMo code', _codeCtl),
               _marketField(),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               _adminSheetPrimaryButton(
                 context,
                 label: 'Save code',
@@ -687,18 +687,18 @@ class _EditConfigSheetState extends State<EditConfigSheet> {
             mainAxisSize: MainAxisSize.min,
             children: [
               _adminSheetHandle(context),
-              const SizedBox(height: 16),
+              const SizedBox(height: CoolSpace.x4),
               Text(
                 widget.config != null ? 'Edit Config' : 'New Config Entry',
                 style: _adminSheetTitleStyle(context),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: CoolSpace.x4),
               _field('Key', _keyCtl, enabled: widget.config == null),
               _field('Value', _valueCtl, maxLines: 4),
               _field('Description', _descCtl),
               _marketField(),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               _adminSheetPrimaryButton(
                 context,
                 label: 'Save',
@@ -828,17 +828,17 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(child: _adminSheetHandle(context)),
-                const SizedBox(height: 16),
+                const SizedBox(height: CoolSpace.x4),
                 Text(
                   '${widget.rollout.label} rollout',
                   style: _adminSheetTitleStyle(context),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: CoolSpace.x1),
                 Text(
                   widget.rollout.description,
                   style: _adminSheetMessageStyle(context),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: CoolSpace.x4),
                 DropdownButtonFormField<FeatureRolloutStage>(
                   initialValue: _stage,
                   style: _adminSheetFieldStyle(context),
@@ -912,7 +912,7 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: CoolSpace.x3),
                 Text(
                   'Market: Rwanda only',
                   style: theme.textTheme.bodyMedium?.copyWith(
@@ -920,7 +920,7 @@ class _EditRolloutSheetState extends State<EditRolloutSheet> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: CoolSpace.x1),
                 Text(
                   'This app is restricted to the Rwanda market in the current release.',
                   style: theme.textTheme.bodySmall?.copyWith(

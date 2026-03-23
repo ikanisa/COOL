@@ -92,7 +92,7 @@ class ManageActivitiesScreen extends ConsumerWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             Expanded(
               child: CoolAsyncView<List<CoolActivity>>(
                 value: activitiesAsync,
@@ -124,7 +124,7 @@ class ManageActivitiesScreen extends ConsumerWidget {
                   return ListView.separated(
                     padding: _liveOpsListPadding(),
                     itemCount: activities.length + 1,
-                    separatorBuilder: (_, __) => const SizedBox(height: 12),
+                    separatorBuilder: (_, __) => const SizedBox(height: CoolSpace.x3),
                     itemBuilder: (context, index) {
                       if (index == 0) {
                         return _ActivitySummaryCard(
@@ -350,7 +350,7 @@ class _ActivityAdminCard extends StatelessWidget {
                   ),
                 ),
                 if (activity.description.isNotEmpty) ...[
-                  const SizedBox(height: 4),
+                  const SizedBox(height: CoolSpace.x1),
                   Text(
                     activity.description,
                     style: theme.textTheme.bodySmall?.copyWith(
@@ -517,7 +517,7 @@ class _ActivityEditSheetState extends State<_ActivityEditSheet> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Container(
             width: 40,
             height: 4,
@@ -528,7 +528,7 @@ class _ActivityEditSheetState extends State<_ActivityEditSheet> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           Padding(
             padding: _liveOpsSheetHeaderPadding(),
             child: Row(
@@ -545,7 +545,7 @@ class _ActivityEditSheetState extends State<_ActivityEditSheet> {
                           fontWeight: FontWeight.w800,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: CoolSpace.x1),
                       Text(
                         'Define the action, reward, and rank',
                         style: theme.textTheme.bodySmall?.copyWith(
@@ -577,7 +577,7 @@ class _ActivityEditSheetState extends State<_ActivityEditSheet> {
               ],
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Flexible(
             child: ListView(
               padding: _liveOpsSheetListPadding(),
@@ -607,7 +607,7 @@ class _ActivityEditSheetState extends State<_ActivityEditSheet> {
                   controller: _sortCtrl,
                   keyboardType: TextInputType.number,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: CoolSpace.x4),
                 CoolButton(
                   label: _isNew ? 'Create Activity' : 'Save Activity',
                   onTap: _save,

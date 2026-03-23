@@ -124,7 +124,7 @@ class ManageAiContentScreen extends ConsumerWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             genConfigAsync.when(
               data: (config) => config == null
                   ? const SizedBox.shrink()
@@ -143,7 +143,7 @@ class ManageAiContentScreen extends ConsumerWidget {
               error: (_, _) => const SizedBox.shrink(),
             ),
             if (genConfigAsync.asData?.value != null)
-              const SizedBox(height: 16),
+              const SizedBox(height: CoolSpace.x4),
             SizedBox(
               height: 52,
               child: ListView(
@@ -173,7 +173,7 @@ class ManageAiContentScreen extends ConsumerWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             Expanded(
               child: CoolAsyncView<List<NexusRecommendation>>(
                 value: contentAsync,
@@ -194,7 +194,7 @@ class ManageAiContentScreen extends ConsumerWidget {
                   child: ListView.separated(
                     padding: _manageAiContentListPadding(),
                     itemCount: items.length,
-                    separatorBuilder: (_, _) => const SizedBox(height: 12),
+                    separatorBuilder: (_, _) => const SizedBox(height: CoolSpace.x3),
                     itemBuilder: (context, index) {
                       final item = items[index];
                       return _AiContentCard(

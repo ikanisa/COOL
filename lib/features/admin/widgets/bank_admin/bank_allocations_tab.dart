@@ -137,7 +137,7 @@ class BankAllocationsTab extends StatelessWidget {
                 },
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: CoolSpace.x2),
             Expanded(
               child: filtered.isEmpty
                   ? CoolEmptyView(
@@ -149,7 +149,7 @@ class BankAllocationsTab extends StatelessWidget {
                   : ListView.separated(
                       padding: _bankAllocationListPadding(),
                       itemCount: filtered.length,
-                      separatorBuilder: (_, _) => const SizedBox(height: 12),
+                      separatorBuilder: (_, _) => const SizedBox(height: CoolSpace.x3),
                       itemBuilder: (context, index) {
                         final item = filtered[index];
                         final isActive = activeReviewId == item.reviewId;
@@ -193,7 +193,7 @@ class BankAllocationsTab extends StatelessWidget {
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
-                              const SizedBox(height: 8),
+                              const SizedBox(height: CoolSpace.x2),
                               Text(
                                 '${moneyFormat.format(item.amount)} RWF',
                                 style: theme.textTheme.titleSmall?.copyWith(
@@ -262,7 +262,7 @@ class BankAllocationsTab extends StatelessWidget {
                                   ),
                                 ),
                                 if (item.aiReasoning != null) ...[
-                                  const SizedBox(height: 4),
+                                  const SizedBox(height: CoolSpace.x1),
                                   Text(
                                     item.aiReasoning!,
                                     style: theme.textTheme.bodySmall?.copyWith(
@@ -274,7 +274,7 @@ class BankAllocationsTab extends StatelessWidget {
                                   ),
                                 ],
                               ],
-                              const SizedBox(height: 12),
+                              const SizedBox(height: CoolSpace.x3),
                               Wrap(
                                 spacing: 8,
                                 runSpacing: 8,

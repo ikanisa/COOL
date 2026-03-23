@@ -83,9 +83,9 @@ class SystemAnalyticsScreen extends ConsumerWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: CoolSpace.x6),
                 const _SectionHeader('Core Counts'),
-                const SizedBox(height: 12),
+                const SizedBox(height: CoolSpace.x3),
                 _MetricGrid(
                   surfaceColor: colors.analyticsSurface,
                   metrics: [
@@ -141,7 +141,7 @@ class SystemAnalyticsScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 28),
                 const _SectionHeader('Growth'),
-                const SizedBox(height: 12),
+                const SizedBox(height: CoolSpace.x3),
                 _MetricGrid(
                   surfaceColor: colors.contactSurface,
                   metrics: [
@@ -173,21 +173,21 @@ class SystemAnalyticsScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 28),
                 const _SectionHeader('Admin Role Distribution'),
-                const SizedBox(height: 12),
+                const SizedBox(height: CoolSpace.x3),
                 _DistributionCard(
                   data: _asStringIntMap(data['role_distribution']),
                   emptyLabel: 'No roles assigned yet',
                 ),
                 const SizedBox(height: 28),
                 const _SectionHeader('Event Distribution (30d)'),
-                const SizedBox(height: 12),
+                const SizedBox(height: CoolSpace.x3),
                 _DistributionCard(
                   data: _asStringIntMap(data['event_distribution']),
                   emptyLabel: 'No events recorded',
                 ),
                 const SizedBox(height: 28),
                 const _SectionHeader('Audit'),
-                const SizedBox(height: 12),
+                const SizedBox(height: CoolSpace.x3),
                 _MetricGrid(
                   surfaceColor: colors.operationalSurface,
                   metrics: [
@@ -385,7 +385,7 @@ class _DistributionCard extends StatelessWidget {
                 valueColor: AlwaysStoppedAnimation<Color>(colors.info),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: CoolSpace.x3),
           ],
         ],
       ),

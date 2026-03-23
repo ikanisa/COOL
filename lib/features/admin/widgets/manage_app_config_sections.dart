@@ -60,7 +60,7 @@ class AppConfigSectionHeader extends StatelessWidget {
             fontWeight: FontWeight.w800,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: CoolSpace.x1),
         Text(
           message,
           style: theme.textTheme.bodyMedium?.copyWith(
@@ -198,7 +198,7 @@ class RolloutCard extends StatelessWidget {
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: CoolSpace.x1),
                     Text(
                       rollout.description,
                       style: theme.textTheme.bodyMedium?.copyWith(
@@ -216,7 +216,7 @@ class RolloutCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -389,7 +389,7 @@ class PartnerPaymentRouteConfigTile extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: CoolSpace.x1),
               Text(
                 'Reconciliation: $reconciliationLabel',
                 style: theme.textTheme.bodySmall?.copyWith(

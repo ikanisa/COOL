@@ -50,7 +50,7 @@ class BankWorkspaceHero extends StatelessWidget {
               fontWeight: FontWeight.w800,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
           Text(
             'Custodian workspace for group savings and loans.',
             style: theme.textTheme.bodyMedium?.copyWith(
@@ -59,7 +59,7 @@ class BankWorkspaceHero extends StatelessWidget {
               height: 1.4,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           Wrap(
             spacing: 12,
             runSpacing: 12,
@@ -108,9 +108,9 @@ class BankWorkspaceHero extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 16),
+                  const SizedBox(height: CoolSpace.x4),
                   Divider(color: colors.border, height: 1),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: CoolSpace.x4),
                   Text(
                     'Financial Summary',
                     style: theme.textTheme.titleMedium?.copyWith(
@@ -118,7 +118,7 @@ class BankWorkspaceHero extends StatelessWidget {
                       fontWeight: FontWeight.w800,
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: CoolSpace.x3),
                   Wrap(
                     spacing: 12,
                     runSpacing: 12,

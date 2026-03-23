@@ -145,7 +145,7 @@ class _EditUserSheetState extends ConsumerState<EditUserSheet> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: CoolSpace.x5),
               Text(
                 'Edit User',
                 style: theme.textTheme.headlineSmall?.copyWith(
@@ -153,7 +153,7 @@ class _EditUserSheetState extends ConsumerState<EditUserSheet> {
                   color: colors.primaryText,
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: CoolSpace.x1),
               Text(
                 '$phone · ${userId.substring(0, 8.clamp(0, userId.length))}',
                 style: theme.textTheme.bodySmall?.copyWith(
@@ -161,11 +161,11 @@ class _EditUserSheetState extends ConsumerState<EditUserSheet> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: CoolSpace.x5),
               const _FieldLabel('Full name'),
               const SizedBox(height: 6),
               _EditInput(controller: _nameController),
-              const SizedBox(height: 16),
+              const SizedBox(height: CoolSpace.x4),
               Row(
                 children: [
                   Expanded(
@@ -184,7 +184,7 @@ class _EditUserSheetState extends ConsumerState<EditUserSheet> {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: CoolSpace.x2),
               Row(
                 children: [
                   Expanded(
@@ -204,7 +204,7 @@ class _EditUserSheetState extends ConsumerState<EditUserSheet> {
                 ],
               ),
               if (_isDriver) ...[
-                const SizedBox(height: 8),
+                const SizedBox(height: CoolSpace.x2),
                 const _FieldLabel('Vehicle type'),
                 const SizedBox(height: 6),
                 _EditInput(
@@ -212,7 +212,7 @@ class _EditUserSheetState extends ConsumerState<EditUserSheet> {
                   hint: 'e.g. motorcycle, car',
                 ),
               ],
-              const SizedBox(height: 24),
+              const SizedBox(height: CoolSpace.x6),
               CoolButton(
                 label: 'Save User',
                 onTap: _save,

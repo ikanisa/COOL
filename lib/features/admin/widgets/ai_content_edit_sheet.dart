@@ -121,7 +121,7 @@ class _EditAiContentSheetState extends State<EditAiContentSheet> {
               borderRadius: _aiContentPillRadius,
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: CoolSpace.x5),
           Padding(
             padding: _aiContentHeaderPadding(),
             child: Row(
@@ -152,7 +152,7 @@ class _EditAiContentSheetState extends State<EditAiContentSheet> {
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: CoolSpace.x5),
           Flexible(
             child: ListView(
               padding: _aiContentListPadding(),
@@ -209,7 +209,7 @@ class _EditAiContentSheetState extends State<EditAiContentSheet> {
                   itemLabel: (c) => c ?? 'All Countries',
                   onChanged: (v) => setState(() => _country = v),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: CoolSpace.x6),
                 CoolButton(
                   label: isCreate ? 'Create Content' : 'Save Content',
                   onTap: _onSave,

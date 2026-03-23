@@ -64,7 +64,7 @@ class BankLoansTab extends ConsumerWidget {
             },
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: CoolSpace.x3),
         Expanded(
           child: loansAsync.when(
             loading: () => const Center(child: CircularProgressIndicator()),
@@ -147,7 +147,7 @@ class BankLoansTab extends ConsumerWidget {
                           ],
                         ),
                         if (status == 'pending') ...[
-                          const SizedBox(height: 12),
+                          const SizedBox(height: CoolSpace.x3),
                           Row(
                             children: [
                               Expanded(
@@ -187,7 +187,7 @@ class BankLoansTab extends ConsumerWidget {
                           ),
                         ],
                         if (status == 'approved') ...[
-                          const SizedBox(height: 12),
+                          const SizedBox(height: CoolSpace.x3),
                           SizedBox(
                             width: double.infinity,
                             child: FilledButton.icon(

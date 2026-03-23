@@ -93,7 +93,7 @@ class ManageMissionsScreen extends ConsumerWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             Expanded(
               child: CoolAsyncView<List<CoolMission>>(
                 value: missionsAsync,
@@ -120,7 +120,7 @@ class ManageMissionsScreen extends ConsumerWidget {
                   return ListView.separated(
                     padding: _liveOpsListPadding(),
                     itemCount: missions.length + 1,
-                    separatorBuilder: (_, __) => const SizedBox(height: 12),
+                    separatorBuilder: (_, __) => const SizedBox(height: CoolSpace.x3),
                     itemBuilder: (context, index) {
                       if (index == 0) {
                         return _MissionSummaryCard(
@@ -348,7 +348,7 @@ class _MissionAdminCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: CoolSpace.x1),
                 Text(
                   'Target ${mission.targetValue} · Reward ${mission.rewardPoints} tokens',
                   style: theme.textTheme.bodySmall?.copyWith(
@@ -569,7 +569,7 @@ class _MissionEditSheetState extends State<_MissionEditSheet> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Container(
             width: 40,
             height: 4,
@@ -580,7 +580,7 @@ class _MissionEditSheetState extends State<_MissionEditSheet> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           Padding(
             padding: _liveOpsSheetHeaderPadding(),
             child: Row(
@@ -597,7 +597,7 @@ class _MissionEditSheetState extends State<_MissionEditSheet> {
                           fontWeight: FontWeight.w800,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: CoolSpace.x1),
                       Text(
                         'Set the goal, timing, and reward',
                         style: theme.textTheme.bodySmall?.copyWith(
@@ -629,7 +629,7 @@ class _MissionEditSheetState extends State<_MissionEditSheet> {
               ],
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Flexible(
             child: ListView(
               padding: _liveOpsSheetListPadding(),
@@ -679,7 +679,7 @@ class _MissionEditSheetState extends State<_MissionEditSheet> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: CoolSpace.x3),
                 LiveOpsTextField(
                   label: 'Reward Tokens',
                   controller: _rewardPtsCtrl,
@@ -689,7 +689,7 @@ class _MissionEditSheetState extends State<_MissionEditSheet> {
                   label: 'Reward Description',
                   controller: _rewardDescCtrl,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: CoolSpace.x4),
                 CoolButton(
                   label: _isNew ? 'Create Mission' : 'Save Mission',
                   onTap: _save,

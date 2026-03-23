@@ -83,7 +83,7 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             SizedBox(
               height: 48,
               child: ListView.separated(
@@ -126,7 +126,7 @@ class _AuditLogScreenState extends ConsumerState<AuditLogScreen> {
                 },
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             Expanded(
               child: CoolAsyncView<List<Map<String, dynamic>>>(
                 value: logsAsync,
@@ -288,9 +288,9 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
               ],
             ),
             if (_expanded) ...[
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               Divider(height: 1, color: colors.divider),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               if (e['old_data'] != null) ...[
                 Text(
                   'Previous',
@@ -299,7 +299,7 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: CoolSpace.x1),
                 _JsonPreview(data: e['old_data']),
                 const SizedBox(height: 10),
               ],
@@ -311,7 +311,7 @@ class _AuditEntryTileState extends State<_AuditEntryTile> {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: CoolSpace.x1),
                 _JsonPreview(data: e['new_data']),
               ],
             ],

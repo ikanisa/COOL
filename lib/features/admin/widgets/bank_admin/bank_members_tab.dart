@@ -34,7 +34,7 @@ class BankMembersTab extends StatelessWidget {
 
     return ListView.separated(
       itemCount: members.length,
-      separatorBuilder: (_, _) => const SizedBox(height: 12),
+      separatorBuilder: (_, _) => const SizedBox(height: CoolSpace.x3),
       itemBuilder: (context, index) {
         final member = members[index];
         return CoolCard(
@@ -54,7 +54,7 @@ class BankMembersTab extends StatelessWidget {
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: CoolSpace.x1),
                     Text(
                       member.groupName,
                       style: theme.textTheme.bodySmall?.copyWith(
@@ -62,7 +62,7 @@ class BankMembersTab extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: CoolSpace.x2),
                     Text(
                       'Contribution total: ${moneyFormat.format(member.contributionAmount)} RWF',
                       style: theme.textTheme.bodySmall?.copyWith(

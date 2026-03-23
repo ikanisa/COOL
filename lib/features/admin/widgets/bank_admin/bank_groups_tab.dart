@@ -146,7 +146,7 @@ class BankGroupsTab extends StatelessWidget {
           Expanded(
             child: ListView.separated(
               itemCount: filtered.length,
-              separatorBuilder: (_, _) => const SizedBox(height: 12),
+              separatorBuilder: (_, _) => const SizedBox(height: CoolSpace.x3),
               itemBuilder: (context, index) {
                 final item = filtered[index];
                 return CoolCard(
@@ -169,7 +169,7 @@ class BankGroupsTab extends StatelessWidget {
                                     fontWeight: FontWeight.w800,
                                   ),
                                 ),
-                                const SizedBox(height: 4),
+                                const SizedBox(height: CoolSpace.x1),
                                 Text(
                                   '${bankTitle(item.group.type)} · ${bankTitle(item.group.visibility)}',
                                   style: theme.textTheme.bodySmall?.copyWith(
@@ -184,7 +184,7 @@ class BankGroupsTab extends StatelessWidget {
                       ),
                       if ((item.group.description?.trim().isNotEmpty ??
                           false)) ...[
-                        const SizedBox(height: 8),
+                        const SizedBox(height: CoolSpace.x2),
                         Text(
                           item.group.description!.trim(),
                           style: theme.textTheme.bodySmall?.copyWith(
@@ -248,7 +248,7 @@ class BankGroupsTab extends StatelessWidget {
                         ],
                       ),
                       if (index == 0 && totalCount > filtered.length) ...[
-                        const SizedBox(height: 12),
+                        const SizedBox(height: CoolSpace.x3),
                         Text(
                           '${filtered.length}/$totalCount shown',
                           style: theme.textTheme.bodySmall?.copyWith(
@@ -357,7 +357,7 @@ class BankGroupDetailSheet extends StatelessWidget {
                   ),
                 ),
               ],
-              const SizedBox(height: 20),
+              const SizedBox(height: CoolSpace.x5),
               Text(
                 'Members',
                 style: theme.textTheme.titleMedium?.copyWith(
@@ -395,7 +395,7 @@ class BankGroupDetailSheet extends StatelessWidget {
                                     fontWeight: FontWeight.w800,
                                   ),
                                 ),
-                                const SizedBox(height: 4),
+                                const SizedBox(height: CoolSpace.x1),
                                 Text(
                                   '${moneyFormat.format(member.contributionAmount)} RWF contributed',
                                   style: theme.textTheme.bodySmall?.copyWith(
@@ -419,7 +419,7 @@ class BankGroupDetailSheet extends StatelessWidget {
                     ),
                   ),
                 ),
-              const SizedBox(height: 20),
+              const SizedBox(height: CoolSpace.x5),
               Text(
                 'Recent contributions',
                 style: theme.textTheme.titleMedium?.copyWith(
@@ -483,7 +483,7 @@ class BankGroupDetailSheet extends StatelessWidget {
                               fontWeight: FontWeight.w800,
                             ),
                           ),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: CoolSpace.x1),
                           Text(
                             dateFormat.format(contribution.createdAt),
                             style: theme.textTheme.bodySmall?.copyWith(
@@ -493,7 +493,7 @@ class BankGroupDetailSheet extends StatelessWidget {
                           ),
                           if ((contribution.reference?.trim().isNotEmpty ??
                               false)) ...[
-                            const SizedBox(height: 4),
+                            const SizedBox(height: CoolSpace.x1),
                             Text(
                               'Reference: ${contribution.reference}',
                               style: theme.textTheme.bodySmall?.copyWith(

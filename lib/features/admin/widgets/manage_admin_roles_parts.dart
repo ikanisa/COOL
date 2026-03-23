@@ -137,7 +137,7 @@ class _SummaryCard extends StatelessWidget {
               fontWeight: FontWeight.w800,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -374,7 +374,7 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
             ),
           ),
           if (assignment.notes != null && assignment.notes!.isNotEmpty) ...[
-            const SizedBox(height: 4),
+            const SizedBox(height: CoolSpace.x1),
             Text(
               assignment.notes!,
               style: theme.textTheme.bodySmall?.copyWith(
@@ -383,7 +383,7 @@ class _RoleAssignmentTileState extends ConsumerState<_RoleAssignmentTile> {
               ),
             ),
           ],
-          const SizedBox(height: 12),
+          const SizedBox(height: CoolSpace.x3),
           Align(
             alignment: Alignment.centerRight,
             child: OutlinedButton.icon(
@@ -521,7 +521,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: CoolSpace.x5),
                 Text(
                   'Assign Admin Role',
                   style: theme.textTheme.titleLarge?.copyWith(
@@ -529,7 +529,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: CoolSpace.x4),
                 TextField(
                   controller: _userIdController,
                   style: theme.textTheme.titleSmall?.copyWith(
@@ -556,7 +556,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: CoolSpace.x5),
                 Text(
                   'Role',
                   style: theme.textTheme.labelLarge?.copyWith(
@@ -564,7 +564,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: CoolSpace.x2),
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
@@ -595,7 +595,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
                       })
                       .toList(growable: false),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: CoolSpace.x5),
                 if (_needsPartnerScope) ...[
                   Text(
                     'Partner Scope',
@@ -604,7 +604,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: CoolSpace.x2),
                   partnersAsync.when(
                     data: (partners) {
                       final filtered = _selectedRole == AdminRole.bank
@@ -664,7 +664,7 @@ class _AssignRoleSheetState extends ConsumerState<_AssignRoleSheet> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: CoolSpace.x5),
                 ],
                 SizedBox(
                   width: double.infinity,

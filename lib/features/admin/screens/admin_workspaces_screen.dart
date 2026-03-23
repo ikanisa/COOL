@@ -67,19 +67,19 @@ class AdminWorkspacesScreen extends ConsumerWidget {
                 height: 1.1,
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: CoolSpace.x6),
             _IntroCard(
               hasPlatformAccess: access.hasPlatformAccess,
               hasPartnerAccess: access.hasPartnerAdminAccess,
               hasBankAccess: access.hasBankAdminAccess,
             ),
             if (access.hasPlatformAccess) ...[
-              const SizedBox(height: 24),
+              const SizedBox(height: CoolSpace.x6),
               _SectionHeader(
                 title: context.l10n.platform,
                 subtitle: 'Global app operations content',
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               _WorkspaceCard(
                 title: 'Platform Admin',
                 subtitle: 'Users partners services app',
@@ -88,12 +88,12 @@ class AdminWorkspacesScreen extends ConsumerWidget {
               ),
             ],
             if (access.hasPartnerAdminAccess) ...[
-              const SizedBox(height: 24),
+              const SizedBox(height: CoolSpace.x6),
               const _SectionHeader(
                 title: 'Partner Workspaces',
                 subtitle: 'Partner-scoped admin surfaces for',
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               partnerWorkspacesAsync.when(
                 data: (partners) => partners.isEmpty
                     ? const _EmptyWorkspaceCard(
@@ -131,12 +131,12 @@ class AdminWorkspacesScreen extends ConsumerWidget {
               ),
             ],
             if (access.hasBankAdminAccess) ...[
-              const SizedBox(height: 24),
+              const SizedBox(height: CoolSpace.x6),
               const _SectionHeader(
                 title: 'Bank Custodian Workspaces',
                 subtitle: 'Group savings oversight ledgers',
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: CoolSpace.x3),
               bankWorkspacesAsync.when(
                 data: (banks) => banks.isEmpty
                     ? const _EmptyWorkspaceCard(
@@ -207,7 +207,7 @@ class _IntroCard extends StatelessWidget {
               color: colors.primaryText,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
           Text(
             'Roles: ${roles.join(', ')}',
             style: theme.textTheme.bodySmall?.copyWith(
@@ -242,7 +242,7 @@ class _SectionHeader extends StatelessWidget {
             color: colors.primaryText,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: CoolSpace.x1),
         Text(
           subtitle,
           style: theme.textTheme.bodySmall?.copyWith(
@@ -300,7 +300,7 @@ class _WorkspaceCard extends StatelessWidget {
                     color: colors.primaryText,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: CoolSpace.x1),
                 Text(
                   subtitle,
                   style: theme.textTheme.bodySmall?.copyWith(

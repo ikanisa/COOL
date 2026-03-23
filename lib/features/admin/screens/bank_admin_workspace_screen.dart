@@ -149,13 +149,13 @@ class _BankAdminWorkspaceScreenState
                               color: colors.primaryText,
                             ),
                           ),
-                          const SizedBox(height: 24),
+                          const SizedBox(height: CoolSpace.x6),
                           BankWorkspaceHero(
                             partnerName: partnerName,
                             snapshot: snapshot,
                             analyticsAsync: analyticsAsync,
                           ),
-                          const SizedBox(height: 32),
+                          const SizedBox(height: CoolSpace.x7),
                           DecoratedBox(
                             decoration: BoxDecoration(
                               color: colors.operationalSurface,
@@ -193,7 +193,7 @@ class _BankAdminWorkspaceScreenState
                               ],
                             ),
                           ),
-                          const SizedBox(height: 24),
+                          const SizedBox(height: CoolSpace.x6),
                           SizedBox(
                             height: 600,
                             child: TabBarView(

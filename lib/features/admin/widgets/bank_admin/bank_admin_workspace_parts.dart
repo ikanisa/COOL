@@ -415,7 +415,7 @@ extension _BankAdminWorkspaceScreenStateParts
                         color: colors.primaryText,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: CoolSpace.x2),
                     Text(
                       '${NumberFormat.decimalPattern('en_US').format(item.amount)} RWF · ${item.groupName}',
                       style: theme.textTheme.bodyMedium?.copyWith(
@@ -425,7 +425,7 @@ extension _BankAdminWorkspaceScreenStateParts
                     ),
                     // ── AI suggestion banner ──
                     if (item.isSuggested) ...[
-                      const SizedBox(height: 12),
+                      const SizedBox(height: CoolSpace.x3),
                       Container(
                         padding: _bankWorkspaceSuggestionPadding(),
                         decoration: BoxDecoration(
@@ -456,7 +456,7 @@ extension _BankAdminWorkspaceScreenStateParts
                               ],
                             ),
                             if (item.suggestedMemberName != null) ...[
-                              const SizedBox(height: 4),
+                              const SizedBox(height: CoolSpace.x1),
                               Text(
                                 'Suggested member: ${item.suggestedMemberName}',
                                 style: theme.textTheme.bodyMedium?.copyWith(
@@ -465,7 +465,7 @@ extension _BankAdminWorkspaceScreenStateParts
                               ),
                             ],
                             if (item.aiReasoning != null) ...[
-                              const SizedBox(height: 4),
+                              const SizedBox(height: CoolSpace.x1),
                               Text(
                                 item.aiReasoning!,
                                 style: theme.textTheme.bodySmall?.copyWith(
@@ -479,7 +479,7 @@ extension _BankAdminWorkspaceScreenStateParts
                         ),
                       ),
                     ],
-                    const SizedBox(height: 16),
+                    const SizedBox(height: CoolSpace.x4),
                     // ── Group selector ──
                     DropdownButtonFormField<String>(
                       initialValue: selectedGroupId,
@@ -523,7 +523,7 @@ extension _BankAdminWorkspaceScreenStateParts
                       onChanged: (v) =>
                           setModalState(() => memberSearchQuery = v),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: CoolSpace.x2),
                     // ── Member dropdown ──
                     if (scopedMembers.isNotEmpty)
                       DropdownButtonFormField<String>(
@@ -552,7 +552,7 @@ extension _BankAdminWorkspaceScreenStateParts
                         ),
                       ),
                     ],
-                    const SizedBox(height: 12),
+                    const SizedBox(height: CoolSpace.x3),
                     // ── Create new member toggle ──
                     TextButton.icon(
                       onPressed: () => setModalState(
@@ -581,7 +581,7 @@ extension _BankAdminWorkspaceScreenStateParts
                     ),
                     // ── Create member form ──
                     if (showCreateMember) ...[
-                      const SizedBox(height: 12),
+                      const SizedBox(height: CoolSpace.x3),
                       TextField(
                         controller: phoneCtrl,
                         decoration: const InputDecoration(
@@ -599,7 +599,7 @@ extension _BankAdminWorkspaceScreenStateParts
                           prefixIcon: Icon(Icons.person, size: 18),
                         ),
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: CoolSpace.x3),
                       SizedBox(
                         width: double.infinity,
                         child: OutlinedButton.icon(

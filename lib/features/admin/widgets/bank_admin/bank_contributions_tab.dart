@@ -87,7 +87,7 @@ class BankContributionsTab extends StatelessWidget {
           ),
         ),
         if (groups.isNotEmpty) ...[
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
           DropdownButtonFormField<String?>(
             initialValue: groupFilter,
             decoration: InputDecoration(
@@ -127,7 +127,7 @@ class BankContributionsTab extends StatelessWidget {
             onChanged: onGroupFilterChanged,
           ),
         ],
-        const SizedBox(height: 12),
+        const SizedBox(height: CoolSpace.x3),
         if (filtered.isEmpty)
           const Expanded(
             child: CoolEmptyView(
@@ -139,7 +139,7 @@ class BankContributionsTab extends StatelessWidget {
           Expanded(
             child: ListView.separated(
               itemCount: filtered.length,
-              separatorBuilder: (_, _) => const SizedBox(height: 12),
+              separatorBuilder: (_, _) => const SizedBox(height: CoolSpace.x3),
               itemBuilder: (context, index) {
                 final contribution = filtered[index];
                 final confirmed = bankIsConfirmedContributionStatus(
@@ -173,7 +173,7 @@ class BankContributionsTab extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: CoolSpace.x1),
                       Text(
                         contribution.groupName,
                         style: theme.textTheme.bodySmall?.copyWith(
@@ -181,7 +181,7 @@ class BankContributionsTab extends StatelessWidget {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: CoolSpace.x2),
                       Text(
                         '${moneyFormat.format(contribution.amount)} RWF',
                         style: theme.textTheme.titleSmall?.copyWith(
@@ -189,7 +189,7 @@ class BankContributionsTab extends StatelessWidget {
                           fontWeight: FontWeight.w800,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: CoolSpace.x1),
                       Text(
                         dateFormat.format(contribution.createdAt),
                         style: theme.textTheme.bodySmall?.copyWith(
@@ -199,7 +199,7 @@ class BankContributionsTab extends StatelessWidget {
                       ),
                       if ((contribution.reference?.trim().isNotEmpty ??
                           false)) ...[
-                        const SizedBox(height: 4),
+                        const SizedBox(height: CoolSpace.x1),
                         Text(
                           'Reference: ${contribution.reference}',
                           style: theme.textTheme.bodySmall?.copyWith(

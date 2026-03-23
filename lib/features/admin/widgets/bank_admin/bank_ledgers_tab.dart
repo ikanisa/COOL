@@ -75,7 +75,7 @@ class BankLedgersTab extends StatelessWidget {
                   fontWeight: FontWeight.w800,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: CoolSpace.x2),
               Text(
                 'Select a group to review and export posted payments',
                 style: theme.textTheme.bodySmall?.copyWith(
@@ -121,7 +121,7 @@ class BankLedgersTab extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: CoolSpace.x3),
         Expanded(
           child: CoolAsyncView<MomoStatementPage<PayeePaymentLedgerEntry>>(
             value: ledgerAsync,
@@ -173,11 +173,11 @@ class BankLedgersTab extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: CoolSpace.x3),
                 Expanded(
                   child: ListView.separated(
                     itemCount: page.entries.length,
-                    separatorBuilder: (_, _) => const SizedBox(height: 12),
+                    separatorBuilder: (_, _) => const SizedBox(height: CoolSpace.x3),
                     itemBuilder: (context, index) {
                       return _LedgerEntryCard(entry: page.entries[index]);
                     },
@@ -224,7 +224,7 @@ class _LedgerEntryCard extends StatelessWidget {
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: CoolSpace.x1),
                     Text(
                       dateFormat.format(entry.occurredAt),
                       style: theme.textTheme.bodySmall?.copyWith(
@@ -270,7 +270,7 @@ class _LedgerEntryCard extends StatelessWidget {
             ],
           ),
           if ((entry.payerPhone?.trim().isNotEmpty ?? false)) ...[
-            const SizedBox(height: 8),
+            const SizedBox(height: CoolSpace.x2),
             Text(
               'Phone: ${entry.payerPhone}',
               style: theme.textTheme.bodySmall?.copyWith(
