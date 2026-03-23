@@ -6,7 +6,6 @@ import '../../../../core/l10n/l10n.dart';
 import '../../../../core/theme/cool_foundations.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../models/bank_admin_models.dart';
-import 'bank_admin_helpers.dart';
 
 EdgeInsets _bankWorkspaceHeroMetricPadding() =>
     CoolSpace.sectionPadding.copyWith(

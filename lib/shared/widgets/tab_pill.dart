@@ -19,6 +19,8 @@ class TabPill extends StatelessWidget {
     final theme = Theme.of(context);
     final colors = context.coolSemanticColors;
     final brightness = theme.brightness;
+    final activeBackground = colors.buttonPrimaryBackground;
+    final inactiveBackground = colors.chipBackground;
     return Semantics(
       label: label,
       button: true,
@@ -27,21 +29,16 @@ class TabPill extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(CoolRadii.md),
+          borderRadius: BorderRadius.circular(CoolRadii.pill),
           child: AnimatedContainer(
             duration: CoolMotion.quick,
             curve: CoolMotion.enterCurve,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             decoration: BoxDecoration(
-              color: isActive
-                  ? colors.chipSelectedBackground
-                  : colors.chipBackground,
-              borderRadius: BorderRadius.circular(CoolRadii.md),
-              border: Border.all(
-                color: isActive ? colors.accent : colors.border,
-              ),
+              color: isActive ? activeBackground : inactiveBackground,
+              borderRadius: BorderRadius.circular(CoolRadii.pill),
               boxShadow: isActive
-                  ? CoolShadows.clay(brightness, strength: 0.4)
+                  ? CoolShadows.clay(brightness, strength: 0.34)
                   : null,
             ),
             child: Text(
@@ -49,7 +46,9 @@ class TabPill extends StatelessWidget {
               textAlign: TextAlign.center,
               style: theme.textTheme.labelLarge?.copyWith(
                 fontWeight: isActive ? FontWeight.w800 : FontWeight.w700,
-                color: isActive ? colors.primaryText : colors.secondaryText,
+                color: isActive
+                    ? colors.accentForeground
+                    : colors.secondaryText,
               ),
             ),
           ),

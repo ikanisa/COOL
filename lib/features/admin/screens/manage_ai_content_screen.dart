@@ -180,7 +180,7 @@ class ManageAiContentScreen extends ConsumerWidget {
                 onRetry: () => ref.invalidate(_aiContentListProvider),
                 loadingWidget: Padding(
                   padding: _manageAiContentLoadingPadding(),
-                  child: CoolSkeletonList(itemCount: 4),
+                  child: const CoolSkeletonList(itemCount: 4),
                 ),
                 emptyCheck: (items) => items.isEmpty,
                 emptyWidget: const CoolEmptyView(

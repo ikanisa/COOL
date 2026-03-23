@@ -11,8 +11,8 @@ class CoolGlassCard extends StatelessWidget {
     this.padding,
     this.onTap,
     this.borderRadius = CoolRadii.xl,
-    this.blur = CoolBlur.standard,
-    this.opacity = 0.84,
+    this.blur = CoolBlur.overlay,
+    this.opacity = 0.82,
     this.borderColor,
     super.key,
   });
@@ -35,7 +35,7 @@ class CoolGlassCard extends StatelessWidget {
       alpha: isDark ? opacity - 0.06 : opacity,
     );
     final borderCol =
-        borderColor ?? colors.border.withValues(alpha: isDark ? 0.95 : 0.7);
+        borderColor ?? colors.border.withValues(alpha: isDark ? 0.55 : 0.35);
 
     final content = Padding(
       padding: padding ?? CoolSpace.sectionPadding,
@@ -53,14 +53,18 @@ class CoolGlassCard extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: <Color>[
-                colors.highlightColor.withValues(alpha: isDark ? 0.04 : 0.30),
-                colors.accent.withValues(alpha: isDark ? 0.04 : 0.03),
+                colors.highlightColor.withValues(alpha: isDark ? 0.08 : 0.18),
+                colors.buttonPrimaryBackground.withValues(
+                  alpha: isDark ? 0.03 : 0.02,
+                ),
                 Colors.transparent,
               ],
               stops: const <double>[0.0, 0.28, 1.0],
             ),
             borderRadius: BorderRadius.circular(borderRadius),
-            border: Border.all(color: borderCol, width: 1.0),
+            border: hasBorder
+                ? Border.all(color: borderCol!, width: 1.0)
+                : null,
             boxShadow: CoolShadows.glass(brightness),
           ),
           child: Material(
@@ -70,7 +74,9 @@ class CoolGlassCard extends StatelessWidget {
                 : InkWell(
                     onTap: onTap,
                     borderRadius: BorderRadius.circular(borderRadius),
-                    splashColor: colors.accent.withValues(alpha: 0.06),
+                    splashColor: colors.buttonPrimaryBackground.withValues(
+                      alpha: 0.05,
+                    ),
                     highlightColor: Colors.transparent,
                     child: content,
                   ),

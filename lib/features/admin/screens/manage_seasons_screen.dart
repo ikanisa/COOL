@@ -100,7 +100,7 @@ class ManageSeasonsScreen extends ConsumerWidget {
                 onRetry: () => ref.invalidate(adminSeasonsProvider),
                 loadingWidget: Padding(
                   padding: _liveOpsLoadingPadding(),
-                  child: CoolSkeletonList(itemCount: 4),
+                  child: const CoolSkeletonList(itemCount: 4),
                 ),
                 emptyCheck: (seasons) => seasons.isEmpty,
                 emptyWidget: CoolEmptyView(

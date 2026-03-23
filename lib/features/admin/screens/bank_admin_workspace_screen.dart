@@ -118,8 +118,8 @@ class _BankAdminWorkspaceScreenState
                       bankAdminWorkspaceProvider(widget.partnerId),
                     ),
                     builder: (snapshot) {
-                      this._syncSelectedGroup(snapshot.groups.entries);
-                      final selectedGroup = this._selectedGroup(
+                      _syncSelectedGroup(snapshot.groups.entries);
+                      final selectedGroup = _selectedGroup(
                         snapshot.groups.entries,
                       );
                       final ledgerQuery = selectedGroup == null
@@ -203,8 +203,8 @@ class _BankAdminWorkspaceScreenState
                                   groups: snapshot.groups.entries,
                                   totalCount: snapshot.groups.totalCount,
                                   onOpenGroup: (group) =>
-                                      this._openGroupDetail(group, snapshot),
-                                  onOpenLedger: this._openLedgerTab,
+                                      _openGroupDetail(group, snapshot),
+                                  onOpenLedger: _openLedgerTab,
                                   search: _groupSearch,
                                   onSearchChanged: (v) =>
                                       setState(() => _groupSearch = v),
@@ -240,7 +240,7 @@ class _BankAdminWorkspaceScreenState
                                         ),
                                   onExport: selectedGroup == null
                                       ? null
-                                      : (format, entries) => this._exportLedger(
+                                      : (format, entries) => _exportLedger(
                                           format: format,
                                           partnerName: partnerName,
                                           group: selectedGroup,
@@ -258,10 +258,10 @@ class _BankAdminWorkspaceScreenState
                                     () => _allocationStatusFilter = v,
                                   ),
                                   onAllocate: (item) =>
-                                      this._showAllocationSheet(item, snapshot),
-                                  onReject: this._rejectManualReview,
-                                  onAcceptSuggestion: this._acceptSuggestion,
-                                  onTriggerAi: this._triggerAiAllocation,
+                                      _showAllocationSheet(item, snapshot),
+                                  onReject: _rejectManualReview,
+                                  onAcceptSuggestion: _acceptSuggestion,
+                                  onTriggerAi: _triggerAiAllocation,
                                   isAiRunning: _isAiRunning,
                                 ),
                                 BankLoansTab(

@@ -28,7 +28,7 @@ class WhatsAppHintChip extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.chat_bubble_rounded, size: 13, color: _whatsApp),
+              const Icon(Icons.chat_bubble_rounded, size: 13, color: _whatsApp),
               const SizedBox(width: 6),
               Text(
                 label,

@@ -58,10 +58,10 @@ class BiopayHomeScreen extends ConsumerWidget {
                   ),
                 ),
                 SizedBox(height: space.x4),
-                Wrap(
+                const Wrap(
                   spacing: 10,
                   runSpacing: 10,
-                  children: const [
+                  children: [
                     _BiopayChip(label: 'Supabase-first'),
                     _BiopayChip(label: 'No image gallery writes'),
                     _BiopayChip(label: 'MoMo dialer handoff'),

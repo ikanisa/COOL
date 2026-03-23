@@ -82,7 +82,7 @@ abstract final class CoolToast {
           borderRadius: BorderRadius.circular(CoolRadii.sm),
           side: BorderSide(color: config.color.withValues(alpha: 0.3)),
         ),
-        margin: EdgeInsets.fromLTRB(
+        margin: const EdgeInsets.fromLTRB(
           CoolSpace.x4,
           0,
           CoolSpace.x4,

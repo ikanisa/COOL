@@ -145,7 +145,7 @@ class LiveOpsDropdownField extends StatelessWidget {
     return Padding(
       padding: _liveOpsFieldPadding(),
       child: DropdownButtonFormField<String>(
-        value: value,
+        initialValue: value,
         items: items
             .map(
               (item) => DropdownMenuItem<String>(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/cool_foundations.dart';
 
-/// A reusable premium surface card with restrained depth and stronger edge definition.
+/// A reusable premium surface card with tonal separation instead of visible borders.
 class CoolCard extends StatelessWidget {
   const CoolCard({
     required this.child,
@@ -30,7 +30,7 @@ class CoolCard extends StatelessWidget {
 
   final String? semanticsLabel;
 
-  static const _defaultRadius = CoolRadii.xl;
+  static const _defaultRadius = 24.0;
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +38,12 @@ class CoolCard extends StatelessWidget {
     final brightness = Theme.of(context).brightness;
     final isLight = brightness == Brightness.light;
     final radius = borderRadius ?? _defaultRadius;
-    final effectiveBorderColor =
-        borderColor ?? colors.border.withValues(alpha: isLight ? 0.8 : 1);
+    final hasBorder = borderColor != null;
     final shape = RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(radius),
-      side: BorderSide(color: effectiveBorderColor, width: 1.1),
+      side: hasBorder
+          ? BorderSide(color: borderColor!, width: 1.1)
+          : BorderSide.none,
     );
 
     final Gradient? resolvedGradient;
@@ -77,14 +78,14 @@ class CoolCard extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.white.withValues(alpha: isLight ? 0.28 : 0.06),
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: <Color>[
+                    Colors.white.withValues(alpha: isLight ? 0.16 : 0.08),
                     Colors.transparent,
-                    Colors.black.withValues(alpha: isLight ? 0.01 : 0.05),
+                    Colors.black.withValues(alpha: isLight ? 0.00 : 0.04),
                   ],
-                  stops: const [0, 0.28, 1],
+                  stops: const <double>[0, 0.34, 1],
                 ),
               ),
             ),
@@ -106,7 +107,9 @@ class CoolCard extends StatelessWidget {
             decoration: decoration,
             child: InkWell(
               onTap: onTap,
-              splashColor: colors.accent.withValues(alpha: 0.08),
+              splashColor: colors.buttonPrimaryBackground.withValues(
+                alpha: 0.06,
+              ),
               highlightColor: Colors.transparent,
               child: content,
             ),

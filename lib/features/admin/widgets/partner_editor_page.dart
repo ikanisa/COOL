@@ -525,7 +525,7 @@ class _PartnerEditorPageState extends State<PartnerEditorPage> {
           ),
         ),
         value: value,
-        activeColor: Theme.of(context).colorScheme.onPrimary,
+        activeThumbColor: Theme.of(context).colorScheme.onPrimary,
         activeTrackColor: colors.accent,
         inactiveThumbColor: colors.secondaryText,
         inactiveTrackColor: colors.borderStrong,

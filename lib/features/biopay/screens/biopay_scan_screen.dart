@@ -20,8 +20,8 @@ import '../../auth/providers/auth_provider.dart';
 import '../../profile/widgets/profile_app_access_sheet.dart';
 import '../models/biopay_enrollment_draft.dart';
 import '../models/biopay_face_frame_analysis.dart';
-import '../models/biopay_match_result.dart';
 import '../providers/biopay_providers.dart';
+import '../services/biopay_auth_gate_service.dart';
 import '../services/biopay_embedding_service.dart';
 import '../services/biopay_face_alignment_service.dart';
 import '../services/biopay_face_detection_service.dart';
@@ -370,26 +370,28 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
       return;
     }
 
-    final now = DateTime.now();
-    if (_lastEnrollmentCaptureAt != null &&
-        now.difference(_lastEnrollmentCaptureAt!) <
-            const Duration(milliseconds: 500)) {
-      return;
-    }
+    if (_enrollmentEmbeddings.length < 5) {
+      final now = DateTime.now();
+      if (_lastEnrollmentCaptureAt != null &&
+          now.difference(_lastEnrollmentCaptureAt!) <
+              const Duration(milliseconds: 500)) {
+        return;
+      }
 
-    _lastEnrollmentCaptureAt = now;
-    _enrollmentEmbeddings.add(embedding);
-    _capturedEnrollmentFrames = _enrollmentEmbeddings.length;
+      _lastEnrollmentCaptureAt = now;
+      _enrollmentEmbeddings.add(embedding);
+      _capturedEnrollmentFrames = _enrollmentEmbeddings.length;
 
-    if (_capturedEnrollmentFrames < 5) {
-      _setScannerState(
-        tone: BiopayScannerTone.ready,
-        statusLabel: 'Captured $_capturedEnrollmentFrames of 5',
-        helperText:
-            'Keep your face steady. BioPay averages five captures for a more stable enrollment vector.',
-      );
-      setState(() {});
-      return;
+      if (_capturedEnrollmentFrames < 5) {
+        _setScannerState(
+          tone: BiopayScannerTone.ready,
+          statusLabel: 'Captured $_capturedEnrollmentFrames of 5',
+          helperText:
+              'Keep your face steady. BioPay averages five captures for a more stable enrollment vector.',
+        );
+        setState(() {});
+        return;
+      }
     }
 
     _isSubmitting = true;
@@ -402,8 +404,24 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
 
     try {
       final averaged = _embeddingService.averageEmbeddings(
-        _enrollmentEmbeddings,
+        _enrollmentEmbeddings.take(5).toList(growable: false),
       );
+      final authResult = await ref
+          .read(biopayAuthGateServiceProvider)
+          .authorize(BiopayAuthAction.enrollment);
+      if (!mounted) {
+        return;
+      }
+      if (!authResult.isAuthorized) {
+        _setScannerState(
+          tone: BiopayScannerTone.blocked,
+          statusLabel: 'Identity confirmation required',
+          helperText: authResult.message,
+        );
+        CoolToast.error(context, authResult.message);
+        return;
+      }
+
       final profile = await ref
           .read(biopayRepositoryProvider)
           .enroll(draft: draft, embedding: averaged.toList(growable: false));
@@ -439,12 +457,8 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
     _isSubmitting = true;
 
     final embeddingList = embedding.toList(growable: false);
-    final cache = ref.read(biopayCacheServiceProvider);
-    final cacheTtlHours =
-        ref.read(biopayCacheTtlHoursProvider).valueOrNull ?? 24;
     final matchThreshold =
         ref.read(biopayMatchThresholdProvider).valueOrNull ?? 0.72;
-    final ownerUserId = ref.read(authProvider).session?.user.id ?? '';
 
     try {
       _setScannerState(
@@ -474,12 +488,6 @@ class _BiopayScanScreenState extends ConsumerState<BiopayScanScreen> {
         return;
       }
 
-      await cache.storeMatch(
-        ownerUserId,
-        embeddingList,
-        result,
-        ttl: Duration(hours: cacheTtlHours),
-      );
       if (!mounted) {
         return;
       }

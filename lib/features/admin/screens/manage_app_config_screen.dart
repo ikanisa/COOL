@@ -132,7 +132,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
                     style: OutlinedButton.styleFrom(
                       foregroundColor: colors.primaryText,
                       side: BorderSide(color: colors.border),
-                      shape: RoundedRectangleBorder(
+                      shape: const RoundedRectangleBorder(
                         borderRadius: _appConfigActionRadius,
                       ),
                     ),
@@ -182,7 +182,7 @@ class ManageAppConfigScreen extends ConsumerWidget {
                     style: OutlinedButton.styleFrom(
                       foregroundColor: colors.primaryText,
                       side: BorderSide(color: colors.border),
-                      shape: RoundedRectangleBorder(
+                      shape: const RoundedRectangleBorder(
                         borderRadius: _appConfigActionRadius,
                       ),
                     ),

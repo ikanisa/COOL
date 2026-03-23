@@ -72,7 +72,7 @@ class ReadinessNextMoveCard extends StatelessWidget {
               color: colors.secondaryText,
             ),
           ),
-          SizedBox(height: CoolSpace.x1 + 2),
+          const SizedBox(height: CoolSpace.x1 + 2),
           Text(
             headline,
             style: theme.textTheme.headlineSmall?.copyWith(
@@ -80,7 +80,7 @@ class ReadinessNextMoveCard extends StatelessWidget {
               fontWeight: FontWeight.w800,
             ),
           ),
-          SizedBox(height: CoolSpace.x2),
+          const SizedBox(height: CoolSpace.x2),
           Text(
             detail,
             style: theme.textTheme.bodySmall?.copyWith(
@@ -88,7 +88,7 @@ class ReadinessNextMoveCard extends StatelessWidget {
               height: 1.45,
             ),
           ),
-          SizedBox(height: CoolSpace.x3 + 2),
+          const SizedBox(height: CoolSpace.x3 + 2),
           Wrap(
             spacing: CoolSpace.x2 + 2,
             runSpacing: CoolSpace.x2 + 2,
@@ -107,7 +107,7 @@ class ReadinessNextMoveCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: CoolSpace.x3 + 2),
+          const SizedBox(height: CoolSpace.x3 + 2),
           Row(
             children: [
               Expanded(
@@ -160,14 +160,14 @@ class ReadinessChecklistCard extends StatelessWidget {
               fontWeight: FontWeight.w800,
             ),
           ),
-          SizedBox(height: CoolSpace.x1 + 2),
+          const SizedBox(height: CoolSpace.x1 + 2),
           Text(
             '${report.completedChecks}/${report.totalChecks} checks complete',
             style: theme.textTheme.labelMedium?.copyWith(
               color: colors.secondaryText,
             ),
           ),
-          SizedBox(height: CoolSpace.x2 + 2),
+          const SizedBox(height: CoolSpace.x2 + 2),
           Text(
             report.blockingIssues == 0
                 ? 'No blocking issues open.'
@@ -177,7 +177,7 @@ class ReadinessChecklistCard extends StatelessWidget {
               height: 1.45,
             ),
           ),
-          SizedBox(height: CoolSpace.x3 + 2),
+          const SizedBox(height: CoolSpace.x3 + 2),
           ...checksToShow.map(
             (check) => Padding(
               padding: insets.only(bottom: CoolSpace.x2 + 2),
@@ -236,7 +236,7 @@ class _ChecklistRow extends StatelessWidget {
             padding: insets.only(top: CoolSpace.x1 / 2),
             child: Icon(icon, size: 18, color: color),
           ),
-          SizedBox(width: CoolSpace.x2 + 2),
+          const SizedBox(width: CoolSpace.x2 + 2),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -274,7 +274,7 @@ class _ChecklistRow extends StatelessWidget {
                       ),
                   ],
                 ),
-                SizedBox(height: CoolSpace.x1),
+                const SizedBox(height: CoolSpace.x1),
                 Text(
                   check.detail,
                   style: theme.textTheme.labelMedium?.copyWith(
@@ -322,7 +322,7 @@ class HistoryStatChip extends StatelessWidget {
               color: colors.tertiaryText,
             ),
           ),
-          SizedBox(height: CoolSpace.x1 / 2),
+          const SizedBox(height: CoolSpace.x1 / 2),
           Text(
             value,
             style: theme.textTheme.bodySmall?.copyWith(

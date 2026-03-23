@@ -122,7 +122,7 @@ class _EditUserSheetState extends ConsumerState<EditUserSheet> {
     final userId = widget.user['id']?.toString() ?? '';
     final phone = widget.user['phone']?.toString() ?? '';
 
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: colors.overlaySurface,
         borderRadius: _editUserSheetRadius,

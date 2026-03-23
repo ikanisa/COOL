@@ -1,19 +1,21 @@
 /// Service to protect sensitive screens from screenshots and screen recording.
 ///
-/// Uses platform channels to toggle Android's `FLAG_SECURE` and iOS's
-/// secure view handling. Screens that show financial data (MoMo, credit)
-/// should call [enableSecureMode] in `initState` and [disableSecureMode]
-/// in `dispose`.
+/// Prefers the cross-platform `no_screenshot` plugin so route wrappers work on
+/// both Android and iOS, and falls back to the native method channel when the
+/// plugin is unavailable.
 library;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:no_screenshot/no_screenshot.dart';
 
 class ScreenSecurityService {
-  ScreenSecurityService({MethodChannel? channel})
-    : _channel = channel ?? const MethodChannel('app.cool.mobile/security');
+  ScreenSecurityService({MethodChannel? channel, NoScreenshot? noScreenshot})
+    : _channel = channel ?? const MethodChannel('app.cool.mobile/security'),
+      _noScreenshot = noScreenshot ?? NoScreenshot.instance;
 
   final MethodChannel _channel;
+  final NoScreenshot _noScreenshot;
 
   bool _isSecure = false;
 
@@ -25,6 +27,10 @@ class ScreenSecurityService {
   /// Safe to call multiple times; the platform side is idempotent.
   Future<void> enableSecureMode() async {
     if (_isSecure) return;
+    if (await _toggleWithPlugin(enable: true)) {
+      _isSecure = true;
+      return;
+    }
     try {
       await _channel.invokeMethod<void>('enableSecureMode');
       _isSecure = true;
@@ -39,11 +45,31 @@ class ScreenSecurityService {
   /// entire app.
   Future<void> disableSecureMode() async {
     if (!_isSecure) return;
+    if (await _toggleWithPlugin(enable: false)) {
+      _isSecure = false;
+      return;
+    }
     try {
       await _channel.invokeMethod<void>('disableSecureMode');
       _isSecure = false;
     } catch (e) {
       debugPrint('[ScreenSecurity] Failed to disable secure mode: $e');
+    }
+  }
+
+  Future<bool> _toggleWithPlugin({required bool enable}) async {
+    try {
+      if (enable) {
+        await _noScreenshot.screenshotOff();
+      } else {
+        await _noScreenshot.screenshotOn();
+      }
+      return true;
+    } catch (e) {
+      debugPrint(
+        '[ScreenSecurity] no_screenshot ${enable ? 'enable' : 'disable'} failed: $e',
+      );
+      return false;
     }
   }
 }

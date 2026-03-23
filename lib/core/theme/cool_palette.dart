@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'app_colors.dart';
-
 /// Theme-aware semantic color roles for the Cool app shell.
 ///
 /// **DEPRECATED** — migrate to [CoolSemanticColors] via `context.coolSemanticColors`.
@@ -20,8 +18,10 @@ import 'app_colors.dart';
 /// coolPalette.accent   → sem.accent
 /// coolPalette.accent2  → sem.accentStrong
 /// ```
-@Deprecated('Use CoolSemanticColors via context.coolSemanticColors instead. '
-    'See migration mapping in doc comment above.')
+@Deprecated(
+  'Use CoolSemanticColors via context.coolSemanticColors instead. '
+  'See migration mapping in doc comment above.',
+)
 @immutable
 class CoolPalette extends ThemeExtension<CoolPalette> {
   const CoolPalette({
@@ -46,45 +46,45 @@ class CoolPalette extends ThemeExtension<CoolPalette> {
   });
 
   static const dark = CoolPalette(
-    bg: AppColors.darkBg,
-    surface: AppColors.darkSurface,
-    surface2: AppColors.darkSurface2,
-    surface3: AppColors.darkSurface3,
-    border: AppColors.darkBorder,
-    border2: AppColors.darkBorder2,
-    text: AppColors.darkText,
-    text2: AppColors.darkText2,
-    text3: AppColors.darkText3,
-    accent: AppColors.accent,
-    accent2: AppColors.accent2,
-    accentGlow: Color(0x262C6A49),
-    blue: AppColors.blue,
-    blueGlow: Color(0x2456728E),
-    orange: AppColors.orange,
-    purple: AppColors.purple,
-    yellow: AppColors.yellow,
-    red: AppColors.red,
+    bg: Color(0xFF111413),
+    surface: Color(0xFF151817),
+    surface2: Color(0xFF191C1B),
+    surface3: Color(0xFF333534),
+    border: Color(0x14FFFFFF),
+    border2: Color(0x26FFFFFF),
+    text: Color(0xFFF3F5F1),
+    text2: Color(0xFFC3CAC4),
+    text3: Color(0xFF8C948D),
+    accent: Color(0xFF0047AB),
+    accent2: Color(0xFF003888),
+    accentGlow: Color(0x290047AB),
+    blue: Color(0xFF89AFFF),
+    blueGlow: Color(0x2489AFFF),
+    orange: Color(0xFFFFB59A),
+    purple: Color(0xFF181822),
+    yellow: Color(0xFFFFB59A),
+    red: Color(0xFFD0727A),
   );
 
   static const light = CoolPalette(
-    bg: AppColors.lightBg,
-    surface: AppColors.lightSurface,
-    surface2: AppColors.lightSurface2,
-    surface3: AppColors.lightSurface3,
-    border: AppColors.lightBorder,
-    border2: AppColors.lightBorder2,
-    text: AppColors.lightText,
-    text2: AppColors.lightText2,
-    text3: AppColors.lightText3,
-    accent: AppColors.accent,
-    accent2: AppColors.accent2,
-    accentGlow: AppColors.accentGlow,
-    blue: AppColors.blue,
-    blueGlow: AppColors.blueGlow,
-    orange: AppColors.orange,
-    purple: AppColors.purple,
-    yellow: AppColors.yellow,
-    red: AppColors.red,
+    bg: Color(0xFFF1F3F0),
+    surface: Color(0xFFF5F6F4),
+    surface2: Color(0xFFE7EBE7),
+    surface3: Color(0xFFFDFEFC),
+    border: Color(0x16000000),
+    border2: Color(0x26000000),
+    text: Color(0xFF111413),
+    text2: Color(0xFF4E5450),
+    text3: Color(0xFF757D77),
+    accent: Color(0xFF0047AB),
+    accent2: Color(0xFF003A8C),
+    accentGlow: Color(0x290047AB),
+    blue: Color(0xFF54759A),
+    blueGlow: Color(0x2454759A),
+    orange: Color(0xFFFFB59A),
+    purple: Color(0xFFE9E9F0),
+    yellow: Color(0xFFFFB59A),
+    red: Color(0xFFA24C54),
   );
 
   final Color bg;

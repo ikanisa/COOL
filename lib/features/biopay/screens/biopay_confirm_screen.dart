@@ -11,6 +11,7 @@ import '../../../shared/widgets/cool_screen_scaffold.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../models/biopay_match_result.dart';
 import '../providers/biopay_providers.dart';
+import '../services/biopay_auth_gate_service.dart';
 
 class BiopayConfirmScreen extends ConsumerStatefulWidget {
   const BiopayConfirmScreen({this.result, super.key});
@@ -36,6 +37,17 @@ class _BiopayConfirmScreenState extends ConsumerState<BiopayConfirmScreen> {
 
     setState(() => _isDialing = true);
     try {
+      final authResult = await ref
+          .read(biopayAuthGateServiceProvider)
+          .authorize(BiopayAuthAction.paymentHandoff);
+      if (!mounted) {
+        return;
+      }
+      if (!authResult.isAuthorized) {
+        CoolToast.error(context, authResult.message);
+        return;
+      }
+
       final launched = await ref
           .read(biopayDialerServiceProvider)
           .dialProfile(result.profile!);

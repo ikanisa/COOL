@@ -74,7 +74,7 @@ class RayonHomeScreen extends StatelessWidget {
                             _ensureMembership(context, ref),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: CoolSpace.x6),
                     rayon.when(
                       data: (data) {
                         final serviceItems = _buildHomeServiceItems(
@@ -91,10 +91,10 @@ class RayonHomeScreen extends StatelessWidget {
                                 data: data,
                                 membership: activeMembership ?? data.membership,
                               ),
-                              const SizedBox(height: 24),
+                              const SizedBox(height: CoolSpace.x6),
                             ],
                             const _RsSectionTitle(title: 'Club Services'),
-                            const SizedBox(height: 14),
+                            const SizedBox(height: CoolSpace.x3),
                             for (
                               var index = 0;
                               index < serviceItems.length;
@@ -110,10 +110,10 @@ class RayonHomeScreen extends StatelessWidget {
                                     context.push(serviceItems[index].route),
                               ),
                               if (index != serviceItems.length - 1)
-                                const SizedBox(height: 12),
+                                const SizedBox(height: CoolSpace.x3),
                             ],
                             if (useProductionRedesign) ...[
-                              const SizedBox(height: 24),
+                              const SizedBox(height: CoolSpace.x6),
                               _ClubStandingsCard(
                                 clubs: data.clubs,
                                 joinedClubIds: data.joinedClubIds,
@@ -135,7 +135,7 @@ class RayonHomeScreen extends StatelessWidget {
                               Expanded(child: CoolSkeleton.card()),
                             ],
                           ),
-                          SizedBox(height: 12),
+                          SizedBox(height: CoolSpace.x3),
                           Row(
                             children: [
                               Expanded(child: CoolSkeleton.card()),
@@ -143,14 +143,14 @@ class RayonHomeScreen extends StatelessWidget {
                               Expanded(child: CoolSkeleton.card()),
                             ],
                           ),
-                          SizedBox(height: 12),
+                          SizedBox(height: CoolSpace.x3),
                           CoolSkeleton.card(),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: CoolSpace.x6),
                     const _RsSectionTitle(title: 'Matchday Access'),
-                    const SizedBox(height: 14),
+                    const SizedBox(height: CoolSpace.x3),
                     nextMatch.when(
                       loading: () => const CoolSkeleton.card(),
                       error: (_, stackTrace) => _EmptyMatchCard(
@@ -343,7 +343,7 @@ class _HomeOverviewCard extends StatelessWidget {
                         color: colors.tertiaryText,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: CoolSpace.x2),
                     Text(
                       fanName,
                       style: GoogleFonts.barlow(
@@ -352,7 +352,7 @@ class _HomeOverviewCard extends StatelessWidget {
                         color: RsColors.rsWhite,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: CoolSpace.x1),
                     Text(
                       fanId,
                       style: GoogleFonts.dmMono(
@@ -361,7 +361,7 @@ class _HomeOverviewCard extends StatelessWidget {
                         color: RsColors.rsWhite.withValues(alpha: 0.72),
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: CoolSpace.x2),
                     Text(
                       membership == null
                           ? 'Create or restore your verified supporter identity to unlock priority access.'
@@ -380,7 +380,7 @@ class _HomeOverviewCard extends StatelessWidget {
               Column(
                 children: [
                   const _RayonBrandMark(size: 56),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: CoolSpace.x2),
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 10,
@@ -408,7 +408,7 @@ class _HomeOverviewCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           Wrap(
             spacing: 10,
             runSpacing: 10,
@@ -437,10 +437,10 @@ class _HomeOverviewCard extends StatelessWidget {
             ],
           ),
           if (membership != null) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: CoolSpace.x4),
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(CoolSpace.x4),
               decoration: BoxDecoration(
                 color: colors.glassSurface.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(20),
@@ -472,7 +472,7 @@ class _HomeOverviewCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: CoolSpace.x2),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(999),
                     child: LinearProgressIndicator(
@@ -486,7 +486,7 @@ class _HomeOverviewCard extends StatelessWidget {
               ),
             ),
           ],
-          const SizedBox(height: 18),
+          const SizedBox(height: CoolSpace.x5),
           if (membership == null)
             Row(
               children: [
@@ -581,7 +581,7 @@ class _ClubCommandCard extends StatelessWidget {
                         color: Colors.white.withValues(alpha: 0.72),
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: CoolSpace.x2),
                     Text(
                       membership == null
                           ? 'Official club access, matchday, and commerce in one trusted surface.'
@@ -604,7 +604,7 @@ class _ClubCommandCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: CoolSpace.x5),
           Wrap(
             spacing: 10,
             runSpacing: 10,
@@ -624,7 +624,7 @@ class _ClubCommandCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           Row(
             children: [
               Expanded(
@@ -707,7 +707,7 @@ class _ClubStandingsCard extends StatelessWidget {
                         color: RsColors.rsWhite,
                       ),
                     ),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: CoolSpace.x1),
                     Text(
                       'Member growth, event energy, and chapter credibility ranked for quick scanning.',
                       style: GoogleFonts.barlow(
@@ -723,7 +723,7 @@ class _ClubStandingsCard extends StatelessWidget {
               TextButton(onPressed: onViewAll, child: const Text('View all')),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           if (ranked.isEmpty)
             Text(
               'Chapter rankings will appear as clubs start reporting members and events.',
@@ -743,7 +743,7 @@ class _ClubStandingsCard extends StatelessWidget {
                     joined: joinedClubIds.contains(ranked[index].id),
                   ),
                   if (index != ranked.take(4).length - 1)
-                    const SizedBox(height: 10),
+                    const SizedBox(height: CoolSpace.x2),
                 ],
               ],
             ),
@@ -795,7 +795,7 @@ class _MatchdayBriefCard extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: CoolSpace.x1),
                     Text(
                       'Official allocation, digital entry, and disciplined priority access for supporters.',
                       style: GoogleFonts.barlow(
@@ -819,7 +819,7 @@ class _MatchdayBriefCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: CoolSpace.x3),
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -842,7 +842,7 @@ class _MatchdayBriefCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           Row(
             children: [
               Expanded(
@@ -927,7 +927,7 @@ class _HomeLinkCard extends StatelessWidget {
                           fontWeight: FontWeight.w800,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: CoolSpace.x1),
                       Text(
                         meta,
                         style: GoogleFonts.dmMono(
@@ -936,7 +936,7 @@ class _HomeLinkCard extends StatelessWidget {
                           color: accentColor,
                         ),
                       ),
-                      const SizedBox(height: 6),
+                      const SizedBox(height: CoolSpace.x1),
                       Text(
                         detail,
                         style: theme.textTheme.bodySmall?.copyWith(
@@ -997,7 +997,7 @@ class _MembershipMetricChip extends StatelessWidget {
               color: accentColor,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: CoolSpace.x1),
           Text(
             value,
             style: theme.textTheme.labelLarge?.copyWith(
@@ -1097,7 +1097,7 @@ class _SignalTile extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: CoolSpace.x1),
           Text(
             label,
             style: theme.textTheme.labelMedium?.copyWith(
@@ -1127,7 +1127,7 @@ class _StandingRow extends StatelessWidget {
     final colors = context.coolSemanticColors;
 
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(CoolSpace.x3),
       decoration: BoxDecoration(
         color: colors.cardSurface,
         borderRadius: BorderRadius.circular(20),
@@ -1186,7 +1186,7 @@ class _StandingRow extends StatelessWidget {
                       ),
                   ],
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: CoolSpace.x1),
                 Text(
                   club.region,
                   style: GoogleFonts.barlow(
@@ -1195,7 +1195,7 @@ class _StandingRow extends StatelessWidget {
                     color: colors.secondaryText,
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: CoolSpace.x2),
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
@@ -1325,7 +1325,7 @@ class _EmptyMatchCard extends StatelessWidget {
             'No live fixture yet',
             style: RsTextStyles.sectionTitle(color: RsColors.rsWhite),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: CoolSpace.x2),
           Text(
             'Official ticket allocations will appear here as soon as the next match opens for supporters.',
             style: GoogleFonts.barlow(
@@ -1335,7 +1335,7 @@ class _EmptyMatchCard extends StatelessWidget {
               height: 1.45,
             ),
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: CoolSpace.x3),
           Align(
             alignment: Alignment.centerLeft,
             child: CoolButton(

@@ -63,7 +63,7 @@ class BankPartnerScreen extends ConsumerWidget {
         ),
         body: partnerAsync.when(
           loading: () => const Padding(
-            padding: EdgeInsets.all(18),
+            padding: EdgeInsets.all(CoolSpace.x5),
             child: CoolSkeletonList(),
           ),
           error: (error, _) => PartnerErrorBody(
@@ -94,17 +94,22 @@ class _BankBody extends ConsumerWidget {
     final servicesAsync = ref.watch(partnerServicesProvider(partner.id));
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+      padding: const EdgeInsets.fromLTRB(
+        CoolSpace.x6,
+        CoolSpace.x2,
+        CoolSpace.x6,
+        CoolSpace.x7,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           BankHero(partner: partner),
-          const SizedBox(height: 16),
+          const SizedBox(height: CoolSpace.x4),
           servicesAsync.when(
             data: (services) =>
                 BankServiceGrid(partner: partner, services: services),
             loading: () => const Padding(
-              padding: EdgeInsets.symmetric(vertical: 24),
+              padding: EdgeInsets.symmetric(vertical: CoolSpace.x6),
               child: Center(child: CircularProgressIndicator()),
             ),
             error: (error, _) => Center(

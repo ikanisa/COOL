@@ -53,7 +53,7 @@ class SystemAnalyticsScreen extends ConsumerWidget {
           onRetry: () => ref.invalidate(platformAnalyticsProvider),
           loadingWidget: Padding(
             padding: _systemAnalyticsLoadingPadding(),
-            child: CoolSkeletonList(itemCount: 6),
+            child: const CoolSkeletonList(itemCount: 6),
           ),
           emptyCheck: (a) => a.isEmpty,
           emptyWidget: const CoolEmptyView(

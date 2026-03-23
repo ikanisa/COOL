@@ -77,19 +77,19 @@ class HomeScreen extends ConsumerWidget {
                   ],
                   children: [
                     const HomeHeader(),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: CoolSpace.x6),
 
                     SectionTitle(title: l10n.quickActions),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: CoolSpace.x3),
                     const QuickActionSection(),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: CoolSpace.x6),
 
                     SectionTitle(
                       title: l10n.recentActivity,
                       actionLabel: l10n.statementsLabel,
                       action: () => context.push(AppRoutes.momoStatements),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: CoolSpace.x3),
                     dashboardAsync.when(
                       data: (dashboard) => RecentActivityCard(
                         activityCount:
@@ -110,7 +110,7 @@ class HomeScreen extends ConsumerWidget {
                       initiativesAsync: ref.watch(rayonInitiativesProvider),
                     ),
                     if (ref.watch(hasActiveBankPartnerProvider)) ...[
-                      const SizedBox(height: 14),
+                      const SizedBox(height: CoolSpace.x3),
                       dashboardAsync.when(
                         data: (dashboard) => GroupSavingsCard(data: dashboard),
                         loading: () => const OverviewLoadingCard(),
@@ -119,17 +119,17 @@ class HomeScreen extends ConsumerWidget {
                         ),
                       ),
                     ],
-                    const SizedBox(height: 14),
+                    const SizedBox(height: CoolSpace.x3),
                     const ReferralBanner(),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: CoolSpace.x5),
                     const NexusRecommendationsSection(),
-                    const SizedBox(height: 14),
+                    const SizedBox(height: CoolSpace.x3),
                     ...ref
                         .watch(activeSpecialProductsProvider)
                         .maybeWhen(
                           data: (products) => products.map(
                             (p) => Padding(
-                              padding: const EdgeInsets.only(bottom: 14),
+                              padding: const EdgeInsets.only(bottom: CoolSpace.x3),
                               child: SpecialProductCard(product: p),
                             ),
                           ),
@@ -145,7 +145,7 @@ class HomeScreen extends ConsumerWidget {
                               return const SizedBox.shrink();
                             }
                             return Padding(
-                              padding: const EdgeInsets.only(top: 32),
+                              padding: const EdgeInsets.only(top: CoolSpace.x7),
                               child: SeasonBanner(
                                 season: season,
                                 onTap: () => context.push(AppRoutes.seasons),
@@ -156,27 +156,27 @@ class HomeScreen extends ConsumerWidget {
                           error: (_, _) => const SizedBox.shrink(),
                         ),
                     if (quests.isNotEmpty) ...[
-                      const SizedBox(height: 32),
+                      const SizedBox(height: CoolSpace.x7),
                       SectionTitle(
                         title: l10n.homeMissionsTitle,
                         actionLabel: l10n.openAction,
                         action: () => context.push(AppRoutes.missions),
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: CoolSpace.x3),
                       SizedBox(
                         height: 170,
                         child: ListView.separated(
                           scrollDirection: Axis.horizontal,
                           itemCount: quests.take(3).length,
                           separatorBuilder: (context, index) =>
-                              const SizedBox(width: 10),
+                              const SizedBox(width: CoolSpace.x3),
                           itemBuilder: (context, index) {
                             return QuestCard(quest: quests[index]);
                           },
                         ),
                       ),
                     ],
-                    const SizedBox(height: 40),
+                    const SizedBox(height: CoolSpace.x8),
                   ],
                 ),
               ),

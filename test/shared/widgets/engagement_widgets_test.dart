@@ -63,9 +63,9 @@ void main() {
         routes: [
           GoRoute(
             path: '/',
-            builder: (context, state) => Scaffold(
+            builder: (context, state) => const Scaffold(
               body: QuestCard(
-                quest: const CoolQuest(
+                quest: CoolQuest(
                   id: 'quest-1',
                   icon: Icons.flag_rounded,
                   title: 'Complete onboarding',

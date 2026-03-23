@@ -34,11 +34,13 @@ bool isPausedTrip(Trip trip) => trip.status.trim().toUpperCase() == 'PAUSED';
 String vehicleIconForType(String vehicleType) {
   final normalized = vehicleType.trim().toLowerCase();
   if (normalized.contains('moto')) return 'assets/icons/vehicle_moto.png';
-  if (normalized.contains('cab') || normalized.contains('car'))
+  if (normalized.contains('cab') || normalized.contains('car')) {
     return 'assets/icons/vehicle_cab.png';
+  }
   if (normalized.contains('truck')) return 'assets/icons/vehicle_truck.png';
-  if (normalized.contains('pickup') || normalized.contains('others'))
+  if (normalized.contains('pickup') || normalized.contains('others')) {
     return 'assets/icons/vehicle_others.png';
+  }
   if (normalized.contains('trike') || normalized.contains('van')) {
     return 'assets/icons/vehicle_trike.png';
   }

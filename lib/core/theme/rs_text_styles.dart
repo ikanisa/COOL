@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import 'app_colors.dart';
-
-/// Rayon Sports FC typography scale.
+import 'package:google_fonts/gooRayon Sports FC typography scale.
 ///
 /// Uses Barlow Condensed (weight 800–900) for headings and stats,
 /// consistent with the club's strong, condensed branding.

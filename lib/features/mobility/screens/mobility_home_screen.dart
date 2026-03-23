@@ -265,9 +265,9 @@ class _MobilityHomeScreenState extends ConsumerState<MobilityHomeScreen> {
               ),
               if (locationState.hasLocation)
                 SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(
+                  padding: EdgeInsets.fromLTRB(
                     CoolLayout.horizontalPagePadding,
-                    12,
+                    CoolSpace.x3,
                     CoolLayout.horizontalPagePadding,
                     0,
                   ),
@@ -338,17 +338,17 @@ class _MobilityMapSection extends ConsumerWidget {
           // Recenter FAB
           if (userPos != null)
             Positioned(
-              right: 12,
-              bottom: 12,
+              right: CoolSpace.x3,
+              bottom: CoolSpace.x3,
               child: Material(
                 color: colors.cardSurfaceStrong,
                 elevation: 4,
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(CoolRadii.sm),
                 child: InkWell(
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(CoolRadii.sm),
                   onTap: onRecenter,
                   child: Padding(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(CoolSpace.x3),
                     child: Icon(
                       Icons.my_location_rounded,
                       color: colors.accent,

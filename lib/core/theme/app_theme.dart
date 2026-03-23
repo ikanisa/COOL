@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'app_theme_components.dart';
 import 'app_theme_text.dart';
 import 'cool_foundations.dart';
-import 'cool_palette.dart';
 
 /// Global [ThemeData] definitions for the Cool app.
 ///
@@ -27,26 +25,26 @@ abstract final class AppTheme {
         : CoolSemanticColors.light;
     final textTheme = AppThemeText.build(
       brightness: brightness,
-      palette: palette,
+      semanticColors: semanticColors,
     );
 
     final colorScheme = isDark
         ? ColorScheme.dark(
-            surface: palette.surface,
-            primary: palette.accent,
-            secondary: palette.blue,
-            error: palette.red,
-            onPrimary: const Color(0xFFF8F6F1),
-            onSurface: palette.text,
+            surface: semanticColors.elevatedBackground,
+            primary: semanticColors.buttonPrimaryBackground,
+            secondary: semanticColors.success,
+            error: semanticColors.danger,
+            onPrimary: semanticColors.accentForeground,
+            onSurface: semanticColors.primaryText,
             onError: Colors.white,
           )
         : ColorScheme.light(
-            surface: palette.surface,
-            primary: palette.accent,
-            secondary: palette.blue,
-            error: palette.red,
-            onPrimary: const Color(0xFFF8F6F1),
-            onSurface: palette.text,
+            surface: semanticColors.elevatedBackground,
+            primary: semanticColors.buttonPrimaryBackground,
+            secondary: semanticColors.success,
+            error: semanticColors.danger,
+            onPrimary: semanticColors.accentForeground,
+            onSurface: semanticColors.primaryText,
             onError: Colors.white,
           );
 
@@ -56,9 +54,9 @@ abstract final class AppTheme {
       fontFamily: GoogleFonts.manrope().fontFamily,
       materialTapTargetSize: MaterialTapTargetSize.padded,
       visualDensity: VisualDensity.standard,
-      scaffoldBackgroundColor: palette.bg,
+      scaffoldBackgroundColor: semanticColors.appBackground,
       colorScheme: colorScheme,
-      canvasColor: palette.surface,
+      canvasColor: semanticColors.elevatedBackground,
       extensions: <ThemeExtension<dynamic>>[palette, semanticColors],
       textTheme: textTheme,
 
@@ -123,7 +121,7 @@ abstract final class AppTheme {
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       splashFactory: NoSplash.splashFactory,
-      iconTheme: IconThemeData(color: palette.text2, size: 24),
+      iconTheme: IconThemeData(color: semanticColors.secondaryText, size: 24),
     );
   }
 }

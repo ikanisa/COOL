@@ -158,7 +158,7 @@ class _ApplicationHistoryCard extends StatelessWidget {
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    SizedBox(height: CoolSpace.x1),
+                    const SizedBox(height: CoolSpace.x1),
                     Text(
                       application.applicationTypeLabel,
                       style: theme.textTheme.labelSmall?.copyWith(
@@ -189,7 +189,7 @@ class _ApplicationHistoryCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: CoolSpace.x3),
+          const SizedBox(height: CoolSpace.x3),
           Wrap(
             spacing: CoolSpace.x2 + 2,
             runSpacing: CoolSpace.x2 + 2,
@@ -216,7 +216,7 @@ class _ApplicationHistoryCard extends StatelessWidget {
           if ((application.requestedProduct?.trim().isNotEmpty ?? false) ||
               (application.applicantNote?.trim().isNotEmpty ?? false) ||
               handoffAt != null) ...[
-            SizedBox(height: CoolSpace.x3),
+            const SizedBox(height: CoolSpace.x3),
             Container(
               width: double.infinity,
               padding: insets.all(CoolSpace.x3),
@@ -240,7 +240,7 @@ class _ApplicationHistoryCard extends StatelessWidget {
                   if ((application.requestedProduct?.trim().isNotEmpty ??
                           false) &&
                       application.applicantNote?.trim().isNotEmpty == true)
-                    SizedBox(height: CoolSpace.x1 + 2),
+                    const SizedBox(height: CoolSpace.x1 + 2),
                   if (application.applicantNote?.trim().isNotEmpty ?? false)
                     Text(
                       application.applicantNote!,
@@ -250,7 +250,7 @@ class _ApplicationHistoryCard extends StatelessWidget {
                       ),
                     ),
                   if (handoffAt != null) ...[
-                    SizedBox(height: CoolSpace.x2),
+                    const SizedBox(height: CoolSpace.x2),
                     Text(
                       'Latest handoff ${dateFormatter.format(handoffAt)} via partner route',
                       style: theme.textTheme.labelSmall?.copyWith(
@@ -336,7 +336,7 @@ class _PartnerReadinessCard extends StatelessWidget {
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    SizedBox(height: CoolSpace.x1),
+                    const SizedBox(height: CoolSpace.x1),
                     Text(
                       partner.subtitle ??
                           partner.description ??
@@ -349,7 +349,7 @@ class _PartnerReadinessCard extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(width: CoolSpace.x3),
+              const SizedBox(width: CoolSpace.x3),
               PartnerBrandMark(
                 partner: partner,
                 width: 104,
@@ -361,7 +361,7 @@ class _PartnerReadinessCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: CoolSpace.x3),
+          const SizedBox(height: CoolSpace.x3),
           Container(
             width: double.infinity,
             padding: insets.symmetric(
@@ -383,7 +383,7 @@ class _PartnerReadinessCard extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: CoolSpace.x3),
+          const SizedBox(height: CoolSpace.x3),
           CoolButton(
             label: buttonLabel,
             variant: canDiscussLoans || canStartAccount
@@ -497,14 +497,14 @@ class _PartnerApplicationComposerSheetState
                   fontWeight: FontWeight.w800,
                 ),
               ),
-              SizedBox(height: CoolSpace.x1),
+              const SizedBox(height: CoolSpace.x1),
               Text(
                 widget.partner.name,
                 style: theme.textTheme.labelMedium?.copyWith(
                   color: colors.info,
                 ),
               ),
-              SizedBox(height: CoolSpace.x3 + 2),
+              const SizedBox(height: CoolSpace.x3 + 2),
               Container(
                 width: double.infinity,
                 padding: insets.all(CoolSpace.x3),
@@ -531,7 +531,7 @@ class _PartnerApplicationComposerSheetState
                   ),
                 ),
               ),
-              SizedBox(height: CoolSpace.x4),
+              const SizedBox(height: CoolSpace.x4),
               DropdownButtonFormField<String>(
                 initialValue: _applicationType,
                 decoration: _sheetInputDecoration(
@@ -564,7 +564,7 @@ class _PartnerApplicationComposerSheetState
                         });
                       },
               ),
-              SizedBox(height: CoolSpace.x3),
+              const SizedBox(height: CoolSpace.x3),
               TextFormField(
                 controller: _productController,
                 enabled: !_isSavingDraft && !_isSubmitting,
@@ -574,7 +574,7 @@ class _PartnerApplicationComposerSheetState
                   hint: 'e.g. group loan',
                 ),
               ),
-              SizedBox(height: CoolSpace.x3),
+              const SizedBox(height: CoolSpace.x3),
               TextFormField(
                 controller: _noteController,
                 enabled: !_isSavingDraft && !_isSubmitting,
@@ -586,7 +586,7 @@ class _PartnerApplicationComposerSheetState
                 ),
               ),
               if (!_canRouteNow) ...[
-                SizedBox(height: CoolSpace.x3),
+                const SizedBox(height: CoolSpace.x3),
                 Text(
                   'Not ready for partner',
                   style: theme.textTheme.labelSmall?.copyWith(
@@ -595,7 +595,7 @@ class _PartnerApplicationComposerSheetState
                   ),
                 ),
               ],
-              SizedBox(height: CoolSpace.x4),
+              const SizedBox(height: CoolSpace.x4),
               Row(
                 children: [
                   Expanded(
@@ -607,7 +607,7 @@ class _PartnerApplicationComposerSheetState
                     ),
                   ),
                   if (_canRouteNow) ...[
-                    SizedBox(width: CoolSpace.x3),
+                    const SizedBox(width: CoolSpace.x3),
                     Expanded(
                       child: CoolButton(
                         label: 'Save & Open Partner',

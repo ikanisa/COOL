@@ -46,7 +46,7 @@ class _CoolButtonState extends State<CoolButton>
       vsync: this,
       duration: CoolMotion.press,
     );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.97).animate(
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.985).animate(
       CurvedAnimation(parent: _scaleController, curve: Curves.easeInOut),
     );
   }
@@ -60,34 +60,32 @@ class _CoolButtonState extends State<CoolButton>
   @override
   Widget build(BuildContext context) {
     final space = context.coolSpace;
-    final radii = context.coolRadii;
     final theme = Theme.of(context);
     final colors = context.coolSemanticColors;
     final brightness = theme.brightness;
     final enabled =
         widget.onTap != null && !widget.isLoading && !widget.isDisabled;
     final isPrimary = widget.variant == CoolButtonVariant.primary;
+    const buttonRadius = 6.0;
 
     final backgroundDecoration = BoxDecoration(
       color: isPrimary
-          ? (enabled ? null : colors.cardSurfaceStrong)
-          : (enabled
-                ? colors.buttonSecondaryBackground
-                : colors.chipBackground),
-      gradient: isPrimary && enabled ? colors.accentGradient : null,
-      borderRadius: BorderRadius.circular(radii.md),
-      border: Border.all(
-        color: isPrimary
-            ? (enabled
-                  ? Colors.white.withValues(alpha: 0.14)
-                  : colors.border.withValues(alpha: 0.6))
-            : (enabled ? colors.borderStrong : colors.border),
-        width: isPrimary ? 1.0 : 1.1,
-      ),
+          ? (enabled
+                ? colors.buttonPrimaryBackground
+                : colors.cardSurfaceStrong)
+          : Colors.transparent,
+      borderRadius: BorderRadius.circular(buttonRadius),
+      border: isPrimary
+          ? Border.all(
+              color: enabled
+                  ? colors.highlightColor.withValues(alpha: 0.10)
+                  : colors.border.withValues(alpha: 0.6),
+            )
+          : null,
       boxShadow: enabled
           ? (isPrimary
-                ? CoolShadows.floating(brightness, strength: 0.72)
-                : CoolShadows.clay(brightness, strength: 0.55))
+                ? CoolShadows.floating(brightness, strength: 0.52)
+                : null)
           : null,
     );
 
@@ -113,7 +111,7 @@ class _CoolButtonState extends State<CoolButton>
                 ),
                 child: Material(
                   color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(radii.md),
+                  borderRadius: BorderRadius.circular(buttonRadius),
                   child: Ink(
                     decoration: backgroundDecoration,
                     child: InkWell(
@@ -136,32 +134,35 @@ class _CoolButtonState extends State<CoolButton>
                               widget.onTap?.call();
                             }
                           : null,
-                      borderRadius: BorderRadius.circular(radii.md),
+                      borderRadius: BorderRadius.circular(buttonRadius),
                       splashColor: isPrimary
                           ? theme.colorScheme.onPrimary.withValues(alpha: 0.1)
-                          : colors.primaryText.withValues(alpha: 0.08),
+                          : colors.buttonPrimaryBackground.withValues(
+                              alpha: 0.06,
+                            ),
                       highlightColor: Colors.transparent,
                       child: DecoratedBox(
                         decoration: BoxDecoration(
-                          gradient: isPrimary || !enabled
-                              ? null
-                              : LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  colors: [
+                          gradient: isPrimary && enabled
+                              ? LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: <Color>[
                                     colors.highlightColor.withValues(
-                                      alpha: brightness == Brightness.light
-                                          ? 0.38
-                                          : 0.04,
+                                      alpha: brightness == Brightness.dark
+                                          ? 0.10
+                                          : 0.16,
                                     ),
-                                    Colors.transparent,
+                                    colors.highlightColor.withValues(alpha: 0),
                                   ],
-                                ),
+                                  stops: const <double>[0.0, 0.42],
+                                )
+                              : null,
                         ),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                            horizontal: space.x5,
-                            vertical: space.x4,
+                            horizontal: isPrimary ? 44 : space.x3,
+                            vertical: isPrimary ? 22 : 18,
                           ),
                           child: _buildChild(context, enabled),
                         ),
@@ -203,7 +204,7 @@ class _CoolButtonState extends State<CoolButton>
         style: Theme.of(context).textTheme.labelLarge?.copyWith(
           fontWeight: FontWeight.w800,
           color: textColor,
-          letterSpacing: -0.2,
+          letterSpacing: widget.variant == CoolButtonVariant.primary ? 0.2 : 0,
         ),
       );
 

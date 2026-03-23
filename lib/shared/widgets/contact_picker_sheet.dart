@@ -407,7 +407,7 @@ class _ContactPickerSheetState extends State<ContactPickerSheet>
     if (_isLoading) {
       return Padding(
         padding: EdgeInsets.symmetric(vertical: space.x10 - 4),
-        child: CoolSkeletonList(itemCount: 3),
+        child: const CoolSkeletonList(itemCount: 3),
       );
     }
 

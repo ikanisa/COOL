@@ -159,8 +159,8 @@ class StatementOverviewCard extends StatelessWidget {
                   style: OutlinedButton.styleFrom(
                     foregroundColor: colors.primaryText,
                     side: BorderSide(color: colors.border),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: const BorderRadius.all(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
                         Radius.circular(CoolRadii.sm),
                       ),
                     ),

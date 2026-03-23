@@ -101,7 +101,7 @@ class _AppAccessOnboardingScreenState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
+                    SizedBox(
                       width: 56,
                       child: CoolCard(
                         padding: EdgeInsets.all(space.x3),

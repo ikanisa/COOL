@@ -100,7 +100,7 @@ class ManageMissionsScreen extends ConsumerWidget {
                 onRetry: () => ref.invalidate(adminMissionsProvider),
                 loadingWidget: Padding(
                   padding: _liveOpsLoadingPadding(),
-                  child: CoolSkeletonList(itemCount: 4),
+                  child: const CoolSkeletonList(itemCount: 4),
                 ),
                 emptyCheck: (missions) => missions.isEmpty,
                 emptyWidget: CoolEmptyView(

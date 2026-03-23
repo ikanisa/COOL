@@ -106,7 +106,7 @@ class ShareCard extends ConsumerWidget {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
     return Container(
-      padding: EdgeInsets.all(CoolSpace.x4),
+      padding: const EdgeInsets.all(CoolSpace.x4),
       decoration: BoxDecoration(
         color: colors.elevatedBackground,
         borderRadius: BorderRadius.circular(CoolRadii.md),
@@ -118,7 +118,7 @@ class ShareCard extends ConsumerWidget {
           Row(
             children: [
               Icon(icon, size: 20, color: colors.secondaryText),
-              SizedBox(width: CoolSpace.x3),
+              const SizedBox(width: CoolSpace.x3),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -145,7 +145,7 @@ class ShareCard extends ConsumerWidget {
               ),
             ],
           ),
-          SizedBox(height: CoolSpace.x3),
+          const SizedBox(height: CoolSpace.x3),
           Row(
             children: [
               // WhatsApp / QR share
@@ -159,7 +159,7 @@ class ShareCard extends ConsumerWidget {
                   },
                 ),
               ),
-              SizedBox(width: CoolSpace.x2),
+              const SizedBox(width: CoolSpace.x2),
               // Native share
               Expanded(
                 child: _ShareButton(
@@ -171,7 +171,7 @@ class ShareCard extends ConsumerWidget {
                   },
                 ),
               ),
-              SizedBox(width: CoolSpace.x2),
+              const SizedBox(width: CoolSpace.x2),
               // Contacts share
               Expanded(
                 child: _ShareButton(
@@ -221,7 +221,7 @@ class _ShareButton extends StatelessWidget {
             onTap: onTap,
             borderRadius: BorderRadius.circular(CoolRadii.sm),
             child: Padding(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: CoolSpace.x2,
                 vertical: CoolSpace.x3,
               ),
@@ -230,7 +230,7 @@ class _ShareButton extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Icon(icon, size: 18, color: colors.accent),
-                  SizedBox(width: CoolSpace.x2),
+                  const SizedBox(width: CoolSpace.x2),
                   Flexible(
                     child: Text(
                       label,

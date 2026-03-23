@@ -15,7 +15,7 @@
 | `ACCESS_COARSE_LOCATION` | Fallback location for city-level features | Same as FINE_LOCATION (requested together) | Same as FINE_LOCATION |
 | `NFC` | MoMo tap-to-pay (NFC tag read) | When user taps "NFC Pay" button | NFC option hidden; USSD fallback available |
 | `READ_CONTACTS` | Invite group members, share via contacts | When user opens contact picker in group invite flow | Contact picker unavailable; manual phone entry available |
-| `CAMERA` | QR code scanning (payment codes, group invites) | When user opens QR scanner | QR scanner disabled; manual code entry available |
+| `CAMERA` | QR code scanning plus BioPay face enrollment and payee matching | When user opens QR scanner or BioPay face capture | QR scanner and BioPay capture disabled; manual entry and non-BioPay flows remain available |
 
 ## Hardware Features
 
@@ -48,6 +48,6 @@ User triggers feature → Check permission status
 |---|---|---|---|---|
 | Location | Approximate + Precise | App functionality (mobility) | No | Until account deletion |
 | Contacts | Contact info | App functionality (invites) | No | Not stored server-side |
-| Camera | Photos/Videos | App functionality (QR scan) | No | Not stored |
+| Camera | Photos/Videos | App functionality (QR scan, BioPay face capture) | No | QR frames are not stored as gallery media; if the user enrolls in BioPay, Cool stores a derived biometric template plus consent and payout-route metadata |
 | Notifications | — | App functionality | No | — |
 | SMS | Messages | App functionality (approved Mobile Money payment verification on Android) | No | Matching sender messages are retained for payment reconciliation until account deletion or cleanup policy |

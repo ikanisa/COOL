@@ -94,13 +94,13 @@ void main() {
     tester,
   ) async {
     await tester.pumpWidget(
-      MaterialApp(
+      const MaterialApp(
         supportedLocales: AppLocalizations.supportedLocales,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         home: Scaffold(
           body: RayonSportCard(
-            membershipAsync: const AsyncValue<RsFanMembership?>.data(null),
-            clubsAsync: const AsyncValue<List<RsFanClub>>.data(<RsFanClub>[
+            membershipAsync: AsyncValue<RsFanMembership?>.data(null),
+            clubsAsync: AsyncValue<List<RsFanClub>>.data(<RsFanClub>[
               RsFanClub(
                 id: 'club-1',
                 partnerId: 'rayon',
@@ -113,8 +113,8 @@ void main() {
                 bannerEmoji: '🥁',
               ),
             ]),
-            matchesAsync: const AsyncValue<List<RsMatch>>.data(<RsMatch>[]),
-            initiativesAsync: const AsyncValue<List<RsInitiative>>.data(
+            matchesAsync: AsyncValue<List<RsMatch>>.data(<RsMatch>[]),
+            initiativesAsync: AsyncValue<List<RsInitiative>>.data(
               <RsInitiative>[],
             ),
           ),

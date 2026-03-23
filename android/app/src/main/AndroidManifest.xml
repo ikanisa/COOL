@@ -22,8 +22,12 @@
     <!-- Contacts (invite group members, share via contacts) -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
-    <!-- Camera (QR code scanning) -->
+    <!-- Camera (QR scanning and BioPay face capture/matching) -->
     <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- Device authentication (BioPay step-up auth) -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
 

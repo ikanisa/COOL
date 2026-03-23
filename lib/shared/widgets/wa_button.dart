@@ -80,7 +80,7 @@ class WaButton extends StatelessWidget {
                   children: [
                     Icon(Icons.chat_rounded, size: 18, color: foregroundColor),
                     if (!iconOnly) ...[
-                      SizedBox(width: CoolSpace.x2),
+                      const SizedBox(width: CoolSpace.x2),
                       Flexible(
                         child: Text(
                           label,
@@ -94,7 +94,7 @@ class WaButton extends StatelessWidget {
                       ),
                     ],
                     if (!iconOnly) ...[
-                      SizedBox(width: CoolSpace.x2),
+                      const SizedBox(width: CoolSpace.x2),
                       Icon(
                         Icons.arrow_forward_rounded,
                         size: 16,

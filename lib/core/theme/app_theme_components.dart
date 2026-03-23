@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 
 import 'app_theme_text.dart';
 import 'cool_foundations.dart';
-import 'cool_palette.dart';
 
 /// Component-level [ThemeData] overrides for the COOL design system.
 abstract final class AppThemeComponents {
@@ -50,7 +49,7 @@ abstract final class AppThemeComponents {
     return BottomNavigationBarThemeData(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      selectedItemColor: colors.accent,
+      selectedItemColor: colors.buttonPrimaryBackground,
       unselectedItemColor: colors.secondaryText,
       type: BottomNavigationBarType.fixed,
       showSelectedLabels: true,
@@ -87,7 +86,9 @@ abstract final class AppThemeComponents {
         final isSelected = states.contains(WidgetState.selected);
         return IconThemeData(
           size: 26,
-          color: isSelected ? colors.accent : colors.secondaryText,
+          color: isSelected
+              ? colors.buttonPrimaryBackground
+              : colors.secondaryText,
         );
       }),
     );
@@ -106,7 +107,7 @@ abstract final class AppThemeComponents {
       margin: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(CoolRadii.xl),
-        side: BorderSide(color: colors.border, width: 1),
+        side: BorderSide.none,
       ),
     );
   }
@@ -170,7 +171,7 @@ abstract final class AppThemeComponents {
   ) {
     final border = OutlineInputBorder(
       borderRadius: BorderRadius.circular(CoolRadii.md),
-      borderSide: BorderSide(color: colors.border, width: 1.2),
+      borderSide: BorderSide.none,
     );
     return InputDecorationTheme(
       filled: true,
@@ -183,8 +184,13 @@ abstract final class AppThemeComponents {
       ),
       labelStyle: TextStyle(
         fontSize: AppThemeText.bodySmall,
-        fontWeight: AppThemeText.bold,
+        fontWeight: AppThemeText.extraBold,
         color: colors.secondaryText,
+      ),
+      floatingLabelStyle: TextStyle(
+        fontSize: AppThemeText.bodySmall,
+        fontWeight: AppThemeText.extraBold,
+        color: colors.buttonPrimaryBackground,
       ),
       helperStyle: TextStyle(
         fontSize: AppThemeText.labelSmall,
@@ -198,17 +204,17 @@ abstract final class AppThemeComponents {
       ),
       border: border,
       enabledBorder: border,
-      disabledBorder: border.copyWith(
-        borderSide: BorderSide(color: colors.border.withValues(alpha: 0.65)),
-      ),
+      disabledBorder: border,
       focusedBorder: border.copyWith(
-        borderSide: BorderSide(color: colors.accent, width: 1.6),
+        borderSide: BorderSide(
+          color: colors.buttonPrimaryBackground.withValues(alpha: 0.22),
+        ),
       ),
       errorBorder: border.copyWith(
-        borderSide: BorderSide(color: colors.danger, width: 1.4),
+        borderSide: BorderSide(color: colors.danger.withValues(alpha: 0.45)),
       ),
       focusedErrorBorder: border.copyWith(
-        borderSide: BorderSide(color: colors.danger, width: 1.6),
+        borderSide: BorderSide(color: colors.danger.withValues(alpha: 0.55)),
       ),
     );
   }
@@ -225,14 +231,13 @@ abstract final class AppThemeComponents {
         disabledForegroundColor: colors.tertiaryText,
         elevation: 0,
         minimumSize: const Size(double.infinity, CoolTapTargets.comfortable),
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(CoolRadii.md),
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 22),
+        side: BorderSide(color: colors.highlightColor.withValues(alpha: 0.10)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
         textStyle: const TextStyle(
           fontSize: AppThemeText.labelLarge,
           fontWeight: AppThemeText.extraBold,
-          letterSpacing: -0.2,
+          letterSpacing: 0.2,
         ),
         splashFactory: NoSplash.splashFactory,
       ),
@@ -246,18 +251,19 @@ abstract final class AppThemeComponents {
     return OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         foregroundColor: colors.primaryText,
-        backgroundColor: colors.buttonSecondaryBackground,
-        side: BorderSide(color: colors.borderStrong, width: 1.2),
+        backgroundColor: Colors.transparent,
+        side: BorderSide(
+          color: colors.border.withValues(alpha: 0.01),
+          width: 0,
+        ),
         elevation: 0,
         minimumSize: const Size(double.infinity, CoolTapTargets.comfortable),
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(CoolRadii.md),
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 22),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
         textStyle: const TextStyle(
           fontSize: AppThemeText.labelLarge,
           fontWeight: AppThemeText.bold,
-          letterSpacing: -0.2,
+          letterSpacing: 0.08,
         ),
         splashFactory: NoSplash.splashFactory,
       ),
@@ -270,7 +276,7 @@ abstract final class AppThemeComponents {
   ) {
     return TextButtonThemeData(
       style: TextButton.styleFrom(
-        foregroundColor: colors.accent,
+        foregroundColor: colors.buttonPrimaryBackground,
         textStyle: const TextStyle(
           fontSize: AppThemeText.labelLarge,
           fontWeight: AppThemeText.bold,
@@ -285,7 +291,7 @@ abstract final class AppThemeComponents {
     CoolSemanticColors colors,
   ) {
     return FloatingActionButtonThemeData(
-      backgroundColor: colors.accent,
+      backgroundColor: colors.buttonPrimaryBackground,
       foregroundColor: colors.accentForeground,
       elevation: 0,
       highlightElevation: 0,
@@ -298,7 +304,7 @@ abstract final class AppThemeComponents {
     CoolPalette palette,
     CoolSemanticColors colors,
   ) {
-    return DividerThemeData(color: colors.divider, thickness: 1, space: 0);
+    return DividerThemeData(color: colors.divider, thickness: 0.6, space: 0);
   }
 
   static ChipThemeData chip(
@@ -309,15 +315,13 @@ abstract final class AppThemeComponents {
     return ChipThemeData(
       backgroundColor: colors.chipBackground,
       selectedColor: colors.chipSelectedBackground,
-      side: BorderSide(color: colors.border),
+      side: BorderSide.none,
       shadowColor: colors.shadowColor.withValues(alpha: isDark ? 0.14 : 0.04),
       elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(CoolRadii.md),
-      ),
+      shape: const StadiumBorder(),
       labelStyle: TextStyle(
         fontSize: AppThemeText.labelMedium,
-        fontWeight: AppThemeText.bold,
+        fontWeight: AppThemeText.extraBold,
         color: colors.primaryText,
       ),
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
@@ -349,7 +353,7 @@ abstract final class AppThemeComponents {
     return TabBarThemeData(
       labelColor: colors.primaryText,
       unselectedLabelColor: colors.secondaryText,
-      indicatorColor: colors.accent,
+      indicatorColor: colors.buttonPrimaryBackground,
       labelStyle: const TextStyle(
         fontSize: AppThemeText.labelMedium,
         fontWeight: AppThemeText.bold,
@@ -394,7 +398,7 @@ abstract final class AppThemeComponents {
     CoolSemanticColors colors,
   ) {
     return ProgressIndicatorThemeData(
-      color: colors.accent,
+      color: colors.buttonPrimaryBackground,
       linearTrackColor: colors.chipBackground,
     );
   }
@@ -406,7 +410,7 @@ abstract final class AppThemeComponents {
     return SwitchThemeData(
       thumbColor: WidgetStateProperty.resolveWith((states) {
         return states.contains(WidgetState.selected)
-            ? colors.accent
+            ? colors.buttonPrimaryBackground
             : colors.tertiaryText;
       }),
       trackColor: WidgetStateProperty.resolveWith((states) {
@@ -424,7 +428,7 @@ abstract final class AppThemeComponents {
     return CheckboxThemeData(
       fillColor: WidgetStateProperty.resolveWith((states) {
         return states.contains(WidgetState.selected)
-            ? colors.accent
+            ? colors.buttonPrimaryBackground
             : Colors.transparent;
       }),
       checkColor: WidgetStateProperty.all(colors.accentForeground),
@@ -437,7 +441,7 @@ abstract final class AppThemeComponents {
     return RadioThemeData(
       fillColor: WidgetStateProperty.resolveWith((states) {
         return states.contains(WidgetState.selected)
-            ? colors.accent
+            ? colors.buttonPrimaryBackground
             : colors.tertiaryText;
       }),
     );

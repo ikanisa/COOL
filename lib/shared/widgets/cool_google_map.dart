@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../core/config/env_config.dart';
@@ -133,7 +132,7 @@ class _CoolGoogleMapState extends State<CoolGoogleMap> {
           // Loading shimmer until the map tiles have loaded.
           if (!_isMapReady)
             Positioned.fill(
-              child: Container(
+              child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: colors.cardSurface,
                   borderRadius: BorderRadius.circular(CoolRadii.md),

@@ -58,13 +58,9 @@ void main() {
         ),
       );
       final decoration = ink.decoration! as BoxDecoration;
-      final border = decoration.border! as Border;
 
-      expect(
-        decoration.color,
-        CoolSemanticColors.light.buttonSecondaryBackground,
-      );
-      expect(border.top.color, CoolSemanticColors.light.borderStrong);
+      expect(decoration.color, Colors.transparent);
+      expect(decoration.border, isNull);
     });
 
     testWidgets('CoolScreenScaffold resolves light background token', (
@@ -97,10 +93,12 @@ void main() {
         find.byType(AnimatedContainer),
       );
       final decoration = container.decoration! as BoxDecoration;
-      final border = decoration.border! as Border;
 
-      expect(decoration.color, CoolSemanticColors.light.chipSelectedBackground);
-      expect(border.top.color, CoolSemanticColors.light.accent);
+      expect(
+        decoration.color,
+        CoolSemanticColors.light.buttonPrimaryBackground,
+      );
+      expect(decoration.border, isNull);
     });
 
     testWidgets('DriverCard resolves light proximity surface token', (

@@ -6,6 +6,7 @@ import '../../../core/providers/hive_providers.dart';
 import '../../../core/providers/supabase_client_provider.dart';
 import '../models/biopay_profile.dart';
 import '../repositories/biopay_repository.dart';
+import '../services/biopay_auth_gate_service.dart';
 import '../services/biopay_cache_service.dart';
 import '../services/biopay_dialer_service.dart';
 import '../services/biopay_embedding_service.dart';
@@ -16,6 +17,14 @@ final biopayRepositoryProvider = Provider<BiopayRepository>((ref) {
 
 final biopayDialerServiceProvider = Provider<BiopayDialerService>((ref) {
   return const BiopayDialerService();
+});
+
+final biopayAuthAdapterProvider = Provider<BiopayAuthAdapter>((ref) {
+  return LocalAuthBiopayAuthAdapter();
+});
+
+final biopayAuthGateServiceProvider = Provider<BiopayAuthGateService>((ref) {
+  return BiopayAuthGateService(adapter: ref.read(biopayAuthAdapterProvider));
 });
 
 final biopayCacheServiceProvider = Provider<BiopayCacheService>((ref) {

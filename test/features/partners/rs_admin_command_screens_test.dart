@@ -33,7 +33,7 @@ void main() {
     id: 'abcd1234-0001',
     userId: 'user-1',
     partnerId: 'partner-rayon',
-    items: <CartItem>[
+    items: const <CartItem>[
       CartItem(product: product, quantity: 2, selectedVariant: 'XL'),
     ],
     subtotal: 10000,

@@ -145,7 +145,7 @@ class ManageSpecialProductsScreen extends ConsumerWidget {
                 value: productsAsync,
                 loadingWidget: Padding(
                   padding: _specialProductsLoadingPadding(),
-                  child: CoolSkeletonList(itemCount: 4),
+                  child: const CoolSkeletonList(itemCount: 4),
                 ),
                 emptyCheck: (products) => products.isEmpty,
                 emptyWidget: const CoolEmptyView(

@@ -8,7 +8,6 @@ import 'package:go_router/go_router.dart';
 import '../../features/mobility/providers/mobility_location_provider.dart';
 import '../../features/momo/providers/momo_sms_rationale_provider.dart';
 import '../../features/momo/widgets/momo_sms_rationale_sheet.dart';
-import '../../shared/widgets/cool_card.dart';
 import '../l10n/l10n.dart';
 import '../theme/cool_foundations.dart';
 

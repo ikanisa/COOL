@@ -99,7 +99,7 @@ class ManageActivitiesScreen extends ConsumerWidget {
                 onRetry: () => ref.invalidate(adminActivitiesProvider),
                 loadingWidget: Padding(
                   padding: _liveOpsLoadingPadding(),
-                  child: CoolSkeletonList(itemCount: 4),
+                  child: const CoolSkeletonList(itemCount: 4),
                 ),
                 emptyCheck: (activities) => activities.isEmpty,
                 emptyWidget: CoolEmptyView(

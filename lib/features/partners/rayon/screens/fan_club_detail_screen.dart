@@ -10,7 +10,6 @@ import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_toast.dart';
 import '../../../../shared/widgets/rs_achievement_badge.dart';
 import '../../../../shared/widgets/share_card.dart';
-import '../models/rs_models.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../../widgets/rayon_screen_scaffold.dart';
 import '../../widgets/rayon_state_views.dart';

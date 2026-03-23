@@ -146,7 +146,7 @@ class _MemberRegistryScreenState extends ConsumerState<MemberRegistryScreen> {
                             if (showTopFanCard && index == 0) {
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 18),
-                                child: _TopFanSpotlight(member: topFan!),
+                                child: _TopFanSpotlight(member: topFan),
                               );
                             }
 

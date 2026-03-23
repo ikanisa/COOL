@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/config/app_market.dart';
 import '../../../core/config/country_catalog.dart';
+import '../../../core/config/env_config.dart';
+import '../../../core/l10n/l10n.dart';
 import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
@@ -13,8 +16,8 @@ import '../../../shared/widgets/cool_text_field.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../models/biopay_enrollment_draft.dart';
-import '../models/biopay_profile.dart';
 import '../providers/biopay_providers.dart';
+import '../services/biopay_auth_gate_service.dart';
 
 class BiopayRegisterScreen extends ConsumerStatefulWidget {
   const BiopayRegisterScreen({super.key});
@@ -42,12 +45,23 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
     super.dispose();
   }
 
-  Future<void> _revokeProfile(BiopayProfile profile) async {
+  Future<void> _revokeProfile() async {
     if (_isRevoking) {
       return;
     }
     setState(() => _isRevoking = true);
     try {
+      final authResult = await ref
+          .read(biopayAuthGateServiceProvider)
+          .authorize(BiopayAuthAction.revocation);
+      if (!mounted) {
+        return;
+      }
+      if (!authResult.isAuthorized) {
+        CoolToast.error(context, authResult.message);
+        return;
+      }
+
       await ref
           .read(biopayRepositoryProvider)
           .revoke(
@@ -68,6 +82,20 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
         setState(() => _isRevoking = false);
       }
     }
+  }
+
+  Future<void> _openPrivacyPolicy() async {
+    final uri = Uri.tryParse(EnvConfig.privacyPolicyUrl);
+    if (uri == null) {
+      return;
+    }
+
+    final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
+    if (launched || !mounted) {
+      return;
+    }
+
+    CoolToast.error(context, context.l10n.openLinkError);
   }
 
   @override
@@ -213,7 +241,7 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
                               label: 'Revoke BioPay',
                               variant: CoolButtonVariant.secondary,
                               isLoading: _isRevoking,
-                              onTap: () => _revokeProfile(profile),
+                              onTap: _revokeProfile,
                             ),
                           ],
                         ),
@@ -254,41 +282,67 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
           ],
           CoolCard(
             useGradient: false,
-            child: Theme(
-              data: Theme.of(context).copyWith(
-                checkboxTheme: CheckboxThemeData(
-                  fillColor: WidgetStateProperty.resolveWith((states) {
-                    if (states.contains(WidgetState.selected)) {
-                      return colors.accent;
-                    }
-                    return colors.cardSurfaceStrong;
-                  }),
-                ),
-              ),
-              child: CheckboxListTile(
-                contentPadding: EdgeInsets.zero,
-                value: _consentAccepted,
-                onChanged: (value) {
-                  setState(() => _consentAccepted = value ?? false);
-                },
-                title: Text(
-                  'I consent to store a BioPay face embedding and payout route for payment matching.',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: colors.primaryText,
-                    fontWeight: FontWeight.w600,
-                    height: 1.45,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Theme(
+                  data: Theme.of(context).copyWith(
+                    checkboxTheme: CheckboxThemeData(
+                      fillColor: WidgetStateProperty.resolveWith((states) {
+                        if (states.contains(WidgetState.selected)) {
+                          return colors.accent;
+                        }
+                        return colors.cardSurfaceStrong;
+                      }),
+                    ),
+                  ),
+                  child: CheckboxListTile(
+                    contentPadding: EdgeInsets.zero,
+                    value: _consentAccepted,
+                    onChanged: (value) {
+                      setState(() => _consentAccepted = value ?? false);
+                    },
+                    title: Text(
+                      'I consent to store a BioPay face embedding and payout route for payment matching.',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: colors.primaryText,
+                        fontWeight: FontWeight.w600,
+                        height: 1.45,
+                      ),
+                    ),
+                    subtitle: Text(
+                      'BioPay processes live camera frames in memory to create a biometric face template, stores that template with consent and payout-route metadata in Supabase, and lets you revoke the enrollment later from this screen.',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colors.secondaryText,
+                        fontWeight: FontWeight.w500,
+                        height: 1.45,
+                      ),
+                    ),
+                    controlAffinity: ListTileControlAffinity.leading,
                   ),
                 ),
-                subtitle: Text(
-                  'BioPay stores your biometric template and route metadata in Supabase. Camera images are not saved.',
+                SizedBox(height: space.x2),
+                Text(
+                  'Read the Privacy Policy before continuing. The BioPay flow is designed not to save live camera frames to your photo gallery.',
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: colors.secondaryText,
                     fontWeight: FontWeight.w500,
                     height: 1.45,
                   ),
                 ),
-                controlAffinity: ListTileControlAffinity.leading,
-              ),
+                SizedBox(height: space.x3),
+                TextButton.icon(
+                  onPressed: _openPrivacyPolicy,
+                  icon: const Icon(Icons.open_in_new_rounded, size: 18),
+                  label: const Text('Open Privacy Policy'),
+                  style: TextButton.styleFrom(
+                    foregroundColor: colors.accent,
+                    padding: EdgeInsets.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    minimumSize: Size.zero,
+                  ),
+                ),
+              ],
             ),
           ),
           SizedBox(height: space.x5),
@@ -300,7 +354,7 @@ class _BiopayRegisterScreenState extends ConsumerState<BiopayRegisterScreen> {
                 : () async {
                     final draft = BiopayEnrollmentDraft(
                       displayName: _displayNameController.text.trim(),
-                      routeType: route!.$1,
+                      routeType: route.$1,
                       recipientValue: route.$2,
                       countryCode: AppMarket.countryCode,
                       consentVersion: 'biopay-v1',

@@ -129,7 +129,7 @@ class BankAllocationsTab extends StatelessWidget {
                     side: BorderSide(
                       color: selected ? colors.accent : colors.border,
                     ),
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                       borderRadius: _bankAllocationChipRadius,
                     ),
                     visualDensity: VisualDensity.compact,
