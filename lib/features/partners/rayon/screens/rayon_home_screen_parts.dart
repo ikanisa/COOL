@@ -71,7 +71,7 @@ class _HomeOverviewCard extends StatelessWidget {
                     const SizedBox(height: CoolSpace.x2),
                     Text(
                       membership == null
-                          ? 'Create or restore your verified supporter identity to unlock priority access.'
+                          ? 'Join to unlock priority access'
                           : '${tier.label} tier · ${membership!.chapter}',
                       style: context.coolText.rayon(
                         const TextStyle(fontSize: 15),
@@ -301,8 +301,8 @@ class _ClubServicesDeck extends StatelessWidget {
                     const SizedBox(height: CoolSpace.x2),
                     Text(
                       membership == null
-                          ? 'Official club access, matchday, and commerce in one trusted surface.'
-                          : '${membership!.tier.label} tier access is live across ticketing, chapters, and store privileges.',
+                          ? 'Club access and matchday in one surface.'
+                          : '${membership!.tier.label} tier access is live.',
                       style: theme.textTheme.titleLarge?.copyWith(
                         color: RsColors.rsWhite,
                         fontWeight: FontWeight.w800,
@@ -353,7 +353,6 @@ class _ClubServicesDeck extends StatelessWidget {
               icon: serviceItems[index].icon,
               title: serviceItems[index].title,
               meta: serviceItems[index].meta,
-              detail: serviceItems[index].detail,
               accentColor: serviceItems[index].accentColor,
               onTap: () => context.push(serviceItems[index].route),
             ),
@@ -379,19 +378,9 @@ class _ClubServicesDeck extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: CoolSpace.x1),
-          Text(
-            'Member growth and chapter credibility ranked for fast scanning.',
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: colors.secondaryText,
-              fontWeight: FontWeight.w700,
-              height: 1.35,
-            ),
-          ),
-          const SizedBox(height: CoolSpace.x3),
           if (ranked.isEmpty)
             Text(
-              'Chapter rankings will appear as clubs start reporting members and events.',
+              'No standings yet',
               style: theme.textTheme.bodySmall?.copyWith(
                 color: colors.secondaryText,
                 fontWeight: FontWeight.w700,
@@ -457,16 +446,6 @@ class _MatchdayBriefCard extends StatelessWidget {
                         const TextStyle(fontSize: 20),
                         fontWeight: FontWeight.w800,
                         color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: CoolSpace.x1),
-                    Text(
-                      'Official allocation, digital entry, and disciplined priority access for supporters.',
-                      style: context.coolText.rayon(
-                        const TextStyle(fontSize: 13),
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white.withValues(alpha: 0.74),
-                        height: 1.4,
                       ),
                     ),
                   ],
@@ -538,7 +517,6 @@ class _HomeLinkCard extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.meta,
-    required this.detail,
     required this.accentColor,
     required this.onTap,
   });
@@ -546,7 +524,6 @@ class _HomeLinkCard extends StatelessWidget {
   final IconData icon;
   final String title;
   final String meta;
-  final String detail;
   final Color accentColor;
   final VoidCallback onTap;
 
@@ -592,15 +569,6 @@ class _HomeLinkCard extends StatelessWidget {
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
                       color: accentColor,
-                    ),
-                  ),
-                  const SizedBox(height: CoolSpace.x1),
-                  Text(
-                    detail,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: colors.secondaryText,
-                      fontWeight: FontWeight.w700,
-                      height: 1.35,
                     ),
                   ),
                 ],

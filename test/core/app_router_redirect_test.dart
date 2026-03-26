@@ -13,7 +13,7 @@ void main() {
           hasSession: false,
           hasProfile: false,
         ),
-        AppRoutes.onboarding,
+        AppRoutes.splash,
       );
     });
 
@@ -34,8 +34,8 @@ void main() {
       () {
         expect(
           resolveAppRedirect(
-            location: AppRoutes.register,
-            requestedLocation: AppRoutes.registerLocation(
+            location: AppRoutes.home,
+            requestedLocation: AppRoutes.homeLocation(
               phone: '+250788123456',
             ),
             hasSession: false,
@@ -100,7 +100,7 @@ void main() {
     test('routes authenticated users away from auth screens', () {
       expect(
         resolveAppRedirect(
-          location: AppRoutes.onboarding,
+          location: AppRoutes.splash,
           hasSession: true,
           hasProfile: true,
           profileRestoreState: AuthProfileRestoreState.available,

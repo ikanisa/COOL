@@ -12,7 +12,7 @@ void main() {
     expect(find.text('Get Started'), findsOneWidget);
     expect(
       app.router.routeInformationProvider.value.uri.path,
-      AppRoutes.onboarding,
+      AppRoutes.splash,
     );
   });
 }

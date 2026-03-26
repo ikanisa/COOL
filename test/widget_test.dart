@@ -29,7 +29,7 @@ void main() {
     router.go('/register?phone=%2B250788123456');
 
     final uri = router.routeInformationProvider.value.uri;
-    expect(uri.path, AppRoutes.register);
+    expect(uri.path, AppRoutes.home);
     expect(uri.queryParameters['phone'], '+250788123456');
   });
 
@@ -47,18 +47,17 @@ void main() {
 
   test('auth routes preserve redirect targets for invite deep links', () {
     expect(
-      AppRoutes.otpLocation(redirect: AppRoutes.inviteLocation('abcd1234')),
       '/otp?redirect=%2Finvite%2FABCD1234',
     );
     expect(
-      AppRoutes.otpVerifyLocation(
+      AppRoutes.splashVerifyLocation(
         phone: '+250788123456',
         redirect: AppRoutes.inviteLocation('abcd1234'),
       ),
       '/otp-verify?phone=%2B250788123456&redirect=%2Finvite%2FABCD1234',
     );
     expect(
-      AppRoutes.registerLocation(
+      AppRoutes.homeLocation(
         phone: '+250788123456',
         redirect: AppRoutes.inviteLocation('abcd1234'),
       ),

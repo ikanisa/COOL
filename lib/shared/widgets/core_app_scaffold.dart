@@ -36,6 +36,15 @@ class CoreAppScaffold extends StatelessWidget {
       backgroundColor: colors.appBackground,
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        toolbarHeight: 84,
+        flexibleSpace: DecoratedBox(
+          decoration: BoxDecoration(
+            color: colors.appBackground.withValues(alpha: 0.88),
+            border: Border(
+              bottom: BorderSide(color: colors.border.withValues(alpha: 0.8)),
+            ),
+          ),
+        ),
         leading: showBackButton
             ? buildPartnerBackButton(
                 context,
@@ -46,10 +55,10 @@ class CoreAppScaffold extends StatelessWidget {
         title: Text(
           title,
           style: context.coolText.rayonCondensed(
-            const TextStyle(fontSize: 30),
+            const TextStyle(fontSize: 32),
             fontWeight: FontWeight.w900,
             color: chromeColor,
-            letterSpacing: 0.3,
+            letterSpacing: 0.8,
           ),
         ),
         actions: buildPartnerAppBarActions(

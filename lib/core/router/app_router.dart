@@ -3,16 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../auth/auth_user_contact.dart';
 import '../../features/auth/providers/auth_provider.dart';
-import 'app_redirects.dart';
-
-import '../../features/auth/screens/onboarding_screen.dart';
-import '../../features/auth/screens/otp_screen.dart';
-import '../../features/auth/screens/otp_verify_screen.dart';
-import '../../features/auth/screens/app_access_onboarding_screen.dart';
-import '../../features/auth/screens/register_screen.dart';
 import '../../features/auth/screens/splash_screen.dart';
+import 'app_redirects.dart';
 import '../../features/groups/screens/create_group_screen.dart';
 import '../../features/groups/screens/group_detail_screen.dart';
 import '../../features/groups/screens/group_ledger_screen.dart';
@@ -175,50 +168,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         isAdmin: authSnapshot.isAdmin,
         adminAccess: authSnapshot.adminAccess,
         hasRayonAdminAccess: authSnapshot.hasRayonAdminAccess,
-        sessionPhone: authSessionPhone(authSnapshot.session),
+      sessionPhone: null,
         pendingRedirect: state.uri.queryParameters['redirect'],
       );
     },
     routes: [
-      // ── Auth flow ─────────────────────────────────────────────
       GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
-      GoRoute(
-        path: AppRoutes.onboarding,
-        builder: (context, state) => OnboardingScreen(
-          redirectPath: state.uri.queryParameters['redirect'],
-        ),
-      ),
-      GoRoute(
-        path: AppRoutes.otp,
-        builder: (context, state) =>
-            OtpScreen(redirectPath: state.uri.queryParameters['redirect']),
-      ),
-      GoRoute(
-        path: AppRoutes.otpVerify,
-        builder: (context, state) {
-          final phone = state.uri.queryParameters['phone'] ?? '';
-          return OtpVerifyScreen(
-            phoneNumber: phone,
-            redirectPath: state.uri.queryParameters['redirect'],
-          );
-        },
-      ),
-      GoRoute(
-        path: AppRoutes.register,
-        builder: (context, state) {
-          final phone = state.uri.queryParameters['phone'] ?? '';
-          return RegisterScreen(
-            phone: phone,
-            redirectPath: state.uri.queryParameters['redirect'],
-          );
-        },
-      ),
-      GoRoute(
-        path: AppRoutes.appAccess,
-        builder: (context, state) => AppAccessOnboardingScreen(
-          redirectPath: state.uri.queryParameters['redirect'],
-        ),
-      ),
       GoRoute(
         path: AppRoutes.groupInvite,
         builder: (context, state) {
@@ -330,10 +285,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                   GoRoute(
                     path: 'wallet',
                     builder: (context, state) => const ProfileWalletScreen(),
-                  ),
-                  GoRoute(
-                    path: 'identity',
-                    builder: (context, state) => const ProfileIdentityScreen(),
                   ),
                 ],
               ),

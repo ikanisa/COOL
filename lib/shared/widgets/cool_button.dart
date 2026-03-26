@@ -66,7 +66,7 @@ class _CoolButtonState extends State<CoolButton>
     final enabled =
         widget.onTap != null && !widget.isLoading && !widget.isDisabled;
     final isPrimary = widget.variant == CoolButtonVariant.primary;
-    const buttonRadius = 6.0;
+    const buttonRadius = 18.0;
 
     final backgroundDecoration = BoxDecoration(
       color: isPrimary
@@ -78,10 +78,10 @@ class _CoolButtonState extends State<CoolButton>
       border: isPrimary
           ? Border.all(
               color: enabled
-                  ? colors.highlightColor.withValues(alpha: 0.10)
+                  ? colors.highlightColor.withValues(alpha: 0.08)
                   : colors.border.withValues(alpha: 0.6),
             )
-          : null,
+          : Border.all(color: colors.border),
       boxShadow: enabled
           ? (isPrimary
                 ? CoolShadows.floating(brightness, strength: 0.52)
@@ -161,8 +161,8 @@ class _CoolButtonState extends State<CoolButton>
                         ),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                            horizontal: isPrimary ? 44 : space.x3,
-                            vertical: isPrimary ? 22 : 18,
+                            horizontal: isPrimary ? 28 : space.x4,
+                            vertical: isPrimary ? 18 : 16,
                           ),
                           child: _buildChild(context, enabled),
                         ),
@@ -204,7 +204,7 @@ class _CoolButtonState extends State<CoolButton>
         style: Theme.of(context).textTheme.labelLarge?.copyWith(
           fontWeight: FontWeight.w800,
           color: textColor,
-          letterSpacing: widget.variant == CoolButtonVariant.primary ? 0.2 : 0,
+          letterSpacing: 0.8,
         ),
       );
 

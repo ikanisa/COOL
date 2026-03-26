@@ -18,8 +18,7 @@ class TabPill extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colors = context.coolSemanticColors;
-    final brightness = theme.brightness;
-    final activeBackground = colors.buttonPrimaryBackground;
+    final activeBackground = colors.chipSelectedBackground;
     final inactiveBackground = colors.chipBackground;
     return Semantics(
       label: label,
@@ -33,22 +32,21 @@ class TabPill extends StatelessWidget {
           child: AnimatedContainer(
             duration: CoolMotion.quick,
             curve: CoolMotion.enterCurve,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
             decoration: BoxDecoration(
               color: isActive ? activeBackground : inactiveBackground,
               borderRadius: BorderRadius.circular(CoolRadii.pill),
-              boxShadow: isActive
-                  ? CoolShadows.clay(brightness, strength: 0.34)
-                  : null,
+              border: Border.all(
+                color: isActive ? colors.highlightColor : colors.border,
+              ),
             ),
             child: Text(
               label,
               textAlign: TextAlign.center,
               style: theme.textTheme.labelLarge?.copyWith(
                 fontWeight: isActive ? FontWeight.w800 : FontWeight.w700,
-                color: isActive
-                    ? colors.accentForeground
-                    : colors.secondaryText,
+                color: isActive ? colors.appBackground : colors.secondaryText,
+                letterSpacing: 0.8,
               ),
             ),
           ),

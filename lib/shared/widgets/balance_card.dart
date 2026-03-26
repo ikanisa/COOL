@@ -37,8 +37,8 @@ class BalanceCard extends StatelessWidget {
     required this.amount,
     required this.currency,
     required this.changeAmount,
-    this.title = 'Available balance',
-    this.subtitle = 'Institution-grade wallet controls',
+    this.title = 'Fan wallet balance',
+    this.subtitle = 'Official payment channel for supporters',
     this.metrics = const <BalanceCardMetric>[],
     this.actions = const <BalanceCardAction>[],
     super.key,
@@ -313,44 +313,54 @@ class _BalanceActionButton extends StatelessWidget {
     final space = context.coolSpace;
     final theme = Theme.of(context);
     final backgroundColor = action.isPrimary
-        ? colors.primaryText
-        : colors.glassSurface;
+        ? colors.accent
+        : colors.highlightColor.withValues(alpha: 0.05);
     final foregroundColor = action.isPrimary
-        ? colors.appBackground
+        ? colors.highlightColor
         : colors.primaryText;
 
     return Material(
       color: backgroundColor,
       borderRadius: BorderRadius.circular(radii.sm),
-      child: InkWell(
-        onTap: action.onTap,
-        borderRadius: BorderRadius.circular(radii.sm),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(
-            minHeight: CoolTapTargets.comfortable,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(radii.sm),
+          border: Border.all(
+            color: action.isPrimary ? Colors.transparent : colors.border,
           ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: space.x3,
-              vertical: space.x3,
+        ),
+        child: InkWell(
+          onTap: action.onTap,
+          borderRadius: BorderRadius.circular(radii.sm),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              minHeight: CoolTapTargets.comfortable,
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(action.icon, size: 18, color: foregroundColor),
-                SizedBox(width: space.x2),
-                Flexible(
-                  child: Text(
-                    action.label,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.labelSmall?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: foregroundColor,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: space.x3,
+                vertical: space.x3,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(action.icon, size: 18, color: foregroundColor),
+                  SizedBox(width: space.x2),
+                  Flexible(
+                    child: Text(
+                      action.label,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: context.coolText.mono(
+                        theme.textTheme.labelSmall,
+                        fontWeight: FontWeight.w800,
+                        color: foregroundColor,
+                        letterSpacing: 0.8,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

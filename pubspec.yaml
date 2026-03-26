@@ -109,6 +109,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/partners/
     - assets/icons/
     - assets/fonts/
     - assets/models/biopay/

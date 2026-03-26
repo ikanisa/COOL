@@ -97,6 +97,17 @@ class CoreTabRootScaffold extends StatelessWidget {
           automaticallyImplyLeading: false,
           backgroundColor: Colors.transparent,
           elevation: 0,
+          toolbarHeight: 84,
+          flexibleSpace: DecoratedBox(
+            decoration: BoxDecoration(
+              color: context.coolSemanticColors.appBackground.withValues(
+                alpha: 0.88,
+              ),
+              border: Border(
+                bottom: BorderSide(color: context.coolSemanticColors.border),
+              ),
+            ),
+          ),
           actions: actions,
         ),
         body: body,

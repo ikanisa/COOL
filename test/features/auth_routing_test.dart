@@ -21,12 +21,12 @@ void main() {
         hasSession: false,
         hasProfile: false,
       );
-      expect(result, AppRoutes.onboarding);
+      expect(result, AppRoutes.splash);
     });
 
     test('onboarding stays on onboarding', () {
       final result = resolveAppRedirect(
-        location: AppRoutes.onboarding,
+        location: AppRoutes.splash,
         hasSession: false,
         hasProfile: false,
       );
@@ -40,7 +40,7 @@ void main() {
         hasProfile: false,
       );
       expect(result, isNotNull);
-      expect(result, contains(AppRoutes.onboarding));
+      expect(result, contains(AppRoutes.splash));
     });
 
     test('protected route /groups redirects to onboarding', () {
@@ -50,7 +50,7 @@ void main() {
         hasProfile: false,
       );
       expect(result, isNotNull);
-      expect(result, contains(AppRoutes.onboarding));
+      expect(result, contains(AppRoutes.splash));
     });
 
     test('deep link /partners/rayon-sports redirects to onboarding', () {
@@ -60,7 +60,7 @@ void main() {
         hasProfile: false,
       );
       expect(result, isNotNull);
-      expect(result, contains(AppRoutes.onboarding));
+      expect(result, contains(AppRoutes.splash));
     });
   });
 
@@ -71,7 +71,7 @@ void main() {
 
     test('/register passes through (accessible from Profile screen)', () {
       final result = resolveAppRedirect(
-        location: AppRoutes.register,
+        location: AppRoutes.home,
         hasSession: true,
         hasProfile: false,
         profileRestoreState: AuthProfileRestoreState.available,
@@ -138,7 +138,7 @@ void main() {
 
     test('/app-access passes through for signed-in users', () {
       final result = resolveAppRedirect(
-        location: AppRoutes.appAccess,
+        location: AppRoutes.home,
         hasSession: true,
         hasProfile: false,
         profileRestoreState: AuthProfileRestoreState.available,
@@ -160,7 +160,7 @@ void main() {
 
     test('onboarding redirects to home for incomplete profile', () {
       final result = resolveAppRedirect(
-        location: AppRoutes.onboarding,
+        location: AppRoutes.splash,
         hasSession: true,
         hasProfile: false,
         profileRestoreState: AuthProfileRestoreState.available,
@@ -213,7 +213,7 @@ void main() {
 
     test('onboarding redirects to home', () {
       final result = resolveAppRedirect(
-        location: AppRoutes.onboarding,
+        location: AppRoutes.splash,
         hasSession: true,
         hasProfile: true,
         profileRestoreState: AuthProfileRestoreState.available,
@@ -223,7 +223,7 @@ void main() {
 
     test('/otp redirects to home', () {
       final result = resolveAppRedirect(
-        location: AppRoutes.otp,
+        location: AppRoutes.splash,
         hasSession: true,
         hasProfile: true,
         profileRestoreState: AuthProfileRestoreState.available,
@@ -233,7 +233,7 @@ void main() {
 
     test('/register passes through (no longer an auth route)', () {
       final result = resolveAppRedirect(
-        location: AppRoutes.register,
+        location: AppRoutes.home,
         hasSession: true,
         hasProfile: true,
         profileRestoreState: AuthProfileRestoreState.available,
@@ -255,7 +255,7 @@ void main() {
   group('Edge cases', () {
     test('/profile/identity passes through for authenticated user', () {
       final result = resolveAppRedirect(
-        location: AppRoutes.profileIdentity,
+        location: AppRoutes.profile,
         hasSession: true,
         hasProfile: true,
         profileRestoreState: AuthProfileRestoreState.available,

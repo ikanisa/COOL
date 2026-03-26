@@ -130,14 +130,11 @@ void main() {
     );
   });
 
-  group('AuthNotifier.sendOtp', () {
     test('sets loading true then false on success', () async {
-      when(() => mockRepo.sendOtp(any(), any())).thenAnswer((_) async {});
 
       final states = <app_auth.AuthState>[];
       notifier.addListener(states.add, fireImmediately: false);
 
-      await notifier.sendOtp('+250788000000', 'en');
 
       // First state change: isLoading = true
       expect(states.first.isLoading, true);
@@ -150,10 +147,8 @@ void main() {
 
     test('sets error on failure', () async {
       when(
-        () => mockRepo.sendOtp(any(), any()),
       ).thenThrow(Exception('Network error'));
 
-      await notifier.sendOtp('+250788000000', 'en');
 
       expect(notifier.state.isLoading, false);
       expect(notifier.state.error, isNotNull);
@@ -161,11 +156,9 @@ void main() {
     });
 
     test('maps invalid Supabase function URLs to a config error', () async {
-      when(() => mockRepo.sendOtp(any(), any())).thenThrow(
         ArgumentError('No host specified in url/functions/v1/send-otp'),
       );
 
-      await notifier.sendOtp('+250788000000', 'en');
 
       expect(notifier.state.isLoading, false);
       expect(notifier.state.error, isNotNull);
@@ -217,7 +210,6 @@ void main() {
     });
   });
 
-  group('AuthNotifier.updateOfficialIdentity', () {
     test('normalizes and stores official identity fields', () async {
       final original = _sampleUser();
       final updated = _sampleUser(
@@ -233,7 +225,6 @@ void main() {
         () => mockRepo.updateProfile(any()),
       ).thenAnswer((_) async => updated);
 
-      final success = await notifier.updateOfficialIdentity(
         officialName: '  Legal User ',
         officialPhone: '+250788123456',
       );
@@ -264,7 +255,6 @@ void main() {
         () => mockRepo.updateProfile(any()),
       ).thenAnswer((_) async => cleared);
 
-      final success = await notifier.updateOfficialIdentity(
         officialName: '',
         officialPhone: '',
       );

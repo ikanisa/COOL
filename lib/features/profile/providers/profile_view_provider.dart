@@ -36,7 +36,7 @@ final profileViewProvider = Provider<ProfileData>((ref) {
       (statementBundle.valueOrNull?.walletTotalCount ?? 0) +
       (statementBundle.valueOrNull?.savingsTotalCount ?? 0);
   final showCompletionBanner =
-      !user.hasBasicProfile || !walletConfigured || !user.hasOfficialIdentity;
+      !user.hasBasicProfile || !walletConfigured;
 
   final setupItems = <ProfileSetupItem>[
     ProfileSetupItem(
@@ -48,11 +48,6 @@ final profileViewProvider = Provider<ProfileData>((ref) {
       id: 'wallet',
       label: l10n.profileWalletLabel,
       isComplete: walletConfigured,
-    ),
-    ProfileSetupItem(
-      id: 'official_identity',
-      label: l10n.profileOfficialIdentityLabel,
-      isComplete: user.hasOfficialIdentity,
     ),
   ];
 

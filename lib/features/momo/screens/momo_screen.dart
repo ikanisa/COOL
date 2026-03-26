@@ -370,19 +370,7 @@ class _MomoScreenState extends ConsumerState<MomoScreen> {
                         );
                       },
                     ),
-                    SizedBox(height: space.x5),
-                    _buildSendMoneyCard(
-                      context: context,
-                      colors: colors,
-                      space: space,
-                      theme: theme,
-                      onSend: () => _showSendMoneySheet(
-                        context,
-                        country: country,
-                        momoNumber: momoNumber,
-                        momoCode: momoCode,
-                      ),
-                    ),
+
                   ]),
                 ),
               ),

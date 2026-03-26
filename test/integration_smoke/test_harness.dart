@@ -174,9 +174,7 @@ _buildTestContainer({
   when(() => authRepository.currentUserId).thenReturn(session?.user.id);
   when(() => authRepository.getCurrentProfile()).thenAnswer((_) async => user);
   when(() => authRepository.getProfile(any())).thenAnswer((_) async => user);
-  when(() => authRepository.sendOtp(any(), any())).thenAnswer((_) async {});
   when(
-    () => authRepository.verifyOtp(any(), any()),
   ).thenAnswer((_) async => session ?? fakeSession());
   when(() => authRepository.signOut()).thenAnswer((_) async {});
 

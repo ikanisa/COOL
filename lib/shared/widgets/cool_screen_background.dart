@@ -52,6 +52,9 @@ class CoolScreenBackground extends ConsumerWidget {
     final bottomShade = colors.shadowColor.withValues(
       alpha: isDark ? 0.16 : 0.02,
     );
+    final gridColor = colors.highlightColor.withValues(
+      alpha: isDark ? 0.045 : 0.04,
+    );
 
     return Stack(
       fit: StackFit.expand,
@@ -74,8 +77,8 @@ class CoolScreenBackground extends ConsumerWidget {
         DecoratedBox(
           decoration: BoxDecoration(
             gradient: RadialGradient(
-              center: const Alignment(-0.85, -0.95),
-              radius: 1.05,
+              center: const Alignment(-0.95, -1.1),
+              radius: 1.0,
               colors: <Color>[accentGlow, Colors.transparent],
               stops: const [0.0, 1.0],
             ),
@@ -84,11 +87,30 @@ class CoolScreenBackground extends ConsumerWidget {
         DecoratedBox(
           decoration: BoxDecoration(
             gradient: RadialGradient(
-              center: const Alignment(1.15, -0.9),
-              radius: 1.25,
+              center: const Alignment(1.05, -0.8),
+              radius: 1.15,
               colors: <Color>[secondaryGlow, Colors.transparent],
               stops: const [0.0, 1.0],
             ),
+          ),
+        ),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: RadialGradient(
+              center: const Alignment(0.0, -0.2),
+              radius: 1.4,
+              colors: <Color>[
+                effectivePrimary.withValues(alpha: isDark ? 0.10 : 0.04),
+                Colors.transparent,
+              ],
+              stops: const [0.0, 1.0],
+            ),
+          ),
+        ),
+        IgnorePointer(
+          child: CustomPaint(
+            painter: _DashboardGridPainter(color: gridColor),
+            child: const SizedBox.expand(),
           ),
         ),
         DecoratedBox(
@@ -103,8 +125,49 @@ class CoolScreenBackground extends ConsumerWidget {
             ),
           ),
         ),
+        IgnorePointer(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: RadialGradient(
+                center: const Alignment(0.0, 0.95),
+                radius: 1.1,
+                colors: <Color>[
+                  colors.shadowColor.withValues(alpha: isDark ? 0.45 : 0.08),
+                  Colors.transparent,
+                ],
+                stops: const [0.0, 1.0],
+              ),
+            ),
+          ),
+        ),
         child,
       ],
     );
+  }
+}
+
+class _DashboardGridPainter extends CustomPainter {
+  const _DashboardGridPainter({required this.color});
+
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const spacing = 24.0;
+    final paint = Paint()
+      ..color = color
+      ..strokeWidth = 1;
+
+    for (double x = 0; x <= size.width; x += spacing) {
+      canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
+    }
+    for (double y = 0; y <= size.height; y += spacing) {
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _DashboardGridPainter oldDelegate) {
+    return oldDelegate.color != color;
   }
 }

@@ -39,15 +39,6 @@ class StatementOverviewCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Statement command center',
-            style: theme.textTheme.labelSmall?.copyWith(
-              fontWeight: FontWeight.w700,
-              letterSpacing: 1,
-              color: colors.secondaryText,
-            ),
-          ),
-          const SizedBox(height: CoolSpace.x2 + CoolSpace.x1),
-          Text(
             '${netBalance >= 0 ? '' : '-'}${moneyFormat.format(netBalance.abs())} ${context.l10n.rwf}',
             style: text.mono(
               theme.textTheme.headlineMedium,
@@ -273,14 +264,6 @@ class _StatementOptionsSheetState extends State<StatementOptionsSheet> {
                   ),
                 ],
               ),
-              Text(
-                'Adjust the visible list, filters, and export output.',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w500,
-                  color: colors.secondaryText,
-                  height: 1.4,
-                ),
-              ),
               const SizedBox(height: CoolSpace.x5 - CoolSpace.x1),
               const _OptionsSectionTitle('Filters'),
               const SizedBox(height: CoolSpace.x3),
@@ -356,15 +339,6 @@ class _StatementOptionsSheetState extends State<StatementOptionsSheet> {
               ),
               const SizedBox(height: CoolSpace.x5),
               const _OptionsSectionTitle('Export current results'),
-              const SizedBox(height: CoolSpace.x1 + CoolSpace.x1),
-              Text(
-                'PDF and Excel use the current filters and sort order.',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.w500,
-                  color: colors.secondaryText,
-                  height: 1.4,
-                ),
-              ),
               const SizedBox(height: CoolSpace.x3),
               Row(
                 children: [

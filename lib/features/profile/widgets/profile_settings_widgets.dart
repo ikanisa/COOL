@@ -597,7 +597,7 @@ class ProfileCompleteProfileBanner extends StatelessWidget {
       label: l10n.completeProfileTitle,
       hint: 'Complete your profile',
       child: GestureDetector(
-        onTap: () => context.push(AppRoutes.registerLocation(phone: phone)),
+        onTap: () => context.push(AppRoutes.profile),
         child: ExcludeSemantics(
           child: CoolCard(
             backgroundColor: colors.cardSurfaceStrong,

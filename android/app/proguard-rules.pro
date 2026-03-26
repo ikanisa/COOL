@@ -55,3 +55,8 @@
 # ── Google Maps ──────────────────────────────────────────────
 -keep class com.google.android.gms.maps.** { *; }
 -dontwarn com.google.android.gms.maps.**
+
+# ── TFLite Flutter (tflite_flutter) ──────────────────────────
+-keep class org.tensorflow.lite.** { *; }
+-dontwarn org.tensorflow.lite.**
+-dontwarn org.tensorflow.lite.gpu.GpuDelegateFactory$Options

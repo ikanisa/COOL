@@ -23,8 +23,6 @@ Widget _buildBalanceSection({
     amount: walletBalance,
     currency: 'RWF',
     changeAmount: walletInflows - walletOutflows,
-    subtitle:
-        'Protected wallet surface for statements, payouts, and receive setup.',
     metrics: [
       BalanceCardMetric(
         label: 'Inflow',
@@ -105,11 +103,10 @@ Widget _buildBiopayCard({
                   ),
                   SizedBox(height: space.x1),
                   Text(
-                    'Face-to-USSD handoff with your signed-in profile and wallet route. No phone OTP.',
+                    'Face payments',
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: colors.secondaryText,
                       fontWeight: FontWeight.w500,
-                      height: 1.4,
                     ),
                   ),
                 ],
@@ -139,96 +136,15 @@ Widget _buildTrustAndActionsCard({
   required VoidCallback onOpenQrCode,
   required VoidCallback onOpenNfcTools,
 }) {
-  return CoolCard(
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Trust and controls',
-          style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w800,
-            color: colors.primaryText,
-          ),
-        ),
-        SizedBox(height: space.x2),
-        Text(
-          'Keep payment actions, receive channels, and record review separate and easy to scan.',
-          style: theme.textTheme.bodySmall?.copyWith(
-            fontWeight: FontWeight.w500,
-            color: colors.secondaryText,
-            height: 1.4,
-          ),
-        ),
-        const SizedBox(height: 14),
-        const Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: [
-            _WalletTrustChip(
-              icon: Icons.verified_user_outlined,
-              label: 'Protected sessions',
-            ),
-            _WalletTrustChip(
-              icon: Icons.rule_folder_outlined,
-              label: 'Compliant records',
-            ),
-            _WalletTrustChip(
-              icon: Icons.account_balance_outlined,
-              label: 'Authoritative ledger',
-            ),
-          ],
-        ),
-        const SizedBox(height: 18),
-        MomoActionGrid(
-          onOpenStatements: onOpenStatements,
-          onScanQr: onScanQr,
-          onOpenQrCode: onOpenQrCode,
-          onOpenNfcTools: onOpenNfcTools,
-        ),
-      ],
-    ),
+  return MomoActionGrid(
+    onOpenStatements: onOpenStatements,
+    onScanQr: onScanQr,
+    onOpenQrCode: onOpenQrCode,
+    onOpenNfcTools: onOpenNfcTools,
   );
 }
 
-/// "Send money" card at the bottom of the hub.
-Widget _buildSendMoneyCard({
-  required BuildContext context,
-  required CoolSemanticColors colors,
-  required CoolSpaceTokens space,
-  required ThemeData theme,
-  required VoidCallback onSend,
-}) {
-  final l10n = context.l10n;
-  return CoolCard(
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          l10n.sendMoneyTitle,
-          style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w800,
-            color: colors.primaryText,
-          ),
-        ),
-        SizedBox(height: space.x2),
-        Text(
-          l10n.sendMoneyHint,
-          style: theme.textTheme.bodySmall?.copyWith(
-            fontWeight: FontWeight.w500,
-            color: colors.secondaryText,
-            height: 1.4,
-          ),
-        ),
-        const SizedBox(height: CoolSpace.x4),
-        CoolButton(
-          label: l10n.sendMoney,
-          icon: Icons.send_rounded,
-          onTap: onSend,
-        ),
-      ],
-    ),
-  );
-}
+
 
 /// Semi‑transparent overlay while USSD handoff is launching.
 Widget _buildLaunchingOverlay({
@@ -278,43 +194,7 @@ Widget _buildLaunchingOverlay({
   );
 }
 
-// ─── Private widgets ───────────────────────────────────────────────────────
 
-class _WalletTrustChip extends StatelessWidget {
-  const _WalletTrustChip({required this.icon, required this.label});
-
-  final IconData icon;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.coolSemanticColors;
-    final space = context.coolSpace;
-    final theme = Theme.of(context);
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: space.x3, vertical: space.x2),
-      decoration: BoxDecoration(
-        color: colors.cardSurfaceStrong,
-        borderRadius: const BorderRadius.all(Radius.circular(CoolRadii.pill)),
-        border: Border.all(color: colors.border),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 14, color: colors.secondaryText),
-          SizedBox(width: space.x1),
-          Text(
-            label,
-            style: theme.textTheme.labelSmall?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: colors.secondaryText,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 // ─── Pure helpers ──────────────────────────────────────────────────────────
 

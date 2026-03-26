@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cool_app/core/utils/json_helpers.dart' as jh;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -15,47 +13,14 @@ class AuthRepository {
   Session? get currentSession => _client.auth.currentSession;
   String? get currentUserId => _client.auth.currentUser?.id;
 
-  Future<void> sendOtp(String phone, String language) async {
-    assert(
-      language.trim().isEmpty ||
-          language.trim().toLowerCase() == AppMarket.languageCode,
-      'COOL is English-only.',
-    );
-    final response = await _client.functions.invoke(
-      'send-otp',
-      body: <String, Object?>{
-        'phone': phone,
-        'language': AppMarket.languageCode,
-      },
-    );
-
-    final data = jh.asMap(response.data);
-    if (data['success'] == false) {
-      throw StateError(data['message']?.toString() ?? 'Failed to send OTP.');
-    }
-  }
-
-  Future<Session> verifyOtp(String phone, String code) async {
-    final response = await _client.functions.invoke(
-      'verify-otp',
-      body: <String, Object?>{'phone': phone, 'code': code},
-    );
-
-    final data = jh.asMap(response.data);
-    if (data['success'] == false) {
-      throw StateError(data['message']?.toString() ?? 'Failed to verify OTP.');
-    }
-
-    final sessionPayload = normalizeAuthSessionPayload(data);
-    final session = Session.fromJson(sessionPayload);
+  /// Signs in anonymously via Supabase. Returns the new session.
+  Future<Session> signInAnonymously() async {
+    final response = await _client.auth.signInAnonymously();
+    final session = response.session;
     if (session == null) {
-      throw StateError('OTP verification did not return a valid session.');
+      throw StateError('Anonymous sign-in did not return a valid session.');
     }
-
-    final authResponse = await _client.auth.recoverSession(
-      jsonEncode(sessionPayload),
-    );
-    return authResponse.session ?? session;
+    return session;
   }
 
   Future<UserProfile> createProfile(UserProfile profile) async {
@@ -259,96 +224,4 @@ Map<String, dynamic> _lockProfileMarket(Map<String, dynamic> data) {
     'country': AppMarket.countryCode,
     'language_code': AppMarket.languageCode,
   };
-}
-
-jh.JsonMap normalizeAuthSessionPayload(jh.JsonMap response) {
-  final rawSession = _nestedMap(response, 'session') ?? response;
-  final rawUser =
-      _nestedMap(rawSession, 'user') ??
-      _nestedMap(response, 'user') ??
-      const <String, Object?>{};
-
-  return <String, Object?>{
-    'access_token':
-        _stringOrNull(rawSession['access_token']) ??
-        _stringOrNull(response['access_token']),
-    'expires_in':
-        _intOrNull(rawSession['expires_in']) ??
-        _intOrNull(response['expires_in']),
-    'refresh_token':
-        _stringOrNull(rawSession['refresh_token']) ??
-        _stringOrNull(response['refresh_token']),
-    'token_type': _stringOrNull(rawSession['token_type']) ?? 'bearer',
-    'provider_token': _stringOrNull(rawSession['provider_token']),
-    'provider_refresh_token': _stringOrNull(
-      rawSession['provider_refresh_token'],
-    ),
-    'user': <String, Object?>{
-      'id': _stringOrNull(rawUser['id']) ?? '',
-      'app_metadata': _mapOrEmpty(rawUser['app_metadata']),
-      'user_metadata': _mapOrNull(rawUser['user_metadata']),
-      'aud': _stringOrNull(rawUser['aud']) ?? '',
-      'confirmation_sent_at': _stringOrNull(rawUser['confirmation_sent_at']),
-      'recovery_sent_at': _stringOrNull(rawUser['recovery_sent_at']),
-      'email_change_sent_at': _stringOrNull(rawUser['email_change_sent_at']),
-      'new_email': _stringOrNull(rawUser['new_email']),
-      'invited_at': _stringOrNull(rawUser['invited_at']),
-      'action_link': _stringOrNull(rawUser['action_link']),
-      'email': _stringOrNull(rawUser['email']),
-      'phone': _stringOrNull(rawUser['phone']),
-      'created_at': _stringOrNull(rawUser['created_at']) ?? '',
-      'confirmed_at': _stringOrNull(rawUser['confirmed_at']),
-      'email_confirmed_at': _stringOrNull(rawUser['email_confirmed_at']),
-      'phone_confirmed_at': _stringOrNull(rawUser['phone_confirmed_at']),
-      'last_sign_in_at': _stringOrNull(rawUser['last_sign_in_at']),
-      'role': _stringOrNull(rawUser['role']),
-      'updated_at': _stringOrNull(rawUser['updated_at']),
-      'is_anonymous': jh.asBool(rawUser['is_anonymous']),
-    }..removeWhere((_, value) => value == null),
-  }..removeWhere((_, value) => value == null);
-}
-
-jh.JsonMap? _nestedMap(jh.JsonMap root, String key) {
-  final value = root[key];
-  if (value is jh.JsonMap) {
-    return value;
-  }
-  if (value is Map) {
-    return Map<String, Object?>.from(value);
-  }
-  return null;
-}
-
-String? _stringOrNull(Object? value) {
-  if (value == null) {
-    return null;
-  }
-  return value.toString();
-}
-
-int? _intOrNull(Object? value) {
-  if (value is int) {
-    return value;
-  }
-  if (value is num) {
-    return value.toInt();
-  }
-  if (value is String) {
-    return int.tryParse(value);
-  }
-  return null;
-}
-
-jh.JsonMap? _mapOrNull(Object? value) {
-  if (value is jh.JsonMap) {
-    return value;
-  }
-  if (value is Map) {
-    return Map<String, Object?>.from(value);
-  }
-  return null;
-}
-
-jh.JsonMap _mapOrEmpty(Object? value) {
-  return _mapOrNull(value) ?? <String, Object?>{};
 }

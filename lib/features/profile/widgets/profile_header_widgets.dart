@@ -87,7 +87,10 @@ class ProfileHeader extends StatelessWidget {
                   ),
                 ],
                 const SizedBox(height: 10),
-                Row(
+                Wrap(
+                  spacing: 10,
+                  runSpacing: 6,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Container(
                       padding: const EdgeInsets.symmetric(
@@ -113,8 +116,7 @@ class ProfileHeader extends StatelessWidget {
                         ],
                       ),
                     ),
-                    if (memberSince != null) ...[
-                      const SizedBox(width: 10),
+                    if (memberSince != null)
                       Text(
                         'Since $memberSince',
                         style: theme.textTheme.labelMedium?.copyWith(
@@ -122,7 +124,6 @@ class ProfileHeader extends StatelessWidget {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                    ],
                   ],
                 ),
               ],

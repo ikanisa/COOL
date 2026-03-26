@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/cool_foundations.dart';
 import 'cool_press_feedback.dart';
 
-/// A reusable premium surface card with tonal separation instead of visible borders.
+/// A reusable premium surface card tuned for the dashboard redesign.
 ///
 /// When [onTap] is set, wraps content in [CoolPressFeedback] for tactile
 /// scale + opacity animation on press.
@@ -34,19 +34,17 @@ class CoolCard extends StatelessWidget {
 
   final String? semanticsLabel;
 
-  static const _defaultRadius = 24.0;
+  static const _defaultRadius = 28.0;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final brightness = Theme.of(context).brightness;
     final radius = borderRadius ?? _defaultRadius;
-    final hasBorder = borderColor != null;
+    final resolvedBorderColor = borderColor ?? colors.border;
     final shape = RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(radius),
-      side: hasBorder
-          ? BorderSide(color: borderColor!, width: 1.1)
-          : BorderSide.none,
+      side: BorderSide(color: resolvedBorderColor, width: 1),
     );
 
     final Gradient? resolvedGradient;
@@ -74,9 +72,6 @@ class CoolCard extends StatelessWidget {
       shadows: CoolShadows.clay(brightness),
     );
 
-    // Use CoolGlassOpacity tokens for the clay gradient overlay.
-    final clayAlpha = CoolGlassOpacity.clayGradientWhite(brightness);
-
     final Widget content = Stack(
       children: [
         Positioned.fill(
@@ -84,16 +79,18 @@ class CoolCard extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                   colors: <Color>[
-                    Colors.white.withValues(alpha: clayAlpha),
+                    colors.highlightColor.withValues(
+                      alpha: brightness == Brightness.dark ? 0.05 : 0.18,
+                    ),
                     Colors.transparent,
-                    Colors.black.withValues(
-                      alpha: brightness == Brightness.dark ? 0.04 : 0.00,
+                    colors.shadowColor.withValues(
+                      alpha: brightness == Brightness.dark ? 0.18 : 0.04,
                     ),
                   ],
-                  stops: const <double>[0, 0.34, 1],
+                  stops: const <double>[0, 0.24, 1],
                 ),
               ),
             ),
@@ -127,14 +124,10 @@ class CoolCard extends StatelessWidget {
       return Semantics(
         label: semanticsLabel,
         button: true,
-        child: CoolPressFeedback(
-          onTap: onTap!,
-          child: card,
-        ),
+        child: CoolPressFeedback(onTap: onTap!, child: card),
       );
     }
 
     return card;
   }
 }
-

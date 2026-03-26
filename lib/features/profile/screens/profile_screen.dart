@@ -91,7 +91,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     // Invalidate cached providers to prevent stale data leaking across sessions.
     ref.invalidate(coolStatusProvider);
 
-    context.go(AppRoutes.onboarding);
+    context.go(AppRoutes.splash);
   }
 
   Future<void> _confirmDeleteAccount() async {
@@ -128,7 +128,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     // Invalidate cached providers before leaving.
     ref.invalidate(coolStatusProvider);
 
-    context.go(AppRoutes.onboarding);
+    context.go(AppRoutes.splash);
   }
 
   Future<void> _showMomoQrSheet(ProfileData profile) async {
@@ -212,19 +212,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               : AppRoutes.momo,
         ),
       ),
-      ProfileSettingsRow(
-        icon: Icons.person_outlined,
-        label: 'Personal Info',
-        value: profile.officialName.isNotEmpty
-            ? profile.officialName
-            : profile.officialIdentitySummary,
-        valueColor: profile.officialName.isNotEmpty
-            ? colors.info
-            : profile.hasOfficialIdentity
-            ? colors.info
-            : colors.tertiaryText,
-        onTap: () => context.push(AppRoutes.profileIdentity),
-      ),
+
     ];
 
     // ── Settings rows ──────────────────────────────────────────────
@@ -448,14 +436,6 @@ class _ProfileCommandDeck extends StatelessWidget {
             style: theme.textTheme.headlineSmall?.copyWith(
               color: colors.primaryText,
               fontWeight: FontWeight.w800,
-            ),
-          ),
-          const SizedBox(height: CoolSpace.x2),
-          Text(
-            'Identity. Wallet. Access.',
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: colors.secondaryText,
-              fontWeight: FontWeight.w700,
             ),
           ),
           const SizedBox(height: CoolSpace.x6),

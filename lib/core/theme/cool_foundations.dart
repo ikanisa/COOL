@@ -58,95 +58,95 @@ class CoolSemanticColors extends ThemeExtension<CoolSemanticColors> {
   });
 
   static const CoolSemanticColors light = CoolSemanticColors(
-    appBackground: Color(0xFFF4F6FA), // rsWhite
-    elevatedBackground: Color(0xFFFFFFFF),
-    cardSurface: Color(0xFFEAF0F9),
-    cardSurfaceStrong: Color(0xFFDCE6F5),
-    glassSurface: Color(0xD6FFFFFF),
-    overlaySurface: Color(0xFFFFFFFF),
-    primaryText: Color(0xFF040B22), // deep blue text
-    secondaryText: Color(0xFF3A5890),
-    tertiaryText: Color(0xFF7593D6),
-    accent: Color(0xFF0047AB), // rsBlue
-    accentStrong: Color(0xFF0055CC), // rsBlueMid
+    appBackground: Color(0xFFF3F0EA),
+    elevatedBackground: Color(0xFFFCFAF6),
+    cardSurface: Color(0xFFF7F2EA),
+    cardSurfaceStrong: Color(0xFFFFFDF9),
+    glassSurface: Color(0xD6FFF8F0),
+    overlaySurface: Color(0xFFFBF8F2),
+    primaryText: Color(0xFF0B0F0D),
+    secondaryText: Color(0xFF465147),
+    tertiaryText: Color(0xFF6D776E),
+    accent: Color(0xFF0047AB),
+    accentStrong: Color(0xFF0C64D9),
     accentForeground: Color(0xFFFFFFFF),
-    divider: Color(0x1A0047AB),
-    border: Color(0x260047AB),
-    borderStrong: Color(0x400047AB),
-    success: Color(0xFF3A8A5E),
-    warning: Color(0xFFC9A84C), // rsGold
-    danger: Color(0xFFA24C54),
-    info: Color(0xFF3D8BFF), // rsBluePale
-    neutral: Color(0xFF737B74),
-    chipBackground: Color(0xFFEAF0F9),
-    chipSelectedBackground: Color(0xFF0047AB),
+    divider: Color(0x140B0F0D),
+    border: Color(0x1F0B0F0D),
+    borderStrong: Color(0x300B0F0D),
+    success: Color(0xFF3FA06D),
+    warning: Color(0xFFD09A4D),
+    danger: Color(0xFFD0727A),
+    info: Color(0xFF7E9CBC),
+    neutral: Color(0xFF98A199),
+    chipBackground: Color(0xFFF7F2EA),
+    chipSelectedBackground: Color(0xFFFFFFFF),
     buttonPrimaryBackground: Color(0xFF0047AB),
-    buttonSecondaryBackground: Color(0xFFEAF0F9),
+    buttonSecondaryBackground: Color(0xFFF7F2EA),
     inputSurface: Color(0xFFFFFFFF),
-    operationalSurface: Color(0xFFDFE8F6),
-    financialSurface: Color(0xFFEAF0F9),
-    analyticsSurface: Color(0xFFDFE8F6),
-    teamSurface: Color(0xFFDCE6F5),
-    commerceSurface: Color(0xFFEAF0F9),
-    routeSurface: Color(0xFFEAF0F9),
-    proximitySurface: Color(0xFFDFE8F6),
-    contactSurface: Color(0xFFEAF0F9),
-    demandHigh: Color(0xFFA24C54),
-    demandMedium: Color(0xFFC9A84C),
-    demandLow: Color(0xFF3A8A5E),
-    shellGradientTop: Color(0xFFFFFFFF),
-    shellGradientBottom: Color(0xFFF4F6FA),
+    operationalSurface: Color(0xFFF1ECE4),
+    financialSurface: Color(0xFFF5EFE6),
+    analyticsSurface: Color(0xFFF3EEE8),
+    teamSurface: Color(0xFFF3EDF6),
+    commerceSurface: Color(0xFFF6F1EA),
+    routeSurface: Color(0xFFF0EADF),
+    proximitySurface: Color(0xFFF1EEE7),
+    contactSurface: Color(0xFFEDE7DD),
+    demandHigh: Color(0xFFD0727A),
+    demandMedium: Color(0xFFD09A4D),
+    demandLow: Color(0xFF58A67B),
+    shellGradientTop: Color(0xFFFFFDF9),
+    shellGradientBottom: Color(0xFFF0EBE2),
     surfaceGradientTop: Color(0xFFFFFFFF),
-    surfaceGradientBottom: Color(0xFFEAF0F9),
-    accentGradientStart: Color(0xFF0047AB),
-    accentGradientEnd: Color(0xFF003F98),
-    shadowColor: Color(0xFF00115A),
+    surfaceGradientBottom: Color(0xFFF3EEE7),
+    accentGradientStart: Color(0xFF0C64D9),
+    accentGradientEnd: Color(0xFF003A90),
+    shadowColor: Color(0xFF15120F),
     highlightColor: Color(0xFFFFFFFF),
   );
 
   static const CoolSemanticColors dark = CoolSemanticColors(
-    appBackground: Color(0xFF040B22), // Deepest blue
-    elevatedBackground: Color(0xFF06102B),
-    cardSurface: Color(0xFF091540), // rsCardGradient start
-    cardSurfaceStrong: Color(0xFF0D1E6A), // rsCardGradient end
-    glassSurface: Color(0xCC06102B),
-    overlaySurface: Color(0xFF06102B),
-    primaryText: Color(0xFFF4F6FA), // rsWhite
-    secondaryText: Color(0xFFC4D5F8), // Soft blue text
-    tertiaryText: Color(0xFF86A3E0),
-    accent: Color(0xFFC9A84C), // rsGold
-    accentStrong: Color(0xFFE8C96A), // rsGoldLight
-    accentForeground: Color(0xFF040B22), // Dark text on gold
-    divider: Color(0x1AFFFFFF),
-    border: Color(0x330055CC), // rsBlueBorder roughly
-    borderStrong: Color(0x590055CC),
-    success: Color(0xFF3A8A5E),
-    warning: Color(0xFFE8C96A), // Gold
-    danger: Color(0xFFD0727A),
-    info: Color(0xFF3D8BFF), // rsBluePale
-    neutral: Color(0xFF86A3E0),
-    chipBackground: Color(0xFF091540),
-    chipSelectedBackground: Color(0xFFC9A84C),
-    buttonPrimaryBackground: Color(0xFFC9A84C), // Gold CTA
-    buttonSecondaryBackground: Color(0xFF091540),
-    inputSurface: Color(0xFF06102B),
-    operationalSurface: Color(0xFF0A184A),
-    financialSurface: Color(0xFF081440),
-    analyticsSurface: Color(0xFF0B1950),
-    teamSurface: Color(0xFF0D1E6A),
-    commerceSurface: Color(0xFF08123A),
-    routeSurface: Color(0xFF081440),
-    proximitySurface: Color(0xFF06102B),
-    contactSurface: Color(0xFF0A184A),
-    demandHigh: Color(0xFFD0727A),
-    demandMedium: Color(0xFFE8C96A),
-    demandLow: Color(0xFF3A8A5E),
-    shellGradientTop: Color(0xFF091540),
-    shellGradientBottom: Color(0xFF040B22),
-    surfaceGradientTop: Color(0xFF0D1E6A),
-    surfaceGradientBottom: Color(0xFF091540),
-    accentGradientStart: Color(0xFFC9A84C),
-    accentGradientEnd: Color(0xFFE8C96A),
+    appBackground: Color(0xFF050505),
+    elevatedBackground: Color(0xFF0A0A0A),
+    cardSurface: Color(0xFF111111),
+    cardSurfaceStrong: Color(0xFF171717),
+    glassSurface: Color(0xCC0A0A0A),
+    overlaySurface: Color(0xFF0B0B0B),
+    primaryText: Color(0xFFFFFFFF),
+    secondaryText: Color(0xFFB4B4B4),
+    tertiaryText: Color(0xFF808080),
+    accent: Color(0xFF0047AB),
+    accentStrong: Color(0xFF0C64D9),
+    accentForeground: Color(0xFFFFFFFF),
+    divider: Color(0x14FFFFFF),
+    border: Color(0x1FFFFFFF),
+    borderStrong: Color(0x33FFFFFF),
+    success: Color(0xFF00C26E),
+    warning: Color(0xFFFFB547),
+    danger: Color(0xFFFF5B55),
+    info: Color(0xFF74A8FF),
+    neutral: Color(0xFF909B91),
+    chipBackground: Color(0xFF141414),
+    chipSelectedBackground: Color(0xFFFFFFFF),
+    buttonPrimaryBackground: Color(0xFF0047AB),
+    buttonSecondaryBackground: Color(0xFF161616),
+    inputSurface: Color(0xFF121212),
+    operationalSurface: Color(0xFF0F1115),
+    financialSurface: Color(0xFF0D111A),
+    analyticsSurface: Color(0xFF11131A),
+    teamSurface: Color(0xFF151320),
+    commerceSurface: Color(0xFF151311),
+    routeSurface: Color(0xFF101215),
+    proximitySurface: Color(0xFF0E1310),
+    contactSurface: Color(0xFF0F1513),
+    demandHigh: Color(0xFFFF5B55),
+    demandMedium: Color(0xFFFFB547),
+    demandLow: Color(0xFF00C26E),
+    shellGradientTop: Color(0xFF0A0A0A),
+    shellGradientBottom: Color(0xFF020202),
+    surfaceGradientTop: Color(0xFF171717),
+    surfaceGradientBottom: Color(0xFF0C0C0C),
+    accentGradientStart: Color(0xFF0C64D9),
+    accentGradientEnd: Color(0xFF003C92),
     shadowColor: Color(0xFF000000),
     highlightColor: Color(0xFFFFFFFF),
   );
@@ -680,17 +680,17 @@ abstract final class CoolBlur {
 abstract final class CoolGlassOpacity {
   // ── Glass card ──────────────────────────────────────────────────────
   static double glassBackground(Brightness brightness) =>
-      brightness == Brightness.dark ? 0.40 : 0.60;
+      brightness == Brightness.dark ? 0.76 : 0.82;
 
   static double glassBorderWhite(Brightness brightness) =>
-      brightness == Brightness.dark ? 0.05 : 0.20;
+      brightness == Brightness.dark ? 0.08 : 0.18;
 
   static double glassGradientWhite(Brightness brightness) =>
-      brightness == Brightness.dark ? 0.03 : 0.10;
+      brightness == Brightness.dark ? 0.05 : 0.12;
 
   // ── Clay card ──────────────────────────────────────────────────────
   static double clayGradientWhite(Brightness brightness) =>
-      brightness == Brightness.dark ? 0.04 : 0.14;
+      brightness == Brightness.dark ? 0.03 : 0.12;
 }
 
 /// Elevation guidance for the redesign.
@@ -750,19 +750,11 @@ abstract final class CoolShadows {
     return <BoxShadow>[
       BoxShadow(
         color: Colors.black.withValues(
-          alpha: (isDark ? 0.34 : 0.06) * strength,
+          alpha: (isDark ? 0.42 : 0.08) * strength,
         ),
-        blurRadius: 28,
-        spreadRadius: -14,
-        offset: const Offset(0, 18),
-      ),
-      BoxShadow(
-        color: Colors.white.withValues(
-          alpha: (isDark ? 0.05 : 0.50) * strength,
-        ),
-        blurRadius: 12,
-        spreadRadius: -10,
-        offset: const Offset(-3, -4),
+        blurRadius: 40,
+        spreadRadius: -18,
+        offset: const Offset(0, 24),
       ),
     ];
   }
@@ -772,11 +764,11 @@ abstract final class CoolShadows {
     return <BoxShadow>[
       BoxShadow(
         color: Colors.black.withValues(
-          alpha: (isDark ? 0.26 : 0.10) * strength,
+          alpha: (isDark ? 0.40 : 0.10) * strength,
         ),
-        blurRadius: 32,
-        spreadRadius: -16,
-        offset: const Offset(0, 18),
+        blurRadius: 48,
+        spreadRadius: -22,
+        offset: const Offset(0, 28),
       ),
     ];
   }
@@ -789,11 +781,11 @@ abstract final class CoolShadows {
     return <BoxShadow>[
       BoxShadow(
         color: Colors.black.withValues(
-          alpha: (isDark ? 0.30 : 0.08) * strength,
+          alpha: (isDark ? 0.46 : 0.10) * strength,
         ),
-        blurRadius: 36,
-        spreadRadius: -18,
-        offset: const Offset(0, 22),
+        blurRadius: 52,
+        spreadRadius: -24,
+        offset: const Offset(0, 30),
       ),
     ];
   }

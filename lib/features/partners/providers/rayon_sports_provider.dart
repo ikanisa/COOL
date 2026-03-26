@@ -600,6 +600,7 @@ class RayonSportsNotifier extends StateNotifier<RayonSportsState> {
   final String? _userId;
 
   Future<void> load() async {
+    if (!mounted) return;
     state = state.copyWith(
       data: const AsyncLoading<RayonSportsData>(),
       action: const AsyncData<String?>(null),
@@ -608,16 +609,19 @@ class RayonSportsNotifier extends StateNotifier<RayonSportsState> {
     final result = await AsyncValue.guard(
       () => _repository.loadData(userId: _userId),
     );
+    if (!mounted) return;
     state = state.copyWith(data: result);
   }
 
   void addToCart(String productId) {
+    if (!mounted) return;
     final cart = Map<String, int>.from(state.cart);
     cart[productId] = (cart[productId] ?? 0) + 1;
     state = state.copyWith(cart: cart);
   }
 
   void removeFromCart(String productId) {
+    if (!mounted) return;
     final cart = Map<String, int>.from(state.cart);
     final current = cart[productId] ?? 0;
     if (current <= 1) {
@@ -646,6 +650,7 @@ class RayonSportsNotifier extends StateNotifier<RayonSportsState> {
 
   Future<RayonMembershipResolution> ensureMembership() async {
     final userId = _requireUser();
+    if (!mounted) throw StateError('Notifier disposed');
     state = state.copyWith(action: const AsyncLoading<String?>());
 
     try {
@@ -658,6 +663,7 @@ class RayonSportsNotifier extends StateNotifier<RayonSportsState> {
           membership: existingMembership,
           created: false,
         );
+        if (!mounted) return result;
         state = state.copyWith(action: AsyncData<String?>(result.message));
         return result;
       }
@@ -682,6 +688,7 @@ class RayonSportsNotifier extends StateNotifier<RayonSportsState> {
         membership: membership,
         created: created,
       );
+      if (!mounted) return result;
       state = state.copyWith(action: AsyncData<String?>(result.message));
       return result;
     } catch (error, stackTrace) {
@@ -731,6 +738,7 @@ class RayonSportsNotifier extends StateNotifier<RayonSportsState> {
   }) async {
     final userId = _requireUser();
     final paymentRoute = await _repository.getActivePaymentRoute();
+    if (!mounted) throw StateError('Notifier disposed');
     state = state.copyWith(action: const AsyncLoading<String?>());
 
     try {
@@ -742,6 +750,13 @@ class RayonSportsNotifier extends StateNotifier<RayonSportsState> {
       );
       await _softReload();
       final message = _supportCheckoutMessage(paymentRoute, amount);
+      if (!mounted) {
+        return RayonSupportCheckoutResult(
+          contributionId: contributionId,
+          amount: amount,
+          message: message,
+        );
+      }
       state = state.copyWith(action: AsyncData<String?>(message));
       return RayonSupportCheckoutResult(
         contributionId: contributionId,
@@ -749,7 +764,9 @@ class RayonSportsNotifier extends StateNotifier<RayonSportsState> {
         message: message,
       );
     } catch (error, stackTrace) {
-      state = state.copyWith(action: AsyncError<String?>(error, stackTrace));
+      if (mounted) {
+        state = state.copyWith(action: AsyncError<String?>(error, stackTrace));
+      }
       rethrow;
     }
   }
@@ -773,6 +790,7 @@ class RayonSportsNotifier extends StateNotifier<RayonSportsState> {
     final discountAmount = hasMemberDiscount ? (subtotal * 0.10).round() : 0;
     final total = subtotal - discountAmount;
 
+    if (!mounted) throw StateError('Notifier disposed');
     state = state.copyWith(action: const AsyncLoading<String?>());
 
     try {
@@ -787,6 +805,13 @@ class RayonSportsNotifier extends StateNotifier<RayonSportsState> {
       clearCart();
       await _softReload();
       final message = _shopCheckoutMessage(paymentRoute, total);
+      if (!mounted) {
+        return RayonShopCheckoutResult(
+          orderId: orderId,
+          total: total,
+          message: message,
+        );
+      }
       state = state.copyWith(action: AsyncData<String?>(message));
       return RayonShopCheckoutResult(
         orderId: orderId,
@@ -811,6 +836,7 @@ class RayonSportsNotifier extends StateNotifier<RayonSportsState> {
     final result = await AsyncValue.guard(
       () => _repository.loadData(userId: _userId),
     );
+    if (!mounted) return;
     state = state.copyWith(data: result);
   }
 
@@ -818,6 +844,7 @@ class RayonSportsNotifier extends StateNotifier<RayonSportsState> {
     Future<void> Function() action, {
     required String successMessage,
   }) async {
+    if (!mounted) return '';
     state = state.copyWith(action: const AsyncLoading<String?>());
 
     final result = await AsyncValue.guard(() async {
@@ -825,7 +852,9 @@ class RayonSportsNotifier extends StateNotifier<RayonSportsState> {
       return successMessage;
     });
 
-    state = state.copyWith(action: result);
+    if (mounted) {
+      state = state.copyWith(action: result);
+    }
 
     if (result.hasError) {
       throw result.error!;

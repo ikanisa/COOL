@@ -426,15 +426,6 @@ class _BanksTab extends ConsumerWidget {
                       fontWeight: FontWeight.w800,
                     ),
                   ),
-                  const SizedBox(height: CoolSpace.x2),
-                  Text(
-                    'Open a bank partner only when you want a custodian for collections, group balances, and contribution oversight.',
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: colors.secondaryText,
-                      fontWeight: FontWeight.w700,
-                      height: 1.45,
-                    ),
-                  ),
                   const SizedBox(height: 14),
                   CoolButton(
                     label: 'Create group savings',

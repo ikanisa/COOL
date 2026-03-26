@@ -15,7 +15,7 @@ class CoolGlassCard extends StatelessWidget {
     this.padding,
     this.onTap,
     this.borderRadius = CoolRadii.xl,
-    this.blur = CoolBlur.overlay,
+    this.blur = CoolBlur.heavy,
     this.opacity = 0.82,
     this.borderColor,
     super.key,
@@ -40,9 +40,9 @@ class CoolGlassCard extends StatelessWidget {
     final borderAlpha = CoolGlassOpacity.glassBorderWhite(brightness);
     final gradientAlpha = CoolGlassOpacity.glassGradientWhite(brightness);
 
-    final glassColor = colors.glassSurface.withValues(alpha: bgAlpha);
-    final borderCol = borderColor ??
-        colors.highlightColor.withValues(alpha: borderAlpha);
+    final glassColor = colors.glassSurface.withValues(alpha: bgAlpha * opacity);
+    final borderCol =
+        borderColor ?? colors.highlightColor.withValues(alpha: borderAlpha);
 
     final content = Padding(
       padding: padding ?? CoolSpace.sectionPadding,
@@ -57,16 +57,14 @@ class CoolGlassCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: glassColor,
             gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
               colors: <Color>[
                 colors.highlightColor.withValues(alpha: gradientAlpha),
-                colors.buttonPrimaryBackground.withValues(
-                  alpha: isDark ? 0.03 : 0.02,
-                ),
-                Colors.transparent,
+                colors.accent.withValues(alpha: isDark ? 0.06 : 0.03),
+                colors.shadowColor.withValues(alpha: isDark ? 0.12 : 0.03),
               ],
-              stops: const <double>[0.0, 0.28, 1.0],
+              stops: const <double>[0.0, 0.38, 1.0],
             ),
             borderRadius: BorderRadius.circular(borderRadius),
             border: Border.all(color: borderCol, width: 1.0),
@@ -97,4 +95,3 @@ class CoolGlassCard extends StatelessWidget {
     return glass;
   }
 }
-

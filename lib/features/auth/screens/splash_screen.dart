@@ -11,10 +11,11 @@ import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../providers/auth_provider.dart';
 
-/// Animated splash screen that checks auth state and redirects.
+/// Animated splash screen that auto-signs-in anonymously and redirects.
 ///
 /// Shows the Cool logo mark with a staggered fade-in animation while
-/// router-level auth restoration decides the next route.
+/// signing in anonymously. The router-level redirect handles the
+/// transition to `/home` once a session is established.
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
@@ -26,6 +27,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     with TickerProviderStateMixin {
   late final AnimationController _logoController;
   late final Animation<double> _logoFade;
+  bool _signInAttempted = false;
 
   @override
   void initState() {
@@ -47,6 +49,17 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     super.dispose();
   }
 
+  void _attemptAnonymousSignIn() {
+    if (_signInAttempted) return;
+    _signInAttempted = true;
+
+    final authState = ref.read(authProvider);
+    // Only sign in if there's no existing session.
+    if (authState.session == null) {
+      ref.read(authProvider.notifier).signInAnonymously();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final brand = ref.watch(appBrandProvider);
@@ -55,9 +68,22 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     final space = context.coolSpace;
     final theme = Theme.of(context);
     final authState = ref.watch(authProvider);
+
+    final isRestorePending =
+        authState.session != null &&
+        authState.profileRestoreState == AuthProfileRestoreState.pending;
     final showRestoreFailure =
         authState.session != null &&
         authState.profileRestoreState == AuthProfileRestoreState.failed;
+
+    // Auto sign-in after first frame if no session and not already pending.
+    if (authState.session == null &&
+        !authState.isLoading &&
+        !_signInAttempted) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _attemptAnonymousSignIn();
+      });
+    }
 
     return CoolScreenBackground(
       showGlow: true,
@@ -108,14 +134,15 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                     ),
                   ),
                   SizedBox(height: space.x5),
-                  SizedBox(
-                    width: 22,
-                    height: 22,
-                    child: CupertinoActivityIndicator(
-                      radius: 11,
-                      color: colors.accent,
+                  if (authState.isLoading || isRestorePending)
+                    SizedBox(
+                      width: 22,
+                      height: 22,
+                      child: CupertinoActivityIndicator(
+                        radius: 11,
+                        color: colors.accent,
+                      ),
                     ),
-                  ),
                   AnimatedSwitcher(
                     duration: CoolMotion.medium,
                     child: !showRestoreFailure
@@ -132,7 +159,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
-                                    'We could not restore',
+                                    'Connection issue',
                                     style: theme.textTheme.titleSmall?.copyWith(
                                       fontWeight: FontWeight.w700,
                                       color: colors.primaryText,
@@ -151,9 +178,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                                   CoolButton(
                                     label: context.l10n.retry,
                                     onTap: () {
+                                      _signInAttempted = false;
                                       ref
                                           .read(authProvider.notifier)
-                                          .restoreCurrentUser();
+                                          .signInAnonymously();
+                                      _signInAttempted = true;
                                     },
                                   ),
                                 ],

@@ -16,7 +16,7 @@ void main() {
 
       final uri = app.router.routeInformationProvider.value.uri;
 
-      expect(uri.path, AppRoutes.onboarding);
+      expect(uri.path, AppRoutes.splash);
       expect(
         uri.queryParameters['redirect'],
         AppRoutes.inviteLocation('abcd1234'),
@@ -31,7 +31,7 @@ void main() {
 
       final uri = app.router.routeInformationProvider.value.uri;
 
-      expect(uri.path, AppRoutes.onboarding);
+      expect(uri.path, AppRoutes.splash);
       expect(uri.queryParameters['redirect'], registerLink);
     });
   });

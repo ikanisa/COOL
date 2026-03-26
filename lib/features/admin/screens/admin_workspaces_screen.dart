@@ -58,6 +58,15 @@ class AdminWorkspacesScreen extends ConsumerWidget {
               height: 1.1,
             ),
           ),
+          const SizedBox(height: CoolSpace.x2),
+          Text(
+            'Open the right control surface for platform, partner, or bank operations.',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.secondaryText,
+              fontWeight: FontWeight.w600,
+              height: 1.5,
+            ),
+          ),
           const SizedBox(height: CoolSpace.x6),
           _IntroCard(
             hasPlatformAccess: access.hasPlatformAccess,
@@ -179,11 +188,6 @@ class _IntroCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.coolSemanticColors;
     final theme = Theme.of(context);
-    final roles = <String>[
-      if (hasPlatformAccess) 'platform admin (full access to all workspaces)',
-      if (!hasPlatformAccess && hasPartnerAccess) 'partner admin',
-      if (!hasPlatformAccess && hasBankAccess) 'bank admin',
-    ];
     return CoolCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -197,14 +201,61 @@ class _IntroCard extends StatelessWidget {
           ),
           const SizedBox(height: CoolSpace.x2),
           Text(
-            'Roles: ${roles.join(', ')}',
+            'Verified access is active for this account.',
             style: theme.textTheme.bodySmall?.copyWith(
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
               color: colors.secondaryText,
               height: 1.45,
             ),
           ),
+          const SizedBox(height: CoolSpace.x4),
+          Wrap(
+            spacing: CoolSpace.x2,
+            runSpacing: CoolSpace.x2,
+            children: [
+              if (hasPlatformAccess)
+                const _RoleChip(
+                  label: 'Platform Admin',
+                  color: Color(0xFF2ECC71),
+                ),
+              if (hasPartnerAccess)
+                const _RoleChip(
+                  label: 'Partner Admin',
+                  color: Color(0xFF4AA4FF),
+                ),
+              if (hasBankAccess)
+                const _RoleChip(label: 'Bank Admin', color: Color(0xFFC9A84C)),
+            ],
+          ),
         ],
+      ),
+    );
+  }
+}
+
+class _RoleChip extends StatelessWidget {
+  const _RoleChip({required this.label, required this.color});
+
+  final String label;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(CoolRadii.sm),
+        border: Border.all(color: color.withValues(alpha: 0.28)),
+      ),
+      child: Text(
+        label,
+        style: context.coolText.mono(
+          Theme.of(context).textTheme.labelSmall,
+          fontWeight: FontWeight.w800,
+          color: color,
+          letterSpacing: 0.7,
+        ),
       ),
     );
   }
@@ -233,14 +284,15 @@ class _WorkspaceCard extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 44,
-            height: 44,
+            width: 52,
+            height: 52,
             decoration: BoxDecoration(
-              color: colors.inputSurface,
+              color: colors.highlightColor.withValues(alpha: 0.04),
               borderRadius: _adminWorkspaceIconRadius,
+              border: Border.all(color: colors.border),
             ),
             alignment: Alignment.center,
-            child: Icon(icon, color: colors.primaryText, size: 22),
+            child: Icon(icon, color: colors.primaryText, size: 24),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -266,11 +318,20 @@ class _WorkspaceCard extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(width: 12),
-          Icon(
-            Icons.arrow_forward_rounded,
-            size: 18,
-            color: colors.tertiaryText,
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: colors.highlightColor.withValues(alpha: 0.04),
+              borderRadius: BorderRadius.circular(CoolRadii.sm),
+              border: Border.all(color: colors.border),
+            ),
+            alignment: Alignment.center,
+            child: Icon(
+              Icons.arrow_forward_rounded,
+              size: 18,
+              color: colors.tertiaryText,
+            ),
           ),
         ],
       ),

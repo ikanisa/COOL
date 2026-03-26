@@ -4,13 +4,6 @@ import 'app_routes.dart';
 
 export 'app_routes.dart';
 
-const _authRoutes = {
-  AppRoutes.splash,
-  AppRoutes.onboarding,
-  AppRoutes.otp,
-  AppRoutes.otpVerify,
-};
-
 bool _isAdminRoute(String location) {
   final path = _locationPath(location);
   return path == AppRoutes.admin || path.startsWith('${AppRoutes.admin}/');
@@ -66,29 +59,10 @@ String? _adminBankWorkspaceId(String location) {
   return partnerId.isEmpty ? null : partnerId;
 }
 
-String? _normalizeRedirectTarget(String? target) {
-  if (target == null) {
-    return null;
-  }
-
-  final trimmed = target.trim();
-  if (trimmed.isEmpty) {
-    return null;
-  }
-
-  final uri = Uri.tryParse(trimmed);
-  final path = uri?.path ?? trimmed;
-  if (path.isEmpty || path == AppRoutes.splash || _authRoutes.contains(path)) {
-    return null;
-  }
-
-  if (path == '/basket') {
-    return AppRoutes.home;
-  }
-
-  return trimmed.startsWith('/') ? trimmed : '/$trimmed';
-}
-
+/// Resolves where the user should be redirected based on auth and role state.
+///
+/// With anonymous auth, the splash screen handles sign-in. Once a session
+/// exists, the user goes to `/home`. Admin route guards remain unchanged.
 String? resolveAppRedirect({
   required String location,
   String? requestedLocation,
@@ -102,36 +76,31 @@ String? resolveAppRedirect({
   String? sessionPhone,
   String? pendingRedirect,
 }) {
-  final isAuthRoute = _authRoutes.contains(location);
   final isAdminRoute = _isAdminRoute(location);
   final adminScope =
       adminAccess ?? AdminWorkspaceAccess(hasPlatformAccess: isAdmin);
   final hasAnyAdminAccess = adminScope.hasAnyAdminAccess;
-  final redirectSource =
-      pendingRedirect ?? (isAuthRoute ? null : requestedLocation ?? location);
-  final redirectTarget = _normalizeRedirectTarget(redirectSource);
   final isProfileRestoreBlocked =
       profileRestoreState == AuthProfileRestoreState.pending ||
       profileRestoreState == AuthProfileRestoreState.failed;
 
+  // While restoring profile, keep user on splash.
   if (hasSession && isProfileRestoreBlocked) {
     if (location == AppRoutes.splash) {
       return null;
     }
-    return AppRoutes.splashLocation(redirect: redirectTarget);
+    return AppRoutes.splash;
   }
 
+  // No session → stay on splash (it will auto-sign-in anonymously).
   if (!hasSession) {
     if (location == AppRoutes.splash) {
-      return AppRoutes.onboardingLocation(redirect: redirectTarget);
+      return null;
     }
-    return isAuthRoute
-        ? null
-        : AppRoutes.onboardingLocation(
-            redirect: _normalizeRedirectTarget(requestedLocation ?? location),
-          );
+    return AppRoutes.splash;
   }
 
+  // Session exists — admin route guards.
   if (isAdminRoute) {
     final path = _locationPath(location);
     if (!hasAnyAdminAccess) {
@@ -169,8 +138,9 @@ String? resolveAppRedirect({
     }
   }
 
-  if (location == AppRoutes.splash || isAuthRoute) {
-    return redirectTarget ?? AppRoutes.home;
+  // Session exists, on splash → go to home.
+  if (location == AppRoutes.splash) {
+    return AppRoutes.home;
   }
 
   return null;

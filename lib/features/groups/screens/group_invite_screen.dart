@@ -71,18 +71,14 @@ class _GroupInviteScreenState extends ConsumerState<GroupInviteScreen> {
 
     final authState = ref.read(authProvider);
     if (authState.session == null) {
-      context.go(AppRoutes.otpLocation(redirect: _inviteRoute));
-      return;
-    }
-
-    if (authState.user == null) {
-      context.go(
-        AppRoutes.registerLocation(
-          phone: authSessionPhone(authState.session),
-          redirect: _inviteRoute,
-        ),
-      );
-      return;
+      // Sign in anonymously first, then retry.
+      await ref.read(authProvider.notifier).signInAnonymously();
+      if (!mounted) return;
+      final updatedState = ref.read(authProvider);
+      if (updatedState.session == null) {
+        CoolToast.error(context, 'Could not sign in. Please try again.');
+        return;
+      }
     }
 
     final result = await ref

@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../../core/config/app_market.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/cool_foundations.dart';
-import '../../../shared/widgets/cool_card.dart';
 import '../../../shared/widgets/cool_screen_background.dart';
 import '../../../shared/widgets/cool_toast.dart';
 import '../../auth/providers/auth_provider.dart';
@@ -63,98 +62,7 @@ class ProfileWalletScreen extends ConsumerWidget {
   }
 }
 
-class ProfileIdentityScreen extends ConsumerWidget {
-  const ProfileIdentityScreen({super.key});
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final profile = ref.watch(profileViewProvider);
-    final theme = Theme.of(context);
-    final colors = context.coolSemanticColors;
-
-    Widget buildRow(String label, String value) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: CoolSpace.x2),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: 132,
-              child: Text(
-                label,
-                style: theme.textTheme.labelLarge?.copyWith(
-                  color: colors.tertiaryText,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-            Expanded(
-              child: Text(
-                value,
-                style: theme.textTheme.bodyLarge?.copyWith(
-                  color: colors.primaryText,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
-    final rows = <Widget>[
-      buildRow(
-        'Official name',
-        profile.officialName.isNotEmpty ? profile.officialName : 'Not set',
-      ),
-      buildRow(
-        'Official phone',
-        profile.officialPhone.isNotEmpty ? profile.officialPhone : 'Not set',
-      ),
-      buildRow(
-        'Date of birth',
-        profile.dateOfBirth?.trim().isNotEmpty == true
-            ? profile.dateOfBirth!.trim()
-            : 'Not set',
-      ),
-      buildRow('National ID', profile.maskedNationalId ?? 'Not set'),
-    ];
-
-    return _ProfileDetailScaffold(
-      title: 'Personal Info',
-      child: ListView(
-        padding: const EdgeInsets.fromLTRB(18, 18, 18, 120),
-        children: [
-          CoolCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Official details on file',
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    color: colors.primaryText,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                const SizedBox(height: CoolSpace.x2),
-                Text(
-                  'These details are used for account ownership and bank-custodied savings records.',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: colors.secondaryText,
-                    fontWeight: FontWeight.w600,
-                    height: 1.4,
-                  ),
-                ),
-                const SizedBox(height: CoolSpace.x4),
-                ...rows,
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class _ProfileDetailScaffold extends StatelessWidget {
   const _ProfileDetailScaffold({required this.title, required this.child});

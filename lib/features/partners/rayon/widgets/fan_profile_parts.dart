@@ -150,7 +150,7 @@ class _ProfileHero extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Become an official member to unlock exclusive club perks.',
+                    'Join to unlock exclusive perks.',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: RsColors.rsWhite.withValues(alpha: 0.8),
                       height: 1.5,
@@ -238,8 +238,8 @@ class _PerksAccessCard extends StatelessWidget {
           const SizedBox(height: CoolSpace.x2),
           Text(
             hasMembership
-                ? 'Supporter pricing and match access unlocked.'
-                : 'Create membership to unlock perks.',
+                ? 'Pricing and match access unlocked.'
+                : 'Create membership to unlock.',
             style: context.coolText.rayon(
               const TextStyle(fontSize: 16),
               fontWeight: FontWeight.w700,

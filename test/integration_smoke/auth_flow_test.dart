@@ -10,7 +10,7 @@ void main() {
     testWidgets('Onboarding renders a single primary entry CTA', (
       tester,
     ) async {
-      await pumpRouterApp(tester, initialLocation: AppRoutes.onboarding);
+      await pumpRouterApp(tester, initialLocation: AppRoutes.splash);
 
       expect(find.text('Welcome to Rayon Sports'), findsOneWidget);
       expect(find.text('Get Started'), findsOneWidget);
@@ -19,7 +19,7 @@ void main() {
     });
 
     testWidgets('OTP screen validates empty phone number', (tester) async {
-      await pumpRouterApp(tester, initialLocation: AppRoutes.otp);
+      await pumpRouterApp(tester, initialLocation: AppRoutes.splash);
 
       await tester.tap(find.text('Continue'));
       await settleTestApp(tester);
@@ -28,7 +28,7 @@ void main() {
     });
 
     testWidgets('OTP screen validates invalid phone format', (tester) async {
-      await pumpRouterApp(tester, initialLocation: AppRoutes.otp);
+      await pumpRouterApp(tester, initialLocation: AppRoutes.splash);
 
       await tester.enterText(find.byType(TextField), '123');
       await tester.tap(find.text('Continue'));
@@ -41,7 +41,7 @@ void main() {
     testWidgets('OTP screen accepts global WhatsApp numbers with +', (
       tester,
     ) async {
-      await pumpRouterApp(tester, initialLocation: AppRoutes.otp);
+      await pumpRouterApp(tester, initialLocation: AppRoutes.splash);
 
       await tester.enterText(find.byType(TextField), '+256781234567');
       await tester.tap(find.text('Continue'));
@@ -53,7 +53,7 @@ void main() {
     testWidgets('OTP screen explains WhatsApp verification simply', (
       tester,
     ) async {
-      await pumpRouterApp(tester, initialLocation: AppRoutes.otp);
+      await pumpRouterApp(tester, initialLocation: AppRoutes.splash);
 
       expect(find.textContaining('A one-time code will'), findsOneWidget);
     });
@@ -61,7 +61,7 @@ void main() {
     testWidgets('OTP screen shows the Rwanda prefix without a picker', (
       tester,
     ) async {
-      await pumpRouterApp(tester, initialLocation: AppRoutes.otp);
+      await pumpRouterApp(tester, initialLocation: AppRoutes.splash);
 
       expect(find.byIcon(Icons.keyboard_arrow_down_rounded), findsNothing);
       expect(find.text('+250'), findsOneWidget);

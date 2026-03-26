@@ -182,47 +182,19 @@ class AuthNotifier extends StateNotifier<AuthState> {
     );
   }
 
-  Future<void> sendOtp(String phone, String language) async {
+  /// Signs in anonymously and auto-creates a minimal profile.
+  Future<void> signInAnonymously() async {
     state = state.copyWith(isLoading: true, error: null);
-    _performance.startTrace('auth_send_otp');
-    _crashlytics.log('auth: sending OTP to ${phone.substring(0, 4)}***');
+    _performance.startTrace('auth_sign_in_anonymous');
+    _crashlytics.log('auth: signing in anonymously');
 
     final result = await AsyncValue.guard(
-      () => _repository.sendOtp(phone, language),
-    );
-
-    result.when(
-      data: (_) {
-        _performance.stopTrace('auth_send_otp');
-        state = state.copyWith(isLoading: false, error: null);
-      },
-      error: (error, stack) {
-        _performance.stopTrace(
-          'auth_send_otp',
-          attributes: {'error': error.runtimeType.toString()},
-        );
-        _crashlytics.recordError(
-          error,
-          stackTrace: stack,
-          reason: 'auth_send_otp',
-        );
-        state = state.copyWith(isLoading: false, error: _errorMessage(error));
-      },
-      loading: () {},
-    );
-  }
-
-  Future<void> verifyOtp(String phone, String code) async {
-    state = state.copyWith(isLoading: true, error: null);
-    _performance.startTrace('auth_verify_otp');
-    _crashlytics.log('auth: verifying OTP for ${phone.substring(0, 4)}***');
-
-    final result = await AsyncValue.guard(
-      () => _repository.verifyOtp(phone, code),
+      () => _repository.signInAnonymously(),
     );
 
     await result.when(
       data: (session) async {
+        // Try to load an existing profile first.
         final profileResult = await AsyncValue.guard(
           () => _repository.getProfile(session.user.id),
         );
@@ -239,15 +211,15 @@ class AuthNotifier extends StateNotifier<AuthState> {
             _crashlytics.recordError(
               err,
               stackTrace: stack,
-              reason: 'auth_load_profile_after_otp',
+              reason: 'auth_load_profile_after_anon',
             );
           },
           loading: () {},
         );
 
-        _performance.stopTrace('auth_verify_otp');
+        _performance.stopTrace('auth_sign_in_anonymous');
         _crashlytics.log(
-          'auth: OTP verified, profile loaded=${profile != null}',
+          'auth: anonymous sign-in complete, profile loaded=${profile != null}',
         );
 
         state = AuthState(
@@ -264,13 +236,13 @@ class AuthNotifier extends StateNotifier<AuthState> {
       },
       error: (error, stack) async {
         _performance.stopTrace(
-          'auth_verify_otp',
+          'auth_sign_in_anonymous',
           attributes: {'error': error.runtimeType.toString()},
         );
         _crashlytics.recordError(
           error,
           stackTrace: stack,
-          reason: 'auth_verify_otp',
+          reason: 'auth_sign_in_anonymous',
         );
         state = state.copyWith(isLoading: false, error: _errorMessage(error));
       },
@@ -441,71 +413,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     return success;
   }
 
-  Future<bool> updateOfficialIdentity({
-    required String officialName,
-    required String officialPhone,
-  }) async {
-    final user = state.user;
-    if (user == null) {
-      state = state.copyWith(error: 'No user profile loaded.');
-      return false;
-    }
 
-    final trimmedName = officialName.trim();
-    final trimmedPhone = officialPhone.trim();
-    String? normalizedOfficialPhone;
-
-    if (trimmedPhone.isNotEmpty) {
-      try {
-        final resolvedCountry = CoolCountryCatalog.resolve(
-          country: AppMarket.countryCode,
-          phone: user.phone,
-          providerId: user.momoProvider,
-        );
-        normalizedOfficialPhone = resolvedCountry.normalizeNationalPhone(
-          trimmedPhone,
-        );
-      } catch (error, stack) {
-        _crashlytics.recordError(
-          error,
-          stackTrace: stack,
-          reason: 'normalize_official_identity_phone',
-        );
-        state = state.copyWith(error: _errorMessage(error));
-        return false;
-      }
-    }
-
-    final updatedProfile = user.copyWith(
-      officialName: trimmedName.isEmpty ? null : trimmedName,
-      officialPhone: normalizedOfficialPhone,
-    );
-
-    state = state.copyWith(isLoading: true, error: null);
-
-    final result = await AsyncValue.guard(
-      () => _repository.updateProfile(updatedProfile),
-    );
-
-    var success = false;
-    result.when(
-      data: (value) {
-        success = true;
-        state = state.copyWith(user: value, isLoading: false, error: null);
-      },
-      error: (error, stack) {
-        _crashlytics.recordError(
-          error,
-          stackTrace: stack,
-          reason: 'update_official_identity',
-        );
-        state = state.copyWith(isLoading: false, error: _errorMessage(error));
-      },
-      loading: () {},
-    );
-
-    return success;
-  }
 
   Future<bool> updateProfile(UserProfile profile) async {
     state = state.copyWith(isLoading: true, error: null);

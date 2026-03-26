@@ -3,11 +3,6 @@ import 'package:go_router/go_router.dart';
 
 abstract final class AppRoutes {
   static const splash = '/';
-  static const onboarding = '/onboarding';
-  static const otp = '/otp';
-  static const otpVerify = '/otp-verify';
-  static const appAccess = '/app-access';
-  static const register = '/register';
   static const home = '/home';
   static const shop = '/shop';
   static const services = '/services';
@@ -45,7 +40,6 @@ abstract final class AppRoutes {
   static const referral = '/referral';
   static const profile = '/profile';
   static const profileWallet = '/profile/wallet';
-  static const profileIdentity = '/profile/identity';
 
   static const scanner = '/scanner';
 
@@ -78,40 +72,8 @@ abstract final class AppRoutes {
   static const adminRayonFinance = '/admin/rayon/finance';
   static const adminRayonInitiatives = '/admin/rayon/initiatives';
 
-  static String onboardingLocation({String? redirect}) {
-    return _location(onboarding, redirect: redirect);
-  }
-
   static String splashLocation({String? redirect}) {
     return _location(splash, redirect: redirect);
-  }
-
-  static String otpLocation({String? redirect}) {
-    return _location(otp, redirect: redirect);
-  }
-
-  static String otpVerifyLocation({required String phone, String? redirect}) {
-    return _location(
-      otpVerify,
-      queryParameters: <String, String>{'phone': phone},
-      redirect: redirect,
-    );
-  }
-
-  static String appAccessLocation({String? redirect}) {
-    return _location(appAccess, redirect: redirect);
-  }
-
-  static String registerLocation({String? phone, String? redirect}) {
-    final queryParameters = <String, String>{};
-    if (phone != null && phone.trim().isNotEmpty) {
-      queryParameters['phone'] = phone.trim();
-    }
-    return _location(
-      register,
-      queryParameters: queryParameters,
-      redirect: redirect,
-    );
   }
 
   static String inviteLocation(String code) {

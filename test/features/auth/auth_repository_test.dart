@@ -4,7 +4,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:cool_app/features/auth/repositories/auth_repository.dart';
 
 void main() {
-  group('normalizeAuthSessionPayload', () {
     test('removes malformed nested identity data before session parsing', () {
       final rawResponse = <String, dynamic>{
         'success': true,
@@ -40,7 +39,6 @@ void main() {
         throwsA(isA<TypeError>()),
       );
 
-      final normalized = normalizeAuthSessionPayload(rawResponse);
       final session = Session.fromJson(normalized);
 
       expect(session, isNotNull);
