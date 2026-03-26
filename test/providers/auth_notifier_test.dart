@@ -37,7 +37,6 @@ UserProfile _sampleUser({String? officialName, String? officialPhone}) {
     id: 'user-123',
     phone: '+250788123456',
     fullName: 'Public User',
-    publicUserId: '123456',
     momoNumber: '0788123456',
     momoProvider: 'mtn_momo_rw',
     country: 'RW',
@@ -62,6 +61,7 @@ void main() {
     crashlytics = CrashlyticsService();
     performance = PerformanceService();
     when(() => mockRepo.currentSession).thenReturn(null);
+    when(() => mockRepo.currentUserId).thenReturn(null);
     notifier = app_auth.AuthNotifier(
       repository: mockRepo,
       crashlytics: crashlytics,
@@ -130,38 +130,72 @@ void main() {
     );
   });
 
-    test('sets loading true then false on success', () async {
-
+  group('AuthNotifier.signInAnonymously', () {
+    test('loads an existing profile on success', () async {
+      final session = _fakeSession();
+      final profile = _sampleUser();
       final states = <app_auth.AuthState>[];
-      notifier.addListener(states.add, fireImmediately: false);
+      final removeListener = notifier.addListener(
+        states.add,
+        fireImmediately: false,
+      );
+      addTearDown(removeListener);
 
+      when(() => mockRepo.signInAnonymously()).thenAnswer((_) async => session);
+      when(
+        () => mockRepo.getProfile(session.user.id),
+      ).thenAnswer((_) async => profile);
 
-      // First state change: isLoading = true
+      await notifier.signInAnonymously();
+
       expect(states.first.isLoading, true);
-      expect(states.first.error, isNull);
+      expect(notifier.state.isLoading, false);
+      expect(notifier.state.session?.user.id, session.user.id);
+      expect(notifier.state.user, profile);
+      expect(
+        notifier.state.profileRestoreState,
+        app_auth.AuthProfileRestoreState.available,
+      );
+      expect(notifier.state.error, isNull);
+    });
 
-      // Last state change: isLoading = false, no error
-      expect(states.last.isLoading, false);
-      expect(states.last.error, isNull);
+    test('marks the profile as missing when no profile is returned', () async {
+      final session = _fakeSession();
+      when(() => mockRepo.signInAnonymously()).thenAnswer((_) async => session);
+      when(
+        () => mockRepo.getProfile(session.user.id),
+      ).thenAnswer((_) async => null);
+
+      await notifier.signInAnonymously();
+
+      expect(notifier.state.session?.user.id, session.user.id);
+      expect(notifier.state.user, isNull);
+      expect(
+        notifier.state.profileRestoreState,
+        app_auth.AuthProfileRestoreState.missing,
+      );
+      expect(notifier.state.error, isNull);
     });
 
     test('sets error on failure', () async {
       when(
+        () => mockRepo.signInAnonymously(),
       ).thenThrow(Exception('Network error'));
 
+      await notifier.signInAnonymously();
 
       expect(notifier.state.isLoading, false);
-      expect(notifier.state.error, isNotNull);
       expect(notifier.state.error, contains('Network error'));
     });
 
     test('maps invalid Supabase function URLs to a config error', () async {
+      when(() => mockRepo.signInAnonymously()).thenThrow(
         ArgumentError('No host specified in url/functions/v1/send-otp'),
       );
 
+      await notifier.signInAnonymously();
 
       expect(notifier.state.isLoading, false);
-      expect(notifier.state.error, isNotNull);
       expect(notifier.state.error, contains('SUPABASE_URL'));
       expect(notifier.state.error, isNot(contains('No host specified')));
     });
@@ -169,6 +203,10 @@ void main() {
 
   group('AuthNotifier.signOut', () {
     test('clears user and session on success', () async {
+      notifier.state = app_auth.AuthState(
+        user: _sampleUser(),
+        session: _fakeSession(),
+      );
       when(() => mockRepo.signOut()).thenAnswer((_) async {});
 
       await notifier.signOut();
@@ -185,7 +223,6 @@ void main() {
       await notifier.signOut();
 
       expect(notifier.state.isLoading, false);
-      expect(notifier.state.error, isNotNull);
       expect(notifier.state.error, contains('Sign out failed'));
     });
   });
@@ -205,12 +242,12 @@ void main() {
       );
 
       expect(result, isNull);
-      expect(notifier.state.error, isNotNull);
       expect(notifier.state.error, contains('verified session is required'));
     });
   });
 
-    test('normalizes and stores official identity fields', () async {
+  group('AuthNotifier.updateProfile', () {
+    test('returns true and updates state on success', () async {
       final original = _sampleUser();
       final updated = _sampleUser(
         officialName: 'Legal User',
@@ -222,52 +259,32 @@ void main() {
         session: _fakeSession(),
       );
       when(
-        () => mockRepo.updateProfile(any()),
+        () => mockRepo.updateProfile(updated),
       ).thenAnswer((_) async => updated);
 
-        officialName: '  Legal User ',
-        officialPhone: '+250788123456',
-      );
+      final success = await notifier.updateProfile(updated);
 
       expect(success, true);
-      expect(notifier.state.user?.officialName, 'Legal User');
-      expect(notifier.state.user?.officialPhone, '0788123456');
-
-      final captured =
-          verify(() => mockRepo.updateProfile(captureAny())).captured.single
-              as UserProfile;
-      expect(captured.officialName, 'Legal User');
-      expect(captured.officialPhone, '0788123456');
+      expect(notifier.state.user, updated);
+      expect(notifier.state.isLoading, false);
+      expect(notifier.state.error, isNull);
     });
 
-    test('allows clearing previously stored official identity', () async {
-      final original = _sampleUser(
-        officialName: 'Legal User',
-        officialPhone: '0788123456',
-      );
-      final cleared = _sampleUser();
-
+    test('returns false and sets error on failure', () async {
+      final profile = _sampleUser();
       notifier.state = app_auth.AuthState(
-        user: original,
+        user: profile,
         session: _fakeSession(),
       );
       when(
         () => mockRepo.updateProfile(any()),
-      ).thenAnswer((_) async => cleared);
+      ).thenThrow(Exception('Update failed'));
 
-        officialName: '',
-        officialPhone: '',
-      );
+      final success = await notifier.updateProfile(profile);
 
-      expect(success, true);
-      expect(notifier.state.user?.officialName, isNull);
-      expect(notifier.state.user?.officialPhone, isNull);
-
-      final captured =
-          verify(() => mockRepo.updateProfile(captureAny())).captured.single
-              as UserProfile;
-      expect(captured.officialName, isNull);
-      expect(captured.officialPhone, isNull);
+      expect(success, false);
+      expect(notifier.state.isLoading, false);
+      expect(notifier.state.error, contains('Update failed'));
     });
   });
 

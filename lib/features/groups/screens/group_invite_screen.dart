@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/auth/auth_user_contact.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/providers/engagement_providers.dart';
 import '../../../core/providers/referral_providers.dart';
-import '../../../core/router/app_routes.dart';
 import '../../../core/theme/cool_foundations.dart';
 import '../../../shared/widgets/cool_button.dart';
 import '../../../shared/widgets/cool_card.dart';
@@ -35,13 +33,6 @@ class GroupInviteScreen extends ConsumerStatefulWidget {
 }
 
 class _GroupInviteScreenState extends ConsumerState<GroupInviteScreen> {
-  String get _inviteRoute => Uri(
-    path: AppRoutes.inviteLocation(widget.inviteCode),
-    queryParameters: widget.referralParameters.isEmpty
-        ? null
-        : widget.referralParameters,
-  ).toString();
-
   @override
   void initState() {
     super.initState();

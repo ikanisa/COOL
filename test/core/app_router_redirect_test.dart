@@ -6,14 +6,14 @@ import 'package:cool_app/features/auth/providers/auth_provider.dart';
 
 void main() {
   group('resolveAppRedirect', () {
-    test('redirects splash to onboarding when signed out', () {
+    test('keeps signed-out users on splash', () {
       expect(
         resolveAppRedirect(
           location: AppRoutes.splash,
           hasSession: false,
           hasProfile: false,
         ),
-        AppRoutes.splash,
+        isNull,
       );
     });
 
@@ -25,23 +25,28 @@ void main() {
           hasSession: false,
           hasProfile: false,
         ),
-        '/onboarding?redirect=%2Finvite%2FABCD1234',
+        AppRoutes.splashLocation(
+          redirect: AppRoutes.inviteLocation('abcd1234'),
+        ),
       );
     });
 
     test(
       'preserves query parameters when redirecting signed-out deep links',
       () {
+        final registerLocation = Uri(
+          path: '/register',
+          queryParameters: const <String, String>{'phone': '+250788123456'},
+        ).toString();
+
         expect(
           resolveAppRedirect(
             location: AppRoutes.home,
-            requestedLocation: AppRoutes.homeLocation(
-              phone: '+250788123456',
-            ),
+            requestedLocation: registerLocation,
             hasSession: false,
             hasProfile: false,
           ),
-          '/onboarding?redirect=%2Fregister%3Fphone%3D%252B250788123456',
+          AppRoutes.splashLocation(redirect: registerLocation),
         );
       },
     );

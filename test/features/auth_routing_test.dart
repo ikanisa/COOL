@@ -15,13 +15,13 @@ import 'package:cool_app/features/auth/providers/auth_provider.dart';
 /// The router MUST NOT force users to /register.
 void main() {
   group('Unauthenticated user', () {
-    test('splash redirects to onboarding', () {
+    test('splash stays on splash', () {
       final result = resolveAppRedirect(
         location: '/',
         hasSession: false,
         hasProfile: false,
       );
-      expect(result, AppRoutes.splash);
+      expect(result, isNull);
     });
 
     test('onboarding stays on onboarding', () {

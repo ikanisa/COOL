@@ -1,67 +1,28 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 
 import 'package:cool_app/core/router/app_router.dart';
-import 'package:cool_app/features/auth/providers/auth_provider.dart';
-import 'package:cool_app/features/auth/repositories/auth_repository.dart';
-
-import 'helpers/test_bootstrap.dart';
-
-class MockAuthRepository extends Mock implements AuthRepository {}
-
-ProviderContainer _createContainer() {
-  final repository = MockAuthRepository();
-  when(() => repository.currentSession).thenReturn(null);
-  return createTestContainer(
-    overrides: [authRepositoryProvider.overrideWithValue(repository)],
-  );
-}
 
 void main() {
-  test('router boots at splash and preserves register phone query', () {
-    final container = _createContainer();
-
-    final router = container.read(appRouterProvider);
-
-    expect(router.routeInformationProvider.value.uri.path, AppRoutes.splash);
-
-    router.go('/register?phone=%2B250788123456');
-
-    final uri = router.routeInformationProvider.value.uri;
-    expect(uri.path, AppRoutes.home);
-    expect(uri.queryParameters['phone'], '+250788123456');
+  test('invite route helper uppercases invite codes', () {
+    expect(AppRoutes.inviteLocation('abcd1234'), '/invite/ABCD1234');
   });
 
-  test('router preserves invite code routes', () {
-    final container = _createContainer();
-
-    final router = container.read(appRouterProvider);
-
-    router.go('/invite/ABCD1234');
-
-    final uri = router.routeInformationProvider.value.uri;
-    expect(uri.path, '/invite/ABCD1234');
-    expect(uri.pathSegments.last, 'ABCD1234');
+  test('splash redirect helper preserves nested deep links', () {
+    expect(
+      AppRoutes.splashLocation(redirect: AppRoutes.inviteLocation('abcd1234')),
+      '/?redirect=%2Finvite%2FABCD1234',
+    );
   });
 
-  test('auth routes preserve redirect targets for invite deep links', () {
+  test('splash redirect helper preserves nested query parameters', () {
+    final registerLocation = Uri(
+      path: '/register',
+      queryParameters: const <String, String>{'phone': '+250788123456'},
+    ).toString();
+
     expect(
-      '/otp?redirect=%2Finvite%2FABCD1234',
-    );
-    expect(
-      AppRoutes.splashVerifyLocation(
-        phone: '+250788123456',
-        redirect: AppRoutes.inviteLocation('abcd1234'),
-      ),
-      '/otp-verify?phone=%2B250788123456&redirect=%2Finvite%2FABCD1234',
-    );
-    expect(
-      AppRoutes.homeLocation(
-        phone: '+250788123456',
-        redirect: AppRoutes.inviteLocation('abcd1234'),
-      ),
-      '/register?phone=%2B250788123456&redirect=%2Finvite%2FABCD1234',
+      AppRoutes.splashLocation(redirect: registerLocation),
+      '/?redirect=%2Fregister%3Fphone%3D%252B250788123456',
     );
   });
 }

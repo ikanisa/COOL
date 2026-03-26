@@ -175,6 +175,7 @@ _buildTestContainer({
   when(() => authRepository.getCurrentProfile()).thenAnswer((_) async => user);
   when(() => authRepository.getProfile(any())).thenAnswer((_) async => user);
   when(
+    () => authRepository.signInAnonymously(),
   ).thenAnswer((_) async => session ?? fakeSession());
   when(() => authRepository.signOut()).thenAnswer((_) async {});
 

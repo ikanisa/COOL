@@ -18,7 +18,6 @@ import '../../../../shared/widgets/cool_toast.dart';
 import '../../../../shared/widgets/cool_card.dart';
 import '../../../../shared/widgets/cool_glass_card.dart';
 import '../../../../shared/widgets/cool_skeleton.dart';
-import '../../../../shared/widgets/rs_match_card.dart';
 import '../models/rs_models.dart';
 import '../../providers/rayon_sports_provider.dart';
 import '../../../../shared/widgets/core_app_scaffold.dart';
@@ -87,7 +86,7 @@ class RayonHomeScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: CoolSpace.x6),
-                      _DashboardQuickActionGrid(
+                      const _DashboardQuickActionGrid(
                         items: [
                           _DashboardQuickActionItem(
                             icon: Icons.confirmation_number_rounded,
@@ -105,7 +104,7 @@ class RayonHomeScreen extends StatelessWidget {
                             icon: Icons.account_balance_wallet_rounded,
                             label: 'MoMo',
                             route: AppRoutes.momoTab,
-                            accentColor: const Color(0xFF4AA4FF),
+                            accentColor: Color(0xFF4AA4FF),
                           ),
                           _DashboardQuickActionItem(
                             icon: Icons.groups_rounded,
@@ -141,7 +140,8 @@ class RayonHomeScreen extends StatelessWidget {
                           ],
                         ),
                         loading: () => const CoolSkeletonList(itemCount: 3),
-                        error: (_, __) => const CoolSkeletonList(itemCount: 2),
+                        error: (_, stackTrace) =>
+                            const CoolSkeletonList(itemCount: 2),
                       ),
                       const SizedBox(height: CoolSpace.x6),
                       Text(
@@ -155,7 +155,7 @@ class RayonHomeScreen extends StatelessWidget {
                       const SizedBox(height: CoolSpace.x3),
                       nextMatch.when(
                         loading: () => const CoolSkeleton.card(),
-                        error: (_, __) => _DashboardEmptyMatchCard(
+                        error: (_, stackTrace) => _DashboardEmptyMatchCard(
                           onTap: () => context.push(AppRoutes.rayonTickets),
                         ),
                         data: (match) => match == null
@@ -1151,71 +1151,4 @@ String _dashboardFormatAmount(int value) {
     buffer.write(source[index]);
   }
   return buffer.toString();
-}
-
-List<_HomeServiceItem> _buildHomeServiceItems({
-  required BuildContext context,
-  required CoolSemanticColors colors,
-  required RayonSportsData data,
-  required bool useProductionRedesign,
-}) {
-  final items = <_HomeServiceItem>[
-    _HomeServiceItem(
-      icon: Icons.people_rounded,
-      title: context.l10n.memberRegistry,
-      meta: '${_formatCount(data.registryMembers.length)} verified supporters',
-      accentColor: RsColors.rsBlue,
-      route: '/partners/rayon-sports/registry',
-    ),
-    if (!useProductionRedesign)
-      _HomeServiceItem(
-        icon: Icons.groups_rounded,
-        title: 'Fan Clubs & Chapters',
-        meta:
-            '${data.clubs.length} active chapters · ${data.joinedClubIds.length} joined',
-        accentColor: colors.warning,
-        route: '/partners/rayon-sports/clubs',
-      ),
-    _HomeServiceItem(
-      icon: Icons.shopping_bag_rounded,
-      title: 'Club Shop',
-      meta: '${data.products.length} premium listings',
-      accentColor: colors.accent,
-      route: '/partners/rayon-sports/shop',
-    ),
-    _HomeServiceItem(
-      icon: Icons.handshake_rounded,
-      title: 'Support Club',
-      meta: '${data.initiatives.length} active initiatives',
-      accentColor: RsColors.rsGold,
-      route: '/partners/rayon-sports/support',
-    ),
-    if (!useProductionRedesign)
-      _HomeServiceItem(
-        icon: Icons.confirmation_number_rounded,
-        title: 'Tickets',
-        meta:
-            '${data.matches.where((match) => match.isOnSale).length} matches live',
-        accentColor: colors.danger,
-        route: '/partners/rayon-sports/tickets',
-      ),
-  ];
-
-  return items;
-}
-
-class _HomeServiceItem {
-  const _HomeServiceItem({
-    required this.icon,
-    required this.title,
-    required this.meta,
-    required this.accentColor,
-    required this.route,
-  });
-
-  final IconData icon;
-  final String title;
-  final String meta;
-  final Color accentColor;
-  final String route;
 }

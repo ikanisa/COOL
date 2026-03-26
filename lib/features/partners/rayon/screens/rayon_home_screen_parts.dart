@@ -1,4 +1,22 @@
+// ignore_for_file: unused_element
+
 part of 'rayon_home_screen.dart';
+
+class _HomeServiceItem {
+  const _HomeServiceItem({
+    required this.icon,
+    required this.title,
+    required this.meta,
+    required this.accentColor,
+    required this.route,
+  });
+
+  final IconData icon;
+  final String title;
+  final String meta;
+  final Color accentColor;
+  final String route;
+}
 
 class _HomeOverviewCard extends StatelessWidget {
   const _HomeOverviewCard({

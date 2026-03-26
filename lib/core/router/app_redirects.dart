@@ -29,6 +29,21 @@ bool _isPlatformAdminRoute(String location) {
   return _platformAdminRoutes.contains(_locationPath(location));
 }
 
+String? _sanitizeRedirectTarget(String? location) {
+  final trimmed = location?.trim();
+  if (trimmed == null || trimmed.isEmpty || !trimmed.startsWith('/')) {
+    return null;
+  }
+
+  final uri = Uri.tryParse(trimmed);
+  final path = uri?.path ?? trimmed;
+  if (path.trim().isEmpty || path == AppRoutes.splash) {
+    return null;
+  }
+
+  return trimmed;
+}
+
 bool _isRayonAdminRoute(String location) {
   final path = _locationPath(location);
   return path == AppRoutes.adminRayon ||
@@ -83,13 +98,17 @@ String? resolveAppRedirect({
   final isProfileRestoreBlocked =
       profileRestoreState == AuthProfileRestoreState.pending ||
       profileRestoreState == AuthProfileRestoreState.failed;
+  final redirectTarget =
+      _sanitizeRedirectTarget(pendingRedirect) ??
+      _sanitizeRedirectTarget(requestedLocation) ??
+      _sanitizeRedirectTarget(location);
 
   // While restoring profile, keep user on splash.
   if (hasSession && isProfileRestoreBlocked) {
     if (location == AppRoutes.splash) {
       return null;
     }
-    return AppRoutes.splash;
+    return AppRoutes.splashLocation(redirect: redirectTarget);
   }
 
   // No session → stay on splash (it will auto-sign-in anonymously).
@@ -97,7 +116,7 @@ String? resolveAppRedirect({
     if (location == AppRoutes.splash) {
       return null;
     }
-    return AppRoutes.splash;
+    return AppRoutes.splashLocation(redirect: redirectTarget);
   }
 
   // Session exists — admin route guards.
@@ -140,7 +159,7 @@ String? resolveAppRedirect({
 
   // Session exists, on splash → go to home.
   if (location == AppRoutes.splash) {
-    return AppRoutes.home;
+    return redirectTarget ?? AppRoutes.home;
   }
 
   return null;
